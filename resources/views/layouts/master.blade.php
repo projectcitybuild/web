@@ -20,10 +20,10 @@
         </nav>
         <nav id="menu-nav">
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Forums</a></li>
+                <li><a href="{{ route('home') }}">Home</a></li>
+                <li><a href="http://projectcitybuild.com/forums/">Forums</a></li>
                 <li>
-                    <a href="#">Servers <i class="fa fa-caret-down"></i></a>
+                    <a href="javascript:void(0)">Servers <i class="fa fa-caret-down"></i></a>
                     <ul class="menu-sideway">
                         <li>
                             <h5>Minecraft</h5>
@@ -49,7 +49,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Community <i class="fa fa-caret-down"></i></a>
+                    <a href="javascript:void(0)">Community <i class="fa fa-caret-down"></i></a>
                     <ul>
                         <li><a href="#">Appeal a Ban</a></li>
                         <li><a href="#">Report a Player</a></li>
