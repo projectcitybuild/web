@@ -1,0 +1,140 @@
+.btn-divided {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+    user-select: none;
+    
+    .icon {
+        flex: 0;
+        padding: 1em 1.25em;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-radius: 5px 0 0 5px;
+    }
+
+    .text {
+        flex: 1;
+        padding: 1em;
+        border-radius: 0 5px 5px 0;
+        font-weight: 600;
+
+        &.left {
+            text-align: left;
+        }
+        
+        small {
+            display: block;
+            font-size: 0.6em;
+            font-weight: normal;
+            margin-top: 0.5em;
+        }
+    }
+
+    &.orange {
+        color: #fff;
+
+        .icon {
+            background: darken($colour-accent, 3%);
+            border-bottom: 5px solid darken($colour-accent, 7%);
+        }
+        .text {
+            background: $colour-accent;
+            border-bottom: 5px solid darken($colour-accent, 5%);
+        }
+
+        &:hover {
+            .icon {
+                background: lighten($colour-accent, 0%);
+                border-bottom: 5px solid darken($colour-accent, 3%);
+            }
+            .text {
+                background: lighten($colour-accent, 3%);
+                border-bottom: 5px solid darken($colour-accent, 2%);
+            }
+        }
+
+        &:active {
+            .icon {
+                background: darken($colour-accent, 5%);
+                border-bottom: 5px solid darken($colour-accent, 4%);
+            }
+        }
+    }
+    &.white {
+        color: $colour-secondary;
+
+        .icon {
+            background: darken(#fff, 3%);
+            border-bottom: 5px solid darken(#fff, 7%);
+        }
+        .text {
+            background: #fff;
+            border-bottom: 5px solid darken(#fff, 5%);
+            
+            small {
+                color: darken(#fff, 25%);
+            }
+        }
+    }
+}
+
+.btn {
+    border-radius: $border-radius-button;
+    padding: 0.65em 1em;
+    display: block;
+    border: 0;
+    border-top: 0 solid;
+    border-bottom: 5px solid;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+
+    &.large {
+        padding: 0.8em 2.5em;
+    }
+
+    &.gray {
+        background: $colour-secondary;
+        color: #fff;
+        border-color: darken($colour-secondary, 5%);
+
+        &:hover {
+            background: lighten($colour-secondary, 5%);
+            border-color: $colour-secondary;
+        }
+        &:active {
+            background: darken($colour-secondary, 5%);
+            border-color: darken($colour-secondary, 5%);
+            color: darken(#fff, 15%);
+            border-top-width: 4px;
+            border-bottom-width: 2px;
+        }
+    }
+
+    &.orange {
+        background: $colour-accent;
+        color: #fff;
+        border-color: darken($colour-accent, 5%);
+
+        &:hover {
+            background: lighten($colour-accent, 5%);
+            border-color: $colour-accent;
+        }
+        &:active {
+            background: darken($colour-accent, 5%);
+            border-color: darken($colour-accent, 5%);
+            color: darken(#fff, 15%);
+            border-top-width: 4px;
+            border-bottom-width: 2px;
+        }
+    }
+}

@@ -1,0 +1,118 @@
+body {
+    flex-direction: column;
+}
+
+#drawer-toggle,
+#drawer-toggle ~ label {
+    display: none;
+}
+
+#mobile-float-nav {
+    display: none;
+}
+
+nav#menu-nav {
+    $border-colour: darken($nav-colour, 10%);
+
+    position: fixed;
+    width: 100%;
+
+    background: $nav-colour;
+    border-bottom: 3px solid $border-colour;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 10%;
+
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    // collapse all multi level menus by default
+    li > ul {
+        display: none;
+    }
+
+    // first level menu
+    & > ul {
+        display: flex;
+
+        & > li {
+            border-right: 1px solid $border-colour;
+
+            &:first-child {
+                border-left: 1px solid $border-colour;
+            }
+        }
+
+        a {
+            display: block;
+            font-size: 0.8em;
+            padding: 1em 1.5em;
+            text-decoration: none;
+            text-transform: uppercase;
+            color: #fff;
+        }
+        a:active {
+            background: darken($nav-colour, 10%);
+        }
+
+        & > li:hover {
+            background-color: lighten($nav-colour, 5%);
+
+            & ul {
+                display: inherit;
+            }
+            & ul.menu-sideway {
+                display: flex;
+            }
+        }
+    }
+
+    // second level menu
+    & > ul > li > ul {
+        $border-colour: lighten($nav-secondary-colour, 45%);
+        background: #fff;
+        position: absolute;
+        border: 1px solid $border-colour;
+        border-bottom-width: 3px;
+
+        .divider {
+            border-bottom: 1px solid $border-colour;
+        }
+        
+        a {
+            color: $nav-secondary-colour;
+            padding: 1em 1.5em;
+        }
+        a:hover {
+            background-color: #f6f6f6;
+        }
+
+        // third level menu (splits the menu into a giant sideway panel)
+        &.menu-sideway {
+            flex-direction: row;
+
+            & > li {
+                border-right: 1px solid $border-colour;
+
+                &:last-child {
+                    border-right: 0;
+                }
+            }
+
+            h5 {
+                text-transform: uppercase;
+                padding: 1em 1.5em;
+                font-weight: 700;
+                margin: 0;
+            }
+        }
+    }
+}

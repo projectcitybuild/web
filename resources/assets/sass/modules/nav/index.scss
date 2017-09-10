@@ -1,0 +1,6 @@
+@media (min-width: 481px) { 
+    @import "nav.pc";
+}
+@media (max-width : 480px) {
+    @import "nav.mobile";
+}

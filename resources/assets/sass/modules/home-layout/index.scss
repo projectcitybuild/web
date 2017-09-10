@@ -1,0 +1,5 @@
+@import "home.pc";
+
+@media (max-width : 480px) {
+    @import "home.mobile";
+}

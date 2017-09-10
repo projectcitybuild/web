@@ -1,0 +1,31 @@
+.container {
+    padding: 0 1.5em; 
+}
+
+header {
+    flex-direction: column;
+    padding: 4em 1.5em;
+    padding-top: 5em;
+
+    .left {
+        margin-bottom: 2em;
+    }
+
+    .left,
+    .right {
+        padding: 0;
+    }
+}
+
+main {
+    flex-direction: column;
+
+    & > .left {
+        margin-bottom: 2em;
+    }
+
+    & > .right {
+        width: 100%;
+        margin-left: 0;
+    }
+}

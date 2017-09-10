@@ -1,0 +1,5 @@
+@import "master.pc";
+
+@media (max-width : 480px) {
+    @import "master.mobile";
+}
