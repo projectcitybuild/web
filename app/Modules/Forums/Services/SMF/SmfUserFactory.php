@@ -1,7 +1,7 @@
 <?php
 namespace App\Modules\Forums\Services\SMF;
 
-use App\Modules\Forums\Models\{ForumUser, ForumMembergroup};
+use App\Modules\Forums\Models\ForumUser;
 
 class SmfUserFactory {
     
@@ -13,13 +13,6 @@ class SmfUserFactory {
     private $forumUserModel;
 
     /**
-     * Model representation of a SMF group
-     *
-     * @var ForumMembergroup
-     */
-    private $forumGroupModel;
-
-    /**
      * List of all group ids considered to be 'staff'
      *
      * @var array
@@ -27,9 +20,8 @@ class SmfUserFactory {
     private $staffGroupIds;
 
 
-    public function __construct(ForumUser $forumUserModel, ForumMembergroup $forumGroupModel, array $staffGroupIds) {
+    public function __construct(ForumUser $forumUserModel, array $staffGroupIds) {
         $this->forumUserModel = $forumUserModel;
-        $this->forumGroupModel = $forumGroupModel;
         $this->staffGroupIds = $staffGroupIds;
     }
 
@@ -43,7 +35,6 @@ class SmfUserFactory {
         return new SmfUser(
             $forumUserId, 
             $this->forumUserModel,
-            $this->forumGroupModel,
             $this->staffGroupIds
         );
     }

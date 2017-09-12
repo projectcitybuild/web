@@ -4,7 +4,7 @@ namespace App\Frame\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Modules\Forums\Services\SMF\{Smf, SmfUserFactory};
-use App\Modules\Forums\Models\{ForumUser, ForumMembergroup};
+use App\Modules\Forums\Models\ForumUser;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,7 +28,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(Smf::class, function($app) {
             $factory = new SmfUserFactory(
                 new ForumUser, 
-                new ForumMembergroup, 
                 config('smf.staff_group_ids')
             );
 

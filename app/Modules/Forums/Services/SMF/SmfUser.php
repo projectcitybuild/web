@@ -6,8 +6,7 @@
  */
 namespace App\Modules\Forums\Services\SMF;
 
-use App\Modules\Forums\Models\{ForumMembergroup, ForumUser};
-use Illuminate\Support\Collection;
+use App\Modules\Forums\Models\ForumUser;
 
 class SmfUser {
 
@@ -33,13 +32,6 @@ class SmfUser {
     private $forumUserModel;
 
     /**
-     * Model representation of a SMF group
-     * 
-     * @var ForumUser
-     */
-    private $forumGroupModel;
-
-    /**
      * Array of groups the user belongs to
      *
      * @var array
@@ -47,10 +39,9 @@ class SmfUser {
     private $groups;
 
 
-    public function __construct(int $smfUserId, ForumUser $forumUserModel, ForumMembergroup $forumGroupModel, array $staffGroups) {
+    public function __construct(int $smfUserId, ForumUser $forumUserModel, array $staffGroups) {
         $this->userId = $smfUserId;
         $this->forumUserModel = $forumUserModel;
-        $this->forumGroupModel = $forumGroupModel;
         $this->staffGroups = $staffGroups;
     }
 
@@ -92,16 +83,16 @@ class SmfUser {
     /**
      * Fetches a collecction of ForumMembergroup the user belongs to
      *
-     * @return Collection
+     * @return array
      */
-    public function getUserGroupsFromDatabase() : Collection {
+    public function getUserGroupsFromDatabase() : array {
         if(isset($this->groups)) {
             return $this->groups;
         }
 
         $user = $this->getUserfromDatabase();
         if(empty($user)) {
-            return new Collection();
+            return [0];
         }
 
         // combine primary and secondary groups
@@ -112,11 +103,11 @@ class SmfUser {
         }
         $groups[] = $user->id_group;
 
-        $this->groups = $this->forumGroupModel
-            ->whereIn('id_group', $groups)
-            ->get(['id_group', 'group_name', 'group_type', 'id_parent']);
+        // add guest membergroup
+        $groups[] = 0;
 
-        return $this->groups;
+        $this->groups = $groups;
+        return $groups;
     }
 
     /**
