@@ -68,12 +68,12 @@ class Smf {
                 // SMF uses sha1 so we need to match that...
                 $storedPass = sha1($forumUser->passwd . $forumUser->password_salt);
                 if($cookieData[1] == $storedPass) {
-                    $this->user = new SmfUser($cookieData[0]);
+                    $this->user = new SmfUser($cookieData[0], $this->staffGroupIds);
                 }
             }
 
         } else {
-            $this->user = new SmfUser();
+            $this->user = new SmfUser(null, $this->staffGroupIds);
         }
 
         return $this->user;

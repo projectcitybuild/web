@@ -7,7 +7,7 @@
 namespace App\Modules\Forums\Services\SMF;
 
 use App\Modules\Forums\Models\{ForumMembergroup, ForumUser};
-use Cache;
+use Support\Illumination\Collection;
 
 class SmfUser {
 
@@ -16,23 +16,38 @@ class SmfUser {
     private $user;
     private $groups;
 
-    public function __construct($smfUserId) {
+    public function __construct(int $smfUserId, array $staffGroups) {
         $this->id = $smfUserId;
+        $this->staffGroups = $staffGroups;
     }
 
+    /**
+     * Returns whether the user is a guest or not
+     *
+     * @return bool
+     */
     public function isGuest() : bool {
         return $data == null;
     }
 
-    public function getId()
-    {
+    /**
+     * Returns the user's forum account id
+     *
+     * @return int
+     */
+    public function getId() : int {
         return $this->isGuest() ? -1 : $this->id;
     }
 
-    public function FetchUser()
-    {
-        if($this->user != null)
+    /**
+     * Fetches a ForumUser of the user, if logged in
+     *
+     * @return ForumUser
+     */
+    public function getUserFromDatabase() : ForumUser {
+        if(isset($this->user)) {
             return $this->user;
+        }
 
         $this->user = ForumUser::where('id_member', $this->id)
             ->first();
@@ -40,37 +55,45 @@ class SmfUser {
         return $this->user;
     }
 
-    public function FetchGroups()
-    {
-        if($this->groups != null)
+    /**
+     * Fetches a collecction of ForumMembergroup the user belongs to
+     *
+     * @return Collection
+     */
+    public function getUserGroupsFromDatabase() : Collection {
+        if(isset($this->groups)) {
             return $this->groups;
+        }
 
-        $user = $this->FetchUser();
+        $user = $this->getUserfromDatabase();
 
         // combine primary and secondary groups
         if($user->additional_groups != null)
             $groups = explode(',', $user->additional_groups);
         $groups[] = $user->id_group;
 
-        $this->groups = Cache::remember('smf-user-' . $this->id . '-groups', 3, function() use($groups) {
-            return ForumMembergroup::whereIn('id_group', $groups)
+        $this->groups = ForumMembergroup::whereIn('id_group', $groups)
                 ->get(['id_group', 'group_name', 'group_type', 'id_parent']);
-        });
 
         return $this->groups;
     }
 
-    public function IsStaff()
-    {
-        if($this->IsGuest())
+    /**
+     * Returns whether the user is a staff member or admin
+     *
+     * @return bool
+     */
+    public function isStaff() : bool {
+        if($this->isGuest()) {
             return false;
+        }
 
         // determine if this user belongs to any group considered staff
-        $groups = $this->FetchGroups();
-        foreach($groups as $group)
-        {
-            if(in_array($group->id_group, $this->staffGroups) != false)
+        $groups = $this->getUserGroupsFromDatabase();
+        foreach($groups as $group) {
+            if(in_array($group->id_group, $this->staffGroups) != false) {
                 return true;
+            }
         }
 
         return false;

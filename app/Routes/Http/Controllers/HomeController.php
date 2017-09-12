@@ -17,7 +17,7 @@ class HomeController extends Controller
         $announcements = $this->repository->getRecentTopicsByBoardId(2, 3);
         $recentActivity = $this->repository->getRecentPostsGroupedByTopic();
 
-        dd($recentActivity->toArray());
+        // dd($recentActivity->toArray());
 
         return view('home', [
             'announcements' => $announcements,
