@@ -21,11 +21,9 @@ class Smf {
     private $cookieName;
 
     /**
-     * List of all group ids considered to be 'staff'
-     *
-     * @var array
+     * @var SmfUserFactory
      */
-    private $staffGroupIds;
+    private $factory;
 
     /**
      * SmfUser instance
@@ -35,16 +33,16 @@ class Smf {
     private $user;
 
     /**
-     * ForumUser model
+     * Model representation of the SMF user, used for authentication purposes
      *
      * @var ForumUser
      */
     private $model;
 
 
-    public function __construct(ForumUser $model, string $cookieName, array $staffGroupIds) {
+    public function __construct(ForumUser $model, string $cookieName, SmfUserFactory $factory) {
         $this->cookieName = $cookieName;
-        $this->staffGroupIds = $staffGroupIds;
+        $this->factory = $factory;
         $this->model = $model;
     }
 
@@ -68,12 +66,12 @@ class Smf {
                 // SMF uses sha1 so we need to match that...
                 $storedPass = sha1($forumUser->passwd . $forumUser->password_salt);
                 if($cookieData[1] == $storedPass) {
-                    $this->user = new SmfUser($cookieData[0], $this->staffGroupIds);
+                    $this->user = $this->factory->getInstance($cookieData[0]);
                 }
             }
 
         } else {
-            $this->user = new SmfUser(null, $this->staffGroupIds);
+            $this->user = $this->factory->getInstance(-1);
         }
 
         return $this->user;

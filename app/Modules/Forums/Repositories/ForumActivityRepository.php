@@ -19,10 +19,12 @@ class ForumActivityRepository {
     /**
      * Returns a collection of the most recent ForumTopic from the given board
      *
-     * @param int $boardId
+     * @param array $groups     Array of group ids the current user belongs to
+     * @param int $boardId      Board id to fetch topics from
+     * @param int $take         Number of ForumTopic to return
      * @return Collection
      */
-    public function getRecentTopicsByBoardId(int $boardId, int $take = 5) : Collection {
+    public function getRecentTopicsByBoardId(array $groups, int $boardId, int $take = 5) : Collection {
         return $this->topicModel
             ->where('id_board', $boardId)
             ->with(['firstPost', 'poster'])
@@ -31,7 +33,14 @@ class ForumActivityRepository {
             ->get();
     }
 
-    public function getRecentPostsGroupedByTopic(int $take = 10) : Collection {
+    /**
+     * Returns a collection of the most recent topics posted in.
+     *
+     * @param array $groups     Array of group ids the current user belongs to
+     * @param int $take         Number of ForumTopic to return
+     * @return Collection
+     */
+    public function getRecentPostsGroupedByTopic(array $groups, int $take = 10) : Collection {
         return $this->postModel
             // ->select( DB::raw('id_topic, *') )
             // ->groupBy('id_topic')

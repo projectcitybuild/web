@@ -3,8 +3,8 @@
 namespace App\Frame\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Modules\Forums\Services\SMF\Smf;
-use App\Modules\Forums\Models\ForumUser;
+use App\Modules\Forums\Services\SMF\{Smf, SmfUserFactory};
+use App\Modules\Forums\Models\{ForumUser, ForumMembergroup};
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,10 +26,16 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(Smf::class, function($app) {
-            return new Smf(
-                new ForumUser(), 
-                config('smf.cookie_name'), 
+            $factory = new SmfUserFactory(
+                new ForumUser, 
+                new ForumMembergroup, 
                 config('smf.staff_group_ids')
+            );
+
+            return new Smf(
+                new ForumUser, 
+                config('smf.cookie_name'),
+                $factory
             );
         });
     }

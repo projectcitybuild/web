@@ -12,7 +12,16 @@ class ForumMembergroup extends Model
      * @var array
      */
     protected $fillable = [
-        'id_group', 'group_name', 'description', 'online_color', 'min_posts', 'max_messages', 'stars', 'group_type', 'hidden', 'id_parent'
+        'id_group', 
+        'group_name', 
+        'description', 
+        'online_color', 
+        'min_posts', 
+        'max_messages', 
+        'stars', 
+        'group_type', 
+        'hidden', 
+        'id_parent'
     ];
 
     /**
