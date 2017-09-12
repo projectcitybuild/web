@@ -16,17 +16,14 @@ class HomeController extends Controller
 
     public function getView(Smf $smf) {
         $user = $smf->getUser();
-        $groups = $user->getUserGroupsFromDatabase()
-            ->pluck('id_group')
-            ->toArray();
+        $groups = $user->getUserGroupsFromDatabase();
 
         $announcements = $this->repository->getRecentTopicsByBoardId($groups, 2, 3);
         $recentActivity = $this->repository->getRecentPostsGroupedByTopic($groups);
 
-        // dd($recentActivity->toArray());
-
         return view('home', [
-            'announcements' => $announcements,
+            'announcements'     => $announcements,
+            'recentActivity'    => $recentActivity,
         ]);
     }
 }

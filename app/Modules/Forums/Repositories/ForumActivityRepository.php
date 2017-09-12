@@ -27,6 +27,10 @@ class ForumActivityRepository {
     public function getRecentTopicsByBoardId(array $groups, int $boardId, int $take = 5) : Collection {
         return $this->topicModel
             ->where('id_board', $boardId)
+            ->where('id_board', '!=', config('smf.board_id_bin'))
+            ->whereHas('Board', function($q) use($groups) {
+                $q->whereRaw('CONCAT(",", `member_groups`, ",") REGEXP ",(' . implode(',', $groups) . '),"');
+            })
             ->with(['firstPost', 'poster'])
             ->orderBy('id_topic', 'DESC')
             ->take( min($take, 10) )
@@ -42,9 +46,13 @@ class ForumActivityRepository {
      */
     public function getRecentPostsGroupedByTopic(array $groups, int $take = 10) : Collection {
         return $this->postModel
-            // ->select( DB::raw('id_topic, *') )
+            ->with('Topic', 'Poster', 'Board')
+            ->whereHas('Board', function($q) use($groups) {
+                $q->whereRaw('CONCAT(",", `member_groups`, ",") REGEXP ",(' . implode(',', $groups) . '),"');
+            })
+            ->where('id_board', '!=', config('smf.board_id_bin'))
+            ->orderBy('poster_time', 'DESC')
             // ->groupBy('id_topic')
-            ->orderBy('id_topic', 'DESC')
             ->take( min($take, 10) )
             ->get();
     }
