@@ -1,16 +1,16 @@
 <?php
 namespace App\Modules\Forums\Services\SMF;
 
-use App\Modules\Forums\Models\ForumUser;
+use App\Modules\Forums\Repositories\ForumUserRepository;
 
 class SmfUserFactory {
     
     /**
-     * Model representation of a SMF user
+     * Repository for ForumUser models
      *
-     * @var ForumUser
+     * @var repository
      */
-    private $forumUserModel;
+    private $repository;
 
     /**
      * List of all group ids considered to be 'staff'
@@ -20,8 +20,8 @@ class SmfUserFactory {
     private $staffGroupIds;
 
 
-    public function __construct(ForumUser $forumUserModel, array $staffGroupIds) {
-        $this->forumUserModel = $forumUserModel;
+    public function __construct(ForumUserRepository $repository, array $staffGroupIds) {
+        $this->repository = $repository;
         $this->staffGroupIds = $staffGroupIds;
     }
 
@@ -34,7 +34,7 @@ class SmfUserFactory {
     public function getInstance(int $forumUserId) : SmfUser {
         return new SmfUser(
             $forumUserId, 
-            $this->forumUserModel,
+            $this->repository,
             $this->staffGroupIds
         );
     }

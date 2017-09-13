@@ -6,7 +6,7 @@
  */
 namespace App\Modules\Forums\Services\SMF;
 
-use App\Modules\Forums\Models\ForumUser;
+use App\Modules\Forums\Repositories\ForumUserRepository;
 
 class SmfUser {
 
@@ -25,11 +25,11 @@ class SmfUser {
     private $staffGroupIds;
 
     /**
-     * Model representation of a SMF user
+     * Repository for ForumUser models
      * 
-     * @var ForumUser
+     * @var ForumUserRepository
      */
-    private $forumUserModel;
+    private $repository;
 
     /**
      * Array of groups the user belongs to
@@ -39,9 +39,9 @@ class SmfUser {
     private $groups;
 
 
-    public function __construct(int $smfUserId, ForumUser $forumUserModel, array $staffGroups) {
+    public function __construct(int $smfUserId, ForumUserRepository $repository, array $staffGroups) {
         $this->userId = $smfUserId;
-        $this->forumUserModel = $forumUserModel;
+        $this->repository = $repository;
         $this->staffGroups = $staffGroups;
     }
 
@@ -73,10 +73,7 @@ class SmfUser {
             return $this->user;
         }
 
-        $this->user = $this->forumUserModel
-            ->where('id_member', $this->userId)
-            ->first();
-
+        $this->user = $this->repository->getUserById($this->userId);
         return $this->user;
     }
 
