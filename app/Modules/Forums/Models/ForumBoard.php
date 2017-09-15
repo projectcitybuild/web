@@ -34,13 +34,11 @@ class ForumBoard extends Model
 
     public $timestamps = false;
 
-    public function PermissionProfile()
-    {
+    public function PermissionProfile() {
         return $this->hasOne('App\Modules\Forums\Models\ForumPermissionProfile', 'id_profile', 'id_profile');
     }
 
-    public function Permissions()
-    {
+    public function Permissions() {
         return $this->hasMany('App\Modules\Forums\Models\ForumBoardPermission', 'id_profile', 'id_profile');
     }
 }

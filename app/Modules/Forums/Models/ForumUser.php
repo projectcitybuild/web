@@ -34,9 +34,8 @@ class ForumUser extends Model
 
     public $timestamps = false;
 
-    public function UnreadMail()
-    {
-        return $this->hasMany(\App\Modules\Forums\Models\ForumMailRecipient::class, 'id_member', 'id_member')
-            ->where('is_read', 0);
-    }
+    // public function unreadMail() {
+    //     return $this->hasMany(\App\Modules\Forums\Models\ForumMailRecipient::class, 'id_member', 'id_member')
+    //         ->where('is_read', 0);
+    // }
 }
