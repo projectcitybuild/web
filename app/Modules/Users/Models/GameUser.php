@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Forums\Models;
+namespace App\Modules\Users\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,6 +30,11 @@ class GameUser extends Model {
      * @var array
      */
     protected $hidden = [];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+    ];
 
     
     public function user() {

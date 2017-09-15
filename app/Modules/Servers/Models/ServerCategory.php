@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Modules\Users\Models;
+namespace App\Modules\Servers\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserAlias extends Model {
-    
+class ServerCategory extends Model {
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'user_aliases';
+    protected $table = 'server_categories';
 
-    protected $primaryKey = 'user_alias_id';
+    protected $primaryKey = 'server_category_id';
 
     /**
      * The attributes that are mass assignable.
@@ -21,9 +21,8 @@ class UserAlias extends Model {
      * @var array
      */
     protected $fillable = [
-        'user_alias_type_id',
-        'user_id',
-        'alias',
+        'name',
+        'display_order',
     ];
 
     /**
@@ -38,8 +37,8 @@ class UserAlias extends Model {
         'updated_at',
     ];
 
-    
-    public function aliasType() {
-        return $this->hasOne('App\Modules\Users\Models\UserAliasType', 'user_alias_type_id', 'user_alias_type_id');
+
+    public function servers() {
+        return $this->belongsTo('App\Modules\Servers\Models\Server', 'server_category_id', 'server_category_id');
     }
 }
