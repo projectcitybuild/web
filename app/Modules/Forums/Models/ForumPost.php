@@ -39,7 +39,34 @@ class ForumPost extends Model
     ];
     
     public function getBodyAttribute($value) {
-        $bbcodeParser = new \Golonka\BBCode\BBCodeParser;
+        $bbcodeParser = new \Golonka\BBCode\BBCodeParser();
+
+        // extra parsers and overrides for smf
+        $bbcodeParser->setParser(
+            'font',
+            '/\[font\=([a-zA-Z ]+)\](.*?)\[\/font\]/s',
+            '<span style="font-family: \'$1\'">$2</span>',
+            '$2'
+        );
+        $bbcodeParser->setParser(
+            'size',
+            '/\[size\=([\d]+)[a-z]+\](.*?)\[\/size\]/s',
+            '<span style="font-size: $1px">$2</span>',
+            '$2'
+        );
+        $bbcodeParser->setParser(
+            'color',
+            '/\[color\=(.+)\](.*?)\[\/color\]/s',
+            '<span style="color: $1">$2</span>',
+            '$2'
+        );
+        // $bbcodeParser->setParser(
+        //     'image',
+        //     '/\[img[ height=[\d]+]?[ width=[\d]+]?\](.*?)\[\/img\]/s',
+        //     '<img src="$1">',
+        //     '$1'
+        // );
+
         return $bbcodeParser->parseCaseInsensitive($value);
     }
 
