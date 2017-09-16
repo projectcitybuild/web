@@ -51,7 +51,7 @@ class SmfUser {
      * @return bool
      */
     public function isGuest() : bool {
-        return $this->smfUserId === -1;
+        return $this->userId === -1;
     }
 
     /**
@@ -71,6 +71,10 @@ class SmfUser {
     public function getUserFromDatabase() : ?ForumUser {
         if(isset($this->user)) {
             return $this->user;
+        }
+
+        if($this->isGuest()) {
+            return null;
         }
 
         $this->user = $this->repository->getUserById($this->userId);
