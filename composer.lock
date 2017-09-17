@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "21eb14deb9ff77783151d6ccd82fd903",
+    "content-hash": "e8d310c0e5c9327ad50600669b8b01ce",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -258,56 +258,6 @@
                 "parser"
             ],
             "time": "2017-05-14T14:47:48+00:00"
-        },
-        {
-            "name": "golonka/bbcodeparser",
-            "version": "v2.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/golonka/BBCodeParser.git",
-                "reference": "769c4ebe6207ffa20298b84b90eafca87ce2fb95"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/golonka/BBCodeParser/zipball/769c4ebe6207ffa20298b84b90eafca87ce2fb95",
-                "reference": "769c4ebe6207ffa20298b84b90eafca87ce2fb95",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4",
-                "squizlabs/php_codesniffer": "~2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Golonka\\BBCode\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Joseph Landberg",
-                    "email": "joseph.landberg@gmail.com",
-                    "homepage": "http://github.com/golonka/"
-                }
-            ],
-            "description": "Parse your BBCode easy with this library.",
-            "homepage": "http://github.com/golonka/bbcodeparser",
-            "keywords": [
-                "PSR-1",
-                "PSR-2",
-                "PSR-4",
-                "bbcode",
-                "laravel",
-                "parser"
-            ],
-            "time": "2016-03-03T09:56:19+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -2145,6 +2095,39 @@
                 "environment"
             ],
             "time": "2016-09-01T10:05:43+00:00"
+        },
+        {
+            "name": "xpaw/php-minecraft-query",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xPaw/PHP-Minecraft-Query.git",
+                "reference": "d7184150af24c82341cfe3c34fc8d2c788ef2815"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/xPaw/PHP-Minecraft-Query/zipball/d7184150af24c82341cfe3c34fc8d2c788ef2815",
+                "reference": "d7184150af24c82341cfe3c34fc8d2c788ef2815",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "xPaw\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHP library to query Minecraft servers",
+            "keywords": [
+                "minecraft"
+            ],
+            "time": "2016-11-06T08:23:55+00:00"
         }
     ],
     "packages-dev": [
@@ -2312,6 +2295,56 @@
                 "fixtures"
             ],
             "time": "2017-08-15T16:48:10+00:00"
+        },
+        {
+            "name": "golonka/bbcodeparser",
+            "version": "v2.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/golonka/BBCodeParser.git",
+                "reference": "769c4ebe6207ffa20298b84b90eafca87ce2fb95"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/golonka/BBCodeParser/zipball/769c4ebe6207ffa20298b84b90eafca87ce2fb95",
+                "reference": "769c4ebe6207ffa20298b84b90eafca87ce2fb95",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4",
+                "squizlabs/php_codesniffer": "~2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Golonka\\BBCode\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joseph Landberg",
+                    "email": "joseph.landberg@gmail.com",
+                    "homepage": "http://github.com/golonka/"
+                }
+            ],
+            "description": "Parse your BBCode easy with this library.",
+            "homepage": "http://github.com/golonka/bbcodeparser",
+            "keywords": [
+                "PSR-1",
+                "PSR-2",
+                "PSR-4",
+                "bbcode",
+                "laravel",
+                "parser"
+            ],
+            "time": "2016-03-03T09:56:19+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",

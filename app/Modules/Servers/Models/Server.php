@@ -43,6 +43,19 @@ class Server extends Model {
         'updated_at',
     ];
 
+    /**
+     * Gets the ip address of the server (with port depending on availability)
+     *
+     * @return string
+     */
+    public function getAddress() : string {
+        $port = $this->port != null && $this->is_port_visible
+            ? ':'.$this->port
+            : '';
+
+        return $this->ip . $port;
+    }
+
 
     public function category() {
         return $this->hasOne('App\Modules\Servers\Models\ServerCategory', 'server_category_id', 'server_category_id');
