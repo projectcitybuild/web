@@ -105,7 +105,7 @@
         <div class="poster">
             {{$post->poster->real_name}} posted in
         </div>
-        <a href="#">{{$post->topic->firstPost->subject}}</a>
+        <a href="http://projectcitybuild.com/forums/index.php?topic={{$post->id_topic}}">{{$post->topic->firstPost->subject}}</a>
         {{$post->poster_time->diffForHumans()}}
     </div>
     @endforeach

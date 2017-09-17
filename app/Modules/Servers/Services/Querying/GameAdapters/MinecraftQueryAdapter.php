@@ -18,6 +18,10 @@ class MinecraftQueryAdapter implements QueryAdapterInterface {
     public function query(string $ip, $port = null) : QueryResult {
         $port = $port ?: 25565;
 
+        if(empty($ip)) {
+            throw new \Exception('Invalid server IP provided');
+        }
+
         try {
             $this->queryService->Connect($ip, $port);
             
@@ -32,12 +36,7 @@ class MinecraftQueryAdapter implements QueryAdapterInterface {
             );
         }
         catch(MinecraftQueryException $e) {
-            $response = new QueryResult(
-                false,
-                0,
-                $info['MaxPlayers'] ?: 0,
-                []
-            );
+            $response = new QueryResult(false, 0, 0, []);
             $response->setException($e);
 
             return $response;
