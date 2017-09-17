@@ -38,7 +38,7 @@ class CreateUsers extends Migration {
             $table->string('alias');
             $table->timestamps();
 
-            $table->foreign('user_alias_type_id')->references('user_alias_type_id')->on('user_alias_type_id');
+            $table->foreign('user_alias_type_id')->references('user_alias_type_id')->on('user_alias_types');
             $table->foreign('game_user_id')->references('game_user_id')->on('game_users');
         });
     }
