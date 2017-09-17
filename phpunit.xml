@@ -20,6 +20,12 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./app</directory>
+            <exclude>
+                <file>./app/Routes/Api/Routes.php</file>
+                <file>./app/Routes/Channels/Routes.php</file>
+                <file>./app/Routes/Console/Routes.php</file>
+                <file>./app/Routes/Http/Routes.php</file>
+            </exclude>
         </whitelist>
     </filter>
     <php>
@@ -28,4 +34,10 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
     </php>
+
+    <logging>
+        <log type="coverage-html" target="./storage/reports/coverage" charset="UTF-8"
+            yui="true" highlight="true"
+            lowUpperBound="50" highLowerBound="80"/>
+    </logging>
 </phpunit>
