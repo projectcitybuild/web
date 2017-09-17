@@ -46,7 +46,7 @@ class ForumActivityRepository {
      */
     public function getRecentPostsGroupedByTopic(array $groups, int $take = 10) : Collection {
         return $this->postModel
-            ->with('Topic', 'Poster', 'Board')
+            ->with('topic.firstPost', 'poster', 'board')
             ->whereHas('Board', function($q) use($groups) {
                 $q->whereRaw('CONCAT(",", `member_groups`, ",") REGEXP ",(' . implode(',', $groups) . '),"');
             })

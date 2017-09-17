@@ -99,12 +99,16 @@
 
 <div class="panel forum-activity">
     <h5>Recent Threads</h5>
+
+    @foreach($recentActivity as $post)
     <div class="thread">
         <div class="poster">
-            _andy posted in
+            {{$post->poster->real_name}} posted in
         </div>
-        <a href="#">Some thread title</a>
+        <a href="#">{{$post->topic->firstPost->subject}}</a>
+        {{$post->poster_time->diffForHumans()}}
     </div>
+    @endforeach
 </div>
 
 <div class="panel discord-panel">
