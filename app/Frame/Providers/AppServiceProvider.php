@@ -5,11 +5,9 @@ namespace App\Frame\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Modules\Forums\Services\SMF\{Smf, SmfUserFactory};
 use App\Modules\Forums\Repositories\ForumUserRepository;
-use App\Modules\Forums\Models\ForumUser;
 
 use App\Modules\Servers\Services\Querying\{ServerQueryService, QueryAdapterFactory};
 use App\Modules\Servers\Repositories\{ServerRepository, ServerStatusRepository};
-use App\Modules\Servers\Models\{Server, ServerStatus};
 
 
 class AppServiceProvider extends ServiceProvider
@@ -33,15 +31,13 @@ class AppServiceProvider extends ServiceProvider
     {
         // bind SMF service
         $this->app->singleton(Smf::class, function($app) {
-            $repository = new ForumUserRepository(new ForumUser);
-
             $factory = new SmfUserFactory(
-                $repository, 
+                $app->make(ForumUserRepository::class),
                 config('smf.staff_group_ids')
             );
 
             return new Smf(
-                $repository, 
+                $app->make(ForumUserRepository::class),
                 config('smf.cookie_name'),
                 $factory
             );
@@ -50,8 +46,8 @@ class AppServiceProvider extends ServiceProvider
         // bind server query service
         $this->app->bind(ServerQueryService::class, function($app) {
             return new ServerQueryService(
-                new ServerRepository(new Server),
-                new ServerStatusRepository(new ServerStatus),
+                $app->make(ServerRepository::class),
+                $app->make(ServerStatusRepository::class),
                 new QueryAdapterFactory(),
                 $app->make('Log')
             );
