@@ -3,7 +3,7 @@ namespace App\Modules\Servers\Services\Querying;
 
 use App\Modules\Servers\Repositories\{ServerRepository, ServerStatusRepository};
 use App\Modules\Servers\Services\Querying\QueryAdapterFactory;
-use Illuminate\Support\Facades\Log as Logger;
+use \Illuminate\Log\Writer as Logger;
 
 class ServerQueryService {
  
@@ -53,6 +53,8 @@ class ServerQueryService {
                 $status->getPlayerList(),
                 $time
             );
+
+            $this->logger->info('Queried server ['. $server->name .']: ' . $server->getAddress());
         }
     }
 
