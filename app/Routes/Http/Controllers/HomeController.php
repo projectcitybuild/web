@@ -14,14 +14,12 @@ class HomeController extends Controller
         $this->repository = $repository;
     }
 
-    public function getView(Smf $smf, \App\Modules\Servers\Services\Querying\ServerQueryService $test) {
+    public function getView(Smf $smf) {
         $user = $smf->getUser();
         $groups = $user->getUserGroupsFromDatabase();
 
         $announcements = $this->repository->getRecentTopicsByBoardId($groups, 2, 3);
         $recentActivity = $this->repository->getRecentPostsGroupedByTopic($groups);
-
-        $test->queryAllServers();        
 
         return view('home', [
             'announcements'     => $announcements,
