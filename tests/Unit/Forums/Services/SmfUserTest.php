@@ -15,6 +15,8 @@ class SmfUserTest extends TestCase {
     private $repositoryMock;
 
     public function setUp() {
+        parent::setUp();
+        
         $this->modelMock = $this->getMockBuilder(ForumUser::class)
             ->getMock();
 

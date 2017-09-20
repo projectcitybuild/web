@@ -17,6 +17,8 @@ class ServerQueryServiceTest extends TestCase {
     private $loggerMock;
 
     public function setUp() {
+        parent::setUp();
+        
         $this->serverRepositoryMock = $this->getMockBuilder(ServerRepository::class)
             ->disableOriginalConstructor()
             ->getMock();

@@ -14,6 +14,8 @@ class MinecraftQueryAdapterTest extends TestCase {
     private $serviceMock;
 
     public function setUp() {
+        parent::setUp();
+        
         $this->serviceMock = $this->getMockBuilder(MinecraftQuery::class)
             ->getMock();
     }
