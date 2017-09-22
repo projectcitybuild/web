@@ -1,6 +1,16 @@
 language: php
-notifications:
-  webhooks: https://discordapp.com/api/webhooks/354631412084637697/p93voigsxa85Po2GGNbZIQJA2DWXgexRM-lClCWrxKN-jMazfrRx6w-aZ229LS5QSTqE
+
+php:
+  version: 7.1.0
+
+before_script:
+  - cp .env.travis .env
+  - composer self-update
+  - composer install --no-interaction
+  - php artisan key:generate
+
+script:
+  - vendor/bin/phpunit
 
 notifications:
   webhooks:
