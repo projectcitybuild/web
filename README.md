@@ -1,4 +1,5 @@
 # Project City Build
+[![Build Status](https://travis-ci.org/itsmyfirstday/ProjectCityBuild.svg?branch=v3.5)](https://travis-ci.org/itsmyfirstday/ProjectCityBuild)
 
 Version 3.5 - basically just a supercharged, coat of fresh paint on the current design.
 
@@ -9,10 +10,10 @@ Mostly behind the scenes stuff.
 * A few UI components are powered by ReactJS (eg. the server feed)
 * Version 1 of the Ban API (coming soon)
 
-### What still needs to be built?
+### What still needs to be built before launch?
 - [ ] Ban API
 - [ ] Server querying
-- [ ] 'Recent Posts' sidebar integration with SMF
+- [x] 'Recent Posts' sidebar integration with SMF
 - [ ] Ban appeals
 - [ ] Donations
 - [ ] Apply for staff

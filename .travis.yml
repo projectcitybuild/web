@@ -3,10 +3,14 @@ language: php
 php:
   - 7.2
 
+addons:
+  mariadb: '10.0'
+
 sudo: false
 
 before_script:
   - cp .env.ci .env
+  - mysql -e 'create database pcb;'
   - composer self-update
   - composer install --no-interaction
   - php artisan key:generate
