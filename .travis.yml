@@ -1,0 +1,13 @@
+language: php
+notifications:
+  webhooks: https://discordapp.com/api/webhooks/354631412084637697/p93voigsxa85Po2GGNbZIQJA2DWXgexRM-lClCWrxKN-jMazfrRx6w-aZ229LS5QSTqE
+
+notifications:
+  webhooks:
+    urls:
+      - https://discordapp.com/api/webhooks/354631412084637697/p93voigsxa85Po2GGNbZIQJA2DWXgexRM-lClCWrxKN-jMazfrRx6w-aZ229LS5QSTqE/github
+    on_success: change  # default: always
+    on_failure: always  # default: always
+    on_start: change    # default: never
+    on_cancel: always   # default: always
+    on_error: always    # default: always
