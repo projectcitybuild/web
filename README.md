@@ -1,5 +1,5 @@
 # Project City Build
-[![Build Status](https://travis-ci.org/itsmyfirstday/ProjectCityBuild.svg?branch=v3.5)](https://travis-ci.org/itsmyfirstday/ProjectCityBuild)
+[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0) [![Build Status](https://travis-ci.org/itsmyfirstday/ProjectCityBuild.svg?branch=v3.5)](https://travis-ci.org/itsmyfirstday/ProjectCityBuild)
 
 Version 3.5 - basically just a supercharged, coat of fresh paint on the current design.
 
