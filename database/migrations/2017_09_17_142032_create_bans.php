@@ -17,11 +17,11 @@ class CreateBans extends Migration
             $table->increments('game_ban_id');
             $table->integer('server_id')->unsigned()->nullable();
             $table->integer('player_game_user_id')->unsigned();
-            $table->integer('staff_game_user_id')->unsigned();
+            $table->integer('staff_game_user_id')->unsigned()->nullable();
             $table->text('reason')->nullable();
-            $table->timestamp('expires_at')->nullable();
             $table->boolean('is_active');
             $table->boolean('is_global_ban')->default(true);
+            $table->timestamp('expires_at')->nullable();
             $table->timestamps();
 
             $table->foreign('player_game_user_id')->references('game_user_id')->on('game_users');
@@ -31,10 +31,10 @@ class CreateBans extends Migration
         Schema::create('game_network_unbans', function (Blueprint $table) {
             $table->increments('game_unban_id');
             $table->integer('game_ban_id')->unsigned();
-            $table->integer('staff_game_user_id')->unsigned();
+            $table->integer('staff_game_user_id')->unsigned()->nullable();
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
 
-            $table->foreign('game_ban_id')->references('id')->on('game_network_bans');
+            $table->foreign('game_ban_id')->references('game_ban_id')->on('game_network_bans');
             $table->foreign('staff_game_user_id')->references('game_user_id')->on('game_users');
         });
 

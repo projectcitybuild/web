@@ -45,6 +45,7 @@ class CreateServers extends Migration {
             $table->boolean('can_local_ban')->default(true)->comment('Whether this key can create bans that affect only the server it belongs to');
             $table->boolean('can_global_ban')->default(false)->comment('Whether this key can create global PCB bans');
             $table->boolean('can_access_ranks')->default(true)->comment('Whether this key can get rank data of players');
+            $table->timestamp('last_used_at');
             $table->timestamps();
             
             $table->foreign('server_id')->references('server_id')->on('servers');
@@ -57,7 +58,7 @@ class CreateServers extends Migration {
         Schema::create('server_key_tokens', function(Blueprint $table) {
             $table->increments('server_key_token_id');
             $table->integer('server_key_id')->unsigned();
-            $table->char('token_hash', 60)->comment('Hashed version of the token for comparison purposes');
+            $table->char('token_hash', 60)->comment('Token hash for comparison purposes');
             $table->boolean('is_blacklisted')->comment('Whether this token has had access revoked');
             $table->timestamp('expires_at')->comment('Time that this token expires. This should match the time inside the token itself');
             $table->timestamps();

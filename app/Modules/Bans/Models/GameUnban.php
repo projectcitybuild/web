@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Modules\Users\Models;
+namespace App\Modules\Bans\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserAlias extends Model {
-    
+class GameUnban extends Model {
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'user_aliases';
+    protected $table = 'game_network_unbans';
 
-    protected $primaryKey = 'user_alias_id';
+    protected $primaryKey = 'game_ban_id';
 
     /**
      * The attributes that are mass assignable.
@@ -21,9 +21,9 @@ class UserAlias extends Model {
      * @var array
      */
     protected $fillable = [
-        'user_alias_type_id',
-        'game_user_id',
-        'alias',
+        'game_ban_id',
+        'staff_game_user_id',
+        'created_at',
     ];
 
     /**
@@ -35,11 +35,7 @@ class UserAlias extends Model {
 
     protected $dates = [
         'created_at',
-        'updated_at',
     ];
 
-    
-    public function aliasType() {
-        return $this->hasOne('App\Modules\Users\Models\UserAliasType', 'user_alias_type_id', 'user_alias_type_id');
-    }
+    public $timestamps = false;
 }

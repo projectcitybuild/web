@@ -20,7 +20,7 @@ class CreateUsers extends Migration {
 
         Schema::create('game_users', function(Blueprint $table) {
             $table->increments('game_user_id');
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('user_id')->on('users');

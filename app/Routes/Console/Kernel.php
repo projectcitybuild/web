@@ -5,6 +5,7 @@ namespace App\Routes\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Routes\Console\Commands\QueryServerStatusesCommand;
+use App\Routes\Console\Commands\ImportCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -14,7 +15,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        QueryServerStatusesCommand::class
+        QueryServerStatusesCommand::class,
+        ImportCommand::class,
     ];
 
     /**

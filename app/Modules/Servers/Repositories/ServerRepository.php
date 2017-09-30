@@ -21,4 +21,10 @@ class ServerRepository {
             ->get();
     }
 
+    public function getServerByName(string $name) : ?Server {
+        return $this->serverModel
+            ->where('name', $name)
+            ->first();
+    }
+
 }
