@@ -12,5 +12,8 @@
 */
 
 Route::prefix('bans')->middleware('auth.token.server')->group(function() {
-    Route::post('store', 'BanController@storeBan');
+    Route::post('store/ban',    'BanController@storeBan');
+    Route::post('store/unban',  'BanController@storeUnban');
+    Route::post('status',       'BanController@checkUserStatus');
+    Route::post('history',      'BanController@getUserBanHistory');
 });

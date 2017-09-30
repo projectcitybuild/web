@@ -33,7 +33,7 @@ class GameBanRepository {
         return $this->banModel
             ->where('player_game_user_id', $gameUserId)
             ->where('is_active', true)
-            ->when(isset($serverId), function($q) {
+            ->when(isset($serverId), function($q) use($serverId) {
                 return $q->where('server_id', $serverId)
                        ->orWhere('is_global_ban', true);
             })
