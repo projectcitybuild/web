@@ -11,8 +11,16 @@ class GameUserRepository {
         $this->gameUserModel = $gameUserModel;
     }
 
-    public function getGameUserByAlias($aliasTypeId, $alias) {
-
+    /**
+     * Creates a new GameUser
+     *
+     * @param int $userId
+     * @return GameUser
+     */
+    public function store($userId = null) : GameUser {
+        return $this->gameUserModel->create([
+            'user_id' => $userId,
+        ]);
     }
 
 }
