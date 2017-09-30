@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Seeder;
 
-use App\Modules\Servers\Models\{ServerCategory, Server};
+use App\Modules\Servers\Models\{ServerCategory, Server, ServerKey};
+use App\Modules\Servers\Repositories\ServerKeyTokenRepository;
 
 class ServerSeeds extends Seeder {
     
@@ -22,7 +23,7 @@ class ServerSeeds extends Seeder {
             'display_order' => 2,
         ]);
 
-        Server::create([
+        $minecraftServer = Server::create([
             'name'                  => 'Survival / Creative [24/7]',
             'server_category_id'    => $categoryMinecraft->server_category_id,
             'game_type'             => 'minecraft',
@@ -46,5 +47,16 @@ class ServerSeeds extends Seeder {
             'is_visible'            => true,
             'display_order'         => 2,
         ]);
+
+        
+        $serverKey = ServerKey::create([
+            'server_id' => $minecraftServer->server_id,
+            'can_local_ban' => true,
+            'can_global_ban' => true,
+            'can_access_ranks' => true,
+        ]);
+
+        $keyTokenRepository = resolve(ServerKeyTokenRepository::class);
+        $keyTokenRepository->generateToken($serverKey->server_key_id);
     }
 }

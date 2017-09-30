@@ -60,7 +60,6 @@ class CreateServers extends Migration {
             $table->integer('server_key_id')->unsigned();
             $table->char('token_hash', 60)->comment('Token hash for comparison purposes');
             $table->boolean('is_blacklisted')->comment('Whether this token has had access revoked');
-            $table->timestamp('expires_at')->comment('Time that this token expires. This should match the time inside the token itself');
             $table->timestamps();
 
             $table->foreign('server_key_id')->references('server_key_id')->on('server_keys');
