@@ -24,6 +24,13 @@ class BanController extends Controller
         $this->banRepository = $banRepository;
     }
 
+    /**
+     * Creates a new player ban
+     *
+     * @param Request $request
+     * @param Validator $validationFactory
+     * @return void
+     */
     public function storeBan(Request $request, Validator $validationFactory) {
         $serverToken = $request->get('token');
         $serverKey = $request->get('key');
@@ -121,6 +128,11 @@ class BanController extends Controller
             'expires_at'            => $expiryTimestamp ? Carbon::createFromTimestamp($expiryTimestamp) : null,
         ]);
 
+        $serverKey->touch();
+
+
+
+
         return response()->json([
             'status_code' => 200,
             'entities' => [
@@ -128,4 +140,17 @@ class BanController extends Controller
             ],
         ]);
     }
+
+    /**
+     * Creates a new player unban
+     *
+     * @param Request $request
+     * @param Validator $validationFactory
+     * @return void
+     */
+    public function storeUnban(Request $request, Validator $validationFactory) {
+
+    }
+
+
 }

@@ -45,7 +45,6 @@ class CreateServers extends Migration {
             $table->boolean('can_local_ban')->default(true)->comment('Whether this key can create bans that affect only the server it belongs to');
             $table->boolean('can_global_ban')->default(false)->comment('Whether this key can create global PCB bans');
             $table->boolean('can_access_ranks')->default(true)->comment('Whether this key can get rank data of players');
-            $table->timestamp('last_used_at');
             $table->timestamps();
             
             $table->foreign('server_id')->references('server_id')->on('servers');
