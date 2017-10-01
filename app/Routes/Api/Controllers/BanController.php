@@ -2,74 +2,30 @@
 
 namespace App\Routes\Api\Controllers;
 
-use App\Modules\Users\Repositories\GameUserRepository;
-use App\Modules\Users\Repositories\UserAliasRepository;
-use App\Modules\Bans\Repositories\GameBanRepository;
-use App\Modules\Users\Models\UserAliasType;
+use App\Modules\Users\Services\GameUserLookupService;
+use App\Modules\Bans\Services\BanService;
+use App\Modules\Users\Exceptions\InvalidAliasTypeException;
+use App\Modules\Bans\Exceptions\UnauthorisedKeyActionException;
+use App\Modules\Bans\Exceptions\UserAlreadyBannedException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Factory as Validator;
 use Carbon\Carbon;
 
 class BanController extends Controller
 {
-    private $gameUserRepository;
-    private $aliasRepository;
-    private $banRepository;
-
-    public function __construct(GameUserRepository $gameUserRepository, 
-                                UserAliasRepository $aliasRepository, 
-                                GameBanRepository $banRepository
-                                ) {
-        $this->gameUserRepository = $gameUserRepository;
-        $this->aliasRepository = $aliasRepository;
-        $this->banRepository = $banRepository;
-    }
-
-
-    private $aliasTypeCache = [];
+    /**
+     * @var GameUserLookupService
+     */
+    private $gameUserLookup;
 
     /**
-     * Validates that the given identifier type matches a type stored in our database
-     *
-     * @param string $identifierType
-     * @return UserAliasType
+     * @var BanService
      */
-    private function getAliasType(string $identifierType) : UserAliasType {
-        if(array_key_exists($identifierType, $this->aliasTypeCache)) {
-            return $this->aliasTypeCache[$identifierType];
-        }
+    private $banService;
 
-        $aliasType = $this->aliasRepository->getAliasType($identifierType);
-        if(is_null($aliasType)) {
-            abort(400, 'Invalid identifier type given ['.$identifierType.']');
-        }
-        return $aliasType;
-    }
-
-    /**
-     * Gets the game user id of the given alias, or alternatively
-     * creates a new game user and alias if necessary
-     *
-     * @param int $aliasTypeId
-     * @param string $alias
-     * @return int  Game user id
-     */
-    private function getOrCreateGameUserId(int $aliasTypeId, string $alias) : int {
-        $playerAlias = $this->aliasRepository->getAlias($aliasTypeId, $alias);
-        if(is_null($playerAlias)) {
-            $player = $this->gameUserRepository->store();
-            $playerId = $player->game_user_id;
-
-            $this->aliasRepository->store(
-                $aliasTypeId,
-                $playerId, 
-                $alias
-            );
-
-            return $playerId;
-        }
-
-        return $playerAlias->game_user_id;
+    public function __construct(GameUserLookupService $gameUserLookup, BanService $banService) {
+        $this->gameUserLookup = $gameUserLookup;
+        $this->banService = $banService;
     }
 
     /**
@@ -80,17 +36,6 @@ class BanController extends Controller
      * @return void
      */
     public function storeBan(Request $request, Validator $validationFactory) {
-        $serverToken = $request->get('token');
-        $serverKey = $request->get('key');
-        
-        $playerIdentifierType   = $request->get('player_id_type');
-        $playerIdentifier       = $request->get('player_id');
-        $staffIdentifierType    = $request->get('banner_id_type');
-        $staffIdentifier        = $request->get('banner_id');
-        $reason                 = $request->get('reason');
-        $expiryTimestamp        = $request->get('expires_at');
-        $isGlobalBan            = $request->get('is_global_ban', false);
-
         $validator = $validationFactory->make($request->all(), [
             'player_id_type'    => 'required',
             'player_id'         => 'required',
@@ -109,38 +54,38 @@ class BanController extends Controller
             ]);
         }
 
-        $playerAliasType = $this->getAliasType($playerIdentifierType);
-        $staffAliasType  = $this->getAliasType($staffIdentifierType);
+        $serverKey          = $request->get('key');
+        $playerIdType       = $request->get('player_id_type');
+        $playerId           = $request->get('player_id');
+        $staffIdType        = $request->get('banner_id_type');
+        $staffId            = $request->get('banner_id');
+        $reason             = $request->get('reason');
+        $expiryTimestamp    = $request->get('expires_at');
+        $isGlobalBan        = $request->get('is_global_ban', false);
+        
+        $ban = null;
+        try {
+            $playerGameUserId = $this->gameUserLookup->getOrCreateGameUserId($playerIdType, $playerId);
+            $staffGameUserId  = $this->gameUserLookup->getOrCreateGameUserId($staffIdType, $staffId);
+        
+            $ban = $this->banService->storeBan(
+                $serverKey,
+                $playerGameUserId,
+                $staffGameUserId,
+                $reason,
+                $expiryTimestamp,
+                $isGlobalBan
+            );
 
-        $playerGameUserId = $this->getOrCreateGameUserId($playerAliasType->user_alias_type_id, $playerIdentifier);
-        $staffGameUserId  = $this->getOrCreateGameUserId($staffAliasType->user_alias_type_id, $staffIdentifier);
-
-
-        // validate intent vs server key permissions
-        if($isGlobalBan && !$serverKey->can_global_ban) {
-            abort(401, 'This key does not have permission to create a global ban');
+        } catch(InvalidAliasTypeException $e) {
+            abort(400, $e->getMessage());
+        
+        } catch(UnauthorisedKeyActionException $e) {
+            abort(401, $e->getMessage());
+        
+        } catch(UserAlreadyBannedException $e) {
+            abort(400, $e->getMessage());
         }
-
-
-        // check for existing active bans
-        $existingBan = $this->banRepository->getActiveBanByGameUserId($playerGameUserId, $serverKey->server_id);
-        if(isset($existingBan)) {
-            abort(400, 'Player is already banned');
-        }
-
-        $ban = $this->banRepository->store([
-            'server_id'             => $serverKey->server_id,
-            'player_game_user_id'   => $playerGameUserId,
-            'staff_game_user_id'    => $staffGameUserId,
-            'reason'                => $reason,
-            'is_active'             => true,
-            'is_global_ban'         => $isGlobalBan,
-            'expires_at'            => $expiryTimestamp ? Carbon::createFromTimestamp($expiryTimestamp) : null,
-        ]);
-
-        $serverKey->touch();
-
-        // TODO: log usage of server key
 
         return response()->json([
             'status_code' => 200,
@@ -169,12 +114,6 @@ class BanController extends Controller
      * @return void
      */
     public function checkUserStatus(Request $request, Validator $validationFactory) {
-        $serverToken = $request->get('token');
-        $serverKey = $request->get('key');
-        
-        $playerIdentifierType   = $request->get('player_id_type');
-        $playerIdentifier       = $request->get('player_id');
-
         $validator = $validationFactory->make($request->all(), [
             'player_id_type'    => 'required',
             'player_id'         => 'required',
@@ -188,18 +127,18 @@ class BanController extends Controller
             ]);
         }
 
-        $playerAliasType  = $this->getAliasType($playerIdentifierType);
-        $playerGameUserId = $this->getOrCreateGameUserId($playerAliasType->user_alias_type_id, $playerIdentifier);
+        $serverKey      = $request->get('key');
+        $playerIdType   = $request->get('player_id_type');
+        $playerId       = $request->get('player_id');
 
-        $existingBan = $this->banRepository->getActiveBanByGameUserId($playerGameUserId, $serverKey->server_id);
-        $serverKey->touch();
-
-        // TODO: log usage of server key
+        $playerGameUserId = $this->gameUserLookup->getOrCreateGameUserId($playerIdType, $playerId);
+        $activeBan = $this->banService->getActivePlayerBan($serverKey, $playerGameUserId);
 
         return response()->json([
             'status_code' => 200,
             'data' => [
-                'is_banned' => isset($existingBan),
+                'is_banned' => isset($activeBan),
+                'ban'       => $activeBan,
             ],
         ]);
     }

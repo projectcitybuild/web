@@ -1,0 +1,63 @@
+<?php
+namespace App\Modules\Users\Services;
+
+use App\Modules\Users\Exceptions\InvalidAliasTypeException;
+
+class GameUserLookupService {
+
+    private $aliasTypeCache = [];
+
+    private $gameUserRepository;
+    private $aliasRepository;
+
+    public function __construct(GameUserRepository $gameUserRepository, UserAliasRepository $aliasRepository) {
+        $this->gameUserRepository = $gameUserRepository;
+        $this->aliasRepository = $aliasRepository;
+    }
+
+    /**
+     * Validates that the given identifier type matches a type stored in our database
+     *
+     * @param string $identifierType
+     * @throws InvalidAliastypeException
+     * @return UserAliasType
+     */
+    private function getAliasType(string $identifierType) : UserAliasType {
+        if(array_key_exists($identifierType, $this->aliasTypeCache)) {
+            return $this->aliasTypeCache[$identifierType];
+        }
+
+        $aliasType = $this->aliasRepository->getAliasType($identifierType);
+        if(is_null($aliasType)) {
+            throw new InvalidAliasTypeException('Invalid identifier type given ['.$identifierType.']');
+        }
+        return $aliasType;
+    }
+
+    /**
+     * Gets the GameUser id that belongs to the given alias type and alias, or
+     * alternatively creates a new GameUser if one does not exist
+     *
+     * @param string $aliasType
+     * @param string $alias
+     * @return GameUser
+     */
+    public function getOrCreateGameUserId(string $aliasType, string $alias) : int {
+        $playerAlias = $this->aliasRepository->getAlias($aliasTypeId, $alias);
+        if(is_null($playerAlias)) {
+            $player = $this->gameUserRepository->store();
+            $playerId = $player->game_user_id;
+
+            $this->aliasRepository->store(
+                $aliasTypeId,
+                $playerId, 
+                $alias
+            );
+
+            return $playerId;
+        }
+
+        return $playerAlias->game_user_id;
+    }
+
+}
