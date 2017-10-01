@@ -43,4 +43,16 @@ class GameBanRepository {
             ->first();
     }
 
+    /**
+     * Sets the given ban as inactive
+     *
+     * @param int $banId
+     * @return void
+     */
+    public function deactivateBan(int $banId) {
+        return $this->banModel
+            ->where('game_ban_id', $banId)
+            ->update(['is_active' => false]);
+    }
+
 }
