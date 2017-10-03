@@ -238,11 +238,6 @@ class ImportCommand extends Command
                         ->first();
                 });
 
-                $skipNames = ['everlarksdesire', 'DirtDog01', 'Manning Telfer?'];
-                if(in_array($username, $skipNames)) {
-                    continue;
-                }
-    
                 // check for a matching forum username
                 if(is_null($matchingForumUser)) {
                     
