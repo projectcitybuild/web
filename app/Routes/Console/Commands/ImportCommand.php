@@ -10,7 +10,10 @@ use App\Modules\Users\Models\UserAlias;
 use App\Modules\Users\Models\UserAliasType;
 use App\Modules\Users\Repositories\UserAliasRepository;
 use App\Modules\Servers\Repositories\ServerRepository;
+use App\Modules\Donations\Models\Donation;
+use App\Modules\Servers\Services\Mojang\UuidFetcher;
 use DB;
+use Cache;
 use Carbon\Carbon;
 
 class ImportCommand extends Command
@@ -33,16 +36,22 @@ class ImportCommand extends Command
     private $serverRepository;
 
     /**
+     * @var UuidFetcher
+     */
+    private $uuidFetcher;
+
+    /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(UserAliasRepository $aliasRepository, ServerRepository $serverRepository)
+    public function __construct(UserAliasRepository $aliasRepository, ServerRepository $serverRepository, UuidFetcher $uuidFetcher)
     {
         parent::__construct();
 
         $this->aliasRepository = $aliasRepository;
         $this->serverRepository = $serverRepository;
+        $this->uuidFetcher = $uuidFetcher;
     }
 
     /**
@@ -54,8 +63,14 @@ class ImportCommand extends Command
     {
         $module = $this->argument('module');
 
-        if($module === 'bans') {
-            $this->importBans();
+        switch($module) {
+            case 'bans':
+                return $this->importBans();
+            case 'donations':
+                return $this->importDonations();
+            default:
+                $this->error('Invalid import module name. Valid: [bans, donations]');
+                break;
         }
     }
 
@@ -182,5 +197,111 @@ class ImportCommand extends Command
             DB::rollBack();
             throw $e;
         }
+
+        $this->info('Import complete');
+    }
+
+    private function importDonations() {
+        $this->info('[Donation data importer]');
+        $this->warn('Warning: No check for existence is made before importing donations! This should only be run once in production');
+
+        $this->info('Importing game players...');
+        $donations = DB::connection('mysql_import_pcb')
+            ->table('donators')
+            ->select('*')
+            ->get();
+
+        $bar = $this->output->createProgressBar(count($donations));
+        DB::beginTransaction();
+        try {
+            foreach($donations as $donation) {
+
+                $expiryDate = Carbon::createFromFormat('Y-m-d', $donation->end_date);
+                $createDate = Carbon::createFromFormat('Y-m-d', $donation->start_date);
+    
+                $updateDate = $createDate;
+                $isActive = true;
+    
+                $hasExpired = !$donation->lifetime && $expiryDate <= Carbon::now();
+                if($hasExpired) {
+                    $updateDate = $expiryDate;
+                    $isActive = false;
+                }
+
+                $username = $donation->username;
+                $matchingForumUser = Cache::get('IMPORT_UUID:'.$username, function() use($username) {
+                    return DB::connection('mysql_forums')
+                        ->table('members')
+                        ->select('id_member', 'real_name', 'member_name')
+                        ->where('real_name', $username)
+                        ->orWhere('member_name', $username)
+                        ->first();
+                });
+
+                $skipNames = ['everlarksdesire', 'DirtDog01', 'Manning Telfer?'];
+                if(in_array($username, $skipNames)) {
+                    continue;
+                }
+    
+                // check for a matching forum username
+                if(is_null($matchingForumUser)) {
+                    
+                    // otherwise grab their uuid and try search by that
+                    $uuid = $this->uuidFetcher->getUuidOf($username, $createDate->getTimestamp() * 1000);
+            
+                    // if no uuid at the donation time, check for the original owner of the username
+                    if(!$uuid->isPlayer()) {
+                        $uuid = $this->uuidFetcher->getOriginalOwnerUuidOf($username);
+                    }
+
+                    // if uuid found, check if their current alias has a forum account
+                    if($uuid->isPlayer()) {
+                        $currentAlias = $uuid->getAlias();
+                        $this->info($currentAlias);
+
+                        $forumUser = DB::connection('mysql_forums')
+                            ->table('members')
+                            ->select('id_member', 'real_name')
+                            ->where('real_name', 'LIKE', $currentAlias)
+                            ->orWhere('member_name', $currentAlias)
+                            ->first();
+
+                        if($forumUser) {
+                            var_dump($forumUser);
+                            $matchingForumUser = $forumUser;
+                        }
+                    }
+                }
+
+                if(is_null($matchingForumUser)) {
+                    throw new \Exception('No forum account for ' . $username);                    
+                }
+
+                Cache::remember('IMPORT_UUID:'.$username, 30, function() use($matchingForumUser) { 
+                    return $matchingForumUser; 
+                });
+    
+                Donation::create([
+                    'forum_user_id' => $matchingForumUser->id_member,
+                    'amount' => $donation->amount,
+                    'perks_end_at' => $donation->lifetime ? null : $expiryDate,
+                    'prev_rank_id' => $donation->previous_rank > 0 ? $donation->previous_rank : null,
+                    'is_lifetime_perks' => $donation->lifetime,
+                    'is_active' => $isActive,
+                    'created_at' => $createDate,
+                    'updated_at' => $updateDate,
+                ]);
+    
+                $bar->advance();
+            }
+            DB::commit();
+        
+        } catch(\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+        
+
+        $this->info('Import complete');
     }
 }

@@ -35,14 +35,14 @@ class UuidFetcher {
 
         if($response->getStatusCode() == 200) {
             $body = json_decode($response->getBody());
-            return new UuidPlayer(
+            return new MojangPlayer(
                 $body->name, 
                 $body->id, 
                 isset($body->demo)
             );
         }
 
-        return new UuidPlayer();
+        return new MojangPlayer();
     }
 
     /**
