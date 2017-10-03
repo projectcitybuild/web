@@ -81,10 +81,11 @@ class BanService {
      * Stores a new unban for the given player id's current ban
      *
      * @param ServerKey $key
+     * @param int $playerGameUserId
      * @param int $staffGameUserId
      * @return GameUnban
      */
-    public function storeUnban(ServerKey $key, int $staffGameUserId) : GameUnban {
+    public function storeUnban(ServerKey $key, int $playerGameUserId, int $staffGameUserId) : GameUnban {
         $existingBan = $this->banRepository->getActiveBanByGameUserId($playerGameUserId, $serverKey->server_id);
         if(is_null($existingBan)) {
             throw new UserNotBannedException('This player is not currently banned');

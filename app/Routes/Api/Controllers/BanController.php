@@ -2,11 +2,10 @@
 
 namespace App\Routes\Api\Controllers;
 
-use App\Modules\Users\Services\GameUserLookupService;
 use App\Modules\Bans\Services\BanService;
+use App\Modules\Bans\Exceptions\{UnauthorisedKeyActionException, UserAlreadyBannedException};
+use App\Modules\Users\Services\GameUserLookupService;
 use App\Modules\Users\Exceptions\InvalidAliasTypeException;
-use App\Modules\Bans\Exceptions\UnauthorisedKeyActionException;
-use App\Modules\Bans\Exceptions\UserAlreadyBannedException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Factory as Validator;
 use Carbon\Carbon;
@@ -103,7 +102,50 @@ class BanController extends Controller
      * @return void
      */
     public function storeUnban(Request $request, Validator $validationFactory) {
+        $validator = $validationFactory->make($request->all(), [
+            'player_id_type'    => 'required',
+            'player_id'         => 'required',
+            'banner_id_type'    => 'required',
+            'banner_id'         => 'required',
+        ]);
+        
+        if($validator->fails()) {
+            return response()->json([
+                'message'       => 'Invalid or malformed input',
+                'status_code'   => 400,
+                'errors'        => $validator->errors(),
+            ]);
+        }
 
+        $serverKey          = $request->get('key');
+        $playerIdType       = $request->get('player_id_type');
+        $playerId           = $request->get('player_id');
+        $staffIdType        = $request->get('banner_id_type');
+        $staffId            = $request->get('banner_id');
+        
+        $unban = null;
+        try {
+            $playerGameUserId = $this->gameUserLookup->getOrCreateGameUserId($playerIdType, $playerId);
+            $staffGameUserId  = $this->gameUserLookup->getOrCreateGameUserId($staffIdType, $staffId);
+        
+            $unban = $this->banService->storeUnban($serverKey, $playerGameUserId, $staffGameUserId);
+
+        } catch(InvalidAliasTypeException $e) {
+            abort(400, $e->getMessage());
+        
+        } catch(UnauthorisedKeyActionException $e) {
+            abort(401, $e->getMessage());
+        
+        } catch(UserAlreadyBannedException $e) {
+            abort(400, $e->getMessage());
+        }
+
+        return response()->json([
+            'status_code' => 200,
+            'data' => [
+                'unban' => $unban,
+            ],
+        ]);
     }
 
     /**
@@ -151,7 +193,7 @@ class BanController extends Controller
      * @return void
      */
     public function getUserBanHistory(Request $request, Validator $validationFactory) {
-
+        
     }
 
 
