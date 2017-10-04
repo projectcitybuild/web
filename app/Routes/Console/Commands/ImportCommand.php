@@ -295,7 +295,6 @@ class ImportCommand extends Command
             DB::rollBack();
             throw $e;
         }
-        
 
         $this->info('Import complete');
     }
