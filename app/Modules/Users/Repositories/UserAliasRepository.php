@@ -55,4 +55,10 @@ class UserAliasRepository {
         ]);
     }
 
+    public function getAliasesByIds(array $aliasIds) {
+        return $this->aliasModel
+            ->whereIn('user_alias_id', $aliasIds)
+            ->get();
+    }
+
 }

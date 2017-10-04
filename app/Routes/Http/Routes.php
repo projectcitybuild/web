@@ -15,3 +15,5 @@ Route::get('/', [
     'uses' => 'HomeController@getView',
     'as' => 'home',
 ]);
+
+Route::view('bans', 'banlist')->name('banlist');

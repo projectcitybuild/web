@@ -27,4 +27,10 @@ class ServerRepository {
             ->first();
     }
 
+    public function getServersByIds(array $serverIds) {
+        return $this->serverModel
+            ->whereIn('server_id', $serverIds)
+            ->get();
+    }
+
 }

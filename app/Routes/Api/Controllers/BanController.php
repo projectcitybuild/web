@@ -4,7 +4,11 @@ namespace App\Routes\Api\Controllers;
 
 use App\Modules\Bans\Services\BanService;
 use App\Modules\Bans\Exceptions\{UnauthorisedKeyActionException, UserAlreadyBannedException};
+use App\Modules\Bans\Repositories\GameBanRepository;
+use App\Modules\Servers\Repositories\ServerRepository;
+use App\Modules\Users\Repositories\UserAliasRepository;
 use App\Modules\Users\Services\GameUserLookupService;
+use App\Modules\Bans\Transformers\BanResource;
 use App\Modules\Users\Exceptions\InvalidAliasTypeException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Factory as Validator;
@@ -197,4 +201,35 @@ class BanController extends Controller
     }
 
 
+    public function getBanList(Request $request, GameBanRepository $banRepository, ServerRepository $serverRepository, UserAliasRepository $aliasRepository) {
+        $page   = $request->input('page', 1);
+        $take   = $request->input('take', 50);
+        $offset = $request->input('offset', ($page - 1) * $take);
+
+        $bans = $banRepository->getBans($take, $offset);
+        $banCount = $banRepository->getBanCount();
+
+        // normalize servers and users
+        $serverIds = $bans->pluck('server_id')->unique()->toArray();
+        $servers = $serverRepository->getServersByIds($serverIds);
+
+        $playerAliasIds = $bans->pluck('player_game_user_id');
+        $staffAliasIds  = $bans->pluck('staff_game_user_id');
+        $aliasIds = $playerAliasIds->merge($staffAliasIds)->unique()->toArray();
+        $aliases = $aliasRepository->getAliasesByIds($aliasIds);
+
+        return response()->json([
+            'status_code' => 200,
+            'data' => BanResource::collection($bans),
+            'relations' => [
+                'servers' => $servers->keyBy('server_id'),
+                'aliases' => $aliases->keyBy('user_alias_id'),
+            ],
+            'meta' => [
+                'count' => $banCount,
+                'start' => $offset,
+                'end'   => min($offset + $take, $banCount),
+            ],
+        ]);
+    }
 }

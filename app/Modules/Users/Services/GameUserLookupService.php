@@ -2,6 +2,8 @@
 namespace App\Modules\Users\Services;
 
 use App\Modules\Users\Exceptions\InvalidAliasTypeException;
+use App\Modules\Users\Repositories\GameUserRepository;
+use App\Modules\Users\Repositories\UserAliasRepository;
 
 class GameUserLookupService {
 

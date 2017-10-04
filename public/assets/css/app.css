@@ -1494,3 +1494,61 @@ footer .right .social a:not(:last-child) {
             flex-direction: column;
   }
 }
+
+.banlist-layout {
+  background: #fff;
+  border-radius: 5px;
+  margin-bottom: 1em;
+  width: 100%;
+}
+
+.banlist-layout .ban-header {
+  background: #f7f7f7;
+  padding: 1em;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.banlist-layout .ban-contents {
+  padding: 1em;
+}
+
+.banlist-layout .table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.banlist-layout table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.banlist-layout thead {
+  text-transform: uppercase;
+  font-size: 0.8em;
+  background-color: #fff;
+  border: 1px solid #e7e7e7;
+  border-bottom: 3px solid #efefef;
+  color: #534741;
+}
+
+.banlist-layout thead td {
+  padding: 1em 0.75em;
+}
+
+.banlist-layout tbody tr:not(:first-child) {
+  border-top: 1px solid #efefef;
+}
+
+.banlist-layout tbody td {
+  padding: 0.6em 0.75em;
+  font-size: 0.8em;
+}
+
+.banlist-layout tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.banlist-layout tbody tr:nth-child(odd) {
+  background-color: whitesmoke;
+}

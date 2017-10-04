@@ -55,4 +55,28 @@ class GameBanRepository {
             ->update(['is_active' => false]);
     }
 
+    /**
+     * Returns a collection of GameBans
+     *
+     * @param int $take
+     * @param int $offset
+     * @param array $sort
+     * @return void
+     */
+    public function getBans(int $take = 50, int $offset = 0, array $sort = null) {
+        return $this->banModel
+            ->when(isset($sort), function($q) use($sort) {
+                return $q->orderBy($sort[0], $sort[1]);
+            })
+            ->when(is_null($sort), function($q) {
+                return $q->orderBy('game_ban_id', 'DESC');
+            })
+            ->take($take)
+            ->skip($offset)
+            ->get();
+    }
+
+    public function getBanCount() {
+        return $this->banModel->count();
+    }
 }
