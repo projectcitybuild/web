@@ -1,6 +1,6 @@
-@extends('layouts.master')
+@extends('layouts.sidebar-layout')
 
-@section('contents')
+@section('left')
 <div id="showcase"></div>
 
 @foreach($announcements as $announcement)
@@ -42,7 +42,7 @@
 
 @endsection
 
-@section('sidebar')
+@section('right')
 <a class="btn-divided orange">
     <div class="icon"><i class="fa fa-angle-right"></i></div>
     <div class="text">Create an Account</div>
@@ -52,7 +52,7 @@
     <div class="panel-container">
         <h3>Help Keep Us Online</h3>
         <div class="bar-outer">
-            <div class="bar-inner" style="width:15%"></div>
+            <div class="bar-inner" style="width:{{ $donations['percentage'] }}%"></div>
         </div>
         <div class="bar-markers">
             <span>0</span>
@@ -65,11 +65,11 @@
 
     <div class="stats">
         <div>
-            <h4>$176.01</h4>
+            <h4>${{ $donations['total'] }}</h4>
             <span>Funds Raised</span>
         </div>
         <div>
-            <h4>42</h4>
+            <h4>{{ $donations['remainingDays'] }}</h4>
             <span>Remaining Days</span>
         </div>
     </div>

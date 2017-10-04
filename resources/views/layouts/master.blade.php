@@ -107,12 +107,7 @@
             </header>
             
             <main class="container">
-                <div class="left">
-                    @yield('contents')
-                </div>
-                <div class="right">
-                    @yield('sidebar')
-                </div>
+                @yield('contents')
             </main>
 
             <footer>
