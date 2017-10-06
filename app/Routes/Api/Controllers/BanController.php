@@ -213,11 +213,10 @@ class BanController extends Controller
         $serverIds = $bans->pluck('server_id')->unique()->toArray();
         $servers = $serverRepository->getServersByIds($serverIds);
 
-        $playerAliasIds = $bans->pluck('player_game_user_id');
-        $staffAliasIds  = $bans->pluck('staff_game_user_id');
-        $aliasIds = $playerAliasIds->merge($staffAliasIds)->unique()->toArray();
-        $aliases = $aliasRepository->getAliasesByIds($aliasIds);
+        $bannedAliasIds = $bans->pluck('banned_alias_id')->unique()->toArray();
+        $aliases = $aliasRepository->getAliasesByIds($bannedAliasIds);
 
+        
         return response()->json([
             'status_code' => 200,
             'data' => BanResource::collection($bans),

@@ -49,13 +49,14 @@ export default class BanList extends Component {
         return (
             <tr key={ban.game_ban_id}>
                 <td>{totalBans - index}</td>
-                <td>{aliases[ban.player_alias_id].alias}</td>
-                <td>test</td>
+                <td>{aliases[ban.banned_alias_id].alias}</td>
+                <td>{ban.player_alias_at_ban}</td>
                 <td>{ban.reason || '-'}</td>
-                <td>test</td>
+                <td></td>
                 <td>{createdAt}</td>
                 <td>{expiresAt}</td>
                 <td>{ban.is_global_ban && <i className="fa fa-check"></i>}</td>
+                <td>{ban.is_active && <i className="fa fa-check"></i>}</td>
                 <td>{servers[ban.server_id].name}</td>
             </tr>
         );
@@ -84,7 +85,8 @@ export default class BanList extends Component {
                                     <td>Ban Date</td>
                                     <td>Expires</td>
                                     <td>Global Ban</td>
-                                    <td>Banned On</td>
+                                    <td>Ban Active</td>
+                                    <td>Server Banned On</td>
                                 </tr>
                             </thead>
                             <tbody>

@@ -24117,23 +24117,19 @@ var BanList = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'td',
                     null,
-                    aliases[ban.player_alias_id].alias
+                    aliases[ban.banned_alias_id].alias
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'td',
                     null,
-                    'test'
+                    ban.player_alias_at_ban
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'td',
                     null,
                     ban.reason || '-'
                 ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    null,
-                    'test'
-                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('td', null),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'td',
                     null,
@@ -24148,6 +24144,11 @@ var BanList = function (_Component) {
                     'td',
                     null,
                     ban.is_global_ban && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-check' })
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'td',
+                    null,
+                    ban.is_active && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-check' })
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'td',
@@ -24241,7 +24242,12 @@ var BanList = function (_Component) {
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'td',
                                         null,
-                                        'Banned On'
+                                        'Ban Active'
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'td',
+                                        null,
+                                        'Server Banned On'
                                     )
                                 )
                             ),
