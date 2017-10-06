@@ -25,6 +25,7 @@ class GameUserLookupService {
      * @return UserAliasType
      */
     private function getAliasType(string $identifierType) : UserAliasType {
+        // TODO: use persistent storage
         if(array_key_exists($identifierType, $this->aliasTypeCache)) {
             return $this->aliasTypeCache[$identifierType];
         }
@@ -33,6 +34,8 @@ class GameUserLookupService {
         if(is_null($aliasType)) {
             throw new InvalidAliasTypeException('Invalid identifier type given ['.$identifierType.']');
         }
+        
+        $this->aliasTypeCache[$identifierType] = $aliasType;
         return $aliasType;
     }
 
