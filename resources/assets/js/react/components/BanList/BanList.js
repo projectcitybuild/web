@@ -46,10 +46,22 @@ export default class BanList extends Component {
         const createdAt = moment.unix(ban.created_at).format('llll');
         const expiresAt = ban.expires_at ? moment.unix(ban.expires_at).format('llll') : '-';
 
+        const playerAlias = aliases[ban.banned_alias_id];
+
+        // TODO: remove hardcoded 'minecraft server' check for minotar display
+        let avatar;
+        if(ban.server_id == 1) {
+            avatar = <img src={'https://minotar.net/helm/'+ ban.player_alias_at_ban +'/16'} width="16" height="16" />
+        }
+        if(ban.server_id == 'some_steam_server') {
+            avatar = <i className="fa fa-steam-square"></i>;
+        }
+
         return (
-            <tr key={ban.game_ban_id}>
+            <tr key={ban.game_ban_id} className={ !ban.is_active ? 'inactive' : '' }>
                 <td>{totalBans - index}</td>
-                <td>{aliases[ban.banned_alias_id].alias}</td>
+                <td>{playerAlias.alias}</td>
+                <td>{avatar}</td>
                 <td>{ban.player_alias_at_ban}</td>
                 <td>{ban.reason || '-'}</td>
                 <td></td>
@@ -79,7 +91,7 @@ export default class BanList extends Component {
                                 <tr>
                                     <td>#</td>
                                     <td>Banned Identifier</td>
-                                    <td>Alias Used</td>
+                                    <td colSpan="2">Alias Used</td>
                                     <td>Reason</td>
                                     <td>Banned By</td>
                                     <td>Ban Date</td>

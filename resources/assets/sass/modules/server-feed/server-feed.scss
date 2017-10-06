@@ -14,7 +14,8 @@ server-category {
 
 server {
     width: 100%;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 5px;
     padding: 0.35em;
     margin-right: 0.5em;
     margin-bottom: 0.15em;
@@ -22,11 +23,6 @@ server {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
-    &:first-child {
-        border-radius: 3px 3px 0 0;
-        border: 5px solid #ccc;
-    }
 
     .title {
         flex: 1;

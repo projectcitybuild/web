@@ -102,6 +102,11 @@
         padding: 0.8em 2.5em;
     }
 
+    &.small {
+        padding: 0.25em 1em;
+        border-bottom-width: 3px;
+    }
+
     &.gray {
         background: $colour-secondary;
         color: #fff;

@@ -47,10 +47,19 @@
             font-size: 0.7em;
         }
         tr:nth-child(even) {
-            background-color: #fafafa;
+            background-color: #fff;
         }
         tr:nth-child(odd) {
             background-color: #fff;
+        }
+
+        tr.inactive {
+            background-color: #fafafa;
+            color: #BDBDBD;
+
+            img {
+                opacity: 0.2;
+            }
         }
     }
 }

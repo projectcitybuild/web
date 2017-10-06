@@ -24106,9 +24106,20 @@ var BanList = function (_Component) {
             var createdAt = __WEBPACK_IMPORTED_MODULE_2_moment___default.a.unix(ban.created_at).format('llll');
             var expiresAt = ban.expires_at ? __WEBPACK_IMPORTED_MODULE_2_moment___default.a.unix(ban.expires_at).format('llll') : '-';
 
+            var playerAlias = aliases[ban.banned_alias_id];
+
+            // TODO: remove hardcoded 'minecraft server' check for minotar display
+            var avatar = void 0;
+            if (ban.server_id == 1) {
+                avatar = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: 'https://minotar.net/helm/' + ban.player_alias_at_ban + '/16', width: '16', height: '16' });
+            }
+            if (ban.server_id == 'some_steam_server') {
+                avatar = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-steam-square' });
+            }
+
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'tr',
-                { key: ban.game_ban_id },
+                { key: ban.game_ban_id, className: !ban.is_active ? 'inactive' : '' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'td',
                     null,
@@ -24117,7 +24128,12 @@ var BanList = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'td',
                     null,
-                    aliases[ban.banned_alias_id].alias
+                    playerAlias.alias
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'td',
+                    null,
+                    avatar
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'td',
@@ -24211,7 +24227,7 @@ var BanList = function (_Component) {
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'td',
-                                        null,
+                                        { colSpan: '2' },
                                         'Alias Used'
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(

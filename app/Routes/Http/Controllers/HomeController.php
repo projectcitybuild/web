@@ -43,7 +43,7 @@ class HomeController extends Controller
             'donations' => [
                 'total'         => $donations,
                 'remainingDays' => $lastDayOfYear->diff($now)->days,
-                'percentage'    => $percentage,
+                'percentage'    => max(3, $percentage),
             ],
         ]);
     }

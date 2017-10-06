@@ -829,6 +829,11 @@ body {
   padding: 0.8em 2.5em;
 }
 
+.btn.small {
+  padding: 0.25em 1em;
+  border-bottom-width: 3px;
+}
+
 .btn.gray {
   background: #534741;
   color: #fff;
@@ -883,7 +888,8 @@ server-category h5 {
 
 server {
   width: 100%;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 5px;
   padding: 0.35em;
   margin-right: 0.5em;
   margin-bottom: 0.15em;
@@ -900,11 +906,6 @@ server {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-}
-
-server:first-child {
-  border-radius: 3px 3px 0 0;
-  border: 5px solid #ccc;
 }
 
 server .title {
@@ -1099,10 +1100,12 @@ header {
           align-items: center;
   padding: 4em 10%;
   padding-top: 5em;
-  background: #90cefd;
-  background: -webkit-gradient(linear, left top, left bottom, from(#90cefd), to(#daf8ff));
-  background: linear-gradient(to bottom, #90cefd 0%, #daf8ff 100%);
+  background: #daf8ff;
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#90cefd', endColorstr='#daf8ff',GradientType=0 );
+  background: url(/assets/images/clouds.jpg) #82c4ff;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: bottom;
   border-bottom: 30px solid #cbeaf5;
 }
 
@@ -1546,9 +1549,18 @@ footer .right .social a:not(:last-child) {
 }
 
 .banlist-layout tbody tr:nth-child(even) {
-  background-color: #fafafa;
+  background-color: #fff;
 }
 
 .banlist-layout tbody tr:nth-child(odd) {
   background-color: #fff;
+}
+
+.banlist-layout tbody tr.inactive {
+  background-color: #fafafa;
+  color: #BDBDBD;
+}
+
+.banlist-layout tbody tr.inactive img {
+  opacity: 0.2;
 }

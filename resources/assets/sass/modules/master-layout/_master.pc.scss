@@ -23,11 +23,15 @@ header {
     padding: 4em 10%;
     padding-top: 5em;
     
-    background: #90cefd;
-    background: -moz-linear-gradient(top, #90cefd 0%, #daf8ff 100%);
-    background: -webkit-linear-gradient(top, #90cefd 0%,#daf8ff 100%);
-    background: linear-gradient(to bottom, #90cefd 0%,#daf8ff 100%);
+    background: #daf8ff;
+    // background: url(/assets/images/clouds.jpg), -moz-linear-gradient(top, #90cefd 0%, #daf8ff 100%);
+    // background: url(/assets/images/clouds.jpg), -webkit-linear-gradient(top, #90cefd 0%,#daf8ff 100%);
+    // background: url(/assets/images/clouds.jpg), linear-gradient(to bottom, #90cefd 0%,#daf8ff 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#90cefd', endColorstr='#daf8ff',GradientType=0 );
+    background: url(/assets/images/clouds.jpg) #82c4ff;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: bottom;
 
     border-bottom: 30px solid #cbeaf5;
 
