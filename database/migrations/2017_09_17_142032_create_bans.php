@@ -18,14 +18,17 @@ class CreateBans extends Migration
             $table->integer('server_id')->unsigned()->nullable();
             $table->integer('player_game_user_id')->unsigned();
             $table->integer('staff_game_user_id')->unsigned()->nullable();
+            $table->integer('banned_alias_id')->unsigned()->comment('The particular alias id that was banned');
+            $table->string('player_alias_at_ban')->nullable()->comment('Alias of the player at the time of ban; used merely for display purposes since UUIDs are not read friendly');
             $table->text('reason')->nullable();
-            $table->boolean('is_active');
-            $table->boolean('is_global_ban')->default(true);
-            $table->timestamp('expires_at')->nullable();
+            $table->boolean('is_active')->comment('Whether the ban is active');
+            $table->boolean('is_global_ban')->default(true)->comment('Whether this player is banned on all PCB servers, not just the server they were banned on');
+            $table->timestamp('expires_at')->nullable()->comment('Date that this ban auto-expires on');
             $table->timestamps();
 
             $table->foreign('player_game_user_id')->references('game_user_id')->on('game_users');
             $table->foreign('staff_game_user_id')->references('game_user_id')->on('game_users');
+            $table->foreign('banned_alias_id')->references('user_alias_id')->on('user_aliases');
         });
 
         Schema::create('game_network_unbans', function (Blueprint $table) {
