@@ -15,15 +15,33 @@ export default class BanList extends Component {
             aliases: [],
             viewState: constants.STATE_INIT,
             totalBans: 0,
+            page: 1,
         };
 
         this.renderRow = this.renderRow.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
+        this.handleFetch = this.handleFetch.bind(this);
+        this.handlePaginateFetch = this.handlePaginateFetch.bind(this);
     }
 
     componentDidMount() {
+        window.addEventListener('scroll', this.handleScroll);
+        this.handleFetch();
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
+    }
+
+    /**
+     * Fetches fresh data from the ban list (and resets back to the first page)
+     * 
+     * @param object filters 
+     */
+    handleFetch(filters) {
         this.setState({ viewState: constants.STATE_FETCHING });
 
-        api.getBanList()
+        api.getBanList(1, filters)
             .then(response => {
                 const { data } = response;
                 this.setState({
@@ -32,7 +50,8 @@ export default class BanList extends Component {
                     aliases: data.relations.aliases,
                     viewState: constants.STATE_READY,
                     totalBans: data.meta.count,
-                }, () => console.log(this.state));
+                    page: 1,
+                });
             })
             .catch(error => {
                 console.log(error);
@@ -40,6 +59,59 @@ export default class BanList extends Component {
             });
     }
 
+    /**
+     * Fetches the next page of the ban list, reusing any currently set filters
+     */
+    handlePaginateFetch() {
+        api.getBanList(this.state.page + 1)
+            .then(response => {
+                const { data } = response;
+                this.setState({
+                    bans: this.state.bans.concat(data.data),
+                    servers: Object.assign({}, this.state.servers, data.relations.servers),
+                    aliases: Object.assign({}, this.state.aliases, data.relations.aliases),
+                    viewState: constants.STATE_READY,
+                    page: this.state.page + 1,
+                });
+            })
+            .catch(error => {
+                console.log(error);
+                this.setState({ viewState: constants.STATE_FETCH_FAILED });
+            });
+    }
+
+    /**
+     * Checks if the user has scrolled to the bottom of the component. If they
+     * have, triggers a new api fetch of the next page
+     */
+    handleScroll() {
+        const component = document.getElementById('banlistComponent');
+
+        const scrollY = window.scrollY;
+        const bottomOfComponent = component.offsetHeight - component.offsetTop;
+        
+        if(scrollY >= bottomOfComponent) {
+            if(!this.isEndOfData && this.state.viewState == constants.STATE_READY) {
+                // call fetch after state has updated to prevent race
+                this.setState({ viewState: constants.STATE_FETCHING }, () => this.handlePaginateFetch());
+            }
+        }
+    }
+
+    /**
+     * Returns whether fetching the next page from the api would yield any data
+     * @return bool
+     */
+    isEndOfData() {
+        return this.state.bans.length >= this.state.totalBans;
+    }
+
+    /**
+     * Returns a single JSX <tr> row for a ban
+     * 
+     * @param {*} ban 
+     * @param {*} index 
+     */
     renderRow(ban, index) {
         const { servers, aliases, totalBans } = this.state;
 
@@ -79,7 +151,7 @@ export default class BanList extends Component {
         const banList = bans.map((ban, index) => this.renderRow(ban, index));
 
         return (
-            <div className="panel banlist-layout">
+            <div className="panel banlist-layout" id="banlistComponent">
                 <div className="ban-header">
                     The below <strong>{totalBans}</strong> players are currently banned from connecting to our game network.
                 </div>

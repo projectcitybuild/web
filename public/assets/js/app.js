@@ -24063,21 +24063,43 @@ var BanList = function (_Component) {
             servers: [],
             aliases: [],
             viewState: __WEBPACK_IMPORTED_MODULE_4__constants__["c" /* STATE_INIT */],
-            totalBans: 0
+            totalBans: 0,
+            page: 1
         };
 
         _this.renderRow = _this.renderRow.bind(_this);
+        _this.handleScroll = _this.handleScroll.bind(_this);
+        _this.handleFetch = _this.handleFetch.bind(_this);
+        _this.handlePaginateFetch = _this.handlePaginateFetch.bind(_this);
         return _this;
     }
 
     _createClass(BanList, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
+            window.addEventListener('scroll', this.handleScroll);
+            this.handleFetch();
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            window.removeEventListener('scroll', this.handleScroll);
+        }
+
+        /**
+         * Fetches fresh data from the ban list (and resets back to the first page)
+         * 
+         * @param object filters 
+         */
+
+    }, {
+        key: 'handleFetch',
+        value: function handleFetch(filters) {
             var _this2 = this;
 
             this.setState({ viewState: __WEBPACK_IMPORTED_MODULE_4__constants__["a" /* STATE_FETCHING */] });
 
-            __WEBPACK_IMPORTED_MODULE_3__api__["a" /* getBanList */]().then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_3__api__["a" /* getBanList */](1, filters).then(function (response) {
                 var data = response.data;
 
                 _this2.setState({
@@ -24085,15 +24107,83 @@ var BanList = function (_Component) {
                     servers: data.relations.servers,
                     aliases: data.relations.aliases,
                     viewState: __WEBPACK_IMPORTED_MODULE_4__constants__["d" /* STATE_READY */],
-                    totalBans: data.meta.count
-                }, function () {
-                    return console.log(_this2.state);
+                    totalBans: data.meta.count,
+                    page: 1
                 });
             }).catch(function (error) {
                 console.log(error);
                 _this2.setState({ viewState: __WEBPACK_IMPORTED_MODULE_4__constants__["b" /* STATE_FETCH_FAILED */] });
             });
         }
+
+        /**
+         * Fetches the next page of the ban list, reusing any currently set filters
+         */
+
+    }, {
+        key: 'handlePaginateFetch',
+        value: function handlePaginateFetch() {
+            var _this3 = this;
+
+            __WEBPACK_IMPORTED_MODULE_3__api__["a" /* getBanList */](this.state.page + 1).then(function (response) {
+                var data = response.data;
+
+                _this3.setState({
+                    bans: _this3.state.bans.concat(data.data),
+                    servers: Object.assign({}, _this3.state.servers, data.relations.servers),
+                    aliases: Object.assign({}, _this3.state.aliases, data.relations.aliases),
+                    viewState: __WEBPACK_IMPORTED_MODULE_4__constants__["d" /* STATE_READY */],
+                    page: _this3.state.page + 1
+                });
+            }).catch(function (error) {
+                console.log(error);
+                _this3.setState({ viewState: __WEBPACK_IMPORTED_MODULE_4__constants__["b" /* STATE_FETCH_FAILED */] });
+            });
+        }
+
+        /**
+         * Checks if the user has scrolled to the bottom of the component. If they
+         * have, triggers a new api fetch of the next page
+         */
+
+    }, {
+        key: 'handleScroll',
+        value: function handleScroll() {
+            var _this4 = this;
+
+            var component = document.getElementById('banlistComponent');
+
+            var scrollY = window.scrollY;
+            var bottomOfComponent = component.offsetHeight - component.offsetTop;
+
+            if (scrollY >= bottomOfComponent) {
+                if (!this.isEndOfData && this.state.viewState == __WEBPACK_IMPORTED_MODULE_4__constants__["d" /* STATE_READY */]) {
+                    // call fetch after state has updated to prevent race
+                    this.setState({ viewState: __WEBPACK_IMPORTED_MODULE_4__constants__["a" /* STATE_FETCHING */] }, function () {
+                        return _this4.handlePaginateFetch();
+                    });
+                }
+            }
+        }
+
+        /**
+         * Returns whether fetching the next page from the api would yield any data
+         * @return bool
+         */
+
+    }, {
+        key: 'isEndOfData',
+        value: function isEndOfData() {
+            return this.state.bans.length >= this.state.totalBans;
+        }
+
+        /**
+         * Returns a single JSX <tr> row for a ban
+         * 
+         * @param {*} ban 
+         * @param {*} index 
+         */
+
     }, {
         key: 'renderRow',
         value: function renderRow(ban, index) {
@@ -24176,19 +24266,19 @@ var BanList = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this5 = this;
 
             var _state2 = this.state,
                 bans = _state2.bans,
                 totalBans = _state2.totalBans;
 
             var banList = bans.map(function (ban, index) {
-                return _this3.renderRow(ban, index);
+                return _this5.renderRow(ban, index);
             });
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
-                { className: 'panel banlist-layout' },
+                { className: 'panel banlist-layout', id: 'banlistComponent' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'ban-header' },
@@ -24307,7 +24397,13 @@ var apiInstance = __WEBPACK_IMPORTED_MODULE_0_axios___default.a.create({
 });
 
 var getBanList = function getBanList() {
-    return apiInstance.post('list');
+    var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+    var filters = arguments[1];
+
+    return apiInstance.post('list', {
+        take: 50,
+        page: page
+    });
 };
 
 /***/ }),

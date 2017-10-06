@@ -6,6 +6,9 @@ const apiInstance = axios.create({
     timeout: 8000,
 });
 
-export const getBanList = () => {
-    return apiInstance.post('list');
+export const getBanList = (page = 1, filters) => {
+    return apiInstance.post('list', {
+        take: 50,
+        page: page,
+    });
 }
