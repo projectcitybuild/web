@@ -1,4 +1,5 @@
 require('./react/components/GalleryShowcase/GalleryShowcase');
+require('./react/components/BanList/BanList');
 
 
 var _gaq = _gaq || [];

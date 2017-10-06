@@ -142,6 +142,7 @@
         </div>
 
         <script src="{{ mix('assets/js/app.js') }}"></script>
-
+        <script src="https://use.fontawesome.com/6a679158b3.js"></script>
+        
     </body>
 </html>

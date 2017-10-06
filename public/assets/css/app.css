@@ -1550,5 +1550,5 @@ footer .right .social a:not(:last-child) {
 }
 
 .banlist-layout tbody tr:nth-child(odd) {
-  background-color: whitesmoke;
+  background-color: #fff;
 }

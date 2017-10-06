@@ -14,6 +14,7 @@ class BanResource extends Resource
      */
     public function toArray($request) {
         return [
+            'game_ban_id'       => $this->game_ban_id,
             'server_id'         => $this->server_id,
             'player_alias_id'   => $this->player_game_user_id,
             'banner_alias_id'   => $this->staff_game_user_id,
