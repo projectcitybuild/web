@@ -24,6 +24,8 @@ class GameBan extends Model {
         'server_id',
         'player_game_user_id',
         'staff_game_user_id',
+        'banned_alias_id',
+        'player_alias_at_ban',
         'reason',
         'is_active',
         'is_global_ban',

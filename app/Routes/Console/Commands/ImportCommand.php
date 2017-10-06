@@ -90,6 +90,9 @@ class ImportCommand extends Command
         $playerBar = $this->output->createProgressBar(count($players));
         $playerList = [];
 
+        $playerIdToUuid = [];
+        $playerIdToAlias = [];
+
         DB::beginTransaction();
         try {
             foreach($players as $player) {
@@ -115,6 +118,9 @@ class ImportCommand extends Command
                         'alias' => $player->alias,
                         'game_user_id' => $gameUser->game_user_id,
                     ]);
+
+                    $playerIdToUuid[$userAlias->game_user_id] = $userAlias->user_alias_id;
+                    $playerIdToAlias[$userAlias->game_user_id] = $player->alias;
                 }
                 $playerList[$player->id] = $userAlias->game_user_id;
                 
@@ -144,10 +150,14 @@ class ImportCommand extends Command
         DB::beginTransaction();
         try {
             foreach($bans as $oldBan) {
+                $newPlayerId = $playerList[$oldBan->player_id];
+
                 $newBan = GameBan::create([
                     'server_id' => $minecraftServer->server_id,
-                    'player_game_user_id' => $playerList[$oldBan->player_id],
+                    'player_game_user_id' => $newPlayerId,
                     'staff_game_user_id' => $oldBan->staff_id == 2 || $oldBan->staff_id == 4956 ? null : $playerList[$oldBan->staff_id],
+                    'banned_alias_id' => $playerIdToUuid[$newPlayerId],
+                    'player_alias_at_ban' => $playerIdToAlias[$newPlayerId],
                     'reason' => $oldBan->reason,
                     'is_active' => $oldBan->is_banned,
                     'is_global_ban' => true,
