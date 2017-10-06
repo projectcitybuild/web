@@ -7,23 +7,29 @@ Version 3.5 - basically just a supercharged, coat of fresh paint on the current 
 Mostly behind the scenes stuff.
 * Mobile responsive
 * Powered by Laravel
-* A few UI components are powered by ReactJS (eg. the server feed)
-* Version 1 of the Ban API (coming soon)
+* A few UI components are powered by React (eg. the ban list)
+* Version 1 of the universal ban API
+
+### Stack
+* Laravel 5.5
+* ReactJS 15
+
+### Requirements
+* PHP 7.0
+* MySQL/MariaDB
 
 ### What still needs to be built before launch?
 - [ ] Ban API
 - [ ] Server querying
 - [x] 'Recent Posts' sidebar integration with SMF
 - [ ] Ban appeals
-- [ ] Donations
+- [x] Donations
 - [ ] Apply for staff
-- [ ] Ban list
-- [ ] General polish
+- [x] Ban list
 
-If there's time, I'd also like to automate donation processing, but I doubt it'll get done by the release date.
 
 ### When will this release?
-Tentatively aiming for the end of this month (September 2017).
+Tentatively aiming for the end of this month (October 2017).
 
 ### Can I contribute?
-Absolutely. Feel free to have at it and send pull requests any time. I'd be thrilled to have some help since I'm very short on time.
+Absolutely. Feel free to send pull requests any time. I'd be thrilled to have some help since I'm very short on time.
