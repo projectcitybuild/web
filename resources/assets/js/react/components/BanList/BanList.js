@@ -91,9 +91,9 @@ export default class BanList extends Component {
         const bottomOfComponent = component.offsetHeight - component.offsetTop;
         
         if(scrollY >= bottomOfComponent) {
-            if(!this.isEndOfData && this.state.viewState == constants.STATE_READY) {
+            if(!this.isEndOfData() && this.state.viewState == constants.STATE_READY) {
                 // call fetch after state has updated to prevent race
-                this.setState({ viewState: constants.STATE_FETCHING }, () => this.handlePaginateFetch());
+                this.setState({ viewState: constants.STATE_FETCHING_PAGE }, () => this.handlePaginateFetch());
             }
         }
     }
