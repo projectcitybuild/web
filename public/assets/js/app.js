@@ -39570,8 +39570,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__api__ = __webpack_require__(333);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__constants__ = __webpack_require__(334);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_halogen_ScaleLoader__ = __webpack_require__(354);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_halogen_ScaleLoader___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_halogen_ScaleLoader__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api__ = __webpack_require__(333);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__constants__ = __webpack_require__(334);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39579,6 +39581,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -39599,9 +39602,13 @@ var BanList = function (_Component) {
             bans: [],
             servers: [],
             aliases: [],
-            viewState: __WEBPACK_IMPORTED_MODULE_4__constants__["d" /* STATE_INIT */],
+            viewState: __WEBPACK_IMPORTED_MODULE_5__constants__["d" /* STATE_INIT */],
             totalBans: 0,
-            page: 1
+            page: 1,
+            sort: {
+                field: 'created_at',
+                direction: 'DESC'
+            }
         };
 
         _this.renderRow = _this.renderRow.bind(_this);
@@ -39631,25 +39638,28 @@ var BanList = function (_Component) {
 
     }, {
         key: 'handleFetch',
-        value: function handleFetch(filters) {
+        value: function handleFetch() {
             var _this2 = this;
 
-            this.setState({ viewState: __WEBPACK_IMPORTED_MODULE_4__constants__["a" /* STATE_FETCHING */] });
+            var sortBy = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.state.sort;
+            var filters = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-            __WEBPACK_IMPORTED_MODULE_3__api__["a" /* getBanList */](1, filters).then(function (response) {
+            this.setState({ viewState: __WEBPACK_IMPORTED_MODULE_5__constants__["a" /* STATE_FETCHING */] });
+
+            __WEBPACK_IMPORTED_MODULE_4__api__["a" /* getBanList */](1, sortBy, filters).then(function (response) {
                 var data = response.data;
 
                 _this2.setState({
                     bans: data.data,
                     servers: data.relations.servers,
                     aliases: data.relations.aliases,
-                    viewState: __WEBPACK_IMPORTED_MODULE_4__constants__["e" /* STATE_READY */],
+                    viewState: __WEBPACK_IMPORTED_MODULE_5__constants__["e" /* STATE_READY */],
                     totalBans: data.meta.count,
                     page: 1
                 });
             }).catch(function (error) {
                 console.log(error);
-                _this2.setState({ viewState: __WEBPACK_IMPORTED_MODULE_4__constants__["c" /* STATE_FETCH_FAILED */] });
+                _this2.setState({ viewState: __WEBPACK_IMPORTED_MODULE_5__constants__["c" /* STATE_FETCH_FAILED */] });
             });
         }
 
@@ -39662,19 +39672,19 @@ var BanList = function (_Component) {
         value: function handlePaginateFetch() {
             var _this3 = this;
 
-            __WEBPACK_IMPORTED_MODULE_3__api__["a" /* getBanList */](this.state.page + 1).then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_4__api__["a" /* getBanList */](this.state.page + 1).then(function (response) {
                 var data = response.data;
 
                 _this3.setState({
                     bans: _this3.state.bans.concat(data.data),
                     servers: Object.assign({}, _this3.state.servers, data.relations.servers),
                     aliases: Object.assign({}, _this3.state.aliases, data.relations.aliases),
-                    viewState: __WEBPACK_IMPORTED_MODULE_4__constants__["e" /* STATE_READY */],
+                    viewState: __WEBPACK_IMPORTED_MODULE_5__constants__["e" /* STATE_READY */],
                     page: _this3.state.page + 1
                 });
             }).catch(function (error) {
                 console.log(error);
-                _this3.setState({ viewState: __WEBPACK_IMPORTED_MODULE_4__constants__["c" /* STATE_FETCH_FAILED */] });
+                _this3.setState({ viewState: __WEBPACK_IMPORTED_MODULE_5__constants__["c" /* STATE_FETCH_FAILED */] });
             });
         }
 
@@ -39694,9 +39704,9 @@ var BanList = function (_Component) {
             var bottomOfComponent = component.offsetHeight - component.offsetTop;
 
             if (scrollY >= bottomOfComponent) {
-                if (!this.isEndOfData() && this.state.viewState == __WEBPACK_IMPORTED_MODULE_4__constants__["e" /* STATE_READY */]) {
+                if (!this.isEndOfData() && this.state.viewState == __WEBPACK_IMPORTED_MODULE_5__constants__["e" /* STATE_READY */]) {
                     // call fetch after state has updated to prevent race
-                    this.setState({ viewState: __WEBPACK_IMPORTED_MODULE_4__constants__["b" /* STATE_FETCHING_PAGE */] }, function () {
+                    this.setState({ viewState: __WEBPACK_IMPORTED_MODULE_5__constants__["b" /* STATE_FETCHING_PAGE */] }, function () {
                         return _this4.handlePaginateFetch();
                     });
                 }
@@ -39712,6 +39722,44 @@ var BanList = function (_Component) {
         key: 'isEndOfData',
         value: function isEndOfData() {
             return this.state.bans.length >= this.state.totalBans;
+        }
+
+        /**
+         * Sorts the ban list by the given field
+         * 
+         * @param object event 
+         * @param string field 
+         */
+
+    }, {
+        key: 'sortBy',
+        value: function sortBy(event, field) {
+            var _this5 = this;
+
+            event.preventDefault();
+
+            var sort = this.state.sort;
+
+
+            if (sort.field === field) {
+                this.setState({
+                    sort: {
+                        field: sort.field,
+                        direction: sort.direction === 'DESC' ? 'ASC' : 'DESC'
+                    }
+                }, function () {
+                    return _this5.handleFetch();
+                });
+            } else {
+                this.setState({
+                    sort: {
+                        field: field,
+                        direction: 'DESC'
+                    }
+                }, function () {
+                    return _this5.handleFetch();
+                });
+            }
         }
 
         /**
@@ -39803,15 +39851,18 @@ var BanList = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this5 = this;
+            var _this6 = this;
 
             var _state2 = this.state,
                 bans = _state2.bans,
-                totalBans = _state2.totalBans;
+                totalBans = _state2.totalBans,
+                sort = _state2.sort;
 
             var banList = bans.map(function (ban, index) {
-                return _this5.renderRow(ban, index);
+                return _this6.renderRow(ban, index);
             });
+
+            var caret = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: sort.direction === 'DESC' ? 'fa fa-caret-down' : 'fa fa-caret-up' });
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
@@ -39855,7 +39906,14 @@ var BanList = function (_Component) {
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'td',
                                         { colSpan: '2' },
-                                        'Alias Used'
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'a',
+                                            { href: '', onClick: function onClick(e) {
+                                                    return _this6.sortBy(e, 'player_alias_at_ban');
+                                                } },
+                                            'Alias Used ',
+                                            sort.field === 'player_alias_at_ban' && caret
+                                        )
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'td',
@@ -39865,17 +39923,38 @@ var BanList = function (_Component) {
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'td',
                                         null,
-                                        'Banned By'
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'a',
+                                            { href: '', onClick: function onClick(e) {
+                                                    return _this6.sortBy(e, 'staff_game_user_id');
+                                                } },
+                                            'Banned By ',
+                                            sort.field === 'staff_game_user_id' && caret
+                                        )
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'td',
                                         null,
-                                        'Ban Date'
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'a',
+                                            { href: '', onClick: function onClick(e) {
+                                                    return _this6.sortBy(e, 'created_at');
+                                                } },
+                                            'Ban Date ',
+                                            sort.field === 'created_at' && caret
+                                        )
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'td',
                                         null,
-                                        'Expires'
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'a',
+                                            { href: '', onClick: function onClick(e) {
+                                                    return _this6.sortBy(e, 'expires_at');
+                                                } },
+                                            'Expires ',
+                                            sort.field === 'expires_at' && caret
+                                        )
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'td',
@@ -39890,7 +39969,14 @@ var BanList = function (_Component) {
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'td',
                                         null,
-                                        'Server Banned On'
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'a',
+                                            { href: '', onClick: function onClick(e) {
+                                                    return _this6.sortBy(e, 'server_id');
+                                                } },
+                                            'Server Banned On ',
+                                            sort.field === 'server_id' && caret
+                                        )
                                     )
                                 )
                             ),
@@ -39900,6 +39986,16 @@ var BanList = function (_Component) {
                                 banList
                             )
                         )
+                    ),
+                    this.state.viewState === __WEBPACK_IMPORTED_MODULE_5__constants__["a" /* STATE_FETCHING */] && this.state.bans.length === 0 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'loadContainer' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_halogen_ScaleLoader___default.a, { color: '#F5A503', size: '18px', margin: '4px' })
+                    ),
+                    this.state.viewState === __WEBPACK_IMPORTED_MODULE_5__constants__["b" /* STATE_FETCHING_PAGE */] && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'loadContainer' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_halogen_ScaleLoader___default.a, { color: '#F5A503', size: '18px', margin: '4px' })
                     )
                 )
             );
@@ -40215,11 +40311,14 @@ var apiInstance = __WEBPACK_IMPORTED_MODULE_0_axios___default.a.create({
 
 var getBanList = function getBanList() {
     var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-    var filters = arguments[1];
+    var sortBy = arguments[1];
+    var filters = arguments[2];
 
     return apiInstance.post('list', {
         take: 50,
-        page: page
+        page: page,
+        sort_field: sortBy.field,
+        sort_direction: sortBy.direction
     });
 };
 
@@ -40244,6 +40343,317 @@ var STATE_FETCH_FAILED = 4;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 336 */,
+/* 337 */,
+/* 338 */,
+/* 339 */,
+/* 340 */,
+/* 341 */,
+/* 342 */,
+/* 343 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var getVendorPropertyName = __webpack_require__(344);
+
+module.exports = function(target, sources) {
+  var to = Object(target);
+  var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+  for (var nextIndex = 1; nextIndex < arguments.length; nextIndex++) {
+    var nextSource = arguments[nextIndex];
+    if (nextSource == null) {
+      continue;
+    }
+
+    var from = Object(nextSource);
+
+    for (var key in from) {
+      if (hasOwnProperty.call(from, key)) {
+        to[key] = from[key];
+      }
+    }
+  }
+
+  var prefixed = {};
+  for (var key in to) {
+    prefixed[getVendorPropertyName(key)] = to[key]
+  }
+
+  return prefixed
+}
+
+
+/***/ }),
+/* 344 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var builtinStyle = __webpack_require__(345);
+var prefixes = ['Moz', 'Webkit', 'O', 'ms'];
+var domVendorPrefix;
+
+// Helper function to get the proper vendor property name. (transition => WebkitTransition)
+module.exports = function(prop, isSupportTest) {
+
+  var vendorProp;
+  if (prop in builtinStyle) return prop;
+
+  var UpperProp = prop.charAt(0).toUpperCase() + prop.substr(1);
+
+  if (domVendorPrefix) {
+
+    vendorProp = domVendorPrefix + UpperProp;
+    if (vendorProp in builtinStyle) {
+      return vendorProp;
+    }
+  } else {
+
+    for (var i = 0; i < prefixes.length; ++i) {
+      vendorProp = prefixes[i] + UpperProp;
+      if (vendorProp in builtinStyle) {
+        domVendorPrefix = prefixes[i];
+        return vendorProp;
+      }
+    }
+  }
+
+  // if support test, not fallback to origin prop name
+  if (!isSupportTest) {
+    return prop;
+  }
+
+}
+
+
+/***/ }),
+/* 345 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = document.createElement('div').style;
+
+
+/***/ }),
+/* 346 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var insertRule = __webpack_require__(347);
+var vendorPrefix = __webpack_require__(348)();
+var index = 0;
+
+module.exports = function(keyframes) {
+  // random name
+  var name = 'anim_' + (++index) + (+new Date);
+  var css = "@" + vendorPrefix + "keyframes " + name + " {";
+
+  for (var key in keyframes) {
+    css += key + " {";
+
+    for (var property in keyframes[key]) {
+      var part = ":" + keyframes[key][property] + ";";
+      // We do vendor prefix for every property
+      css += vendorPrefix + property + part;
+      css += property + part;
+    }
+
+    css += "}";
+  }
+
+  css += "}";
+
+  insertRule(css);
+
+  return name
+}
+
+
+/***/ }),
+/* 347 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var extraSheet;
+
+module.exports = function(css) {
+
+  if (!extraSheet) {
+    // First time, create an extra stylesheet for adding rules
+    extraSheet = document.createElement('style');
+    document.getElementsByTagName('head')[0].appendChild(extraSheet);
+    // Keep reference to actual StyleSheet object (`styleSheet` for IE < 9)
+    extraSheet = extraSheet.sheet || extraSheet.styleSheet;
+  }
+
+  var index = (extraSheet.cssRules || extraSheet.rules).length;
+  extraSheet.insertRule(css, index);
+
+  return extraSheet;
+}
+
+
+/***/ }),
+/* 348 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var cssVendorPrefix;
+
+module.exports = function() {
+
+  if (cssVendorPrefix) return cssVendorPrefix;
+
+  var styles = window.getComputedStyle(document.documentElement, '');
+  var pre = (Array.prototype.slice.call(styles).join('').match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o']))[1];
+
+  return cssVendorPrefix = '-' + pre + '-';
+}
+
+
+/***/ }),
+/* 349 */,
+/* 350 */,
+/* 351 */,
+/* 352 */,
+/* 353 */,
+/* 354 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var React = __webpack_require__(52);
+var assign = __webpack_require__(343);
+var insertKeyframesRule = __webpack_require__(346);
+
+/**
+ * @type {Object}
+ */
+var keyframes = {
+    '0%': {
+        transform: 'scaley(1.0)'
+    },
+    '50%': {
+        transform: 'scaley(0.4)'
+    },
+    '100%': {
+        transform: 'scaley(1.0)'
+    }
+};
+
+/**
+ * @type {String}
+ */
+var animationName = insertKeyframesRule(keyframes);
+
+var Loader = React.createClass({
+    displayName: 'Loader',
+
+    /**
+     * @type {Object}
+     */
+    propTypes: {
+        loading: React.PropTypes.bool,
+        color: React.PropTypes.string,
+        height: React.PropTypes.string,
+        width: React.PropTypes.string,
+        margin: React.PropTypes.string,
+        radius: React.PropTypes.string
+    },
+
+    /**
+     * @return {Object}
+     */
+    getDefaultProps: function getDefaultProps() {
+        return {
+            loading: true,
+            color: '#ffffff',
+            height: '35px',
+            width: '4px',
+            margin: '2px',
+            radius: '2px'
+        };
+    },
+
+    /**
+     * @return {Object}
+     */
+    getLineStyle: function getLineStyle() {
+        return {
+            backgroundColor: this.props.color,
+            height: this.props.height,
+            width: this.props.width,
+            margin: this.props.margin,
+            borderRadius: this.props.radius,
+            verticalAlign: this.props.verticalAlign
+        };
+    },
+
+    /**
+     * @param  {Number} i
+     * @return {Object}
+     */
+    getAnimationStyle: function getAnimationStyle(i) {
+        var animation = [animationName, '1s', i * 0.1 + 's', 'infinite', 'cubic-bezier(.2,.68,.18,1.08)'].join(' ');
+        var animationFillMode = 'both';
+
+        return {
+            animation: animation,
+            animationFillMode: animationFillMode
+        };
+    },
+
+    /**
+     * @param  {Number} i
+     * @return {Object}
+     */
+    getStyle: function getStyle(i) {
+        return assign(this.getLineStyle(i), this.getAnimationStyle(i), {
+            display: 'inline-block'
+        });
+    },
+
+    /**
+     * @param  {Boolean} loading
+     * @return {ReactComponent || null}
+     */
+    renderLoader: function renderLoader(loading) {
+        if (loading) {
+            return React.createElement(
+                'div',
+                { id: this.props.id, className: this.props.className },
+                React.createElement('div', { style: this.getStyle(1) }),
+                React.createElement('div', { style: this.getStyle(2) }),
+                React.createElement('div', { style: this.getStyle(3) }),
+                React.createElement('div', { style: this.getStyle(4) }),
+                React.createElement('div', { style: this.getStyle(5) })
+            );
+        }
+
+        return null;
+    },
+
+    render: function render() {
+        return this.renderLoader(this.props.loading);
+    }
+});
+
+module.exports = Loader;
 
 /***/ })
 /******/ ]);

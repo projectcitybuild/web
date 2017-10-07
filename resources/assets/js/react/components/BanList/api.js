@@ -6,9 +6,11 @@ const apiInstance = axios.create({
     timeout: 8000,
 });
 
-export const getBanList = (page = 1, filters) => {
+export const getBanList = (page = 1, sortBy, filters) => {
     return apiInstance.post('list', {
         take: 50,
         page: page,
+        sort_field: sortBy.field,
+        sort_direction: sortBy.direction,
     });
 }

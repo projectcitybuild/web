@@ -206,7 +206,13 @@ class BanController extends Controller
         $take   = $request->input('take', 50);
         $offset = $request->input('offset', ($page - 1) * $take);
 
-        $bans = $banRepository->getBans($take, $offset);
+        $sort = [
+            'field' => $request->input('sort_field', 'created_at'),
+            'order' => $request->input('sort_direction', 'DESC'),
+        ];
+        
+
+        $bans = $banRepository->getBans($take, $offset, $sort);
         $banCount = $banRepository->getBanCount();
 
         // normalize servers and users

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
+import Loader from 'halogen/ScaleLoader';
 
 import * as api from './api';
 import * as constants from './constants';
@@ -16,6 +17,10 @@ export default class BanList extends Component {
             viewState: constants.STATE_INIT,
             totalBans: 0,
             page: 1,
+            sort: { 
+                field: 'created_at',
+                direction: 'DESC',
+            },
         };
 
         this.renderRow = this.renderRow.bind(this);
@@ -38,10 +43,10 @@ export default class BanList extends Component {
      * 
      * @param object filters 
      */
-    handleFetch(filters) {
+    handleFetch(sortBy = this.state.sort, filters = {}) {
         this.setState({ viewState: constants.STATE_FETCHING });
 
-        api.getBanList(1, filters)
+        api.getBanList(1, sortBy, filters)
             .then(response => {
                 const { data } = response;
                 this.setState({
@@ -107,6 +112,35 @@ export default class BanList extends Component {
     }
 
     /**
+     * Sorts the ban list by the given field
+     * 
+     * @param object event 
+     * @param string field 
+     */
+    sortBy(event, field) {
+        event.preventDefault();
+
+        const { sort } = this.state;
+
+        if(sort.field === field) {
+            this.setState({
+                sort: {
+                    field: sort.field,
+                    direction: sort.direction === 'DESC' ? 'ASC' : 'DESC',
+                },
+            }, () => this.handleFetch());
+
+        } else {
+            this.setState({
+                sort: {
+                    field: field,
+                    direction: 'DESC',
+                },
+            }, () => this.handleFetch());
+        }
+    }
+
+    /**
      * Returns a single JSX <tr> row for a ban
      * 
      * @param {*} ban 
@@ -147,8 +181,10 @@ export default class BanList extends Component {
     }
 
     render() {
-        const { bans, totalBans } = this.state;
+        const { bans, totalBans, sort } = this.state;
         const banList = bans.map((ban, index) => this.renderRow(ban, index));
+
+        const caret = <i className={sort.direction === 'DESC' ? 'fa fa-caret-down' : 'fa fa-caret-up'}></i>;
 
         return (
             <div className="panel banlist-layout" id="banlistComponent">
@@ -163,14 +199,34 @@ export default class BanList extends Component {
                                 <tr>
                                     <td>#</td>
                                     <td>Banned Identifier</td>
-                                    <td colSpan="2">Alias Used</td>
+                                    <td colSpan="2">
+                                        <a href="" onClick={e => this.sortBy(e, 'player_alias_at_ban')}>
+                                            Alias Used {sort.field === 'player_alias_at_ban' && caret}
+                                        </a>
+                                    </td>
                                     <td>Reason</td>
-                                    <td>Banned By</td>
-                                    <td>Ban Date</td>
-                                    <td>Expires</td>
+                                    <td>
+                                        <a href="" onClick={e => this.sortBy(e, 'staff_game_user_id')}>
+                                            Banned By {sort.field === 'staff_game_user_id' && caret}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="" onClick={e => this.sortBy(e, 'created_at')}>
+                                            Ban Date {sort.field === 'created_at' && caret}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="" onClick={e => this.sortBy(e, 'expires_at')}>
+                                            Expires {sort.field === 'expires_at' && caret}
+                                        </a>
+                                    </td>
                                     <td>Global Ban</td>
                                     <td>Ban Active</td>
-                                    <td>Server Banned On</td>
+                                    <td>
+                                        <a href="" onClick={e => this.sortBy(e, 'server_id')}>
+                                            Server Banned On {sort.field === 'server_id' && caret}
+                                        </a>
+                                    </td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -178,6 +234,16 @@ export default class BanList extends Component {
                             </tbody>
                         </table>
                     </div>
+                    {this.state.viewState === constants.STATE_FETCHING && this.state.bans.length === 0 &&
+                        <div className="loadContainer">
+                            <Loader color="#F5A503" size="18px" margin="4px"/>
+                        </div>
+                    }
+                    {this.state.viewState === constants.STATE_FETCHING_PAGE &&
+                        <div className="loadContainer">
+                            <Loader color="#F5A503" size="18px" margin="4px"/>
+                        </div>         
+                    }
                 </div>
             </div>
         );

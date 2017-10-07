@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "halogen": "^0.2.0",
     "moment": "^2.18.1",
     "react": "^15.6.1"
   }
