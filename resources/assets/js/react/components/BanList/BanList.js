@@ -68,7 +68,7 @@ export default class BanList extends Component {
      * Fetches the next page of the ban list, reusing any currently set filters
      */
     handlePaginateFetch() {
-        api.getBanList(this.state.page + 1)
+        api.getBanList(this.state.page + 1, this.state.sort)
             .then(response => {
                 const { data } = response;
                 this.setState({
