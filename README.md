@@ -19,13 +19,14 @@ Mostly behind the scenes stuff.
 * MySQL/MariaDB
 
 ### What still needs to be built before launch?
-- [ ] Ban API
 - [ ] Server querying
+- [ ] Server Feed
 - [x] 'Recent Posts' sidebar integration with SMF
+- [ ] Ban API
 - [ ] Ban appeals
+- [x] Ban list
 - [x] Donations
 - [ ] Apply for staff
-- [x] Ban list
 
 
 ### When will this release?

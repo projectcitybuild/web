@@ -40676,30 +40676,39 @@ var ServerFeed = function (_Component) {
         var _this = _possibleConstructorReturn(this, (ServerFeed.__proto__ || Object.getPrototypeOf(ServerFeed)).call(this, props));
 
         _this.state = {
-            viewState: __WEBPACK_IMPORTED_MODULE_5__constants__["c" /* STATE_INIT */],
+            viewState: __WEBPACK_IMPORTED_MODULE_5__constants__["d" /* STATE_INIT */],
             categories: []
         };
+
+        _this.handleServerFetch = _this.handleServerFetch.bind(_this);
+        _this.renderServerCategory = _this.renderServerCategory.bind(_this);
         return _this;
     }
 
     _createClass(ServerFeed, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _this2 = this;
+            this.setState({ viewState: __WEBPACK_IMPORTED_MODULE_5__constants__["b" /* STATE_FETCHING */] });
+            this.handleServerFetch();
 
-            this.setState({ viewState: __WEBPACK_IMPORTED_MODULE_5__constants__["a" /* STATE_FETCHING */] });
+            setInterval(this.handleServerFetch, __WEBPACK_IMPORTED_MODULE_5__constants__["a" /* FETCH_INTERVAL_MILLISECONDS */]);
+        }
+    }, {
+        key: 'handleServerFetch',
+        value: function handleServerFetch() {
+            var _this2 = this;
 
             __WEBPACK_IMPORTED_MODULE_4__api__["a" /* getServerList */]().then(function (response) {
                 var data = response.data.data;
 
 
                 _this2.setState({
-                    viewState: __WEBPACK_IMPORTED_MODULE_5__constants__["d" /* STATE_READY */],
+                    viewState: __WEBPACK_IMPORTED_MODULE_5__constants__["e" /* STATE_READY */],
                     categories: data
                 });
             }).catch(function (error) {
                 console.log(error);
-                _this2.setState({ viewState: __WEBPACK_IMPORTED_MODULE_5__constants__["b" /* STATE_FETCH_FAILED */] });
+                _this2.setState({ viewState: __WEBPACK_IMPORTED_MODULE_5__constants__["c" /* STATE_FETCH_FAILED */] });
             });
         }
     }, {
@@ -40709,7 +40718,7 @@ var ServerFeed = function (_Component) {
 
 
             if (servers.length === 0) {
-                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', null);
+                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { key: category.server_category_id });
             }
 
             var serverList = servers.map(function (server) {
@@ -40719,7 +40728,7 @@ var ServerFeed = function (_Component) {
 
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'server',
-                    { className: 'online' },
+                    { className: 'online', key: server.server_id },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         { className: 'status' },
@@ -40761,9 +40770,7 @@ var ServerFeed = function (_Component) {
 
 
             var contents = void 0;
-            if (viewState === __WEBPACK_IMPORTED_MODULE_5__constants__["d" /* STATE_READY */]) {
-                contents = this.renderServerCategories();
-            } else {
+            if (viewState === __WEBPACK_IMPORTED_MODULE_5__constants__["e" /* STATE_READY */]) {
                 contents = categories.map(function (category) {
                     return _this3.renderServerCategory(category);
                 });
@@ -40813,14 +40820,17 @@ var getServerList = function getServerList() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return STATE_INIT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return STATE_READY; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return STATE_FETCHING; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return STATE_FETCH_FAILED; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return STATE_INIT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return STATE_READY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return STATE_FETCHING; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return STATE_FETCH_FAILED; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FETCH_INTERVAL_MILLISECONDS; });
 var STATE_INIT = 0;
 var STATE_READY = 1;
 var STATE_FETCHING = 2;
 var STATE_FETCH_FAILED = 3;
+
+var FETCH_INTERVAL_MILLISECONDS = 120 * 1000;
 
 /***/ }),
 /* 345 */

@@ -14,11 +14,19 @@ export default class ServerFeed extends Component {
             viewState: constants.STATE_INIT,
             categories: [],
         };
+
+        this.handleServerFetch = this.handleServerFetch.bind(this);
+        this.renderServerCategory = this.renderServerCategory.bind(this);
     }
 
     componentDidMount() {
         this.setState({ viewState: constants.STATE_FETCHING });
+        this.handleServerFetch();
 
+        setInterval(this.handleServerFetch, constants.FETCH_INTERVAL_MILLISECONDS);
+    }
+
+    handleServerFetch() {
         api.getServerList()
             .then(response => {
                 const { data } = response.data;
@@ -38,7 +46,7 @@ export default class ServerFeed extends Component {
         const { servers } = category;
 
         if(servers.length === 0) {
-            return (<div />);
+            return (<div key={category.server_category_id} />);
         }
 
         const serverList = servers.map(server => {
@@ -49,7 +57,7 @@ export default class ServerFeed extends Component {
             let ipAlias = server.ip_alias != null ? `${server.ip_alias} / ` : '';
 
             return (
-                <server className="online">
+                <server className="online" key={server.server_id}>
                     <div className="status">24/80</div>
                     <div className="title">{server.name}</div>
                     <div className="ip">{ipAlias}{ip}</div>
@@ -70,9 +78,7 @@ export default class ServerFeed extends Component {
 
         let contents;
         if(viewState === constants.STATE_READY) {
-            contents = this.renderServerCategories();
-        } else {
-            contents = categories.map(category => this.renderServerCategory(category))
+            contents = categories.map(category => this.renderServerCategory(category));
         }
 
         return (
