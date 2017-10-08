@@ -16,8 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Factory as Validator;
 use Carbon\Carbon;
 
-class BanController extends Controller
-{
+class BanController extends Controller {
+    
     /**
      * @var GameUserLookupService
      */

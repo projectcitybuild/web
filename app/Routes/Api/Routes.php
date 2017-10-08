@@ -22,3 +22,7 @@ Route::prefix('bans')->group(function() {
     });
 });
 
+Route::prefix('servers')->group(function() {
+    Route::get('all', 'ServerController@getAllServers');
+});
+
