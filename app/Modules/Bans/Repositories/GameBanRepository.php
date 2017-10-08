@@ -61,10 +61,25 @@ class GameBanRepository {
      * @param int $take
      * @param int $offset
      * @param array $sort
+     * @param array $filter
      * @return void
      */
-    public function getBans(int $take = 50, int $offset = 0, array $sort = null) {
+    public function getBans(int $take = 50, int $offset = 0, array $sort = null, array $filter = []) {
         return $this->banModel
+            ->when(count($filter) > 0, function($q) use($filter) {
+                if(array_key_exists('player_alias_at_ban', $filter)) {
+                    $q->where('player_alias_at_ban', 'LIKE', $filter['player_alias_at_ban'] . '%');
+                }
+                if(array_key_exists('is_active', $filter)) {
+                    $q->where('is_active', $filter['is_active']);
+                }
+                return $q;
+            })
+            ->when(array_key_exists('banned_alias', $filter), function($q) use($filter) {
+                return $q->whereHas('bannedAlias', function($sq) use($filter) {
+                    $sq->where('alias', $filter['banned_alias']);
+                });
+            })
             ->when(isset($sort), function($q) use($sort) {
                 return $q->orderBy($sort['field'], $sort['order']);
             })

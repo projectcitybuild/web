@@ -159,9 +159,6 @@ export default class BanList extends Component {
         if(ban.server_id == 1) {
             avatar = <img src={'https://minotar.net/helm/'+ ban.player_alias_at_ban +'/16'} width="16" height="16" />
         }
-        if(ban.server_id == 'some_steam_server') {
-            avatar = <i className="fa fa-steam-square"></i>;
-        }
 
         return (
             <tr key={ban.game_ban_id} className={ !ban.is_active ? 'inactive' : '' }>

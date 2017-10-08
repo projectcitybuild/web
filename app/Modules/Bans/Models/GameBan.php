@@ -50,4 +50,8 @@ class GameBan extends Model {
     public function gameUser() {
         return $this->hasOne('App\Modules\Users\Models\GameUser', 'player_game_user_id', 'game_user_id');
     }
+
+    public function bannedAlias() {
+        return $this->hasOne('App\Modules\Users\Models\UserAlias', 'user_alias_id', 'banned_alias_id');
+    }
 }

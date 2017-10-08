@@ -210,9 +210,17 @@ class BanController extends Controller
             'field' => $request->input('sort_field', 'created_at'),
             'order' => $request->input('sort_direction', 'DESC'),
         ];
+
+        $filter = [];
+        if($playerAliasFilter = $request->input('player_alias_at_ban')) {
+            $filter['player_alias_at_ban'] = $playerAliasFilter;
+        }
+        if($bannedAliasFilter = $request->input('banned_alias')) {
+            $filter['banned_alias'] = $bannedAliasFilter;
+        }
         
 
-        $bans = $banRepository->getBans($take, $offset, $sort);
+        $bans = $banRepository->getBans($take, $offset, $sort, $filter);
         $banCount = $banRepository->getBanCount();
 
         // normalize servers and users
