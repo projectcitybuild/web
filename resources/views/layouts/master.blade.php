@@ -77,32 +77,7 @@
                     </a>
                 </div>
                 <div class="right">
-                    <server-category>
-                        <h5>Minecraft</h5>
-                        <server online>
-                            <div class="status">24/80</div>
-                            <div class="title">Survival / Creative [24/7]</div>
-                            <div class="ip">pcbmc.co / 198.144.156.53</div>
-                        </server>
-                        <server offline>
-                            <div class="status">Offline</div>
-                            <div class="title">Feed the Beast</div>
-                            <div class="ip">pcbmc.co</div>
-                        </server>
-                    </server-category>
-                    <server-category>
-                        <h5>Other Games</h5>
-                        <server offline>
-                            <div class="status">Offline</div>
-                            <div class="title">Terraria</div>
-                            <div class="ip">pcbmc.co</div>
-                        </server>
-                        <server offline>
-                            <div class="status">Offline</div>
-                            <div class="title">Starbound</div>
-                            <div class="ip">pcbmc.co</div>
-                        </server>
-                    </server-category>
+                    <div id="serverfeed"></div>
                 </div>
             </header>
             

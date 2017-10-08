@@ -5,6 +5,7 @@ namespace App\Routes\Api\Controllers;
 use Illuminate\Http\Request;
 use App\Modules\Servers\Repositories\ServerRepository;
 use App\Modules\Servers\Repositories\ServerCategoryRepository;
+use App\Modules\Servers\Transformers\ServerCategoryResource;
 
 class ServerController extends Controller {
 
@@ -29,7 +30,7 @@ class ServerController extends Controller {
 
         return [
             'status_code' => 200,
-            'data' => $categories,
+            'data' => ServerCategoryResource::collection($categories),
         ];
     }
 }

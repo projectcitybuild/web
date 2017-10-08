@@ -39,6 +39,6 @@ class ServerCategory extends Model {
 
 
     public function servers() {
-        return $this->belongsTo('App\Modules\Servers\Models\Server', 'server_category_id', 'server_category_id');
+        return $this->hasMany('App\Modules\Servers\Models\Server', 'server_category_id', 'server_category_id');
     }
 }

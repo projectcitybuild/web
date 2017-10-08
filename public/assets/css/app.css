@@ -940,16 +940,16 @@ server .ip {
   text-align: right;
 }
 
-server[online] .title {
+server.online .title {
   color: #1987db;
 }
 
-server[online] .status {
+server.online .status {
   background: #1987db;
   color: #fff;
 }
 
-server[offline] .status {
+server.offline .status {
   background: #e6e6e6;
   color: #a6a6a6;
 }

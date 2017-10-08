@@ -48,7 +48,7 @@ server {
         text-align: right;
     }
 
-    &[online] {
+    &.online {
         $colour: $colour-primary;
 
         .title {
@@ -60,7 +60,7 @@ server {
         }
     }
 
-    &[offline] {
+    &.offline {
         .status {
             background: #e6e6e6;
             color: darken(#e6e6e6, 25%);
