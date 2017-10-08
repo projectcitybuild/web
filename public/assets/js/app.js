@@ -39782,10 +39782,10 @@ var BanList = function (_Component) {
             var expiresAt = ban.expires_at ? __WEBPACK_IMPORTED_MODULE_2_moment___default.a.unix(ban.expires_at).format('llll') : '-';
 
             var playerAlias = aliases[ban.banned_alias_id];
+            var server = servers[ban.server_id];
 
-            // TODO: remove hardcoded 'minecraft server' check for minotar display
             var avatar = void 0;
-            if (ban.server_id == 1) {
+            if (server.game_type == 'minecraft') {
                 avatar = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: 'https://minotar.net/helm/' + ban.player_alias_at_ban + '/16', width: '16', height: '16' });
             }
 
@@ -39841,7 +39841,7 @@ var BanList = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'td',
                     null,
-                    servers[ban.server_id].name
+                    server.name
                 )
             );
         }

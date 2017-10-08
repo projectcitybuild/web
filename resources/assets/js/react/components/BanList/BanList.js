@@ -153,10 +153,10 @@ export default class BanList extends Component {
         const expiresAt = ban.expires_at ? moment.unix(ban.expires_at).format('llll') : '-';
 
         const playerAlias = aliases[ban.banned_alias_id];
+        const server = servers[ban.server_id];
 
-        // TODO: remove hardcoded 'minecraft server' check for minotar display
         let avatar;
-        if(ban.server_id == 1) {
+        if(server.game_type == 'minecraft') {
             avatar = <img src={'https://minotar.net/helm/'+ ban.player_alias_at_ban +'/16'} width="16" height="16" />
         }
 
@@ -172,7 +172,7 @@ export default class BanList extends Component {
                 <td>{expiresAt}</td>
                 <td>{ban.is_global_ban && <i className="fa fa-check"></i>}</td>
                 <td>{ban.is_active && <i className="fa fa-check"></i>}</td>
-                <td>{servers[ban.server_id].name}</td>
+                <td>{server.name}</td>
             </tr>
         );
     }

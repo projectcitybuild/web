@@ -9,6 +9,8 @@ use App\Modules\Servers\Repositories\ServerRepository;
 use App\Modules\Users\Repositories\UserAliasRepository;
 use App\Modules\Users\Services\GameUserLookupService;
 use App\Modules\Bans\Transformers\BanResource;
+use App\Modules\Servers\Transformers\ServerResource;
+use App\Modules\Users\Transformers\UserAliasResource;
 use App\Modules\Users\Exceptions\InvalidAliasTypeException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Factory as Validator;
@@ -235,8 +237,8 @@ class BanController extends Controller
             'status_code' => 200,
             'data' => BanResource::collection($bans),
             'relations' => [
-                'servers' => $servers->keyBy('server_id'),
-                'aliases' => $aliases->keyBy('user_alias_id'),
+                'servers' => ServerResource::collection($servers->keyBy('server_id')),
+                'aliases' => UserAliasResource::collection($aliases->keyBy('user_alias_id')),
             ],
             'meta' => [
                 'count' => $banCount,
