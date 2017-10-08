@@ -124,6 +124,26 @@ return [
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
+
+    // mask variables which must not appear in output
+    'debug_blacklist' => [
+        '_ENV' => [
+            'APP_KEY',
+
+            'DB_HOST',
+            'DB_CONNECTION',
+            'DB_PORT',
+            'DB_USERNAME',
+            'DB_PASSWORD',
+
+            'DB_HOST_FORUMS',
+            'DB_PORT_FORUMS',
+            'DB_DATABASE_FORUMS',
+            'DB_USERNAME_FORUMS',
+            'DB_PASSWORD_FORUMS',
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
