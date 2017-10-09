@@ -40774,6 +40774,8 @@ var ServerFeed = function (_Component) {
                 contents = categories.map(function (category) {
                     return _this3.renderServerCategory(category);
                 });
+            } else if (viewState === __WEBPACK_IMPORTED_MODULE_5__constants__["b" /* STATE_FETCHING */]) {
+                contents = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_halogen_ScaleLoader___default.a, { color: '#fff', size: '18px', margin: '4px' });
             }
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(

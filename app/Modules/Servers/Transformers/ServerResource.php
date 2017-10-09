@@ -27,6 +27,8 @@ class ServerResource extends Resource
             'display_order'         => $this->display_order,
             // 'created_at'            => $this->created_at->getTimestamp(),
             // 'updated_at'            => $this->updated_at->getTimestamp(),
+
+            'status' => $this->whenLoaded('latestStatus'),
         ];
     }
 }

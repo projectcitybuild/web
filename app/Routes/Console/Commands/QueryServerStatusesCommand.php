@@ -38,12 +38,13 @@ class QueryServerStatusesCommand extends Command {
      */
     public function handle() {
         $service = resolve(ServerQueryService::class);
-
         $logger = resolve(\Illuminate\Log\Writer::class);
 
         $logger->info('Performing automatic server status fetch...');
         $start = microtime(true);
+
         $service->queryAllServers();
+        
         $end = microtime(true) - $start;
         $logger->info('Fetch complete ['. ($end / 1000) .'ms]');
 

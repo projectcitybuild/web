@@ -79,6 +79,11 @@ export default class ServerFeed extends Component {
         let contents;
         if(viewState === constants.STATE_READY) {
             contents = categories.map(category => this.renderServerCategory(category));
+        
+        } else if(viewState === constants.STATE_FETCHING) {
+            contents = (
+                <Loader color="#fff" size="18px" margin="4px"/>
+            );
         }
 
         return (

@@ -32,7 +32,7 @@ class MinecraftQueryAdapter implements QueryAdapterInterface {
                 true,
                 $info['Players'],
                 $info['MaxPlayers'],
-                $players
+                $players ?: []
             );
         }
         catch(MinecraftQueryException $e) {

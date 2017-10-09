@@ -60,4 +60,8 @@ class Server extends Model {
     public function category() {
         return $this->hasOne('App\Modules\Servers\Models\ServerCategory', 'server_category_id', 'server_category_id');
     }
+
+    public function latestStatus() {
+        return $this->belongsTo('App\Modules\Servers\Models\ServerStatus', 'server_id', 'server_id');
+    }
 }

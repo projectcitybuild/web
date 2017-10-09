@@ -131,6 +131,7 @@ return [
             'APP_KEY',
 
             'DB_HOST',
+            'DB_DATABASE',
             'DB_CONNECTION',
             'DB_PORT',
             'DB_USERNAME',
@@ -146,6 +147,7 @@ return [
             'APP_KEY',
 
             'DB_HOST',
+            'DB_DATABASE',
             'DB_CONNECTION',
             'DB_PORT',
             'DB_USERNAME',

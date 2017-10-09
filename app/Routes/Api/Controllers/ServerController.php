@@ -26,7 +26,7 @@ class ServerController extends Controller {
 
     public function getAllServers(Request $request) {
         $categories = $this->serverCategoryRepository
-            ->getAll('servers');
+            ->getAll('servers.latestStatus');
 
         return [
             'status_code' => 200,
