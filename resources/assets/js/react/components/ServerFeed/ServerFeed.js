@@ -56,9 +56,15 @@ export default class ServerFeed extends Component {
 
             let ipAlias = server.ip_alias != null ? `${server.ip_alias} / ` : '';
 
+            const { status } = server;
+            const isOnline = status != null && status.is_online;
+            const playersOnline = isOnline
+                ? `${status.num_of_players}/${status.num_of_slots}`
+                : 'Offline';
+
             return (
-                <server className="online" key={server.server_id}>
-                    <div className="status">24/80</div>
+                <server className={isOnline ? 'online' : 'offline'} key={server.server_id}>
+                    <div className="status">{playersOnline}</div>
                     <div className="title">{server.name}</div>
                     <div className="ip">{ipAlias}{ip}</div>
                 </server>

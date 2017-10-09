@@ -40726,13 +40726,18 @@ var ServerFeed = function (_Component) {
 
                 var ipAlias = server.ip_alias != null ? server.ip_alias + ' / ' : '';
 
+                var status = server.status;
+
+                var isOnline = status != null && status.is_online;
+                var playersOnline = isOnline ? status.num_of_players + '/' + status.num_of_slots : 'Offline';
+
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'server',
-                    { className: 'online', key: server.server_id },
+                    { className: isOnline ? 'online' : 'offline', key: server.server_id },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         { className: 'status' },
-                        '24/80'
+                        playersOnline
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
