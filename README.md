@@ -20,7 +20,7 @@ Mostly behind the scenes stuff.
 
 ### What still needs to be built before launch?
 - [ ] Server querying
-- [ ] Server Feed
+- [x] Server Feed
 - [x] 'Recent Posts' sidebar integration with SMF
 - [ ] Ban API
 - [ ] Ban appeals

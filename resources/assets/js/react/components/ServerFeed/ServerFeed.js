@@ -49,27 +49,29 @@ export default class ServerFeed extends Component {
             return (<div key={category.server_category_id} />);
         }
 
-        const serverList = servers.map(server => {
-            const ip = (server.port && server.is_port_visible)
-                ? `${server.ip}:${server.port}`
-                : server.ip;
+        const serverList = servers
+            .filter(server => server.is_visible)
+            .map(server => {
+                const ip = (server.port && server.is_port_visible)
+                    ? `${server.ip}:${server.port}`
+                    : server.ip;
 
-            let ipAlias = server.ip_alias != null ? `${server.ip_alias} / ` : '';
+                let ipAlias = server.ip_alias != null ? `${server.ip_alias} / ` : '';
 
-            const { status } = server;
-            const isOnline = status != null && status.is_online;
-            const playersOnline = isOnline
-                ? `${status.num_of_players}/${status.num_of_slots}`
-                : 'Offline';
+                const { status } = server;
+                const isOnline = status != null && status.is_online;
+                const playersOnline = isOnline
+                    ? `${status.num_of_players}/${status.num_of_slots}`
+                    : 'Offline';
 
-            return (
-                <server className={isOnline ? 'online' : 'offline'} key={server.server_id}>
-                    <div className="status">{playersOnline}</div>
-                    <div className="title">{server.name}</div>
-                    <div className="ip">{ipAlias}{ip}</div>
-                </server>
-            );
-        });
+                return (
+                    <server className={isOnline ? 'online' : 'offline'} key={server.server_id}>
+                        <div className="status">{playersOnline}</div>
+                        <div className="title">{server.name}</div>
+                        <div className="ip">{ipAlias}{ip}</div>
+                    </server>
+                );
+            });
 
         return (
             <server-category key={category.server_category_id}>

@@ -40721,7 +40721,9 @@ var ServerFeed = function (_Component) {
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { key: category.server_category_id });
             }
 
-            var serverList = servers.map(function (server) {
+            var serverList = servers.filter(function (server) {
+                return server.is_visible;
+            }).map(function (server) {
                 var ip = server.port && server.is_port_visible ? server.ip + ':' + server.port : server.ip;
 
                 var ipAlias = server.ip_alias != null ? server.ip_alias + ' / ' : '';
