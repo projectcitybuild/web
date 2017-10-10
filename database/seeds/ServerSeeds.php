@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 
 use App\Modules\Servers\Models\{ServerCategory, Server, ServerKey};
+use App\Modules\Servers\GameTypeEnum;
 use App\Modules\Servers\Repositories\ServerKeyTokenRepository;
 
 class ServerSeeds extends Seeder {
@@ -26,7 +27,7 @@ class ServerSeeds extends Seeder {
         $minecraftServer = Server::create([
             'name'                  => 'Survival / Creative [24/7]',
             'server_category_id'    => $categoryMinecraft->server_category_id,
-            'game_type'             => 'minecraft',
+            'game_type'             => GameTypeEnum::Minecraft,
             'ip'                    => '198.144.156.53',
             'ip_alias'              => 'pcbmc.co',
             'port'                  => '25565',
@@ -39,7 +40,7 @@ class ServerSeeds extends Seeder {
         Server::create([
             'name'                  => 'Feed the Beast',
             'server_category_id'    => $categoryMinecraft->server_category_id,
-            'game_type'             => 'minecraft',
+            'game_type'             => GameTypeEnum::Minecraft,
             'ip'                    => '23.94.186.178',
             'port'                  => '25565',
             'is_port_visible'       => true,

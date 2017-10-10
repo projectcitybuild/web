@@ -26,7 +26,7 @@ class CreateServers extends Migration {
             $table->string('ip');
             $table->string('ip_alias')->nullable()->comment('An alternative address to connect to the server');
             $table->string('port')->nullable();
-            $table->enum('game_type', ['minecraft', 'terraria', 'starbound'])->comment('Type of game server, used to determine an adapter to use for status querying');
+            $table->integer('game_type')->unsigned()->comment('Type of game server, used to determine an adapter to use for status querying');
             $table->boolean('is_port_visible')->default(true)->comment('Whether the port will be displayed');
             $table->boolean('is_querying')->default(true)->commenet('Whether the server will be pinged for status updates');
             $table->boolean('is_visible')->default(true)->comment('Whether the server is visible in the server feed');

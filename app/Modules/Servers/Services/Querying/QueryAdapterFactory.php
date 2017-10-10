@@ -3,6 +3,7 @@ namespace App\Modules\Servers\Services\Querying;
 
 use App\Modules\Servers\Services\Querying\QueryAdapterInterface;
 use App\Modules\Servers\Services\Querying\GameAdapters\MinecraftQueryAdapter;
+use App\Modules\Servers\GameTypeEnum;
 use xPaw\{MinecraftQuery, MinecraftQueryException};
 
 class QueryAdapterFactory {
@@ -10,12 +11,12 @@ class QueryAdapterFactory {
     /**
      * Instantiates an adapter based on the given game type
      *
-     * @param string $serverGameType
+     * @param GameTypeEnum $serverGameType
      * @return QueryAdapterInterface
      */
-    public function getAdapter($serverGameType) : QueryAdapterInterface {
+    public function getAdapter(GameTypeEnum $serverGameType) : QueryAdapterInterface {
         switch(strtolower($serverGameType)) {
-            case 'minecraft':
+            case GameTypeEnum::Minecraft:
                 $service = new MinecraftQuery();
                 return new MinecraftQueryAdapter($service);
             default:
