@@ -15,7 +15,7 @@ Mostly behind the scenes stuff.
 * ReactJS 15
 
 ### Requirements
-* PHP 7.0
+* PHP 7.0 or greater
 * MySQL/MariaDB
 
 ### What still needs to be built before launch?
@@ -34,3 +34,11 @@ Tentatively aiming for the end of this month (October 2017).
 
 ### Can I contribute?
 Absolutely. Feel free to send pull requests any time. I'd be thrilled to have some help since I'm very short on time.
+
+# Contributing
+1. Create a new database
+2. Copy the **.env.examples** file and rename it to **.env**. Fill in at least your database connection details.
+`cp .env.examples .env`
+3. Run the below command in your CLI of choice to set up the tables and data.
+`php artisan migrate --seed`
+
