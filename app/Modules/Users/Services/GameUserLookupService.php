@@ -45,9 +45,11 @@ class GameUserLookupService {
      *
      * @param string $aliasType
      * @param string $alias
+     * @param array $extraAliases   Array of extra aliases to create for the user if new (key = type, value = alias)
      * @return GameUser
      */
-    public function getOrCreateGameUserId(string $aliasType, string $alias) : int {
+    public function getOrCreateGameUserId(string $aliasType, string $alias, array $extraAliases = []) : int {
+        $aliasTypeId = $this->getAliasType($aliasType);
         $playerAlias = $this->aliasRepository->getAlias($aliasTypeId, $alias);
         if(is_null($playerAlias)) {
             $player = $this->gameUserRepository->store();
@@ -58,6 +60,17 @@ class GameUserLookupService {
                 $playerId, 
                 $alias
             );
+
+            if(count($extraAliases) > 0) {
+                foreach($extraAliases as $type => $extraAlias) {
+                    $extraAliasTypeId = $this->aliasRepository->getAliasType($type);
+                    $this->aliasRepository->store(
+                        $this->aliasRepository->getAliasType($type),
+                        $playerId,
+                        $extraAlias
+                    );
+                }
+            }
 
             return $playerId;
         }
