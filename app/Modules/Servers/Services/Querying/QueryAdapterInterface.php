@@ -12,4 +12,12 @@ interface QueryAdapterInterface {
      */
     public function query(string $ip, $port = null) : QueryResult;
 
+    /**
+     * Fetches a game-specific, unique identifier for the given player
+     *
+     * @param object $player
+     * @return void
+     */
+    public function fetchPlayerIdentifier($player);
+
 }
