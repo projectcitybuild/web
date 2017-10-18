@@ -9,7 +9,7 @@ use App\Modules\Servers\Services\Querying\{ServerQueryService, QueryAdapterFacto
 use App\Modules\Servers\Repositories\{ServerRepository, ServerStatusRepository};
 use \Illuminate\Log\Writer as Logger;
 
-class ServerQueryServiceTest extends TestCase {
+class ServerQueryService_Test extends TestCase {
 
     private $serverRepositoryMock;
     private $statusRepositoryMock;
