@@ -15,9 +15,10 @@ interface QueryAdapterInterface {
     /**
      * Fetches a game-specific, unique identifier for the given player
      *
-     * @param object $player
+     * @param string $player    Player identifier to potentially create an account for
+     * @param int $requestTime  Timestamp of the server status query
      * @return void
      */
-    public function fetchPlayerIdentifier($player);
+    public function createGameUser(string $player, int $requestTime);
 
 }

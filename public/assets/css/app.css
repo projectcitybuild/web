@@ -1101,7 +1101,6 @@ header {
   padding: 4em 10%;
   padding-top: 5em;
   background: #daf8ff;
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#90cefd', endColorstr='#daf8ff',GradientType=0 );
   background: url(/assets/images/clouds.jpg) #82c4ff;
   background-repeat: no-repeat;
   background-position-x: center;

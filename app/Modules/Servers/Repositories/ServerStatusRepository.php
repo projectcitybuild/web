@@ -29,6 +29,7 @@ class ServerStatusRepository {
             'is_online'         => $isOnline,
             'num_of_players'    => $numOfPlayers,
             'num_of_slots'      => $numOfSlots,
+            'players'           => implode(',', $playerList),
             'created_at'        => Carbon::createFromTimestamp($createdAt),
         ]);
     }

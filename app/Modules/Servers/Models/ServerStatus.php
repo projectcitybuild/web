@@ -25,6 +25,7 @@ class ServerStatus extends Model {
         'is_online',
         'num_of_players',
         'num_of_slots',
+        'players',
         'created_at',
     ];
 

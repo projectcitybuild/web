@@ -4,6 +4,7 @@ namespace App\Modules\Servers\Services\Querying;
 use App\Modules\Servers\Repositories\{ServerRepository, ServerStatusRepository};
 use App\Modules\Servers\Services\Querying\QueryAdapterFactory;
 use App\Modules\Servers\Models\Server;
+use App\Modules\Users\Jobs\FetchIdentifierJob;
 use \Illuminate\Log\Writer as Logger;
 
 class ServerQueryService {
@@ -47,6 +48,8 @@ class ServerQueryService {
      * @return void
      */
     public function queryServer(Server $server, $time = null) {
+        $requestTime = time();
+        
         $adapter = $this->adapterFactory->getAdapter($server->game_type);
         $status = $adapter->query(
             $server->ip,
@@ -68,7 +71,11 @@ class ServerQueryService {
             $time ?: time()
         );
 
+        
+        foreach($status->getPlayerList() as $player) {
+            $adapter->createGameUser($player, $requestTime);
+        }
+
         $this->logger->info('Queried server ['. $server->name .']: ' . $server->getAddress());
     }
-
 }

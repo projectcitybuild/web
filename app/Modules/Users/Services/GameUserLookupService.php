@@ -4,6 +4,7 @@ namespace App\Modules\Users\Services;
 use App\Modules\Users\Exceptions\InvalidAliasTypeException;
 use App\Modules\Users\Repositories\GameUserRepository;
 use App\Modules\Users\Repositories\UserAliasRepository;
+use App\Modules\Users\Models\UserAliasType;
 
 class GameUserLookupService {
 
@@ -49,7 +50,7 @@ class GameUserLookupService {
      * @return GameUser
      */
     public function getOrCreateGameUserId(string $aliasType, string $alias, array $extraAliases = []) : int {
-        $aliasTypeId = $this->getAliasType($aliasType);
+        $aliasTypeId = $this->getAliasType($aliasType)->user_alias_type_id;
         $playerAlias = $this->aliasRepository->getAlias($aliasTypeId, $alias);
         if(is_null($playerAlias)) {
             $player = $this->gameUserRepository->store();

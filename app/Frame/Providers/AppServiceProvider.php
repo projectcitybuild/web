@@ -8,6 +8,7 @@ use App\Modules\Forums\Repositories\ForumUserRepository;
 
 use App\Modules\Servers\Services\Querying\{ServerQueryService, QueryAdapterFactory};
 use App\Modules\Servers\Repositories\{ServerRepository, ServerStatusRepository};
+use Schema;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -19,7 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // probably not good to have this...
+        Schema::defaultStringLength(191);
     }
 
     /**

@@ -14,10 +14,6 @@ class QueryResult {
         $this->numOfPlayers = $numOfPlayers;
         $this->numOfSlots = $numOfSlots;
         $this->playerList = $playerList;
-
-        if(isset($time)) {
-            $this->time = $time;
-        }
     }
     
     public function setException(\Exception $exception) {

@@ -19,7 +19,7 @@ Mostly behind the scenes stuff.
 * MySQL/MariaDB
 
 ### What still needs to be built before launch?
-- [ ] Server querying
+- [x] Server querying
 - [x] Server Feed
 - [x] 'Recent Posts' sidebar integration with SMF
 - [ ] Ban API
