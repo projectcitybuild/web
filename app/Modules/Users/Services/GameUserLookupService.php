@@ -23,9 +23,9 @@ class GameUserLookupService {
      *
      * @param string $identifierType
      * @throws InvalidAliastypeException
-     * @return UserAliasType
+     * @return int
      */
-    private function getAliasType(string $identifierType) : UserAliasType {
+    public function getAliasTypeId(string $identifierType) : int {
         // TODO: use persistent storage
         if(array_key_exists($identifierType, $this->aliasTypeCache)) {
             return $this->aliasTypeCache[$identifierType];
@@ -35,9 +35,10 @@ class GameUserLookupService {
         if(is_null($aliasType)) {
             throw new InvalidAliasTypeException('Invalid identifier type given ['.$identifierType.']');
         }
-        
-        $this->aliasTypeCache[$identifierType] = $aliasType;
-        return $aliasType;
+
+        $aliasTypeId = $aliasType->user_alias_type_id;
+        $this->aliasTypeCache[$identifierType] = $aliasTypeId;
+        return $aliasTypeId;
     }
 
     /**
@@ -50,7 +51,7 @@ class GameUserLookupService {
      * @return GameUser
      */
     public function getOrCreateGameUserId(string $aliasType, string $alias, array $extraAliases = []) : int {
-        $aliasTypeId = $this->getAliasType($aliasType)->user_alias_type_id;
+        $aliasTypeId = $this->getAliasTypeId($aliasType);
         $playerAlias = $this->aliasRepository->getAlias($aliasTypeId, $alias);
         if(is_null($playerAlias)) {
             $player = $this->gameUserRepository->store();
