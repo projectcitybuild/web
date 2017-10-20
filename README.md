@@ -17,6 +17,8 @@ Mostly behind the scenes stuff.
 ### Requirements
 * PHP 7.0 or greater
 * MySQL/MariaDB
+* Sqlite (for integration tests)
+* Composer and NPM
 
 ### What still needs to be built before launch?
 - [x] Server querying
@@ -36,9 +38,21 @@ Tentatively aiming for the end of this month (October 2017).
 Absolutely. Feel free to send pull requests any time. I'd be thrilled to have some help since I'm very short on time.
 
 # Contributing
-1. Create a new database
-2. Copy the **.env.examples** file and rename it to **.env**. Fill in at least your database connection details.
+### Set up
+1. Download PHP dependencies using your CLI of choice
+`composer install`
+2. Download JS dependencies using your CLI of choice
+`npm install` or `yarn install`
+3. Create a new database
+4. Copy the **.env.examples** file and rename it to **.env**. Fill in at least your database connection details.
 `cp .env.examples .env`
-3. Run the below command in your CLI of choice to set up the tables and data.
+5. Run the below command in your CLI of choice to set up the tables and data.
 `php artisan migrate --seed`
 
+### Live viewing
+1. Via your CLI, browse to the repository root
+2. `npm run watch` This will open up a Browserify instance in your default browser with hot-reloading.
+
+### Testing
+1. Via your CLI, browse to the repository root
+2. `phpunit`
