@@ -25,7 +25,7 @@ class ServerTokenValidate {
      */
     public function handle(Request $request, Closure $next) {
         $token = $request->headers->get('Authorization');
-        if(empty($token)) {
+        if(empty($token) || is_null($token)) {
             abort(401, 'No server token provided');
         }
 

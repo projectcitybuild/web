@@ -48,7 +48,7 @@ class GameUserLookupService_Test extends TestCase {
     }
 
     /**
-     * Tests that when the alias of an existing player is given,
+     * Asserts that when the alias of an existing player is given
      * that player is returned.
      *
      * @return void
@@ -62,7 +62,13 @@ class GameUserLookupService_Test extends TestCase {
         $this->assertEquals(150, $gameUserId);
     }
 
-    public function test_whenNonExistantUser_createsUserAlias() {
+    /**
+     * Asserts that when the alias of a non-existing player is given
+     * a new user alias and game user is created
+     *
+     * @return void
+     */
+    public function test_whenNonExistentUser_createsUserAlias() {
         $aliasType = UserAliasType::create([
             'name' => 'MINECRAFT_UUID',
         ]);
