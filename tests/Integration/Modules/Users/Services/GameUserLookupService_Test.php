@@ -8,8 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Modules\Users\Services\GameUserLookupService;
 use App\Modules\Users\Repositories\GameUserRepository;
 use App\Modules\Users\Repositories\UserAliasRepository;
-use App\Modules\Users\Models\UserAliasType;
 use App\Modules\Users\Models\UserAlias;
+use App\Modules\Users\UserAliasTypeEnum;
 use App\Modules\Users\Models\GameUser;
 
 class GameUserLookupService_Test extends TestCase {
@@ -36,12 +36,8 @@ class GameUserLookupService_Test extends TestCase {
             'user_id' => null,
         ]);
 
-        $aliasType = UserAliasType::create([
-            'name' => 'MINECRAFT_UUID',
-        ]);
-
         $alias = UserAlias::create([
-            'user_alias_type_id' => $aliasType->user_alias_type_id,
+            'user_alias_type_id' => UserAliasTypeEnum::MINECRAFT_UUID,
             'game_user_id' => $gameUser->game_user_id,
             'alias' => 'fake_uuid',
         ]);
@@ -57,9 +53,9 @@ class GameUserLookupService_Test extends TestCase {
         $this->createFakeGameUser();
 
         $service = new GameUserLookupService($this->userRepository, $this->aliasRepository);
-        $gameUserId = $service->getOrCreateGameUserId('MINECRAFT_UUID', 'fake_uuid');
+        $result = $service->getOrCreateGameUserId(UserAliasTypeEnum::MINECRAFT_UUID, 'fake_uuid');
 
-        $this->assertEquals(150, $gameUserId);
+        $this->assertEquals(150, $result);
     }
 
     /**
@@ -69,15 +65,11 @@ class GameUserLookupService_Test extends TestCase {
      * @return void
      */
     public function test_whenNonExistentUser_createsUserAlias() {
-        $aliasType = UserAliasType::create([
-            'name' => 'MINECRAFT_UUID',
-        ]);
-
         $service = new GameUserLookupService($this->userRepository, $this->aliasRepository);
-        $gameUserId = $service->getOrCreateGameUserId('MINECRAFT_UUID', 'new_user_uuid');
+        $service->getOrCreateGameUserId(UserAliasTypeEnum::MINECRAFT_UUID, 'new_user_uuid');
 
         $this->assertDatabaseHas('user_aliases', [
-            'user_alias_type_id' => $aliasType->user_alias_type_id,
+            'user_alias_type_id' => UserAliasTypeEnum::MINECRAFT_UUID,
             'alias' => 'new_user_uuid',
         ]);
         

@@ -1,40 +1,29 @@
 <?php
 namespace App\Modules\Users\Repositories;
 
-use App\Modules\Users\Models\{UserAlias, UserAliasType};
+use App\Modules\Users\Models\UserAlias;
 
 class UserAliasRepository {
 
-    private $aliasModel;
-    private $aliasTypeModel;
-
-    public function __construct(UserAlias $aliasModel, UserAliasType $aliasTypeModel) {
-        $this->aliasModel = $aliasModel;
-        $this->aliasTypeModel = $aliasTypeModel;
-    }
-
     /**
-     * Gets an alias type by its name
-     *
-     * @param string $typeName
-     * @return UserAliasType|null
+     * @var UserAlias
      */
-    public function getAliasType(string $typeName) : ?UserAliasType {
-        return $this->aliasTypeModel
-            ->where('name', $typeName)
-            ->first();
+    private $aliasModel;
+
+    public function __construct(UserAlias $aliasModel) {
+        $this->aliasModel = $aliasModel;
     }
 
     /**
      * Gets an alias by alias type id and alias
      *
-     * @param int $typeId
+     * @param int $aliasType
      * @param string $name
      * @return UserAlias|null
      */
-    public function getAlias(int $typeId, string $name) : ?UserAlias {
+    public function getAlias(int $aliasType, string $name) : ?UserAlias {
         return $this->aliasModel
-            ->where('user_alias_type_id', $typeId)
+            ->where('user_alias_type_id', $aliasType)
             ->where('alias', $name)
             ->first();
     }
@@ -42,14 +31,14 @@ class UserAliasRepository {
     /**
      * Creates a new UserAlias
      *
-     * @param int $aliasTypeId
+     * @param int $aliasType
      * @param int $gameUserId
      * @param string $alias
      * @return UserAlias
      */
-    public function store(int $aliasTypeId, int $gameUserId, string $alias) : UserAlias {
+    public function store(int $aliasType, int $gameUserId, string $alias) : UserAlias {
         return $this->aliasModel->create([
-            'user_alias_type_id' => $aliasTypeId,
+            'user_alias_type_id' => $aliasType,
             'game_user_id' => $gameUserId,
             'alias' => $alias,
         ]);

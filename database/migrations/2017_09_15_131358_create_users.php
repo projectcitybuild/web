@@ -26,11 +26,6 @@ class CreateUsers extends Migration {
             $table->foreign('user_id')->references('user_id')->on('users');
         });
 
-        Schema::create('user_alias_types', function(Blueprint $table) {
-            $table->increments('user_alias_type_id');
-            $table->string('name');
-        });
-
         Schema::create('user_aliases', function(Blueprint $table) {
             $table->increments('user_alias_id');
             $table->integer('user_alias_type_id')->unsigned();
@@ -38,7 +33,6 @@ class CreateUsers extends Migration {
             $table->string('alias');
             $table->timestamps();
 
-            $table->foreign('user_alias_type_id')->references('user_alias_type_id')->on('user_alias_types');
             $table->foreign('game_user_id')->references('game_user_id')->on('game_users');
         });
     }
@@ -50,7 +44,6 @@ class CreateUsers extends Migration {
      */
     public function down() {
         Schema::dropIfExists('user_aliases');
-        Schema::dropIfExists('user_alias_types');
         Schema::dropIfExists('game_users');
         Schema::dropIfExists('users');
     }

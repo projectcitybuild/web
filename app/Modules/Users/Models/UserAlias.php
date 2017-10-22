@@ -38,8 +38,4 @@ class UserAlias extends Model {
         'updated_at',
     ];
 
-    
-    public function aliasType() {
-        return $this->hasOne('App\Modules\Users\Models\UserAliasType', 'user_alias_type_id', 'user_alias_type_id');
-    }
 }

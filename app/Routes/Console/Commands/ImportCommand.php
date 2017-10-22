@@ -12,6 +12,7 @@ use App\Modules\Users\Repositories\UserAliasRepository;
 use App\Modules\Servers\Repositories\ServerRepository;
 use App\Modules\Donations\Models\Donation;
 use App\Modules\Servers\Services\Mojang\UuidFetcher;
+use App\Modules\Users\UserAliasTypeEnum;
 use DB;
 use Cache;
 use Carbon\Carbon;
@@ -84,9 +85,6 @@ class ImportCommand extends Command
             ->select('id', 'alias', 'uuid')
             ->get();
 
-        $uuidType = $this->aliasRepository->getAliasType('MINECRAFT_UUID')->user_alias_type_id;
-        $nameType = $this->aliasRepository->getAliasType('MINECRAFT_NAME')->user_alias_type_id;
-
         $playerBar = $this->output->createProgressBar(count($players));
         $playerList = [];
 
@@ -101,20 +99,20 @@ class ImportCommand extends Command
                     continue;
                 }
 
-                $userAlias = $this->aliasRepository->getAlias($uuidType, $player->uuid);
+                $userAlias = $this->aliasRepository->getAlias(UserAliasTypeEnum::MINECRAFT_UUID, $player->uuid);
                 if(is_null($userAlias)) {
                     $gameUser = GameUser::create([
                         'user_id' => null,
                     ]);
 
                     $userAlias = UserAlias::create([
-                        'user_alias_type_id' => $uuidType,
+                        'user_alias_type_id' => UserAliasTypeEnum::MINECRAFT_UUID,
                         'alias' => $player->uuid,
                         'game_user_id' => $gameUser->game_user_id,
                     ]);
 
                     UserAlias::create([
-                        'user_alias_type_id' => $nameType,
+                        'user_alias_type_id' => UserAliasTypeEnum::MINECRAFT_NAME,
                         'alias' => $player->alias,
                         'game_user_id' => $gameUser->game_user_id,
                     ]);
