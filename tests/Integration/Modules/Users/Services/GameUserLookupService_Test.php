@@ -53,9 +53,9 @@ class GameUserLookupService_Test extends TestCase {
         $this->createFakeGameUser();
 
         $service = new GameUserLookupService($this->userRepository, $this->aliasRepository);
-        $result = $service->getOrCreateGameUserId(UserAliasTypeEnum::MINECRAFT_UUID, 'fake_uuid');
+        $result = $service->getOrCreateGameUser(UserAliasTypeEnum::MINECRAFT_UUID, 'fake_uuid');
 
-        $this->assertEquals(150, $result);
+        $this->assertEquals(150, $result->game_user_id);
     }
 
     /**
@@ -66,7 +66,7 @@ class GameUserLookupService_Test extends TestCase {
      */
     public function test_whenNonExistentUser_createsUserAlias() {
         $service = new GameUserLookupService($this->userRepository, $this->aliasRepository);
-        $service->getOrCreateGameUserId(UserAliasTypeEnum::MINECRAFT_UUID, 'new_user_uuid');
+        $service->getOrCreateGameUser(UserAliasTypeEnum::MINECRAFT_UUID, 'new_user_uuid');
 
         $this->assertDatabaseHas('user_aliases', [
             'user_alias_type_id' => UserAliasTypeEnum::MINECRAFT_UUID,

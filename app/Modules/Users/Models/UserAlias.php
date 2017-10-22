@@ -38,4 +38,8 @@ class UserAlias extends Model {
         'updated_at',
     ];
 
+    public function gameUser() {
+        return $this->hasOne('App\Modules\Users\Models\GameUser', 'game_user_id', 'game_user_id');
+    }
+
 }

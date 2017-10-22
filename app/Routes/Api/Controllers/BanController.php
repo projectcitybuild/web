@@ -70,8 +70,8 @@ class BanController extends Controller {
         
         $ban = null;
         try {
-            $playerGameUserId = $this->gameUserLookup->getOrCreateGameUserId($playerIdType, $playerId);
-            $staffGameUserId  = $this->gameUserLookup->getOrCreateGameUserId($staffIdType, $staffId);
+            $playerGameUser = $this->gameUserLookup->getOrCreateGameUser($playerIdType, $playerId)->game_user_id;
+            $staffGameUser  = $this->gameUserLookup->getOrCreateGameUser($staffIdType, $staffId)->game_user_id;
         
             $ban = $this->banService->storeBan(
                 $serverKey,
@@ -131,8 +131,8 @@ class BanController extends Controller {
         
         $unban = null;
         try {
-            $playerGameUserId = $this->gameUserLookup->getOrCreateGameUserId($playerIdType, $playerId);
-            $staffGameUserId  = $this->gameUserLookup->getOrCreateGameUserId($staffIdType, $staffId);
+            $playerGameUserId = $this->gameUserLookup->getOrCreateGameUser($playerIdType, $playerId)->game_user_id;
+            $staffGameUserId  = $this->gameUserLookup->getOrCreateGameUser($staffIdType, $staffId)->game_user_id;
         
             $unban = $this->banService->storeUnban($serverKey, $playerGameUserId, $staffGameUserId);
 
@@ -179,7 +179,7 @@ class BanController extends Controller {
         $playerIdType   = $request->get('player_id_type');
         $playerId       = $request->get('player_id');
 
-        $playerGameUserId = $this->gameUserLookup->getOrCreateGameUserId($playerIdType, $playerId);
+        $playerGameUserId = $this->gameUserLookup->getOrCreateGameUser($playerIdType, $playerId)->game_user_id;
         $activeBan = $this->banService->getActivePlayerBan($serverKey, $playerGameUserId);
 
         return response()->json([
