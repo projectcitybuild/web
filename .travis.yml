@@ -20,11 +20,4 @@ script:
   - vendor/bin/phpunit
 
 notifications:
-  webhooks:
-    urls:
-      - http://www.projectcitybuild.com/travis-ci.php
-    on_success: change  # default: always
-    on_failure: always  # default: always
-    on_start: change    # default: never
-    on_cancel: always   # default: always
-    on_error: always    # default: always
+  webhooks: http://www.projectcitybuild.com/travis-ci.php
