@@ -13,7 +13,7 @@ class CreateServerStatuses extends Migration {
      */
     public function up() {
         Schema::create('server_statuses', function(Blueprint $table) {
-            $table->increments('server_status_id');
+            $table->bigIncrements('server_status_id');
             $table->integer('server_id')->unsigned();
             $table->boolean('is_online');
             $table->integer('num_of_players')->comment('Number of players currently connected');
