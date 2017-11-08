@@ -11437,13 +11437,8 @@ module.exports = defaults;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return IMGUR_CLIENT_ID; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return IMGUR_ALBUM_HASH; });
 /* unused harmony export DISCORD_URL */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return PCB_API; });
-var IMGUR_CLIENT_ID = '3fe56d3e5c13a19';
-var IMGUR_ALBUM_HASH = 'Kaqzn';
-
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PCB_API; });
 var DISCORD_URL = 'https://discordapp.com/api/guilds/161649330799902720/widget.json';
 
 var PCB_API = document.location.origin + '/api/';
@@ -26159,6 +26154,13 @@ var GalleryShowcase = function (_Component) {
             var _this2 = this;
 
             __WEBPACK_IMPORTED_MODULE_2__api__["a" /* getAlbum */](function (response) {
+                var _response$images = response.images,
+                    images = _response$images === undefined ? [] : _response$images;
+
+                if (images.length === 0) {
+                    return;
+                }
+
                 _this2.setState({
                     images: response.data.data
                 }, function () {
@@ -38802,14 +38804,13 @@ module.exports = ReactDOMInvalidARIAHook;
 
 
 
+var apiInstance = __WEBPACK_IMPORTED_MODULE_0_axios___default.a.create({
+    baseURL: __WEBPACK_IMPORTED_MODULE_1__config_Environment__["a" /* PCB_API */] + 'gallery/',
+    timeout: 8000
+});
+
 var getAlbum = function getAlbum(callback) {
-    __WEBPACK_IMPORTED_MODULE_0_axios___default()({
-        method: 'get',
-        url: 'https://api.imgur.com/3/album/' + __WEBPACK_IMPORTED_MODULE_1__config_Environment__["a" /* IMGUR_ALBUM_HASH */] + '/images',
-        headers: {
-            'Authorization': 'Client-ID ' + __WEBPACK_IMPORTED_MODULE_1__config_Environment__["b" /* IMGUR_CLIENT_ID */]
-        }
-    }).then(function (response) {
+    return apiInstance.get('featured').then(function (response) {
         callback(response);
     }).catch(function (error) {
         console.error(error);
@@ -40602,7 +40603,7 @@ module.exports = function() {
 
 
 var apiInstance = __WEBPACK_IMPORTED_MODULE_0_axios___default.a.create({
-    baseURL: __WEBPACK_IMPORTED_MODULE_1__config_Environment__["c" /* PCB_API */] + 'bans/',
+    baseURL: __WEBPACK_IMPORTED_MODULE_1__config_Environment__["a" /* PCB_API */] + 'bans/',
     timeout: 8000
 });
 
@@ -40816,7 +40817,7 @@ if (document.getElementById('serverfeed')) {
 
 
 var apiInstance = __WEBPACK_IMPORTED_MODULE_0_axios___default.a.create({
-    baseURL: __WEBPACK_IMPORTED_MODULE_1__config_Environment__["c" /* PCB_API */] + 'servers/',
+    baseURL: __WEBPACK_IMPORTED_MODULE_1__config_Environment__["a" /* PCB_API */] + 'servers/',
     timeout: 8000
 });
 

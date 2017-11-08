@@ -15,6 +15,11 @@ export default class GalleryShowcase extends Component {
 
     componentDidMount() {
         api.getAlbum(response => {
+            const { images = [] } = response;
+            if(images.length === 0) {
+                return;
+            }
+
             this.setState({
                 images: response.data.data,
             }, () => console.log(this.state));

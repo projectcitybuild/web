@@ -1,18 +1,17 @@
 import axios from 'axios';
-import * as Env from '../../config/Environment';
+import{ PCB_API } from '../../config/Environment';
+
+const apiInstance = axios.create({
+    baseURL: PCB_API + 'gallery/',
+    timeout: 8000,
+});
 
 export const getAlbum = (callback) => {
-    axios({
-        method: 'get',
-        url: 'https://api.imgur.com/3/album/' + Env.IMGUR_ALBUM_HASH + '/images',
-        headers: {
-            'Authorization': 'Client-ID ' + Env.IMGUR_CLIENT_ID,
-        },
-    })
-    .then(response => {
-        callback(response);
-    })
-    .catch(error => {
-        console.error(error);
-    });
+    return apiInstance.get('featured')
+        .then(response => {
+            callback(response);
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
