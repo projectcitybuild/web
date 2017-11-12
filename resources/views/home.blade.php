@@ -106,7 +106,12 @@
         @foreach($recentActivity as $post)
         <div class="thread">
             <div class="poster">
-                {{$post->poster->real_name}} posted in
+                @php
+                    $poster = isset($post->poster)
+                        ? $post->poster->real_name
+                        : 'Guest';
+                @endphp
+                {{$poster}} posted in
             </div>
             <a href="http://projectcitybuild.com/forums/index.php?topic={{$post->id_topic}}">{{$post->topic->firstPost->subject}}</a>
             {{$post->poster_time->diffForHumans()}}
