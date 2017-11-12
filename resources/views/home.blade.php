@@ -3,42 +3,44 @@
 @section('left')
 <div id="showcase"></div>
 
-@foreach($announcements as $announcement)
-    <article class="panel news-panel">
-        <div class="article-contents">
-            <h2>{{ $announcement->firstPost->subject }}</h2>
-            <div class="date">{{ $announcement->firstPost->poster_time->format('l, jS \of F, Y') }}</div>
+@if(isset($announcements))
+    @foreach($announcements as $announcement)
+        <article class="panel news-panel">
+            <div class="article-contents">
+                <h2>{{ $announcement->firstPost->subject }}</h2>
+                <div class="date">{{ $announcement->firstPost->poster_time->format('l, jS \of F, Y') }}</div>
 
-            <div class="text">
-                {!! $announcement->firstPost->body !!}
-            </div>
-
-            <div class="poster">
-                Posted by
-                <img src="https://minotar.net/helm/{{ $announcement->poster->real_name }}/16" width="16" />
-                <a href="#">{{ $announcement->poster->real_name }}</a>
-            </div>
-        </div>
-        <div class="article-footer">
-            <div class="stats">
-                <div class="stat">
-                    <h4>{{ $announcement->num_replies }}</h4>
-                    <span>Comments</span>
+                <div class="text">
+                    {!! $announcement->firstPost->body !!}
                 </div>
-                <div class="stat">
-                    <h4>{{ $announcement->num_views }}</h4>
-                    <span>Post Views</span>
+
+                <div class="poster">
+                    Posted by
+                    <img src="https://minotar.net/helm/{{ $announcement->poster->real_name }}/16" width="16" />
+                    <a href="#">{{ $announcement->poster->real_name }}</a>
                 </div>
             </div>
-            <div class="actions">
-                <a class="btn large orange" href="http://projectcitybuild.com/forums/index.php?topic={{ $announcement->id_topic }}">
-                    Read Post
-                    <i class="fa fa-chevron-right"></i>
-                </a>
+            <div class="article-footer">
+                <div class="stats">
+                    <div class="stat">
+                        <h4>{{ $announcement->num_replies }}</h4>
+                        <span>Comments</span>
+                    </div>
+                    <div class="stat">
+                        <h4>{{ $announcement->num_views }}</h4>
+                        <span>Post Views</span>
+                    </div>
+                </div>
+                <div class="actions">
+                    <a class="btn large orange" href="http://projectcitybuild.com/forums/index.php?topic={{ $announcement->id_topic }}">
+                        Read Post
+                        <i class="fa fa-chevron-right"></i>
+                    </a>
+                </div>
             </div>
-        </div>
-    </article>
-@endforeach
+        </article>
+    @endforeach
+@endif
 
 @endsection
 
@@ -100,15 +102,17 @@
 <div class="panel forum-activity">
     <h5>Recent Threads</h5>
 
-    @foreach($recentActivity as $post)
-    <div class="thread">
-        <div class="poster">
-            {{$post->poster->real_name}} posted in
+    @if(isset($recentActivity))
+        @foreach($recentActivity as $post)
+        <div class="thread">
+            <div class="poster">
+                {{$post->poster->real_name}} posted in
+            </div>
+            <a href="http://projectcitybuild.com/forums/index.php?topic={{$post->id_topic}}">{{$post->topic->firstPost->subject}}</a>
+            {{$post->poster_time->diffForHumans()}}
         </div>
-        <a href="http://projectcitybuild.com/forums/index.php?topic={{$post->id_topic}}">{{$post->topic->firstPost->subject}}</a>
-        {{$post->poster_time->diffForHumans()}}
-    </div>
-    @endforeach
+        @endforeach
+    @endif
 </div>
 
 <div class="panel discord-panel">

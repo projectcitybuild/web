@@ -41,9 +41,9 @@ class HomeController extends Controller
             'announcements'     => $announcements,
             'recentActivity'    => $recentActivity,
             'donations' => [
-                'total'         => $donations,
+                'total'         => $donations ?: 0,
                 'remainingDays' => $lastDayOfYear->diff($now)->days,
-                'percentage'    => max(3, $percentage),
+                'percentage'    => max(3, $percentage) ?: 0,
             ],
         ]);
     }
