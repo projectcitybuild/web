@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import * as api from './api';
 
@@ -15,34 +16,55 @@ export default class GalleryShowcase extends Component {
 
     componentDidMount() {
         api.getAlbum(response => {
-            const { images = [] } = response;
-            if(images.length === 0) {
+            const { data = {} } = response.data;
+            if(data.length === 0) {
                 return;
             }
 
             this.setState({
-                images: response.data.data,
+                images: data,
             }, () => console.log(this.state));
         });
+
+        setInterval(() => {
+            const { index, images } = this.state;
+            this.setState({
+                index: (index + 1) % images.length,
+            });
+        }, 3000);
     }
 
     render() {
+        const { images = [], index } = this.state;
+
+        const visibleImage = images[index] || {};
+        const {
+            link = '',
+            id = '',
+            description = '',
+            title = '',
+        } = visibleImage;
+        
         return (
             <div className="panel gallery">
                 <div className="picture-frame">
-                    {this.state.images && this.state.images.length > 0 && 
-                        <img src={this.state.images[this.state.index].link} />
-                    }
+                    <div className="showcase-container">
+                        <ReactCSSTransitionGroup
+                            transitionName="showcase"
+                            transitionEnterTimeout={500}
+                            transitionLeaveTimeout={300}>
+                            
+                            <img className="showcase" src={link} key={id} />
+                        </ReactCSSTransitionGroup>
+                    </div>
                 </div>
                 <div className="picture-desc">
-                    <h3>Zurich</h3>
-                    {this.state.images && this.state.images.length > 0 &&
-                        <small>
-                            {this.state.images[this.state.index].description}
-                        </small>
-                    }
+                    <h3>{title}</h3>
+                    <small>
+                        {description}
+                    </small>
             
-                    <h5>September - Staff Picks</h5>
+                    <h5>Staff Picks</h5>
                 </div>
             </div>
         );

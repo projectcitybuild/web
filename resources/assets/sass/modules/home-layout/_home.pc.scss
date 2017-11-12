@@ -11,11 +11,35 @@
     .picture-frame {
         flex: 1;
         padding: 0.5em;
+        box-sizing: border-box;
         border-bottom: 3px solid darken(#fff, 5%);
+    }
 
-        img {
-            width: 100%;
-        }
+    .showcase-container {
+        position: relative;
+    }
+
+    .showcase {
+        position: absolute;
+        width: 100%;
+    }
+
+    .showcase-enter {
+        opacity: 0.01;
+    }
+    
+    .showcase-enter.showcase-enter-active {
+        opacity: 1;
+        transition: opacity 500ms ease-in;
+    }
+    
+    .showcase-leave {
+        opacity: 1;
+    }
+    
+    .showcase-leave.showcase-leave-active {
+        opacity: 0.01;
+        transition: opacity 300ms ease-in;
     }
 
     .picture-desc {

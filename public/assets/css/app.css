@@ -1345,11 +1345,38 @@ footer .right .social a:not(:last-child) {
       -ms-flex: 1;
           flex: 1;
   padding: 0.5em;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   border-bottom: 3px solid #f2f2f2;
 }
 
-.gallery .picture-frame img {
+.gallery .showcase-container {
+  position: relative;
+}
+
+.gallery .showcase {
+  position: absolute;
   width: 100%;
+}
+
+.gallery .showcase-enter {
+  opacity: 0.01;
+}
+
+.gallery .showcase-enter.showcase-enter-active {
+  opacity: 1;
+  -webkit-transition: opacity 500ms ease-in;
+  transition: opacity 500ms ease-in;
+}
+
+.gallery .showcase-leave {
+  opacity: 1;
+}
+
+.gallery .showcase-leave.showcase-leave-active {
+  opacity: 0.01;
+  -webkit-transition: opacity 300ms ease-in;
+  transition: opacity 300ms ease-in;
 }
 
 .gallery .picture-desc {
