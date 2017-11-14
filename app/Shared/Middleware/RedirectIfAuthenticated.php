@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Frame\Middleware;
+namespace App\Shared\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Frame\Providers;
+namespace App\Shared\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Modules\Forums\Services\SMF\{Smf, SmfUserFactory};

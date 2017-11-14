@@ -31,12 +31,12 @@ $app = new Illuminate\Foundation\Application(
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Frame\Exceptions\Handler::class
+    App\Shared\Exceptions\Handler::class
 );
 
 $app->singleton(
     Illuminate\Contracts\Http\Kernel::class,
-    App\Frame\Kernel::class
+    App\Shared\Kernel::class
 );
 
 $app->singleton(

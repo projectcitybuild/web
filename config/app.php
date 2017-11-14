@@ -208,11 +208,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Frame\Providers\AppServiceProvider::class,
-        App\Frame\Providers\AuthServiceProvider::class,
-        // App\Frame\Providers\BroadcastServiceProvider::class,
-        App\Frame\Providers\EventServiceProvider::class,
-        App\Frame\Providers\RouteServiceProvider::class,
+        App\Shared\Providers\AppServiceProvider::class,
+        App\Shared\Providers\AuthServiceProvider::class,
+        // App\Shared\Providers\BroadcastServiceProvider::class,
+        App\Shared\Providers\EventServiceProvider::class,
+        App\Shared\Providers\RouteServiceProvider::class,
 
     ],
 
