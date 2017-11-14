@@ -17,7 +17,6 @@ mix.options({
 //    .disableNotifications();
 
 mix.react('app/Resources/assets/js/app.js', 'public/assets/js')
-   .copy('app/Resources/assets/libs/fontawesome/fonts', 'public/assets/fonts')
    .sass('app/Resources/assets/sass/app.scss', 'public/assets/css');
 
 mix.browserSync({

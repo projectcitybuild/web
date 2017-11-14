@@ -10,6 +10,7 @@
         <title>Project City Build</title>
 
         <link rel="stylesheet" type="text/css" href="{{ mix('assets/css/app.css') }}" />
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     </head>
     <body>
         
