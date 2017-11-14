@@ -66,6 +66,12 @@ class ForumPost extends Model
         //     '<img src="$1">',
         //     '$1'
         // );
+        $bbcodeParser->setParser(
+            'member',
+            '/\[member\=(\d+)\](.*?)\[\/member\]/s',
+            '<a href="http://projectcitybuild.com/forums/index.php?action=profile;u=$1">@$2</a>',
+            '$2'
+        );
 
         return $bbcodeParser->parseCaseInsensitive($value);
     }
