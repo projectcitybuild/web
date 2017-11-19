@@ -17,11 +17,18 @@ class ForumUser extends Model
     protected $guarded = [];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * The attributes that should be visibile for arrays.
      *
      * @var array
      */
-    protected $hidden = [];
+    protected $visible = [
+        'id_member',
+        'member_name',
+        'posts',
+        'id_group',
+        'real_name',
+        'additional_groups',
+    ];
 
     /**
      * The table associated with the model.
