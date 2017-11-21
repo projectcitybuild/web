@@ -36,11 +36,11 @@ class UserAliasRepository {
      * @param string $alias
      * @return UserAlias
      */
-    public function store(int $aliasType, int $gameUserId, string $alias) : UserAlias {
+    public function store(int $aliasType, string $alias, int $gameUserId) : UserAlias {
         return $this->aliasModel->create([
             'user_alias_type_id' => $aliasType,
-            'game_user_id' => $gameUserId,
             'alias' => $alias,
+            'game_user_id' => $gameUserId,
         ]);
     }
 

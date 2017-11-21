@@ -4,23 +4,50 @@ namespace App\Modules\Users\Services;
 use App\Modules\Users\Exceptions\InvalidAliasTypeException;
 use App\Modules\Users\Repositories\GameUserRepository;
 use App\Modules\Users\Repositories\UserAliasRepository;
+use App\Modules\Users\Services\GameUserCreationService;
 use App\Modules\Users\Models\GameUser;
+use Illuminate\Database\Connection;
 
 class GameUserLookupService {
-
-    /**
-     * @var GameUserRepository
-     */
-    private $gameUserRepository;
 
     /**
      * @var UserAliasRepository
      */
     private $aliasRepository;
 
-    public function __construct(GameUserRepository $gameUserRepository, UserAliasRepository $aliasRepository) {
-        $this->gameUserRepository = $gameUserRepository;
+    /**
+     * @var GameUserCreationService
+     */
+    private $gameUserCreationService;
+
+    /**
+     * @var Connection
+     */
+    private $connection;
+
+    public function __construct(
+        UserAliasRepository $aliasRepository,
+        GameUserCreationService $gameUserCreationService,
+        Connection $connection
+    ) {
         $this->aliasRepository = $aliasRepository;
+        $this->gameUserCreationService = $gameUserCreationService;
+        $this->connection = $connection;
+    }
+
+    /**
+     * Gets the GameUser that belongs to the given alias type and alias
+     *
+     * @param int $aliasType
+     * @param string $alias
+     * @return GameUser|null
+     */
+    public function getGameUser(int $aliasType, string $alias) : ?GameUser {
+        $playerAlias = $this->aliasRepository->getAlias($aliasType, $alias);
+        if($playerAlias !== null) {
+            return $playerAlias->gameUser;
+        }
+        return null;
     }
 
     /**
@@ -29,29 +56,15 @@ class GameUserLookupService {
      *
      * @param int $aliasType        Alias type to search for [UserAliasTypeEnum]
      * @param string $alias         Alias to search for
-     * @param array $extraAliases   Array of extra aliases to create for the user if new (key = type, value = alias)
      * @return GameUser
      */
-    public function getOrCreateGameUser(int $aliasType, string $alias, array $extraAliases = []) : GameUser {
-        $playerAlias = $this->aliasRepository->getAlias($aliasType, $alias);
-        if(isset($playerAlias)) {
-            return $playerAlias->gameUser;
+    public function getOrCreateGameUser(int $aliasType, string $alias) : GameUser {
+        $gameUser = $this->getGameUser($aliasType, $alias);
+        if($gameUser !== null) {
+            return $gameUser;
         }
 
-        $player = $this->gameUserRepository->store();
-        $playerId = $player->game_user_id;
-
-        $this->aliasRepository->store(
-            $aliasType,
-            $playerId, 
-            $alias
-        );
-
-        foreach($extraAliases as $type => $extraAlias) {
-            $this->aliasRepository->store($type, $playerId, $extraAlias);
-        }
-
-        return $player;
+        return $this->gameUserCreationService->createUser([$aliasType => $alias]);
     }
 
 }
