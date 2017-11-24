@@ -1,10 +1,12 @@
 <?php
-namespace App\Modules\Servers\Services\Mojang;
+namespace App\Modules\Servers\Services\PlayerFetching\Api\Mojang;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayer;
+use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayerNameHistory;
 
-class UuidFetcher {
+class MojangApiService {
 
     private $client;
 
@@ -22,7 +24,7 @@ class UuidFetcher {
      * @param null $time
      * @return MojangPlayer
      */
-    public function getUuidOf(string $name, $time = null) : MojangPlayer {
+    public function getUuidOf(string $name, $time = null) : ?MojangPlayer {
         if(is_null($time)) {
             $time = time();
         }
@@ -33,16 +35,22 @@ class UuidFetcher {
             ],
         ]);
 
-        if($response->getStatusCode() == 200) {
-            $body = json_decode($response->getBody());
-            return new MojangPlayer(
-                $body->name, 
-                $body->id, 
-                isset($body->demo)
-            );
+        // if no player exists, return null
+        if($response->getStatusCode() === 204) {
+            return null;
         }
 
-        return new MojangPlayer();
+        if($response->getStatusCode() !== 200) {
+            throw new \Exception('Bad Mojang api response: ' . $response->getStatusCode() . ' error');
+        }
+
+        $body = json_decode($response->getBody());
+        return new MojangPlayer(
+            $body->id, 
+            $body->name, 
+            isset($body->legacy),
+            isset($body->demo)
+        );
     }
 
     /**
@@ -66,7 +74,7 @@ class UuidFetcher {
      * @return array
      * @throws \Exception
      */
-    public function getUuidBatchOf(array $names) : array {
+    public function getUuidBatchOf(array $names) : ?array {
         if(count($names) === 0 || count($names) > 100) {
             throw new \Exception('Batch must contain between 1 and 100 names to search');
         }
@@ -74,7 +82,7 @@ class UuidFetcher {
         // check for invalid names before hitting the api, or else
         // the entire request could fail midway
         foreach($names as $name) {
-            if(is_null($name) || $name === '') {
+            if(empty($name)) {
                 throw new \Exception('Name cannot be null or empty');
             }
         }
@@ -83,20 +91,28 @@ class UuidFetcher {
             'json' => $names,
         ]);
 
-        if($response->getStatusCode() == 200)
-        {
-            $data = json_decode($response->getBody());
-            
-            $players = [];
-            foreach($data as $player) {
-                $name = $data['name'];
-                $players[$name] = new MojangPlayer($name, $data['id'], $data['demo'] ?: false);
-            }
-
-            return $uuids;
+        if($response->getStatusCode() !== 200) {
+            throw new \Exception('Bad Mojang api response: ' . $response->getStatusCode() . ' error');
         }
 
-        return null;
+        $data = json_decode($response->getBody());
+        if(count($data) === 0) {
+            return [];
+        }
+
+        return collect($data)
+            ->keyBy(function($player) {
+                return $player->name;
+            })
+            ->map(function($player) {
+                return new MojangPlayer(
+                    $player->id,
+                    $player->name,
+                    isset($body->legacy),
+                    isset($body->demo)
+                );
+            })
+            ->toArray();
     }
 
     /**
@@ -108,15 +124,21 @@ class UuidFetcher {
      * @param $uuid
      * @return array|null
      */
-    public function getNameHistoryOf($uuid) : array {
+    public function getNameHistoryOf($uuid) : ?MojangPlayerNameHistory {
         $response = $this->client->request('GET', 'https://api.mojang.com/user/profiles/' . $uuid . '/names');
 
-        if($response->getStatusCode() == 200) {
-            $body = json_decode($response->getBody());
-            return $body;
+        // if no player exists, return null
+        if($response->getStatusCode() === 204) {
+            return null;
+        }
+        
+        if($response->getStatusCode() !== 200) {
+            throw new \Exception('Bad Mojang api response: ' . $response->getStatusCode() . ' error');
         }
 
-        return [];
+        return new MojangPlayerNameHistory(
+            json_decode($response->getBody())
+        );
     }
 
     /**
@@ -128,15 +150,12 @@ class UuidFetcher {
      * @param $name
      * @return array|null
      */
-    public function getNameHistoryByNameOf($name)
-    {
-        $uuid = $this->getUuidOf($name);
-
-        if($uuid->isPlayer()) {
-            return $this->getNameHistoryOf($uuid->getAlias());
+    public function getNameHistoryByNameOf($name) : ?MojangPlayerNameHistory {
+        $player = $this->getUuidOf($name);
+        if($player !== null) {
+            return $this->getNameHistoryOf($player->getUuid());
         }
-
-        return [];
+        return null;
     }
 
 }
