@@ -11,7 +11,6 @@ use App\Modules\Users\Models\UserAliasType;
 use App\Modules\Users\Repositories\UserAliasRepository;
 use App\Modules\Servers\Repositories\ServerRepository;
 use App\Modules\Donations\Models\Donation;
-use App\Modules\Servers\Services\Mojang\UuidFetcher;
 use App\Modules\Users\UserAliasTypeEnum;
 use DB;
 use Cache;
@@ -37,22 +36,16 @@ class ImportCommand extends Command
     private $serverRepository;
 
     /**
-     * @var UuidFetcher
-     */
-    private $uuidFetcher;
-
-    /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(UserAliasRepository $aliasRepository, ServerRepository $serverRepository, UuidFetcher $uuidFetcher)
+    public function __construct(UserAliasRepository $aliasRepository, ServerRepository $serverRepository)
     {
         parent::__construct();
 
         $this->aliasRepository = $aliasRepository;
         $this->serverRepository = $serverRepository;
-        $this->uuidFetcher = $uuidFetcher;
     }
 
     /**
