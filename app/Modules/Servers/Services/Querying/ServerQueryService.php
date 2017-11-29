@@ -56,7 +56,6 @@ class ServerQueryService {
         foreach($servers as $server) {
             $this->queryServer(
                 $queryAdapter ?: $this->adapterFactory->getAdapter($server->game_type),
-                null,
                 $server->server_id,
                 $server->ip,
                 $server->port, 

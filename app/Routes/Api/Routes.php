@@ -27,5 +27,3 @@ Route::prefix('servers')->group(function() {
 });
 
 Route::get('gallery/featured', 'GalleryController@getFeaturedImages');
-
-

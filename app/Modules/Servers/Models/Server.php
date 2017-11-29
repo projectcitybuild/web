@@ -22,6 +22,7 @@ class Server extends Model {
      */
     protected $fillable = [
         'name',
+        'server_category_id',
         'ip',
         'ip_alias',
         'port',
@@ -29,6 +30,7 @@ class Server extends Model {
         'is_querying',
         'is_visible',
         'display_order',
+        'game_type',
     ];
 
     /**
