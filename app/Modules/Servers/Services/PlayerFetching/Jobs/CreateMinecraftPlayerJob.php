@@ -8,7 +8,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Modules\Users\Services\GameUserLookupService;
-use App\Modules\Servers\Services\Mojang\UuidFetcher;
 use App\Modules\Users\UserAliasTypeEnum;
 
 class CreateMinecraftPlayerJob implements ShouldQueue
@@ -47,14 +46,15 @@ class CreateMinecraftPlayerJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle(UuidFetcher $uuidFetcher, GameUserLookupService $gameUserLookup) {
-        $uuid = $uuidFetcher->getUuidOf($this->playerName, $this->requestTime);
+    // TODO: move this to PlayerFetching
+    public function handle(GameUserLookupService $gameUserLookup) {
+        // $uuid = $uuidFetcher->getUuidOf($this->playerName, $this->requestTime);
         
         // if no uuid returned, the Mojang server is probably down
-        if(empty($uuid->getUuid())) {
-            throw new \Exception('UUID fetch response is empty. Is the Mojang server down?');
-        }
+        // if(empty($uuid->getUuid())) {
+        //     throw new \Exception('UUID fetch response is empty. Is the Mojang server down?');
+        // }
 
-        $gameUserLookup->getOrCreateGameUser(UserAliasTypeEnum::MINECRAFT_UUID, $uuid->getUuid());
+        // $gameUserLookup->getOrCreateGameUser(UserAliasTypeEnum::MINECRAFT_UUID, $uuid->getUuid());
     }
 }

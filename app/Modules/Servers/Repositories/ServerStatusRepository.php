@@ -24,7 +24,7 @@ class ServerStatusRepository {
      * @return void
      */
     public function create(int $serverId, bool $isOnline, int $numOfPlayers, int $numOfSlots, array $playerList, int $createdAt) {
-        $this->statusModel->create([
+        return $this->statusModel->create([
             'server_id'         => $serverId,
             'is_online'         => $isOnline,
             'num_of_players'    => $numOfPlayers,

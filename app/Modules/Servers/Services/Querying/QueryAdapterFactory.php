@@ -10,11 +10,13 @@ class QueryAdapterFactory {
     /**
      * Instantiates an adapter based on the given game type
      *
-     * @param int $serverGameType
+     * @param int $gameType
+     * 
      * @return QueryAdapterInterface
+     * @throws \Exception
      */
-    public function getAdapter(int $serverGameType) : QueryAdapterInterface {
-        switch(strtolower($serverGameType)) {
+    public function getAdapter(int $gameType) : QueryAdapterInterface {
+        switch(strtolower($gameType)) {
             case GameTypeEnum::Minecraft:
                 return resolve(MinecraftQueryAdapter::class);
                 
