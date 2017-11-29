@@ -2,7 +2,7 @@
 
 namespace App\Modules\Donations\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Shared\Model;
 
 class Donation extends Model {
 

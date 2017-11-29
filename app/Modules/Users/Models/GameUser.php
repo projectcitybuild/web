@@ -2,7 +2,7 @@
 
 namespace App\Modules\Users\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Shared\Model;
 
 class GameUser extends Model {
 

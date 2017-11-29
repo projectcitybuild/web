@@ -26,7 +26,7 @@ class ServerQueryService_Test extends TestCase {
             '25565'
         );
 
-        $this->assertDatabaseHas((new ServerStatus)->getTable(), [
+        $this->assertDatabaseHas(ServerStatus::getTableName(), [
             'server_id' => 5,
             'is_online' => false,
             'num_of_players' => 0,
@@ -48,7 +48,7 @@ class ServerQueryService_Test extends TestCase {
             '25565'
         );
 
-        $this->assertDatabaseHas((new ServerStatus)->getTable(), [
+        $this->assertDatabaseHas(ServerStatus::getTableName(), [
             'server_id' => 6,
             'is_online' => true,
             'num_of_players' => 2,
@@ -70,11 +70,11 @@ class ServerQueryService_Test extends TestCase {
         $test = resolve(ServerQueryService::class);
         $test->queryAllServers(new MockQueryAdapter(false));
 
-        $this->assertDatabaseHas((new ServerStatus)->getTable(), [
+        $this->assertDatabaseHas(ServerStatus::getTableName(), [
             'server_id' => $server1->server_id,
             'is_online' => false,
         ]);
-        $this->assertDatabaseHas((new ServerStatus)->getTable(), [
+        $this->assertDatabaseHas(ServerStatus::getTableName(), [
             'server_id' => $server2->server_id,
             'is_online' => false,
         ]);

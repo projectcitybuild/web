@@ -2,7 +2,7 @@
 
 namespace App\Modules\Servers\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Shared\Model;
 
 class ServerCategory extends Model {
 

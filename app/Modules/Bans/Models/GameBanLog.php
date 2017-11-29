@@ -2,7 +2,7 @@
 
 namespace App\Modules\Bans\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Shared\Model;
 
 class GameBanLog extends Model {
 
