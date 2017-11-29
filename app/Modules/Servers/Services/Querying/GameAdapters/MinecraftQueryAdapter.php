@@ -27,14 +27,17 @@ class MinecraftQueryAdapter implements QueryAdapterInterface {
         try {
             $this->queryService->Connect($ip, $port);
             
-            $info = $this->queryService->GetInfo();
-            $players = $this->queryService->GetPlayers();
+            $info = $this->queryService->GetInfo() ?: [];
+            $players = $this->queryService->GetPlayers() ?: [];
+
+            $numPlayers = array_key_exists('Players', $info) ? $info['Players'] : -1;
+            $numSlots   = array_key_exists('MaxPlayers', $info) ? $info['MaxPlayers'] : -1;
 
             return new QueryResult(
                 true,
-                $info['Players'],
-                $info['MaxPlayers'],
-                $players ?: []
+                $numPlayers,
+                $numSlots,
+                $players
             );
         
         } catch(MinecraftQueryException $e) {
