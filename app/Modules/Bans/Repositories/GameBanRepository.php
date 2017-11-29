@@ -17,8 +17,25 @@ class GameBanRepository {
      * @param array $input
      * @return GameBan
      */
-    public function store(array $input) : GameBan {
-        return $this->banModel->create($input);
+    public function store(
+        int $serverId,
+        int $playerGameUserId,
+        int $staffGameUserId,
+        string $reason,
+        bool $isActive,
+        bool $isGlobalBan,
+        $expiresAt
+    ) : GameBan {
+        
+        return $this->banModel->create([
+            'server_id'             => $serverId,
+            'player_game_user_id'   => $playerGameUserId,
+            'staff_game_user_id'    => $staffGameUserId,
+            'reason'                => $reason,
+            'is_active'             => $isActive,
+            'is_global_ban'         => $isGlobalBan,
+            'expires_at'            => $expiresAt,
+        ]);
     }
 
     /**

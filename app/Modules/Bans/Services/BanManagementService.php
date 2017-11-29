@@ -7,7 +7,7 @@ use App\Modules\Bans\Exceptions\{UnauthorisedKeyActionException, UserAlreadyBann
 use App\Modules\Bans\Repositories\{GameBanRepository, GameUnbanRepository};
 use Illuminate\Database\Connection;
 
-class BanService {
+class BanManagementService {
 
     /**
      * @var GameBanRepository
@@ -24,7 +24,11 @@ class BanService {
      */
     private $connection;
 
-    public function __construct(GameBanRepository $banRepository, GameUnbanRepository $unbanRepository, Connection $connection) {
+    public function __construct(
+        GameBanRepository $banRepository, 
+        GameUnbanRepository $unbanRepository,
+        Connection $connection
+    ) {
         $this->banRepository = $banRepository;
         $this->unbanRepository = $unbanRepository;
         $this->connection = $connection;
@@ -45,36 +49,45 @@ class BanService {
      * 
      * @return void
      */
-    public function storeBan(ServerKey $key, int $playerGameUserId, int $staffGameUserId, string $reason, int $expiryTimestamp, bool $isGlobalBan) : GameBan {
-        if($isGlobalBan && !$serverKey->can_global_ban) {
-            throw new UnauthorisedKeyActionException('This key does not have permission to create a global ban');
-        }
-        if(!$isGlobalBan && !$serverKey->can_local_ban) {
-            throw new UnauthorisedKeyActionException('This key does not have permission to create a local ban');
-        }
+    public function storeBan(
+        ServerKey $key, 
+        int $playerGameUserId,
+        int $staffGameUserId, 
+        string $reason, 
+        int $expiryTimestamp,
+        bool $isGlobalBan
+    ) : GameBan {
 
         $existingBan = $this->banRepository->getActiveBanByGameUserId($playerGameUserId, $serverKey->server_id);
-        if(isset($existingBan)) {
+        if($existingBan !== null) {
             // TODO: update local ban with global if necessary
 
             throw new UserAlreadyBannedException('Player is already banned');
         }
 
-        $ban = $this->banRepository->store([
-            'server_id'             => $serverKey->server_id,
-            'player_game_user_id'   => $playerGameUserId,
-            'staff_game_user_id'    => $staffGameUserId,
-            'reason'                => $reason,
-            'is_active'             => true,
-            'is_global_ban'         => $isGlobalBan,
-            'expires_at'            => $expiryTimestamp ? Carbon::createFromTimestamp($expiryTimestamp) : null,
-        ]);
-
-        $serverKey->touch();
-
-        // TODO: log usage of server key
-
-        return $ban;
+        $this->connection->beginTransaction();
+        try {
+            $ban = $this->banRepository->store(
+                $serverKey->server_id,
+                $playerGameUserId,
+                $staffGameUserId,
+                $reason,
+                true,
+                $isGlobalBan,
+                $expiryTimestamp ? Carbon::createFromTimestamp($expiryTimestamp) : null
+            );
+    
+            $serverKey->touch();
+    
+            // TODO: log usage of server key
+    
+            $this->connection->commit();
+            return $ban;
+        
+        } catch(\Exception $e) {
+            $this->connection->rollBack();
+            throw $e;
+        }
     }
 
     /**
@@ -91,35 +104,23 @@ class BanService {
             throw new UserNotBannedException('This player is not currently banned');
         }
 
-        if($existingBan->server_id == $serverKey->server_id) {
-            // can remove local bans or global bans from this server?
-            if(!$serverKey->can_local_ban) {
-                throw new UnauthorisedKeyActionException('This key does not have permission to remove local bans');
-            }
-        } else {
-            // can remove global ban from other servers?
-            if($existingBan->is_global_ban && !$serverKey->can_global_ban) {
-                throw new UnauthorisedKeyActionException('This key does not have permission to remove global bans');
-            }
-        }
+        $this->banAuthService->validateUnban($existingBan, $serverKey);
 
-        $unban = null;
         $this->connection->beginTransaction();
         try {
             $this->banRepository->deactivateBan($existingBan->game_ban_id);
             $unban = $this->unbanRepository->store($existingBan->game_ban_id, $staffGameUserId);
+            $serverKey->touch();
 
+            // TODO: log usage of server key
+        
             $this->connection->commit();
+            return $unban;
 
         } catch(\Exception $e) {
             $this->connection->rollBack();
+            throw $e;
         }
-
-        $serverKey->touch();
-
-        // TODO: log usage of server key
-
-        return $unban;
     }
 
     /**
