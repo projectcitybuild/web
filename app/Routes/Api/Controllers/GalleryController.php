@@ -3,8 +3,7 @@
 namespace App\Routes\Api\Controllers;
 
 use Illuminate\Http\Request;
-use App\Modules\Gallery\Services\ImgurFetcher;
-use Illuminate\Cache\Repository as Cache;
+use App\Modules\Gallery\Services\GalleryRetrieveService;
 
 class GalleryController extends Controller {
 
@@ -14,18 +13,10 @@ class GalleryController extends Controller {
      * @param Request $request
      * @return array
      */
-    public function getFeaturedImages(Request $request) {
-        $cache = resolve(Cache::class);
-        $images = $cache->remember('featured-images', 180, function() {
-            $album = config('gallery.featured-album');
-        
-            $fetcher = resolve(ImgurFetcher::class);
-            return $fetcher->getImagesFromAlbum($album);
-        });
-
+    public function getFeaturedImages(Request $request, GalleryRetrieveService $galleryService) {
         return [
             'status_code' => 200,
-            'data' => $images,
+            'data' => $galleryService->getFeaturedAlbum(),
         ];
     }
 }

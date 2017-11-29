@@ -3,7 +3,7 @@ namespace App\Modules\Gallery\Services;
 
 use GuzzleHttp\Client;
 
-class ImgurFetcher {
+class ImgurApiService {
 
     /**
      * @var GuzzleHttp\Client
