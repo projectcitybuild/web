@@ -35,7 +35,3 @@ RUN npm run production
 # phase (files weren't baked-in yet)
 RUN composer dump-autoload --optimize && \
 	composer run-script post-install-cmd
-
-
-VOLUME /var/www/html/public
-VOLUME /var/www/html/storage
