@@ -13,17 +13,13 @@ RUN wget https://phar.phpunit.de/phpunit-6.4.phar && \
     chmod +x phpunit-6.4.phar && \
     mv phpunit-6.4.phar /usr/local/bin/phpunit
 
-# match container's user to the volume host's
-# RUN sed -ri 's/^www-data:x:82:82:/www-data:x:1000:50:/' /etc/passwd
 
 WORKDIR /var/www/html
 
-# pull in the composer definition so we can cache this step if
+# pull in dependency definitions so we can cache this step if
 # there haven't been any dependency changes
 COPY src/composer.json src/composer.lock ./
-RUN composer install --prefer-dist
-
-# and the same with NPM
+RUN composer install --no-scripts --no-autoloader
 COPY src/package.json .
 RUN npm install
 
@@ -32,4 +28,14 @@ RUN npm install
 COPY src .
 RUN chown -R www-data:www-data .
 
+# minify our production css and javascript
+RUN npm run production
+
+# run post-install scripts since we disabled them during the composer install 
+# phase (files weren't baked-in yet)
+RUN composer dump-autoload --optimize && \
+	composer run-script post-install-cmd
+
+
 VOLUME /var/www/html/public
+VOLUME /var/www/html/storage

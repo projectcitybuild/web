@@ -5,20 +5,17 @@ services:
     build: ./nginx
     ports:
       - "80:80"
-      # - "443:443"
     volumes:
       - ./storage/www:/var/www/html
-      - ./storage/certs:/etc/letsencrypt
-      - ./storage/certs-data:/data/letsencrypt
     links:
       - php-fpm
 
   php-fpm:
     build: ./php-fpm
-    # ports:
-      # - "3001:3001"   # browser sync
+    ports:
+      - "3001:3001"   # browser sync
     volumes:
-      - ./storage/www:/var/www/html
+      - ./storage/www:/var/www/html   # overwrite our baked-in source code with a mounted volume
     links:
       - redis
       - database

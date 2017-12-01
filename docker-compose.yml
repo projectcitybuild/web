@@ -2,21 +2,21 @@ version: '3'
 services:
 
   nginx:
-    build: ./nginx
+    build:
+      context: .
+      dockerfile: containers/nginx/Dockerfile
     ports:
       - "80:80"
       # - "443:443"
     restart: always
-    # volumes:
-    #   - ./storage/www:/var/www/html
     links:
       - php-fpm
 
   php-fpm:
-    build: ./php-fpm
+    build:
+      context: .
+      dockerfile: containers/php-fpm/Dockerfile
     restart: always
-    # volumes:
-    #   - ./storage/www:/var/www/html
     links:
       - redis
       - database
@@ -30,12 +30,10 @@ services:
       - "3306:3306"
     restart: always
     env_file:
-      - .env
+      - containers/.env
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    # volumes:
-    #   - ./storage/database:/var/lib/mysql
   
