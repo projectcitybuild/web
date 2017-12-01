@@ -3,5 +3,4 @@ src/storage/**
 src/bootstrap/cache/**
 
 # ignore production irrelevant files
-src/.env
 *.md
