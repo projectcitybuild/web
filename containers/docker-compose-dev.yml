@@ -1,0 +1,42 @@
+version: '3'
+services:
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+      # - "443:443"
+    volumes:
+      - ./storage/www:/var/www/html
+      - ./storage/certs:/etc/letsencrypt
+      - ./storage/certs-data:/data/letsencrypt
+    links:
+      - php-fpm
+
+  php-fpm:
+    build: ./php-fpm
+    # ports:
+      # - "3001:3001"   # browser sync
+    volumes:
+      - ./storage/www:/var/www/html
+    links:
+      - redis
+      - database
+
+  redis:
+    image: redis:4.0-alpine
+
+  database:
+    image: mariadb:10.0.20
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - ./storage/database:/var/lib/mysql
+  
