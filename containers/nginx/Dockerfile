@@ -6,8 +6,8 @@ WORKDIR /etc/nginx
 COPY containers/nginx/conf/nginx.conf .
 
 # set up sites-available and sites-enabled directory structure
-RUN mkdir ./sites-available ./sites-enabled
-COPY containers/nginx/conf/sites-available ./sites-available
-RUN ln -s ./sites-available/default.conf ./sites-enabled/default.conf
+RUN mkdir /etc/nginx/sites-available /etc/nginx/sites-enabled
+COPY containers/nginx/conf/sites-available /etc/nginx/sites-available
+RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
 
 EXPOSE 80
