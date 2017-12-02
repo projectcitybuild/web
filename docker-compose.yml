@@ -2,6 +2,7 @@ version: '3'
 
 volumes:
   www:
+  db:
 
 services:
   nginx:
@@ -43,3 +44,5 @@ services:
       - MYSQL_DATABASE=$${MYSQL_DATABASE}
       - MYSQL_USER=$${MYSQL_USER}
       - MYSQL_PASSWORD=$${MYSQL_PASSWORD}  
+    volumes:
+      - db:/var/lib/mysql

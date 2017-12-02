@@ -1,14 +1,40 @@
-sudo: required
-language: php
+branches:
+  only:
+  - master
+  - feat/dockerise
 
+language: generic
 services:
   - docker
-
 env:
-  - DOCKER_COMPOSE_VERSION=1.4.2
+  - DOCKER_COMPOSE_VERSION=1.13.0
 
 before_install:
+  # kill any local db service in case it blocks our 3306 port
+  - sudo service mysql stop
+
+  # update docker engine
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+
+  # update docker compose
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
+  - docker-compose --version
+
+before_script:
+  # inject our Travis environment variables into a new docker .env file
+  - cp containers/.env.example containers/.env
+  - sed -ri 's/^MYSQL_ROOT_PASSWORD=/MYSQL_ROOT_PASSWORD='"$MYSQL_ROOT_PASSWORD"'/' containers/.env
+  - sed -ri 's/^MYSQL_DATABASE=/MYSQL_DATABASE='"$MYSQL_DATABASE"'/' containers/.env
+
+  - docker-compose up -d
+  - docker ps
+
+script:
+  - docker exec -it $(docker-compose ps -q php-fpm) sh -c "cp .env.ci .env && php artisan key:generate && phpunit"
+
+after_script:
+  - docker-compose down
