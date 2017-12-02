@@ -1,7 +1,8 @@
 branches:
   only:
   - master
-  - feat/dockerise
+  - feat/docker
+  - dev
 
 language: generic
 services:
