@@ -34,7 +34,7 @@ before_script:
   - docker ps
 
 script:
-  - docker exec -it $(docker-compose ps -q php-fpm) sh -c "cp .env.ci .env && php artisan key:generate && phpunit"
+  - docker exec -it $(docker-compose ps -q php-fpm) sh -c "cp .env.ci .env && php artisan key:generate > /dev/null && phpunit"
 
 after_script:
   - docker-compose down
