@@ -20,13 +20,13 @@ WORKDIR /var/www/html
 # there haven't been any dependency changes
 COPY src/composer.json src/composer.lock ./
 RUN composer install --no-scripts --no-autoloader
-COPY src/package.json .
+COPY src/package.json src/package-lock.json .
 RUN npm install
 
 # bake our source code into the image last so that code changes don't
 # flush the dependency caches
 COPY src .
-RUN chown -R www-data:www-data .
+RUN chown -R www-data:www-data /var/www/html
 
 # minify our production css and javascript
 RUN npm run production

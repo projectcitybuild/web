@@ -1,5 +1,10 @@
 # ignore cache and logs
-src/storage/**
+src/storage/app/**
+src/storage/framework/cache/**
+src/storage/framework/sessions/**
+src/storage/framework/testing/**
+src/storage/framework/views/**
+src/storage/logs/**
 src/bootstrap/cache/**
 
 # ignore production irrelevant files
