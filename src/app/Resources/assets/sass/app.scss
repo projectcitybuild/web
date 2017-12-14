@@ -2,12 +2,16 @@
 @import url('https://fonts.googleapis.com/css?family=Fjalla+One');
 
 @import "~normalize-scss/sass/normalize";
+@include normalize();
 
-$colour-primary: #1987db;
-$colour-secondary: #534741;
-$colour-accent: #F5A503;
 
-$colour-bg: #fffcda;
+@import "variables";
+
+@import "components/grid";
+@import "components/navigation";
+
+@import "layouts/home";
+
 
 * {
     box-sizing: border-box;

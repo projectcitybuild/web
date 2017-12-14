@@ -14,60 +14,57 @@
     </head>
     <body>
         
-        <input type="checkbox" id="drawer-toggle" />
-        <label for="drawer-toggle"></label>
-        <nav id="mobile-float-nav">
-            
-        </nav>
-        <nav id="menu-nav">
-            <ul>
-                <li><a href="{{ route('home') }}">Home</a></li>
-                <li><a href="http://projectcitybuild.com/forums/">Forums</a></li>
-                <li>
-                    <a href="javascript:void(0)">Servers <i class="fa fa-caret-down"></i></a>
-                    <ul class="menu-sideway">
-                        <li>
-                            <h5>Minecraft</h5>
-                            <ul>
-                                <li><a href="http://projectcitybuild.com/forums/index.php?topic=11146">Rules & Guidelines</a></li>
-                                <li><a href="#">Ranks</a></li>
-                                <li><a href="#">Staff</a></li>
-                                <li><a href="http://pcbmc.co:8123/" target="_blank">Real-Time Map</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <h5>Feed the Beast</h5>
-                            <ul>
-                                <li><a href="#">Rules & Guidelines</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <h5>Terraria</h5>
-                            <ul>
-                                <li><a href="#">Rules & Guidelines</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">Community <i class="fa fa-caret-down"></i></a>
-                    <ul>
-                        <li><a href="#">Appeal a Ban</a></li>
-                        <li><a href="#">Report a Player</a></li>
-                        <li class="divider"><a href="#">Apply for Staff</a></li>
-                        <li><a href="https://wiki.projectcitybuild.com/" target="_blank">Community Wiki</a></li>
-                    </ul>
-                </li>
-                <li><a href="{{ route('banlist') }}">Ban List</a></li>
-            </ul>
+        <nav class="bar">
+            <div class="container">
+                <ul>
+                    <li><a href="{{ route('home') }}">Home</a></li>
+                    <li><a href="http://projectcitybuild.com/forums/">Forums</a></li>
+                    <li>
+                        <a href="javascript:void(0)">Servers <i class="fa fa-caret-down"></i></a>
+                        <ul class="menu-sideway">
+                            <li>
+                                <h5>Minecraft</h5>
+                                <ul>
+                                    <li><a href="http://projectcitybuild.com/forums/index.php?topic=11146">Rules & Guidelines</a></li>
+                                    <li><a href="#">Ranks</a></li>
+                                    <li><a href="#">Staff</a></li>
+                                    <li><a href="http://pcbmc.co:8123/" target="_blank">Real-Time Map</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h5>Feed the Beast</h5>
+                                <ul>
+                                    <li><a href="#">Rules & Guidelines</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h5>Terraria</h5>
+                                <ul>
+                                    <li><a href="#">Rules & Guidelines</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)">Community <i class="fa fa-caret-down"></i></a>
+                        <ul>
+                            <li><a href="#">Appeal a Ban</a></li>
+                            <li><a href="#">Report a Player</a></li>
+                            <li class="divider"><a href="#">Apply for Staff</a></li>
+                            <li><a href="https://wiki.projectcitybuild.com/" target="_blank">Community Wiki</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ route('banlist') }}">Ban List</a></li>
+                </ul>
 
-            <ul>
-                <li class="social-icon"><a href="https://www.facebook.com/ProjectCityBuild" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                <li class="social-icon"><a href="https://www.instagram.com/projectcitybuild" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                <li class="social-icon"><a href="https://www.youtube.com/user/PCBMinecraft" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                <li class="social-icon"><a href="http://steamcommunity.com/groups/ProjectCityBuild" target="_blank"><i class="fa fa-steam"></i></a></li>
-                <li><a href="#">Login</a></li>
-            </ul>
+                <ul>
+                    <li class="social-icon sm-hide md-hide"><a href="https://www.facebook.com/ProjectCityBuild" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                    <li class="social-icon sm-hide md-hide"><a href="https://www.instagram.com/projectcitybuild" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                    <li class="social-icon sm-hide md-hide"><a href="https://www.youtube.com/user/PCBMinecraft" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                    <li class="social-icon sm-hide md-hide"><a href="http://steamcommunity.com/groups/ProjectCityBuild" target="_blank"><i class="fa fa-steam"></i></a></li>
+                    <li><a href="#">Login</a></li>
+                </ul>
+            </div>
         </nav>
 
         <div class="contents">
