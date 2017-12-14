@@ -1,42 +1,26 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik:400,500,700');
 @import url('https://fonts.googleapis.com/css?family=Fjalla+One');
 
-@import "../libs/normalize/normalize.css";
+@import "~normalize-scss/sass/normalize";
 
-$colour-bg: #fffcda;
 $colour-primary: #1987db;
 $colour-secondary: #534741;
 $colour-accent: #F5A503;
 
-$border-radius-button: 5px;
-$border-radius-panel: 5px;
-
-$nav-colour: $colour-secondary;
-$nav-secondary-colour: $colour-primary;
+$colour-bg: #fffcda;
 
 * {
-    -webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
     box-sizing: border-box;
 }
 
 html,
 body {
     height: 100%;
+    min-height: 100%;
 }
 
 body {
     background: $colour-bg;
     font-size: 16px;
     font-family: 'Rubik', sans-serif;
-    display: flex;
-    flex-direction: row;
 }
-
-@import "modules/nav/index";
-@import "modules/buttons/buttons";
-@import "modules/server-feed/server-feed";
-@import "modules/donate/donate";
-@import "modules/master-layout/index";
-@import "modules/home-layout/index";
-@import "modules/banlist-layout/index";

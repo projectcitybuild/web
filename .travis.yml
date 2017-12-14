@@ -27,7 +27,7 @@ before_install:
 
 before_script:
   # inject our Travis environment variables into a new docker .env file
-  - cp containers/.env.example .env
+  - cp .env.example .env
   - sed -ri 's/^MYSQL_ROOT_PASSWORD=/MYSQL_ROOT_PASSWORD='"$MYSQL_ROOT_PASSWORD"'/' .env
   - sed -ri 's/^MYSQL_DATABASE=/MYSQL_DATABASE='"$MYSQL_DATABASE"'/' .env
   - sed -ri 's/^MYSQL_USER=/MYSQL_USER='"$MYSQL_USERNAME"'/' .env
