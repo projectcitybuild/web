@@ -12,7 +12,7 @@ services:
     ports:
       - "80:80"
       # - "443:443"
-    restart: always
+    restart: unless-stopped
     volumes:
       - www:/var/www/html
     links:
@@ -22,7 +22,7 @@ services:
     build:
       context: .
       dockerfile: containers/php-fpm/Dockerfile
-    restart: always
+    restart: unless-stopped
     volumes:
       - www:/var/www/html
     links:
@@ -31,12 +31,13 @@ services:
 
   redis:
     image: redis:4.0-alpine
+    restart: unless-stopped
 
   database:
     image: mariadb:10.0.20
     ports:
       - "3306:3306"
-    restart: always
+    restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
