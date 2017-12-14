@@ -5,10 +5,10 @@ use App\Modules\Servers\GameTypeEnum;
 use App\Modules\Servers\Services\PlayerFetching\PlayerFetcherInterface;
 use App\Modules\Servers\Services\PlayerFetching\GameAdapters\MojangUuidAdapter;
 
-class QueryAdapterFactory {
+class PlayerFetcherAdapterFactory {
 
     /**
-     * Instantiates an adapter based on the given game type
+     * Instntiates an adapter based on the given game type
      *
      * @param int $gameType
      * 

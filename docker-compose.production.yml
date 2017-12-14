@@ -1,0 +1,47 @@
+version: '3'
+
+volumes:
+  www:
+  db:
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: containers/nginx/Dockerfile
+    ports:
+      - "80:80"
+      # - "443:443"
+    restart: unless-stopped
+    volumes:
+      - www:/var/www/html
+    links:
+      - php-fpm
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: containers/php-fpm/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - www:/var/www/html
+    links:
+      - redis
+      - database
+
+  redis:
+    image: redis:4.0-alpine
+    restart: unless-stopped
+
+  database:
+    image: mariadb:10.0.20
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}  
+    volumes:
+      - db:/var/lib/mysql

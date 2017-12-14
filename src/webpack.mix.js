@@ -20,6 +20,6 @@ mix.react('app/Resources/assets/js/app.js', 'public/assets/js')
    .sass('app/Resources/assets/sass/app.scss', 'public/assets/css');
 
 mix.browserSync({
-    proxy: 'dev35.pcb.local',
+    proxy: '192.168.99.100',
     files: ['public/**/*.css', 'app/Resources/**/*']
 });

@@ -1,23 +1,48 @@
-language: php
+branches:
+  only:
+  - master
+  - feat/docker
+  - dev
 
-php:
-  - 7.2
+language: generic
+services:
+  - docker
+env:
+  - DOCKER_COMPOSE_VERSION=1.13.0
 
-addons:
-  mariadb: '10.0'
+before_install:
+  # kill any local db service in case it blocks our 3306 port
+  - sudo service mysql stop
 
-sudo: false
+  # update docker engine
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+
+  # update docker compose
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker-compose --version
 
 before_script:
-  - cp .env.ci .env
-  - mysql -e 'create database pcb;'
-  - composer self-update
-  - composer install --no-interaction
-  - php artisan key:generate
-  - php artisan migrate --seed
+  # inject our Travis environment variables into a new docker .env file
+  - cp containers/.env.example .env
+  - sed -ri 's/^MYSQL_ROOT_PASSWORD=/MYSQL_ROOT_PASSWORD='"$MYSQL_ROOT_PASSWORD"'/' .env
+  - sed -ri 's/^MYSQL_DATABASE=/MYSQL_DATABASE='"$MYSQL_DATABASE"'/' .env
+  - sed -ri 's/^MYSQL_USER=/MYSQL_USER='"$MYSQL_USERNAME"'/' .env
+  - sed -ri 's/^MYSQL_PASSWORD=/MYSQL_PASSWORD='"$MYSQL_PASSWORD"'/' .env
+
+  - docker-compose -f docker-compose.production.yml up -d
+  - docker ps
 
 script:
-  - vendor/bin/phpunit
+  - docker exec -it $(docker-compose ps -q php-fpm) sh -c "cp .env.ci .env && \
+      sed -ri 's/^DB_DATABASE=/DB_DATABASE='"$MYSQL_DATABASE"'/' .env && \
+      sed -ri 's/^DB_USERNAME=/DB_USERNAME='"$MYSQL_USERNAME"'/' .env && \
+      sed -ri 's/^DB_PASSWORD=/DB_PASSWORD='"$MYSQL_PASSWORD"'/' .env && \
+      php artisan key:generate > /dev/null && \
+      phpunit"
 
-notifications:
-  webhooks: http://www.projectcitybuild.com/travis-ci.php
+after_script:
+  - docker-compose down
