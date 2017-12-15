@@ -10,7 +10,11 @@
         <title>Project City Build</title>
 
         <link rel="stylesheet" type="text/css" href="{{ mix('assets/css/app.css') }}" />
-        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+        <script src="https://use.fontawesome.com/releases/v5.0.1/js/brands.js"></script>
+        <script src="https://use.fontawesome.com/releases/v5.0.1/js/solid.js"></script>
+        <!-- <script src="https://use.fontawesome.com/releases/v5.0.1/js/regular.js"></script> -->
+        <script src="https://use.fontawesome.com/releases/v5.0.1/js/fontawesome.js"></script>
     </head>
     <body>
         
@@ -20,7 +24,7 @@
                     <li><a href="{{ route('home') }}">Home</a></li>
                     <li><a href="http://projectcitybuild.com/forums/">Forums</a></li>
                     <li>
-                        <a href="javascript:void(0)">Servers <i class="fa fa-caret-down"></i></a>
+                        <a href="javascript:void(0)">Servers <i class="fas fa-caret-down"></i></a>
                         <ul class="menu-sideway">
                             <li>
                                 <h5>Minecraft</h5>
@@ -35,18 +39,21 @@
                                 <h5>Feed the Beast</h5>
                                 <ul>
                                     <li><a href="#">Rules & Guidelines</a></li>
+                                    <li><a href="#">Installation Guide</a></li>
+                                    <li><a href="#">Real-Time Map</a></li>
                                 </ul>
                             </li>
                             <li>
                                 <h5>Terraria</h5>
                                 <ul>
                                     <li><a href="#">Rules & Guidelines</a></li>
+                                    <li><a href="#">Installation Guide</a></li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="javascript:void(0)">Community <i class="fa fa-caret-down"></i></a>
+                        <a href="javascript:void(0)">Community <i class="fas fa-caret-down"></i></a>
                         <ul>
                             <li><a href="#">Appeal a Ban</a></li>
                             <li><a href="#">Report a Player</a></li>
@@ -58,16 +65,24 @@
                 </ul>
 
                 <ul>
-                    <li class="social-icon sm-hide md-hide"><a href="https://www.facebook.com/ProjectCityBuild" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                    <li class="social-icon sm-hide md-hide"><a href="https://www.instagram.com/projectcitybuild" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                    <li class="social-icon sm-hide md-hide"><a href="https://www.youtube.com/user/PCBMinecraft" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                    <li class="social-icon sm-hide md-hide"><a href="http://steamcommunity.com/groups/ProjectCityBuild" target="_blank"><i class="fa fa-steam"></i></a></li>
+                    <li class="social-icon">
+                        <a href="https://www.facebook.com/ProjectCityBuild" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    </li>
+                    <li class="social-icon">
+                        <a href="https://www.instagram.com/projectcitybuild" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </li>
+                    <li class="social-icon">
+                        <a href="https://www.youtube.com/user/PCBMinecraft" target="_blank"><i class="fab fa-youtube"></i></a>
+                    </li>
+                    <li class="social-icon">
+                        <a href="http://steamcommunity.com/groups/ProjectCityBuild" target="_blank"><i class="fab fa-steam-symbol"></i></a>
+                    </li>
                     <li><a href="#">Login</a></li>
                 </ul>
             </div>
         </nav>
 
-        <div class="contents">
+        <!-- <div class="contents">
             <header>
                 <div class="left">
                     <a href="{{ route('home') }}">
@@ -112,10 +127,9 @@
                 </div>
             </footer>
 
-        </div>
+        </div> -->
 
         <script src="{{ mix('assets/js/app.js') }}"></script>
-        <script src="https://use.fontawesome.com/6a679158b3.js"></script>
         
     </body>
 </html>

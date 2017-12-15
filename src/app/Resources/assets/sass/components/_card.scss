@@ -1,0 +1,30 @@
+@mixin card-background($bgColour, $borderDarken: 5%, $textColour: #fff) {
+    background-color: $bgColour;
+    border-color: darken($bgColour, $borderDarken);
+    color: $textColour;
+}
+
+.card {
+    border-radius: 5px;
+    border-bottom: 3px solid darken(#fff, 10%);
+    background-color: #fff;
+    padding: 1em;
+
+    @include box-shadow(0, 2px, 5px, 1px, rgba(0, 0, 0, 0.05));
+    
+    &.centered {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &.primary {
+        @include card-background($colour-primary, 10%);
+    }
+    &.secondary {
+        @include card-background($colour-secondary);
+    }
+    &.accent {
+        @include card-background($colour-accent);
+    }
+}

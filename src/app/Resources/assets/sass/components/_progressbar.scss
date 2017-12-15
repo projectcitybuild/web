@@ -1,0 +1,76 @@
+.progressbar {
+    font-size: 0.6em;
+
+    .outer {
+        border-radius: 5px;
+        background: #fff;
+        padding: 0.45em;
+        
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        @include box-shadow(0, 4px, 0, 0, #d9e6ef, true);
+    }
+
+    .outer > .inner {
+        height: 30px;
+        border-radius: 3px;
+        border-bottom: 2px solid;
+        min-width: 50px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .markers {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 0.5em;
+    }
+
+    .label {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &.bordered .outer {
+        border: 3px solid;
+    }
+
+    &.small .inner {
+        height: 10px;
+    }
+
+    &.primary {
+        .inner {
+            background: $colour-primary;
+            border-color: darken($colour-primary, 10%);
+        }
+        .outer {
+            border-color: $colour-primary;
+        }
+    }
+    &.secondary {
+        .inner {
+            background: $colour-secondary;
+            border-color: darken($colour-secondary, 5%);
+        }
+        .outer {
+            border-color: $colour-secondary;
+        }
+    }
+    &.accent {
+        .inner {
+            background: $colour-accent;
+            border-color: darken($colour-accent, 10%);
+        }
+        .outer {
+            border-color: $colour-accent;
+        }
+    }
+}

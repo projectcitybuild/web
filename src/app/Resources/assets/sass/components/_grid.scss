@@ -4,24 +4,3 @@
     max-width: 1000px;
     margin: 0 auto;
 }
-
-.sm-hide {
-    @media #{$query-only-mobile} {
-        display: none;
-    }
-}
-.md-hide {
-    @media #{$query-only-tablet} {
-        display: none;
-    }
-}
-.lg-hide {
-    @media #{$query-only-desktop} {
-        display: none;
-    }
-}
-.xl-hide {
-    @media #{$query-only-widescreen} {
-        display: none;
-    }
-}
