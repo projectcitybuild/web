@@ -494,6 +494,10 @@ a:focus, a:active {
   color: #115d97;
 }
 
+img.rounded {
+  border-radius: 5px;
+}
+
 .alert {
   padding: 1em 1em;
   border-radius: 5px;
@@ -561,6 +565,32 @@ blockquote {
   font-size: 0.85em;
 }
 
+.bubble {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+.bubble .bubble-avatar {
+  padding-top: 10px;
+}
+
+.bubble .bubble-comment {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
 .bubble .bubble-text {
   background: #e6e5e5;
   padding: 1em;
@@ -577,7 +607,7 @@ blockquote {
   text-transform: uppercase;
 }
 
-.bubble.left {
+.bubble.left .bubble-comment {
   padding-left: 30px;
 }
 
@@ -960,6 +990,57 @@ blockquote {
 
 .progressbar.accent .outer {
   border-color: #f7a602;
+}
+
+table.table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+  font-size: 0.8em;
+}
+
+table.table td, table.table th {
+  padding: 0.75em 0.5em;
+}
+
+table.table thead tr {
+  background: #c3b9b6;
+  border-bottom: 3px solid #b8aca8;
+}
+
+table.table.striped tbody tr:nth-child(odd) {
+  background: #f7f7f7;
+}
+
+table.table.divided tbody tr:not(:last-child) {
+  border-bottom: 1px solid #f2f2f2;
+}
+
+table.table tr.accent {
+  background: #f7a602;
+}
+
+table.table tr.primary {
+  background: #1887dc;
+  color: #fff;
+}
+
+table.table tr.secondary {
+  background: #534741;
+  color: #fff;
+}
+
+table.table tr.success {
+  background: #88e024;
+}
+
+table.table tr.error {
+  background: #ff5a3d;
+}
+
+table.table tr.disabled {
+  background: #f2f2f2;
+  color: #cccccc;
 }
 
 * {

@@ -25,9 +25,9 @@
         @include alert-background($colour-accent);
     }
     &.error {
-        @include alert-background(hsl(9, 100%, 62%), 15%);
+        @include alert-background($colour-error, 15%);
     }
     &.success {
-        @include alert-background(hsl(88, 75%, 51%), 10%);
+        @include alert-background($colour-success, 10%);
     }
 }

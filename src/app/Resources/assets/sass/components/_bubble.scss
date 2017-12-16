@@ -1,4 +1,17 @@
 .bubble {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    .bubble-avatar {
+        padding-top: 10px;
+    }
+
+    .bubble-comment {
+        flex: 1;
+    }
+
     .bubble-text {
         background: $colour-basic;
         padding: 1em;
@@ -16,7 +29,9 @@
     }
 
     &.left {
-        padding-left: 30px;
+        .bubble-comment {
+            padding-left: 30px;
+        }
     
         .bubble-text::after {
             content: '';

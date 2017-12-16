@@ -29,7 +29,8 @@
             .card,
             .progressbar,
             .button,
-            .alert {
+            .alert,
+            .table {
                 margin-bottom: 1em
             }
 
@@ -86,11 +87,16 @@
             <h1>Speech Bubbles</h1>
             <p>Used for displaying user comments.</p>
             <div class="bubble left">
-                <div class="bubble-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec posuere tincidunt felis, at rutrum tortor. Donec at cursus nulla.
+                <div class="bubble-avatar">
+                    <img class="rounded" src="https://minotar.net/helm/_andy/32" width="32" />
                 </div>
-                <div class="bubble-date">
-                    Sat, 16th of Dec, 2017 @ 9:31pm
+                <div class="bubble-comment">
+                    <div class="bubble-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec posuere tincidunt felis, at rutrum tortor. Donec at cursus nulla.
+                    </div>
+                    <div class="bubble-date">
+                        Sat, 16th of Dec, 2017 @ 9:31pm
+                    </div>
                 </div>
             </div>
 
@@ -251,6 +257,123 @@
             <a class="button accent large" href="#">Large Button</a>
 
             <a class="button secondary fill" href="#">Fill Button</a>
+
+            <h1>Tables</h1>
+            <table class="table divided">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Rank</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>_andy</td>
+                        <td>Administrator</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>_specialk</td>
+                        <td>Administrator</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Mannriah</td>
+                        <td>Administrator</td>
+                    </tr>
+                </tbody
+            </table>
+
+            <table class="table striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Rank</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>_andy</td>
+                        <td>Administrator</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>_specialk</td>
+                        <td>Administrator</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Mannriah</td>
+                        <td>Administrator</td>
+                    </tr>
+                </tbody
+            </table>
+
+            <table class="table divided">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Rank</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>_andy</td>
+                        <td>Administrator</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>_specialk</td>
+                        <td>Administrator</td>
+                    </tr>
+                    <tr class="accent">
+                        <td>3</td>
+                        <td>Mannriah</td>
+                        <td>Administrator</td>
+                    </tr>
+                    <tr class="primary">
+                        <td>4</td>
+                        <td>Wairoa</td>
+                        <td>Administrator</td>
+                    </tr>
+                    <tr class="secondary">
+                        <td>5</td>
+                        <td>Kyle8910</td>
+                        <td>Administrator</td>
+                    </tr>
+                    <tr class="error">
+                        <td>6</td>
+                        <td>05ocram05</td>
+                        <td>Senior Operator</td>
+                    </tr>
+                    <tr class="success">
+                        <td>7</td>
+                        <td>Ouhai_Ruby</td>
+                        <td>Senior Operator</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>TheOctopus</td>
+                        <td>Senior Operator</td>
+                    </tr>
+                    <tr class="disabled">
+                        <td>9</td>
+                        <td>PrinceMark</td>
+                        <td>Senior Operator</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>EstevaoBuilder</td>
+                        <td>Senior Operator</td>
+                    </tr>
+                </tbody
+            </table>
         
         </div>
 
