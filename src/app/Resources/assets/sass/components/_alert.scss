@@ -1,0 +1,33 @@
+@mixin alert-background($bgColour, $borderDarken: 5%) {
+    background-color: $bgColour;
+    border-color: darken($bgColour, $borderDarken);
+    color: #fff;
+}
+
+.alert {
+    padding: 1em 1em;
+    border-radius: 5px;
+    border-bottom: 3px solid;
+    @include box-shadow(0, 2px, 5px, 1px, rgba(0, 0, 0, 0.05));
+
+    h3 {
+        margin-bottom: 0.5em;
+    }
+    p {
+        margin: 0;
+    }
+
+    a {
+        color: #fff;
+    }
+
+    &.warning {
+        @include alert-background($colour-accent);
+    }
+    &.error {
+        @include alert-background(hsl(9, 100%, 62%), 15%);
+    }
+    &.success {
+        @include alert-background(hsl(88, 75%, 51%), 10%);
+    }
+}

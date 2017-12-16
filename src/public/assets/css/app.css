@@ -456,6 +456,110 @@ template {
   display: none;
 }
 
+body {
+  font-family: 'Rubik', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Fjalla One', sans-serif;
+  text-transform: uppercase;
+  margin: 0 0 0.5em 0;
+}
+
+p {
+  line-height: 2em;
+}
+
+span.primary {
+  color: #1887dc;
+}
+
+span.accent {
+  color: #f7a602;
+}
+
+span.light {
+  color: #f7a602;
+}
+
+a:link, a:visited {
+  color: #1887dc;
+}
+
+a:hover {
+  color: #55abec;
+}
+
+a:focus, a:active {
+  color: #115d97;
+}
+
+.alert {
+  padding: 1em 1em;
+  border-radius: 5px;
+  border-bottom: 3px solid;
+  -webkit-box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
+}
+
+.alert h3 {
+  margin-bottom: 0.5em;
+}
+
+.alert p {
+  margin: 0;
+}
+
+.alert a {
+  color: #fff;
+}
+
+.alert.warning {
+  background-color: #f7a602;
+  border-color: #de9502;
+  color: #fff;
+}
+
+.alert.error {
+  background-color: #ff5a3d;
+  border-color: #f02400;
+  color: #fff;
+}
+
+.alert.success {
+  background-color: #88e024;
+  border-color: #6eb71a;
+  color: #fff;
+}
+
+span.badge {
+  padding: 0.25em 0.5em;
+  border-radius: 5px;
+  background: #e6e5e5;
+}
+
+span.badge.primary {
+  background: #1887dc;
+  color: #fff;
+}
+
+span.badge.secondary {
+  background: #534741;
+  color: #fff;
+}
+
+span.badge.accent {
+  background: #f7a602;
+  color: #fff;
+}
+
+blockquote {
+  border-left: 3px solid #1887dc;
+  margin: 0 0 0 1em;
+  padding: 1em;
+  font-size: 0.85em;
+}
+
 .button {
   display: inline-block;
   padding: 0.65em 1.25em;
@@ -465,7 +569,6 @@ template {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  color: #fff;
   text-transform: uppercase;
   font-size: 0.8em;
   font-weight: 500;
@@ -494,29 +597,31 @@ template {
 }
 
 .button.primary {
-  background: #1987db;
-  border-color: #146bad;
+  background: #1887dc;
+  border-color: #136bae;
+  color: #fff;
 }
 
 .button.primary:hover {
-  background: #2794e6;
-  border-color: #1987db;
+  background: #2794e7;
+  border-color: #1887dc;
 }
 
 .button.primary:active, .button.primary:focus {
-  background: #146bad;
-  border-color: #146bad;
+  background: #136bae;
+  border-color: #136bae;
 }
 
 .button.primary.disabled {
   background: #83c1f1;
-  border-color: #75baef;
+  border-color: #75bbf0;
   text-decoration: none;
 }
 
 .button.secondary {
   background: #534741;
   border-color: #453b36;
+  color: #fff;
 }
 
 .button.secondary:hover {
@@ -530,58 +635,65 @@ template {
 }
 
 .button.secondary.disabled {
-  background: #98857b;
+  background: #98857c;
   border-color: #917d73;
   text-decoration: none;
 }
 
 .button.accent {
-  background: #F5A503;
-  border-color: #e69b03;
+  background: #f7a602;
+  border-color: #e89c02;
+  color: #fff;
 }
 
 .button.accent:hover {
-  background: #fcb015;
-  border-color: #F5A503;
+  background: #fdb017;
+  border-color: #f7a602;
 }
 
 .button.accent:active, .button.accent:focus {
-  background: #e69b03;
-  border-color: #e69b03;
+  background: #e89c02;
+  border-color: #e89c02;
 }
 
 .button.accent.disabled {
-  background: #fdd27a;
-  border-color: #fdcd6b;
+  background: #fed27c;
+  border-color: #fecd6d;
   text-decoration: none;
 }
 
 .card {
   border-radius: 5px;
-  border-bottom: 3px solid #e6e5e5;
+  border-bottom: 3px solid;
   background-color: #fff;
-  padding: 1em;
+  border-color: #e6e5e5;
+  color: #000;
   -webkit-box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
   box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
 }
 
-.card.centered {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+.card .card-header {
+  background-color: #f2f2f2;
+  border-bottom: 1px solid #e6e5e5;
+}
+
+.card .card-header, .card .card-body, .card .card-footer {
+  padding: 1em;
+}
+
+.card .card-header {
+  border-radius: 5px 5px 0 0;
 }
 
 .card.primary {
-  background-color: #1987db;
-  border-color: #146bad;
+  background-color: #1887dc;
+  border-color: #136bae;
   color: #fff;
+}
+
+.card.primary .card-header {
+  background-color: #1679c5;
+  border-bottom: 1px solid #136bae;
 }
 
 .card.secondary {
@@ -590,10 +702,20 @@ template {
   color: #fff;
 }
 
+.card.secondary .card-header {
+  background-color: #453b36;
+  border-bottom: 1px solid #362f2b;
+}
+
 .card.accent {
-  background-color: #F5A503;
-  border-color: #dc9403;
+  background-color: #f7a602;
+  border-color: #de9502;
   color: #fff;
+}
+
+.card.accent .card-header {
+  background-color: #de9502;
+  border-bottom: 1px solid #c58402;
 }
 
 .container {
@@ -667,14 +789,14 @@ template {
   nav.bar .container > ul > li > ul {
     background: #fff;
     position: absolute;
-    border: 1px solid #deeffb;
+    border: 1px solid #dfeffb;
     border-bottom-width: 3px;
   }
   nav.bar .container > ul > li > ul .divider {
-    border-bottom: 1px solid #deeffb;
+    border-bottom: 1px solid #dfeffb;
   }
   nav.bar .container > ul > li > ul a {
-    color: #1987db;
+    color: #1887dc;
     padding: 1em 1.5em;
   }
   nav.bar .container > ul > li > ul a:hover {
@@ -690,7 +812,7 @@ template {
             flex-direction: row;
   }
   nav.bar .container > ul > li > ul.menu-sideway > li:not(:last-child) {
-    border-right: 1px solid #deeffb;
+    border-right: 1px solid #dfeffb;
   }
   nav.bar .container > ul > li > ul.menu-sideway h5 {
     text-transform: uppercase;
@@ -767,21 +889,17 @@ template {
           align-items: center;
 }
 
-.progressbar.bordered .outer {
-  border: 3px solid;
-}
-
 .progressbar.small .inner {
   height: 10px;
 }
 
 .progressbar.primary .inner {
-  background: #1987db;
-  border-color: #146bad;
+  background: #1887dc;
+  border-color: #136bae;
 }
 
 .progressbar.primary .outer {
-  border-color: #1987db;
+  border-color: #1887dc;
 }
 
 .progressbar.secondary .inner {
@@ -794,12 +912,12 @@ template {
 }
 
 .progressbar.accent .inner {
-  background: #F5A503;
-  border-color: #c38302;
+  background: #f7a602;
+  border-color: #c58402;
 }
 
 .progressbar.accent .outer {
-  border-color: #F5A503;
+  border-color: #f7a602;
 }
 
 * {
@@ -814,7 +932,6 @@ body {
 }
 
 body {
-  background: #fffcda;
+  background: #fffcdb;
   font-size: 16px;
-  font-family: 'Rubik', sans-serif;
 }

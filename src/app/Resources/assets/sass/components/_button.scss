@@ -1,6 +1,7 @@
 @mixin button-colour($colour, $borderDarken: 5%) {
     background: $colour;
     border-color: darken($colour, $borderDarken);
+    color: #fff;
 
     &:hover {
         background: lighten($colour, 5%);
@@ -25,7 +26,6 @@
     border-radius: 5px;
     border-bottom: 5px solid;
     user-select: none;
-    color: #fff;
     text-transform: uppercase;
     font-size: 0.8em;
     font-weight: 500;

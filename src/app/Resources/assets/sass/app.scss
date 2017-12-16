@@ -1,22 +1,26 @@
-@import url('https://fonts.googleapis.com/css?family=Rubik:400,500,700');
-@import url('https://fonts.googleapis.com/css?family=Fjalla+One');
+@charset 'utf-8';
 
-@import "~normalize-scss/sass/normalize";
+@import '~normalize-scss/sass/normalize';
 @include normalize();
 
 
-@import "variables";
+@import 'mixins/shadows';
+@import 'mixins/utility';
 
-@import "mixins/shadows";
-@import "mixins/utility";
+@import 'global/colours';
+@import 'global/dimensions';
+@import 'global/typography';
 
-@import "components/button";
-@import "components/card";
-@import "components/grid";
-@import "components/navigation";
-@import "components/progressbar";
+@import 'components/alert';
+@import 'components/badge';
+@import 'components/blockquote';
+@import 'components/button';
+@import 'components/card';
+@import 'components/grid';
+@import 'components/navigation';
+@import 'components/progressbar';
 
-@import "layouts/home";
+@import 'layouts/home';
 
 
 * {
@@ -30,7 +34,6 @@ body {
 }
 
 body {
-    background: $colour-bg;
+    background: hsl(55, 100%, 93%);
     font-size: 16px;
-    font-family: 'Rubik', sans-serif;
 }
