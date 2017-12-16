@@ -532,23 +532,24 @@ a:focus, a:active {
   color: #fff;
 }
 
-span.badge {
+.badge {
+  display: inline;
   padding: 0.25em 0.5em;
   border-radius: 5px;
   background: #e6e5e5;
 }
 
-span.badge.primary {
+.badge.primary {
   background: #1887dc;
   color: #fff;
 }
 
-span.badge.secondary {
+.badge.secondary {
   background: #534741;
   color: #fff;
 }
 
-span.badge.accent {
+.badge.accent {
   background: #f7a602;
   color: #fff;
 }
@@ -749,6 +750,14 @@ blockquote {
 .card.accent .card-header {
   background-color: #de9502;
   border-bottom: 1px solid #c58402;
+}
+
+.divider {
+  border-bottom: 1px solid #c3b9b6;
+}
+
+.divider .label {
+  background: #fff;
 }
 
 .container {

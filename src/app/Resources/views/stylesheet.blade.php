@@ -72,15 +72,19 @@
 
             <h1>Dividers</h1>
             Option 1
-            <div class="divider">OR</div>
+            <div class="divider">
+                <span class="label">OR</span>
+            </div>
             Option 2
 
             <h1>Blockquotes</h1>
+            <p>Used for quoting text.</p>
             <blockquote>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec posuere tincidunt felis, at rutrum tortor. Donec at cursus nulla.
             </blockquote>
 
             <h1>Speech Bubbles</h1>
+            <p>Used for displaying user comments.</p>
             <div class="bubble left">
                 <div class="bubble-text">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec posuere tincidunt felis, at rutrum tortor. Donec at cursus nulla.
@@ -92,12 +96,22 @@
 
 
             <h1>Badges</h1>
+            <p>Used for displaying tags and counters.</p>
             <span class="badge">Basic</span>
             <span class="badge primary">Primary</span>
             <span class="badge secondary">Secondary</span>
             <span class="badge accent">Accent</span>
+            <p />
+            Badges also work <span class="badge secondary">inline</span> with text and even <span class="badge primary"><i class="fas fa-edit"></i> with icons</span>.
+            <p />
+            Great for notification counters too:
+            <div class="button secondary">
+                <i class="fas fa-envelope"></i>
+                Unread Posts <span class="badge accent">2</span>
+            </div>
 
             <h1>Cards</h1>
+            <p>Used for grouping content.</p>
             <div class="card">
                 <div class="card-body">
                     Basic (card)
@@ -159,6 +173,8 @@
             </div>
 
             <h1>Alerts</h1>
+            <p>Used for flashing a quick message to the user, in particular showing errors/success when submitting a form.</p>
+
             <div class="alert warning">
                 <h3><i class="fas fa-exclamation-circle"></i> Warning</h3>
                 <p>You have <a href="#">5 unchecked</a> player reports.</p>
