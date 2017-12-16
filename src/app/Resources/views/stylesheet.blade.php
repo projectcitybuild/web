@@ -40,8 +40,8 @@
         <div class="container">
             <h1>Overview of PCB's style</h1>
             <p>
-                This time we're trying for a brighter, more toony style, where components look almost like they're blocks made of matte plastic.
-                This page is merely a showcase of the components created so far that, when combined, make up PCB's design.
+                This time we're trying for a brighter, more toony style, where components look like blocks made of matte plastic.
+                This page is merely a showcase of the components that, when combined, make up PCB's design.
             </p>
 
             <h1>Header 1</h1>
@@ -64,11 +64,31 @@
                 Text with a <a href="#">link</a> to somewhere.<br />
                 <small>Fine print text</small><br />
             </p>
+            <p>
+                <span class="primary">Primary text</span><br />
+                <span class="accent">Accent text</span><br />
+                <span class="light">Light text</span><br />
+            </p>
+
+            <h1>Dividers</h1>
+            Option 1
+            <div class="divider">OR</div>
+            Option 2
 
             <h1>Blockquotes</h1>
             <blockquote>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec posuere tincidunt felis, at rutrum tortor. Donec at cursus nulla.
             </blockquote>
+
+            <h1>Speech Bubbles</h1>
+            <div class="bubble left">
+                <div class="bubble-text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec posuere tincidunt felis, at rutrum tortor. Donec at cursus nulla.
+                </div>
+                <div class="bubble-date">
+                    Sat, 16th of Dec, 2017 @ 9:31pm
+                </div>
+            </div>
 
 
             <h1>Badges</h1>

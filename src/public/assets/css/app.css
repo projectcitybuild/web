@@ -479,7 +479,7 @@ span.accent {
 }
 
 span.light {
-  color: #f7a602;
+  color: #c3b9b6;
 }
 
 a:link, a:visited {
@@ -558,6 +558,39 @@ blockquote {
   margin: 0 0 0 1em;
   padding: 1em;
   font-size: 0.85em;
+}
+
+.bubble .bubble-text {
+  background: #e6e5e5;
+  padding: 1em;
+  border-radius: 8px;
+  position: relative;
+  border-bottom: 2px solid #d9d9d9;
+}
+
+.bubble .bubble-date {
+  font-size: 0.7em;
+  padding-top: 0.5em;
+  padding-left: 1rem;
+  color: #c3b9b6;
+  text-transform: uppercase;
+}
+
+.bubble.left {
+  padding-left: 30px;
+}
+
+.bubble.left .bubble-text::after {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: -30px;
+  width: 0px;
+  height: 0px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid transparent;
+  border-right: 20px solid #e6e5e5;
 }
 
 .button {
