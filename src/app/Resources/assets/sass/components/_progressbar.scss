@@ -5,12 +5,11 @@
         border-radius: 5px;
         background: #fff;
         padding: 0.45em;
+        box-shadow: 0 2px 5px 1px hsla(0, 0%, 0%, 0.05);
         
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-
-        @include box-shadow(0, 4px, 0, 0, #d9e6ef, true);
     }
 
     .outer > .inner {

@@ -1,6 +1,7 @@
 blockquote {
-    border-left: 3px solid $colour-primary;
+    border-left: 7px solid $colour-primary;
+    background: lighten($colour-primary, 50%);
     margin: 0 0 0 1em;
-    padding: 1em;
+    padding: 2em 1em;
     font-size: 0.85em;
 }

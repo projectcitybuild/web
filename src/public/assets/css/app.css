@@ -503,7 +503,7 @@ img.rounded {
   border-radius: 5px;
   border-bottom: 3px solid;
   -webkit-box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
 }
 
 .alert h3 {
@@ -559,9 +559,10 @@ img.rounded {
 }
 
 blockquote {
-  border-left: 3px solid #1887dc;
+  border-left: 7px solid #1887dc;
+  background: #f6fafe;
   margin: 0 0 0 1em;
-  padding: 1em;
+  padding: 2em 1em;
   font-size: 0.85em;
 }
 
@@ -611,7 +612,7 @@ blockquote {
   padding-left: 30px;
 }
 
-.bubble.left .bubble-text::after {
+.bubble.left .bubble-text:after {
   content: '';
   position: absolute;
   top: 15px;
@@ -622,6 +623,23 @@ blockquote {
   border-bottom: 10px solid transparent;
   border-left: 10px solid transparent;
   border-right: 20px solid #e6e5e5;
+}
+
+.bubble.right .bubble-comment {
+  padding-right: 30px;
+}
+
+.bubble.right .bubble-text::after {
+  content: '';
+  position: absolute;
+  top: 15px;
+  right: -30px;
+  width: 0px;
+  height: 0px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 20px solid #e6e5e5;
+  border-right: 10px solid transparent;
 }
 
 .button {
@@ -729,11 +747,11 @@ blockquote {
 .card {
   border-radius: 5px;
   border-bottom: 3px solid;
+  -webkit-box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
   background-color: #fff;
   border-color: #e6e5e5;
   color: #000;
-  -webkit-box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
 }
 
 .card .card-header {
@@ -894,6 +912,113 @@ blockquote {
   }
 }
 
+nav.pagination ul {
+  list-style: none;
+  padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+nav.pagination li {
+  background: #e6e5e5;
+  -webkit-box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
+  border-bottom: 3px solid #cccccc;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+nav.pagination li:first-child {
+  border-radius: 5px 0 0 5px;
+}
+
+nav.pagination li:last-child {
+  border-radius: 0 5px 5px 0;
+}
+
+nav.pagination li:not(:last-child) {
+  border-right: 1px solid #cccccc;
+}
+
+nav.pagination li:hover {
+  background: #f2f2f2;
+  border-bottom-color: #d9d9d9;
+}
+
+nav.pagination li:focus, nav.pagination li:active {
+  border-bottom-width: 1px;
+  background: #d9d9d9;
+  border-bottom-color: #cccccc;
+}
+
+nav.pagination li.active {
+  background: #534741;
+  border-bottom-color: #28221f;
+}
+
+nav.pagination li.active:hover {
+  background: #61534c;
+  border-bottom-color: #453b36;
+}
+
+nav.pagination li.active:focus, nav.pagination li.active:active {
+  background: #453b36;
+}
+
+nav.pagination li.active a {
+  color: #fff;
+}
+
+nav.pagination li.divider {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0.575em 0.5em;
+  background: #cccccc;
+  color: #a6a6a6;
+}
+
+nav.pagination li.disabled {
+  background: #f2f2f2;
+  border-bottom-color: #e6e5e5;
+}
+
+nav.pagination li.disabled:not(:last-child) {
+  border-right-color: #e6e5e5;
+}
+
+nav.pagination li.disabled a {
+  color: #b3b2b2;
+}
+
+nav.pagination a {
+  display: block;
+  padding: 0.65em 0.8em;
+  text-decoration: none;
+  color: #534741;
+}
+
 .progressbar {
   font-size: 0.6em;
 }
@@ -902,6 +1027,8 @@ blockquote {
   border-radius: 5px;
   background: #fff;
   padding: 0.45em;
+  -webkit-box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -912,8 +1039,6 @@ blockquote {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  -webkit-box-shadow: inset 0 4px 0 0 #d9e6ef;
-  box-shadow: inset 0 4px 0 0 #d9e6ef;
 }
 
 .progressbar .outer > .inner {

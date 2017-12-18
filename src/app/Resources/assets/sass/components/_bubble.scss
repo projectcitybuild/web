@@ -32,8 +32,8 @@
         .bubble-comment {
             padding-left: 30px;
         }
-    
-        .bubble-text::after {
+
+        .bubble-text:after {
             content: '';
             position: absolute;
             top: 15px;
@@ -44,6 +44,25 @@
             border-bottom:  10px solid transparent;
             border-left:    10px solid transparent;
             border-right:   20px solid $colour-basic;
+        }
+    }
+
+    &.right {
+        .bubble-comment {
+            padding-right: 30px;
+        }
+    
+        .bubble-text::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            width: 0px;
+            height: 0px;
+            border-top:     10px solid transparent;
+            border-bottom:  10px solid transparent;
+            border-left:    20px solid $colour-basic;
+            border-right:   10px solid transparent;
         }
     }
 }

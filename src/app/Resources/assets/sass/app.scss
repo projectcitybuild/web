@@ -4,7 +4,6 @@
 @include normalize();
 
 
-@import 'mixins/shadows';
 @import 'mixins/utility';
 
 @import 'global/colours';
@@ -21,6 +20,7 @@
 @import 'components/divider';
 @import 'components/grid';
 @import 'components/navigation';
+@import 'components/pagination';
 @import 'components/progressbar';
 @import 'components/table';
 

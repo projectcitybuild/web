@@ -29,6 +29,7 @@
             .card,
             .progressbar,
             .button,
+            .bubble,
             .alert,
             .table {
                 margin-bottom: 1em
@@ -97,6 +98,20 @@
                     <div class="bubble-date">
                         Sat, 16th of Dec, 2017 @ 9:31pm
                     </div>
+                </div>
+            </div>
+
+            <div class="bubble right">
+                <div class="bubble-comment">
+                    <div class="bubble-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec posuere tincidunt felis, at rutrum tortor. Donec at cursus nulla.
+                    </div>
+                    <div class="bubble-date">
+                        Sat, 16th of Dec, 2017 @ 9:31pm
+                    </div>
+                </div>
+                <div class="bubble-avatar">
+                    <img class="rounded" src="https://minotar.net/helm/_andy/32" width="32" />
                 </div>
             </div>
 
@@ -374,6 +389,46 @@
                     </tr>
                 </tbody
             </table>
+
+
+            <h1>Pagination</h1>
+            <nav class="pagination">
+                <ul>
+                    <li><a href="#"><i class="fas fa-angle-double-left"></i></a></li>
+                    <li><a href="#">2</a></li>
+                    <li class="active"><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">6</a></li>
+                    <li><a href="#"><i class="fas fa-angle-double-right"></i></a></li>
+                </ul>
+            </nav>
+
+            <nav class="pagination">
+                <ul>
+                    <li><a href="#"><i class="fas fa-angle-double-left"></i></a></li>
+                    <li><a href="#">1</a></li>
+                    <li class="divider">…</li>
+                    <li><a href="#">9</a></li>
+                    <li><a href="#">10</a></li>
+                    <li class="active"><a href="#">11</a></li>
+                    <li><a href="#">12</a></li>
+                    <li><a href="#">13</a></li>
+                    <li class="divider">…</li>
+                    <li><a href="#">24</a></li>
+                    <li><a href="#"><i class="fas fa-angle-double-right"></i></a></li>
+                </ul>
+            </nav>
+            
+            <nav class="pagination">
+                <ul>
+                    <li class="disabled"><a href="#"><i class="fas fa-angle-double-left"></i></a></li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#"><i class="fas fa-angle-double-right"></i></a></li>
+                </ul>
+            </nav>
         
         </div>
 
