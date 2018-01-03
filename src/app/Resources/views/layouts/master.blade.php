@@ -15,6 +15,17 @@
         <script src="https://use.fontawesome.com/releases/v5.0.1/js/solid.js"></script>
         <!-- <script src="https://use.fontawesome.com/releases/v5.0.1/js/regular.js"></script> -->
         <script src="https://use.fontawesome.com/releases/v5.0.1/js/fontawesome.js"></script>
+
+        @if(env('APP_ENV') != 'local'))
+            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2747125-5"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', 'UA-2747125-5');
+            </script>
+        @endif
     </head>
     <body>
         
