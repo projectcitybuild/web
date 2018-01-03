@@ -1,6 +1,3 @@
-require('./react/components/GalleryShowcase/GalleryShowcase');
-require('./react/components/BanList/BanList');
-require('./react/components/ServerFeed/ServerFeed');
 
 
 var _gaq = _gaq || [];

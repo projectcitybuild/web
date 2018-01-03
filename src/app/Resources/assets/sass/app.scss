@@ -19,12 +19,14 @@
 @import 'components/card';
 @import 'components/divider';
 @import 'components/grid';
-@import 'components/navigation';
 @import 'components/pagination';
 @import 'components/progressbar';
 @import 'components/table';
 
-@import 'layouts/home';
+@import 'layouts/grid';
+@import 'layouts/navigation';
+
+@import 'pages/home';
 
 
 * {
