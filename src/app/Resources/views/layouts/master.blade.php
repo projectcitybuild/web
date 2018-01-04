@@ -93,6 +93,12 @@
             </div>
         </nav>
 
+        <main>
+            <a href="#" id="drawer-btn"><i class="fas fa-bars"></i></a>
+            test<br />
+            <img src="{{ asset('assets/images/logo.png') }}" width="350" />
+        </main>
+
         <!-- <div class="contents">
             <header>
                 <div class="left">

@@ -79,7 +79,28 @@ function hookClickEvents() {
     });
 }
 
+let isDrawerOpen = false;
+
+function hookDrawerOpenClick() {
+    const drawer = <HTMLDivElement>document.querySelector('#main-nav');
+    const body = <HTMLMainElement>document.querySelector('main');
+    const btn = document.getElementById('drawer-btn');
+
+    btn.addEventListener('click', event => {
+        event.preventDefault();
+        if(isDrawerOpen) {
+            drawer.style.transform = 'translateX(-400px)';
+            body.style.transform = 'translateX(0)';
+        } else {
+            drawer.style.transform = 'translateX(0)';
+            body.style.transform = 'translateX(400px)';
+        }
+        isDrawerOpen = !isDrawerOpen;
+    });
+}
+
 export function hookResizeEvents() : void {
     window.addEventListener('resize', () => queueRead(handleScroll));
     hookClickEvents();
+    hookDrawerOpenClick();
 }

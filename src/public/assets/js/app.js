@@ -143,9 +143,28 @@ function hookClickEvents() {
         }
     });
 }
+let isDrawerOpen = false;
+function hookDrawerOpenClick() {
+    const drawer = document.querySelector('#main-nav');
+    const body = document.querySelector('main');
+    const btn = document.getElementById('drawer-btn');
+    btn.addEventListener('click', event => {
+        event.preventDefault();
+        if (isDrawerOpen) {
+            drawer.style.transform = 'translateX(-400px)';
+            body.style.transform = 'translateX(0)';
+        }
+        else {
+            drawer.style.transform = 'translateX(0)';
+            body.style.transform = 'translateX(400px)';
+        }
+        isDrawerOpen = !isDrawerOpen;
+    });
+}
 function hookResizeEvents() {
     window.addEventListener('resize', () => Object(__WEBPACK_IMPORTED_MODULE_0__libs_domQueue__["a" /* queueRead */])(handleScroll));
     hookClickEvents();
+    hookDrawerOpenClick();
 }
 
 
