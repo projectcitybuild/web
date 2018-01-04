@@ -1,9 +1,9 @@
 $nav-colour: $colour-secondary;
 $nav-secondary-colour: $colour-primary;
 
-@media #{$query-min-tablet} {
-    @import "navigation/navbar";
-}
-@media #{$query-only-mobile} {
+// @media #{$query-min-tablet} {
+//     @import "navigation/navbar";
+// }
+// @media #{$query-only-mobile} {
     @import "navigation/drawer";
-}
+// }
