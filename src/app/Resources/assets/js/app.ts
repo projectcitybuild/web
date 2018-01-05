@@ -1,3 +1,3 @@
-import { hookResizeEvents } from './components/navigation';
+import Navigation from "./components/navigation";
 
-hookResizeEvents();
+const navigation = new Navigation();

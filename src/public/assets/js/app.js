@@ -69,7 +69,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(217);
-module.exports = __webpack_require__(220);
+module.exports = __webpack_require__(222);
 
 
 /***/ }),
@@ -81,7 +81,7 @@ module.exports = __webpack_require__(220);
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_navigation__ = __webpack_require__(218);
 
-Object(__WEBPACK_IMPORTED_MODULE_0__components_navigation__["a" /* hookResizeEvents */])();
+const navigation = new __WEBPACK_IMPORTED_MODULE_0__components_navigation__["a" /* default */]();
 
 
 /***/ }),
@@ -90,87 +90,163 @@ Object(__WEBPACK_IMPORTED_MODULE_0__components_navigation__["a" /* hookResizeEve
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = hookResizeEvents;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__libs_domQueue__ = __webpack_require__(219);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NavBar__ = __webpack_require__(219);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NavDrawer__ = __webpack_require__(220);
 
-const MAX_MOBILE_WIDTH = 576;
-let isRequestingFrame = false;
-let lastKnownViewportWidth = -1;
-function isDrawerNeeded() {
-    return lastKnownViewportWidth <= MAX_MOBILE_WIDTH;
-}
-function handleScroll() {
-    lastKnownViewportWidth = window.innerWidth;
-    isRequestingFrame = false;
-}
-function onItemClick(event, element) {
-    Object(__WEBPACK_IMPORTED_MODULE_0__libs_domQueue__["b" /* queueWrite */])(() => {
-        const link = event.target;
-        const state = navState.get(link);
-        if (state.isCollapsed) {
-            element.style.maxHeight = state.height + 'px';
+
+class Navigation {
+    constructor() {
+        this._drawerViewportMax = 576;
+        this._navigationStates = [];
+        this._isRequestingFrame = false;
+        this._lastKnownViewportWidth = -1;
+        this._navigationStates.push(new __WEBPACK_IMPORTED_MODULE_0__NavBar__["a" /* default */](), new __WEBPACK_IMPORTED_MODULE_1__NavDrawer__["a" /* default */]());
+        this._currentState = this._navigationStates[1];
+        this._currentState.create();
+        window.addEventListener('resize', () => this._requestFrame());
+        this._onResize();
+    }
+    _switchNav(newState) {
+        this._currentState.destroy();
+        this._currentState = newState;
+        this._currentState.create();
+    }
+    _requestFrame() {
+        if (!this._isRequestingFrame) {
+            requestAnimationFrame(this._onResize.bind(this));
+            this._isRequestingFrame = true;
         }
-        else {
-            element.style.maxHeight = '0';
+    }
+    _isDrawerNeeded(viewportWidth) {
+        return viewportWidth <= this._drawerViewportMax;
+    }
+    _onResize() {
+        const viewportWidth = window.innerWidth;
+        const isDrawerNeeded = this._isDrawerNeeded(viewportWidth);
+        if (isDrawerNeeded !== this._isDrawerNeeded(this._lastKnownViewportWidth)) {
+            if (viewportWidth > this._drawerViewportMax) {
+                this._switchNav(this._navigationStates[0]);
+            }
+            else {
+                this._switchNav(this._navigationStates[1]);
+            }
         }
-        element.classList.toggle('expanded');
-        element.classList.toggle('collapsed');
-        link.classList.toggle('expanded');
-        link.classList.toggle('collapsed');
-        state.isCollapsed = !state.isCollapsed;
-        navState.set(element, state);
-    });
+        this._lastKnownViewportWidth = viewportWidth;
+        this._isRequestingFrame = false;
+    }
 }
-const navState = new Map();
-function hookClickEvents() {
-    Object(__WEBPACK_IMPORTED_MODULE_0__libs_domQueue__["a" /* queueRead */])(() => {
-        const dropdownItems = document.querySelectorAll('#main-nav .nav-dropdown');
-        for (let i = 0; i < dropdownItems.length; i++) {
-            const root = dropdownItems[i];
-            const expandedNav = root.parentElement.querySelector('ul');
-            const height = expandedNav.clientHeight;
-            expandedNav.style.maxHeight = '0';
-            expandedNav.classList.add('collapsed');
-            root.classList.add('collapsed');
-            navState.set(root, {
-                isCollapsed: true,
-                height: height,
-            });
-            root.addEventListener('click', (event) => {
-                event.preventDefault();
-                onItemClick(event, expandedNav);
-            });
-        }
-    });
-}
-let isDrawerOpen = false;
-function hookDrawerOpenClick() {
-    const drawer = document.querySelector('#main-nav');
-    const body = document.querySelector('main');
-    const btn = document.getElementById('drawer-btn');
-    btn.addEventListener('click', event => {
-        event.preventDefault();
-        if (isDrawerOpen) {
-            drawer.style.transform = 'translateX(-400px)';
-            body.style.transform = 'translateX(0)';
-        }
-        else {
-            drawer.style.transform = 'translateX(0)';
-            body.style.transform = 'translateX(400px)';
-        }
-        isDrawerOpen = !isDrawerOpen;
-    });
-}
-function hookResizeEvents() {
-    window.addEventListener('resize', () => Object(__WEBPACK_IMPORTED_MODULE_0__libs_domQueue__["a" /* queueRead */])(handleScroll));
-    hookClickEvents();
-    hookDrawerOpenClick();
-}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Navigation;
+
 
 
 /***/ }),
 
 /***/ 219:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class NavBar {
+    create() {
+    }
+    destroy() {
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = NavBar;
+
+
+
+/***/ }),
+
+/***/ 220:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__libs_domQueue__ = __webpack_require__(221);
+
+class DrawerNav {
+    constructor() {
+        this._isDrawerOpen = false;
+        this._menuStates = [];
+        this._drawerElement = document.querySelector('#main-nav');
+        this._bodyElement = document.querySelector('main');
+        this._drawerBtnElement = document.querySelector('#drawer-btn');
+        this._getInitialState();
+        this._toggleDrawer = this._toggleDrawer.bind(this);
+        this._toggleMenu = this._toggleMenu.bind(this);
+    }
+    _getInitialState() {
+        Object(__WEBPACK_IMPORTED_MODULE_0__libs_domQueue__["a" /* queueRead */])(() => {
+            const links = document.querySelectorAll('#main-nav .nav-dropdown');
+            for (let i = 0; i < links.length; i++) {
+                const link = links[i];
+                const menu = link.nextElementSibling;
+                this._menuStates.push({
+                    linkElement: link,
+                    menuElement: menu,
+                    isCollapsed: true,
+                    expandedHeight: menu.clientHeight,
+                    clickListener: null,
+                });
+            }
+        });
+    }
+    create() {
+        Object(__WEBPACK_IMPORTED_MODULE_0__libs_domQueue__["b" /* queueWrite */])(() => {
+            this._drawerBtnElement.addEventListener('click', this._toggleDrawer);
+            this._menuStates.forEach(state => {
+                state.clickListener = (event) => this._toggleMenu(event, state);
+                state.linkElement.addEventListener('click', state.clickListener);
+                state.menuElement.style.maxHeight = '0';
+                state.menuElement.classList.add('collapsed');
+                state.linkElement.classList.add('collapsed');
+            });
+        });
+    }
+    destroy() {
+        this._drawerBtnElement.removeEventListener('click', this._toggleDrawer);
+        this._menuStates.forEach(state => {
+            state.linkElement.removeEventListener('click', state.clickListener);
+            state.clickListener = null;
+        });
+    }
+    _toggleDrawer(event) {
+        event.preventDefault();
+        Object(__WEBPACK_IMPORTED_MODULE_0__libs_domQueue__["b" /* queueWrite */])(() => {
+            if (this._isDrawerOpen) {
+                this._drawerElement.style.transform = 'translateX(-400px)';
+                this._bodyElement.style.transform = 'translateX(0)';
+            }
+            else {
+                this._drawerElement.style.transform = 'translateX(0)';
+                this._bodyElement.style.transform = 'translateX(400px)';
+            }
+            this._isDrawerOpen = !this._isDrawerOpen;
+        });
+    }
+    _toggleMenu(event, state) {
+        event.preventDefault();
+        Object(__WEBPACK_IMPORTED_MODULE_0__libs_domQueue__["b" /* queueWrite */])(() => {
+            if (state.isCollapsed) {
+                state.menuElement.style.maxHeight = state.expandedHeight + 'px';
+            }
+            else {
+                state.menuElement.style.maxHeight = '0';
+            }
+            state.menuElement.classList.toggle('expanded');
+            state.menuElement.classList.toggle('collapsed');
+            state.linkElement.classList.toggle('expanded');
+            state.linkElement.classList.toggle('collapsed');
+            state.isCollapsed = !state.isCollapsed;
+        });
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = DrawerNav;
+
+
+
+/***/ }),
+
+/***/ 221:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -212,7 +288,7 @@ function queueWrite(action) {
 
 /***/ }),
 
-/***/ 220:
+/***/ 222:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

@@ -1071,6 +1071,10 @@ table.table tr.disabled {
   color: #cccccc;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 main {
   background: gray;
   width: 100%;
@@ -1097,6 +1101,7 @@ nav#main-nav {
           box-shadow: 4px 0 12px 0 rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   overflow-x: hidden;
+  z-index: 999;
   -webkit-transform: translateX(-400px);
           transform: translateX(-400px);
   -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
