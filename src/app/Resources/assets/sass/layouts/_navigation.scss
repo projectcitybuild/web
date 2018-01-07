@@ -1,9 +1,10 @@
 $nav-colour: $colour-secondary;
 $nav-secondary-colour: $colour-primary;
 
-// @media #{$query-min-tablet} {
-//     @import "navigation/navbar";
-// }
-// @media #{$query-only-mobile} {
+@media (min-width: 577px) {
+    @import "navigation/navbar";
+}
+
+@media (max-width: 576px) {
     @import "navigation/drawer";
-// }
+}

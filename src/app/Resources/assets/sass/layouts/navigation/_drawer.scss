@@ -2,14 +2,17 @@ $nav-colour: $colour-secondary;
 $nav-secondary-colour: $colour-primary;
 $nav-border-colour: darken($nav-colour, 10%);
 
-body {
-    overflow-x: hidden;
-}
+$drawer-width: 350px;
 
+// drawer push transforms
 main {
-    background: gray;
-    width: 100%;
     transition: transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+    &.pushed { transform: translateX($drawer-width); }
+}
+nav#main-nav {
+    transform: translateX(-$drawer-width);
+    transition: transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+    &.opened { transform: translateX(0); }
 }
 
 #drawer-btn {
@@ -20,7 +23,7 @@ main {
 }
 
 nav#main-nav {
-    width: 400px;
+    width: $drawer-width;
     height: 100%;
     position: fixed;
     background: $nav-colour;
@@ -30,9 +33,6 @@ nav#main-nav {
     overflow-x: hidden;
     z-index: 999;
     
-    transform: translateX(-400px);
-    transition: transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
-
     ul {
         list-style: none;
         margin: 0;

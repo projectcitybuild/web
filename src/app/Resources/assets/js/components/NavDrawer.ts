@@ -1,5 +1,5 @@
 import INavigator from "./INavigator";
-import { queueRead, queueWrite } from "../libs/domQueue";
+import { queueRead, queueWrite } from "../library/domQueue";
 
 interface MenuState {
     linkElement: HTMLLinkElement;
@@ -11,6 +11,7 @@ interface MenuState {
 
 interface ClickEvent {
     preventDefault(): void;
+    stopPropagation(): void;
 }
 
 export default class DrawerNav implements INavigator {
@@ -63,6 +64,7 @@ export default class DrawerNav implements INavigator {
     public create() : void {
         queueWrite(() => {
             this._drawerBtnElement.addEventListener('click', this._toggleDrawer);
+
             this._menuStates.forEach(state => {
                 state.clickListener = (event) => this._toggleMenu(event, state);
                 state.linkElement.addEventListener('click', state.clickListener);
@@ -78,11 +80,18 @@ export default class DrawerNav implements INavigator {
      * Removes all event listeners
      */
     public destroy() : void {
+        queueWrite(() => {
+            this._drawerElement.classList.remove('opened');
+            this._bodyElement.classList.remove('pushed');
+        });
+
         this._drawerBtnElement.removeEventListener('click', this._toggleDrawer);   
         this._menuStates.forEach(state => {
             state.linkElement.removeEventListener('click', state.clickListener);
             state.clickListener = null;
         });
+
+        this._isDrawerOpen = false;
     }
 
     /**
@@ -92,15 +101,17 @@ export default class DrawerNav implements INavigator {
      */
     private _toggleDrawer(event: ClickEvent) : void {
         event.preventDefault();
+        event.stopPropagation();
 
         queueWrite(() => {
             if(this._isDrawerOpen) {
-                this._drawerElement.style.transform = 'translateX(-400px)';
-                this._bodyElement.style.transform = 'translateX(0)';
+                this._bodyElement.removeEventListener('click', this._toggleDrawer);
             } else {
-                this._drawerElement.style.transform = 'translateX(0)';
-                this._bodyElement.style.transform = 'translateX(400px)';
+                this._bodyElement.addEventListener('click', this._toggleDrawer);
             }
+            this._drawerElement.classList.toggle('opened');
+            this._bodyElement.classList.toggle('pushed');
+            
             this._isDrawerOpen = !this._isDrawerOpen;
         });
     }

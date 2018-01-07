@@ -101,7 +101,7 @@ class Navigation {
         this._isRequestingFrame = false;
         this._lastKnownViewportWidth = -1;
         this._navigationStates.push(new __WEBPACK_IMPORTED_MODULE_0__NavBar__["a" /* default */](), new __WEBPACK_IMPORTED_MODULE_1__NavDrawer__["a" /* default */]());
-        this._currentState = this._navigationStates[1];
+        this._currentState = this._navigationStates[this._isDrawerNeeded(window.innerWidth) ? 1 : 0];
         this._currentState.create();
         window.addEventListener('resize', () => this._requestFrame());
         this._onResize();
@@ -161,7 +161,7 @@ class NavBar {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__libs_domQueue__ = __webpack_require__(221);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__library_domQueue__ = __webpack_require__(221);
 
 class DrawerNav {
     constructor() {
@@ -175,7 +175,7 @@ class DrawerNav {
         this._toggleMenu = this._toggleMenu.bind(this);
     }
     _getInitialState() {
-        Object(__WEBPACK_IMPORTED_MODULE_0__libs_domQueue__["a" /* queueRead */])(() => {
+        Object(__WEBPACK_IMPORTED_MODULE_0__library_domQueue__["a" /* queueRead */])(() => {
             const links = document.querySelectorAll('#main-nav .nav-dropdown');
             for (let i = 0; i < links.length; i++) {
                 const link = links[i];
@@ -191,7 +191,7 @@ class DrawerNav {
         });
     }
     create() {
-        Object(__WEBPACK_IMPORTED_MODULE_0__libs_domQueue__["b" /* queueWrite */])(() => {
+        Object(__WEBPACK_IMPORTED_MODULE_0__library_domQueue__["b" /* queueWrite */])(() => {
             this._drawerBtnElement.addEventListener('click', this._toggleDrawer);
             this._menuStates.forEach(state => {
                 state.clickListener = (event) => this._toggleMenu(event, state);
@@ -203,29 +203,35 @@ class DrawerNav {
         });
     }
     destroy() {
+        Object(__WEBPACK_IMPORTED_MODULE_0__library_domQueue__["b" /* queueWrite */])(() => {
+            this._drawerElement.classList.remove('opened');
+            this._bodyElement.classList.remove('pushed');
+        });
         this._drawerBtnElement.removeEventListener('click', this._toggleDrawer);
         this._menuStates.forEach(state => {
             state.linkElement.removeEventListener('click', state.clickListener);
             state.clickListener = null;
         });
+        this._isDrawerOpen = false;
     }
     _toggleDrawer(event) {
         event.preventDefault();
-        Object(__WEBPACK_IMPORTED_MODULE_0__libs_domQueue__["b" /* queueWrite */])(() => {
+        event.stopPropagation();
+        Object(__WEBPACK_IMPORTED_MODULE_0__library_domQueue__["b" /* queueWrite */])(() => {
             if (this._isDrawerOpen) {
-                this._drawerElement.style.transform = 'translateX(-400px)';
-                this._bodyElement.style.transform = 'translateX(0)';
+                this._bodyElement.removeEventListener('click', this._toggleDrawer);
             }
             else {
-                this._drawerElement.style.transform = 'translateX(0)';
-                this._bodyElement.style.transform = 'translateX(400px)';
+                this._bodyElement.addEventListener('click', this._toggleDrawer);
             }
+            this._drawerElement.classList.toggle('opened');
+            this._bodyElement.classList.toggle('pushed');
             this._isDrawerOpen = !this._isDrawerOpen;
         });
     }
     _toggleMenu(event, state) {
         event.preventDefault();
-        Object(__WEBPACK_IMPORTED_MODULE_0__libs_domQueue__["b" /* queueWrite */])(() => {
+        Object(__WEBPACK_IMPORTED_MODULE_0__library_domQueue__["b" /* queueWrite */])(() => {
             if (state.isCollapsed) {
                 state.menuElement.style.maxHeight = state.expandedHeight + 'px';
             }

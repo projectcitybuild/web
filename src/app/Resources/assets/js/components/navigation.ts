@@ -1,4 +1,4 @@
-import { queueRead, queueWrite } from '../libs/DomQueue';
+import { queueRead, queueWrite } from '../library/DomQueue';
 import { default as NavBar } from './NavBar';
 import { default as NavDrawer } from './NavDrawer';
 import { default as INavigator } from './INavigator';
@@ -9,14 +9,29 @@ import { default as INavigator } from './INavigator';
  */
 export default class Navigation {
 
+    /**
+     * Max viewport width before a drawer is no longer necessary
+     */
     private _drawerViewportMax: number = 576;
 
+    /**
+     * List of all navigators
+     */
     private _navigationStates: Array<INavigator> = [];
 
+    /**
+     * The current navigator being displayed
+     */
     private _currentState: INavigator;
 
+    /**
+     * Whether a new animation frame has been requested already
+     */
     private _isRequestingFrame: boolean = false;
 
+    /**
+     * Last recorded viewport width
+     */
     private _lastKnownViewportWidth: number = -1;
 
     constructor() {
@@ -25,7 +40,7 @@ export default class Navigation {
             new NavDrawer(),
         );
 
-        this._currentState = this._navigationStates[1];
+        this._currentState = this._navigationStates[ this._isDrawerNeeded(window.innerWidth) ? 1 : 0 ];
         this._currentState.create();
 
         // this._onResize = this._onResize.bind(this);
@@ -33,6 +48,12 @@ export default class Navigation {
         this._onResize();
     }
 
+    /**
+     * Gracefully switches the current navigation to the 
+     * given navigator
+     * 
+     * @param newState 
+     */
     private _switchNav(newState: INavigator) : void {
         this._currentState.destroy();
         this._currentState = newState;
@@ -46,10 +67,18 @@ export default class Navigation {
         }
     }
 
+    /**
+     * Whether a drawer should be displayed based on the
+     * given viewport width
+     */
     private _isDrawerNeeded(viewportWidth: number) : boolean {
         return viewportWidth <= this._drawerViewportMax;
     }
 
+    /**
+     * Checks the viewport size to see if a navigation change
+     * is required
+     */
     private _onResize() : void {
         const viewportWidth = window.innerWidth;
         const isDrawerNeeded = this._isDrawerNeeded(viewportWidth);
