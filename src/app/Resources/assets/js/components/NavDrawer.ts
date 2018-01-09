@@ -139,6 +139,4 @@ export default class DrawerNav implements INavigator {
             state.isCollapsed = !state.isCollapsed;
         });
     }
-    
-
 }

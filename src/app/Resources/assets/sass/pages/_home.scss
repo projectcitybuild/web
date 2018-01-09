@@ -1,0 +1,218 @@
+header {
+    background: linear-gradient(top, #90cefd 0%, #daf8ff 100%);
+    padding: 2em 0;
+
+    & > .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+#logo {
+    margin-top: 0.5em;
+    margin-bottom: 2em;
+}
+
+section {
+    width: 100%;
+}
+
+#server-feed {
+    h5 {
+        color: #fff;
+        font-size: 0.8em;
+        padding: 0 0.75em;
+    }
+
+    .category:not(:last-child) {
+        margin-bottom: 1.5em;
+    }
+
+    .server {
+        width: 100%;
+        padding: 0.75em;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.7em;
+        text-transform: uppercase;
+        box-shadow: 0 2px 5px 1px hsla(0, 0%, 0%, 0.05);
+
+        &:not(:last-child) {
+            margin-bottom: 0.3em;
+        }
+
+        &:nth-child(2) {
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+        }
+        &:last-child {
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+
+        &.online {
+            background: hsla(0, 0%, 100%, 0.35);
+            color: $colour-primary;
+            border-top: 1px solid hsla(0, 0%, 100%, 0.5);
+        }
+        &.offline {
+            background: hsla(0, 0%, 100%, 0.10);
+            border: 1px solid hsla(0, 0%, 100%, 0.35);
+            color: #fff;
+        }
+    }
+
+    .server-title {
+        font-weight: 500;
+    }
+
+    .server-players {
+        padding: 0.5em 0.75em;
+        margin: -0.5em;
+        border-radius: 3px;
+        font-size: 0.9em;
+    }
+}
+
+
+footer {
+    background: $colour-secondary;
+    color: #fff;
+    font-size: 0.7em;
+
+    .container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .left a,
+    .right a,
+    {
+        color: #fff;
+    }
+
+    .left {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+
+        ul {
+            list-style: none;
+            padding-left: 0;    
+
+            &:not(:last-child) {
+                margin-right: 4em;
+            }
+        }
+
+        li &:not(:last-child) {
+            margin-bottom: 0.75em;
+        }
+    }
+
+    .right {
+        text-align: right;
+        flex: 1;
+
+        .social {
+            margin-bottom: 1em;
+            font-size: 1.5em;
+
+            a:not(:last-child) {
+                margin-right: 0.75em;
+            }
+        }
+    }
+}
+
+
+
+.donate-panel {
+    width: 100%;
+    background: $colour-primary;
+    border-radius: $border-radius-panel;
+    border-bottom: 3px solid darken($colour-primary, 5%);
+    color: #fff;
+    margin-bottom: 1.5em;
+    
+    h3 {
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 0.8em;
+        font-weight: 400;
+    }
+
+    .bar-outer {
+        border-radius: 5px;
+        background: #fff;
+        width: 100%;
+        padding: 0.25em;
+        box-shadow: inset 0px 4px 0px 0px #d9e6ef;
+    }
+
+    .bar-inner {
+        background: $colour-accent;
+        color: darken($colour-accent, 20%);
+        height: 30px;
+        box-sizing: border-box;
+        border-radius: 3px;
+        border-bottom: 2px solid darken($colour-accent, 5%);
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        font-size: 0.6em;
+    }
+
+    .bar-markers {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-size: 0.6em;
+        color: #86b6e8;
+        margin-top: 0.5em;
+    }
+
+    .stats {
+        background: #479fe2;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        div {
+            flex: 1;
+            text-align: center;
+            padding: 0.5em 1em;
+
+            &:first-child {
+                border-right: 1px solid $colour-primary;
+            }
+        }
+
+        h4 {
+            margin: 0;
+        }
+        span {
+            font-size: 0.6em;
+            text-transform: uppercase;
+        }
+    }
+
+    .panel-container {
+        padding: 0.75em;
+
+        small {
+            display: block;
+            text-align: center;
+            font-size: 0.7em;
+            margin-top: 1em;
+        }
+    }
+}

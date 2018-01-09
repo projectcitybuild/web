@@ -93,58 +93,203 @@
             </div>
         </nav>
 
-        <main>
+        
+        <div class="drawer-btn-container">
             <a href="#" id="drawer-btn"><i class="fas fa-bars"></i></a>
-            test<br />
-            <img src="{{ asset('assets/images/logo.png') }}" width="350" />
-        </main>
+        </div>
 
-        <!-- <div class="contents">
+        <main>
             <header>
-                <div class="left">
-                    <a href="{{ route('home') }}">
-                        <img src="{{ asset('assets/images/logo.png') }}" />
-                    </a>
-                </div>
-                <div class="right">
-                    <div id="serverfeed"></div>
+                <div class="container">
+                    <img id="logo" src="{{ asset('assets/images/logo.png') }}" width="350" />
+                    
+                    <section id="server-feed">
+                        <div class="category">
+                            <h5>Minecraft</h5>
+                            <div class="server online">
+                                <div class="server-title">Survival / Creative [24/7]</div>
+                                <div class="server-players badge secondary">14/80</div>
+                                <div class="server-ip">pcbmc.co</div>
+                            </div>
+                            <div class="server offline">
+                                <div class="server-title">Feed the Beast</div>
+                                <div class="server-players badge light">Offline</div>
+                                <div class="server-ip">23.94.186.178:25565</div>
+                            </div>
+                            <div class="server offline">
+                                <div class="server-title">Pixelmon</div>
+                                <div class="server-players badge light">Offline</div>
+                                <div class="server-ip">23.94.186.178:25565</div>
+                            </div>
+                        </div>
+
+                        <div class="category">
+                            <h5>Other Games</h5>
+                            <div class="server online">
+                                <div class="server-title">Terraria</div>
+                                <div class="server-players badge secondary">14/80</div>
+                                <div class="server-ip">pcbmc.co</div>
+                            </div>
+                            <div class="server offline">
+                                <div class="server-title">Starbound</div>
+                                <div class="server-players badge light">Offline</div>
+                                <div class="server-ip">pcbmc.co</div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section id="slogan">
+                        <h3>Creative, Community-Driven Gaming</h3>
+                        Over 15,591 members and growing.
+
+                        <a class="button large accent">Create an Account</a>
+                        <a class="button large secondary">Login</a>
+                    </section>
                 </div>
             </header>
-            
-            <main class="container">
-                @yield('contents')
-            </main>
+
+            <section>
+                <div class="container">
+                <article class="card">
+                    <div class="article-contents">
+                        <h2>Title</h2>
+                        <div class="date">Tue, 5th of January, 2018</div>
+        
+                        <div class="text">
+                            Text
+                        </div>
+        
+                        <div class="poster">
+                            Posted by
+                            <img src="https://minotar.net/helm/_andy/16" width="16" />
+                            <a href="#">_andy</a>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="stats">
+                            <div class="stat">
+                                <h4>14</h4>
+                                <span>Comments</span>
+                            </div>
+                            <div class="stat">
+                                <h4>831</h4>
+                                <span>Post Views</span>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <a class="btn large orange" href="#">
+                                Read Post
+                                <i class="fa fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                    <div class="card">
+                        Forum activity feed
+                    </div>
+
+                    <div class="card">
+                        Announcement #2
+                    </div>
+
+                    <div class="card">
+                        Announcement #3
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div class="container">
+                    <div class="card primary donate-panel">
+                        <div class="panel-container">
+                            <h3>Help Keep Us Online</h3>
+                            <div class="bar-outer">
+                                <div class="bar-inner" style="width:{{ $donations['percentage'] }}%"></div>
+                            </div>
+                            <div class="bar-markers">
+                                <span>0</span>
+                                <span>250</span>
+                                <span>500</span>
+                                <span>750</span>
+                                <span>1000</span>
+                            </div>
+                        </div>
+
+                        <div class="stats">
+                            <div>
+                                <h4>${{ $donations['total'] }}</h4>
+                                <span>Funds Raised</span>
+                            </div>
+                            <div>
+                                <h4>{{ $donations['remainingDays'] }}</h4>
+                                <span>Remaining Days</span>
+                            </div>
+                        </div>
+
+                        <div class="panel-container">
+                            <a class="btn large gray" href="http://projectcitybuild.com/forums/index.php?topic=4124.0">
+                                Donate
+                            </a>
+                            <small>Donators receive a colored name, a reserved server slot and more!</small>
+                        </div>
+                    </div>
+
+                    <a class="btn-divided white" href="http://projectcitybuild.com/forums/index.php?topic=6790.0">
+                        <div class="icon"><i class="fa fa-fw fa-gift"></i></div>
+                        <div class="text left">
+                            Vote For Us
+                            <small>Vote to receive daily in-game prizes</small>
+                        </div>
+                    </a>
+                    <a class="btn-divided white" href="https://wiki.projectcitybuild.com/">
+                        <div class="icon"><i class="fa fa-fw fa-wikipedia-w"></i></div>
+                        <div class="text left">
+                            Community Wiki
+                            <small>History, towns and more</small>
+                        </div>
+                    </a>
+
+                    <div class="panel discord-panel">
+                        <iframe src="https://discordapp.com/widget?id=161649330799902720&theme=light" 
+                            width="100%" 
+                            height="500" 
+                            allowtransparency="true" 
+                            frameborder="0">
+                        </iframe>
+                    </div>
+
+                </div>
+            </section>
 
             <footer>
                 <div class="container">
-                    
                     <div class="left">
                         <ul>
                             <li><h5>Legal</h5></li>
-                            <li><i class="fa fa-check-circle"></i> <a href="http://projectcitybuild.com/forums/index.php?topic=2718">Terms of Service</a></li>
+                            <li><i class="fas fa-check-circle"></i> <a href="http://projectcitybuild.com/forums/index.php?topic=2718">Terms of Service</a></li>
                         </ul>
                         <ul>
                             <li><h5>Open Source</h5></li>
-                            <li><i class="fa fa-code-fork"></i> <a href="https://github.com/itsmyfirstday/PCBridge" target="_blank">PCBridge</a></li>
-                            <li><i class="fa fa-code-fork"></i> <a href="https://github.com/itsmyfirstday/ProjectCityBuild" target="_blank">projectcitybuild.com</a></li>
+                            <li><i class="fas fa-code-branch"></i> <a href="https://github.com/itsmyfirstday/PCBridge" target="_blank">PCBridge</a></li>
+                            <li><i class="fas fa-code-branch"></i> <a href="https://github.com/itsmyfirstday/ProjectCityBuild" target="_blank">projectcitybuild.com</a></li>
                         </ul>
                     </div>
                     <div class="right">
                         <div class="social">
-                            <a href="https://www.facebook.com/ProjectCityBuild" target="_blank"><i class="fa fa-facebook-square"></i></a>
-                            <a href="https://twitter.com/PCB_Minecraft" target="_blank"><i class="fa fa-twitter-square"></i></a>
-                            <a href="https://www.instagram.com/projectcitybuild" target="_blank"><i class="fa fa-instagram"></i></a>
-                            <a href="https://www.youtube.com/user/PCBMinecraft" target="_blank"><i class="fa fa-youtube-square"></i></a>
-                            <a href="http://projectcitybuild.tumblr.com/" target="_blank"><i class="fa fa-tumblr-square"></i></a>
-                            <a href="http://steamcommunity.com/groups/ProjectCityBuild" target="_blank"><i class="fa fa-steam"></i></a>
+                            <a href="https://www.facebook.com/ProjectCityBuild" target="_blank"><i class="fab fa-facebook-square"></i></a>
+                            <a href="https://twitter.com/PCB_Minecraft" target="_blank"><i class="fab fa-twitter-square"></i></a>
+                            <a href="https://www.instagram.com/projectcitybuild" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.youtube.com/user/PCBMinecraft" target="_blank"><i class="fab fa-youtube"></i></a>
+                            <a href="http://projectcitybuild.tumblr.com/" target="_blank"><i class="fab fa-tumblr-square"></i></a>
+                            <a href="http://steamcommunity.com/groups/ProjectCityBuild" target="_blank"><i class="fab fa-steam-square"></i></a>
                         </div>
                         <a href="#top">Return to Top</a>
                     </div>
 
                 </div>
             </footer>
-
-        </div> -->
+        </main>
 
         <script src="{{ mix('assets/js/app.js') }}"></script>
         

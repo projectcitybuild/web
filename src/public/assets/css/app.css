@@ -1071,6 +1071,11 @@ table.table tr.disabled {
   color: #cccccc;
 }
 
+.container {
+  max-width: 1000px;
+  padding: 0 2em;
+}
+
 @media (min-width: 577px) {
   nav#main-nav {
     width: 100%;
@@ -1192,11 +1197,15 @@ table.table tr.disabled {
     -webkit-transform: translateX(0);
             transform: translateX(0);
   }
+  .drawer-btn-container {
+    position: absolute;
+  }
   #drawer-btn {
     color: #fff;
-    padding: 0.75em;
+    padding: 1em;
     display: inline-block;
     background: rgba(0, 0, 0, 0.288);
+    position: fixed;
   }
   nav#main-nav {
     width: 350px;
@@ -1227,6 +1236,9 @@ table.table tr.disabled {
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between;
+  }
+  nav#main-nav .container {
+    padding: 0;
   }
   nav#main-nav .container > ul > li:not(:last-child) {
     border-bottom: 1px solid #362f2b;
@@ -1291,6 +1303,175 @@ table.table tr.disabled {
   nav#main-nav ul.collapsed {
     opacity: 0;
   }
+}
+
+header {
+  background: -webkit-gradient(linear, left top, left bottom, from(#90cefd), to(#daf8ff));
+  background: linear-gradient(top, #90cefd 0%, #daf8ff 100%);
+  padding: 2em 0;
+}
+
+header > .container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#logo {
+  margin-top: 0.5em;
+  margin-bottom: 2em;
+}
+
+section {
+  width: 100%;
+}
+
+#server-feed h5 {
+  color: #fff;
+  font-size: 0.8em;
+  padding: 0 0.75em;
+}
+
+#server-feed .category:not(:last-child) {
+  margin-bottom: 1.5em;
+}
+
+#server-feed .server {
+  width: 100%;
+  padding: 0.75em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 0.7em;
+  text-transform: uppercase;
+  -webkit-box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
+}
+
+#server-feed .server:not(:last-child) {
+  margin-bottom: 0.3em;
+}
+
+#server-feed .server:nth-child(2) {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+#server-feed .server:last-child {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+#server-feed .server.online {
+  background: rgba(255, 255, 255, 0.35);
+  color: #1887dc;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+#server-feed .server.offline {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+}
+
+#server-feed .server-title {
+  font-weight: 500;
+}
+
+#server-feed .server-players {
+  padding: 0.5em 0.75em;
+  margin: -0.5em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+footer {
+  background: #534741;
+  color: #fff;
+  font-size: 0.7em;
+}
+
+footer .container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+footer .left a,
+footer .right a {
+  color: #fff;
+}
+
+footer .left {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+footer .left ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+footer .left ul:not(:last-child) {
+  margin-right: 4em;
+}
+
+li footer .left:not(:last-child) {
+  margin-bottom: 0.75em;
+}
+
+footer .right {
+  text-align: right;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+footer .right .social {
+  margin-bottom: 1em;
+  font-size: 1.5em;
+}
+
+footer .right .social a:not(:last-child) {
+  margin-right: 0.75em;
 }
 
 * {

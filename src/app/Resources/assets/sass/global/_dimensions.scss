@@ -1,16 +1,16 @@
-// media query breakpoints
-// TODO: switch to breakpoints by size (extra small, small, medium, etc) instead of sorting by device
-$dimen-mobile: 0px;
-$dimen-tablet: 576px;
-$dimen-desktop: 992px;
-$dimen-widescreen: 1200px;
+$breakpoints: (
+    'tiny'  : 320px,
+    'small' : 566px,
+    'medium': 800px,
+    'large' : 1000px,
+    'huge'  : 1200px,
+);
 
-$query-only-mobile:     'only screen and (max-device-width: $dimen-tablet - 1)';
-$query-only-tablet:     'only screen and (min-device-width: $dimen-tablet) and (max-device-width: $dimen-desktop - 1)';
-$query-only-desktop:    'only screen and (min-device-width: $dimen-desktop) and (max-device-width: $dimen-widescreen - 1)';
-$query-only-widescreen: 'only screen and (min-device-width: $dimen-widescreen)';
+$media-type: (
+    'screen': 'screen',
+    'print' : 'print',
+    'handheld': 'handheld',
+);
 
-$query-min-mobile:      'only screen and (min-device-width: $dimen-mobile)';
-$query-min-tablet:      'only screen and (min-device-width: $dimen-tablet)';
-$query-min-desktop:     'only screen and (min-device-width: $dimen-desktop)';
-$query-min-widescreen:  'only screen and (min-device-width: $dimen-widescreen)';
+@mixin respond-to($breakpoints...) {
+}

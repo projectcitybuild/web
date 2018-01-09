@@ -1,5 +1,9 @@
 $nav-colour: $colour-secondary;
 $nav-secondary-colour: $colour-primary;
+$nav-border-colour: darken($nav-colour, 10%);
+
+$drawer-width: 350px;
+
 
 @media (min-width: 577px) {
     @import "navigation/navbar";

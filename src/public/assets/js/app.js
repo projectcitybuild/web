@@ -297,7 +297,7 @@ function queueWrite(action) {
 /***/ 222:
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+throw new Error("Module build failed: ModuleBuildError: Module build failed: \r\n    border-radius: $border-radius-panel;\r\n                  ^\r\n      Undefined variable: \"$border-radius-panel\".\r\n      in C:\\Users\\Andy\\Documents\\Dev\\Projects\\Web\\PCB_3.5\\src\\app\\Resources\\assets\\sass\\pages\\_home.scss (line 139, column 20)\n    at runLoaders (C:\\Users\\Andy\\Documents\\Dev\\Projects\\Web\\PCB_3.5\\src\\node_modules\\webpack\\lib\\NormalModule.js:195:19)\n    at C:\\Users\\Andy\\Documents\\Dev\\Projects\\Web\\PCB_3.5\\src\\node_modules\\loader-runner\\lib\\LoaderRunner.js:364:11\n    at C:\\Users\\Andy\\Documents\\Dev\\Projects\\Web\\PCB_3.5\\src\\node_modules\\loader-runner\\lib\\LoaderRunner.js:230:18\n    at context.callback (C:\\Users\\Andy\\Documents\\Dev\\Projects\\Web\\PCB_3.5\\src\\node_modules\\loader-runner\\lib\\LoaderRunner.js:111:13)\n    at Object.asyncSassJobQueue.push [as callback] (C:\\Users\\Andy\\Documents\\Dev\\Projects\\Web\\PCB_3.5\\src\\node_modules\\sass-loader\\lib\\loader.js:55:13)\n    at Object.<anonymous> (C:\\Users\\Andy\\Documents\\Dev\\Projects\\Web\\PCB_3.5\\src\\node_modules\\sass-loader\\node_modules\\async\\dist\\async.js:2257:31)\n    at Object.callback (C:\\Users\\Andy\\Documents\\Dev\\Projects\\Web\\PCB_3.5\\src\\node_modules\\sass-loader\\node_modules\\async\\dist\\async.js:958:16)\n    at options.error (C:\\Users\\Andy\\Documents\\Dev\\Projects\\Web\\PCB_3.5\\src\\node_modules\\node-sass\\lib\\index.js:294:32)");
 
 /***/ })
 
