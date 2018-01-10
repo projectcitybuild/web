@@ -133,54 +133,15 @@ footer {
 
 
 
-.donate-panel {
-    width: 100%;
-    background: $colour-primary;
-    border-radius: $border-radius-panel;
-    border-bottom: 3px solid darken($colour-primary, 5%);
-    color: #fff;
+#donate-panel {
     margin-bottom: 1.5em;
     
     h3 {
         text-align: center;
-        text-transform: uppercase;
-        font-size: 0.8em;
-        font-weight: 400;
-    }
-
-    .bar-outer {
-        border-radius: 5px;
-        background: #fff;
-        width: 100%;
-        padding: 0.25em;
-        box-shadow: inset 0px 4px 0px 0px #d9e6ef;
-    }
-
-    .bar-inner {
-        background: $colour-accent;
-        color: darken($colour-accent, 20%);
-        height: 30px;
-        box-sizing: border-box;
-        border-radius: 3px;
-        border-bottom: 2px solid darken($colour-accent, 5%);
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        font-size: 0.6em;
-    }
-
-    .bar-markers {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        font-size: 0.6em;
-        color: #86b6e8;
-        margin-top: 0.5em;
     }
 
     .stats {
-        background: #479fe2;
-        width: 100%;
+        background: hsl(206, 73%, 58%);
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -213,6 +174,83 @@ footer {
             text-align: center;
             font-size: 0.7em;
             margin-top: 1em;
+        }
+    }
+}
+
+
+.news-panel {
+    margin-bottom: 1em;
+
+    .article-contents {
+        padding: 2em;
+
+        h2 {
+            font-size: 1.8em;
+            font-family: 'Fjalla One', sans-serif;
+            font-weight: normal;
+            color: $colour-primary;
+            margin: 0;
+            margin-bottom: 0.25em;
+        }
+
+        .date {
+            color: #c0b6b6;
+            font-size: 0.7em;
+            margin-bottom: 2.5em;
+        }
+        
+        .text {
+            font-size: 0.7em;
+            line-height: 2em;
+            margin-bottom: 2.5em;
+        }
+
+        .poster {
+            font-size: 0.7em;
+            color: #c0b6b6;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            img {
+                margin: 0 0.5em;
+            }
+        }
+    }
+
+    .article-footer {
+        background: #f8f8f8;
+        padding: 0.75em;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .stats {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            color: #c1bebd;
+        }
+        .stat {
+            text-align: center;
+            padding: 0 1em;
+            border-right: 1px solid #e5e5e5;
+            
+            h4 {
+                margin: 0;
+            }
+            span {
+                font-size: 0.7em;
+                text-transform: uppercase;
+            }
+
+            &:last-child {
+                border-right: 0;
+            }
         }
     }
 }

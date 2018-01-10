@@ -150,69 +150,176 @@
 
             <section>
                 <div class="container">
-                <article class="card">
-                    <div class="article-contents">
-                        <h2>Title</h2>
-                        <div class="date">Tue, 5th of January, 2018</div>
-        
-                        <div class="text">
-                            Text
-                        </div>
-        
-                        <div class="poster">
-                            Posted by
-                            <img src="https://minotar.net/helm/_andy/16" width="16" />
-                            <a href="#">_andy</a>
-                        </div>
-                    </div>
-                    <div class="article-footer">
-                        <div class="stats">
-                            <div class="stat">
-                                <h4>14</h4>
-                                <span>Comments</span>
+                    <article class="card news-panel">
+                        <div class="article-contents">
+                            <h2>Title</h2>
+                            <div class="date">Tue, 5th of January, 2018</div>
+            
+                            <div class="text">
+                                Text
                             </div>
-                            <div class="stat">
-                                <h4>831</h4>
-                                <span>Post Views</span>
+            
+                            <div class="poster">
+                                Posted by
+                                <img src="https://minotar.net/helm/_andy/16" width="16" />
+                                <a href="#">_andy</a>
                             </div>
                         </div>
-                        <div class="actions">
-                            <a class="btn large orange" href="#">
-                                Read Post
-                                <i class="fa fa-chevron-right"></i>
-                            </a>
+                        <div class="article-footer">
+                            <div class="stats">
+                                <div class="stat">
+                                    <h4>14</h4>
+                                    <span>Comments</span>
+                                </div>
+                                <div class="stat">
+                                    <h4>831</h4>
+                                    <span>Post Views</span>
+                                </div>
+                            </div>
+                            <div class="actions">
+                                <a class="btn large orange" href="#">
+                                    Read Post
+                                    <i class="fa fa-chevron-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table striped">
+                                <thead>
+                                    <tr>
+                                        <td>Date</td>
+                                        <td>Thread</td>
+                                        <td>Latest Poster</td>
+                                        <td>Replies</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Thu, 11th Jan</td>
+                                        <td>Hey look, a new website!</td>
+                                        <td>_andy</td>
+                                        <td>13</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Thu, 11th Jan</td>
+                                        <td>Hey look, a new website!</td>
+                                        <td>_andy</td>
+                                        <td>13</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Thu, 11th Jan</td>
+                                        <td>Hey look, a new website!</td>
+                                        <td>_andy</td>
+                                        <td>13</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Thu, 11th Jan</td>
+                                        <td>Hey look, a new website!</td>
+                                        <td>_andy</td>
+                                        <td>13</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Thu, 11th Jan</td>
+                                        <td>Hey look, a new website!</td>
+                                        <td>_andy</td>
+                                        <td>13</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                </article>
+                        
+                    <article class="card news-panel">
+                        <div class="article-contents">
+                            <h2>Title</h2>
+                            <div class="date">Tue, 5th of January, 2018</div>
+            
+                            <div class="text">
+                                Text
+                            </div>
+            
+                            <div class="poster">
+                                Posted by
+                                <img src="https://minotar.net/helm/_andy/16" width="16" />
+                                <a href="#">_andy</a>
+                            </div>
+                        </div>
+                        <div class="article-footer">
+                            <div class="stats">
+                                <div class="stat">
+                                    <h4>14</h4>
+                                    <span>Comments</span>
+                                </div>
+                                <div class="stat">
+                                    <h4>831</h4>
+                                    <span>Post Views</span>
+                                </div>
+                            </div>
+                            <div class="actions">
+                                <a class="btn large orange" href="#">
+                                    Read Post
+                                    <i class="fa fa-chevron-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
 
-                    <div class="card">
-                        Forum activity feed
-                    </div>
-
-                    <div class="card">
-                        Announcement #2
-                    </div>
-
-                    <div class="card">
-                        Announcement #3
-                    </div>
+                    <article class="card news-panel">
+                        <div class="article-contents">
+                            <h2>Title</h2>
+                            <div class="date">Tue, 5th of January, 2018</div>
+            
+                            <div class="text">
+                                Text
+                            </div>
+            
+                            <div class="poster">
+                                Posted by
+                                <img src="https://minotar.net/helm/_andy/16" width="16" />
+                                <a href="#">_andy</a>
+                            </div>
+                        </div>
+                        <div class="article-footer">
+                            <div class="stats">
+                                <div class="stat">
+                                    <h4>14</h4>
+                                    <span>Comments</span>
+                                </div>
+                                <div class="stat">
+                                    <h4>831</h4>
+                                    <span>Post Views</span>
+                                </div>
+                            </div>
+                            <div class="actions">
+                                <a class="btn large orange" href="#">
+                                    Read Post
+                                    <i class="fa fa-chevron-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
                 </div>
             </section>
 
             <section>
                 <div class="container">
-                    <div class="card primary donate-panel">
+                    <div class="card primary" id="donate-panel">
                         <div class="panel-container">
                             <h3>Help Keep Us Online</h3>
-                            <div class="bar-outer">
-                                <div class="bar-inner" style="width:{{ $donations['percentage'] }}%"></div>
-                            </div>
-                            <div class="bar-markers">
-                                <span>0</span>
-                                <span>250</span>
-                                <span>500</span>
-                                <span>750</span>
-                                <span>1000</span>
+                            <div class="progressbar accent">
+                                <div class="outer">
+                                    <div class="inner" style="width:25%"></div>
+                                </div>
+                                <div class="markers">
+                                    <span>0</span>
+                                    <span>250</span>
+                                    <span>500</span>
+                                    <span>750</span>
+                                    <span>1000</span>
+                                </div>
                             </div>
                         </div>
 
@@ -228,7 +335,7 @@
                         </div>
 
                         <div class="panel-container">
-                            <a class="btn large gray" href="http://projectcitybuild.com/forums/index.php?topic=4124.0">
+                            <a class="button large secondary" href="http://projectcitybuild.com/forums/index.php?topic=4124.0">
                                 Donate
                             </a>
                             <small>Donators receive a colored name, a reserved server slot and more!</small>
