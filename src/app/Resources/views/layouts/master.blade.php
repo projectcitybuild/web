@@ -100,289 +100,240 @@
 
         <main>
             <header>
-                <div class="container">
-                    <img id="logo" src="{{ asset('assets/images/logo.png') }}" width="350" />
+                <div class="container header">
+                    <div class="header__left">
+                        <img class="logo" src="{{ asset('assets/images/logo.png') }}" width="350" />
+                    </div>
                     
-                    <section id="server-feed">
-                        <div class="category">
-                            <h5>Minecraft</h5>
-                            <div class="server online">
-                                <div class="server-title">Survival / Creative [24/7]</div>
-                                <div class="server-players badge secondary">14/80</div>
-                                <div class="server-ip">pcbmc.co</div>
+                    <div class="header__right">
+                        <section class="server-feed">
+                            <div class="category">
+                                <h5 class="category__heading">Minecraft</h5>
+                                <div class="server server--online">
+                                    <div class="server__title">Survival / Creative [24/7]</div>
+                                    <div class="server__players badge secondary">14/80</div>
+                                    <div class="server__ip">pcbmc.co</div>
+                                </div>
+                                <div class="server server--offline">
+                                    <div class="server__title">Feed the Beast</div>
+                                    <div class="server__players badge light">Offline</div>
+                                    <div class="server__ip">23.94.186.178:25565</div>
+                                </div>
+                                <div class="server server--offline">
+                                    <div class="server__title">Pixelmon</div>
+                                    <div class="server__players badge light">Offline</div>
+                                    <div class="server__ip">23.94.186.178:25565</div>
+                                </div>
                             </div>
-                            <div class="server offline">
-                                <div class="server-title">Feed the Beast</div>
-                                <div class="server-players badge light">Offline</div>
-                                <div class="server-ip">23.94.186.178:25565</div>
-                            </div>
-                            <div class="server offline">
-                                <div class="server-title">Pixelmon</div>
-                                <div class="server-players badge light">Offline</div>
-                                <div class="server-ip">23.94.186.178:25565</div>
-                            </div>
-                        </div>
 
-                        <div class="category">
-                            <h5>Other Games</h5>
-                            <div class="server online">
-                                <div class="server-title">Terraria</div>
-                                <div class="server-players badge secondary">14/80</div>
-                                <div class="server-ip">pcbmc.co</div>
+                            <div class="category">
+                                <h5 class="category__heading">Other Games</h5>
+                                <div class="server server--online">
+                                    <div class="server__title">Terraria</div>
+                                    <div class="server__players badge secondary">14/80</div>
+                                    <div class="server__ip">pcbmc.co</div>
+                                </div>
+                                <div class="server server--offline">
+                                    <div class="server__title">Starbound</div>
+                                    <div class="server__players badge light">Offline</div>
+                                    <div class="server__ip">pcbmc.co</div>
+                                </div>
                             </div>
-                            <div class="server offline">
-                                <div class="server-title">Starbound</div>
-                                <div class="server-players badge light">Offline</div>
-                                <div class="server-ip">pcbmc.co</div>
-                            </div>
-                        </div>
-                    </section>
-                    
-                    <section id="slogan">
-                        <h3>Creative, Community-Driven Gaming</h3>
-                        Over 15,591 members and growing.
-
-                        <a class="button large accent">Create an Account</a>
-                        <a class="button large secondary">Login</a>
-                    </section>
+                        </section>
+                    </div>
                 </div>
             </header>
 
             <section>
-                <div class="container">
-                    <article class="card news-panel">
-                        <div class="article-contents">
-                            <h2>Title</h2>
-                            <div class="date">Tue, 5th of January, 2018</div>
-            
-                            <div class="text">
-                                Text
-                            </div>
-            
-                            <div class="poster">
-                                Posted by
-                                <img src="https://minotar.net/helm/_andy/16" width="16" />
-                                <a href="#">_andy</a>
-                            </div>
-                        </div>
-                        <div class="article-footer">
-                            <div class="stats">
-                                <div class="stat">
-                                    <h4>14</h4>
-                                    <span>Comments</span>
-                                </div>
-                                <div class="stat">
-                                    <h4>831</h4>
-                                    <span>Post Views</span>
-                                </div>
-                            </div>
-                            <div class="actions">
-                                <a class="btn large orange" href="#">
-                                    Read Post
-                                    <i class="fa fa-chevron-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </article>
+                <div class="container contents">
+                    <div class="contents__body">
 
-                    <div class="card">
-                        <div class="card-body">
-                            <table class="table striped">
-                                <thead>
-                                    <tr>
-                                        <td>Date</td>
-                                        <td>Thread</td>
-                                        <td>Latest Poster</td>
-                                        <td>Replies</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Thu, 11th Jan</td>
-                                        <td>Hey look, a new website!</td>
-                                        <td>_andy</td>
-                                        <td>13</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Thu, 11th Jan</td>
-                                        <td>Hey look, a new website!</td>
-                                        <td>_andy</td>
-                                        <td>13</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Thu, 11th Jan</td>
-                                        <td>Hey look, a new website!</td>
-                                        <td>_andy</td>
-                                        <td>13</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Thu, 11th Jan</td>
-                                        <td>Hey look, a new website!</td>
-                                        <td>_andy</td>
-                                        <td>13</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Thu, 11th Jan</td>
-                                        <td>Hey look, a new website!</td>
-                                        <td>_andy</td>
-                                        <td>13</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                        
-                    <article class="card news-panel">
-                        <div class="article-contents">
-                            <h2>Title</h2>
-                            <div class="date">Tue, 5th of January, 2018</div>
-            
-                            <div class="text">
-                                Text
-                            </div>
-            
-                            <div class="poster">
-                                Posted by
-                                <img src="https://minotar.net/helm/_andy/16" width="16" />
-                                <a href="#">_andy</a>
-                            </div>
-                        </div>
-                        <div class="article-footer">
-                            <div class="stats">
-                                <div class="stat">
-                                    <h4>14</h4>
-                                    <span>Comments</span>
+                        <article class="card news-panel">
+                            <div class="article-contents">
+                                <h2 class="article__heading">Title</h2>
+                                <div class="article__date">Tue, 5th of January, 2018</div>
+                
+                                <div class="article__body">
+                                    Text
                                 </div>
-                                <div class="stat">
-                                    <h4>831</h4>
-                                    <span>Post Views</span>
+                
+                                <div class="article__author">
+                                    Posted by
+                                    <img src="https://minotar.net/helm/_andy/16" width="16" />
+                                    <a href="#">_andy</a>
                                 </div>
                             </div>
-                            <div class="actions">
-                                <a class="btn large orange" href="#">
-                                    Read Post
-                                    <i class="fa fa-chevron-right"></i>
-                                </a>
+                            <div class="article-footer">
+                                <div class="stats">
+                                    <div class="stat">
+                                        <h4>14</h4>
+                                        <span>Comments</span>
+                                    </div>
+                                    <div class="stat">
+                                        <h4>831</h4>
+                                        <span>Post Views</span>
+                                    </div>
+                                </div>
+                                <div class="actions">
+                                    <a class="button accent large" href="#">
+                                        Read Post
+                                        <i class="fa fa-chevron-right"></i>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    </article>
+                        </article>
+                            
+                        <article class="card news-panel">
+                            <div class="article-contents">
+                                <h2 class="article__heading">Title</h2>
+                                <div class="article__date">Tue, 5th of January, 2018</div>
+                
+                                <div class="article__body">
+                                    Text
+                                </div>
+                
+                                <div class="article__author">
+                                    Posted by
+                                    <img src="https://minotar.net/helm/_andy/16" width="16" />
+                                    <a href="#">_andy</a>
+                                </div>
+                            </div>
+                            <div class="article-footer">
+                                <div class="stats">
+                                    <div class="stat">
+                                        <h4>14</h4>
+                                        <span>Comments</span>
+                                    </div>
+                                    <div class="stat">
+                                        <h4>831</h4>
+                                        <span>Post Views</span>
+                                    </div>
+                                </div>
+                                <div class="actions">
+                                    <a class="button accent large" href="#">
+                                        Read Post
+                                        <i class="fa fa-chevron-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
 
-                    <article class="card news-panel">
-                        <div class="article-contents">
-                            <h2>Title</h2>
-                            <div class="date">Tue, 5th of January, 2018</div>
-            
-                            <div class="text">
-                                Text
-                            </div>
-            
-                            <div class="poster">
-                                Posted by
-                                <img src="https://minotar.net/helm/_andy/16" width="16" />
-                                <a href="#">_andy</a>
-                            </div>
-                        </div>
-                        <div class="article-footer">
-                            <div class="stats">
-                                <div class="stat">
-                                    <h4>14</h4>
-                                    <span>Comments</span>
+                        <article class="card news-panel">
+                            <div class="article-contents">
+                                <h2 class="article__heading">Title</h2>
+                                <div class="article__date">Tue, 5th of January, 2018</div>
+                
+                                <div class="article__body">
+                                    Text
                                 </div>
-                                <div class="stat">
-                                    <h4>831</h4>
-                                    <span>Post Views</span>
+                
+                                <div class="article__author">
+                                    Posted by
+                                    <img src="https://minotar.net/helm/_andy/16" width="16" />
+                                    <a href="#">_andy</a>
                                 </div>
                             </div>
-                            <div class="actions">
-                                <a class="btn large orange" href="#">
-                                    Read Post
-                                    <i class="fa fa-chevron-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </section>
-
-            <section>
-                <div class="container">
-                    <div class="card primary" id="donate-panel">
-                        <div class="panel-container">
-                            <h3>Help Keep Us Online</h3>
-                            <div class="progressbar accent">
-                                <div class="outer">
-                                    <div class="inner" style="width:25%"></div>
+                            <div class="article-footer">
+                                <div class="stats">
+                                    <div class="stat">
+                                        <h4>14</h4>
+                                        <span>Comments</span>
+                                    </div>
+                                    <div class="stat">
+                                        <h4>831</h4>
+                                        <span>Post Views</span>
+                                    </div>
                                 </div>
-                                <div class="markers">
-                                    <span>0</span>
-                                    <span>250</span>
-                                    <span>500</span>
-                                    <span>750</span>
-                                    <span>1000</span>
+                                <div class="actions">
+                                    <a class="button accent large" href="#">
+                                        Read Post
+                                        <i class="fa fa-chevron-right"></i>
+                                    </a>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="stats">
-                            <div>
-                                <h4>${{ $donations['total'] }}</h4>
-                                <span>Funds Raised</span>
-                            </div>
-                            <div>
-                                <h4>{{ $donations['remainingDays'] }}</h4>
-                                <span>Remaining Days</span>
-                            </div>
-                        </div>
-
-                        <div class="panel-container">
-                            <a class="button large secondary" href="http://projectcitybuild.com/forums/index.php?topic=4124.0">
-                                Donate
-                            </a>
-                            <small>Donators receive a colored name, a reserved server slot and more!</small>
-                        </div>
+                        </article>
                     </div>
 
-                    <a class="btn-divided white" href="http://projectcitybuild.com/forums/index.php?topic=6790.0">
-                        <div class="icon"><i class="fa fa-fw fa-gift"></i></div>
-                        <div class="text left">
-                            Vote For Us
-                            <small>Vote to receive daily in-game prizes</small>
-                        </div>
-                    </a>
-                    <a class="btn-divided white" href="https://wiki.projectcitybuild.com/">
-                        <div class="icon"><i class="fa fa-fw fa-wikipedia-w"></i></div>
-                        <div class="text left">
-                            Community Wiki
-                            <small>History, towns and more</small>
-                        </div>
-                    </a>
+                    <div class="contents__sidebar">
+                        <div class="card primary donate-panel">
+                            <div class="donate-panel__padding">
+                                <h3 class="donate-panel__heading">Help Keep Us Online</h3>
+                                <div class="progressbar accent">
+                                    <div class="outer">
+                                        <div class="inner" style="width:25%"></div>
+                                    </div>
+                                    <div class="markers">
+                                        <span>0</span>
+                                        <span>250</span>
+                                        <span>500</span>
+                                        <span>750</span>
+                                        <span>1000</span>
+                                    </div>
+                                </div>
+                            </div>
 
-                    <div class="panel discord-panel">
-                        <iframe src="https://discordapp.com/widget?id=161649330799902720&theme=light" 
-                            width="100%" 
-                            height="500" 
-                            allowtransparency="true" 
-                            frameborder="0">
-                        </iframe>
+                            <div class="donate-panel__stats">
+                                <div>
+                                    <h4>${{ $donations['total'] }}</h4>
+                                    <span>Funds Raised</span>
+                                </div>
+                                <div>
+                                    <h4>{{ $donations['remainingDays'] }}</h4>
+                                    <span>Remaining Days</span>
+                                </div>
+                            </div>
+
+                            <div class="donate-panel__padding">
+                                <a class="button large secondary" href="http://projectcitybuild.com/forums/index.php?topic=4124.0">
+                                    Donate
+                                </a>
+                                <small>Donators receive a colored name, a reserved server slot and more!</small>
+                            </div>
+                        </div>
+
+                        <a class="button secondary sidebar-btn" href="http://projectcitybuild.com/forums/index.php?topic=6790.0">
+                            <div class="sidebar-btn__icon"><i class="fa fa-fw fa-gift"></i></div>
+                            <div class="sidebar-btn__text">
+                                <span class="sidebar-btn__heading">Vote For Us</span>
+                                <small>Vote to receive daily in-game prizes</small>
+                            </div>
+                        </a>
+                        <a class="button secondary sidebar-btn" href="https://wiki.projectcitybuild.com/">
+                            <div class="sidebar-btn__icon">
+                                <i class="fab fa-fw fa-wikipedia-w"></i>
+                            </div>
+                            <div class="sidebar-btn__text">
+                                <span class="sidebar-btn__heading">Community Wiki</span>
+                                <small>History, towns and more</small>
+                            </div>
+                        </a>
+
+                        <div class="panel discord-panel">
+                            <iframe src="https://discordapp.com/widget?id=161649330799902720&theme=light" 
+                                width="100%" 
+                                height="500" 
+                                allowtransparency="true" 
+                                frameborder="0">
+                            </iframe>
+                        </div>
                     </div>
-
                 </div>
             </section>
 
             <footer>
                 <div class="container">
-                    <div class="left">
+                    <div class="footer__left">
                         <ul>
-                            <li><h5>Legal</h5></li>
+                            <li><h5 class="footer__subheading">Legal</h5></li>
                             <li><i class="fas fa-check-circle"></i> <a href="http://projectcitybuild.com/forums/index.php?topic=2718">Terms of Service</a></li>
                         </ul>
                         <ul>
-                            <li><h5>Open Source</h5></li>
+                            <li><h5 class="footer__subheading">Open Source</h5></li>
                             <li><i class="fas fa-code-branch"></i> <a href="https://github.com/itsmyfirstday/PCBridge" target="_blank">PCBridge</a></li>
                             <li><i class="fas fa-code-branch"></i> <a href="https://github.com/itsmyfirstday/ProjectCityBuild" target="_blank">projectcitybuild.com</a></li>
                         </ul>
                     </div>
-                    <div class="right">
+                    <div class="footer__right">
                         <div class="social">
                             <a href="https://www.facebook.com/ProjectCityBuild" target="_blank"><i class="fab fa-facebook-square"></i></a>
                             <a href="https://twitter.com/PCB_Minecraft" target="_blank"><i class="fab fa-twitter-square"></i></a>

@@ -1,16 +1,9 @@
 header {
     background: linear-gradient(top, #90cefd 0%, #daf8ff 100%);
     padding: 2em 0;
-
-    & > .container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
 }
 
-#logo {
+.logo {
     margin-top: 0.5em;
     margin-bottom: 2em;
 }
@@ -19,8 +12,53 @@ section {
     width: 100%;
 }
 
-#server-feed {
-    h5 {
+.header {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2em;
+    
+    .header__left {
+        display: flex;
+        justify-content: center;
+        align-items: center;        
+    }
+
+    @media screen and (min-width: $dimen-medium) {
+        flex-direction: row;
+
+        .header__left {
+            flex: 0;
+        }
+    
+        .header__right {
+            margin-left: 3em;
+            flex: 1;
+        }
+    }
+}
+
+.contents {
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    @media screen and (min-width: $dimen-medium) {
+        flex-direction: row;
+
+        .contents__sidebar {
+            margin-left: 1em;
+            max-width: 30%;
+        }
+    
+        .contents__body {
+            flex: 1;
+        }
+    }
+}
+
+.server-feed {
+    .category__heading {
         color: #fff;
         font-size: 0.8em;
         padding: 0 0.75em;
@@ -54,23 +92,23 @@ section {
             border-bottom-right-radius: 3px;
         }
 
-        &.online {
+        &.server--online {
             background: hsla(0, 0%, 100%, 0.35);
             color: $colour-primary;
             border-top: 1px solid hsla(0, 0%, 100%, 0.5);
         }
-        &.offline {
+        &.server--offline {
             background: hsla(0, 0%, 100%, 0.10);
             border: 1px solid hsla(0, 0%, 100%, 0.35);
             color: #fff;
         }
     }
 
-    .server-title {
+    .server__title {
         font-weight: 500;
     }
 
-    .server-players {
+    .server__players {
         padding: 0.5em 0.75em;
         margin: -0.5em;
         border-radius: 3px;
@@ -82,21 +120,29 @@ section {
 footer {
     background: $colour-secondary;
     color: #fff;
-    font-size: 0.7em;
+    padding: 2em 0;
+    margin-top: 2em;
 
     .container {
         display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        @media screen and (min-width: $dimen-medium) {
+            flex-direction: row;
+            justify-content: space-between;
+        }
     }
 
-    .left a,
-    .right a,
+    .footer__left a,
+    .footer__right a,
     {
         color: #fff;
     }
 
-    .left {
+    .footer__left {
+        font-size: 0.7em;
         flex: 1;
         display: flex;
         flex-direction: row;
@@ -104,21 +150,37 @@ footer {
 
         ul {
             list-style: none;
-            padding-left: 0;    
+            padding: 0;
 
             &:not(:last-child) {
                 margin-right: 4em;
             }
         }
 
-        li &:not(:last-child) {
+        li:not(:last-child) {
             margin-bottom: 0.75em;
+        }
+
+        .footer__subheading {
+            font-size: 1.1em;
+            margin-bottom: 1.5em;
+
+            @media screen and (max-width: $dimen-medium) {
+                text-align: center;
+            }
         }
     }
 
-    .right {
-        text-align: right;
+    .footer__right {
+        font-size: 0.7em;
+        text-align: center;
+        margin-top: 2em;
         flex: 1;
+
+        @media screen and (min-width: $dimen-medium) {
+            text-align: right;
+            margin-top: 0em;
+        }
 
         .social {
             margin-bottom: 1em;
@@ -133,14 +195,15 @@ footer {
 
 
 
-#donate-panel {
+.donate-panel {
     margin-bottom: 1.5em;
-    
-    h3 {
-        text-align: center;
+    text-align: center;
+
+    .donate-panel__heading {
+        font-size: 1em;
     }
 
-    .stats {
+    .donate-panel__stats {
         background: hsl(206, 73%, 58%);
         display: flex;
         flex-direction: row;
@@ -166,7 +229,7 @@ footer {
         }
     }
 
-    .panel-container {
+    .donate-panel__padding {
         padding: 0.75em;
 
         small {
@@ -184,40 +247,40 @@ footer {
 
     .article-contents {
         padding: 2em;
+    }
 
-        h2 {
-            font-size: 1.8em;
-            font-family: 'Fjalla One', sans-serif;
-            font-weight: normal;
-            color: $colour-primary;
-            margin: 0;
-            margin-bottom: 0.25em;
-        }
+    .article__heading {
+        font-size: 1.8em;
+        font-family: 'Fjalla One', sans-serif;
+        font-weight: normal;
+        color: $colour-primary;
+        margin: 0;
+        margin-bottom: 0.25em;
+    }
 
-        .date {
-            color: #c0b6b6;
-            font-size: 0.7em;
-            margin-bottom: 2.5em;
-        }
-        
-        .text {
-            font-size: 0.7em;
-            line-height: 2em;
-            margin-bottom: 2.5em;
-        }
+    .article__date {
+        color: #c0b6b6;
+        font-size: 0.7em;
+        margin-bottom: 2.5em;
+    }
+    
+    .article__body {
+        font-size: 0.7em;
+        line-height: 2em;
+        margin-bottom: 2.5em;
+    }
 
-        .poster {
-            font-size: 0.7em;
-            color: #c0b6b6;
+    .article__author {
+        font-size: 0.7em;
+        color: #c0b6b6;
 
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
 
-            img {
-                margin: 0 0.5em;
-            }
+        img {
+            margin: 0 0.5em;
         }
     }
 
@@ -253,4 +316,39 @@ footer {
             }
         }
     }
+}
+
+.sidebar-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 0.25em;
+    text-decoration: none;
+
+    .sidebar-btn__icon {
+        font-size: 1.5em;
+        margin-right: 0.75em;
+    }
+
+    .sidebar-btn__text {
+        text-align: left;
+        font-size: 1em;
+
+        small {
+            display: block;
+            color: darken(#fff, 15%);
+            font-weight: 100;
+        }
+    }
+    
+    .sidebar-btn__heading {
+        font-size: 1.25em;
+        display: block;
+        margin-bottom: 0.25em;
+    }
+}
+
+.discord-panel {
+    margin-top: 1em;
 }

@@ -1,16 +1,8 @@
-$breakpoints: (
-    'tiny'  : 320px,
-    'small' : 566px,
-    'medium': 800px,
-    'large' : 1000px,
-    'huge'  : 1200px,
-);
-
-$media-type: (
-    'screen': 'screen',
-    'print' : 'print',
-    'handheld': 'handheld',
-);
+$dimen-tiny: 360px;
+$dimen-small: 480px;
+$dimen-medium: 768px;
+$dimen-large: 1024px;
+$dimen-huge: 1280px;
 
 @mixin respond-to($breakpoints...) {
 }
