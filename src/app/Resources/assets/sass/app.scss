@@ -21,9 +21,13 @@
 @import 'components/grid';
 @import 'components/pagination';
 @import 'components/progressbar';
+@import 'components/stat';
 @import 'components/table';
 
+@import 'layouts/donate-panel';
+@import 'layouts/footer';
 @import 'layouts/grid';
+@import 'layouts/header';
 @import 'layouts/navigation';
 @import 'layouts/server-feed';
 
@@ -43,4 +47,8 @@ body {
 body {
     background: hsl(55, 100%, 93%);
     overflow-x: hidden;
+}
+
+section {
+    width: 100%;
 }

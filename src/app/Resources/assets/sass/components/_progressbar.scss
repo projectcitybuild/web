@@ -1,7 +1,7 @@
-.progressbar {
+.progress {
     font-size: 0.6em;
 
-    .outer {
+    &__bar {
         border-radius: 5px;
         background: #fff;
         padding: 0.45em;
@@ -12,7 +12,7 @@
         justify-content: space-between;
     }
 
-    .outer > .inner {
+    &__bar > &__bar__fill {
         height: 30px;
         border-radius: 3px;
         border-bottom: 2px solid;
@@ -23,7 +23,7 @@
         align-items: center;
     }
 
-    .markers {
+    &__markers {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -31,41 +31,37 @@
         color: hsl(211, 68%, 72%);
     }
 
-    .label {
+    &__label {
         flex: 1;
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
-    &.small .inner {
-        height: 10px;
-    }
-
-    &.primary {
-        .inner {
+    &--primary {
+        .progress__bar__fill {
             background: $colour-primary;
             border-color: darken($colour-primary, 10%);
         }
-        .outer {
+        .progress__bar {
             border-color: $colour-primary;
         }
     }
-    &.secondary {
-        .inner {
+    &--secondary {
+        .progress__bar__fill {
             background: $colour-secondary;
             border-color: darken($colour-secondary, 5%);
         }
-        .outer {
+        .progress__bar {
             border-color: $colour-secondary;
         }
     }
-    &.accent {
-        .inner {
+    &--accent {
+        .progress__bar__fill {
             background: $colour-accent;
             border-color: darken($colour-accent, 10%);
         }
-        .outer {
+        .progress__bar {
             border-color: $colour-accent;
         }
     }

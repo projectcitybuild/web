@@ -1,42 +1,3 @@
-header {
-    background: linear-gradient(top, #90cefd 0%, #daf8ff 100%);
-    padding: 2em 0;
-}
-
-.logo {
-    margin-top: 0.5em;
-    margin-bottom: 2em;
-}
-
-section {
-    width: 100%;
-}
-
-.header {
-    display: flex;
-    flex-direction: column;
-    margin-top: 2em;
-    
-    .header__left {
-        display: flex;
-        justify-content: center;
-        align-items: center;        
-    }
-
-    @media screen and (min-width: $dimen-medium) {
-        flex-direction: row;
-
-        .header__left {
-            flex: 0;
-        }
-    
-        .header__right {
-            margin-left: 3em;
-            flex: 1;
-        }
-    }
-}
-
 .contents {
     margin-top: 2em;
     display: flex;
@@ -57,161 +18,35 @@ section {
     }
 }
 
-
-footer {
-    background: $colour-secondary;
-    color: #fff;
-    padding: 2em 0;
-    margin-top: 2em;
-
-    .container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        @media screen and (min-width: $dimen-medium) {
-            flex-direction: row;
-            justify-content: space-between;
-        }
-    }
-
-    .footer__left a,
-    .footer__right a,
-    {
-        color: #fff;
-    }
-
-    .footer__left {
-        font-size: 0.7em;
-        flex: 1;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-
-        ul {
-            list-style: none;
-            padding: 0;
-
-            &:not(:last-child) {
-                margin-right: 4em;
-            }
-        }
-
-        li:not(:last-child) {
-            margin-bottom: 0.75em;
-        }
-
-        .footer__subheading {
-            font-size: 1.1em;
-            margin-bottom: 1.5em;
-
-            @media screen and (max-width: $dimen-medium) {
-                text-align: center;
-            }
-        }
-    }
-
-    .footer__right {
-        font-size: 0.7em;
-        text-align: center;
-        margin-top: 2em;
-        flex: 1;
-
-        @media screen and (min-width: $dimen-medium) {
-            text-align: right;
-            margin-top: 0em;
-        }
-
-        .social {
-            margin-bottom: 1em;
-            font-size: 1.5em;
-
-            a:not(:last-child) {
-                margin-right: 0.75em;
-            }
-        }
-    }
-}
-
-
-
-.donate-panel {
-    margin-bottom: 1.5em;
-    text-align: center;
-
-    .donate-panel__heading {
-        font-size: 1em;
-    }
-
-    .donate-panel__stats {
-        background: hsl(206, 73%, 58%);
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-
-        div {
-            flex: 1;
-            text-align: center;
-            padding: 0.5em 1em;
-
-            &:first-child {
-                border-right: 1px solid $colour-primary;
-            }
-        }
-
-        h4 {
-            margin: 0;
-        }
-        span {
-            font-size: 0.6em;
-            text-transform: uppercase;
-        }
-    }
-
-    .donate-panel__padding {
-        padding: 0.75em;
-
-        small {
-            display: block;
-            text-align: center;
-            font-size: 0.7em;
-            margin-top: 1em;
-        }
-    }
-}
-
-
-.news-panel {
+.article {
     margin-bottom: 1em;
 
-    .article-contents {
+    &__container {
         padding: 2em;
     }
 
-    .article__heading {
+    &__heading {
+        @extend %header;
         font-size: 1.8em;
-        font-family: 'Fjalla One', sans-serif;
         font-weight: normal;
         color: $colour-primary;
         margin: 0;
         margin-bottom: 0.25em;
     }
 
-    .article__date {
-        color: #c0b6b6;
+    &__date {
+        color: $colour-light;
         font-size: 0.7em;
         margin-bottom: 2.5em;
     }
     
-    .article__body {
+    &__body {
         font-size: 0.7em;
         line-height: 2em;
         margin-bottom: 2.5em;
     }
 
-    .article__author {
+    &__author {
         font-size: 0.7em;
         color: #c0b6b6;
 
@@ -225,7 +60,7 @@ footer {
         }
     }
 
-    .article-footer {
+    &__footer {
         background: #f8f8f8;
         padding: 0.75em;
         display: flex;
@@ -233,32 +68,16 @@ footer {
         justify-content: space-between;
 
         .stats {
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: center;
             color: #c1bebd;
         }
-        .stat {
-            text-align: center;
-            padding: 0 1em;
+        .stats__item:not(:last-child) {
             border-right: 1px solid #e5e5e5;
-            
-            h4 {
-                margin: 0;
-            }
-            span {
-                font-size: 0.7em;
-                text-transform: uppercase;
-            }
-
-            &:last-child {
-                border-right: 0;
-            }
         }
     }
 }
 
+
+// TODO: refactor this mess into the button component
 .sidebar-btn {
     display: flex;
     flex-direction: row;

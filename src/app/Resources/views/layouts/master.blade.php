@@ -98,13 +98,13 @@
         </div>
 
         <main>
-            <header>
-                <div class="container header">
-                    <div class="header__left">
-                        <img class="logo" src="{{ asset('assets/images/logo.png') }}" width="350" />
+            <header class="header">
+                <div class="container header__container">
+                    <div class="header__col-left">
+                        <img class="header__logo" src="{{ asset('assets/images/logo.png') }}" />
                     </div>
                     
-                    <div class="header__right">
+                    <div class="header__col-right">
                         <section class="server-feed">
                             <div class="category">
                                 <h5 class="category__heading">Minecraft</h5>
@@ -147,8 +147,8 @@
                 <div class="container contents">
                     <div class="contents__body">
 
-                        <article class="card news-panel">
-                            <div class="article-contents">
+                        <article class="article card">
+                            <div class="article__container">
                                 <h2 class="article__heading">Title</h2>
                                 <div class="article__date">Tue, 5th of January, 2018</div>
                 
@@ -162,15 +162,15 @@
                                     <a href="#">_andy</a>
                                 </div>
                             </div>
-                            <div class="article-footer">
+                            <div class="article__footer">
                                 <div class="stats">
-                                    <div class="stat">
-                                        <h4>14</h4>
-                                        <span>Comments</span>
+                                    <div class="stats__item">
+                                        <span class="stats__item__figure">14</span>
+                                        <span class="stats__item__heading">Comments</span>
                                     </div>
-                                    <div class="stat">
-                                        <h4>831</h4>
-                                        <span>Post Views</span>
+                                    <div class="stats__item">
+                                        <span class="stats__item__figure">831</span>
+                                        <span class="stats__item__heading">Post Views</span>
                                     </div>
                                 </div>
                                 <div class="actions">
@@ -182,8 +182,8 @@
                             </div>
                         </article>
                             
-                        <article class="card news-panel">
-                            <div class="article-contents">
+                        <article class="article card">
+                            <div class="article__container">
                                 <h2 class="article__heading">Title</h2>
                                 <div class="article__date">Tue, 5th of January, 2018</div>
                 
@@ -197,15 +197,15 @@
                                     <a href="#">_andy</a>
                                 </div>
                             </div>
-                            <div class="article-footer">
+                            <div class="article__footer">
                                 <div class="stats">
-                                    <div class="stat">
-                                        <h4>14</h4>
-                                        <span>Comments</span>
+                                    <div class="stats__item">
+                                        <span class="stats__item__figure">14</span>
+                                        <span class="stats__item__heading">Comments</span>
                                     </div>
-                                    <div class="stat">
-                                        <h4>831</h4>
-                                        <span>Post Views</span>
+                                    <div class="stats__item">
+                                        <span class="stats__item__figure">831</span>
+                                        <span class="stats__item__heading">Post Views</span>
                                     </div>
                                 </div>
                                 <div class="actions">
@@ -217,8 +217,8 @@
                             </div>
                         </article>
 
-                        <article class="card news-panel">
-                            <div class="article-contents">
+                        <article class="article card">
+                            <div class="article__container">
                                 <h2 class="article__heading">Title</h2>
                                 <div class="article__date">Tue, 5th of January, 2018</div>
                 
@@ -232,15 +232,15 @@
                                     <a href="#">_andy</a>
                                 </div>
                             </div>
-                            <div class="article-footer">
+                            <div class="article__footer">
                                 <div class="stats">
-                                    <div class="stat">
-                                        <h4>14</h4>
-                                        <span>Comments</span>
+                                    <div class="stats__item">
+                                        <span class="stats__item__figure">14</span>
+                                        <span class="stats__item__heading">Comments</span>
                                     </div>
-                                    <div class="stat">
-                                        <h4>831</h4>
-                                        <span>Post Views</span>
+                                    <div class="stats__item">
+                                        <span class="stats__item__figure">831</span>
+                                        <span class="stats__item__heading">Post Views</span>
                                     </div>
                                 </div>
                                 <div class="actions">
@@ -254,14 +254,15 @@
                     </div>
 
                     <div class="contents__sidebar">
-                        <div class="card primary donate-panel">
+                    
+                        <div class="donate-panel card primary">
                             <div class="donate-panel__padding">
                                 <h3 class="donate-panel__heading">Help Keep Us Online</h3>
-                                <div class="progressbar accent">
-                                    <div class="outer">
-                                        <div class="inner" style="width:25%"></div>
+                                <div class="progress progress--accent">
+                                    <div class="progress__bar">
+                                        <div class="progress__bar__fill" style="width:25%"></div>
                                     </div>
-                                    <div class="markers">
+                                    <div class="progress__markers">
                                         <span>0</span>
                                         <span>250</span>
                                         <span>500</span>
@@ -271,14 +272,14 @@
                                 </div>
                             </div>
 
-                            <div class="donate-panel__stats">
-                                <div>
-                                    <h4>${{ $donations['total'] }}</h4>
-                                    <span>Funds Raised</span>
+                            <div class="stats donate-panel__stats">
+                                <div class="stats__item">
+                                    <span class="stats__item__figure">${{ $donations['total'] }}</span>
+                                    <span class="stats__item__heading">Funds Raised</span>
                                 </div>
-                                <div>
-                                    <h4>{{ $donations['remainingDays'] }}</h4>
-                                    <span>Remaining Days</span>
+                                <div class="stats__item">
+                                    <span class="stats__item__figure">{{ $donations['remainingDays'] }}</span>
+                                    <span class="stats__item__heading">Remaining Days</span>
                                 </div>
                             </div>
 
@@ -319,27 +320,27 @@
                 </div>
             </section>
 
-            <footer>
-                <div class="container">
-                    <div class="footer__left">
-                        <ul>
+            <footer class="footer">
+                <div class="container footer__container">
+                    <div class="footer__col-left">
+                        <ul class="footer__bullets">
                             <li><h5 class="footer__subheading">Legal</h5></li>
                             <li><i class="fas fa-check-circle"></i> <a href="http://projectcitybuild.com/forums/index.php?topic=2718">Terms of Service</a></li>
                         </ul>
-                        <ul>
+                        <ul class="footer__bullets">
                             <li><h5 class="footer__subheading">Open Source</h5></li>
-                            <li><i class="fas fa-code-branch"></i> <a href="https://github.com/itsmyfirstday/PCBridge" target="_blank">PCBridge</a></li>
-                            <li><i class="fas fa-code-branch"></i> <a href="https://github.com/itsmyfirstday/ProjectCityBuild" target="_blank">projectcitybuild.com</a></li>
+                            <li><i class="fas fa-code-branch"></i> <a target="_blank" href="https://github.com/itsmyfirstday/PCBridge">PCBridge</a></li>
+                            <li><i class="fas fa-code-branch"></i> <a target="_blank" href="https://github.com/itsmyfirstday/ProjectCityBuild">projectcitybuild.com</a></li>
                         </ul>
                     </div>
-                    <div class="footer__right">
-                        <div class="social">
-                            <a href="https://www.facebook.com/ProjectCityBuild" target="_blank"><i class="fab fa-facebook-square"></i></a>
-                            <a href="https://twitter.com/PCB_Minecraft" target="_blank"><i class="fab fa-twitter-square"></i></a>
-                            <a href="https://www.instagram.com/projectcitybuild" target="_blank"><i class="fab fa-instagram"></i></a>
-                            <a href="https://www.youtube.com/user/PCBMinecraft" target="_blank"><i class="fab fa-youtube"></i></a>
-                            <a href="http://projectcitybuild.tumblr.com/" target="_blank"><i class="fab fa-tumblr-square"></i></a>
-                            <a href="http://steamcommunity.com/groups/ProjectCityBuild" target="_blank"><i class="fab fa-steam-square"></i></a>
+                    <div class="footer__col-right">
+                        <div class="footer__social-icons">
+                            <a target="_blank" href="https://www.facebook.com/ProjectCityBuild"><i class="fab fa-facebook-square"></i></a>
+                            <a target="_blank" href="https://twitter.com/PCB_Minecraft"><i class="fab fa-twitter-square"></i></a>
+                            <a target="_blank" href="https://www.instagram.com/projectcitybuild"><i class="fab fa-instagram"></i></a>
+                            <a target="_blank" href="https://www.youtube.com/user/PCBMinecraft"><i class="fab fa-youtube"></i></a>
+                            <a target="_blank" href="http://projectcitybuild.tumblr.com/"><i class="fab fa-tumblr-square"></i></a>
+                            <a target="_blank" href="http://steamcommunity.com/groups/ProjectCityBuild"><i class="fab fa-steam-square"></i></a>
                         </div>
                         <a href="#top">Return to Top</a>
                     </div>
