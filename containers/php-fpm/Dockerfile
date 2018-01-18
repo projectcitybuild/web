@@ -42,4 +42,4 @@ RUN npm run production
 RUN composer dump-autoload --optimize && \
 	composer run-script post-install-cmd
 
-CMD ["sh", "/entry.sh"]
+ENTRYPOINT ["sh", "/entry.sh"]
