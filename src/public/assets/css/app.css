@@ -1306,6 +1306,75 @@ table.table tr.disabled {
   }
 }
 
+.server-feed .category__heading {
+  color: #fff;
+  font-size: 0.8em;
+  padding: 0 0.75em;
+}
+
+.server-feed .category:not(:last-child) {
+  margin-bottom: 1.5em;
+}
+
+.server-feed .server {
+  width: 100%;
+  padding: 0.75em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 0.7em;
+  text-transform: uppercase;
+  -webkit-box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
+}
+
+.server-feed .server:not(:last-child) {
+  margin-bottom: 0.3em;
+}
+
+.server-feed .server:nth-child(2) {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.server-feed .server:last-child {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.server-feed .server.server--online {
+  background: rgba(255, 255, 255, 0.35);
+  color: #1887dc;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.server-feed .server.server--offline {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+}
+
+.server-feed .server__title {
+  font-weight: 500;
+}
+
+.server-feed .server__players {
+  padding: 0.5em 0.75em;
+  margin: -0.5em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
 header {
   background: -webkit-gradient(linear, left top, left bottom, from(#90cefd), to(#daf8ff));
   background: linear-gradient(top, #90cefd 0%, #daf8ff 100%);
@@ -1394,75 +1463,6 @@ section {
         -ms-flex: 1;
             flex: 1;
   }
-}
-
-.server-feed .category__heading {
-  color: #fff;
-  font-size: 0.8em;
-  padding: 0 0.75em;
-}
-
-.server-feed .category:not(:last-child) {
-  margin-bottom: 1.5em;
-}
-
-.server-feed .server {
-  width: 100%;
-  padding: 0.75em;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  font-size: 0.7em;
-  text-transform: uppercase;
-  -webkit-box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
-          box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.05);
-}
-
-.server-feed .server:not(:last-child) {
-  margin-bottom: 0.3em;
-}
-
-.server-feed .server:nth-child(2) {
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-}
-
-.server-feed .server:last-child {
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-}
-
-.server-feed .server.server--online {
-  background: rgba(255, 255, 255, 0.35);
-  color: #1887dc;
-  border-top: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-.server-feed .server.server--offline {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  color: #fff;
-}
-
-.server-feed .server__title {
-  font-weight: 500;
-}
-
-.server-feed .server__players {
-  padding: 0.5em 0.75em;
-  margin: -0.5em;
-  border-radius: 3px;
-  font-size: 0.9em;
 }
 
 footer {

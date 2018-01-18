@@ -9,12 +9,11 @@
 
         <title>Project City Build</title>
 
-        <link rel="stylesheet" type="text/css" href="{{ mix('assets/css/app.css') }}" />
+        <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}" />
 
-        <script src="https://use.fontawesome.com/releases/v5.0.1/js/brands.js"></script>
-        <script src="https://use.fontawesome.com/releases/v5.0.1/js/solid.js"></script>
-        <!-- <script src="https://use.fontawesome.com/releases/v5.0.1/js/regular.js"></script> -->
-        <script src="https://use.fontawesome.com/releases/v5.0.1/js/fontawesome.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/brands.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/solid.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/fontawesome.js"></script>
 
         @if(env('APP_ENV') != 'local'))
             <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2747125-5"></script>

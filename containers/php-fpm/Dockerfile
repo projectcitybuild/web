@@ -13,18 +13,24 @@ RUN wget https://phar.phpunit.de/phpunit-6.4.phar && \
     chmod +x phpunit-6.4.phar && \
     mv phpunit-6.4.phar /usr/local/bin/phpunit
 
+# set up cron
+COPY containers/php-fpm/conf/entry.sh /entry.sh
+ADD containers/php-fpm/conf/crontab.txt /tmp/crontab.txt
+RUN chmod 755 /entry.sh
+RUN /usr/bin/crontab /tmp/crontab.txt
+
 
 WORKDIR /var/www/html
 
-# pull in dependency definitions so we can cache this step if
-# there haven't been any dependency changes
+# pull in dependency definitions so we can reuse this layer when no
+# dependency changes occured
 COPY src/composer.json src/composer.lock ./
 RUN composer install --no-scripts --no-autoloader
-COPY src/package.json src/package-lock.json .
+COPY src/package.json .
 RUN npm install
 
 # bake our source code into the image last so that code changes don't
-# flush the dependency caches
+# flush the previous layers
 COPY src .
 RUN chown -R www-data:www-data /var/www/html
 
@@ -35,3 +41,5 @@ RUN npm run production
 # phase (files weren't baked-in yet)
 RUN composer dump-autoload --optimize && \
 	composer run-script post-install-cmd
+
+CMD ["sh", "/entry.sh"]

@@ -1,5 +1,5 @@
 import INavigator from "./INavigator";
-import { queueRead, queueWrite } from "../library/domQueue";
+import { queueRead, queueWrite } from "../library/DomQueue";
 
 interface MenuState {
     linkElement: HTMLLinkElement;
