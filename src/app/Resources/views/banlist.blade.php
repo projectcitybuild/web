@@ -1,5 +1,5 @@
 @extends('layouts.master')
 
-@section('contents')
-<div id="banlist"></div>
+@section('body')
+    <div id="banlist"></div>
 @endsection

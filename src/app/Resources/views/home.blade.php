@@ -1,6 +1,6 @@
-@extends('layouts.master')
+@extends('layouts.sidebar-layout')
 
-@section('body')
+@section('left')
 
     @if(isset($announcements))
         @foreach($announcements as $announcement)

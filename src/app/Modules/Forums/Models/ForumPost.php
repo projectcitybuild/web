@@ -43,10 +43,12 @@ class ForumPost extends Model
         $value = str_replace('[/b]', '</b>', $value);
         $value = str_replace('[i]', '<i>', $value);
         $value = str_replace('[/i]', '</i>', $value);
-        $value = str_replace('[hr]', '<hr>', $value);
+        $value = str_replace('[hr]', '<hr />', $value);
 
         $value = preg_replace('/(?:\[img\])(.*)(?:\[\/img\])/', '<img src="$1" width="100%" />', $value);
         $value = preg_replace('/(?:\[url=(.*)\])(.*)(?:\[\/url\])/', '<a href="$1">$2</a>', $value);
+        $value = preg_replace('/(?:\[size=([0-9]*)\])(.*)(?:\[\/size\])/', '<span style="font-size:$1">$2</span>', $value);
+        
         return $value;
     }
 

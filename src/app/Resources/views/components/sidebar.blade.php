@@ -3,7 +3,7 @@
         <h3 class="donate-panel__heading">Help Keep Us Online</h3>
         <div class="progress progress--accent">
             <div class="progress__bar">
-                <div class="progress__bar__fill" style="width:25%"></div>
+                <div class="progress__bar__fill" style="width: {{ $donations['percentage'] ?: 3 }}%"></div>
             </div>
             <div class="progress__markers">
                 <span>0</span>
@@ -17,11 +17,11 @@
 
     <div class="stats donate-panel__stats">
         <div class="stats__item">
-            <span class="stats__item__figure">${{ $donations['total'] }}</span>
+            <span class="stats__item__figure">${{ $donations['total'] ?: 0 }}</span>
             <span class="stats__item__heading">Funds Raised</span>
         </div>
         <div class="stats__item">
-            <span class="stats__item__figure">{{ $donations['remainingDays'] }}</span>
+            <span class="stats__item__figure">{{ $donations['remainingDays'] ?: '?' }}</span>
             <span class="stats__item__heading">Remaining Days</span>
         </div>
     </div>

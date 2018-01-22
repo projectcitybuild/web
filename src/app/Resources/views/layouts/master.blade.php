@@ -145,13 +145,7 @@
 
             <section>
                 <div class="container contents">
-                    <div class="contents__body">
-                        @yield('body')
-                    </div>
-
-                    <div class="contents__sidebar">
-                        @include('components.sidebar')    
-                    </div>
+                    @yield('contents')
                 </div>
             </section>
 
