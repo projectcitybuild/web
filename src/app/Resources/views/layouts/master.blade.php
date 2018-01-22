@@ -100,11 +100,11 @@
         <main>
             <header class="header">
                 <div class="container header__container">
-                    <div class="header__col-left">
+                    <div class="header__left">
                         <img class="header__logo" src="{{ asset('assets/images/logo.png') }}" />
                     </div>
                     
-                    <div class="header__col-right">
+                    <div class="header__right">
                         <section class="server-feed">
                             <div class="category">
                                 <h5 class="category__heading">Minecraft</h5>
@@ -146,183 +146,18 @@
             <section>
                 <div class="container contents">
                     <div class="contents__body">
-
-                        <article class="article card">
-                            <div class="article__container">
-                                <h2 class="article__heading">Title</h2>
-                                <div class="article__date">Tue, 5th of January, 2018</div>
-                
-                                <div class="article__body">
-                                    Text
-                                </div>
-                
-                                <div class="article__author">
-                                    Posted by
-                                    <img src="https://minotar.net/helm/_andy/16" width="16" />
-                                    <a href="#">_andy</a>
-                                </div>
-                            </div>
-                            <div class="article__footer">
-                                <div class="stats">
-                                    <div class="stats__item">
-                                        <span class="stats__item__figure">14</span>
-                                        <span class="stats__item__heading">Comments</span>
-                                    </div>
-                                    <div class="stats__item">
-                                        <span class="stats__item__figure">831</span>
-                                        <span class="stats__item__heading">Post Views</span>
-                                    </div>
-                                </div>
-                                <div class="actions">
-                                    <a class="button accent large" href="#">
-                                        Read Post
-                                        <i class="fa fa-chevron-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </article>
-                            
-                        <article class="article card">
-                            <div class="article__container">
-                                <h2 class="article__heading">Title</h2>
-                                <div class="article__date">Tue, 5th of January, 2018</div>
-                
-                                <div class="article__body">
-                                    Text
-                                </div>
-                
-                                <div class="article__author">
-                                    Posted by
-                                    <img src="https://minotar.net/helm/_andy/16" width="16" />
-                                    <a href="#">_andy</a>
-                                </div>
-                            </div>
-                            <div class="article__footer">
-                                <div class="stats">
-                                    <div class="stats__item">
-                                        <span class="stats__item__figure">14</span>
-                                        <span class="stats__item__heading">Comments</span>
-                                    </div>
-                                    <div class="stats__item">
-                                        <span class="stats__item__figure">831</span>
-                                        <span class="stats__item__heading">Post Views</span>
-                                    </div>
-                                </div>
-                                <div class="actions">
-                                    <a class="button accent large" href="#">
-                                        Read Post
-                                        <i class="fa fa-chevron-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </article>
-
-                        <article class="article card">
-                            <div class="article__container">
-                                <h2 class="article__heading">Title</h2>
-                                <div class="article__date">Tue, 5th of January, 2018</div>
-                
-                                <div class="article__body">
-                                    Text
-                                </div>
-                
-                                <div class="article__author">
-                                    Posted by
-                                    <img src="https://minotar.net/helm/_andy/16" width="16" />
-                                    <a href="#">_andy</a>
-                                </div>
-                            </div>
-                            <div class="article__footer">
-                                <div class="stats">
-                                    <div class="stats__item">
-                                        <span class="stats__item__figure">14</span>
-                                        <span class="stats__item__heading">Comments</span>
-                                    </div>
-                                    <div class="stats__item">
-                                        <span class="stats__item__figure">831</span>
-                                        <span class="stats__item__heading">Post Views</span>
-                                    </div>
-                                </div>
-                                <div class="actions">
-                                    <a class="button accent large" href="#">
-                                        Read Post
-                                        <i class="fa fa-chevron-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </article>
+                        @yield('body')
                     </div>
 
                     <div class="contents__sidebar">
-                    
-                        <div class="donate-panel card primary">
-                            <div class="donate-panel__padding">
-                                <h3 class="donate-panel__heading">Help Keep Us Online</h3>
-                                <div class="progress progress--accent">
-                                    <div class="progress__bar">
-                                        <div class="progress__bar__fill" style="width:25%"></div>
-                                    </div>
-                                    <div class="progress__markers">
-                                        <span>0</span>
-                                        <span>250</span>
-                                        <span>500</span>
-                                        <span>750</span>
-                                        <span>1000</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="stats donate-panel__stats">
-                                <div class="stats__item">
-                                    <span class="stats__item__figure">${{ $donations['total'] }}</span>
-                                    <span class="stats__item__heading">Funds Raised</span>
-                                </div>
-                                <div class="stats__item">
-                                    <span class="stats__item__figure">{{ $donations['remainingDays'] }}</span>
-                                    <span class="stats__item__heading">Remaining Days</span>
-                                </div>
-                            </div>
-
-                            <div class="donate-panel__padding">
-                                <a class="button large secondary" href="http://projectcitybuild.com/forums/index.php?topic=4124.0">
-                                    Donate
-                                </a>
-                                <small>Donators receive a colored name, a reserved server slot and more!</small>
-                            </div>
-                        </div>
-
-                        <a class="button secondary sidebar-btn" href="http://projectcitybuild.com/forums/index.php?topic=6790.0">
-                            <div class="sidebar-btn__icon"><i class="fa fa-fw fa-gift"></i></div>
-                            <div class="sidebar-btn__text">
-                                <span class="sidebar-btn__heading">Vote For Us</span>
-                                <small>Vote to receive daily in-game prizes</small>
-                            </div>
-                        </a>
-                        <a class="button secondary sidebar-btn" href="https://wiki.projectcitybuild.com/">
-                            <div class="sidebar-btn__icon">
-                                <i class="fab fa-fw fa-wikipedia-w"></i>
-                            </div>
-                            <div class="sidebar-btn__text">
-                                <span class="sidebar-btn__heading">Community Wiki</span>
-                                <small>History, towns and more</small>
-                            </div>
-                        </a>
-
-                        <div class="panel discord-panel">
-                            <iframe src="https://discordapp.com/widget?id=161649330799902720&theme=light" 
-                                width="100%" 
-                                height="500" 
-                                allowtransparency="true" 
-                                frameborder="0">
-                            </iframe>
-                        </div>
+                        @include('components.sidebar')    
                     </div>
                 </div>
             </section>
 
             <footer class="footer">
                 <div class="container footer__container">
-                    <div class="footer__col-left">
+                    <div class="footer__left">
                         <ul class="footer__bullets">
                             <li><h5 class="footer__subheading">Legal</h5></li>
                             <li><i class="fas fa-check-circle"></i> <a href="http://projectcitybuild.com/forums/index.php?topic=2718">Terms of Service</a></li>
@@ -333,7 +168,7 @@
                             <li><i class="fas fa-code-branch"></i> <a target="_blank" href="https://github.com/itsmyfirstday/ProjectCityBuild">projectcitybuild.com</a></li>
                         </ul>
                     </div>
-                    <div class="footer__col-right">
+                    <div class="footer__right">
                         <div class="footer__social-icons">
                             <a target="_blank" href="https://www.facebook.com/ProjectCityBuild"><i class="fab fa-facebook-square"></i></a>
                             <a target="_blank" href="https://twitter.com/PCB_Minecraft"><i class="fab fa-twitter-square"></i></a>

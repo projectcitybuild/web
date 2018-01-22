@@ -1,12 +1,15 @@
 .server-feed {
-    .category__heading {
-        color: #fff;
-        font-size: 0.8em;
-        padding: 0 0.75em;
-    }
+    .category {
+        &__heading {
+            color: #fff;
+            font-size: 0.8em;
+            padding: 0 0.75em;
+            text-shadow: 0 1px 1px hsla(0, 0%, 0%, 0.15);
+        }
 
-    .category:not(:last-child) {
-        margin-bottom: 1.5em;
+        &:not(:last-child) {
+            margin-bottom: 1.5em;
+        }
     }
 
     .server {

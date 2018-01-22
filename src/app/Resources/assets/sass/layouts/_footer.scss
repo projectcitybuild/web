@@ -16,13 +16,13 @@
         }
     }
 
-    &__col-left a,
-    &__col-right a,
+    &__left a,
+    &__right a,
     {
         color: #fff;
     }
 
-    &__col-left {
+    &__left {
         font-size: 0.7em;
         flex: 1;
         display: flex;
@@ -30,7 +30,7 @@
         justify-content: flex-start;
     }
 
-    &__col-right {
+    &__right {
         font-size: 0.7em;
         text-align: center;
         margin-top: 2em;
