@@ -27,7 +27,26 @@ class OfflineRetrieve implements ForumRetrieveInterface {
     }
 
     public function getAnnouncements(array $groups = []) {
-        return collect();
+        $announcement1 = ForumTopic::make([
+            'num_views' => 1329,
+            'num_replies' => 14,
+        ]);
+
+        $post1 = ForumPost::make([
+            'poster_time' => 1516633766,
+            'subject' => 'A test announcement thread',
+            'body' => 'This is a test topic that can also utilises [b]bbcode[/b].'
+        ]);
+
+        $poster1 = ForumUser::make([
+            'real_name' => '_andy',
+        ]);
+
+        $announcement1->setRelation('firstPost', $post1);
+        $announcement1->setRelation('poster', $poster1);
+
+        $announcements = [$announcement1, $announcement1, $announcement1];
+        return $announcements;
     }
 
 }

@@ -60,33 +60,28 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 213);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 213:
+/******/ ([
+/* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(214);
-module.exports = __webpack_require__(219);
+__webpack_require__(1);
+module.exports = __webpack_require__(2);
 
 
 /***/ }),
+/* 1 */
+/***/ (function(module, exports) {
 
-/***/ 214:
-/***/ (function(module, __webpack_exports__) {
-
-"use strict";
 throw new Error("Module parse failed: Unterminated regular expression (4:17)\nYou may need an appropriate loader to handle this file type.\n| const navigation = new Navigation();\r\n| import * as ReactDOM from 'react-dom';\r\n| ReactDOM.render(/>, document.getElementById('banlist')););\r\n| ");
 
 /***/ }),
-
-/***/ 219:
+/* 2 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ })
-
-/******/ });
+/******/ ]);

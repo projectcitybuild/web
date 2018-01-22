@@ -60,23 +60,16 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 220);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 220:
+/***/ 3:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(221);
+(function webpackMissingModule() { throw new Error("Cannot find module \"C:\\Users\\Andy\\Documents\\Dev\\Projects\\WEb\\PCB_3.5\\src\\app\\Resources\\assets\\js\\react\\components.js\""); }());
 
-
-/***/ }),
-
-/***/ 221:
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open 'C:\\Users\\Andy\\Documents\\Dev\\Projects\\WEb\\PCB_3.5\\src\\app\\Resources\\assets\\js\\react\\components.js'");
 
 /***/ })
 

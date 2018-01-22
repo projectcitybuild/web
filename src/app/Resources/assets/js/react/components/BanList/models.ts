@@ -17,5 +17,5 @@ export interface Server {
 }
 
 export interface Alias {
-
+    alias: string,
 }
