@@ -30,6 +30,7 @@ Without Docker, you will need to first manually install the below:
 - [ ] Ban API
 - [ ] Ban appeals
 - [ ] Apply for staff
+- [ ] Player id fetching after server status queries
 
 
 ### When will this release?

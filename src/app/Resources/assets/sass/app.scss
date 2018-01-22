@@ -1,42 +1,54 @@
-@import url('https://fonts.googleapis.com/css?family=Rubik:400,500,700');
-@import url('https://fonts.googleapis.com/css?family=Fjalla+One');
+@charset 'utf-8';
 
-@import "../libs/normalize/normalize.css";
+@import '~normalize-scss/sass/normalize';
+@include normalize();
 
-$colour-bg: #fffcda;
-$colour-primary: #1987db;
-$colour-secondary: #534741;
-$colour-accent: #F5A503;
 
-$border-radius-button: 5px;
-$border-radius-panel: 5px;
+@import 'mixins/utility';
 
-$nav-colour: $colour-secondary;
-$nav-secondary-colour: $colour-primary;
+@import 'global/colours';
+@import 'global/dimensions';
+@import 'global/typography';
+@import 'global/images';
+
+@import 'components/alert';
+@import 'components/badge';
+@import 'components/blockquote';
+@import 'components/bubble';
+@import 'components/button';
+@import 'components/card';
+@import 'components/divider';
+@import 'components/grid';
+@import 'components/pagination';
+@import 'components/progressbar';
+@import 'components/stat';
+@import 'components/table';
+
+@import 'layouts/donate-panel';
+@import 'layouts/footer';
+@import 'layouts/grid';
+@import 'layouts/header';
+@import 'layouts/navigation';
+@import 'layouts/server-feed';
+
+@import 'pages/home';
+
 
 * {
-    -webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
     box-sizing: border-box;
 }
 
 html,
 body {
     height: 100%;
+    min-height: 100%;
 }
 
 body {
-    background: $colour-bg;
-    font-size: 16px;
-    font-family: 'Rubik', sans-serif;
-    display: flex;
-    flex-direction: row;
+    background: hsl(55, 100%, 93%);
+    overflow-x: hidden;
 }
 
-@import "modules/nav/index";
-@import "modules/buttons/buttons";
-@import "modules/server-feed/server-feed";
-@import "modules/donate/donate";
-@import "modules/master-layout/index";
-@import "modules/home-layout/index";
-@import "modules/banlist-layout/index";
+section {
+    width: 100%;
+}

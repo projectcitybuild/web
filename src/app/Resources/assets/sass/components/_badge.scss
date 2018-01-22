@@ -1,0 +1,19 @@
+.badge {
+    display: inline;
+    padding: 0.25em 0.5em;
+    border-radius: 5px;
+    background: $colour-basic;
+
+    &.primary {
+        background: $colour-primary;
+        color: #fff;
+    }
+    &.secondary {
+        background: $colour-secondary;
+        color: #fff;
+    }
+    &.accent {
+        background: $colour-accent;
+        color: #fff;
+    }
+}

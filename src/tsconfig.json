@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "module": "es6",
+        "target": "es6",
+        "jsx": "react",
+        "allowJs": true,
+        "noImplicitAny": true,  
+        "removeComments": true,
+        "sourceMap": true,
+    },
+    "include": [
+        "app/Resources/assets/js/**/*"
+    ],
+}

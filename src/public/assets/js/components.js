@@ -60,32 +60,23 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 213);
+/******/ 	return __webpack_require__(__webpack_require__.s = 220);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 213:
+/***/ 220:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(214);
-module.exports = __webpack_require__(219);
+module.exports = __webpack_require__(221);
 
 
 /***/ }),
 
-/***/ 214:
-/***/ (function(module, __webpack_exports__) {
-
-"use strict";
-throw new Error("Module parse failed: Unterminated regular expression (4:17)\nYou may need an appropriate loader to handle this file type.\n| const navigation = new Navigation();\r\n| import * as ReactDOM from 'react-dom';\r\n| ReactDOM.render(/>, document.getElementById('banlist')););\r\n| ");
-
-/***/ }),
-
-/***/ 219:
+/***/ 221:
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open 'C:\\Users\\Andy\\Documents\\Dev\\Projects\\WEb\\PCB_3.5\\src\\app\\Resources\\assets\\js\\react\\components.js'");
 
 /***/ })
 

@@ -1,0 +1,35 @@
+@mixin card-background($bgColour, $borderDarken: 5%, $textColour: #000) {
+    background-color: $bgColour;
+    border-color: darken($bgColour, $borderDarken);
+    color: $textColour;
+
+    .card-header {
+        background-color: darken($bgColour, 5%);
+        border-bottom: 1px solid darken($bgColour, 10%);
+    }
+}
+
+.card {
+    border-radius: 5px;
+    border-bottom: 3px solid;
+    box-shadow: 0 2px 5px 1px hsla(0, 0%, 0%, 0.05);
+    @include card-background(#fff, 10%);
+    
+    .card-header, .card-body, .card-footer {
+        padding: 1em;
+    }
+
+    .card-header {
+        border-radius: 5px 5px 0 0;
+    }
+
+    &.primary {
+        @include card-background($colour-primary, 10%, #fff);
+    }
+    &.secondary {
+        @include card-background($colour-secondary, 5%, #fff);
+    }
+    &.accent {
+        @include card-background($colour-accent, 5%, #fff);
+    }
+}

@@ -1,10 +1,11 @@
 @extends('layouts.master')
 
 @section('contents')
-    <div class="left">
+    <div class="contents__body">
         @yield('left')
     </div>
-    <div class="right">
-        @yield('right')
+
+    <div class="contents__sidebar">
+        @include('components.sidebar')    
     </div>
 @endsection

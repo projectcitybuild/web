@@ -1,0 +1,114 @@
+.contents {
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    @media screen and (min-width: $dimen-medium) {
+        flex-direction: row;
+
+        .contents__sidebar {
+            margin-left: 1em;
+            max-width: 30%;
+        }
+    
+        .contents__body {
+            flex: 1;
+        }
+    }
+}
+
+.article {
+    margin-bottom: 1em;
+
+    &__container {
+        padding: 2em;
+    }
+
+    &__heading {
+        @extend %header;
+        font-size: 1.8em;
+        font-weight: normal;
+        color: $colour-primary;
+        margin: 0;
+        margin-bottom: 0.25em;
+    }
+
+    &__date {
+        color: $colour-light;
+        font-size: 0.7em;
+        margin-bottom: 2.5em;
+    }
+    
+    &__body {
+        font-size: 0.7em;
+        line-height: 2em;
+        margin-bottom: 2.5em;
+    }
+
+    &__author {
+        font-size: 0.7em;
+        color: #c0b6b6;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        img {
+            margin: 0 0.5em;
+        }
+    }
+
+    &__footer {
+        background: #f8f8f8;
+        padding: 0.75em;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .stats {
+            color: #c1bebd;
+        }
+        .stats__item:not(:last-child) {
+            border-right: 1px solid #e5e5e5;
+        }
+    }
+}
+
+
+// TODO: refactor this mess into the button component
+.sidebar-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 0.25em;
+    text-decoration: none;
+
+    .sidebar-btn__icon {
+        font-size: 1.5em;
+        margin-right: 0.75em;
+    }
+
+    .sidebar-btn__text {
+        text-align: left;
+        font-size: 1em;
+
+        small {
+            display: block;
+            color: darken(#fff, 15%);
+            font-weight: 100;
+        }
+    }
+    
+    .sidebar-btn__heading {
+        font-size: 1.25em;
+        display: block;
+        margin-bottom: 0.25em;
+    }
+}
+
+.discord-panel {
+    margin-top: 1em;
+}

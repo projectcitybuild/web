@@ -9,116 +9,176 @@
 
         <title>Project City Build</title>
 
-        <link rel="stylesheet" type="text/css" href="{{ mix('assets/css/app.css') }}" />
-        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}" />
+
+        <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/brands.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/solid.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/fontawesome.js"></script>
+
+        @if(env('APP_ENV') != 'local'))
+            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2747125-5"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', 'UA-2747125-5');
+            </script>
+        @endif
     </head>
     <body>
         
-        <input type="checkbox" id="drawer-toggle" />
-        <label for="drawer-toggle"></label>
-        <nav id="mobile-float-nav">
-            
-        </nav>
-        <nav id="menu-nav">
-            <ul>
-                <li><a href="{{ route('home') }}">Home</a></li>
-                <li><a href="http://projectcitybuild.com/forums/">Forums</a></li>
-                <li>
-                    <a href="javascript:void(0)">Servers <i class="fa fa-caret-down"></i></a>
-                    <ul class="menu-sideway">
-                        <li>
-                            <h5>Minecraft</h5>
-                            <ul>
-                                <li><a href="http://projectcitybuild.com/forums/index.php?topic=11146">Rules & Guidelines</a></li>
-                                <li><a href="#">Ranks</a></li>
-                                <li><a href="#">Staff</a></li>
-                                <li><a href="http://pcbmc.co:8123/" target="_blank">Real-Time Map</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <h5>Feed the Beast</h5>
-                            <ul>
-                                <li><a href="#">Rules & Guidelines</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <h5>Terraria</h5>
-                            <ul>
-                                <li><a href="#">Rules & Guidelines</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">Community <i class="fa fa-caret-down"></i></a>
-                    <ul>
-                        <li><a href="#">Appeal a Ban</a></li>
-                        <li><a href="#">Report a Player</a></li>
-                        <li class="divider"><a href="#">Apply for Staff</a></li>
-                        <li><a href="https://wiki.projectcitybuild.com/" target="_blank">Community Wiki</a></li>
-                    </ul>
-                </li>
-                <li><a href="{{ route('banlist') }}">Ban List</a></li>
-            </ul>
+        <nav id="main-nav">
+            <div class="container">
+                <ul>
+                    <li><a href="{{ route('home') }}">Home</a></li>
+                    <li><a href="http://projectcitybuild.com/forums/">Forums</a></li>
+                    <li>
+                        <a href="#" class="nav-dropdown">Servers <i class="fas fa-caret-down"></i></a>
+                        <ul class="menu-sideway">
+                            <li>
+                                <h5>Minecraft</h5>
+                                <ul>
+                                    <li><a href="http://projectcitybuild.com/forums/index.php?topic=11146">Rules & Guidelines</a></li>
+                                    <li><a href="#">Ranks</a></li>
+                                    <li><a href="#">Staff</a></li>
+                                    <li><a href="http://pcbmc.co:8123/" target="_blank">Real-Time Map</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h5>Feed the Beast</h5>
+                                <ul>
+                                    <li><a href="#">Rules & Guidelines</a></li>
+                                    <li><a href="#">Installation Guide</a></li>
+                                    <li><a href="#">Real-Time Map</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h5>Terraria</h5>
+                                <ul>
+                                    <li><a href="#">Rules & Guidelines</a></li>
+                                    <li><a href="#">Installation Guide</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-dropdown">Community <i class="fas fa-caret-down"></i></a>
+                        <ul>
+                            <li><a href="#">Appeal a Ban</a></li>
+                            <li><a href="#">Report a Player</a></li>
+                            <li class="divider"><a href="#">Apply for Staff</a></li>
+                            <li><a href="https://wiki.projectcitybuild.com/" target="_blank">Community Wiki</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ route('banlist') }}">Ban List</a></li>
+                </ul>
 
-            <ul>
-                <li class="social-icon"><a href="https://www.facebook.com/ProjectCityBuild" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                <li class="social-icon"><a href="https://www.instagram.com/projectcitybuild" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                <li class="social-icon"><a href="https://www.youtube.com/user/PCBMinecraft" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                <li class="social-icon"><a href="http://steamcommunity.com/groups/ProjectCityBuild" target="_blank"><i class="fa fa-steam"></i></a></li>
-                <li><a href="#">Login</a></li>
-            </ul>
+                <ul>
+                    <li class="social-icon">
+                        <a href="https://www.facebook.com/ProjectCityBuild" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    </li>
+                    <li class="social-icon">
+                        <a href="https://www.instagram.com/projectcitybuild" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </li>
+                    <li class="social-icon">
+                        <a href="https://www.youtube.com/user/PCBMinecraft" target="_blank"><i class="fab fa-youtube"></i></a>
+                    </li>
+                    <li class="social-icon">
+                        <a href="http://steamcommunity.com/groups/ProjectCityBuild" target="_blank"><i class="fab fa-steam-symbol"></i></a>
+                    </li>
+                    <li><a href="#">Login</a></li>
+                </ul>
+            </div>
         </nav>
 
-        <div class="contents">
-            <header>
-                <div class="left">
-                    <a href="{{ route('home') }}">
-                        <img src="{{ asset('assets/images/logo.png') }}" />
-                    </a>
-                </div>
-                <div class="right">
-                    <div id="serverfeed"></div>
+        
+        <div class="drawer-btn-container">
+            <a href="#" id="drawer-btn"><i class="fas fa-bars"></i></a>
+        </div>
+
+        <main>
+            <header class="header">
+                <div class="container header__container">
+                    <div class="header__left">
+                        <img class="header__logo" src="{{ asset('assets/images/logo.png') }}" />
+                    </div>
+                    
+                    <div class="header__right">
+                        <section class="server-feed">
+                            <div class="category">
+                                <h5 class="category__heading">Minecraft</h5>
+                                <div class="server server--online">
+                                    <div class="server__title">Survival / Creative [24/7]</div>
+                                    <div class="server__players badge secondary">14/80</div>
+                                    <div class="server__ip">pcbmc.co</div>
+                                </div>
+                                <div class="server server--offline">
+                                    <div class="server__title">Feed the Beast</div>
+                                    <div class="server__players badge light">Offline</div>
+                                    <div class="server__ip">23.94.186.178:25565</div>
+                                </div>
+                                <div class="server server--offline">
+                                    <div class="server__title">Pixelmon</div>
+                                    <div class="server__players badge light">Offline</div>
+                                    <div class="server__ip">23.94.186.178:25565</div>
+                                </div>
+                            </div>
+
+                            <div class="category">
+                                <h5 class="category__heading">Other Games</h5>
+                                <div class="server server--online">
+                                    <div class="server__title">Terraria</div>
+                                    <div class="server__players badge secondary">14/80</div>
+                                    <div class="server__ip">pcbmc.co</div>
+                                </div>
+                                <div class="server server--offline">
+                                    <div class="server__title">Starbound</div>
+                                    <div class="server__players badge light">Offline</div>
+                                    <div class="server__ip">pcbmc.co</div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
                 </div>
             </header>
-            
-            <main class="container">
-                @yield('contents')
-            </main>
 
-            <footer>
-                <div class="container">
-                    
-                    <div class="left">
-                        <ul>
-                            <li><h5>Legal</h5></li>
-                            <li><i class="fa fa-check-circle"></i> <a href="http://projectcitybuild.com/forums/index.php?topic=2718">Terms of Service</a></li>
+            <section>
+                <div class="container contents">
+                    @yield('contents')
+                </div>
+            </section>
+
+            <footer class="footer">
+                <div class="container footer__container">
+                    <div class="footer__left">
+                        <ul class="footer__bullets">
+                            <li><h5 class="footer__subheading">Legal</h5></li>
+                            <li><i class="fas fa-check-circle"></i> <a href="http://projectcitybuild.com/forums/index.php?topic=2718">Terms of Service</a></li>
                         </ul>
-                        <ul>
-                            <li><h5>Open Source</h5></li>
-                            <li><i class="fa fa-code-fork"></i> <a href="https://github.com/itsmyfirstday/PCBridge" target="_blank">PCBridge</a></li>
-                            <li><i class="fa fa-code-fork"></i> <a href="https://github.com/itsmyfirstday/ProjectCityBuild" target="_blank">projectcitybuild.com</a></li>
+                        <ul class="footer__bullets">
+                            <li><h5 class="footer__subheading">Open Source</h5></li>
+                            <li><i class="fas fa-code-branch"></i> <a target="_blank" href="https://github.com/itsmyfirstday/PCBridge">PCBridge</a></li>
+                            <li><i class="fas fa-code-branch"></i> <a target="_blank" href="https://github.com/itsmyfirstday/ProjectCityBuild">projectcitybuild.com</a></li>
                         </ul>
                     </div>
-                    <div class="right">
-                        <div class="social">
-                            <a href="https://www.facebook.com/ProjectCityBuild" target="_blank"><i class="fa fa-facebook-square"></i></a>
-                            <a href="https://twitter.com/PCB_Minecraft" target="_blank"><i class="fa fa-twitter-square"></i></a>
-                            <a href="https://www.instagram.com/projectcitybuild" target="_blank"><i class="fa fa-instagram"></i></a>
-                            <a href="https://www.youtube.com/user/PCBMinecraft" target="_blank"><i class="fa fa-youtube-square"></i></a>
-                            <a href="http://projectcitybuild.tumblr.com/" target="_blank"><i class="fa fa-tumblr-square"></i></a>
-                            <a href="http://steamcommunity.com/groups/ProjectCityBuild" target="_blank"><i class="fa fa-steam"></i></a>
+                    <div class="footer__right">
+                        <div class="footer__social-icons">
+                            <a target="_blank" href="https://www.facebook.com/ProjectCityBuild"><i class="fab fa-facebook-square"></i></a>
+                            <a target="_blank" href="https://twitter.com/PCB_Minecraft"><i class="fab fa-twitter-square"></i></a>
+                            <a target="_blank" href="https://www.instagram.com/projectcitybuild"><i class="fab fa-instagram"></i></a>
+                            <a target="_blank" href="https://www.youtube.com/user/PCBMinecraft"><i class="fab fa-youtube"></i></a>
+                            <a target="_blank" href="http://projectcitybuild.tumblr.com/"><i class="fab fa-tumblr-square"></i></a>
+                            <a target="_blank" href="http://steamcommunity.com/groups/ProjectCityBuild"><i class="fab fa-steam-square"></i></a>
                         </div>
                         <a href="#top">Return to Top</a>
                     </div>
 
                 </div>
             </footer>
-
-        </div>
+        </main>
 
         <script src="{{ mix('assets/js/app.js') }}"></script>
-        <script src="https://use.fontawesome.com/6a679158b3.js"></script>
         
     </body>
 </html>

@@ -39,41 +39,17 @@ class ForumPost extends Model
     ];
     
     public function getBodyAttribute($value) {
-        $bbcodeParser = new \Golonka\BBCode\BBCodeParser();
+        $value = str_replace('[b]', '<b>', $value);
+        $value = str_replace('[/b]', '</b>', $value);
+        $value = str_replace('[i]', '<i>', $value);
+        $value = str_replace('[/i]', '</i>', $value);
+        $value = str_replace('[hr]', '<hr />', $value);
 
-        // extra parsers and overrides for smf
-        $bbcodeParser->setParser(
-            'font',
-            '/\[font\=([a-zA-Z ]+)\](.*?)\[\/font\]/s',
-            '<span style="font-family: \'$1\'">$2</span>',
-            '$2'
-        );
-        $bbcodeParser->setParser(
-            'size',
-            '/\[size\=([\d]+)[a-z]+\](.*?)\[\/size\]/s',
-            '<span style="font-size: $1px">$2</span>',
-            '$2'
-        );
-        $bbcodeParser->setParser(
-            'color',
-            '/\[color\=(.+)\](.*?)\[\/color\]/s',
-            '<span style="color: $1">$2</span>',
-            '$2'
-        );
-        // $bbcodeParser->setParser(
-        //     'image',
-        //     '/\[img[ height=[\d]+]?[ width=[\d]+]?\](.*?)\[\/img\]/s',
-        //     '<img src="$1">',
-        //     '$1'
-        // );
-        $bbcodeParser->setParser(
-            'member',
-            '/\[member\=(\d+)\](.*?)\[\/member\]/s',
-            '<a href="http://projectcitybuild.com/forums/index.php?action=profile;u=$1">@$2</a>',
-            '$2'
-        );
-
-        return $bbcodeParser->parseCaseInsensitive($value);
+        $value = preg_replace('/(?:\[img\])(.*)(?:\[\/img\])/', '<img src="$1" width="100%" />', $value);
+        $value = preg_replace('/(?:\[url=(.*)\])(.*)(?:\[\/url\])/', '<a href="$1">$2</a>', $value);
+        $value = preg_replace('/(?:\[size=([0-9]*)\])(.*)(?:\[\/size\])/', '<span style="font-size:$1">$2</span>', $value);
+        
+        return $value;
     }
 
 
