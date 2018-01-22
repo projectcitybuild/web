@@ -29,10 +29,7 @@ class DatabaseRetrieve implements ForumRetrieveInterface {
     }
 
     public function getAnnouncements(array $groups = []) {
-        // TODO: change cache expiry
-        return $this->cache->remember('forum-announcements', 360, function() use($groups) {
-            return $this->activityRepository->getRecentTopicsByBoardId($groups, 2, 3);
-        });
+        return $this->activityRepository->getRecentTopicsByBoardId($groups, 2, 3);
     }
 
 }

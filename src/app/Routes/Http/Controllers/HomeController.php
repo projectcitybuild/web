@@ -21,7 +21,11 @@ class HomeController extends Controller
      */
     private $donationStatsService;
 
-    public function __construct(ForumRetrieveInterface $forumRetrieveService, DonationStatsService $donationStatsService) {
+    
+    public function __construct(
+        ForumRetrieveInterface $forumRetrieveService, 
+        DonationStatsService $donationStatsService
+    ) {
         $this->forumRetrieveService = $forumRetrieveService;
         $this->donationStatsService = $donationStatsService;
     }
@@ -30,10 +34,12 @@ class HomeController extends Controller
         $user = $smf->getUser();
         $groups = $user->getUserGroupsFromDatabase();
 
+        $announcements = $this->forumRetrieveService->getAnnouncements($groups);
+        $donations = $this->donationStatsService->getAnnualPercentageStats();
+
         return view('home', [
-            'announcements'     => $this->forumRetrieveService->getAnnouncements($groups),
-            'recentActivity'    => $this->forumRetrieveService->getRecentActivity($groups),
-            'donations'         => $this->donationStatsService->getAnnualPercentageStats(),
+            'announcements' => $announcements,
+            'donations'     => $donations,
         ]);
     }
 }
