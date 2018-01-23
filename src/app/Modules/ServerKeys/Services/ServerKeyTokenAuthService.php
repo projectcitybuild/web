@@ -2,7 +2,10 @@
 namespace App\Modules\ServerKeys\Services;
 
 use App\Modules\ServerKeys\Repositories\ServerKeyTokenRepository;
-use App\Modules\ServerKeys\Exceptions\InvalidTokenException;
+use App\Modules\ServerKeys\Exceptions\MalformedTokenException;
+use App\Modules\ServerKeys\Exceptions\ExpiredTokenException;
+use App\Modules\ServerKeys\Exceptions\UnauthorisedTokenException;
+use App\Shared\Exceptions\ForbiddenException;
 
 class ServerKeyTokenAuthService {
 
@@ -21,17 +24,17 @@ class ServerKeyTokenAuthService {
      *
      * @param string $authHeader    String in the format of 'Bearer <token>'
      * 
-     * @throws InvalidTokenException
+     * @throws MalformedTokenException
      * @return string
      */
     public function getAuthHeader($authHeader) : string {
         if(empty($authHeader)) {
-            throw new InvalidTokenException('No server token provided', InvalidTokenException::MALFORMED_TOKEN);
+            throw new ForbiddenException('No server token provided');
         }
 
         $matches = [];
         if (!preg_match('/Bearer\s(\S+)/', $token, $matches)) {
-            throw new InvalidTokenException('Malformed token. Requires a bearer', InvalidTokenException::MALFORMED_TOKEN);
+            throw new MalformedTokenException('Malformed token. Requires a bearer');
         }
 
         return $matches[1];
@@ -50,13 +53,13 @@ class ServerKeyTokenAuthService {
         $serverToken = $this->serverKeyRepository->getByToken($token);
 
         if(!$serverToken) {
-            throw new InvalidTokenException('Unauthorised token provided', InvalidTokenException::MALFORMED_TOKEN);
+            throw new UnauthorisedTokenException('Unauthorised token provided');
         }
         if($serverToken->is_blacklisted) {
-            throw new InvalidTokenException('Provided token has expired', InvalidTokenException::EXPIRED_TOKEN);
+            throw new ExpiredTokenException('Provided token has expired');
         }
         if(is_null($serverToken->serverKey)) {
-            throw new InvalidTokenException('Token does not belong to a server key', InvalidTokenException::NO_SERVER_KEY);
+            throw new UnauthorisedTokenException('Token does not belong to a server key');
         }
 
         return $serverToken->serverKey;
