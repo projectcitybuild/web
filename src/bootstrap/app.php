@@ -14,9 +14,14 @@ declare(strict_types=1);
 |
 */
 
-$app = new Illuminate\Foundation\Application(
+
+$app = new App\BaseApp(
     realpath(__DIR__.'/../')
 );
+    
+// $app = new Illuminate\Foundation\Application(
+    // realpath(__DIR__.'/../')
+// );
 
 /*
 |--------------------------------------------------------------------------
