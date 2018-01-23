@@ -52,10 +52,9 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'error' => [
                     'id'        => $exception->getId(),
-                    'status'    => $exception->getStatusCode(),
-                    'code'      => $exception->getCode(),
                     'title'     => $reflection->getShortName(),
                     'detail'    => $exception->getMessage(),
+                    'status'    => $exception->getStatusCode(),
                 ],
             ], $exception->getStatusCode());
         }

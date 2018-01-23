@@ -52,9 +52,11 @@ class BanCreationService {
         int $serverId,
         int $playerGameUserId,
         int $staffGameUserId, 
-        string $reason, 
-        int $expiryTimestamp,
-        bool $isGlobalBan
+        int $bannedAliasId,
+        string $aliasAtBan,
+        ?string $reason = null, 
+        ?int $expiryTimestamp = null,
+        bool $isGlobalBan = false
     ) : GameBan {
 
         $existingBan = $this->banRepository->getActiveBanByGameUserId($playerGameUserId, $serverId);
@@ -75,6 +77,8 @@ class BanCreationService {
             $serverId,
             $playerGameUserId,
             $staffGameUserId,
+            $bannedAliasId,
+            $aliasAtBan,
             $reason,
             true,
             $isGlobalBan,

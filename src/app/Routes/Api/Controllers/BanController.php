@@ -16,6 +16,7 @@ use Illuminate\Validation\Factory as Validator;
 use Carbon\Carbon;
 use Illuminate\Database\Connection;
 use App\Shared\Exceptions\BadRequestException;
+use App\Modules\Users\UserAliasTypeEnum;
 
 class BanController extends Controller {
     
@@ -60,20 +61,22 @@ class BanController extends Controller {
      * @return void
      */
     public function storeBan(Request $request, Validator $validationFactory) {
+        $aliasTypeWhitelist = implode(',', UserAliasTypeEnum::getKeys());
+
         $validator = $validationFactory->make($request->all(), [
-            'player_id_type'    => 'required',
+            'player_id_type'    => 'required|in:'.$aliasTypeWhitelist,
             'player_id'         => 'required|max:60',
-            'banner_id_type'    => 'required',
+            'banner_id_type'    => 'required|in:'.$aliasTypeWhitelist,
             'banner_id'         => 'required|max:60',
             'reason'            => 'string',
             'expires_at'        => 'integer',
             'is_global_ban'     => 'boolean',
+        ], [
+            'in' => 'Invalid :attribute given',
         ]);
 
         if($validator->fails()) {
-            $errorKey = $validator->errors();
-            dd($errorKey);
-            throw new BadRequestException('bad_input', $validator->getMessageBag()->first());
+            throw new BadRequestException('bad_input', $validator->errors()->first());
         }
 
         $serverKey          = $request->get('key');
@@ -85,10 +88,17 @@ class BanController extends Controller {
         $expiryTimestamp    = $request->get('expires_at');
         $isGlobalBan        = $request->get('is_global_ban', false);
 
+        $playerIdType       = UserAliasTypeEnum::toValue($playerIdType);
+        $staffIdType        = UserAliasTypeEnum::toValue($staffIdType);
+
         // !!!
         // TODO: add ban server key authentication
         // !!!
         // $this->banAuthService->validateBan($isGlobalBan, $serverKey);
+
+        // TODO: determine banned alias id (or create one)
+        $bannedAliasId      = '';
+        $aliasAtBan         = $request->get('player_alias');
 
         $playerGameUser = $this->gameUserLookup->getOrCreateGameUser($playerIdType, $playerId);
         $staffGameUser  = $this->gameUserLookup->getOrCreateGameUser($staffIdType, $staffId);
@@ -96,9 +106,11 @@ class BanController extends Controller {
         $this->connection->beginTransaction();
         try {
             $ban = $this->banCreationService->storeBan(
-                $serverKey,
+                $serverKey->server_id,
                 $playerGameUser->game_user_id,
                 $staffGameUser->game_user_id,
+                $bannedAliasId,
+                $aliasAtBan,
                 $reason,
                 $expiryTimestamp,
                 $isGlobalBan

@@ -21,16 +21,20 @@ class GameBanRepository {
         int $serverId,
         int $playerGameUserId,
         int $staffGameUserId,
-        string $reason,
-        bool $isActive,
-        bool $isGlobalBan,
-        $expiresAt
+        int $bannedAliasId,
+        string $aliasAtBan,
+        ?string $reason = null,
+        bool $isActive = true,
+        bool $isGlobalBan = false,
+        ?int $expiresAt = null
     ) : GameBan {
         
         return $this->banModel->create([
             'server_id'             => $serverId,
             'player_game_user_id'   => $playerGameUserId,
             'staff_game_user_id'    => $staffGameUserId,
+            'banned_alias_id'       => $bannedAliasId,
+            'player_alias_at_ban'   => $aliasAtBan,
             'reason'                => $reason,
             'is_active'             => $isActive,
             'is_global_ban'         => $isGlobalBan,
