@@ -25,20 +25,13 @@ class ServerTokenValidate {
      * @return mixed
      */
     public function handle(Request $request, Closure $next) {
-        $token = $request->headers->get('Authorization');
-        if(empty($token) || is_null($token)) {
-            abort(401, 'No server token provided');
-        }
+        $header = $request->headers->get('Authorization');
 
-        $matches = [];
-        if (!preg_match('/Bearer\s(\S+)/', $token, $matches)) {
-            abort(400, 'Malformed token. Requires a bearer');
-        }
-
-        $serverKey = $this->tokenAuthService->getServerKey($matches[1]);
+        $token = $this->tokenAuthService->getAuthHeader($header);
+        $key = $this->tokenAuthService->getServerKey($token);
 
         // pass the server key down to the controller
-        $request->attributes->add(['key' => $serverKey]);
+        $request->attributes->add(['key' => $key]);
 
         return $next($request);
     }

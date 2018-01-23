@@ -24,7 +24,6 @@ class ServerKeyToken extends Model {
         'server_key_id',
         'token_hash',
         'is_blacklisted',
-        'expires_at',
     ];
 
     /**
@@ -41,6 +40,6 @@ class ServerKeyToken extends Model {
 
 
     public function serverKey() {
-        return $this->hasOne('App\Modules\Servers\Models\ServerKey', 'server_key_id', 'server_key_id');
+        return $this->hasOne('App\Modules\ServerKeys\Models\ServerKey', 'server_key_id', 'server_key_id');
     }
 }

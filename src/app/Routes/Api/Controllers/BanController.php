@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Factory as Validator;
 use Carbon\Carbon;
 use Illuminate\Database\Connection;
+use App\Shared\Exceptions\BadRequestException;
 
 class BanController extends Controller {
     
@@ -61,13 +62,19 @@ class BanController extends Controller {
     public function storeBan(Request $request, Validator $validationFactory) {
         $validator = $validationFactory->make($request->all(), [
             'player_id_type'    => 'required',
-            'player_id'         => 'required',
+            'player_id'         => 'required|max:60',
             'banner_id_type'    => 'required',
-            'banner_id'         => 'required',
-            'reason'            => 'nullable|string',
+            'banner_id'         => 'required|max:60',
+            'reason'            => 'string',
             'expires_at'        => 'integer',
             'is_global_ban'     => 'boolean',
-        ])->validate();
+        ]);
+
+        if($validator->fails()) {
+            $errorKey = $validator->errors();
+            dd($errorKey);
+            throw new BadRequestException('bad_input', $validator->getMessageBag()->first());
+        }
 
         $serverKey          = $request->get('key');
         $playerIdType       = $request->get('player_id_type');

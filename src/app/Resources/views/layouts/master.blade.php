@@ -15,6 +15,8 @@
         <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/solid.js"></script>
         <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/fontawesome.js"></script>
 
+        <script defer src="{{ mix('assets/js/app.js') }}"></script>
+
         @if(env('APP_ENV') != 'local'))
             <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2747125-5"></script>
             <script>
@@ -177,8 +179,6 @@
                 </div>
             </footer>
         </main>
-
-        <script src="{{ mix('assets/js/app.js') }}"></script>
         
     </body>
 </html>

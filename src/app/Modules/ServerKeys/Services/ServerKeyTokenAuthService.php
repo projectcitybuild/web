@@ -5,6 +5,7 @@ use App\Modules\ServerKeys\Repositories\ServerKeyTokenRepository;
 use App\Modules\ServerKeys\Exceptions\MalformedTokenException;
 use App\Modules\ServerKeys\Exceptions\ExpiredTokenException;
 use App\Modules\ServerKeys\Exceptions\UnauthorisedTokenException;
+use App\Modules\ServerKeys\Models\ServerKey;
 use App\Shared\Exceptions\ForbiddenException;
 
 class ServerKeyTokenAuthService {
@@ -33,7 +34,7 @@ class ServerKeyTokenAuthService {
         }
 
         $matches = [];
-        if (!preg_match('/Bearer\s(\S+)/', $token, $matches)) {
+        if (!preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
             throw new MalformedTokenException('malformed_token', 'Malformed token. Requires a bearer');
         }
 

@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Seeder;
 
-use App\Modules\Servers\Models\{ServerCategory, Server, ServerKey};
+use App\Modules\Servers\Models\{ServerCategory, Server};
+use App\Modules\ServerKeys\Models\{ServerKey, ServerKeyToken};
 use App\Modules\Servers\GameTypeEnum;
 use App\Modules\Servers\Repositories\ServerKeyTokenRepository;
 
@@ -57,7 +58,10 @@ class ServerSeeds extends Seeder {
             'can_access_ranks' => true,
         ]);
 
-        $keyTokenRepository = resolve(ServerKeyTokenRepository::class);
-        $keyTokenRepository->generateToken($serverKey->server_key_id);
+        $token = ServerKeyToken::create([
+            'server_key_id' => $serverKey->server_key_id,
+            'token_hash' => bin2hex(random_bytes(30)),
+            'is_blacklisted' => false,
+        ]);
     }
 }

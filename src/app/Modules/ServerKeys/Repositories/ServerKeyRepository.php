@@ -1,7 +1,7 @@
 <?php
 namespace App\Modules\ServerKeys\Repositories;
 
-use App\Modules\Servers\Models\ServerKey;
+use App\Modules\ServerKeys\Models\ServerKey;
 
 class ServerKeyRepository {
 

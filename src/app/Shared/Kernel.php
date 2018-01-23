@@ -3,6 +3,7 @@
 namespace App\Shared;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use App\Routes\Api\Middleware\JsonResponseMiddleware;
 
 class Kernel extends HttpKernel
 {

@@ -5,7 +5,7 @@ namespace App\Shared\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use App\Shared\Exceptions\BaseException;
+use App\Shared\Exceptions\BaseHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -46,13 +46,15 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         // output exceptions in our API as JSON
-        if($request->expectsJson() && $exception instanceof BaseException) {
+        if($request->is('api/*') && $exception instanceof BaseHttpException) {
+            $reflection = new \ReflectionClass($exception);
+
             return response()->json([
                 'error' => [
                     'id'        => $exception->getId(),
                     'status'    => $exception->getStatusCode(),
                     'code'      => $exception->getCode(),
-                    'title'     => get_class($exception),
+                    'title'     => $reflection->getShortName(),
                     'detail'    => $exception->getMessage(),
                 ],
             ], $exception->getStatusCode());
