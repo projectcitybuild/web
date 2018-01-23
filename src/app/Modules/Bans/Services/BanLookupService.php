@@ -1,10 +1,9 @@
 <?php
 namespace App\Modules\Bans\Services;
 
-use App\Modules\Servers\Models\ServerKey;
-use App\Modules\Bans\Exceptions\{UnauthorisedKeyActionException, UserAlreadyBannedException, UserNotBannedException};
+use App\Modules\Bans\Exceptions\UserAlreadyBannedException;
+use App\Modules\Bans\Exceptions\UserNotBannedException;
 use App\Modules\Bans\Repositories\GameBanRepository;
-use Illuminate\Database\Connection;
 
 class BanLookupService {
 
@@ -13,17 +12,9 @@ class BanLookupService {
      */
     private $banRepository;
 
-    /**
-     * @var Connection
-     */
-    private $connection;
-
-    public function __construct(
-        GameBanRepository $banRepository, 
-        Connection $connection
-    ) {
+    
+    public function __construct(GameBanRepository $banRepository) {
         $this->banRepository = $banRepository;
-        $this->connection = $connection;
     }
     
     /**
@@ -34,10 +25,8 @@ class BanLookupService {
      * @param int $playerGameUserId
      * @return GameBan|null
      */
-    public function getActivePlayerBan(ServerKey $key, int $playerGameUserId) : ?GameBan {
+    public function getActivePlayerBan(int $playerGameUserId) : ?GameBan {
         $existingBan = $this->banRepository->getActiveBanByGameUserId($playerGameUserId, $serverKey->server_id);
-
-        $serverKey->touch();
 
         return $existingBan;
     }

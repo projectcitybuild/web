@@ -29,12 +29,12 @@ class ServerKeyTokenAuthService {
      */
     public function getAuthHeader($authHeader) : string {
         if(empty($authHeader)) {
-            throw new ForbiddenException('No server token provided');
+            throw new ForbiddenException('missing_token', 'No server token provided');
         }
 
         $matches = [];
         if (!preg_match('/Bearer\s(\S+)/', $token, $matches)) {
-            throw new MalformedTokenException('Malformed token. Requires a bearer');
+            throw new MalformedTokenException('malformed_token', 'Malformed token. Requires a bearer');
         }
 
         return $matches[1];
@@ -53,13 +53,13 @@ class ServerKeyTokenAuthService {
         $serverToken = $this->serverKeyRepository->getByToken($token);
 
         if(!$serverToken) {
-            throw new UnauthorisedTokenException('Unauthorised token provided');
+            throw new UnauthorisedTokenException('unauthorised_token', 'Unauthorised token provided');
         }
         if($serverToken->is_blacklisted) {
-            throw new ExpiredTokenException('Provided token has expired');
+            throw new ExpiredTokenException('expired_token', 'Provided token has expired');
         }
         if(is_null($serverToken->serverKey)) {
-            throw new UnauthorisedTokenException('Token does not belong to a server key');
+            throw new UnauthorisedTokenException('no_key_token', 'Token does not have an assigned server key');
         }
 
         return $serverToken->serverKey;

@@ -45,9 +45,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        // output exceptions in our API as JSON
         if($request->expectsJson() && $exception instanceof BaseException) {
             return response()->json([
                 'error' => [
+                    'id'        => $exception->getId(),
                     'status'    => $exception->getStatusCode(),
                     'code'      => $exception->getCode(),
                     'title'     => get_class($exception),

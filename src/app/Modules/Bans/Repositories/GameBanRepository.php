@@ -50,13 +50,15 @@ class GameBanRepository {
         return $this->banModel
             ->where('player_game_user_id', $gameUserId)
             ->where('is_active', true)
-            ->when(isset($serverId), function($q) use($serverId) {
-                return $q->where('server_id', $serverId)
-                       ->orWhere('is_global_ban', true);
-            })
-            ->when(is_null($serverId), function($q) {
-                return $q->where('is_global_ban', true);
-            })
+            ->when(isset($serverId), 
+                function($q) use($serverId) {
+                    return $q->where('server_id', $serverId)
+                           ->orWhere('is_global_ban', true);
+                },
+                function($q) {
+                    return $q->where('is_global_ban', true);
+                }
+            )
             ->first();
     }
 
@@ -110,5 +112,12 @@ class GameBanRepository {
 
     public function getBanCount() {
         return $this->banModel->count();
+    }
+
+    public function getActiveExpiredBans() {
+        return $this->banModel
+            ->where('is_active', true)
+            ->whereDate(Carbon::now(), '>=', 'expires_at')
+            ->get();
     }
 }

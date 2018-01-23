@@ -3,7 +3,6 @@
 namespace App\Routes\Api\Controllers;
 
 use App\Modules\Bans\Services\BanCreationService;
-use App\Modules\Bans\Exceptions\{UnauthorisedKeyActionException, UserAlreadyBannedException};
 use App\Modules\Bans\Repositories\GameBanRepository;
 use App\Modules\Bans\Services\BanAuthorisationService;
 use App\Modules\Bans\Transformers\BanResource;
@@ -12,10 +11,10 @@ use App\Modules\Servers\Transformers\ServerResource;
 use App\Modules\Users\Repositories\UserAliasRepository;
 use App\Modules\Users\Services\GameUserLookupService;
 use App\Modules\Users\Transformers\UserAliasResource;
-use App\Modules\Users\Exceptions\InvalidAliasTypeException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Factory as Validator;
 use Carbon\Carbon;
+use Illuminate\Database\Connection;
 
 class BanController extends Controller {
     
@@ -34,14 +33,22 @@ class BanController extends Controller {
      */
     private $banAuthService;
 
+    /**
+     * @var Illuminate\Database\Connection
+     */
+    private $connection;
+
+
     public function __construct(
         GameUserLookupService $gameUserLookup,
         BanCreationService $banCreationService,
-        BanAuthorisationService $banAuthService
+        BanAuthorisationService $banAuthService,
+        Connection $connection
     ) {
         $this->gameUserLookup = $gameUserLookup;
         $this->banCreationService = $banCreationService;
         $this->banAuthService = $banAuthService;
+        $this->connection = $connection;
     }
 
     /**
@@ -71,12 +78,16 @@ class BanController extends Controller {
         $expiryTimestamp    = $request->get('expires_at');
         $isGlobalBan        = $request->get('is_global_ban', false);
 
-        $this->banAuthService->validateBan($isGlobalBan, $serverKey);
+        // !!!
+        // TODO: add ban server key authentication
+        // !!!
+        // $this->banAuthService->validateBan($isGlobalBan, $serverKey);
 
+        $playerGameUser = $this->gameUserLookup->getOrCreateGameUser($playerIdType, $playerId);
+        $staffGameUser  = $this->gameUserLookup->getOrCreateGameUser($staffIdType, $staffId);
+
+        $this->connection->beginTransaction();
         try {
-            $playerGameUser = $this->gameUserLookup->getOrCreateGameUser($playerIdType, $playerId);
-            $staffGameUser = $this->gameUserLookup->getOrCreateGameUser($staffIdType, $staffId);
-
             $ban = $this->banCreationService->storeBan(
                 $serverKey,
                 $playerGameUser->game_user_id,
@@ -86,6 +97,17 @@ class BanController extends Controller {
                 $isGlobalBan
             );
 
+            // !!!
+            // TODO: add ban logging
+            // !!!
+            
+            $serverKey->touch();
+
+            $this->connection->commit();
+
+            // !!!
+            // TODO: refactor this to a shared JSON-API output formatter
+            // !!!
             return response()->json([
                 'status_code' => 200,
                 'data' => [
@@ -93,14 +115,9 @@ class BanController extends Controller {
                 ],
             ]);
 
-        } catch(InvalidAliasTypeException $e) {
-            abort(400, $e->getMessage());
-        
-        } catch(UnauthorisedKeyActionException $e) {
-            abort(401, $e->getMessage());
-        
-        } catch(UserAlreadyBannedException $e) {
-            abort(400, $e->getMessage());
+        } catch(\Exception $e) {
+            $this->connection->rollBack();
+            throw $e;
         }
     }
 
@@ -125,12 +142,24 @@ class BanController extends Controller {
         $staffIdType        = $request->get('banner_id_type');
         $staffId            = $request->get('banner_id');
         
+        $playerGameUserId = $this->gameUserLookup->getOrCreateGameUser($playerIdType, $playerId)->game_user_id;
+        $staffGameUserId  = $this->gameUserLookup->getOrCreateGameUser($staffIdType, $staffId)->game_user_id;
+
+        $this->connection->beginTransaction();
         try {
-            $playerGameUserId = $this->gameUserLookup->getOrCreateGameUser($playerIdType, $playerId)->game_user_id;
-            $staffGameUserId  = $this->gameUserLookup->getOrCreateGameUser($staffIdType, $staffId)->game_user_id;
-        
             $unban = $this->banCreationService->storeUnban($serverKey, $playerGameUserId, $staffGameUserId);
 
+            // !!!
+            // TODO: add unban logging
+            // !!!
+
+            $serverKey->touch();
+
+            $this->connection->commit();
+
+            // !!!
+            // TODO: refactor this to a shared JSON-API output formatter
+            // !!!
             return response()->json([
                 'status_code' => 200,
                 'data' => [
@@ -138,14 +167,9 @@ class BanController extends Controller {
                 ],
             ]);
 
-        } catch(InvalidAliasTypeException $e) {
-            abort(400, $e->getMessage());
-        
-        } catch(UnauthorisedKeyActionException $e) {
-            abort(401, $e->getMessage());
-        
-        } catch(UserAlreadyBannedException $e) {
-            abort(400, $e->getMessage());
+        } catch(\Exception $e) {
+            $this->connection->rollBack();
+            throw $e;
         }
     }
 
@@ -160,15 +184,7 @@ class BanController extends Controller {
         $validator = $validationFactory->make($request->all(), [
             'player_id_type'    => 'required',
             'player_id'         => 'required',
-        ]);
-        
-        if($validator->fails()) {
-            return response()->json([
-                'message'       => 'Invalid or malformed input',
-                'status_code'   => 400,
-                'errors'        => $validator->errors(),
-            ]);
-        }
+        ])->validate();
 
         $serverKey      = $request->get('key');
         $playerIdType   = $request->get('player_id_type');

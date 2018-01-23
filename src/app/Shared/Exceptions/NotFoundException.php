@@ -4,10 +4,8 @@ namespace App\Shared\Exceptions;
 /**
  * A resource does not exist
  */
-class NotFoundException extends BaseException {
+class NotFoundException extends BaseHttpException {
 
-    public function getStatusCode() : int {
-        return 404;
-    }
+    protected $status = 404;
 
 }

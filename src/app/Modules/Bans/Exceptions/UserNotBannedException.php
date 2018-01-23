@@ -1,4 +1,6 @@
 <?php
 namespace App\Modules\Bans\Exceptions;
 
-class UserNotBannedException extends \Exception {}
+use App\Shared\Exceptions\BadRequestException;
+
+class UserNotBannedException extends BadRequestException {}
