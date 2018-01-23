@@ -5,6 +5,7 @@ namespace App\Shared\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Shared\Exceptions\BaseException;
 
 class Handler extends ExceptionHandler
 {
@@ -44,6 +45,17 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if($request->expectsJson() && $exception instanceof BaseException) {
+            return response()->json([
+                'error' => [
+                    'status'    => $exception->getStatusCode(),
+                    'code'      => $exception->getCode(),
+                    'title'     => get_class($exception),
+                    'detail'    => $exception->getMessage(),
+                ],
+            ], $exception->getStatusCode());
+        }
+
         return parent::render($request, $exception);
     }
 
