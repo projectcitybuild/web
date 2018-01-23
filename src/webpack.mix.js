@@ -24,7 +24,6 @@ mix.webpackConfig({
 });
 
 mix.ts('app/Resources/assets/js/app.ts', 'public/assets/js')
-   .react('app/Resources/assets/js/react/components.js', 'public/assets/js')
    .sass('app/Resources/assets/sass/app.scss', 'public/assets/css');
 
 mix.browserSync({

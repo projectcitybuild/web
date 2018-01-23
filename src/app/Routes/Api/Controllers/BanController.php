@@ -2,17 +2,17 @@
 
 namespace App\Routes\Api\Controllers;
 
-use App\Modules\Bans\Services\BanManagementService;
+use App\Modules\Bans\Services\BanCreationService;
 use App\Modules\Bans\Exceptions\{UnauthorisedKeyActionException, UserAlreadyBannedException};
 use App\Modules\Bans\Repositories\GameBanRepository;
+use App\Modules\Bans\Services\BanAuthorisationService;
+use App\Modules\Bans\Transformers\BanResource;
 use App\Modules\Servers\Repositories\ServerRepository;
+use App\Modules\Servers\Transformers\ServerResource;
 use App\Modules\Users\Repositories\UserAliasRepository;
 use App\Modules\Users\Services\GameUserLookupService;
-use App\Modules\Bans\Transformers\BanResource;
-use App\Modules\Servers\Transformers\ServerResource;
 use App\Modules\Users\Transformers\UserAliasResource;
 use App\Modules\Users\Exceptions\InvalidAliasTypeException;
-use App\Modules\Bans\Services\BanAuthorisationService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Factory as Validator;
 use Carbon\Carbon;
@@ -25,9 +25,9 @@ class BanController extends Controller {
     private $gameUserLookup;
 
     /**
-     * @var BanManagementService
+     * @var BanCreationService
      */
-    private $banService;
+    private $banCreationService;
 
     /**
      * @var BanAuthorisationService
@@ -36,11 +36,11 @@ class BanController extends Controller {
 
     public function __construct(
         GameUserLookupService $gameUserLookup,
-        BanManagementService $banService,
+        BanCreationService $banCreationService,
         BanAuthorisationService $banAuthService
     ) {
         $this->gameUserLookup = $gameUserLookup;
-        $this->banService = $banService;
+        $this->banCreationService = $banCreationService;
         $this->banAuthService = $banAuthService;
     }
 
@@ -77,7 +77,7 @@ class BanController extends Controller {
             $playerGameUser = $this->gameUserLookup->getOrCreateGameUser($playerIdType, $playerId);
             $staffGameUser = $this->gameUserLookup->getOrCreateGameUser($staffIdType, $staffId);
 
-            $ban = $this->banService->storeBan(
+            $ban = $this->banCreationService->storeBan(
                 $serverKey,
                 $playerGameUser->game_user_id,
                 $staffGameUser->game_user_id,
@@ -129,7 +129,7 @@ class BanController extends Controller {
             $playerGameUserId = $this->gameUserLookup->getOrCreateGameUser($playerIdType, $playerId)->game_user_id;
             $staffGameUserId  = $this->gameUserLookup->getOrCreateGameUser($staffIdType, $staffId)->game_user_id;
         
-            $unban = $this->banService->storeUnban($serverKey, $playerGameUserId, $staffGameUserId);
+            $unban = $this->banCreationService->storeUnban($serverKey, $playerGameUserId, $staffGameUserId);
 
             return response()->json([
                 'status_code' => 200,

@@ -7,7 +7,7 @@ use App\Modules\Bans\Exceptions\{UnauthorisedKeyActionException, UserAlreadyBann
 use App\Modules\Bans\Repositories\{GameBanRepository, GameUnbanRepository};
 use Illuminate\Database\Connection;
 
-class BanManagementService {
+class BanCreationService {
 
     /**
      * @var GameBanRepository

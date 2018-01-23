@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Servers\Repositories;
+namespace App\Modules\ServerKeys\Repositories;
 
 use App\Modules\Servers\Models\ServerKeyToken;
 

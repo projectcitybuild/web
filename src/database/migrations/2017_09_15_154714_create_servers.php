@@ -37,14 +37,14 @@ class CreateServers extends Migration {
         });
 
         /**
-         * Represents a set of rights to API ban resources
+         * Represents a set of rights to API resources
          */
         Schema::create('server_keys', function(Blueprint $table) {
             $table->increments('server_key_id');
             $table->integer('server_id')->unsigned()->comment('The only server this key has access to');
-            $table->boolean('can_local_ban')->default(true)->comment('Whether this key can create bans that affect only the server it belongs to');
-            $table->boolean('can_global_ban')->default(false)->comment('Whether this key can create global PCB bans');
-            $table->boolean('can_access_ranks')->default(true)->comment('Whether this key can get rank data of players');
+            $table->boolean('can_local_ban')->default(true)->comment('Whether this key can create bans that affect only the server the player was banned on');
+            $table->boolean('can_global_ban')->default(false)->comment('Whether this key can create bans that affect every PCB service');
+            $table->boolean('can_access_ranks')->default(true)->comment('Whether this key can access rank data of players');
             $table->timestamps();
             
             $table->foreign('server_id')->references('server_id')->on('servers');

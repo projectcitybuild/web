@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Modules\Servers\Models;
+namespace App\Modules\ServerKeys\Models;
 
 use App\Shared\Model;
 
-class ServerKey extends Model {
+class ServerKeyToken extends Model {
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'server_keys';
+    protected $table = 'server_key_tokens';
 
-    protected $primaryKey = 'server_key_id';
+    protected $primaryKey = 'server_key_token_id';
 
     /**
      * The attributes that are mass assignable.
@@ -21,10 +21,10 @@ class ServerKey extends Model {
      * @var array
      */
     protected $fillable = [
-        'server_id',
-        'can_local_ban',
-        'can_global_ban',
-        'can_access_ranks',
+        'server_key_id',
+        'token_hash',
+        'is_blacklisted',
+        'expires_at',
     ];
 
     /**
@@ -40,7 +40,7 @@ class ServerKey extends Model {
     ];
 
 
-    public function server() {
-        return $this->hasOne('App\Modules\Servers\Models\Server', 'server_id', 'server_id');
+    public function serverKey() {
+        return $this->hasOne('App\Modules\Servers\Models\ServerKey', 'server_key_id', 'server_key_id');
     }
 }

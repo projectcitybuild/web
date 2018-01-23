@@ -1,10 +1,10 @@
-import * as axios from 'axios';
-import{ PCB_API } from '../../config/Environment';
+import axios, { AxiosRequestConfig, AxiosPromise } from 'axios';
+import{ PCB } from '../../config/Environment';
 import { Ban, Server, Alias } from './models';
 import { Sort } from './BanList';
 
 const apiInstance = axios.create({
-    baseURL: PCB_API + 'bans/',
+    baseURL: PCB.API_URL + 'bans/',
     timeout: 8000,
 });
 

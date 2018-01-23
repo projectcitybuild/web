@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import moment from 'moment';
-import Loader from 'halogen/ScaleLoader';
+// import Loader from 'halogen/ScaleLoader';
 
 import { Ban, Server, Alias } from './models';
 import { ApiResponse, getBanList } from './api';
@@ -42,6 +42,9 @@ enum ComponentState {
     FETCHING_PAGE,
     FETCH_FAILED,
 }
+
+interface ClickEvent extends React.MouseEvent<HTMLAnchorElement> {}
+
 
 export class BanList extends React.Component<BanListProps, BanListState> {
     constructor(props: BanListProps) {
@@ -159,7 +162,7 @@ export class BanList extends React.Component<BanListProps, BanListState> {
      * @param object event 
      * @param string field 
      */
-    sortBy(event, field: string) {
+    sortBy(event: ClickEvent, field: string) {
         event.preventDefault();
 
         const { sort } = this.state;
@@ -278,12 +281,12 @@ export class BanList extends React.Component<BanListProps, BanListState> {
                     </div>
                     {this.state.viewState === ComponentState.FETCHING && this.state.bans.length === 0 &&
                         <div className="loadContainer">
-                            <Loader color="#F5A503" size="18px" margin="4px"/>
+                            {/* <Loader color="#F5A503" size="18px" margin="4px"/> */}
                         </div>
                     }
                     {this.state.viewState === ComponentState.FETCHING_PAGE &&
                         <div className="loadContainer">
-                            <Loader color="#F5A503" size="18px" margin="4px"/>
+                            {/* <Loader color="#F5A503" size="18px" margin="4px"/> */}
                         </div>         
                     }
                 </div>

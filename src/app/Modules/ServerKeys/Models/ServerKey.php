@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Modules\Bans\Models;
+namespace App\Modules\ServerKeys\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Shared\Model;
 
-class BanAppeal extends Model {
+class ServerKey extends Model {
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'ban_appeals';
+    protected $table = 'server_keys';
 
-    protected $primaryKey = 'ban_appeal_id';
+    protected $primaryKey = 'server_key_id';
 
     /**
      * The attributes that are mass assignable.
@@ -21,9 +21,10 @@ class BanAppeal extends Model {
      * @var array
      */
     protected $fillable = [
-        'game_ban_id',
-        'forum_user_id',
-        'reason_unban',
+        'server_id',
+        'can_local_ban',
+        'can_global_ban',
+        'can_access_ranks',
     ];
 
     /**
@@ -38,7 +39,8 @@ class BanAppeal extends Model {
         'updated_at',
     ];
 
-    public function input() {
-        return $this->hasMany('App\Modules\Appeals\BanAppealInput', 'ban_appeal_id', 'ban_appeal_id');
+
+    public function server() {
+        return $this->hasOne('App\Modules\Servers\Models\Server', 'server_id', 'server_id');
     }
 }
