@@ -31,4 +31,20 @@ abstract class Enum {
         return array_values(self::getConstants()) ?: [];
     }
 
+    /**
+     * Converts the given key to its value
+     *
+     * @param string $key
+     * 
+     * @throws \Exception
+     * @return string
+     */
+    public static function toValue(string $key) : string {
+        $constants = self::getConstants() ?: [];
+        if(array_key_exists($key, $constants) === false) {
+            throw new \Exception(get_called_class() . ' does not contain key ['.$key.']');
+        }
+        return $constants[$key];
+    }
+
 }
