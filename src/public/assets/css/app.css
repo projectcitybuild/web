@@ -1264,8 +1264,8 @@ table.table tr.disabled {
 }
 
 .header {
-  background: -webkit-gradient(linear, left top, left bottom, from(#91cefd), to(#dbf8ff));
-  background: linear-gradient(top, #91cefd 0%, #dbf8ff 100%);
+  background: -webkit-gradient(linear, left bottom, left top, from(#dbf8ff), to(#91cefd));
+  background: linear-gradient(0deg, #dbf8ff, #91cefd);
   padding: 2em 0;
 }
 
