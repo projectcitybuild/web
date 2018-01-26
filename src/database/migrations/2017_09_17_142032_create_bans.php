@@ -43,11 +43,14 @@ class CreateBans extends Migration
 
         Schema::create('game_network_ban_logs', function(Blueprint $table) {
             $table->increments('game_ban_log_id');
-            $table->integer('game_ban_id')->unsigned();
-            $table->integer('server_key_id')->unsigned();
+            $table->integer('game_ban_id')->unsigned()->comment('Ban record acted upon/created');
+            $table->integer('server_key_id')->unsigned()->comment('Server key used in the action');
+            $table->integer('ban_action')->comment('BanActionEnum value');
+            $table->ipAddress('incoming_ip')->nullable()->comment('IP address of the action creator');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
 
             $table->foreign('game_ban_id')->references('game_ban_id')->on('game_network_bans');
+            $table->foreign('server_key_id')->references('server_key_id')->on('server_keys');
         });
     }
 

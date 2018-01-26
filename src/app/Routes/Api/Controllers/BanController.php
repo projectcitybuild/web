@@ -3,21 +3,21 @@
 namespace App\Routes\Api\Controllers;
 
 use App\Modules\Bans\Services\BanCreationService;
-use App\Modules\Bans\Repositories\GameBanRepository;
 use App\Modules\Bans\Services\BanAuthorisationService;
+use App\Modules\Bans\Services\BanLoggerService;
 use App\Modules\Bans\Transformers\BanResource;
 use App\Modules\Servers\Repositories\ServerRepository;
 use App\Modules\Servers\Transformers\ServerResource;
+use App\Modules\ServerKeys\Exceptions\UnauthorisedKeyActionException;
 use App\Modules\Users\Repositories\UserAliasRepository;
 use App\Modules\Users\Services\GameUserLookupService;
 use App\Modules\Users\Transformers\UserAliasResource;
+use App\Modules\Users\UserAliasTypeEnum;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Factory as Validator;
 use Carbon\Carbon;
 use Illuminate\Database\Connection;
 use App\Shared\Exceptions\BadRequestException;
-use App\Modules\Users\UserAliasTypeEnum;
-use App\Modules\ServerKeys\Exceptions\UnauthorisedKeyActionException;
 
 class BanController extends Controller {
     
@@ -37,21 +37,35 @@ class BanController extends Controller {
     private $banAuthService;
 
     /**
+     * @var BanLoggerService
+     */
+    private $banLoggerService;
+
+    /**
      * @var Illuminate\Database\Connection
      */
     private $connection;
+
+    /**
+     * @var Illuminate\Validation\Factory
+     */
+    private $validationFactory;
 
 
     public function __construct(
         GameUserLookupService $gameUserLookup,
         BanCreationService $banCreationService,
         BanAuthorisationService $banAuthService,
-        Connection $connection
+        BanLoggerService $banLoggerService,
+        Connection $connection,
+        Validator $validationFactory
     ) {
-        $this->gameUserLookup = $gameUserLookup;
-        $this->banCreationService = $banCreationService;
-        $this->banAuthService = $banAuthService;
-        $this->connection = $connection;
+        $this->gameUserLookup       = $gameUserLookup;
+        $this->banCreationService   = $banCreationService;
+        $this->banAuthService       = $banAuthService;
+        $this->banLoggerService     = $banLoggerService;
+        $this->connection           = $connection;
+        $this->validationFactory    = $validationFactory;
     }
 
     /**
@@ -61,10 +75,10 @@ class BanController extends Controller {
      * @param Validator $validationFactory
      * @return void
      */
-    public function storeBan(Request $request, Validator $validationFactory) {
+    public function storeBan(Request $request) {
         $aliasTypeWhitelist = implode(',', UserAliasTypeEnum::getKeys());
 
-        $validator = $validationFactory->make($request->all(), [
+        $validator = $this->validationFactory->make($request->all(), [
             'player_id_type'    => 'required|in:'.$aliasTypeWhitelist,
             'player_id'         => 'required|max:60',
             'banner_id_type'    => 'required|in:'.$aliasTypeWhitelist,
@@ -101,7 +115,9 @@ class BanController extends Controller {
             }
         }
 
+        // !!!
         // TODO: determine banned alias id (or create one)
+        // !!!
         $bannedAliasId      = '';
         $aliasAtBan         = $request->get('player_alias');
 
@@ -121,9 +137,11 @@ class BanController extends Controller {
                 $isGlobalBan
             );
 
-            // !!!
-            // TODO: add ban logging
-            // !!!
+            $this->banLoggerService->logBanCreation(
+                $ban->game_ban_id, 
+                $serverKey->server_key_id, 
+                $request->ip()
+            );
             
             $serverKey->touch();
 
@@ -152,8 +170,8 @@ class BanController extends Controller {
      * @param Validator $validationFactory
      * @return void
      */
-    public function storeUnban(Request $request, Validator $validationFactory) {
-        $validator = $validationFactory->make($request->all(), [
+    public function storeUnban(Request $request) {
+        $validator = $this->validationFactory->make($request->all(), [
             'player_id_type'    => 'required',
             'player_id'         => 'required',
             'banner_id_type'    => 'required',
@@ -185,6 +203,12 @@ class BanController extends Controller {
             // }
 
             $unban = $this->banCreationService->storeUnban($serverKey, $playerGameUserId, $staffGameUserId);
+
+            // $this->banLoggerService->logUnbanCreation(
+            //     $ban, 
+            //     $serverKey->server_key_id, 
+            //     $request->ip()
+            // );
 
             $serverKey->touch();
 

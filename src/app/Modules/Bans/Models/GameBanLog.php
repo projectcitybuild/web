@@ -23,6 +23,9 @@ class GameBanLog extends Model {
     protected $fillable = [
         'game_ban_id',
         'server_key_id',
+        'ban_action',
+        'incoming_ip',
+        'created_at',
     ];
 
     /**
