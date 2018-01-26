@@ -15,16 +15,6 @@ use App\Modules\Users\Models\GameUser;
 class GameUserLookupService_Test extends TestCase {
     use DatabaseMigrations, DatabaseTransactions;
 
-    private $userRepository;
-    private $aliasRepository;
-
-    public function setUp() {
-        parent::setUp();
-
-        $this->userRepository  = app()->make(GameUserRepository::class);
-        $this->aliasRepository = app()->make(UserAliasRepository::class);
-    }
-
     /**
      * Creates a fake game user for the current test
      *
@@ -38,8 +28,8 @@ class GameUserLookupService_Test extends TestCase {
 
         $alias = UserAlias::create([
             'user_alias_type_id' => UserAliasTypeEnum::MINECRAFT_UUID,
-            'game_user_id' => $gameUser->game_user_id,
-            'alias' => 'fake_uuid',
+            'game_user_id'       => $gameUser->game_user_id,
+            'alias'              => 'fake_uuid',
         ]);
     }
 
@@ -52,7 +42,7 @@ class GameUserLookupService_Test extends TestCase {
     public function test_whenExistingUser_returnsUser() {
         $this->createFakeGameUser();
 
-        $service = new GameUserLookupService($this->userRepository, $this->aliasRepository);
+        $service = resolve(GameUserLookupService::class);
         $result = $service->getOrCreateGameUser(UserAliasTypeEnum::MINECRAFT_UUID, 'fake_uuid');
 
         $this->assertEquals(150, $result->game_user_id);
@@ -65,7 +55,7 @@ class GameUserLookupService_Test extends TestCase {
      * @return void
      */
     public function test_whenNonExistentUser_createsUserAlias() {
-        $service = new GameUserLookupService($this->userRepository, $this->aliasRepository);
+        $service = resolve(GameUserLookupService::class);
         $service->getOrCreateGameUser(UserAliasTypeEnum::MINECRAFT_UUID, 'new_user_uuid');
 
         $this->assertDatabaseHas('user_aliases', [

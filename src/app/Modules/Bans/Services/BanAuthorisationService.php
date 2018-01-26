@@ -1,10 +1,10 @@
 <?php
 namespace App\Modules\Bans\Services;
 
-use App\Modules\Servers\Models\ServerKey;
 use App\Modules\Bans\Models\GameBan;
 use App\Shared\Exceptions\ServerException;
 use Illuminate\Log\Writer as Logger;
+use App\Modules\ServerKeys\Models\ServerKey;
 
 class BanAuthorisationService {
 

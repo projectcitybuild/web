@@ -13,10 +13,10 @@ class ServerKeyTokenAuthService {
     /**
      * @var ServerKeyTokenRepository
      */
-    private $serverKeyTokenRepository;
+    private $tokenRepository;
 
-    public function __construct(ServerKeyTokenRepository $serverKeyTokenRepository) {
-        $this->serverKeyRepository = $serverKeyTokenRepository;
+    public function __construct(ServerKeyTokenRepository $tokenRepository) {
+        $this->tokenRepository = $tokenRepository;
     }
 
     /**
@@ -51,7 +51,7 @@ class ServerKeyTokenAuthService {
      * @return ServerKey
      */
     public function getServerKey(string $token) : ServerKey {
-        $serverToken = $this->serverKeyRepository->getByToken($token);
+        $serverToken = $this->tokenRepository->getByToken($token);
 
         if(!$serverToken) {
             throw new UnauthorisedTokenException('unauthorised_token', 'Unauthorised token provided');
