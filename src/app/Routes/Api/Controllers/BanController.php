@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Connection;
 use App\Shared\Exceptions\BadRequestException;
 use App\Modules\Users\UserAliasTypeEnum;
+use App\Modules\ServerKeys\Exceptions\UnauthorisedKeyActionException;
 
 class BanController extends Controller {
     
@@ -91,10 +92,14 @@ class BanController extends Controller {
         $playerIdType       = UserAliasTypeEnum::toValue($playerIdType);
         $staffIdType        = UserAliasTypeEnum::toValue($staffIdType);
 
-        // !!!
-        // TODO: add ban server key authentication
-        // !!!
-        // $this->banAuthService->validateBan($isGlobalBan, $serverKey);
+        // verify that this server key is allowed to create the given ban type
+        if(!$this->banAuthService->isAllowedToBan($isGlobalBan, $serverKey)) {
+            if($isGlobalBan) {
+                throw new UnauthorisedKeyActionException('This server key does not have permission to create global bans');
+            } else {
+                throw new UnauthorisedKeyActionException('This server key does not have permission to create local bans');
+            }
+        }
 
         // TODO: determine banned alias id (or create one)
         $bannedAliasId      = '';
@@ -160,17 +165,26 @@ class BanController extends Controller {
         $playerId           = $request->get('player_id');
         $staffIdType        = $request->get('banner_id_type');
         $staffId            = $request->get('banner_id');
+
         
         $playerGameUserId = $this->gameUserLookup->getOrCreateGameUser($playerIdType, $playerId)->game_user_id;
         $staffGameUserId  = $this->gameUserLookup->getOrCreateGameUser($staffIdType, $staffId)->game_user_id;
 
         $this->connection->beginTransaction();
         try {
-            $unban = $this->banCreationService->storeUnban($serverKey, $playerGameUserId, $staffGameUserId);
+            // !!!
+            // TODO: unban authorisation
+            // !!!
 
-            // !!!
-            // TODO: add unban logging
-            // !!!
+            // if(!$this->banAuthService->isAllowedToUnban($ban, $serverKey)) {
+            //     if($ban->is_global_ban) {
+            //         throw new UnauthorisedKeyActionException('This server key does not have permission to remove global bans');
+            //     } else {
+            //         throw new UnauthorisedKeyActionException('this server key does not have permission to remove local bans');
+            //     }
+            // }
+
+            $unban = $this->banCreationService->storeUnban($serverKey, $playerGameUserId, $staffGameUserId);
 
             $serverKey->touch();
 

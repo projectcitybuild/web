@@ -2,32 +2,76 @@
 namespace App\Modules\Bans\Services;
 
 use App\Modules\Servers\Models\ServerKey;
-use App\Modules\Bans\Exceptions\UnauthorisedKeyActionException;
 use App\Modules\Bans\Models\GameBan;
+use App\Shared\Exceptions\ServerException;
+use Illuminate\Log\Writer as Logger;
 
 class BanAuthorisationService {
 
-    public function validateBan(bool $isGlobalBan, ServerKey $serverKey) {
-        if($isGlobalBan && !$serverKey->can_global_ban) {
-            throw new UnauthorisedKeyActionException('This key does not have permission to create a global ban');
-        }
-        if(!$isGlobalBan && !$serverKey->can_local_ban) {
-            throw new UnauthorisedKeyActionException('This key does not have permission to create a local ban');
-        }
-        return true;
+    /**
+     * @var Illuminate\Log\Writer
+     */
+    private $logger;
+
+    public function __construct(Logger $logger) {
+        $this->logger = $logger;
     }
 
-    public function validateUnban(GameBan $ban, ServerKey $serverKey) {
-        if($ban->server_id === $serverKey->server_id) {
-            // can remove local bans or global bans from this server?
-            if(!$serverKey->can_local_ban) {
-                throw new UnauthorisedKeyActionException('This key does not have permission to remove local bans');
-            }
-        } else {
-            // can remove global ban from other servers?
-            if($ban->is_global_ban && !$serverKey->can_global_ban) {
-                throw new UnauthorisedKeyActionException('This key does not have permission to remove global bans');
-            }
+    /**
+     * Returns whether the given ServerKey has permission
+     * to create a global/local ban.
+     *
+     * @param boolean $isGlobalBan
+     * @param ServerKey $serverKey
+     * 
+     * @return boolean
+     */
+    public function isAllowedToBan(bool $isGlobalBan, ServerKey $serverKey) {
+        if(!isset($serverKey)) {
+            // this shouldn't be triggered unless the middleware has
+            // failed to check for a server key already
+            $this->logger->critical('Attempted ban authentication but no ServerKey provided', ['ban' => $ban]);
+            throw new BadRequestException('No server key provided');
         }
+        
+        return $isGlobalBan
+            ? $serverKey->can_global_ban
+            : $serverKey->can_local_ban;
+    }
+
+    /**
+     * Returns whether the given ServerKey has permission
+     * to unban the given GameBan
+     *
+     * @param GameBan $ban
+     * @param ServerKey $serverKey
+     * 
+     * @return boolean
+     */
+    public function isAllowedToUnban(GameBan $ban, ServerKey $serverKey) {
+        if(!isset($serverKey)) {
+            // this shouldn't be triggered unless the middleware has
+            // failed to check for a server key already
+            $this->logger->critical('Attempted unban authentication but no ServerKey provided', ['ban' => $ban]);
+            throw new ServerException('No server key provided during unban authentication');
+        }
+
+        if(!isset($ban)) {
+            $this->logger->critical('Attempted unban authentication but no GameBan provided', ['key' => $serverKey]);
+            throw new ServerException('No ban provided for unban authentication');
+        }
+
+        // if the ban is global, a key must have 'global ban' permission
+        // to remove the ban
+        if($ban->is_global_ban) {
+            return $serverKey->can_global_ban;
+        }
+
+        // if the ban is local, the ServerKey's server id must match the id 
+        // of the server the player was banned on, otherwise the key needs
+        // 'global ban' permission to undo another server's local ban
+        return ($ban->server_id === $serverKey->server_id)
+            ? $serverKey->can_local_ban
+            : $serverKey->can_global_ban;
     }
 }
