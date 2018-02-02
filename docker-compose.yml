@@ -10,8 +10,6 @@ services:
       - "443:443"
     volumes:
       - ./src:/var/www/html
-      - certs:/etc/letsencrypt
-      - certs-data:/data/letsencrypt
     links:
       - php-fpm
 
