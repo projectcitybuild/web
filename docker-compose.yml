@@ -7,8 +7,11 @@ services:
       dockerfile: containers/nginx/Dockerfile
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./src:/var/www/html
+      - certs:/etc/letsencrypt
+      - certs-data:/data/letsencrypt
     links:
       - php-fpm
 
@@ -17,8 +20,8 @@ services:
       context: .
       dockerfile: containers/php-fpm/Dockerfile
     ports:
-      - "3000:3000"   # browser sync
-      - "3001:3001"   # browser sync
+      - "3000:3000"   # browsersync
+      - "3001:3001"   # browsersync panel
     volumes:
       - ./src:/var/www/html   # overwrite our baked-in source code with a mounted volume
     links:
