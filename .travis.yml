@@ -50,7 +50,5 @@ after_script:
 
 after_success:
   # push newly built images to our docker registry
-  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then
-      docker login -u "$REGISTRY_USERNAME" -p "$REGISTRY_PASSWORD" registry.gitlab.com;
-      docker-compose -f docker-compose.production.yml push
-    fi
+  - docker login -u "$REGISTRY_USERNAME" -p "$REGISTRY_PASSWORD" registry.gitlab.com;
+  - docker-compose -f docker-compose.production.yml push

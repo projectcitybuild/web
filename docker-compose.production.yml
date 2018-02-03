@@ -1,4 +1,4 @@
-version: '3'
+version: '3.2'
 
 volumes:
   www:
@@ -9,6 +9,8 @@ services:
     build:
       context: .
       dockerfile: containers/nginx/Dockerfile
+      cache_from:
+        - registry.gitlab.com/itsmyfirstday/pcb/nginx:latest
     image: registry.gitlab.com/itsmyfirstday/pcb/nginx
     ports:
       - "80:80"
@@ -28,6 +30,8 @@ services:
     build:
       context: .
       dockerfile: containers/php-fpm/Dockerfile
+      cache_from:
+        - registry.gitlab.com/itsmyfirstday/pcb/php-fpm:latest
     image: registry.gitlab.com/itsmyfirstday/pcb/php-fpm
     restart: unless-stopped
     volumes:
