@@ -67,10 +67,10 @@
         flex-direction: row;
         justify-content: space-between;
 
-        .stats {
+        .stats-container {
             color: #c1bebd;
         }
-        .stats__item:not(:last-child) {
+        .stat:not(:last-child) {
             border-right: 1px solid #e5e5e5;
         }
     }

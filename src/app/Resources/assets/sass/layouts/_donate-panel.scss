@@ -6,7 +6,7 @@
         font-size: 1em;
     }
 
-    &__padding {
+    &__container{
         padding: 0.75em;
 
         small {
@@ -17,23 +17,23 @@
         }
     }
 
-    .stats {
+    .stats-container {
         background: hsl(206, 73%, 58%);
-    
-        &__item {
-            flex: 1;
-            padding: 0.5em 1em;
-    
-            &:first-child {
-                border-right: 1px solid $colour-primary;
-            }
-        }
+    }
 
-        &__item__heading {
-            font-size: 0.6em;
+    .stat {
+        flex: 1;
+        padding: 0.5em 1em;
+
+        &:first-child {
+            border-right: 1px solid $colour-primary;
         }
     }
 
+    .stat__heading {
+        font-size: 0.6em;
+    }
+    
     .button {
         width: 100%;
     }

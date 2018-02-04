@@ -63,81 +63,21 @@
 /******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/******/ ({
 
-__webpack_require__(1);
-module.exports = __webpack_require__(6);
-
-
-/***/ }),
-/* 1 */
+/***/ "./app/Resources/assets/js/app.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Navigation__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Navigation__ = __webpack_require__("./app/Resources/assets/js/components/Navigation.ts");
 
 const navigation = new __WEBPACK_IMPORTED_MODULE_0__components_Navigation__["a" /* default */]();
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NavBar__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NavDrawer__ = __webpack_require__(4);
-
-
-class Navigation {
-    constructor() {
-        this._drawerViewportMax = 576;
-        this._navigationStates = [];
-        this._isRequestingFrame = false;
-        this._lastKnownViewportWidth = -1;
-        this._navigationStates.push(new __WEBPACK_IMPORTED_MODULE_0__NavBar__["a" /* default */](), new __WEBPACK_IMPORTED_MODULE_1__NavDrawer__["a" /* default */]());
-        this._currentState = this._navigationStates[this._isDrawerNeeded(window.innerWidth) ? 1 : 0];
-        this._currentState.create();
-        window.addEventListener('resize', () => this._requestFrame());
-        this._onResize();
-    }
-    _switchNav(newState) {
-        this._currentState.destroy();
-        this._currentState = newState;
-        this._currentState.create();
-    }
-    _requestFrame() {
-        if (!this._isRequestingFrame) {
-            requestAnimationFrame(this._onResize.bind(this));
-            this._isRequestingFrame = true;
-        }
-    }
-    _isDrawerNeeded(viewportWidth) {
-        return viewportWidth <= this._drawerViewportMax;
-    }
-    _onResize() {
-        const viewportWidth = window.innerWidth;
-        const isDrawerNeeded = this._isDrawerNeeded(viewportWidth);
-        if (isDrawerNeeded !== this._isDrawerNeeded(this._lastKnownViewportWidth)) {
-            if (viewportWidth > this._drawerViewportMax) {
-                this._switchNav(this._navigationStates[0]);
-            }
-            else {
-                this._switchNav(this._navigationStates[1]);
-            }
-        }
-        this._lastKnownViewportWidth = viewportWidth;
-        this._isRequestingFrame = false;
-    }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Navigation;
-
-
-
-/***/ }),
-/* 3 */
+/***/ "./app/Resources/assets/js/components/NavBar.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -152,11 +92,12 @@ class NavBar {
 
 
 /***/ }),
-/* 4 */
+
+/***/ "./app/Resources/assets/js/components/NavDrawer.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__library_DomQueue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__library_DomQueue__ = __webpack_require__("./app/Resources/assets/js/library/DomQueue.ts");
 
 class DrawerNav {
     constructor() {
@@ -246,7 +187,63 @@ class DrawerNav {
 
 
 /***/ }),
-/* 5 */
+
+/***/ "./app/Resources/assets/js/components/Navigation.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NavBar__ = __webpack_require__("./app/Resources/assets/js/components/NavBar.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NavDrawer__ = __webpack_require__("./app/Resources/assets/js/components/NavDrawer.ts");
+
+
+class Navigation {
+    constructor() {
+        this._drawerViewportMax = 576;
+        this._navigationStates = [];
+        this._isRequestingFrame = false;
+        this._lastKnownViewportWidth = -1;
+        this._navigationStates.push(new __WEBPACK_IMPORTED_MODULE_0__NavBar__["a" /* default */](), new __WEBPACK_IMPORTED_MODULE_1__NavDrawer__["a" /* default */]());
+        this._currentState = this._navigationStates[this._isDrawerNeeded(window.innerWidth) ? 1 : 0];
+        this._currentState.create();
+        window.addEventListener('resize', () => this._requestFrame());
+        this._onResize();
+    }
+    _switchNav(newState) {
+        this._currentState.destroy();
+        this._currentState = newState;
+        this._currentState.create();
+    }
+    _requestFrame() {
+        if (!this._isRequestingFrame) {
+            requestAnimationFrame(this._onResize.bind(this));
+            this._isRequestingFrame = true;
+        }
+    }
+    _isDrawerNeeded(viewportWidth) {
+        return viewportWidth <= this._drawerViewportMax;
+    }
+    _onResize() {
+        const viewportWidth = window.innerWidth;
+        const isDrawerNeeded = this._isDrawerNeeded(viewportWidth);
+        if (isDrawerNeeded !== this._isDrawerNeeded(this._lastKnownViewportWidth)) {
+            if (viewportWidth > this._drawerViewportMax) {
+                this._switchNav(this._navigationStates[0]);
+            }
+            else {
+                this._switchNav(this._navigationStates[1]);
+            }
+        }
+        this._lastKnownViewportWidth = viewportWidth;
+        this._isRequestingFrame = false;
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Navigation;
+
+
+
+/***/ }),
+
+/***/ "./app/Resources/assets/js/library/DomQueue.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -287,10 +284,21 @@ function queueWrite(action) {
 
 
 /***/ }),
-/* 6 */
+
+/***/ "./app/Resources/assets/sass/app.scss":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
+/***/ }),
+
+/***/ 0:
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("./app/Resources/assets/js/app.ts");
+module.exports = __webpack_require__("./app/Resources/assets/sass/app.scss");
+
+
 /***/ })
-/******/ ]);
+
+/******/ });

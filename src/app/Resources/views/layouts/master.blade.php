@@ -70,7 +70,7 @@
                             <li><a href="#">Appeal a Ban</a></li>
                             <li><a href="#">Report a Player</a></li>
                             <li class="divider"><a href="#">Apply for Staff</a></li>
-                            <li><a href="https://wiki.projectcitybuild.com/" target="_blank">Community Wiki</a></li>
+                            <li><a href="https://wiki.projectcitybuild.com/" target="_blank" rel="noopener">Community Wiki</a></li>
                         </ul>
                     </li>
                     <li><a href="{{ route('banlist') }}">Ban List</a></li>
@@ -78,16 +78,16 @@
 
                 <ul>
                     <li class="social-icon">
-                        <a href="https://www.facebook.com/ProjectCityBuild" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.facebook.com/ProjectCityBuild" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
                     </li>
                     <li class="social-icon">
-                        <a href="https://www.instagram.com/projectcitybuild" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
                     </li>
                     <li class="social-icon">
-                        <a href="https://www.youtube.com/user/PCBMinecraft" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.youtube.com/user/PCBMinecraft" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
                     </li>
                     <li class="social-icon">
-                        <a href="http://steamcommunity.com/groups/ProjectCityBuild" target="_blank"><i class="fab fa-steam-symbol"></i></a>
+                        <a href="http://steamcommunity.com/groups/ProjectCityBuild" target="_blank" rel="noopener"><i class="fab fa-steam-symbol"></i></a>
                     </li>
                     <li><a href="#">Login</a></li>
                 </ul>
@@ -103,7 +103,7 @@
             <header class="header">
                 <div class="container header__container">
                     <div class="header__left">
-                        <img class="header__logo" src="{{ asset('assets/images/logo.png') }}" />
+                        <img class="header__logo" src="{{ asset('assets/images/logo.png') }}" alt="Project City Build" />
                     </div>
                     
                     <div class="header__right">
@@ -112,17 +112,17 @@
                                 <h5 class="category__heading">Minecraft</h5>
                                 <div class="server server--online">
                                     <div class="server__title">Survival / Creative [24/7]</div>
-                                    <div class="server__players badge secondary">14/80</div>
+                                    <div class="server__players badge badge--secondary">14/80</div>
                                     <div class="server__ip">pcbmc.co</div>
                                 </div>
                                 <div class="server server--offline">
                                     <div class="server__title">Feed the Beast</div>
-                                    <div class="server__players badge light">Offline</div>
+                                    <div class="server__players badge badge--light">Offline</div>
                                     <div class="server__ip">23.94.186.178:25565</div>
                                 </div>
                                 <div class="server server--offline">
                                     <div class="server__title">Pixelmon</div>
-                                    <div class="server__players badge light">Offline</div>
+                                    <div class="server__players badge badge--light">Offline</div>
                                     <div class="server__ip">23.94.186.178:25565</div>
                                 </div>
                             </div>
@@ -131,12 +131,12 @@
                                 <h5 class="category__heading">Other Games</h5>
                                 <div class="server server--online">
                                     <div class="server__title">Terraria</div>
-                                    <div class="server__players badge secondary">14/80</div>
+                                    <div class="server__players badge badge--secondary">14/80</div>
                                     <div class="server__ip">pcbmc.co</div>
                                 </div>
                                 <div class="server server--offline">
                                     <div class="server__title">Starbound</div>
-                                    <div class="server__players badge light">Offline</div>
+                                    <div class="server__players badge badge--light">Offline</div>
                                     <div class="server__ip">pcbmc.co</div>
                                 </div>
                             </div>
@@ -157,21 +157,22 @@
                         <ul class="footer__bullets">
                             <li><h5 class="footer__subheading">Legal</h5></li>
                             <li><i class="fas fa-check-circle"></i> <a href="http://projectcitybuild.com/forums/index.php?topic=2718">Terms of Service</a></li>
+                            <li><i class="fas fa-check-circle"></i> <a href="#">Privacy Policy</a></li>
                         </ul>
                         <ul class="footer__bullets">
                             <li><h5 class="footer__subheading">Open Source</h5></li>
-                            <li><i class="fas fa-code-branch"></i> <a target="_blank" href="https://github.com/itsmyfirstday/PCBridge">PCBridge</a></li>
-                            <li><i class="fas fa-code-branch"></i> <a target="_blank" href="https://github.com/itsmyfirstday/ProjectCityBuild">projectcitybuild.com</a></li>
+                            <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener" href="https://github.com/itsmyfirstday/PCBridge">PCBridge</a></li>
+                            <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener" href="https://github.com/itsmyfirstday/ProjectCityBuild">projectcitybuild.com</a></li>
                         </ul>
                     </div>
                     <div class="footer__right">
                         <div class="footer__social-icons">
-                            <a target="_blank" href="https://www.facebook.com/ProjectCityBuild"><i class="fab fa-facebook-square"></i></a>
-                            <a target="_blank" href="https://twitter.com/PCB_Minecraft"><i class="fab fa-twitter-square"></i></a>
-                            <a target="_blank" href="https://www.instagram.com/projectcitybuild"><i class="fab fa-instagram"></i></a>
-                            <a target="_blank" href="https://www.youtube.com/user/PCBMinecraft"><i class="fab fa-youtube"></i></a>
-                            <a target="_blank" href="http://projectcitybuild.tumblr.com/"><i class="fab fa-tumblr-square"></i></a>
-                            <a target="_blank" href="http://steamcommunity.com/groups/ProjectCityBuild"><i class="fab fa-steam-square"></i></a>
+                            <a target="_blank" rel="noopener" href="https://www.facebook.com/ProjectCityBuild"><i class="fab fa-facebook-square"></i></a>
+                            <a target="_blank" rel="noopener" href="https://twitter.com/PCB_Minecraft"><i class="fab fa-twitter-square"></i></a>
+                            <a target="_blank" rel="noopener" href="https://www.instagram.com/projectcitybuild"><i class="fab fa-instagram"></i></a>
+                            <a target="_blank" rel="noopener" href="https://www.youtube.com/user/PCBMinecraft"><i class="fab fa-youtube"></i></a>
+                            <a target="_blank" rel="noopener" href="http://projectcitybuild.tumblr.com/"><i class="fab fa-tumblr-square"></i></a>
+                            <a target="_blank" rel="noopener" href="http://steamcommunity.com/groups/ProjectCityBuild"><i class="fab fa-steam-square"></i></a>
                         </div>
                         <a href="#top">Return to Top</a>
                     </div>

@@ -4,15 +4,15 @@
     border-radius: 5px;
     background: $colour-basic;
 
-    &.primary {
+    &--primary {
         background: $colour-primary;
         color: #fff;
     }
-    &.secondary {
+    &--secondary {
         background: $colour-secondary;
         color: #fff;
     }
-    &.accent {
+    &--accent {
         background: $colour-accent;
         color: #fff;
     }

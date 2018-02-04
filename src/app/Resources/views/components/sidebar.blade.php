@@ -1,38 +1,42 @@
-<div class="donate-panel card primary">
-    <div class="donate-panel__padding">
+<div class="donate-panel card card--primary">
+
+    <div class="donate-panel__container">
         <h3 class="donate-panel__heading">Help Keep Us Online</h3>
         <div class="progress progress--accent">
             <div class="progress__bar">
                 <div class="progress__bar__fill" style="width: {{ $donations['percentage'] ?: 3 }}%"></div>
             </div>
-            <div class="progress__markers">
-                <span>0</span>
-                <span>250</span>
-                <span>500</span>
-                <span>750</span>
-                <span>1000</span>
+            <ul class="progress__markers">
+                <li>0</li>
+                <li>250</li>
+                <li>500</li>
+                <li>750</li>
+                <li>1000</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="donate-panel__stats">
+        <div class="stats-container">
+            <div class="stat">
+                <span class="stat__figure">${{ $donations['total'] ?: 0 }}</span>
+                <span class="stat__heading">Funds Raised</span>
+            </div>
+            <div class="stat">
+                <span class="stat__figure">{{ $donations['remainingDays'] ?: '?' }}</span>
+                <span class="stat__heading">Remaining Days</span>
             </div>
         </div>
     </div>
 
-    <div class="stats donate-panel__stats">
-        <div class="stats__item">
-            <span class="stats__item__figure">${{ $donations['total'] ?: 0 }}</span>
-            <span class="stats__item__heading">Funds Raised</span>
-        </div>
-        <div class="stats__item">
-            <span class="stats__item__figure">{{ $donations['remainingDays'] ?: '?' }}</span>
-            <span class="stats__item__heading">Remaining Days</span>
-        </div>
-    </div>
-
-    <div class="donate-panel__padding">
+    <div class="donate-panel__container">
         <a class="button large secondary" href="http://projectcitybuild.com/forums/index.php?topic=4124.0">
             Donate
         </a>
         <small>Donators receive a colored name, a reserved server slot and more!</small>
     </div>
 </div>
+
 
 <a class="button secondary sidebar-btn" href="http://projectcitybuild.com/forums/index.php?topic=6790.0">
     <div class="sidebar-btn__icon"><i class="fa fa-fw fa-gift"></i></div>

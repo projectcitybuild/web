@@ -27,8 +27,11 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        padding: 0;
+        margin: 0;
         margin-top: 0.5em;
         color: hsl(211, 68%, 72%);
+        list-style: none;
     }
 
     &__label {

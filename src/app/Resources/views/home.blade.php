@@ -20,14 +20,14 @@
                     </div>
                 </div>
                 <div class="article__footer">
-                    <div class="stats">
-                        <div class="stats__item">
-                            <span class="stats__item__figure">{{ $announcement->num_replies }}</span>
-                            <span class="stats__item__heading">Comments</span>
+                    <div class="stats-container">
+                        <div class="stat">
+                            <span class="stat__figure">{{ $announcement->num_replies }}</span>
+                            <span class="stat__heading">Comments</span>
                         </div>
-                        <div class="stats__item">
-                            <span class="stats__item__figure">{{ $announcement->num_views }}</span>
-                            <span class="stats__item__heading">Post Views</span>
+                        <div class="stat">
+                            <span class="stat__figure">{{ $announcement->num_views }}</span>
+                            <span class="stat__heading">Post Views</span>
                         </div>
                     </div>
                     <div class="actions">

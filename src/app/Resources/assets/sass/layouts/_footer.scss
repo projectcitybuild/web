@@ -3,6 +3,7 @@
     color: #fff;
     padding: 2em 0;
     margin-top: 2em;
+    text-transform: uppercase;
 
     &__container {
         display: flex;
@@ -45,6 +46,7 @@
     &__bullets {
         list-style: none;
         padding: 0;
+        line-height: 1.5em;
 
         &:not(:last-child) {
             margin-right: 4em;

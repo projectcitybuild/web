@@ -456,7 +456,7 @@ template {
   display: none;
 }
 
-h1, h2, h3, h4, h5, h6, .stats__item__figure, .article__heading {
+h1, h2, h3, h4, h5, h6, .stat__figure, .article__heading {
   font-family: 'Fjalla One', sans-serif;
   text-transform: uppercase;
 }
@@ -547,17 +547,17 @@ img.rounded {
   background: #e6e5e5;
 }
 
-.badge.primary {
+.badge--primary {
   background: #1887dc;
   color: #fff;
 }
 
-.badge.secondary {
+.badge--secondary {
   background: #534741;
   color: #fff;
 }
 
-.badge.accent {
+.badge--accent {
   background: #f7a602;
   color: #fff;
 }
@@ -758,58 +758,54 @@ blockquote {
   color: #000;
 }
 
-.card .card-header {
+.card__header {
   background-color: #f2f2f2;
   border-bottom: 1px solid #e6e5e5;
 }
 
-.card .card-header, .card .card-body, .card .card-footer {
-  padding: 1em;
-}
-
-.card .card-header {
-  border-radius: 5px 5px 0 0;
-}
-
-.card.primary {
+.card--primary {
   background-color: #1887dc;
   border-color: #136bae;
   color: #fff;
 }
 
-.card.primary .card-header {
+.card--primary__header {
   background-color: #1679c5;
   border-bottom: 1px solid #136bae;
 }
 
-.card.secondary {
+.card--secondary {
   background-color: #534741;
   border-color: #453b36;
   color: #fff;
 }
 
-.card.secondary .card-header {
+.card--secondary__header {
   background-color: #453b36;
   border-bottom: 1px solid #362f2b;
 }
 
-.card.accent {
+.card--accent {
   background-color: #f7a602;
   border-color: #de9502;
   color: #fff;
 }
 
-.card.accent .card-header {
+.card--accent__header {
   background-color: #de9502;
   border-bottom: 1px solid #c58402;
 }
 
-div.divider {
-  border-bottom: 1px solid #c3b9b6;
+.card__header {
+  border-radius: 5px 5px 0 0;
 }
 
-div.divider .label {
-  background: #fff;
+.card__header, .card__body, .card__footer {
+  padding: 1em;
+}
+
+.divider {
+  border-bottom: 1px solid #c3b9b6;
 }
 
 .container {
@@ -974,8 +970,11 @@ nav.pagination a {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  padding: 0;
+  margin: 0;
   margin-top: 0.5em;
   color: #87b6e8;
+  list-style: none;
 }
 
 .progress__label {
@@ -1020,7 +1019,7 @@ nav.pagination a {
   border-color: #f7a602;
 }
 
-.stats {
+.stats-container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1036,7 +1035,7 @@ nav.pagination a {
           align-items: center;
 }
 
-.stats__item {
+.stat {
   text-align: center;
   padding: 0 1em;
   display: -webkit-box;
@@ -1048,12 +1047,12 @@ nav.pagination a {
           flex-direction: column;
 }
 
-.stats__item__figure {
+.stat__figure {
   font-size: 1.25em;
   margin-bottom: 0.25em;
 }
 
-.stats__item__heading {
+.stat__heading {
   font-size: 0.7em;
   text-transform: uppercase;
 }
@@ -1118,33 +1117,33 @@ table.table tr.disabled {
   font-size: 1em;
 }
 
-.donate-panel__padding {
+.donate-panel__container {
   padding: 0.75em;
 }
 
-.donate-panel__padding small {
+.donate-panel__container small {
   display: block;
   text-align: center;
   font-size: 0.7em;
   margin-top: 1em;
 }
 
-.donate-panel .stats {
+.donate-panel .stats-container {
   background: #469ee2;
 }
 
-.donate-panel .stats__item {
+.donate-panel .stat {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
   padding: 0.5em 1em;
 }
 
-.donate-panel .stats__item:first-child {
+.donate-panel .stat:first-child {
   border-right: 1px solid #1887dc;
 }
 
-.donate-panel .stats__item__heading {
+.donate-panel .stat__heading {
   font-size: 0.6em;
 }
 
@@ -1157,6 +1156,7 @@ table.table tr.disabled {
   color: #fff;
   padding: 2em 0;
   margin-top: 2em;
+  text-transform: uppercase;
 }
 
 .footer__container {
@@ -1228,6 +1228,7 @@ table.table tr.disabled {
 .footer__bullets {
   list-style: none;
   padding: 0;
+  line-height: 1.5em;
 }
 
 .footer__bullets:not(:last-child) {
@@ -1720,11 +1721,11 @@ table.table tr.disabled {
           justify-content: space-between;
 }
 
-.article__footer .stats {
+.article__footer .stats-container {
   color: #c1bebd;
 }
 
-.article__footer .stats__item:not(:last-child) {
+.article__footer .stat:not(:last-child) {
   border-right: 1px solid #e5e5e5;
 }
 
