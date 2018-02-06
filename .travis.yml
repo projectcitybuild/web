@@ -10,8 +10,7 @@ php:
 
 cache:
   directories:
-    - node_modules
-    - vendor
+    - src/vendor
 
 services:
   - mysql
@@ -19,7 +18,6 @@ services:
 before_script:
   - cd src
   - cp .env.ci .env
-  - composer self-update
   - composer install --no-interaction
   - php artisan key:generate
   - php artisan migrate
