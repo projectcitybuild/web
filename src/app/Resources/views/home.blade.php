@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="actions">
-                        <a class="button accent large" href="http://projectcitybuild.com/forums/index.php?topic={{ $announcement->id_topic}}">
+                        <a class="button button--accent button--large" href="http://projectcitybuild.com/forums/index.php?topic={{ $announcement->id_topic}}">
                             Read Post
                             <i class="fa fa-chevron-right"></i>
                         </a>

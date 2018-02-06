@@ -30,7 +30,7 @@
     </div>
 
     <div class="donate-panel__container">
-        <a class="button large secondary" href="http://projectcitybuild.com/forums/index.php?topic=4124.0">
+        <a class="button button--large button--secondary" href="http://projectcitybuild.com/forums/index.php?topic=4124.0">
             Donate
         </a>
         <small>Donators receive a colored name, a reserved server slot and more!</small>
@@ -38,14 +38,14 @@
 </div>
 
 
-<a class="button secondary sidebar-btn" href="http://projectcitybuild.com/forums/index.php?topic=6790.0">
+<a class="button button--secondary sidebar-btn" href="http://projectcitybuild.com/forums/index.php?topic=6790.0">
     <div class="sidebar-btn__icon"><i class="fa fa-fw fa-gift"></i></div>
     <div class="sidebar-btn__text">
         <span class="sidebar-btn__heading">Vote For Us</span>
         <small>Vote to receive daily in-game prizes</small>
     </div>
 </a>
-<a class="button secondary sidebar-btn" href="https://wiki.projectcitybuild.com/">
+<a class="button button--secondary sidebar-btn" href="https://wiki.projectcitybuild.com/">
     <div class="sidebar-btn__icon">
         <i class="fab fa-fw fa-wikipedia-w"></i>
     </div>

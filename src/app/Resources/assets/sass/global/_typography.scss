@@ -29,15 +29,5 @@ span {
 }
 
 a {
-    &:link, 
-    &:visited {
-        color: $colour-primary;
-    }
-    &:hover {
-        color: lighten($colour-primary, 15%);
-    }
-    &:focus, 
-    &:active {
-        color: darken($colour-primary, 15%);
-    }
+    color: $colour-primary;
 }

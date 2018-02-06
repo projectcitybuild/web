@@ -1,25 +1,22 @@
-import INavigator from "./INavigator";
-import { queueRead, queueWrite } from "../library/DomQueue";
+import { NavigationHandler } from "./Navigation";
+import { queueRead, queueWrite } from "../../library/DomQueue";
+
+type ClickListener = (event: Event) => void;
 
 interface MenuState {
     linkElement: HTMLLinkElement;
     menuElement: HTMLUListElement;
     isCollapsed: boolean;
     expandedHeight: number;
-    clickListener(event: ClickEvent): void;
+    clickListener: ClickListener;
 }
 
-interface ClickEvent {
-    preventDefault(): void;
-    stopPropagation(): void;
-}
-
-export default class DrawerNav implements INavigator {
+export default class NavDrawerHandler implements NavigationHandler {
 
     /**
      * Whether the nav drawer is currently showing
      */
-    private _isDrawerOpen: boolean = false;
+    private _isDrawerOpen = false;
 
     /**
      * State of all drop-down menu items in the drawer
@@ -35,6 +32,7 @@ export default class DrawerNav implements INavigator {
 
     constructor() {
         this._getInitialState();
+
         this._toggleDrawer = this._toggleDrawer.bind(this);
         this._toggleMenu = this._toggleMenu.bind(this);
     }
@@ -61,14 +59,14 @@ export default class DrawerNav implements INavigator {
     /**
      * Registers event listeners and collapsed all dropdown menus
      */
-    public create() : void {
-        queueWrite(() => {
-            this._drawerBtnElement.addEventListener('click', this._toggleDrawer);
+    public onCreate() : void {
+        this._drawerBtnElement.addEventListener('click', this._toggleDrawer);
 
-            this._menuStates.forEach(state => {
-                state.clickListener = (event) => this._toggleMenu(event, state);
-                state.linkElement.addEventListener('click', state.clickListener);
+        this._menuStates.forEach(state => {
+            state.clickListener = (event) => this._toggleMenu(event, state);
+            state.linkElement.addEventListener('click', state.clickListener);
 
+            queueWrite(() => {
                 state.menuElement.style.maxHeight = '0';
                 state.menuElement.classList.add('collapsed');
                 state.linkElement.classList.add('collapsed');
@@ -79,7 +77,7 @@ export default class DrawerNav implements INavigator {
     /**
      * Removes all event listeners
      */
-    public destroy() : void {
+    public onDestroy() : void {
         queueWrite(() => {
             this._drawerElement.classList.remove('opened');
             this._bodyElement.classList.remove('pushed');
@@ -99,7 +97,7 @@ export default class DrawerNav implements INavigator {
      * 
      * @param event
      */
-    private _toggleDrawer(event: ClickEvent) : void {
+    private _toggleDrawer(event: Event) : void {
         event.preventDefault();
         event.stopPropagation();
 
@@ -122,15 +120,12 @@ export default class DrawerNav implements INavigator {
      * @param event 
      * @param state 
      */
-    private _toggleMenu(event: ClickEvent, state: MenuState) : void {
+    private _toggleMenu(event: Event, state: MenuState) : void {
         event.preventDefault();
 
         queueWrite(() => {
-            if(state.isCollapsed) {
-                state.menuElement.style.maxHeight = state.expandedHeight + 'px';
-            } else {
-                state.menuElement.style.maxHeight = '0';
-            }
+            state.menuElement.style.maxHeight = state.isCollapsed ? state.expandedHeight + 'px' : '0';
+
             state.menuElement.classList.toggle('expanded');
             state.menuElement.classList.toggle('collapsed');
             state.linkElement.classList.toggle('expanded');
