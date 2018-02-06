@@ -40,7 +40,10 @@ class BanCreationService {
      * @param int $serverId             Server the player was on at the time of ban.
      * @param int $playerGameUserId     game_user_id of the player to be banned.
      * @param int $staffGameUserId      game_user_id of the staff who is banning the player.
-     * @param string $reason            Reason for ban.
+     * @param int $bannedAliasId        The alias_id that will be banned from the server
+     * @param string $aliasAtBan        The human-readable alias of the player at the time of ban.
+     *                                  For example, their Minecraft in-game name (not their uuid)
+     * @param string $reason            Reason for ban set by the staff member
      * @param int $expiryTimestamp      If set, the timestamp of when the ban auto expires.
      * @param bool $isGlobalBan         If true, prevents the user accessing all PCB services.
      * 
@@ -51,8 +54,8 @@ class BanCreationService {
     public function storeBan(
         int $serverId,
         int $playerGameUserId,
+        int $playerAliasId,
         int $staffGameUserId, 
-        int $bannedAliasId,
         string $aliasAtBan,
         ?string $reason = null, 
         ?int $expiryTimestamp = null,
@@ -76,8 +79,8 @@ class BanCreationService {
         return $this->banRepository->store(
             $serverId,
             $playerGameUserId,
+            $playerAliasId,
             $staffGameUserId,
-            $bannedAliasId,
             $aliasAtBan,
             $reason,
             true,

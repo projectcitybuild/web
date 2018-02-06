@@ -1,4 +1,4 @@
-import Navigation from './components/Navigation';
+import { Navigation } from './modules/Navigation';
 
 const navigation = new Navigation();
 

@@ -20,8 +20,8 @@ class GameBanRepository {
     public function store(
         int $serverId,
         int $playerGameUserId,
+        int $playerAliasId,
         int $staffGameUserId,
-        int $bannedAliasId,
         string $aliasAtBan,
         ?string $reason = null,
         bool $isActive = true,
@@ -33,7 +33,7 @@ class GameBanRepository {
             'server_id'             => $serverId,
             'player_game_user_id'   => $playerGameUserId,
             'staff_game_user_id'    => $staffGameUserId,
-            'banned_alias_id'       => $bannedAliasId,
+            'banned_alias_id'       => $playerAliasId,
             'player_alias_at_ban'   => $aliasAtBan,
             'reason'                => $reason,
             'is_active'             => $isActive,

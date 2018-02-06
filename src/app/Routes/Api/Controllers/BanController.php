@@ -97,6 +97,7 @@ class BanController extends Controller {
         $serverKey          = $request->get('key');
         $playerIdType       = $request->get('player_id_type');
         $playerId           = $request->get('player_id');
+        $aliasAtBan         = $request->get('player_alias');
         $staffIdType        = $request->get('banner_id_type');
         $staffId            = $request->get('banner_id');
         $reason             = $request->get('reason');
@@ -115,14 +116,14 @@ class BanController extends Controller {
             }
         }
 
-        // !!!
-        // TODO: determine banned alias id (or create one)
-        // !!!
-        $bannedAliasId      = '';
-        $aliasAtBan         = $request->get('player_alias');
 
         $playerGameUser = $this->gameUserLookup->getOrCreateGameUser($playerIdType, $playerId);
         $staffGameUser  = $this->gameUserLookup->getOrCreateGameUser($staffIdType, $staffId);
+
+        // get the alias id that will be used later for verifying
+        // if a connecting player is banned
+        $playerAliasId = null;
+        
 
         $this->connection->beginTransaction();
         try {
@@ -130,7 +131,7 @@ class BanController extends Controller {
                 $serverKey->server_id,
                 $playerGameUser->game_user_id,
                 $staffGameUser->game_user_id,
-                $bannedAliasId,
+                $playerAliasId,
                 $aliasAtBan,
                 $reason,
                 $expiryTimestamp,

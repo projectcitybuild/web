@@ -3,7 +3,7 @@
     border-color: darken($bgColour, $borderDarken);
     color: $textColour;
 
-    .card-header {
+    &__header {
         background-color: darken($bgColour, 5%);
         border-bottom: 1px solid darken($bgColour, 10%);
     }
@@ -14,22 +14,22 @@
     border-bottom: 3px solid;
     box-shadow: 0 2px 5px 1px hsla(0, 0%, 0%, 0.05);
     @include card-background(#fff, 10%);
-    
-    .card-header, .card-body, .card-footer {
-        padding: 1em;
-    }
 
-    .card-header {
-        border-radius: 5px 5px 0 0;
-    }
-
-    &.primary {
+    &--primary {
         @include card-background($colour-primary, 10%, #fff);
     }
-    &.secondary {
+    &--secondary {
         @include card-background($colour-secondary, 5%, #fff);
     }
-    &.accent {
+    &--accent {
         @include card-background($colour-accent, 5%, #fff);
+    }
+
+    &__header {
+        border-radius: 5px 5px 0 0;
+    }
+  
+    &__header, &__body, &__footer {
+        padding: 1em;
     }
 }

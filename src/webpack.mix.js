@@ -24,7 +24,8 @@ mix.webpackConfig({
 });
 
 mix.ts('app/Resources/assets/js/app.ts', 'public/assets/js')
-   .sass('app/Resources/assets/sass/app.scss', 'public/assets/css');
+   .sass('app/Resources/assets/sass/app.scss', 'public/assets/css')
+   .version();
 
 mix.browserSync({
     proxy: '192.168.99.100',
