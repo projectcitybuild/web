@@ -16,6 +16,9 @@ services:
   - mysql
 
 before_script:
+  # disable xdebug since we're not generating coverage reports
+  - phpenv config-rm xdebug.ini
+
   - cd src
   - cp .env.ci .env
   - composer install --no-interaction

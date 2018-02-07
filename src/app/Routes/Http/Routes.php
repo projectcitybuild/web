@@ -18,3 +18,6 @@ Route::get('/', [
 Route::get('stylesheet', function() { return view('stylesheet'); });
 
 Route::view('bans', 'banlist')->name('banlist');
+
+Route::post('deploy', 'DeployController@deploy');
+Route::get('deploy', 'DeployController@deploy');
