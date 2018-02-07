@@ -29,4 +29,4 @@ script:
   - vendor/bin/phpunit
 
 after_success:
-  # TODO: push to server
+  - curl https://projectcitybuild.com/deploy?key="'$DEPLOY_KEY'"
