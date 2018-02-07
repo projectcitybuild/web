@@ -81,8 +81,8 @@ const navigation = new __WEBPACK_IMPORTED_MODULE_0__modules_Navigation__["a" /* 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = queueRead;
-/* harmony export (immutable) */ __webpack_exports__["b"] = queueWrite;
+/* unused harmony export queueRead */
+/* harmony export (immutable) */ __webpack_exports__["a"] = queueWrite;
 const readQueue = [];
 const writeQueue = [];
 let isRunning = false;
@@ -151,27 +151,25 @@ class NavDrawerHandler {
         this._toggleMenu = this._toggleMenu.bind(this);
     }
     _getInitialState() {
-        Object(__WEBPACK_IMPORTED_MODULE_0__library_DomQueue__["a" /* queueRead */])(() => {
-            const links = document.querySelectorAll('#main-nav .nav-dropdown');
-            for (let i = 0; i < links.length; i++) {
-                const link = links[i];
-                const menu = link.nextElementSibling;
-                this._menuStates.push({
-                    linkElement: link,
-                    menuElement: menu,
-                    isCollapsed: true,
-                    expandedHeight: menu.clientHeight,
-                    clickListener: null,
-                });
-            }
-        });
+        const links = document.querySelectorAll('#main-nav .nav-dropdown');
+        for (let i = 0; i < links.length; i++) {
+            const link = links[i];
+            const menu = link.nextElementSibling;
+            this._menuStates.push({
+                linkElement: link,
+                menuElement: menu,
+                isCollapsed: true,
+                expandedHeight: menu.clientHeight,
+                clickListener: null,
+            });
+        }
     }
     onCreate() {
         this._drawerBtnElement.addEventListener('click', this._toggleDrawer);
         this._menuStates.forEach(state => {
             state.clickListener = (event) => this._toggleMenu(event, state);
             state.linkElement.addEventListener('click', state.clickListener);
-            Object(__WEBPACK_IMPORTED_MODULE_0__library_DomQueue__["b" /* queueWrite */])(() => {
+            Object(__WEBPACK_IMPORTED_MODULE_0__library_DomQueue__["a" /* queueWrite */])(() => {
                 state.menuElement.style.maxHeight = '0';
                 state.menuElement.classList.add('collapsed');
                 state.linkElement.classList.add('collapsed');
@@ -179,7 +177,7 @@ class NavDrawerHandler {
         });
     }
     onDestroy() {
-        Object(__WEBPACK_IMPORTED_MODULE_0__library_DomQueue__["b" /* queueWrite */])(() => {
+        Object(__WEBPACK_IMPORTED_MODULE_0__library_DomQueue__["a" /* queueWrite */])(() => {
             this._drawerElement.classList.remove('opened');
             this._bodyElement.classList.remove('pushed');
         });
@@ -193,7 +191,7 @@ class NavDrawerHandler {
     _toggleDrawer(event) {
         event.preventDefault();
         event.stopPropagation();
-        Object(__WEBPACK_IMPORTED_MODULE_0__library_DomQueue__["b" /* queueWrite */])(() => {
+        Object(__WEBPACK_IMPORTED_MODULE_0__library_DomQueue__["a" /* queueWrite */])(() => {
             if (this._isDrawerOpen) {
                 this._bodyElement.removeEventListener('click', this._toggleDrawer);
             }
@@ -207,7 +205,7 @@ class NavDrawerHandler {
     }
     _toggleMenu(event, state) {
         event.preventDefault();
-        Object(__WEBPACK_IMPORTED_MODULE_0__library_DomQueue__["b" /* queueWrite */])(() => {
+        Object(__WEBPACK_IMPORTED_MODULE_0__library_DomQueue__["a" /* queueWrite */])(() => {
             state.menuElement.style.maxHeight = state.isCollapsed ? state.expandedHeight + 'px' : '0';
             state.menuElement.classList.toggle('expanded');
             state.menuElement.classList.toggle('collapsed');

@@ -38,22 +38,20 @@ export default class NavDrawerHandler implements NavigationHandler {
     }
     
     private _getInitialState() : void {
-        queueRead(() => {
-            const links = document.querySelectorAll('#main-nav .nav-dropdown');
+        const links = document.querySelectorAll('#main-nav .nav-dropdown');
 
-            for(let i = 0; i < links.length; i++) {
-                const link = links[i];
-                const menu = link.nextElementSibling;
+        for(let i = 0; i < links.length; i++) {
+            const link = links[i];
+            const menu = link.nextElementSibling;
 
-                this._menuStates.push({
-                    linkElement: <HTMLLinkElement>link,
-                    menuElement: <HTMLUListElement>menu,
-                    isCollapsed: true,
-                    expandedHeight: menu.clientHeight,
-                    clickListener: null,
-                });
-            }
-        });
+            this._menuStates.push({
+                linkElement: <HTMLLinkElement>link,
+                menuElement: <HTMLUListElement>menu,
+                isCollapsed: true,
+                expandedHeight: menu.clientHeight,
+                clickListener: null,
+            });
+        }
     }
 
     /**

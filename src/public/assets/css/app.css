@@ -1424,12 +1424,12 @@ table.table tr.disabled {
     transition: transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1), -webkit-transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
   }
   main.pushed {
-    -webkit-transform: translateX(350px);
-            transform: translateX(350px);
+    -webkit-transform: translateX(70vw);
+            transform: translateX(70vw);
   }
   nav#main-nav {
-    -webkit-transform: translateX(-350px);
-            transform: translateX(-350px);
+    -webkit-transform: translateX(-70vw);
+            transform: translateX(-70vw);
     -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
     transition: -webkit-transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
     transition: transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -1450,7 +1450,7 @@ table.table tr.disabled {
     position: fixed;
   }
   nav#main-nav {
-    width: 350px;
+    width: 70vw;
     height: 100%;
     position: fixed;
     background: #534741;
@@ -1595,7 +1595,7 @@ table.table tr.disabled {
 }
 
 .server-feed .server.server--online {
-  background: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.4);
   color: #1887dc;
   border-top: 1px solid rgba(255, 255, 255, 0.5);
 }
@@ -1603,7 +1603,7 @@ table.table tr.disabled {
 .server-feed .server.server--offline {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.35);
-  color: #fff;
+  color: #343442;
 }
 
 .server-feed .server__title {

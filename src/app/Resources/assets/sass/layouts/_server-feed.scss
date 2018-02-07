@@ -37,14 +37,14 @@
         }
 
         &.server--online {
-            background: hsla(0, 0%, 100%, 0.35);
+            background: hsla(0, 0%, 100%, 0.40);
             color: $colour-primary;
             border-top: 1px solid hsla(0, 0%, 100%, 0.5);
         }
         &.server--offline {
             background: hsla(0, 0%, 100%, 0.10);
             border: 1px solid hsla(0, 0%, 100%, 0.35);
-            color: #fff;
+            color: hsl(240, 12%, 23%);
         }
     }
 
