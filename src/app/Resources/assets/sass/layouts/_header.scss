@@ -33,5 +33,9 @@
         margin-top: 0.5em;
         margin-bottom: 2em;
         max-width: 350px;
+
+        @media screen and (max-width: $dimen-medium) {
+            width: 100%;
+        }
     }
 }

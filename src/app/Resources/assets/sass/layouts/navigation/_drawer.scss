@@ -4,6 +4,12 @@ $drawer-width: 70vw;
 main {
     transition: transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
     &.pushed { transform: translateX($drawer-width); }
+
+    &.pushed:before {
+        width: 100%;
+        height: 100%;
+        background: #000;
+    }
 }
 nav#main-nav {
     transform: translateX(-$drawer-width);

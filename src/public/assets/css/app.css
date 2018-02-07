@@ -1318,6 +1318,12 @@ table.table tr.disabled {
   max-width: 350px;
 }
 
+@media screen and (max-width: 768px) {
+  .header__logo {
+    width: 100%;
+  }
+}
+
 @media screen and (min-width: 768px) {
   nav#main-nav {
     width: 100%;
@@ -1426,6 +1432,11 @@ table.table tr.disabled {
   main.pushed {
     -webkit-transform: translateX(70vw);
             transform: translateX(70vw);
+  }
+  main.pushed:before {
+    width: 100%;
+    height: 100%;
+    background: #000;
   }
   nav#main-nav {
     -webkit-transform: translateX(-70vw);
@@ -1655,6 +1666,12 @@ table.table tr.disabled {
 
 .article__container {
   padding: 2em;
+}
+
+@media screen and (max-width: 768px) {
+  .article__container {
+    padding: 1.5em;
+  }
 }
 
 .article__heading {

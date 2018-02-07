@@ -23,6 +23,10 @@
 
     &__container {
         padding: 2em;
+
+        @media screen and (max-width: $dimen-medium) {
+            padding: 1.5em;
+        }
     }
 
     &__heading {
