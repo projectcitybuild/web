@@ -2,7 +2,7 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Log\Writer;
+use Illuminate\Log\Logger;
 use App\Modules\Bans\Services\BanAuthorisationService;
 use App\Shared\Exceptions\ServerException;
 use App\Modules\ServerKeys\Models\ServerKey;
@@ -15,7 +15,7 @@ class BanAuthorisationService_Test extends TestCase {
     private $keyMock;
 
     public function setUp() {
-        $this->loggerMock = $this->getMockBuilder(Writer::class)
+        $this->loggerMock = $this->getMockBuilder(Logger::class)
             ->disableOriginalConstructor()
             ->getMock();
     }
