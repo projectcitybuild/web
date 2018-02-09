@@ -11,6 +11,6 @@
         "allowSyntheticDefaultImports": true,
     },
     "include": [
-        "app/Resources/assets/js/**/*"
+        "assets/js/**/*"
     ],
 }

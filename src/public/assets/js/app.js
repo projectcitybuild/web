@@ -65,19 +65,19 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./app/Resources/assets/js/app.ts":
+/***/ "./assets/js/app.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_Navigation__ = __webpack_require__("./app/Resources/assets/js/modules/Navigation/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_Navigation__ = __webpack_require__("./assets/js/modules/Navigation/index.ts");
 
 const navigation = new __WEBPACK_IMPORTED_MODULE_0__modules_Navigation__["a" /* Navigation */]();
 
 
 /***/ }),
 
-/***/ "./app/Resources/assets/js/library/DomQueue.ts":
+/***/ "./assets/js/library/DomQueue.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -119,7 +119,7 @@ function queueWrite(action) {
 
 /***/ }),
 
-/***/ "./app/Resources/assets/js/modules/Navigation/NavBarHandler.ts":
+/***/ "./assets/js/modules/Navigation/NavBarHandler.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -133,11 +133,11 @@ class NavBarHandler {
 
 /***/ }),
 
-/***/ "./app/Resources/assets/js/modules/Navigation/NavDrawerHandler.ts":
+/***/ "./assets/js/modules/Navigation/NavDrawerHandler.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__library_DomQueue__ = __webpack_require__("./app/Resources/assets/js/library/DomQueue.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__library_DomQueue__ = __webpack_require__("./assets/js/library/DomQueue.ts");
 
 class NavDrawerHandler {
     constructor() {
@@ -221,12 +221,12 @@ class NavDrawerHandler {
 
 /***/ }),
 
-/***/ "./app/Resources/assets/js/modules/Navigation/Navigation.ts":
+/***/ "./assets/js/modules/Navigation/Navigation.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NavBarHandler__ = __webpack_require__("./app/Resources/assets/js/modules/Navigation/NavBarHandler.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NavDrawerHandler__ = __webpack_require__("./app/Resources/assets/js/modules/Navigation/NavDrawerHandler.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NavBarHandler__ = __webpack_require__("./assets/js/modules/Navigation/NavBarHandler.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NavDrawerHandler__ = __webpack_require__("./assets/js/modules/Navigation/NavDrawerHandler.ts");
 
 
 class Navigation {
@@ -278,18 +278,18 @@ class Navigation {
 
 /***/ }),
 
-/***/ "./app/Resources/assets/js/modules/Navigation/index.ts":
+/***/ "./assets/js/modules/Navigation/index.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Navigation__ = __webpack_require__("./app/Resources/assets/js/modules/Navigation/Navigation.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Navigation__ = __webpack_require__("./assets/js/modules/Navigation/Navigation.ts");
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__Navigation__["a"]; });
 
 
 
 /***/ }),
 
-/***/ "./app/Resources/assets/sass/app.scss":
+/***/ "./assets/sass/app.scss":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -299,8 +299,8 @@ class Navigation {
 /***/ 0:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__("./app/Resources/assets/js/app.ts");
-module.exports = __webpack_require__("./app/Resources/assets/sass/app.scss");
+__webpack_require__("./assets/js/app.ts");
+module.exports = __webpack_require__("./assets/sass/app.scss");
 
 
 /***/ })

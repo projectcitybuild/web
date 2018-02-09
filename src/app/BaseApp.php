@@ -15,6 +15,6 @@ namespace App;
  */
 class BaseApp extends \Illuminate\Foundation\Application {
     public function langPath() {
-        return $this->basePath.'/app/Resources/lang';
+        return $this->basePath.'/assets/lang';
     }
 }

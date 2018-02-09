@@ -7,27 +7,16 @@ mix.options({
     processCssUrls: false 
 });
 
-// skip node_modules because we don't want to compile any vendor's typescript
-mix.webpackConfig({
-    module: {
-        rules: [
-            {
-                test: /\.tsx?$/,
-                loader: 'ts-loader',
-                exclude: /node_modules/,
-            },
-        ],
-    },
-    resolve: {
-        extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
-    },
-});
-
-mix.ts('app/Resources/assets/js/app.ts', 'public/assets/js')
-   .sass('app/Resources/assets/sass/app.scss', 'public/assets/css')
+mix.typeScript('assets/js/app.ts', 'public/assets/js')
+   .sass('assets/sass/app.scss', 'public/assets/css')
    .version();
 
 mix.browserSync({
     proxy: '192.168.99.100',
-    files: ['public/**/*.css', 'app/Resources/**/*']
+    files: [
+        'assets/views/**/*.blade.php',
+        'assets/lang/**/*.php',
+        'public/**/*.css', 
+        'public/**/*.js',    
+    ]
 });
