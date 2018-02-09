@@ -1530,7 +1530,7 @@ table.table tr.disabled {
     -webkit-transition: border 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
     transition: border 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
   }
-  nav#main-nav .nav-dropdown [data-fa-processed] {
+  nav#main-nav .nav-dropdown [data-fa-i2svg] {
     -webkit-transition: -webkit-transform 0.5s ease-out;
     transition: -webkit-transform 0.5s ease-out;
     transition: transform 0.5s ease-out;
@@ -1539,14 +1539,14 @@ table.table tr.disabled {
   nav#main-nav .nav-dropdown.expanded {
     border-top: 2px solid #362f2b;
   }
-  nav#main-nav .nav-dropdown.expanded [data-fa-processed] {
+  nav#main-nav .nav-dropdown.expanded [data-fa-i2svg] {
     -webkit-transform: rotate(0);
             transform: rotate(0);
   }
   nav#main-nav .nav-dropdown.collapsed {
     border-top: 0px solid #362f2b;
   }
-  nav#main-nav .nav-dropdown.collapsed [data-fa-processed] {
+  nav#main-nav .nav-dropdown.collapsed [data-fa-i2svg] {
     -webkit-transform: rotate(450deg);
             transform: rotate(450deg);
   }

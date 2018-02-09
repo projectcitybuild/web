@@ -10,10 +10,10 @@
         <title>Project City Build</title>
 
         <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}" />
-
-        <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/brands.js"></script>
-        <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/solid.js"></script>
-        <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/fontawesome.js"></script>
+        
+        <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/brands.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/solid.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/fontawesome.js"></script>
 
         <script defer src="{{ mix('assets/js/app.js') }}"></script>
 

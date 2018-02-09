@@ -102,18 +102,18 @@ nav#main-nav {
     .nav-dropdown{
         transition: border 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 
-        [data-fa-processed] {
+        [data-fa-i2svg] {
             transition: transform 0.5s ease-out; 
         }
         &.expanded {
             border-top: 2px solid $nav-border-colour;
-            [data-fa-processed] {
+            [data-fa-i2svg] {
                 transform: rotate(0);
             }
         }
         &.collapsed {
             border-top: 0px solid $nav-border-colour;
-            [data-fa-processed] {
+            [data-fa-i2svg] {
                 transform: rotate(450deg);
             }
         } 
