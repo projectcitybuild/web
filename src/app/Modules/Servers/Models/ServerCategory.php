@@ -6,31 +6,18 @@ use App\Shared\Model;
 
 class ServerCategory extends Model {
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'server_categories';
 
     protected $primaryKey = 'server_category_id';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
         'display_order',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [];
+    protected $hidden = [
+        
+    ];
 
     protected $dates = [
         'created_at',

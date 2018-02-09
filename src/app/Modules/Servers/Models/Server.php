@@ -6,20 +6,10 @@ use App\Shared\Model;
 
 class Server extends Model {
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'servers';
 
     protected $primaryKey = 'server_id';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
         'server_category_id',
@@ -33,12 +23,9 @@ class Server extends Model {
         'game_type',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [];
+    protected $hidden = [
+        
+    ];
 
     protected $dates = [
         'created_at',

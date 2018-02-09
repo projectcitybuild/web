@@ -33,4 +33,8 @@ class ServerRepository {
             ->get();
     }
 
+    public function getById(int $serverId) : ?Server {
+        return $this->serverModel->find($serverId);
+    }
+
 }
