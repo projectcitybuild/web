@@ -79,11 +79,11 @@ class CreateServers extends Migration {
         Schema::create('server_statuses_players', function(Blueprint $table) {
             $table->bigIncrements('server_status_player_id');
             $table->integer('server_status_id')->unsigned();
-            $table->integer('game_user_id')->unsigned();
+            $table->string('player_type');
+            $table->integer('player_type_id')->unsigned();
             
             // why is this spewing errors? (╯°□°）╯︵ ┻━┻ 
             // $table->foreign('server_status_id')->references('server_status_id')->on('server_statuses');
-            $table->foreign('game_user_id')->references('game_user_id')->on('game_users');
         });
     }
 

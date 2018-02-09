@@ -12,28 +12,51 @@ class CreateUsers extends Migration {
      * @return void
      */
     public function up() {
-        // for use later when we switch to discourse
-        Schema::create('users', function(Blueprint $table) {
-            $table->increments('user_id');
+        /**
+         * An account contains basic logic details
+         */
+        Schema::create('accounts', function(Blueprint $table) {
+            $table->increments('account_id');
+            $table->string('email');
+            $table->string('password');
+            $table->string('remember_token', 60);
             $table->timestamps();
         });
 
-        Schema::create('game_users', function(Blueprint $table) {
-            $table->increments('game_user_id');
-            $table->integer('user_id')->unsigned()->nullable();
+        /**
+         * A player represents a unique game account 
+         */
+        Schema::create('players', function(Blueprint $table) {
+            $table->increments('player_id');
+            $table->integer('account_id')->unsigned()->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('user_id')->on('users');
+            $table->foreign('account_id')->references('account_id')->on('accounts');
         });
 
-        Schema::create('user_aliases', function(Blueprint $table) {
-            $table->increments('user_alias_id');
-            $table->integer('user_alias_type_id')->unsigned();
-            $table->integer('game_user_id')->unsigned();
-            $table->string('alias');
+        /**
+         * Represents a single Minecraft player identified by uuid, tied to a player_id
+         */
+        Schema::create('players_minecraft', function(Blueprint $table) {
+            $table->increments('player_minecraft_id');
+            $table->string('uuid', 60)->unique();
+            $table->integer('player_id')->unsigned();
+            $table->integer('playtime')->unsigned()->comment('Total playtime in minutes');
+            $table->datetime('last_seen_at');
             $table->timestamps();
+            
+            $table->index('uuid');
+            $table->foreign('player_id')->references('player_id')->on('players');
+        });
 
-            $table->foreign('game_user_id')->references('game_user_id')->on('game_users');
+        /**
+         * Represents an in-game Minecraft name. Used to track name changes in Minecraft
+         */
+        Schema::create('players_minecraft_aliases', function(Blueprint $table) {
+            $table->increments('players_minecraft_alias_id');
+            $table->integer('player_minecraft_id')->unsigned();
+
+            $table->foreign('player_minecraft_id')->references('player_minecraft_id')->on('players_minecraft');
         });
     }
 
@@ -43,8 +66,8 @@ class CreateUsers extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('user_aliases');
-        Schema::dropIfExists('game_users');
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('players_minecraft');
+        Schema::dropIfExists('players');
+        Schema::dropIfExists('accounts');
     }
 }
