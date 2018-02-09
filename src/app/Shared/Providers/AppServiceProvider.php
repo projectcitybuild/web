@@ -60,7 +60,7 @@ class AppServiceProvider extends ServiceProvider
                 $app->make(ServerRepository::class),
                 $app->make(ServerStatusRepository::class),
                 new QueryAdapterFactory(),
-                $app->make(\Illuminate\Log\Writer::class)
+                $app->make(\Illuminate\Log\Logger::class)
             );
         });
     }

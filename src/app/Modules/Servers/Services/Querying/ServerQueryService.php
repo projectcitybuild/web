@@ -3,7 +3,7 @@ namespace App\Modules\Servers\Services\Querying;
 
 use App\Modules\Servers\Repositories\{ServerRepository, ServerStatusRepository};
 use App\Modules\Servers\Services\Querying\QueryAdapterFactory;
-use \Illuminate\Log\Writer as Logger;
+use \Illuminate\Log\Logger;
 use App\Modules\Servers\Services\Querying\QueryAdapterInterface;
 use App\Modules\Servers\Services\PlayerFetching\PlayerFetcherInterface;
 use App\Modules\Servers\Models\ServerStatus;
@@ -26,7 +26,7 @@ class ServerQueryService {
     private $adapterFactory;
 
     /**
-     * @var \Illuminate\Log\Writer
+     * @var Logger
      */
     private $logger;
 
