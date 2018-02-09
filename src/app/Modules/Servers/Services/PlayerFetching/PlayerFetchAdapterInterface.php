@@ -1,7 +1,7 @@
 <?php
 namespace App\Modules\Servers\Services\PlayerFetching;
 
-interface PlayerFetcherInterface {
+interface PlayerFetchAdapterInterface {
 
     /**
      * Returns the unique identifiers for a list of players

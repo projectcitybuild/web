@@ -54,7 +54,7 @@ class ServerQueryService {
         $time = time();
 
         foreach($servers as $server) {
-            $this->queryServer(
+            $this->query(
                 $queryAdapter ?: $this->adapterFactory->getAdapter($server->game_type),
                 $server->server_id,
                 $server->ip,
@@ -65,16 +65,36 @@ class ServerQueryService {
     }
 
     /**
-     * Queries the given server for its status
+     * Queries a single server for it's status, regardless of
+     * its 'is_querying' value
+     *
+     * @param integer $serverId
+     * @return void
+     */
+    public function queryServer(int $serverId) {
+        $server = $this->serverRepository->getById($serverId);
+
+        $this->query(
+            $this->adapterFactory->getAdapter($server->game_type),
+            $server->server_id,
+            $server->ip,
+            $server->port
+        );
+    }
+
+    /**
+     * Queries the given server for its status using the
+     * given query adapter
      *
      * @param QueryAdapterInterface $queryAdapter
      * @param int $serverId
      * @param string $ip
      * @param string $port
      * @param int $time
+     * 
      * @return void
      */
-    public function queryServer(
+    private function query(
         QueryAdapterInterface $queryAdapter,
         int $serverId, 
         string $ip, 
@@ -82,19 +102,21 @@ class ServerQueryService {
         $time = null
     ) : ServerStatus {
 
-        $status = $queryAdapter->query($ip, $port);
+        $response = $queryAdapter->query($ip, $port);
 
-        if($status->hasException()) {
-            $this->logger->info('Server query ['.$ip.'] returned response: '.$status->getException()->getMessage());
-        }
-
-        return $this->statusRepository->create(
+        $status = $this->statusRepository->create(
             $serverId,
-            $status->isOnline(),
-            $status->getNumOfPlayers(),
-            $status->getNumOfSlots(),
-            $status->getPlayerList(),
+            $response->isOnline(),
+            $response->getNumOfPlayers(),
+            $response->getNumOfSlots(),
             $time ?: time()
         );
+
+        if($response->getNumOfPlayers() > 0) {
+            $playerFetcher = $queryAdapter->getPlayerFetchAdapter();
+            $playerFetcher->getUniqueIdentifiers($response->getPlayerList());
+        }
+
+        return $status;
     }
 }

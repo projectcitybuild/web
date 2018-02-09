@@ -1,18 +1,18 @@
 <?php
 namespace App\Modules\Servers\Services\PlayerFetching\GameAdapters;
 
-use App\Modules\Servers\Services\PlayerFetching\PlayerFetcherInterface;
-use App\Modules\Servers\Services\Mojang\MojangApiService;
+use App\Modules\Servers\Services\PlayerFetching\PlayerFetchAdapterInterface;
+use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangApiService;
 
-class MojangUuidAdapter implements PlayerFetcherInterface {
+class MojangUuidAdapter implements PlayerFetchAdapterInterface {
 
     /**
      * @var MojangApiService
      */
-    private $ApiService;
+    private $mojangApi;
 
-    public function __construct(MojangApiService $apiService) {
-        $this->apiService = $apiService;
+    public function __construct(MojangApiService $mojangApi) {
+        $this->mojangApi = $mojangApi;
     }
 
     /**
@@ -24,7 +24,7 @@ class MojangUuidAdapter implements PlayerFetcherInterface {
     public function getUniqueIdentifiers(array $key = []) : array {
         $names = collect($key)->chunk(100);
         foreach($names as $nameChunk) {
-            $apiResponse = $this->apiService->getUuidBatchOf($nameChunk);
+            $apiResponse = $this->mojangApi->getUuidBatchOf($nameChunk);
 
             foreach($apiResponse as $alias => $player) {
                 $uuid = $player->getUuid();

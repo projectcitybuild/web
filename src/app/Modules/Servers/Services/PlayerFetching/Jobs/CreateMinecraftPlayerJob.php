@@ -7,7 +7,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Modules\Users\Services\GameUserLookupService;
 use App\Modules\Users\UserAliasTypeEnum;
 
 class CreateMinecraftPlayerJob implements ShouldQueue
@@ -47,7 +46,7 @@ class CreateMinecraftPlayerJob implements ShouldQueue
      * @return void
      */
     // TODO: move this to PlayerFetching
-    public function handle(GameUserLookupService $gameUserLookup) {
+    public function handle() {
         // $uuid = $uuidFetcher->getUuidOf($this->playerName, $this->requestTime);
         
         // if no uuid returned, the Mojang server is probably down

@@ -1,31 +1,43 @@
 <?php
 namespace App\Modules\Servers\Services\Querying;
 
+/**
+ * Represents data returned from querying a server
+ */
 class QueryResult {
 
+    /**
+     * @var int
+     */
     private $numOfPlayers;
-    private $numOfSlots;
-    private $playerList;
-    private $isOnline;
-    private $exception;
 
-    public function __construct(bool $isOnline, int $numOfPlayers, int $numOfSlots, array $playerList = []) {
+    /**
+     * @var int
+     */
+    private $numOfSlots;
+
+    /**
+     * @var array
+     */
+    private $playerList;
+
+    /**
+     * @var bool
+     */
+    private $isOnline;
+
+    public function __construct(
+        bool $isOnline = false,
+        int $numOfPlayers = 0,
+        int $numOfSlots = 0,
+        array $playerList = []
+    ) {
         $this->isOnline = $isOnline;
         $this->numOfPlayers = $numOfPlayers;
         $this->numOfSlots = $numOfSlots;
         $this->playerList = $playerList;
     }
     
-    public function setException(\Exception $exception) {
-        $this->exception = $exception;
-    }
-    public function getException() : \Exception {
-        return $this->exception;
-    }
-    public function hasException() : bool {
-        return isset($this->exception);
-    }
-
     public function getPlayerList() : array {
         if(!$this->isOnline()) { 
             return [];
