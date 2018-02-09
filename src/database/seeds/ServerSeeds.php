@@ -45,7 +45,7 @@ class ServerSeeds extends Seeder {
             'ip'                    => '23.94.186.178',
             'port'                  => '25565',
             'is_port_visible'       => true,
-            'is_querying'           => true,
+            'is_querying'           => false,
             'is_visible'            => true,
             'display_order'         => 2,
         ]);

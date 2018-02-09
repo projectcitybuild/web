@@ -3,6 +3,8 @@ namespace App\Modules\Servers\Services\Querying\GameAdapters;
 
 use App\Modules\Servers\Services\Querying\{QueryAdapterInterface, QueryResult};
 use xPaw\{MinecraftQuery, MinecraftQueryException};
+use App\Modules\Servers\Services\PlayerFetching\GameAdapters\MojangUuidAdapter;
+use App\Modules\Servers\Services\PlayerFetching\PlayerFetchAdapterInterface;
 
 class MinecraftQueryAdapter implements QueryAdapterInterface {
 
@@ -40,6 +42,13 @@ class MinecraftQueryAdapter implements QueryAdapterInterface {
         } catch(MinecraftQueryException $e) {
             return new QueryResult();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPlayerFetchAdapter() : PlayerFetchAdapterInterface {
+        return resolve(MojangUuidAdapter::class);
     }
 
 }

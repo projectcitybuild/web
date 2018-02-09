@@ -90,7 +90,7 @@ class ServerQueryService {
      * @param int $serverId
      * @param string $ip
      * @param string $port
-     * @param int $time
+     * @param int|null $time
      * 
      * @return void
      */
@@ -99,7 +99,7 @@ class ServerQueryService {
         int $serverId, 
         string $ip, 
         string $port = null, 
-        $time = null
+        ?int $time = null
     ) : ServerStatus {
 
         $response = $queryAdapter->query($ip, $port);
@@ -112,9 +112,16 @@ class ServerQueryService {
             $time ?: time()
         );
 
+        // if players were present on the server, fetch their unique id from
+        // an appropriate api
+        //
+        // NOTE: each adapter should implement its own job queuing where required
+        // as long running operations will delay querying the next server in-line
         if($response->getNumOfPlayers() > 0) {
             $playerFetcher = $queryAdapter->getPlayerFetchAdapter();
-            $playerFetcher->getUniqueIdentifiers($response->getPlayerList());
+            $gameUserIds = $playerFetcher->getUniqueIdentifiers($response->getPlayerList());
+            
+            $status->players()->attach($gameUserIds);
         }
 
         return $status;

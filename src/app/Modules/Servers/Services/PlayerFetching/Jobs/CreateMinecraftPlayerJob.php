@@ -45,15 +45,7 @@ class CreateMinecraftPlayerJob implements ShouldQueue
      *
      * @return void
      */
-    // TODO: move this to PlayerFetching
     public function handle() {
-        // $uuid = $uuidFetcher->getUuidOf($this->playerName, $this->requestTime);
         
-        // if no uuid returned, the Mojang server is probably down
-        // if(empty($uuid->getUuid())) {
-        //     throw new \Exception('UUID fetch response is empty. Is the Mojang server down?');
-        // }
-
-        // $gameUserLookup->getOrCreateGameUser(UserAliasTypeEnum::MINECRAFT_UUID, $uuid->getUuid());
     }
 }

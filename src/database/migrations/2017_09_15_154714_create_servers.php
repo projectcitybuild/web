@@ -81,8 +81,9 @@ class CreateServers extends Migration {
             $table->integer('server_status_id')->unsigned();
             $table->integer('game_user_id')->unsigned();
             
-            $table->foreign('server_status_id')->references('server_status_id')->on('server_statuses');
-            $table->foreign('game_user_id')->refernces('game_user_id')->on('game_users');
+            // why is this spewing errors? (╯°□°）╯︵ ┻━┻ 
+            // $table->foreign('server_status_id')->references('server_status_id')->on('server_statuses');
+            $table->foreign('game_user_id')->references('game_user_id')->on('game_users');
         });
     }
 
@@ -92,6 +93,7 @@ class CreateServers extends Migration {
      * @return void
      */
     public function down() {
+        Schema::dropIfExists('server_statuses_players');
         Schema::dropIfExists('server_statuses');
         Schema::dropIfExists('server_key_tokens');
         Schema::dropIfExists('server_keys');
