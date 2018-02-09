@@ -20,18 +20,9 @@ class CreateUsers extends Migration {
             $table->string('email');
             $table->string('password');
             $table->string('remember_token', 60);
+            $table->ipAddress('last_login_ip');
+            $table->datetime('last_login_at');
             $table->timestamps();
-        });
-
-        /**
-         * A player represents a unique game account 
-         */
-        Schema::create('players', function(Blueprint $table) {
-            $table->increments('player_id');
-            $table->integer('account_id')->unsigned()->nullable();
-            $table->timestamps();
-
-            $table->foreign('account_id')->references('account_id')->on('accounts');
         });
 
         /**
@@ -40,13 +31,13 @@ class CreateUsers extends Migration {
         Schema::create('players_minecraft', function(Blueprint $table) {
             $table->increments('player_minecraft_id');
             $table->string('uuid', 60)->unique();
-            $table->integer('player_id')->unsigned();
+            $table->integer('account_id')->unsigned();
             $table->integer('playtime')->unsigned()->comment('Total playtime in minutes');
             $table->datetime('last_seen_at');
             $table->timestamps();
             
             $table->index('uuid');
-            $table->foreign('player_id')->references('player_id')->on('players');
+            $table->foreign('account_id')->references('account_id')->on('accounts');
         });
 
         /**
@@ -66,8 +57,8 @@ class CreateUsers extends Migration {
      * @return void
      */
     public function down() {
+        Schema::dropIfExists('players_minecraft_aliases');
         Schema::dropIfExists('players_minecraft');
-        Schema::dropIfExists('players');
         Schema::dropIfExists('accounts');
     }
 }
