@@ -8,8 +8,9 @@ use App\Modules\Donations\Services\DonationStatsService;
 use App\Modules\Forums\Services\SMF\Smf;
 use Carbon\Carbon;
 use Storage;
+use App\Routes\Http\Web\WebController;
 
-class HomeController extends Controller
+class HomeController extends WebController
 {
     /**
      * @var ForumRetrieveInterface

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared;
+namespace App\Routes\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use App\Routes\Api\Middleware\JsonResponseMiddleware;

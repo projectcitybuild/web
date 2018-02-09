@@ -14,14 +14,9 @@ declare(strict_types=1);
 |
 */
 
-
 $app = new App\BaseApp(
     realpath(__DIR__.'/../')
 );
-    
-// $app = new Illuminate\Foundation\Application(
-    // realpath(__DIR__.'/../')
-// );
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +36,7 @@ $app->singleton(
 
 $app->singleton(
     Illuminate\Contracts\Http\Kernel::class,
-    App\Shared\Kernel::class
+    App\Routes\Http\Kernel::class
 );
 
 $app->singleton(

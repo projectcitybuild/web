@@ -18,8 +18,9 @@ use Illuminate\Validation\Factory as Validator;
 use Carbon\Carbon;
 use Illuminate\Database\Connection;
 use App\Shared\Exceptions\BadRequestException;
+use App\Routes\Api\ApiController;
 
-class BanController extends Controller {
+class BanController extends ApiController {
     
     /**
      * @var GameUserLookupService

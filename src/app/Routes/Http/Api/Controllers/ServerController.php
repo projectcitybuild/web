@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use App\Modules\Servers\Repositories\ServerRepository;
 use App\Modules\Servers\Repositories\ServerCategoryRepository;
 use App\Modules\Servers\Transformers\ServerCategoryResource;
+use App\Routes\Api\ApiController;
 
-class ServerController extends Controller {
+class ServerController extends ApiController {
 
     /**
      * @var ServerRepository

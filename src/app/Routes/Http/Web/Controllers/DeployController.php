@@ -4,8 +4,9 @@ namespace App\Routes\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Shared\Exceptions\UnauthorisedException;
+use App\Routes\Http\Web\WebController;
 
-class DeployController extends Controller {
+class DeployController extends WebController {
 
     public function deploy(Request $request) {
         $key = env('DEPLOY_KEY');
