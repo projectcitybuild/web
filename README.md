@@ -1,7 +1,7 @@
 # Project City Build
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0) [![Build Status](https://travis-ci.org/itsmyfirstday/ProjectCityBuild.svg?branch=master)](https://travis-ci.org/itsmyfirstday/ProjectCityBuild)
 
-Version 3.5 - basically just a supercharged, coat of fresh paint on the current design. Moving onwards from this point we will only be updating this version until it becomes version 4.0.
+Version 3.5 - basically a supercharged, coat of fresh paint on our old site design. Moving onwards from this point we will only be updating this version until it eventually becomes version 4.0.
 
 ## What's different about this version?
 Mostly behind the scenes stuff.
@@ -28,7 +28,7 @@ The only requirement is **Docker** installed. If you do not wish to use Docker f
 
 Without Docker, you will need to first manually install the below:
 
-* PHP 7.1 or greater
+* PHP 7.1.3 or greater
 * MySQL/MariaDB (either one is fine)
 * Composer
 * NPM

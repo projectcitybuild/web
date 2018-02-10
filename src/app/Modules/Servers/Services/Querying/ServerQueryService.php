@@ -7,6 +7,7 @@ use \Illuminate\Log\Logger;
 use App\Modules\Servers\Services\Querying\QueryAdapterInterface;
 use App\Modules\Servers\Services\PlayerFetching\PlayerFetcherInterface;
 use App\Modules\Servers\Models\ServerStatus;
+use App\Modules\Servers\Repositories\ServerStatusPlayerRepository;
 
 class ServerQueryService {
  
@@ -21,6 +22,11 @@ class ServerQueryService {
     private $statusRepository;
 
     /**
+     * @var ServerStatusPlayerRepository
+     */
+    private $statusPlayerRepository;
+
+    /**
      * @var QueryAdapterFactory
      */
     private $adapterFactory;
@@ -32,12 +38,14 @@ class ServerQueryService {
 
     public function __construct(
         ServerRepository $serverRepository, 
-        ServerStatusRepository $statusRepository, 
+        ServerStatusRepository $statusRepository,
+        ServerStatusPlayerRepository $statusPlayerRepository,
         QueryAdapterFactory $adapterFactory,
         Logger $logger
     ) {
         $this->serverRepository = $serverRepository;
         $this->statusRepository = $statusRepository;
+        $this->statusPlayerRepository = $statusPlayerRepository;
         $this->adapterFactory = $adapterFactory;
         $this->logger = $logger;
     }
@@ -119,9 +127,11 @@ class ServerQueryService {
         // as long running operations will delay querying the next server in-line
         if($response->getNumOfPlayers() > 0) {
             $playerFetcher = $queryAdapter->getPlayerFetchAdapter();
-            $gameUserIds = $playerFetcher->getUniqueIdentifiers($response->getPlayerList());
+            $playerIds = $playerFetcher->getUniqueIdentifiers($response->getPlayerList());
             
-            $status->players()->attach($gameUserIds);
+            foreach($playerIds as $id => $type) {
+                $this->statusPlayerRepository->store($status->server_status_id, $id, $type);
+            }
         }
 
         return $status;
