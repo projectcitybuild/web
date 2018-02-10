@@ -5,10 +5,9 @@ use App\Modules\Servers\Repositories\ServerRepository;
 use App\Modules\Servers\Repositories\ServerStatusRepository;
 use App\Modules\Servers\Services\Querying\QueryAdapterFactory;
 use App\Modules\Servers\Services\Querying\QueryAdapterInterface;
-use App\Modules\Servers\Services\PlayerFetching\PlayerFetcherInterface;
+use App\Modules\Servers\Services\PlayerFetching\PlayerFetchJob;
 use App\Modules\Servers\Models\ServerStatus;
 use \Illuminate\Log\Logger;
-use App\Modules\Servers\Services\PlayerFetching\PlayerFetchService;
 
 class ServerQueryService {
  
@@ -23,11 +22,6 @@ class ServerQueryService {
     private $statusRepository;
 
     /**
-     * @var PlayerFetchService
-     */
-    private $playerFetchService;
-
-    /**
      * @var QueryAdapterFactory
      */
     private $adapterFactory;
@@ -40,13 +34,11 @@ class ServerQueryService {
     public function __construct(
         ServerRepository $serverRepository, 
         ServerStatusRepository $statusRepository,
-        PlayerFetchService $playerFetchService,
         QueryAdapterFactory $adapterFactory,
         Logger $logger
     ) {
         $this->serverRepository = $serverRepository;
         $this->statusRepository = $statusRepository;
-        $this->playerFetchService = $playerFetchService;
         $this->adapterFactory = $adapterFactory;
         $this->logger = $logger;
     }
@@ -127,11 +119,11 @@ class ServerQueryService {
         // NOTE: each adapter should implement its own job queuing where required
         // as long running operations will delay querying the next server in-line
         if($response->getNumOfPlayers() > 0) {
-            $playerFetchAdapter = $queryAdapter->getPlayerFetchAdapter();
+            // the Laravel queue can't serialize a class, so pass the
+            // path instead so the job can resolve it when dispatched
+            $playerFetchAdapter = get_class($queryAdapter->getPlayerFetchAdapter());
 
-            $this->playerFetchService
-                ->setAdapter($playerFetchAdapter)
-                ->associatePlayersToServerStatus($serverId, $response->getPlayerList());
+            PlayerFetchJob::dispatch($serverId, $playerFetchAdapter, $response->getPlayerList());
         }
 
         return $status;
