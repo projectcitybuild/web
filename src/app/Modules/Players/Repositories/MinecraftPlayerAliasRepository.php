@@ -32,7 +32,7 @@ class MinecraftPlayerAliasRepository extends Repository {
     public function getByAlias(string $alias) : ?MinecraftPlayerAlias {
         return $this->getModel()
             ->where('alias', $alias)
-            ->find();
+            ->first();
     }
 
 }
