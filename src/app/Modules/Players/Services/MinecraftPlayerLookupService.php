@@ -49,6 +49,14 @@ class MinecraftPlayerLookupService {
         return $alias->player;
     }
 
+    /**
+     * Gets a MinecraftPlayer by uuid. If the uuid doesn't match 
+     * a player, the player is created first
+     *
+     * @param string $uuid
+     * @param string|null $createAlias
+     * @return MinecraftPlayer
+     */
     public function getOrCreateByUuid(string $uuid, ?string $createAlias = null) : MinecraftPlayer {
         $player = $this->getByUuid($uuid);
         if($player !== null) {

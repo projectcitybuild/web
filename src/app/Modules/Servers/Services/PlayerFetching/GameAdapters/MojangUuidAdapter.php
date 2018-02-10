@@ -25,30 +25,31 @@ class MojangUuidAdapter implements PlayerFetchAdapterInterface {
     }
 
     /**
-     * Returns the uuid of the given players
-     *
-     * @param array $key
-     * @return array
+     * {@inheritDoc}
      */
-    public function getUniqueIdentifiers(array $key = []) : array {
+    public function getUniqueIdentifiers(array $aliases = []) : array {
         // split names into chunks since the Mojang API
         // won't allow more than 100 names in a batch at once 
-        $names = collect($key)->chunk(100);
+        $names = collect($aliases)->chunk(100);
 
         $players = [];
         foreach($names as $nameChunk) {
-
             // TODO: move this into a job
-            $apiResponse = $this->mojangApi->getUuidBatchOf($nameChunk->toArray());
-
-            foreach($apiResponse as $alias => $player) {
-                $uuid = $player->getUuid();
-                $player = $this->userLookupService->getOrCreateByUuid($uuid);
-                
-                $players[$player->player_minecraft_id] = MinecraftPlayer::class;
-            }
+            $response = $this->mojangApi->getUuidBatchOf($nameChunk->toArray());
+            $players = array_merge($players, $response);
         }
 
+        return $players;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function createPlayers(array $identifiers) : array {
+        $players = [];
+        foreach($identifiers as $identifier) {
+            $players[] = $this->userLookupService->getOrCreateByUuid($identifier->getUuid());
+        }
         return $players;
     }
 

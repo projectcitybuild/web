@@ -1,13 +1,14 @@
 <?php
 namespace App\Modules\Servers\Services\Querying;
 
-use App\Modules\Servers\Repositories\{ServerRepository, ServerStatusRepository};
+use App\Modules\Servers\Repositories\ServerRepository;
+use App\Modules\Servers\Repositories\ServerStatusRepository;
 use App\Modules\Servers\Services\Querying\QueryAdapterFactory;
-use \Illuminate\Log\Logger;
 use App\Modules\Servers\Services\Querying\QueryAdapterInterface;
 use App\Modules\Servers\Services\PlayerFetching\PlayerFetcherInterface;
 use App\Modules\Servers\Models\ServerStatus;
-use App\Modules\Servers\Repositories\ServerStatusPlayerRepository;
+use \Illuminate\Log\Logger;
+use App\Modules\Servers\Services\PlayerFetching\PlayerFetchService;
 
 class ServerQueryService {
  
@@ -22,9 +23,9 @@ class ServerQueryService {
     private $statusRepository;
 
     /**
-     * @var ServerStatusPlayerRepository
+     * @var PlayerFetchService
      */
-    private $statusPlayerRepository;
+    private $playerFetchService;
 
     /**
      * @var QueryAdapterFactory
@@ -39,13 +40,13 @@ class ServerQueryService {
     public function __construct(
         ServerRepository $serverRepository, 
         ServerStatusRepository $statusRepository,
-        ServerStatusPlayerRepository $statusPlayerRepository,
+        PlayerFetchService $playerFetchService,
         QueryAdapterFactory $adapterFactory,
         Logger $logger
     ) {
         $this->serverRepository = $serverRepository;
         $this->statusRepository = $statusRepository;
-        $this->statusPlayerRepository = $statusPlayerRepository;
+        $this->playerFetchService = $playerFetchService;
         $this->adapterFactory = $adapterFactory;
         $this->logger = $logger;
     }
@@ -126,12 +127,11 @@ class ServerQueryService {
         // NOTE: each adapter should implement its own job queuing where required
         // as long running operations will delay querying the next server in-line
         if($response->getNumOfPlayers() > 0) {
-            $playerFetcher = $queryAdapter->getPlayerFetchAdapter();
-            $playerIds = $playerFetcher->getUniqueIdentifiers($response->getPlayerList());
-            
-            foreach($playerIds as $id => $type) {
-                $this->statusPlayerRepository->store($status->server_status_id, $id, $type);
-            }
+            $playerFetchAdapter = $queryAdapter->getPlayerFetchAdapter();
+
+            $this->playerFetchService
+                ->setAdapter($playerFetchAdapter)
+                ->associatePlayersToServerStatus($serverId, $response->getPlayerList());
         }
 
         return $status;
