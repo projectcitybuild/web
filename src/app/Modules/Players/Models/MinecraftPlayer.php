@@ -3,8 +3,9 @@
 namespace App\Modules\Players\Models;
 
 use App\Shared\Model;
+use App\Modules\Bans\BannableModelInterface;
 
-class MinecraftPlayer extends Model {
+class MinecraftPlayer extends Model implements BannableModelInterface {
 
     protected $table = 'players_minecraft';
 
@@ -26,6 +27,14 @@ class MinecraftPlayer extends Model {
         'updated_at',
         'last_seen_at',
     ];
+
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBanIdentifier(): string {
+        return $this->uuid;
+    }
 
     
     public function account() {
