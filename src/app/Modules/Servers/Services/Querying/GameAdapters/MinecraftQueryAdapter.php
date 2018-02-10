@@ -47,8 +47,8 @@ class MinecraftQueryAdapter implements QueryAdapterInterface {
     /**
      * {@inheritDoc}
      */
-    public function getPlayerFetchAdapter() : PlayerFetchAdapterInterface {
-        return resolve(MojangUuidAdapter::class);
+    public function getPlayerFetchAdapter() : string {
+        return MojangUuidAdapter::class;
     }
 
 }

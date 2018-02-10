@@ -16,11 +16,9 @@ class ServerCategoryRepository {
      *
      * @return ServerCategory
      */
-    public function getAll($with = null) {
+    public function getAll(array $with = []) {
         return $this->categoryModel
-            ->when($with, function($q) use($with) {
-                $q->with($with);
-            })
+            ->with($with)
             ->get();
     }
 

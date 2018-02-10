@@ -121,38 +121,20 @@
                     
                     <div class="header__right">
                         <section class="server-feed">
+                            
+                            @foreach($serverCategories as $category)
                             <div class="category">
-                                <h5 class="category__heading">Minecraft</h5>
-                                <div class="server server--online">
-                                    <div class="server__title">Survival / Creative [24/7]</div>
-                                    <div class="server__players badge badge--secondary">14/80</div>
-                                    <div class="server__ip">pcbmc.co</div>
+                                <h5 class="category__heading">{{ $category->name }}</h5>
+                                @foreach($category->servers as $server)
+                                <div class="server {{ $server->isOnline() ? 'server--online' : 'server--offline' }}">
+                                    <div class="server__title">{{ $server->name }}</div>
+                                    <div class="server__players badge {{ $server->isOnline() ? 'badge--secondary' : 'badge--light' }}">{{ $server->isOnline() ? $server->status->num_of_players.'/'.$server->status->num_of_slots : 'Offline' }}</div>
+                                    <div class="server__ip">{{ $server->ip_alias ?: $server->getAddress() }}</div>
                                 </div>
-                                <div class="server server--offline">
-                                    <div class="server__title">Feed the Beast</div>
-                                    <div class="server__players badge badge--light">Offline</div>
-                                    <div class="server__ip">23.94.186.178:25565</div>
-                                </div>
-                                <div class="server server--offline">
-                                    <div class="server__title">Pixelmon</div>
-                                    <div class="server__players badge badge--light">Offline</div>
-                                    <div class="server__ip">23.94.186.178:25565</div>
-                                </div>
+                                @endforeach
                             </div>
+                            @endforeach
 
-                            <div class="category">
-                                <h5 class="category__heading">Other Games</h5>
-                                <div class="server server--online">
-                                    <div class="server__title">Terraria</div>
-                                    <div class="server__players badge badge--secondary">14/80</div>
-                                    <div class="server__ip">pcbmc.co</div>
-                                </div>
-                                <div class="server server--offline">
-                                    <div class="server__title">Starbound</div>
-                                    <div class="server__players badge badge--light">Offline</div>
-                                    <div class="server__ip">pcbmc.co</div>
-                                </div>
-                            </div>
                         </section>
                     </div>
                 </div>

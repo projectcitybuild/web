@@ -22,6 +22,6 @@ interface QueryAdapterInterface {
      *
      * @return PlayerFetchAdapterInterface
      */
-    public function getPlayerFetchAdapter() : PlayerFetchAdapterInterface;
+    public function getPlayerFetchAdapter() : string;
 
 }

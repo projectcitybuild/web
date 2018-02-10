@@ -115,15 +115,12 @@ class ServerQueryService {
 
         // if players were present on the server, fetch their unique id from
         // an appropriate api
-        //
-        // NOTE: each adapter should implement its own job queuing where required
-        // as long running operations will delay querying the next server in-line
         if($response->getNumOfPlayers() > 0) {
-            // the Laravel queue can't serialize a class, so pass the
-            // path instead so the job can resolve it when dispatched
-            $playerFetchAdapter = get_class($queryAdapter->getPlayerFetchAdapter());
-
-            PlayerFetchJob::dispatch($serverId, $playerFetchAdapter, $response->getPlayerList());
+            PlayerFetchJob::dispatch(
+                $status->server_status_id,
+                $queryAdapter->getPlayerFetchAdapter(),
+                $response->getPlayerList()
+            );
         }
 
         return $status;
