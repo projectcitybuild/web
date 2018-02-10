@@ -31,7 +31,7 @@ class CreateUsers extends Migration {
         Schema::create('players_minecraft', function(Blueprint $table) {
             $table->increments('player_minecraft_id');
             $table->string('uuid', 60)->unique();
-            $table->integer('account_id')->unsigned();
+            $table->integer('account_id')->unsigned()->nullable();
             $table->integer('playtime')->unsigned()->comment('Total playtime in minutes');
             $table->datetime('last_seen_at');
             $table->timestamps();

@@ -14,7 +14,7 @@ Mostly behind the scenes stuff.
 
 ### Stack
 * Frameworks
-    * Laravel 5.5
+    * Laravel 5.6
     * ReactJS 15
 * Languages
     * HTML, PHP, SASS, TypeScript
@@ -34,14 +34,11 @@ Without Docker, you will need to first manually install the below:
 * NPM
 
 ### What still needs to be built before launch?
-- [ ] Ban API
-- [ ] Ban appeals
-- [ ] Apply for staff
-- [ ] Player id fetching after server status queries
+See the **Projects** tab (1.0 Release Roadmap)
 
 
 ### When will this release?
-When the above checklist is complete.
+When the Project checklist is complete.
 
 ### Can I contribute?
 Absolutely. Feel free to fork or send pull requests any time. I'd be thrilled to have some help.
