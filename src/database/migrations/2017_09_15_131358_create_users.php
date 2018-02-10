@@ -47,9 +47,10 @@ class CreateUsers extends Migration {
             $table->increments('players_minecraft_alias_id');
             $table->integer('player_minecraft_id')->unsigned();
             $table->string('alias');
-            $table->timestamp('registered_at')->comment('The actual datetime they changed their alias to this');
+            $table->timestamp('registered_at')->nullable()->comment('The actual datetime they changed their alias to this');
             $table->timestamps();
 
+            $table->index('alias');
             $table->foreign('player_minecraft_id')->references('player_minecraft_id')->on('players_minecraft');
         });
     }

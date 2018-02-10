@@ -11,6 +11,8 @@ use App\Modules\Forums\Services\Retrieve\DatabaseRetrieve;
 use App\Modules\Servers\Services\Querying\{ServerQueryService, QueryAdapterFactory};
 use App\Modules\Servers\Repositories\{ServerRepository, ServerStatusRepository};
 use Schema;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use App\Modules\Players\Models\MinecraftPlayer;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -48,20 +50,16 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(ForumRetrieveInterface::class, function($app) {
-            if(env('DB_HOST_FORUMS') === null || env('DB_MOCK_FORUMS') === true) {
-                return $app->make(OfflineRetrieve::class);
-            }
-            return $app->make(DatabaseRetrieve::class);
+            return env('DB_MOCK_FORUMS') === true
+                ? $app->make(OfflineRetrieve::class)
+                : $app->make(DatabaseRetrieve::class);
         });
+        
 
-        // bind server query service
-        $this->app->bind(ServerQueryService::class, function($app) {
-            return new ServerQueryService(
-                $app->make(ServerRepository::class),
-                $app->make(ServerStatusRepository::class),
-                new QueryAdapterFactory(),
-                $app->make(\Illuminate\Log\Logger::class)
-            );
-        });
+        // we don't want implementation details in our database,
+        // so convert model namespaces to a unique key instead
+        Relation::morphMap([
+            'minecraft_player' => MinecraftPlayer::class,
+        ]);
     }
 }

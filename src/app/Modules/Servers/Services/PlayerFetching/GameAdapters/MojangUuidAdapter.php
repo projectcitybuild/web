@@ -3,8 +3,8 @@ namespace App\Modules\Servers\Services\PlayerFetching\GameAdapters;
 
 use App\Modules\Servers\Services\PlayerFetching\PlayerFetchAdapterInterface;
 use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangApiService;
-use App\Modules\Users\Services\GameUserLookupService;
-use App\Modules\Users\UserAliasTypeEnum;
+use App\Modules\Players\Services\MinecraftPlayerLookupService;
+use App\Modules\Players\Models\MinecraftPlayer;
 
 class MojangUuidAdapter implements PlayerFetchAdapterInterface {
 
@@ -14,12 +14,12 @@ class MojangUuidAdapter implements PlayerFetchAdapterInterface {
     private $mojangApi;
 
     /**
-     * @var GameUserLookupService
+     * @var MinecraftPlayerLookupService
      */
     private $userLookupService;
 
 
-    public function __construct(MojangApiService $mojangApi, GameUserLookupService $userLookupService) {
+    public function __construct(MojangApiService $mojangApi, MinecraftPlayerLookupService $userLookupService) {
         $this->mojangApi = $mojangApi;
         $this->userLookupService = $userLookupService;
     }
@@ -35,7 +35,7 @@ class MojangUuidAdapter implements PlayerFetchAdapterInterface {
         // won't allow more than 100 names in a batch at once 
         $names = collect($key)->chunk(100);
 
-        $gameUserIds = [];
+        $players = [];
         foreach($names as $nameChunk) {
 
             // TODO: move this into a job
@@ -43,12 +43,13 @@ class MojangUuidAdapter implements PlayerFetchAdapterInterface {
 
             foreach($apiResponse as $alias => $player) {
                 $uuid = $player->getUuid();
-                $gameUser = $this->userLookupService->getOrCreateGameUser(UserAliasTypeEnum::MINECRAFT_UUID, $uuid);
-                $gameUserIds[] = $gameUser->game_user_id;                              
+                $player = $this->userLookupService->getOrCreateByUuid($uuid);
+                
+                $players[$player->player_minecraft_id] = MinecraftPlayer::class;
             }
         }
 
-        return $gameUserIds;
+        return $players;
     }
 
 }

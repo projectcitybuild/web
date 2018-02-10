@@ -29,6 +29,6 @@ class ServerStatus extends Model {
 
 
     public function players() {
-        return $this->belongsToMany('App\Modules\Users\Models\GameUser', 'server_statuses_players', 'server_status_id', 'game_user_id');
+        return $this->hasMany('App\Modules\Servers\Models\ServerStatusPlayer', 'server_status_id', 'server_status_id');
     }
 }

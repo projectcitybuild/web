@@ -80,7 +80,7 @@ class CreateServers extends Migration {
             $table->bigIncrements('server_status_player_id');
             $table->integer('server_status_id')->unsigned();
             $table->string('player_type');
-            $table->integer('player_type_id')->unsigned();
+            $table->integer('player_id')->unsigned();
             
             // why is this spewing errors? (╯°□°）╯︵ ┻━┻ 
             // $table->foreign('server_status_id')->references('server_status_id')->on('server_statuses');
