@@ -15,38 +15,55 @@ class ServerSeeds extends Seeder {
      * @return void
      */
     public function run() {
-        $categoryMinecraft = ServerCategory::create([
+        $categoryMinecraft = factory(ServerCategory::class)->create([
             'name'          => 'minecraft',
             'display_order' => 1,
         ]);
         
-        $categoryOtherGames = ServerCategory::create([
+        $categoryOtherGames = factory(ServerCategory::class)->create([
             'name'          => 'other games',
             'display_order' => 2,
         ]);
 
-        $minecraftServer = Server::create([
+        $minecraftServer = factory(Server::class)->create([
             'name'                  => 'Survival / Creative [24/7]',
             'server_category_id'    => $categoryMinecraft->server_category_id,
             'game_type'             => GameTypeEnum::Minecraft,
             'ip'                    => '198.144.156.53',
             'ip_alias'              => 'pcbmc.co',
             'port'                  => '25565',
-            'is_port_visible'       => true,
-            'is_querying'           => true,
-            'is_visible'            => true,
             'display_order'         => 1,
         ]);
 
-        Server::create([
+        factory(Server::class)->create([
             'name'                  => 'Feed the Beast',
             'server_category_id'    => $categoryMinecraft->server_category_id,
             'game_type'             => GameTypeEnum::Minecraft,
-            'ip'                    => '23.94.186.178',
-            'port'                  => '25565',
-            'is_port_visible'       => true,
-            'is_querying'           => true,
-            'is_visible'            => true,
+            'is_querying'           => false,
+            'display_order'         => 2,
+        ]);
+
+        factory(Server::class)->create([
+            'name'                  => 'Pixelmon',
+            'server_category_id'    => $categoryMinecraft->server_category_id,
+            'game_type'             => GameTypeEnum::Minecraft,
+            'is_querying'           => false,
+            'display_order'         => 3,
+        ]);
+
+        factory(Server::class)->create([
+            'name'                  => 'Terraria',
+            'server_category_id'    => $categoryOtherGames->server_category_id,
+            'game_type'             => GameTypeEnum::Terraria,
+            'is_querying'           => false,
+            'display_order'         => 1,
+        ]);
+        
+        factory(Server::class)->create([
+            'name'                  => 'Starbound',
+            'server_category_id'    => $categoryOtherGames->server_category_id,
+            'game_type'             => GameTypeEnum::Starbound,
+            'is_querying'           => false,
             'display_order'         => 2,
         ]);
 

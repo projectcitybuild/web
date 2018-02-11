@@ -1,36 +1,56 @@
 <?php
 namespace App\Modules\Servers\Services\PlayerFetching\GameAdapters;
 
-use App\Modules\Servers\Services\PlayerFetching\PlayerFetcherInterface;
-use App\Modules\Servers\Services\Mojang\MojangApiService;
+use App\Modules\Servers\Services\PlayerFetching\PlayerFetchAdapterInterface;
+use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangApiService;
+use App\Modules\Players\Services\MinecraftPlayerLookupService;
+use App\Modules\Players\Models\MinecraftPlayer;
 
-class MojangUuidAdapter implements PlayerFetcherInterface {
+class MojangUuidAdapter implements PlayerFetchAdapterInterface {
 
     /**
      * @var MojangApiService
      */
-    private $ApiService;
+    private $mojangApi;
 
-    public function __construct(MojangApiService $apiService) {
-        $this->apiService = $apiService;
+    /**
+     * @var MinecraftPlayerLookupService
+     */
+    private $userLookupService;
+
+
+    public function __construct(MojangApiService $mojangApi, MinecraftPlayerLookupService $userLookupService) {
+        $this->mojangApi = $mojangApi;
+        $this->userLookupService = $userLookupService;
     }
 
     /**
-     * Returns the uuid of the given players
-     *
-     * @param array $key
-     * @return array
+     * {@inheritDoc}
      */
-    public function getUniqueIdentifiers(array $key = []) : array {
-        $names = collect($key)->chunk(100);
-        foreach($names as $nameChunk) {
-            $apiResponse = $this->apiService->getUuidBatchOf($nameChunk);
+    public function getUniqueIdentifiers(array $aliases = []) : array {
+        // split names into chunks since the Mojang API
+        // won't allow more than 100 names in a batch at once 
+        $names = collect($aliases)->chunk(100);
 
-            foreach($apiResponse as $alias => $player) {
-                $uuid = $player->getUuid();
-                
-            }
+        $players = [];
+        foreach($names as $nameChunk) {
+            // TODO: move this into a job
+            $response = $this->mojangApi->getUuidBatchOf($nameChunk->toArray());
+            $players = array_merge($players, $response);
         }
+
+        return $players;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function createPlayers(array $identifiers) : array {
+        $players = [];
+        foreach($identifiers as $identifier) {
+            $players[] = $this->userLookupService->getOrCreateByUuid($identifier->getUuid());
+        }
+        return $players;
     }
 
 }

@@ -3,6 +3,8 @@ namespace App\Modules\Servers\Services\Querying\GameAdapters;
 
 use App\Modules\Servers\Services\Querying\{QueryAdapterInterface, QueryResult};
 use xPaw\{MinecraftQuery, MinecraftQueryException};
+use App\Modules\Servers\Services\PlayerFetching\GameAdapters\MojangUuidAdapter;
+use App\Modules\Servers\Services\PlayerFetching\PlayerFetchAdapterInterface;
 
 class MinecraftQueryAdapter implements QueryAdapterInterface {
 
@@ -19,9 +21,6 @@ class MinecraftQueryAdapter implements QueryAdapterInterface {
      * {@inheritDoc}
      */
     public function query(string $ip, $port = null) : QueryResult {
-        if(empty($ip)) {
-            throw new \Exception('No server IP provided');
-        }
         $port = $port ?: 25565;
 
         try {
@@ -41,11 +40,15 @@ class MinecraftQueryAdapter implements QueryAdapterInterface {
             );
         
         } catch(MinecraftQueryException $e) {
-            $response = new QueryResult(false, 0, 0, []);
-            $response->setException($e);
-
-            return $response;
+            return new QueryResult();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPlayerFetchAdapter() : string {
+        return MojangUuidAdapter::class;
     }
 
 }

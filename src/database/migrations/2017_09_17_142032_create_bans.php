@@ -26,9 +26,9 @@ class CreateBans extends Migration
             $table->timestamp('expires_at')->nullable()->comment('Date that this ban auto-expires on');
             $table->timestamps();
 
-            $table->foreign('player_game_user_id')->references('game_user_id')->on('game_users');
-            $table->foreign('staff_game_user_id')->references('game_user_id')->on('game_users');
-            $table->foreign('banned_alias_id')->references('user_alias_id')->on('user_aliases');
+            // $table->foreign('player_game_user_id')->references('game_user_id')->on('game_users');
+            // $table->foreign('staff_game_user_id')->references('game_user_id')->on('game_users');
+            // $table->foreign('banned_alias_id')->references('user_alias_id')->on('user_aliases');
         });
 
         Schema::create('game_network_unbans', function (Blueprint $table) {
@@ -38,7 +38,7 @@ class CreateBans extends Migration
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
 
             $table->foreign('game_ban_id')->references('game_ban_id')->on('game_network_bans');
-            $table->foreign('staff_game_user_id')->references('game_user_id')->on('game_users');
+            // $table->foreign('staff_game_user_id')->references('game_user_id')->on('game_users');
         });
 
         Schema::create('game_network_ban_logs', function(Blueprint $table) {

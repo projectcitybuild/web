@@ -63,6 +63,28 @@ class CreateServers extends Migration {
 
             $table->foreign('server_key_id')->references('server_key_id')->on('server_keys');
         });
+
+
+        Schema::create('server_statuses', function(Blueprint $table) {
+            $table->bigIncrements('server_status_id');
+            $table->integer('server_id')->unsigned();
+            $table->boolean('is_online');
+            $table->integer('num_of_players')->comment('Number of players currently connected');
+            $table->integer('num_of_slots')->comment('Maximum number of players the server can hold');
+            $table->timestamps();
+
+            $table->foreign('server_id')->references('server_id')->on('servers');
+        });
+
+        Schema::create('server_statuses_players', function(Blueprint $table) {
+            $table->bigIncrements('server_status_player_id');
+            $table->integer('server_status_id')->unsigned();
+            $table->string('player_type');
+            $table->integer('player_id')->unsigned();
+            
+            // why is this spewing errors? (╯°□°）╯︵ ┻━┻ 
+            // $table->foreign('server_status_id')->references('server_status_id')->on('server_statuses');
+        });
     }
 
     /**
@@ -71,6 +93,8 @@ class CreateServers extends Migration {
      * @return void
      */
     public function down() {
+        Schema::dropIfExists('server_statuses_players');
+        Schema::dropIfExists('server_statuses');
         Schema::dropIfExists('server_key_tokens');
         Schema::dropIfExists('server_keys');
         Schema::dropIfExists('servers');

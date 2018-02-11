@@ -8,10 +8,10 @@ use App\Modules\Forums\Repositories\ForumUserRepository;
 use App\Modules\Forums\Services\Retrieve\ForumRetrieveInterface;
 use App\Modules\Forums\Services\Retrieve\OfflineRetrieve;
 use App\Modules\Forums\Services\Retrieve\DatabaseRetrieve;
-use App\Modules\Servers\Services\Querying\{ServerQueryService, QueryAdapterFactory};
-use App\Modules\Servers\Repositories\{ServerRepository, ServerStatusRepository};
+use Illuminate\Database\Eloquent\Relations\Relation;
+use App\Modules\Players\Models\MinecraftPlayer;
+use Illuminate\Support\Facades\View;
 use Schema;
-
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +24,18 @@ class AppServiceProvider extends ServiceProvider
     {
         // probably not good to have this...
         Schema::defaultStringLength(191);
+        
+        
+        // we don't want implementation details in our database,
+        // so convert model namespaces to a unique key instead
+        Relation::morphMap([
+            'minecraft_player' => MinecraftPlayer::class,
+        ]);
+
+        // bind the master view composer to the master view template
+        View::composer(
+            'layouts.master', 'App\Routes\Http\Web\ViewComposers\MasterViewComposer'
+        );
     }
 
     /**
@@ -48,20 +60,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(ForumRetrieveInterface::class, function($app) {
-            if(env('DB_HOST_FORUMS') === null || env('DB_MOCK_FORUMS') === true) {
-                return $app->make(OfflineRetrieve::class);
-            }
-            return $app->make(DatabaseRetrieve::class);
-        });
-
-        // bind server query service
-        $this->app->bind(ServerQueryService::class, function($app) {
-            return new ServerQueryService(
-                $app->make(ServerRepository::class),
-                $app->make(ServerStatusRepository::class),
-                new QueryAdapterFactory(),
-                $app->make(\Illuminate\Log\Logger::class)
-            );
+            return env('DB_MOCK_FORUMS') === true
+                ? $app->make(OfflineRetrieve::class)
+                : $app->make(DatabaseRetrieve::class);
         });
     }
 }

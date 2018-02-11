@@ -3,14 +3,11 @@ namespace App\Modules\Servers\Repositories;
 
 use App\Modules\Servers\Models\ServerStatus;
 use Carbon\Carbon;
+use App\Shared\Repository;
 
-class ServerStatusRepository {
+class ServerStatusRepository extends Repository {
 
-    private $statusModel;
-
-    public function __construct(ServerStatus $statusModel) {
-        $this->statusModel = $statusModel;
-    }
+    protected $model = ServerStatus::class;
 
     /**
      * Creates a new server status
@@ -19,17 +16,15 @@ class ServerStatusRepository {
      * @param bool $isOnline
      * @param int $numOfPlayers
      * @param int $numOfSlots
-     * @param array $playerList
      * @param int $createdAt
      * @return void
      */
-    public function create(int $serverId, bool $isOnline, int $numOfPlayers, int $numOfSlots, array $playerList, int $createdAt) {
-        return $this->statusModel->create([
+    public function create(int $serverId, bool $isOnline, int $numOfPlayers, int $numOfSlots, int $createdAt) {
+        return $this->getModel()->create([
             'server_id'         => $serverId,
             'is_online'         => $isOnline,
             'num_of_players'    => $numOfPlayers,
             'num_of_slots'      => $numOfSlots,
-            'players'           => implode(',', $playerList),
             'created_at'        => Carbon::createFromTimestamp($createdAt),
         ]);
     }

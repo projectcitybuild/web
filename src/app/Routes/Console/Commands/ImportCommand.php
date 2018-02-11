@@ -8,7 +8,7 @@ use App\Modules\Bans\Models\GameUnban;
 use App\Modules\Users\Models\GameUser;
 use App\Modules\Users\Models\UserAlias;
 use App\Modules\Users\Models\UserAliasType;
-use App\Modules\Users\Repositories\UserAliasRepository;
+// use App\Modules\Users\Repositories\UserAliasRepository;
 use App\Modules\Servers\Repositories\ServerRepository;
 use App\Modules\Donations\Models\Donation;
 use App\Modules\Users\UserAliasTypeEnum;
@@ -40,11 +40,11 @@ class ImportCommand extends Command
      *
      * @return void
      */
-    public function __construct(UserAliasRepository $aliasRepository, ServerRepository $serverRepository)
+    public function __construct(ServerRepository $serverRepository)
     {
         parent::__construct();
 
-        $this->aliasRepository = $aliasRepository;
+        // $this->aliasRepository = $aliasRepository;
         $this->serverRepository = $serverRepository;
     }
 

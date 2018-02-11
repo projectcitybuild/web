@@ -1,6 +1,9 @@
 <?php
 namespace App\Modules\Servers\Services\Querying;
 
+use App\Modules\Servers\Services\PlayerFetching\PlayerFetchAdapterInterface;
+
+
 interface QueryAdapterInterface {
 
     /**
@@ -11,5 +14,14 @@ interface QueryAdapterInterface {
      * @return QueryResult
      */
     public function query(string $ip, $port = null) : QueryResult;
+
+
+    /**
+     * Returns a player fetching adapter appropriate to the
+     * server's game type
+     *
+     * @return PlayerFetchAdapterInterface
+     */
+    public function getPlayerFetchAdapter() : string;
 
 }
