@@ -112,11 +112,6 @@ class BanCreationService {
         GameBan $existingBan
     ) : GameUnban {
 
-        // can't unban a player who isn't banned
-        if(is_null($existingBan)) {
-            throw new UserNotBannedException('player_not_banned', 'This player is not currently banned');
-        }
-
         $this->connection->beginTransaction();
         try {
             $this->banRepository->deactivateBan($existingBan->game_ban_id);

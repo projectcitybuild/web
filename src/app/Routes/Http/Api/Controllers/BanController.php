@@ -24,6 +24,9 @@ use App\Shared\Helpers\MorphMapHelpers;
 use App\Modules\Players\Services\MinecraftPlayerLookupService;
 use App\Shared\Exceptions\ServerException;
 use App\Modules\Bans\Services\BanLookupService;
+use App\Modules\Bans\Resources\GameUnbanResource;
+use App\Modules\Bans\Resources\GameBanResource;
+use App\Modules\Bans\Exceptions\UserNotBannedException;
 
 class BanController extends ApiController {
     
@@ -176,16 +179,7 @@ class BanController extends ApiController {
             $serverKey->touch();
 
             $this->connection->commit();
-
-            // !!!
-            // TODO: refactor this to a shared JSON-API output formatter
-            // !!!
-            return response()->json([
-                'status_code' => 200,
-                'data' => [
-                    'ban' => $ban,
-                ],
-            ]);
+            return new GameBanResource($ban);
 
         } catch(\Exception $e) {
             $this->connection->rollBack();
@@ -249,6 +243,11 @@ class BanController extends ApiController {
         
         $activeBan = $this->banLookupService->getActivePlayerBan($bannedPlayer->getKey(), $bannedPlayerType, $serverKey);
 
+        // can't unban a player who isn't banned
+        if(is_null($activeBan)) {
+            throw new UserNotBannedException('player_not_banned', 'This player is not currently banned');
+        }
+
         if(!$this->banAuthService->isAllowedToUnban($activeBan, $serverKey)) {
             if($activeBan->is_global_ban) {
                 throw new UnauthorisedKeyActionException(
@@ -281,16 +280,7 @@ class BanController extends ApiController {
             $serverKey->touch();
 
             $this->connection->commit();
-
-            // !!!
-            // TODO: refactor this to a shared JSON-API output formatter
-            // !!!
-            return response()->json([
-                'status_code' => 200,
-                'data' => [
-                    'unban' => $unban,
-                ],
-            ]);
+            return new GameUnbanResource($unban);
 
         } catch(\Exception $e) {
             $this->connection->rollBack();
