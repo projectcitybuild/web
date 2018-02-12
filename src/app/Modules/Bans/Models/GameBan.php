@@ -43,4 +43,8 @@ class GameBan extends Model {
         return $this->morphTo(null, 'staff_player_type', 'staff_player_id');
     }
 
+    public function unban() {
+        return $this->belongsTo('App\Modules\Bans\Models\GameUnban', 'game_ban_id', 'game_ban_id');
+    }
+
 }

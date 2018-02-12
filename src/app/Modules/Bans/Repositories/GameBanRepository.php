@@ -3,6 +3,7 @@ namespace App\Modules\Bans\Repositories;
 
 use App\Modules\Bans\Models\GameBan;
 use App\Shared\Repository;
+use Illuminate\Database\Eloquent\Collection;
 
 class GameBanRepository extends Repository {
 
@@ -63,10 +64,12 @@ class GameBanRepository extends Repository {
     public function getActiveBanByGameUserId(
         int $bannedPlayerId,
         string $bannedPlayerType,
-        int $serverId = null
+        int $serverId = null,
+        array $with = []
     ) : ?GameBan {
     
         return $this->getModel()
+            ->with($with)
             ->where('banned_player_id', $bannedPlayerId)
             ->where('banned_player_type', $bannedPlayerType)
             ->where('is_active', true)
@@ -140,6 +143,14 @@ class GameBanRepository extends Repository {
         return $this->getModel()
             ->where('is_active', true)
             ->whereDate(Carbon::now(), '>=', 'expires_at')
+            ->get();
+    }
+
+    public function getBansByPlayer(int $bannedPlayerId, string $bannedPlayerType, array $with = []) : ?Collection {
+        return $this->getModel()
+            ->with($with)
+            ->where('banned_player_id', $bannedPlayerId)
+            ->where('banned_player_type', $bannedPlayerType)
             ->get();
     }
 }

@@ -27,6 +27,8 @@ class GameBanResource extends Resource {
             'expires_at'            => isset($this->expires_at) ? $this->expires_at->timestamp : null,
             'created_at'            => $this->created_at->getTimestamp(),
             'updated_at'            => $this->updated_at->getTimestamp(),
+
+            'unban' => new GameUnbanResource($this->whenLoaded('unban')),
         ];
     }
 }

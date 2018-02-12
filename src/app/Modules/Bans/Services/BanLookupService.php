@@ -6,6 +6,7 @@ use App\Modules\Bans\Exceptions\UserNotBannedException;
 use App\Modules\Bans\Repositories\GameBanRepository;
 use App\Modules\ServerKeys\Models\ServerKey;
 use App\Modules\Bans\Models\GameBan;
+use Illuminate\Database\Eloquent\Collection;
 
 class BanLookupService {
 
@@ -27,13 +28,28 @@ class BanLookupService {
      * @param int $playerGameUserId
      * @return GameBan|null
      */
-    public function getActivePlayerBan(int $bannedPlayerId, string $bannedPlayerType, ServerKey $serverKey) : ?GameBan {
-        $existingBan = $this->banRepository->getActiveBanByGameUserId($bannedPlayerId, $bannedPlayerType, $serverKey->server_id);
-        return $existingBan;
+    public function getActivePlayerBan(
+        int $bannedPlayerId,
+        string $bannedPlayerType,
+        ServerKey $serverKey,
+        array $with = []
+    ) : ?GameBan {
+
+        return $this->banRepository->getActiveBanByGameUserId(
+            $bannedPlayerId,
+            $bannedPlayerType,
+            $serverKey->server_id,
+            $with
+        );
     }
 
-    public function getPlayerBanHistory(int $playerGameUserId, int $serverId = null) {
+    public function getPlayerBanHistory(
+        int $bannedPlayerId,
+        string $bannedPlayerType,
+        ServerKey $serverKey
+    ) : ?Collection {
         
+        return $this->banRepository->getBansByPlayer($bannedPlayerId, $bannedPlayerType, ['unban']);
     }
 
 }
