@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Routes\Api\Controllers;
+namespace App\Routes\Http\Api\Controllers;
 
 use App\Modules\Bans\Services\BanCreationService;
 use App\Modules\Bans\Services\BanAuthorisationService;
@@ -19,13 +19,17 @@ use Carbon\Carbon;
 use Illuminate\Database\Connection;
 use App\Shared\Exceptions\BadRequestException;
 use App\Routes\Api\ApiController;
+use App\Modules\Players\Models\MinecraftPlayer;
+use App\Shared\Helpers\MorphMapHelpers;
+use App\Modules\Players\Services\MinecraftPlayerLookupService;
+use App\Shared\Exceptions\ServerException;
 
 class BanController extends ApiController {
     
     /**
-     * @var GameUserLookupService
+     * @var MinecraftPlayerLookupService
      */
-    private $gameUserLookup;
+    private $playerLookupService;
 
     /**
      * @var BanCreationService
@@ -54,14 +58,14 @@ class BanController extends ApiController {
 
 
     public function __construct(
-        GameUserLookupService $gameUserLookup,
+        MinecraftPlayerLookupService $playerLookupService,
         BanCreationService $banCreationService,
         BanAuthorisationService $banAuthService,
         BanLoggerService $banLoggerService,
         Connection $connection,
         Validator $validationFactory
     ) {
-        $this->gameUserLookup       = $gameUserLookup;
+        $this->playerLookupService  = $playerLookupService;
         $this->banCreationService   = $banCreationService;
         $this->banAuthService       = $banAuthService;
         $this->banLoggerService     = $banLoggerService;
@@ -77,18 +81,22 @@ class BanController extends ApiController {
      * @return void
      */
     public function storeBan(Request $request) {
-        $aliasTypeWhitelist = implode(',', UserAliasTypeEnum::getKeys());
+        $aliasTypeMap = [
+            'MINECRAFT_UUID' => MinecraftPlayer::class,
+        ];
+        $aliasTypeWhitelist = implode(',', array_keys($aliasTypeMap));
 
         $validator = $this->validationFactory->make($request->all(), [
             'player_id_type'    => 'required|in:'.$aliasTypeWhitelist,
             'player_id'         => 'required|max:60',
+            'player_alias'      => 'required',
             'banner_id_type'    => 'required|in:'.$aliasTypeWhitelist,
             'banner_id'         => 'required|max:60',
             'reason'            => 'string',
             'expires_at'        => 'integer',
             'is_global_ban'     => 'boolean',
         ], [
-            'in' => 'Invalid :attribute given',
+            'in' => 'Invalid :attribute given. Must be ['.$aliasTypeWhitelist.']',
         ]);
 
         if($validator->fails()) {
@@ -96,17 +104,14 @@ class BanController extends ApiController {
         }
 
         $serverKey          = $request->get('key');
-        $playerIdType       = $request->get('player_id_type');
-        $playerId           = $request->get('player_id');
-        $aliasAtBan         = $request->get('player_alias');
-        $staffIdType        = $request->get('banner_id_type');
-        $staffId            = $request->get('banner_id');
+        $bannedPlayerType   = $request->get('player_id_type');
+        $bannedPlayerId     = $request->get('player_id');
+        $bannedAliasAtTime  = $request->get('player_alias');
+        $staffPlayerType    = $request->get('banner_id_type');
+        $staffPlayerId      = $request->get('banner_id');
         $reason             = $request->get('reason');
         $expiryTimestamp    = $request->get('expires_at');
         $isGlobalBan        = $request->get('is_global_ban', false);
-
-        $playerIdType       = UserAliasTypeEnum::toValue($playerIdType);
-        $staffIdType        = UserAliasTypeEnum::toValue($staffIdType);
 
         // verify that this server key is allowed to create the given ban type
         if(!$this->banAuthService->isAllowedToBan($isGlobalBan, $serverKey)) {
@@ -117,23 +122,38 @@ class BanController extends ApiController {
             }
         }
 
+        // !!!
+        // TODO: move this to a factory
+        // !!!
+        switch($bannedPlayerType) {
+            case 'MINECRAFT_UUID':
+                $bannedPlayer = $this->playerLookupService->getOrCreateByUuid($bannedPlayerId);
+                break;
+            default:
+                throw new ServerException('bad_player_identifier', 'Invalid player identifier type');
+        }
+        switch($staffPlayerType) {
+            case 'MINECRAFT_UUID':
+                $staffPlayer = $this->playerLookupService->getOrCreateByUuid($staffPlayerId);
+                break;
+            default:
+                throw new ServerException('bad_staff_identifier', 'Invalid staff identifier type');
+        }
 
-        $playerGameUser = $this->gameUserLookup->getOrCreateGameUser($playerIdType, $playerId);
-        $staffGameUser  = $this->gameUserLookup->getOrCreateGameUser($staffIdType, $staffId);
 
-        // get the alias id that will be used later for verifying
-        // if a connecting player is banned
-        $playerAliasId = null;
+        $bannedPlayerType   = MorphMapHelpers::getMorphKeyOf($aliasTypeMap[$bannedPlayerType]);
+        $staffPlayerType    = MorphMapHelpers::getMorphKeyOf($aliasTypeMap[$staffPlayerType]);
         
 
         $this->connection->beginTransaction();
         try {
             $ban = $this->banCreationService->storeBan(
                 $serverKey->server_id,
-                $playerGameUser->game_user_id,
-                $staffGameUser->game_user_id,
-                $playerAliasId,
-                $aliasAtBan,
+                $bannedPlayer->getKey(),
+                $bannedPlayerType,
+                $bannedAliasAtTime,
+                $staffPlayer->getKey(),
+                $staffPlayerType,
                 $reason,
                 $expiryTimestamp,
                 $isGlobalBan

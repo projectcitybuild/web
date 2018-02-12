@@ -91,16 +91,24 @@
 
                 <ul>
                     <li class="social-icon">
-                        <a href="https://www.facebook.com/ProjectCityBuild" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+                        <a target="_blank" rel="noopener" href="https://www.facebook.com/ProjectCityBuild">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
                     </li>
                     <li class="social-icon">
-                        <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+                        <a target="_blank" rel="noopener" href="https://www.instagram.com/projectcitybuild">
+                            <i class="fab fa-instagram"></i>
+                        </a>
                     </li>
                     <li class="social-icon">
-                        <a href="https://www.youtube.com/user/PCBMinecraft" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+                        <a target="_blank" rel="noopener" href="https://www.youtube.com/user/PCBMinecraft">
+                            <i class="fab fa-youtube"></i>
+                        </a>
                     </li>
                     <li class="social-icon">
-                        <a href="http://steamcommunity.com/groups/ProjectCityBuild" target="_blank" rel="noopener"><i class="fab fa-steam-symbol"></i></a>
+                        <a target="_blank" rel="noopener" href="http://steamcommunity.com/groups/ProjectCityBuild">
+                            <i class="fab fa-steam-symbol"></i>
+                        </a>
                     </li>
                     <li><a href="#">Login</a></li>
                 </ul>

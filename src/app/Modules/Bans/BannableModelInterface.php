@@ -12,4 +12,11 @@ interface BannableModelInterface {
      * @return string
      */
     public function getBanIdentifier() : string;
+
+    /**
+     * Returns the human-readable, display name
+     *
+     * @return string
+     */
+    public function getBanReadableName() : string;
 }

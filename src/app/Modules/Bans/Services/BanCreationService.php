@@ -53,16 +53,17 @@ class BanCreationService {
      */
     public function storeBan(
         int $serverId,
-        int $playerGameUserId,
-        int $playerAliasId,
-        int $staffGameUserId, 
-        string $aliasAtBan,
+        int $bannedPlayerId,
+        string $bannedPlayerType,
+        string $bannedAliasAtTime,
+        int $staffPlayerId, 
+        string $staffPlayerType,
         ?string $reason = null, 
         ?int $expiryTimestamp = null,
         bool $isGlobalBan = false
     ) : GameBan {
 
-        $existingBan = $this->banRepository->getActiveBanByGameUserId($playerGameUserId, $serverId);
+        $existingBan = $this->banRepository->getActiveBanByGameUserId($bannedPlayerId, $bannedPlayerType, $serverId);
         if(isset($existingBan)) {
             // a player should only ever have one active ban, so prevent creating
             // the same local ban twice
@@ -78,10 +79,11 @@ class BanCreationService {
 
         return $this->banRepository->store(
             $serverId,
-            $playerGameUserId,
-            $playerAliasId,
-            $staffGameUserId,
-            $aliasAtBan,
+            $bannedPlayerId,
+            $bannedPlayerType,
+            $bannedAliasAtTime,
+            $staffPlayerId,
+            $staffPlayerType,
             $reason,
             true,
             $isGlobalBan,

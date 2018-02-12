@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Routes\Http\Controllers;
+namespace App\Routes\Http\Web\Controllers;
 
 use Illuminate\Support\Facades\View;
 use App\Modules\Forums\Services\Retrieve\ForumRetrieveInterface;
