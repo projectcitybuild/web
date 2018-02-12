@@ -7,6 +7,7 @@ use App\Modules\Bans\Exceptions\UserAlreadyBannedException;
 use App\Modules\Bans\Exceptions\UserNotBannedException;
 use App\Modules\Bans\Repositories\GameBanRepository;
 use App\Modules\Bans\Repositories\GameUnbanRepository;
+use Illuminate\Database\Connection;
 
 class BanCreationService {
 
@@ -28,10 +29,12 @@ class BanCreationService {
 
     public function __construct(
         GameBanRepository $banRepository, 
-        GameUnbanRepository $unbanRepository
+        GameUnbanRepository $unbanRepository,
+        Connection $connection
     ) {
         $this->banRepository = $banRepository;
         $this->unbanRepository = $unbanRepository;
+        $this->connection = $connection;
     }
     
     /**
@@ -102,18 +105,30 @@ class BanCreationService {
      * 
      * @return GameUnban
      */
-    public function storeUnban(int $serverId, int $playerGameUserId, int $staffGameUserId) : GameUnban {
-        $existingBan = $this->banRepository->getActiveBanByGameUserId($playerGameUserId, $serverId);
-        
+    public function storeUnban(
+        int $serverId,
+        int $staffPlayerId,
+        string $staffPlayerType,
+        GameBan $existingBan
+    ) : GameUnban {
+
         // can't unban a player who isn't banned
         if(is_null($existingBan)) {
             throw new UserNotBannedException('player_not_banned', 'This player is not currently banned');
         }
 
-        $this->banRepository->deactivateBan($existingBan->game_ban_id);
-        $unban = $this->unbanRepository->store($existingBan->game_ban_id, $staffGameUserId);
+        $this->connection->beginTransaction();
+        try {
+            $this->banRepository->deactivateBan($existingBan->game_ban_id);
+            $unban = $this->unbanRepository->store($existingBan->game_ban_id, $staffPlayerId, $staffPlayerType);
+            
+            $this->connection->commit();
+            return $unban;
 
-        return $unban;
+        } catch(\Exception $e) {
+            $this->connection->rollBack();
+            throw $e;
+        }
     }
 
 }

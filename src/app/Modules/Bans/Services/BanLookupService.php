@@ -4,6 +4,8 @@ namespace App\Modules\Bans\Services;
 use App\Modules\Bans\Exceptions\UserAlreadyBannedException;
 use App\Modules\Bans\Exceptions\UserNotBannedException;
 use App\Modules\Bans\Repositories\GameBanRepository;
+use App\Modules\ServerKeys\Models\ServerKey;
+use App\Modules\Bans\Models\GameBan;
 
 class BanLookupService {
 
@@ -25,9 +27,8 @@ class BanLookupService {
      * @param int $playerGameUserId
      * @return GameBan|null
      */
-    public function getActivePlayerBan(int $playerGameUserId) : ?GameBan {
-        $existingBan = $this->banRepository->getActiveBanByGameUserId($playerGameUserId, $serverKey->server_id);
-
+    public function getActivePlayerBan(int $bannedPlayerId, string $bannedPlayerType, ServerKey $serverKey) : ?GameBan {
+        $existingBan = $this->banRepository->getActiveBanByGameUserId($bannedPlayerId, $bannedPlayerType, $serverKey->server_id);
         return $existingBan;
     }
 

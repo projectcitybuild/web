@@ -23,6 +23,7 @@ use App\Modules\Players\Models\MinecraftPlayer;
 use App\Shared\Helpers\MorphMapHelpers;
 use App\Modules\Players\Services\MinecraftPlayerLookupService;
 use App\Shared\Exceptions\ServerException;
+use App\Modules\Bans\Services\BanLookupService;
 
 class BanController extends ApiController {
     
@@ -37,6 +38,11 @@ class BanController extends ApiController {
     private $banCreationService;
 
     /**
+     * @var BanLookupService
+     */
+    private $banLookupService;
+
+    /**
      * @var BanAuthorisationService
      */
     private $banAuthService;
@@ -47,12 +53,12 @@ class BanController extends ApiController {
     private $banLoggerService;
 
     /**
-     * @var Illuminate\Database\Connection
+     * @var Connection
      */
     private $connection;
 
     /**
-     * @var Illuminate\Validation\Factory
+     * @var Validator
      */
     private $validationFactory;
 
@@ -60,6 +66,7 @@ class BanController extends ApiController {
     public function __construct(
         MinecraftPlayerLookupService $playerLookupService,
         BanCreationService $banCreationService,
+        BanLookupService $banLookupService,
         BanAuthorisationService $banAuthService,
         BanLoggerService $banLoggerService,
         Connection $connection,
@@ -67,6 +74,7 @@ class BanController extends ApiController {
     ) {
         $this->playerLookupService  = $playerLookupService;
         $this->banCreationService   = $banCreationService;
+        $this->banLookupService     = $banLookupService;
         $this->banAuthService       = $banAuthService;
         $this->banLoggerService     = $banLoggerService;
         $this->connection           = $connection;
@@ -193,44 +201,82 @@ class BanController extends ApiController {
      * @return void
      */
     public function storeUnban(Request $request) {
+        $aliasTypeMap = [
+            'MINECRAFT_UUID' => MinecraftPlayer::class,
+        ];
+        $aliasTypeWhitelist = implode(',', array_keys($aliasTypeMap));
+
         $validator = $this->validationFactory->make($request->all(), [
-            'player_id_type'    => 'required',
+            'player_id_type'    => 'required|in:'.$aliasTypeWhitelist,
             'player_id'         => 'required',
-            'banner_id_type'    => 'required',
+            'banner_id_type'    => 'required|in:'.$aliasTypeWhitelist,
             'banner_id'         => 'required',
-        ])->validate();
+        ], [
+            'in' => 'Invalid :attribute given. Must be ['.$aliasTypeWhitelist.']',
+        ]);
+
+        if($validator->fails()) {
+            throw new BadRequestException('bad_input', $validator->errors()->first());
+        }
+
 
         $serverKey          = $request->get('key');
-        $playerIdType       = $request->get('player_id_type');
-        $playerId           = $request->get('player_id');
-        $staffIdType        = $request->get('banner_id_type');
-        $staffId            = $request->get('banner_id');
+        $bannedPlayerType   = $request->get('player_id_type');
+        $bannedPlayerId     = $request->get('player_id');
+        $staffPlayerType    = $request->get('banner_id_type');
+        $staffPlayerId      = $request->get('banner_id');
 
+        // !!!
+        // TODO: move this to a factory
+        // !!!
+        switch($bannedPlayerType) {
+            case 'MINECRAFT_UUID':
+                $bannedPlayer = $this->playerLookupService->getOrCreateByUuid($bannedPlayerId);
+                break;
+            default:
+                throw new ServerException('bad_player_identifier', 'Invalid player identifier type');
+        }
+        switch($staffPlayerType) {
+            case 'MINECRAFT_UUID':
+                $staffPlayer = $this->playerLookupService->getOrCreateByUuid($staffPlayerId);
+                break;
+            default:
+                throw new ServerException('bad_staff_identifier', 'Invalid staff identifier type');
+        }
+
+        $bannedPlayerType   = MorphMapHelpers::getMorphKeyOf($aliasTypeMap[$bannedPlayerType]);
+        $staffPlayerType    = MorphMapHelpers::getMorphKeyOf($aliasTypeMap[$staffPlayerType]);
         
-        $playerGameUserId = $this->gameUserLookup->getOrCreateGameUser($playerIdType, $playerId)->game_user_id;
-        $staffGameUserId  = $this->gameUserLookup->getOrCreateGameUser($staffIdType, $staffId)->game_user_id;
+        $activeBan = $this->banLookupService->getActivePlayerBan($bannedPlayer->getKey(), $bannedPlayerType, $serverKey);
+
+        if(!$this->banAuthService->isAllowedToUnban($activeBan, $serverKey)) {
+            if($activeBan->is_global_ban) {
+                throw new UnauthorisedKeyActionException(
+                    'no_global_ban_permission', 
+                    'This server key does not have permission to remove global bans'
+                );
+            } else {
+                throw new UnauthorisedKeyActionException(
+                    'no_local_ban_permission',
+                    'this server key does not have permission to remove local bans'
+                );
+            }
+        }
 
         $this->connection->beginTransaction();
         try {
-            // !!!
-            // TODO: unban authorisation
-            // !!!
+            $unban = $this->banCreationService->storeUnban(
+                $serverKey->server_id,
+                $staffPlayer->getKey(),
+                $staffPlayerType,
+                $activeBan
+            );
 
-            // if(!$this->banAuthService->isAllowedToUnban($ban, $serverKey)) {
-            //     if($ban->is_global_ban) {
-            //         throw new UnauthorisedKeyActionException('This server key does not have permission to remove global bans');
-            //     } else {
-            //         throw new UnauthorisedKeyActionException('this server key does not have permission to remove local bans');
-            //     }
-            // }
-
-            $unban = $this->banCreationService->storeUnban($serverKey, $playerGameUserId, $staffGameUserId);
-
-            // $this->banLoggerService->logUnbanCreation(
-            //     $ban, 
-            //     $serverKey->server_key_id, 
-            //     $request->ip()
-            // );
+            $this->banLoggerService->logUnbanCreation(
+                $activeBan->getKey(),
+                $serverKey->server_key_id, 
+                $request->ip()
+            );
 
             $serverKey->touch();
 
@@ -292,49 +338,4 @@ class BanController extends ApiController {
         
     }
 
-
-    public function getBanList(Request $request, GameBanRepository $banRepository, ServerRepository $serverRepository, UserAliasRepository $aliasRepository) {
-        $page   = $request->input('page', 1);
-        $take   = $request->input('take', 50);
-        $offset = $request->input('offset', ($page - 1) * $take);
-
-        $sort = [
-            'field' => $request->input('sort_field', 'created_at'),
-            'order' => $request->input('sort_direction', 'DESC'),
-        ];
-
-        $filter = [];
-        if($playerAliasFilter = $request->input('player_alias_at_ban')) {
-            $filter['player_alias_at_ban'] = $playerAliasFilter;
-        }
-        if($bannedAliasFilter = $request->input('banned_alias')) {
-            $filter['banned_alias'] = $bannedAliasFilter;
-        }
-        
-
-        $bans = $banRepository->getBans($take, $offset, $sort, $filter);
-        $banCount = $banRepository->getBanCount();
-
-        // normalize servers and users
-        $serverIds = $bans->pluck('server_id')->unique()->toArray();
-        $servers = $serverRepository->getServersByIds($serverIds);
-
-        $bannedAliasIds = $bans->pluck('banned_alias_id')->unique()->toArray();
-        $aliases = $aliasRepository->getAliasesByIds($bannedAliasIds);
-
-        
-        return response()->json([
-            'status_code' => 200,
-            'data' => BanResource::collection($bans),
-            'relations' => [
-                'servers' => ServerResource::collection($servers->keyBy('server_id')),
-                'aliases' => UserAliasResource::collection($aliases->keyBy('user_alias_id')),
-            ],
-            'meta' => [
-                'count' => $banCount,
-                'start' => $offset,
-                'end'   => min($offset + $take, $banCount),
-            ],
-        ]);
-    }
 }
