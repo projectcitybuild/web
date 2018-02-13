@@ -4,7 +4,7 @@
         <h3 class="donate-panel__heading">Help Keep Us Online</h3>
         <div class="progress progress--accent">
             <div class="progress__bar">
-                <div class="progress__bar__fill" style="width: {{ $donations['percentage'] ?: 3 }}%"></div>
+                <div class="progress__bar__fill" style="width: {{ $donations['percentage'] ?: 1 }}%"></div>
             </div>
             <ul class="progress__markers">
                 <li>0</li>

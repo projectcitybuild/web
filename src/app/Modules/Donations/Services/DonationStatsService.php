@@ -32,7 +32,7 @@ class DonationStatsService {
         return [
             'total'         => $annualSum ?: 0,
             'remainingDays' => $remainingDays,
-            'percentage'    => max(3, $percentage) ?: 0,
+            'percentage'    => max(1, $percentage) ?: 0,
         ];
     }
 
