@@ -11,6 +11,8 @@ use DB;
 use Cache;
 use Carbon\Carbon;
 use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangApiService;
+use App\Modules\Players\Models\MinecraftPlayer;
+use App\Modules\Players\Models\MinecraftPlayerAlias;
 
 class ImportCommand extends Command
 {
@@ -239,6 +241,7 @@ class ImportCommand extends Command
                     ->first();
 
             // check for a matching forum username
+            $uuid = null;
             if(is_null($matchingForumUser)) {
                 
                 // otherwise grab their uuid and try search by that
@@ -271,6 +274,31 @@ class ImportCommand extends Command
             if(is_null($matchingForumUser)) {
                 throw new \Exception('No forum account for ' . $username);                    
             }
+
+            // if no uuid was fetched, grab their uuid from mojang
+            if($uuid === null) {
+                $uuid = $uuidFetcher->getUuidOf($matchingForumUser->real_name);
+                if($uuid === null) {
+                    $uuid = $uuidFetcher->getOriginalOwnerUuidOf($matchingForumUser->real_name);
+                }
+            }
+            if($uuid === null) {
+                throw new \Exception('No UUID for ' . $matchingForumUser->real_name . ' ('.$username.')');
+            }
+
+            $existingPlayer = MinecraftPlayer::where('uuid', $uuid->getUuid())->first();
+            if($existingPlayer === null) {
+                $player = MinecraftPlayer::create([
+                    'uuid' => $uuid->getUuid(),
+                    'playtime' => 0,
+                    'last_seen_at' => Carbon::now(),
+                ]);
+                MinecraftPlayerAlias::create([
+                    'player_minecraft_id' => $player->player_minecraft_id,
+                    'alias' => $uuid->getAlias(),
+                ]);
+            }
+            
 
             Donation::create([
                 'forum_user_id' => $matchingForumUser->id_member,
