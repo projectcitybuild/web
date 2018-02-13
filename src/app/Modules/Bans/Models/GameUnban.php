@@ -6,36 +6,31 @@ use App\Shared\Model;
 
 class GameUnban extends Model {
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'game_network_unbans';
 
-    protected $primaryKey = 'game_ban_id';
+    protected $primaryKey = 'game_unban_id';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'game_ban_id',
-        'staff_game_user_id',
-        'created_at',
+        'staff_player_id',
+        'staff_player_type',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [];
+    protected $hidden = [
+
+    ];
 
     protected $dates = [
         'created_at',
+        'updated_at',
     ];
 
-    public $timestamps = false;
+    public function ban() {
+        return $this->hasOne('App\Modules\Bans\Models\GameBan', 'game_ban_id', 'game_ban_id');
+    }
+
+    public function staffPlayer() {
+        return $this->morphTo(null, 'staff_player_type', 'staff_player_id');
+    }
+
 }

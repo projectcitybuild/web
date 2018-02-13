@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Routes\Http\Controllers;
+namespace App\Routes\Http\Web\Controllers;
 
 use Illuminate\Http\Request;
 use App\Shared\Exceptions\UnauthorisedException;
@@ -20,8 +20,8 @@ class DeployController extends WebController {
 
         $commands = [
             'cd '.base_path().' && git pull 2>&1',
-            'cd '.base_path().'/../ && php artisan migrate',
-            'cd '.base_path().'/../ && compose install',
+            'cd '.base_path().'/src && php artisan migrate',
+            'cd '.base_path().'/src && compose install',
         ];
         
         foreach($commands as $command) {

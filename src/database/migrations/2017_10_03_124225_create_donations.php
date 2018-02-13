@@ -15,6 +15,7 @@ class CreateDonations extends Migration
     {
         Schema::create('donations', function (Blueprint $table) {
             $table->increments('donation_id')->unsigned();
+            $table->integer('account_id')->unsigned()->nullable();
             $table->integer('forum_user_id')->unsigned()->comment('ID of their forum account. To be replaced later when we switch to discord');
             $table->float('amount')->comment('Amount donated in dollars');
             $table->datetime('perks_end_at')->nullable()->comment('Expiry date of donator perks if not a lifetime threshold donation');
@@ -24,6 +25,7 @@ class CreateDonations extends Migration
             $table->timestamps();
 
             $table->index(['perks_end_at', 'amount']);
+            $table->foreign('account_id')->references('account_id')->on('accounts');
         });
     }
 

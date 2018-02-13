@@ -6,26 +6,17 @@ use App\Shared\Model;
 
 class GameBan extends Model {
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'game_network_bans';
 
     protected $primaryKey = 'game_ban_id';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'server_id',
-        'player_game_user_id',
-        'staff_game_user_id',
-        'banned_alias_id',
-        'player_alias_at_ban',
+        'banned_player_id',
+        'banned_player_type',
+        'banned_alias_at_time',
+        'staff_player_id',
+        'staff_player_type',
         'reason',
         'is_active',
         'is_global_ban',
@@ -34,12 +25,9 @@ class GameBan extends Model {
         'updated_at',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [];
+    protected $hidden = [
+
+    ];
 
     protected $dates = [
         'expires_at',
@@ -47,11 +35,16 @@ class GameBan extends Model {
         'updated_at',
     ];
 
-    public function gameUser() {
-        return $this->hasOne('App\Modules\Users\Models\GameUser', 'player_game_user_id', 'game_user_id');
+    public function bannedPlayer() {
+        return $this->morphTo(null, 'banned_player_type', 'banned_player_id');
     }
 
-    public function bannedAlias() {
-        return $this->hasOne('App\Modules\Users\Models\UserAlias', 'user_alias_id', 'banned_alias_id');
+    public function staffPlayer() {
+        return $this->morphTo(null, 'staff_player_type', 'staff_player_id');
     }
+
+    public function unban() {
+        return $this->belongsTo('App\Modules\Bans\Models\GameUnban', 'game_ban_id', 'game_ban_id');
+    }
+
 }

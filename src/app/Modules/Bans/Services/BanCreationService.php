@@ -7,6 +7,7 @@ use App\Modules\Bans\Exceptions\UserAlreadyBannedException;
 use App\Modules\Bans\Exceptions\UserNotBannedException;
 use App\Modules\Bans\Repositories\GameBanRepository;
 use App\Modules\Bans\Repositories\GameUnbanRepository;
+use Illuminate\Database\Connection;
 
 class BanCreationService {
 
@@ -28,10 +29,12 @@ class BanCreationService {
 
     public function __construct(
         GameBanRepository $banRepository, 
-        GameUnbanRepository $unbanRepository
+        GameUnbanRepository $unbanRepository,
+        Connection $connection
     ) {
         $this->banRepository = $banRepository;
         $this->unbanRepository = $unbanRepository;
+        $this->connection = $connection;
     }
     
     /**
@@ -53,16 +56,17 @@ class BanCreationService {
      */
     public function storeBan(
         int $serverId,
-        int $playerGameUserId,
-        int $playerAliasId,
-        int $staffGameUserId, 
-        string $aliasAtBan,
+        int $bannedPlayerId,
+        string $bannedPlayerType,
+        string $bannedAliasAtTime,
+        int $staffPlayerId, 
+        string $staffPlayerType,
         ?string $reason = null, 
         ?int $expiryTimestamp = null,
         bool $isGlobalBan = false
     ) : GameBan {
 
-        $existingBan = $this->banRepository->getActiveBanByGameUserId($playerGameUserId, $serverId);
+        $existingBan = $this->banRepository->getActiveBanByGameUserId($bannedPlayerId, $bannedPlayerType, $serverId);
         if(isset($existingBan)) {
             // a player should only ever have one active ban, so prevent creating
             // the same local ban twice
@@ -78,10 +82,11 @@ class BanCreationService {
 
         return $this->banRepository->store(
             $serverId,
-            $playerGameUserId,
-            $playerAliasId,
-            $staffGameUserId,
-            $aliasAtBan,
+            $bannedPlayerId,
+            $bannedPlayerType,
+            $bannedAliasAtTime,
+            $staffPlayerId,
+            $staffPlayerType,
             $reason,
             true,
             $isGlobalBan,
@@ -100,18 +105,25 @@ class BanCreationService {
      * 
      * @return GameUnban
      */
-    public function storeUnban(int $serverId, int $playerGameUserId, int $staffGameUserId) : GameUnban {
-        $existingBan = $this->banRepository->getActiveBanByGameUserId($playerGameUserId, $serverId);
-        
-        // can't unban a player who isn't banned
-        if(is_null($existingBan)) {
-            throw new UserNotBannedException('player_not_banned', 'This player is not currently banned');
+    public function storeUnban(
+        int $serverId,
+        int $staffPlayerId,
+        string $staffPlayerType,
+        GameBan $existingBan
+    ) : GameUnban {
+
+        $this->connection->beginTransaction();
+        try {
+            $this->banRepository->deactivateBan($existingBan->game_ban_id);
+            $unban = $this->unbanRepository->store($existingBan->game_ban_id, $staffPlayerId, $staffPlayerType);
+            
+            $this->connection->commit();
+            return $unban;
+
+        } catch(\Exception $e) {
+            $this->connection->rollBack();
+            throw $e;
         }
-
-        $this->banRepository->deactivateBan($existingBan->game_ban_id);
-        $unban = $this->unbanRepository->store($existingBan->game_ban_id, $staffGameUserId);
-
-        return $unban;
     }
 
 }
