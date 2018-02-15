@@ -13,6 +13,9 @@ use Carbon\Carbon;
 use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangApiService;
 use App\Modules\Players\Models\MinecraftPlayer;
 use App\Modules\Players\Models\MinecraftPlayerAlias;
+use App\Modules\Servers\Models\ServerStatus;
+use App\Modules\Servers\Models\ServerStatusPlayer;
+use App\Modules\Players\Services\MinecraftPlayerLookupService;
 
 class ImportCommand extends Command
 {
@@ -59,8 +62,10 @@ class ImportCommand extends Command
                 return $this->importBans();
             case 'donations':
                 return $this->importDonations();
+            case 'statuses':
+                return $this->importServerStatuses();
             default:
-                $this->error('Invalid import module name. Valid: [bans, donations]');
+                $this->error('Invalid import module name. Valid: [bans, donations, statuses]');
                 break;
         }
     }
@@ -315,5 +320,54 @@ class ImportCommand extends Command
             }
 
         $this->info('Import complete');
+    }
+
+    private function importServerStatuses() {
+        $this->info('[Donation data importer]');
+        $this->warn('Warning: No check for existence is made before importing donations! This should only be run once in production');
+
+        $lastStatusId = ServerStatus::orderBy('server_status_id', 'desc')->first();
+        $lastStatusId = $lastStatusId ? $lastStatusId->server_status_id : 0;
+
+        $uuidFetcher = resolve(MojangApiService::class);
+
+        $this->info('Fetching old records...');
+        $statuses = DB::connection('mysql_import_pcb_statuses')
+            ->table('pcb_server_statuses')
+            ->select('*')
+            ->where('id', '>', $lastStatusId)
+            ->chunk(100, function($statuses) {
+                $userLookupService = new MinecraftPlayerLookupService();
+
+                foreach($statuses as $status) {
+                    $newStatus = ServerStatus::create([
+                        'server_id'         => $status->server_id,
+                        'is_online'         => $status->is_online,
+                        'num_of_players'    => $status->current_players,
+                        'num_of_slots'      => $status->max_players,
+                        'created_at'        => $status->date,
+                        'updated_at'        => $status->date,
+                    ]);
+
+                    $players = explode(',', $status->players);
+                    foreach($players as $player) {
+                        // TODO: caching
+
+                        $uuid = $uuidFetcher->getUuidOf($player, $status->date->timestamp);
+                        if($uuid === null) {
+                            $uuid = $uuidFetcher->getOriginalOwnerUuidOf($player);
+                        }
+                        if($uuid === null) {
+                            throw new \Exception('Could not determine UUID for ' . $player);
+                        }
+
+                        ServerStatusPlayer::create([
+                            'server_status_id' => $newStatus->server_status_id,
+                            'player_type'      => 'minecraft_player',
+                            'player_id'        => $userLookupService->getOrCreateByUuid($uuid->getUuid()), 
+                        ]);
+                    }
+                }
+            });
     }
 }
