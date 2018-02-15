@@ -7,6 +7,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="google-site-verification" content="Sp9E55tVkNph_ttvggLD52MY-ACeGfeivQbmWp7CWfo">
         <meta name="description" content="@yield('description', config('meta.description'))">
+        <meta name="theme-color" content="#524641">
 
         <meta property="og:url"         content="https://www.projectcitybuild.com">
         <meta property="og:title"       content="@yield('title', 'Project City Build')">
