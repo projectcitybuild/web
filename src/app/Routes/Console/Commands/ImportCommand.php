@@ -21,6 +21,8 @@ use bandwidthThrottle\tokenBucket\Rate;
 use bandwidthThrottle\tokenBucket\TokenBucket;
 use bandwidthThrottle\tokenBucket\BlockingConsumer;
 use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayer;
+use GuzzleHttp\Exception\TooManyRedirectsException;
+use App\Shared\Exceptions\TooManyRequestsException;
 
 class ImportCommand extends Command
 {
@@ -342,11 +344,10 @@ class ImportCommand extends Command
 
         $this->info('Creating token bucket...');
         $storage    = new FileStorage(__DIR__ . '/mojang.bucket');
-        // $storage    = new FileStorage(storage_path('app/bucket/mojang.bucket'));
         $rate       = new Rate(1, Rate::SECOND); // 600 requests per 10 minutes = 1 p/second
-        $bucket     = new TokenBucket(600, $rate, $storage);
+        $bucket     = new TokenBucket(500, $rate, $storage);
         $consumer   = new BlockingConsumer($bucket);
-        $bucket->bootstrap(600);
+        $bucket->bootstrap(500);
 
         $userLookupService = resolve(MinecraftPlayerLookupService::class);
 
@@ -358,7 +359,6 @@ class ImportCommand extends Command
             ->table('pcb_server_status')
             ->select('*')
             ->where('id', '>', $lastStatusId)
-            ->take(300) // TODO: DELETE THIS ##########################
             ->orderBy('id', 'asc')
             ->chunk(100, function($statuses) use($userLookupService, $uuidFetcher, $consumer, &$uuidCache, &$playerCache) {
                 foreach($statuses as $status) {
@@ -393,36 +393,63 @@ class ImportCommand extends Command
                             }
     
                             if($uuid === null) {
-                                $consumer->consume(1);
-                                $timestamp = (new Carbon($status->date))->timestamp;
-                                $uuid = $uuidFetcher->getUuidOf($player, $timestamp);
-                                if($uuid) {
-                                    $uuidCache[$player] = $uuid;
-                                    $isUuidCacheDirty = true;
-                                    // $this->info('Storing uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
+                                $hasResponse = false;
+                                while(!$hasResponse) {
+                                    try {
+                                        $consumer->consume(1);
+                                        $timestamp = (new Carbon($status->date))->timestamp;
+                                        $uuid = $uuidFetcher->getUuidOf($player, $timestamp);
+                                        if($uuid) {
+                                            $uuidCache[$player] = $uuid;
+                                            $isUuidCacheDirty = true;
+                                            // $this->info('Storing uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
+                                        }
+                                        $hasResponse = true;
+                                    } catch(TooManyRequestsException $e) {
+                                        $this->info('Too many requests - resuming in 5 seconds...');
+                                        sleep(5);
+                                    }
                                 }
                             }
                             if($uuid === null) {
-                                $consumer->consume(1);
-                                $uuid = $uuidFetcher->getOriginalOwnerUuidOf($player);
-                                if($uuid) {
-                                    $uuidCache[$player] = $uuid;
-                                    $isUuidCacheDirty = true;
-                                    // $this->info('Storing uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
+                                $hasResponse = false;
+                                while(!$hasResponse) {
+                                    try {
+                                        $consumer->consume(1);
+                                        $uuid = $uuidFetcher->getOriginalOwnerUuidOf($player);
+                                        if($uuid) {
+                                            $uuidCache[$player] = $uuid;
+                                            $isUuidCacheDirty = true;
+                                            // $this->info('Storing uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
+                                        }
+                                        $hasResponse = true;
+                                    } catch(TooManyRequestsException $e) {
+                                        $this->info('Too many requests - resuming in 5 seconds...');
+                                        sleep(5);
+                                    }
                                 }
                             }
                             if($uuid === null) {
-                                $consumer->consume(1);
-                                $uuid = $uuidFetcher->getUuidOf($player);
-                                if($uuid) {
-                                    $uuidCache[$player] = $uuid;
-                                    $isUuidCacheDirty = true;
-                                    // $this->info('Storing uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
+                                $hasResponse = false;
+                                while(!$hasResponse) {
+                                    try {
+                                        $consumer->consume(1);
+                                        $uuid = $uuidFetcher->getUuidOf($player);
+                                        if($uuid) {
+                                            $uuidCache[$player] = $uuid;
+                                            $isUuidCacheDirty = true;
+                                            // $this->info('Storing uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
+                                        }
+                                        $hasResponse = true;
+                                    } catch(TooManyRequestsException $e) {
+                                        $this->info('Too many requests - resuming in 5 seconds...');
+                                        sleep(5);
+                                    }
                                 }
                             }
-                            if($uuid === null) {
-                                throw new \Exception('Could not determine UUID for ' . $player);
-                            }
+                            // if($uuid === null) {
+                            //     throw new \Exception('Could not determine UUID for ' . $player);
+                            // }
     
                             if(array_key_exists($uuid->getUuid(), $playerCache)) {
                                 $playerId = $playerCache[$uuid->getUuid()];
@@ -439,7 +466,7 @@ class ImportCommand extends Command
 
                             // $this->info('Created Minecraft Player record id='.$minecraftPlayer->getKey());
                             if($isUuidCacheDirty) {
-                                Cache::put('importer_uuid_cache', $uuidCache, 600);
+                                Cache::put('importer_uuid_cache', $uuidCache, 10080);
                             }
                         }
 
