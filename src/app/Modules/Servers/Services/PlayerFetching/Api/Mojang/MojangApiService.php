@@ -60,7 +60,7 @@ class MojangApiService {
      * @param $name
      * @return MojangPlayer
      */
-    public function getOriginalOwnerUuidOf(string $name) : MojangPlayer {
+    public function getOriginalOwnerUuidOf(string $name) : ?MojangPlayer {
         return $this->getUuidOf($name, 0);
     }
 
