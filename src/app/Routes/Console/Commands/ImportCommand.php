@@ -351,6 +351,8 @@ class ImportCommand extends Command
         $userLookupService = resolve(MinecraftPlayerLookupService::class);
 
 
+        $playerCache = [];
+
         $this->info('Fetching old records...');
         $statuses = DB::connection('mysql_import_pcb_statuses')
             ->table('pcb_server_status')
@@ -358,8 +360,10 @@ class ImportCommand extends Command
             ->where('id', '>', $lastStatusId)
             ->take(300) // TODO: DELETE THIS ##########################
             ->orderBy('id', 'asc')
-            ->chunk(100, function($statuses) use($userLookupService, $uuidFetcher, $consumer, &$uuidCache) {
+            ->chunk(100, function($statuses) use($userLookupService, $uuidFetcher, $consumer, &$uuidCache, &$playerCache) {
                 foreach($statuses as $status) {
+
+                    $isUuidCacheDirty = false;
                     
                     $this->info('Beginning import of status id='.$status->id);
                     DB::beginTransaction();
@@ -375,13 +379,17 @@ class ImportCommand extends Command
     
                         $players = explode(',', $status->players);
                         foreach($players as $player) {
+                            if(empty($player)) {
+                                continue;
+                            }
+
                             // use cache where possible
                             $uuid = null;
                             if(array_key_exists($player, $uuidCache)) {
                                 $uuid = $uuidCache[$player];
-                                if($uuid) {
-                                    $this->info('Using cache: uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
-                                }
+                                // if($uuid) {
+                                    // $this->info('Using cache: uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
+                                // }
                             }
     
                             if($uuid === null) {
@@ -390,7 +398,8 @@ class ImportCommand extends Command
                                 $uuid = $uuidFetcher->getUuidOf($player, $timestamp);
                                 if($uuid) {
                                     $uuidCache[$player] = $uuid;
-                                    $this->info('Storing uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
+                                    $isUuidCacheDirty = true;
+                                    // $this->info('Storing uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
                                 }
                             }
                             if($uuid === null) {
@@ -398,7 +407,8 @@ class ImportCommand extends Command
                                 $uuid = $uuidFetcher->getOriginalOwnerUuidOf($player);
                                 if($uuid) {
                                     $uuidCache[$player] = $uuid;
-                                    $this->info('Storing uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
+                                    $isUuidCacheDirty = true;
+                                    // $this->info('Storing uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
                                 }
                             }
                             if($uuid === null) {
@@ -406,14 +416,20 @@ class ImportCommand extends Command
                                 $uuid = $uuidFetcher->getUuidOf($player);
                                 if($uuid) {
                                     $uuidCache[$player] = $uuid;
-                                    $this->info('Storing uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
+                                    $isUuidCacheDirty = true;
+                                    // $this->info('Storing uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
                                 }
                             }
                             if($uuid === null) {
                                 throw new \Exception('Could not determine UUID for ' . $player);
                             }
     
-                            $playerId = $userLookupService->getOrCreateByUuid($uuid->getUuid(), $uuid->getAlias());
+                            if(array_key_exists($uuid->getUuid(), $playerCache)) {
+                                $playerId = $playerCache[$uuid->getUuid()];
+                            } else {
+                                $playerId = $userLookupService->getOrCreateByUuid($uuid->getUuid(), $uuid->getAlias());
+                                $playerCache[$uuid->getUuid()] = $playerId;
+                            }
 
                             $minecraftPlayer = ServerStatusPlayer::create([
                                 'server_status_id' => $newStatus->server_status_id,
@@ -421,18 +437,17 @@ class ImportCommand extends Command
                                 'player_id'        => $playerId->getKey(), 
                             ]);
 
-                            $this->info('Created Minecraft Player record id='.$minecraftPlayer->getKey());
-    
-                            Cache::put('importer_uuid_cache', $uuidCache, 600);
+                            // $this->info('Created Minecraft Player record id='.$minecraftPlayer->getKey());
+                            if($isUuidCacheDirty) {
+                                Cache::put('importer_uuid_cache', $uuidCache, 600);
+                            }
                         }
 
                         DB::commit();
                     
                     } catch(\Exception $e) {
                         DB::rollBack();
-
                         $this->error('Failed on id='.$status->id.' date='.$status->date);
-
                         throw $e;
                     }
                     
