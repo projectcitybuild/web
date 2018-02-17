@@ -447,9 +447,10 @@ class ImportCommand extends Command
                                     }
                                 }
                             }
-                            // if($uuid === null) {
-                            //     throw new \Exception('Could not determine UUID for ' . $player);
-                            // }
+                            if($uuid === null) {
+                                continue;
+                                //     throw new \Exception('Could not determine UUID for ' . $player);
+                            }
     
                             if(array_key_exists($uuid->getUuid(), $playerCache)) {
                                 $playerId = $playerCache[$uuid->getUuid()];
