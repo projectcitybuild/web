@@ -5,6 +5,8 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayer;
 use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayerNameHistory;
+use App\Shared\Exceptions\TooManyRequestsException;
+use GuzzleHttp\Exception\ClientException;
 
 class MojangApiService {
 
@@ -20,28 +22,34 @@ class MojangApiService {
      *
      * If no time given, uses the current time.
      *
-     * @param $name
-     * @param null $time
+     * @param string $name
+     * @param int|null $time
+     * 
      * @return MojangPlayer
+     * @throws TooManyRequestsException
      */
-    public function getUuidOf(string $name, $time = null) : ?MojangPlayer {
+    public function getUuidOf(string $name, ?int $time = null) : ?MojangPlayer {
         if(is_null($time)) {
             $time = time();
         }
         
-        $response = $this->client->request('GET', 'https://api.mojang.com/users/profiles/minecraft/' . $name, [
-            'query' => [
-                'at' => $time,
-            ],
-        ]);
+        $response = null;
+        try {
+            $response = $this->client->request('GET', 'https://api.mojang.com/users/profiles/minecraft/' . $name, [
+                'query' => [
+                    'at' => $time,
+                ],
+            ]);
+        } catch(ClientException $e) {
+            if($e->getCode() === 429) {
+                throw new TooManyRequestsException('rate_limited', 'Too many requests sent to the Mojang API');
+            }
+            throw $e;
+        }
 
         // if no player exists, return null
         if($response->getStatusCode() === 204) {
             return null;
-        }
-
-        if($response->getStatusCode() !== 200) {
-            throw new \Exception('Bad Mojang api response: ' . $response->getStatusCode() . ' error');
         }
 
         $body = json_decode($response->getBody());
@@ -58,9 +66,11 @@ class MojangApiService {
      * the given name, regardless of who currently owns it now.
      *
      * @param $name
+     * 
      * @return MojangPlayer
+     * @throws TooManyRequestsException
      */
-    public function getOriginalOwnerUuidOf(string $name) : MojangPlayer {
+    public function getOriginalOwnerUuidOf(string $name) : ?MojangPlayer {
         return $this->getUuidOf($name, 0);
     }
 
@@ -71,7 +81,9 @@ class MojangApiService {
      * The API only allows a max of 100 names per lookup.
      *
      * @param array $names
+     * 
      * @return array
+     * @throws TooManyRequestsException
      * @throws \Exception
      */
     public function getUuidBatchOf(array $names) : ?array {
@@ -87,12 +99,16 @@ class MojangApiService {
             }
         }
 
-        $response = $this->client->request('POST', 'https://api.mojang.com/profiles/minecraft', [
-            'json' => $names,
-        ]);
-
-        if($response->getStatusCode() !== 200) {
-            throw new \Exception('Bad Mojang api response: ' . $response->getStatusCode() . ' error');
+        $response = null;
+        try {
+            $response = $this->client->request('POST', 'https://api.mojang.com/profiles/minecraft', [
+                'json' => $names,
+            ]);
+        } catch(ClientException $e) {
+            if($e->getCode() === 429) {
+                throw new TooManyRequestsException('rate_limited', 'Too many requests sent to the Mojang API');
+            }
+            throw $e;
         }
 
         $data = json_decode($response->getBody());
@@ -122,18 +138,24 @@ class MojangApiService {
      * The UUID must be given without hyphens.
      *
      * @param $uuid
+     * 
      * @return array|null
+     * @throws TooManyRequestsException
      */
     public function getNameHistoryOf($uuid) : ?MojangPlayerNameHistory {
-        $response = $this->client->request('GET', 'https://api.mojang.com/user/profiles/' . $uuid . '/names');
+        $response = null;
+        try {
+            $response = $this->client->request('GET', 'https://api.mojang.com/user/profiles/' . $uuid . '/names');
+        } catch(ClientException $e) {
+            if($e->getCode() === 429) {
+                throw new TooManyRequestsException('rate_limited', 'Too many requests sent to the Mojang API');
+            }
+            throw $e;
+        }
 
         // if no player exists, return null
         if($response->getStatusCode() === 204) {
             return null;
-        }
-        
-        if($response->getStatusCode() !== 200) {
-            throw new \Exception('Bad Mojang api response: ' . $response->getStatusCode() . ' error');
         }
 
         return new MojangPlayerNameHistory(
@@ -148,7 +170,9 @@ class MojangApiService {
      * Performs two lookups as the original API can only be queried using an UUID.
      *
      * @param $name
+     * 
      * @return array|null
+     * @throws TooManyRequestsException
      */
     public function getNameHistoryByNameOf($name) : ?MojangPlayerNameHistory {
         $player = $this->getUuidOf($name);

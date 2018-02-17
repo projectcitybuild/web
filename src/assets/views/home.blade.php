@@ -1,5 +1,7 @@
 @extends('layouts.sidebar-layout')
 
+@section('title', 'Project City Build - Creative Gaming Community')
+
 @section('left')
 
     @if(isset($announcements))

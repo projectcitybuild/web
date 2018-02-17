@@ -13,6 +13,16 @@ use Carbon\Carbon;
 use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangApiService;
 use App\Modules\Players\Models\MinecraftPlayer;
 use App\Modules\Players\Models\MinecraftPlayerAlias;
+use App\Modules\Servers\Models\ServerStatus;
+use App\Modules\Servers\Models\ServerStatusPlayer;
+use App\Modules\Players\Services\MinecraftPlayerLookupService;
+use bandwidthThrottle\tokenBucket\storage\FileStorage;
+use bandwidthThrottle\tokenBucket\Rate;
+use bandwidthThrottle\tokenBucket\TokenBucket;
+use bandwidthThrottle\tokenBucket\BlockingConsumer;
+use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayer;
+use GuzzleHttp\Exception\TooManyRedirectsException;
+use App\Shared\Exceptions\TooManyRequestsException;
 
 class ImportCommand extends Command
 {
@@ -59,8 +69,10 @@ class ImportCommand extends Command
                 return $this->importBans();
             case 'donations':
                 return $this->importDonations();
+            case 'statuses':
+                return $this->importServerStatuses();
             default:
-                $this->error('Invalid import module name. Valid: [bans, donations]');
+                $this->error('Invalid import module name. Valid: [bans, donations, statuses]');
                 break;
         }
     }
@@ -315,5 +327,161 @@ class ImportCommand extends Command
             }
 
         $this->info('Import complete');
+    }
+
+    private function importServerStatuses() {
+        $this->info('[Server status data importer]');
+        $this->warn('Warning: No check for existence is made before importing server statuses! This should only be run once in production');
+
+        $this->info('Loading cache');
+        $uuidCache = Cache::get('importer_uuid_cache', []);
+
+
+        $lastStatusId = ServerStatus::orderBy('server_status_id', 'desc')->first();
+        $lastStatusId = $lastStatusId ? $lastStatusId->server_status_id : 0;
+
+        $uuidFetcher = resolve(MojangApiService::class);
+
+        $this->info('Creating token bucket...');
+        $storage    = new FileStorage(__DIR__ . '/mojang.bucket');
+        $rate       = new Rate(1, Rate::SECOND); // 600 requests per 10 minutes = 1 p/second
+        $bucket     = new TokenBucket(500, $rate, $storage);
+        $consumer   = new BlockingConsumer($bucket);
+        $bucket->bootstrap(500);
+
+        $userLookupService = resolve(MinecraftPlayerLookupService::class);
+
+
+        $playerCache = [];
+
+        $this->info('Fetching old records...');
+        $statuses = DB::connection('mysql_import_pcb_statuses')
+            ->table('pcb_server_status')
+            ->select('*')
+            ->where('id', '>', $lastStatusId)
+            ->orderBy('id', 'asc')
+            ->chunk(100, function($statuses) use($userLookupService, $uuidFetcher, $consumer, &$uuidCache, &$playerCache) {
+                foreach($statuses as $status) {
+
+                    $isUuidCacheDirty = false;
+                    
+                    $this->info('Beginning import of status id='.$status->id);
+                    DB::beginTransaction();
+                    try {
+                        $newStatus = ServerStatus::create([
+                            'server_id'         => $status->server_id,
+                            'is_online'         => $status->is_online,
+                            'num_of_players'    => $status->current_players,
+                            'num_of_slots'      => $status->max_players,
+                            'created_at'        => $status->date,
+                            'updated_at'        => $status->date,
+                        ]);
+    
+                        $players = explode(',', $status->players);
+                        foreach($players as $player) {
+                            if(empty($player)) {
+                                continue;
+                            }
+
+                            // use cache where possible
+                            $uuid = null;
+                            if(array_key_exists($player, $uuidCache)) {
+                                $uuid = $uuidCache[$player];
+                                // if($uuid) {
+                                    // $this->info('Using cache: uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
+                                // }
+                            }
+    
+                            if($uuid === null) {
+                                $hasResponse = false;
+                                while(!$hasResponse) {
+                                    try {
+                                        $consumer->consume(1);
+                                        $timestamp = (new Carbon($status->date))->timestamp;
+                                        $uuid = $uuidFetcher->getUuidOf($player, $timestamp);
+                                        if($uuid) {
+                                            $uuidCache[$player] = $uuid;
+                                            $isUuidCacheDirty = true;
+                                            // $this->info('Storing uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
+                                        }
+                                        $hasResponse = true;
+                                    } catch(TooManyRequestsException $e) {
+                                        $this->info('Too many requests - resuming in 5 seconds...');
+                                        sleep(5);
+                                    }
+                                }
+                            }
+                            if($uuid === null) {
+                                $hasResponse = false;
+                                while(!$hasResponse) {
+                                    try {
+                                        $consumer->consume(1);
+                                        $uuid = $uuidFetcher->getOriginalOwnerUuidOf($player);
+                                        if($uuid) {
+                                            $uuidCache[$player] = $uuid;
+                                            $isUuidCacheDirty = true;
+                                            // $this->info('Storing uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
+                                        }
+                                        $hasResponse = true;
+                                    } catch(TooManyRequestsException $e) {
+                                        $this->info('Too many requests - resuming in 5 seconds...');
+                                        sleep(5);
+                                    }
+                                }
+                            }
+                            if($uuid === null) {
+                                $hasResponse = false;
+                                while(!$hasResponse) {
+                                    try {
+                                        $consumer->consume(1);
+                                        $uuid = $uuidFetcher->getUuidOf($player);
+                                        if($uuid) {
+                                            $uuidCache[$player] = $uuid;
+                                            $isUuidCacheDirty = true;
+                                            // $this->info('Storing uuid='.$uuid->getUuid().' alias='.$uuid->getAlias());
+                                        }
+                                        $hasResponse = true;
+                                    } catch(TooManyRequestsException $e) {
+                                        $this->info('Too many requests - resuming in 5 seconds...');
+                                        sleep(5);
+                                    }
+                                }
+                            }
+                            if($uuid === null) {
+                                continue;
+                                //     throw new \Exception('Could not determine UUID for ' . $player);
+                            }
+    
+                            if(array_key_exists($uuid->getUuid(), $playerCache)) {
+                                $playerId = $playerCache[$uuid->getUuid()];
+                            } else {
+                                $playerId = $userLookupService->getOrCreateByUuid($uuid->getUuid(), $uuid->getAlias());
+                                $playerCache[$uuid->getUuid()] = $playerId;
+                            }
+
+                            $minecraftPlayer = ServerStatusPlayer::create([
+                                'server_status_id' => $newStatus->server_status_id,
+                                'player_type'      => 'minecraft_player',
+                                'player_id'        => $playerId->getKey(), 
+                            ]);
+
+                            // $this->info('Created Minecraft Player record id='.$minecraftPlayer->getKey());
+                            if($isUuidCacheDirty) {
+                                Cache::put('importer_uuid_cache', $uuidCache, 10080);
+                            }
+                        }
+
+                        DB::commit();
+                    
+                    } catch(\Exception $e) {
+                        DB::rollBack();
+                        $this->error('Failed on id='.$status->id.' date='.$status->date);
+                        throw $e;
+                    }
+                    
+
+                    $this->info('Imported id='.$status->id);
+                }
+            });
     }
 }
