@@ -34,7 +34,6 @@ class MojangUuidAdapter implements PlayerFetchAdapterInterface {
 
         $players = [];
         foreach($names as $nameChunk) {
-            // TODO: move this into a job
             $response = $this->mojangApi->getUuidBatchOf($nameChunk->toArray());
             $players = array_merge($players, $response);
         }

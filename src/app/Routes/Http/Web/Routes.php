@@ -21,7 +21,6 @@ Route::get('/', [
     'uses' => 'HomeController@getView',
     'as' => 'home',
 ]);
-Route::get('stylesheet', function() { return view('stylesheet'); });
 
 Route::view('bans', 'banlist')->name('banlist');
 

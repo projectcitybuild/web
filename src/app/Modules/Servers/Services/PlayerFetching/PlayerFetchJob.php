@@ -57,7 +57,7 @@ class PlayerFetchJob implements ShouldQueue
         $players     = $adapter->createPlayers($identifiers);
 
         foreach($players as $player) {
-            $playerType = get_class($player);
+            $playerType = $player->getMorphClass();
             $playerId = $player->getKey();
 
             $statusPlayerRepository->store(
