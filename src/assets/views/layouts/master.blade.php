@@ -6,17 +6,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="google-site-verification" content="Sp9E55tVkNph_ttvggLD52MY-ACeGfeivQbmWp7CWfo">
-        <meta name="description" content="@yield('description', config('meta.description'))">
+        <meta name="description" content="@yield('description')">
         <meta name="theme-color" content="#524641">
 
         <meta property="og:url"         content="https://www.projectcitybuild.com">
         <meta property="og:title"       content="@yield('title', 'Project City Build')">
-        <meta property="og:description" content="@yield('description', config('meta.description'))">
+        <meta property="og:description" content="@yield('description')">
         <meta property="og:site_name"   content="Project City Build">
         <meta property="og:type"        content="website">
         <meta property="og:locale"      content="en_US">
 
-        <meta name="twitter:card"       content="@yield('description', config('meta.description'))">
+        <meta name="twitter:card"       content="@yield('description')">
         <meta name="twitter:site"       content="@PCB_Minecraft">
 
 
