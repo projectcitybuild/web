@@ -1,7 +1,7 @@
 @extends('layouts.sidebar-layout')
 
 @section('title', 'Project City Build - Creative Gaming Community')
-@section('description', 'Project City Build (PCB) is a Minecraft community that's been active since 2010. There are multiple maps located ingame, with one for Survival, another for Creative as well as other projects getting dedicated maps, such as the signature Big City map. With over 14000 registrants, PCB has a bit of something for everyone.')
+@section('description', 'Medium size Minecraft community active since 2010. We host multiple servers and maps, including Survival, Creative, as well as maps dedicated to projects such as our signature Big City map. With over 14,000 registrants, PCB has a bit of something for everyone.')
 
 @section('left')
 
@@ -18,7 +18,7 @@
 
                     <div class="article__author">
                         Posted by
-                        <img src="https://minotar.net/helm/{{ $announcement->poster->real_name }}/16" width="16" />
+                        <img src="https://minotar.net/helm/{{ $announcement->poster->real_name }}/16" width="16" alt="{{ $announcement->poster->real_name }}" />
                         <a href="#">{{ $announcement->poster->real_name }}</a>
                     </div>
                 </div>

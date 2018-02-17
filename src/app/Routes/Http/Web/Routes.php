@@ -11,6 +11,12 @@
 |
 */
 
+// force all web routes to load from https
+if (env('APP_ENV') === 'production') {
+    URL::forceSchema('https');
+}
+
+
 Route::get('/', [
     'uses' => 'HomeController@getView',
     'as' => 'home',
