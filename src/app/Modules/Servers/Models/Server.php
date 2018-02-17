@@ -51,7 +51,9 @@ class Server extends Model {
     }
 
     public function status() {
-        return $this->belongsTo('App\Modules\Servers\Models\ServerStatus', 'server_id', 'server_id')->latest();
+        return $this->belongsTo('App\Modules\Servers\Models\ServerStatus', 'server_id', 'server_id')
+            ->take(1)
+            ->latest();
     }
     
 
