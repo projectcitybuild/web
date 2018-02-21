@@ -9,6 +9,10 @@
     justify-content: space-between;
     align-items: stretch;
 
+    @media screen and (max-width: $dimen-medium) {
+        flex-direction: column;
+    }
+
     &__right {
         flex: 1 1 50%;
         background: $colour-light;
@@ -17,6 +21,10 @@
         border-bottom: 3px solid darken($colour-light, 5%);
         border-top-right-radius: 5px;
         border-bottom-right-radius: 5px;
+
+        @media screen and (max-width: $dimen-medium) {
+            border-radius: 0 0 5px 5px;
+        }
     }
 
     &__left {
@@ -25,6 +33,10 @@
         border-bottom: 3px solid darken(#fff, 5%);
         border-top-left-radius: 5px;
         border-bottom-left-radius: 5px;
+
+        @media screen and (max-width: $dimen-medium) {
+            border-radius: 5px 5px 0 0;
+        }
 
         h1 {
             margin-bottom: 0.75em;

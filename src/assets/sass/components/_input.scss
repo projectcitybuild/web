@@ -21,8 +21,8 @@
         outline: none;
         border: 1px solid $colour-primary;
         color: $colour-primary;
-        box-shadow: 0 3px 10px 0 hsla(255, 12%, 13%, 0.1)
-                    inset 0 3px 0 0 hsla(255, 12%, 13%, 0.5);
+        box-shadow: 0 3px 10px 0 hsla(255, 12%, 13%, 0.1),
+                    inset 0 3px 0 0 hsla(255, 12%, 13%, 0.1);
         
     }
 }

@@ -941,8 +941,8 @@ button.button {
   outline: none;
   border: 1px solid #1887dc;
   color: #1887dc;
-  -webkit-box-shadow: 0 3px 10px 0 rgba(31, 29, 37, 0.1) inset 0 3px 0 0 rgba(31, 29, 37, 0.5);
-          box-shadow: 0 3px 10px 0 rgba(31, 29, 37, 0.1) inset 0 3px 0 0 rgba(31, 29, 37, 0.5);
+  -webkit-box-shadow: 0 3px 10px 0 rgba(31, 29, 37, 0.1), inset 0 3px 0 0 rgba(31, 29, 37, 0.1);
+          box-shadow: 0 3px 10px 0 rgba(31, 29, 37, 0.1), inset 0 3px 0 0 rgba(31, 29, 37, 0.1);
 }
 
 nav.pagination ul {
@@ -1993,6 +1993,15 @@ table.table tr.disabled {
           align-items: stretch;
 }
 
+@media screen and (max-width: 768px) {
+  .login {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
 .login__right {
   -webkit-box-flex: 1;
       -ms-flex: 1 1 50%;
@@ -2005,6 +2014,12 @@ table.table tr.disabled {
   border-bottom-right-radius: 5px;
 }
 
+@media screen and (max-width: 768px) {
+  .login__right {
+    border-radius: 0 0 5px 5px;
+  }
+}
+
 .login__left {
   -webkit-box-flex: 1;
       -ms-flex: 1 1 50%;
@@ -2013,6 +2028,12 @@ table.table tr.disabled {
   border-bottom: 3px solid #f2f2f2;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .login__left {
+    border-radius: 5px 5px 0 0;
+  }
 }
 
 .login__left h1 {
