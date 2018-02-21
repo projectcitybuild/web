@@ -18,8 +18,16 @@ if (env('APP_ENV') === 'production') {
 
 
 Route::get('/', [
+    'as' => 'front.home',
     'uses' => 'HomeController@getView',
-    'as' => 'home',
+]);
+Route::get('login', [
+    'as'    => 'front.login',
+    'uses'  => 'LoginController@showLoginView',
+]);
+Route::post('login', [
+    'as'    => 'front.login.submit',
+    'uses'  => 'LoginController@login',
 ]);
 
 Route::view('bans', 'banlist')->name('banlist');

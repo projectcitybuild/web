@@ -1,3 +1,6 @@
 .divider {
-    border-bottom: 1px solid $colour-light;
+    width: 100%;
+    height: 1px;
+    background: $colour-light;
+    margin: 1em 0;
 }

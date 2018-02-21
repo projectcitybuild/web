@@ -47,7 +47,7 @@
         <nav id="main-nav">
             <div class="container">
                 <ul>
-                    <li><a href="{{ route('home') }}">Home</a></li>
+                    <li><a href="{{ route('front.home') }}">Home</a></li>
                     <li><a href="http://projectcitybuild.com/forums/">Forums</a></li>
                     <li>
                         <a href="#" class="nav-dropdown">Servers <i class="fas fa-caret-down"></i></a>
@@ -111,7 +111,7 @@
                             <i class="fab fa-steam-symbol"></i>
                         </a>
                     </li>
-                    <li><a href="#">Login</a></li>
+                    <li><a href="{{ route('front.login') }}">Login</a></li>
                 </ul>
             </div>
         </nav>
