@@ -111,7 +111,7 @@
                             <i class="fab fa-steam-symbol"></i>
                         </a>
                     </li>
-                    <li><a href="#">Login</a></li>
+                    <li><a href="https://projectcitybuild.com/forums/index.php?action=login">Login</a></li>
                 </ul>
             </div>
         </nav>
