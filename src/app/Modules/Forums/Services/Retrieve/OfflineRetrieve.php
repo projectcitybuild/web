@@ -11,7 +11,7 @@ use \Illuminate\Support\Collection;
  * Implementation that returns fake data instead of hitting the repository.
  * For use with offline dev since only the live server will have the forum database credentials
  */
-class OfflineRetrieve implements ForumRetrieveInterface {
+class OfflineRetrieve {
 
     /**
      * @var Filesystem

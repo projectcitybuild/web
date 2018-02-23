@@ -30,12 +30,12 @@
     }
 
     &__logo {
-        margin-top: 0.5em;
-        margin-bottom: 2em;
+        margin: 0;
         max-width: 350px;
 
         @media screen and (max-width: $dimen-medium) {
             width: 100%;
+            margin-bottom: 2.5em;
         }
     }
 }
