@@ -5,6 +5,7 @@
 
 @section('left')
 
+    <div id="announcements"></div>
     @if(isset($announcements))
         @foreach($announcements as $announcement)
             <article class="article card">
