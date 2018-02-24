@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as Api from './api';
+import * as Moment from 'moment';
 
 interface InitialState {
     announcements: Array<Api.ApiTopic>,
@@ -12,12 +13,14 @@ export default class Component extends React.Component<{}, InitialState> {
 
     async componentDidMount() {
         const response = await Api.getAnnouncements();
-        if(!response) return;
+        if(!response) {
+            return;
+        }
 
         const announcements = response.topic_list.topics.slice(0, 3);
 
         this.setState({
-            announcements: response.topic_list.topics.slice(0, 3),
+            announcements: announcements,
         });
 
         if(
@@ -43,6 +46,14 @@ export default class Component extends React.Component<{}, InitialState> {
     }
 
     renderAnnouncement(announcement: Api.ApiTopic) : React.ReactNode {
+        // why do you do this to me, javascript...
+        const username = (
+            announcement.details && 
+            announcement.details.details && 
+            announcement.details.details.created_by &&
+            announcement.details.details.created_by.username
+        ) || "";
+
         const post: Api.ApiPost = 
             announcement.details &&
             announcement.details.post_stream &&
@@ -52,11 +63,13 @@ export default class Component extends React.Component<{}, InitialState> {
                     cooked: "", 
                 };
 
+        const date = Moment(announcement.created_at);
+
         return (
             <article className="article card" key={announcement.id}>
                 <div className="article__container">
                     <h2 className="article__heading">{ announcement.title }</h2>
-                    <div className="article__date">date</div>
+                    <div className="article__date">{ date.format('ddd, Do \of MMMM, YYYY') }</div>
 
                     <div className="article__body">
                         { post.cooked }
@@ -64,8 +77,8 @@ export default class Component extends React.Component<{}, InitialState> {
 
                     <div className="article__author">
                         Posted by
-                        <img src="https://minotar.net/helm/_andy/16" width="16" alt="someone" />
-                        <a href="#">{}</a>
+                        <img src={`https://minotar.net/helm/${username}/16`} width="16" alt={username} />
+                        <a href="#">{ username }</a>
                     </div>
                 </div>
                 <div className="article__footer">
@@ -80,7 +93,7 @@ export default class Component extends React.Component<{}, InitialState> {
                         </div>
                     </div>
                     <div className="actions">
-                        <a className="button button--accent button--large" href="#">
+                        <a className="button button--accent button--large" href={`http://forums.projectcitybuild.com/t/${announcement.slug}/${announcement.id}`}>
                             Read Post
                             <i className="fa fa-chevron-right"></i>
                         </a>

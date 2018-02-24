@@ -15,19 +15,21 @@ export interface ApiTopic {
     posts_count: number,
     views: number,
     created_at: string,
-    posters: Array<ApiTopicPoster>,
     details?: ApiTopicDetail,
 }
 
 interface ApiTopicPoster {
     id: number,
-    description: string,
+    username: string,
+    avatar_template: string,
 }
 
 export interface ApiTopicDetail {
     id: number,
     user_id: number,
-    username: string,
+    details: {
+        created_by: ApiTopicPoster,
+    },
     post_stream: {
         posts: Array<ApiPost>,
     },
