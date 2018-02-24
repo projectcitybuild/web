@@ -72,7 +72,19 @@ export default class Component extends React.Component<{}, InitialState> {
                     <div className="article__date">{ date.format('ddd, Do \of MMMM, YYYY') }</div>
 
                     <div className="article__body">
-                        { post.cooked }
+                        { 
+                            announcement.details
+                            ? post.cooked
+                            : (
+                                <div className="spinner">
+                                    <div className="rect1"></div>
+                                    <div className="rect2"></div>
+                                    <div className="rect3"></div>
+                                    <div className="rect4"></div>
+                                    <div className="rect5"></div>
+                                </div>
+                            )
+                        }
                     </div>
 
                     <div className="article__author">

@@ -370,7 +370,14 @@ class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__container" },
                 __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("h2", { className: "article__heading" }, announcement.title),
                 __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__date" }, date.format('ddd, Do \of MMMM, YYYY')),
-                __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__body" }, post.cooked),
+                __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__body" }, announcement.details
+                    ? post.cooked
+                    : (__WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "spinner" },
+                        __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "rect1" }),
+                        __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "rect2" }),
+                        __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "rect3" }),
+                        __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "rect4" }),
+                        __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "rect5" })))),
                 __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__author" },
                     "Posted by",
                     __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("img", { src: `https://minotar.net/helm/${username}/16`, width: "16", alt: username }),
