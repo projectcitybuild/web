@@ -5,9 +5,9 @@ const navigation = new Navigation();
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Announcement } from './react/components';
+import { AnnouncementManager } from './react/components';
 
 ReactDOM.render(
-    <Announcement />,
+    <AnnouncementManager />,
     document.getElementById('announcements')
 );

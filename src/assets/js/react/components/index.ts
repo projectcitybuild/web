@@ -1,1 +1,1 @@
-export { Announcement } from './Announcement';
+export { AnnouncementManager } from './Announcement';

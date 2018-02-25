@@ -70,6 +70,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items: center;
 
         .stats-container {
             color: #c1bebd;
@@ -79,7 +80,6 @@
         }
     }
 }
-
 
 // TODO: refactor this mess into the button component
 .sidebar-btn {

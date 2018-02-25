@@ -3,46 +3,24 @@ import * as Api from './api';
 import * as Moment from 'moment';
 
 interface InitialState {
-    announcements: Array<Api.ApiTopic>,
 };
 
-export default class Component extends React.Component<{}, InitialState> {
+interface Props {
+    announcement: Api.ApiTopic,
+    seed: number,
+}
+
+export default class Component extends React.Component<Props, InitialState> {
     state: InitialState = {
-        announcements: [],
-    };
+    }
 
-    async componentDidMount() {
-        const response = await Api.getAnnouncements();
-        if(!response) {
-            return;
-        }
+    getRandom(min: number, max: number, localSeed: number = this.props.seed) : number {
+        let x = Math.sin(localSeed) * 10000;
+        x = x - Math.floor(x);
 
-        const announcements = response.topic_list.topics.slice(0, 3);
+        x = (x * (max - min)) + min;
 
-        this.setState({
-            announcements: announcements,
-        });
-
-        if(
-            response.topic_list && 
-            response.topic_list.topics && 
-            response.topic_list.topics.length > 0
-        ) {
-            announcements.forEach(async topic => {
-                const post = await Api.getTopic(topic.id);
-                if(!post) return;
-
-                // state is immutable, so grab the state first, edit it,
-                // then re-set it
-                const storedTopics = this.state.announcements;
-                const storedTopicIndex = this.state.announcements.findIndex(t => t.id === topic.id);
-                storedTopics[storedTopicIndex].details = post;
-
-                this.setState({
-                    announcements: storedTopics,
-                });
-            });
-        }
+        return x;
     }
 
     renderAnnouncement(announcement: Api.ApiTopic) : React.ReactNode {
@@ -115,10 +93,63 @@ export default class Component extends React.Component<{}, InitialState> {
         );
     }
 
-    render() {
-        if(!this.state.announcements) {
-            return <div></div>;
+    renderSkeleton(index: number) : React.ReactNode {
+        let bodySkeleton: Array<React.ReactNode> = [];
+        for(let i = 0; i < this.getRandom(3, 6); i++) {
+            bodySkeleton.push(
+                <div key={i} 
+                    className="skeleton" 
+                    style={{width: this.getRandom(60, 100, this.props.seed + i) + '%'}}>
+                </div>
+            );
         }
-        return this.state.announcements.map(a => this.renderAnnouncement(a));
+
+        return (
+            <article className="article card" key={index}>
+                <div className="article__container">
+                    <div className="skeleton skeleton--large article__heading" style={{width: this.getRandom(40, 80) + '%'}}></div>
+                    <div className="skeleton article__date" style={{width:'20%'}}></div>
+                    <div className="article__body">{ bodySkeleton }</div>
+
+                    <div className="article__author">
+                        <div className="skeleton-row">
+                            <div className="skeleton" style={{width:'200px'}}></div>
+                            <div className="skeleton skeleton--square skeleton--dark"></div>
+                            <div className="skeleton"></div>
+                        </div>
+                    </div>
+                </div>
+                <div className="article__footer">
+                    <div className="stats-container">
+                        <div className="stat">
+                            <span className="stat__figure">
+                                <div className="skeleton skeleton--medium skeleton--dark skeleton--middle" style={{width:'15px'}}></div>
+                            </span>
+                            <span className="stat__heading">
+                                <div className="skeleton skeleton--small" style={{width:'50px'}}></div>
+                            </span>
+                        </div>
+                        <div className="stat">
+                            <span className="stat__figure">
+                                <div className="skeleton skeleton--medium skeleton--dark skeleton--middle" style={{width:'15px'}}></div>
+                            </span>
+                            <span className="stat__heading">
+                                <div className="skeleton skeleton--small" style={{width:'50px'}}></div>
+                            </span>
+                        </div>
+                    </div>
+                    <div className="article__actions">
+                        <div className="skeleton skeleton--button"></div>
+                    </div>
+                </div>
+            </article>
+        )
+    }
+
+    render() {
+        if(!this.props.announcement || !this.props.announcement.details) {
+            return this.renderSkeleton(0);
+        }
+        return this.renderAnnouncement(this.props.announcement);
     }
 }

@@ -1,1 +1,1 @@
-export { default as Announcement } from './announcement';
+export { default as AnnouncementManager } from './announcement-manager';

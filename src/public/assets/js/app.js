@@ -81,7 +81,7 @@ const navigation = new __WEBPACK_IMPORTED_MODULE_0__modules_Navigation__["a" /* 
 
 
 
-__WEBPACK_IMPORTED_MODULE_2_react_dom__["render"](__WEBPACK_IMPORTED_MODULE_1_react__["createElement"](__WEBPACK_IMPORTED_MODULE_3__react_components__["a" /* Announcement */], null), document.getElementById('announcements'));
+__WEBPACK_IMPORTED_MODULE_2_react_dom__["render"](__WEBPACK_IMPORTED_MODULE_1_react__["createElement"](__WEBPACK_IMPORTED_MODULE_3__react_components__["a" /* AnnouncementManager */], null), document.getElementById('announcements'));
 
 
 /***/ }),
@@ -298,15 +298,14 @@ class Navigation {
 
 /***/ }),
 
-/***/ "./assets/js/react/components/Announcement/announcement.tsx":
+/***/ "./assets/js/react/components/Announcement/announcement-manager.tsx":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__("./node_modules/react/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api__ = __webpack_require__("./assets/js/react/components/Announcement/api.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__("./node_modules/moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__announcement__ = __webpack_require__("./assets/js/react/components/Announcement/announcement.tsx");
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -324,6 +323,8 @@ class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         super(...arguments);
         this.state = {
             announcements: [],
+            randomSeed: 6,
+            seeds: [],
         };
     }
     componentDidMount() {
@@ -353,6 +354,44 @@ class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             }
         });
     }
+    render() {
+        return this.state.announcements.map((value, index) => {
+            if (!this.state.seeds[index]) {
+                this.state.seeds[index] = Math.random() * 100;
+            }
+            const seed = this.state.seeds[index];
+            return (__WEBPACK_IMPORTED_MODULE_0_react__["createElement"](__WEBPACK_IMPORTED_MODULE_2__announcement__["a" /* default */], { announcement: value, seed: seed }));
+        });
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Component;
+
+
+
+/***/ }),
+
+/***/ "./assets/js/react/components/Announcement/announcement.tsx":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__("./node_modules/react/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__("./node_modules/moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
+
+
+;
+class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+    constructor() {
+        super(...arguments);
+        this.state = {};
+    }
+    getRandom(min, max, localSeed = this.props.seed) {
+        let x = Math.sin(localSeed) * 10000;
+        x = x - Math.floor(x);
+        x = (x * (max - min)) + min;
+        return x;
+    }
     renderAnnouncement(announcement) {
         const username = (announcement.details &&
             announcement.details.details &&
@@ -365,7 +404,7 @@ class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             : {
                 cooked: "",
             };
-        const date = __WEBPACK_IMPORTED_MODULE_2_moment__(announcement.created_at);
+        const date = __WEBPACK_IMPORTED_MODULE_1_moment__(announcement.created_at);
         return (__WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("article", { className: "article card", key: announcement.id },
             __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__container" },
                 __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("h2", { className: "article__heading" }, announcement.title),
@@ -395,11 +434,41 @@ class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                         "Read Post",
                         __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("i", { className: "fa fa-chevron-right" }))))));
     }
-    render() {
-        if (!this.state.announcements) {
-            return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", null);
+    renderSkeleton(index) {
+        let bodySkeleton = [];
+        for (let i = 0; i < this.getRandom(3, 6); i++) {
+            bodySkeleton.push(__WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { key: i, className: "skeleton", style: { width: this.getRandom(60, 100, this.props.seed + i) + '%' } }));
         }
-        return this.state.announcements.map(a => this.renderAnnouncement(a));
+        return (__WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("article", { className: "article card", key: index },
+            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__container" },
+                __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton skeleton--large article__heading", style: { width: this.getRandom(40, 80) + '%' } }),
+                __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton article__date", style: { width: '20%' } }),
+                __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__body" }, bodySkeleton),
+                __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__author" },
+                    __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton-row" },
+                        __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton", style: { width: '200px' } }),
+                        __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton skeleton--square skeleton--dark" }),
+                        __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton" })))),
+            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__footer" },
+                __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "stats-container" },
+                    __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "stat" },
+                        __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("span", { className: "stat__figure" },
+                            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton skeleton--medium skeleton--dark skeleton--middle", style: { width: '15px' } })),
+                        __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("span", { className: "stat__heading" },
+                            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton skeleton--small", style: { width: '50px' } }))),
+                    __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "stat" },
+                        __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("span", { className: "stat__figure" },
+                            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton skeleton--medium skeleton--dark skeleton--middle", style: { width: '15px' } })),
+                        __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("span", { className: "stat__heading" },
+                            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton skeleton--small", style: { width: '50px' } })))),
+                __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__actions" },
+                    __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton skeleton--button" })))));
+    }
+    render() {
+        if (!this.props.announcement || !this.props.announcement.details) {
+            return this.renderSkeleton(0);
+        }
+        return this.renderAnnouncement(this.props.announcement);
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Component;
@@ -459,8 +528,8 @@ const getTopic = (topicId) => __awaiter(this, void 0, void 0, function* () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__announcement__ = __webpack_require__("./assets/js/react/components/Announcement/announcement.tsx");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__announcement__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__announcement_manager__ = __webpack_require__("./assets/js/react/components/Announcement/announcement-manager.tsx");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__announcement_manager__["a"]; });
 
 
 

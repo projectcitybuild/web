@@ -1,0 +1,51 @@
+.skeleton {
+    background: lighten($colour-light, 20%);
+    border-radius: 5px;
+    width: 100%;
+    height: 15px;
+
+    &:not(:last-child) {
+        margin-bottom: 0.5rem;
+    }
+
+    &--dark {
+        background: lighten($colour-light, 10%);
+    }
+
+    &--small {
+        height: 10px;
+    }
+
+    &--large {
+        height: 35px;
+    }
+
+    &--medium {
+        height: 25px;
+    }
+
+    &--square {
+        width: 40px;
+    }
+
+    &--button {
+        width: 150px;
+        height: 40px;
+        background: lighten($colour-light, 10%);
+    }
+
+    &--middle {
+        margin: 0 auto;
+    }
+}
+
+.skeleton-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    & > .skeleton:not(:last-child) {
+        margin-right: 0.5rem;
+    }
+}
