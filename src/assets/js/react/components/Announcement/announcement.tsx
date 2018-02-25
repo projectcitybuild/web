@@ -107,8 +107,12 @@ export default class Component extends React.Component<Props, InitialState> {
         return (
             <article className="article card" key={index}>
                 <div className="article__container">
-                    <div className="skeleton skeleton--large article__heading" style={{width: this.getRandom(40, 80) + '%'}}></div>
-                    <div className="skeleton article__date" style={{width:'20%'}}></div>
+                    <div className="article__heading">
+                        <div className="skeleton skeleton--dark skeleton--large" style={{width: this.getRandom(40, 80) + '%'}}></div>
+                    </div>
+                    <div className="article__date">
+                        <div className="skeleton" style={{width:'20%'}}></div>
+                    </div>
                     <div className="article__body">{ bodySkeleton }</div>
 
                     <div className="article__author">
@@ -147,9 +151,9 @@ export default class Component extends React.Component<Props, InitialState> {
     }
 
     render() {
-        if(!this.props.announcement || !this.props.announcement.details) {
+        // if(!this.props.announcement || !this.props.announcement.details) {
             return this.renderSkeleton(0);
-        }
-        return this.renderAnnouncement(this.props.announcement);
+        // }
+        // return this.renderAnnouncement(this.props.announcement);
     }
 }

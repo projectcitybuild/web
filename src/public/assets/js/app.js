@@ -441,8 +441,10 @@ class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         }
         return (__WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("article", { className: "article card", key: index },
             __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__container" },
-                __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton skeleton--large article__heading", style: { width: this.getRandom(40, 80) + '%' } }),
-                __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton article__date", style: { width: '20%' } }),
+                __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__heading" },
+                    __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton skeleton--dark skeleton--large", style: { width: this.getRandom(40, 80) + '%' } })),
+                __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__date" },
+                    __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton", style: { width: '20%' } })),
                 __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__body" }, bodySkeleton),
                 __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__author" },
                     __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton-row" },
@@ -465,10 +467,7 @@ class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                     __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton skeleton--button" })))));
     }
     render() {
-        if (!this.props.announcement || !this.props.announcement.details) {
-            return this.renderSkeleton(0);
-        }
-        return this.renderAnnouncement(this.props.announcement);
+        return this.renderSkeleton(0);
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Component;
