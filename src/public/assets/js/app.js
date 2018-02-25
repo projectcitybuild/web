@@ -325,12 +325,25 @@ class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             announcements: [],
             randomSeed: 6,
             seeds: [],
+            error: null,
         };
     }
     componentDidMount() {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield __WEBPACK_IMPORTED_MODULE_1__api__["a" /* getAnnouncements */]();
-            if (!response) {
+            let hasError = false;
+            let response;
+            try {
+                response = yield __WEBPACK_IMPORTED_MODULE_1__api__["a" /* getAnnouncements */]();
+                if (!response) {
+                    throw new Error('Empty response from server');
+                }
+            }
+            catch (e) {
+                const error = e;
+                this.setState({ error: error.message });
+                hasError = true;
+            }
+            if (hasError) {
                 return;
             }
             const announcements = response.topic_list.topics.slice(0, 3);
@@ -354,7 +367,17 @@ class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             }
         });
     }
+    renderError(error) {
+        return (__WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "alert alert--warning" },
+            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("h3", { className: "alert__header" },
+                __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("i", { className: "fas fa-exclamation-circle" }),
+                " Failed to fetch announcements"),
+            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("p", { className: "alert__message" }, error)));
+    }
     render() {
+        if (this.state.error) {
+            return this.renderError(this.state.error);
+        }
         return this.state.announcements.map((value, index) => {
             if (!this.state.seeds[index]) {
                 this.state.seeds[index] = Math.random() * 100;
@@ -467,7 +490,10 @@ class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                     __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "skeleton skeleton--button" })))));
     }
     render() {
-        return this.renderSkeleton(0);
+        if (!this.props.announcement || !this.props.announcement.details) {
+            return this.renderSkeleton(0);
+        }
+        return this.renderAnnouncement(this.props.announcement);
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Component;
@@ -501,6 +527,7 @@ const getAnnouncements = () => __awaiter(this, void 0, void 0, function* () {
     }
     catch (e) {
         console.error(e);
+        throw new Error(e);
     }
 });
 /* harmony export (immutable) */ __webpack_exports__["a"] = getAnnouncements;

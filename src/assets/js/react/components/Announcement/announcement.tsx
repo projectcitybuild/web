@@ -151,9 +151,9 @@ export default class Component extends React.Component<Props, InitialState> {
     }
 
     render() {
-        // if(!this.props.announcement || !this.props.announcement.details) {
+        if(!this.props.announcement || !this.props.announcement.details) {
             return this.renderSkeleton(0);
-        // }
-        // return this.renderAnnouncement(this.props.announcement);
+        }
+        return this.renderAnnouncement(this.props.announcement);
     }
 }
