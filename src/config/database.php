@@ -103,22 +103,6 @@ return [
             'engine' => null,
         ],
 
-        // TODO: delete this after launching website
-        'mysql_import_pcb_statuses' => [
-            'driver' => 'mysql',
-            'host' => env('DB_HOST_FORUMS', '127.0.0.1'),
-            'port' => env('DB_PORT_FORUMS', '3306'),
-            'database' => 'pcb_update',
-            'username' => env('DB_USERNAME_FORUMS', 'forge'),
-            'password' => env('DB_PASSWORD_FORUMS', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'strict' => true,
-            'engine' => null,
-        ],
-        
     ],
 
     /*
