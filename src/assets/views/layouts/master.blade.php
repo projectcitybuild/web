@@ -126,11 +126,8 @@
                 <div class="container header__container">
                     <div class="header__left">
                         <img class="header__logo" src="{{ asset('assets/images/logo.png') }}" alt="Project City Build" />
-                    </div>
                     
-                    <div class="header__right">
                         <section class="server-feed">
-                            
                             @foreach($serverCategories as $category)
                             <div class="category">
                                 <h5 class="category__heading">{{ $category->name }}</h5>
@@ -143,8 +140,27 @@
                                 @endforeach
                             </div>
                             @endforeach
-
                         </section>
+                    </div>
+                    
+                    <div class="header__right">
+                        <div class="hero">
+                            <h1 class="hero__header">We Build Stuff.</h1>
+                            <div class="hero__slogan">
+                                PCB is a gaming community of creative players and city builders.<br>
+                                Over <span class="accent strong">21,427</span> registered players and always growing.
+                            </div>
+
+                            <div class="hero__actions">
+                                <a class="hero__button" href="#">
+                                    <i class="fas fa-mouse-pointer"></i>
+                                    Register
+                                </a>
+                                <a class="hero__button hero__button--bordered" href="#">
+                                    Login
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </header>
