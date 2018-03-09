@@ -152,11 +152,11 @@
                             </div>
 
                             <div class="hero__actions">
-                                <a class="hero__button" href="#">
+                                <a class="hero__button" href="https://projectcitybuild.com/forums/index.php?action=register">
                                     <i class="fas fa-mouse-pointer"></i>
                                     Register
                                 </a>
-                                <a class="hero__button hero__button--bordered" href="#">
+                                <a class="hero__button hero__button--bordered" href="https://projectcitybuild.com/forums/index.php?action=login">
                                     Login
                                 </a>
                             </div>
