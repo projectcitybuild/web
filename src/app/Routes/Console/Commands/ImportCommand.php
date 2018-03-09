@@ -338,6 +338,7 @@ class ImportCommand extends Command
 
         $this->info('Preparing cache...');
         $lastMessageId = Cache::get('importer_smf_pms', -1);
+        $this->info('Last imported id: '. $lastMessageId);
 
         $this->info('Preparing http client...');
         $client = new Client();
@@ -373,20 +374,48 @@ class ImportCommand extends Command
             ->get()
             ->keyBy('id_member');
 
-
         $this->info('Beginning import...');
+        $apiKeys = [];
         $progress = $this->output->createProgressBar(count($messages));
         foreach($messages as $message) {
+
+            // don't bother import if no one has a copy of the pm in their inbox
+            $hasReceiver = false;
+            $receivers = $recipients->where('id_pm', $message->id_pm);
+            foreach($receivers as $receiver) {
+                if($receiver->deleted) {
+                    $hasReceiver = true;
+                    break;
+                }
+            }
+            if(!$hasReceiver) {
+                continue;
+            }
+
+            $toUserIds = $receivers->pluck('id_member');
             $fromUser = $users->get($message->id_member_from);
-            
-            $toUserIds = $recipients->where('id_pm', $message->id_pm)
-                ->pluck('id_member');
 
             $toUsers = [];
             foreach($toUserIds as $id) {
                 $toUsers[] = $users->get($id)->member_name;
             }
             $toUsers = implode(',', $toUsers);
+
+            // $userApiKey = null;
+            // try {
+            //     // fetch user id
+            //     $response = $client->get('http://forums.projectcitybuild.com/users/'.$fromUser->member_name.'.json');
+            //     $user = json_decode($response->getBody(), true);
+            //     $userId = $user['user']['id'];
+
+            //     // generate user key
+            //     $response = $client->post('http://forums.projectcitybuild.com/admin/users/'.$userId.'/generate_api_key?api_key='.$key.'&api_username=Andy');
+            //     $data = json_decode($response->getBody(), true);
+            //     $userApiKey = $data['api_key']['key'];
+
+            // } catch(\Exception $e) {
+            //     throw $e;
+            // }
 
             try {
                 if(count($toUsers) === 0) {
@@ -397,7 +426,6 @@ class ImportCommand extends Command
                 }
 
                 $client->post('http://forums.projectcitybuild.com/posts?api_key='.$key.'&api_username='.$fromUser->member_name, [
-                    // 'query' => [
                     'form_params' => [
                         'title'             => $message->subject,
                         'raw'               => $message->body,
@@ -407,6 +435,16 @@ class ImportCommand extends Command
                     ],
                 ]);
             } catch(\Exception $e) {
+                dump('http://forums.projectcitybuild.com/posts?api_key='.$key.'&api_username='.$fromUser->member_name);
+                dump('Sender: '. $fromUser->member_name);
+                dump(['form_params' => [
+                    'title'             => $message->subject,
+                    'raw'               => $message->body,
+                    'target_usernames'  => $toUsers,
+                    'archetype'         => 'private_message',
+                    'created_at'        => Carbon::createFromTimestamp($message->msgtime)->toDateTimeString(),
+                ]]);
+
                 dump($message);
                 throw $e;
             }
