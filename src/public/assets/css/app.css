@@ -1444,6 +1444,7 @@ table.table tr.disabled {
   text-shadow: 0 1px 1px rgba(15, 33, 56, 0.4);
   line-height: 2em;
   margin-bottom: 2em;
+  color: #534741;
 }
 
 .hero__actions *:not(:last-child) {
