@@ -1846,6 +1846,7 @@ table.table tr.disabled {
 
 .server-feed .server__title {
   font-weight: 500;
+  width: 50%
 }
 
 .server-feed .server__players {
@@ -1853,6 +1854,14 @@ table.table tr.disabled {
   margin: -0.5em;
   border-radius: 3px;
   font-size: 0.9em;
+  width: 18%;
+  float: left;
+  text-align: center;
+}
+
+.server-feed .server__ip {
+  width: 28%;
+  margin-left: 2%;
 }
 
 .contents {
