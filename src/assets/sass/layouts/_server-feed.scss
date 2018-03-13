@@ -49,13 +49,21 @@
     }
 
     .server__title {
+        flex: 0 0 45%;
         font-weight: 500;
     }
 
     .server__players {
+        flex: 0 0 15%;
+        text-align: center;
         padding: 0.5em 0.75em;
         margin: -0.5em;
         border-radius: 3px;
         font-size: 0.9em;
+    }
+
+    .server__ip {
+        flex: 0 0 40%;
+        text-align: right;
     }
 }

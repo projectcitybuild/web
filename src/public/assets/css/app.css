@@ -1845,23 +1845,28 @@ table.table tr.disabled {
 }
 
 .server-feed .server__title {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 45%;
+          flex: 0 0 45%;
   font-weight: 500;
-  width: 50%
 }
 
 .server-feed .server__players {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 15%;
+          flex: 0 0 15%;
+  text-align: center;
   padding: 0.5em 0.75em;
   margin: -0.5em;
   border-radius: 3px;
   font-size: 0.9em;
-  width: 18%;
-  float: left;
-  text-align: center;
 }
 
 .server-feed .server__ip {
-  width: 28%;
-  margin-left: 2%;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 40%;
+          flex: 0 0 40%;
+  text-align: right;
 }
 
 .contents {
