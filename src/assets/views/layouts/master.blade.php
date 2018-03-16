@@ -8,7 +8,8 @@
         <meta name="google-site-verification" content="Sp9E55tVkNph_ttvggLD52MY-ACeGfeivQbmWp7CWfo">
         <meta name="description" content="@yield('description')">
         <meta name="theme-color" content="#524641">
-
+        <meta name="apple-mobile-web-app-title" content="PCB">
+        
         <meta property="og:url"         content="https://www.projectcitybuild.com">
         <meta property="og:title"       content="@yield('title', 'Project City Build')">
         <meta property="og:description" content="@yield('description')">
@@ -24,6 +25,7 @@
 
         <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}">
         <link rel="icon" type="type/x-icon" href="{{ asset('assets/favicon.ico') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/g1OfIGT.png" />
         
         <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/brands.js"></script>
         <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/solid.js"></script>
