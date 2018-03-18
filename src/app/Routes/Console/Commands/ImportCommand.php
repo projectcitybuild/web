@@ -24,7 +24,12 @@ use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayer;
 use GuzzleHttp\Exception\TooManyRedirectsException;
 use App\Shared\Exceptions\TooManyRequestsException;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
+
+/**
+ * Warning: this code is total spaghetti...
+ */
 class ImportCommand extends Command
 {
     /**
@@ -361,11 +366,17 @@ class ImportCommand extends Command
             ->where('id_pm', '>', $lastMessageId)
             ->get();
 
-        $userIds = collect()
-            ->merge($messages->pluck('id_member_from'))
-            ->merge($recipients)->pluck('id_member')
-            ->unique()
-            ->toArray();
+
+        $fromUserIds = $messages
+            ->pluck('id_member_from')
+            ->unique();
+
+        $toUserIds = $recipients
+            ->pluck('id_member')
+            ->unique();
+
+        $userIds = $fromUserIds->merge($toUserIds)->unique()->toArray();
+        sort($userIds);
 
         $this->info('Fetching users...');
         $users = DB::connection('mysql_forums')
@@ -379,62 +390,89 @@ class ImportCommand extends Command
         $progress = $this->output->createProgressBar(count($messages));
         foreach($messages as $message) {
 
-            // don't bother import if no one has a copy of the pm in their inbox
-            $hasReceiver = false;
-            $receivers = $recipients->where('id_pm', $message->id_pm);
-            foreach($receivers as $receiver) {
-                if($receiver->deleted) {
-                    $hasReceiver = true;
-                    break;
-                }
-            }
-            if(!$hasReceiver) {
+            // manual id skip
+            $pmIdBlacklist = [2166, 2938, 3404, 3759, 4232, 5074, 5189, 5202, 6090, 6304, 6501, 6521, 6637, 6645, 6661, 7065, 7248, 7408, 7443, 7614];
+            if(in_array($message->id_pm, $pmIdBlacklist) === true) {
+                $progress->advance();
                 continue;
             }
 
-            $toUserIds = $receivers->pluck('id_member');
+            if($message->id_member_from === 0) {
+                $progress->advance();
+                continue;
+            }
+
+            $toUserIds = $recipients
+                ->where('id_pm', $message->id_pm)
+                ->where('deleted', 0)
+                ->where('id_member', '!=', 0)
+                ->pluck('id_member');
+
             $fromUser = $users->get($message->id_member_from);
+
+            if($fromUser === null) {
+                throw new \Exception('Could not find FROM user for ['.$message->id_pm.']');
+            }
+
+            // don't bother import if no one has a copy of the pm in their inbox
+            if(count($toUserIds->toArray()) === 0) {
+                $progress->advance();
+                continue;
+            }
 
             $toUsers = [];
             foreach($toUserIds as $id) {
-                $toUsers[] = $users->get($id)->member_name;
+                $name = $users->get($id)->member_name;
+                // skip non-existent users
+                $nameBlacklist = ['PCB_Econ', 'isonb54321', '_ST0N3_', 'RemusS_'];
+                if(in_array($name, $nameBlacklist) === true) {
+                    continue;
+                }
+                if($name === 'Mango_Bear_') {
+                    $name = 'Mango_Bear';
+                }
+                $toUsers[] = $name;
             }
             $toUsers = implode(',', $toUsers);
-
-            // $userApiKey = null;
-            // try {
-            //     // fetch user id
-            //     $response = $client->get('http://forums.projectcitybuild.com/users/'.$fromUser->member_name.'.json');
-            //     $user = json_decode($response->getBody(), true);
-            //     $userId = $user['user']['id'];
-
-            //     // generate user key
-            //     $response = $client->post('http://forums.projectcitybuild.com/admin/users/'.$userId.'/generate_api_key?api_key='.$key.'&api_username=Andy');
-            //     $data = json_decode($response->getBody(), true);
-            //     $userApiKey = $data['api_key']['key'];
-
-            // } catch(\Exception $e) {
-            //     throw $e;
-            // }
+            
+            if(count($toUsers) === 0 || $toUsers === null || $toUsers === "") {
+                $progress->advance();
+                continue;
+            }
 
             try {
-                if(count($toUsers) === 0) {
-                    throw new \Exception('Could not find any TO users for ['.$message->id_pm.']');
-                }
-                if($fromUser === null) {
-                    throw new \Exception('Could not find FROM user for ['.$message->id_pm.']');
+                while(true) {
+                    try {
+                        $client->post('http://forums.projectcitybuild.com/posts?api_key='.$key.'&api_username='.$fromUser->member_name, [
+                            'form_params' => [
+                                'title'             => $message->subject,
+                                'raw'               => $message->body,
+                                'target_usernames'  => $toUsers,
+                                'archetype'         => 'private_message',
+                                'created_at'        => Carbon::createFromTimestamp($message->msgtime)->toDateTimeString(),
+                            ],
+                        ]);
+                        break;
+    
+                    } catch (ClientException $e) {
+                        $response = $e->getResponse();
+                        // skip 403 Forbidden errors since the user was probably banned
+                        if($response->getStatusCode() === 403) {
+                            $progress->advance();
+                            break;
+                        }
+                        if($response->getStatusCode() === 429) {
+                            $this->info('Rate limited. Sleeping for 10 seconds');
+                            sleep(11);
+                            $this->info('Resuming...');
+                            continue;
+                        }
+                        throw $e;
+                    }
                 }
 
-                $client->post('http://forums.projectcitybuild.com/posts?api_key='.$key.'&api_username='.$fromUser->member_name, [
-                    'form_params' => [
-                        'title'             => $message->subject,
-                        'raw'               => $message->body,
-                        'target_usernames'  => $toUsers,
-                        'archetype'         => 'private_message',
-                        'created_at'        => Carbon::createFromTimestamp($message->msgtime)->toDateTimeString(),
-                    ],
-                ]);
             } catch(\Exception $e) {
+                dump($message);
                 dump('http://forums.projectcitybuild.com/posts?api_key='.$key.'&api_username='.$fromUser->member_name);
                 dump('Sender: '. $fromUser->member_name);
                 dump(['form_params' => [
@@ -448,9 +486,10 @@ class ImportCommand extends Command
                 dump($message);
                 throw $e;
             }
+           
 
             $lastMessageId = $message->id_pm;
-            Cache::put('importer_smf_pms', $lastMessageId, 10080);
+            Cache::forever('importer_smf_pms', $lastMessageId);
 
             $progress->advance();
         }
