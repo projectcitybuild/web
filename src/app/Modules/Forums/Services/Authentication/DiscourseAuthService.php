@@ -29,15 +29,17 @@ class DiscourseAuthService {
      * 
      * @return boolean
      */
-    public function isValidPayload(?string $queryString, ?string $signature) : bool {
-        if(empty($queryString) || empty($signature)) {
+    public function isValidPayload(?string $sso, ?string $signature) : bool {
+        if(empty($sso) || empty($signature)) {
             return false;
         }
 
-        $payload = urldecode($queryString);
+        $payload = base64_decode($sso);
+        $payload = urldecode($payload);
+
         $signedPayload = $this->signPayload($payload);
 
-        return $signedPayload === $signature;
+        return $signature === $signedPayload;
     }
 
     private function getNonce(string $queryString) {

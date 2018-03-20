@@ -44,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(DiscourseAuthService::class, function($app) {
             return new DiscourseAuthService(
-                'test'  // TODO: fetch from env
+                env('DISCOURSE_SSO_SECRET')
             );
         });
     }

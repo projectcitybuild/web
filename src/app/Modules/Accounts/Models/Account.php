@@ -3,8 +3,9 @@
 namespace App\Modules\Accounts\Models;
 
 use App\Shared\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Account extends Model {
+class Account extends Authenticatable {
 
     protected $table = 'accounts';
 

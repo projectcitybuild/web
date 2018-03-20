@@ -9,7 +9,8 @@
         <div class="login__left">
             <h1>Sign In to PCB</h1>
 
-            <form method="post" action="">
+            <form method="post" action="{{ route('front.login.submit') }}">
+                @csrf
                 <div class="form-row">
                     <input class="input-text" name="email" type="email" placeholder="Email Address" />
                 </div>
