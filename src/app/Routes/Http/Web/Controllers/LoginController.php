@@ -39,10 +39,6 @@ class LoginController extends WebController {
             return redirect()->route('front.home');
         }
 
-
-        $payload = base64_decode($sso);
-        $payload = urldecode($payload);
-
         // validate that the given signature matches the
         // payload when signed with our private key. This
         // prevents any payload tampering
@@ -51,6 +47,10 @@ class LoginController extends WebController {
         if($signedPayload !== $signature) {
             // forged payload - handle it here
         }
+
+
+        $payload = base64_decode($sso);
+        $payload = urldecode($payload);
 
         // ensure that the payload has all the necessary
         // data required to create a new payload after
@@ -118,6 +118,7 @@ class LoginController extends WebController {
         $payload = http_build_query($payload);
 
         $encodedPayload = base64_encode($payload);
+        $encodedPayload = urlencode($encodedPayload);
         $signedPayload = hash_hmac('sha256', $encodedPayload, env('DISCOURSE_SSO_SECRET'));
 
         // attach parameters to return url
