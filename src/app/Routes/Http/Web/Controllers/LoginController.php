@@ -121,4 +121,8 @@ class LoginController extends WebController {
         return redirect()->to($endpoint);
     }
 
+    public function logout(Request $request) {
+        
+    }
+
 }
