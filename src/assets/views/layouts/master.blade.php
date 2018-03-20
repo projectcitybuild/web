@@ -8,7 +8,8 @@
         <meta name="google-site-verification" content="Sp9E55tVkNph_ttvggLD52MY-ACeGfeivQbmWp7CWfo">
         <meta name="description" content="@yield('description')">
         <meta name="theme-color" content="#524641">
-
+        <meta name="apple-mobile-web-app-title" content="PCB">
+        
         <meta property="og:url"         content="https://www.projectcitybuild.com">
         <meta property="og:title"       content="@yield('title', 'Project City Build')">
         <meta property="og:description" content="@yield('description')">
@@ -24,6 +25,7 @@
 
         <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}">
         <link rel="icon" type="type/x-icon" href="{{ asset('assets/favicon.ico') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/g1OfIGT.png" />
         
         <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/brands.js"></script>
         <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/solid.js"></script>
@@ -126,11 +128,8 @@
                 <div class="container header__container">
                     <div class="header__left">
                         <img class="header__logo" src="{{ asset('assets/images/logo.png') }}" alt="Project City Build" />
-                    </div>
                     
-                    <div class="header__right">
                         <section class="server-feed">
-                            
                             @foreach($serverCategories as $category)
                             <div class="category">
                                 <h5 class="category__heading">{{ $category->name }}</h5>
@@ -143,8 +142,27 @@
                                 @endforeach
                             </div>
                             @endforeach
-
                         </section>
+                    </div>
+                    
+                    <div class="header__right">
+                        <div class="hero">
+                            <h1 class="hero__header">We Build Stuff.</h1>
+                            <div class="hero__slogan">
+                                PCB is a gaming community of creative players and city builders.<br>
+                                Over <span class="accent strong">21,427</span> registered players and always growing.
+                            </div>
+
+                            <div class="hero__actions">
+                                <a class="hero__button" href="https://projectcitybuild.com/forums/index.php?action=register">
+                                    <i class="fas fa-mouse-pointer"></i>
+                                    Join Us
+                                </a>
+                                <a class="hero__button hero__button--bordered" href="https://projectcitybuild.com/forums/index.php?action=login">
+                                    Login
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </header>

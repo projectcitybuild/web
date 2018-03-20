@@ -37,25 +37,33 @@
         }
 
         &.server--online {
-            background: hsla(0, 0%, 100%, 0.40);
+            background: hsla(0, 0%, 100%, 0.6);
             color: $colour-primary;
             border-top: 1px solid hsla(0, 0%, 100%, 0.5);
         }
         &.server--offline {
-            background: hsla(0, 0%, 100%, 0.10);
+            background: hsla(0, 0%, 100%, 0.20);
             border: 1px solid hsla(0, 0%, 100%, 0.35);
             color: hsl(240, 12%, 23%);
         }
     }
 
     .server__title {
+        flex: 0 0 45%;
         font-weight: 500;
     }
 
     .server__players {
+        flex: 0 0 15%;
+        text-align: center;
         padding: 0.5em 0.75em;
         margin: -0.5em;
         border-radius: 3px;
         font-size: 0.9em;
+    }
+
+    .server__ip {
+        flex: 0 0 40%;
+        text-align: right;
     }
 }

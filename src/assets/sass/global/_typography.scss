@@ -25,6 +25,8 @@ span {
     &.primary { color: $colour-primary; }
     &.accent  { color: $colour-accent; }
     &.light   { color: $colour-light; }
+    
+    &.strong  { font-weight: bold; }
 }
 
 a {

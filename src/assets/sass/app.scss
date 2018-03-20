@@ -49,8 +49,17 @@ body {
 }
 
 body {
-    background: hsl(55, 100%, 93%);
     overflow-x: hidden;
+    background-color: hsl(55, 100%, 93%);
+    background-image: url('/assets/images/background1.jpg');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+
+    @media screen and (min-width: $dimen-medium) {
+        background-position: center 40px;
+        background-size: contain;
+    }
 }
 
 section {
