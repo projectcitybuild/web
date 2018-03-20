@@ -29,6 +29,14 @@ Route::post('login', [
     'as'    => 'front.login.submit',
     'uses'  => 'LoginController@login',
 ]);
+Route::get('logout/discourse', [
+    'as'    => 'front.logout.pcb',
+    'uses'  => 'LoginController@logoutFromDiscourse',
+]);
+Route::get('logout', [
+    'as'    => 'front.logout',
+    'uses'  => 'LoginController@logout',
+]);
 
 Route::view('bans', 'banlist')->name('banlist');
 

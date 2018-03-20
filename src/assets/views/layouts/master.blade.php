@@ -113,7 +113,11 @@
                             <i class="fab fa-steam-symbol"></i>
                         </a>
                     </li>
+                    @if(Auth::check())
+                    <li><a href="{{ route('front.logout') }}">Logout</a></li>
+                    @else
                     <li><a href="http://forums.projectcitybuild.com/login">Login</a></li>
+                    @endif
                 </ul>
             </div>
         </nav>

@@ -8,6 +8,7 @@ use App\Modules\Forums\Services\Authentication\DiscourseAuthService;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use App\Modules\Forums\Exceptions\BadSSOPayloadException;
+use GuzzleHttp\Client;
 
 class LoginController extends WebController {
 
@@ -21,13 +22,20 @@ class LoginController extends WebController {
      */
     private $auth;
 
+    /**
+     * @var Client
+     */
+    private $client;
+
 
     public function __construct(
         DiscourseAuthService $discourseAuthService,
-        Auth $auth
+        Auth $auth,
+        Client $client
     ) {
         $this->discourseAuthService = $discourseAuthService;
         $this->auth = $auth;
+        $this->client = $client;
     }
 
     public function showLoginView(Request $request) {
@@ -121,8 +129,42 @@ class LoginController extends WebController {
         return redirect()->to($endpoint);
     }
 
+    /**
+     * Logs out the current PCB account
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function logoutFromDiscourse(Request $request) {
+        $this->auth->logout();
+        return redirect()->route('front.home');
+    }
+
+    /**
+     * Logs out the current PCB account and
+     * its associated Discourse account
+     *
+     * @param Request $request
+     * @return void
+     */
     public function logout(Request $request) {
+        if(!$this->auth->check()) {
+            return redirect()->route('front.home');
+        }
+
+        $externalId = $this->auth->id();
+        $response = $this->client->get('http://forums.projectcitybuild.com/users/by-external/'.$externalId.'.json');
+        $result = json_decode($response->getBody(), true);
+
+        $id   = $result['user']['id'];
+        $user = $result['user']['username'];
+        $discourseKey = env('DISCOURSE_API_KEY');
+        $this->client->post('http://forums.projectcitybuild.com/admin/users/'.$id.'/log_out?api_key='.$discourseKey.'&api_username='.$user);
+
+
+        $this->auth->logout();
         
+        return redirect()->route('front.home');
     }
 
 }
