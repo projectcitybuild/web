@@ -1,44 +1,33 @@
-# Project City Build
+![PCB](https://projectcitybuild.com/assets/images/logo.png)
+
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0) [![Build Status](https://travis-ci.org/itsmyfirstday/ProjectCityBuild.svg?branch=master)](https://travis-ci.org/itsmyfirstday/ProjectCityBuild)
 
-Version 3.5 - basically a supercharged, coat of fresh paint on our old site design. Moving onwards from this point we will only be updating this version until it eventually becomes version 4.0.
 
-## What's different about this version?
-Mostly behind the scenes stuff.
-* Screen responsive design
-* Powered by Laravel
-* A few UI components are powered by React (eg. the ban list)
-* Version 1 of the universal ban API
-* Everything brought up to modern standards
-* Containerised via Docker
+The official repository for [Project City Build](https://projectcitybuild.com)'s homepage and related web services.
 
 ### Stack
 * Frameworks
     * Laravel 5.6
-    * ReactJS 15
-* Languages
-    * HTML, PHP, SASS, TypeScript
+    * ReactJS 16
 * Environment
     * Docker (and Docker-Compose)
 * CI /  CD
     * Travis CI
 
-### Requirements
-The only requirement is **Docker** installed. If you do not wish to use Docker for local dev work, feel free to go about it in the usual way by working from the ``src`` directory. 
+All master branch commits and merges are continuously tested by Travis CI.
 
-Without Docker, you will need to first manually install the below:
+### Requirements
+The only requirement is **Docker** installed. If you do not wish to use Docker for local dev work, feel free to go about it in the usual way by working from the `src` directory. 
+
+Without Docker, you will need to first manually install the following:
 
 * PHP 7.1.3 or greater
 * MySQL/MariaDB (either one is fine)
 * Composer
 * NPM
 
-### What still needs to be built before launch?
+### What needs to be built?
 See the **Projects** tab (1.0 Release Roadmap)
-
-
-### When will this release?
-When the Project checklist is complete.
 
 ### Can I contribute?
 Absolutely. Feel free to fork or send pull requests any time. I'd be thrilled to have some help.
@@ -83,6 +72,3 @@ Since none of the dependencies are actually installed on your host computer, you
 
 ### Database
 * If the database schema changes, remember to run ``php artisan migrate`` from the **src** folder to ensure you always have the latest schema.
-
-## Note about forum data
-Since we're still using SMF for the time being, the website will retrieve data from the SMF database on our production server. Since we obviously can't give out the server credentials for security reasons, you can mock the forum data instead by setting **DB_MOCK_FORUMS** to **true** in your .env file.

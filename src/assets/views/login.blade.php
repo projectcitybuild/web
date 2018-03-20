@@ -11,11 +11,20 @@
 
             <form method="post" action="{{ route('front.login.submit') }}">
                 @csrf
+                
+                @if($errors->any())
+                    <div class="alert alert--error">
+                        <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
+                        {{ $errors->first() }}
+                    </div>
+                    <p>
+                @endif
+
                 <div class="form-row">
-                    <input class="input-text" name="email" type="email" placeholder="Email Address" />
+                    <input class="input-text {{ $errors->any() ? 'input-text--error' : '' }}" name="email" type="email" placeholder="Email Address" value="{{ old('email') }}" />
                 </div>
                 <div class="form-row">
-                    <input class="input-text" name="password" type="password" placeholder="Password" />
+                    <input class="input-text {{ $errors->any() ? 'input-text--error' : '' }}" name="password" type="password" placeholder="Password" />
                 </div>
                 <div class="form-row">
                     <button class="button button--large button--fill button--primary" type="submit">

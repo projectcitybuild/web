@@ -113,7 +113,7 @@
                             <i class="fab fa-steam-symbol"></i>
                         </a>
                     </li>
-                    <li><a href="{{ route('front.login') }}">Login</a></li>
+                    <li><a href="http://forums.projectcitybuild.com/login">Login</a></li>
                 </ul>
             </div>
         </nav>
@@ -158,7 +158,7 @@
                                     <i class="fas fa-mouse-pointer"></i>
                                     Join Us
                                 </a>
-                                <a class="hero__button hero__button--bordered" href="https://projectcitybuild.com/forums/index.php?action=login">
+                                <a class="hero__button hero__button--bordered" href="http://forums.projectcitybuild.com/login">
                                     Login
                                 </a>
                             </div>

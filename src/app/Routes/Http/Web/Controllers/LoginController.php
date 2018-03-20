@@ -7,6 +7,7 @@ use Illuminate\Validation\Factory as Validation;
 use App\Modules\Forums\Services\Authentication\DiscourseAuthService;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard as Auth;
+use App\Modules\Forums\Exceptions\BadSSOPayloadException;
 
 class LoginController extends WebController {
 
@@ -42,34 +43,28 @@ class LoginController extends WebController {
         // validate that the given signature matches the
         // payload when signed with our private key. This
         // prevents any payload tampering
-        $signedPayload = hash_hmac('sha256', $sso, env('DISCOURSE_SSO_SECRET'));
-
-        if($signedPayload !== $signature) {
-            // forged payload - handle it here
+        if($this->discourseAuthService->isValidPayload($sso, $signature) === false) {
+            // TODO: forged payload - handle it here
+            abort(400);
         }
-
-
-        $payload = base64_decode($sso);
-        $payload = urldecode($payload);
 
         // ensure that the payload has all the necessary
         // data required to create a new payload after
         // authentication
-        parse_str($payload, $discourse);
-
-        if(
-            array_key_exists('nonce', $discourse) === false || 
-            array_key_exists('return_sso_url', $discourse) === false
-        ) {
+        $payload = null;
+        try {
+            $payload = $this->discourseAuthService->unpackPayload($sso);
+        } catch(BadSSOPayloadException $e) {
             // TODO: missing data from discourse in payload - handle...
+            abort(400);
         }
 
         // store the nonce and return url in a session so
         // the user cannot access or tamper with it at any
         // point during authentication
         $request->session()->put([
-            'discourse_nonce'   => $discourse['nonce'],
-            'discourse_return'  => $discourse['return_sso_url'],
+            'discourse_nonce'   => $payload['nonce'],
+            'discourse_return'  => $payload['return_sso_url'],
         ]);      
 
         return view('login');
@@ -82,12 +77,23 @@ class LoginController extends WebController {
 
         if($nonce === null || $return === null) {
             // TODO: payload data missing - handle
+            abort(400);
         }
 
         $validator = $validation->make($request->all(), [
             'email'     => 'required',
             'password'  => 'required',
         ]);
+
+        $validator->after(function($validator) use($request) {
+            if($this->auth->attempt([
+                'email'     => $request->get('email'),
+                'password'  => $request->get('password'),
+            ], true) === false) {
+    
+                $validator->errors()->add('error', 'Email or password is incorrect');
+            }
+        });
 
         if($validator->fails()) {
             return redirect()
@@ -96,36 +102,18 @@ class LoginController extends WebController {
                 ->withInput();
         }
 
-        if($this->auth->attempt([
-            'email'     => $request->get('email'),
-            'password'  => $request->get('password'),
-        ], true) === false) {
-
-            return redirect()
-                ->back()
-                ->withErrors($validator->errors()->add('error', 'Email or password was incorrect'))
-                ->withInput();
-        }
-
 
         // generate new payload to send to discourse
-        $payload = [
+        $payload = $this->discourseAuthService->makePayload([
             'nonce' => $nonce,
             'email' => $request->get('email'),
             'external_id' => $this->auth->id(),
             'require_activation' => false,
-        ];
-        $payload = http_build_query($payload);
-
-        $encodedPayload = base64_encode($payload);
-        $encodedPayload = urlencode($encodedPayload);
-        $signedPayload = hash_hmac('sha256', $encodedPayload, env('DISCOURSE_SSO_SECRET'));
+        ]);
+        $signature = $this->discourseAuthService->getSignedPayload($payload);
 
         // attach parameters to return url
-        $endpoint = $return.'?'.http_build_query([
-            'sso' => $encodedPayload,
-            'sig' => $signedPayload
-        ]);
+        $endpoint = $this->discourseAuthService->getRedirectUrl($return, $payload, $signature);
 
         $session->remove('discourse_nonce');
         $session->remove('discourse_return');
