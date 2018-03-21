@@ -17,7 +17,8 @@ class CreateUserRegisterEmails extends Migration
             $table->string('token');
             $table->string('email');
             $table->string('password');
-            $table->datetime('expires_at');
+            $table->boolean('is_used')->comment('Whether the code has been used already');
+            $table->datetime('expires_at')->comment('The datetime when this record will be purged');
             $table->timestamps();
         });
     }

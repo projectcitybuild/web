@@ -51,12 +51,14 @@
     </style>
 </head>
 <body>
-    <img class="logo" src="https://projectcitybuild.com/assets/images/logo.png" alt="Project City Build" />
+    <a href="https://projectcitybuild.com">
+        <img class="logo" src="https://projectcitybuild.com/assets/images/logo.png" alt="Project City Build" />
+    </a>
     <div class="box">
         <h1>Just one more step</h1>
 
         <p>Click the button below to activate your Project City Build account.</p>
-        <a class="button" href="#">Activate Account</a>
+        <a class="button" href="{{ $url }}">Activate Account</a>
 
     </div>
 

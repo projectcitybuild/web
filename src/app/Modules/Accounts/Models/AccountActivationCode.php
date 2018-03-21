@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class AccountActivationCode extends Model {
 
-    protected $table = 'account_activation_code';
+    protected $table = 'account_activation_codes';
 
     protected $primaryKey = 'account_activation_id';
 
@@ -15,6 +15,7 @@ class AccountActivationCode extends Model {
         'token',
         'email',
         'password',
+        'is_used',
         'expires_at',
     ];
     
@@ -27,5 +28,11 @@ class AccountActivationCode extends Model {
         'updated_at',
         'expires_at',
     ];
+
+    public function getActivationUrl() : string {
+        return route('front.register.activate', [
+            'token' => $this->token,
+        ]);
+    }
 
 }

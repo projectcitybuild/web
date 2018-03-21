@@ -21,6 +21,7 @@ class AccountActivationCodeRepository extends Repository {
             'email'         => $email,
             'password'      => $password,
             'token'         => $token,
+            'is_used'       => false,
             'expires_at'    => $expiresAt,
         ]);
     }
@@ -29,6 +30,18 @@ class AccountActivationCodeRepository extends Repository {
         return $this->getModel()
             ->where('account_activation_id', $accountActivationCodeId)
             ->delete();
+    }
+
+    public function deleteExpired() : int {
+        return $this->getModel()
+            ->whereDate('expires_at', '>=', Carbon::now())
+            ->delete();
+    }
+
+    public function getByToken(string $token) : ?AccountActivationCode {
+        return $this->getModel()
+            ->where('token', $token)
+            ->first();
     }
     
 }

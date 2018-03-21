@@ -26,5 +26,11 @@ class AccountRepository extends Repository {
             'updated_at'    => Carbon::now(),
         ]);
     }
+
+    public function getByEmail(string $email) : ?Account {
+        return $this->getModel()
+            ->where('email', $email)
+            ->first();
+    }
     
 }

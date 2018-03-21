@@ -15,7 +15,6 @@
 if (env('APP_ENV') === 'production') {
     URL::forceScheme('https');
 }
-Route::view('test', 'mail.mail-activate-account');
 
 Route::get('/', [
     'as' => 'front.home',
@@ -44,6 +43,10 @@ Route::get('register', [
 Route::post('register', [
     'as'    => 'front.register.submit',
     'uses'  => 'RegisterController@register',
+]);
+Route::get('register/activate', [
+    'as'    => 'front.register.activate',
+    'uses'  => 'RegisterController@activate',
 ]);
 
 Route::view('bans', 'banlist')->name('banlist');
