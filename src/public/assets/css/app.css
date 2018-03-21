@@ -856,6 +856,11 @@ button.button {
   border-bottom: 1px solid #e6e5e5;
 }
 
+.card__footer {
+  background-color: #f2f2f2;
+  border-top: 1px solid #e6e5e5;
+}
+
 .card--primary {
   background-color: #1887dc;
   border-color: #136bae;
@@ -865,6 +870,11 @@ button.button {
 .card--primary__header {
   background-color: #1679c5;
   border-bottom: 1px solid #136bae;
+}
+
+.card--primary__footer {
+  background-color: #1679c5;
+  border-top: 1px solid #136bae;
 }
 
 .card--secondary {
@@ -878,6 +888,11 @@ button.button {
   border-bottom: 1px solid #362f2b;
 }
 
+.card--secondary__footer {
+  background-color: #453b36;
+  border-top: 1px solid #362f2b;
+}
+
 .card--accent {
   background-color: #f7a602;
   border-color: #de9502;
@@ -887,6 +902,11 @@ button.button {
 .card--accent__header {
   background-color: #de9502;
   border-bottom: 1px solid #c58402;
+}
+
+.card--accent__footer {
+  background-color: #de9502;
+  border-top: 1px solid #c58402;
 }
 
 .card__header {
@@ -914,6 +934,12 @@ div.divider {
 
 .form-row:not(:last-child) {
   margin-bottom: 1em;
+}
+
+.form-row label {
+  display: block;
+  padding-left: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .input-text {

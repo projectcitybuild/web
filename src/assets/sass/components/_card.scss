@@ -7,6 +7,11 @@
         background-color: darken($bgColour, 5%);
         border-bottom: 1px solid darken($bgColour, 10%);
     }
+
+    &__footer {
+        background-color: darken($bgColour, 5%);
+        border-top: 1px solid darken($bgColour, 10%);
+    }
 }
 
 .card {

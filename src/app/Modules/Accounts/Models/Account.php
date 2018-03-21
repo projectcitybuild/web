@@ -19,11 +19,6 @@ class Account extends Authenticatable {
         'last_login_at',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
 
     ];

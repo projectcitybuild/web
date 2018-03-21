@@ -158,7 +158,7 @@
                             </div>
 
                             <div class="hero__actions">
-                                <a class="hero__button" href="https://projectcitybuild.com/forums/index.php?action=register">
+                                <a class="hero__button" href="{{ route('front.register') }}">
                                     <i class="fas fa-mouse-pointer"></i>
                                     Join Us
                                 </a>

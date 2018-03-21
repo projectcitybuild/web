@@ -66,10 +66,9 @@
 
             <div class="login__divider">or</div>
             
-            <a class="button button--fill button--large button--secondary" href="#">
+            <a class="button button--fill button--large button--secondary" href="{{ route('front.register') }}">
                 Create an Account
             </a>
-            
         </div>
     </div>
 
