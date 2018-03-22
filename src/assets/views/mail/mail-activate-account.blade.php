@@ -63,7 +63,7 @@
     </div>
 
     <div class="footer">
-        <p>Please note that this link will <strong>expire in 5 days</strong>.</p>
+        <p>Please note that this link will <strong>expire in 24 hours</strong>.</p>
         Didn't sign up? You can safely ignore this email.
     </div>
 </body>

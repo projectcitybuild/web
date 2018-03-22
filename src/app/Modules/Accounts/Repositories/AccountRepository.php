@@ -13,7 +13,8 @@ class AccountRepository extends Repository {
     public function create(
         string $email, 
         string $password,
-        string $ip
+        string $ip,
+        Carbon $createdAt
     ) : Account {
 
         return $this->getModel()->create([
@@ -22,7 +23,7 @@ class AccountRepository extends Repository {
             'remember_token' => '',
             'last_login_ip' => $ip,
             'last_login_at' => Carbon::now(),
-            'created_at'    => Carbon::now(),
+            'created_at'    => $createdAt,
             'updated_at'    => Carbon::now(),
         ]);
     }

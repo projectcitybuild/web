@@ -1,28 +1,23 @@
 <?php
 namespace App\Modules\Accounts\Repositories;
 
-use App\Modules\Accounts\Models\AccountActivationCode;
+use App\Modules\Accounts\Models\UnactivatedAccount;
 use App\Shared\Repository;
 use Carbon\Carbon;
 
 
-class AccountActivationCodeRepository extends Repository {
+class UnactivatedAccountRepository extends Repository {
 
-    protected $model = AccountActivationCode::class;
+    protected $model = UnactivatedAccount::class;
 
     public function create(
-        string $token,
         string $email, 
-        string $password,
-        Carbon $expiresAt
-    ) : AccountActivationCode {
+        string $password
+    ) : UnactivatedAccount {
 
         return $this->getModel()->create([
             'email'         => $email,
             'password'      => $password,
-            'token'         => $token,
-            'is_used'       => false,
-            'expires_at'    => $expiresAt,
         ]);
     }
 
@@ -38,9 +33,9 @@ class AccountActivationCodeRepository extends Repository {
             ->delete();
     }
 
-    public function getByToken(string $token) : ?AccountActivationCode {
+    public function getByEmail(string $email) : ?UnactivatedAccount {
         return $this->getModel()
-            ->where('token', $token)
+            ->where('email', $email)
             ->first();
     }
     

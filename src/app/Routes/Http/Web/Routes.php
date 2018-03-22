@@ -47,7 +47,7 @@ Route::post('register', [
 Route::get('register/activate', [
     'as'    => 'front.register.activate',
     'uses'  => 'RegisterController@activate',
-]);
+])->middleware('signed');
 
 Route::view('bans', 'banlist')->name('banlist');
 

@@ -2,18 +2,17 @@
 
 namespace App\Routes\Http\Web\Controllers;
 
-use Illuminate\Support\Facades\View;
-use App\Routes\Http\Web\WebController;
-use Illuminate\Http\Request;
-use Illuminate\Contracts\Validation\Factory as Validation;
 use App\Modules\Accounts\Repositories\AccountRepository;
-use Hash;
-use App\Modules\Accounts\Repositories\AccountActivationCodeRepository;
-use Illuminate\Support\Facades\Mail;
+use App\Modules\Accounts\Repositories\UnactivatedAccountRepository;
 use App\Modules\Accounts\Mail\AccountActivationMail;
-use Carbon\Carbon;
-use Illuminate\Database\Connection;
+use App\Routes\Http\Web\WebController;
 use Illuminate\Contracts\Auth\Guard as Auth;
+use Illuminate\Contracts\Validation\Factory as Validation;
+use Illuminate\Database\Connection;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Hash;
 
 class RegisterController extends WebController {
     
@@ -28,9 +27,9 @@ class RegisterController extends WebController {
     private $accountRepository;
 
     /**
-     * @var AccountActivationCodeRepository
+     * @var UnactivatedAccountRepository
      */
-    private $codeRepository;
+    private $unactivatedAccountRepository;
 
     /**
      * @var Connection
@@ -46,13 +45,13 @@ class RegisterController extends WebController {
     public function __construct(
         Validation $validation, 
         AccountRepository $accountRepository,
-        AccountActivationCodeRepository $codeRepository,
+        UnactivatedAccountRepository $unactivatedAccountRepository,
         Connection $connection,
         Auth $auth
     ) {
         $this->validation = $validation;
         $this->accountRepository = $accountRepository;
-        $this->codeRepository = $codeRepository;
+        $this->unactivatedAccountRepository = $unactivatedAccountRepository;
         $this->connection = $connection;
         $this->auth = $auth;
     }
@@ -82,14 +81,12 @@ class RegisterController extends WebController {
         $salt = env('APP_KEY');
         $token = hash_hmac('sha256', time().$email, $salt);
 
-        $activationCode = $this->codeRepository->create(
-            $token,
-            $email,
-            $password,
-            (Carbon::now())->addDays(5)
+        $unactivatedAccount = $this->unactivatedAccountRepository->create(
+            $email, 
+            $password
         );
 
-        Mail::to($email)->queue(new AccountActivationMail($activationCode));
+        Mail::to($email)->queue(new AccountActivationMail($unactivatedAccount));
     }
 
     /**
@@ -99,28 +96,18 @@ class RegisterController extends WebController {
      * @return void
      */
     public function activate(Request $request) {
-        $token = $request->get('token');
-        if($token === null || empty($token)) {
+        $email = $request->get('email');
+        if($email === null || empty($email)) {
             abort(401);
         }
 
-        $activationCode = $this->codeRepository->getByToken($token);
-        if($activationCode === null) {
-            // TODO: inform user token has most likely expired
-            abort(410);
-        }
-        
-        if(Carbon::now()->gt($activationCode->expires_at)) {
-            // TODO: inform user token has expired
-            abort(410);
+        $unactivatedAccount = $this->unactivatedAccountRepository->getByEmail($email);
+        if($unactivatedAccount === null) {
+            // TODO: inform user that account does not exist
+            abort(404);
         }
 
-        if($activationCode->is_used) {
-            // TODO: inform user token has been used
-            abort(410);
-        }
-
-        $accountByEmail = $this->accountRepository->getByEmail($request->get('email'));
+        $accountByEmail = $this->accountRepository->getByEmail($email);
         if($accountByEmail) {
             // TODO: inform user account is already activated
             abort(410);
@@ -129,13 +116,12 @@ class RegisterController extends WebController {
         $this->connection->beginTransaction();
         try {
             $account = $this->accountRepository->create(
-                $activationCode->email,
-                $activationCode->password,
+                $unactivatedAccount->email,
+                $unactivatedAccount->password,
                 $request->ip()
             );
 
-            $activationCode->is_used = true;
-            $activationCode->save();
+            $unactivatedAccount->delete();
 
             $this->connection->commit();
 
@@ -144,7 +130,6 @@ class RegisterController extends WebController {
             throw $e;
         }
 
-        
-
+        // TODO: redirect
     }
 }

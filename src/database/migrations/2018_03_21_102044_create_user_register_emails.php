@@ -12,13 +12,10 @@ class CreateUserRegisterEmails extends Migration
      * @return void
      */
     public function up() {
-        Schema::create('account_activation_codes', function(Blueprint $table) {
-            $table->increments('account_activation_id');
-            $table->string('token');
+        Schema::create('accounts_unactivated', function(Blueprint $table) {
+            $table->increments('unactivated_account_id');
             $table->string('email');
             $table->string('password');
-            $table->boolean('is_used')->comment('Whether the code has been used already');
-            $table->datetime('expires_at')->comment('The datetime when this record will be purged');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ class CreateUserRegisterEmails extends Migration
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('account_activation_codes');
+        Schema::dropIfExists('accounts_unactivated');
     }
 }

@@ -1,7 +1,12 @@
+<p align="center">
 ![PCB](https://projectcitybuild.com/assets/images/logo.png)
+</p>
 
+<p align="center">
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0) [![Build Status](https://travis-ci.org/itsmyfirstday/ProjectCityBuild.svg?branch=master)](https://travis-ci.org/itsmyfirstday/ProjectCityBuild)
+</p>
 
+# About PCB
 
 The official repository for [Project City Build](https://projectcitybuild.com)'s homepage and related web services.
 
