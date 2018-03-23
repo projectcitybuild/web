@@ -25,7 +25,8 @@ use GuzzleHttp\Exception\TooManyRedirectsException;
 use App\Shared\Exceptions\TooManyRequestsException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-
+use App\Modules\Accounts\Models\Account;
+use Hash;
 
 /**
  * Warning: this code is total spaghetti...
@@ -77,8 +78,10 @@ class ImportCommand extends Command
                 return $this->importDonations();
             // case 'statuses':
                 // return $this->importServerStatuses();
-            case 'smf':
-                return $this->importSmf();
+            // case 'smf':
+            //     return $this->importSmf();
+            case 'users':
+                return $this->importUsers();
             default:
                 $this->error('Invalid import module name. Valid: [bans, donations]');
                 break;
@@ -338,166 +341,196 @@ class ImportCommand extends Command
     }
 
     private function importSmf() {
-        $this->info('[Smf -> Discourse importer]');
-        $this->warn('Warning: No check for existence is made before importing! This should only be run once in production');
+        // $this->info('[Smf -> Discourse importer]');
+        // $this->warn('Warning: No check for existence is made before importing! This should only be run once in production');
 
-        $this->info('Preparing cache...');
-        $lastMessageId = Cache::get('importer_smf_pms', -1);
-        $this->info('Last imported id: '. $lastMessageId);
+        // $this->info('Preparing cache...');
+        // $lastMessageId = Cache::get('importer_smf_pms', -1);
+        // $this->info('Last imported id: '. $lastMessageId);
 
-        $this->info('Preparing http client...');
-        $client = new Client();
-        $key = env('DISCOURSE_API_KEY');
-        if(!$key) {
-            throw new \Exception('DISCOURSE_API_KEY not set in env');
-        }
+        // $this->info('Preparing http client...');
+        // $client = new Client();
+        // $key = env('DISCOURSE_API_KEY');
+        // if(!$key) {
+        //     throw new \Exception('DISCOURSE_API_KEY not set in env');
+        // }
 
-        $this->info('Importing private messages...');
-        $this->info('Fetching messages...');
-        $messages = DB::connection('mysql_forums')
-            ->table('personal_messages')
-            ->where('id_pm', '>', $lastMessageId)
-            ->orderBy('id_pm', 'asc')
-            ->get();
+        // $this->info('Importing private messages...');
+        // $this->info('Fetching messages...');
+        // $messages = DB::connection('mysql_forums')
+        //     ->table('personal_messages')
+        //     ->where('id_pm', '>', $lastMessageId)
+        //     ->orderBy('id_pm', 'asc')
+        //     ->get();
 
-        $this->info('Fetching recipients...');
-        $recipients = DB::connection('mysql_forums')
-            ->table('pm_recipients')
-            ->where('id_pm', '>', $lastMessageId)
-            ->get();
+        // $this->info('Fetching recipients...');
+        // $recipients = DB::connection('mysql_forums')
+        //     ->table('pm_recipients')
+        //     ->where('id_pm', '>', $lastMessageId)
+        //     ->get();
 
 
-        $fromUserIds = $messages
-            ->pluck('id_member_from')
-            ->unique();
+        // $fromUserIds = $messages
+        //     ->pluck('id_member_from')
+        //     ->unique();
 
-        $toUserIds = $recipients
-            ->pluck('id_member')
-            ->unique();
+        // $toUserIds = $recipients
+        //     ->pluck('id_member')
+        //     ->unique();
 
-        $userIds = $fromUserIds->merge($toUserIds)->unique()->toArray();
-        sort($userIds);
+        // $userIds = $fromUserIds->merge($toUserIds)->unique()->toArray();
+        // sort($userIds);
 
-        $this->info('Fetching users...');
-        $users = DB::connection('mysql_forums')
-            ->table('members')
-            ->whereIn('id_member', $userIds)
-            ->get()
-            ->keyBy('id_member');
+        // $this->info('Fetching users...');
+        // $users = DB::connection('mysql_forums')
+        //     ->table('members')
+        //     ->whereIn('id_member', $userIds)
+        //     ->get()
+        //     ->keyBy('id_member');
 
-        $this->info('Beginning import...');
-        $apiKeys = [];
-        $progress = $this->output->createProgressBar(count($messages));
-        foreach($messages as $message) {
+        // $this->info('Beginning import...');
+        // $apiKeys = [];
+        // $progress = $this->output->createProgressBar(count($messages));
+        // foreach($messages as $message) {
 
-            // manual id skip
-            $pmIdBlacklist = [2166, 2938, 3404, 3759, 4232, 5074, 5189, 5202, 6090, 6304, 6501, 6521, 6637, 6645, 6661, 7065, 7248, 7408, 7443, 7614];
-            if(in_array($message->id_pm, $pmIdBlacklist) === true) {
-                $progress->advance();
-                continue;
-            }
+        //     // manual id skip
+        //     $pmIdBlacklist = [2166, 2938, 3404, 3759, 4232, 5074, 5189, 5202, 6090, 6304, 6501, 6521, 6637, 6645, 6661, 7065, 7248, 7408, 7443, 7614];
+        //     if(in_array($message->id_pm, $pmIdBlacklist) === true) {
+        //         $progress->advance();
+        //         continue;
+        //     }
 
-            if($message->id_member_from === 0) {
-                $progress->advance();
-                continue;
-            }
+        //     if($message->id_member_from === 0) {
+        //         $progress->advance();
+        //         continue;
+        //     }
 
-            $toUserIds = $recipients
-                ->where('id_pm', $message->id_pm)
-                ->where('deleted', 0)
-                ->where('id_member', '!=', 0)
-                ->pluck('id_member');
+        //     $toUserIds = $recipients
+        //         ->where('id_pm', $message->id_pm)
+        //         ->where('deleted', 0)
+        //         ->where('id_member', '!=', 0)
+        //         ->pluck('id_member');
 
-            $fromUser = $users->get($message->id_member_from);
+        //     $fromUser = $users->get($message->id_member_from);
 
-            if($fromUser === null) {
-                throw new \Exception('Could not find FROM user for ['.$message->id_pm.']');
-            }
+        //     if($fromUser === null) {
+        //         throw new \Exception('Could not find FROM user for ['.$message->id_pm.']');
+        //     }
 
-            // don't bother import if no one has a copy of the pm in their inbox
-            if(count($toUserIds->toArray()) === 0) {
-                $progress->advance();
-                continue;
-            }
+        //     // don't bother import if no one has a copy of the pm in their inbox
+        //     if(count($toUserIds->toArray()) === 0) {
+        //         $progress->advance();
+        //         continue;
+        //     }
 
-            $toUsers = [];
-            foreach($toUserIds as $id) {
-                $name = $users->get($id)->member_name;
-                // skip non-existent users
-                $nameBlacklist = ['PCB_Econ', 'isonb54321', '_ST0N3_', 'RemusS_'];
-                if(in_array($name, $nameBlacklist) === true) {
-                    continue;
-                }
-                if($name === 'Mango_Bear_') {
-                    $name = 'Mango_Bear';
-                }
-                $toUsers[] = $name;
-            }
-            $toUsers = implode(',', $toUsers);
+        //     $toUsers = [];
+        //     foreach($toUserIds as $id) {
+        //         $name = $users->get($id)->member_name;
+        //         // skip non-existent users
+        //         $nameBlacklist = ['PCB_Econ', 'isonb54321', '_ST0N3_', 'RemusS_'];
+        //         if(in_array($name, $nameBlacklist) === true) {
+        //             continue;
+        //         }
+        //         if($name === 'Mango_Bear_') {
+        //             $name = 'Mango_Bear';
+        //         }
+        //         $toUsers[] = $name;
+        //     }
+        //     $toUsers = implode(',', $toUsers);
             
-            if(count($toUsers) === 0 || $toUsers === null || $toUsers === "") {
-                $progress->advance();
-                continue;
-            }
+        //     if(count($toUsers) === 0 || $toUsers === null || $toUsers === "") {
+        //         $progress->advance();
+        //         continue;
+        //     }
 
-            try {
-                while(true) {
-                    try {
-                        $client->post('http://forums.projectcitybuild.com/posts?api_key='.$key.'&api_username='.$fromUser->member_name, [
-                            'form_params' => [
-                                'title'             => $message->subject,
-                                'raw'               => $message->body,
-                                'target_usernames'  => $toUsers,
-                                'archetype'         => 'private_message',
-                                'created_at'        => Carbon::createFromTimestamp($message->msgtime)->toDateTimeString(),
-                            ],
-                        ]);
-                        break;
+        //     try {
+        //         while(true) {
+        //             try {
+        //                 $client->post('http://forums.projectcitybuild.com/posts?api_key='.$key.'&api_username='.$fromUser->member_name, [
+        //                     'form_params' => [
+        //                         'title'             => $message->subject,
+        //                         'raw'               => $message->body,
+        //                         'target_usernames'  => $toUsers,
+        //                         'archetype'         => 'private_message',
+        //                         'created_at'        => Carbon::createFromTimestamp($message->msgtime)->toDateTimeString(),
+        //                     ],
+        //                 ]);
+        //                 break;
     
-                    } catch (ClientException $e) {
-                        $response = $e->getResponse();
-                        // skip 403 Forbidden errors since the user was probably banned
-                        if($response->getStatusCode() === 403) {
-                            $progress->advance();
-                            break;
-                        }
-                        if($response->getStatusCode() === 429) {
-                            $this->info('Rate limited. Sleeping for 10 seconds');
-                            sleep(11);
-                            $this->info('Resuming...');
-                            continue;
-                        }
-                        throw $e;
-                    }
-                }
+        //             } catch (ClientException $e) {
+        //                 $response = $e->getResponse();
+        //                 // skip 403 Forbidden errors since the user was probably banned
+        //                 if($response->getStatusCode() === 403) {
+        //                     $progress->advance();
+        //                     break;
+        //                 }
+        //                 if($response->getStatusCode() === 429) {
+        //                     $this->info('Rate limited. Sleeping for 10 seconds');
+        //                     sleep(11);
+        //                     $this->info('Resuming...');
+        //                     continue;
+        //                 }
+        //                 throw $e;
+        //             }
+        //         }
 
-            } catch(\Exception $e) {
-                dump($message);
-                dump('http://forums.projectcitybuild.com/posts?api_key='.$key.'&api_username='.$fromUser->member_name);
-                dump('Sender: '. $fromUser->member_name);
-                dump(['form_params' => [
-                    'title'             => $message->subject,
-                    'raw'               => $message->body,
-                    'target_usernames'  => $toUsers,
-                    'archetype'         => 'private_message',
-                    'created_at'        => Carbon::createFromTimestamp($message->msgtime)->toDateTimeString(),
-                ]]);
+        //     } catch(\Exception $e) {
+        //         dump($message);
+        //         dump('http://forums.projectcitybuild.com/posts?api_key='.$key.'&api_username='.$fromUser->member_name);
+        //         dump('Sender: '. $fromUser->member_name);
+        //         dump(['form_params' => [
+        //             'title'             => $message->subject,
+        //             'raw'               => $message->body,
+        //             'target_usernames'  => $toUsers,
+        //             'archetype'         => 'private_message',
+        //             'created_at'        => Carbon::createFromTimestamp($message->msgtime)->toDateTimeString(),
+        //         ]]);
 
-                dump($message);
-                throw $e;
-            }
+        //         dump($message);
+        //         throw $e;
+        //     }
            
 
-            $lastMessageId = $message->id_pm;
-            Cache::forever('importer_smf_pms', $lastMessageId);
+        //     $lastMessageId = $message->id_pm;
+        //     Cache::forever('importer_smf_pms', $lastMessageId);
 
-            $progress->advance();
-        }
+        //     $progress->advance();
+        // }
+
+        // $this->info('Import complete');
+    }
+
+    private function importUsers() {
+        $this->info('[SMF user importer]');
+        $this->warn('Warning: No check for existence is made before importing! This should only be run once in production');
+
+        $this->info('Beginning import...');
+
+        $users = DB::connection('mysql_forums')
+            ->table('members')
+            ->select('*')
+            ->orderBy('id_member', 'asc')
+            ->chunk(100, function($users) {
+                DB::transaction(function() use($users) {
+                    $progress = $this->output->createProgressBar(count($users));
+                    
+                    foreach($users as $user) {
+                        Account::create([
+                            'email'         => $user->email_address,
+                            'password'      => Hash::make(time()),
+                            'created_at'    => Carbon::createFromTimestamp($user->date_registered),
+                            'updated_at'    => Carbon::now(),
+                        ]);
+            
+                        $progress->advance();
+                    }
+                });
+            });
 
         $this->info('Import complete');
     }
 
-    // private function importServerStatuses() {
+    private function importServerStatuses() {
     //     $this->info('[Server status data importer]');
     //     $this->warn('Warning: No check for existence is made before importing server statuses! This should only be run once in production');
 
@@ -651,5 +684,5 @@ class ImportCommand extends Command
     //                 $this->info('Imported id='.$status->id);
     //             }
     //         });
-    // }
+    }
 }

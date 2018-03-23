@@ -23,7 +23,12 @@ class CreateAccountOauth extends Migration
         Schema::table('accounts', function(Blueprint $table) {
             $table->string('remember_token', 60)->nullable()->change();
             $table->string('last_login_ip', 45)->nullable()->change();
-            $table->datetime('last_login_at')->nullable()->change();
+
+            $table->dropColumn('last_login_at');
+        });
+
+        Schema::table('accounts', function(Blueprint $table) {
+            $table->timestamp('last_login_at')->nullable()->after('last_login_ip');
         });
     }
 
@@ -36,7 +41,12 @@ class CreateAccountOauth extends Migration
         Schema::table('accounts', function(Blueprint $table) {
             $table->string('remember_token', 60)->change();
             $table->string('last_login_ip', 45)->change();
-            $table->datetime('last_login_at')->change();
+
+            $table->dropColumn('last_login_at');
+        });
+
+        Schema::table('accounts', function(Blueprint $table) {
+            $table->datetime('last_login_at')->after('last_login_ip');
         });
 
         Schema::dropIfExists('account_links');
