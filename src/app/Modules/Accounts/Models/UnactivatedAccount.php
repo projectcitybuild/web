@@ -3,7 +3,6 @@
 namespace App\Modules\Accounts\Models;
 
 use App\Shared\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\URL;
 
 class UnactivatedAccount extends Model {

@@ -33,4 +33,8 @@ class Account extends Authenticatable {
         return $this->belongsTo('App\Modules\Players\Models\MinecraftPlayer', 'account_id', 'account_id');
     }
 
+    public function linkedSocialAccounts() {
+        return $this->hasMany('App\Modules\Accounts\Models\LinkedSocialAccount', 'account_id', 'account_id');
+    }
+
 }

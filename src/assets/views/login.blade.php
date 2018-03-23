@@ -53,13 +53,13 @@
             </div>
 
             <div class="login__social">
-                <a class="login__button login__button--facebook" href="#">
+                <a class="login__button login__button--facebook" href="{{ route('front.login.facebook') }}">
                     <i class="fab fa-facebook-square"></i> Sign in with Facebook
                 </a>
-                <a class="login__button login__button--twitter" href="#">
+                <a class="login__button login__button--twitter" href="{{ route('front.login.twitter') }}">
                     <i class="fab fa-twitter-square"></i> Sign in with Twitter
                 </a>
-                <a class="login__button login__button--google" href="#">
+                <a class="login__button login__button--google" href="{{ route('front.login.google') }}">
                     <i class="fab fa-google"></i> Sign in with Google
                 </a>
             </div>

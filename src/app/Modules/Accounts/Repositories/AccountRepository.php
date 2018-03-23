@@ -13,7 +13,7 @@ class AccountRepository extends Repository {
     public function create(
         string $email, 
         string $password,
-        string $ip,
+        ?string $ip,
         Carbon $createdAt
     ) : Account {
 

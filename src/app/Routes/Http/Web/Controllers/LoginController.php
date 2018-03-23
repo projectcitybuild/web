@@ -2,12 +2,14 @@
 
 namespace App\Routes\Http\Web\Controllers;
 
-use App\Routes\Http\Web\WebController;
-use Illuminate\Validation\Factory as Validation;
 use App\Modules\Forums\Services\Authentication\DiscourseAuthService;
-use Illuminate\Http\Request;
-use Illuminate\Contracts\Auth\Guard as Auth;
 use App\Modules\Forums\Exceptions\BadSSOPayloadException;
+use App\Modules\Accounts\Services\AccountLinkService;
+use App\Routes\Http\Web\WebController;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Validation\Factory as Validation;
+use Illuminate\Contracts\Auth\Guard as Auth;
+use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 
 class LoginController extends WebController {
@@ -16,6 +18,11 @@ class LoginController extends WebController {
      * @var DiscourseAuthService
      */
     private $discourseAuthService;
+
+    /**
+     * @var AccountLinKService
+     */
+    private $accountLinkService;
 
     /**
      * @var Auth
@@ -30,10 +37,12 @@ class LoginController extends WebController {
 
     public function __construct(
         DiscourseAuthService $discourseAuthService,
+        AccountLinkService $accountLinkService,
         Auth $auth,
         Client $client
     ) {
         $this->discourseAuthService = $discourseAuthService;
+        $this->accountLinkService = $accountLinkService;
         $this->auth = $auth;
         $this->client = $client;
     }
@@ -94,11 +103,11 @@ class LoginController extends WebController {
         ]);
 
         $validator->after(function($validator) use($request) {
-            if($this->auth->attempt([
+            $credentials = [
                 'email'     => $request->get('email'),
                 'password'  => $request->get('password'),
-            ], true) === false) {
-    
+            ];
+            if($this->auth->attempt($credentials, true) === false) {
                 $validator->errors()->add('error', 'Email or password is incorrect');
             }
         });
@@ -167,4 +176,49 @@ class LoginController extends WebController {
         return redirect()->route('front.home');
     }
 
+    
+    public function redirectToGoogle() {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback(Request $request) {
+        $providerUser = Socialite::driver('google')->user();
+
+        if($providerUser->getEmail() === null) {
+            // TODO: no email, cannot proceed
+        }
+
+        $account = $this->accountLinkService->getOrCreateAccount('google', $providerUser);
+        if($account === null) {
+            //
+        }
+
+        $session = $request->session();
+        $nonce   = $session->get('discourse_nonce');
+        $return  = $session->get('discourse_return');
+
+        if($nonce === null || $return === null) {
+            // TODO: payload data missing - handle
+            abort(400);
+        }
+
+        $this->auth->setUser($account);
+
+        // generate new payload to send to discourse
+        $payload = $this->discourseAuthService->makePayload([
+            'nonce' => $nonce,
+            'email' => $providerUser->getEmail(),
+            'external_id' => $account->getKey(),
+            'require_activation' => false,
+        ]);
+        $signature = $this->discourseAuthService->getSignedPayload($payload);
+
+        // attach parameters to return url
+        $endpoint = $this->discourseAuthService->getRedirectUrl($return, $payload, $signature);
+
+        $session->remove('discourse_nonce');
+        $session->remove('discourse_return');
+
+        return redirect()->to($endpoint);
+    }
 }
