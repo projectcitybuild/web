@@ -88,14 +88,7 @@ class LoginController extends WebController {
     }
 
     public function login(Request $request, Validation $validation) {
-        $session = $request->session();
-        $nonce   = $session->get('discourse_nonce');
-        $return  = $session->get('discourse_return');
-
-        if($nonce === null || $return === null) {
-            // TODO: payload data missing - handle
-            abort(400);
-        }
+        $this->validateNonceSession($request);
 
         $validator = $validation->make($request->all(), [
             'email'     => 'required',
@@ -119,23 +112,11 @@ class LoginController extends WebController {
                 ->withInput();
         }
 
-
-        // generate new payload to send to discourse
-        $payload = $this->discourseAuthService->makePayload([
-            'nonce' => $nonce,
-            'email' => $request->get('email'),
-            'external_id' => $this->auth->id(),
-            'require_activation' => false,
-        ]);
-        $signature = $this->discourseAuthService->getSignedPayload($payload);
-
-        // attach parameters to return url
-        $endpoint = $this->discourseAuthService->getRedirectUrl($return, $payload, $signature);
-
-        $session->remove('discourse_nonce');
-        $session->remove('discourse_return');
-
-        return redirect()->to($endpoint);
+        return $this->dispatchToDiscourse(
+            $request,
+            $request->get('email'),
+            $this->auth->id()
+        );
     }
 
     /**
@@ -176,23 +157,7 @@ class LoginController extends WebController {
         return redirect()->route('front.home');
     }
 
-    
-    public function redirectToGoogle() {
-        return Socialite::driver('google')->redirect();
-    }
-
-    public function handleGoogleCallback(Request $request) {
-        $providerUser = Socialite::driver('google')->user();
-
-        if($providerUser->getEmail() === null) {
-            // TODO: no email, cannot proceed
-        }
-
-        $account = $this->accountLinkService->getOrCreateAccount('google', $providerUser);
-        if($account === null) {
-            //
-        }
-
+    private function validateNonceSession(Request $request) {
         $session = $request->session();
         $nonce   = $session->get('discourse_nonce');
         $return  = $session->get('discourse_return');
@@ -201,14 +166,18 @@ class LoginController extends WebController {
             // TODO: payload data missing - handle
             abort(400);
         }
+    }
 
-        $this->auth->setUser($account);
-
+    private function dispatchToDiscourse(
+        Request $request, 
+        string $email,
+        $accountId
+    ) {
         // generate new payload to send to discourse
         $payload = $this->discourseAuthService->makePayload([
             'nonce' => $nonce,
-            'email' => $providerUser->getEmail(),
-            'external_id' => $account->getKey(),
+            'email' => $email,
+            'external_id' => $accountId,
             'require_activation' => false,
         ]);
         $signature = $this->discourseAuthService->getSignedPayload($payload);
@@ -220,5 +189,96 @@ class LoginController extends WebController {
         $session->remove('discourse_return');
 
         return redirect()->to($endpoint);
+    }
+
+    
+    public function redirectToGoogle() {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback(Request $request) {
+        $providerUser = Socialite::driver('google')->user();
+
+        if($providerUser->getEmail() === null) {
+            // TODO: no email, cannot proceed
+            abort(400);
+        }
+
+        $account = $this->accountLinkService->getOrCreateAccount('google', $providerUser);
+        if($account === null) {
+            //
+            abort(400);
+        }
+
+        $this->validateNonceSession($request);
+
+        $this->auth->setUser($account);
+
+        return $this->dispatchToDiscourse(
+            $request,
+            $providerUser,
+            $providerUser->getEmail(),
+            $account->getKey()
+        );
+    }
+
+    public function redirectToTwitter() {
+        return Socialite::driver('twitter')->redirect();
+    }
+
+    public function handleTwitterCallback(Request $request) {
+        $providerUser = Socialite::driver('twitter')->user();
+
+        if($providerUser->getEmail() === null) {
+            // TODO: no email, cannot proceed
+            abort(400);
+        }
+
+        $account = $this->accountLinkService->getOrCreateAccount('twitter', $providerUser);
+        if($account === null) {
+            //
+            abort(400);
+        }
+
+        $this->validateNonceSession($request);
+
+        $this->auth->setUser($account);
+
+        return $this->dispatchToDiscourse(
+            $request,
+            $providerUser,
+            $providerUser->getEmail(),
+            $account->getKey()
+        );
+    }
+
+    public function redirectToFacebook() {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function handleFacebookCallback(Request $request) {
+        $providerUser = Socialite::driver('facebook')->user();
+
+        if($providerUser->getEmail() === null) {
+            // TODO: no email, cannot proceed
+            abort(400);
+        }
+
+        $account = $this->accountLinkService->getOrCreateAccount('facebook', $providerUser);
+        if($account === null) {
+            //
+            abort(400);
+        }
+
+        $this->validateNonceSession($request);
+
+        $this->auth->setUser($account);
+
+        return $this->dispatchToDiscourse(
+            $request,
+            $providerUser,
+            $providerUser->getEmail(),
+            $account->getKey()
+        );
     }
 }

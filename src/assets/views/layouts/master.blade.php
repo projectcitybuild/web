@@ -154,7 +154,7 @@
                             <h1 class="hero__header">We Build Stuff.</h1>
                             <div class="hero__slogan">
                                 PCB is a gaming community of creative players and city builders.<br>
-                                Over <span class="accent strong">21,427</span> registered players and always growing.
+                                Over <span class="accent strong">{{ number_format($playerCount) ?: 0 }}</span> registered players and always growing.
                             </div>
 
                             <div class="hero__actions">
