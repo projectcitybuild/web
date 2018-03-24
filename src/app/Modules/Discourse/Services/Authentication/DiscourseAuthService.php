@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Forums\Services\Authentication;
+namespace App\Modules\Discourse\Services\Authentication;
 
 use App\Modules\Forums\Exceptions\BadPayloadException;
 use App\Modules\Forums\Exceptions\BadSSOPayloadException;

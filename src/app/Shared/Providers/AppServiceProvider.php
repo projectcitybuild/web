@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use App\Modules\Players\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\View;
 use Schema;
-use App\Modules\Forums\Services\Authentication\DiscourseAuthService;
+use App\Modules\Discourse\Services\Authentication\DiscourseAuthService;
 
 class AppServiceProvider extends ServiceProvider
 {

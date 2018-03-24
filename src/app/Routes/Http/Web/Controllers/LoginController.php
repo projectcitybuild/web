@@ -2,7 +2,7 @@
 
 namespace App\Routes\Http\Web\Controllers;
 
-use App\Modules\Forums\Services\Authentication\DiscourseAuthService;
+use App\Modules\Discourse\Services\Authentication\DiscourseAuthService;
 use App\Modules\Forums\Exceptions\BadSSOPayloadException;
 use App\Modules\Accounts\Services\AccountLinkService;
 use App\Routes\Http\Web\WebController;
