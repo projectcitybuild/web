@@ -133,23 +133,11 @@
                     <div class="header__left">
                         <img class="header__logo" src="{{ asset('assets/images/logo.png') }}" alt="Project City Build" />
                     
-                        <section class="server-feed">
-                            @foreach($serverCategories as $category)
-                            <div class="category">
-                                <h5 class="category__heading">{{ $category->name }}</h5>
-                                @foreach($category->servers as $server)
-                                <div class="server {{ $server->isOnline() ? 'server--online' : 'server--offline' }}">
-                                    <div class="server__title">{{ $server->name }}</div>
-                                    <div class="server__players badge {{ $server->isOnline() ? 'badge--secondary' : 'badge--light' }}">{{ $server->isOnline() ? $server->status->num_of_players.'/'.$server->status->num_of_slots : 'Offline' }}</div>
-                                    <div class="server__ip">{{ $server->ip_alias ?: $server->getAddress() }}</div>
-                                </div>
-                                @endforeach
-                            </div>
-                            @endforeach
-                        </section>
+                        @includeWhen(Route::current()->getName() === 'front.home', 'components.server-feed')
                     </div>
                     
                     <div class="header__right">
+                        @if(Route::current()->getName() === 'front.home')
                         <div class="hero">
                             <h1 class="hero__header">We Build Stuff.</h1>
                             <div class="hero__slogan">
@@ -167,6 +155,9 @@
                                 </a>
                             </div>
                         </div>
+                        @endif
+
+                        @includeWhen(Route::current()->getName() !== 'front.home', 'components.server-feed')
                     </div>
                 </div>
             </header>

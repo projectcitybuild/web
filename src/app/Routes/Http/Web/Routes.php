@@ -51,6 +51,24 @@ Route::get('login/twitter/callback', [
     'uses'  => 'LoginController@handleTwitterCallback',
 ]);
 
+Route::get('password-reset', [
+    'as'    => 'front.password-reset',
+    'uses'  => 'PasswordRecoveryController@showEmailForm',
+]);
+Route::post('password-reset', [
+    'as'    => 'front.password-reset.submit',
+    'uses'  => 'PasswordRecoveryController@sendVerificationEmail',
+]);
+Route::get('password-reset/recovery', [
+    'as'    => 'front.password-reset.recovery',
+    'uses'  => 'PasswordRecoveryController@showResetForm',
+])->middleware('signed');
+
+Route::post('password-reset/recovery', [
+    'as'    => 'front.password-reset.save',
+    'uses'  => 'PasswordRecoveryController@resetPassword',
+]);
+
 Route::get('logout/discourse', [
     'as'    => 'front.logout.pcb',
     'uses'  => 'LoginController@logoutFromDiscourse',

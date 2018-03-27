@@ -38,7 +38,7 @@
                             <label for="inputRemember">Remember Me</label>
                         </div>
                         <div class="login__forgot">
-                            <a href="#">Forgot your password?</a>
+                            <a href="{{ route('front.password-reset') }}">Forgot your password?</a>
                         </div>
                     </div>
                 </div>

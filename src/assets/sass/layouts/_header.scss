@@ -32,7 +32,7 @@
         align-items: center;
 
         @media screen and (min-width: $dimen-medium) {
-            margin-left: 3em;
+            padding-left: 3em;
             flex: 0 0 60%;
         }
     }

@@ -1650,7 +1650,7 @@ table.table tr.disabled {
 
 @media screen and (min-width: 768px) {
   .header__right {
-    margin-left: 3em;
+    padding-left: 3em;
     -webkit-box-flex: 0;
         -ms-flex: 0 0 60%;
             flex: 0 0 60%;

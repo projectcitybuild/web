@@ -173,6 +173,10 @@ class LoginController extends WebController {
         string $email,
         $accountId
     ) {
+        $session = $request->session();
+        $nonce   = $session->get('discourse_nonce');
+        $return  = $session->get('discourse_return');
+
         // generate new payload to send to discourse
         $payload = $this->discourseAuthService->makePayload([
             'nonce' => $nonce,
