@@ -6,6 +6,10 @@
         padding: 1em 0;
     }
 
+    &--thin {
+        padding: 2em 0 1em;
+    }
+
     &__container {
         display: flex;
         flex-direction: column;
@@ -38,13 +42,20 @@
     }
 
     &__logo {
+        max-width: 300px;
         margin-top: 0.5em;
         margin-bottom: 2em;
-        max-width: 300px;
 
         @media screen and (max-width: $dimen-medium) {
             width: 100%;
             max-width: 350px;
+        }
+
+        &--nopadding {
+            margin: 0;
+            @media screen and (max-width: $dimen-medium) {
+                margin-bottom: 2em;
+            }            
         }
     }
 }

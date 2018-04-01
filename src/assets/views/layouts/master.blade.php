@@ -128,12 +128,16 @@
         </div>
 
         <main>
-            <header class="header">
+        
+            @php
+                $isHomepage = Route::current()->getName() === 'front.home';
+            @endphp
+            <header class="header {{ !$isHomepage ? 'header--thin' : '' }}">
                 <div class="container header__container">
                     <div class="header__left">
-                        <img class="header__logo" src="{{ asset('assets/images/logo.png') }}" alt="Project City Build" />
+                        <img class="header__logo {{ !$isHomepage ? 'header__logo--nopadding' : '' }}" src="{{ asset('assets/images/logo.png') }}" alt="Project City Build" />
                     
-                        @includeWhen(Route::current()->getName() === 'front.home', 'components.server-feed')
+                        @includeWhen($isHomepage, 'components.server-feed')
                     </div>
                     
                     <div class="header__right">
@@ -157,7 +161,7 @@
                         </div>
                         @endif
 
-                        @includeWhen(Route::current()->getName() !== 'front.home', 'components.server-feed')
+                        @includeWhen(!$isHomepage, 'components.server-feed')
                     </div>
                 </div>
             </header>

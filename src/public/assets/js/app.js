@@ -428,6 +428,7 @@ class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                 cooked: "",
             };
         const date = __WEBPACK_IMPORTED_MODULE_1_moment__(announcement.created_at);
+        const avatarUrl = announcement.details.avatar_template.replace('{size}', '16');
         return (__WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("article", { className: "article card", key: announcement.id },
             __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__container" },
                 __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("h2", { className: "article__heading" }, announcement.title),
@@ -442,8 +443,8 @@ class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                         __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "rect5" })))),
                 __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__author" },
                     "Posted by",
-                    __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("img", { src: `https://minotar.net/helm/${username}/16`, width: "16", alt: username }),
-                    __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("a", { href: "#" }, username))),
+                    __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("img", { src: avatarUrl, width: "16", alt: username }),
+                    __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("a", { href: `http://forums.projectcitybuild.com/u/${username}` }, username))),
             __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__footer" },
                 __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "stats-container" },
                     __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "stat" },
@@ -519,7 +520,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 
 const getAnnouncements = () => __awaiter(this, void 0, void 0, function* () {
     try {
-        const response = yield __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('https://14049ad2-d79d-4133-9496-b21196a2d6a4.mock.pstmn.io/announcements');
+        const response = yield __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('http://forums.projectcitybuild.com/c/announcements-news/l/latest.json?_=' + Date.now());
         if (response.status !== 200) {
             throw new Error(`${response.status} error while fetching announcements`);
         }
@@ -534,7 +535,7 @@ const getAnnouncements = () => __awaiter(this, void 0, void 0, function* () {
 
 const getTopic = (topicId) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const response = yield __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('https://5f7c1e53-00f2-4d54-a389-a4cd1e1245a8.mock.pstmn.io/post');
+        let response = yield __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(`http://forums.projectcitybuild.com/t/${topicId}.json`);
         if (response.status !== 200) {
             throw new Error(`${response.status} error while fetching announcements`);
         }

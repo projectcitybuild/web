@@ -1595,6 +1595,10 @@ table.table tr.disabled {
   }
 }
 
+.header--thin {
+  padding: 2em 0 1em;
+}
+
 .header__container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1658,15 +1662,25 @@ table.table tr.disabled {
 }
 
 .header__logo {
+  max-width: 300px;
   margin-top: 0.5em;
   margin-bottom: 2em;
-  max-width: 300px;
 }
 
 @media screen and (max-width: 768px) {
   .header__logo {
     width: 100%;
     max-width: 350px;
+  }
+}
+
+.header__logo--nopadding {
+  margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .header__logo--nopadding {
+    margin-bottom: 2em;
   }
 }
 
