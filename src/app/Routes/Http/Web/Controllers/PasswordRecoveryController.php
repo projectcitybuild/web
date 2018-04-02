@@ -78,7 +78,9 @@ class PasswordRecoveryController extends WebController {
 
         Mail::to($email)->queue(new AccountPasswordResetMail($passwordReset));
 
-        // TODO: redirect
+        return redirect()
+            ->back()
+            ->with(['success' => $email]);
     }
 
     public function showResetForm(Request $request) {
@@ -114,12 +116,16 @@ class PasswordRecoveryController extends WebController {
 
         $passwordReset = $this->passwordResetRepository->getByToken($request->get('password_token'));
         if($passwordReset === null) {
-            abort(401, "Password token not found");
+            return redirect()
+                ->route('front.password-reset')
+                ->withErrors('error', 'Password tokekn not found');
         }
 
         $account = $this->accountRepository->getByEmail($passwordReset->email);
         if($account === null) {
-            abort(401, "Account not found");
+            return redirect()
+                ->route('front.password-reset')
+                ->withErrors('error', 'Account not found');
         }
 
         $this->connection->beginTransaction();
@@ -135,7 +141,9 @@ class PasswordRecoveryController extends WebController {
             throw $e;
         }
 
-        // TODO: redirect
+        return view('password-reset-success');
     }
+
+
 
 }

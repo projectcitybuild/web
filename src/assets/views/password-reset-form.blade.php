@@ -8,12 +8,7 @@
     <div class="card">
         <div class="card__body">
             <h1>Set Your Password</h1>
-
-            <p>
-                Please enter a new password for your account.
-            </p>
-
-            <hr>
+            <p>Please enter a new password for your account.</p>
 
             <form method="post" action="{{ route('front.password-reset.save') }}">
                 @csrf
@@ -40,7 +35,7 @@
 
                 <div>
                     <button class="button button--large button--fill button--primary" type="submit">
-                        <i class="fas fa-check"></i> Save Password
+                        <i class="fas fa-check"></i> Reset Password
                     </button>
                 </div>
 

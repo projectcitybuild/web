@@ -49,7 +49,7 @@
             <h1>Sign Up</h1>
 
             <div class="login__description">
-                Members gain access to personal player statistics, the ability to post on the forums and more.
+                Members gain access to personal player statistics, the forums, in-game rank synchronization and more.
             </div>
 
             <div class="login__social">

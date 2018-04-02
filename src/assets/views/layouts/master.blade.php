@@ -141,7 +141,7 @@
                     </div>
                     
                     <div class="header__right">
-                        @if(Route::current()->getName() === 'front.home')
+                        @if($isHomepage)
                         <div class="hero">
                             <h1 class="hero__header">We Build Stuff.</h1>
                             <div class="hero__slogan">
