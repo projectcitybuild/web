@@ -24,8 +24,10 @@
   "dependencies": {
     "@types/react": "^16.0.34",
     "@types/react-dom": "^16.0.3",
+    "@types/sanitize-html": "^1.14.0",
     "axios": "^0.16.2",
     "halogen": "^0.2.0",
-    "moment": "^2.18.1"
+    "moment": "^2.18.1",
+    "sanitize-html": "^1.18.2"
   }
 }

@@ -36,16 +36,17 @@ export interface ApiTopicDetail {
 }
 
 export interface ApiPost {
-    cooked: string,    
+    cooked: string,
+    avatar_template: string,
 }
 
 /** 
  * Fetches a list of the most recent announcement
  * category topics
 */
-export const getAnnouncements = async (): Promise<ApiTopicList> => {
+export const getAnnouncements = async() : Promise<ApiTopicList> => {
     try {
-        const response = await axios.get('https://14049ad2-d79d-4133-9496-b21196a2d6a4.mock.pstmn.io/announcements');
+        const response = await axios.get('http://forums.projectcitybuild.com/c/announcements-news/l/latest.json?_=' + Date.now());
         if(response.status !== 200) {
             throw new Error(`${response.status} error while fetching announcements`);
         }
@@ -64,10 +65,9 @@ export const getAnnouncements = async (): Promise<ApiTopicList> => {
  * 
  * @param topicId 
  */
-export const getTopic = async (topicId: number): Promise<ApiTopicDetail> => {
+export const getTopic = async(topicId: number) : Promise<ApiTopicDetail> => {
     try {
-        const response = await axios.get('https://5f7c1e53-00f2-4d54-a389-a4cd1e1245a8.mock.pstmn.io/post');
-        // let response = await axios.get(`http://forums.projectcitybuild.com/t/${topicId}.json`);
+        let response = await axios.get(`http://forums.projectcitybuild.com/t/${topicId}.json`);
         if(response.status !== 200) {
             throw new Error(`${response.status} error while fetching announcements`);
         }

@@ -89,7 +89,8 @@ export default class Component extends React.Component<{}, InitialState> {
 
             return (
                 <Announcement 
-                    announcement={value} 
+                    key={seed}
+                    announcement={value}
                     seed={seed}
                     />
             );

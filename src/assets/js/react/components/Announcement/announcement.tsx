@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as Api from './api';
 import * as Moment from 'moment';
+import * as sanitizeHtml from 'sanitize-html';
 
 interface InitialState {
 };
@@ -14,10 +15,14 @@ export default class Component extends React.Component<Props, InitialState> {
     state: InitialState = {
     }
 
+    createMarkup(html: string) {
+
+        return { __html: html }
+    }
+
     getRandom(min: number, max: number, localSeed: number = this.props.seed) : number {
         let x = Math.sin(localSeed) * 10000;
         x = x - Math.floor(x);
-
         x = (x * (max - min)) + min;
 
         return x;
@@ -39,36 +44,44 @@ export default class Component extends React.Component<Props, InitialState> {
                 ? announcement.details.post_stream.posts[0]
                 : { 
                     cooked: "", 
+                    avatar_template: "",
                 };
 
         const date = Moment(announcement.created_at);
+        const avatarUrl = "http://forums.projectcitybuild.com" + post.avatar_template.replace('{size}', '16')
+
+        
+        const markup = sanitizeHtml(post.cooked, {
+            allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'span', 'li', 'ul', 'img', 'hr', 's'],
+            allowedAttributes: {
+              a: ['href', 'target', 'src']
+            }
+          });
 
         return (
             <article className="article card" key={announcement.id}>
                 <div className="article__container">
                     <h2 className="article__heading">{ announcement.title }</h2>
                     <div className="article__date">{ date.format('ddd, Do \of MMMM, YYYY') }</div>
-
-                    <div className="article__body">
-                        { 
-                            announcement.details
-                            ? post.cooked
+                    { 
+                        announcement.details
+                            ? <div className="article__body" dangerouslySetInnerHTML={{ __html: markup }}></div>
                             : (
-                                <div className="spinner">
-                                    <div className="rect1"></div>
-                                    <div className="rect2"></div>
-                                    <div className="rect3"></div>
-                                    <div className="rect4"></div>
-                                    <div className="rect5"></div>
+                                <div className="article__body">
+                                    <div className="spinner">
+                                        <div className="rect1"></div>
+                                        <div className="rect2"></div>
+                                        <div className="rect3"></div>
+                                        <div className="rect4"></div>
+                                        <div className="rect5"></div>
+                                    </div>
                                 </div>
                             )
-                        }
-                    </div>
-
+                    }
                     <div className="article__author">
                         Posted by
-                        <img src={`https://minotar.net/helm/${username}/16`} width="16" alt={username} />
-                        <a href="#">{ username }</a>
+                        <img src={avatarUrl} width="16" alt={username} />
+                        <a href={`http://forums.projectcitybuild.com/u/${username}`}>{ username }</a>
                     </div>
                 </div>
                 <div className="article__footer">
