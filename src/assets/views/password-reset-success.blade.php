@@ -6,7 +6,7 @@
 @section('contents')
 
     <div class="card">
-        <div class="card__body">
+        <div class="card__body card__body--padded">
             <h1>Password Reset</h1>
             <p>Your password has successfully been reset. Please proceed to the login screen to complete the process.</p>
 

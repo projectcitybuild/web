@@ -38,4 +38,12 @@
     &__header, &__body, &__footer {
         padding: 1em;
     }
+
+    &__body--padded {
+        padding: 2em;
+
+        @media screen and (max-width: $dimen-medium) {
+            padding: 1em;
+        }
+    }
 }

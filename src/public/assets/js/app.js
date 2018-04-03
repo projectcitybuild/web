@@ -436,8 +436,9 @@ class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             };
         const date = __WEBPACK_IMPORTED_MODULE_1_moment__(announcement.created_at);
         const avatarUrl = "http://forums.projectcitybuild.com" + post.avatar_template.replace('{size}', '16');
+        console.log(post.cooked);
         const markup = __WEBPACK_IMPORTED_MODULE_2_sanitize_html__(post.cooked, {
-            allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'span', 'li', 'ul', 'img', 'hr', 's'],
+            allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'li', 'ul', 'img', 'hr', 's'],
             allowedAttributes: {
                 a: ['href', 'target', 'src']
             }

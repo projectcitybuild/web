@@ -33,10 +33,7 @@
                 </div>
                 <div class="form-row">
                     <div class="login__options">
-                        <div class="login__remember">
-                            <input name="remember" type="checkbox" id="inputRemember" checked />
-                            <label for="inputRemember">Remember Me</label>
-                        </div>
+                        <div class="login__remember"></div>
                         <div class="login__forgot">
                             <a href="{{ route('front.password-reset') }}">Forgot your password?</a>
                         </div>
@@ -51,6 +48,12 @@
             <div class="login__description">
                 Members gain access to personal player statistics, the forums, in-game rank synchronization and more.
             </div>
+            
+            <a class="button button--fill button--large button--secondary" href="{{ route('front.register') }}">
+                Create an Account
+            </a>
+            
+            <div class="login__divider">or</div>
 
             <div class="login__social">
                 <a class="login__button login__button--facebook" href="{{ route('front.login.facebook') }}">
@@ -64,11 +67,6 @@
                 </a>
             </div>
 
-            <div class="login__divider">or</div>
-            
-            <a class="button button--fill button--large button--secondary" href="{{ route('front.register') }}">
-                Create an Account
-            </a>
         </div>
     </div>
 

@@ -1,0 +1,23 @@
+.register__social {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+    & > * {
+        margin-right: 1em;
+    }
+
+    .login__button {
+        width: auto;
+    }
+}
+
+.register__instructions {
+    margin-bottom: 1em;
+}
+
+.register__fineprint {
+    margin-top: 1.5em;
+    font-size: 0.8em;
+    text-align: center;
+}

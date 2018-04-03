@@ -6,7 +6,7 @@
 @section('contents')
 
     <div class="card">
-        <div class="card__body">
+        <div class="card__body card__body--padded">
             <h1>Set Your Password</h1>
             <p>Please enter a new password for your account.</p>
 
