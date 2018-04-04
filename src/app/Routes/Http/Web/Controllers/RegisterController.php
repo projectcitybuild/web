@@ -87,6 +87,8 @@ class RegisterController extends WebController {
         );
 
         Mail::to($email)->queue(new AccountActivationMail($unactivatedAccount));
+
+        return view('register-success');
     }
 
     /**
