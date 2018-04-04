@@ -120,7 +120,8 @@ class RegisterController extends WebController {
             $account = $this->accountRepository->create(
                 $unactivatedAccount->email,
                 $unactivatedAccount->password,
-                $request->ip()
+                $request->ip(),
+                Carbon::now()
             );
 
             $unactivatedAccount->delete();
@@ -132,6 +133,6 @@ class RegisterController extends WebController {
             throw $e;
         }
 
-        // TODO: redirect
+        return view('register-verify-complete');
     }
 }
