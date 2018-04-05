@@ -50,7 +50,7 @@
             <div class="container">
                 <ul>
                     <li><a href="{{ route('front.home') }}">Home</a></li>
-                    <li><a href="http://projectcitybuild.com/forums/">Forums</a></li>
+                    <li><a href="http://forums.projectcitybuild.com/">Forums</a></li>
                     <li>
                         <a href="#" class="nav-dropdown">Servers <i class="fas fa-caret-down"></i></a>
                         <ul class="menu-sideway">
@@ -59,7 +59,7 @@
                                 <ul>
                                     <li><a href="http://projectcitybuild.com/forums/index.php?topic=11146">Rules & Guidelines</a></li>
                                     <li><a href="#">Ranks</a></li>
-                                    <li><a href="#">Staff</a></li>
+                                    <li><a href="https://wiki.projectcitybuild.com/wiki/List_of_Staff_Members">Staff</a></li>
                                     <li><a href="http://pcbmc.co:8123/" target="_blank">Real-Time Map</a></li>
                                 </ul>
                             </li>
