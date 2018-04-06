@@ -220,7 +220,6 @@ class LoginController extends WebController {
 
         return $this->dispatchToDiscourse(
             $request,
-            $providerUser,
             $providerUser->getEmail(),
             $account->getKey()
         );
@@ -250,7 +249,6 @@ class LoginController extends WebController {
 
         return $this->dispatchToDiscourse(
             $request,
-            $providerUser,
             $providerUser->getEmail(),
             $account->getKey()
         );
@@ -280,7 +278,6 @@ class LoginController extends WebController {
 
         return $this->dispatchToDiscourse(
             $request,
-            $providerUser,
             $providerUser->getEmail(),
             $account->getKey()
         );

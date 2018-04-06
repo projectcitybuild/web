@@ -4,15 +4,14 @@ namespace App\Routes\Http\Web\Controllers;
 
 use App\Modules\Accounts\Repositories\AccountRepository;
 use App\Modules\Accounts\Repositories\UnactivatedAccountRepository;
-use App\Modules\Accounts\Mail\AccountActivationMail;
 use App\Routes\Http\Web\WebController;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Contracts\Validation\Factory as Validation;
 use Illuminate\Database\Connection;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Hash;
+use App\Modules\Accounts\Notifications\AccountActivationNotification;
 
 class RegisterController extends WebController {
     
@@ -85,8 +84,8 @@ class RegisterController extends WebController {
             $email, 
             $password
         );
-
-        Mail::to($email)->queue(new AccountActivationMail($unactivatedAccount));
+        
+        $unactivatedAccount->notify(new AccountActivationNotification($unactivatedAccount));
 
         return view('register-success');
     }

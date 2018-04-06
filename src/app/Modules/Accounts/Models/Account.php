@@ -4,8 +4,10 @@ namespace App\Modules\Accounts\Models;
 
 use App\Shared\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class Account extends Authenticatable {
+    use Notifiable;
 
     protected $table = 'accounts';
 

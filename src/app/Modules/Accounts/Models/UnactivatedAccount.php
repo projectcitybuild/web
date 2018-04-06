@@ -4,8 +4,10 @@ namespace App\Modules\Accounts\Models;
 
 use App\Shared\Model;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Notifications\Notifiable;
 
 class UnactivatedAccount extends Model {
+    use Notifiable;
 
     protected $table = 'accounts_unactivated';
 

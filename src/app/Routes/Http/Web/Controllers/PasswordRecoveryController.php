@@ -5,18 +5,18 @@ namespace App\Routes\Http\Web\Controllers;
 use App\Modules\Discourse\Services\Authentication\DiscourseAuthService;
 use App\Modules\Forums\Exceptions\BadSSOPayloadException;
 use App\Modules\Accounts\Services\AccountLinkService;
+use App\Modules\Accounts\Repositories\AccountRepository;
+use App\Modules\Accounts\Repositories\AccountPasswordResetRepository;
+use App\Modules\Accounts\Notifications\AccountPasswordResetNotification;
+use App\Modules\Accounts\Notifications\AccountPasswordResetCompleteNotification;
 use App\Routes\Http\Web\WebController;
-use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Validation\Factory as Validation;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Http\Request;
-use GuzzleHttp\Client;
 use Illuminate\Contracts\Validation\Factory;
-use App\Modules\Accounts\Repositories\AccountRepository;
-use App\Modules\Accounts\Repositories\AccountPasswordResetRepository;
-use App\Modules\Accounts\Mail\AccountPasswordResetMail;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Connection;
+use Laravel\Socialite\Facades\Socialite;
+use GuzzleHttp\Client;
 use Hash;
 
 class PasswordRecoveryController extends WebController {
@@ -58,7 +58,7 @@ class PasswordRecoveryController extends WebController {
 
         $email = $request->get('email');
         $account = null;
-        $validator->after(function($validator) use($account, $email) {
+        $validator->after(function($validator) use(&$account, $email) {
             $account = $this->accountRepository->getByEmail($email);
 
             if($account === null) {
@@ -76,7 +76,7 @@ class PasswordRecoveryController extends WebController {
         $token = hash_hmac('sha256', time(), env('APP_KEY'));
         $passwordReset = $this->passwordResetRepository->updateOrCreateByEmail($email, $token);
 
-        Mail::to($email)->queue(new AccountPasswordResetMail($passwordReset));
+        $account->notify(new AccountPasswordResetNotification($passwordReset));
 
         return redirect()
             ->back()
@@ -84,7 +84,7 @@ class PasswordRecoveryController extends WebController {
     }
 
     public function showResetForm(Request $request) {
-        // make sure token has not been invalidated
+        // make sure a token was provided
         $token = $request->get('token');
         if($token === null) {
             abort(401, "No token provided");
@@ -140,6 +140,8 @@ class PasswordRecoveryController extends WebController {
             $this->connection->rollBack();
             throw $e;
         }
+
+        $account->notify(new AccountPasswordResetCompleteNotification);
 
         return view('password-reset-success');
     }
