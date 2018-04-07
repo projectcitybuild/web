@@ -5,58 +5,79 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory;
 use App\Modules\Discourse\Services\Authentication\DiscoursePayload;
 use Illuminate\Contracts\Auth\Guard as Auth;
+use App\Modules\Accounts\Services\AccountSocialAuthService;
+use App\Modules\Accounts\Repositories\AccountRepository;
+use App\Modules\Discourse\Services\Authentication\DiscourseAuthService;
 
-class AccountSocialLoginExecutor implements AccountLoginable {
-    
-    /**
-     * @var Request
-     */
-    private $request;
+class AccountSocialLoginExecutor extends AbstractAccountLogin {
 
     /**
      * @var Auth
      */
     private $auth;
 
+    /**
+     * @var AccountSocialAuthService
+     */
+    private $socialAuthService;
 
-    public function __construct(Request $request, Auth $auth) {
-        $this->request = $request;
+    /**
+     * @var AccountRepository
+     */
+    private $accountRepository;
+
+    /**
+     * @var string
+     */
+    private $providerName;
+
+
+    public function __construct(
+        DiscourseAuthService $discourseAuthService,
+        Auth $auth,
+        AccountSocialAuthService $socialAuthService, 
+        AccountRepository $accountRepository
+    ) {
+        parent::__construct($discourseAuthService);
+
         $this->auth = $auth;
+        $this->socialAuthService = $socialAuthService;
+        $this->accountRepository = $accountRepository;
     }
 
-    public function execute(string $nonce) : DiscoursePayload {
-        $providerUser = $this->socialAuthService
-                ->setProvider($providerName)
+    public function setProvider(string $providerName) : AccountSocialLoginExecutor {
+        $this->providerName = $providerName;
+        return $this;
+    }
+
+    protected function execute(string $nonce, string $returnUrl) {
+        $provider = $this->socialAuthService
+                ->setProvider($this->providerName)
                 ->handleProviderResponse();
 
-        // if user exists, log them into Discourse
-        $account = $this->accountRepository->getByEmail($providerUser->getEmail());
-        if($account !== null) {
-            $this->auth->setUser($account);
-    
-            return (new DiscoursePayload($nonce))
-                ->setPcbId($account->getKey())
-                ->setEmail($account->email);
+        // if user does not exist, redirect them to a
+        // account creation confirmation page
+        $account = $this->accountRepository->getByEmail($provider->getEmail());
+        if($account === null) {
+            $url = URL::temporarySignedRoute('front.login.social-register', now()->addMinutes(10), 
+                $provider->toArray()
+            );
+
+            return view('register-oauth', [
+                'social' => $provider->toArray(),
+                'url'    => $url,
+            ]);
         }
 
-        // otherwise redirect to create confirmation page
-        // $social = [
-        //     'email'     => $providerUser->getEmail(),
-        //     'id'        => $providerUser->getId(),
-        //     'name'      => $providerUser->name,
-        //     'provider'  => 'google',
-        // ];
+        $this->auth->setUser($account);
 
-        // $url = URL::temporarySignedRoute('front.login.social-register', now()->addMinutes(10), $social);
-
-        // return view('register-oauth', [
-        //     'social' => $social,
-        //     'url'    => $url,
-        // ]);
-
-        return (new DiscoursePayload($nonce))
+        $payload = (new DiscoursePayload($nonce))
             ->setPcbId($account->getKey())
             ->setEmail($account->email);
+
+        $this->invalidateSessionData();
+
+        return $this->redirectToEndpoint($payload);
     }
 
 }

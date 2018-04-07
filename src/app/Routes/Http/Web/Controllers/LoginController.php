@@ -17,6 +17,7 @@ use App\Modules\Accounts\Services\AccountSocialAuthService;
 use App\Modules\Accounts\Execeptions\UnsupportedAuthProviderException;
 use App\Modules\Accounts\Services\Login\AccountManualLoginExecutor;
 use App\Modules\Accounts\Services\Login\AccountLoginService;
+use App\Modules\Accounts\Services\Login\AccountSocialLoginExecutor;
 
 class LoginController extends WebController {
 
@@ -113,18 +114,8 @@ class LoginController extends WebController {
      * @param AccountManualLoginExecutor $executor
      * @return void
      */
-    public function login(Request $request, AccountLoginService $loginService, AccountManualLoginExecutor $executor) {
-        $session = $request->session();
-        $nonce   = $session->get('discourse_nonce');
-        $return  = $session->get('discourse_return');
-
-        $endpoint = $loginService->setExecutor($executor)
-            ->login($nonce, $return);
-
-        $session->remove('discourse_nonce');
-        $session->remove('discourse_return');
-
-        return redirect()->to($endpoint);
+    public function login(Request $request, AccountManualLoginExecutor $loginHandler) {
+        return $loginHandler->login($request);
     }
 
     /**
@@ -186,62 +177,20 @@ class LoginController extends WebController {
             ->getProviderUrl();
     }
 
-    public function handleFacebookCallback(Request $request) {
-        return $this->handleProviderCallback('facebook', $request);
+    public function handleFacebookCallback(Request $request, AccountSocialLoginExecutor $loginHandler) {
+        return $loginHandler->setProvider('facebook')->login($request);
     }
     public function handleGoogleCallback(Request $request) {
-        return $this->handleProviderCallback('google', $request);
+        return $loginHandler->setProvider('google')->login($request);
     }
     public function handleTwitterCallback(Request $request) {
-        return $this->handleProviderCallback('twitter', $request);
-    }
-
-    private function handleProviderCallback(string $providerName, Request $request) {
-        $providerUser = null;
-        try {
-            $providerUser = $this->socialAuthService
-                ->setProvider($providerName)
-                ->handleProviderResponse();
-
-        } catch(UnsupportedAuthProviderException $e) {
-
-        }
-       
-
-        // if user exists, log them into Discourse
-        $account = $this->accountRepository->getByEmail($providerUser->getEmail());
-        if($account !== null) {
-            $this->validateNonceSession($request);
-
-            $this->auth->setUser($account);
-    
-            return $this->dispatchToDiscourse(
-                $request,
-                $providerUser->getEmail(),
-                $account->getKey()
-            );
-        }
-
-        // otherwise redirect to create confirmation page
-        $social = [
-            'email'     => $providerUser->getEmail(),
-            'id'        => $providerUser->getId(),
-            'name'      => $providerUser->name,
-            'provider'  => 'google',
-        ];
-
-        $url = URL::temporarySignedRoute('front.login.social-register', now()->addMinutes(10), $social);
-
-        return view('register-oauth', [
-            'social' => $social,
-            'url'    => $url,
-        ]);
+        return $loginHandler->setProvider('twitter')->login($request);
     }
 
     public function createSocialAccount(Request $request) {
-        $email = $request->get('email');
-        $id = $request->get('id');
-        $provider = $request->get('provider');
+        $email      = $request->get('email');
+        $id         = $request->get('id');
+        $provider   = $request->get('provider');
 
         if($email === null) {
             abort(400, 'Missing social email');

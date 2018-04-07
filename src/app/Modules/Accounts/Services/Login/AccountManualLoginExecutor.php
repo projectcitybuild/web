@@ -5,13 +5,9 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory;
 use App\Modules\Discourse\Services\Authentication\DiscoursePayload;
 use Illuminate\Contracts\Auth\Guard as Auth;
+use App\Modules\Discourse\Services\Authentication\DiscourseAuthService;
 
-class AccountManualLoginExecutor implements AccountLoginable {
-    
-    /**
-     * @var Request
-     */
-    private $request;
+class AccountManualLoginExecutor extends AbstractAccountLogin {
 
     /**
      * @var Factory
@@ -24,20 +20,14 @@ class AccountManualLoginExecutor implements AccountLoginable {
     private $auth;
 
 
-    public function __construct(Request $request, Factory $validator, Auth $auth) {
-        $this->request = $request;
+    public function __construct(DiscourseAuthService $discourseAuthService, Factory $validator, Auth $auth) {
+        parent::__construct($discourseAuthService);
+        
         $this->validator = $validator;
         $this->auth = $auth;
     }
 
-    /**
-     * Attempts to login to PCB with a normal POST
-     * email and password
-     *
-     * @param string $nonce
-     * @return DiscoursePayload
-     */
-    public function execute(string $nonce) : DiscoursePayload {
+    protected function execute(string $nonce, string $returnUrl) {
         $validator = $this->validator->make($this->request->all(), [
             'email'     => 'required',
             'password'  => 'required',
@@ -62,9 +52,13 @@ class AccountManualLoginExecutor implements AccountLoginable {
 
         $account = $this->auth->user();
 
-        return (new DiscoursePayload($nonce))
+        $payload = (new DiscoursePayload($nonce))
             ->setPcbId($account->getKey())
             ->setEmail($account->email);
+        
+        $this->invalidateSessionData();
+
+        return $this->redirectToEndpoint($payload);
     }
 
 }

@@ -1,4 +1,4 @@
 <?php
-namespace App\Modules\Accounts\Execeptions;
+namespace App\Modules\Accounts\Exceptions;
 
 class UnhandledAuthProviderException extends \Exception {}
