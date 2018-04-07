@@ -8,6 +8,8 @@ use Illuminate\Contracts\Auth\Guard as Auth;
 use App\Modules\Accounts\Services\AccountSocialAuthService;
 use App\Modules\Accounts\Repositories\AccountRepository;
 use App\Modules\Discourse\Services\Authentication\DiscourseAuthService;
+use Illuminate\Support\Facades\URL;
+use App\Modules\Accounts\Models\Account;
 
 class AccountSocialLoginExecutor extends AbstractAccountLogin {
 
@@ -31,6 +33,11 @@ class AccountSocialLoginExecutor extends AbstractAccountLogin {
      */
     private $providerName;
 
+    /**
+     * @var Account
+     */
+    private $account;
+
 
     public function __construct(
         DiscourseAuthService $discourseAuthService,
@@ -47,6 +54,11 @@ class AccountSocialLoginExecutor extends AbstractAccountLogin {
 
     public function setProvider(string $providerName) : AccountSocialLoginExecutor {
         $this->providerName = $providerName;
+        return $this;
+    }
+
+    public function setAccount(Account $account) : AccountSocialLoginExecutor {
+        $this->account = $account;
         return $this;
     }
 

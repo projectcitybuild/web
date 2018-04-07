@@ -2,8 +2,8 @@
 namespace App\Modules\Accounts\Services;
 
 use App\Modules\Accounts\Repositories\AccountRepository;
-use Laravel\Socialite\Facades\Socialite;
 use App\Modules\Accounts\Execeptions\UnsupportedAuthProviderException;
+use Laravel\Socialite\Facades\Socialite;
 
 class AccountSocialAuthService {
 
@@ -11,11 +11,6 @@ class AccountSocialAuthService {
      * @var string
      */
     private $providerName;
-
-    /**
-     * @var Socialite
-     */
-    private $socialFacade;
 
 
     public function __construct(Socialite $socialFacade) {
@@ -27,11 +22,11 @@ class AccountSocialAuthService {
         return $this;
     }
 
-    private function getDriver() : SocialiteServiceProvider {
+    private function getDriver() {
         if($this->providerName === null) {
             throw new \Exception('Provider not set');
         }
-        return $this->socialFacade->driver($this->providerName);
+        return Socialite::driver($this->providerName);
     }
 
     public function getProviderUrl() {

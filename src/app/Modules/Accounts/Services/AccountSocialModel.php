@@ -52,7 +52,7 @@ class AccountSocialModel {
             'email'     => $this->email,
             'name'      => $this->name,
             'id'        => $this->id,
-            'provider'  => $this->provider,
+            'provider'  => $this->providerName,
         ];
     }
 }

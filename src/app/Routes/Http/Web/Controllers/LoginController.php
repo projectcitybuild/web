@@ -6,7 +6,6 @@ use App\Modules\Discourse\Services\Authentication\DiscourseAuthService;
 use App\Modules\Forums\Exceptions\BadSSOPayloadException;
 use App\Modules\Accounts\Services\AccountSocialLinkService;
 use App\Routes\Http\Web\WebController;
-use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Validation\Factory as Validation;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Http\Request;
@@ -180,14 +179,14 @@ class LoginController extends WebController {
     public function handleFacebookCallback(Request $request, AccountSocialLoginExecutor $loginHandler) {
         return $loginHandler->setProvider('facebook')->login($request);
     }
-    public function handleGoogleCallback(Request $request) {
+    public function handleGoogleCallback(Request $request, AccountSocialLoginExecutor $loginHandler) {
         return $loginHandler->setProvider('google')->login($request);
     }
-    public function handleTwitterCallback(Request $request) {
+    public function handleTwitterCallback(Request $request, AccountSocialLoginExecutor $loginHandler) {
         return $loginHandler->setProvider('twitter')->login($request);
     }
 
-    public function createSocialAccount(Request $request) {
+    public function createSocialAccount(Request $request, AccountSocialLoginExecutor $loginHandler) {
         $email      = $request->get('email');
         $id         = $request->get('id');
         $provider   = $request->get('provider');
@@ -204,11 +203,10 @@ class LoginController extends WebController {
 
         $account = $this->accountLinkService->createAccount($provider, $email, $id);
 
-        return $this->dispatchToDiscourse(
-            $request,
-            $email,
-            $account->getKey()
-        );
+        return $loginHandler
+            ->setProvider($provider)
+            ->setAccount($account)
+            ->login($request);
     }
 
 }
