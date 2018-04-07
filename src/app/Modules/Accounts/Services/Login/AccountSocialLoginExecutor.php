@@ -63,22 +63,24 @@ class AccountSocialLoginExecutor extends AbstractAccountLogin {
     }
 
     protected function execute(string $nonce, string $returnUrl) {
-        $provider = $this->socialAuthService
-                ->setProvider($this->providerName)
-                ->handleProviderResponse();
-
-        // if user does not exist, redirect them to a
-        // account creation confirmation page
-        $account = $this->accountRepository->getByEmail($provider->getEmail());
-        if($account === null) {
-            $url = URL::temporarySignedRoute('front.login.social-register', now()->addMinutes(10), 
-                $provider->toArray()
-            );
-
-            return view('register-oauth', [
-                'social' => $provider->toArray(),
-                'url'    => $url,
-            ]);
+        if($this->account === null) {
+            $provider = $this->socialAuthService
+                    ->setProvider($this->providerName)
+                    ->handleProviderResponse();
+    
+            // if user does not exist, redirect them to a
+            // account creation confirmation page
+            $account = $this->accountRepository->getByEmail($provider->getEmail());
+            if($account === null) {
+                $url = URL::temporarySignedRoute('front.login.social-register', now()->addMinutes(10), 
+                    $provider->toArray()
+                );
+    
+                return view('register-oauth', [
+                    'social' => $provider->toArray(),
+                    'url'    => $url,
+                ]);
+            }
         }
 
         $this->auth->setUser($account);

@@ -209,4 +209,8 @@ class LoginController extends WebController {
             ->login($request);
     }
 
+
+    public function authenticateMinecraftUser(Request $request) {
+        
+    }
 }
