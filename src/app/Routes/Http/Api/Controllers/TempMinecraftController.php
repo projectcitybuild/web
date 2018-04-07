@@ -25,14 +25,7 @@ class TempMinecraftController extends ApiController {
             throw new BadRequestException('bad_input', $validator->errors()->first());
         }
 
-        return Cache::remember('minecraft.'.$request->get('email'), 3, function() use($request, $client) {
-            return $this->fetch($request, $client);
-        });
-    }
-
-    private function fetch(Request $request, Client $client) {
         $account = Account::where('email', $request->get('email'))->first();
-
         if($account === null) {
             throw new UnauthorisedException('invalid_credentials', 'Email and/or password is incorrect');
         }
@@ -41,6 +34,12 @@ class TempMinecraftController extends ApiController {
             throw new UnauthorisedException('invalid_credentials', 'Email and/or password is incorrect');
         }
 
+        return Cache::remember('minecraft.'.$request->get('email'), 5, function() use($request, $client) {
+            return $this->fetch($request, $client);
+        });
+    }
+
+    private function fetch(Request $request, Client $client) {
         // fetch username from Discourse
         $apiKey = ENV('DISCOURSE_API_KEY');
         $url = 'http://forums.projectcitybuild.com/admin/users/list/all.json?api_key='.$apiKey.'&api_username=Andy&email='.$request->get('email');
