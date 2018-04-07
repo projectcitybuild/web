@@ -4,13 +4,19 @@ namespace App\Routes\Http\Web\Controllers;
 
 use App\Modules\Discourse\Services\Authentication\DiscourseAuthService;
 use App\Modules\Forums\Exceptions\BadSSOPayloadException;
-use App\Modules\Accounts\Services\AccountLinkService;
+use App\Modules\Accounts\Services\AccountSocialLinkService;
 use App\Routes\Http\Web\WebController;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Validation\Factory as Validation;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use App\Modules\Accounts\Repositories\AccountRepository;
+use Illuminate\Support\Facades\URL;
+use App\Modules\Accounts\Services\AccountSocialAuthService;
+use App\Modules\Accounts\Execeptions\UnsupportedAuthProviderException;
+use App\Modules\Accounts\Services\Login\AccountManualLoginExecutor;
+use App\Modules\Accounts\Services\Login\AccountLoginService;
 
 class LoginController extends WebController {
 
@@ -20,9 +26,19 @@ class LoginController extends WebController {
     private $discourseAuthService;
 
     /**
-     * @var AccountLinKService
+     * @var AccountSocialAuthService
+     */
+    private $socialAuthService;
+
+    /**
+     * @var AccountSocialLinkService
      */
     private $accountLinkService;
+
+    /**
+     * @var AccountRepository
+     */
+    private $accountRepository;
 
     /**
      * @var Auth
@@ -37,12 +53,16 @@ class LoginController extends WebController {
 
     public function __construct(
         DiscourseAuthService $discourseAuthService,
-        AccountLinkService $accountLinkService,
+        AccountSocialAuthService $socialAuthService,
+        AccountSocialLinkService $accountLinkService,
+        AccountRepository $accountRepository,
         Auth $auth,
         Client $client
     ) {
         $this->discourseAuthService = $discourseAuthService;
+        $this->socialAuthService = $socialAuthService;
         $this->accountLinkService = $accountLinkService;
+        $this->accountRepository = $accountRepository;
         $this->auth = $auth;
         $this->client = $client;
     }
@@ -61,7 +81,6 @@ class LoginController extends WebController {
         // payload when signed with our private key. This
         // prevents any payload tampering
         if($this->discourseAuthService->isValidPayload($sso, $signature) === false) {
-            // TODO: forged payload - handle it here
             abort(400);
         }
 
@@ -72,7 +91,6 @@ class LoginController extends WebController {
         try {
             $payload = $this->discourseAuthService->unpackPayload($sso);
         } catch(BadSSOPayloadException $e) {
-            // TODO: missing data from discourse in payload - handle...
             abort(400);
         }
 
@@ -87,40 +105,32 @@ class LoginController extends WebController {
         return view('login');
     }
 
-    public function login(Request $request, Validation $validation) {
-        $this->validateNonceSession($request);
+    /**
+     * Manual login with email and password via form post
+     *
+     * @param Request $request
+     * @param AccountLoginService $loginService
+     * @param AccountManualLoginExecutor $executor
+     * @return void
+     */
+    public function login(Request $request, AccountLoginService $loginService, AccountManualLoginExecutor $executor) {
+        $session = $request->session();
+        $nonce   = $session->get('discourse_nonce');
+        $return  = $session->get('discourse_return');
 
-        $validator = $validation->make($request->all(), [
-            'email'     => 'required',
-            'password'  => 'required',
-        ]);
+        $endpoint = $loginService->setExecutor($executor)
+            ->login($nonce, $return);
 
-        $validator->after(function($validator) use($request) {
-            $credentials = [
-                'email'     => $request->get('email'),
-                'password'  => $request->get('password'),
-            ];
-            if($this->auth->attempt($credentials, true) === false) {
-                $validator->errors()->add('error', 'Email or password is incorrect');
-            }
-        });
+        $session->remove('discourse_nonce');
+        $session->remove('discourse_return');
 
-        if($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator->errors())
-                ->withInput();
-        }
-
-        return $this->dispatchToDiscourse(
-            $request,
-            $request->get('email'),
-            $this->auth->id()
-        );
+        return redirect()->to($endpoint);
     }
 
     /**
      * Logs out the current PCB account
+     * 
+     * (called from Discourse)
      *
      * @param Request $request
      * @return void
@@ -133,6 +143,8 @@ class LoginController extends WebController {
     /**
      * Logs out the current PCB account and
      * its associated Discourse account
+     * 
+     * (called from this site)
      *
      * @param Request $request
      * @return void
@@ -157,129 +169,97 @@ class LoginController extends WebController {
         return redirect()->route('front.home');
     }
 
-    private function validateNonceSession(Request $request) {
-        $session = $request->session();
-        $nonce   = $session->get('discourse_nonce');
-        $return  = $session->get('discourse_return');
-
-        if($nonce === null || $return === null) {
-            // TODO: payload data missing - handle
-            abort(400);
-        }
-    }
-
-    private function dispatchToDiscourse(
-        Request $request, 
-        string $email,
-        $accountId
-    ) {
-        $session = $request->session();
-        $nonce   = $session->get('discourse_nonce');
-        $return  = $session->get('discourse_return');
-
-        // generate new payload to send to discourse
-        $payload = $this->discourseAuthService->makePayload([
-            'nonce' => $nonce,
-            'email' => $email,
-            'external_id' => $accountId,
-            'require_activation' => false,
-        ]);
-        $signature = $this->discourseAuthService->getSignedPayload($payload);
-
-        // attach parameters to return url
-        $endpoint = $this->discourseAuthService->getRedirectUrl($return, $payload, $signature);
-
-        $session->remove('discourse_nonce');
-        $session->remove('discourse_return');
-
-        return redirect()->to($endpoint);
-    }
-
     
-    public function redirectToGoogle() {
-        return Socialite::driver('google')->redirect();
-    }
-
-    public function handleGoogleCallback(Request $request) {
-        $providerUser = Socialite::driver('google')->user();
-
-        if($providerUser->getEmail() === null) {
-            // TODO: no email, cannot proceed
-            abort(400);
-        }
-
-        $account = $this->accountLinkService->getOrCreateAccount('google', $providerUser);
-        if($account === null) {
-            //
-            abort(400);
-        }
-
-        $this->validateNonceSession($request);
-
-        $this->auth->setUser($account);
-
-        return $this->dispatchToDiscourse(
-            $request,
-            $providerUser->getEmail(),
-            $account->getKey()
-        );
-    }
-
-    public function redirectToTwitter() {
-        return Socialite::driver('twitter')->redirect();
-    }
-
-    public function handleTwitterCallback(Request $request) {
-        $providerUser = Socialite::driver('twitter')->user();
-
-        if($providerUser->getEmail() === null) {
-            // TODO: no email, cannot proceed
-            abort(400);
-        }
-
-        $account = $this->accountLinkService->getOrCreateAccount('twitter', $providerUser);
-        if($account === null) {
-            //
-            abort(400);
-        }
-
-        $this->validateNonceSession($request);
-
-        $this->auth->setUser($account);
-
-        return $this->dispatchToDiscourse(
-            $request,
-            $providerUser->getEmail(),
-            $account->getKey()
-        );
-    }
-
     public function redirectToFacebook() {
-        return Socialite::driver('facebook')->redirect();
+        return $this->redirectToProvider('facebook');
+    }
+    public function redirectToGoogle() {
+        return $this->redirectToProvider('google');
+    }
+    public function redirectToTwitter() {
+        return $this->redirectToProvider('twitter');
+    }
+
+    private function redirectToProvider(string $providerName) {
+        return $this->socialAuthService
+            ->setProvider($providerName)
+            ->getProviderUrl();
     }
 
     public function handleFacebookCallback(Request $request) {
-        $providerUser = Socialite::driver('facebook')->user();
+        return $this->handleProviderCallback('facebook', $request);
+    }
+    public function handleGoogleCallback(Request $request) {
+        return $this->handleProviderCallback('google', $request);
+    }
+    public function handleTwitterCallback(Request $request) {
+        return $this->handleProviderCallback('twitter', $request);
+    }
 
-        if($providerUser->getEmail() === null) {
-            // TODO: no email, cannot proceed
-            abort(400);
+    private function handleProviderCallback(string $providerName, Request $request) {
+        $providerUser = null;
+        try {
+            $providerUser = $this->socialAuthService
+                ->setProvider($providerName)
+                ->handleProviderResponse();
+
+        } catch(UnsupportedAuthProviderException $e) {
+
+        }
+       
+
+        // if user exists, log them into Discourse
+        $account = $this->accountRepository->getByEmail($providerUser->getEmail());
+        if($account !== null) {
+            $this->validateNonceSession($request);
+
+            $this->auth->setUser($account);
+    
+            return $this->dispatchToDiscourse(
+                $request,
+                $providerUser->getEmail(),
+                $account->getKey()
+            );
         }
 
-        $account = $this->accountLinkService->getOrCreateAccount('facebook', $providerUser);
-        if($account === null) {
-            //
-            abort(400);
+        // otherwise redirect to create confirmation page
+        $social = [
+            'email'     => $providerUser->getEmail(),
+            'id'        => $providerUser->getId(),
+            'name'      => $providerUser->name,
+            'provider'  => 'google',
+        ];
+
+        $url = URL::temporarySignedRoute('front.login.social-register', now()->addMinutes(10), $social);
+
+        return view('register-oauth', [
+            'social' => $social,
+            'url'    => $url,
+        ]);
+    }
+
+    public function createSocialAccount(Request $request) {
+        $email = $request->get('email');
+        $id = $request->get('id');
+        $provider = $request->get('provider');
+
+        if($email === null) {
+            abort(400, 'Missing social email');
+        }
+        if($id === null) {
+            abort(400, 'Missing social id');
+        }
+        if($provider === null) {
+            abort(400, 'Missing social provider');
         }
 
-        $this->validateNonceSession($request);
-
-        $this->auth->setUser($account);
+        $account = $this->accountLinkService->createAccount($provider, $email, $id);
 
         return $this->dispatchToDiscourse(
             $request,
-            $providerUser->getEmail(),
+            $email,
             $account->getKey()
         );
     }
+
 }

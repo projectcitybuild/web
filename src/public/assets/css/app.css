@@ -2495,6 +2495,13 @@ table.table tr.disabled {
   text-align: center;
 }
 
+.register__social-details {
+  border: 1px solid #dedede;
+  background: #f7f7f7;
+  padding: 1.5em;
+  text-align: center;
+}
+
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;

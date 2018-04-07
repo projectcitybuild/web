@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -30815,7 +30815,7 @@ var _supportsColor = __webpack_require__(4);
 
 var _supportsColor2 = _interopRequireDefault(_supportsColor);
 
-var _chalk = __webpack_require__(1);
+var _chalk = __webpack_require__(0);
 
 var _chalk2 = _interopRequireDefault(_chalk);
 
@@ -35076,7 +35076,7 @@ module.exports = exports['default'];
 
 exports.__esModule = true;
 
-var _chalk = __webpack_require__(1);
+var _chalk = __webpack_require__(0);
 
 var _chalk2 = _interopRequireDefault(_chalk);
 
@@ -61445,18 +61445,18 @@ function extend() {
 /***/ }),
 
 /***/ 0:
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ 1:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__("./assets/js/app.tsx");
 module.exports = __webpack_require__("./assets/sass/app.scss");
 
-
-/***/ }),
-
-/***/ 1:
-/***/ (function(module, exports) {
-
-/* (ignored) */
 
 /***/ }),
 

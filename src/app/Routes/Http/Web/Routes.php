@@ -50,6 +50,10 @@ Route::get('login/twitter', [
 Route::get('login/twitter/callback', [
     'uses'  => 'LoginController@handleTwitterCallback',
 ]);
+Route::get('login/social/register', [
+    'as'    => 'front.login.social-register',
+    'uses'  => 'LoginController@createSocialAccount',
+])->middleware('signed');
 
 Route::get('password-reset', [
     'as'    => 'front.password-reset',

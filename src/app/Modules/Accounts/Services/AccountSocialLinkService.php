@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use App\Modules\Accounts\Models\Account;
 use Hash;
 
-class AccountLinkService {
+class AccountSocialLinkService {
 
     /**
      * @var AccountLinkRepository
@@ -28,23 +28,20 @@ class AccountLinkService {
         $this->accountRepository = $accountRepository;
     }
 
-    public function getOrCreateAccount(string $providerName, ProviderUser $providerUser) : Account {
-        $account = $this->accountRepository->getByEmail($providerUser->getEmail());
-        if($account === null) {
-            $account = $this->accountRepository->create(
-                $providerUser->getEmail(),
-                Hash::make(time()),
-                null,
-                Carbon::now()
-            );
-        }
+    public function createAccount(string $providerName, string $email, string $id) : Account {
+        $account = $this->accountRepository->create(
+            $email,
+            Hash::make(time()),
+            null,
+            Carbon::now()
+        );
         
         // get or create a social account link
-        $accountLink = $this->accountLinkRepository->getByProvider($providerName, $providerUser->getId());
+        $accountLink = $this->accountLinkRepository->getByProvider($providerName, $id);
         if($accountLink === null) {
             $accountLink = $this->accountLinkRepository->create(
                 $providerName, 
-                $providerUser->getId(), 
+                $id,
                 $account->getKey()
             );
         }

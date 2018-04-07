@@ -4,7 +4,7 @@ namespace App\Routes\Http\Web\Controllers;
 
 use App\Modules\Discourse\Services\Authentication\DiscourseAuthService;
 use App\Modules\Forums\Exceptions\BadSSOPayloadException;
-use App\Modules\Accounts\Services\AccountLinkService;
+use App\Modules\Accounts\Services\AccountSocialLinkService;
 use App\Modules\Accounts\Repositories\AccountRepository;
 use App\Modules\Accounts\Repositories\AccountPasswordResetRepository;
 use App\Modules\Accounts\Notifications\AccountPasswordResetNotification;
@@ -73,7 +73,7 @@ class PasswordRecoveryController extends WebController {
                 ->withErrors($validator);
         }
 
-        $token = hash_hmac('sha256', time(), env('APP_KEY'));
+        $token = hash_hmc('sha256', time(), env('APP_KEY'));
         $passwordReset = $this->passwordResetRepository->updateOrCreateByEmail($email, $token);
 
         $account->notify(new AccountPasswordResetNotification($passwordReset));
