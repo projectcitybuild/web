@@ -50,7 +50,6 @@ export default class Component extends React.Component<Props, InitialState> {
         const date = Moment(announcement.created_at);
         const avatarUrl = "http://forums.projectcitybuild.com" + post.avatar_template.replace('{size}', '16')
 
-        console.log(post.cooked);
         const markup = sanitizeHtml(post.cooked, {
             allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'li', 'ul', 'img', 'hr', 's'],
             allowedAttributes: {

@@ -51,22 +51,8 @@ class TempMinecraftController extends ApiController {
             throw new ServerException('no_discourse_account', 'No matching Discourse account could be found. Please contact a staff member');
         }
 
-        // fetch group from Discourse via username
-        $discourseUser = $result[0];
-        $username = $discourseUser['username'];
-
-        $userResponse = $client->get('http://forums.projectcitybuild.com/users/'.$username.'.json');
-        $userResult = json_decode($userResponse->getBody(), true);
-
-        $user = $userResult['user'];
-        if($user === null || count($user) === 0) {
-            throw new ServerException('search_failed', 'Could not retrieve Discourse account details. Please contact a staff member');
-        }
-
-        $groups = $user['groups'];
-        
         return [
-            'data' => $groups,
+            'data' => $result,
         ];
     }
 
