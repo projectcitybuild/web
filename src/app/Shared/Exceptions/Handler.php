@@ -24,6 +24,19 @@ class Handler extends ExceptionHandler
     ];
 
     /**
+     * Exceptions not to report in API routes
+     *
+     * @var array
+     */
+    private $dontReportApi = [
+        UnauthorisedException::class,
+        BadRequestException::class,
+        ForbiddenException::class,
+        NotFoundException::class,
+        TooManyRequestsException::class
+    ];
+
+    /**
      * Report or log an exception.
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
@@ -34,6 +47,11 @@ class Handler extends ExceptionHandler
     public function report(Exception $exception)
     {
         if(env('APP_ENV') === 'production') {
+            // don't report blacklisted exceptions on api routes
+            if($request->is('api/*')) {
+                $this->dontReport = array_merge($this->dontReport, $this->dontReportApi);
+            }
+
             if(app()->bound('sentry') && $this->shouldReport($exception)) {
                 app('sentry')->captureException($exception);
             }
