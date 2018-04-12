@@ -46,7 +46,7 @@ export interface ApiPost {
 */
 export const getAnnouncements = async() : Promise<ApiTopicList> => {
     try {
-        const response = await axios.get('http://forums.projectcitybuild.com/c/announcements-news/l/latest.json?_=' + Date.now());
+        const response = await axios.get('https://forums.projectcitybuild.com/c/announcements-news/l/latest.json?_=' + Date.now());
         if(response.status !== 200) {
             throw new Error(`${response.status} error while fetching announcements`);
         }
@@ -67,7 +67,7 @@ export const getAnnouncements = async() : Promise<ApiTopicList> => {
  */
 export const getTopic = async(topicId: number) : Promise<ApiTopicDetail> => {
     try {
-        let response = await axios.get(`http://forums.projectcitybuild.com/t/${topicId}.json`);
+        let response = await axios.get(`https://forums.projectcitybuild.com/t/${topicId}.json`);
         if(response.status !== 200) {
             throw new Error(`${response.status} error while fetching announcements`);
         }

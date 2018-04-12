@@ -42,7 +42,7 @@ class TempMinecraftController extends ApiController {
     private function fetch(Request $request, Client $client) {
         // fetch username from Discourse
         $apiKey = ENV('DISCOURSE_API_KEY');
-        $url = 'http://forums.projectcitybuild.com/admin/users/list/all.json?api_key='.$apiKey.'&api_username=Andy&email='.$request->get('email');
+        $url = 'https://forums.projectcitybuild.com/admin/users/list/all.json?api_key='.$apiKey.'&api_username=Andy&email='.$request->get('email');
         
         $response = $client->get($url);
         $result = json_decode($response->getBody(), true);

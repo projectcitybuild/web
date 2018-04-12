@@ -435,7 +435,7 @@ class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                 avatar_template: "",
             };
         const date = __WEBPACK_IMPORTED_MODULE_1_moment__(announcement.created_at);
-        const avatarUrl = "http://forums.projectcitybuild.com" + post.avatar_template.replace('{size}', '16');
+        const avatarUrl = "https://forums.projectcitybuild.com" + post.avatar_template.replace('{size}', '16');
         const markup = __WEBPACK_IMPORTED_MODULE_2_sanitize_html__(post.cooked, {
             allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'li', 'ul', 'img', 'hr', 's'],
             allowedAttributes: {
@@ -458,7 +458,7 @@ class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                 __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__author" },
                     "Posted by",
                     __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("img", { src: avatarUrl, width: "16", alt: username }),
-                    __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("a", { href: `http://forums.projectcitybuild.com/u/${username}` }, username))),
+                    __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("a", { href: `https://forums.projectcitybuild.com/u/${username}` }, username))),
             __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "article__footer" },
                 __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "stats-container" },
                     __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "stat" },
@@ -468,7 +468,7 @@ class Component extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                         __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("span", { className: "stat__figure" }, announcement.views),
                         __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("span", { className: "stat__heading" }, "Post Views"))),
                 __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "actions" },
-                    __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("a", { className: "button button--accent button--large", href: `http://forums.projectcitybuild.com/t/${announcement.slug}/${announcement.id}` },
+                    __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("a", { className: "button button--accent button--large", href: `https://forums.projectcitybuild.com/t/${announcement.slug}/${announcement.id}` },
                         "Read Post",
                         __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("i", { className: "fa fa-chevron-right" }))))));
     }
@@ -534,7 +534,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 
 const getAnnouncements = () => __awaiter(this, void 0, void 0, function* () {
     try {
-        const response = yield __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('http://forums.projectcitybuild.com/c/announcements-news/l/latest.json?_=' + Date.now());
+        const response = yield __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('https://forums.projectcitybuild.com/c/announcements-news/l/latest.json?_=' + Date.now());
         if (response.status !== 200) {
             throw new Error(`${response.status} error while fetching announcements`);
         }
@@ -549,7 +549,7 @@ const getAnnouncements = () => __awaiter(this, void 0, void 0, function* () {
 
 const getTopic = (topicId) => __awaiter(this, void 0, void 0, function* () {
     try {
-        let response = yield __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(`http://forums.projectcitybuild.com/t/${topicId}.json`);
+        let response = yield __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(`https://forums.projectcitybuild.com/t/${topicId}.json`);
         if (response.status !== 200) {
             throw new Error(`${response.status} error while fetching announcements`);
         }

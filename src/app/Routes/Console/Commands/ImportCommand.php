@@ -446,7 +446,7 @@ class ImportCommand extends Command
         //     try {
         //         while(true) {
         //             try {
-        //                 $client->post('http://forums.projectcitybuild.com/posts?api_key='.$key.'&api_username='.$fromUser->member_name, [
+        //                 $client->post('https://forums.projectcitybuild.com/posts?api_key='.$key.'&api_username='.$fromUser->member_name, [
         //                     'form_params' => [
         //                         'title'             => $message->subject,
         //                         'raw'               => $message->body,
@@ -476,7 +476,7 @@ class ImportCommand extends Command
 
         //     } catch(\Exception $e) {
         //         dump($message);
-        //         dump('http://forums.projectcitybuild.com/posts?api_key='.$key.'&api_username='.$fromUser->member_name);
+        //         dump('https://forums.projectcitybuild.com/posts?api_key='.$key.'&api_username='.$fromUser->member_name);
         //         dump('Sender: '. $fromUser->member_name);
         //         dump(['form_params' => [
         //             'title'             => $message->subject,

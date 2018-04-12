@@ -50,7 +50,7 @@
             <div class="container">
                 <ul>
                     <li><a href="{{ route('front.home') }}">Home</a></li>
-                    <li><a href="http://forums.projectcitybuild.com/">Forums</a></li>
+                    <li><a href="https://forums.projectcitybuild.com/">Forums</a></li>
                     <li>
                         <a href="#" class="nav-dropdown">Servers <i class="fas fa-caret-down"></i></a>
                         <ul class="menu-sideway">
@@ -116,7 +116,7 @@
                     @if(Auth::check())
                     <li><a href="{{ route('front.logout') }}">Logout</a></li>
                     @else
-                    <li><a href="http://forums.projectcitybuild.com/login">Login</a></li>
+                    <li><a href="https://forums.projectcitybuild.com/login">Login</a></li>
                     @endif
                 </ul>
             </div>
@@ -154,7 +154,7 @@
                                     <i class="fas fa-mouse-pointer"></i>
                                     Join Us
                                 </a>
-                                <a class="hero__button hero__button--bordered" href="http://forums.projectcitybuild.com/login">
+                                <a class="hero__button hero__button--bordered" href="https://forums.projectcitybuild.com/login">
                                     Login
                                 </a>
                             </div>

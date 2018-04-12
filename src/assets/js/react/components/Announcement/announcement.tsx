@@ -48,7 +48,7 @@ export default class Component extends React.Component<Props, InitialState> {
                 };
 
         const date = Moment(announcement.created_at);
-        const avatarUrl = "http://forums.projectcitybuild.com" + post.avatar_template.replace('{size}', '16')
+        const avatarUrl = "https://forums.projectcitybuild.com" + post.avatar_template.replace('{size}', '16')
 
         const markup = sanitizeHtml(post.cooked, {
             allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'li', 'ul', 'img', 'hr', 's'],
@@ -80,7 +80,7 @@ export default class Component extends React.Component<Props, InitialState> {
                     <div className="article__author">
                         Posted by
                         <img src={avatarUrl} width="16" alt={username} />
-                        <a href={`http://forums.projectcitybuild.com/u/${username}`}>{ username }</a>
+                        <a href={`https://forums.projectcitybuild.com/u/${username}`}>{ username }</a>
                     </div>
                 </div>
                 <div className="article__footer">
@@ -95,7 +95,7 @@ export default class Component extends React.Component<Props, InitialState> {
                         </div>
                     </div>
                     <div className="actions">
-                        <a className="button button--accent button--large" href={`http://forums.projectcitybuild.com/t/${announcement.slug}/${announcement.id}`}>
+                        <a className="button button--accent button--large" href={`https://forums.projectcitybuild.com/t/${announcement.slug}/${announcement.id}`}>
                             Read Post
                             <i className="fa fa-chevron-right"></i>
                         </a>

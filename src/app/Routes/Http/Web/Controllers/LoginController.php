@@ -145,13 +145,13 @@ class LoginController extends WebController {
         }
 
         $externalId = $this->auth->id();
-        $response = $this->client->get('http://forums.projectcitybuild.com/users/by-external/'.$externalId.'.json');
+        $response = $this->client->get('https://forums.projectcitybuild.com/users/by-external/'.$externalId.'.json');
         $result = json_decode($response->getBody(), true);
 
         $id   = $result['user']['id'];
         $user = $result['user']['username'];
         $discourseKey = env('DISCOURSE_API_KEY');
-        $this->client->post('http://forums.projectcitybuild.com/admin/users/'.$id.'/log_out?api_key='.$discourseKey.'&api_username='.$user);
+        $this->client->post('https://forums.projectcitybuild.com/admin/users/'.$id.'/log_out?api_key='.$discourseKey.'&api_username='.$user);
 
 
         $this->auth->logout();
@@ -209,8 +209,4 @@ class LoginController extends WebController {
             ->login($request);
     }
 
-
-    public function authenticateMinecraftUser(Request $request) {
-        
-    }
 }
