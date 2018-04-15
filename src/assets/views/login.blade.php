@@ -9,6 +9,14 @@
         <div class="login__left">
             <h1>Sign In to PCB</h1>
 
+            <small>
+                <i class="fas fa-exclamation-circle"></i> 
+                Notice: Anyone with a forum account before we moved to Discourse <a href="{{ route('front.password-reset') }}">must reset their password first</a>!
+                <p />
+                See <a href="https://forums.projectcitybuild.com/t/welcome-to-the-new-forums/32708/1" target="_blank">this post</a> for more details.
+            </small>
+            <br>
+
             <form method="post" action="{{ route('front.login.submit') }}">
                 @csrf
                 
