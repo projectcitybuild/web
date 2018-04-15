@@ -49,8 +49,8 @@
         <nav id="main-nav">
             <div class="container">
                 <ul>
-                    <li><a href="{{ route('home') }}">Home</a></li>
-                    <li><a href="http://projectcitybuild.com/forums/">Forums</a></li>
+                    <li><a href="{{ route('front.home') }}">Home</a></li>
+                    <li><a href="https://forums.projectcitybuild.com/">Forums</a></li>
                     <li>
                         <a href="#" class="nav-dropdown">Servers <i class="fas fa-caret-down"></i></a>
                         <ul class="menu-sideway">
@@ -59,7 +59,7 @@
                                 <ul>
                                     <li><a href="http://projectcitybuild.com/forums/index.php?topic=11146">Rules & Guidelines</a></li>
                                     <li><a href="#">Ranks</a></li>
-                                    <li><a href="#">Staff</a></li>
+                                    <li><a href="https://wiki.projectcitybuild.com/wiki/List_of_Staff_Members">Staff</a></li>
                                     <li><a href="http://pcbmc.co:8123/" target="_blank">Real-Time Map</a></li>
                                 </ul>
                             </li>
@@ -113,7 +113,11 @@
                             <i class="fab fa-steam-symbol"></i>
                         </a>
                     </li>
-                    <li><a href="https://projectcitybuild.com/forums/index.php?action=login">Login</a></li>
+                    @if(Auth::check())
+                    <li><a href="{{ route('front.logout') }}">Logout</a></li>
+                    @else
+                    <li><a href="https://forums.projectcitybuild.com/login">Login</a></li>
+                    @endif
                 </ul>
             </div>
         </nav>
@@ -124,45 +128,40 @@
         </div>
 
         <main>
-            <header class="header">
+        
+            @php
+                $isHomepage = Route::current()->getName() === 'front.home';
+            @endphp
+            <header class="header {{ !$isHomepage ? 'header--thin' : '' }}">
                 <div class="container header__container">
                     <div class="header__left">
-                        <img class="header__logo" src="{{ asset('assets/images/logo.png') }}" alt="Project City Build" />
+                        <img class="header__logo {{ !$isHomepage ? 'header__logo--nopadding' : '' }}" src="{{ asset('assets/images/logo.png') }}" alt="Project City Build" />
                     
-                        <section class="server-feed">
-                            @foreach($serverCategories as $category)
-                            <div class="category">
-                                <h5 class="category__heading">{{ $category->name }}</h5>
-                                @foreach($category->servers as $server)
-                                <div class="server {{ $server->isOnline() ? 'server--online' : 'server--offline' }}">
-                                    <div class="server__title">{{ $server->name }}</div>
-                                    <div class="server__players badge {{ $server->isOnline() ? 'badge--secondary' : 'badge--light' }}">{{ $server->isOnline() ? $server->status->num_of_players.'/'.$server->status->num_of_slots : 'Offline' }}</div>
-                                    <div class="server__ip">{{ $server->ip_alias ?: $server->getAddress() }}</div>
-                                </div>
-                                @endforeach
-                            </div>
-                            @endforeach
-                        </section>
+                        @includeWhen($isHomepage, 'components.server-feed')
                     </div>
                     
                     <div class="header__right">
+                        @if($isHomepage)
                         <div class="hero">
                             <h1 class="hero__header">We Build Stuff.</h1>
                             <div class="hero__slogan">
                                 PCB is a gaming community of creative players and city builders.<br>
-                                Over <span class="accent strong">21,427</span> registered players and always growing.
+                                Over <span class="accent strong">{{ number_format($playerCount) ?: 0 }}</span> registered players and always growing.
                             </div>
 
                             <div class="hero__actions">
-                                <a class="hero__button" href="https://projectcitybuild.com/forums/index.php?action=register">
+                                <a class="hero__button" href="{{ route('front.register') }}">
                                     <i class="fas fa-mouse-pointer"></i>
                                     Join Us
                                 </a>
-                                <a class="hero__button hero__button--bordered" href="https://projectcitybuild.com/forums/index.php?action=login">
+                                <a class="hero__button hero__button--bordered" href="https://forums.projectcitybuild.com/login">
                                     Login
                                 </a>
                             </div>
                         </div>
+                        @endif
+
+                        @includeWhen(!$isHomepage, 'components.server-feed')
                     </div>
                 </div>
             </header>

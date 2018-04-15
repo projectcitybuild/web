@@ -19,9 +19,12 @@
 @import 'components/card';
 @import 'components/divider';
 @import 'components/grid';
+@import 'components/input';
 @import 'components/pagination';
 @import 'components/progressbar';
+@import 'components/skeleton';
 @import 'components/stat';
+@import 'components/spinner';
 @import 'components/table';
 
 @import 'layouts/donate-panel';
@@ -32,6 +35,8 @@
 @import 'layouts/server-feed';
 
 @import 'pages/home';
+@import 'pages/login';
+@import 'pages/register';
 
 
 * {

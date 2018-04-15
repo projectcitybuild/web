@@ -3,44 +3,38 @@
 namespace App\Routes\Http\Web\Controllers;
 
 use Illuminate\Support\Facades\View;
-use App\Modules\Forums\Services\Retrieve\ForumRetrieveInterface;
 use App\Modules\Donations\Services\DonationStatsService;
-use App\Modules\Forums\Services\SMF\Smf;
-use Carbon\Carbon;
-use Storage;
 use App\Routes\Http\Web\WebController;
+use App\Modules\Players\Models\MinecraftPlayer;
+use App\Modules\Accounts\Models\Account;
+use Illuminate\Support\Facades\Cache;
 
-class HomeController extends WebController
-{
-    /**
-     * @var ForumRetrieveInterface
-     */
-    private $forumRetrieveService;
-
+class HomeController extends WebController {
     /**
      * @var DonationStatsService
      */
     private $donationStatsService;
 
     
-    public function __construct(
-        ForumRetrieveInterface $forumRetrieveService, 
-        DonationStatsService $donationStatsService
-    ) {
-        $this->forumRetrieveService = $forumRetrieveService;
+    public function __construct(DonationStatsService $donationStatsService) {
         $this->donationStatsService = $donationStatsService;
     }
 
-    public function getView(Smf $smf) {
-        $user = $smf->getUser();
-        $groups = $user->getUserGroupsFromDatabase();
-
-        $announcements = $this->forumRetrieveService->getAnnouncements($groups);
+    public function getView() {
         $donations = $this->donationStatsService->getAnnualPercentageStats();
 
+        // combine unique Minecraft player count + forum accounts with
+        // no game account linked (due to SMF import)
+        $playerCount = Cache::remember('front.player_count', 10, function() {
+            $minecraftPlayers = MinecraftPlayer::count();
+            $unlinkedAccounts = Account::whereDoesntHave('minecraftAccount')->count();
+            
+            return $minecraftPlayers + $unlinkedAccounts;
+        });
+
         return view('home', [
-            'announcements' => $announcements,
             'donations'     => $donations,
+            'playerCount'   => $playerCount,
         ]);
     }
 }

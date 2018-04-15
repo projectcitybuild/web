@@ -20,7 +20,7 @@ class MasterViewComposer {
      * @return void
      */
     public function compose(View $view) {
-        $servers = $this->serverCategoryRepository->getAll(['servers.status']);
+        $servers = $this->serverCategoryRepository->getAllVisible();
         $view->with('serverCategories', $servers);
     }
 }

@@ -16,16 +16,18 @@
     "cross-env": "^5.0.1",
     "laravel-mix": "^1.0",
     "normalize-scss": "^7.0.0",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "ts-loader": "^3.2.0",
     "typescript": "^2.6.2"
   },
   "dependencies": {
     "@types/react": "^16.0.34",
     "@types/react-dom": "^16.0.3",
+    "@types/sanitize-html": "^1.14.0",
     "axios": "^0.16.2",
     "halogen": "^0.2.0",
-    "moment": "^2.18.1"
+    "moment": "^2.18.1",
+    "sanitize-html": "^1.18.2"
   }
 }

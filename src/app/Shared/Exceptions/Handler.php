@@ -21,7 +21,13 @@ class Handler extends ExceptionHandler
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
         \Illuminate\Session\TokenMismatchException::class,
         \Illuminate\Validation\ValidationException::class,
+        UnauthorisedException::class,
+        BadRequestException::class,
+        ForbiddenException::class,
+        NotFoundException::class,
+        TooManyRequestsException::class
     ];
+
 
     /**
      * Report or log an exception.
@@ -33,6 +39,12 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if(env('APP_ENV') === 'production') {
+            if(app()->bound('sentry') && $this->shouldReport($exception)) {
+                app('sentry')->captureException($exception);
+            }
+        }
+    
         parent::report($exception);
     }
 

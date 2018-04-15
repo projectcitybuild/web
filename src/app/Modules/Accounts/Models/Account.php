@@ -3,8 +3,11 @@
 namespace App\Modules\Accounts\Models;
 
 use App\Shared\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Account extends Model {
+class Account extends Authenticatable {
+    use Notifiable;
 
     protected $table = 'accounts';
 
@@ -18,11 +21,6 @@ class Account extends Model {
         'last_login_at',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
 
     ];
@@ -35,6 +33,10 @@ class Account extends Model {
 
     public function minecraftAccount() {
         return $this->belongsTo('App\Modules\Players\Models\MinecraftPlayer', 'account_id', 'account_id');
+    }
+
+    public function linkedSocialAccounts() {
+        return $this->hasMany('App\Modules\Accounts\Models\LinkedSocialAccount', 'account_id', 'account_id');
     }
 
 }

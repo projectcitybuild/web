@@ -22,4 +22,13 @@ class ServerCategoryRepository {
             ->get();
     }
 
+    public function getAllVisible(array $with = []) {
+        return $this->categoryModel
+            ->with(['servers' => function($q) {
+                $q->where('is_visible', true)
+                  ->with('status');
+            }])
+            ->get();
+    }
+
 }

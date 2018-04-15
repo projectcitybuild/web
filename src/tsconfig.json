@@ -10,7 +10,8 @@
         "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,
     },
-    "include": [
-        "assets/js/**/*"
+    "exclude": [
+        "node_modules",
+        "vendor",
     ],
 }

@@ -1,0 +1,1 @@
+export { AnnouncementManager } from './Announcement';

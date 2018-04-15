@@ -20,6 +20,19 @@
         border-color: lighten($colour, 22%);
         text-decoration: none;
     }
+
+    &.button--bordered {
+        background: transparent;
+        border: 1px solid $colour;
+        color: $colour;
+    }
+}
+
+button.button {
+    font-weight: bold;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
 }
 
 .button {

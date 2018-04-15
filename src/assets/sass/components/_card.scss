@@ -7,9 +7,15 @@
         background-color: darken($bgColour, 5%);
         border-bottom: 1px solid darken($bgColour, 10%);
     }
+
+    &__footer {
+        background-color: darken($bgColour, 5%);
+        border-top: 1px solid darken($bgColour, 10%);
+    }
 }
 
 .card {
+    width: 100%;
     border-radius: 5px;
     border-bottom: 3px solid;
     box-shadow: 0 2px 5px 1px hsla(0, 0%, 0%, 0.05);
@@ -31,5 +37,13 @@
   
     &__header, &__body, &__footer {
         padding: 1em;
+    }
+
+    &__body--padded {
+        padding: 2em;
+
+        @media screen and (max-width: $dimen-medium) {
+            padding: 1em;
+        }
     }
 }

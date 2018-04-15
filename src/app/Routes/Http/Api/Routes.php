@@ -26,4 +26,5 @@ Route::prefix('servers')->group(function() {
     Route::get('all', 'ServerController@getAllServers');
 });
 
-Route::get('gallery/featured', 'GalleryController@getFeaturedImages');
+
+Route::post('minecraft/authenticate', 'TempMinecraftController@authenticate');
