@@ -73,7 +73,7 @@ class PasswordRecoveryController extends WebController {
                 ->withErrors($validator);
         }
 
-        $token = hash_hmc('sha256', time(), env('APP_KEY'));
+        $token = hash_hmac('sha256', time(), env('APP_KEY'));
         $passwordReset = $this->passwordResetRepository->updateOrCreateByEmail($email, $token);
 
         $account->notify(new AccountPasswordResetNotification($passwordReset));
