@@ -80,8 +80,8 @@ class ImportCommand extends Command
                 // return $this->importServerStatuses();
             // case 'smf':
             //     return $this->importSmf();
-            case 'users':
-                return $this->importUsers();
+            // case 'users':
+                // return $this->importUsers();
             default:
                 $this->error('Invalid import module name. Valid: [bans, donations]');
                 break;
@@ -501,33 +501,33 @@ class ImportCommand extends Command
     }
 
     private function importUsers() {
-        $this->info('[SMF user importer]');
-        $this->warn('Warning: No check for existence is made before importing! This should only be run once in production');
+        // $this->info('[SMF user importer]');
+        // $this->warn('Warning: No check for existence is made before importing! This should only be run once in production');
 
-        $this->info('Beginning import...');
+        // $this->info('Beginning import...');
 
-        $users = DB::connection('mysql_forums')
-            ->table('members')
-            ->select('*')
-            ->orderBy('id_member', 'asc')
-            ->chunk(100, function($users) {
-                DB::transaction(function() use($users) {
-                    $progress = $this->output->createProgressBar(count($users));
+        // $users = DB::connection('mysql_forums')
+        //     ->table('members')
+        //     ->select('*')
+        //     ->orderBy('id_member', 'asc')
+        //     ->chunk(100, function($users) {
+        //         DB::transaction(function() use($users) {
+        //             $progress = $this->output->createProgressBar(count($users));
                     
-                    foreach($users as $user) {
-                        Account::create([
-                            'email'         => $user->email_address,
-                            'password'      => Hash::make(time()),
-                            'created_at'    => Carbon::createFromTimestamp($user->date_registered),
-                            'updated_at'    => Carbon::now(),
-                        ]);
+        //             foreach($users as $user) {
+        //                 Account::create([
+        //                     'email'         => $user->email_address,
+        //                     'password'      => Hash::make(time()),
+        //                     'created_at'    => Carbon::createFromTimestamp($user->date_registered),
+        //                     'updated_at'    => Carbon::now(),
+        //                 ]);
             
-                        $progress->advance();
-                    }
-                });
-            });
+        //                 $progress->advance();
+        //             }
+        //         });
+        //     });
 
-        $this->info('Import complete');
+        // $this->info('Import complete');
     }
 
     private function importServerStatuses() {
