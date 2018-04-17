@@ -57,7 +57,7 @@
                             <li>
                                 <h5>Minecraft</h5>
                                 <ul>
-                                    <li><a href="http://projectcitybuild.com/forums/index.php?topic=11146">Rules & Guidelines</a></li>
+                                    <li><a href="https://forums.projectcitybuild.com/t/pcb-community-rules/22928">Rules & Guidelines</a></li>
                                     <li><a href="#">Ranks</a></li>
                                     <li><a href="https://wiki.projectcitybuild.com/wiki/List_of_Staff_Members">Staff</a></li>
                                     <li><a href="http://pcbmc.co:8123/" target="_blank">Real-Time Map</a></li>
@@ -177,8 +177,8 @@
                     <div class="footer__left">
                         <ul class="footer__bullets">
                             <li><h5 class="footer__subheading">Legal</h5></li>
-                            <li><i class="fas fa-check-circle"></i> <a href="http://projectcitybuild.com/forums/index.php?topic=2718">Terms of Service</a></li>
-                            <li><i class="fas fa-check-circle"></i> <a href="#">Privacy Policy</a></li>
+                            <li><i class="fas fa-check-circle"></i> <a href="https://forums.projectcitybuild.com/t/terms-of-services/14506">Terms of Service</a></li>
+                            <li><i class="fas fa-check-circle"></i> <a href="https://forums.projectcitybuild.com/privacy">Privacy Policy</a></li>
                         </ul>
                         <ul class="footer__bullets">
                             <li><h5 class="footer__subheading">Open Source</h5></li>
