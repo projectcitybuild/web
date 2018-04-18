@@ -3,6 +3,15 @@
 @section('title', 'Forgot Your Password?')
 @section('description', "If you've forgotten your PCB password but remember your email address, use this form to reset your password.")
 
+@push('head')
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script>
+        function submitForm() {
+            document.getElementById('form').submit();
+        }
+    </script>
+@endpush
+
 @section('contents')
 
     <div class="card">
@@ -22,7 +31,7 @@
                 If the account exists, an email will be sent with a link to change your password.
             </p>
 
-            <form method="post" action="{{ route('front.password-reset.submit') }}">
+            <form method="post" action="{{ route('front.password-reset.submit') }}" id="form">
                 @csrf
                 
                 @if($errors->any())
@@ -38,7 +47,11 @@
                 </div>
 
                 <div>
-                    <button class="button button--large button--fill button--primary" type="submit">
+                    <button
+                        class="g-recaptcha button button--large button--fill button--primary"
+                        data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"
+                        data-callback="submitForm"
+                        >
                         <i class="fas fa-envelope"></i> Send Reset Link
                     </button>
                 </div>

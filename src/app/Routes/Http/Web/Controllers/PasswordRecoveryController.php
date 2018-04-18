@@ -51,9 +51,12 @@ class PasswordRecoveryController extends WebController {
         return view('password-reset');
     }
 
-    public function sendVerificationEmail(Request $request, Factory $validation) {
+    public function sendVerificationEmail(Request $request, Factory $validation, Client $client) {
         $validator = $validation->make($request->all(), [
             'email' => 'email|required',
+            'g-recaptcha-response' => 'required',
+        ], [
+            'g-recaptcha-response' => 'reCAPTCHA verification failed'
         ]);
 
         $email = $request->get('email');
@@ -63,6 +66,23 @@ class PasswordRecoveryController extends WebController {
 
             if($account === null) {
                 $validator->errors()->add('email', 'No account belongs to the given email address');
+            }
+        });
+
+        // reCAPTCHA anti-spam verification
+        $validator->after(function($validator) use($request, $client) {
+            $response = $client->post('https://www.google.com/recaptcha/api/siteverify', [
+                'form_params' => [
+                    'secret'    => env('RECAPTCHA_SECRET_KEY'),
+                    'response'  => $request->get('g-recaptcha-response'),
+                    'remoteip'  => $request->ip(),
+                ],
+            ]);
+            $result = json_decode($response->getBody(), true);
+
+            $success = $result['success'];
+            if($success === null || $success === false) {
+                $validator->errors()->add('g-recaptcha-response', 'reCAPTCHA failed. Are you a bot?');
             }
         });
 

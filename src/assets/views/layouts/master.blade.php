@@ -33,6 +33,8 @@
 
         <script defer src="{{ mix('assets/js/app.js') }}"></script>
 
+        @stack('head')
+
         @if(env('APP_ENV') != 'local')
             <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2747125-5"></script>
             <script>
