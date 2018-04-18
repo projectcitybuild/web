@@ -150,13 +150,24 @@
                             </div>
 
                             <div class="hero__actions">
-                                <a class="hero__button" href="{{ route('front.register') }}">
-                                    <i class="fas fa-mouse-pointer"></i>
-                                    Join Us
-                                </a>
-                                <a class="hero__button hero__button--bordered" href="https://forums.projectcitybuild.com/login">
-                                    Login
-                                </a>
+                                @guest
+                                    <a class="hero__button" href="{{ route('front.register') }}">
+                                        <i class="fas fa-mouse-pointer"></i>
+                                        Join Us
+                                    </a>
+                                    <a class="hero__button hero__button--bordered" href="https://forums.projectcitybuild.com/login">
+                                        Login
+                                    </a>
+                                @endguest
+
+                                @auth
+                                    <a class="hero__button" href="https://forums.projectcitybuild.com/my/summary">
+                                        Profile
+                                    </a>
+                                    <a class="hero__button hero__button--bordered" href="https://forums.projectcitybuild.com/my/preferences/account">
+                                        Settings
+                                    </a>
+                                @endauth
                             </div>
                         </div>
                         @endif
