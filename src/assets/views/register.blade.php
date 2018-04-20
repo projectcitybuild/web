@@ -3,6 +3,15 @@
 @section('title', 'Create an Account')
 @section('description', 'Create a PCB account to create forum posts, access personal player statistics and more.')
 
+@push('head')
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script>
+        function submitForm() {
+            document.getElementById('form').submit();
+        }
+    </script>
+@endpush
+
 @section('contents')
 
     <div class="card">
@@ -27,7 +36,7 @@
 
             <hr class="divider" data-text="OR SIGN-UP MANUALLY">
 
-            <form method="post" action="{{ route('front.register.submit') }}">
+            <form method="post" action="{{ route('front.register.submit') }}" id="form">
                 @csrf
                 
                 @if($errors->any())
@@ -51,7 +60,11 @@
                 </div>
 
                 <div class="form-row">
-                    <button class="button button--large button--fill button--primary" type="submit">
+                    <button
+                        class="g-recaptcha button button--large button--fill button--primary"
+                        data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"
+                        data-callback="submitForm"
+                        >
                         <i class="fas fa-chevron-right"></i> Register
                     </button>
                 </div>

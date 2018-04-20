@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Hash;
 use App\Modules\Accounts\Notifications\AccountActivationNotification;
+use GuzzleHttp\Client;
 
 class RegisterController extends WebController {
     
@@ -59,12 +60,31 @@ class RegisterController extends WebController {
         return view('register');
     }
 
-    public function register(Request $request) {
+    public function register(Request $request, Client $client) {
         $validator = $this->validation->make($request->all(), [
-            'email'             => 'required|email|unique:accounts,email',
-            'password'          => 'required|min:8',    // discourse min is 8 or greater
-            'password_confirm'  => 'required_with:password|same:password',
+            'email'                 => 'required|email|unique:accounts,email',
+            'password'              => 'required|min:8',    // discourse min is 8 or greater
+            'password_confirm'      => 'required_with:password|same:password',
+            'g-recaptcha-response'  => 'required',
+        ], [
+            'g-recaptcha-response' => 'reCAPTCHA verificatiosn failed'
         ]);
+
+        $validator->after(function($validator) use($request, $client) {
+            $response = $client->post('https://www.google.com/recaptcha/api/siteverify', [
+                'form_params' => [
+                    'secret'    => env('RECAPTCHA_SECRET_KEY'),
+                    'response'  => $request->get('g-recaptcha-response'),
+                    'remoteip'  => $request->ip(),
+                ],
+            ]);
+            $result = json_decode($response->getBody(), true);
+
+            $success = $result['success'];
+            if($success === null || $success === false) {
+                $validator->errors()->add('g-recaptcha-response', 'reCAPTCHA failed. Are you a bot?');
+            }
+        });
 
         if($validator->fails()) {
             return redirect()
