@@ -19,17 +19,6 @@ class CreateAccountOauth extends Migration
             $table->string('provider_id')->unique()->nullable();
             $table->timestamps();
         });
-
-        Schema::table('accounts', function(Blueprint $table) {
-            $table->string('remember_token', 60)->nullable()->change();
-            $table->string('last_login_ip', 45)->nullable()->change();
-
-            $table->dropColumn('last_login_at');
-        });
-
-        Schema::table('accounts', function(Blueprint $table) {
-            $table->timestamp('last_login_at')->nullable()->after('last_login_ip');
-        });
     }
 
     /**
@@ -38,17 +27,6 @@ class CreateAccountOauth extends Migration
      * @return void
      */
     public function down() {
-        Schema::table('accounts', function(Blueprint $table) {
-            $table->string('remember_token', 60)->change();
-            $table->string('last_login_ip', 45)->change();
-
-            $table->dropColumn('last_login_at');
-        });
-
-        Schema::table('accounts', function(Blueprint $table) {
-            $table->datetime('last_login_at')->after('last_login_ip');
-        });
-
         Schema::dropIfExists('account_links');
     }
 }
