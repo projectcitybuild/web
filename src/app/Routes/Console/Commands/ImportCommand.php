@@ -229,16 +229,11 @@ class ImportCommand extends Command
 
         $uuidFetcher = resolve(MojangApiService::class);
 
-        $lastDonationId = Donation::orderBy('donation_id', 'desc')->first();
-        $lastDonationId = $lastDonationId ? $lastDonationId->donation_id : 0;
-
-        $this->info('Fetching old records...');
+        $this->info('Fetching donation records...');
         $donations = DB::connection('mysql_import_pcb')
             ->table('donators')
             ->select('*')
-            ->where('id', '>', $lastDonationId)
             ->get();
-
 
         $this->info('Importing game players...');
         $bar = $this->output->createProgressBar(count($donations));
@@ -247,12 +242,20 @@ class ImportCommand extends Command
         try {
             foreach($donations as $donation) {
                 $username = $donation->username;
-                $matchingForumUser = DB::connection('mysql_forums')
+
+                if($username === 'Dirtdog101') {
+                    $bar->advance();
+                    continue;
+                }
+
+                $matchingForumUser = Cache::remember('donation_'.$username, 120, function() use($username) {
+                    return DB::connection('mysql_forums')
                         ->table('members')
                         ->select('id_member', 'real_name', 'member_name', 'email_address')
                         ->where('real_name', $username)
                         ->orWhere('member_name', $username)
                         ->first();
+                });
     
                 if($matchingForumUser === null) {
                     throw new \Exception('Could not find old forum account for ' . $username);
@@ -265,9 +268,8 @@ class ImportCommand extends Command
 
                 $account = Account::where('email', $email)->first();
                 if($account === null) {
-                    throw new \Exception('No account for email ' . $email);
+                    throw new \Exception('No account for email ' . $email . ' ('.$username.')');
                 }
-
                 
                 $expiryDate = Carbon::createFromFormat('Y-m-d', $donation->end_date);
                 $createDate = Carbon::createFromFormat('Y-m-d', $donation->start_date);

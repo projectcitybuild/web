@@ -21,10 +21,9 @@ class Donation extends Model {
      * @var array
      */
     protected $fillable = [
-        'forum_user_id',
+        'account_id',
         'amount',
         'perks_end_at',
-        'prev_rank_id',
         'is_lifetime_perks',
         'is_active',
         'created_at',
