@@ -242,100 +242,65 @@ class ImportCommand extends Command
 
         $this->info('Importing game players...');
         $bar = $this->output->createProgressBar(count($donations));
-        foreach($donations as $donation) {
-            $expiryDate = Carbon::createFromFormat('Y-m-d', $donation->end_date);
-            $createDate = Carbon::createFromFormat('Y-m-d', $donation->start_date);
 
-            $updateDate = $createDate;
-            $isActive = true;
-
-            $hasExpired = !$donation->lifetime && $expiryDate <= Carbon::now();
-            if($hasExpired) {
-                $updateDate = $expiryDate;
-                $isActive = false;
-            }
-
-            $username = $donation->username;
-            $matchingForumUser = DB::connection('mysql_forums')
-                    ->table('members')
-                    ->select('id_member', 'real_name', 'member_name')
-                    ->where('real_name', $username)
-                    ->orWhere('member_name', $username)
-                    ->first();
-
-            // check for a matching forum username
-            $uuid = null;
-            if(is_null($matchingForumUser)) {
-                
-                // otherwise grab their uuid and try search by that
-                $uuid = $uuidFetcher->getUuidOf($username, $createDate->getTimestamp() * 1000);
-        
-                // if no uuid at the donation time, check for the original owner of the username
-                if($uuid === null) {
-                    $uuid = $uuidFetcher->getOriginalOwnerUuidOf($username);
-                }
-
-                // if uuid found, check if their current alias has a forum account
-                if($uuid !== null) {
-                    $currentAlias = $uuid->getAlias();
-                    $this->info($currentAlias);
-
-                    $forumUser = DB::connection('mysql_forums')
+        DB::beginTransaction();
+        try {
+            foreach($donations as $donation) {
+                $username = $donation->username;
+                $matchingForumUser = DB::connection('mysql_forums')
                         ->table('members')
-                        ->select('id_member', 'real_name')
-                        ->where('real_name', 'LIKE', $currentAlias)
-                        ->orWhere('member_name', $currentAlias)
+                        ->select('id_member', 'real_name', 'member_name', 'email_address')
+                        ->where('real_name', $username)
+                        ->orWhere('member_name', $username)
                         ->first();
-
-                    if($forumUser) {
-                        var_dump($forumUser);
-                        $matchingForumUser = $forumUser;
-                    }
+    
+                if($matchingForumUser === null) {
+                    throw new \Exception('Could not find old forum account for ' . $username);
                 }
-            }
 
-            if(is_null($matchingForumUser)) {
-                throw new \Exception('No forum account for ' . $username);                    
-            }
-
-            // if no uuid was fetched, grab their uuid from mojang
-            if($uuid === null) {
-                $uuid = $uuidFetcher->getUuidOf($matchingForumUser->real_name);
-                if($uuid === null) {
-                    $uuid = $uuidFetcher->getOriginalOwnerUuidOf($matchingForumUser->real_name);
+                $email = $matchingForumUser->email_address;
+                if($email === null || $email === '') {
+                    throw new \Exception('Empty email address for '. $username);
                 }
-            }
-            if($uuid === null) {
-                throw new \Exception('No UUID for ' . $matchingForumUser->real_name . ' ('.$username.')');
-            }
 
-            $existingPlayer = MinecraftPlayer::where('uuid', $uuid->getUuid())->first();
-            if($existingPlayer === null) {
-                $player = MinecraftPlayer::create([
-                    'uuid' => $uuid->getUuid(),
-                    'playtime' => 0,
-                    'last_seen_at' => Carbon::now(),
+                $account = Account::where('email', $email)->first();
+                if($account === null) {
+                    throw new \Exception('No account for email ' . $email);
+                }
+
+                
+                $expiryDate = Carbon::createFromFormat('Y-m-d', $donation->end_date);
+                $createDate = Carbon::createFromFormat('Y-m-d', $donation->start_date);
+
+                $updateDate = $createDate;
+                $isActive = true;
+
+                $hasExpired = !$donation->lifetime && $expiryDate <= Carbon::now();
+                if($hasExpired) {
+                    $updateDate = $expiryDate;
+                    $isActive = false;
+                }
+    
+                Donation::create([
+                    'account_id'        => $account->getKey(),
+                    'amount'            => $donation->amount,
+                    'perks_end_at'      => $donation->lifetime ? null : $expiryDate,
+                    'is_lifetime_perks' => $donation->lifetime,
+                    'is_active'         => $isActive,
+                    'created_at'        => $createDate,
+                    'updated_at'        => $updateDate,
                 ]);
-                MinecraftPlayerAlias::create([
-                    'player_minecraft_id' => $player->player_minecraft_id,
-                    'alias' => $uuid->getAlias(),
-                ]);
-            }
-            
 
-            Donation::create([
-                'forum_user_id' => $matchingForumUser->id_member,
-                'amount' => $donation->amount,
-                'perks_end_at' => $donation->lifetime ? null : $expiryDate,
-                'prev_rank_id' => $donation->previous_rank > 0 ? $donation->previous_rank : null,
-                'is_lifetime_perks' => $donation->lifetime,
-                'is_active' => $isActive,
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ]);
-
-            $bar->advance();
+                $bar->advance();
             }
+
+            DB::commit();
+        
+        } catch(\Exception $e) {
+            DB::rollBack();
+            $this->error($e->getMessage());
+            return;
+        }
 
         $this->info('Import complete');
     }
