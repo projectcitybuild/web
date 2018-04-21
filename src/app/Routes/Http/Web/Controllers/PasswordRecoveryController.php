@@ -18,6 +18,7 @@ use Illuminate\Database\Connection;
 use Laravel\Socialite\Facades\Socialite;
 use GuzzleHttp\Client;
 use Hash;
+use App\Shared\Helpers\Recaptcha;
 
 class PasswordRecoveryController extends WebController {
 
@@ -51,12 +52,12 @@ class PasswordRecoveryController extends WebController {
         return view('password-reset');
     }
 
-    public function sendVerificationEmail(Request $request, Factory $validation, Client $client) {
+    public function sendVerificationEmail(Request $request, Factory $validation, Recaptcha $recaptcha) {
         $validator = $validation->make($request->all(), [
-            'email' => 'email|required',
-            'g-recaptcha-response' => 'required',
+            'email'             => 'email|required',
+            $recaptcha->field   => 'required',
         ], [
-            'g-recaptcha-response' => 'reCAPTCHA verification failed'
+            $recaptcha->field   => $recaptcha->errorMessage,
         ]);
 
         $email = $request->get('email');
@@ -69,21 +70,8 @@ class PasswordRecoveryController extends WebController {
             }
         });
 
-        // reCAPTCHA anti-spam verification
-        $validator->after(function($validator) use($request, $client) {
-            $response = $client->post('https://www.google.com/recaptcha/api/siteverify', [
-                'form_params' => [
-                    'secret'    => env('RECAPTCHA_SECRET_KEY'),
-                    'response'  => $request->get('g-recaptcha-response'),
-                    'remoteip'  => $request->ip(),
-                ],
-            ]);
-            $result = json_decode($response->getBody(), true);
-
-            $success = $result['success'];
-            if($success === null || $success === false) {
-                $validator->errors()->add('g-recaptcha-response', 'reCAPTCHA failed. Are you a bot?');
-            }
+        $validator->after(function($validator) use($request, $recaptcha) {
+            $recaptcha->validate($request, $validator);
         });
 
         if($validator->fails()) {

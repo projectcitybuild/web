@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Hash;
 use App\Modules\Accounts\Notifications\AccountActivationNotification;
 use GuzzleHttp\Client;
+use App\Shared\Helpers\Recaptcha;
 
 class RegisterController extends WebController {
     
@@ -60,30 +61,18 @@ class RegisterController extends WebController {
         return view('register');
     }
 
-    public function register(Request $request, Client $client) {
+    public function register(Request $request, Recaptcha $recaptcha) {
         $validator = $this->validation->make($request->all(), [
             'email'                 => 'required|email|unique:accounts,email',
             'password'              => 'required|min:8',    // discourse min is 8 or greater
             'password_confirm'      => 'required_with:password|same:password',
-            'g-recaptcha-response'  => 'required',
+            $recaptcha->field       => 'required',
         ], [
-            'g-recaptcha-response' => 'reCAPTCHA verificatiosn failed'
+            $recaptcha->field       => $recaptcha->errorMessage,
         ]);
 
-        $validator->after(function($validator) use($request, $client) {
-            $response = $client->post('https://www.google.com/recaptcha/api/siteverify', [
-                'form_params' => [
-                    'secret'    => env('RECAPTCHA_SECRET_KEY'),
-                    'response'  => $request->get('g-recaptcha-response'),
-                    'remoteip'  => $request->ip(),
-                ],
-            ]);
-            $result = json_decode($response->getBody(), true);
-
-            $success = $result['success'];
-            if($success === null || $success === false) {
-                $validator->errors()->add('g-recaptcha-response', 'reCAPTCHA failed. Are you a bot?');
-            }
+        $validator->after(function($validator) use($request, $recaptcha) {
+            $recaptcha->validate($request, $validator);
         });
 
         if($validator->fails()) {
@@ -93,18 +82,14 @@ class RegisterController extends WebController {
                 ->withInput();
         }
 
-        $email = $request->get('email');
-        $password = $request->get('password');
-        $password = Hash::make($password);
+        $email      = $request->get('email');
+        $password   = $request->get('password');
+        $password   = Hash::make($password);
 
-        $salt = env('APP_KEY');
-        $token = hash_hmac('sha256', time().$email, $salt);
+        $salt       = env('APP_KEY');
+        $token      = hash_hmac('sha256', time().$email, $salt);
 
-        $unactivatedAccount = $this->unactivatedAccountRepository->create(
-            $email, 
-            $password
-        );
-        
+        $unactivatedAccount = $this->unactivatedAccountRepository->create($email, $password);
         $unactivatedAccount->notify(new AccountActivationNotification($unactivatedAccount));
 
         return view('register-success');
