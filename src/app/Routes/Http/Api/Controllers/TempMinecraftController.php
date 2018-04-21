@@ -12,6 +12,7 @@ use Hash;
 use Illuminate\Support\Facades\Cache;
 use App\Shared\Exceptions\BadRequestException;
 use App\Shared\Exceptions\ServerException;
+use App\Modules\Discourse\Services\Api\DiscourseAdminApi;
 
 class TempMinecraftController extends ApiController {
     
@@ -39,14 +40,8 @@ class TempMinecraftController extends ApiController {
         });
     }
 
-    private function fetch(Request $request, Client $client) {
-        // fetch username from Discourse
-        $apiKey = ENV('DISCOURSE_API_KEY');
-        $url = 'https://forums.projectcitybuild.com/admin/users/list/all.json?api_key='.$apiKey.'&api_username=Andy&email='.$request->get('email');
-        
-        $response = $client->get($url);
-        $result = json_decode($response->getBody(), true);
-
+    private function fetch(Request $request, DiscourseAdminApi $adminApi) {
+        $result = $adminApi->fetchUsersByEmail($request->get('email'));
         if(count($result) === 0) {
             throw new ServerException('no_discourse_account', 'No matching Discourse account could be found. Please contact a staff member');
         }
