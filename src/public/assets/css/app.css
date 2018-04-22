@@ -1433,11 +1433,11 @@ table.table thead tr {
   border-bottom: 3px solid #b8aca8;
 }
 
-table.table.striped tbody tr:nth-child(odd) {
+table.table--striped tbody tr:nth-child(odd) {
   background: #f7f7f7;
 }
 
-table.table.divided tbody tr:not(:last-child) {
+table.table--divided tbody tr:not(:last-child) {
   border-bottom: 1px solid #f2f2f2;
 }
 

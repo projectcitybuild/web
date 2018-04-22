@@ -13,12 +13,12 @@ table.table {
         border-bottom: 3px solid darken($colour-light, 5%);
     }
 
-    &.striped {
+    &--striped {
         tbody tr:nth-child(odd) {
             background: darken(#fff, 3%);
         }
     }
-    &.divided {
+    &--divided {
         tbody tr:not(:last-child) {
             border-bottom: 1px solid darken(#fff, 5%);
         }
