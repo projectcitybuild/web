@@ -26,6 +26,11 @@ class DiscoursePayload {
     /**
      * @var string
      */
+    private $username;
+
+    /**
+     * @var string
+     */
     private $avatarUrl;
 
     /**
@@ -48,6 +53,11 @@ class DiscoursePayload {
         return $this;
     }
 
+    public function setUsername(string $username) {
+        $this->username = $username;
+        return $this;
+    }
+
     public function setAvatarUrl(string $url) {
         $this->avatarUrl = $url;
         return $this;
@@ -63,9 +73,12 @@ class DiscoursePayload {
             'nonce'         => $this->nonce,
             'email'         => $this->email,
             'external_id'   => $this->pcbId,
-            'require_activation' => $this->requiresActivation,
+            'require_activation' => $this->requiresActivation ? 'true' : 'false',
         ];
 
+        if($this->username !== null) {
+            $payload['username'] = $this->username;            
+        }
         if($this->avatarUrl !== null) {
             $payload['avatar_url'] = $this->avatarUrl;
         }
