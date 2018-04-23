@@ -17,6 +17,8 @@ use App\Modules\Accounts\Execeptions\UnsupportedAuthProviderException;
 use App\Modules\Accounts\Services\Login\AccountManualLoginExecutor;
 use App\Modules\Accounts\Services\Login\AccountLoginService;
 use App\Modules\Accounts\Services\Login\AccountSocialLoginExecutor;
+use App\Modules\Discourse\Services\Api\DiscourseUserApi;
+use App\Modules\Discourse\Services\Api\DiscourseAdminApi;
 
 class LoginController extends WebController {
 
@@ -139,20 +141,20 @@ class LoginController extends WebController {
      * @param Request $request
      * @return void
      */
-    public function logout(Request $request) {
+    public function logout(Request $request, DiscourseUserApi $userApi, DiscourseAdminApi $adminApi) {
         if(!$this->auth->check()) {
             return redirect()->route('front.home');
         }
 
         $externalId = $this->auth->id();
-        $response = $this->client->get('https://forums.projectcitybuild.com/users/by-external/'.$externalId.'.json');
-        $result = json_decode($response->getBody(), true);
+        $result = $userApi->fetchUserByPcbId($externalId);
 
-        $id   = $result['user']['id'];
-        $user = $result['user']['username'];
-        $discourseKey = env('DISCOURSE_API_KEY');
-        $this->client->post('https://forums.projectcitybuild.com/admin/users/'.$id.'/log_out?api_key='.$discourseKey.'&api_username='.$user);
+        $user = $result['user'];
+        if($user === null) {
+            throw new \Exception('Discourse logout api response did not have a `user` key');
+        }
 
+        $adminApi->requestLogout($user['id'], $user['username']);
 
         $this->auth->logout();
         

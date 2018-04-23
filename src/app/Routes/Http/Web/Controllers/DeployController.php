@@ -19,7 +19,9 @@ class DeployController extends WebController {
     }
 
     public function deploy(Request $request) {
-        $key = env('DEPLOY_KEY');
+        $branch = env('DEPLOY_BRANCH', 'master');
+        $key    = env('DEPLOY_KEY');
+
         if($key === null) {
             throw new \Exception('No deployment key setup');
         }
@@ -28,13 +30,15 @@ class DeployController extends WebController {
             throw new UnauthorisedException('bad_deploy_key', 'Invalid deployment key specified');
         }
 
+
         $this->discordWebhook->notifyChannel('Deployment', 'Deployment initiated...');
 
         $commands = [
+            'cd '.base_path().' && git checkout ' . $branch . ' 2>&1',
             'cd '.base_path().' && git pull 2>&1',
-            'cd '.base_path().'/src && php artisan migrate',
-            'cd '.base_path().'/src && compose install',
-            'cd '.base_path().'/src && npm run production',
+            'cd '.base_path().'/src && php artisan migrate 2>&1',
+            'cd '.base_path().'/src && compose install 2>&1',
+            'cd '.base_path().'/src && npm run production 2>&1',
         ];
         
         foreach($commands as $command) {

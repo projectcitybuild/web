@@ -19,9 +19,9 @@ class CreateUsers extends Migration {
             $table->increments('account_id');
             $table->string('email');
             $table->string('password');
-            $table->string('remember_token', 60);
-            $table->ipAddress('last_login_ip');
-            $table->datetime('last_login_at');
+            $table->string('remember_token', 60)->nullable();
+            $table->string('last_login_ip', 45)->nullable();
+            $table->timestamp('last_login_at')->nullable();
             $table->timestamps();
         });
 

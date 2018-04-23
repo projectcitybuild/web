@@ -16,62 +16,89 @@ if (env('APP_ENV') === 'production') {
     URL::forceScheme('https');
 }
 
+Route::get('admin/emails', 'TempEmailAdminController@showView')->name('temp-email');
+Route::post('admin/emails/sync', 'TempEmailAdminController@editEmail')->name('temp-email-save');
+
 Route::get('/', [
     'as' => 'front.home',
     'uses' => 'HomeController@getView',
 ]);
 
-Route::get('login', [
-    'as'    => 'front.login',
-    'uses'  => 'LoginController@showLoginView',
+Route::get('donations', [
+    'as'    => 'front.donation-list',
+    'uses'  => 'DonationController@getView',
 ]);
-Route::post('login', [
-    'as'    => 'front.login.submit',
-    'uses'  => 'LoginController@login',
-]);
-Route::get('login/google', [
-    'as'    => 'front.login.google',
-    'uses'  => 'LoginController@redirectToGoogle',
-]);
-Route::get('login/google/callback', [
-    'uses'  => 'LoginController@handleGoogleCallback',
-]);
-Route::get('login/facebook', [
-    'as'    => 'front.login.facebook',
-    'uses'  => 'LoginController@redirectToFacebook',
-]);
-Route::get('login/facebook/callback', [
-    'uses'  => 'LoginController@handleFacebookCallback',
-]);
-Route::get('login/twitter', [
-    'as'    => 'front.login.twitter',
-    'uses'  => 'LoginController@redirectToTwitter',
-]);
-Route::get('login/twitter/callback', [
-    'uses'  => 'LoginController@handleTwitterCallback',
-]);
-Route::get('login/social/register', [
-    'as'    => 'front.login.social-register',
-    'uses'  => 'LoginController@createSocialAccount',
-])->middleware('signed');
 
-Route::get('password-reset', [
-    'as'    => 'front.password-reset',
-    'uses'  => 'PasswordRecoveryController@showEmailForm',
-]);
-Route::post('password-reset', [
-    'as'    => 'front.password-reset.submit',
-    'uses'  => 'PasswordRecoveryController@sendVerificationEmail',
-]);
-Route::get('password-reset/recovery', [
-    'as'    => 'front.password-reset.recovery',
-    'uses'  => 'PasswordRecoveryController@showResetForm',
-])->middleware('signed');
+Route::group(['prefix' => 'login'], function() {
+    Route::get('/', [
+        'as'    => 'front.login',
+        'uses'  => 'LoginController@showLoginView',
+    ]);
+    Route::post('/', [
+        'as'    => 'front.login.submit',
+        'uses'  => 'LoginController@login',
+    ]);
+    Route::get('google', [
+        'as'    => 'front.login.google',
+        'uses'  => 'LoginController@redirectToGoogle',
+    ]);
+    Route::get('google/callback', [
+        'uses'  => 'LoginController@handleGoogleCallback',
+    ]);
+    Route::get('facebook', [
+        'as'    => 'front.login.facebook',
+        'uses'  => 'LoginController@redirectToFacebook',
+    ]);
+    Route::get('facebook/callback', [
+        'uses'  => 'LoginController@handleFacebookCallback',
+    ]);
+    Route::get('twitter', [
+        'as'    => 'front.login.twitter',
+        'uses'  => 'LoginController@redirectToTwitter',
+    ]);
+    Route::get('twitter/callback', [
+        'uses'  => 'LoginController@handleTwitterCallback',
+    ]);
+    Route::get('social/register', [
+        'as'    => 'front.login.social-register',
+        'uses'  => 'LoginController@createSocialAccount',
+    ])->middleware('signed');
+});
 
-Route::post('password-reset/recovery', [
-    'as'    => 'front.password-reset.save',
-    'uses'  => 'PasswordRecoveryController@resetPassword',
-]);
+Route::group(['prefix' => 'password-reset'], function() {
+    Route::get('/', [
+        'as'    => 'front.password-reset',
+        'uses'  => 'PasswordRecoveryController@showEmailForm',
+    ]);
+    Route::post('/', [
+        'as'    => 'front.password-reset.submit',
+        'uses'  => 'PasswordRecoveryController@sendVerificationEmail',
+    ]);
+    Route::get('recovery', [
+        'as'    => 'front.password-reset.recovery',
+        'uses'  => 'PasswordRecoveryController@showResetForm',
+    ])->middleware('signed');
+    
+    Route::post('recovery', [
+        'as'    => 'front.password-reset.save',
+        'uses'  => 'PasswordRecoveryController@resetPassword',
+    ]);
+});
+
+Route::group(['prefix' => 'register'], function() {
+    Route::get('/', [
+        'as'    => 'front.register',
+        'uses'  => 'RegisterController@showRegisterView',
+    ]);
+    Route::post('/', [
+        'as'    => 'front.register.submit',
+        'uses'  => 'RegisterController@register',
+    ]);
+    Route::get('activate', [
+        'as'    => 'front.register.activate',
+        'uses'  => 'RegisterController@activate',
+    ])->middleware('signed');
+});
 
 Route::get('logout/discourse', [
     'as'    => 'front.logout.pcb',
@@ -81,19 +108,6 @@ Route::get('logout', [
     'as'    => 'front.logout',
     'uses'  => 'LoginController@logout',
 ]);
-
-Route::get('register', [
-    'as'    => 'front.register',
-    'uses'  => 'RegisterController@showRegisterView',
-]);
-Route::post('register', [
-    'as'    => 'front.register.submit',
-    'uses'  => 'RegisterController@register',
-]);
-Route::get('register/activate', [
-    'as'    => 'front.register.activate',
-    'uses'  => 'RegisterController@activate',
-])->middleware('signed');
 
 Route::view('bans', 'banlist')->name('banlist');
 
