@@ -49,7 +49,7 @@
                 <div>
                     <button
                         class="g-recaptcha button button--large button--fill button--primary"
-                        data-sitekey="{{ Recaptcha::getSiteKey() }}"
+                        data-sitekey="{{ resolve(App\Shared\Helpers\Recaptcha::class)->getSiteKey() }}"
                         data-callback="submitForm"
                         >
                         <i class="fas fa-envelope"></i> Send Reset Link
