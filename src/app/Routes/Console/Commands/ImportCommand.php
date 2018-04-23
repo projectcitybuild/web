@@ -74,8 +74,8 @@ class ImportCommand extends Command
         switch($module) {
             case 'bans':
                 return $this->importBans();
-            case 'donations':
-                return $this->importDonations();
+            // case 'donations':
+                // return $this->importDonations();
             // case 'statuses':
                 // return $this->importServerStatuses();
             // case 'smf':
@@ -83,7 +83,7 @@ class ImportCommand extends Command
             // case 'users':
                 // return $this->importUsers();
             default:
-                $this->error('Invalid import module name. Valid: [bans, donations]');
+                $this->error('Invalid import module name. Valid: [bans]');
                 break;
         }
     }
@@ -223,88 +223,88 @@ class ImportCommand extends Command
     }
 
     private function importDonations() {
-        $this->info('[Donation data importer]');
-        $this->warn('Warning: No check for existence is made before importing donations! This should only be run once in production');
+        // $this->info('[Donation data importer]');
+        // $this->warn('Warning: No check for existence is made before importing donations! This should only be run once in production');
 
 
-        $uuidFetcher = resolve(MojangApiService::class);
+        // $uuidFetcher = resolve(MojangApiService::class);
 
-        $this->info('Fetching donation records...');
-        $donations = DB::connection('mysql_import_pcb')
-            ->table('donators')
-            ->select('*')
-            ->get();
+        // $this->info('Fetching donation records...');
+        // $donations = DB::connection('mysql_import_pcb')
+        //     ->table('donators')
+        //     ->select('*')
+        //     ->get();
 
-        $this->info('Importing game players...');
-        $bar = $this->output->createProgressBar(count($donations));
+        // $this->info('Importing game players...');
+        // $bar = $this->output->createProgressBar(count($donations));
 
-        DB::beginTransaction();
-        try {
-            foreach($donations as $donation) {
-                $username = $donation->username;
+        // DB::beginTransaction();
+        // try {
+        //     foreach($donations as $donation) {
+        //         $username = $donation->username;
 
-                if($username === 'Dirtdog101') {
-                    $bar->advance();
-                    continue;
-                }
+        //         if($username === 'Dirtdog101') {
+        //             $bar->advance();
+        //             continue;
+        //         }
 
-                $matchingForumUser = Cache::remember('donation_'.$username, 120, function() use($username) {
-                    return DB::connection('mysql_forums')
-                        ->table('members')
-                        ->select('id_member', 'real_name', 'member_name', 'email_address')
-                        ->where('real_name', $username)
-                        ->orWhere('member_name', $username)
-                        ->first();
-                });
+        //         $matchingForumUser = Cache::remember('donation_'.$username, 120, function() use($username) {
+        //             return DB::connection('mysql_forums')
+        //                 ->table('members')
+        //                 ->select('id_member', 'real_name', 'member_name', 'email_address')
+        //                 ->where('real_name', $username)
+        //                 ->orWhere('member_name', $username)
+        //                 ->first();
+        //         });
     
-                if($matchingForumUser === null) {
-                    throw new \Exception('Could not find old forum account for ' . $username);
-                }
+        //         if($matchingForumUser === null) {
+        //             throw new \Exception('Could not find old forum account for ' . $username);
+        //         }
 
-                $email = $matchingForumUser->email_address;
-                if($email === null || $email === '') {
-                    throw new \Exception('Empty email address for '. $username);
-                }
+        //         $email = $matchingForumUser->email_address;
+        //         if($email === null || $email === '') {
+        //             throw new \Exception('Empty email address for '. $username);
+        //         }
 
-                $account = Account::where('email', $email)->first();
-                if($account === null) {
-                    throw new \Exception('No account for email ' . $email . ' ('.$username.')');
-                }
+        //         $account = Account::where('email', $email)->first();
+        //         if($account === null) {
+        //             throw new \Exception('No account for email ' . $email . ' ('.$username.')');
+        //         }
                 
-                $expiryDate = Carbon::createFromFormat('Y-m-d', $donation->end_date);
-                $createDate = Carbon::createFromFormat('Y-m-d', $donation->start_date);
+        //         $expiryDate = Carbon::createFromFormat('Y-m-d', $donation->end_date);
+        //         $createDate = Carbon::createFromFormat('Y-m-d', $donation->start_date);
 
-                $updateDate = $createDate;
-                $isActive = true;
+        //         $updateDate = $createDate;
+        //         $isActive = true;
 
-                $hasExpired = !$donation->lifetime && $expiryDate <= Carbon::now();
-                if($hasExpired) {
-                    $updateDate = $expiryDate;
-                    $isActive = false;
-                }
+        //         $hasExpired = !$donation->lifetime && $expiryDate <= Carbon::now();
+        //         if($hasExpired) {
+        //             $updateDate = $expiryDate;
+        //             $isActive = false;
+        //         }
     
-                Donation::create([
-                    'account_id'        => $account->getKey(),
-                    'amount'            => $donation->amount,
-                    'perks_end_at'      => $donation->lifetime ? null : $expiryDate,
-                    'is_lifetime_perks' => $donation->lifetime,
-                    'is_active'         => $isActive,
-                    'created_at'        => $createDate,
-                    'updated_at'        => $updateDate,
-                ]);
+        //         Donation::create([
+        //             'account_id'        => $account->getKey(),
+        //             'amount'            => $donation->amount,
+        //             'perks_end_at'      => $donation->lifetime ? null : $expiryDate,
+        //             'is_lifetime_perks' => $donation->lifetime,
+        //             'is_active'         => $isActive,
+        //             'created_at'        => $createDate,
+        //             'updated_at'        => $updateDate,
+        //         ]);
 
-                $bar->advance();
-            }
+        //         $bar->advance();
+        //     }
 
-            DB::commit();
+        //     DB::commit();
         
-        } catch(\Exception $e) {
-            DB::rollBack();
-            $this->error($e->getMessage());
-            return;
-        }
+        // } catch(\Exception $e) {
+        //     DB::rollBack();
+        //     $this->error($e->getMessage());
+        //     return;
+        // }
 
-        $this->info('Import complete');
+        // $this->info('Import complete');
     }
 
     private function importSmf() {

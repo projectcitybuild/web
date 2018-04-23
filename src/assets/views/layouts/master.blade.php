@@ -88,7 +88,6 @@
                             <li><a href="#">Appeal a Ban</a></li>
                             <li><a href="#">Report a Player</a></li>
                             <li class="divider"><a href="#">Apply for Staff</a></li>
-                            <li class="divider"><a href="{{ route('front.donation-list') }}">Donator List</a></li>
                             <li><a href="https://wiki.projectcitybuild.com/" target="_blank" rel="noopener">Community Wiki</a></li>
                         </ul>
                     </li>
