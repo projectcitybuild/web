@@ -54,7 +54,7 @@ class Recaptcha {
         $response = $this->client->post('https://www.google.com/recaptcha/api/siteverify', [
             'form_params' => [
                 'secret'    => env('RECAPTCHA_SECRET_KEY'),
-                'response'  => $request->get($this->getFieldName()),
+                'response'  => $request->get($this->field),
                 'remoteip'  => $request->ip(),
             ],
         ]);
