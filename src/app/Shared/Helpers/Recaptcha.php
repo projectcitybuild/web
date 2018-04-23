@@ -51,7 +51,7 @@ class Recaptcha {
             return false;
         }
 
-        $response = $client->post('https://www.google.com/recaptcha/api/siteverify', [
+        $response = $this->client->post('https://www.google.com/recaptcha/api/siteverify', [
             'form_params' => [
                 'secret'    => env('RECAPTCHA_SECRET_KEY'),
                 'response'  => $request->get($this->getFieldName()),
