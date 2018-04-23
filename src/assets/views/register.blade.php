@@ -62,7 +62,7 @@
                 <div class="form-row">
                     <button
                         class="g-recaptcha button button--large button--fill button--primary"
-                        data-sitekey="{{ Recaptcha::getSiteKey() }}"
+                        data-sitekey="{{ (new Recaptcha)->getSiteKey() }}"
                         data-callback="submitForm"
                         >
                         <i class="fas fa-chevron-right"></i> Register
