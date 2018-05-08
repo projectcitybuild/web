@@ -8,7 +8,7 @@ class MinecraftPlayerAlias extends Model {
 
     protected $table = 'players_minecraft_aliases';
 
-    protected $primaryKey = 'player_minecraft_alias_id';
+    protected $primaryKey = 'players_minecraft_alias_id';
 
     protected $fillable = [
         'player_minecraft_id',
@@ -17,7 +17,6 @@ class MinecraftPlayerAlias extends Model {
     ];
 
     protected $hidden = [
-
     ];
 
     protected $dates = [

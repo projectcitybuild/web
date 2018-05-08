@@ -29,6 +29,17 @@ Route::get('donations', [
     'uses'  => 'DonationController@getView',
 ]);
 
+Route::group(['prefix' => 'account'], function() {
+    Route::get('games', [
+        'as'    => 'front.account.games',
+        'uses'  => 'GameAccountController@showView',
+    ]);
+    Route::post('games', [
+        'as'    => 'front.account.games.save',
+        'uses'  => 'GameAccountController@saveAccounts',
+    ]);
+});
+
 Route::group(['prefix' => 'login'], function() {
     Route::get('/', [
         'as'    => 'front.login',

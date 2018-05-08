@@ -4,6 +4,7 @@ namespace App\Modules\Players\Repositories;
 use App\Modules\Players\Models\MinecraftPlayerAlias;
 use App\Shared\Repository;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 
 class MinecraftPlayerAliasRepository extends Repository {
 
@@ -16,10 +17,9 @@ class MinecraftPlayerAliasRepository extends Repository {
      * @param int $userId
      * @return GameUser
      */
-    public function store(
-        string $minecraftPlayerId,
-        string $alias,
-        Carbon $registeredAt = null
+    public function store(string $minecraftPlayerId,
+                          string $alias,
+                          Carbon $registeredAt = null
     ) : MinecraftPlayerAlias {
 
         return $this->getModel()->create([
@@ -33,6 +33,14 @@ class MinecraftPlayerAliasRepository extends Repository {
         return $this->getModel()
             ->where('alias', $alias)
             ->first();
+    }
+
+    public function getAllByAlias(string $alias) : Collection {
+        $results = $this->getModel()
+            ->where('alias', $alias)
+            ->get();
+
+        return $results ?: collect();
     }
 
 }

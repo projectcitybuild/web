@@ -34,8 +34,11 @@ class MojangPlayerNameChange {
         return $this->alias;
     }
 
-    public function getChangeDate() : int {
-        return $this->changedToAt;
+    public function getChangeDate() : ?int {
+        if($this->changedToAt !== null) {
+            return $this->changedToAt / 1000;
+        }
+        return null;
     }
 
     public function isCurrentAlias() : bool {

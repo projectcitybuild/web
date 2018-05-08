@@ -119,7 +119,7 @@
                     <li>
                         <a href="#" class="nav-dropdown">Account <i class="fas fa-caret-down"></i></a>
                         <ul>
-                            <li class="divider"><a href="#">Game Accounts</a></li>
+                            <li class="divider"><a href="{{ route('front.account.games') }}">Game Accounts</a></li>
                             <li><a href="{{ route('front.logout') }}">Logout</a></li>
                         </ul>
                     </li>

@@ -9,7 +9,7 @@ class MojangPlayerNameHistory {
     /**
      * An array of all name changes for the player
      *
-     * @var array[MojangPlayerNameChange]
+     * @var MojangPlayerNameChange[]
      */
     private $nameChanges = [];
 
@@ -24,6 +24,9 @@ class MojangPlayerNameHistory {
         }
     }
 
+    /**
+     * @return MojangPlayerNameChange[]
+     */
     public function getNameChanges() : array {
         return $this->nameChanges;
     }

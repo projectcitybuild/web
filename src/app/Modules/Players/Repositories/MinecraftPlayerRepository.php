@@ -36,4 +36,10 @@ class MinecraftPlayerRepository extends Repository {
             ->first();
     }
 
+    public function getByAccountId(int $accountId) : ?MinecraftPlayer {
+        return $this->getModel()
+            ->where('account_id', $accountId)
+            ->first();
+    }
+
 }
