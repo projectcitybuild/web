@@ -19,6 +19,7 @@ $app = new App\BaseApp(
 );
 
 $app->useStoragePath(base_path() . "/support/storage");
+$app->useDatabasePath(base_path() . "/app/database");
 
 /*
 |--------------------------------------------------------------------------
