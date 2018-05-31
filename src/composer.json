@@ -57,6 +57,7 @@
         ]
     },
     "config": {
+        "vendor-dir": "support/packages/vendor",
         "preferred-install": "dist",
         "sort-packages": true,
         "optimize-autoloader": true
