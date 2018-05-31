@@ -18,6 +18,8 @@ $app = new App\BaseApp(
     realpath(__DIR__.'/../')
 );
 
+$app->useStoragePath(base_path() . "/support/storage");
+
 /*
 |--------------------------------------------------------------------------
 | Bind Important Interfaces
