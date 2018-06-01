@@ -14,7 +14,24 @@ namespace App;
  * our changed paths manually.
  */
 class BaseApp extends \Illuminate\Foundation\Application {
+
+    public function __construct(?string $basePath = null) {
+        parent::__construct($basePath);
+
+        $this->useStoragePath($this->basePath.'/support/storage');
+        $this->useDatabasePath($this->basePath.'/app/database');
+    }
+
+    public function bootstrapPath($path = '') {
+        return $this->basePath.'/support/bootstrap';
+    }
+
     public function langPath() {
         return $this->basePath.'/assets/lang';
     }
+
+    public function configPath($path = '') {
+        return $this->basePath.'/config';
+    }
+
 }

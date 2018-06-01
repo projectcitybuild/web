@@ -15,11 +15,8 @@ declare(strict_types=1);
 */
 
 $app = new App\BaseApp(
-    realpath(__DIR__.'/../')
+    realpath(__DIR__.'/../../')
 );
-
-$app->useStoragePath(base_path() . "/support/storage");
-$app->useDatabasePath(base_path() . "/app/database");
 
 /*
 |--------------------------------------------------------------------------
