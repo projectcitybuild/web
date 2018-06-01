@@ -31,7 +31,7 @@ class BaseApp extends \Illuminate\Foundation\Application {
     }
 
     public function configPath($path = '') {
-        return $this->basePath.'/config';
+        return $this->basePath.'/app/config';
     }
 
 }
