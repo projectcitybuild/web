@@ -41,7 +41,7 @@ $app->singleton(
 
 $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
-    App\Routes\Console\Kernel::class
+    App\console\Kernel::class
 );
 
 /*
