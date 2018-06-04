@@ -192,7 +192,6 @@ return [
          */
         App\Shared\Providers\AppServiceProvider::class,
         App\Shared\Providers\AuthServiceProvider::class,
-        // App\Shared\Providers\BroadcastServiceProvider::class,
         App\Shared\Providers\EventServiceProvider::class,
         App\Shared\Providers\RouteServiceProvider::class,
 
