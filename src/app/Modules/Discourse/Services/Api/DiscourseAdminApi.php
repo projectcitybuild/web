@@ -46,7 +46,7 @@ class DiscourseAdminApi {
                 'email'         => $email,
             ],
         ]);
-        return json_decode($response, true);
+        return json_decode($response->getBody(), true);
     }
 
     /**
@@ -63,7 +63,7 @@ class DiscourseAdminApi {
                 'api_username'  => $discourseUsername,
             ],
         ]);
-        return json_decode($response, true);
+        return json_decode($response->getBody(), true);
     }
 
     /**
@@ -89,6 +89,6 @@ class DiscourseAdminApi {
             'form_params' => $syncPayload,
         ]);
 
-        return json_decode($response);
+        return json_decode($response->getBody());
     }
 }
