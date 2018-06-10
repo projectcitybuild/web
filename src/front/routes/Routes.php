@@ -19,6 +19,9 @@ if (env('APP_ENV') === 'production') {
 Route::get('admin/emails', 'TempEmailAdminController@showView')->name('temp-email');
 Route::post('admin/emails/sync', 'TempEmailAdminController@editEmail')->name('temp-email-save');
 
+Route::redirect('terms',    'https://forums.projectcitybuild.com/t/terms-of-services/14506')->name('terms');
+Route::redirect('privacy',  'https://forums.projectcitybuild.com/privacy')->name('privacy');
+
 Route::get('/', [
     'as' => 'front.home',
     'uses' => 'HomeController@getView',

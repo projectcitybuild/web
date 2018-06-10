@@ -71,7 +71,7 @@
             </form>
 
             <div class="register__fineprint">
-                By signing up, you agree to our community <a href="http://projectcitybuild.com/forums/index.php?topic=2718">terms and conditions</a>.
+                By signing up, you agree to our community <a href="{{ route('terms') }}">terms and conditions</a>.
             </div>
 
         </div>

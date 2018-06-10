@@ -197,8 +197,8 @@
                     <div class="footer__left">
                         <ul class="footer__bullets">
                             <li><h5 class="footer__subheading">Legal</h5></li>
-                            <li><i class="fas fa-check-circle"></i> <a href="https://forums.projectcitybuild.com/t/terms-of-services/14506">Terms of Service</a></li>
-                            <li><i class="fas fa-check-circle"></i> <a href="https://forums.projectcitybuild.com/privacy">Privacy Policy</a></li>
+                            <li><i class="fas fa-check-circle"></i> <a href="{{ route('terms') }}">Terms of Service</a></li>
+                            <li><i class="fas fa-check-circle"></i> <a href="{{ route('privacy') }}">Privacy Policy</a></li>
                         </ul>
                         <ul class="footer__bullets">
                             <li><h5 class="footer__subheading">Open Source</h5></li>
