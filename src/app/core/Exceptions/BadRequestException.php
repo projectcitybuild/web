@@ -1,5 +1,5 @@
 <?php
-namespace App\core\Exceptions;
+namespace App\Core\Exceptions;
 
 /**
  * Server cannot or will not process the request due

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Database\Connection;
 use Hash;
-use App\core\Helpers\Recaptcha;
+use App\Core\Helpers\Recaptcha;
 
 class PasswordRecoveryController extends WebController {
 

@@ -14,7 +14,7 @@ declare(strict_types=1);
 |
 */
 
-$app = new App\BaseApp(
+$app = new Support\BaseApp(
     realpath(__DIR__.'/../../')
 );
 
@@ -31,7 +31,7 @@ $app = new App\BaseApp(
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\core\Exceptions\Handler::class
+    App\Core\Exceptions\Handler::class
 );
 
 $app->singleton(
@@ -41,7 +41,7 @@ $app->singleton(
 
 $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
-    App\console\Kernel::class
+    App\Console\Kernel::class
 );
 
 /*

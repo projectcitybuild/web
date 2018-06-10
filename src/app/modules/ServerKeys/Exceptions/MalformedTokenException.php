@@ -1,6 +1,6 @@
 <?php
 namespace App\Modules\ServerKeys\Exceptions;
 
-use App\core\Exceptions\BadRequestException;
+use App\Core\Exceptions\BadRequestException;
 
 class MalformedTokenException extends BadRequestException {}

@@ -2,7 +2,7 @@
 namespace App\Modules\Players\Repositories;
 
 use App\Modules\Players\Models\MinecraftPlayerAlias;
-use App\core\Repository;
+use App\Core\Repository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 

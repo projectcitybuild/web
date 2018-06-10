@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace Support;
 
 /**
  * Laravel doesn't expose any conventional way to override the default 

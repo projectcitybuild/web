@@ -2,7 +2,7 @@
 
 namespace App\Modules\Players\Models;
 
-use App\core\Model;
+use App\Core\Model;
 
 class MinecraftPlayerAlias extends Model {
 

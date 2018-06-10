@@ -2,7 +2,7 @@
 
 namespace App\Modules\Servers\Models;
 
-use App\core\Model;
+use App\Core\Model;
 
 class ServerCategory extends Model {
 

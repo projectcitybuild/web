@@ -1,5 +1,5 @@
 <?php
-namespace App\core\Exceptions;
+namespace App\Core\Exceptions;
 
 /**
  * Too many requests sent in a period of time

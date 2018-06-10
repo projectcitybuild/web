@@ -1,12 +1,12 @@
 <?php
-namespace App\core\Helpers;
+namespace App\Modules\Recaptcha;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Validator;
 
 
-class Recaptcha {
+class RecaptchaService {
     
     /**
      * The POST field name of reCAPTCHA
@@ -26,27 +26,16 @@ class Recaptcha {
         $this->client = $client;
     }
 
-    /**
-     * Returns this site's public reCAPTCHA key
-     *
-     * @return void
-     */
-    public static function getSiteKey() {
-        $key = env('RECAPTCHA_SITE_KEY');
-        if($key === null) {
-            throw new \Exception('reCAPTCHA site key not set');
-        }
-        return $key;
-    }
+
 
     /**
      * Determines whether the given request
      * passed the reCAPTCHA test
      *
      * @param Request $request
-     * @return Bool
+     * @return bool
      */
-    public function fails(Request $request) : Bool {
+    public function fails(Request $request) : bool {
         if(env('RECAPTCHA_ENABLED', false) === false) {
             return false;
         }

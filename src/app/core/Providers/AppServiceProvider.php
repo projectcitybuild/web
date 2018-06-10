@@ -1,6 +1,6 @@
 <?php
 
-namespace App\core\Providers;
+namespace App\Core\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Modules\Forums\Services\Retrieve\OfflineRetrieve;
@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
 
         // bind the master view composer to the master view template
         View::composer(
-            'layouts.master', 'App\Routes\Http\Web\ViewComposers\MasterViewComposer'
+            'layouts.master', 'Front\Composers\MasterViewComposer'
         );
     }
 

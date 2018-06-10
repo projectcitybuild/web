@@ -1,11 +1,11 @@
 <?php
 
-namespace App\core\Exceptions;
+namespace App\Core\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use App\core\Exceptions\BaseHttpException;
+use App\Core\Exceptions\BaseHttpException;
 
 class Handler extends ExceptionHandler
 {

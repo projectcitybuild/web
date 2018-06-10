@@ -2,7 +2,7 @@
 
 namespace App\Modules\Bans\Models;
 
-use App\core\Model;
+use App\Core\Model;
 
 class GameBan extends Model {
 

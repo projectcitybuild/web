@@ -1,5 +1,5 @@
 <?php
-namespace App\core\Exceptions;
+namespace App\Core\Exceptions;
 
 abstract class BaseHttpException extends \Exception {
 

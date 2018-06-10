@@ -2,7 +2,6 @@
 namespace Front\Composers;
 
 use Illuminate\View\View;
-use App\Repositories\UserRepository;
 use App\Modules\Servers\Repositories\ServerCategoryRepository;
 
 class MasterViewComposer {

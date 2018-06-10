@@ -2,7 +2,7 @@
 
 namespace App\Modules\Donations\Models;
 
-use App\core\Model;
+use App\Core\Model;
 
 class Donation extends Model {
 

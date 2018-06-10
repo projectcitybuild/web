@@ -1,5 +1,5 @@
 <?php
-namespace App\core\Helpers;
+namespace App\Core\Helpers;
 
 use Illuminate\Database\Eloquent\Relations\Relation;
 

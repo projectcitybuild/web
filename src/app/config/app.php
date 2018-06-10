@@ -190,10 +190,12 @@ return [
         /*
          * Application Service Providers...
          */
-        App\core\Providers\AppServiceProvider::class,
-        App\core\Providers\AuthServiceProvider::class,
-        App\core\Providers\EventServiceProvider::class,
-        App\core\Providers\RouteServiceProvider::class,
+        App\Core\Providers\AppServiceProvider::class,
+        App\Core\Providers\AuthServiceProvider::class,
+        App\Core\Providers\EventServiceProvider::class,
+        App\Core\Providers\RouteServiceProvider::class,
+
+        App\Modules\Recaptcha\RecaptchaServiceProvider::class,
 
     ],
 

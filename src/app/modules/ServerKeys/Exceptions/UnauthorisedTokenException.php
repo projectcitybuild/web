@@ -1,6 +1,6 @@
 <?php
 namespace App\Modules\ServerKeys\Exceptions;
 
-use App\core\Exceptions\UnauthorisedException;
+use App\Core\Exceptions\UnauthorisedException;
 
 class UnauthorisedTokenException extends UnauthorisedException {}

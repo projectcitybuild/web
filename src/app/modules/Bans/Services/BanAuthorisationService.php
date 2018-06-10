@@ -2,7 +2,7 @@
 namespace App\Modules\Bans\Services;
 
 use App\Modules\Bans\Models\GameBan;
-use App\core\Exceptions\ServerException;
+use App\Core\Exceptions\ServerException;
 use Illuminate\Log\Logger;
 use App\Modules\ServerKeys\Models\ServerKey;
 

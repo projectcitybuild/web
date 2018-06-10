@@ -5,7 +5,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayer;
 use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayerNameHistory;
-use App\core\Exceptions\TooManyRequestsException;
+use App\Core\Exceptions\TooManyRequestsException;
 use GuzzleHttp\Exception\ClientException;
 
 class MojangApiService {

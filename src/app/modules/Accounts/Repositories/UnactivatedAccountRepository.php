@@ -2,7 +2,7 @@
 namespace App\Modules\Accounts\Repositories;
 
 use App\Modules\Accounts\Models\UnactivatedAccount;
-use App\core\Repository;
+use App\Core\Repository;
 use Carbon\Carbon;
 
 

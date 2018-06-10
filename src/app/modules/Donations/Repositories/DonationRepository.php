@@ -3,7 +3,7 @@ namespace App\Modules\Donations\Repositories;
 
 use App\Modules\Donations\Models\Donation;
 use Illuminate\Database\Eloquent\Collection;
-use App\core\Repository;
+use App\Core\Repository;
 
 class DonationRepository extends Repository {
 

@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Hash;
 use App\Modules\Accounts\Notifications\AccountActivationNotification;
-use App\core\Helpers\Recaptcha;
+use App\Core\Helpers\Recaptcha;
 
 class RegisterController extends WebController {
     

@@ -2,7 +2,7 @@
 
 namespace App\Modules\Accounts\Models;
 
-use App\core\Model;
+use App\Core\Model;
 use Illuminate\Support\Facades\URL;
 
 class AccountPasswordReset extends Model {

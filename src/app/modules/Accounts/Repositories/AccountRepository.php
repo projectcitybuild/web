@@ -2,7 +2,7 @@
 namespace App\Modules\Accounts\Repositories;
 
 use App\Modules\Accounts\Models\Account;
-use App\core\Repository;
+use App\Core\Repository;
 use Carbon\Carbon;
 
 

@@ -3,7 +3,7 @@ namespace App\Modules\Servers\Repositories;
 
 use App\Modules\Servers\Models\ServerStatus;
 use Carbon\Carbon;
-use App\core\Repository;
+use App\Core\Repository;
 
 class ServerStatusRepository extends Repository {
 
