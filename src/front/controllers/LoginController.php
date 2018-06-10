@@ -1,19 +1,15 @@
 <?php
 
-namespace front\controllers;
+namespace Front\Controllers;
 
 use App\Modules\Discourse\Services\Authentication\DiscourseAuthService;
 use App\Modules\Forums\Exceptions\BadSSOPayloadException;
 use App\Modules\Accounts\Services\AccountSocialLinkService;
-use App\Routes\Http\Web\WebController;
-use Illuminate\Validation\Factory as Validation;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use App\Modules\Accounts\Repositories\AccountRepository;
-use Illuminate\Support\Facades\URL;
 use App\Modules\Accounts\Services\AccountSocialAuthService;
-use App\Modules\Accounts\Execeptions\UnsupportedAuthProviderException;
 use App\Modules\Accounts\Services\Login\AccountManualLoginExecutor;
 use App\Modules\Accounts\Services\Login\AccountLoginService;
 use App\Modules\Accounts\Services\Login\AccountSocialLoginExecutor;

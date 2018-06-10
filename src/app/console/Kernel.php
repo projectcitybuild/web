@@ -4,8 +4,8 @@ namespace App\console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\console\commands\QueryServerStatusesCommand;
-use App\console\commands\ImportCommand;
+use App\console\Commands\QueryServerStatusesCommand;
+use App\console\Commands\ImportCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -38,6 +38,6 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        require base_path('app/console/Routes.php');
+        require base_path('app/Console/Routes.php');
     }
 }

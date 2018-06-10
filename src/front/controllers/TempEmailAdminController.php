@@ -1,10 +1,8 @@
 <?php
 
-namespace front\controllers;
+namespace Front\Controllers;
 
 use Illuminate\Http\Request;
-use App\Shared\Exceptions\UnauthorisedException;
-use App\Routes\Http\Web\WebController;
 use App\Modules\Discourse\Services\Authentication\DiscourseAuthService;
 use App\Modules\Discourse\Services\Authentication\DiscoursePayload;
 use GuzzleHttp\Client;

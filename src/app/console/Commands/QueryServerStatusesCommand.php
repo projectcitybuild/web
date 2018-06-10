@@ -1,6 +1,6 @@
 <?php
 
-namespace App\console\commands;
+namespace App\console\Commands;
 
 use Illuminate\Console\Command;
 use App\Modules\Servers\Services\Querying\ServerQueryService;

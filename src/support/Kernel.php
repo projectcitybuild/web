@@ -1,9 +1,8 @@
 <?php
 
-namespace support;
+namespace Support;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-use App\Routes\Api\Middleware\JsonResponseMiddleware;
 
 class Kernel extends HttpKernel
 {
@@ -17,10 +16,10 @@ class Kernel extends HttpKernel
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        \App\Shared\Middleware\TrimStrings::class,
+        \App\core\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \App\Shared\Middleware\TrustProxies::class,
-        \App\Shared\Middleware\DenyIFrameMiddleware::class,
+        \App\core\Middleware\TrustProxies::class,
+        \App\core\Middleware\DenyIFrameMiddleware::class,
     ];
 
     /**
@@ -30,12 +29,12 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \App\Shared\Middleware\EncryptCookies::class,
+            \App\core\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Shared\Middleware\VerifyCsrfToken::class,
+            \App\core\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
@@ -58,9 +57,9 @@ class Kernel extends HttpKernel
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \App\Shared\Middleware\RedirectIfAuthenticated::class,
+        'guest' => \App\core\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'auth.token.server' => \App\Routes\Api\Middleware\ServerTokenValidate::class,
+        'auth.token.server' => \App\Api\Middleware\ServerTokenValidate::class,
     ];
 }

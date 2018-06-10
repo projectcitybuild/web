@@ -1,6 +1,6 @@
 <?php
 
-namespace App\console\commands;
+namespace App\console\Commands;
 
 use Illuminate\Console\Command;
 use App\Modules\Bans\Models\GameBan;
@@ -22,7 +22,7 @@ use bandwidthThrottle\tokenBucket\TokenBucket;
 use bandwidthThrottle\tokenBucket\BlockingConsumer;
 use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayer;
 use GuzzleHttp\Exception\TooManyRedirectsException;
-use App\Shared\Exceptions\TooManyRequestsException;
+use App\core\Exceptions\TooManyRequestsException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use App\Modules\Accounts\Models\Account;

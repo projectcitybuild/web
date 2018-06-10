@@ -1,24 +1,16 @@
 <?php
 
-namespace front\controllers;
+namespace Front\Controllers;
 
-use App\Modules\Discourse\Services\Authentication\DiscourseAuthService;
-use App\Modules\Forums\Exceptions\BadSSOPayloadException;
-use App\Modules\Accounts\Services\AccountSocialLinkService;
 use App\Modules\Accounts\Repositories\AccountRepository;
 use App\Modules\Accounts\Repositories\AccountPasswordResetRepository;
 use App\Modules\Accounts\Notifications\AccountPasswordResetNotification;
 use App\Modules\Accounts\Notifications\AccountPasswordResetCompleteNotification;
-use App\Routes\Http\Web\WebController;
-use Illuminate\Validation\Factory as Validation;
-use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Database\Connection;
-use Laravel\Socialite\Facades\Socialite;
-use GuzzleHttp\Client;
 use Hash;
-use App\Shared\Helpers\Recaptcha;
+use App\core\Helpers\Recaptcha;
 
 class PasswordRecoveryController extends WebController {
 

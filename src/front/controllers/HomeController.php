@@ -1,10 +1,9 @@
 <?php
 
-namespace front\controllers;
+namespace Front\Controllers;
 
 use Illuminate\Support\Facades\View;
 use App\Modules\Donations\Services\DonationStatsService;
-use App\Routes\Http\Web\WebController;
 use App\Modules\Players\Models\MinecraftPlayer;
 use App\Modules\Accounts\Models\Account;
 use Illuminate\Support\Facades\Cache;

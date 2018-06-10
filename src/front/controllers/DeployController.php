@@ -1,10 +1,9 @@
 <?php
 
-namespace front\controllers;
+namespace Front\Controllers;
 
 use Illuminate\Http\Request;
-use App\Shared\Exceptions\UnauthorisedException;
-use App\Routes\Http\Web\WebController;
+use App\core\Exceptions\UnauthorisedException;
 use App\Modules\Discord\Services\DiscordNotifyService;
 
 class DeployController extends WebController {

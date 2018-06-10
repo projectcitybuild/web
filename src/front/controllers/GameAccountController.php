@@ -1,9 +1,8 @@
 <?php
 
-namespace front\controllers;
+namespace Front\Controllers;
 
 use Illuminate\Support\Facades\View;
-use App\Routes\Http\Web\WebController;
 use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Http\Request;
 use App\Modules\Players\Repositories\MinecraftPlayerRepository;

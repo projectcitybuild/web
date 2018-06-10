@@ -1,10 +1,9 @@
 <?php
 
-namespace front\controllers;
+namespace Front\Controllers;
 
 use App\Modules\Accounts\Repositories\AccountRepository;
 use App\Modules\Accounts\Repositories\UnactivatedAccountRepository;
-use App\Routes\Http\Web\WebController;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Contracts\Validation\Factory as Validation;
 use Illuminate\Database\Connection;
@@ -12,8 +11,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Hash;
 use App\Modules\Accounts\Notifications\AccountActivationNotification;
-use GuzzleHttp\Client;
-use App\Shared\Helpers\Recaptcha;
+use App\core\Helpers\Recaptcha;
 
 class RegisterController extends WebController {
     
