@@ -4,7 +4,7 @@ namespace App\Modules\Discord\Services;
 use GuzzleHttp\Client;
 
 
-class DiscordWebhookService {
+class DiscordNotifyService {
     
     /**
      * @var Client

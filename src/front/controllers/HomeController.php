@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Routes\Http\Web\Controllers;
+namespace front\controllers;
 
 use Illuminate\Support\Facades\View;
 use App\Modules\Donations\Services\DonationStatsService;
@@ -10,6 +10,7 @@ use App\Modules\Accounts\Models\Account;
 use Illuminate\Support\Facades\Cache;
 
 class HomeController extends WebController {
+
     /**
      * @var DonationStatsService
      */

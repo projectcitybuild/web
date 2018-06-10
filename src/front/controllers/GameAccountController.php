@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Routes\Http\Web\Controllers;
+namespace front\controllers;
 
 use Illuminate\Support\Facades\View;
 use App\Routes\Http\Web\WebController;

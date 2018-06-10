@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Routes\Http\Web\Controllers;
+namespace front\controllers;
 
 use Illuminate\Http\Request;
 use App\Shared\Exceptions\UnauthorisedException;

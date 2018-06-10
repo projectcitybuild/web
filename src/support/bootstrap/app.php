@@ -36,7 +36,7 @@ $app->singleton(
 
 $app->singleton(
     Illuminate\Contracts\Http\Kernel::class,
-    App\Routes\Http\Kernel::class
+    support\Kernel::class
 );
 
 $app->singleton(

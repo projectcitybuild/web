@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Routes\Http\Web\Controllers;
+namespace front\controllers;
 
 use Illuminate\Http\Request;
 use App\Shared\Exceptions\UnauthorisedException;
 use App\Routes\Http\Web\WebController;
-use App\Modules\Discord\Services\DiscordWebhookService;
+use App\Modules\Discord\Services\DiscordNotifyService;
 
 class DeployController extends WebController {
 
     /**
-     * @var DiscordWebhookService
+     * @var DiscordNotifyService
      */
     private $discordWebhook;
 
-    public function __construct(DiscordWebhookService $discordWebhook) {
+    public function __construct(DiscordNotifyService $discordWebhook) {
         $this->discordWebhook = $discordWebhook;
     }
 
@@ -38,7 +38,6 @@ class DeployController extends WebController {
             'cd '.base_path().' && git pull 2>&1',
             'cd '.base_path().'/src && php artisan migrate 2>&1',
             'cd '.base_path().'/src && compose install 2>&1',
-            'cd '.base_path().'/src && npm run production 2>&1',
         ];
         
         foreach($commands as $command) {

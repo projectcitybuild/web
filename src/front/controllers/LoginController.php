@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Routes\Http\Web\Controllers;
+namespace front\controllers;
 
 use App\Modules\Discourse\Services\Authentication\DiscourseAuthService;
 use App\Modules\Forums\Exceptions\BadSSOPayloadException;
