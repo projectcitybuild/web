@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         bootstrap="bootstrap/autoload.php"
+         bootstrap="support/bootstrap/autoload.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -24,9 +24,8 @@
             <directory suffix=".php">./app</directory>
             <exclude>
                 <file>./app/Routes/Api/Routes.php</file>
-                <file>./app/Routes/Channels/Routes.php</file>
-                <file>./app/Routes/Console/Routes.php</file>
-                <file>./app/Routes/Http/Routes.php</file>
+                <file>./app/console/Routes.php</file>
+                <file>./front/routes/Routes.php</file>
             </exclude>
         </whitelist>
     </filter>

@@ -1,19 +1,14 @@
 <?php
-namespace Tests\Unit;
+namespace Tests\Integration;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class HomeController_Test extends TestCase {
+class Home_Render_Test extends TestCase {
     use DatabaseMigrations, DatabaseTransactions;
 
-    /**
-     * Asserts that the getView() controller route renders
-     *
-     * @return void
-     */
-    public function testGetView_doesRender() {
+    public function testDoesRender() {
         $response = $this->get('/');
         $response->assertStatus(200);
     }
