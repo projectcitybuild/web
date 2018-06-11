@@ -6,11 +6,11 @@ use App\Modules\Accounts\Repositories\AccountRepository;
 use App\Modules\Accounts\Repositories\AccountPasswordResetRepository;
 use App\Modules\Accounts\Notifications\AccountPasswordResetNotification;
 use App\Modules\Accounts\Notifications\AccountPasswordResetCompleteNotification;
+use App\Modules\Recaptcha\RecaptchaService;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Database\Connection;
 use Hash;
-use App\Core\Helpers\Recaptcha;
 
 class PasswordRecoveryController extends WebController {
 
@@ -44,12 +44,10 @@ class PasswordRecoveryController extends WebController {
         return view('password-reset');
     }
 
-    public function sendVerificationEmail(Request $request, Factory $validation, Recaptcha $recaptcha) {
+    public function sendVerificationEmail(Request $request, Factory $validation, RecaptchaService $recaptcha) {
         $validator = $validation->make($request->all(), [
-            'email'             => 'email|required',
-            $recaptcha->field   => 'required',
-        ], [
-            $recaptcha->field   => $recaptcha->errorMessage,
+            'email'                 => 'email|required',
+            'g-recaptcha-response'  => ['required', resolve(RecaptchaRule::class)],
         ]);
 
         $email = $request->get('email');
@@ -60,10 +58,6 @@ class PasswordRecoveryController extends WebController {
             if($account === null) {
                 $validator->errors()->add('email', 'No account belongs to the given email address');
             }
-        });
-
-        $validator->after(function($validator) use($request, $recaptcha) {
-            $recaptcha->validate($request, $validator);
         });
 
         if($validator->fails()) {

@@ -4,6 +4,8 @@ namespace Front\Controllers;
 
 use App\Modules\Accounts\Repositories\AccountRepository;
 use App\Modules\Accounts\Repositories\UnactivatedAccountRepository;
+use App\Modules\Recaptcha\RecaptchaRule;
+use App\Modules\Recaptcha\RecaptchaService;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Contracts\Validation\Factory as Validation;
 use Illuminate\Database\Connection;
@@ -11,7 +13,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Hash;
 use App\Modules\Accounts\Notifications\AccountActivationNotification;
-use App\Core\Helpers\Recaptcha;
+use Illuminate\View\View;
 
 class RegisterController extends WebController {
     
@@ -59,19 +61,13 @@ class RegisterController extends WebController {
         return view('register');
     }
 
-    public function register(Request $request, Recaptcha $recaptcha) {
+    public function register(Request $request, RecaptchaService $recaptcha) {
         $validator = $this->validation->make($request->all(), [
             'email'                 => 'required|email|unique:accounts,email',
             'password'              => 'required|min:8',    // discourse min is 8 or greater
             'password_confirm'      => 'required_with:password|same:password',
-            $recaptcha->field       => 'required',
-        ], [
-            $recaptcha->field       => $recaptcha->errorMessage,
+            'g-recaptcha-response'  => ['required', resolve(RecaptchaRule::class)],
         ]);
-
-        $validator->after(function($validator) use($request, $recaptcha) {
-            $recaptcha->validate($request, $validator);
-        });
 
         if($validator->fails()) {
             return redirect()
@@ -84,9 +80,6 @@ class RegisterController extends WebController {
         $password   = $request->get('password');
         $password   = Hash::make($password);
 
-        $salt       = env('APP_KEY');
-        $token      = hash_hmac('sha256', time().$email, $salt);
-
         $unactivatedAccount = $this->unactivatedAccountRepository->create($email, $password);
         $unactivatedAccount->notify(new AccountActivationNotification($unactivatedAccount));
 
@@ -97,7 +90,9 @@ class RegisterController extends WebController {
      * Attempts to activate an account via token
      *
      * @param Request $request
-     * @return void
+     *
+     * @return View
+     * @throws \Exception
      */
     public function activate(Request $request) {
         $email = $request->get('email');
@@ -119,7 +114,7 @@ class RegisterController extends WebController {
 
         $this->connection->beginTransaction();
         try {
-            $account = $this->accountRepository->create(
+            $this->accountRepository->create(
                 $unactivatedAccount->email,
                 $unactivatedAccount->password,
                 $request->ip(),
