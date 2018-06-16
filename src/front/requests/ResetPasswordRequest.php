@@ -3,7 +3,7 @@ namespace Front\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest {
+class ResetPasswordRequest extends FormRequest {
 
     /**
      * Get the validation rules that apply to the request.
@@ -12,10 +12,9 @@ class RegisterRequest extends FormRequest {
      */
     public function rules() : array {
         return [
-            'email'                 => 'required|email|unique:accounts,email',
-            'password'              => 'required|min:8',    // discourse min is 8 or greater
-            'password_confirm'      => 'required_with:password|same:password',
-            'g-recaptcha-response'  => 'required|recaptcha',
+            'password_token'    => 'required',
+            'password'          => 'required|min:4',
+            'password_confirm'  => 'required_with:password|same:password',
         ];
     }
 

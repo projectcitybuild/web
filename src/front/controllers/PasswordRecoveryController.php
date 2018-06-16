@@ -6,8 +6,9 @@ use App\Modules\Accounts\Repositories\AccountRepository;
 use App\Modules\Accounts\Repositories\AccountPasswordResetRepository;
 use App\Modules\Accounts\Notifications\AccountPasswordResetNotification;
 use App\Modules\Accounts\Notifications\AccountPasswordResetCompleteNotification;
+use Front\Requests\ResetPasswordRequest;
+use Front\Requests\SendPasswordEmailRequest;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Database\Connection;
 use Hash;
 
@@ -39,36 +40,18 @@ class PasswordRecoveryController extends WebController {
         $this->connection = $connection;
     }
 
-    public function showEmailForm(Request $request) {
+    public function showEmailForm() {
         return view('password-reset');
     }
 
-    public function sendVerificationEmail(Request $request, Factory $validation) {
-        $validator = $validation->make($request->all(), [
-            'email'                 => 'email|required',
-            'g-recaptcha-response'  => 'required|recaptcha',
-        ]);
-
-        $email = $request->get('email');
-        $account = null;
-        $validator->after(function($validator) use(&$account, $email) {
-            $account = $this->accountRepository->getByEmail($email);
-
-            if($account === null) {
-                $validator->errors()->add('email', 'No account belongs to the given email address');
-            }
-        });
-
-        if($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->withErrors($validator);
-        }
+    public function sendVerificationEmail(SendPasswordEmailRequest $request) {
+        $input = $request->validated();
+        $email = $input['email'];
 
         $token = hash_hmac('sha256', time(), env('APP_KEY'));
         $passwordReset = $this->passwordResetRepository->updateOrCreateByEmail($email, $token);
 
+        $account = $request->getAccount();
         $account->notify(new AccountPasswordResetNotification($passwordReset));
 
         return redirect()
@@ -93,25 +76,15 @@ class PasswordRecoveryController extends WebController {
         ]);
     }
 
-    public function resetPassword(Request $request, Factory $validation) {
-        $validator = $validation->make($request->all(), [
-            'password_token'    => 'required',
-            'password'          => 'required|min:4',
-            'password_confirm'  => 'required_with:password|same:password',
-        ]);
+    public function resetPassword(ResetPasswordRequest $request) {
+        $input = $request->validated();
+        $token = $input['password_token'];
 
-        if($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->withErrors($validator);
-        }
-
-        $passwordReset = $this->passwordResetRepository->getByToken($request->get('password_token'));
+        $passwordReset = $this->passwordResetRepository->getByToken($token);
         if($passwordReset === null) {
             return redirect()
                 ->route('front.password-reset')
-                ->withErrors('error', 'Password tokekn not found');
+                ->withErrors('error', 'Password token not found');
         }
 
         $account = $this->accountRepository->getByEmail($passwordReset->email);
@@ -127,6 +100,7 @@ class PasswordRecoveryController extends WebController {
             $account->save();
 
             $passwordReset->delete();
+
             $this->connection->commit();
 
         } catch(\Exception $e) {

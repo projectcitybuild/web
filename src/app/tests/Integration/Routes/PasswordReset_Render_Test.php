@@ -2,6 +2,7 @@
 namespace Tests\Integration;
 
 use App\Modules\Accounts\Models\Account;
+use App\Modules\Accounts\Models\AccountPasswordReset;
 use App\Modules\Accounts\Models\UnactivatedAccount;
 use App\Modules\Accounts\Notifications\AccountPasswordResetNotification;
 use App\Modules\Recaptcha\RecaptchaRule;
@@ -25,6 +26,13 @@ class PasswordReset_Render_Test extends TestCase {
         return Account::create([
             'email'     => 'test_email@projectcitybuild.com',
             'password'  => Hash::make('test'),
+        ]);
+    }
+
+    private function createPasswordReset() : AccountPasswordReset {
+        return AccountPasswordReset::create([
+            'email' => 'test_reset@projectcitybuild.com',
+            'token' => 'test_token',
         ]);
     }
 
@@ -81,4 +89,16 @@ class PasswordReset_Render_Test extends TestCase {
         Notification::assertSentTo($account, AccountPasswordResetNotification::class);
     }
 
+
+    public function testPasswordForm_renders() {
+        // given...
+        $reset = $this->createPasswordReset();
+        $url   = $reset->getPasswordResetUrl();
+
+        // when...
+        $response = $this->get($url);
+
+        // expect...
+        $response->assertStatus(200);
+    }
 }
