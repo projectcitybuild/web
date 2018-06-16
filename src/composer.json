@@ -17,25 +17,34 @@
         "xpaw/php-minecraft-query": "^2.0"
     },
     "require-dev": {
-        "fzaninotto/faker": "~1.4",
-        "nunomaduro/collision": "~1.1",
-        "mockery/mockery": "1.0.*",
-        "phpunit/phpunit": "~7.0",
         "filp/whoops": "~2.0",
+        "fzaninotto/faker": "~1.4",
+        "mockery/mockery": "1.0.*",
+        "nunomaduro/collision": "~1.1",
+        "phpunit/phpunit": "~7.0",
         "symfony/thanks": "^1.0"
     },
     "autoload": {
         "classmap": [
-            "database/seeds",
-            "database/factories"
+            "app/database/seeds",
+            "app/database/factories"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "App\\Api\\": "app/api/",
+            "App\\Console\\": "app/console/",
+            "App\\Core\\": "app/core/",
+            "App\\Modules\\": "app/modules/",
+            "Front\\": "front/",
+            "Front\\Controllers\\": "front/controllers/",
+            "Front\\Composers\\": "front/composers/",
+            "Front\\Requests\\": "front/requests/",
+            "Support\\": "support/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "app/tests/"
         }
     },
     "extra": {
@@ -57,6 +66,7 @@
         ]
     },
     "config": {
+        "vendor-dir": "support/packages/vendor",
         "preferred-install": "dist",
         "sort-packages": true,
         "optimize-autoloader": true

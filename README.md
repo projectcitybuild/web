@@ -18,9 +18,9 @@ The official repository for [Project City Build](https://projectcitybuild.com)'s
 All master branch commits and merges are continuously tested by Travis CI.
 
 ### Requirements
-The only requirement is **Docker** installed. If you do not wish to use Docker for local dev work, feel free to go about it in the usual way by working from the `src` directory. 
+**Docker** is an optional requirement. If you do not wish to use Docker for local dev work, feel free to go about it in the usual way by working from the `src` directory. 
 
-Without Docker, you will need to first manually install the following:
+Without Docker, you will need to manually install:
 
 * PHP 7.1.3 or greater
 * MySQL/MariaDB (either one is fine)
