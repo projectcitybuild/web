@@ -6,7 +6,6 @@ use App\Modules\Accounts\Repositories\AccountRepository;
 use App\Modules\Accounts\Repositories\AccountPasswordResetRepository;
 use App\Modules\Accounts\Notifications\AccountPasswordResetNotification;
 use App\Modules\Accounts\Notifications\AccountPasswordResetCompleteNotification;
-use App\Modules\Recaptcha\RecaptchaService;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Database\Connection;
@@ -44,10 +43,10 @@ class PasswordRecoveryController extends WebController {
         return view('password-reset');
     }
 
-    public function sendVerificationEmail(Request $request, Factory $validation, RecaptchaService $recaptcha) {
+    public function sendVerificationEmail(Request $request, Factory $validation) {
         $validator = $validation->make($request->all(), [
             'email'                 => 'email|required',
-            'g-recaptcha-response'  => ['required', resolve(RecaptchaRule::class)],
+            'g-recaptcha-response'  => 'required|recaptcha',
         ]);
 
         $email = $request->get('email');

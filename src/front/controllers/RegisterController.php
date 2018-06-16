@@ -4,16 +4,16 @@ namespace Front\Controllers;
 
 use App\Modules\Accounts\Repositories\AccountRepository;
 use App\Modules\Accounts\Repositories\UnactivatedAccountRepository;
+use App\Modules\Accounts\Notifications\AccountActivationNotification;
 use App\Modules\Recaptcha\RecaptchaRule;
-use App\Modules\Recaptcha\RecaptchaService;
+use Front\Requests\RegisterRequest;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Contracts\Validation\Factory as Validation;
 use Illuminate\Database\Connection;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Carbon\Carbon;
 use Hash;
-use App\Modules\Accounts\Notifications\AccountActivationNotification;
-use Illuminate\View\View;
 
 class RegisterController extends WebController {
     
@@ -61,21 +61,7 @@ class RegisterController extends WebController {
         return view('register');
     }
 
-    public function register(Request $request, RecaptchaService $recaptcha) {
-        $validator = $this->validation->make($request->all(), [
-            'email'                 => 'required|email|unique:accounts,email',
-            'password'              => 'required|min:8',    // discourse min is 8 or greater
-            'password_confirm'      => 'required_with:password|same:password',
-            'g-recaptcha-response'  => ['required', resolve(RecaptchaRule::class)],
-        ]);
-
-        if($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator->errors())
-                ->withInput();
-        }
-
+    public function register(RegisterRequest $request) {
         $email      = $request->get('email');
         $password   = $request->get('password');
         $password   = Hash::make($password);
