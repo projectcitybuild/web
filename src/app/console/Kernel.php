@@ -29,6 +29,9 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('query-servers:all')
                  ->everyFiveMinutes();
+
+        $schedule->command('cleanup:password-reset')
+                ->daily();
     }
 
     /**

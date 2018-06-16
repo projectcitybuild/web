@@ -34,5 +34,11 @@ class AccountPasswordResetRepository extends Repository {
             ->where('token', $token)
             ->first();
     }
-    
+
+    public function deleteOlderThan(Carbon $date) {
+        return $this->getModel()
+            ->whereDate('created_at', '<', $date)
+            ->delete();
+    }
+
 }

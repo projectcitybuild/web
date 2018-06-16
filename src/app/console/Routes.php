@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
+use App\Modules\Accounts\Services\PasswordResetCleanupService;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +13,8 @@ use Illuminate\Foundation\Inspiring;
 |
 */
 
-//Artisan::command('inspire', function () {
-//    $this->comment(Inspiring::quote());
-//})->describe('Display an inspiring quote');
+Artisan::command('cleanup:password-resets', function() {
+    $cleanupService = resolve(PasswordResetCleanupService::class);
+    $cleanupService->cleanup();
+
+})->describe('Delete old password reset requests');
