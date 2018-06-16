@@ -5,10 +5,7 @@ namespace Front\Controllers;
 use App\Modules\Accounts\Repositories\AccountRepository;
 use App\Modules\Accounts\Repositories\UnactivatedAccountRepository;
 use App\Modules\Accounts\Notifications\AccountActivationNotification;
-use App\Modules\Recaptcha\RecaptchaRule;
 use Front\Requests\RegisterRequest;
-use Illuminate\Contracts\Auth\Guard as Auth;
-use Illuminate\Contracts\Validation\Factory as Validation;
 use Illuminate\Database\Connection;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -16,11 +13,6 @@ use Carbon\Carbon;
 use Hash;
 
 class RegisterController extends WebController {
-    
-    /**
-     * @var Validation
-     */
-    private $validation;
 
     /**
      * @var AccountRepository
@@ -37,24 +29,15 @@ class RegisterController extends WebController {
      */
     private $connection;
 
-    /**
-     * @var Auth
-     */
-    private $auth;
-
 
     public function __construct(
-        Validation $validation, 
         AccountRepository $accountRepository,
         UnactivatedAccountRepository $unactivatedAccountRepository,
-        Connection $connection,
-        Auth $auth
+        Connection $connection
     ) {
-        $this->validation = $validation;
         $this->accountRepository = $accountRepository;
         $this->unactivatedAccountRepository = $unactivatedAccountRepository;
         $this->connection = $connection;
-        $this->auth = $auth;
     }
 
     public function showRegisterView() {
@@ -62,8 +45,10 @@ class RegisterController extends WebController {
     }
 
     public function register(RegisterRequest $request) {
-        $email      = $request->get('email');
-        $password   = $request->get('password');
+        $input = $request->validated();
+
+        $email      = $input['email'];
+        $password   = $input['password'];
         $password   = Hash::make($password);
 
         $unactivatedAccount = $this->unactivatedAccountRepository->create($email, $password);
@@ -82,8 +67,8 @@ class RegisterController extends WebController {
      */
     public function activate(Request $request) {
         $email = $request->get('email');
-        if($email === null || empty($email)) {
-            abort(401);
+        if(empty($email)) {
+            return view('register');
         }
 
         $unactivatedAccount = $this->unactivatedAccountRepository->getByEmail($email);
