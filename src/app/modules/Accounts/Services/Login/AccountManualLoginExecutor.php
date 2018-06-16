@@ -1,7 +1,6 @@
 <?php
 namespace App\Modules\Accounts\Services\Login;
 
-use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory;
 use App\Modules\Discourse\Services\Authentication\DiscoursePayload;
 use Illuminate\Contracts\Auth\Guard as Auth;

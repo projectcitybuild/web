@@ -23,6 +23,13 @@ class RecaptchaRule extends Rule {
     }
 
     /**
+     * Disables Recaptcha for the current request
+     */
+    public static function disable() {
+        config(['recaptcha.enabled' => false]);
+    }
+
+    /**
      * Get the validation error message.
      *
      * @return string
@@ -39,7 +46,7 @@ class RecaptchaRule extends Rule {
      * @return bool
      */
     public function passes($attribute, $value) {
-        if(env('RECAPTCHA_ENABLED', false) === false) {
+        if(config('recaptcha.enabled', false) === false) {
             return true;
         }
 

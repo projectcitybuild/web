@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Recaptcha;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 
@@ -13,8 +14,10 @@ class RecaptchaServiceProvider extends ServiceProvider {
      */
     public function boot() {
         Blade::directive('recaptcha_key', function () {
-            return "<?php echo \App\Modules\Recaptcha\RecaptchaTemplate::getSiteKey(); ?>";
+            return "<?php echo env('RECAPTCHA_SITE_KEY') ?>";
         });
+
+        Validator::extend('recaptcha', 'App\Modules\Recaptcha\RecaptchaRule@passes');
     }
 
     /**
