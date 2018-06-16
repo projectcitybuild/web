@@ -15,6 +15,15 @@ use App\Core\Exceptions\ServerException;
 use App\Modules\Discourse\Services\Api\DiscourseAdminApi;
 
 class TempMinecraftController extends ApiController {
+
+    /**
+     * @var DiscourseAdminApi
+     */
+    private $adminApi;
+
+    public function __construct(DiscourseAdminApi $adminApi) {
+        $this->adminApi = $adminApi;
+    }
     
     public function authenticate(Request $request, Validator $validation, Client $client) {
         $validator = $validation->make($request->all(), [
@@ -40,8 +49,8 @@ class TempMinecraftController extends ApiController {
         });
     }
 
-    private function fetch(Request $request, DiscourseAdminApi $adminApi) {
-        $result = $adminApi->fetchUsersByEmail($request->get('email'));
+    private function fetch(Request $request) {
+        $result = $this->adminApi->fetchUsersByEmail($request->get('email'));
         if(count($result) === 0) {
             throw new ServerException('no_discourse_account', 'No matching Discourse account could be found. Please contact a staff member');
         }
