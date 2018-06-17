@@ -5,16 +5,17 @@ namespace Front\Controllers;
 use Illuminate\Http\Request;
 use App\Core\Exceptions\UnauthorisedException;
 use App\Modules\Discord\Services\DiscordNotifyService;
+use Illuminate\Support\Facades\Log;
 
 class DeployController extends WebController {
 
     /**
      * @var DiscordNotifyService
      */
-    private $discordWebhook;
+    private $discord;
 
-    public function __construct(DiscordNotifyService $discordWebhook) {
-        $this->discordWebhook = $discordWebhook;
+    public function __construct(DiscordNotifyService $discord) {
+        $this->discord = $discord;
     }
 
     public function deploy(Request $request) {
@@ -29,21 +30,25 @@ class DeployController extends WebController {
             throw new UnauthorisedException('bad_deploy_key', 'Invalid deployment key specified');
         }
 
+        $this->discord->notifyChannel('Deployment', 'Deployment has begun...');
 
-        $this->discordWebhook->notifyChannel('Deployment', 'Deployment initiated...');
+        try {
+            $commands = [
+                'cd '.base_path().' && git checkout ' . $branch . ' 2>&1',
+                'cd '.base_path().' && git pull 2>&1',
+                'cd '.base_path().'/src && php artisan migrate 2>&1',
+                'cd '.base_path().'/src && compose install 2>&1',
+            ];
 
-        $commands = [
-            'cd '.base_path().' && git checkout ' . $branch . ' 2>&1',
-            'cd '.base_path().' && git pull 2>&1',
-            'cd '.base_path().'/src && php artisan migrate 2>&1',
-            'cd '.base_path().'/src && compose install 2>&1',
-        ];
-        
-        foreach($commands as $command) {
-            echo shell_exec($command) . '<br>';
+            foreach($commands as $command) {
+                echo shell_exec($command) . '<br>';
+            }
+
+            $this->discord->notifyChannel('Deployment', 'Deployment complete.');
+
+        } catch(\Exception $e) {
+            $this->discord->notifyChannel('Deployment', 'Deployment failed: '.$e->getMessage());
+            Log::fatal($e);
         }
-
-        $this->discordWebhook->notifyChannel('Deployment', 'Deployment complete.');
-        
     }
 }
