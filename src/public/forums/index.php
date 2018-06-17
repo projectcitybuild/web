@@ -17,7 +17,7 @@ $topic = $parameters['topic'];
 $matches = [];
 
 if(preg_match('/^([0-9]+)$/', $topic, $matches)) {
-    $topic = $topic;
+    $topic = $matches[1] . '.0';
 }
 else if(preg_match('/^([0-9]+)\.[0-9]+$/', $topic, $matches)) {
     $topic = $matches[1] . '.0';
