@@ -10,11 +10,9 @@ class UnactivatedAccountRepository extends Repository {
 
     protected $model = UnactivatedAccount::class;
 
-    public function create(
-        string $email, 
-        string $password
-    ) : UnactivatedAccount {
-
+    public function create(string $email,
+                             string $password) : UnactivatedAccount
+    {
         return $this->getModel()->create([
             'email'         => $email,
             'password'      => $password,
@@ -37,6 +35,12 @@ class UnactivatedAccountRepository extends Repository {
         return $this->getModel()
             ->where('email', $email)
             ->first();
+    }
+
+    public function deleteOlderThan(Carbon $date) {
+        return $this->getModel()
+            ->whereDate('updated_at', '<', $date)
+            ->delete();
     }
     
 }

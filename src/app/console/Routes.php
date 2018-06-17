@@ -1,6 +1,7 @@
 <?php
 
 use App\Modules\Accounts\Services\PasswordResetCleanupService;
+use App\Modules\Accounts\Services\UnactivatedAccountCleanupService;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +19,10 @@ Artisan::command('cleanup:password-resets', function() {
     $cleanupService->cleanup();
 
 })->describe('Delete old password reset requests');
+
+
+Artisan::command('cleanup:unactivated-accounts', function() {
+    $cleanupService = resolve(UnactivatedAccountCleanupService::class);
+    $cleanupService->cleanup();
+
+})->describe('Delete old unactivated accounts');
