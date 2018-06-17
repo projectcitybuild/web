@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Unit;
+namespace Tests\Integration;
 
 use App\Modules\Accounts\Models\AccountPasswordReset;
 use App\Modules\Accounts\Services\PasswordResetCleanupService;
