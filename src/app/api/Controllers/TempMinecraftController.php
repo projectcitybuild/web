@@ -2,9 +2,9 @@
 
 namespace App\Api\Controllers;
 
+use App\Api\ApiController;
 use Illuminate\Validation\Factory as Validator;
 use Illuminate\Http\Request;
-use App\Routes\Api\ApiController;
 use App\Core\Exceptions\UnauthorisedException;
 use App\Modules\Accounts\Models\Account;
 use GuzzleHttp\Client;

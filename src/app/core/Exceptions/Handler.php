@@ -5,7 +5,6 @@ namespace App\Core\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use App\Core\Exceptions\BaseHttpException;
 
 class Handler extends ExceptionHandler
 {
