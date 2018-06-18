@@ -22,6 +22,14 @@ class DiscourseAuthService {
     }
 
     /**
+     * Disables payload checking for the current
+     * request
+     */
+    public static function disablePayloadChecks() {
+        config(['discourse.signing_enabled' => false]);
+    }
+
+    /**
      * Hashes the given string with our private sso secret
      *
      * @param string $payload
@@ -40,6 +48,9 @@ class DiscourseAuthService {
      * @return boolean
      */
     public function isValidPayload(string $payload, string $signature) : bool {
+        if(config('discourse.signing_enabled', false) === false) {
+            return true;
+        }
         return $this->getSignedPayload($payload) === $signature;
     }
 
