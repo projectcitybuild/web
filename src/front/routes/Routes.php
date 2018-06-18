@@ -22,6 +22,10 @@ Route::post('admin/emails/sync', 'TempEmailAdminController@editEmail')->name('te
 Route::redirect('terms',    'https://forums.projectcitybuild.com/t/terms-of-services/14506')->name('terms');
 Route::redirect('privacy',  'https://forums.projectcitybuild.com/privacy')->name('privacy');
 
+Route::get('sentry/test', function() {
+   throw new \Exception('Sentry test');
+});
+
 Route::get('/', [
     'as' => 'front.home',
     'uses' => 'HomeController@getView',
