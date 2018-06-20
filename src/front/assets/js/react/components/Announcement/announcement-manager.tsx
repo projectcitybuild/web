@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as Api from './api';
-import * as Moment from 'moment';
 import { default as Announcement } from './announcement';
 
 interface InitialState {

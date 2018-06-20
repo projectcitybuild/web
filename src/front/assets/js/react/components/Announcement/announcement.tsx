@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Api from './api';
-import * as Moment from 'moment';
+import * as dateFns from 'date-fns';
 import * as sanitizeHtml from 'sanitize-html';
 
 interface InitialState {
@@ -47,7 +47,7 @@ export default class Component extends React.Component<Props, InitialState> {
                     avatar_template: "",
                 };
 
-        const date = Moment(announcement.created_at);
+        const date = dateFns.format(announcement.created_at, 'ddd, Do \of MMMM, YYYY');
         const avatarUrl = "https://forums.projectcitybuild.com" + post.avatar_template.replace('{size}', '16')
 
         const markup = sanitizeHtml(post.cooked, {
@@ -61,7 +61,7 @@ export default class Component extends React.Component<Props, InitialState> {
             <article className="article card" key={announcement.id}>
                 <div className="article__container">
                     <h2 className="article__heading">{ announcement.title }</h2>
-                    <div className="article__date">{ date.format('ddd, Do \of MMMM, YYYY') }</div>
+                    <div className="article__date">{ date }</div>
                     { 
                         announcement.details
                             ? <div className="article__body" dangerouslySetInnerHTML={{ __html: markup }}></div>

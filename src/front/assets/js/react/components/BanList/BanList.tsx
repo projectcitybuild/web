@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import moment from 'moment';
+import dateFns from 'date-fns';
 // import Loader from 'halogen/ScaleLoader';
 
 import { Ban, Server, Alias } from './models';
@@ -195,8 +195,8 @@ export class BanList extends React.Component<BanListProps, BanListState> {
         const { servers, aliases, pagination } = this.state;
         const { totalItems } = pagination;
 
-        const createdAt = moment.unix(ban.created_at).format('llll');
-        const expiresAt = ban.expires_at ? moment.unix(ban.expires_at).format('llll') : '-';
+        const createdAt = dateFns.format(new Date(ban.created_at), 'llll');
+        const expiresAt = ban.expires_at ? dateFns.format(new Date(ban.expires_at), 'llll') : '-';
 
         const playerAlias = aliases[ban.banned_alias_id];
         const server = servers[ban.server_id];
