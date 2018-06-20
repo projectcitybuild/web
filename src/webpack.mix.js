@@ -2,16 +2,16 @@ let mix = require('laravel-mix');
 
 
 mix.typeScript('front/assets/js/app.tsx', 'public/assets/js')
-   .sass('front/assets/sass/app.scss', 'public/assets/css');
+   .sass('front/assets/sass/app.scss', 'public/assets/css')
+   .extract([
+        'react', 
+        'date-fns', 
+        'react-dom', 
+        'axios'
+    ]);
 
 if(mix.config.production) {
-    mix.extract([
-            'react', 
-            'moment', 
-            'react-dom', 
-            'axios'
-        ])
-        .version();
+    mix.version();
 
 } else {
     mix.browserSync({
