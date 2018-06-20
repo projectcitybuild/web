@@ -23,6 +23,7 @@ class DeployController extends WebController {
         $key    = env('DEPLOY_KEY');
 
         if($key === null) {
+            $this->discord->notifyChannel('Deployment', '❌ Deployment failed: No deployment key set in .env');
             throw new \Exception('No deployment key setup');
         }
 
@@ -35,6 +36,7 @@ class DeployController extends WebController {
         try {
             $commands = [
                 'cd '.base_path().' php artisan down 2>&1',
+                'cd '.base_path().' git reset --hard 2>&1',
                 'cd '.base_path().' && git checkout ' . $branch . ' 2>&1',
                 'cd '.base_path().' && git pull 2>&1',
                 'cd '.base_path().'/src && php artisan migrate 2>&1',
@@ -48,10 +50,10 @@ class DeployController extends WebController {
                 echo shell_exec($command) . '<br>';
             }
 
-            $this->discord->notifyChannel('Deployment', 'Deployment complete.');
+            $this->discord->notifyChannel('Deployment', '✔ Deployment complete.');
 
         } catch(\Exception $e) {
-            $this->discord->notifyChannel('Deployment', 'Deployment failed: '.$e->getMessage());
+            $this->discord->notifyChannel('Deployment', '❌ Deployment failed: '.$e->getMessage());
             Log::fatal($e);
         }
     }
