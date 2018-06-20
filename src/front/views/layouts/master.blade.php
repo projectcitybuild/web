@@ -31,6 +31,8 @@
         <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/solid.js"></script>
         <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/fontawesome.js"></script>
 
+        <script defer src="{{ mix('assets/js/manifest.js') }}"></script>
+        <script defer src="{{ mix('assets/js/vendor.js') }}"></script>
         <script defer src="{{ mix('assets/js/app.js') }}"></script>
 
         @stack('head')
