@@ -1,10 +1,13 @@
 /node_modules
 /public/hot
 /public/storage
+/public/assets/css
+/public/assets/js
 /storage/*.key
 /vendor
 /.idea
 /.vagrant
+mix-manifest.json
 Homestead.json
 Homestead.yaml
 npm-debug.log

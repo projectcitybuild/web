@@ -34,10 +34,14 @@ class DeployController extends WebController {
 
         try {
             $commands = [
+                'cd '.base_path().' php artisan down 2>&1',
                 'cd '.base_path().' && git checkout ' . $branch . ' 2>&1',
                 'cd '.base_path().' && git pull 2>&1',
                 'cd '.base_path().'/src && php artisan migrate 2>&1',
                 'cd '.base_path().'/src && compose install 2>&1',
+                'cd '.base_path().'/src && npm install 2>&1',
+                'cd '.base_path().'/src && npm run production 2>&1',
+                'cd '.base_path().' php artisan up 2>&1',
             ];
 
             foreach($commands as $command) {
