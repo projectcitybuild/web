@@ -39,6 +39,18 @@
         padding: 1em;
     }
 
+    &--padded {
+        padding: 1em;
+
+        @media screen and (max-width: $dimen-medium) {
+            padding: 1em;
+        }
+    }
+
+    &--divided &__body:not(:last-child) {
+        border-bottom: 1px solid $colour-light;
+    }
+
     &__body--padded {
         padding: 2em;
 

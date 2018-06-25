@@ -11,7 +11,7 @@
 |
 */
 
-// force all web routes to load from https
+// force all web routes to load over https
 if (env('APP_ENV') === 'production') {
     URL::forceScheme('https');
 }
@@ -126,6 +126,21 @@ Route::get('logout', [
     'as'    => 'front.logout',
     'uses'  => 'LoginController@logout',
 ]);
+
+Route::group(['prefix' => 'account'], function() {
+    Route::get('settings', [
+        'as'    => 'front.account.settings',
+        'uses'  => 'AccountSettingController@showView',
+    ]);
+    Route::post('settings/email/verify', [
+        'as'    => 'front.account.settings.email',
+        'uses'  => 'AccountSettingController@sendVerificationEmail',
+    ]);
+    Route::get('settings/email/confirm', [
+        'as'    => 'front.account.settings.email.confirm',
+        'uses'  => 'AccountSettingController@confirmEmailChange',
+    ])->middleware('signed');
+});
 
 Route::view('bans', 'banlist')->name('banlist');
 

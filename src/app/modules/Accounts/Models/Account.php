@@ -5,6 +5,7 @@ namespace App\Modules\Accounts\Models;
 use App\Core\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\URL;
 
 class Account extends Authenticatable {
     use Notifiable;
@@ -37,6 +38,20 @@ class Account extends Authenticatable {
 
     public function linkedSocialAccounts() {
         return $this->hasMany('App\Modules\Accounts\Models\LinkedSocialAccount', 'account_id', 'account_id');
+    }
+
+    /**
+     * Gets an URL to the 'email change verification' 
+     * route with a signed signature to prevent 
+     * tampering
+     *
+     * @return string
+     */
+    public function getEmailChangeVerificationUrl(string $newEmail) : string {
+        return URL::temporarySignedRoute('front.account.settings.email.confirm', now()->addMinutes(15), [
+            'old_email' => $this->email,
+            'new_email' => $newEmail,
+        ]);
     }
 
 }

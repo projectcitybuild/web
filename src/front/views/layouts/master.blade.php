@@ -118,7 +118,14 @@
                         </a>
                     </li>
                     @if(Auth::check())
-                        <li><a href="{{ route('front.logout') }}">Logout</a></li>
+                        <li>
+                            <a href="#" class="nav-dropdown">Account <i class="fas fa-caret-down"></i></a>
+                            <ul>
+                                <li><a href="{{ route('front.account.settings') }}">Account Settings</a></li>
+                                <li class="divider"><a href="https://forums.projectcitybuild.com/my/preferences/account">Forum Settings</a></li>
+                                <li><a href="{{ route('front.logout') }}">Logout</a></li>
+                            </ul>
+                        </li>
                     @else
                         <li><a href="https://forums.projectcitybuild.com/login">Login</a></li>
                     @endif
