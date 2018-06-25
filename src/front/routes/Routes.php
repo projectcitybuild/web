@@ -138,8 +138,13 @@ Route::group(['prefix' => 'account'], function() {
     ]);
     Route::get('settings/email/confirm', [
         'as'    => 'front.account.settings.email.confirm',
-        'uses'  => 'AccountSettingController@confirmEmailChange',
+        'uses'  => 'AccountSettingController@showConfirmForm',
     ])->middleware('signed');
+
+    Route::post('settings/email/confirm', [
+        'as'    => 'front.account.settings.email.confirm.save',
+        'uses'  => 'AccountSettingController@confirmEmailChange',
+    ]);
 });
 
 Route::view('bans', 'banlist')->name('banlist');

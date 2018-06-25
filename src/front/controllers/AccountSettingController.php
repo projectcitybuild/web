@@ -4,10 +4,11 @@ namespace Front\Controllers;
 
 use Illuminate\Support\Facades\View;
 use App\Modules\Accounts\Models\Account;
-use Front\Requests\ChangeEmailRequest;
-use App\Modules\Accounts\Notifications\AccountEmailChangeVerifyNotification;
-use Illuminate\Http\Request;
 use App\Modules\Accounts\Repositories\AccountRepository;
+use App\Modules\Accounts\Notifications\AccountEmailChangeVerifyNotification;
+use Front\Requests\ChangeEmailRequest;
+use Front\Requests\SaveNewEmailRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AccountSettingController extends WebController {
 
@@ -37,7 +38,7 @@ class AccountSettingController extends WebController {
             ->with(['success' => 'A verification email has been sent to your new email address. Please follow the instructions to complete the process']);
     }
 
-    public function confirmEmailChange(Request $request) {
+    public function showConfirmForm(Request $request) {
         $oldEmail = $request->get('old_email');
         $newEmail = $request->get('new_email');
 
@@ -48,14 +49,30 @@ class AccountSettingController extends WebController {
             throw new \Exception('newEmail is empty or missing');
         }
 
+        return view('account-settings-email-confirm', [
+            'oldEmail' => $oldEmail,
+            'newEmail' => $newEmail,
+        ]);
+    }
+
+    public function confirmEmailChange(SaveNewEmailRequest $request) {
+        // TODO: verify payloads to prevent hidden field tampering...
+
+        $input = $request->validated();
+        $oldEmail = $input['old_email'];
+        $newEmail = $input['new_email'];
+
         $account = $this->accountRepository->getByEmail($oldEmail);
 
         if ($account === null) {
             throw new \Exception('Email address could not be found');
         }
 
+        // TODO: push to Discourse
+
         $account->email = $newEmail;
         $account->save();
+
     }
 
 }
