@@ -55,9 +55,9 @@ class AccountEmailChangeVerifyNotification extends Notification
                     ->from('no-reply@projectcitybuild.com')
                     
                     ->greeting('Email Change Request')
-                    ->line('You or somebody else has requested for your email to be changed to '.$this->newEmail.'. Use the below link if you wish to proceed.')
-                    ->action('Yes, change my email address', $url)
-                    ->line('If you did not request this, please contact a staff member immediately as your account has likely been compromised.')
+                    ->line('You or somebody else has requested to change their email address to this address. Use the below link if you wish to proceed.')
+                    ->action('Yes, use this email address', $url)
+                    ->line('If you did not request this please ignore this email.')
                     ->line('The above link will expire in 15 minutes.');
     }
 

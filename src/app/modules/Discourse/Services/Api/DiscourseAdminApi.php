@@ -29,7 +29,7 @@ class DiscourseAdminApi {
     }
 
     private function getApiUser() {
-        return 'Andy';
+        return env('DISCOURSE_API_USER');
     }
 
     /**
@@ -82,7 +82,7 @@ class DiscourseAdminApi {
             'sso'           => $payload,
             'sig'           => $signature,
             'api_key'       => $this->getApiKey(),
-            'api_username'  => 'Andy',
+            'api_username'  => $this->getApiUser(),
         ];
 
         $response = $client->post('admin/users/sync_sso', [
