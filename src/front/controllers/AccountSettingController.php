@@ -2,13 +2,15 @@
 
 namespace Front\Controllers;
 
-use Illuminate\Support\Facades\View;
 use App\Modules\Accounts\Models\Account;
 use App\Modules\Accounts\Repositories\AccountRepository;
 use App\Modules\Accounts\Notifications\AccountEmailChangeVerifyNotification;
-use Front\Requests\ChangeEmailRequest;
-use Front\Requests\SaveNewEmailRequest;
+use Front\Requests\AccountChangeEmailRequest;
+use Front\Requests\AccountSaveNewEmailRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
+use Front\Requests\AccountChangePasswordRequest;
+use Illuminate\Support\Facades\Hash;
 
 class AccountSettingController extends WebController {
 
@@ -26,7 +28,7 @@ class AccountSettingController extends WebController {
         return view('account-settings');
     }
 
-    public function sendVerificationEmail(ChangeEmailRequest $request) {
+    public function sendVerificationEmail(AccountChangeEmailRequest $request) {
         $input = $request->validated();
         $newEmail = $input['email'];
         
@@ -55,12 +57,13 @@ class AccountSettingController extends WebController {
         ]);
     }
 
-    public function confirmEmailChange(SaveNewEmailRequest $request) {
+    public function confirmEmailChange(AccountSaveNewEmailRequest $request) {
         // TODO: verify payloads to prevent hidden field tampering...
 
         $input = $request->validated();
         $oldEmail = $input['old_email'];
         $newEmail = $input['new_email'];
+        $password = $input['password'];
 
         $account = $this->accountRepository->getByEmail($oldEmail);
 
@@ -73,6 +76,22 @@ class AccountSettingController extends WebController {
         $account->email = $newEmail;
         $account->save();
 
+        // Auth::logoutOtherDevices($password);
+    }
+
+
+    public function changePassword(AccountChangePasswordRequest $request) {
+        $input = $request->validated();
+
+        $password = $input['new_password'];
+
+        $account = $request->user();
+        $account->password = Hash::make($password);
+        $account->save();
+
+        return redirect()
+            ->route('front.account.settings')
+            ->with(['success_password' => 'Password successfully updated']);
     }
 
 }

@@ -4,13 +4,9 @@ namespace Front\Requests;
 use App\Modules\Accounts\Models\Account;
 use App\Modules\Accounts\Repositories\AccountRepository;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class SendPasswordEmailRequest extends FormRequest {
-
-    /**
-     * @var Account
-     */
-    private $account;
+class AccountChangeEmailRequest extends FormRequest {
 
     /**
      * @var AccountRepository
@@ -22,9 +18,12 @@ class SendPasswordEmailRequest extends FormRequest {
         $this->accountRepository = $accountRepository;
     }
 
-    public function getAccount() : ?Account {
-        return $this->account;
-    }
+    /**
+     * The key to be used for the view error bag.
+     *
+     * @var string
+     */
+    protected $errorBag = 'email';
 
     /**
      * Get the validation rules that apply to the request.
@@ -33,8 +32,7 @@ class SendPasswordEmailRequest extends FormRequest {
      */
     public function rules() : array {
         return [
-            'email'                 => 'email|required',
-            'g-recaptcha-response'  => 'required|recaptcha',
+            'email' => 'required|email',
         ];
     }
 
@@ -48,18 +46,21 @@ class SendPasswordEmailRequest extends FormRequest {
         if ($validator->fails()) {
             return;
         }
-        
+
         $validator->after(function ($validator) {
             $input = $validator->getData();
             $email = $input['email'];
 
             $account = $this->accountRepository->getByEmail($email);
 
-            if ($account === null) {
-                $validator->errors()->add('email', 'No account belongs to the given email address');
+            if ($account !== null) {
+                if ($account->getKey() === Auth::user()->getKey()) {
+                    $validator->errors()->add('email', 'You are already using this email address');
+                } else {
+                    $validator->errors()->add('email', 'This email address is already in use');
+                }
+                return;
             }
-
-            $this->account = $account;
         });
     }
 

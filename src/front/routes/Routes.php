@@ -145,6 +145,10 @@ Route::group(['prefix' => 'account'], function() {
         'as'    => 'front.account.settings.email.confirm.save',
         'uses'  => 'AccountSettingController@confirmEmailChange',
     ]);
+    Route::post('settings/password', [
+        'as'    => 'front.account.settings.password',
+        'uses'  => 'AccountSettingController@changePassword',
+    ]);
 });
 
 Route::view('bans', 'banlist')->name('banlist');

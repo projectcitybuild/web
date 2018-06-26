@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class SaveNewEmailRequest extends FormRequest {
+class AccountChangePasswordRequest extends FormRequest {
 
     /**
      * @var AccountRepository
@@ -20,15 +20,22 @@ class SaveNewEmailRequest extends FormRequest {
     }
 
     /**
+     * The key to be used for the view error bag.
+     *
+     * @var string
+     */
+    protected $errorBag = 'password';
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
      */
     public function rules() : array {
         return [
-            'new_email' => 'required|email',
-            'old_email' => 'required|email',
-            'password'  => 'required',
+            'old_password'          => 'required',
+            'new_password'          => 'required|different:old_password|min:8',
+            'new_password_confirm'  => 'required_with:new_password|same:new_password',
         ];
     }
 
@@ -39,18 +46,18 @@ class SaveNewEmailRequest extends FormRequest {
      * @return void
      */
     public function withValidator($validator) {
+        if ($validator->fails()) {
+            return;
+        }
+        
         $validator->after(function ($validator) {
             $input    = $validator->getData();
-            $oldEmail = $input['old_email'];
-            $password = $input['password'];
+            $password = $input['old_password'];
 
-            $account = $this->accountRepository->getByEmail($oldEmail);
-            if ($account === null) {
-                throw new \Exception('Failed to find account by email address');
-            }
+            $account = Auth::user();
 
             if (Hash::check($password, $account->password) === false) {
-                $validator->errors()->add('password', 'Password is incorrect');
+                $validator->errors()->add('old_password', 'Password is incorrect');
             }
         });
     }

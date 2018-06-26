@@ -5,8 +5,9 @@ use App\Modules\Accounts\Models\Account;
 use App\Modules\Accounts\Repositories\AccountRepository;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
-class ChangeEmailRequest extends FormRequest {
+class AccountSaveNewEmailRequest extends FormRequest {
 
     /**
      * @var AccountRepository
@@ -25,7 +26,9 @@ class ChangeEmailRequest extends FormRequest {
      */
     public function rules() : array {
         return [
-            'email'     => 'required|email',
+            'new_email' => 'required|email',
+            'old_email' => 'required|email',
+            'password'  => 'required',
         ];
     }
 
@@ -36,20 +39,22 @@ class ChangeEmailRequest extends FormRequest {
      * @return void
      */
     public function withValidator($validator) {
+        if ($validator->fails()) {
+            return;
+        }
+        
         $validator->after(function ($validator) {
             $input    = $validator->getData();
-            $email    = $input['email'];
+            $oldEmail = $input['old_email'];
             $password = $input['password'];
 
-            $account = $this->accountRepository->getByEmail($email);
+            $account = $this->accountRepository->getByEmail($oldEmail);
+            if ($account === null) {
+                throw new \Exception('Failed to find account by email address');
+            }
 
-            if ($account !== null) {
-                if ($account->getKey() === Auth::user()->getKey()) {
-                    $validator->errors()->add('email', 'You are already using this email address');
-                } else {
-                    $validator->errors()->add('email', 'This email address is already in use');
-                }
-                return;
+            if (Hash::check($password, $account->password) === false) {
+                $validator->errors()->add('password', 'Password is incorrect');
             }
         });
     }

@@ -25,19 +25,16 @@
                         </div>
                         <p>
                     @endif
-                    @if($errors->any())
+                    @if($errors->email->any())
                         <div class="alert alert--error">
                             <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
-                            {{ $errors->first() }}
+                            {{ $errors->email->first() }}
                         </div>
                         <p>
                     @endif
 
                     <div class="form-row">
                         <input class="input-text {{ $errors->any() ? 'input-text--error' : '' }}" name="email" type="email" placeholder="New Email Address" value="{{ old('email') }}" />
-                    </div>
-                    <div class="form-row">
-                        <input class="input-text {{ $errors->any() ? 'input-text--error' : '' }}" name="password" type="password" placeholder="Current Password" />
                     </div>
 
                     <div class="form-row">
@@ -46,8 +43,47 @@
                         </button>
                     </div>
                 </form>
-
             </div>
+
+            <div class="card__body card__body--padded">
+                <h3>Change Password</h3>
+
+                <form method="post" action="{{ route('front.account.settings.password') }}" id="form">
+                    @csrf
+                    
+                    @if(Session::has('success_password'))
+                        <div class="alert alert--success">
+                            <h3><i class="fas fa-exclamation-circle"></i> Success</h3>
+                            {{ Session::get('success_password') }}
+                        </div>
+                        <p>
+                    @endif
+                    @if($errors->password->any())
+                        <div class="alert alert--error">
+                            <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
+                            {{ $errors->password->first() }}
+                        </div>
+                        <p>
+                    @endif
+
+                    <div class="form-row">
+                        <input class="input-text {{ $errors->has('old_password') ? 'input-text--error' : '' }}" name="old_password" type="password" placeholder="Current Password" />
+                    </div>
+                    <div class="form-row">
+                        <input class="input-text {{$errors->has('new_password') ? 'input-text--error' : '' }}" name="new_password" type="password" placeholder="New Password" />
+                    </div>
+                    <div class="form-row">
+                        <input class="input-text {{ $errors->has('new_password_confirm') ? 'input-text--error' : '' }}" name="new_password_confirm" type="password" placeholder="New Password (Confirm)" />
+                    </div>
+
+                    <div class="form-row">
+                        <button type="submit" class="g-recaptcha button button--large button--fill button--secondary">
+                            <i class="fas fa-check"></i> Change Password
+                        </button>
+                    </div>
+                </form>
+            </div>
+
         </div>
 
     </div>
