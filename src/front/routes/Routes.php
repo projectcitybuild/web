@@ -1,5 +1,7 @@
 <?php
 
+use App\Core\Environment;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,7 +14,7 @@
 */
 
 // force all web routes to load over https
-if (env('APP_ENV') === 'production') {
+if (Environment::isProduction()) {
     URL::forceScheme('https');
 }
 
