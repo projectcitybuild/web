@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\View;
 use Front\Requests\AccountChangePasswordRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use App\Modules\Discourse\Services\Api\DiscourseAdminApi;
+use App\Modules\Discourse\Services\Authentication\DiscoursePayload;
 
 class AccountSettingController extends WebController {
 
@@ -20,8 +22,16 @@ class AccountSettingController extends WebController {
      */
     private $accountRepository;
 
-    public function __construct(AccountRepository $accountRepository) {
+    /**
+     * @var DiscourseAdminApi
+     */
+    private $discourseApi;
+
+    public function __construct(AccountRepository $accountRepository, 
+                                DiscourseAdminApi $discourseApi) {
+
         $this->accountRepository = $accountRepository;
+        $this->discourseApi = $discourseApi;
     }
 
 
@@ -32,7 +42,22 @@ class AccountSettingController extends WebController {
     public function sendVerificationEmail(AccountChangeEmailRequest $request) {
         $input = $request->validated();
         $newEmail = $input['email'];
-        
+
+        $account = $request->user();
+
+        // $payload = (new DiscoursePayload)
+        //     ->setPcbId(1)
+        //     ->setEmail($newEmail)
+        //     ->build();
+
+        // try {
+        //     $response = $this->discourseApi->requestSSOSync($payload);
+        //     dd($response);
+            
+        // } catch(\Exception $e) {
+        //     dd($e);
+        // }
+
         $account = $request->user();
         $account->notify(new AccountEmailChangeVerifyNotification($newEmail, $account));
 

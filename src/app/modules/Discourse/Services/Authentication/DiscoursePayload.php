@@ -36,10 +36,10 @@ class DiscoursePayload {
     /**
      * @var bool
      */
-    private $requiresActivation = false;
+    private $requiresActivation;
 
 
-    public function __construct(string $nonce) {
+    public function __construct(string $nonce = null) {
         $this->nonce = $nonce;
     }
 
@@ -68,21 +68,30 @@ class DiscoursePayload {
         return $this;
     }
 
+    public function requiresActivation(bool $value) {
+        $this->requiresActivation = $value;
+        return $this;
+    }
+
     public function build() : array {
         $payload = [
-            'nonce'         => $this->nonce,
             'email'         => $this->email,
             'external_id'   => $this->pcbId,
-            'require_activation' => $this->requiresActivation ? 'true' : 'false',
         ];
 
-        if($this->username !== null) {
+        if (!empty($this->nonce)) {
+            $payload['nonce'] = $this->nonce;
+        }
+        if ($this->requiresActivation !== null) {
+            $payload['require_activation'] = $this->requiresActivation ? 'true' : 'false';
+        }
+        if ($this->username !== null) {
             $payload['username'] = $this->username;            
         }
-        if($this->avatarUrl !== null) {
+        if ($this->avatarUrl !== null) {
             $payload['avatar_url'] = $this->avatarUrl;
         }
-        if($this->name !== null) {
+        if ($this->name !== null) {
             $payload['name'] = $this->name;
         }
 

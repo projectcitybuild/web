@@ -18,7 +18,9 @@ class DiscourseAdminApi {
      */
     private $discourseAuthService;
 
-    public function __construct(DiscourseClient $client, DiscourseAuthService $discourseAuthService) {
+    public function __construct(DiscourseClient $client, 
+                                DiscourseAuthService $discourseAuthService) {
+                                    
         $this->client = $client;
         $this->discourseAuthService = $discourseAuthService;
     }
@@ -74,20 +76,19 @@ class DiscourseAdminApi {
      * @param DiscoursePayload $payload
      * @return array
      */
-    public function requestSSOSync(DiscoursePayload $payload) : array {
+    public function requestSSOSync(array $payload) : array {
         $payload   = $this->discourseAuthService->makePayload($payload);
         $signature = $this->discourseAuthService->getSignedPayload($payload);
 
-        return [
-            'sso'           => $payload,
-            'sig'           => $signature,
-            'api_key'       => $this->getApiKey(),
-            'api_username'  => $this->getApiUser(),
-        ];
-
-        $response = $client->post('admin/users/sync_sso', [
-            'form_params' => $syncPayload,
+        $response = $this->client->post('admin/users/sync_sso', [
+            'query' => [
+                'sso'           => $payload,
+                'sig'           => $signature,
+                'api_key'       => $this->getApiKey(),
+                'api_username'  => $this->getApiUser(),
+            ],
         ]);
+        dd($response);
 
         return json_decode($response->getBody());
     }
