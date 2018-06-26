@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Front\Requests\AccountChangePasswordRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class AccountSettingController extends WebController {
 

@@ -5,15 +5,14 @@
 
 @section('contents')
 
-    <div class="card card--divided">
+    <div class="card">
         <div class="card__body card__body--padded">
             <h1>Confirm Email Change</h1>
             <span class="header-description">
                 You have requested to change your email address to {{ $newEmail }}.
                 Please verify by entering your password to complete the process.
             </span>
-        </div>
-        <div class="card__body card__body--padded">
+
             <form method="post" action="{{ route('front.account.settings.email.confirm.save') }}" id="form">
                 @csrf
                 @if($errors->any())

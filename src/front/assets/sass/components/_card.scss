@@ -58,4 +58,12 @@
             padding: 1em;
         }
     }
+
+    &--no-padding {
+        padding: 0;
+
+        .card__body {
+            padding: 0;
+        }
+    }
 }
