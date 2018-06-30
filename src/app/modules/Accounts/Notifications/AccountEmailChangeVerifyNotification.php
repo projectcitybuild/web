@@ -5,30 +5,39 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Modules\Accounts\Models\Account;
 
 class AccountEmailChangeVerifyNotification extends Notification
 {
     use Queueable;
 
     /**
-     * @var Account
+     * @var string
      */
-    private $account;
+    private $email;
 
     /**
-     * @var String
+     * @var string
      */
-    private $newEmail;
+    private $confirmLink;
+
+    /**
+     * Whether this recipient is the
+     * old email address (the address
+     * before it was changed)
+     * 
+     * @var boolean
+     */
+    public $isOldEmailAddress = false;
+
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(String $newEmail, Account $account) {
-        $this->account  = $account;
-        $this->newEmail = $newEmail;
+    public function __construct(String $email, string $confirmLink) {
+        $this->email = $email;
+        $this->confirmLink = $confirmLink;
     }
 
     /**
@@ -48,17 +57,27 @@ class AccountEmailChangeVerifyNotification extends Notification
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable) {
-        $url = $this->account->getEmailChangeVerificationUrl($this->newEmail);
+        $message = (new MailMessage)
+            ->subject('Email Address Change was Requested')
+            ->from('no-reply@projectcitybuild.com');
 
-        return (new MailMessage)
-                    ->subject('Email Address Change was Requested')
-                    ->from('no-reply@projectcitybuild.com')
-                    
-                    ->greeting('Email Change Request')
-                    ->line('You or somebody else has requested to change their email address to this address. Use the below link if you wish to proceed.')
-                    ->action('Yes, use this email address', $url)
-                    ->line('If you did not request this please ignore this email.')
-                    ->line('The above link will expire in 15 minutes.');
+        if ($this->isOldEmailAddress === false) {
+            $message
+                ->greeting('Email Change Request')
+                ->line('You or somebody else has requested to change their email address to this address. Use the below link if you wish to proceed.')
+                ->action('Yes, use this email address', $this->confirmLink)
+                ->line('If you did not request this please ignore this email.')
+                ->line('The above link will expire in 15 minutes.');
+        } else {
+            $message
+                ->greeting('Email Change Request')
+                ->line('You or somebody else has requested to change their email address to this address. Use the below link if you wish to proceed.')
+                ->action('Yes, use this email address', $this->confirmLink)
+                ->line('If you did not request this please ignore this email.')
+                ->line('The above link will expire in 15 minutes.');
+        }
+
+        return $message;
     }
 
     /**

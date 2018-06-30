@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
-@section('title', 'Create an Account')
-@section('description', 'Create a PCB account to create forum posts, access personal player statistics and more.')
+@section('title', 'Account Security Settings')
+@section('description', '')
 
 @section('contents')
 

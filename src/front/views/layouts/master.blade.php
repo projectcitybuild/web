@@ -123,7 +123,11 @@
                             <ul>
                                 <li><a href="{{ route('front.account.settings') }}">Account Settings</a></li>
                                 <li class="divider"><a href="https://forums.projectcitybuild.com/my/preferences/account">Forum Settings</a></li>
-                                <li><a href="{{ route('front.logout') }}">Logout</a></li>
+                                <li>
+                                    <a href="{{ route('front.logout') }}">
+                                        <i class="fas fa-sign-out-alt"></i> Logout
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     @else

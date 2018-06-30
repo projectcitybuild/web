@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Modules\Discourse\Services\Api\DiscourseAdminApi;
 use App\Modules\Discourse\Services\Authentication\DiscoursePayload;
+use App\Modules\Accounts\Repositories\AccountEmailChangeRepository;
+use App\Core\Helpers\TokenHelpers;
+use Illuminate\Database\Connection;
 
 class AccountSettingController extends WebController {
 
@@ -27,11 +30,26 @@ class AccountSettingController extends WebController {
      */
     private $discourseApi;
 
-    public function __construct(AccountRepository $accountRepository, 
-                                DiscourseAdminApi $discourseApi) {
+    /**
+     * @var AccountEmailChangeRepository
+     */
+    private $emailChangeRepository;
 
+    /**
+     * @var Connection
+     */
+    private $connection;
+
+
+    public function __construct(AccountRepository $accountRepository, 
+                                DiscourseAdminApi $discourseApi,
+                                AccountEmailChangeRepository $emailChangeRepository,
+                                Connection $connection) 
+    {
         $this->accountRepository = $accountRepository;
         $this->discourseApi = $discourseApi;
+        $this->emailChangeRepository = $emailChangeRepository;
+        $this->connection = $connection;
     }
 
 
@@ -44,67 +62,99 @@ class AccountSettingController extends WebController {
         $newEmail = $input['email'];
 
         $account = $request->user();
+        if ($account === null) {
+            throw new \Exception('Account is null');
+        }
 
-        // $payload = (new DiscoursePayload)
-        //     ->setPcbId(1)
-        //     ->setEmail($newEmail)
-        //     ->build();
+        $token = TokenHelpers::generateToken();
+        $changeRequest = $this->emailChangeRepository->create($account->getKey(), 
+                                                              $token, 
+                                                              $account->email, 
+                                                              $newEmail);
+        
+        // send email to current email address
+        $mail = new AccountEmailChangeVerifyNotification($account->email, $changeRequest->getCurrentEmailUrl(20));
+        $mail->isOldEmailAddress = true;
+        $account->notify($mail);
 
-        // try {
-        //     $response = $this->discourseApi->requestSSOSync($payload);
-        //     dd($response);
-            
-        // } catch(\Exception $e) {
-        //     dd($e);
-        // }
-
-        $account = $request->user();
-        $account->notify(new AccountEmailChangeVerifyNotification($newEmail, $account));
+        // send email to new email address
+        $mail = new AccountEmailChangeVerifyNotification($newEmail, $changeRequest->getNewEmailUrl(20));
+        $account->notify($mail);
 
         return redirect()
             ->back()
-            ->with(['success' => 'A verification email has been sent to your new email address. Please follow the instructions to complete the process']);
+            ->with(['success' => 'A verification email has been sent to both your new and current email address. Please click the link in both to complete the process']);
     }
 
     public function showConfirmForm(Request $request) {
-        $oldEmail = $request->get('old_email');
-        $newEmail = $request->get('new_email');
-
-        if (empty($oldEmail)) {
-            throw new \Exception('oldEmail is empty or missing');
-        }
-        if (empty($newEmail)) {
-            throw new \Exception('newEmail is empty or missing');
+        $token = $request->get('token');
+        if (empty($token)) {
+            abort(404);
         }
 
-        return view('account-settings-email-confirm', [
-            'oldEmail' => $oldEmail,
-            'newEmail' => $newEmail,
-        ]);
+        $email = $request->get('email');
+        if (empty($email)) {
+            throw new \Exception('No email address supplied during email change confirmation');
+        }
+
+        $changeRequest = $this->emailChangeRepository->getByToken($token);
+        if ($changeRequest === null) {
+            throw new \Exception('Email change request not found for provided token...');
+        }
+
+        if ($email === $changeRequest->email_previous) {
+            $changeRequest->is_previous_confirmed = true;
+        } 
+        elseif ($email === $changeRequest->email_new) {
+            $changeRequest->is_new_confirmed = true;
+        } 
+        else {
+            throw new \Exception('Provided email does not match any email in the stored change request');
+        }
+
+        if ($changeRequest->is_previous_confirmed === true && $changeRequest->is_new_confirmed === true) {
+
+            $this->connection->beginTransaction();
+
+            try {
+                $account = $changeRequest->account;
+                if ($account === null) {
+                    throw new \Exception('No account belongs to this email change request');
+                }
+    
+                if (empty($changeRequest->email_new)) {
+                    throw new \Exception('Missing `new email` address in email change request');
+                }
+    
+                $payload = (new DiscoursePayload)
+                    ->setPcbId(1)
+                    ->setEmail($changeRequest->email_new)
+                    ->build();
+    
+                $this->discourseApi->requestSSOSync($payload);
+
+                $account->email = $newEmail;
+                $account->save();
+    
+                $changeRequest->delete();
+
+                $this->connection->commit();
+
+                return view('account-settings-email-confirm');
+            
+            } catch(\Exception $e) {
+                $this->connection->rollBack();
+                throw $e;
+            }
+
+        } else {
+            $changeRequest->save();
+
+            return view('account-settings-email-confirm', [
+                'changeRequest' => $changeRequest,
+            ]);
+        }
     }
-
-    public function confirmEmailChange(AccountSaveNewEmailRequest $request) {
-        // TODO: verify payloads to prevent hidden field tampering...
-
-        $input = $request->validated();
-        $oldEmail = $input['old_email'];
-        $newEmail = $input['new_email'];
-        $password = $input['password'];
-
-        $account = $this->accountRepository->getByEmail($oldEmail);
-
-        if ($account === null) {
-            throw new \Exception('Email address could not be found');
-        }
-
-        // TODO: push to Discourse
-
-        $account->email = $newEmail;
-        $account->save();
-
-        // Auth::logoutOtherDevices($password);
-    }
-
 
     public function changePassword(AccountChangePasswordRequest $request) {
         $input = $request->validated();
