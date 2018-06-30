@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePasswordChange extends Migration
+class CreateEmailChange extends Migration
 {
     /**
      * Run the migrations.
@@ -14,15 +14,15 @@ class CreatePasswordChange extends Migration
     public function up() {
         Schema::create('account_email_changes', function(Blueprint $table) {
             $table->increments('account_email_change_id');
-            $table->integer('account_id');
+            $table->integer('account_id')->unsigned();
             $table->string('token');
             $table->string('email_previous');
             $table->string('email_new');
             $table->boolean('is_previous_confirmed');
             $table->boolean('is_new_confirmed');
-            $table->boolean('is_complete');
             $table->timestamps();
 
+            $table->index(['token', 'email_previous', 'email_new']);
             $table->foreign('account_id')->references('account_id')->on('accounts');
         });
     }
