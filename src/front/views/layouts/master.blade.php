@@ -208,8 +208,8 @@
                         </ul>
                         <ul class="footer__bullets">
                             <li><h5 class="footer__subheading">Open Source</h5></li>
-                            <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener" href="https://github.com/itsmyfirstday/PCBridge">PCBridge</a></li>
-                            <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener" href="https://github.com/itsmyfirstday/ProjectCityBuild">projectcitybuild.com</a></li>
+                            <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener" href="https://github.com/andyksaw/PCBridge">PCBridge</a></li>
+                            <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener" href="https://github.com/andyksaw/ProjectCityBuild">projectcitybuild.com</a></li>
                         </ul>
                     </div>
                     <div class="footer__right">
