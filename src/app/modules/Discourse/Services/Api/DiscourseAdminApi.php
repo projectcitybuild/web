@@ -76,7 +76,7 @@ class DiscourseAdminApi {
      * @param DiscoursePayload $payload
      * @return array
      */
-    public function requestSSOSync(array $payload) : array {
+    public function requestSSOSync(array $payload) {
         $payload   = $this->discourseAuthService->makePayload($payload);
         $signature = $this->discourseAuthService->getSignedPayload($payload);
 
@@ -88,7 +88,6 @@ class DiscourseAdminApi {
                 'api_username'  => $this->getApiUser(),
             ],
         ]);
-        dd($response);
 
         return json_decode($response->getBody());
     }

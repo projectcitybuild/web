@@ -17,6 +17,7 @@ use App\Modules\Discourse\Services\Authentication\DiscoursePayload;
 use App\Modules\Accounts\Repositories\AccountEmailChangeRepository;
 use App\Core\Helpers\TokenHelpers;
 use Illuminate\Database\Connection;
+use Illuminate\Support\Facades\Notification;
 
 class AccountSettingController extends WebController {
 
@@ -79,7 +80,8 @@ class AccountSettingController extends WebController {
 
         // send email to new email address
         $mail = new AccountEmailChangeVerifyNotification($newEmail, $changeRequest->getNewEmailUrl(20));
-        $account->notify($mail);
+        Notification::route('mail', $newEmail)
+            ->notify($mail);
 
         return redirect()
             ->back()
@@ -88,18 +90,28 @@ class AccountSettingController extends WebController {
 
     public function showConfirmForm(Request $request) {
         $token = $request->get('token');
-        if (empty($token)) {
-            abort(404);
-        }
-
         $email = $request->get('email');
-        if (empty($email)) {
-            throw new \Exception('No email address supplied during email change confirmation');
+        
+        if (empty($token) || Empty($email)) {
+            // if the signed url was valid and yet
+            // the email or token field is missing,
+            // something has definitely gone wrong
+            throw new \Exception('Email address or token missing in url parameters');
         }
 
         $changeRequest = $this->emailChangeRepository->getByToken($token);
         if ($changeRequest === null) {
-            throw new \Exception('Email change request not found for provided token...');
+            // token has either expired or the email 
+            // confirmation process has already been
+            // completed
+            abort(404);
+        }
+
+        if ($changeRequest->account === null) {
+            throw new \Exception('No account belongs to this email change request');
+        }
+        if (empty($changeRequest->email_new)) {
+            throw new \Exception('Missing `new email` address in email change request');
         }
 
         if ($email === $changeRequest->email_previous) {
@@ -109,50 +121,55 @@ class AccountSettingController extends WebController {
             $changeRequest->is_new_confirmed = true;
         } 
         else {
+            // if the supplied email matches neither the
+            // old or new email address in the stored
+            // change request, something has gone wrong
             throw new \Exception('Provided email does not match any email in the stored change request');
         }
 
-        if ($changeRequest->is_previous_confirmed === true && $changeRequest->is_new_confirmed === true) {
-
-            $this->connection->beginTransaction();
-
-            try {
-                $account = $changeRequest->account;
-                if ($account === null) {
-                    throw new \Exception('No account belongs to this email change request');
-                }
-    
-                if (empty($changeRequest->email_new)) {
-                    throw new \Exception('Missing `new email` address in email change request');
-                }
-    
-                $payload = (new DiscoursePayload)
-                    ->setPcbId(1)
-                    ->setEmail($changeRequest->email_new)
-                    ->build();
-    
-                $this->discourseApi->requestSSOSync($payload);
-
-                $account->email = $newEmail;
-                $account->save();
-    
-                $changeRequest->delete();
-
-                $this->connection->commit();
-
-                return view('account-settings-email-confirm');
-            
-            } catch(\Exception $e) {
-                $this->connection->rollBack();
-                throw $e;
-            }
-
-        } else {
+        // if the link in both emails has not been
+        // clicked yet, save the current progres and
+        // show the 'confirmation progress' view
+        if ($changeRequest->is_previous_confirmed == false ||
+            $changeRequest->is_new_confirmed == false) 
+        {
             $changeRequest->save();
 
             return view('account-settings-email-confirm', [
                 'changeRequest' => $changeRequest,
             ]);
+        }
+
+        // otherwise, change their email address
+        // and complete the process
+        $this->connection->beginTransaction();
+        try {
+            $account = $changeRequest->account;
+
+            // push the email change to Discourse 
+            // via the user sync route
+            $payload = (new DiscoursePayload)
+                ->setPcbId($account->getKey())
+                ->setEmail($changeRequest->email_new)
+                // ->requiresActivation(false)
+                ->build();
+
+            $this->discourseApi->requestSSOSync($payload);
+
+            // push the email change to our own
+            // local user database
+            $account->email = $changeRequest->email_new;
+            $account->save();
+
+            $changeRequest->delete();
+
+            $this->connection->commit();
+
+            return view('account-settings-email-complete');
+        
+        } catch(\Exception $e) {
+            $this->connection->rollBack();
+            throw $e;
         }
     }
 

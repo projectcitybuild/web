@@ -33,14 +33,14 @@ class AccountEmailChange extends Model {
     }
 
     public function getCurrentEmailUrl(int $expiryInMins = 20) {
-        return URL::temporarySignedRoute('front.password-reset.recovery', now()->addMinutes($expiryInMins), [
+        return URL::temporarySignedRoute('front.account.settings.email.confirm', now()->addMinutes($expiryInMins), [
             'token' => $this->token,
             'email' => $this->email_previous,
         ]);
     }
 
     public function getNewEmailUrl(int $expiryInMins = 20) {
-        return URL::temporarySignedRoute('front.password-reset.recovery', now()->addMinutes($expiryInMins), [
+        return URL::temporarySignedRoute('front.account.settings.email.confirm', now()->addMinutes($expiryInMins), [
             'token' => $this->token,
             'email' => $this->email_new,
         ]);
