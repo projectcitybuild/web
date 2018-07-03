@@ -88,6 +88,12 @@ class AccountSettingController extends WebController {
             ->with(['success' => 'A verification email has been sent to both your new and current email address. Please click the link in both to complete the process']);
     }
 
+    /**
+     * Shows and updates the 'email change' status view
+     *
+     * @param Request $request
+     * @return View
+     */
     public function showConfirmForm(Request $request) {
         $token = $request->get('token');
         $email = $request->get('email');
@@ -100,6 +106,7 @@ class AccountSettingController extends WebController {
         }
 
         $changeRequest = $this->emailChangeRepository->getByToken($token);
+        
         if ($changeRequest === null) {
             // token has either expired or the email 
             // confirmation process has already been
@@ -150,11 +157,20 @@ class AccountSettingController extends WebController {
             // via the user sync route
             $payload = (new DiscoursePayload)
                 ->setPcbId($account->getKey())
-                ->setEmail($changeRequest->email_new)
-                // ->requiresActivation(false)
-                ->build();
+                ->setEmail($changeRequest->email_new);
 
-            $this->discourseApi->requestSSOSync($payload);
+            try {
+                $this->discourseApi->requestSSOSync($payload->build());
+
+            } catch (\GuzzleHttp\Exception\ServerException $e) {
+                // sometimes the api fails at random because
+                // the 'requires_activation' key is needed in
+                // the payload. As a workaround we'll send the
+                // request again but with the key included 
+                // this time
+                $payload->requiresActivation(false);
+                $this->discourseApi->requestSSOSync($payload->build());
+            }
 
             // push the email change to our own
             // local user database
@@ -167,7 +183,7 @@ class AccountSettingController extends WebController {
 
             return view('account-settings-email-complete');
         
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->connection->rollBack();
             throw $e;
         }
