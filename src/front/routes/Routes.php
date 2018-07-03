@@ -1,5 +1,7 @@
 <?php
 
+use App\Core\Environment;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,13 +13,10 @@
 |
 */
 
-// force all web routes to load from https
-if (env('APP_ENV') === 'production') {
+// force all web routes to load over https
+if (Environment::isProduction()) {
     URL::forceScheme('https');
 }
-
-Route::get('admin/emails', 'TempEmailAdminController@showView')->name('temp-email');
-Route::post('admin/emails/sync', 'TempEmailAdminController@editEmail')->name('temp-email-save');
 
 Route::redirect('terms',    'https://forums.projectcitybuild.com/t/terms-of-services/14506')->name('terms');
 Route::redirect('privacy',  'https://forums.projectcitybuild.com/privacy')->name('privacy');
@@ -126,6 +125,30 @@ Route::get('logout', [
     'as'    => 'front.logout',
     'uses'  => 'LoginController@logout',
 ]);
+
+Route::group(['prefix' => 'account'], function() {
+    Route::get('settings', [
+        'as'    => 'front.account.settings',
+        'uses'  => 'AccountSettingController@showView',
+    ]);
+    Route::post('settings/email/verify', [
+        'as'    => 'front.account.settings.email',
+        'uses'  => 'AccountSettingController@sendVerificationEmail',
+    ]);
+    Route::get('settings/email/confirm', [
+        'as'    => 'front.account.settings.email.confirm',
+        'uses'  => 'AccountSettingController@showConfirmForm',
+    ])->middleware('signed');
+
+    Route::post('settings/email/confirm', [
+        'as'    => 'front.account.settings.email.confirm.save',
+        'uses'  => 'AccountSettingController@confirmEmailChange',
+    ]);
+    Route::post('settings/password', [
+        'as'    => 'front.account.settings.password',
+        'uses'  => 'AccountSettingController@changePassword',
+    ]);
+});
 
 Route::view('bans', 'banlist')->name('banlist');
 

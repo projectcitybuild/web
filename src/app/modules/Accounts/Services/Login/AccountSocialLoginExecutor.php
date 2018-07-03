@@ -87,7 +87,8 @@ class AccountSocialLoginExecutor extends AbstractAccountLogin {
 
         $payload = (new DiscoursePayload($nonce))
             ->setPcbId($account->getKey())
-            ->setEmail($account->email);
+            ->setEmail($account->email)
+            ->requiresActivation(false);
 
         $this->invalidateSessionData();
 

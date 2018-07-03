@@ -4,13 +4,10 @@ namespace Front\Requests;
 use App\Modules\Accounts\Models\Account;
 use App\Modules\Accounts\Repositories\AccountRepository;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
-class SendPasswordEmailRequest extends FormRequest {
-
-    /**
-     * @var Account
-     */
-    private $account;
+class AccountChangePasswordRequest extends FormRequest {
 
     /**
      * @var AccountRepository
@@ -22,9 +19,12 @@ class SendPasswordEmailRequest extends FormRequest {
         $this->accountRepository = $accountRepository;
     }
 
-    public function getAccount() : ?Account {
-        return $this->account;
-    }
+    /**
+     * The key to be used for the view error bag.
+     *
+     * @var string
+     */
+    protected $errorBag = 'password';
 
     /**
      * Get the validation rules that apply to the request.
@@ -33,8 +33,9 @@ class SendPasswordEmailRequest extends FormRequest {
      */
     public function rules() : array {
         return [
-            'email'                 => 'email|required',
-            'g-recaptcha-response'  => 'required|recaptcha',
+            'old_password'          => 'required',
+            'new_password'          => 'required|different:old_password|min:8',
+            'new_password_confirm'  => 'required_with:new_password|same:new_password',
         ];
     }
 
@@ -50,16 +51,14 @@ class SendPasswordEmailRequest extends FormRequest {
         }
         
         $validator->after(function ($validator) {
-            $input = $validator->getData();
-            $email = $input['email'];
+            $input    = $validator->getData();
+            $password = $input['old_password'];
 
-            $account = $this->accountRepository->getByEmail($email);
+            $account = Auth::user();
 
-            if ($account === null) {
-                $validator->errors()->add('email', 'No account belongs to the given email address');
+            if (Hash::check($password, $account->password) === false) {
+                $validator->errors()->add('old_password', 'Password is incorrect');
             }
-
-            $this->account = $account;
         });
     }
 

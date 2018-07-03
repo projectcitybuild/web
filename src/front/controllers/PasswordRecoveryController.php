@@ -11,6 +11,7 @@ use Front\Requests\SendPasswordEmailRequest;
 use Illuminate\Http\Request;
 use Illuminate\Database\Connection;
 use Hash;
+use App\Core\Helpers\TokenHelpers;
 
 class PasswordRecoveryController extends WebController {
 
@@ -48,7 +49,7 @@ class PasswordRecoveryController extends WebController {
         $input = $request->validated();
         $email = $input['email'];
 
-        $token = hash_hmac('sha256', time(), env('APP_KEY'));
+        $token = TokenHelpers::generateToken();
         $passwordReset = $this->passwordResetRepository->updateOrCreateByEmail($email, $token);
 
         $account = $request->getAccount();
