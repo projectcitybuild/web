@@ -5,6 +5,7 @@ namespace App\Core\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Core\Environment;
 
 class Handler extends ExceptionHandler
 {
@@ -38,7 +39,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        if(env('APP_ENV') === 'production') {
+        if (Environment::isStaging() || Environment::isProduction()) {
             if(app()->bound('sentry') && $this->shouldReport($exception)) {
                 app('sentry')->captureException($exception);
             }
@@ -83,9 +84,16 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
+            return response()->json([
+                'error' => [
+                    'id'        => 'UnauthorisedException',
+                    'title'     => 'Unauthenticated',
+                    'detail'    => 'Login is required',
+                    'status'    => 401,
+                ],
+            ], 401);
         }
 
-        return redirect()->guest(route('login'));
+        return redirect()->guest(route('login.redirect'));
     }
 }

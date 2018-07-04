@@ -18,8 +18,9 @@ if (Environment::isProduction()) {
     URL::forceScheme('https');
 }
 
-Route::redirect('terms',    'https://forums.projectcitybuild.com/t/terms-of-services/14506')->name('terms');
-Route::redirect('privacy',  'https://forums.projectcitybuild.com/privacy')->name('privacy');
+Route::redirect('terms',            'https://forums.projectcitybuild.com/t/terms-of-services/14506')->name('terms');
+Route::redirect('privacy',          'https://forums.projectcitybuild.com/privacy')->name('privacy');
+Route::redirect('discourse/login',  'https://forums.projectcitybuild.com/login')->name('login.redirect');
 
 Route::get('sentry/test', function() {
    throw new \Exception('Sentry test');
@@ -34,17 +35,6 @@ Route::get('donations', [
     'as'    => 'front.donation-list',
     'uses'  => 'DonationController@getView',
 ]);
-
-Route::group(['prefix' => 'account'], function() {
-    Route::get('games', [
-        'as'    => 'front.account.games',
-        'uses'  => 'GameAccountController@showView',
-    ]);
-    Route::post('games', [
-        'as'    => 'front.account.games.save',
-        'uses'  => 'GameAccountController@saveAccounts',
-    ]);
-});
 
 Route::group(['prefix' => 'login'], function() {
     Route::get('/', [
@@ -79,7 +69,8 @@ Route::group(['prefix' => 'login'], function() {
     Route::get('social/register', [
         'as'    => 'front.login.social-register',
         'uses'  => 'LoginController@createSocialAccount',
-    ])->middleware('signed');
+    ])
+    ->middleware('signed');
 });
 
 Route::group(['prefix' => 'password-reset'], function() {
@@ -87,14 +78,17 @@ Route::group(['prefix' => 'password-reset'], function() {
         'as'    => 'front.password-reset',
         'uses'  => 'PasswordRecoveryController@showEmailForm',
     ]);
+    
     Route::post('/', [
         'as'    => 'front.password-reset.submit',
         'uses'  => 'PasswordRecoveryController@sendVerificationEmail',
     ]);
+
     Route::get('recovery', [
         'as'    => 'front.password-reset.recovery',
         'uses'  => 'PasswordRecoveryController@showResetForm',
-    ])->middleware('signed');
+    ])
+    ->middleware('signed');
     
     Route::post('recovery', [
         'as'    => 'front.password-reset.save',
@@ -126,28 +120,48 @@ Route::get('logout', [
     'uses'  => 'LoginController@logout',
 ]);
 
-Route::group(['prefix' => 'account'], function() {
-    Route::get('settings', [
-        'as'    => 'front.account.settings',
-        'uses'  => 'AccountSettingController@showView',
-    ]);
-    Route::post('settings/email/verify', [
-        'as'    => 'front.account.settings.email',
-        'uses'  => 'AccountSettingController@sendVerificationEmail',
-    ]);
-    Route::get('settings/email/confirm', [
-        'as'    => 'front.account.settings.email.confirm',
-        'uses'  => 'AccountSettingController@showConfirmForm',
-    ])->middleware('signed');
 
-    Route::post('settings/email/confirm', [
-        'as'    => 'front.account.settings.email.confirm.save',
-        'uses'  => 'AccountSettingController@confirmEmailChange',
-    ]);
-    Route::post('settings/password', [
-        'as'    => 'front.account.settings.password',
-        'uses'  => 'AccountSettingController@changePassword',
-    ]);
+Route::group(['prefix' => 'account', 'middleware' => 'auth'], function() {
+
+    Route::group(['prefix' => 'settings'], function() {
+        Route::get('/', [
+            'as'    => 'front.account.settings',
+            'uses'  => 'AccountSettingController@showView',
+        ]);
+
+        Route::post('email/verify', [
+            'as'    => 'front.account.settings.email',
+            'uses'  => 'AccountSettingController@sendVerificationEmail',
+        ]);
+
+        Route::get('email/confirm', [
+            'as'    => 'front.account.settings.email.confirm',
+            'uses'  => 'AccountSettingController@showConfirmForm',
+        ])
+        ->middleware('signed');
+    
+        Route::post('email/confirm', [
+            'as'    => 'front.account.settings.email.confirm.save',
+            'uses'  => 'AccountSettingController@confirmEmailChange',
+        ]);
+
+        Route::post('password', [
+            'as'    => 'front.account.settings.password',
+            'uses'  => 'AccountSettingController@changePassword',
+        ]);
+    });
+   
+    Route::group(['prefix' => 'games'], function() {
+        Route::get('games', [
+            'as'    => 'front.account.games',
+            'uses'  => 'GameAccountController@showView',
+        ]);
+
+        Route::post('games', [
+            'as'    => 'front.account.games.save',
+            'uses'  => 'GameAccountController@saveAccounts',
+        ]);
+    });
 });
 
 Route::view('bans', 'banlist')->name('banlist');
