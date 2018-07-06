@@ -2,10 +2,14 @@
 namespace App\Library\RateLimit;
 
 class Rate {
+    
+    public const MICROSECOND    = 0.000001;
     public const MILLISECONDS   = 0.001;
     public const SECONDS        = 1.0;
     public const MINUTES        = 60.0;
     public const HOURS          = 3600.0;
+    public const DAYS           = 86400.0;
+
 
     /**
      * @var float
@@ -23,7 +27,7 @@ class Rate {
     private $rate;
 
 
-    public function getRefillRate() : float {
+    public function getRefillPerSecond() : float {
         return 1 / ($this->interval * $this->rate);
     }
 

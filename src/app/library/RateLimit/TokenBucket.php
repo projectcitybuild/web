@@ -31,41 +31,36 @@ class TokenBucket {
     }
 
     public function consume(int $tokensToConsume = 1) : bool {
-        $storedData = $this->storage->deserialize();
-
-        $availableTokens = $storedData->tokensAvailable;
-        $lastConsumeTime = $storedData->lastConsumeTime;
-
         $now = microtime(true);
 
-        $remainingTokens = 0;
-
-        if ($lastConsumeTime === 0.0) {
-            $remainingTokens = $availableTokens;
-
-        } else {
-            // calculate the number of tokens available
-            // after a refill, and then attempt to subtract
-            // the consumption amount
-            $secondsSinceLastConsume = $now - $lastConsumeTime;
-
-            $refilledAmount  = $secondsSinceLastConsume * $this->rate->getRefillRate() * $this->rate->getRefillAmount();
-            $remainingTokens = $availableTokens + $refilledAmount;
-            $remainingTokens = min($this->capacity, $remainingTokens) - $tokensToConsume;
-        }
+        $availableTokens = $this->getAvailableTokens();
+        $remainingTokens = $availableTokens - $tokensToConsume;
 
         if($remainingTokens <= 0) {
             return false;
         }
 
-        $storedData->lastConsumeTime = $now;
-        $storedData->tokensAvailable = $remainingTokens;
-
-        $this->storage->serialize($storedData);
-
-        dd($remainingTokens);
+        $state = new Tokens($remainingTokens, $now);
+        $this->storage->serialize($state);
 
         return true;
+    }
+
+    public function getAvailableTokens() : float {
+        $storedData = $this->storage->deserialize();
+
+        if ($storedData->lastConsumeTime === 0.0) {
+            $availableTokens = $storedData->tokensAvailable;
+
+        } else {
+            $secondsSinceLastConsume = microtime(true) - $storedData->lastConsumeTime;
+
+            $refilledAmount  = $secondsSinceLastConsume * $this->rate->getRefillPerSecond() * $this->rate->getRefillAmount();
+            $availableTokens = $storedData->tokensAvailable + $refilledAmount;
+            $availableTokens = min($this->capacity, $availableTokens);
+        }
+
+        return $availableTokens;
     }
 
 }

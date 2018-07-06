@@ -24,12 +24,6 @@ class LoginRateLimitProvider extends ServiceProvider
      * @return void
      */
     public function register() {
-        $rate = Rate::refill(3)->every(3, Rate::SECONDS);
-
-        $sessionStorage = new SessionTokenStorage('login.rate', 5);
-        $rateLimiter = new TokenBucket(5, $rate, $sessionStorage);
-        $rateLimiter->consume(2);
-
         $this->app->singleton(LoginRateLimitService::class, function($app) {
             $rateLimiter = new LoginRateLimitService();
             $rateLimiter->bootstrap();

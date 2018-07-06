@@ -4,9 +4,9 @@ namespace Front\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use bandwidthThrottle\tokenBucket\storage\SessionStorage;
-use bandwidthThrottle\tokenBucket\Rate;
-use bandwidthThrottle\tokenBucket\TokenBucket;
-use App\Modules\Authentication\Services\LoginRateLimitService;
+use App\Library\RateLimit\Rate;
+use App\Library\RateLimit\Storage\SessionTokenStorage;
+use App\Library\RateLimit\TokenBucket;
 
 class LoginRequest extends FormRequest {
 
@@ -33,17 +33,17 @@ class LoginRequest extends FormRequest {
             return;
         }
 
-        $rateLimiter = resolve(LoginRateLimitService::class);
+        $refillRate = Rate::refill(3)->every(2, Rate::MINUTES);
+        $sessionStorage = new SessionTokenStorage('login.rate', 5);
+        $rateLimit = new TokenBucket(6, $refillRate, $sessionStorage);
 
-        $validator->after(function ($validator) use($rateLimiter) {
-            dump($rateLimiter->consume(1));
-            dd($rateLimiter->getRemainingTokens());
-            if (!$rateLimiter->consume(1)) {
+        $validator->after(function ($validator) use($rateLimit) {
+            if ($rateLimit->consume(1) === false) {
                 $validator->errors()->add('error',  'Too many login attempts. Please try again in a few minutes');
             }
         });
 
-        $validator->after(function ($validator) use($rateLimiter) {
+        $validator->after(function ($validator) use($rateLimit) {
             $input      = $validator->getData();
             $email      = $input['email'];
             $password   = $input['password'];
@@ -54,7 +54,7 @@ class LoginRequest extends FormRequest {
             ];
 
             if(Auth::attempt($credentials, true) === false) {
-                $triesLeft = $rateLimiter->getRemainingTokens();
+                $triesLeft = floor($rateLimit->getAvailableTokens());
                 $validator->errors()->add('error', 'Email or password is incorrect: '.$triesLeft.' attempts remaining');
             }
         });
