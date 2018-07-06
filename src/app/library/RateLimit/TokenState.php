@@ -1,11 +1,7 @@
 <?php
 namespace App\Library\RateLimit;
 
-use function GuzzleHttp\json_encode;
-use function GuzzleHttp\json_decode;
-
-
-class Tokens {
+class TokenState {
 
     /**
      * @var int
@@ -35,16 +31,16 @@ class Tokens {
         ];
     }
 
-    public static function fromJSON(string $json) : Tokens {
+    public static function fromJSON(string $json) : TokenState {
         $tokens = json_decode($json, true);
         
-        return new Tokens($tokens['available'], 
-                          $tokens['last_consume']);
+        return new TokenState($tokens['available'], 
+                              $tokens['last_consume']);
     }
 
-    public static function fromArray(array $array) : Tokens {
-        return new Tokens($array['available'],
-                          $array['last_consume']);
+    public static function fromArray(array $array) : TokenState {
+        return new TokenState($array['available'],
+                              $array['last_consume']);
     }
 
 }

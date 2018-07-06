@@ -5,8 +5,8 @@ interface TokenStorable {
     
     public function bootstrap();
 
-    public function deserialize() : Tokens;
+    public function deserialize() : TokenState;
 
-    public function serialize(Tokens $data);
+    public function serialize(TokenState $data);
 
 }

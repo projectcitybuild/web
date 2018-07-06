@@ -1,7 +1,7 @@
 <?php
 namespace App\Library\RateLimit;
 
-class Rate {
+class TokenRate {
     
     public const MICROSECOND    = 0.000001;
     public const MILLISECONDS   = 0.001;
@@ -44,10 +44,10 @@ class Rate {
      * Number of tokens to refill each time
      *
      * @param float $tokensToRefill
-     * @return Rate
+     * @return TokenRate
      */
-    public static function refill(float $tokensToRefill) : Rate {
-        return new Rate($tokensToRefill);
+    public static function refill(float $tokensToRefill) : TokenRate {
+        return new TokenRate($tokensToRefill);
     }
     
     /**
@@ -56,9 +56,9 @@ class Rate {
      *
      * @param float $interval
      * @param int $rate
-     * @return Rate
+     * @return TokenRate
      */
-    public function every(float $interval, int $rate) : Rate {
+    public function every(float $interval, int $rate) : TokenRate {
         $this->interval = $interval;
         $this->rate = $rate;
 

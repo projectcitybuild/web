@@ -12,7 +12,7 @@ class TokenBucket {
     private $capacity;
 
     /**
-     * @var Rate
+     * @var TokenRate
      */
     private $rate;
     
@@ -22,7 +22,7 @@ class TokenBucket {
     private $storage;
 
 
-    public function __construct(int $capacity, Rate $refillRate, TokenStorable $storage) {
+    public function __construct(int $capacity, TokenRate $refillRate, TokenStorable $storage) {
         $this->capacity   = $capacity;
         $this->rate       = $refillRate;
         $this->storage    = $storage;
@@ -30,6 +30,14 @@ class TokenBucket {
         $this->storage->bootstrap();
     }
 
+    /**
+     * Attempts to consume the given number of tokens.
+     * Returns false if not enough tokens are available,
+     * or true otherwise
+     *
+     * @param integer $tokensToConsume
+     * @return boolean Were enough tokens available?
+     */
     public function consume(int $tokensToConsume = 1) : bool {
         $now = microtime(true);
 
@@ -40,12 +48,18 @@ class TokenBucket {
             return false;
         }
 
-        $state = new Tokens($remainingTokens, $now);
+        $state = new TokenState($remainingTokens, $now);
         $this->storage->serialize($state);
 
         return true;
     }
 
+    /**
+     * Returns the number of tokens currently 
+     * available for consumption
+     *
+     * @return float
+     */
     public function getAvailableTokens() : float {
         $storedData = $this->storage->deserialize();
 
