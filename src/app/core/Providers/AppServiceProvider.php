@@ -9,6 +9,7 @@ use App\Modules\Players\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\View;
 use Schema;
 use App\Modules\Discourse\Services\Authentication\DiscourseAuthService;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {

@@ -70,10 +70,9 @@ class DiscourseAuthService {
         $discourse = [];
         parse_str($payload, $discourse);
 
-        if(
-            array_key_exists('nonce', $discourse) === false || 
-            array_key_exists('return_sso_url', $discourse) === false
-        ) {
+        if (array_key_exists('nonce', $discourse) === false || 
+            array_key_exists('return_sso_url', $discourse) === false) 
+        {
             throw BadSSOPayloadException('nonce or return_sso_url key missing in payload');
         }
 
