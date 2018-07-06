@@ -4,6 +4,9 @@ namespace App\Library\RateLimit\Storage;
 use App\Library\RateLimit\TokenStorable;
 use App\Library\RateLimit\TokenState;
 
+/**
+ * For use with user-scoped rate limitng
+ */
 class SessionTokenStorage implements TokenStorable {
 
     /**
