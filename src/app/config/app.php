@@ -197,7 +197,6 @@ return [
         App\Support\Providers\RouteServiceProvider::class,
 
         App\Library\Recaptcha\RecaptchaServiceProvider::class,
-        App\Modules\Authentication\Providers\LoginRateLimitProvider::class,
 
     ],
 
