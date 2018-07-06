@@ -4,7 +4,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Log\Logger;
 use App\Modules\Bans\Services\BanAuthorisationService;
-use App\Core\Exceptions\ServerException;
+use App\Support\Exceptions\ServerException;
 use App\Modules\ServerKeys\Models\ServerKey;
 use App\Modules\Bans\Models\GameBan;
 

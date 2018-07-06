@@ -2,7 +2,7 @@
 
 namespace App\Modules\Servers\Models;
 
-use App\Core\Model;
+use App\Support\Model;
 
 class Server extends Model {
 

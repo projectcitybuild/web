@@ -191,12 +191,12 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Core\Providers\AppServiceProvider::class,
-        App\Core\Providers\AuthServiceProvider::class,
-        App\Core\Providers\EventServiceProvider::class,
-        App\Core\Providers\RouteServiceProvider::class,
+        App\Support\Providers\AppServiceProvider::class,
+        App\Support\Providers\AuthServiceProvider::class,
+        App\Support\Providers\EventServiceProvider::class,
+        App\Support\Providers\RouteServiceProvider::class,
 
-        App\Modules\Recaptcha\RecaptchaServiceProvider::class,
+        App\Library\Recaptcha\RecaptchaServiceProvider::class,
         App\Modules\Authentication\Providers\LoginRateLimitProvider::class,
 
     ],

@@ -1,7 +1,7 @@
 <?php
 namespace App\Modules\Bans;
 
-use App\Core\Enum;
+use App\Support\Enum;
 
 class BanLogActionEnum extends Enum {
     const CREATE_BAN = 1;

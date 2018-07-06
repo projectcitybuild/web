@@ -6,7 +6,7 @@ use App\Modules\ServerKeys\Exceptions\MalformedTokenException;
 use App\Modules\ServerKeys\Exceptions\ExpiredTokenException;
 use App\Modules\ServerKeys\Exceptions\UnauthorisedTokenException;
 use App\Modules\ServerKeys\Models\ServerKey;
-use App\Core\Exceptions\ForbiddenException;
+use App\Support\Exceptions\ForbiddenException;
 
 class ServerKeyTokenAuthService {
 

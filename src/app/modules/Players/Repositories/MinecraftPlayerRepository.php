@@ -2,7 +2,7 @@
 namespace App\Modules\Players\Repositories;
 
 use App\Modules\Players\Models\MinecraftPlayer;
-use App\Core\Repository;
+use App\Support\Repository;
 use Carbon\Carbon;
 
 class MinecraftPlayerRepository extends Repository {

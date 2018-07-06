@@ -2,7 +2,7 @@
 namespace App\Modules\Accounts\Repositories;
 
 use App\Modules\Accounts\Models\AccountEmailChange;
-use App\Core\Repository;
+use App\Support\Repository;
 use Carbon\Carbon;
 
 
