@@ -49,12 +49,10 @@ class AccountSocialAuthService {
             throw new UnsupportedAuthProviderException('Provider ['.$this->providerName.'] does not provide a unique identifier');
         }
 
-        return new AccountSocialModel(
-            $this->providerName,
-            $user->getEmail(),
-            $user->name ?: "Hidden Name",
-            $user->getId()
-        );
+        return new AccountSocialModel($this->providerName,
+                                      $user->getEmail(),
+                                      $user->name ?: "Hidden Name",
+                                      $user->getId());
     }
 
 }

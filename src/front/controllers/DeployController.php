@@ -3,7 +3,7 @@
 namespace Front\Controllers;
 
 use Illuminate\Http\Request;
-use App\Core\Exceptions\UnauthorisedException;
+use App\Support\Exceptions\UnauthorisedException;
 use App\Modules\Discord\Services\DiscordNotifyService;
 use Illuminate\Support\Facades\Log;
 

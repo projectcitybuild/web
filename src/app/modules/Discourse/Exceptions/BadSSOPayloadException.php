@@ -1,6 +1,6 @@
 <?php
 namespace App\Modules\Forums\Exceptions;
 
-use App\Core\Exceptions\BadRequestException;
+use App\Support\Exceptions\BadRequestException;
 
 class BadSSOPayloadException extends BadRequestException {}

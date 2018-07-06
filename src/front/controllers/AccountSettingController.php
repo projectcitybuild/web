@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 use App\Modules\Discourse\Services\Api\DiscourseAdminApi;
 use App\Modules\Discourse\Services\Authentication\DiscoursePayload;
 use App\Modules\Accounts\Repositories\AccountEmailChangeRepository;
-use App\Core\Helpers\TokenHelpers;
+use App\Support\Helpers\TokenHelpers;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\Notification;
 

@@ -20,10 +20,9 @@ class AccountSocialLinkService {
      */
     private $accountRepository;
 
-    public function __construct(
-        AccountLinkRepository $accountLinkRepository,
-        AccountRepository $accountRepository
-    ) {
+    public function __construct(AccountLinkRepository $accountLinkRepository,
+                                AccountRepository $accountRepository) 
+    {
         $this->accountLinkRepository = $accountLinkRepository;
         $this->accountRepository = $accountRepository;
     }

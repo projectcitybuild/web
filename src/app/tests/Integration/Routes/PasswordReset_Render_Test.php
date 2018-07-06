@@ -5,7 +5,7 @@ use App\Modules\Accounts\Models\Account;
 use App\Modules\Accounts\Models\AccountPasswordReset;
 use App\Modules\Accounts\Models\UnactivatedAccount;
 use App\Modules\Accounts\Notifications\AccountPasswordResetNotification;
-use App\Modules\Recaptcha\RecaptchaRule;
+use App\Library\Recaptcha\RecaptchaRule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;

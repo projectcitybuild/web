@@ -11,7 +11,7 @@ use Front\Requests\SendPasswordEmailRequest;
 use Illuminate\Http\Request;
 use Illuminate\Database\Connection;
 use Hash;
-use App\Core\Helpers\TokenHelpers;
+use App\Support\Helpers\TokenHelpers;
 
 class PasswordRecoveryController extends WebController {
 
