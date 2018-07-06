@@ -24,7 +24,7 @@ class LoginRateLimitProvider extends ServiceProvider
      * @return void
      */
     public function register() {
-        $rate = Rate::refill(1)->every(5, Rate::SECONDS);
+        $rate = Rate::refill(3)->every(3, Rate::SECONDS);
 
         $sessionStorage = new SessionTokenStorage('login.rate', 5);
         $rateLimiter = new TokenBucket(5, $rate, $sessionStorage);

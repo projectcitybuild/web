@@ -14,7 +14,7 @@ class TokenBucket {
     /**
      * @var Rate
      */
-    private $refillRate;
+    private $rate;
     
     /**
      * @var TokenStorable
@@ -24,7 +24,7 @@ class TokenBucket {
 
     public function __construct(int $capacity, Rate $refillRate, TokenStorable $storage) {
         $this->capacity   = $capacity;
-        $this->refillRate = $refillRate;
+        $this->rate       = $refillRate;
         $this->storage    = $storage;
 
         $this->storage->bootstrap();
@@ -35,7 +35,6 @@ class TokenBucket {
 
         $availableTokens = $storedData->tokensAvailable;
         $lastConsumeTime = $storedData->lastConsumeTime;
-        $refillRate      = $this->refillRate->getRefillRate();
 
         $now = microtime(true);
 
@@ -50,7 +49,8 @@ class TokenBucket {
             // the consumption amount
             $secondsSinceLastConsume = $now - $lastConsumeTime;
 
-            $remainingTokens = $availableTokens + ($secondsSinceLastConsume * $refillRate);
+            $refilledAmount  = $secondsSinceLastConsume * $this->rate->getRefillRate() * $this->rate->getRefillAmount();
+            $remainingTokens = $availableTokens + $refilledAmount;
             $remainingTokens = min($this->capacity, $remainingTokens) - $tokensToConsume;
         }
 
@@ -62,6 +62,8 @@ class TokenBucket {
         $storedData->tokensAvailable = $remainingTokens;
 
         $this->storage->serialize($storedData);
+
+        dd($remainingTokens);
 
         return true;
     }
