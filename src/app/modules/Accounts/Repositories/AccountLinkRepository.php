@@ -23,6 +23,13 @@ class AccountLinkRepository extends Repository {
         ]);
     }
 
+    public function getByUserAndProvider(string $accountId, string $providerName) : ?AccountLink {
+        return $this->getModel()
+            ->where('provider_name', $providerName)
+            ->where('account_id', $accountId)
+            ->first();
+    }
+
     public function getByProvider(string $name, string $id) : ?AccountLink {
         return $this->getModel()
             ->where('provider_name', $name)

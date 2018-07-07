@@ -7,6 +7,8 @@ use Laravel\Socialite\Contracts\User as ProviderUser;
 use Carbon\Carbon;
 use App\Modules\Accounts\Models\Account;
 use Hash;
+use App\Library\Socialite\SocialiteData;
+use App\Modules\Accounts\Models\AccountLink;
 
 class AccountSocialLinkService {
 
@@ -25,6 +27,18 @@ class AccountSocialLinkService {
     {
         $this->accountLinkRepository = $accountLinkRepository;
         $this->accountRepository = $accountRepository;
+    }
+
+    public function hasLink(Account $account, string $providerName) : bool {
+        $link = $this->accountLinkRepository->getByUserAndProvider($account->getKey(), $providerName);
+
+        return $link !== null;
+    }
+
+    public function createLink(Account $account, SocialiteData $providerAccount) : AccountLink {
+        return $this->accountLinkRepository->create($providerAccount->getProviderName(),
+                                                    $providerAccount->getId(),
+                                                    $account->getKey());
     }
 
     public function createAccount(string $providerName, string $email, string $id) : Account {

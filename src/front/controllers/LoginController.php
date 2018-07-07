@@ -4,9 +4,6 @@ namespace Front\Controllers;
 
 use App\Modules\Forums\Exceptions\BadSSOPayloadException;
 use App\Modules\Accounts\Services\AccountSocialLinkService;
-use App\Modules\Accounts\Repositories\AccountRepository;
-use App\Modules\Accounts\Services\AccountSocialAuthService;
-use App\Modules\Accounts\Services\Login\AccountManualLoginExecutor;
 use App\Modules\Accounts\Services\Login\AccountLoginService;
 use App\Modules\Accounts\Services\Login\AccountSocialLoginExecutor;
 use App\Modules\Discourse\Services\Api\DiscourseUserApi;
@@ -16,7 +13,9 @@ use App\Modules\Discourse\Services\Authentication\DiscoursePayload;
 use Front\Requests\LoginRequest;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Http\Request;
-use GuzzleHttp\Client;
+use App\Modules\Accounts\Repositories\AccountRepository;
+use App\Library\Socialite\SocialiteService;
+use App\Modules\Accounts\Exceptions\InvalidDiscoursePayloadException;
 
 class LoginController extends WebController {
 
@@ -26,9 +25,19 @@ class LoginController extends WebController {
     private $discourseAuthService;
 
     /**
-     * @var AccountSocialAuthService
+     * @var DiscourseUserApi
      */
-    private $socialAuthService;
+    private $discourseUserApi;
+
+    /**
+     * @var DiscourseAdminApi
+     */
+    private $discourseAdminApi;
+
+    /**
+     * @var SocialiteService
+     */
+    private $socialiteService;
 
     /**
      * @var AccountSocialLinkService
@@ -45,25 +54,22 @@ class LoginController extends WebController {
      */
     private $auth;
 
-    /**
-     * @var Client
-     */
-    private $client;
-
 
     public function __construct(DiscourseAuthService $discourseAuthService, 
-                                AccountSocialAuthService $socialAuthService,
+                                DiscourseUserApi $discourseUserApi,
+                                DiscourseAdminApi $discourseAdminApi,
+                                SocialiteService $socialiteService,
                                 AccountSocialLinkService $accountLinkService,
                                 AccountRepository $accountRepository,
-                                Auth $auth,
-                                Client $client) 
+                                Auth $auth) 
     {
         $this->discourseAuthService = $discourseAuthService;
-        $this->socialAuthService = $socialAuthService;
+        $this->discourseUserApi = $discourseUserApi;
+        $this->discourseAdminApi = $discourseAdminApi;
+        $this->socialiteService = $socialiteService;
         $this->accountLinkService = $accountLinkService;
         $this->accountRepository = $accountRepository;
         $this->auth = $auth;
-        $this->client = $client;
     }
 
     public function showLoginView(Request $request) {
@@ -155,29 +161,88 @@ class LoginController extends WebController {
 
     
     public function redirectToFacebook() {
-        return $this->redirectToProvider('facebook');
+        return $this->redirectToProvider(SocialiteService::FACEBOOK);
     }
     public function redirectToGoogle() {
-        return $this->redirectToProvider('google');
+        return $this->redirectToProvider(SocialiteService::GOOGLE);
     }
     public function redirectToTwitter() {
-        return $this->redirectToProvider('twitter');
+        return $this->redirectToProvider(SocialiteService::TWITTER);
     }
 
     private function redirectToProvider(string $providerName) {
-        return $this->socialAuthService
+        return $this->socialiteService
             ->setProvider($providerName)
-            ->getProviderUrl();
+            ->redirectToProviderLogin();
     }
 
-    public function handleFacebookCallback(Request $request, AccountSocialLoginExecutor $loginHandler) {
-        return $loginHandler->setProvider('facebook')->login($request);
+    public function handleFacebookCallback(Request $request) {
+        return $this->handleProviderCallback(SocialiteService::FACEBOOK, $request);
     }
-    public function handleGoogleCallback(Request $request, AccountSocialLoginExecutor $loginHandler) {
-        return $loginHandler->setProvider('google')->login($request);
+    public function handleGoogleCallback(Request $request) {
+        return $this->handleProviderCallback(SocialiteService::GOOGLE, $request);
     }
-    public function handleTwitterCallback(Request $request, AccountSocialLoginExecutor $loginHandler) {
-        return $loginHandler->setProvider('twitter')->login($request);
+    public function handleTwitterCallback(Request $request) {
+        return $this->handleProviderCallback(SocialiteService::TWITTER, $request);
+    }
+
+    private function handleProviderCallback(string $providerName, Request $request) {
+        if ($request->get('denied')) {
+            return redirect()->route('front.home');
+        }
+
+        $session = $request->session();
+
+        $nonce     = $session->get('discourse_nonce');
+        $returnUrl = $session->get('discourse_return');
+
+        if($nonce === null || $returnUrl === null) {
+            throw new InvalidDiscoursePayloadException('`nonce` or `return` key missing in session');
+        }
+
+        
+        $providerAccount = $this->socialiteService
+            ->setProvider($providerName)
+            ->getProviderResponse();
+
+        $account = $this->accountRepository->getByEmail($providerAccount->getEmail());
+        
+        // if user does not exist, redirect them to a
+        // account creation confirmation page
+        if($account === null) {
+            $url = URL::temporarySignedRoute('front.login.social-register', now()->addMinutes(10), 
+                $provider->toArray()
+            );
+
+            return view('register-oauth', [
+                'social' => $provider->toArray(),
+                'url'    => $url,
+            ]);
+        }
+
+        // create account link if one does not exist
+        $hasLink = $this->accountLinkService->hasLink($account, $providerName);
+        if (!$hasLink) {
+            $this->accountLinkService->createLink($account, $providerAccount);
+        }
+
+
+        $this->auth->setUser($account);
+
+        $session->remove('discourse_nonce');
+        $session->remove('discourse_return');     
+
+        $payload = (new DiscoursePayload($nonce))
+            ->setPcbId($account->getKey())
+            ->setEmail($account->email)
+            ->requiresActivation(false)
+            ->build();
+    
+        $payload    = $this->discourseAuthService->makePayload($payload);
+        $signature  = $this->discourseAuthService->getSignedPayload($payload);
+
+        $url = $this->discourseAuthService->getRedirectUrl($returnUrl, $payload, $signature);
+        return redirect()->to($url);
     }
 
     public function createSocialAccount(Request $request, AccountSocialLoginExecutor $loginHandler) {
@@ -225,20 +290,20 @@ class LoginController extends WebController {
      * @param Request $request
      * @return void
      */
-    public function logout(Request $request, DiscourseUserApi $userApi, DiscourseAdminApi $adminApi) {
+    public function logout(Request $request) {
         if(!$this->auth->check()) {
             return redirect()->route('front.home');
         }
 
         $externalId = $this->auth->id();
-        $result = $userApi->fetchUserByPcbId($externalId);
+        $result = $this->discourseUserApi->fetchUserByPcbId($externalId);
 
         $user = $result['user'];
         if($user === null) {
             throw new \Exception('Discourse logout api response did not have a `user` key');
         }
 
-        $adminApi->requestLogout($user['id'], $user['username']);
+        $this->discourseAdminApi->requestLogout($user['id'], $user['username']);
 
         $this->auth->logout();
         

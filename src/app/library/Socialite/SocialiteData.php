@@ -1,7 +1,7 @@
 <?php
-namespace App\Modules\Accounts\Services;
+namespace App\Library\Socialite;
 
-class AccountSocialModel {
+class SocialiteData {
 
     /**
      * @var string
