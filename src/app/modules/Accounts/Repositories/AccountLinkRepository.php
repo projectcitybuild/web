@@ -10,16 +10,16 @@ class AccountLinkRepository extends Repository {
 
     protected $model = AccountLink::class;
 
-    public function create(
-        string $providerName,
-        string $providerId,
-        int $accountId
-    ) : AccountLink {
-
+    public function create(string $providerName,
+                           string $providerId,
+                           string $providerEmail,
+                           int $accountId) : AccountLink 
+    {
         return $this->getModel()->create([
-            'provider_name' => $providerName,
-            'provider_id'   => $providerId,
-            'account_id'    => $accountId,
+            'provider_name'     => $providerName,
+            'provider_id'       => $providerId,
+            'provider_email'    => $providerEmail,
+            'account_id'        => $accountId,
         ]);
     }
 
@@ -34,6 +34,12 @@ class AccountLinkRepository extends Repository {
         return $this->getModel()
             ->where('provider_name', $name)
             ->where('provider_id', $id)
+            ->first();
+    }
+
+    public function getByEmail(string $email) : ?AccountLink {
+        return $this->getModel()
+            ->where('provider_email', $email)
             ->first();
     }
     

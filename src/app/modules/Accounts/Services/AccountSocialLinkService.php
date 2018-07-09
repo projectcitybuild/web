@@ -38,25 +38,23 @@ class AccountSocialLinkService {
     public function createLink(Account $account, SocialiteData $providerAccount) : AccountLink {
         return $this->accountLinkRepository->create($providerAccount->getProviderName(),
                                                     $providerAccount->getId(),
+                                                    $providerAccount->getEmail(),
                                                     $account->getKey());
     }
 
     public function createAccount(string $providerName, string $email, string $id) : Account {
-        $account = $this->accountRepository->create(
-            $email,
-            Hash::make(time()),
-            null,
-            Carbon::now()
-        );
+        $account = $this->accountRepository->create($email,
+                                                    Hash::make(time()),
+                                                    null,
+                                                    Carbon::now());
         
         // get or create a social account link
         $accountLink = $this->accountLinkRepository->getByProvider($providerName, $id);
         if($accountLink === null) {
-            $accountLink = $this->accountLinkRepository->create(
-                $providerName, 
-                $id,
-                $account->getKey()
-            );
+            $accountLink = $this->accountLinkRepository->create($providerName, 
+                                                                $id,
+                                                                $account->getKey(),
+                                                                $email);
         }
 
         return $account;

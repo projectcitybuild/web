@@ -5,6 +5,7 @@ class Environment {
 
     private function __construct() {}
 
+
     /**
      * @var string
      */
@@ -28,8 +29,7 @@ class Environment {
         return env('APP_ENV');
     }
 
-
-    public static function isDebug() : bool {
+    public static function isDev() : bool {
         return self::getLevel() === 'local';
     }
 
