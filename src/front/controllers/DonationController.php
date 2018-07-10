@@ -55,7 +55,7 @@ class DonationController extends WebController {
         $colorScale = floor($thisYearSum - $colorBadThreshold) / (1000 - $colorBadThreshold);
         $color = $this->getRgbBetween($colorBad, $colorGood, $colorScale);
 
-        return view('donation-list', [
+        return view('front.pages.donation-list', [
             'donations'     => $donations,
             'thisYearSum'   => $thisYearSum,
             'thisYearAvg'   => $thisYearAvg,

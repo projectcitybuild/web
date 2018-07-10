@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('front.layouts.master')
 
 @section('title', 'Registration Complete')
 @section('description', "")

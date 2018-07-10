@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('front.layouts.master')
 
 @section('title', 'Login')
 @section('description', 'Login to your Project City Build account to create forum posts, access personal player statistics and more.')

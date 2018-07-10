@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('front.layouts.master')
 
 @section('contents')
     <div class="contents__body">
@@ -6,6 +6,6 @@
     </div>
 
     <div class="contents__sidebar">
-        @include('components.sidebar')    
+        @include('front.components.sidebar')    
     </div>
 @endsection

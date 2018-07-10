@@ -1,4 +1,4 @@
-@extends('layouts.sidebar-layout')
+@extends('front.layouts.sidebar-layout')
 
 @section('title', 'Project City Build - Creative Gaming Community')
 @section('description', 'Medium size Minecraft community active since 2010. We host multiple servers and maps, including Survival, Creative, as well as maps dedicated to projects such as our signature Big City map. With over 14,000 registrants, PCB has a bit of something for everyone.')

@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('front.layouts.master')
 
 @section('title', 'Create an Account')
 @section('description', 'Create a PCB account to create forum posts, access personal player statistics and more.')

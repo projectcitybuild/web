@@ -113,7 +113,7 @@ class LoginController extends WebController {
             'discourse_return'  => $payload['return_sso_url'],
         ]);
 
-        return view('login');
+        return view('front.pages.login.login');
     }
 
     /**
@@ -214,7 +214,7 @@ class LoginController extends WebController {
                 $provider->toArray()
             );
 
-            return view('register-oauth', [
+            return view('front.pages.register.register-oauth', [
                 'social' => $provider->toArray(),
                 'url'    => $url,
             ]);

@@ -55,7 +55,7 @@ class AccountSettingController extends WebController {
 
 
     public function showView() {
-        return view('account-settings');
+        return view('front.pages.account.account-settings');
     }
 
     public function sendVerificationEmail(AccountChangeEmailRequest $request) {
@@ -142,7 +142,7 @@ class AccountSettingController extends WebController {
         {
             $changeRequest->save();
 
-            return view('account-settings-email-confirm', [
+            return view('front.pages.account.account-settings-email-confirm', [
                 'changeRequest' => $changeRequest,
             ]);
         }
@@ -181,7 +181,7 @@ class AccountSettingController extends WebController {
 
             $this->connection->commit();
 
-            return view('account-settings-email-complete');
+            return view('front.pages.account.account-settings-email-complete');
         
         } catch (\Exception $e) {
             $this->connection->rollBack();

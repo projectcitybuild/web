@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('front.layouts.master')
 
 @section('title', 'Donator List')
 @section('description', "Annual donation statistics and a list of all players who have donated to Project City Build")

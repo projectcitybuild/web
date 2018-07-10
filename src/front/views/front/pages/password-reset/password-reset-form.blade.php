@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('front.layouts.master')
 
 @section('title', 'Forgot Your Password?')
 @section('description', "If you've forgotten your PCB password but remember your email address, use this form to reset your password.")

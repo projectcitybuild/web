@@ -42,7 +42,7 @@ class PasswordRecoveryController extends WebController {
     }
 
     public function showEmailForm() {
-        return view('password-reset');
+        return view('front.pages.password-reset.password-reset');
     }
 
     public function sendVerificationEmail(SendPasswordEmailRequest $request) {
@@ -72,7 +72,7 @@ class PasswordRecoveryController extends WebController {
             abort(401, "Token invalid or has expired");
         }
 
-        return view('password-reset-form', [
+        return view('front.pages.password-reset.password-reset-form', [
             'passwordToken' => $request->get('token')
         ]);
     }
@@ -111,7 +111,7 @@ class PasswordRecoveryController extends WebController {
 
         $account->notify(new AccountPasswordResetCompleteNotification);
 
-        return view('password-reset-success');
+        return view('front.pages.password-reset.password-reset-success');
     }
 
 

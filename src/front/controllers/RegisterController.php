@@ -41,7 +41,7 @@ class RegisterController extends WebController {
     }
 
     public function showRegisterView() {
-        return view('register');
+        return view('front.pages.register.register');
     }
 
     public function register(RegisterRequest $request) {
@@ -54,7 +54,7 @@ class RegisterController extends WebController {
         $unactivatedAccount = $this->unactivatedAccountRepository->create($email, $password);
         $unactivatedAccount->notify(new AccountActivationNotification($unactivatedAccount));
 
-        return view('register-success');
+        return view('front.pages.register.register-success');
     }
 
     /**
@@ -68,7 +68,7 @@ class RegisterController extends WebController {
     public function activate(Request $request) {
         $email = $request->get('email');
         if(empty($email)) {
-            return view('register');
+            return view('front.pages.register.register');
         }
 
         $unactivatedAccount = $this->unactivatedAccountRepository->getByEmail($email);
@@ -101,6 +101,6 @@ class RegisterController extends WebController {
             throw $e;
         }
 
-        return view('register-verify-complete');
+        return view('front.pages.register.register-verify-complete');
     }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('front.layouts.master')
 
 @section('title', 'Account Links')
 @section('description', '')
@@ -26,7 +26,7 @@
 
                 <ul class="sidemenu">
                     <li>
-                        <a href="#">
+                        <a href="{{ route('front.account.settings') }}">
                             <span class="fa-stack fa-2x">
                                 <i class="fas fa-square fa-stack-2x"></i>
                                 <i class="fas fa-lock fa-stack-1x fa-inverse"></i>
@@ -35,7 +35,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="{{ route('front.account.social') }}">
                             <span class="fa-stack fa-2x">
                                 <i class="fas fa-square fa-stack-2x"></i>
                                 <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>

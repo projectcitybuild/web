@@ -150,6 +150,13 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function() {
             'uses'  => 'AccountSettingController@changePassword',
         ]);
     });
+
+    Route::group(['prefix' => 'social'], function() {
+        Route::get('/', [
+            'as'    => 'front.account.social',
+            'uses'  => 'AccountSocialController@showView',
+        ]);
+    });
    
     Route::group(['prefix' => 'games'], function() {
         Route::get('games', [
@@ -164,7 +171,7 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function() {
     });
 });
 
-Route::view('bans', 'banlist')->name('banlist');
+Route::view('bans', 'front.pages.banlist')->name('banlist');
 
 Route::post('deploy', 'DeployController@deploy');
 Route::get('deploy', 'DeployController@deploy');

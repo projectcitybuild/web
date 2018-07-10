@@ -152,7 +152,7 @@
                     <div class="header__left">
                         <img class="header__logo {{ !$isHomepage ? 'header__logo--nopadding' : '' }}" src="{{ asset('assets/images/logo.png') }}" alt="Project City Build" />
                     
-                        @includeWhen($isHomepage, 'components.server-feed')
+                        @includeWhen($isHomepage, 'front.components.server-feed')
                     </div>
                     
                     <div class="header__right">
@@ -187,7 +187,7 @@
                         </div>
                         @endif
 
-                        @includeWhen(!$isHomepage, 'components.server-feed')
+                        @includeWhen(!$isHomepage, 'front.components.server-feed')
                     </div>
                 </div>
             </header>
