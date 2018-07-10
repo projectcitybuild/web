@@ -1,8 +1,7 @@
 <?php
-namespace App\Modules\Discourse\Services\Authentication;
+namespace App\Library\Discourse\Authentication;
 
-use App\Modules\Forums\Exceptions\BadPayloadException;
-use App\Modules\Forums\Exceptions\BadSSOPayloadException;
+use App\Library\Discourse\Exceptions\BadSSOPayloadException;
 
 
 class DiscourseAuthService {

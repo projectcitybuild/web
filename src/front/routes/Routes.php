@@ -156,6 +156,30 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function() {
             'as'    => 'front.account.social',
             'uses'  => 'AccountSocialController@showView',
         ]);
+        Route::get('google', [
+            'as'    => 'front.account.social.google',
+            'uses'  => 'AccountSocialController@redirectToGoogle',
+        ]);
+        Route::get('google/callback', [
+            'as'    => 'front.account.social.google.callback',
+            'uses'  => 'AccountSocialController@handleGoogleCallback',
+        ]);
+        Route::get('facebook', [
+            'as'    => 'front.account.social.facebook',
+            'uses'  => 'AccountSocialController@redirectToFacebook',
+        ]);
+        Route::get('facebook/callback', [
+            'as'    => 'front.account.social.facebook.callback',
+            'uses'  => 'AccountSocialController@handleFacebookCallback',
+        ]);
+        Route::get('twitter', [
+            'as'    => 'front.account.social.twitter',
+            'uses'  => 'AccountSocialController@redirectToTwitter',
+        ]);
+        Route::get('twitter/callback', [
+            'as'    => 'front.account.social.twitter.callback',
+            'uses'  => 'AccountSocialController@handleTwitterCallback',
+        ]);
     });
    
     Route::group(['prefix' => 'games'], function() {

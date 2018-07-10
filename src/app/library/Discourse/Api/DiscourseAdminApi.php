@@ -1,9 +1,9 @@
 <?php
-namespace App\Modules\Discourse\Services\Api;
+namespace App\Library\Discourse\Api;
 
 use function GuzzleHttp\json_decode;
-use App\Modules\Discourse\Services\Authentication\DiscoursePayload;
-use App\Modules\Discourse\Services\Authentication\DiscourseAuthService;
+use App\Library\Discourse\Authentication\DiscoursePayload;
+use App\Library\Discourse\Authentication\DiscourseAuthService;
 
 
 class DiscourseAdminApi {

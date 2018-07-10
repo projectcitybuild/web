@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Forums\Exceptions;
+namespace App\Library\Discourse\Exceptions;
 
 use App\Support\Exceptions\BadRequestException;
 

@@ -3,7 +3,6 @@ namespace Front\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use bandwidthThrottle\tokenBucket\storage\SessionStorage;
 use App\Library\RateLimit\TokenRate;
 use App\Library\RateLimit\TokenBucket;
 use App\Library\RateLimit\Storage\SessionTokenStorage;

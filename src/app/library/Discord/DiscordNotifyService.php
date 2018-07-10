@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Discord\Services;
+namespace App\Library\Discord;
 
 use GuzzleHttp\Client;
 

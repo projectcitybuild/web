@@ -37,7 +37,7 @@ class Account extends Authenticatable {
     }
 
     public function linkedSocialAccounts() {
-        return $this->hasMany('App\Modules\Accounts\Models\LinkedSocialAccount', 'account_id', 'account_id');
+        return $this->hasMany('App\Modules\Accounts\Models\AccountLink', 'account_id', 'account_id');
     }
 
     /**

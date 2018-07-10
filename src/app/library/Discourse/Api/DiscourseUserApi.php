@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Discourse\Services\Api;
+namespace App\Library\Discourse\Api;
 
 class DiscourseUserApi {
 

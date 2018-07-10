@@ -36,10 +36,10 @@ class AccountSocialLinkService {
     }
 
     public function createLink(Account $account, SocialiteData $providerAccount) : AccountLink {
-        return $this->accountLinkRepository->create($providerAccount->getProviderName(),
+        return $this->accountLinkRepository->create($account->getKey(),
+                                                    $providerAccount->getProviderName(),
                                                     $providerAccount->getId(),
-                                                    $providerAccount->getEmail(),
-                                                    $account->getKey());
+                                                    $providerAccount->getEmail());
     }
 
     public function createAccount(string $providerName, string $email, string $id) : Account {
@@ -51,9 +51,9 @@ class AccountSocialLinkService {
         // get or create a social account link
         $accountLink = $this->accountLinkRepository->getByProvider($providerName, $id);
         if($accountLink === null) {
-            $accountLink = $this->accountLinkRepository->create($providerName, 
+            $accountLink = $this->accountLinkRepository->create($account->getKey(),
+                                                                $providerName, 
                                                                 $id,
-                                                                $account->getKey(),
                                                                 $email);
         }
 

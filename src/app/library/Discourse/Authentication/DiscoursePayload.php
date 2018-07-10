@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Discourse\Services\Authentication;
+namespace App\Library\Discourse\Authentication;
 
 class DiscoursePayload {
 
