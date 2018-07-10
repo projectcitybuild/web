@@ -50,5 +50,10 @@ return [
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect' => env('APP_URL') . '/login/google/callback',
     ],
+    'discord' => [
+        'client_id' => env('DISCORD_KEY'),
+        'client_secret' => env('DISCORD_SECRET'),
+        'redirect' => env('DISCORD_REDIRECT_URI') . '/login/discord/callback',
+    ],
 
 ];

@@ -29,6 +29,7 @@ class SocialiteService {
         if($this->providerName === null) {
             throw new \Exception('Provider not set');
         }
+
         return Socialite::driver($this->providerName);
     }
 

@@ -186,7 +186,7 @@ return [
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class,
+        \SocialiteProviders\Manager\ServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
 
         /*
@@ -197,6 +197,7 @@ return [
         App\Support\Providers\EventServiceProvider::class,
         App\Support\Providers\RouteServiceProvider::class,
 
+        App\Library\Discourse\DiscourseServiceProvider::class,
         App\Library\Recaptcha\RecaptchaServiceProvider::class,
 
     ],
