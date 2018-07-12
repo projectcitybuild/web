@@ -3,60 +3,79 @@ namespace App\Library\Socialite;
 
 use Laravel\Socialite\Facades\Socialite;
 use App\Library\Socialite\Exceptions\UnsupportedProviderException;
+use Illuminate\Http\Request;
 
 class SocialiteService {
 
-    public const FACEBOOK   = 'facebook';
-    public const TWITTER    = 'twitter';
-    public const GOOGLE     = 'google';
+    /**
+     * @var Request
+     */
+    private $request;
+
+
+    public function __construct(Request $request) {
+        $this->request = $request;
+    }
+    
+
+    private function getDriver(string $providerName) {
+        return Socialite::driver($providerName);
+    }
+
+    private function setRedirectUrl(string $providerName, string $url) {
+        $key = 'services.'.$providerName.'.redirect';
+        config()->set($key, $url);
+    }
 
     /**
-     * @var string
+     * Redirects to the given provider's 
+     * login screen
+     *
+     * @param string $providerName
+     * @param string|null $redirectUrl
+     * @return void
      */
-    private $providerName;
-
-
-    public function __construct(Socialite $socialFacade) {
-        $this->socialFacade = $socialFacade;
-    }
-
-    public function setProvider(string $providerName) : SocialiteService {
-        $this->providerName = $providerName;
-        return $this;
-    }
-
-    private function getDriver() {
-        if($this->providerName === null) {
-            throw new \Exception('Provider not set');
+    public function redirectToProviderLogin(string $providerName, ?string $redirectUrl = null) {
+        if ($redirectUrl !== null) {
+            $this->setRedirectUrl($providerName, $redirectUrl);
         }
-
-        return Socialite::driver($this->providerName);
-    }
-
-    public function redirectToProviderLogin() {
-        return $this->getDriver()->redirect();
+        return $this->getDriver($providerName)->redirect();
     }
     
     /**
-     * Retrieves a user from the OAuth provider response and
-     * returns a AccountSocialModel
+     * Retrieves a user from the OAuth provider 
+     * response and returns a SocaliteData model
      *
      * @return SocialiteData
      */
-    public function getProviderResponse() : SocialiteData {
-        $user = $this->getDriver()->user();
+    public function getProviderResponse(string $providerName) : SocialiteData {
+        $providerAccount = $this->getDriver($providerName)->user();
 
-        if($user->getEmail() === null) {
+        if($providerAccount->getEmail() === null) {
             throw new UnsupportedProviderException('Provider ['.$this->providerName.'] does not give read access to an email address');
         }
-        if($user->getId() === null) {
+        if($providerAccount->getId() === null) {
             throw new UnsupportedProviderException('Provider ['.$this->providerName.'] does not provide a unique identifier');
         }
 
-        return new SocialiteData($this->providerName,
-                                 $user->getEmail(),
-                                 $user->name ?: "Hidden Name",
-                                 $user->getId());
+        return new SocialiteData($providerName,
+                                 $providerAccount->getEmail(),
+                                 $providerAccount->name ?: "Hidden Name",
+                                 $providerAccount->getId());
+    }
+
+    /**
+     * Returns true if the user cancelled the
+     * login process on the provider's screen
+     *
+     * @param Request $request
+     * @return boolean
+     */
+    public function cancelled(Request $request) : bool {
+        if ($request->get('denied')) {
+            return true;
+        }
+        return false;
     }
 
 }

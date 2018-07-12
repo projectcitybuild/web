@@ -36,7 +36,7 @@ Route::get('donations', [
     'uses'  => 'DonationController@getView',
 ]);
 
-Route::group(['prefix' => 'login'], function() {
+Route::prefix('login')->group(function() {
     Route::get('/', [
         'as'    => 'front.login',
         'uses'  => 'LoginController@showLoginView',
@@ -73,7 +73,7 @@ Route::group(['prefix' => 'login'], function() {
     ->middleware('signed');
 });
 
-Route::group(['prefix' => 'password-reset'], function() {
+Route::prefix('password-reset')->group(function() {
     Route::get('/', [
         'as'    => 'front.password-reset',
         'uses'  => 'PasswordRecoveryController@showEmailForm',
@@ -96,7 +96,7 @@ Route::group(['prefix' => 'password-reset'], function() {
     ]);
 });
 
-Route::group(['prefix' => 'register'], function() {
+Route::prefix('register')->group(function() {
     Route::get('/', [
         'as'    => 'front.register',
         'uses'  => 'RegisterController@showRegisterView',
@@ -123,7 +123,7 @@ Route::get('logout', [
 
 Route::group(['prefix' => 'account', 'middleware' => 'auth'], function() {
 
-    Route::group(['prefix' => 'settings'], function() {
+    Route::prefix('settings')->group(function() {
         Route::get('/', [
             'as'    => 'front.account.settings',
             'uses'  => 'AccountSettingController@showView',
@@ -151,38 +151,24 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function() {
         ]);
     });
 
-    Route::group(['prefix' => 'social'], function() {
+    Route::prefix('social')->group(function() {
         Route::get('/', [
             'as'    => 'front.account.social',
             'uses'  => 'AccountSocialController@showView',
         ]);
-        Route::get('google', [
-            'as'    => 'front.account.social.google',
-            'uses'  => 'AccountSocialController@redirectToGoogle',
+
+        Route::get('{provider}/redirect', [
+            'as'    => 'front.account.social.redirect',
+            'uses'  => 'AccountSocialController@redirectToProvider',
         ]);
-        Route::get('google/callback', [
-            'as'    => 'front.account.social.google.callback',
-            'uses'  => 'AccountSocialController@handleGoogleCallback',
-        ]);
-        Route::get('facebook', [
-            'as'    => 'front.account.social.facebook',
-            'uses'  => 'AccountSocialController@redirectToFacebook',
-        ]);
-        Route::get('facebook/callback', [
-            'as'    => 'front.account.social.facebook.callback',
-            'uses'  => 'AccountSocialController@handleFacebookCallback',
-        ]);
-        Route::get('twitter', [
-            'as'    => 'front.account.social.twitter',
-            'uses'  => 'AccountSocialController@redirectToTwitter',
-        ]);
-        Route::get('twitter/callback', [
-            'as'    => 'front.account.social.twitter.callback',
-            'uses'  => 'AccountSocialController@handleTwitterCallback',
+        
+        Route::get('{provider}/callback', [
+            'as'    => 'front.account.social.callback',
+            'uses'  => 'AccountSocialController@handleProviderCallback',
         ]);
     });
    
-    Route::group(['prefix' => 'games'], function() {
+    Route::prefix('games')->group(function() {
         Route::get('games', [
             'as'    => 'front.account.games',
             'uses'  => 'GameAccountController@showView',
@@ -194,6 +180,7 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function() {
         ]);
     });
 });
+
 
 Route::view('bans', 'front.pages.banlist')->name('banlist');
 

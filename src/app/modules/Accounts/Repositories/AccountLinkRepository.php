@@ -26,11 +26,11 @@ class AccountLinkRepository extends Repository {
     public function update(int $accountId,
                            string $providerName,
                            string $providerId,
-                           string $providerEmail) : AccountLink 
+                           string $providerEmail) : int 
     {
         return $this->getModel()
             ->where('account_id', $accountId)
-            ->save([
+            ->update([
                 'provider_name'     => $providerName,
                 'provider_id'       => $providerId,
                 'provider_email'    => $providerEmail,

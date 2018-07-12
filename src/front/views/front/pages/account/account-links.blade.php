@@ -14,16 +14,16 @@
             </div>
             <div class="card__body card__body--padded">
                 <div>
-                   <a href="{{ route('front.account.social.facebook') }}">Facebook</a>
+                   <a href="{{ route('front.account.social.redirect', 'facebook') }}">Facebook</a>
                 </div>
                 <div>
-                   <a href="{{ route('front.account.social.twitter') }}">Twitter</a>
+                   <a href="{{ route('front.account.social.redirect', 'twitter') }}">Twitter</a>
                 </div>
                 <div>
-                   <a href="{{ route('front.account.social.google') }}">Google</a>
+                   <a href="{{ route('front.account.social.redirect', 'google') }}">Google</a>
                 </div>
                 <div>
-                   <a href="#">Discord</a>
+                   <a href="{{ route('front.account.social.redirect', 'discord') }}">Discord</a>
                 </div>
             </div>
 

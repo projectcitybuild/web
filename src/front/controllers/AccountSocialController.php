@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\View;
 use App\Modules\Accounts\Repositories\AccountLinkRepository;
 use Illuminate\Http\Request;
 use App\Library\Socialite\SocialiteService;
+use App\Library\Socialite\SocialProvider;
+use App\Modules\Accounts\Models\Account;
+use App\Support\Environment;
+use Illuminate\Contracts\Auth\Factory as Auth;
 
 class AccountSocialController extends WebController {
 
@@ -19,12 +23,21 @@ class AccountSocialController extends WebController {
      */
     private $socialiteService;
 
+    /**
+     * @var Auth
+     */
+    private $auth;
+
+
     public function __construct(AccountLinkRepository $linkRepository, 
-                                SocialiteService $socialiteService) 
+                                SocialiteService $socialiteService,
+                                Auth $auth) 
     {
         $this->linkRepository = $linkRepository;
         $this->socialiteService = $socialiteService;
+        $this->auth = $auth;
     }
+
 
     public function showView(Request $request) {
         $account = $request->user();
@@ -39,57 +52,57 @@ class AccountSocialController extends WebController {
         ]);
     }
 
-    public function redirectToFacebook() {
-        return $this->redirectToProvider(SocialiteService::FACEBOOK);
+    private function isValidProvider(string $providerName) : bool {
+        $providerName = strtolower($providerName);
+
+        $allowedProviders = array_map(function($key) {
+            return strtolower($key);
+        }, SocialProvider::getKeys());
+        
+        return in_array($providerName, $allowedProviders);
     }
 
-    public function redirectToTwitter() {
-        return $this->redirectToProvider(SocialiteService::TWITTER);
-    }
-
-    public function redirectToGoogle() {
-        return $this->redirectToProvider(SocialiteService::GOOGLE);
-    }
-    
-    private function redirectToProvider(string $providerName) {
-        $redirectRoute = route('front.account.social.'.$providerName.'.callback');
-
-        return $this->socialiteService
-            ->setRedirectUrl($redirectRoute)
-            ->setProvider($providerName)
-            ->redirectToProviderLogin();
-    }
-
-
-    public function handleFacebookCallback(Request $request) {
-        return $this->handleProviderCallback(SocialiteService::FACEBOOK, $request);
-    }
-    public function handleGoogleCallback(Request $request) {
-        return $this->handleProviderCallback(SocialiteService::GOOGLE, $request);
-    }
-    public function handleTwitterCallback(Request $request) {
-        return $this->handleProviderCallback(SocialiteService::TWITTER, $request);
-    }
-
-    private function handleProviderCallback(string $providerName, Request $request) {
-        if ($request->get('denied')) {
-            return redirect()->route('front.account.social');
+    public function redirectToProvider(string $providerName) {
+        if (!$this->isValidProvider($providerName)) {
+            abort(404);
+        }
+        
+        $route = route('front.account.social.callback', $providerName);
+        
+        // Laravel converts localhost into a local IP address, 
+        // so we need to manually convert it back so that 
+        // it matches the URLs registered in Twitter, Google, etc
+        if (Environment::isDev()) {
+            $route = str_replace('http://192.168.99.100/', 
+                                 'http://localhost:3000/', 
+                                 $route);
         }
 
-        $account = $request->user;
+        return $this->socialiteService->redirectToProviderLogin($providerName, $route);
+    }
+
+    public function handleProviderCallback(string $providerName, Request $request) {
+        if (!$this->isValidProvider($providerName)) {
+            abort(404);
+        }
+
+        $account = $this->auth->user();
         if ($account === null) {
             throw new \Exception('Logged-in account is null');
         }
 
-        $providerAccount = $this->socialiteService
-            ->setProvider($providerName)
-            ->getProviderResponse();
+        if ($this->socialiteService->cancelled($request)) {
+            return redirect()->route('front.account.social');
+        }
+
+        $providerAccount = $this->socialiteService->getProviderResponse($providerName);
 
         $existingAccount = $this->linkRepository->getByProviderAccount($providerAccount->getName(), 
                                                                        $providerAccount->getId());
 
         if ($existingAccount !== null && $existingAccount->account_id !== $account->getKey()) {
-            return route('front.pages.account.account-links')
+            return redirect()
+                ->route('front.account.social')
                 ->withErrors('error', 'That account is already in use by a different PCB account');
         }
 
@@ -106,7 +119,8 @@ class AccountSocialController extends WebController {
                                           $providerAccount->getEmail());
         }
 
-        return view('front.pages.account.account-links')
+        return redirect()
+            ->route('front.account.social')
             ->with(['success' => 'Successfully linked account']);
     }
 
