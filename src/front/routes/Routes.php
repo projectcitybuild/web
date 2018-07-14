@@ -153,6 +153,11 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function() {
             'as'    => 'front.account.social.callback',
             'uses'  => 'AccountSocialController@handleProviderCallback',
         ]);
+
+        Route::get('{provider}/delete', [
+            'as'    => 'front.account.social.delete',
+            'uses'  => 'AccountSocialController@deleteLink',
+        ]);
     });
    
     Route::prefix('games')->group(function() {

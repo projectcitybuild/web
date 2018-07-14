@@ -124,4 +124,26 @@ class AccountSocialController extends WebController {
             ->with(['success' => 'Successfully linked account']);
     }
 
+    public function deleteLink(string $providerName, Request $request) {
+        if (!$this->isValidProvider($providerName)) {
+            abort(404);
+        }
+
+        $account = $this->auth->user();
+        
+        $linkedAccount = $account->linkedSocialAccounts()
+            ->where('provider_name', $providerName)
+            ->first();
+
+        if ($linkedAccount === null) {
+            abort(401);
+        }
+
+        $linkedAccount->delete();
+
+        return redirect()
+            ->route('front.account.social')
+            ->with(['success' => 'Successfully deleted linked account']);
+    }
+
 }
