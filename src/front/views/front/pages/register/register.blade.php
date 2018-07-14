@@ -23,13 +23,13 @@
             </div>
 
             <div class="register__social">
-                <a class="login__button login__button--facebook" href="{{ route('front.login.facebook') }}">
+                <a class="login__button login__button--facebook" href="{{ route('front.login.provider.redirect', 'facebook') }}">
                     <i class="fab fa-facebook-square"></i> Facebook
                 </a>
-                <a class="login__button login__button--twitter" href="{{ route('front.login.twitter') }}">
+                <a class="login__button login__button--twitter" href="{{ route('front.login.provider.redirect', 'twitter') }}">
                     <i class="fab fa-twitter-square"></i> Twitter
                 </a>
-                <a class="login__button login__button--google" href="{{ route('front.login.google') }}">
+                <a class="login__button login__button--google" href="{{ route('front.login.provider.redirect', 'google') }}">
                     <i class="fab fa-google"></i> Google
                 </a>
             </div>

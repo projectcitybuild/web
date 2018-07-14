@@ -10,8 +10,8 @@
             <h1>Create an Account</h1>
 
             <p>
-                There is currently no PCB account registered to the below email address. 
-                Would you like to create an account with these details?
+                There is currently no PCB account registered to your social account. 
+                Would you like to create a PCB account with these details?
             </p>
 
             <div class="register__social-details">

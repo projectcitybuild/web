@@ -51,14 +51,14 @@ return [
         'redirect' => env('APP_URL') . '/login/google/callback',
     ],
     'discord' => [
-        'client_id' => env('DISCORD_KEY'),
-        'client_secret' => env('DISCORD_SECRET'),
-        'redirect' => env('DISCORD_REDIRECT_URI') . '/login/discord/callback',
+        'client_id' => env('DISCORD_CLIENT_ID'),
+        'client_secret' => env('DISCORD_CLIENT_SECRET'),
+        'redirect' => env('APP_URL') . '/login/discord/callback',
     ],
     'steam' => [
-        'client_id' => env('STEAM_KEY'),
-        'client_secret' => env('STEAM_SECRET'),
-        'redirect' => env('STEAM_REDIRECT_URI')
+        'client_id' => env('STEAM_CLIENT_ID'),
+        'client_secret' => env('STEAM_CLIENT_SECRET'),
+        'redirect' => env('APP_URL') . '/login/steam/callback',
     ],
 
 ];

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use App\Modules\Players\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\View;
 use Schema;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,6 +32,8 @@ class AppServiceProvider extends ServiceProvider
         View::composer(
             'front.layouts.master', 'Front\Composers\MasterViewComposer'
         );
+
+        // Auth::loginUsingId(1);
     }
 
     /**

@@ -44,19 +44,6 @@ class AccountLinkRepository extends Repository {
             ->first();
     }
 
-    public function getByProvider(string $name, string $id) : ?AccountLink {
-        return $this->getModel()
-            ->where('provider_name', $name)
-            ->where('provider_id', $id)
-            ->first();
-    }
-
-    public function getByEmail(string $email) : ?AccountLink {
-        return $this->getModel()
-            ->where('provider_email', $email)
-            ->first();
-    }
-
     public function getByProviderAccount(string $providerName, string $providerId) : ?AccountLink {
         return $this->getModel()
             ->where('provider_name', $providerName)
