@@ -4,7 +4,7 @@ namespace Front\Controllers;
 
 use Illuminate\Http\Request;
 use App\Support\Exceptions\UnauthorisedException;
-use App\Modules\Discord\Services\DiscordNotifyService;
+use App\Library\Discord\DiscordNotifyService;
 use Illuminate\Support\Facades\Log;
 
 class DeployController extends WebController {

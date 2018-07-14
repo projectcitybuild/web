@@ -2,8 +2,11 @@
 namespace App\Library\RateLimit\Storage;
 
 use App\Library\RateLimit\TokenStorable;
-use App\Library\RateLimit\Tokens;
+use App\Library\RateLimit\TokenState;
 
+/**
+ * For use with user-scoped rate limitng
+ */
 class SessionTokenStorage implements TokenStorable {
 
     /**
@@ -28,15 +31,15 @@ class SessionTokenStorage implements TokenStorable {
         }
     }
 
-    public function deserialize() : Tokens {
+    public function deserialize() : TokenState {
         $storedData = @$_SESSION[$this->sessionName];
         if ($storedData === null) {
-            return new Tokens($this->initialTokens, 0);
+            return new TokenState($this->initialTokens, 0);
         }
-        return Tokens::fromArray($storedData);
+        return TokenState::fromArray($storedData);
     }
 
-    public function serialize(Tokens $data) {
+    public function serialize(TokenState $data) {
         $_SESSION[$this->sessionName] = $data->toArray();
     }
 

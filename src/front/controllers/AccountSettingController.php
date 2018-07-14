@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\View;
 use Front\Requests\AccountChangePasswordRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-use App\Modules\Discourse\Services\Api\DiscourseAdminApi;
-use App\Modules\Discourse\Services\Authentication\DiscoursePayload;
+use App\Library\Discourse\Api\DiscourseAdminApi;
+use App\Library\Discourse\Authentication\DiscoursePayload;
 use App\Modules\Accounts\Repositories\AccountEmailChangeRepository;
 use App\Support\Helpers\TokenHelpers;
 use Illuminate\Database\Connection;
@@ -55,7 +55,7 @@ class AccountSettingController extends WebController {
 
 
     public function showView() {
-        return view('account-settings');
+        return view('front.pages.account.account-settings');
     }
 
     public function sendVerificationEmail(AccountChangeEmailRequest $request) {
@@ -142,7 +142,7 @@ class AccountSettingController extends WebController {
         {
             $changeRequest->save();
 
-            return view('account-settings-email-confirm', [
+            return view('front.pages.account.account-settings-email-confirm', [
                 'changeRequest' => $changeRequest,
             ]);
         }
@@ -181,7 +181,7 @@ class AccountSettingController extends WebController {
 
             $this->connection->commit();
 
-            return view('account-settings-email-complete');
+            return view('front.pages.account.account-settings-email-complete');
         
         } catch (\Exception $e) {
             $this->connection->rollBack();

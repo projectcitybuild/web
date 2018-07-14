@@ -12,7 +12,7 @@ use Hash;
 use Illuminate\Support\Facades\Cache;
 use App\Support\Exceptions\BadRequestException;
 use App\Support\Exceptions\ServerException;
-use App\Modules\Discourse\Services\Api\DiscourseAdminApi;
+use App\Library\Discourse\Api\DiscourseAdminApi;
 
 class TempMinecraftController extends ApiController {
 

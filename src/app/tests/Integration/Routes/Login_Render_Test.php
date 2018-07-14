@@ -1,7 +1,7 @@
 <?php
 namespace Tests\Integration;
 
-use App\Modules\Discourse\Services\Authentication\DiscourseAuthService;
+use App\Library\Discourse\Authentication\DiscourseAuthService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

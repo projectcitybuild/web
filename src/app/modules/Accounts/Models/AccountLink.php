@@ -14,6 +14,7 @@ class AccountLink extends Model {
         'account_id',
         'provider_name',
         'provider_id',
+        'provider_email',
     ];
 
     protected $hidden = [

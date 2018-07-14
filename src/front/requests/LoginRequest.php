@@ -3,10 +3,9 @@ namespace Front\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use bandwidthThrottle\tokenBucket\storage\SessionStorage;
-use App\Library\RateLimit\Rate;
-use App\Library\RateLimit\Storage\SessionTokenStorage;
+use App\Library\RateLimit\TokenRate;
 use App\Library\RateLimit\TokenBucket;
+use App\Library\RateLimit\Storage\SessionTokenStorage;
 
 class LoginRequest extends FormRequest {
 
@@ -33,7 +32,7 @@ class LoginRequest extends FormRequest {
             return;
         }
 
-        $refillRate = Rate::refill(3)->every(2, Rate::MINUTES);
+        $refillRate = TokenRate::refill(3)->every(2, TokenRate::MINUTES);
         $sessionStorage = new SessionTokenStorage('login.rate', 5);
         $rateLimit = new TokenBucket(6, $refillRate, $sessionStorage);
 

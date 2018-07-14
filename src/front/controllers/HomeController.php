@@ -32,7 +32,7 @@ class HomeController extends WebController {
             return $minecraftPlayers + $unlinkedAccounts;
         });
 
-        return view('home', [
+        return view('front.pages.home', [
             'donations'     => $donations,
             'playerCount'   => $playerCount,
         ]);

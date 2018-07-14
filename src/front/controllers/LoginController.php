@@ -4,19 +4,24 @@ namespace Front\Controllers;
 
 use App\Modules\Forums\Exceptions\BadSSOPayloadException;
 use App\Modules\Accounts\Services\AccountSocialLinkService;
-use App\Modules\Accounts\Repositories\AccountRepository;
-use App\Modules\Accounts\Services\AccountSocialAuthService;
-use App\Modules\Accounts\Services\Login\AccountManualLoginExecutor;
 use App\Modules\Accounts\Services\Login\AccountLoginService;
 use App\Modules\Accounts\Services\Login\AccountSocialLoginExecutor;
-use App\Modules\Discourse\Services\Api\DiscourseUserApi;
-use App\Modules\Discourse\Services\Api\DiscourseAdminApi;
-use App\Modules\Discourse\Services\Authentication\DiscourseAuthService;
-use App\Modules\Discourse\Services\Authentication\DiscoursePayload;
+use App\Library\Discourse\Api\DiscourseUserApi;
+use App\Library\Discourse\Api\DiscourseAdminApi;
+use App\Library\Discourse\Authentication\DiscourseAuthService;
+use App\Library\Discourse\Authentication\DiscoursePayload;
 use Front\Requests\LoginRequest;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Http\Request;
-use GuzzleHttp\Client;
+use App\Modules\Accounts\Repositories\AccountRepository;
+use App\Library\Socialite\SocialiteService;
+use App\Modules\Accounts\Exceptions\InvalidDiscoursePayloadException;
+use App\Modules\Accounts\Repositories\AccountLinkRepository;
+use Illuminate\Database\Connection;
+use App\Library\Socialite\SocialProvider;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class LoginController extends WebController {
 
@@ -26,9 +31,19 @@ class LoginController extends WebController {
     private $discourseAuthService;
 
     /**
-     * @var AccountSocialAuthService
+     * @var DiscourseUserApi
      */
-    private $socialAuthService;
+    private $discourseUserApi;
+
+    /**
+     * @var DiscourseAdminApi
+     */
+    private $discourseAdminApi;
+
+    /**
+     * @var SocialiteService
+     */
+    private $socialiteService;
 
     /**
      * @var AccountSocialLinkService
@@ -41,29 +56,40 @@ class LoginController extends WebController {
     private $accountRepository;
 
     /**
+     * @var AccountLinkRepository
+     */
+    private $accountLinkRepository;
+
+    /**
      * @var Auth
      */
     private $auth;
 
     /**
-     * @var Client
+     * @var Connection
      */
-    private $client;
+    private $connection;
 
 
     public function __construct(DiscourseAuthService $discourseAuthService, 
-                                AccountSocialAuthService $socialAuthService,
+                                DiscourseUserApi $discourseUserApi,
+                                DiscourseAdminApi $discourseAdminApi,
+                                SocialiteService $socialiteService,
                                 AccountSocialLinkService $accountLinkService,
                                 AccountRepository $accountRepository,
+                                AccountLinkRepository $accountLinkRepository,
                                 Auth $auth,
-                                Client $client) 
+                                Connection $connection) 
     {
         $this->discourseAuthService = $discourseAuthService;
-        $this->socialAuthService = $socialAuthService;
+        $this->discourseUserApi = $discourseUserApi;
+        $this->discourseAdminApi = $discourseAdminApi;
+        $this->socialiteService = $socialiteService;
         $this->accountLinkService = $accountLinkService;
         $this->accountRepository = $accountRepository;
+        $this->accountLinkRepository = $accountLinkRepository;
         $this->auth = $auth;
-        $this->client = $client;
+        $this->connection = $connection;
     }
 
     public function showLoginView(Request $request) {
@@ -107,7 +133,7 @@ class LoginController extends WebController {
             'discourse_return'  => $payload['return_sso_url'],
         ]);
 
-        return view('login');
+        return view('front.pages.login.login');
     }
 
     /**
@@ -153,54 +179,175 @@ class LoginController extends WebController {
         return redirect()->to($endpoint);
     }
 
+
+    private function isValidProvider(string $providerName) : bool {
+        $providerName = strtolower($providerName);
+
+        $allowedProviders = array_map(function($key) {
+            return strtolower($key);
+        }, SocialProvider::getKeys());
+        
+        return in_array($providerName, $allowedProviders);
+    }
+
+    public function redirectToProvider(string $providerName) {
+        if (!$this->isValidProvider($providerName)) {
+            abort(404);
+        }
+
+        return $this->socialiteService->redirectToProviderLogin($providerName);
+    }
+
+    public function handleProviderCallback(string $providerName, Request $request) {
+        if (!$this->isValidProvider($providerName)) {
+            abort(404);
+        }
+
+        if ($request->get('denied')) {
+            return redirect()->route('front.home');
+        }
+
+        $session = $request->session();
+
+        $nonce     = $session->get('discourse_nonce');
+        $returnUrl = $session->get('discourse_return');
+
+        if($nonce === null || $returnUrl === null) {
+            throw new InvalidDiscoursePayloadException('`nonce` or `return` key missing in session');
+        }
+
+        
+        $providerAccount = $this->socialiteService->getProviderResponse($providerName);
+
+
+        $existingLink = $this->accountLinkRepository->getByProviderAccount($providerName, $providerAccount->getId());
+
+        if ($existingLink === null) {
+            
+            // if an account link doesn't exist, we need to
+            // check that the email is not already in use
+            // by a different account, because PCB and Discourse
+            // accounts must have a unique email
+            $existingAccount = $this->accountRepository->getByEmail($providerAccount->getEmail());
+            if ($existingAccount !== null) {
+                return view('front.pages.register.register-oauth-failed', [
+                    'email' => $providerAccount->getEmail(),
+                ]);
+            }
+
+            // otherwise send them to the register confirmation
+            // view using their provider account data
+            $url = URL::temporarySignedRoute('front.login.social-register', 
+                                             now()->addMinutes(10), 
+                                             $providerAccount->toArray());
+
+            return view('front.pages.register.register-oauth', [
+                'social' => $providerAccount->toArray(),
+                'url'    => $url,
+            ]);
+        }
+
+        // otherwise login the account linked to
+        // the provider account's id
+        if ($existingLink->account === null) {
+            throw new \Exception('Account link is missing an account');
+        }
+        
+        $account = $existingLink->account;
+
+        $this->auth->setUser($account);
+
+        $session->remove('discourse_nonce');
+        $session->remove('discourse_return');     
+
+        $payload = (new DiscoursePayload($nonce))
+            ->setPcbId($account->getKey())
+            ->setEmail($account->email)
+            ->requiresActivation(false)
+            ->build();
     
-    public function redirectToFacebook() {
-        return $this->redirectToProvider('facebook');
-    }
-    public function redirectToGoogle() {
-        return $this->redirectToProvider('google');
-    }
-    public function redirectToTwitter() {
-        return $this->redirectToProvider('twitter');
+        $payload    = $this->discourseAuthService->makePayload($payload);
+        $signature  = $this->discourseAuthService->getSignedPayload($payload);
+
+        $url = $this->discourseAuthService->getRedirectUrl($returnUrl, $payload, $signature);
+
+        return redirect()->to($url);
     }
 
-    private function redirectToProvider(string $providerName) {
-        return $this->socialAuthService
-            ->setProvider($providerName)
-            ->getProviderUrl();
-    }
+    public function createSocialAccount(Request $request) {
+        $providerEmail = $request->get('email');
+        $providerId    = $request->get('id');
+        $providerName  = $request->get('provider');
 
-    public function handleFacebookCallback(Request $request, AccountSocialLoginExecutor $loginHandler) {
-        return $loginHandler->setProvider('facebook')->login($request);
-    }
-    public function handleGoogleCallback(Request $request, AccountSocialLoginExecutor $loginHandler) {
-        return $loginHandler->setProvider('google')->login($request);
-    }
-    public function handleTwitterCallback(Request $request, AccountSocialLoginExecutor $loginHandler) {
-        return $loginHandler->setProvider('twitter')->login($request);
-    }
-
-    public function createSocialAccount(Request $request, AccountSocialLoginExecutor $loginHandler) {
-        $email      = $request->get('email');
-        $id         = $request->get('id');
-        $provider   = $request->get('provider');
-
-        if($email === null) {
+        if($providerEmail === null) {
             abort(400, 'Missing social email');
         }
-        if($id === null) {
+        if($providerId === null) {
             abort(400, 'Missing social id');
         }
-        if($provider === null) {
-            abort(400, 'Missing social provider');
+        if($providerName === null) {
+            abort(400, 'Missing social provider name');
+        }
+        
+        $session = $request->session();
+
+        $nonce     = $session->get('discourse_nonce');
+        $returnUrl = $session->get('discourse_return');
+
+        if($nonce === null || $returnUrl === null) {
+            throw new InvalidDiscoursePayloadException('`nonce` or `return` key missing in session');
         }
 
-        $account = $this->accountLinkService->createAccount($provider, $email, $id);
+        
+        $accountLink = $this->accountLinkRepository->getByProviderAccount($providerName, $providerId);
+        if($accountLink !== null) {
+            throw new \Exception('Attempting to create PCB account via OAuth, but OAuth account already exists');
+        }
 
-        return $loginHandler
-            ->setProvider($provider)
-            ->setAccount($account)
-            ->login($request);
+        $account = null;
+        $this->connection->beginTransaction();
+        try {
+             // create a PCB account for the user
+            $account = $this->accountRepository->create($providerEmail,
+                                                        Hash::make(time()),
+                                                        null,
+                                                        Carbon::now());
+
+            // and then create an account link to it
+            $accountLink = $this->accountLinkRepository->create($account->getKey(),
+                                                                $providerName, 
+                                                                $providerId,
+                                                                $providerEmail);
+
+            $this->connection->commit();
+
+        } catch(\Exception $e) {
+            $this->connection->rollBack();
+            throw $e;
+        }
+
+        if ($account === null) {
+            throw new \Exception('Account is null after OAuth creation');
+        }
+
+        $payload = (new DiscoursePayload($nonce))
+            ->setPcbId($account->getKey())
+            ->setEmail($account->email)
+            ->requiresActivation(false)
+            ->build();
+        
+        $session->remove('discourse_nonce');
+        $session->remove('discourse_return');   
+    
+
+        // generate new payload to send to discourse
+        $payload    = $this->discourseAuthService->makePayload($payload);
+        $signature  = $this->discourseAuthService->getSignedPayload($payload);
+
+        // attach parameters to return url
+        $endpoint   = $this->discourseAuthService->getRedirectUrl($returnUrl, $payload, $signature);
+
+        // return redirect()->to($endpoint);
     }
 
     /**
@@ -225,20 +372,20 @@ class LoginController extends WebController {
      * @param Request $request
      * @return void
      */
-    public function logout(Request $request, DiscourseUserApi $userApi, DiscourseAdminApi $adminApi) {
+    public function logout(Request $request) {
         if(!$this->auth->check()) {
             return redirect()->route('front.home');
         }
 
         $externalId = $this->auth->id();
-        $result = $userApi->fetchUserByPcbId($externalId);
+        $result = $this->discourseUserApi->fetchUserByPcbId($externalId);
 
         $user = $result['user'];
         if($user === null) {
             throw new \Exception('Discourse logout api response did not have a `user` key');
         }
 
-        $adminApi->requestLogout($user['id'], $user['username']);
+        $this->discourseAdminApi->requestLogout($user['id'], $user['username']);
 
         $this->auth->logout();
         

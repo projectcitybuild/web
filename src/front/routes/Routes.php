@@ -36,7 +36,7 @@ Route::get('donations', [
     'uses'  => 'DonationController@getView',
 ]);
 
-Route::group(['prefix' => 'login'], function() {
+Route::prefix('login')->group(function() {
     Route::get('/', [
         'as'    => 'front.login',
         'uses'  => 'LoginController@showLoginView',
@@ -45,26 +45,13 @@ Route::group(['prefix' => 'login'], function() {
         'as'    => 'front.login.submit',
         'uses'  => 'LoginController@login',
     ]);
-    Route::get('google', [
-        'as'    => 'front.login.google',
-        'uses'  => 'LoginController@redirectToGoogle',
+    Route::get('{provider}/redirect', [
+        'as'    => 'front.login.provider.redirect',
+        'uses'  => 'LoginController@redirectToProvider',
     ]);
-    Route::get('google/callback', [
-        'uses'  => 'LoginController@handleGoogleCallback',
-    ]);
-    Route::get('facebook', [
-        'as'    => 'front.login.facebook',
-        'uses'  => 'LoginController@redirectToFacebook',
-    ]);
-    Route::get('facebook/callback', [
-        'uses'  => 'LoginController@handleFacebookCallback',
-    ]);
-    Route::get('twitter', [
-        'as'    => 'front.login.twitter',
-        'uses'  => 'LoginController@redirectToTwitter',
-    ]);
-    Route::get('twitter/callback', [
-        'uses'  => 'LoginController@handleTwitterCallback',
+    Route::get('{provider}/callback', [
+        'as'    => 'front.login.provider.callback',
+        'uses'  => 'LoginController@handleProviderCallback',
     ]);
     Route::get('social/register', [
         'as'    => 'front.login.social-register',
@@ -73,7 +60,7 @@ Route::group(['prefix' => 'login'], function() {
     ->middleware('signed');
 });
 
-Route::group(['prefix' => 'password-reset'], function() {
+Route::prefix('password-reset')->group(function() {
     Route::get('/', [
         'as'    => 'front.password-reset',
         'uses'  => 'PasswordRecoveryController@showEmailForm',
@@ -96,7 +83,7 @@ Route::group(['prefix' => 'password-reset'], function() {
     ]);
 });
 
-Route::group(['prefix' => 'register'], function() {
+Route::prefix('register')->group(function() {
     Route::get('/', [
         'as'    => 'front.register',
         'uses'  => 'RegisterController@showRegisterView',
@@ -123,7 +110,7 @@ Route::get('logout', [
 
 Route::group(['prefix' => 'account', 'middleware' => 'auth'], function() {
 
-    Route::group(['prefix' => 'settings'], function() {
+    Route::prefix('settings')->group(function() {
         Route::get('/', [
             'as'    => 'front.account.settings',
             'uses'  => 'AccountSettingController@showView',
@@ -150,8 +137,30 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function() {
             'uses'  => 'AccountSettingController@changePassword',
         ]);
     });
+
+    Route::prefix('social')->group(function() {
+        Route::get('/', [
+            'as'    => 'front.account.social',
+            'uses'  => 'AccountSocialController@showView',
+        ]);
+
+        Route::get('{provider}/redirect', [
+            'as'    => 'front.account.social.redirect',
+            'uses'  => 'AccountSocialController@redirectToProvider',
+        ]);
+        
+        Route::get('{provider}/callback', [
+            'as'    => 'front.account.social.callback',
+            'uses'  => 'AccountSocialController@handleProviderCallback',
+        ]);
+
+        Route::get('{provider}/delete', [
+            'as'    => 'front.account.social.delete',
+            'uses'  => 'AccountSocialController@deleteLink',
+        ]);
+    });
    
-    Route::group(['prefix' => 'games'], function() {
+    Route::prefix('games')->group(function() {
         Route::get('games', [
             'as'    => 'front.account.games',
             'uses'  => 'GameAccountController@showView',
@@ -164,7 +173,8 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function() {
     });
 });
 
-Route::view('bans', 'banlist')->name('banlist');
+
+Route::view('bans', 'front.pages.banlist')->name('banlist');
 
 Route::post('deploy', 'DeployController@deploy');
 Route::get('deploy', 'DeployController@deploy');
