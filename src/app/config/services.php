@@ -35,30 +35,31 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    
     'facebook' => [
         'client_id' => env('FACEBOOK_CLIENT_ID'),
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
-        'redirect' => env('APP_URL') . '/login/facebook/callback',
+        'redirect' => env('APP_URL'),
     ],
     'twitter' => [
         'client_id' => env('TWITTER_CLIENT_ID'),
         'client_secret' => env('TWITTER_CLIENT_SECRET'),
-        'redirect' => env('APP_URL') . '/login/twitter/callback',
+        'redirect' => env('APP_URL'),
     ],
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => env('APP_URL') . '/login/google/callback',
+        'redirect' => env('APP_URL'),
     ],
     'discord' => [
         'client_id' => env('DISCORD_CLIENT_ID'),
         'client_secret' => env('DISCORD_CLIENT_SECRET'),
-        'redirect' => env('APP_URL') . '/login/discord/callback',
+        'redirect' => env('APP_URL'),
     ],
     'steam' => [
         'client_id' => env('STEAM_CLIENT_ID'),
         'client_secret' => env('STEAM_CLIENT_SECRET'),
-        'redirect' => env('APP_URL') . '/login/steam/callback',
+        'redirect' => env('APP_URL'),
     ],
 
 ];

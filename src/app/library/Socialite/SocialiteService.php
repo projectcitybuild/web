@@ -4,6 +4,7 @@ namespace App\Library\Socialite;
 use Laravel\Socialite\Facades\Socialite;
 use App\Library\Socialite\Exceptions\UnsupportedProviderException;
 use Illuminate\Http\Request;
+use Illuminate\Log\Logger;
 
 class SocialiteService {
 
@@ -12,9 +13,15 @@ class SocialiteService {
      */
     private $request;
 
+    /**
+     * @var Logger
+     */
+    private $log;
 
-    public function __construct(Request $request) {
+
+    public function __construct(Request $request, Logger $logger) {
         $this->request = $request;
+        $this->log = $logger;
     }
     
 
@@ -25,6 +32,8 @@ class SocialiteService {
     private function setRedirectUrl(string $providerName, string $url) {
         $key = 'services.'.$providerName.'.redirect';
         config()->set($key, $url);
+
+        $this->log->debug('OAuth redirect URL set to: '.$url);
     }
 
     /**
@@ -39,6 +48,9 @@ class SocialiteService {
         if ($redirectUrl !== null) {
             $this->setRedirectUrl($providerName, $redirectUrl);
         }
+
+        $this->log->info('Redirecting user to provider login: '.$providerName);
+
         return $this->getDriver($providerName)->redirect();
     }
     
@@ -50,6 +62,9 @@ class SocialiteService {
      */
     public function getProviderResponse(string $providerName) : SocialiteData {
         $providerAccount = $this->getDriver($providerName)->user();
+
+        $this->log->info('Received user from OAuth provider');
+        $this->log->debug($providerAccount);
 
         if($providerAccount->getEmail() === null) {
             throw new UnsupportedProviderException('Provider ['.$this->providerName.'] does not give read access to an email address');

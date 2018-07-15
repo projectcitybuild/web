@@ -3,7 +3,6 @@
 namespace Front\Controllers;
 
 use App\Modules\Forums\Exceptions\BadSSOPayloadException;
-use App\Modules\Accounts\Services\AccountSocialLinkService;
 use App\Modules\Accounts\Services\Login\AccountLoginService;
 use App\Modules\Accounts\Services\Login\AccountSocialLoginExecutor;
 use App\Library\Discourse\Api\DiscourseUserApi;
@@ -22,6 +21,8 @@ use App\Library\Socialite\SocialProvider;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use App\Support\Environment;
+use Illuminate\Log\Logger;
 
 class LoginController extends WebController {
 
@@ -46,11 +47,6 @@ class LoginController extends WebController {
     private $socialiteService;
 
     /**
-     * @var AccountSocialLinkService
-     */
-    private $accountLinkService;
-
-    /**
      * @var AccountRepository
      */
     private $accountRepository;
@@ -70,30 +66,36 @@ class LoginController extends WebController {
      */
     private $connection;
 
+    /**
+     * @var Logger
+     */
+    private $log;
+
 
     public function __construct(DiscourseAuthService $discourseAuthService, 
                                 DiscourseUserApi $discourseUserApi,
                                 DiscourseAdminApi $discourseAdminApi,
                                 SocialiteService $socialiteService,
-                                AccountSocialLinkService $accountLinkService,
                                 AccountRepository $accountRepository,
                                 AccountLinkRepository $accountLinkRepository,
                                 Auth $auth,
-                                Connection $connection) 
+                                Connection $connection,
+                                Logger $logger) 
     {
         $this->discourseAuthService = $discourseAuthService;
         $this->discourseUserApi = $discourseUserApi;
         $this->discourseAdminApi = $discourseAdminApi;
         $this->socialiteService = $socialiteService;
-        $this->accountLinkService = $accountLinkService;
         $this->accountRepository = $accountRepository;
         $this->accountLinkRepository = $accountLinkRepository;
         $this->auth = $auth;
         $this->connection = $connection;
+        $this->log = $logger;
     }
 
     public function showLoginView(Request $request) {
         if ($this->auth->check()) {
+            $this->log->debug('Already logged-in; redirecting...');
             return redirect()->route('front.home');
         }
 
@@ -111,6 +113,7 @@ class LoginController extends WebController {
         // prevents any payload tampering
         $isValidPayload = $this->discourseAuthService->isValidPayload($sso, $signature);
         if($isValidPayload === false) {
+            $this->log->debug('Received invalid SSO payload (sso: '.$sso.' | sig: '.$signature);
             abort(400);
         }
 
@@ -122,6 +125,7 @@ class LoginController extends WebController {
             $payload = $this->discourseAuthService->unpackPayload($sso);
 
         } catch(BadSSOPayloadException $e) {
+            $this->log->debug('Failed to unpack SSO payload (sso: '.$sso.' | sig: '.$signature);
             abort(400);
         }
 
@@ -132,6 +136,8 @@ class LoginController extends WebController {
             'discourse_nonce'   => $payload['nonce'],
             'discourse_return'  => $payload['return_sso_url'],
         ]);
+
+        $this->log->debug('Storing SSO data in session for login');
 
         return view('front.pages.login.login');
     }
@@ -149,6 +155,8 @@ class LoginController extends WebController {
         $returnUrl = $session->get('discourse_return');
 
         if($nonce === null || $returnUrl === null) {
+            $this->log->debug('Missing nonce or return key in session...');
+            $this->log->debug($session);
             throw new InvalidDiscoursePayloadException('`nonce` or `return` key missing in session');
         }
 
@@ -176,6 +184,8 @@ class LoginController extends WebController {
         // attach parameters to return url
         $endpoint   = $this->discourseAuthService->getRedirectUrl($returnUrl, $payload, $signature);
 
+        $this->log->info('Logging in user: '.$account->getKey());
+
         return redirect()->to($endpoint);
     }
 
@@ -195,7 +205,22 @@ class LoginController extends WebController {
             abort(404);
         }
 
-        return $this->socialiteService->redirectToProviderLogin($providerName);
+        $route = route('front.login.provider.callback', $providerName);
+        
+        // Laravel converts localhost into a local IP address, 
+        // so we need to manually convert it back so that 
+        // it matches the URLs registered in Twitter, Google, etc
+        if (Environment::isDev()) {
+            $route = str_replace('http://192.168.99.100/', 
+                                 'http://localhost:3000/', 
+                                 $route);
+
+            $this->log->debug('Transformed OAuth redirect url: '.$route);
+        }
+
+        $this->log->debug('Redirecting user to OAuth provider: '.$providerName);
+
+        return $this->socialiteService->redirectToProviderLogin($providerName, $route);
     }
 
     public function handleProviderCallback(string $providerName, Request $request) {
@@ -206,6 +231,8 @@ class LoginController extends WebController {
         if ($request->get('denied')) {
             return redirect()->route('front.home');
         }
+
+        $this->log->debug('Received user from OAuth provider...');
 
         $session = $request->session();
 
@@ -219,6 +246,7 @@ class LoginController extends WebController {
         
         $providerAccount = $this->socialiteService->getProviderResponse($providerName);
 
+        $this->log->debug($providerAccount);
 
         $existingLink = $this->accountLinkRepository->getByProviderAccount($providerName, $providerAccount->getId());
 
@@ -230,6 +258,8 @@ class LoginController extends WebController {
             // accounts must have a unique email
             $existingAccount = $this->accountRepository->getByEmail($providerAccount->getEmail());
             if ($existingAccount !== null) {
+                $this->log->debug('Account with email ('.$providerAccount->getEmail().') already exists; showing error to user');
+
                 return view('front.pages.register.register-oauth-failed', [
                     'email' => $providerAccount->getEmail(),
                 ]);
@@ -240,6 +270,8 @@ class LoginController extends WebController {
             $url = URL::temporarySignedRoute('front.login.social-register', 
                                              now()->addMinutes(10), 
                                              $providerAccount->toArray());
+
+            $this->log->debug('Generating OAuth register URL: '.$url);
 
             return view('front.pages.register.register-oauth', [
                 'social' => $providerAccount->toArray(),
@@ -265,11 +297,16 @@ class LoginController extends WebController {
             ->setEmail($account->email)
             ->requiresActivation(false)
             ->build();
+
     
         $payload    = $this->discourseAuthService->makePayload($payload);
         $signature  = $this->discourseAuthService->getSignedPayload($payload);
 
         $url = $this->discourseAuthService->getRedirectUrl($returnUrl, $payload, $signature);
+
+        $this->log->info('Logging in PCB user ('.$account->getKey().') via OAuth');
+        $this->log->debug($payload);
+        $this->log->debug($providerAccount->toArray());
 
         return redirect()->to($url);
     }
@@ -347,7 +384,7 @@ class LoginController extends WebController {
         // attach parameters to return url
         $endpoint   = $this->discourseAuthService->getRedirectUrl($returnUrl, $payload, $signature);
 
-        // return redirect()->to($endpoint);
+        return redirect()->to($endpoint);
     }
 
     /**
@@ -384,6 +421,10 @@ class LoginController extends WebController {
         if($user === null) {
             throw new \Exception('Discourse logout api response did not have a `user` key');
         }
+
+        $this->log->info('Logging out user: '.$externalId);
+        $this->log->debug('Discourse ID: '.$user['id'].' | Discourse username: '.$user['username']);
+        $this->log->debug($result);
 
         $this->discourseAdminApi->requestLogout($user['id'], $user['username']);
 
