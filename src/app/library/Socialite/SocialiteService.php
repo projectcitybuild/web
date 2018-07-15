@@ -39,15 +39,7 @@ class SocialiteService {
         if ($redirectUrl !== null) {
             $this->setRedirectUrl($providerName, $redirectUrl);
         }
-
-        $driver = $this->getDriver($providerName);
-
-        // we need to manually specify the scopes 
-        // for Discord to work
-        if ($providerName === SocialProvider::DISCORD) {
-            $driver->scopes(['identity', 'email'])->redirect();
-        }
-        return $driver->redirect();
+        return $this->getDriver($providerName)->redirect();
     }
     
     /**

@@ -41,6 +41,7 @@ class AccountSocialController extends WebController {
 
     public function showView(Request $request) {
         $account = $request->user();
+        
         if ($account === null) {
             throw new \Exception('Logged-in account is null');
         }

@@ -10,7 +10,10 @@
         <div class="card card--divided">
             <div class="card__body card__body--padded">
                 <h1>Connected Social Accounts</h1>
-                <span class="header-description">Linked social accounts for logging-in</span>
+                <span class="header-description">
+                    Add or remove 3rd party accounts for logging-in to PCB. 
+                    Additionally, adding a Discord account will enable automatic rank syncronization with our Discord channel.
+                </span>
             </div>
 
             <div class="card__body card__body--padded">
@@ -37,7 +40,7 @@
 
                     <div class="social-accounts__item {{ isset($links['twitter']) ? 'social-accounts__item--registered' : '' }}">
                         <h3>Twitter</h3>
-                        <i class="social-icon fab fa-twitter fa-4x"></i>
+                        <i class="social-icon fab fa-twitter-square fa-4x"></i>
 
                         @isset($links['twitter'])
                             <a class="button button--fill" href="{{ route('front.account.social.delete', 'twitter') }}">Remove</a>
@@ -54,6 +57,17 @@
                             <a class="button button--fill" href="{{ route('front.account.social.delete', 'google') }}">Remove</a>
                         @else
                             <a class="button button--fill button--secondary" href="{{ route('front.account.social.redirect', 'google') }}">Connect</a>
+                        @endif
+                    </div>
+
+                    <div class="social-accounts__item {{ isset($links['discord']) ? 'social-accounts__item--registered' : '' }}">
+                        <h3>Discord</h3>
+                        <i class="social-icon fab fa-discord fa-4x"></i>
+
+                        @isset($links['discord'])
+                            <a class="button button--fill" href="{{ route('front.account.social.delete', 'discord') }}">Remove</a>
+                        @else
+                            <a class="button button--fill button--secondary" href="{{ route('front.account.social.redirect', 'discord') }}">Connect</a>
                         @endif
                     </div>
                     
