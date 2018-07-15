@@ -103,7 +103,7 @@ class LoginController extends WebController {
 
     public function showLoginView(Request $request) {
         if ($this->auth->check()) {
-            $this->log->verbose('Already logged-in; redirecting...');
+            $this->log->notice('Already logged-in; redirecting...');
             return redirect()->route('front.home');
         }
 
@@ -145,7 +145,7 @@ class LoginController extends WebController {
             'discourse_return'  => $payload['return_sso_url'],
         ]);
 
-        $this->log->verbose('Storing SSO data in session for login');
+        $this->log->notice('Storing SSO data in session for login');
 
         return view('front.pages.login.login');
     }
@@ -226,7 +226,7 @@ class LoginController extends WebController {
             $this->log->debug('Transformed OAuth redirect url: '.$route);
         }
 
-        $this->log->verbose('Redirecting user to OAuth provider: '.$providerName);
+        $this->log->notice('Redirecting user to OAuth provider: '.$providerName);
 
         return $this->socialiteService->redirectToProviderLogin($providerName, $route);
     }
@@ -240,7 +240,7 @@ class LoginController extends WebController {
             return redirect()->route('front.home');
         }
 
-        $this->log->verbose('Received user from OAuth provider...');
+        $this->log->notice('Received user from OAuth provider...');
 
         $session = $request->session();
 
@@ -266,7 +266,7 @@ class LoginController extends WebController {
             // accounts must have a unique email
             $existingAccount = $this->accountRepository->getByEmail($providerAccount->getEmail());
             if ($existingAccount !== null) {
-                $this->log->verbose('Account with email ('.$providerAccount->getEmail().') already exists; showing error to user');
+                $this->log->notice('Account with email ('.$providerAccount->getEmail().') already exists; showing error to user');
 
                 return view('front.pages.register.register-oauth-failed', [
                     'email' => $providerAccount->getEmail(),
