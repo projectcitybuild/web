@@ -4,7 +4,7 @@ namespace App\Library\Socialite;
 use Laravel\Socialite\Facades\Socialite;
 use App\Library\Socialite\Exceptions\UnsupportedProviderException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Log\Logger;
 
 class SocialiteService {
 
@@ -14,14 +14,14 @@ class SocialiteService {
     private $request;
 
     /**
-     * @var Log
+     * @var Logger
      */
     private $log;
 
 
-    public function __construct(Request $request, Log $log) {
+    public function __construct(Request $request, Logger $logger) {
         $this->request = $request;
-        $this->log = $log;
+        $this->log = $logger;
     }
     
 

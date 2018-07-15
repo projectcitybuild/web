@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Support\Environment;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Log\Logger;
 
 class LoginController extends WebController {
 
@@ -73,7 +73,7 @@ class LoginController extends WebController {
     private $connection;
 
     /**
-     * @var Log
+     * @var Logger
      */
     private $log;
 
@@ -87,7 +87,7 @@ class LoginController extends WebController {
                                 AccountLinkRepository $accountLinkRepository,
                                 Auth $auth,
                                 Connection $connection,
-                                Log $log) 
+                                Logger $logger) 
     {
         $this->discourseAuthService = $discourseAuthService;
         $this->discourseUserApi = $discourseUserApi;
@@ -98,7 +98,7 @@ class LoginController extends WebController {
         $this->accountLinkRepository = $accountLinkRepository;
         $this->auth = $auth;
         $this->connection = $connection;
-        $this->log = $log;
+        $this->log = $logger;
     }
 
     public function showLoginView(Request $request) {
