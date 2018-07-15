@@ -1,6 +1,7 @@
 branches:
   only:
   - master
+  - dev
   - wip/docker
   - wip/travis
 
@@ -10,7 +11,7 @@ php:
 
 cache:
   directories:
-    - src/vendor
+    - src/support/packages/vendor
 
 services:
   - mysql
@@ -26,7 +27,7 @@ before_script:
   - php artisan migrate
 
 script:
-  - vendor/bin/phpunit
+  - src/support/packages/vendor/bin/phpunit
 
 after_success:
   - "curl https://projectcitybuild.com/deploy?key=$DEPLOY_KEY"
