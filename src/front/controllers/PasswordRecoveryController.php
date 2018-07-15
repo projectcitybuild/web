@@ -11,6 +11,7 @@ use Front\Requests\SendPasswordEmailRequest;
 use Illuminate\Http\Request;
 use Illuminate\Database\Connection;
 use Hash;
+use App\Support\Helpers\TokenHelpers;
 
 class PasswordRecoveryController extends WebController {
 
@@ -41,14 +42,14 @@ class PasswordRecoveryController extends WebController {
     }
 
     public function showEmailForm() {
-        return view('password-reset');
+        return view('front.pages.password-reset.password-reset');
     }
 
     public function sendVerificationEmail(SendPasswordEmailRequest $request) {
         $input = $request->validated();
         $email = $input['email'];
 
-        $token = hash_hmac('sha256', time(), env('APP_KEY'));
+        $token = TokenHelpers::generateToken();
         $passwordReset = $this->passwordResetRepository->updateOrCreateByEmail($email, $token);
 
         $account = $request->getAccount();
@@ -71,7 +72,7 @@ class PasswordRecoveryController extends WebController {
             abort(401, "Token invalid or has expired");
         }
 
-        return view('password-reset-form', [
+        return view('front.pages.password-reset.password-reset-form', [
             'passwordToken' => $request->get('token')
         ]);
     }
@@ -110,7 +111,7 @@ class PasswordRecoveryController extends WebController {
 
         $account->notify(new AccountPasswordResetCompleteNotification);
 
-        return view('password-reset-success');
+        return view('front.pages.password-reset.password-reset-success');
     }
 
 

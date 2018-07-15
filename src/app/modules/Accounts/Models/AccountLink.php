@@ -2,7 +2,7 @@
 
 namespace App\Modules\Accounts\Models;
 
-use App\Core\Model;
+use App\Support\Model;
 
 class AccountLink extends Model {
 
@@ -14,6 +14,7 @@ class AccountLink extends Model {
         'account_id',
         'provider_name',
         'provider_id',
+        'provider_email',
     ];
 
     protected $hidden = [

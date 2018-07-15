@@ -22,7 +22,7 @@ use bandwidthThrottle\tokenBucket\TokenBucket;
 use bandwidthThrottle\tokenBucket\BlockingConsumer;
 use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayer;
 use GuzzleHttp\Exception\TooManyRedirectsException;
-use App\Core\Exceptions\TooManyRequestsException;
+use App\Support\Exceptions\TooManyRequestsException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use App\Modules\Accounts\Models\Account;

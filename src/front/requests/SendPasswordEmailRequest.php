@@ -45,6 +45,10 @@ class SendPasswordEmailRequest extends FormRequest {
      * @return void
      */
     public function withValidator($validator) {
+        if ($validator->fails()) {
+            return;
+        }
+        
         $validator->after(function ($validator) {
             $input = $validator->getData();
             $email = $input['email'];

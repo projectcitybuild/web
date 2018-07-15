@@ -2,8 +2,13 @@ FROM php:7.1-fpm-alpine
 
 # install required packages, git and node+npm
 RUN apk --no-cache add \
-    git zip unzip nodejs \
-    && docker-php-ext-install mysqli pdo_mysql bcmath
+        git zip unzip nodejs freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev \
+    && docker-php-ext-configure gd \
+        --with-gd \
+        --with-freetype-dir=/usr/include/ \
+        --with-png-dir=/usr/include/ \
+        --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install gd mysqli pdo_mysql bcmath 
 
 # install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -26,8 +31,8 @@ WORKDIR /var/www/html
 # dependency changes occured
 COPY src/composer.json src/composer.lock ./
 RUN composer install --no-scripts --no-autoloader
-COPY src/package.json .
-RUN npm install
+COPY src/package.json src/package-lock.json ./
+# RUN npm install
 
 # bake our source code into the image last so that code changes don't
 # flush the previous layers
@@ -35,11 +40,11 @@ COPY src .
 RUN chown -R www-data:www-data /var/www/html
 
 # minify our production css and javascript
-RUN npm run production
+# RUN npm run production
 
 # run post-install scripts since we disabled them during the composer install 
 # phase (files weren't baked-in yet)
-RUN composer dump-autoload --optimize && \
-	composer run-script post-install-cmd
+# RUN composer dump-autoload --optimize && \
+	# composer run-script post-install-cmd
 
 ENTRYPOINT ["sh", "/entry.sh"]

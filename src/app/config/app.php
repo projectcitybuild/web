@@ -186,17 +186,19 @@ return [
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
+        \SocialiteProviders\Manager\ServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
-        App\Core\Providers\AppServiceProvider::class,
-        App\Core\Providers\AuthServiceProvider::class,
-        App\Core\Providers\EventServiceProvider::class,
-        App\Core\Providers\RouteServiceProvider::class,
+        App\Support\Providers\AppServiceProvider::class,
+        App\Support\Providers\AuthServiceProvider::class,
+        App\Support\Providers\EventServiceProvider::class,
+        App\Support\Providers\RouteServiceProvider::class,
 
-        App\Modules\Recaptcha\RecaptchaServiceProvider::class,
+        App\Library\Discourse\DiscourseServiceProvider::class,
+        App\Library\Recaptcha\RecaptchaServiceProvider::class,
 
     ],
 
@@ -248,6 +250,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Sentry' => Sentry\SentryLaravel\SentryFacade::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
     ],
 

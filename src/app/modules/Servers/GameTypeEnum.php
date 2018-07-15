@@ -1,7 +1,7 @@
 <?php
 namespace App\Modules\Servers;
 
-use App\Core\Enum;
+use App\Support\Enum;
 
 /**
  * List of games PCB supports

@@ -60,7 +60,7 @@ class GameAccountController extends WebController {
             }
         }
 
-        return view('account-games', [
+        return view('front.pages.account.account-games', [
             'minecraft' => [
                 'uuid'      => $minecraftUuid,
                 'aliases'   => $minecraftAliases,

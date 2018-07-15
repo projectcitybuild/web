@@ -23,11 +23,7 @@ services:
     volumes:
       - ./src:/var/www/html   # overwrite our baked-in source code with a mounted volume
     links:
-      - redis
       - database
-
-  redis:
-    image: redis:4.0-alpine
 
   database:
     image: mariadb:10.0.20

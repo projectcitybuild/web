@@ -2,7 +2,7 @@
 namespace App\Modules\Bans\Repositories;
 
 use App\Modules\Bans\Models\GameBan;
-use App\Core\Repository;
+use App\Support\Repository;
 use Illuminate\Database\Eloquent\Collection;
 
 class GameBanRepository extends Repository {

@@ -3,7 +3,7 @@ namespace Tests\Integration;
 
 use App\Modules\Accounts\Models\UnactivatedAccount;
 use App\Modules\Accounts\Notifications\AccountActivationNotification;
-use App\Modules\Recaptcha\RecaptchaRule;
+use App\Library\Recaptcha\RecaptchaRule;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;

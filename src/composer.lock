@@ -1,67 +1,11 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a72435d9a7176513d0f4257da5033d75",
+    "content-hash": "0cc49793d151d993ae7c2f5bbc095873",
     "packages": [
-        {
-            "name": "bandwidth-throttle/token-bucket",
-            "version": "1.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bandwidth-throttle/token-bucket.git",
-                "reference": "316d05de17bdfe6dd7881b1c0f28880f52406841"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bandwidth-throttle/token-bucket/zipball/316d05de17bdfe6dd7881b1c0f28880f52406841",
-                "reference": "316d05de17bdfe6dd7881b1c0f28880f52406841",
-                "shasum": ""
-            },
-            "require": {
-                "ext-bcmath": "*",
-                "malkusch/lock": "^1",
-                "php": ">=5.6"
-            },
-            "require-dev": {
-                "ext-redis": "^2.2.4|^3",
-                "mikey179/vfsstream": "^1.5.0",
-                "php-mock/php-mock-phpunit": "^1",
-                "phpunit/phpunit": "^5",
-                "predis/predis": "^1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "bandwidthThrottle\\tokenBucket\\": "classes/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "WTFPL"
-            ],
-            "authors": [
-                {
-                    "name": "Markus Malkusch",
-                    "email": "markus@malkusch.de",
-                    "homepage": "http://markus.malkusch.de",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Implementation of the Token Bucket algorithm.",
-            "homepage": "https://github.com/bandwidth-throttle/token-bucket",
-            "keywords": [
-                "bandwidth",
-                "rate limit",
-                "rate limiting",
-                "throttle",
-                "throttling",
-                "token bucket"
-            ],
-            "time": "2017-10-13T16:16:56+00:00"
-        },
         {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "0.1",
@@ -959,6 +903,53 @@
             "time": "2017-03-20T17:10:46+00:00"
         },
         {
+            "name": "iignatov/lightopenid",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WillSkates/LightOpenID.git",
+                "reference": "15264c31aef8bbe7ea18f12b6da4ccdb9927f9fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WillSkates/LightOpenID/zipball/15264c31aef8bbe7ea18f12b6da4ccdb9927f9fa",
+                "reference": "15264c31aef8bbe7ea18f12b6da4ccdb9927f9fa",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "openid.php",
+                    "provider/provider.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ignat Ignatov",
+                    "homepage": "https://github.com/iignatov/LightOpenID"
+                },
+                {
+                    "name": "Mewp",
+                    "homepage": "https://code.google.com/p/lightopenid/"
+                }
+            ],
+            "description": "Lightweight PHP5 library for easy OpenID authentication.",
+            "homepage": "https://github.com/iignatov/LightOpenID",
+            "keywords": [
+                "Authentication",
+                "OpenId",
+                "security"
+            ],
+            "time": "2014-01-27T06:01:05+00:00"
+        },
+        {
             "name": "jakub-onderka/php-console-color",
             "version": "0.1",
             "source": {
@@ -1454,65 +1445,6 @@
                 "twitter"
             ],
             "time": "2016-08-17T00:36:58+00:00"
-        },
-        {
-            "name": "malkusch/lock",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/malkusch/lock.git",
-                "reference": "5555f291092a0ed5ab4f02d8be7031b877d8d165"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/malkusch/lock/zipball/5555f291092a0ed5ab4f02d8be7031b877d8d165",
-                "reference": "5555f291092a0ed5ab4f02d8be7031b877d8d165",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.6",
-                "psr/log": "^1"
-            },
-            "require-dev": {
-                "ext-redis": "^2.2.4|^3",
-                "kriswallsmith/spork": "^0.3",
-                "mikey179/vfsstream": "^1.5.0",
-                "php-mock/php-mock-phpunit": "^1",
-                "phpunit/phpunit": "^5",
-                "predis/predis": "~1.0",
-                "zetacomponents/system-information": "~1.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "malkusch\\lock\\": "classes/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "WTFPL"
-            ],
-            "authors": [
-                {
-                    "name": "Markus Malkusch",
-                    "email": "markus@malkusch.de",
-                    "homepage": "http://markus.malkusch.de",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Mutex library for exclusive code execution.",
-            "homepage": "https://github.com/malkusch/lock",
-            "keywords": [
-                "cas",
-                "flock",
-                "lock",
-                "memcache",
-                "mutex",
-                "redis",
-                "redlock",
-                "semaphore"
-            ],
-            "time": "2016-08-05T11:03:36+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2212,6 +2144,204 @@
                 "sentry"
             ],
             "time": "2018-05-03T13:05:35+00:00"
+        },
+        {
+            "name": "socialiteproviders/discord",
+            "version": "v2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Discord.git",
+                "reference": "e0cd8895f321943b36f533e7bf21ad29bcdece9a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Discord/zipball/e0cd8895f321943b36f533e7bf21ad29bcdece9a",
+                "reference": "e0cd8895f321943b36f533e7bf21ad29bcdece9a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0",
+                "socialiteproviders/manager": "~2.0 || ~3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Discord\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christopher Eklund",
+                    "email": "eklundchristopher@gmail.com"
+                }
+            ],
+            "description": "Discord OAuth2 Provider for Laravel Socialite",
+            "time": "2018-05-26T03:40:07+00:00"
+        },
+        {
+            "name": "socialiteproviders/google",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Google-Plus.git",
+                "reference": "2ff6bbd2f4d616ece912386807b59ba5f3b76895"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Google-Plus/zipball/2ff6bbd2f4d616ece912386807b59ba5f3b76895",
+                "reference": "2ff6bbd2f4d616ece912386807b59ba5f3b76895",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0",
+                "socialiteproviders/manager": "~3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Google\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brian Faust",
+                    "email": "hello@brianfaust.de"
+                }
+            ],
+            "description": "Google OAuth2 Provider for Laravel Socialite",
+            "time": "2017-01-25T09:48:29+00:00"
+        },
+        {
+            "name": "socialiteproviders/manager",
+            "version": "v3.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Manager.git",
+                "reference": "1de3f3d874392da6f1a4c0bf30d843e9cd903ea7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Manager/zipball/1de3f3d874392da6f1a4c0bf30d843e9cd903ea7",
+                "reference": "1de3f3d874392da6f1a4c0bf30d843e9cd903ea7",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/socialite": "~3.0",
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "SocialiteProviders\\Manager\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Manager\\": "src/",
+                    "SocialiteProviders\\Manager\\Test\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andy Wendt",
+                    "email": "andy@awendt.com"
+                }
+            ],
+            "description": "Easily add new or override built-in providers in Laravel Socialite.",
+            "time": "2017-11-20T08:42:57+00:00"
+        },
+        {
+            "name": "socialiteproviders/steam",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Steam.git",
+                "reference": "c1c49a6bbf7cd1334e22516d175f9a0a84636645"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Steam/zipball/c1c49a6bbf7cd1334e22516d175f9a0a84636645",
+                "reference": "c1c49a6bbf7cd1334e22516d175f9a0a84636645",
+                "shasum": ""
+            },
+            "require": {
+                "iignatov/lightopenid": "~1.0",
+                "php": "^5.6 || ^7.0",
+                "socialiteproviders/manager": "~3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Steam\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christopher Eklund",
+                    "email": "eklundchristopher@gmail.com"
+                }
+            ],
+            "description": "Steam OpenID Provider for Laravel Socialite",
+            "time": "2017-02-03T07:24:38+00:00"
+        },
+        {
+            "name": "socialiteproviders/twitter",
+            "version": "v3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Twitter.git",
+                "reference": "ffe04136083648acd3cf09b4261f51f8696c9176"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Twitter/zipball/ffe04136083648acd3cf09b4261f51f8696c9176",
+                "reference": "ffe04136083648acd3cf09b4261f51f8696c9176",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0",
+                "socialiteproviders/manager": "~2.0 || ~3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Twitter\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brian Faust",
+                    "email": "hello@brianfaust.de"
+                }
+            ],
+            "description": "Twitter OAuth1 Provider for Laravel Socialite",
+            "time": "2018-04-26T03:12:51+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

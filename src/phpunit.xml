@@ -20,7 +20,7 @@
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./app</directory>
             <exclude>
-                <file>./app/Routes/Api/Routes.php</file>
+                <file>./app/api/Routes.php</file>
                 <file>./app/console/Routes.php</file>
                 <file>./front/routes/Routes.php</file>
             </exclude>

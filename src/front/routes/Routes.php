@@ -1,5 +1,7 @@
 <?php
 
+use App\Support\Environment;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,16 +13,14 @@
 |
 */
 
-// force all web routes to load from https
-if (env('APP_ENV') === 'production') {
+// force all web routes to load over https
+if (Environment::isProduction()) {
     URL::forceScheme('https');
 }
 
-Route::get('admin/emails', 'TempEmailAdminController@showView')->name('temp-email');
-Route::post('admin/emails/sync', 'TempEmailAdminController@editEmail')->name('temp-email-save');
-
-Route::redirect('terms',    'https://forums.projectcitybuild.com/t/terms-of-services/14506')->name('terms');
-Route::redirect('privacy',  'https://forums.projectcitybuild.com/privacy')->name('privacy');
+Route::redirect('terms',            'https://forums.projectcitybuild.com/t/terms-of-services/14506')->name('terms');
+Route::redirect('privacy',          'https://forums.projectcitybuild.com/privacy')->name('privacy');
+Route::redirect('discourse/login',  'https://forums.projectcitybuild.com/login')->name('login.redirect');
 
 Route::get('sentry/test', function() {
    throw new \Exception('Sentry test');
@@ -36,18 +36,7 @@ Route::get('donations', [
     'uses'  => 'DonationController@getView',
 ]);
 
-Route::group(['prefix' => 'account'], function() {
-    Route::get('games', [
-        'as'    => 'front.account.games',
-        'uses'  => 'GameAccountController@showView',
-    ]);
-    Route::post('games', [
-        'as'    => 'front.account.games.save',
-        'uses'  => 'GameAccountController@saveAccounts',
-    ]);
-});
-
-Route::group(['prefix' => 'login'], function() {
+Route::prefix('login')->group(function() {
     Route::get('/', [
         'as'    => 'front.login',
         'uses'  => 'LoginController@showLoginView',
@@ -56,46 +45,37 @@ Route::group(['prefix' => 'login'], function() {
         'as'    => 'front.login.submit',
         'uses'  => 'LoginController@login',
     ]);
-    Route::get('google', [
-        'as'    => 'front.login.google',
-        'uses'  => 'LoginController@redirectToGoogle',
+    Route::get('{provider}/redirect', [
+        'as'    => 'front.login.provider.redirect',
+        'uses'  => 'LoginController@redirectToProvider',
     ]);
-    Route::get('google/callback', [
-        'uses'  => 'LoginController@handleGoogleCallback',
-    ]);
-    Route::get('facebook', [
-        'as'    => 'front.login.facebook',
-        'uses'  => 'LoginController@redirectToFacebook',
-    ]);
-    Route::get('facebook/callback', [
-        'uses'  => 'LoginController@handleFacebookCallback',
-    ]);
-    Route::get('twitter', [
-        'as'    => 'front.login.twitter',
-        'uses'  => 'LoginController@redirectToTwitter',
-    ]);
-    Route::get('twitter/callback', [
-        'uses'  => 'LoginController@handleTwitterCallback',
+    Route::get('{provider}/callback', [
+        'as'    => 'front.login.provider.callback',
+        'uses'  => 'LoginController@handleProviderCallback',
     ]);
     Route::get('social/register', [
         'as'    => 'front.login.social-register',
         'uses'  => 'LoginController@createSocialAccount',
-    ])->middleware('signed');
+    ])
+    ->middleware('signed');
 });
 
-Route::group(['prefix' => 'password-reset'], function() {
+Route::prefix('password-reset')->group(function() {
     Route::get('/', [
         'as'    => 'front.password-reset',
         'uses'  => 'PasswordRecoveryController@showEmailForm',
     ]);
+    
     Route::post('/', [
         'as'    => 'front.password-reset.submit',
         'uses'  => 'PasswordRecoveryController@sendVerificationEmail',
     ]);
+
     Route::get('recovery', [
         'as'    => 'front.password-reset.recovery',
         'uses'  => 'PasswordRecoveryController@showResetForm',
-    ])->middleware('signed');
+    ])
+    ->middleware('signed');
     
     Route::post('recovery', [
         'as'    => 'front.password-reset.save',
@@ -103,7 +83,7 @@ Route::group(['prefix' => 'password-reset'], function() {
     ]);
 });
 
-Route::group(['prefix' => 'register'], function() {
+Route::prefix('register')->group(function() {
     Route::get('/', [
         'as'    => 'front.register',
         'uses'  => 'RegisterController@showRegisterView',
@@ -127,7 +107,74 @@ Route::get('logout', [
     'uses'  => 'LoginController@logout',
 ]);
 
-Route::view('bans', 'banlist')->name('banlist');
+
+Route::group(['prefix' => 'account', 'middleware' => 'auth'], function() {
+
+    Route::prefix('settings')->group(function() {
+        Route::get('/', [
+            'as'    => 'front.account.settings',
+            'uses'  => 'AccountSettingController@showView',
+        ]);
+
+        Route::post('email/verify', [
+            'as'    => 'front.account.settings.email',
+            'uses'  => 'AccountSettingController@sendVerificationEmail',
+        ]);
+
+        Route::get('email/confirm', [
+            'as'    => 'front.account.settings.email.confirm',
+            'uses'  => 'AccountSettingController@showConfirmForm',
+        ])
+        ->middleware('signed');
+    
+        Route::post('email/confirm', [
+            'as'    => 'front.account.settings.email.confirm.save',
+            'uses'  => 'AccountSettingController@confirmEmailChange',
+        ]);
+
+        Route::post('password', [
+            'as'    => 'front.account.settings.password',
+            'uses'  => 'AccountSettingController@changePassword',
+        ]);
+    });
+
+    Route::prefix('social')->group(function() {
+        Route::get('/', [
+            'as'    => 'front.account.social',
+            'uses'  => 'AccountSocialController@showView',
+        ]);
+
+        Route::get('{provider}/redirect', [
+            'as'    => 'front.account.social.redirect',
+            'uses'  => 'AccountSocialController@redirectToProvider',
+        ]);
+        
+        Route::get('{provider}/callback', [
+            'as'    => 'front.account.social.callback',
+            'uses'  => 'AccountSocialController@handleProviderCallback',
+        ]);
+
+        Route::get('{provider}/delete', [
+            'as'    => 'front.account.social.delete',
+            'uses'  => 'AccountSocialController@deleteLink',
+        ]);
+    });
+   
+    Route::prefix('games')->group(function() {
+        Route::get('games', [
+            'as'    => 'front.account.games',
+            'uses'  => 'GameAccountController@showView',
+        ]);
+
+        Route::post('games', [
+            'as'    => 'front.account.games.save',
+            'uses'  => 'GameAccountController@saveAccounts',
+        ]);
+    });
+});
+
+
+Route::view('bans', 'front.pages.banlist')->name('banlist');
 
 Route::post('deploy', 'DeployController@deploy');
 Route::get('deploy', 'DeployController@deploy');

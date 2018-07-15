@@ -2,7 +2,7 @@
 
 namespace App\Modules\ServerKeys\Models;
 
-use App\Core\Model;
+use App\Support\Model;
 
 class ServerKeyToken extends Model {
 
