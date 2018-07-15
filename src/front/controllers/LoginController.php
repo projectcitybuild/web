@@ -22,6 +22,7 @@ use App\Library\Socialite\SocialProvider;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use App\Support\Environment;
 
 class LoginController extends WebController {
 
