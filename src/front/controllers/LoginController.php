@@ -195,7 +195,18 @@ class LoginController extends WebController {
             abort(404);
         }
 
-        return $this->socialiteService->redirectToProviderLogin($providerName);
+        $route = route('front.login.provider.callback', $providerName);
+        
+        // Laravel converts localhost into a local IP address, 
+        // so we need to manually convert it back so that 
+        // it matches the URLs registered in Twitter, Google, etc
+        if (Environment::isDev()) {
+            $route = str_replace('http://192.168.99.100/', 
+                                 'http://localhost:3000/', 
+                                 $route);
+        }
+
+        return $this->socialiteService->redirectToProviderLogin($providerName, $route);
     }
 
     public function handleProviderCallback(string $providerName, Request $request) {
@@ -347,7 +358,7 @@ class LoginController extends WebController {
         // attach parameters to return url
         $endpoint   = $this->discourseAuthService->getRedirectUrl($returnUrl, $payload, $signature);
 
-        // return redirect()->to($endpoint);
+        return redirect()->to($endpoint);
     }
 
     /**
