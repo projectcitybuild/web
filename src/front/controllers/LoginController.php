@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Support\Environment;
 use Illuminate\Log\Logger;
+use App\Library\Discord\OAuth\DiscordOAuthService;
+use App\Library\Socialite\SocialiteData;
 
 class LoginController extends WebController {
 
@@ -57,6 +59,11 @@ class LoginController extends WebController {
     private $accountLinkRepository;
 
     /**
+     * @var DiscordOAuthService
+     */
+    private $discordOAuthService;
+
+    /**
      * @var Auth
      */
     private $auth;
@@ -78,6 +85,7 @@ class LoginController extends WebController {
                                 SocialiteService $socialiteService,
                                 AccountRepository $accountRepository,
                                 AccountLinkRepository $accountLinkRepository,
+                                DiscordOAuthService $discordOAuthService,
                                 Auth $auth,
                                 Connection $connection,
                                 Logger $logger) 
@@ -88,6 +96,7 @@ class LoginController extends WebController {
         $this->socialiteService = $socialiteService;
         $this->accountRepository = $accountRepository;
         $this->accountLinkRepository = $accountLinkRepository;
+        $this->discordOAuthService = $discordOAuthService;
         $this->auth = $auth;
         $this->connection = $connection;
         $this->log = $logger;
@@ -220,6 +229,11 @@ class LoginController extends WebController {
 
         $this->log->debug('Redirecting user to OAuth provider: '.$providerName);
 
+        // Discord isn't handled by Socialite
+        if ($providerName === SocialProvider::DISCORD) {
+            return $this->discordOAuthService->redirectToProvider($route);
+        }
+
         return $this->socialiteService->redirectToProviderLogin($providerName, $route);
     }
 
@@ -243,10 +257,18 @@ class LoginController extends WebController {
             throw new InvalidDiscoursePayloadException('`nonce` or `return` key missing in session');
         }
 
-        
-        $providerAccount = $this->socialiteService->getProviderResponse($providerName);
+        if ($providerName === SocialProvider::DISCORD) {
+            $discordAccount = $this->discordOAuthService->getProviderAccount();
+            
+            $providerAccount = new SocialiteData('discord',
+                                                 $discordAccount->getEmail(),
+                                                 $discordAccount->getUsername(),
+                                                 $discordAccount->getId());
+        } else {
+            $providerAccount = $this->socialiteService->getProviderResponse($providerName);
+        }
 
-        $this->log->debug($providerAccount);
+        $this->log->debug('Received OAUth provider account', ['providerAccount' => $providerAccount]);
 
         $existingLink = $this->accountLinkRepository->getByProviderAccount($providerName, $providerAccount->getId());
 

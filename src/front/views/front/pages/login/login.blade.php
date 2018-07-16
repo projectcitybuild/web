@@ -73,6 +73,9 @@
                 <a class="login__button login__button--google" href="{{ route('front.login.provider.redirect', 'google') }}">
                     <i class="fab fa-google"></i> Sign in with Google
                 </a>
+                <a class="login__button login__button--discord" href="{{ route('front.login.provider.redirect', 'discord') }}">
+                    <i class="fab fa-discord"></i> Sign in with Discord
+                </a>
             </div>
 
         </div>

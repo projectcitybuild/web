@@ -116,11 +116,15 @@ class DiscordOAuthService {
     }
 
     private function storeRedirectUri(string $redirectUri) {
-        session()->put('discord_redirect_uri', $redirectUri);
+        $this->request
+            ->session()
+            ->put('discord_redirect_uri', $redirectUri);
     }
 
     private function retrieveRedirectUri() : string {
-        return session()->get('discord_redirect_uri');
+        return $this->request
+            ->session()
+            ->get('discord_redirect_uri');
     }
 
 }
