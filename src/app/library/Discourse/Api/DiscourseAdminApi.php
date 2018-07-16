@@ -18,9 +18,10 @@ class DiscourseAdminApi {
      */
     private $discourseAuthService;
 
+    
     public function __construct(DiscourseClient $client, 
-                                DiscourseAuthService $discourseAuthService) {
-                                    
+                                DiscourseAuthService $discourseAuthService) 
+    {
         $this->client = $client;
         $this->discourseAuthService = $discourseAuthService;
     }
