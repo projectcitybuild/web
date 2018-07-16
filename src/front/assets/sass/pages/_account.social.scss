@@ -2,6 +2,10 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    
+    @media screen and (max-width: $dimen-medium) {
+        flex-wrap: wrap;
+    }
 }
 
 .social-accounts__item {
@@ -11,6 +15,10 @@
     text-align: center;
     color: lighten($colour-light, 10%);
     border-radius: 3px;
+    
+    @media screen and (max-width: $dimen-medium) {
+        width: 45%;
+    }
 
     &--registered {
        border-color: $colour-primary;

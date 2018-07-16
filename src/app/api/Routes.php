@@ -26,5 +26,7 @@ Route::prefix('servers')->group(function() {
     Route::get('all', 'ServerController@getAllServers');
 });
 
+Route::get('discord/sync', 'DiscordSyncController@getRank');
+
 
 Route::post('minecraft/authenticate', 'TempMinecraftController@authenticate');
