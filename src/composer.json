@@ -13,8 +13,6 @@
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "sentry/sentry-laravel": "0.9.0",
-        "socialiteproviders/discord": "^2.0",
-        "socialiteproviders/steam": "^1.0",
         "xpaw/php-minecraft-query": "^2.0"
     },
     "require-dev": {
