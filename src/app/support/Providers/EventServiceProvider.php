@@ -13,11 +13,7 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
-            // add extra socialite providers here
-            'SocialiteProviders\\Discord\\DiscordExtendSocialite@handle',
-            'SocialiteProviders\\Steam\\SteamExtendSocialite@handle',
-        ],
+        
     ];
 
     /**

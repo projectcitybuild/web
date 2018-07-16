@@ -3,7 +3,6 @@
 namespace Front\Controllers;
 
 use App\Modules\Forums\Exceptions\BadSSOPayloadException;
-use App\Modules\Accounts\Services\AccountSocialLinkService;
 use App\Modules\Accounts\Services\Login\AccountLoginService;
 use App\Modules\Accounts\Services\Login\AccountSocialLoginExecutor;
 use App\Library\Discourse\Api\DiscourseUserApi;
@@ -24,6 +23,8 @@ use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Support\Environment;
 use Illuminate\Log\Logger;
+use App\Library\Discord\OAuth\DiscordOAuthService;
+use App\Library\Socialite\SocialiteData;
 
 class LoginController extends WebController {
 
@@ -48,11 +49,6 @@ class LoginController extends WebController {
     private $socialiteService;
 
     /**
-     * @var AccountSocialLinkService
-     */
-    private $accountLinkService;
-
-    /**
      * @var AccountRepository
      */
     private $accountRepository;
@@ -61,6 +57,11 @@ class LoginController extends WebController {
      * @var AccountLinkRepository
      */
     private $accountLinkRepository;
+
+    /**
+     * @var DiscordOAuthService
+     */
+    private $discordOAuthService;
 
     /**
      * @var Auth
@@ -82,9 +83,9 @@ class LoginController extends WebController {
                                 DiscourseUserApi $discourseUserApi,
                                 DiscourseAdminApi $discourseAdminApi,
                                 SocialiteService $socialiteService,
-                                AccountSocialLinkService $accountLinkService,
                                 AccountRepository $accountRepository,
                                 AccountLinkRepository $accountLinkRepository,
+                                DiscordOAuthService $discordOAuthService,
                                 Auth $auth,
                                 Connection $connection,
                                 Logger $logger) 
@@ -93,9 +94,9 @@ class LoginController extends WebController {
         $this->discourseUserApi = $discourseUserApi;
         $this->discourseAdminApi = $discourseAdminApi;
         $this->socialiteService = $socialiteService;
-        $this->accountLinkService = $accountLinkService;
         $this->accountRepository = $accountRepository;
         $this->accountLinkRepository = $accountLinkRepository;
+        $this->discordOAuthService = $discordOAuthService;
         $this->auth = $auth;
         $this->connection = $connection;
         $this->log = $logger;
@@ -103,7 +104,7 @@ class LoginController extends WebController {
 
     public function showLoginView(Request $request) {
         if ($this->auth->check()) {
-            $this->log->notice('Already logged-in; redirecting...');
+            $this->log->debug('Already logged-in; redirecting...');
             return redirect()->route('front.home');
         }
 
@@ -145,7 +146,7 @@ class LoginController extends WebController {
             'discourse_return'  => $payload['return_sso_url'],
         ]);
 
-        $this->log->notice('Storing SSO data in session for login');
+        $this->log->debug('Storing SSO data in session for login');
 
         return view('front.pages.login.login');
     }
@@ -226,7 +227,12 @@ class LoginController extends WebController {
             $this->log->debug('Transformed OAuth redirect url: '.$route);
         }
 
-        $this->log->notice('Redirecting user to OAuth provider: '.$providerName);
+        $this->log->debug('Redirecting user to OAuth provider: '.$providerName);
+
+        // Discord isn't handled by Socialite
+        if ($providerName === SocialProvider::DISCORD) {
+            return $this->discordOAuthService->redirectToProvider($route);
+        }
 
         return $this->socialiteService->redirectToProviderLogin($providerName, $route);
     }
@@ -240,7 +246,7 @@ class LoginController extends WebController {
             return redirect()->route('front.home');
         }
 
-        $this->log->notice('Received user from OAuth provider...');
+        $this->log->debug('Received user from OAuth provider...');
 
         $session = $request->session();
 
@@ -251,10 +257,18 @@ class LoginController extends WebController {
             throw new InvalidDiscoursePayloadException('`nonce` or `return` key missing in session');
         }
 
-        
-        $providerAccount = $this->socialiteService->getProviderResponse($providerName);
+        if ($providerName === SocialProvider::DISCORD) {
+            $discordAccount = $this->discordOAuthService->getProviderAccount();
+            
+            $providerAccount = new SocialiteData('discord',
+                                                 $discordAccount->getEmail(),
+                                                 $discordAccount->getUsername(),
+                                                 $discordAccount->getId());
+        } else {
+            $providerAccount = $this->socialiteService->getProviderResponse($providerName);
+        }
 
-        $this->log->debug($providerAccount);
+        $this->log->debug('Received OAUth provider account', ['providerAccount' => $providerAccount]);
 
         $existingLink = $this->accountLinkRepository->getByProviderAccount($providerName, $providerAccount->getId());
 
@@ -266,7 +280,7 @@ class LoginController extends WebController {
             // accounts must have a unique email
             $existingAccount = $this->accountRepository->getByEmail($providerAccount->getEmail());
             if ($existingAccount !== null) {
-                $this->log->notice('Account with email ('.$providerAccount->getEmail().') already exists; showing error to user');
+                $this->log->debug('Account with email ('.$providerAccount->getEmail().') already exists; showing error to user');
 
                 return view('front.pages.register.register-oauth-failed', [
                     'email' => $providerAccount->getEmail(),

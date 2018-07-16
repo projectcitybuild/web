@@ -144,6 +144,15 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function() {
             'uses'  => 'AccountSocialController@showView',
         ]);
 
+        Route::get('discord/redirect', [
+            'as'    => 'front.account.social.redirect.discord',
+            'uses'  => 'AccountSocialController@redirectToDiscord',
+        ]);
+        Route::get('discord/callback', [
+            'as'    => 'front.account.social.callback.discord',
+            'uses'  => 'AccountSocialController@handleDiscordCallback',
+        ]);
+
         Route::get('{provider}/redirect', [
             'as'    => 'front.account.social.redirect',
             'uses'  => 'AccountSocialController@redirectToProvider',
