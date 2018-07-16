@@ -27,7 +27,7 @@ before_script:
   - php artisan migrate
 
 script:
-  - src/support/packages/vendor/bin/phpunit
+  - support/packages/vendor/bin/phpunit
 
 after_success:
   - "curl https://projectcitybuild.com/deploy?key=$DEPLOY_KEY"
