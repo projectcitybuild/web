@@ -1,6 +1,6 @@
 ![PCB](https://projectcitybuild.com/assets/images/logo.png)
 
-[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0) [![Build Status](https://travis-ci.org/itsmyfirstday/ProjectCityBuild.svg?branch=master)](https://travis-ci.org/itsmyfirstday/ProjectCityBuild)
+[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0) [![Build Status](https://travis-ci.org/itsmyfirstday/ProjectCityBuild.svg?branch=master)](https://travis-ci.org/andyksaw/ProjectCityBuild)
 
 # About PCB
 
@@ -10,12 +10,16 @@ The official repository for [Project City Build](https://projectcitybuild.com)'s
 * Frameworks
     * Laravel 5.6
     * ReactJS 16
+* Languages
+    * PHP 7.2
+    * TypeScript
+    * SASS
 * Environment
     * Docker (and Docker-Compose)
 * CI /  CD
     * Travis CI
 
-All master branch commits and merges are continuously tested by Travis CI.
+All master and dev branch commits are continuously tested by Travis CI.
 
 ### Requirements
 **Docker** is an optional requirement. If you do not wish to use Docker for local dev work, feel free to go about it in the usual way by working from the `src` directory. 
@@ -27,11 +31,8 @@ Without Docker, you will need to manually install:
 * Composer
 * NPM
 
-### What needs to be built?
-See the **Projects** tab
-
 ### Can I contribute?
-Absolutely. Feel free to fork or send pull requests any time. I'd be thrilled to have some help.
+Absolutely. Feel free to fork and send pull requests any time. I'd be thrilled to have some help.
 
 # Contributing
 ## Set up
