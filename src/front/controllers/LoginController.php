@@ -164,8 +164,7 @@ class LoginController extends WebController {
         $returnUrl = $session->get('discourse_return');
 
         if($nonce === null || $returnUrl === null) {
-            $this->log->debug('Missing nonce or return key in session...');
-            $this->log->debug($session);
+            $this->log->debug('Missing nonce or return key in session...', ['session' => $session]);
             throw new InvalidDiscoursePayloadException('`nonce` or `return` key missing in session');
         }
 
