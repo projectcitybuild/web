@@ -83,7 +83,7 @@ class GameAccountController extends WebController {
             'minecraft_uuid' => 'required',
         ]);
 
-        if($validator->fails()) {
+        if($validator->failed()) {
             return redirect()
                 ->back()
                 ->withInput()

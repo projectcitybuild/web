@@ -106,7 +106,7 @@ class BanController extends ApiController {
             'in' => 'Invalid :attribute given. Must be ['.$aliasTypeWhitelist.']',
         ]);
 
-        if($validator->fails()) {
+        if($validator->failed()) {
             throw new BadRequestException('bad_input', $validator->errors()->first());
         }
 
@@ -205,7 +205,7 @@ class BanController extends ApiController {
             'in' => 'Invalid :attribute given. Must be ['.$aliasTypeWhitelist.']',
         ]);
 
-        if($validator->fails()) {
+        if($validator->failed()) {
             throw new BadRequestException('bad_input', $validator->errors()->first());
         }
 
@@ -302,7 +302,7 @@ class BanController extends ApiController {
             'player_id'         => 'required',
         ]);
 
-        if($validator->fails()) {
+        if($validator->failed()) {
             throw new BadRequestException('bad_input', $validator->errors()->first());
         }
 
@@ -349,7 +349,7 @@ class BanController extends ApiController {
             'player_id'         => 'required',
         ]);
 
-        if($validator->fails()) {
+        if($validator->failed()) {
             throw new BadRequestException('bad_input', $validator->errors()->first());
         }
 

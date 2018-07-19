@@ -46,7 +46,7 @@ class AccountChangePasswordRequest extends FormRequest {
      * @return void
      */
     public function withValidator($validator) {
-        if ($validator->fails()) {
+        if ($validator->failed()) {
             return;
         }
         

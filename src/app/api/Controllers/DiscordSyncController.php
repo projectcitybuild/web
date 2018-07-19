@@ -36,7 +36,7 @@ class DiscordSyncController extends ApiController {
             'discord_id' => 'required',
         ]);
 
-        if($validator->fails()) {
+        if($validator->failed()) {
             throw new BadRequestException('bad_input', $validator->errors()->first());
         }
 
