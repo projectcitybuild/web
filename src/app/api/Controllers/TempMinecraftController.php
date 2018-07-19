@@ -31,7 +31,7 @@ class TempMinecraftController extends ApiController {
             'password' => 'required',
         ]);
 
-        if($validator->fails()) {
+        if($validator->failed()) {
             throw new BadRequestException('bad_input', $validator->errors()->first());
         }
 
