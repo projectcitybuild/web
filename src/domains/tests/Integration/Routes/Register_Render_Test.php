@@ -1,8 +1,8 @@
 <?php
 namespace Tests\Integration;
 
-use App\Modules\Accounts\Models\UnactivatedAccount;
-use App\Modules\Accounts\Notifications\AccountActivationNotification;
+use Application\Modules\Accounts\Models\UnactivatedAccount;
+use Application\Modules\Accounts\Notifications\AccountActivationNotification;
 use Infrastructure\Library\Recaptcha\RecaptchaRule;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;

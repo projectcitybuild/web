@@ -1,7 +1,7 @@
 <?php
 namespace Infrastructure\Library\Discourse\Exceptions;
 
-use App\Support\Exceptions\BadRequestException;
+use Application\Exceptions\BadRequestException;
 
 class BadSSOPayloadException extends BadRequestException
 {

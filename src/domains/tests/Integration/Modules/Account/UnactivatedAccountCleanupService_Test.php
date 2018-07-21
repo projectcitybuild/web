@@ -1,8 +1,8 @@
 <?php
 namespace Tests\Integration;
 
-use App\Modules\Accounts\Models\UnactivatedAccount;
-use App\Modules\Accounts\Services\UnactivatedAccountCleanupService;
+use Application\Modules\Accounts\Models\UnactivatedAccount;
+use Application\Modules\Accounts\Services\UnactivatedAccountCleanupService;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;

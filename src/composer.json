@@ -26,19 +26,19 @@
     },
     "autoload": {
         "classmap": [
-            "app/database/seeds",
-            "app/database/factories"
+            "application/database/seeds",
+            "application/database/factories"
         ],
         "psr-4": {
-            "App\\": "app/",
-            "App\\Console\\": "app/console/",
-            "App\\Middleware\\": "app/middleware/",
-            "App\\Support\\": "app/support/",
-            "App\\Modules\\": "app/modules/",
-            "App\\Providers\\": "app/providers/",
+            "Application\\": "application/",
+            "Application\\Console\\": "application/console/",
+            "Application\\Middleware\\": "application/middleware/",
+            "Application\\Support\\": "application/support/",
+            "Application\\Modules\\": "application/modules/",
+            "Application\\Providers\\": "application/providers/",
             "Support\\": "support/",
             "Infrastructure\\": "infrastructure/",
-            "Infrastructure\\Helpers": "infrastructure/helpers/",
+            "Infrastructure\\Helpers\\": "infrastructure/helpers/",
             "Infrastructure\\Library\\": "infrastructure/library/",
             "Interfaces\\": "interfaces/",
             "Interfaces\\Api\\": "interfaces/api/",
@@ -52,7 +52,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "app/tests/"
+            "Tests\\": "application/tests/"
         }
     },
     "extra": {

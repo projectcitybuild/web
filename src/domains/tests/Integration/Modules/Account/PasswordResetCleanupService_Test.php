@@ -1,8 +1,8 @@
 <?php
 namespace Tests\Integration;
 
-use App\Modules\Accounts\Models\AccountPasswordReset;
-use App\Modules\Accounts\Services\PasswordResetCleanupService;
+use Application\Modules\Accounts\Models\AccountPasswordReset;
+use Application\Modules\Accounts\Services\PasswordResetCleanupService;
 use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;

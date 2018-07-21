@@ -3,10 +3,11 @@
 namespace Interfaces\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Modules\Servers\Services\Querying\ServerQueryService;
+use Application\Modules\Servers\Services\Querying\ServerQueryService;
 use Log;
 
-class QueryServerStatusesCommand extends Command {
+class QueryServerStatusesCommand extends Command
+{
 
     /**
      * The name and signature of the console command.
@@ -27,7 +28,8 @@ class QueryServerStatusesCommand extends Command {
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
@@ -36,7 +38,8 @@ class QueryServerStatusesCommand extends Command {
      *
      * @return mixed
      */
-    public function handle() {
+    public function handle()
+    {
         $service = resolve(ServerQueryService::class);
         $logger = resolve(\Illuminate\Log\Logger::class);
 
@@ -47,6 +50,5 @@ class QueryServerStatusesCommand extends Command {
         
         $end = microtime(true) - $start;
         $logger->info('Fetch complete ['. ($end / 1000) .'ms]');
-
     }
 }

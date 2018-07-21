@@ -2,27 +2,27 @@
 
 namespace Interfaces\Api\Controllers;
 
-use App\Modules\Bans\Services\BanCreationService;
-use App\Modules\Bans\Services\BanAuthorisationService;
-use App\Modules\Bans\Services\BanLookupService;
-use App\Modules\Bans\Services\BanLoggerService;
-use App\Modules\Bans\Resources\GameBanResource;
-use App\Modules\Bans\Resources\GameUnbanResource;
-use App\Modules\Bans\Exceptions\UserNotBannedException;
-use App\Modules\Bans\Transformers\BanResource;
-use App\Modules\Servers\Repositories\ServerRepository;
-use App\Modules\Servers\Transformers\ServerResource;
-use App\Modules\ServerKeys\Exceptions\UnauthorisedKeyActionException;
-use App\Modules\Players\Models\MinecraftPlayer;
-use App\Modules\Players\Services\MinecraftPlayerLookupService;
-use App\Support\Exceptions\ServerException;
-use App\Support\Exceptions\BadRequestException;
+use Application\Modules\Bans\Services\BanCreationService;
+use Application\Modules\Bans\Services\BanAuthorisationService;
+use Application\Modules\Bans\Services\BanLookupService;
+use Application\Modules\Bans\Services\BanLoggerService;
+use Application\Modules\Bans\Resources\GameBanResource;
+use Application\Modules\Bans\Resources\GameUnbanResource;
+use Application\Modules\Bans\Exceptions\UserNotBannedException;
+use Application\Modules\Bans\Transformers\BanResource;
+use Application\Modules\Servers\Repositories\ServerRepository;
+use Application\Modules\Servers\Transformers\ServerResource;
+use Application\Modules\ServerKeys\Exceptions\UnauthorisedKeyActionException;
+use Application\Modules\Players\Models\MinecraftPlayer;
+use Application\Modules\Players\Services\MinecraftPlayerLookupService;
+use Application\Exceptions\ServerException;
+use Application\Exceptions\BadRequestException;
 use Infrastructure\Helpers\MorphMapHelpers;
 use Illuminate\Validation\Factory as Validator;
 use Illuminate\Database\Connection;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use App\Routes\Api\ApiController;
+use Application\Routes\Api\ApiController;
 
 class BanController extends ApiController
 {

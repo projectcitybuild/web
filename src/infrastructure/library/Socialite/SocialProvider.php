@@ -1,7 +1,7 @@
 <?php
 namespace Infrastructure\Library\Socialite;
 
-use App\Support\Enum;
+use Infrastructure\Enum;
 
 class SocialProvider extends Enum
 {

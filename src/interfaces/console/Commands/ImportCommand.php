@@ -3,29 +3,29 @@
 namespace Interfaces\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Modules\Bans\Models\GameBan;
-use App\Modules\Bans\Models\GameUnban;
-use App\Modules\Servers\Repositories\ServerRepository;
-use App\Modules\Donations\Models\Donation;
+use Application\Modules\Bans\Models\GameBan;
+use Application\Modules\Bans\Models\GameUnban;
+use Application\Modules\Servers\Repositories\ServerRepository;
+use Application\Modules\Donations\Models\Donation;
 use DB;
 use Cache;
 use Carbon\Carbon;
-use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangApiService;
-use App\Modules\Players\Models\MinecraftPlayer;
-use App\Modules\Players\Models\MinecraftPlayerAlias;
-use App\Modules\Servers\Models\ServerStatus;
-use App\Modules\Servers\Models\ServerStatusPlayer;
-use App\Modules\Players\Services\MinecraftPlayerLookupService;
+use Application\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangApiService;
+use Application\Modules\Players\Models\MinecraftPlayer;
+use Application\Modules\Players\Models\MinecraftPlayerAlias;
+use Application\Modules\Servers\Models\ServerStatus;
+use Application\Modules\Servers\Models\ServerStatusPlayer;
+use Application\Modules\Players\Services\MinecraftPlayerLookupService;
 use bandwidthThrottle\tokenBucket\storage\FileStorage;
 use bandwidthThrottle\tokenBucket\Rate;
 use bandwidthThrottle\tokenBucket\TokenBucket;
 use bandwidthThrottle\tokenBucket\BlockingConsumer;
-use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayer;
+use Application\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayer;
 use GuzzleHttp\Exception\TooManyRedirectsException;
-use App\Support\Exceptions\TooManyRequestsException;
+use Application\Exceptions\TooManyRequestsException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use App\Modules\Accounts\Models\Account;
+use Application\Modules\Accounts\Models\Account;
 use Hash;
 
 /**
@@ -71,7 +71,7 @@ class ImportCommand extends Command
     {
         $module = $this->argument('module');
 
-        switch($module) {
+        switch ($module) {
             case 'bans':
                 return $this->importBans();
             // case 'donations':
@@ -88,7 +88,8 @@ class ImportCommand extends Command
         }
     }
 
-    private function importBans() {
+    private function importBans()
+    {
         $this->info('[Ban data importer]');
         $this->warn('Warning: No check for existence is made before importing bans! This should only be run once in production');
 
@@ -106,14 +107,14 @@ class ImportCommand extends Command
 
         DB::beginTransaction();
         try {
-            foreach($players as $player) {
-                if($player->alias === 'CONSOLE' || $player->uuid === 'CONSOLE') {
+            foreach ($players as $player) {
+                if ($player->alias === 'CONSOLE' || $player->uuid === 'CONSOLE') {
                     $playerBar->advance();
                     continue;
                 }
 
                 $userAlias = $this->aliasRepository->getAlias(UserAliasTypeEnum::MINECRAFT_UUID, $player->uuid);
-                if(is_null($userAlias)) {
+                if (is_null($userAlias)) {
                     $gameUser = GameUser::create([
                         'user_id' => null,
                     ]);
@@ -138,8 +139,7 @@ class ImportCommand extends Command
                 $playerBar->advance();
             }
             DB::commit();
-
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
@@ -160,7 +160,7 @@ class ImportCommand extends Command
         
         DB::beginTransaction();
         try {
-            foreach($bans as $oldBan) {
+            foreach ($bans as $oldBan) {
                 $newPlayerId = $playerList[$oldBan->player_id];
 
                 $newBan = GameBan::create([
@@ -182,7 +182,7 @@ class ImportCommand extends Command
             }
 
             DB::commit();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
@@ -199,7 +199,7 @@ class ImportCommand extends Command
 
         DB::beginTransaction();
         try {
-            foreach($unbans as $oldUnban) {
+            foreach ($unbans as $oldUnban) {
                 GameUnban::create([
                     'game_ban_id' => $banIds[$oldUnban->ban_id],
                     'staff_game_user_id' => $oldUnban->staff_id == 2 || $oldUnban->staff_id == 4956 ? null : $playerList[$oldUnban->staff_id],
@@ -214,7 +214,7 @@ class ImportCommand extends Command
             }
 
             DB::commit();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
@@ -222,7 +222,8 @@ class ImportCommand extends Command
         $this->info('Import complete');
     }
 
-    private function importDonations() {
+    private function importDonations()
+    {
         // $this->info('[Donation data importer]');
         // $this->warn('Warning: No check for existence is made before importing donations! This should only be run once in production');
 
@@ -307,7 +308,8 @@ class ImportCommand extends Command
         // $this->info('Import complete');
     }
 
-    private function importSmf() {
+    private function importSmf()
+    {
         // $this->info('[Smf -> Discourse importer]');
         // $this->warn('Warning: No check for existence is made before importing! This should only be run once in production');
 
@@ -467,7 +469,8 @@ class ImportCommand extends Command
         // $this->info('Import complete');
     }
 
-    private function importUsers() {
+    private function importUsers()
+    {
         // $this->info('[SMF user importer]');
         // $this->warn('Warning: No check for existence is made before importing! This should only be run once in production');
 
@@ -497,8 +500,9 @@ class ImportCommand extends Command
         // $this->info('Import complete');
     }
 
-    private function importServerStatuses() {
-    //     $this->info('[Server status data importer]');
+    private function importServerStatuses()
+    {
+        //     $this->info('[Server status data importer]');
     //     $this->warn('Warning: No check for existence is made before importing server statuses! This should only be run once in production');
 
     //     $this->info('Loading cache');
@@ -630,7 +634,7 @@ class ImportCommand extends Command
     //                         $minecraftPlayer = ServerStatusPlayer::create([
     //                             'server_status_id' => $newStatus->server_status_id,
     //                             'player_type'      => 'minecraft_player',
-    //                             'player_id'        => $playerId->getKey(), 
+    //                             'player_id'        => $playerId->getKey(),
     //                         ]);
 
     //                         // $this->info('Created Minecraft Player record id='.$minecraftPlayer->getKey());

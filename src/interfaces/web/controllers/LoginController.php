@@ -2,9 +2,9 @@
 
 namespace Interfaces\Web\Controllers;
 
-use App\Modules\Forums\Exceptions\BadSSOPayloadException;
-use App\Modules\Accounts\Services\Login\AccountLoginService;
-use App\Modules\Accounts\Services\Login\AccountSocialLoginExecutor;
+use Application\Modules\Forums\Exceptions\BadSSOPayloadException;
+use Application\Modules\Accounts\Services\Login\AccountLoginService;
+use Application\Modules\Accounts\Services\Login\AccountSocialLoginExecutor;
 use Infrastructure\Library\Discourse\Api\DiscourseUserApi;
 use Infrastructure\Library\Discourse\Api\DiscourseAdminApi;
 use Infrastructure\Library\Discourse\Authentication\DiscourseAuthService;
@@ -12,10 +12,10 @@ use Infrastructure\Library\Discourse\Authentication\DiscoursePayload;
 use Interfaces\Web\Requests\LoginRequest;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Http\Request;
-use App\Modules\Accounts\Repositories\AccountRepository;
+use Application\Modules\Accounts\Repositories\AccountRepository;
 use Infrastructure\Library\Socialite\SocialiteService;
-use App\Modules\Accounts\Exceptions\InvalidDiscoursePayloadException;
-use App\Modules\Accounts\Repositories\AccountLinkRepository;
+use Application\Modules\Accounts\Exceptions\InvalidDiscoursePayloadException;
+use Application\Modules\Accounts\Repositories\AccountLinkRepository;
 use Illuminate\Database\Connection;
 use Infrastructure\Library\Socialite\SocialProvider;
 use Illuminate\Support\Facades\URL;

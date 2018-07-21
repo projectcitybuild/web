@@ -16,10 +16,10 @@ class Kernel extends HttpKernel
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        \App\Middleware\TrimStrings::class,
+        \Application\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \App\Middleware\TrustProxies::class,
-        \App\Middleware\DenyIFrameMiddleware::class,
+        \Application\Middleware\TrustProxies::class,
+        \Application\Middleware\DenyIFrameMiddleware::class,
     ];
 
     /**
@@ -29,12 +29,12 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \App\Middleware\EncryptCookies::class,
+            \Application\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Middleware\VerifyCsrfToken::class,
+            \Application\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
@@ -57,9 +57,9 @@ class Kernel extends HttpKernel
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \App\Middleware\RedirectIfAuthenticated::class,
+        'guest' => \Application\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'auth.token.server' => \App\Middleware\ServerTokenValidate::class,
+        'auth.token.server' => \Application\Middleware\ServerTokenValidate::class,
     ];
 }

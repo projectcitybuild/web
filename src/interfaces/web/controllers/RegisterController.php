@@ -2,9 +2,9 @@
 
 namespace Interfaces\Web\Controllers;
 
-use App\Modules\Accounts\Repositories\AccountRepository;
-use App\Modules\Accounts\Repositories\UnactivatedAccountRepository;
-use App\Modules\Accounts\Notifications\AccountActivationNotification;
+use Application\Modules\Accounts\Repositories\AccountRepository;
+use Application\Modules\Accounts\Repositories\UnactivatedAccountRepository;
+use Application\Modules\Accounts\Notifications\AccountActivationNotification;
 use Interfaces\Web\Requests\RegisterRequest;
 use Illuminate\Database\Connection;
 use Illuminate\Http\Request;

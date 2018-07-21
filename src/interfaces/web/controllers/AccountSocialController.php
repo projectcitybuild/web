@@ -3,11 +3,11 @@
 namespace Interfaces\Web\Controllers;
 
 use Illuminate\Support\Facades\View;
-use App\Modules\Accounts\Repositories\AccountLinkRepository;
+use Application\Modules\Accounts\Repositories\AccountLinkRepository;
 use Illuminate\Http\Request;
 use Infrastructure\Library\Socialite\SocialiteService;
 use Infrastructure\Library\Socialite\SocialProvider;
-use App\Modules\Accounts\Models\Account;
+use Application\Modules\Accounts\Models\Account;
 use Infrastructure\Environment;
 use Illuminate\Contracts\Auth\Factory as Auth;
 use Infrastructure\Library\Discord\OAuth\DiscordOAuthService;

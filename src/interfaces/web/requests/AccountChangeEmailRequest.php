@@ -1,8 +1,8 @@
 <?php
 namespace Interfaces\Web\Requests;
 
-use App\Modules\Accounts\Models\Account;
-use App\Modules\Accounts\Repositories\AccountRepository;
+use Application\Modules\Accounts\Models\Account;
+use Application\Modules\Accounts\Repositories\AccountRepository;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 

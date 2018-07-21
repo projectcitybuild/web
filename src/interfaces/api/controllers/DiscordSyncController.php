@@ -5,10 +5,10 @@ namespace Interfaces\Api\Controllers;
 use Interfaces\Api\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory as Validator;
-use App\Modules\Accounts\Repositories\AccountLinkRepository;
+use Application\Modules\Accounts\Repositories\AccountLinkRepository;
 use Infrastructure\Library\Discourse\Api\DiscourseUserApi;
-use App\Support\Exceptions\BadRequestException;
-use App\Modules\Accounts\Resources\AccountResource;
+use Application\Exceptions\BadRequestException;
+use Application\Modules\Accounts\Resources\AccountResource;
 
 class DiscordSyncController extends ApiController
 {
