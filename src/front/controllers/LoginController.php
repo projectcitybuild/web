@@ -446,10 +446,10 @@ class LoginController extends WebController {
         $this->log->info('Logging out user: '.$externalId);
         $this->log->debug('Discourse ID: '.$user['id'].' | Discourse username: '.$user['username']);
         $this->log->debug($result);
+        
+        $this->auth->logout();
 
         $this->discourseAdminApi->requestLogout($user['id'], $user['username']);
-
-        $this->auth->logout();
         
         return redirect()->route('front.home');
     }
