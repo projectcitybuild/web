@@ -4,7 +4,8 @@ namespace App\Modules\Donations\Models;
 
 use App\Support\Model;
 
-class Donation extends Model {
+class Donation extends Model
+{
 
     /**
      * The table associated with the model.
@@ -42,5 +43,4 @@ class Donation extends Model {
         'created_at',
         'updated_at',
     ];
-
 }

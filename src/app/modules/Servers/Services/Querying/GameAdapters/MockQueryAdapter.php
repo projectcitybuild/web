@@ -1,12 +1,14 @@
 <?php
 namespace App\Modules\Servers\Services\Querying\GameAdapters;
 
-use App\Modules\Servers\Services\Querying\{QueryAdapterInterface, QueryResult};
+use App\Modules\Servers\Services\Querying\QueryAdapterInterface;
+use App\Modules\Servers\Services\Querying\QueryResult;
 
 /**
  * Server query adapter for integration testing
  */
-class MockQueryAdapter implements QueryAdapterInterface {
+class MockQueryAdapter implements QueryAdapterInterface
+{
 
     /**
      * @var bool
@@ -29,9 +31,9 @@ class MockQueryAdapter implements QueryAdapterInterface {
     private $players;
 
     public function __construct(
-        bool $isOnline, 
-        int $playerCount = 0, 
-        int $maxPlayers = 0, 
+        bool $isOnline,
+        int $playerCount = 0,
+        int $maxPlayers = 0,
         array $players = []
     ) {
         $this->isOnline = $isOnline;
@@ -43,8 +45,9 @@ class MockQueryAdapter implements QueryAdapterInterface {
     /**
      * {@inheritDoc}
      */
-    public function query(string $ip, $port = null) : QueryResult {
-        if($this->isOnline) {
+    public function query(string $ip, $port = null) : QueryResult
+    {
+        if ($this->isOnline) {
             return new QueryResult(
                 true,
                 $this->playerCount,
@@ -54,5 +57,4 @@ class MockQueryAdapter implements QueryAdapterInterface {
         }
         return new QueryResult(false, 0, 0, []);
     }
-
 }

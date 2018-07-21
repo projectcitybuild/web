@@ -4,8 +4,8 @@ use App\Modules\Servers\Models\Server;
 use App\Modules\Servers\GameTypeEnum;
 use App\Modules\Servers\Models\ServerCategory;
 
-/** 
- * @var \Illuminate\Database\Eloquent\Factory $factory 
+/**
+ * @var \Illuminate\Database\Eloquent\Factory $factory
  */
 $factory->define(Server::class, function (Faker\Generator $faker) {
     return [

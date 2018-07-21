@@ -4,8 +4,8 @@ use App\Modules\Players\Models\MinecraftPlayerAlias;
 use App\Modules\Servers\Services\Querying\Jobs\CreateMinecraftPlayerJob;
 use App\Modules\Players\Models\MinecraftPlayer;
 
-/** 
- * @var \Illuminate\Database\Eloquent\Factory $factory 
+/**
+ * @var \Illuminate\Database\Eloquent\Factory $factory
  */
 $factory->define(MinecraftPlayerAlias::class, function (Faker\Generator $faker) {
     return [

@@ -3,38 +3,43 @@ namespace App\Modules\Servers\Repositories;
 
 use App\Modules\Servers\Models\Server;
 
-class ServerRepository {
-
+class ServerRepository
+{
     private $serverModel;
 
-    public function __construct(Server $serverModel) {
+    public function __construct(Server $serverModel)
+    {
         $this->serverModel = $serverModel;
     }
 
-    public function getAllServers() {
+    public function getAllServers()
+    {
         return $this->serverModel->get();
     }
 
-    public function getAllQueriableServers() {
+    public function getAllQueriableServers()
+    {
         return $this->serverModel
             ->where('is_querying', true)
             ->get();
     }
 
-    public function getServerByName(string $name) : ?Server {
+    public function getServerByName(string $name) : ?Server
+    {
         return $this->serverModel
             ->where('name', $name)
             ->first();
     }
 
-    public function getServersByIds(array $serverIds) {
+    public function getServersByIds(array $serverIds)
+    {
         return $this->serverModel
             ->whereIn('server_id', $serverIds)
             ->get();
     }
 
-    public function getById(int $serverId) : ?Server {
+    public function getById(int $serverId) : ?Server
+    {
         return $this->serverModel->find($serverId);
     }
-
 }

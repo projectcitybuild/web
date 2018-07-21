@@ -5,16 +5,16 @@ use App\Modules\Accounts\Models\AccountEmailChange;
 use App\Support\Repository;
 use Carbon\Carbon;
 
-
-class AccountEmailChangeRepository extends Repository {
-
+class AccountEmailChangeRepository extends Repository
+{
     protected $model = AccountEmailChange::class;
 
-    public function create(int $accountId, 
-                           string $token, 
-                           string $previousEmail, 
-                           string $newEmail) : AccountEmailChange
-    {
+    public function create(
+        int $accountId,
+                           string $token,
+                           string $previousEmail,
+                           string $newEmail
+    ) : AccountEmailChange {
         return $this->getModel()
             ->create([
                 'account_id'            => $accountId,
@@ -26,10 +26,10 @@ class AccountEmailChangeRepository extends Repository {
             ]);
     }
 
-    public function getByToken(string $token) : ?AccountEmailChange {
+    public function getByToken(string $token) : ?AccountEmailChange
+    {
         return $this->getModel()
             ->where('token', $token)
             ->first();
     }
-
 }

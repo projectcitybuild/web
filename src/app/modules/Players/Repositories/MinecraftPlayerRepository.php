@@ -5,8 +5,8 @@ use App\Modules\Players\Models\MinecraftPlayer;
 use App\Support\Repository;
 use Carbon\Carbon;
 
-class MinecraftPlayerRepository extends Repository {
-
+class MinecraftPlayerRepository extends Repository
+{
     protected $model = MinecraftPlayer::class;
 
     /**
@@ -21,7 +21,6 @@ class MinecraftPlayerRepository extends Repository {
         ?int $accountId = null,
         int $playTime = 0
     ) : MinecraftPlayer {
-
         return $this->getModel()->create([
             'uuid'          => $uuid,
             'account_id'    => $accountId,
@@ -30,16 +29,17 @@ class MinecraftPlayerRepository extends Repository {
         ]);
     }
 
-    public function getByUuid(string $uuid) : ?MinecraftPlayer {
+    public function getByUuid(string $uuid) : ?MinecraftPlayer
+    {
         return $this->getModel()
             ->where('uuid', $uuid)
             ->first();
     }
 
-    public function getByAccountId(int $accountId) : ?MinecraftPlayer {
+    public function getByAccountId(int $accountId) : ?MinecraftPlayer
+    {
         return $this->getModel()
             ->where('account_id', $accountId)
             ->first();
     }
-
 }

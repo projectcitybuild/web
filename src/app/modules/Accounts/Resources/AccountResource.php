@@ -3,8 +3,8 @@ namespace App\Modules\Accounts\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-
-class AccountResource extends JsonResource {
+class AccountResource extends JsonResource
+{
 
      /**
      * Transform the resource into an array.
@@ -12,7 +12,8 @@ class AccountResource extends JsonResource {
      * @param  \Illuminate\Http\Request
      * @return array
      */
-    public function toArray($request) {
+    public function toArray($request)
+    {
         return [
             'account_id'    => $this->id,
             'email'         => $this->email,
@@ -21,5 +22,4 @@ class AccountResource extends JsonResource {
             'updated_at'    => $this->updated_at->timestamp,
         ];
     }
-
 }

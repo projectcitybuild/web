@@ -3,8 +3,8 @@ namespace App\Modules\Servers\Services\PlayerFetching\Api\Mojang;
 
 use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayerNameChange;
 
-
-class MojangPlayerNameHistory {
+class MojangPlayerNameHistory
+{
 
     /**
      * An array of all name changes for the player
@@ -13,8 +13,9 @@ class MojangPlayerNameHistory {
      */
     private $nameChanges = [];
 
-    public function __construct(array $nameChanges) {
-        for($i = 0; $i < count($nameChanges); $i++) {
+    public function __construct(array $nameChanges)
+    {
+        for ($i = 0; $i < count($nameChanges); $i++) {
             $nameChange = $nameChanges[$i];
             $this->nameChanges[] = new MojangPlayerNameChange(
                 $nameChange->name,
@@ -27,8 +28,8 @@ class MojangPlayerNameHistory {
     /**
      * @return MojangPlayerNameChange[]
      */
-    public function getNameChanges() : array {
+    public function getNameChanges() : array
+    {
         return $this->nameChanges;
     }
-
 }

@@ -11,8 +11,9 @@ class CreateEmailChange extends Migration
      *
      * @return void
      */
-    public function up() {
-        Schema::create('account_email_changes', function(Blueprint $table) {
+    public function up()
+    {
+        Schema::create('account_email_changes', function (Blueprint $table) {
             $table->increments('account_email_change_id');
             $table->integer('account_id')->unsigned();
             $table->string('token');
@@ -32,7 +33,8 @@ class CreateEmailChange extends Migration
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('account_email_changes');
     }
 }

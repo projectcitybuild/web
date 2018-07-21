@@ -5,15 +5,16 @@ use App\Modules\Bans\Repositories\GameBanLogRepository;
 use App\Modules\Bans\BanLogActionEnum;
 use App\Modules\Bans\Models\GameBanLog;
 
-
-class BanLoggerService {
+class BanLoggerService
+{
 
     /**
      * @var GameBanLogRepository
      */
     private $logRepository;
 
-    public function __construct(GameBanLogRepository $logRepository) {
+    public function __construct(GameBanLogRepository $logRepository)
+    {
         $this->logRepository = $logRepository;
     }
 
@@ -23,10 +24,11 @@ class BanLoggerService {
      * @param integer $gameBanId
      * @param integer $serverKeyId
      * @param string|null $ip
-     * 
+     *
      * @return GameBanLog
      */
-    public function logBanCreation(int $gameBanId, int $serverKeyId, ?string $ip = null) : GameBanLog {
+    public function logBanCreation(int $gameBanId, int $serverKeyId, ?string $ip = null) : GameBanLog
+    {
         return $this->logRepository->create(
             $gameBanId,
             $serverKeyId,
@@ -41,10 +43,11 @@ class BanLoggerService {
      * @param integer $gameBanId
      * @param integer $serverKeyId
      * @param string|null $ip
-     * 
+     *
      * @return GameBanLog
      */
-    public function logUnbanCreation(int $gameBanId, int $serverKeyId, ?string $ip = null) : GameBanLog {
+    public function logUnbanCreation(int $gameBanId, int $serverKeyId, ?string $ip = null) : GameBanLog
+    {
         return $this->logRepository->create(
             $gameBanId,
             $serverKeyId,

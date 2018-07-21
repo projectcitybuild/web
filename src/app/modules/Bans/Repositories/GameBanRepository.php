@@ -5,8 +5,8 @@ use App\Modules\Bans\Models\GameBan;
 use App\Support\Repository;
 use Illuminate\Database\Eloquent\Collection;
 
-class GameBanRepository extends Repository {
-
+class GameBanRepository extends Repository
+{
     protected $model = GameBan::class;
 
     /**
@@ -22,7 +22,7 @@ class GameBanRepository extends Repository {
      * @param boolean $isActive
      * @param boolean $isGlobalBan
      * @param integer|null $expiresAt
-     * 
+     *
      * @return GameBan
      */
     public function store(
@@ -37,7 +37,6 @@ class GameBanRepository extends Repository {
         bool $isGlobalBan = false,
         ?int $expiresAt = null
     ) : GameBan {
-        
         return $this->getModel()->create([
             'server_id'             => $serverId,
             'banned_player_id'      => $bannedPlayerId,
@@ -67,18 +66,18 @@ class GameBanRepository extends Repository {
         int $serverId = null,
         array $with = []
     ) : ?GameBan {
-    
         return $this->getModel()
             ->with($with)
             ->where('banned_player_id', $bannedPlayerId)
             ->where('banned_player_type', $bannedPlayerType)
             ->where('is_active', true)
-            ->when(isset($serverId), 
-                function($q) use($serverId) {
+            ->when(
+                isset($serverId),
+                function ($q) use ($serverId) {
                     return $q->where('server_id', $serverId)
                            ->orWhere('is_global_ban', true);
                 },
-                function($q) {
+                function ($q) {
                     return $q->where('is_global_ban', true);
                 }
             )
@@ -91,7 +90,8 @@ class GameBanRepository extends Repository {
      * @param int $banId
      * @return void
      */
-    public function deactivateBan(int $banId) {
+    public function deactivateBan(int $banId)
+    {
         return $this->getModel()
             ->where('game_ban_id', $banId)
             ->update([
@@ -108,26 +108,27 @@ class GameBanRepository extends Repository {
      * @param array $filter
      * @return void
      */
-    public function getBans(int $take = 50, int $offset = 0, array $sort = null, array $filter = []) {
+    public function getBans(int $take = 50, int $offset = 0, array $sort = null, array $filter = [])
+    {
         return $this->getModel()
-            ->when(count($filter) > 0, function($q) use($filter) {
-                if(array_key_exists('player_alias_at_ban', $filter)) {
+            ->when(count($filter) > 0, function ($q) use ($filter) {
+                if (array_key_exists('player_alias_at_ban', $filter)) {
                     $q->where('player_alias_at_ban', 'LIKE', $filter['player_alias_at_ban'] . '%');
                 }
-                if(array_key_exists('is_active', $filter)) {
+                if (array_key_exists('is_active', $filter)) {
                     $q->where('is_active', $filter['is_active']);
                 }
                 return $q;
             })
-            ->when(array_key_exists('banned_alias', $filter), function($q) use($filter) {
-                return $q->whereHas('bannedAlias', function($sq) use($filter) {
+            ->when(array_key_exists('banned_alias', $filter), function ($q) use ($filter) {
+                return $q->whereHas('bannedAlias', function ($sq) use ($filter) {
                     $sq->where('alias', $filter['banned_alias']);
                 });
             })
-            ->when(isset($sort), function($q) use($sort) {
+            ->when(isset($sort), function ($q) use ($sort) {
                 return $q->orderBy($sort['field'], $sort['order']);
             })
-            ->when(is_null($sort), function($q) {
+            ->when(is_null($sort), function ($q) {
                 return $q->orderBy('game_ban_id', 'DESC');
             })
             ->take($take)
@@ -135,18 +136,21 @@ class GameBanRepository extends Repository {
             ->get();
     }
 
-    public function getBanCount() {
+    public function getBanCount()
+    {
         return $this->getModel()->count();
     }
 
-    public function getActiveExpiredBans() {
+    public function getActiveExpiredBans()
+    {
         return $this->getModel()
             ->where('is_active', true)
             ->whereDate(Carbon::now(), '>=', 'expires_at')
             ->get();
     }
 
-    public function getBansByPlayer(int $bannedPlayerId, string $bannedPlayerType, array $with = []) : ?Collection {
+    public function getBansByPlayer(int $bannedPlayerId, string $bannedPlayerType, array $with = []) : ?Collection
+    {
         return $this->getModel()
             ->with($with)
             ->where('banned_player_id', $bannedPlayerId)

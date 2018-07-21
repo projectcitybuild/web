@@ -4,8 +4,8 @@ namespace App\Modules\Accounts\Models;
 
 use App\Support\Model;
 
-class AccountLink extends Model {
-
+class AccountLink extends Model
+{
     protected $table = 'account_links';
 
     protected $primaryKey = 'account_link_id';
@@ -25,8 +25,8 @@ class AccountLink extends Model {
         'updated_at',
     ];
 
-    public function account() {
+    public function account()
+    {
         return $this->belongsTo('App\Modules\Accounts\Models\Account', 'account_id', 'account_id');
     }
-
 }

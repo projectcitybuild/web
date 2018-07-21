@@ -6,8 +6,8 @@ use App\Modules\Players\Repositories\MinecraftPlayerAliasRepository;
 use App\Modules\Players\Models\MinecraftPlayer;
 use Illuminate\Database\Connection;
 
-
-class MinecraftPlayerLookupService {
+class MinecraftPlayerLookupService
+{
 
     /**
      * @var MinecraftPlayerRepository
@@ -36,13 +36,15 @@ class MinecraftPlayerLookupService {
     }
 
 
-    public function getByUuid(string $uuid) : ?MinecraftPlayer {
+    public function getByUuid(string $uuid) : ?MinecraftPlayer
+    {
         return $this->playerRepository->getByUuid($uuid);
     }
 
-    public function getByAlias(string $alias) : ?MinecraftPlayer {
+    public function getByAlias(string $alias) : ?MinecraftPlayer
+    {
         $alias = $this->aliasRepository->getByAlias($alias);
-        if($alias === null) {
+        if ($alias === null) {
             return null;
         }
 
@@ -50,16 +52,17 @@ class MinecraftPlayerLookupService {
     }
 
     /**
-     * Gets a MinecraftPlayer by uuid. If the uuid doesn't match 
+     * Gets a MinecraftPlayer by uuid. If the uuid doesn't match
      * a player, the player is created first
      *
      * @param string $uuid
      * @param string|null $createAlias
      * @return MinecraftPlayer
      */
-    public function getOrCreateByUuid(string $uuid, ?string $createAlias = null) : MinecraftPlayer {
+    public function getOrCreateByUuid(string $uuid, ?string $createAlias = null) : MinecraftPlayer
+    {
         $player = $this->getByUuid($uuid);
-        if($player !== null) {
+        if ($player !== null) {
             return $player;
         }
         
@@ -67,17 +70,15 @@ class MinecraftPlayerLookupService {
         try {
             $player = $this->playerRepository->store($uuid);
 
-            if(!empty($createAlias)) {
+            if (!empty($createAlias)) {
                 $this->aliasRepository->store($player->player_minecraft_id, $createAlias);
             }
 
             $this->connection->commit();
             return $player;
-
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->connection->rollBack();
             throw $e;
         }
     }
-
 }

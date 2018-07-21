@@ -4,7 +4,8 @@ namespace App\Modules\Bans\Models;
 
 use App\Support\Model;
 
-class GameBanLog extends Model {
+class GameBanLog extends Model
+{
 
     /**
      * The table associated with the model.
@@ -40,5 +41,4 @@ class GameBanLog extends Model {
     ];
 
     public $timestamps = false;
-
 }

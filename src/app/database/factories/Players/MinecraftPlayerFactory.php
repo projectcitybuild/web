@@ -2,8 +2,8 @@
 
 use App\Modules\Players\Models\MinecraftPlayer;
 
-/** 
- * @var \Illuminate\Database\Eloquent\Factory $factory 
+/**
+ * @var \Illuminate\Database\Eloquent\Factory $factory
  */
 $factory->define(MinecraftPlayer::class, function (Faker\Generator $faker) {
     return [

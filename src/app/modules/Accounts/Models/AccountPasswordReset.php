@@ -5,8 +5,8 @@ namespace App\Modules\Accounts\Models;
 use App\Support\Model;
 use Illuminate\Support\Facades\URL;
 
-class AccountPasswordReset extends Model {
-
+class AccountPasswordReset extends Model
+{
     protected $table = 'account_password_resets';
 
     protected $primaryKey = 'email';
@@ -28,10 +28,10 @@ class AccountPasswordReset extends Model {
 
     public $timestamps = false;
 
-    public function getPasswordResetUrl() {
+    public function getPasswordResetUrl()
+    {
         return URL::temporarySignedRoute('front.password-reset.recovery', now()->addMinutes(20), [
             'token' => $this->token,
         ]);
     }
-
 }

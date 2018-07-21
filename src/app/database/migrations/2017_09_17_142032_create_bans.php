@@ -17,10 +17,10 @@ class CreateBans extends Migration
             $table->increments('game_ban_id');
             $table->integer('server_id')->unsigned()->nullable();
             $table->integer('banned_player_id')->unsigned();
-            $table->string( 'banned_player_type')->comment('Banned player identifier type');
-            $table->string( 'banned_alias_at_time')->comment('Alias of the player at ban time for logging purposes');
+            $table->string('banned_player_type')->comment('Banned player identifier type');
+            $table->string('banned_alias_at_time')->comment('Alias of the player at ban time for logging purposes');
             $table->integer('staff_player_id')->unsigned();
-            $table->string( 'staff_player_type')->comment('Staff player identifier type');
+            $table->string('staff_player_type')->comment('Staff player identifier type');
             $table->text('reason')->nullable();
             $table->boolean('is_active')->comment('Whether the ban is active');
             $table->boolean('is_global_ban')->default(true)->comment('Whether this player is banned on all PCB servers, not just the server they were banned on');
@@ -38,7 +38,7 @@ class CreateBans extends Migration
             $table->foreign('game_ban_id')->references('game_ban_id')->on('game_network_bans');
         });
 
-        Schema::create('game_network_ban_logs', function(Blueprint $table) {
+        Schema::create('game_network_ban_logs', function (Blueprint $table) {
             $table->increments('game_ban_log_id');
             $table->integer('game_ban_id')->unsigned()->comment('Ban record acted upon/created');
             $table->integer('server_key_id')->unsigned()->comment('Server key used in the action');

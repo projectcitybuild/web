@@ -9,7 +9,8 @@ use App\Modules\Bans\Repositories\GameBanRepository;
 use App\Modules\Bans\Repositories\GameUnbanRepository;
 use Illuminate\Database\Connection;
 
-class BanCreationService {
+class BanCreationService
+{
 
     /**
      * @var GameBanRepository
@@ -28,7 +29,7 @@ class BanCreationService {
 
 
     public function __construct(
-        GameBanRepository $banRepository, 
+        GameBanRepository $banRepository,
         GameUnbanRepository $unbanRepository,
         Connection $connection
     ) {
@@ -49,9 +50,9 @@ class BanCreationService {
      * @param string $reason            Reason for ban set by the staff member
      * @param int $expiryTimestamp      If set, the timestamp of when the ban auto expires.
      * @param bool $isGlobalBan         If true, prevents the user accessing all PCB services.
-     * 
+     *
      * @throws UserAlreadyBannedException
-     * 
+     *
      * @return void
      */
     public function storeBan(
@@ -59,22 +60,21 @@ class BanCreationService {
         int $bannedPlayerId,
         string $bannedPlayerType,
         string $bannedAliasAtTime,
-        int $staffPlayerId, 
+        int $staffPlayerId,
         string $staffPlayerType,
-        ?string $reason = null, 
+        ?string $reason = null,
         ?int $expiryTimestamp = null,
         bool $isGlobalBan = false
     ) : GameBan {
-
         $existingBan = $this->banRepository->getActiveBanByGameUserId($bannedPlayerId, $bannedPlayerType, $serverId);
-        if(isset($existingBan)) {
+        if (isset($existingBan)) {
             // a player should only ever have one active ban, so prevent creating
             // the same local ban twice
-            if(!$isGlobalBan) {
+            if (!$isGlobalBan) {
                 throw new UserAlreadyBannedException('player_already_banned', 'Player is already banned');
             }
 
-            // however, if we want to globally ban a user who is locally banned, 
+            // however, if we want to globally ban a user who is locally banned,
             // deactivate it first so we can then create a global ban, otherwise
             // it would be harder to track who originally banned the player
             $this->banRepository->deactivateBan($existingBan->game_ban_id);
@@ -100,9 +100,9 @@ class BanCreationService {
      * @param int $serverId             Server to unban the player on (used only for local bans).
      * @param int $playerGameUserId     game_user_id of the player to unban.
      * @param int $staffGameUserId      game_user_id of the staff who is unbanned the player.
-     * 
+     *
      * @throws UserNotBannedException
-     * 
+     *
      * @return GameUnban
      */
     public function storeUnban(
@@ -111,7 +111,6 @@ class BanCreationService {
         string $staffPlayerType,
         GameBan $existingBan
     ) : GameUnban {
-
         $this->connection->beginTransaction();
         try {
             $this->banRepository->deactivateBan($existingBan->game_ban_id);
@@ -119,11 +118,9 @@ class BanCreationService {
             
             $this->connection->commit();
             return $unban;
-
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->connection->rollBack();
             throw $e;
         }
     }
-
 }

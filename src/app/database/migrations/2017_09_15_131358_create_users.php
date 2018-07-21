@@ -4,18 +4,20 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsers extends Migration {
+class CreateUsers extends Migration
+{
 
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         /**
          * An account contains basic logic details
          */
-        Schema::create('accounts', function(Blueprint $table) {
+        Schema::create('accounts', function (Blueprint $table) {
             $table->increments('account_id');
             $table->string('email');
             $table->string('password');
@@ -28,7 +30,7 @@ class CreateUsers extends Migration {
         /**
          * Represents a single Minecraft player identified by uuid, tied to a player_id
          */
-        Schema::create('players_minecraft', function(Blueprint $table) {
+        Schema::create('players_minecraft', function (Blueprint $table) {
             $table->increments('player_minecraft_id');
             $table->string('uuid', 60)->unique();
             $table->integer('account_id')->unsigned()->nullable();
@@ -43,7 +45,7 @@ class CreateUsers extends Migration {
         /**
          * Represents an in-game Minecraft name. Used to track name changes in Minecraft
          */
-        Schema::create('players_minecraft_aliases', function(Blueprint $table) {
+        Schema::create('players_minecraft_aliases', function (Blueprint $table) {
             $table->increments('players_minecraft_alias_id');
             $table->integer('player_minecraft_id')->unsigned();
             $table->string('alias');
@@ -60,7 +62,8 @@ class CreateUsers extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('players_minecraft_aliases');
         Schema::dropIfExists('players_minecraft');
         Schema::dropIfExists('accounts');

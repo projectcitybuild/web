@@ -4,15 +4,16 @@ namespace App\Modules\Donations\Services;
 use App\Modules\Donations\Repositories\DonationRepository;
 use Carbon\Carbon;
 
-
-class DonationStatsService {
+class DonationStatsService
+{
 
     /**
      * @var DonationRepository
      */
     private $donationRepository;
 
-    public function __construct(DonationRepository $donationRepository) {
+    public function __construct(DonationRepository $donationRepository)
+    {
         $this->donationRepository = $donationRepository;
     }
 
@@ -21,7 +22,8 @@ class DonationStatsService {
      *
      * @return array
      */
-    public function getAnnualPercentageStats() : array {
+    public function getAnnualPercentageStats() : array
+    {
         $annualSum = $this->donationRepository->getAnnualSum();
         $percentage = round(($annualSum / 1000) * 100);
 
@@ -35,5 +37,4 @@ class DonationStatsService {
             'percentage'    => max(1, $percentage) ?: 0,
         ];
     }
-
 }

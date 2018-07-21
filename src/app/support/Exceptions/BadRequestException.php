@@ -6,8 +6,7 @@ namespace App\Support\Exceptions;
  * to a client error. For example, bad input given,
  * malformed syntax, file size too big, etc.
  */
-class BadRequestException extends BaseHttpException {
-    
+class BadRequestException extends BaseHttpException
+{
     protected $status = 400;
-
 }

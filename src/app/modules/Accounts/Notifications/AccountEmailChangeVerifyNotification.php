@@ -24,7 +24,7 @@ class AccountEmailChangeVerifyNotification extends Notification
      * Whether this recipient is the
      * old email address (the address
      * before it was changed)
-     * 
+     *
      * @var boolean
      */
     public $isOldEmailAddress = false;
@@ -35,7 +35,8 @@ class AccountEmailChangeVerifyNotification extends Notification
      *
      * @return void
      */
-    public function __construct(String $email, string $confirmLink) {
+    public function __construct(String $email, string $confirmLink)
+    {
         $this->email = $email;
         $this->confirmLink = $confirmLink;
     }
@@ -46,7 +47,8 @@ class AccountEmailChangeVerifyNotification extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable) {
+    public function via($notifiable)
+    {
         return ['mail'];
     }
 
@@ -56,7 +58,8 @@ class AccountEmailChangeVerifyNotification extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable) {
+    public function toMail($notifiable)
+    {
         $message = (new MailMessage)
             ->subject('Email Address Change was Requested')
             ->from('no-reply@projectcitybuild.com');
@@ -86,7 +89,8 @@ class AccountEmailChangeVerifyNotification extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable) {
+    public function toArray($notifiable)
+    {
         return [];
     }
 }

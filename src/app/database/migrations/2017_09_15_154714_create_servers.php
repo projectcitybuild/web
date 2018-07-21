@@ -4,22 +4,24 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateServers extends Migration {
+class CreateServers extends Migration
+{
 
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
-        Schema::create('server_categories', function(Blueprint $table) {
+    public function up()
+    {
+        Schema::create('server_categories', function (Blueprint $table) {
             $table->increments('server_category_id');
             $table->string('name');
             $table->integer('display_order');
             $table->timestamps();
         });
 
-        Schema::create('servers', function(Blueprint $table) {
+        Schema::create('servers', function (Blueprint $table) {
             $table->increments('server_id');
             $table->integer('server_category_id')->unsigned();
             $table->string('name');
@@ -39,7 +41,7 @@ class CreateServers extends Migration {
         /**
          * Represents a set of rights to API resources
          */
-        Schema::create('server_keys', function(Blueprint $table) {
+        Schema::create('server_keys', function (Blueprint $table) {
             $table->increments('server_key_id');
             $table->integer('server_id')->unsigned()->comment('The only server this key has access to');
             $table->boolean('can_local_ban')->default(true)->comment('Whether this key can create bans that affect only the server the player was banned on');
@@ -54,7 +56,7 @@ class CreateServers extends Migration {
          * Represents a refresh token.
          * Storage of JWT so we can revoke resource access at any time.
          */
-        Schema::create('server_key_tokens', function(Blueprint $table) {
+        Schema::create('server_key_tokens', function (Blueprint $table) {
             $table->increments('server_key_token_id');
             $table->integer('server_key_id')->unsigned();
             $table->char('token_hash', 60)->comment('Token hash for comparison purposes');
@@ -65,7 +67,7 @@ class CreateServers extends Migration {
         });
 
 
-        Schema::create('server_statuses', function(Blueprint $table) {
+        Schema::create('server_statuses', function (Blueprint $table) {
             $table->bigIncrements('server_status_id');
             $table->integer('server_id')->unsigned();
             $table->boolean('is_online');
@@ -76,13 +78,13 @@ class CreateServers extends Migration {
             $table->foreign('server_id')->references('server_id')->on('servers');
         });
 
-        Schema::create('server_statuses_players', function(Blueprint $table) {
+        Schema::create('server_statuses_players', function (Blueprint $table) {
             $table->bigIncrements('server_status_player_id');
             $table->integer('server_status_id')->unsigned();
             $table->string('player_type');
             $table->integer('player_id')->unsigned();
             
-            // why is this spewing errors? (╯°□°）╯︵ ┻━┻ 
+            // why is this spewing errors? (╯°□°）╯︵ ┻━┻
             // $table->foreign('server_status_id')->references('server_status_id')->on('server_statuses');
         });
     }
@@ -92,7 +94,8 @@ class CreateServers extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('server_statuses_players');
         Schema::dropIfExists('server_statuses');
         Schema::dropIfExists('server_key_tokens');

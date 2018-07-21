@@ -6,7 +6,8 @@ use App\Support\Model;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Notifications\Notifiable;
 
-class UnactivatedAccount extends Model {
+class UnactivatedAccount extends Model
+{
     use Notifiable;
 
     protected $table = 'accounts_unactivated';
@@ -27,15 +28,15 @@ class UnactivatedAccount extends Model {
     ];
 
     /**
-     * Gets an URL to the activation route with a 
+     * Gets an URL to the activation route with a
      * signed signature to prevent tampering
      *
      * @return string
      */
-    public function getActivationUrl() : string {
+    public function getActivationUrl() : string
+    {
         return URL::temporarySignedRoute('front.register.activate', now()->addDay(), [
             'email' => $this->email,
         ]);
     }
-
 }

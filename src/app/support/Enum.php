@@ -1,14 +1,16 @@
 <?php
 namespace App\Support;
 
-abstract class Enum {
+abstract class Enum
+{
 
     /**
      * Returns all constants as a KvP array
      *
      * @return array
      */
-    public static function getConstants() {
+    public static function getConstants()
+    {
         $class = new \ReflectionClass(get_called_class());
         return $class->getConstants() ?: [];
     }
@@ -18,7 +20,8 @@ abstract class Enum {
      *
      * @return array
      */
-    public static function getKeys() {
+    public static function getKeys()
+    {
         return array_keys(self::getConstants()) ?: [];
     }
 
@@ -27,7 +30,8 @@ abstract class Enum {
      *
      * @return void
      */
-    public static function getValues() {
+    public static function getValues()
+    {
         return array_values(self::getConstants()) ?: [];
     }
 
@@ -35,16 +39,16 @@ abstract class Enum {
      * Converts the given key to its value
      *
      * @param string $key
-     * 
+     *
      * @throws \Exception
      * @return string
      */
-    public static function toValue(string $key) : string {
+    public static function toValue(string $key) : string
+    {
         $constants = self::getConstants() ?: [];
-        if(array_key_exists($key, $constants) === false) {
+        if (array_key_exists($key, $constants) === false) {
             throw new \Exception(get_called_class() . ' does not contain key ['.$key.']');
         }
         return $constants[$key];
     }
-
 }

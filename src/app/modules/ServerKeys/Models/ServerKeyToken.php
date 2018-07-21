@@ -4,7 +4,8 @@ namespace App\Modules\ServerKeys\Models;
 
 use App\Support\Model;
 
-class ServerKeyToken extends Model {
+class ServerKeyToken extends Model
+{
 
     /**
      * The table associated with the model.
@@ -39,7 +40,8 @@ class ServerKeyToken extends Model {
     ];
 
 
-    public function serverKey() {
+    public function serverKey()
+    {
         return $this->hasOne('App\Modules\ServerKeys\Models\ServerKey', 'server_key_id', 'server_key_id');
     }
 }

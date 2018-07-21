@@ -2,8 +2,8 @@
 
 use App\Modules\Servers\Models\ServerCategory;
 
-/** 
- * @var \Illuminate\Database\Eloquent\Factory $factory 
+/**
+ * @var \Illuminate\Database\Eloquent\Factory $factory
  */
 $factory->define(ServerCategory::class, function (Faker\Generator $faker) {
     return [

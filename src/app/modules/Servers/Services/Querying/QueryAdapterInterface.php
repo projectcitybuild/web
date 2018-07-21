@@ -3,8 +3,8 @@ namespace App\Modules\Servers\Services\Querying;
 
 use App\Modules\Servers\Services\PlayerFetching\PlayerFetchAdapterInterface;
 
-
-interface QueryAdapterInterface {
+interface QueryAdapterInterface
+{
 
     /**
      * Queries the given server for its status
@@ -23,5 +23,4 @@ interface QueryAdapterInterface {
      * @return PlayerFetchAdapterInterface
      */
     public function getPlayerFetchAdapter() : string;
-
 }

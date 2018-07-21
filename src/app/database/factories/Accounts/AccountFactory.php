@@ -3,8 +3,8 @@
 use App\Modules\Accounts\Models\Account;
 use Illuminate\Support\Facades\Hash;
 
-/** 
- * @var \Illuminate\Database\Eloquent\Factory $factory 
+/**
+ * @var \Illuminate\Database\Eloquent\Factory $factory
  */
 $factory->define(Account::class, function (Faker\Generator $faker) {
     return [

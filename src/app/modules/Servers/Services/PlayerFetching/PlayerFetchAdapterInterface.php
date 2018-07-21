@@ -1,13 +1,14 @@
 <?php
 namespace App\Modules\Servers\Services\PlayerFetching;
 
-interface PlayerFetchAdapterInterface {
+interface PlayerFetchAdapterInterface
+{
 
     /**
      * Returns the unique identifiers for a list of players
      *
      * @param array $aliases
-     * 
+     *
      * @return array
      */
     public function getUniqueIdentifiers(array $aliases = []) : array;
@@ -16,7 +17,7 @@ interface PlayerFetchAdapterInterface {
      * Creates player models specific to this game
      *
      * @param array $identifiers
-     * 
+     *
      * @return array
      */
     public function createPlayers(array $identifiers) : array;

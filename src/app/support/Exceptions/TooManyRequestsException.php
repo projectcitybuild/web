@@ -4,8 +4,7 @@ namespace App\Support\Exceptions;
 /**
  * Too many requests sent in a period of time
  */
-class TooManyRequestsException extends BaseHttpException {
-
+class TooManyRequestsException extends BaseHttpException
+{
     protected $status = 429;
-
 }

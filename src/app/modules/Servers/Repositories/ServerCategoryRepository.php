@@ -3,11 +3,12 @@ namespace App\Modules\Servers\Repositories;
 
 use App\Modules\Servers\Models\ServerCategory;
 
-class ServerCategoryRepository {
-
+class ServerCategoryRepository
+{
     private $categoryModel;
 
-    public function __construct(ServerCategory $categoryModel) {
+    public function __construct(ServerCategory $categoryModel)
+    {
         $this->categoryModel = $categoryModel;
     }
     
@@ -16,19 +17,20 @@ class ServerCategoryRepository {
      *
      * @return ServerCategory
      */
-    public function getAll(array $with = []) {
+    public function getAll(array $with = [])
+    {
         return $this->categoryModel
             ->with($with)
             ->get();
     }
 
-    public function getAllVisible(array $with = []) {
+    public function getAllVisible(array $with = [])
+    {
         return $this->categoryModel
-            ->with(['servers' => function($q) {
+            ->with(['servers' => function ($q) {
                 $q->where('is_visible', true)
                   ->with('status');
             }])
             ->get();
     }
-
 }

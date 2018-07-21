@@ -1,8 +1,8 @@
 let mix = require('laravel-mix');
 
 
-mix.typeScript('front/assets/js/app.tsx', 'public/assets/js')
-   .sass('front/assets/sass/app.scss', 'public/assets/css')
+mix.typeScript('interfaces/web/assets/js/app.tsx', 'public/assets/js')
+   .sass('interfaces/web/assets/sass/app.scss', 'public/assets/css')
    .extract([
         'react', 
         'date-fns', 
@@ -17,7 +17,7 @@ if(mix.config.production) {
     mix.browserSync({
         proxy: '192.168.99.100',
         files: [
-            'front/**/*.php',
+            'interfaces/web/**/*.php',
             'public/**/*.css', 
             'public/**/*.js',    
         ]

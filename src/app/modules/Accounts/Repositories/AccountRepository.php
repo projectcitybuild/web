@@ -5,18 +5,16 @@ use App\Modules\Accounts\Models\Account;
 use App\Support\Repository;
 use Carbon\Carbon;
 
-
-class AccountRepository extends Repository {
-
+class AccountRepository extends Repository
+{
     protected $model = Account::class;
 
     public function create(
-        string $email, 
+        string $email,
         string $password,
         ?string $ip,
         Carbon $createdAt
     ) : Account {
-
         return $this->getModel()->create([
             'email'         => $email,
             'password'      => $password,
@@ -28,10 +26,10 @@ class AccountRepository extends Repository {
         ]);
     }
 
-    public function getByEmail(string $email) : ?Account {
+    public function getByEmail(string $email) : ?Account
+    {
         return $this->getModel()
             ->where('email', $email)
             ->first();
     }
-    
 }

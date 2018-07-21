@@ -17,7 +17,8 @@ class AccountPasswordResetCompleteNotification extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable) {
+    public function via($notifiable)
+    {
         return ['mail'];
     }
 
@@ -27,7 +28,8 @@ class AccountPasswordResetCompleteNotification extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable) {
+    public function toMail($notifiable)
+    {
         return (new MailMessage)
                     ->subject('Your Password Has Been Reset')
                     ->from('no-reply@projectcitybuild.com')
@@ -43,7 +45,8 @@ class AccountPasswordResetCompleteNotification extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable) {
+    public function toArray($notifiable)
+    {
         return [
             //
         ];

@@ -1,26 +1,31 @@
 <?php
 namespace App\Modules\Servers\Services\Querying\GameAdapters;
 
-use App\Modules\Servers\Services\Querying\{QueryAdapterInterface, QueryResult};
-use xPaw\{MinecraftQuery, MinecraftQueryException};
+use App\Modules\Servers\Services\Querying\QueryAdapterInterface;
+use App\Modules\Servers\Services\Querying\QueryResult;
+use xPaw\MinecraftQuery;
+use xPaw\MinecraftQueryException;
 use App\Modules\Servers\Services\PlayerFetching\GameAdapters\MojangUuidAdapter;
 use App\Modules\Servers\Services\PlayerFetching\PlayerFetchAdapterInterface;
 
-class MinecraftQueryAdapter implements QueryAdapterInterface {
+class MinecraftQueryAdapter implements QueryAdapterInterface
+{
 
     /**
      * @var MinecraftQuery
      */
     private $queryService;
 
-    public function __construct(MinecraftQuery $queryService) {
+    public function __construct(MinecraftQuery $queryService)
+    {
         $this->queryService = $queryService;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function query(string $ip, $port = null) : QueryResult {
+    public function query(string $ip, $port = null) : QueryResult
+    {
         $port = $port ?: 25565;
 
         try {
@@ -38,8 +43,7 @@ class MinecraftQueryAdapter implements QueryAdapterInterface {
                 $numSlots,
                 $players
             );
-        
-        } catch(MinecraftQueryException $e) {
+        } catch (MinecraftQueryException $e) {
             return new QueryResult();
         }
     }
@@ -47,8 +51,8 @@ class MinecraftQueryAdapter implements QueryAdapterInterface {
     /**
      * {@inheritDoc}
      */
-    public function getPlayerFetchAdapter() : string {
+    public function getPlayerFetchAdapter() : string
+    {
         return MojangUuidAdapter::class;
     }
-
 }

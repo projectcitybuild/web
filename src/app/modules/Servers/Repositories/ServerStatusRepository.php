@@ -5,8 +5,8 @@ use App\Modules\Servers\Models\ServerStatus;
 use Carbon\Carbon;
 use App\Support\Repository;
 
-class ServerStatusRepository extends Repository {
-
+class ServerStatusRepository extends Repository
+{
     protected $model = ServerStatus::class;
 
     /**
@@ -19,7 +19,8 @@ class ServerStatusRepository extends Repository {
      * @param int $createdAt
      * @return void
      */
-    public function create(int $serverId, bool $isOnline, int $numOfPlayers, int $numOfSlots, int $createdAt) {
+    public function create(int $serverId, bool $isOnline, int $numOfPlayers, int $numOfSlots, int $createdAt)
+    {
         return $this->getModel()->create([
             'server_id'         => $serverId,
             'is_online'         => $isOnline,
@@ -28,5 +29,4 @@ class ServerStatusRepository extends Repository {
             'created_at'        => Carbon::createFromTimestamp($createdAt),
         ]);
     }
-
 }

@@ -6,7 +6,8 @@ use App\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangApiService;
 use App\Modules\Players\Services\MinecraftPlayerLookupService;
 use App\Modules\Players\Models\MinecraftPlayer;
 
-class MojangUuidAdapter implements PlayerFetchAdapterInterface {
+class MojangUuidAdapter implements PlayerFetchAdapterInterface
+{
 
     /**
      * @var MojangApiService
@@ -19,7 +20,8 @@ class MojangUuidAdapter implements PlayerFetchAdapterInterface {
     private $userLookupService;
 
 
-    public function __construct(MojangApiService $mojangApi, MinecraftPlayerLookupService $userLookupService) {
+    public function __construct(MojangApiService $mojangApi, MinecraftPlayerLookupService $userLookupService)
+    {
         $this->mojangApi = $mojangApi;
         $this->userLookupService = $userLookupService;
     }
@@ -27,13 +29,14 @@ class MojangUuidAdapter implements PlayerFetchAdapterInterface {
     /**
      * {@inheritDoc}
      */
-    public function getUniqueIdentifiers(array $aliases = []) : array {
+    public function getUniqueIdentifiers(array $aliases = []) : array
+    {
         // split names into chunks since the Mojang API
-        // won't allow more than 100 names in a batch at once 
+        // won't allow more than 100 names in a batch at once
         $names = collect($aliases)->chunk(100);
 
         $players = [];
-        foreach($names as $nameChunk) {
+        foreach ($names as $nameChunk) {
             $response = $this->mojangApi->getUuidBatchOf($nameChunk->toArray());
             $players = array_merge($players, $response);
         }
@@ -44,12 +47,12 @@ class MojangUuidAdapter implements PlayerFetchAdapterInterface {
     /**
      * {@inheritDoc}
      */
-    public function createPlayers(array $identifiers) : array {
+    public function createPlayers(array $identifiers) : array
+    {
         $players = [];
-        foreach($identifiers as $identifier) {
+        foreach ($identifiers as $identifier) {
             $players[] = $this->userLookupService->getOrCreateByUuid($identifier->getUuid());
         }
         return $players;
     }
-
 }

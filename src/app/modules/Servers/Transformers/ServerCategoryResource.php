@@ -12,7 +12,8 @@ class ServerCategoryResource extends Resource
      * @param  \Illuminate\Http\Request
      * @return array
      */
-    public function toArray($request) {
+    public function toArray($request)
+    {
         return [
             'server_category_id'    => $this->server_category_id,
             'name'                  => $this->name,

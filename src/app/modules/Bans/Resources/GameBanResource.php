@@ -4,7 +4,8 @@ namespace App\Modules\Bans\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class GameBanResource extends Resource {
+class GameBanResource extends Resource
+{
     
     /**
      * Transform the resource into an array.
@@ -12,7 +13,8 @@ class GameBanResource extends Resource {
      * @param  \Illuminate\Http\Request
      * @return array
      */
-    public function toArray($request) {
+    public function toArray($request)
+    {
         return [
             'game_ban_id'           => $this->game_ban_id,
             'server_id'             => $this->server_id,

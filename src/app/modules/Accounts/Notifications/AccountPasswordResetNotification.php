@@ -21,7 +21,8 @@ class AccountPasswordResetNotification extends Notification
      *
      * @return void
      */
-    public function __construct(AccountPasswordReset $passwordReset) {
+    public function __construct(AccountPasswordReset $passwordReset)
+    {
         $this->passwordReset = $passwordReset;
     }
 
@@ -31,7 +32,8 @@ class AccountPasswordResetNotification extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable) {
+    public function via($notifiable)
+    {
         return ['mail'];
     }
 
@@ -41,7 +43,8 @@ class AccountPasswordResetNotification extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable) {
+    public function toMail($notifiable)
+    {
         $url = $this->passwordReset->getPasswordResetUrl();
 
         return (new MailMessage)
@@ -61,7 +64,8 @@ class AccountPasswordResetNotification extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable) {
+    public function toArray($notifiable)
+    {
         return [
             //
         ];

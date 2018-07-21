@@ -5,7 +5,7 @@ namespace App\Support\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use App\Support\Environment;
+use Infrastructure\Environment;
 
 class Handler extends ExceptionHandler
 {
@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
     public function report(Exception $exception)
     {
         if (Environment::isStaging() || Environment::isProduction()) {
-            if(app()->bound('sentry') && $this->shouldReport($exception)) {
+            if (app()->bound('sentry') && $this->shouldReport($exception)) {
                 app('sentry')->captureException($exception);
             }
         }
@@ -58,7 +58,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         // output exceptions in our API as JSON
-        if($request->is('api/*') && $exception instanceof BaseHttpException) {
+        if ($request->is('api/*') && $exception instanceof BaseHttpException) {
             $reflection = new \ReflectionClass($exception);
 
             return response()->json([

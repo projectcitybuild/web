@@ -7,7 +7,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
 
-class Account extends Authenticatable {
+class Account extends Authenticatable
+{
     use Notifiable;
 
     protected $table = 'accounts';
@@ -32,26 +33,28 @@ class Account extends Authenticatable {
         'last_login_at',
     ];
 
-    public function minecraftAccount() {
+    public function minecraftAccount()
+    {
         return $this->belongsTo('App\Modules\Players\Models\MinecraftPlayer', 'account_id', 'account_id');
     }
 
-    public function linkedSocialAccounts() {
+    public function linkedSocialAccounts()
+    {
         return $this->hasMany('App\Modules\Accounts\Models\AccountLink', 'account_id', 'account_id');
     }
 
     /**
-     * Gets an URL to the 'email change verification' 
-     * route with a signed signature to prevent 
+     * Gets an URL to the 'email change verification'
+     * route with a signed signature to prevent
      * tampering
      *
      * @return string
      */
-    public function getEmailChangeVerificationUrl(string $newEmail) : string {
+    public function getEmailChangeVerificationUrl(string $newEmail) : string
+    {
         return URL::temporarySignedRoute('front.account.settings.email.confirm', now()->addMinutes(15), [
             'old_email' => $this->email,
             'new_email' => $newEmail,
         ]);
     }
-
 }

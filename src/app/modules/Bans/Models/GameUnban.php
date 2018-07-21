@@ -4,8 +4,8 @@ namespace App\Modules\Bans\Models;
 
 use App\Support\Model;
 
-class GameUnban extends Model {
-
+class GameUnban extends Model
+{
     protected $table = 'game_network_unbans';
 
     protected $primaryKey = 'game_unban_id';
@@ -25,12 +25,13 @@ class GameUnban extends Model {
         'updated_at',
     ];
 
-    public function ban() {
+    public function ban()
+    {
         return $this->hasOne('App\Modules\Bans\Models\GameBan', 'game_ban_id', 'game_ban_id');
     }
 
-    public function staffPlayer() {
+    public function staffPlayer()
+    {
         return $this->morphTo(null, 'staff_player_type', 'staff_player_id');
     }
-
 }

@@ -8,7 +8,8 @@ use App\Modules\ServerKeys\Models\ServerKey;
 use App\Modules\Bans\Models\GameBan;
 use Illuminate\Database\Eloquent\Collection;
 
-class BanLookupService {
+class BanLookupService
+{
 
     /**
      * @var GameBanRepository
@@ -16,7 +17,8 @@ class BanLookupService {
     private $banRepository;
 
     
-    public function __construct(GameBanRepository $banRepository) {
+    public function __construct(GameBanRepository $banRepository)
+    {
         $this->banRepository = $banRepository;
     }
     
@@ -34,7 +36,6 @@ class BanLookupService {
         ServerKey $serverKey,
         array $with = []
     ) : ?GameBan {
-
         return $this->banRepository->getActiveBanByGameUserId(
             $bannedPlayerId,
             $bannedPlayerType,
@@ -48,8 +49,6 @@ class BanLookupService {
         string $bannedPlayerType,
         ServerKey $serverKey
     ) : ?Collection {
-        
         return $this->banRepository->getBansByPlayer($bannedPlayerId, $bannedPlayerType, ['unban']);
     }
-
 }

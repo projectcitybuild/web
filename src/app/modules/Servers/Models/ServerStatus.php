@@ -4,8 +4,8 @@ namespace App\Modules\Servers\Models;
 
 use App\Support\Model;
 
-class ServerStatus extends Model {
-
+class ServerStatus extends Model
+{
     protected $table = 'server_statuses';
 
     protected $primaryKey = 'server_status_id';
@@ -28,7 +28,8 @@ class ServerStatus extends Model {
     ];
 
 
-    public function players() {
+    public function players()
+    {
         return $this->hasMany('App\Modules\Servers\Models\ServerStatusPlayer', 'server_status_id', 'server_status_id');
     }
 }

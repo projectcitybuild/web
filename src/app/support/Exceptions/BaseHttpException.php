@@ -1,7 +1,8 @@
 <?php
 namespace App\Support\Exceptions;
 
-abstract class BaseHttpException extends \Exception {
+abstract class BaseHttpException extends \Exception
+{
 
     /**
      * @var string
@@ -13,7 +14,8 @@ abstract class BaseHttpException extends \Exception {
      *
      * @return string
      */
-    public function getId() : string {
+    public function getId() : string
+    {
         return $this->id;
     }
 
@@ -27,11 +29,13 @@ abstract class BaseHttpException extends \Exception {
      *
      * @return void
      */
-    public function getStatusCode() {
+    public function getStatusCode()
+    {
         return $this->status;
     }
 
-    public function __construct($id, $message) {
+    public function __construct($id, $message)
+    {
         $this->id = $id;
 
         parent::__construct($message);

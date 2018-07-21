@@ -5,16 +5,16 @@ use App\Modules\Accounts\Models\AccountLink;
 use App\Support\Repository;
 use Carbon\Carbon;
 
-
-class AccountLinkRepository extends Repository {
-
+class AccountLinkRepository extends Repository
+{
     protected $model = AccountLink::class;
 
-    public function create(int $accountId,
+    public function create(
+        int $accountId,
                            string $providerName,
                            string $providerId,
-                           string $providerEmail) : AccountLink 
-    {
+                           string $providerEmail
+    ) : AccountLink {
         return $this->getModel()->create([
             'provider_name'     => $providerName,
             'provider_id'       => $providerId,
@@ -23,11 +23,12 @@ class AccountLinkRepository extends Repository {
         ]);
     }
 
-    public function update(int $accountId,
+    public function update(
+        int $accountId,
                            string $providerName,
                            string $providerId,
-                           string $providerEmail) : int 
-    {
+                           string $providerEmail
+    ) : int {
         return $this->getModel()
             ->where('account_id', $accountId)
             ->update([
@@ -37,18 +38,19 @@ class AccountLinkRepository extends Repository {
             ]);
     }
 
-    public function getByUserAndProvider(string $accountId, string $providerName) : ?AccountLink {
+    public function getByUserAndProvider(string $accountId, string $providerName) : ?AccountLink
+    {
         return $this->getModel()
             ->where('provider_name', $providerName)
             ->where('account_id', $accountId)
             ->first();
     }
 
-    public function getByProviderAccount(string $providerName, string $providerId) : ?AccountLink {
+    public function getByProviderAccount(string $providerName, string $providerId) : ?AccountLink
+    {
         return $this->getModel()
             ->where('provider_name', $providerName)
             ->where('provider_id', $providerId)
             ->first();
     }
-    
 }

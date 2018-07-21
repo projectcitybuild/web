@@ -3,16 +3,17 @@ namespace App\Modules\ServerKeys\Repositories;
 
 use App\Modules\ServerKeys\Models\ServerKey;
 
-class ServerKeyRepository {
-
+class ServerKeyRepository
+{
     private $keyModel;
 
-    public function __construct(ServerKey $keyModel) {
+    public function __construct(ServerKey $keyModel)
+    {
         $this->keyModel = $keyModel;
     }
 
-    public function getById(int $keyId) : ?ServerKey {
+    public function getById(int $keyId) : ?ServerKey
+    {
         return $this->keyModel->find($keyId);
     }
-
 }

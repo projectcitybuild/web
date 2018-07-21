@@ -11,8 +11,9 @@ class AlterAccountLinksAddEmail extends Migration
      *
      * @return void
      */
-    public function up() {
-        Schema::table('account_links', function(Blueprint $table) {
+    public function up()
+    {
+        Schema::table('account_links', function (Blueprint $table) {
             $table->string('provider_email')->after('provider_id');
         });
     }
@@ -22,8 +23,9 @@ class AlterAccountLinksAddEmail extends Migration
      *
      * @return void
      */
-    public function down() {
-        Schema::table('account_links', function(Blueprint $table) {
+    public function down()
+    {
+        Schema::table('account_links', function (Blueprint $table) {
             $table->dropColumn('provider_email');
         });
     }

@@ -10,19 +10,19 @@
          stopOnFailure="false">
     <testsuites>
         <testsuite name="Unit Tests">
-            <directory suffix="Test.php">./app/tests/Unit</directory>
+            <directory suffix="Test.php">./domains/tests/Unit</directory>
         </testsuite>
         <testsuite name="Integration Tests">
-            <directory suffix="Test.php">./app/tests/Integration</directory>
+            <directory suffix="Test.php">./domains/tests/Integration</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./app</directory>
             <exclude>
-                <file>./app/api/Routes.php</file>
-                <file>./app/console/Routes.php</file>
-                <file>./front/routes/Routes.php</file>
+                <file>./interfaces/web/api/Routes.php</file>
+                <file>./interfaces/web/console/Routes.php</file>
+                <file>./interfaces/web/routes/Routes.php</file>
             </exclude>
         </whitelist>
     </filter>

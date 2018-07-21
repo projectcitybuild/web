@@ -4,7 +4,8 @@ namespace App\Modules\Servers\Services\Querying;
 /**
  * Represents data returned from querying a server
  */
-class QueryResult {
+class QueryResult
+{
 
     /**
      * @var int
@@ -38,26 +39,29 @@ class QueryResult {
         $this->playerList = $playerList;
     }
     
-    public function getPlayerList() : array {
-        if(!$this->isOnline()) { 
+    public function getPlayerList() : array
+    {
+        if (!$this->isOnline()) {
             return [];
         }
         return $this->playerList;
     }
     
-    public function getNumOfPlayers() : int {
-        if(!$this->isOnline()) {
+    public function getNumOfPlayers() : int
+    {
+        if (!$this->isOnline()) {
             return 0;
         }
         return $this->numOfPlayers;
     }
 
-    public function getNumOfSlots() : int {
+    public function getNumOfSlots() : int
+    {
         return $this->numOfSlots;
     }
 
-    public function isOnline() : bool {
+    public function isOnline() : bool
+    {
         return $this->isOnline;
     }
-
 }

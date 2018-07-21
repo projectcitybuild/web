@@ -2,19 +2,23 @@
 
 use Illuminate\Database\Seeder;
 
-use App\Modules\Servers\Models\{ServerCategory, Server};
-use App\Modules\ServerKeys\Models\{ServerKey, ServerKeyToken};
+use App\Modules\Servers\Models\ServerCategory;
+use App\Modules\Servers\Models\Server;
+use App\Modules\ServerKeys\Models\ServerKey;
+use App\Modules\ServerKeys\Models\ServerKeyToken;
 use App\Modules\Servers\GameTypeEnum;
 use App\Modules\Servers\Repositories\ServerKeyTokenRepository;
 
-class ServerSeeds extends Seeder {
+class ServerSeeds extends Seeder
+{
     
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run() {
+    public function run()
+    {
         $categoryMinecraft = factory(ServerCategory::class)->create([
             'name'          => 'minecraft',
             'display_order' => 1,

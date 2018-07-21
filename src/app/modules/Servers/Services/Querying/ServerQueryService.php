@@ -9,7 +9,8 @@ use App\Modules\Servers\Services\PlayerFetching\PlayerFetchJob;
 use App\Modules\Servers\Models\ServerStatus;
 use \Illuminate\Log\Logger;
 
-class ServerQueryService {
+class ServerQueryService
+{
  
     /**
      * @var ServerRepository
@@ -32,7 +33,7 @@ class ServerQueryService {
     private $logger;
 
     public function __construct(
-        ServerRepository $serverRepository, 
+        ServerRepository $serverRepository,
         ServerStatusRepository $statusRepository,
         QueryAdapterFactory $adapterFactory,
         Logger $logger
@@ -47,19 +48,20 @@ class ServerQueryService {
      * Queries every server that is set as 'is_querying'
      *
      * @param QueryAdapterInterface $queryAdapter
-     * 
+     *
      * @return void
      */
-    public function queryAllServers(QueryAdapterInterface $queryAdapter = null) {
+    public function queryAllServers(QueryAdapterInterface $queryAdapter = null)
+    {
         $servers = $this->serverRepository->getAllQueriableServers();
         $time = time();
 
-        foreach($servers as $server) {
+        foreach ($servers as $server) {
             $this->query(
                 $queryAdapter ?: $this->adapterFactory->getAdapter($server->game_type),
                 $server->server_id,
                 $server->ip,
-                $server->port, 
+                $server->port,
                 $time
             );
         }
@@ -72,7 +74,8 @@ class ServerQueryService {
      * @param integer $serverId
      * @return void
      */
-    public function queryServer(int $serverId) {
+    public function queryServer(int $serverId)
+    {
         $server = $this->serverRepository->getById($serverId);
 
         $this->query(
@@ -92,17 +95,16 @@ class ServerQueryService {
      * @param string $ip
      * @param string $port
      * @param int|null $time
-     * 
+     *
      * @return void
      */
     private function query(
         QueryAdapterInterface $queryAdapter,
-        int $serverId, 
-        string $ip, 
-        string $port = null, 
+        int $serverId,
+        string $ip,
+        string $port = null,
         ?int $time = null
     ) : ServerStatus {
-
         $response = $queryAdapter->query($ip, $port);
 
         $status = $this->statusRepository->create(
@@ -115,7 +117,7 @@ class ServerQueryService {
 
         // if players were present on the server, fetch their unique id from
         // an appropriate api
-        if($response->getNumOfPlayers() > 0) {
+        if ($response->getNumOfPlayers() > 0) {
             PlayerFetchJob::dispatch(
                 $status->server_status_id,
                 $queryAdapter->getPlayerFetchAdapter(),

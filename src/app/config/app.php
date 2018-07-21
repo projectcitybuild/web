@@ -192,13 +192,13 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Support\Providers\AppServiceProvider::class,
-        App\Support\Providers\AuthServiceProvider::class,
-        App\Support\Providers\EventServiceProvider::class,
-        App\Support\Providers\RouteServiceProvider::class,
+        App\Providers\AppServiceProvider::class,
+        App\Providers\AuthServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
 
-        App\Library\Discourse\DiscourseServiceProvider::class,
-        App\Library\Recaptcha\RecaptchaServiceProvider::class,
+        Infrastructure\Library\Discourse\DiscourseServiceProvider::class,
+        Infrastructure\Library\Recaptcha\RecaptchaServiceProvider::class,
 
     ],
 

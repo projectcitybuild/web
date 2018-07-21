@@ -11,8 +11,9 @@ class CreateUserRegisterEmails extends Migration
      *
      * @return void
      */
-    public function up() {
-        Schema::create('accounts_unactivated', function(Blueprint $table) {
+    public function up()
+    {
+        Schema::create('accounts_unactivated', function (Blueprint $table) {
             $table->increments('unactivated_account_id');
             $table->string('email');
             $table->string('password');
@@ -25,7 +26,8 @@ class CreateUserRegisterEmails extends Migration
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('accounts_unactivated');
     }
 }

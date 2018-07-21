@@ -11,9 +11,9 @@ class AccountActivationNotification extends Notification
 {
     use Queueable;
 
-     /**
-     * @var UnactivatedAccount
-     */
+    /**
+    * @var UnactivatedAccount
+    */
     private $unactivatedAccount;
     
     /**
@@ -21,7 +21,8 @@ class AccountActivationNotification extends Notification
      *
      * @return void
      */
-    public function __construct(UnactivatedAccount $unactivatedAccount) {
+    public function __construct(UnactivatedAccount $unactivatedAccount)
+    {
         $this->unactivatedAccount = $unactivatedAccount;
     }
 
@@ -31,7 +32,8 @@ class AccountActivationNotification extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable) {
+    public function via($notifiable)
+    {
         return ['mail'];
     }
 
@@ -41,7 +43,8 @@ class AccountActivationNotification extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable) {
+    public function toMail($notifiable)
+    {
         $url = $this->unactivatedAccount->getActivationUrl();
 
         return (new MailMessage)
@@ -61,7 +64,8 @@ class AccountActivationNotification extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable) {
+    public function toArray($notifiable)
+    {
         return [
             //
         ];

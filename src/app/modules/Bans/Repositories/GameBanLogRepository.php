@@ -3,15 +3,16 @@ namespace App\Modules\Bans\Repositories;
 
 use App\Modules\Bans\Models\GameBanLog;
 
-
-class GameBanLogRepository {
+class GameBanLogRepository
+{
 
     /**
      * @var GameBanLog
      */
     private $model;
 
-    public function __construct(GameBanLog $model) {
+    public function __construct(GameBanLog $model)
+    {
         $this->model = $model;
     }
 

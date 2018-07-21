@@ -30,7 +30,7 @@ class PlayerFetchJob implements ShouldQueue
 
     /**
      * Create a new job instance.
-     * 
+     *
      * @param string $playerName
      * @param int $requestTime
      * @return void
@@ -50,21 +50,22 @@ class PlayerFetchJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle(ServerStatusPlayerRepository $statusPlayerRepository) {
+    public function handle(ServerStatusPlayerRepository $statusPlayerRepository)
+    {
         $adapter = resolve($this->adapter);
 
         $identifiers = $adapter->getUniqueIdentifiers($this->aliases);
         $players     = $adapter->createPlayers($identifiers);
 
-        foreach($players as $player) {
+        foreach ($players as $player) {
             $playerType = $player->getMorphClass();
             $playerId = $player->getKey();
 
             $statusPlayerRepository->store(
-                $this->serverStatusId, 
-                $playerId, 
+                $this->serverStatusId,
+                $playerId,
                 $playerType
             );
-        }   
+        }
     }
 }

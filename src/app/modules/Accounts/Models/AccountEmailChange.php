@@ -5,8 +5,8 @@ namespace App\Modules\Accounts\Models;
 use App\Support\Model;
 use Illuminate\Support\Facades\URL;
 
-class AccountEmailChange extends Model {
-
+class AccountEmailChange extends Model
+{
     protected $table = 'account_email_changes';
 
     protected $primaryKey = 'account_email_change_id';
@@ -28,22 +28,24 @@ class AccountEmailChange extends Model {
         'updated_at',
     ];
 
-    public function account() {
+    public function account()
+    {
         return $this->belongsTo('App\Modules\Accounts\Models\Account', 'account_id', 'account_id');
     }
 
-    public function getCurrentEmailUrl(int $expiryInMins = 20) {
+    public function getCurrentEmailUrl(int $expiryInMins = 20)
+    {
         return URL::temporarySignedRoute('front.account.settings.email.confirm', now()->addMinutes($expiryInMins), [
             'token' => $this->token,
             'email' => $this->email_previous,
         ]);
     }
 
-    public function getNewEmailUrl(int $expiryInMins = 20) {
+    public function getNewEmailUrl(int $expiryInMins = 20)
+    {
         return URL::temporarySignedRoute('front.account.settings.email.confirm', now()->addMinutes($expiryInMins), [
             'token' => $this->token,
             'email' => $this->email_new,
         ]);
     }
-
 }

@@ -27,7 +27,7 @@ class BaseApp extends \Illuminate\Foundation\Application {
     }
 
     public function langPath() {
-        return $this->basePath.'/front/assets/lang';
+        return $this->basePath.'/interfaces/web/assets/lang';
     }
 
     public function configPath($path = '') {

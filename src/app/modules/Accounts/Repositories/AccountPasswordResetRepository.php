@@ -5,16 +5,14 @@ use App\Modules\Accounts\Models\AccountPasswordReset;
 use App\Support\Repository;
 use Carbon\Carbon;
 
-
-class AccountPasswordResetRepository extends Repository {
-
+class AccountPasswordResetRepository extends Repository
+{
     protected $model = AccountPasswordReset::class;
 
     public function updateOrCreateByEmail(
         string $email,
         string $token
     ) : AccountPasswordReset {
-
         return $this->getModel()->updateOrCreate([
             'email' => $email,
         ], [
@@ -23,22 +21,24 @@ class AccountPasswordResetRepository extends Repository {
         ]);
     }
 
-    public function getByEmail(string $email) : ?AccountPasswordReset {
+    public function getByEmail(string $email) : ?AccountPasswordReset
+    {
         return $this->getModel()
             ->where('email', $email)
             ->first();
     }
 
-    public function getByToken(string $token) : ?AccountPasswordReset {
+    public function getByToken(string $token) : ?AccountPasswordReset
+    {
         return $this->getModel()
             ->where('token', $token)
             ->first();
     }
 
-    public function deleteOlderThan(Carbon $date) {
+    public function deleteOlderThan(Carbon $date)
+    {
         return $this->getModel()
             ->whereDate('created_at', '<', $date)
             ->delete();
     }
-
 }
