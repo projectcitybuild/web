@@ -1,7 +1,7 @@
 <?php
 namespace Domains\Library\OAuth;
 
-use Domains\Library\OAuth\Storage\OAuthCache;
+use Domains\Library\OAuth\Storage\OAuthStorageContract;
 use Illuminate\Http\RedirectResponse;
 use Infrastructure\Environment;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ class OAuthLoginHandler
     private $provider;
 
     /**
-     * @var OAuthCache
+     * @var OAuthStorageContract
      */
     private $cache;
 
@@ -29,7 +29,7 @@ class OAuthLoginHandler
     private $request;
 
 
-    public function __construct(OAuthCache $cache, 
+    public function __construct(OAuthStorageContract $cache, 
                                 OAuthAdapterFactory $adapterFactory, 
                                 Request $request)
     {

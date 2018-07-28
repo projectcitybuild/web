@@ -4,8 +4,7 @@ namespace Domains\Library\OAuth\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Session\Store;
 
-
-class OAuthCache 
+class OAuthSessionStorage implements OAuthStorageContract
 {
     /**
      * @var Request

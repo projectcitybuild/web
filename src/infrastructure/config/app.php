@@ -198,6 +198,7 @@ return [
 
         Domains\Library\Discourse\DiscourseServiceProvider::class,
         Domains\Library\Recaptcha\RecaptchaServiceProvider::class,
+        Domains\Library\OAuth\OAuthServiceProvider::class,
 
     ],
 
