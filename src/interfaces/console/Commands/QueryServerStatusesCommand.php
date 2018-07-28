@@ -3,7 +3,7 @@
 namespace Interfaces\Console\Commands;
 
 use Illuminate\Console\Command;
-use Application\Modules\Servers\Services\Querying\ServerQueryService;
+use Domains\Modules\Servers\Services\Querying\ServerQueryService;
 use Log;
 
 class QueryServerStatusesCommand extends Command

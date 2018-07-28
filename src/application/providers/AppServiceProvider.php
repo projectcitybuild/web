@@ -4,7 +4,7 @@ namespace Application\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Application\Modules\Players\Models\MinecraftPlayer;
+use Domains\Modules\Players\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\View;
 use Schema;
 

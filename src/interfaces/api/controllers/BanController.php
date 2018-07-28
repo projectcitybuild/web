@@ -2,19 +2,19 @@
 
 namespace Interfaces\Api\Controllers;
 
-use Application\Modules\Bans\Services\BanCreationService;
-use Application\Modules\Bans\Services\BanAuthorisationService;
-use Application\Modules\Bans\Services\BanLookupService;
-use Application\Modules\Bans\Services\BanLoggerService;
-use Application\Modules\Bans\Resources\GameBanResource;
-use Application\Modules\Bans\Resources\GameUnbanResource;
-use Application\Modules\Bans\Exceptions\UserNotBannedException;
-use Application\Modules\Bans\Transformers\BanResource;
-use Application\Modules\Servers\Repositories\ServerRepository;
-use Application\Modules\Servers\Transformers\ServerResource;
-use Application\Modules\ServerKeys\Exceptions\UnauthorisedKeyActionException;
-use Application\Modules\Players\Models\MinecraftPlayer;
-use Application\Modules\Players\Services\MinecraftPlayerLookupService;
+use Domains\Modules\Bans\Services\BanCreationService;
+use Domains\Modules\Bans\Services\BanAuthorisationService;
+use Domains\Modules\Bans\Services\BanLookupService;
+use Domains\Modules\Bans\Services\BanLoggerService;
+use Domains\Modules\Bans\Resources\GameBanResource;
+use Domains\Modules\Bans\Resources\GameUnbanResource;
+use Domains\Modules\Bans\Exceptions\UserNotBannedException;
+use Domains\Modules\Bans\Transformers\BanResource;
+use Domains\Modules\Servers\Repositories\ServerRepository;
+use Domains\Modules\Servers\Transformers\ServerResource;
+use Domains\Modules\ServerKeys\Exceptions\UnauthorisedKeyActionException;
+use Domains\Modules\Players\Models\MinecraftPlayer;
+use Domains\Modules\Players\Services\MinecraftPlayerLookupService;
 use Application\Exceptions\ServerException;
 use Application\Exceptions\BadRequestException;
 use Infrastructure\Helpers\MorphMapHelpers;

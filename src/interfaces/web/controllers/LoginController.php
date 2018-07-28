@@ -2,29 +2,32 @@
 
 namespace Interfaces\Web\Controllers;
 
-use Application\Modules\Forums\Exceptions\BadSSOPayloadException;
-use Application\Modules\Accounts\Services\Login\AccountLoginService;
-use Application\Modules\Accounts\Services\Login\AccountSocialLoginExecutor;
-use Infrastructure\Library\Discourse\Api\DiscourseUserApi;
-use Infrastructure\Library\Discourse\Api\DiscourseAdminApi;
-use Infrastructure\Library\Discourse\Authentication\DiscourseAuthService;
-use Infrastructure\Library\Discourse\Authentication\DiscoursePayload;
+use Domains\Modules\Forums\Exceptions\BadSSOPayloadException;
+use Domains\Modules\Accounts\Services\Login\AccountLoginService;
+use Domains\Modules\Accounts\Services\Login\AccountSocialLoginExecutor;
+use Domains\Library\Discourse\Api\DiscourseUserApi;
+use Domains\Library\Discourse\Api\DiscourseAdminApi;
+use Domains\Library\Discourse\Authentication\DiscourseAuthService;
+use Domains\Library\Discourse\Authentication\DiscoursePayload;
 use Interfaces\Web\Requests\LoginRequest;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Http\Request;
-use Application\Modules\Accounts\Repositories\AccountRepository;
-use Infrastructure\Library\Socialite\SocialiteService;
-use Application\Modules\Accounts\Exceptions\InvalidDiscoursePayloadException;
-use Application\Modules\Accounts\Repositories\AccountLinkRepository;
+use Domains\Modules\Accounts\Repositories\AccountRepository;
+use Domains\Library\Socialite\SocialiteService;
+use Domains\Modules\Accounts\Exceptions\InvalidDiscoursePayloadException;
+use Domains\Modules\Accounts\Repositories\AccountLinkRepository;
 use Illuminate\Database\Connection;
-use Infrastructure\Library\Socialite\SocialProvider;
+use Domains\Library\Socialite\SocialProvider;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Infrastructure\Environment;
 use Illuminate\Log\Logger;
-use Infrastructure\Library\Discord\OAuth\DiscordOAuthService;
-use Infrastructure\Library\Socialite\SocialiteData;
+use Domains\Library\OAuth\Adapters\Discord\DiscordOAuthService;
+use Domains\Library\Socialite\SocialiteData;
+use Domains\Services\Login\LogoutService;
+use Domains\Library\OAuth\Adapters\Google\GoogleOAuthAdapter;
+use Domains\Library\OAuth\Adapters\Discord\DiscordOAuthAdapter;
 
 class LoginController extends WebController
 {
@@ -62,7 +65,12 @@ class LoginController extends WebController
     /**
      * @var DiscordOAuthService
      */
-    private $discordOAuthService;
+    private $discordOAuthAdapter;
+
+    /**
+     * @var GoogleOAuthAdapter
+     */
+    private $googleOAuthAdapter;
 
     /**
      * @var Auth
@@ -79,18 +87,23 @@ class LoginController extends WebController
      */
     private $log;
 
+    /**
+     * @var LogoutService
+     */
+    private $logoutService;
 
-    public function __construct(
-        DiscourseAuthService $discourseAuthService,
+    public function __construct(DiscourseAuthService $discourseAuthService,
                                 DiscourseUserApi $discourseUserApi,
                                 DiscourseAdminApi $discourseAdminApi,
                                 SocialiteService $socialiteService,
                                 AccountRepository $accountRepository,
                                 AccountLinkRepository $accountLinkRepository,
-                                DiscordOAuthService $discordOAuthService,
+                                DiscordOAuthAdapter $discordOAuthAdapter,
+                                GoogleOAuthAdapter $googleOAuthAdapter,
                                 Auth $auth,
                                 Connection $connection,
-                                Logger $logger
+                                Logger $logger,
+                                LogoutService $logoutService
     ) {
         $this->discourseAuthService = $discourseAuthService;
         $this->discourseUserApi = $discourseUserApi;
@@ -98,10 +111,12 @@ class LoginController extends WebController
         $this->socialiteService = $socialiteService;
         $this->accountRepository = $accountRepository;
         $this->accountLinkRepository = $accountLinkRepository;
-        $this->discordOAuthService = $discordOAuthService;
+        $this->discordOAuthAdapter = $discordOAuthAdapter;
+        $this->googleOAuthAdapter = $googleOAuthAdapter;
         $this->auth = $auth;
         $this->connection = $connection;
         $this->log = $logger;
+        $this->logoutService = $logoutService;
     }
 
     public function showLoginView(Request $request)
@@ -239,6 +254,9 @@ class LoginController extends WebController
         if ($providerName === SocialProvider::DISCORD) {
             return $this->discordOAuthService->redirectToProvider($route);
         }
+        if ($providerName === SocialProvider::GOOGLE) {
+            return $this->googleOAuthAdapter->redirectToProvider($route);
+        }
 
         return $this->socialiteService->redirectToProviderLogin($providerName, $route);
     }
@@ -267,12 +285,19 @@ class LoginController extends WebController
         if ($providerName === SocialProvider::DISCORD) {
             $discordAccount = $this->discordOAuthService->getProviderAccount();
             
-            $providerAccount = new SocialiteData(
-                'discord',
+            $providerAccount = new SocialiteData('discord',
                                                  $discordAccount->getEmail(),
                                                  $discordAccount->getUsername(),
-                                                 $discordAccount->getId()
-            );
+                                                 $discordAccount->getId());
+        
+        } else if ($providerName === SocialProvider::GOOGLE) {
+            $googleAccount = $this->googleOAuthAdapter->getProviderAccount();
+            
+            $providerAccount = new SocialiteData('google',
+                                                 $googleAccount->getFirstEmail(),
+                                                 $googleAccount->getFullName(),
+                                                 $googleAccount->getId());
+
         } else {
             $providerAccount = $this->socialiteService->getProviderResponse($providerName);
         }
@@ -434,7 +459,8 @@ class LoginController extends WebController
      */
     public function logoutFromDiscourse(Request $request)
     {
-        $this->auth->logout();
+        $this->logoutService->logoutOfPCB();
+
         return redirect()->route('front.home');
     }
 
@@ -449,25 +475,7 @@ class LoginController extends WebController
      */
     public function logout(Request $request)
     {
-        if (!$this->auth->check()) {
-            return redirect()->route('front.home');
-        }
-
-        $externalId = $this->auth->id();
-        $result = $this->discourseUserApi->fetchUserByPcbId($externalId);
-
-        $user = $result['user'];
-        if ($user === null) {
-            throw new \Exception('Discourse logout api response did not have a `user` key');
-        }
-
-        $this->log->info('Logging out user: '.$externalId);
-        $this->log->debug('Discourse ID: '.$user['id'].' | Discourse username: '.$user['username']);
-        $this->log->debug($result);
-
-        $this->discourseAdminApi->requestLogout($user['id'], $user['username']);
-
-        $this->auth->logout();
+        $this->logoutService->logoutOfDiscourseAndPcb();
         
         return redirect()->route('front.home');
     }

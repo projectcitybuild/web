@@ -1,8 +1,8 @@
 <?php
 namespace Interfaces\Web\Requests;
 
-use Application\Modules\Accounts\Models\Account;
-use Application\Modules\Accounts\Repositories\AccountRepository;
+use Domains\Modules\Accounts\Models\Account;
+use Domains\Modules\Accounts\Repositories\AccountRepository;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SendPasswordEmailRequest extends FormRequest

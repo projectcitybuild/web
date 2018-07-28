@@ -2,7 +2,7 @@
 
 namespace Application\Middleware;
 
-use Application\Modules\ServerKeys\Services\ServerKeyTokenAuthService;
+use Domains\Modules\ServerKeys\Services\ServerKeyTokenAuthService;
 use Illuminate\Http\Request;
 use Closure;
 

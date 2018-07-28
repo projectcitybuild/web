@@ -3,14 +3,18 @@
 namespace Interfaces\Web\Controllers;
 
 use Illuminate\Support\Facades\View;
-use Application\Modules\Accounts\Repositories\AccountLinkRepository;
+use Domains\Modules\Accounts\Repositories\AccountLinkRepository;
 use Illuminate\Http\Request;
-use Infrastructure\Library\Socialite\SocialiteService;
-use Infrastructure\Library\Socialite\SocialProvider;
-use Application\Modules\Accounts\Models\Account;
+use Domains\Library\Socialite\SocialiteService;
+use Domains\Library\Socialite\SocialProvider;
+use Domains\Modules\Accounts\Models\Account;
 use Infrastructure\Environment;
 use Illuminate\Contracts\Auth\Factory as Auth;
-use Infrastructure\Library\Discord\OAuth\DiscordOAuthService;
+use Domains\Library\Discord\OAuth\DiscordOAuthService;
+use Domains\Library\OAuth\Adapters\Discord\DiscordOAuthAdapter;
+use Domains\Library\OAuth\Adapters\Google\GoogleOAuthAdapter;
+use Domains\Library\Socialite\SocialiteData;
+use Domains\Library\OAuth\Adapters\Twitter\TwitterOAuthAdapter;
 
 class AccountSocialController extends WebController
 {
@@ -26,9 +30,19 @@ class AccountSocialController extends WebController
     private $socialiteService;
 
     /**
-     * @var DiscordOAuthService
+     * @var DiscordOAuthAdapter
      */
-    private $discordOAuthService;
+    private $discordOAuthAdapter;
+
+    /**
+     * @var GoogleOAuthAdapter
+     */
+    private $googleOAuthAdapter;
+
+    /**
+     * @var TwitterOAuthAdapter
+     */
+    private $twitterOAuthAdapter;
 
     /**
      * @var Auth
@@ -39,12 +53,16 @@ class AccountSocialController extends WebController
     public function __construct(
         AccountLinkRepository $linkRepository,
                                 SocialiteService $socialiteService,
-                                DiscordOAuthService $discordOAuthService,
+                                DiscordOAuthAdapter $discordOAuthAdapter,
+                                GoogleOAuthAdapter $googleOAuthAdapter,
+                                TwitterOAuthAdapter $twitterOAuthAdapter,
                                 Auth $auth
     ) {
         $this->linkRepository = $linkRepository;
         $this->socialiteService = $socialiteService;
-        $this->discordOAuthService = $discordOAuthService;
+        $this->discordOAuthAdapter = $discordOAuthAdapter;
+        $this->googleOAuthAdapter = $googleOAuthAdapter;
+        $this->twitterOAuthAdapter = $twitterOAuthAdapter;
         $this->auth = $auth;
     }
 
@@ -87,11 +105,20 @@ class AccountSocialController extends WebController
         // so we need to manually convert it back so that
         // it matches the URLs registered in Twitter, Google, etc
         if (Environment::isDev()) {
-            $route = str_replace(
-                'http://192.168.99.100/',
+            $route = str_replace('http://192.168.99.100/',
                                  'http://localhost:3000/',
                                  $route
             );
+        }
+
+        if ($providerName === SocialProvider::DISCORD) {
+            return $this->discordOAuthService->redirectToProvider($route);
+        }
+        if ($providerName === SocialProvider::GOOGLE) {
+            return $this->googleOAuthAdapter->redirectToProvider($route);
+        }
+        if ($providerName === SocialProvider::TWITTER) {
+            return $this->twitterOAuthAdapter->redirectToProvider($route);
         }
 
         return $this->socialiteService->redirectToProviderLogin($providerName, $route);
@@ -112,12 +139,29 @@ class AccountSocialController extends WebController
             return redirect()->route('front.account.social');
         }
 
-        $providerAccount = $this->socialiteService->getProviderResponse($providerName);
+        if ($providerName === SocialProvider::GOOGLE) {
+            $googleAccount = $this->googleOAuthAdapter->getProviderAccount();
+            
+            $providerAccount = new SocialiteData('google',
+                                                 $googleAccount->getFirstEmail(),
+                                                 $googleAccount->getFullName(),
+                                                 $googleAccount->getId());
 
-        $existingAccount = $this->linkRepository->getByProviderAccount(
-            $providerAccount->getName(),
-                                                                       $providerAccount->getId()
-        );
+        } else if ($providerName === SocialProvider::GOOGLE) {
+            $twitterAccount = $this->twitterOAuthAdapter->getProviderAccount();
+            
+            $providerAccount = new SocialiteData('twitter',
+                                                 $twitterAccount->getFirstEmail(),
+                                                 $twitterAccount->getFullName(),
+                                                 $twitterAccount->getId());
+
+        } else {
+            $providerAccount = $this->socialiteService->getProviderResponse($providerName);
+        }
+       
+
+        $existingAccount = $this->linkRepository->getByProviderAccount($providerAccount->getName(),
+                                                                       $providerAccount->getId());
 
         if ($existingAccount !== null && $existingAccount->account_id !== $account->getKey()) {
             return redirect()
@@ -127,19 +171,15 @@ class AccountSocialController extends WebController
 
         $hasLink = $this->linkRepository->getByUserAndProvider($account->getKey(), $providerName);
         if ($hasLink) {
-            $this->linkRepository->update(
-                $account->getKey(),
+            $this->linkRepository->update($account->getKey(),
                                           $providerName,
                                           $providerAccount->getId(),
-                                          $providerAccount->getEmail()
-            );
+                                          $providerAccount->getEmail());
         } else {
-            $this->linkRepository->create(
-                $account->getKey(),
+            $this->linkRepository->create($account->getKey(),
                                           $providerName,
                                           $providerAccount->getId(),
-                                          $providerAccount->getEmail()
-            );
+                                          $providerAccount->getEmail());
         }
 
         return redirect()

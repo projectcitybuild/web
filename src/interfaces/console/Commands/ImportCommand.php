@@ -3,29 +3,29 @@
 namespace Interfaces\Console\Commands;
 
 use Illuminate\Console\Command;
-use Application\Modules\Bans\Models\GameBan;
-use Application\Modules\Bans\Models\GameUnban;
-use Application\Modules\Servers\Repositories\ServerRepository;
-use Application\Modules\Donations\Models\Donation;
+use Domains\Modules\Bans\Models\GameBan;
+use Domains\Modules\Bans\Models\GameUnban;
+use Domains\Modules\Servers\Repositories\ServerRepository;
+use Domains\Modules\Donations\Models\Donation;
 use DB;
 use Cache;
 use Carbon\Carbon;
-use Application\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangApiService;
-use Application\Modules\Players\Models\MinecraftPlayer;
-use Application\Modules\Players\Models\MinecraftPlayerAlias;
-use Application\Modules\Servers\Models\ServerStatus;
-use Application\Modules\Servers\Models\ServerStatusPlayer;
-use Application\Modules\Players\Services\MinecraftPlayerLookupService;
+use Domains\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangApiService;
+use Domains\Modules\Players\Models\MinecraftPlayer;
+use Domains\Modules\Players\Models\MinecraftPlayerAlias;
+use Domains\Modules\Servers\Models\ServerStatus;
+use Domains\Modules\Servers\Models\ServerStatusPlayer;
+use Domains\Modules\Players\Services\MinecraftPlayerLookupService;
 use bandwidthThrottle\tokenBucket\storage\FileStorage;
 use bandwidthThrottle\tokenBucket\Rate;
 use bandwidthThrottle\tokenBucket\TokenBucket;
 use bandwidthThrottle\tokenBucket\BlockingConsumer;
-use Application\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayer;
+use Domains\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayer;
 use GuzzleHttp\Exception\TooManyRedirectsException;
 use Application\Exceptions\TooManyRequestsException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use Application\Modules\Accounts\Models\Account;
+use Domains\Modules\Accounts\Models\Account;
 use Hash;
 
 /**

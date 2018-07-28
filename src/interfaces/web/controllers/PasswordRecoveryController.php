@@ -2,10 +2,10 @@
 
 namespace Interfaces\Web\Controllers;
 
-use Application\Modules\Accounts\Repositories\AccountRepository;
-use Application\Modules\Accounts\Repositories\AccountPasswordResetRepository;
-use Application\Modules\Accounts\Notifications\AccountPasswordResetNotification;
-use Application\Modules\Accounts\Notifications\AccountPasswordResetCompleteNotification;
+use Domains\Modules\Accounts\Repositories\AccountRepository;
+use Domains\Modules\Accounts\Repositories\AccountPasswordResetRepository;
+use Domains\Modules\Accounts\Notifications\AccountPasswordResetNotification;
+use Domains\Modules\Accounts\Notifications\AccountPasswordResetCompleteNotification;
 use Interfaces\Web\Requests\ResetPasswordRequest;
 use Interfaces\Web\Requests\SendPasswordEmailRequest;
 use Illuminate\Http\Request;

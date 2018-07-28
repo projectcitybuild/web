@@ -3,9 +3,9 @@ namespace Interfaces\Web\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use Infrastructure\Library\RateLimit\TokenRate;
-use Infrastructure\Library\RateLimit\TokenBucket;
-use Infrastructure\Library\RateLimit\Storage\SessionTokenStorage;
+use Domains\Library\RateLimit\TokenRate;
+use Domains\Library\RateLimit\TokenBucket;
+use Domains\Library\RateLimit\Storage\SessionTokenStorage;
 
 class LoginRequest extends FormRequest
 {

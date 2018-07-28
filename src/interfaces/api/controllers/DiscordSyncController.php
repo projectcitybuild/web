@@ -5,10 +5,10 @@ namespace Interfaces\Api\Controllers;
 use Interfaces\Api\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory as Validator;
-use Application\Modules\Accounts\Repositories\AccountLinkRepository;
-use Infrastructure\Library\Discourse\Api\DiscourseUserApi;
+use Domains\Modules\Accounts\Repositories\AccountLinkRepository;
+use Domains\Library\Discourse\Api\DiscourseUserApi;
 use Application\Exceptions\BadRequestException;
-use Application\Modules\Accounts\Resources\AccountResource;
+use Domains\Modules\Accounts\Resources\AccountResource;
 
 class DiscordSyncController extends ApiController
 {
@@ -24,10 +24,9 @@ class DiscordSyncController extends ApiController
     private $discourseUserApi;
 
 
-    public function __construct(
-        AccountLinkRepository $accountLinkRepository,
-                                DiscourseUserApi $discourseUserApi
-    ) {
+    public function __construct(AccountLinkRepository $accountLinkRepository,
+                                DiscourseUserApi $discourseUserApi) 
+    {
         $this->accountLinkRepository = $accountLinkRepository;
         $this->discourseUserApi = $discourseUserApi;
     }

@@ -3,11 +3,11 @@
 namespace Interfaces\Web\Controllers;
 
 use Illuminate\Support\Facades\View;
-use Application\Modules\Donations\Services\DonationStatsService;
-use Application\Modules\Players\Models\MinecraftPlayer;
-use Application\Modules\Accounts\Models\Account;
+use Domains\Modules\Donations\Services\DonationStatsService;
+use Domains\Modules\Players\Models\MinecraftPlayer;
+use Domains\Modules\Accounts\Models\Account;
 use Illuminate\Support\Facades\Cache;
-use Application\Modules\Donations\Repositories\DonationRepository;
+use Domains\Modules\Donations\Repositories\DonationRepository;
 
 class DonationController extends WebController
 {

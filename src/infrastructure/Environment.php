@@ -38,6 +38,11 @@ class Environment
         return self::getLevel() === 'local';
     }
 
+    public static function isTest() : bool
+    {
+        return self::getLevel() === 'testing';
+    }
+
     public static function isStaging() : bool
     {
         return self::getLevel() === 'staging';
