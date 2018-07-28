@@ -186,7 +186,6 @@ return [
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
 
         /*
@@ -250,7 +249,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Sentry' => Sentry\SentryLaravel\SentryFacade::class,
-        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
     ],
 

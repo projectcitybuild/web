@@ -10,7 +10,6 @@ use Domains\Library\Discourse\Api\DiscourseAdminApi;
 use Domains\Library\Discourse\Authentication\DiscourseAuthService;
 use Domains\Library\Discourse\Authentication\DiscoursePayload;
 use Domains\Modules\Accounts\Repositories\AccountRepository;
-use Domains\Library\Socialite\SocialiteService;
 use Domains\Modules\Accounts\Repositories\AccountLinkRepository;
 use Domains\Services\Login\LogoutService;
 use Domains\Library\OAuth\OAuthLoginHandler;
