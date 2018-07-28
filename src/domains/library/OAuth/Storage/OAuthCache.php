@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Library\OAuth;
+namespace Domains\Library\OAuth\Storage;
 
 use Illuminate\Http\Request;
 use Illuminate\Session\Store;

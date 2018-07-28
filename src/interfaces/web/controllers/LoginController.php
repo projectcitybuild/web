@@ -9,29 +9,25 @@ use Domains\Library\Discourse\Api\DiscourseUserApi;
 use Domains\Library\Discourse\Api\DiscourseAdminApi;
 use Domains\Library\Discourse\Authentication\DiscourseAuthService;
 use Domains\Library\Discourse\Authentication\DiscoursePayload;
-use Interfaces\Web\Requests\LoginRequest;
-use Illuminate\Contracts\Auth\Guard as Auth;
-use Illuminate\Http\Request;
 use Domains\Modules\Accounts\Repositories\AccountRepository;
 use Domains\Library\Socialite\SocialiteService;
-use Domains\Modules\Accounts\Exceptions\InvalidDiscoursePayloadException;
 use Domains\Modules\Accounts\Repositories\AccountLinkRepository;
+use Domains\Services\Login\LogoutService;
+use Domains\Library\OAuth\OAuthLoginHandler;
+use Domains\Modules\Accounts\Exceptions\InvalidDiscoursePayloadException;
+use Interfaces\Web\Requests\LoginRequest;
+use Infrastructure\Environment;
+use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Database\Connection;
-use Domains\Library\Socialite\SocialProvider;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Hash;
-use Carbon\Carbon;
-use Infrastructure\Environment;
 use Illuminate\Log\Logger;
-use Domains\Library\OAuth\Adapters\Discord\DiscordOAuthService;
-use Domains\Library\Socialite\SocialiteData;
-use Domains\Services\Login\LogoutService;
-use Domains\Library\OAuth\Adapters\Google\GoogleOAuthAdapter;
-use Domains\Library\OAuth\Adapters\Discord\DiscordOAuthAdapter;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Domains\Library\OAuth\Exceptions\UnsupportedOAuthAdapter;
 
 class LoginController extends WebController
 {
-
     /**
      * @var DiscourseAuthService
      */
@@ -48,11 +44,6 @@ class LoginController extends WebController
     private $discourseAdminApi;
 
     /**
-     * @var SocialiteService
-     */
-    private $socialiteService;
-
-    /**
      * @var AccountRepository
      */
     private $accountRepository;
@@ -63,14 +54,9 @@ class LoginController extends WebController
     private $accountLinkRepository;
 
     /**
-     * @var DiscordOAuthService
+     * @var OAuthLoginHandler
      */
-    private $discordOAuthAdapter;
-
-    /**
-     * @var GoogleOAuthAdapter
-     */
-    private $googleOAuthAdapter;
+    private $oauthLoginHandler;
 
     /**
      * @var Auth
@@ -95,11 +81,9 @@ class LoginController extends WebController
     public function __construct(DiscourseAuthService $discourseAuthService,
                                 DiscourseUserApi $discourseUserApi,
                                 DiscourseAdminApi $discourseAdminApi,
-                                SocialiteService $socialiteService,
                                 AccountRepository $accountRepository,
                                 AccountLinkRepository $accountLinkRepository,
-                                DiscordOAuthAdapter $discordOAuthAdapter,
-                                GoogleOAuthAdapter $googleOAuthAdapter,
+                                OAuthLoginHandler $oauthLoginHandler,
                                 Auth $auth,
                                 Connection $connection,
                                 Logger $logger,
@@ -108,11 +92,9 @@ class LoginController extends WebController
         $this->discourseAuthService = $discourseAuthService;
         $this->discourseUserApi = $discourseUserApi;
         $this->discourseAdminApi = $discourseAdminApi;
-        $this->socialiteService = $socialiteService;
         $this->accountRepository = $accountRepository;
         $this->accountLinkRepository = $accountLinkRepository;
-        $this->discordOAuthAdapter = $discordOAuthAdapter;
-        $this->googleOAuthAdapter = $googleOAuthAdapter;
+        $this->oauthLoginHandler = $oauthLoginHandler;
         $this->auth = $auth;
         $this->connection = $connection;
         $this->log = $logger;
@@ -216,62 +198,30 @@ class LoginController extends WebController
     }
 
 
-    private function isValidProvider(string $providerName) : bool
-    {
-        $providerName = strtolower($providerName);
-
-        $allowedProviders = array_map(function ($key) {
-            return strtolower($key);
-        }, SocialProvider::getKeys());
-        
-        return in_array($providerName, $allowedProviders);
-    }
-
     public function redirectToProvider(string $providerName)
     {
-        if (!$this->isValidProvider($providerName)) {
+        try {
+            $this->oauthLoginHandler->setProvider($providerName);
+        } catch (UnsupportedOAuthAdapter $e) {
             abort(404);
         }
 
-        $route = route('front.login.provider.callback', $providerName);
-        
-        // Laravel converts localhost into a local IP address,
-        // so we need to manually convert it back so that
-        // it matches the URLs registered in Twitter, Google, etc
-        if (Environment::isDev()) {
-            $route = str_replace(
-                'http://192.168.99.100/',
-                                 'http://localhost:3000/',
-                                 $route
-            );
+        $redirectUri = route('front.login.provider.callback', $providerName);
 
-            $this->log->debug('Transformed OAuth redirect url: '.$route);
-        }
-
-        $this->log->debug('Redirecting user to OAuth provider: '.$providerName);
-
-        // Discord isn't handled by Socialite
-        if ($providerName === SocialProvider::DISCORD) {
-            return $this->discordOAuthService->redirectToProvider($route);
-        }
-        if ($providerName === SocialProvider::GOOGLE) {
-            return $this->googleOAuthAdapter->redirectToProvider($route);
-        }
-
-        return $this->socialiteService->redirectToProviderLogin($providerName, $route);
+        return $this->oauthLoginHandler->redirectToLogin($redirectUri);
     }
 
     public function handleProviderCallback(string $providerName, Request $request)
     {
-        if (!$this->isValidProvider($providerName)) {
+        try {
+            $this->oauthLoginHandler->setProvider($providerName);
+        } catch (UnsupportedOAuthAdapter $e) {
             abort(404);
         }
 
         if ($request->get('denied')) {
             return redirect()->route('front.home');
         }
-
-        $this->log->debug('Received user from OAuth provider...');
 
         $session = $request->session();
 
@@ -282,27 +232,7 @@ class LoginController extends WebController
             throw new InvalidDiscoursePayloadException('`nonce` or `return` key missing in session');
         }
 
-        if ($providerName === SocialProvider::DISCORD) {
-            $discordAccount = $this->discordOAuthService->getProviderAccount();
-            
-            $providerAccount = new SocialiteData('discord',
-                                                 $discordAccount->getEmail(),
-                                                 $discordAccount->getUsername(),
-                                                 $discordAccount->getId());
-        
-        } else if ($providerName === SocialProvider::GOOGLE) {
-            $googleAccount = $this->googleOAuthAdapter->getProviderAccount();
-            
-            $providerAccount = new SocialiteData('google',
-                                                 $googleAccount->getFirstEmail(),
-                                                 $googleAccount->getFullName(),
-                                                 $googleAccount->getId());
-
-        } else {
-            $providerAccount = $this->socialiteService->getProviderResponse($providerName);
-        }
-
-        $this->log->debug('Received OAUth provider account', ['providerAccount' => $providerAccount]);
+        $providerAccount = $this->oauthLoginHandler->getOAuthUser();
 
         $existingLink = $this->accountLinkRepository->getByProviderAccount($providerName, $providerAccount->getId());
 
@@ -404,20 +334,16 @@ class LoginController extends WebController
         $this->connection->beginTransaction();
         try {
             // create a PCB account for the user
-            $account = $this->accountRepository->create(
-                $providerEmail,
+            $account = $this->accountRepository->create($providerEmail,
                                                         Hash::make(time()),
                                                         null,
-                                                        Carbon::now()
-            );
+                                                        Carbon::now());
 
             // and then create an account link to it
-            $accountLink = $this->accountLinkRepository->create(
-                $account->getKey(),
+            $accountLink = $this->accountLinkRepository->create($account->getKey(),
                                                                 $providerName,
                                                                 $providerId,
-                                                                $providerEmail
-            );
+                                                                $providerEmail);
 
             $this->connection->commit();
         } catch (\Exception $e) {
