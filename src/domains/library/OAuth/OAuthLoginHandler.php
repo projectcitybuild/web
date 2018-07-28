@@ -4,6 +4,7 @@ namespace Domains\Library\OAuth;
 use Domains\Library\OAuth\Storage\OAuthCache;
 use Illuminate\Http\RedirectResponse;
 use Infrastructure\Environment;
+use Illuminate\Http\Request;
 
 class OAuthLoginHandler 
 {
@@ -22,11 +23,19 @@ class OAuthLoginHandler
      */
     private $adapterFactory;
 
+    /**
+     * @var Request
+     */
+    private $request;
 
-    public function __construct(OAuthCache $cache, OAuthAdapterFactory $adapterFactory)
+
+    public function __construct(OAuthCache $cache, 
+                                OAuthAdapterFactory $adapterFactory, 
+                                Request $request)
     {
         $this->cache = $cache;
         $this->adapterFactory = $adapterFactory;
+        $this->request = $request;
     }
 
     public function setProvider(string $providerName)
@@ -52,6 +61,7 @@ class OAuthLoginHandler
         $this->cache->store($redirectUri);
 
         $providerLoginUrl = $this->provider->requestProviderLoginUrl($redirectUri);
+
         return redirect()->to($providerLoginUrl);
     }
 
@@ -60,9 +70,15 @@ class OAuthLoginHandler
         if ($this->provider === null) {
             throw new \Exception('No OAuth provider set');
         }
+
+        $authCode = $this->request->get('code');
+
+        if (empty($authCode)) {
+            throw new \Exception('Invalid or missing auth code from OAuth provider');
+        }
         
         $redirectUri = $this->cache->pop();
-        $user = $this->provider->requestProviderAccount($redirectUri);
+        $user = $this->provider->requestProviderAccount($redirectUri, $authCode);
 
         return $user;
     }

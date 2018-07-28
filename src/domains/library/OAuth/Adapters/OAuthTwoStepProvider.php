@@ -4,6 +4,8 @@ namespace Domains\Library\OAuth\Adapters;
 use Domains\Library\OAuth\OAuthToken;
 use Domains\Library\OAuth\OAuthUser;
 use Domains\Library\OAuth\OAuthProviderContract;
+use Illuminate\Log\Logger;
+use GuzzleHttp\Client;
 
 
 /**
@@ -24,6 +26,11 @@ abstract class OAuthTwoStepProvider implements OAuthProviderContract
      * @var Client
      */
     private $client;
+
+    /**
+     * @var Logger
+     */
+    private $log;
 
     /**
      * Login URL to redirect the user to
@@ -50,13 +57,14 @@ abstract class OAuthTwoStepProvider implements OAuthProviderContract
     protected $userUrl;
 
 
-    public function __construct(Client $client)
+    public function __construct(Client $client, Logger $logger)
     {
         $this->client = $client;
+        $this->log = $logger;
     }
     
 
-    protected abstract function makeToken() : OAuthToken;
+    protected abstract function makeToken(array $json) : OAuthToken;
 
     protected abstract function makeUser(array $json) : OAuthUser;
 
@@ -64,28 +72,23 @@ abstract class OAuthTwoStepProvider implements OAuthProviderContract
 
     protected abstract function getTokenRequestParams(string $redirectUri, string $authCode) : array;
 
+    protected abstract function getUserRequestParams() : array;
+    
 
     public function requestProviderLoginUrl(string $redirectUri) : string
     {
-        $this->cache->store($redirectUri);
-
         $providerUrl = $this->buildAuthCodeRequestUrl($redirectUri);
+        $this->log->debug('Built redirect url: ' . $providerUrl);
 
         return $providerUrl;
     }
 
-    public function requestProviderAccount(string $redirectUri) : OAuthUser
+    public function requestProviderAccount(string $redirectUri, string $authCode) : OAuthUser
     {
-        $authCode = $this->request->get('code');
-
-        if (empty($authCode)) {
-            throw new \Exception('Invalid or missing auth code from OAuth provider');
-        }
-
         $token = $this->exchangeAuthCodeForToken($redirectUri, $authCode);
         $user  = $this->exchangeTokenForUser($token->getAccessToken());
 
-        return $this->makeUser($user);
+        return $user;
     }
 
     private function buildAuthCodeRequestUrl(string $redirectUri) : string
@@ -118,12 +121,18 @@ abstract class OAuthTwoStepProvider implements OAuthProviderContract
         $json  = json_decode($response->getBody(), true);
         $token = $this->makeToken($json);
 
+        $this->log->debug('Exchanged auth code for token', [
+            'response'  => $json,
+            'token'     => $token,
+        ]);
+
         return $token;
     }
 
     private function exchangeTokenForUser(string $accessToken) : OAuthUser
     {
         $response = $this->client->get($this->userUrl, [
+            'query'   => $this->getUserRequestParams(),
             'headers' => [
                 'Authorization' => 'Bearer ' . $accessToken,
             ],
@@ -131,6 +140,11 @@ abstract class OAuthTwoStepProvider implements OAuthProviderContract
 
         $json = json_decode($response->getBody(), true);
         $user = $this->makeUser($json);
+
+        $this->log->debug('Exchanged token for user data', [
+            'response'  => $json,
+            'user'     => $user,
+        ]);
         
         return $user;
     }

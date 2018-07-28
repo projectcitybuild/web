@@ -5,6 +5,7 @@ use Infrastructure\Enum;
 use Domains\Library\OAuth\Adapters\Discord\DiscordOAuthAdapter;
 use Domains\Library\OAuth\Adapters\Google\GoogleOAuthAdapter;
 use Domains\Library\OAuth\Exceptions\UnsupportedOAuthAdapter;
+use Domains\Library\OAuth\Adapters\Facebook\FacebookOAuthAdapter;
 
 class OAuthAdapterFactory extends Enum
 {
@@ -22,6 +23,9 @@ class OAuthAdapterFactory extends Enum
             
             case self::GOOGLE:
                 return resolve(GoogleOAuthAdapter::class);
+
+            case self::FACEBOOK:
+                return resolve(FacebookOAuthAdapter::class);
 
             default:
                 throw new UnsupportedOAuthAdapter('Unsupported OAuth provider');

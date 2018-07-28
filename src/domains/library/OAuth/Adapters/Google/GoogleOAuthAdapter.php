@@ -53,6 +53,14 @@ class GoogleOAuthAdapter extends OAuthTwoStepProvider
     /**
      * @inheritDoc
      */
+    protected function getUserRequestParams() : array
+    {
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
     protected function makeUser(array $json) : OAuthUser
     {
         $googleUser = GoogleOAuthUser::fromJSON($json);
@@ -66,7 +74,7 @@ class GoogleOAuthAdapter extends OAuthTwoStepProvider
     /**
      * @inheritDoc
      */
-    protected function makeToken() : OAuthToken
+    protected function makeToken(array $json) : OAuthToken
     {
         return new OAuthToken($json['access_token'],
                               $json['token_type'],
