@@ -3,15 +3,15 @@ namespace Domains\Library\Discourse\Authentication;
 
 use Domains\Library\Discourse\Exceptions\BadSSOPayloadException;
 
-class DiscourseAuthService
+class DiscoursePayloadValidator
 {
-
     /**
      * Key to use when signing a payload
      *
      * @var string
      */
     private $key;
+    
 
     public function __construct(string $key = null)
     {

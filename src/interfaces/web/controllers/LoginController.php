@@ -7,7 +7,7 @@ use Domains\Modules\Accounts\Services\Login\AccountLoginService;
 use Domains\Modules\Accounts\Services\Login\AccountSocialLoginExecutor;
 use Domains\Library\Discourse\Api\DiscourseUserApi;
 use Domains\Library\Discourse\Api\DiscourseAdminApi;
-use Domains\Library\Discourse\Authentication\DiscourseAuthService;
+use Domains\Library\Discourse\Authentication\DiscoursePayloadValidator;
 use Domains\Library\Discourse\Authentication\DiscoursePayload;
 use Domains\Modules\Accounts\Repositories\AccountRepository;
 use Domains\Modules\Accounts\Repositories\AccountLinkRepository;
@@ -28,9 +28,9 @@ use Domains\Library\OAuth\Exceptions\UnsupportedOAuthAdapter;
 class LoginController extends WebController
 {
     /**
-     * @var DiscourseAuthService
+     * @var DiscoursePayloadValidator
      */
-    private $discourseAuthService;
+    private $discoursePayloadValidator;
 
     /**
      * @var DiscourseUserApi
@@ -77,7 +77,7 @@ class LoginController extends WebController
      */
     private $logoutService;
 
-    public function __construct(DiscourseAuthService $discourseAuthService,
+    public function __construct(DiscoursePayloadValidator $discoursePayloadValidator,
                                 DiscourseUserApi $discourseUserApi,
                                 DiscourseAdminApi $discourseAdminApi,
                                 AccountRepository $accountRepository,
@@ -88,7 +88,7 @@ class LoginController extends WebController
                                 Logger $logger,
                                 LogoutService $logoutService
     ) {
-        $this->discourseAuthService = $discourseAuthService;
+        $this->discoursePayloadValidator = $discoursePayloadValidator;
         $this->discourseUserApi = $discourseUserApi;
         $this->discourseAdminApi = $discourseAdminApi;
         $this->accountRepository = $accountRepository;
@@ -119,7 +119,7 @@ class LoginController extends WebController
         // validate that the given signature matches the
         // payload when signed with our private key. This
         // prevents any payload tampering
-        $isValidPayload = $this->discourseAuthService->isValidPayload($sso, $signature);
+        $isValidPayload = $this->discoursePayloadValidator->isValidPayload($sso, $signature);
         if ($isValidPayload === false) {
             $this->log->debug('Received invalid SSO payload (sso: '.$sso.' | sig: '.$signature);
             abort(400);
@@ -130,7 +130,7 @@ class LoginController extends WebController
         // authentication
         $payload = null;
         try {
-            $payload = $this->discourseAuthService->unpackPayload($sso);
+            $payload = $this->discoursePayloadValidator->unpackPayload($sso);
         } catch (BadSSOPayloadException $e) {
             $this->log->debug('Failed to unpack SSO payload (sso: '.$sso.' | sig: '.$signature);
             abort(400);
@@ -185,11 +185,11 @@ class LoginController extends WebController
     
 
         // generate new payload to send to discourse
-        $payload    = $this->discourseAuthService->makePayload($payload);
-        $signature  = $this->discourseAuthService->getSignedPayload($payload);
+        $payload    = $this->discoursePayloadValidator->makePayload($payload);
+        $signature  = $this->discoursePayloadValidator->getSignedPayload($payload);
 
         // attach parameters to return url
-        $endpoint   = $this->discourseAuthService->getRedirectUrl($returnUrl, $payload, $signature);
+        $endpoint   = $this->discoursePayloadValidator->getRedirectUrl($returnUrl, $payload, $signature);
 
         $this->log->info('Logging in user: '.$account->getKey());
 
@@ -286,10 +286,10 @@ class LoginController extends WebController
             ->build();
 
     
-        $payload    = $this->discourseAuthService->makePayload($payload);
-        $signature  = $this->discourseAuthService->getSignedPayload($payload);
+        $payload    = $this->discoursePayloadValidator->makePayload($payload);
+        $signature  = $this->discoursePayloadValidator->getSignedPayload($payload);
 
-        $url = $this->discourseAuthService->getRedirectUrl($returnUrl, $payload, $signature);
+        $url = $this->discoursePayloadValidator->getRedirectUrl($returnUrl, $payload, $signature);
 
         $this->log->info('Logging in PCB user ('.$account->getKey().') via OAuth');
         $this->log->debug($payload);
@@ -365,11 +365,11 @@ class LoginController extends WebController
     
 
         // generate new payload to send to discourse
-        $payload    = $this->discourseAuthService->makePayload($payload);
-        $signature  = $this->discourseAuthService->getSignedPayload($payload);
+        $payload    = $this->discoursePayloadValidator->makePayload($payload);
+        $signature  = $this->discoursePayloadValidator->getSignedPayload($payload);
 
         // attach parameters to return url
-        $endpoint   = $this->discourseAuthService->getRedirectUrl($returnUrl, $payload, $signature);
+        $endpoint   = $this->discoursePayloadValidator->getRedirectUrl($returnUrl, $payload, $signature);
 
         return redirect()->to($endpoint);
     }
