@@ -38,7 +38,7 @@ class DiscourseLoginHandler
         // validate that the given signature matches the
         // payload when signed with our private key. This
         // prevents any payload tampering
-        $isValidPayload = $this->discoursePayloadValidator->isValidPayload($sso, $signature);
+        $isValidPayload = $this->payloadValidator->isValidPayload($sso, $signature);
         if ($isValidPayload === false) {
             $this->log->debug('Received invalid SSO payload (sso: '.$sso.' | sig: '.$signature);
             throw new BadSSOPayloadException('Invalid SSO payload');
@@ -49,7 +49,7 @@ class DiscourseLoginHandler
         // authentication
         $payload = null;
         try {
-            $payload = $this->discoursePayloadValidator->unpackPayload($sso);
+            $payload = $this->payloadValidator->unpackPayload($sso);
         } catch (BadSSOPayloadException $e) {
             $this->log->debug('Failed to unpack SSO payload (sso: '.$sso.' | sig: '.$signature);
             throw $e;
@@ -67,8 +67,8 @@ class DiscourseLoginHandler
     {
         $sso = $this->storage->get();
 
-        $nonce     = $sso['discourse_nonce'];
-        $returnUrl = $sso['discourse_return'];
+        $nonce     = $sso['nonce'];
+        $returnUrl = $sso['return_uri'];
 
         if ($nonce === null || $returnUrl === null) {
             throw new BadSSOPayloadException('`nonce` or `return` key missing in session');
@@ -81,11 +81,11 @@ class DiscourseLoginHandler
             ->build();
 
         // generate new payload to send to discourse
-        $payload    = $this->discoursePayloadValidator->makePayload($payload);
-        $signature  = $this->discoursePayloadValidator->getSignedPayload($payload);
+        $payload    = $this->payloadValidator->makePayload($payload);
+        $signature  = $this->payloadValidator->getSignedPayload($payload);
 
         // attach parameters to return url
-        $endpoint   = $this->discoursePayloadValidator->getRedirectUrl($returnUrl, $payload, $signature);
+        $endpoint   = $this->payloadValidator->getRedirectUrl($returnUrl, $payload, $signature);
 
         $this->storage->clear();
 

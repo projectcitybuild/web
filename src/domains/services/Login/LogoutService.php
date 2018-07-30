@@ -70,10 +70,10 @@ class LogoutService
         $this->auth->logout();
 
         
-        $externalId = $this->auth->id();
-        $user = $this->getDiscourseUser($externalId);
+        $pcbId = $this->auth->id();
+        $user = $this->getDiscourseUser($pcbId);
 
-        $this->log->info('Logging out user: '.$externalId);
+        $this->log->info('Logging out user: '.$pcbId);
 
         try {
             $this->discourseAdminApi->requestLogout($user['id'], $user['username']);
@@ -101,7 +101,7 @@ class LogoutService
      */
     private function getDiscourseUser(int $pcbId) : array
     {
-        $result = $this->discourseUserApi->fetchUserByPcbId($externalId);
+        $result = $this->discourseUserApi->fetchUserByPcbId($pcbId);
 
         $user = $result['user'];
         if ($user === null) {

@@ -30,8 +30,8 @@ class DiscourseNonceStorage
     {
         $this->getSession()->put([
             self::SESSION_KEY => [
-                'nonce'      => $payload['nonce'],
-                'return_uri' => $payload['return_sso_url'],
+                'nonce'      => $nonce,
+                'return_uri' => $returnUri,
             ],
         ]);
     }

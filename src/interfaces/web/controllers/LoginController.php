@@ -110,7 +110,7 @@ class LoginController extends WebController
         }
 
         try {
-            $redirectUrl = $this->discourseLoginHandler->getLoginRedirectUrl($account->getKey(), $account->email);
+            $endpoint = $this->discourseLoginHandler->getLoginRedirectUrl($account->getKey(), $account->email);
             return redirect()->to($endpoint);
 
         } catch (BadSSOPayloadException $e) {
