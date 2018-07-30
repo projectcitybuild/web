@@ -21,6 +21,7 @@ before_script:
 
 script:
   - support/packages/vendor/bin/phpunit
+  - vendor/bin/phpunit --coverage-clover=coverage.xml
 
 after_success:
   - "curl https://projectcitybuild.com/deploy?key=$DEPLOY_KEY"

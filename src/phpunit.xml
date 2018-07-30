@@ -31,9 +31,7 @@
         <env name="DB_CONNECTION" value="tests"/>
     </php>
 
-    <!-- <logging>
-        <log type="coverage-html" target="./storage/reports/coverage" charset="UTF-8"
-            yui="true" highlight="true"
-            lowUpperBound="50" highLowerBound="80"/>
-    </logging> -->
+    <logging>
+        <log type="coverage-clover" target="clover.xml"/>
+    </logging>
 </phpunit>
