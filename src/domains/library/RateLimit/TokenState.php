@@ -39,17 +39,13 @@ class TokenState
     {
         $tokens = json_decode($json, true);
         
-        return new TokenState(
-            $tokens['available'],
-                              $tokens['last_consume']
-        );
+        return new TokenState($tokens['available'],
+                              $tokens['last_consume']);
     }
 
     public static function fromArray(array $array) : TokenState
     {
-        return new TokenState(
-            $array['available'],
-                              $array['last_consume']
-        );
+        return new TokenState($array['available'],
+                              $array['last_consume']);
     }
 }

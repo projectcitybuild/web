@@ -19,6 +19,7 @@ The official repository for [Project City Build](https://projectcitybuild.com)'s
     * Docker (and Docker-Compose)
 * CI /  CD
     * Travis CI
+    * Codecov
 
 All master and dev branch commits are continuously tested by Travis CI.
 
