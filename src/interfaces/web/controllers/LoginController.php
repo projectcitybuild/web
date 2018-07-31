@@ -190,6 +190,12 @@ class LoginController extends WebController
         return view('front.pages.register.register-oauth', $registerUrlPayload);
     }
 
+    /**
+     * Creates a PCB account with a 3rd party account link
+     *
+     * @param Request $request
+     * @return void
+     */
     public function createSocialAccount(Request $request)
     {
         $providerEmail = $request->get('email');

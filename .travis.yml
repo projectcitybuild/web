@@ -13,6 +13,8 @@ before_script:
   - cd src
   - cp .env.ci .env
   - composer install --no-interaction
+  - npm install
+  - npm run production
   - php artisan key:generate
   - php artisan migrate
 

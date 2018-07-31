@@ -15,7 +15,7 @@
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./app</directory>
+            <directory suffix=".php">./domains</directory>
             <exclude>
                 <file>./interfaces/web/api/Routes.php</file>
                 <file>./interfaces/web/console/Routes.php</file>
@@ -30,7 +30,6 @@
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="DB_CONNECTION" value="tests"/>
     </php>
-
     <logging>
         <log type="coverage-clover" target="clover.xml"/>
     </logging>
