@@ -5,6 +5,7 @@ php:
 cache:
   directories:
     - src/support/packages/vendor
+    - src/node_modules
 
 services:
   - mysql
