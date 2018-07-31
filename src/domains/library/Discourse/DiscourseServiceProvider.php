@@ -12,9 +12,7 @@ class DiscourseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
-    }
+    public function boot() {}
 
     /**
      * Register bindings in the container.

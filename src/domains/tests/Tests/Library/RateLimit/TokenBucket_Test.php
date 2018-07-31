@@ -6,15 +6,8 @@ use Domains\Library\RateLimit\TokenBucket;
 use Domains\Library\RateLimit\TokenRate;
 use Domains\Library\RateLimit\Storage\MemoryTokenStorage;
 
-function microtime(bool $getAsFloat = false) 
-{
-    return TokenBucket_Test::$microTime ?: \microtime($getAsFloat);
-}
-
 class TokenBucket_Test extends TestCase
 {
-    public static $microTime;
-
     public function testCanConstructWithInitialTokens()
     {
         // given...
