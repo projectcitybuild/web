@@ -86,7 +86,7 @@ class LoginController extends WebController
         }
 
         try {
-            $this->discourseLoginHandler->verifyPayload($sso, $signature);
+            $this->discourseLoginHandler->verifyAndStorePayload($sso, $signature);
         } catch (BadSSOPayloadException $e) {
             abort(400);
         }

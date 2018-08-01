@@ -33,7 +33,7 @@ class DiscourseLoginHandler
     }
 
 
-    public function verifyPayload(string $sso, string $signature)
+    public function verifyAndStorePayload(string $sso, string $signature)
     {
         // validate that the given signature matches the
         // payload when signed with our private key. This

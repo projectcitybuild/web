@@ -23,7 +23,7 @@ class DiscourseServiceProvider extends ServiceProvider
     {
         $this->app->bind(DiscoursePayloadValidator::class, function ($app) {
             return new DiscoursePayloadValidator(
-                env('DISCOURSE_SSO_SECRET')
+                config('discourse.sso_secret')
             );
         });
     }
