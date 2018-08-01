@@ -6,6 +6,7 @@ use Domains\Library\Discourse\Authentication\DiscourseLoginHandler;
 use Illuminate\Log\Logger;
 use Domains\Library\Discourse\Authentication\DiscourseNonceStorage;
 use Domains\Library\Discourse\Authentication\DiscoursePayloadValidator;
+use Domains\Library\Discourse\Exceptions\BadSSOPayloadException;
 
 class DiscourseLoginHandler_Test extends TestCase
 {
@@ -49,7 +50,19 @@ class DiscourseLoginHandler_Test extends TestCase
 
         // when...
         $handler->verifyAndStorePayload($validSSO, $validSignature);
+    }
 
+    public function testVerifyPayload_badPayload()
+    {
+        // given...
+        $payloadValidator = new DiscoursePayloadValidator('test_key');
+        $handler = new DiscourseLoginHandler($this->storageMock, $payloadValidator, $this->logStub);
+        
+        // expect...
+        $this->expectException(BadSSOPayloadException::class);
+
+        // when...
+        $handler->verifyAndStorePayload('bad_payload', 'valid_payload');
     }
 
     public function testGetLoginRedirectUrl()
