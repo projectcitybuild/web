@@ -12,7 +12,7 @@ use Illuminate\Log\Logger;
 class OAuthDiscordAdapter_Test extends TestCase
 {
     private $loggerStub;
-    private $clientStub;
+    private $clientMock;
     
     public function setUp() 
     {
@@ -22,7 +22,7 @@ class OAuthDiscordAdapter_Test extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->clientStub = $this->getMockBuilder(Client::class)
+        $this->clientMock = $this->getMockBuilder(Client::class)
             ->getMock();
     }
 
@@ -38,7 +38,7 @@ class OAuthDiscordAdapter_Test extends TestCase
     public function testGetLoginUrl_succeeds()
     {
         // given...
-        $adapter = new DiscordOAuthAdapter($this->clientStub, $this->loggerStub);
+        $adapter = new DiscordOAuthAdapter($this->clientMock, $this->loggerStub);
         $redirectUri = 'https://projectcitybuild.com/test_uri';
 
         // when...

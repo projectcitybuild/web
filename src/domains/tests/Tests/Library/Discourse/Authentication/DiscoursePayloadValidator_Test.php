@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Library\RateLimit;
+namespace Tests\Library\Discourse\Authentication;
 
 use Tests\TestCase;
 use Domains\Library\Discourse\Authentication\DiscoursePayloadValidator;
