@@ -12379,7 +12379,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 
 const getAnnouncements = () => __awaiter(this, void 0, void 0, function* () {
     try {
-        const response = yield __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('https://forums.projectcitybuild.com/c/announcements/l/latest.json?_=' + Date.now());
+        const response = yield __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('https://forums.projectcitybuild.com/c/announcements/l/latest.json?order=created');
         if (response.status !== 200) {
             throw new Error(`${response.status} error while fetching announcements`);
         }
