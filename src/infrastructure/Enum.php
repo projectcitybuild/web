@@ -3,51 +3,66 @@ namespace Infrastructure;
 
 abstract class Enum
 {
-    /**
-     * Returns all constants as a KvP array
-     *
-     * @return array
-     */
-    public static function getConstants()
+    private $value;
+
+    public function __construct($value)
+    {
+        $class = new \ReflectionObject($this);
+        $constants = $class->getConstants();
+        if (in_array($value, $constants, true) === false) {
+            throw new \InvalidArgumentException;
+        }
+
+        $this->value = $value;
+    }
+
+    public static function __callStatic($name, $arguments)
+    {
+        return self::dynamicallyMake($name);
+    }
+
+    public function valueOf()
+    {
+        return $this->value;
+    }
+
+    public function __toString()
+    {
+        return (string)$this->value;
+    }
+
+
+    public static function constants() : array
     {
         $class = new \ReflectionClass(get_called_class());
         return $class->getConstants() ?: [];
     }
 
-    /**
-     * Returns all constant keys
-     *
-     * @return array
-     */
-    public static function getKeys()
+    public static function keys() : array
     {
-        return array_keys(self::getConstants()) ?: [];
+        return array_keys(self::constants()) ?: [];
     }
 
-    /**
-     * Returns all constant values
-     *
-     * @return void
-     */
-    public static function getValues()
+    public static function values() : array
     {
-        return array_values(self::getConstants()) ?: [];
+        return array_values(self::constants()) ?: [];
     }
 
-    /**
-     * Converts the given key to its value
-     *
-     * @param string $key
-     *
-     * @throws \Exception
-     * @return string
-     */
-    public static function toValue(string $key) : string
+    public static function fromRawValue($rawValue)
     {
-        $constants = self::getConstants() ?: [];
-        if (array_key_exists($key, $constants) === false) {
-            throw new \Exception(get_called_class() . ' does not contain key ['.$key.']');
+        $constants = self::constants();
+        foreach($constants as $key => $value) {
+            if ($value === $rawValue) {
+                return self::dynamicallyMake($value);
+            }
         }
-        return $constants[$key];
+        throw new \InvalidArgumentException;
+    }
+
+    private static function dynamicallyMake($label)
+    {
+        $class = get_called_class();
+        $const = constant("$class::$label");
+        return new $class($const);
     }
 }

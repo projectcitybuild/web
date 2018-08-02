@@ -1,9 +1,9 @@
 <?php
 namespace Domains\Modules\Bans;
 
-use Infrastructure\Enum;
+use Infrastructure\LegacyEnum;
 
-class BanLogActionEnum extends Enum
+class BanLogActionEnum extends LegacyEnum
 {
     const CREATE_BAN = 1;
     const CREATE_UNBAN = 2;
