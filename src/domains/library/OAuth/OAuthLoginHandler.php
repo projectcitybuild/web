@@ -72,13 +72,14 @@ class OAuthLoginHandler
         }
 
         $authCode = $this->request->get('code');
+        $token = $this->request->get('oauth_token');  // for Twitter OAuth
 
-        if (empty($authCode)) {
+        if (empty($authCode) && empty($token)) {
             throw new \Exception('Invalid or missing auth code from OAuth provider');
         }
         
         $redirectUri = $this->cache->pop();
-        $user = $this->provider->requestProviderAccount($redirectUri, $authCode);
+        $user = $this->provider->requestProviderAccount($redirectUri, $authCode ?: $token);
 
         return $user;
     }
