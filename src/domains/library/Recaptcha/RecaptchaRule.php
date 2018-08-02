@@ -35,9 +35,9 @@ class RecaptchaRule extends Rule
     /**
      * Disables Recaptcha for the current request
      */
-    public static function disable()
+    public static function enable(bool $enabled = true)
     {
-        config(['recaptcha.enabled' => false]);
+        config(['recaptcha.enabled' => $enabled]);
     }
 
     /**

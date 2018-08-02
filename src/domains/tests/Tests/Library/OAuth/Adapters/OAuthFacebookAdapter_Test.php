@@ -12,7 +12,7 @@ use Illuminate\Log\Logger;
 class OAuthFacebookAdapter_Test extends TestCase
 {
     private $loggerStub;
-    private $clientStub;
+    private $clientMock;
     
     public function setUp() 
     {
@@ -22,7 +22,7 @@ class OAuthFacebookAdapter_Test extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->clientStub = $this->getMockBuilder(Client::class)
+        $this->clientMock = $this->getMockBuilder(Client::class)
             ->getMock();
     }
 
@@ -38,7 +38,7 @@ class OAuthFacebookAdapter_Test extends TestCase
     public function testGetLoginUrl_succeeds()
     {
         // given...
-        $adapter = new FacebookOAuthAdapter($this->clientStub, $this->loggerStub);
+        $adapter = new FacebookOAuthAdapter($this->clientMock, $this->loggerStub);
         $redirectUri = 'https://projectcitybuild.com/test_uri';
 
         // when...

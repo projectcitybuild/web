@@ -28,7 +28,7 @@ class Register_Render_Test extends TestCase
         Notification::fake();
 
         // disable recaptcha in registration tests
-        RecaptchaRule::disable();
+        RecaptchaRule::enable(false);
     }
 
 

@@ -3,7 +3,7 @@ namespace Domains\Library\Discourse\Api;
 
 use function GuzzleHttp\json_decode;
 use Domains\Library\Discourse\Authentication\DiscoursePayload;
-use Domains\Library\Discourse\Authentication\DiscourseAuthService;
+use Domains\Library\Discourse\Authentication\DiscoursePayloadValidator;
 
 class DiscourseAdminApi
 {
@@ -14,17 +14,17 @@ class DiscourseAdminApi
     private $client;
 
     /**
-     * @var DiscourseAuthService
+     * @var DiscoursePayloadValidator
      */
-    private $discourseAuthService;
+    private $discoursePayloadValidator;
 
     
     public function __construct(
         DiscourseClient $client,
-                                DiscourseAuthService $discourseAuthService
+                                DiscoursePayloadValidator $discoursePayloadValidator
     ) {
         $this->client = $client;
-        $this->discourseAuthService = $discourseAuthService;
+        $this->discoursePayloadValidator = $discoursePayloadValidator;
     }
 
 
@@ -84,8 +84,8 @@ class DiscourseAdminApi
      */
     public function requestSSOSync(array $payload)
     {
-        $payload   = $this->discourseAuthService->makePayload($payload);
-        $signature = $this->discourseAuthService->getSignedPayload($payload);
+        $payload   = $this->discoursePayloadValidator->makePayload($payload);
+        $signature = $this->discoursePayloadValidator->getSignedPayload($payload);
 
         $response = $this->client->post('admin/users/sync_sso', [
             'query' => [

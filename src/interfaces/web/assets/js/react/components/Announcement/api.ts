@@ -46,7 +46,7 @@ export interface ApiPost {
 */
 export const getAnnouncements = async() : Promise<ApiTopicList> => {
     try {
-        const response = await axios.get('https://forums.projectcitybuild.com/c/announcements/l/latest.json?_=' + Date.now());
+        const response = await axios.get('https://forums.projectcitybuild.com/c/announcements/l/latest.json?order=created');
         if(response.status !== 200) {
             throw new Error(`${response.status} error while fetching announcements`);
         }

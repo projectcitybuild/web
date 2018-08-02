@@ -1,10 +1,3 @@
-branches:
-  only:
-  - master
-  - dev
-  - wip/docker
-  - wip/travis
-
 language: php
 php:
   - '7.2'
@@ -12,22 +5,22 @@ php:
 cache:
   directories:
     - src/support/packages/vendor
+    - src/node_modules
 
 services:
   - mysql
 
 before_script:
-  # disable xdebug since we're not generating coverage reports
-  - phpenv config-rm xdebug.ini
-
   - cd src
   - cp .env.ci .env
   - composer install --no-interaction
+  - npm install
+  - npm run production
   - php artisan key:generate
   - php artisan migrate
 
 script:
-  - support/packages/vendor/bin/phpunit
+  - support/packages/vendor/bin/phpunit --coverage-clover=coverage.xml
 
 after_success:
-  - "curl https://projectcitybuild.com/deploy?key=$DEPLOY_KEY"
+  - bash <(curl -s https://codecov.io/bash)

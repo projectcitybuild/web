@@ -57,4 +57,9 @@ class MockQueryAdapter implements QueryAdapterInterface
         }
         return new QueryResult(false, 0, 0, []);
     }
+
+    public function getPlayerFetchAdapter(): string
+    {
+        return "";
+    }
 }

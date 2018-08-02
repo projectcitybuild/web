@@ -79,4 +79,9 @@ class TokenBucket
 
         return $availableTokens;
     }
+
+    public function getCapacity() : int
+    {
+        return $this->capacity;
+    }
 }

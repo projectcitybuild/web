@@ -3,15 +3,15 @@ namespace Domains\Library\Discourse\Authentication;
 
 use Domains\Library\Discourse\Exceptions\BadSSOPayloadException;
 
-class DiscourseAuthService
+class DiscoursePayloadValidator
 {
-
     /**
      * Key to use when signing a payload
      *
      * @var string
      */
     private $key;
+    
 
     public function __construct(string $key = null)
     {
@@ -76,7 +76,7 @@ class DiscourseAuthService
 
         if (array_key_exists('nonce', $discourse) === false ||
             array_key_exists('return_sso_url', $discourse) === false) {
-            throw BadSSOPayloadException('nonce or return_sso_url key missing in payload');
+            throw new BadSSOPayloadException('nonce or return_sso_url key missing in payload');
         }
 
         return $discourse;

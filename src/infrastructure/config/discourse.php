@@ -13,4 +13,14 @@ return [
     */
     'signing_enabled'   => env('DISCOURSE_ENABLE_PAYLOAD_SIGNING', true),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Discourse SSO key
+    |--------------------------------------------------------------------------
+    |
+    | Key for signing and verifying payloads from Discourse
+    |
+    */
+    'sso_secret' => env('DISCOURSE_SSO_SECRET')
+
 ];

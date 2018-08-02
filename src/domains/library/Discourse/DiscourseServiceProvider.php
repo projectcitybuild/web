@@ -2,7 +2,7 @@
 namespace Domains\Library\Discourse;
 
 use Illuminate\Support\ServiceProvider;
-use Domains\Library\Discourse\Authentication\DiscourseAuthService;
+use Domains\Library\Discourse\Authentication\DiscoursePayloadValidator;
 
 class DiscourseServiceProvider extends ServiceProvider
 {
@@ -12,9 +12,7 @@ class DiscourseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
-    }
+    public function boot() {}
 
     /**
      * Register bindings in the container.
@@ -23,9 +21,9 @@ class DiscourseServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(DiscourseAuthService::class, function ($app) {
-            return new DiscourseAuthService(
-                env('DISCOURSE_SSO_SECRET')
+        $this->app->bind(DiscoursePayloadValidator::class, function ($app) {
+            return new DiscoursePayloadValidator(
+                config('discourse.sso_secret')
             );
         });
     }

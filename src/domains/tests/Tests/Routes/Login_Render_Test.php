@@ -1,7 +1,7 @@
 <?php
 namespace Tests\Integration;
 
-use Domains\Library\Discourse\Authentication\DiscourseAuthService;
+use Domains\Library\Discourse\Authentication\DiscoursePayloadValidator;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -20,7 +20,7 @@ class Login_Render_Test extends TestCase
 
         // disable checking the signed payload
         // in the url
-        DiscourseAuthService::disablePayloadChecks();
+        DiscoursePayloadValidator::disablePayloadChecks();
     }
 
     public function testDoesRender()
