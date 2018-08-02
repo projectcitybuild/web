@@ -1,16 +1,29 @@
+# packages
 /node_modules
-/public/hot
-/public/storage
-/public/assets/css
-/public/assets/js
-/storage/*.key
 /vendor
-/.idea
-/.vagrant
-mix-manifest.json
-Homestead.json
-Homestead.yaml
+
+# logs
 npm-debug.log
 yarn-error.log
+
+# environment settings
 .env
+
+# generated resources/builds
+/interfaces/web/public/css
+/interfaces/web/public/js
+mix-manifest.json
+.php_cs.cache
+
+# user uploaded files
+/interfaces/web/public/storage
+/storage/*.key
+
+# IDE generated settings
 .vscode
+/.idea
+
+# dev environments
+/.vagrant
+Homestead.json
+Homestead.yaml
