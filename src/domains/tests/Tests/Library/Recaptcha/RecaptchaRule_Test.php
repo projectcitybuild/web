@@ -13,7 +13,6 @@ use GuzzleHttp\Psr7\Response;
 class RecaptchaRule_Test extends TestCase
 {
     private $logStub;
-    private $clientMock;
 
     public function setUp()
     {
@@ -23,9 +22,8 @@ class RecaptchaRule_Test extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->clientMock = $this->getMockBuilder(Client::class)
-            ->getMock();
-        }
+        RecaptchaRule::enable();
+    }
 
     private function getClientWithResponses(array $responses)
     {
