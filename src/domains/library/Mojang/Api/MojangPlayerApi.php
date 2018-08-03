@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Modules\Servers\Services\PlayerFetching\Api\Mojang;
+namespace Domains\Library\Mojang\Api;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -8,7 +8,7 @@ use Domains\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayerNameH
 use Application\Exceptions\TooManyRequestsException;
 use GuzzleHttp\Exception\ClientException;
 
-class MojangApiService
+class MojangPlayerApi
 {
     private $client;
 

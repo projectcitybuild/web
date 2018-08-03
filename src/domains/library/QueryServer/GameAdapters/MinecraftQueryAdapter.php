@@ -1,10 +1,8 @@
 <?php
-namespace Domains\Library\ServerQuery\GameAdapters;
+namespace Domains\Library\QueryServer\GameAdapters;
 
-use Domains\Library\ServerQuery\ServerQueryAdapterContract;
-use Domains\Library\ServerQuery\ServerQueryResult;
-use Domains\Modules\Servers\Services\PlayerFetching\GameAdapters\MojangUuidAdapter;
-use Domains\Modules\Servers\Services\PlayerFetching\PlayerFetchAdapterInterface;
+use Domains\Library\QueryServer\ServerQueryAdapterContract;
+use Domains\Library\QueryServer\ServerQueryResult;
 use xPaw\MinecraftQuery;
 use xPaw\MinecraftQueryException;
 

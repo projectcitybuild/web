@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Modules\Servers\Services\PlayerFetching\Api\Mojang;
+namespace Domains\Library\Mojang\Models;
 
 class MojangPlayerNameChange
 {
@@ -25,12 +25,16 @@ class MojangPlayerNameChange
      */
     private $isCurrent;
 
-    public function __construct(string $alias, int $changedToAt = null, bool $isCurrent = false)
+
+    public function __construct(string $alias, 
+                                int $changedToAt = null, 
+                                bool $isCurrent = false)
     {
         $this->alias = $alias;
         $this->changedToAt = $changedToAt;
         $this->isCurrent = $isCurrent;
     }
+    
 
     public function getAlias() : string
     {

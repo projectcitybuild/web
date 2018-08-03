@@ -1,50 +1,54 @@
 <?php
-namespace Domains\Library\ServerQuery\GameAdapters;
+namespace Domains\Library\QueryServer\GameAdapters;
 
-use Domains\Library\ServerQuery\ServerQueryAdapterContract;
-use Domains\Library\ServerQuery\ServerQueryResult;
+use Domains\Library\QueryServer\ServerQueryAdapterContract;
+use Domains\Library\QueryServer\ServerQueryResult;
 
 class MockQueryAdapter implements ServerQueryAdapterContract
 {
     /**
      * @var bool
      */
-    private $isOnline;
+    private $isOnline = false;
 
     /**
      * @var int
      */
-    private $playerCount;
+    private $playerCount = 0;
 
     /**
      * @var int
      */
-    private $maxPlayers;
+    private $maxPlayers = 0;
 
     /**
      * @var array
      */
-    private $players;
+    private $players = [];
 
     
-    public function setIsOnline(bool $isOnline)
+    public function setIsOnline(bool $isOnline) : MockQueryAdapter
     {
         $this->isOnline = $isOnline;
+        return $this;
     }
 
-    public function setPlayerCount(int $count)
+    public function setPlayerCount(int $count) : MockQueryAdapter
     {
         $this->playerCount = $count;
+        return $this;
     }
 
-    public function setMaxPlayers(int $count)
+    public function setMaxPlayers(int $count) : MockQueryAdapter
     {
         $this->maxPlayers = $count;
+        return $this;
     }
 
-    public function setPlayers(array $players)
+    public function setPlayers(array $players) : MockQueryAdapter
     {
         $this->players = $players;
+        return $this;
     }
 
     /**

@@ -8,6 +8,7 @@ use Domains\Modules\ServerKeys\Exceptions\UnauthorisedTokenException;
 use Domains\Modules\ServerKeys\Models\ServerKey;
 use Application\Exceptions\ForbiddenException;
 
+// TODO: move this
 class ServerKeyTokenAuthService
 {
 

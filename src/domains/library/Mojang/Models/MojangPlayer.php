@@ -1,9 +1,8 @@
 <?php
-namespace Domains\Modules\Servers\Services\PlayerFetching\Api\Mojang;
+namespace Domains\Library\Mojang\Models;
 
 class MojangPlayer
 {
-
     /**
      * Player's unique Mojang identifier (UUID)
      *
@@ -32,17 +31,18 @@ class MojangPlayer
      */
     private $isDemoAccount;
 
-    public function __construct(
-        string $uuid,
-        string $alias,
-        bool $isLegacyAccount = false,
-        bool $isDemoAccount = false
-    ) {
+
+    public function __construct(string $uuid,
+                                string $alias,
+                                bool $isLegacyAccount = false,
+                                bool $isDemoAccount = false) 
+    {
         $this->uuid = $uuid;
         $this->alias = $alias;
         $this->isLegacyAccount = $isLegacyAccount;
         $this->isDemoAccount = $isDemoAccount;
     }
+    
 
     public function getUuid() : string
     {

@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Library\ServerQuery;
+namespace Domains\Library\QueryServer;
 
 use Illuminate\Log\Logger;
 
@@ -16,11 +16,15 @@ class ServerQueryHandler
      */
     private $log;
 
-    public function __construct(ServerQueryAdapterContract $adapter,
-                                Logger $logger)
+    
+    public function __construct(Logger $logger)
+    {
+        $this->log = $logger;
+    }
+
+    public function setAdapter(ServerQueryAdapterContract $adapter)
     {
         $this->adapter = $adapter;
-        $this->log = $logger;
     }
 
     public function queryServer(string $ip, string $port) : ServerQueryResult

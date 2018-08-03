@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Library\ServerQuery;
+namespace Domains\Library\QueryServer;
 
 interface ServerQueryAdapterContract
 {
