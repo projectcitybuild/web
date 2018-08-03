@@ -4,7 +4,6 @@ namespace Domains\Modules\Servers\Models;
 
 use Application\Model;
 use Domains\Modules\Servers\GameTypeEnum;
-use App\Modules\Servers\GameTypeEnum;
 
 class Server extends Model
 {
