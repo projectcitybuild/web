@@ -1,8 +1,8 @@
 <?php
 namespace Domains\Modules\Servers;
 
-use App\Modules\Servers\Services\Querying\GameAdapters\MinecraftQueryAdapter;
 use Infrastructure\Enum;
+use Domains\Library\QueryServer\GameAdapters\MinecraftQueryAdapter;
 
 /**
  * List of games PCB supports

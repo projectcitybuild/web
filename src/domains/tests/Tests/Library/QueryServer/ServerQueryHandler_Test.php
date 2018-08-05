@@ -5,10 +5,16 @@ use Tests\TestCase;
 use Domains\Library\QueryServer\GameAdapters\MockQueryAdapter;
 use Domains\Library\QueryServer\ServerQueryHandler;
 use Illuminate\Log\Logger;
+use Domains\Modules\Servers\Repositories\ServerStatusRepository;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ServerQueryHandler_Test extends TestCase
 {
+    use DatabaseMigrations, DatabaseTransactions;
+
     private $logStub;
+    private $statusRepositoryStub;
 
     public function setUp() 
     {
@@ -16,6 +22,9 @@ class ServerQueryHandler_Test extends TestCase
 
         $this->logStub = $this->getMockBuilder(Logger::class)
             ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->statusRepositoryStub = $this->getMockBuilder(ServerStatusRepository::class)
             ->getMock();
     }
 
@@ -28,11 +37,11 @@ class ServerQueryHandler_Test extends TestCase
             ->setPlayerCount(5)
             ->setMaxPlayers(10);
 
-        $queryHandler = new ServerQueryHandler($this->logStub);
+        $queryHandler = new ServerQueryHandler($this->statusRepositoryStub, $this->logStub);
         $queryHandler->setAdapter($mockAdapter);
 
         // when...
-        $status = $queryHandler->queryServer('192.168.0.1', '25565');
+        $status = $queryHandler->queryServer(1, '192.168.0.1', '25565');
 
         // expect...
         $this->assertEquals(5, $status->getNumOfPlayers());
@@ -47,13 +56,59 @@ class ServerQueryHandler_Test extends TestCase
         $mockAdapter
             ->setIsOnline(false);
 
-        $queryHandler = new ServerQueryHandler($this->logStub);
+        $queryHandler = new ServerQueryHandler($this->statusRepositoryStub, $this->logStub);
         $queryHandler->setAdapter($mockAdapter);
 
         // when...
-        $status = $queryHandler->queryServer('192.168.0.1', '25565');
+        $status = $queryHandler->queryServer(1, '192.168.0.1', '25565');
 
         // expect...
         $this->assertFalse($status->isOnline());
+    }
+
+    public function testQuerySavesOnlineStatus()
+    {
+        // given...
+        $mockAdapter = new MockQueryAdapter();
+        $mockAdapter
+            ->setIsOnline(true)
+            ->setPlayerCount(5)
+            ->setMaxPlayers(10);
+
+        $queryHandler = new ServerQueryHandler(new ServerStatusRepository, $this->logStub);
+        $queryHandler->setAdapter($mockAdapter);
+
+        // when...
+        $status = $queryHandler->queryServer(1, '192.168.0.1', '25565');
+
+        // expect...
+        $this->assertDatabaseHas('server_statuses', [
+            'server_id'      => 1,
+            'is_online'      => true,
+            'num_of_players' => 5,
+            'num_of_slots'   => 10,
+        ]);
+    }
+
+    public function testQuerySavesOfflineStatus()
+    {
+        // given...
+        $mockAdapter = new MockQueryAdapter();
+        $mockAdapter
+            ->setIsOnline(false);
+
+        $queryHandler = new ServerQueryHandler(new ServerStatusRepository, $this->logStub);
+        $queryHandler->setAdapter($mockAdapter);
+
+        // when...
+        $status = $queryHandler->queryServer(1, '192.168.0.1', '25565');
+
+        // expect...
+        $this->assertDatabaseHas('server_statuses', [
+            'server_id'      => 1,
+            'is_online'      => false,
+            'num_of_players' => 0,
+            'num_of_slots'   => 0,
+        ]);
     }
 }

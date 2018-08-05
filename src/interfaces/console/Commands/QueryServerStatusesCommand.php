@@ -1,10 +1,9 @@
 <?php
-
 namespace Interfaces\Console\Commands;
 
+use Domains\Modules\Servers\Repositories\ServerRepository;
+use Domains\Services\Queries\ServerQueryService;
 use Illuminate\Console\Command;
-use Domains\Modules\Servers\Services\Querying\ServerQueryService;
-use Log;
 
 class QueryServerStatusesCommand extends Command
 {
@@ -14,7 +13,7 @@ class QueryServerStatusesCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'query-servers:all';
+    protected $signature = 'query:status {--id=*} {--all}';
 
     /**
      * The console command description.
@@ -24,13 +23,27 @@ class QueryServerStatusesCommand extends Command
     protected $description = 'Fetches the status of all queriable servers';
 
     /**
+     * @var ServerQueryService
+     */
+    private $serverQueryService;
+
+    /**
+     * @var ServerRepository
+     */
+    private $serverRepository;
+
+    /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(ServerQueryService $serverQueryService,
+                                ServerRepository $serverRepository)
     {
         parent::__construct();
+
+        $this->serverQueryService = $serverQueryService;
+        $this->serverRepository = $serverRepository;
     }
 
     /**
@@ -40,15 +53,15 @@ class QueryServerStatusesCommand extends Command
      */
     public function handle()
     {
-        $service = resolve(ServerQueryService::class);
-        $logger = resolve(\Illuminate\Log\Logger::class);
-
-        $logger->info('Performing automatic server status fetch...');
-        $start = microtime(true);
-
-        $service->queryAllServers();
         
-        $end = microtime(true) - $start;
-        $logger->info('Fetch complete ['. ($end / 1000) .'ms]');
+    }
+
+    private function queryAllServers()
+    {
+        $servers = $this->serverRepository->getAllQueriableServers();
+
+        // foreach ($servers as $server) {
+            // $this->serverQueryService->queryServer()
+        // }
     }
 }

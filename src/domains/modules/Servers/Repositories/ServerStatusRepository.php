@@ -2,8 +2,8 @@
 namespace Domains\Modules\Servers\Repositories;
 
 use Domains\Modules\Servers\Models\ServerStatus;
-use Carbon\Carbon;
 use Application\Repository;
+use Carbon\Carbon;
 
 class ServerStatusRepository extends Repository
 {
@@ -19,7 +19,11 @@ class ServerStatusRepository extends Repository
      * @param int $createdAt
      * @return void
      */
-    public function create(int $serverId, bool $isOnline, int $numOfPlayers, int $numOfSlots, int $createdAt)
+    public function create(int $serverId, 
+                           bool $isOnline, 
+                           int $numOfPlayers, 
+                           int $numOfSlots, 
+                           int $createdAt)
     {
         return $this->getModel()->create([
             'server_id'         => $serverId,

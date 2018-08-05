@@ -20,7 +20,8 @@ class MojangUuidAdapter implements PlayerFetchAdapterInterface
     private $userLookupService;
 
 
-    public function __construct(MojangApiService $mojangApi, MinecraftPlayerLookupService $userLookupService)
+    public function __construct(MojangApiService $mojangApi, 
+                                MinecraftPlayerLookupService $userLookupService)
     {
         $this->mojangApi = $mojangApi;
         $this->userLookupService = $userLookupService;
