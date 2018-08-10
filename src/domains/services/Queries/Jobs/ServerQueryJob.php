@@ -37,8 +37,10 @@ class ServerQueryJob implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param  Podcast  $podcast
-     * @return void
+     * @param ServerQueryAdapterContract $adapter
+     * @param integer $serverId
+     * @param string $ip
+     * @param string $port
      */
     public function __construct(ServerQueryAdapterContract $adapter,
                                 int $serverId,
@@ -60,8 +62,10 @@ class ServerQueryJob implements ShouldQueue
     public function handle(ServerQueryHandler $serverQueryHandler)
     {
         $serverQueryHandler->setAdapter($this->adapter);
-        $status = $serverQueryHandler->queryServer($this->serverId, $this->serverIp, $this->serverPort);
+        $status = $serverQueryHandler->queryServer($this->serverId, 
+                                                   $this->serverIp, 
+                                                   $this->serverPort);
 
-        ServerQueryService::processServerResult($status);
+        ServerQueryService::processServerResult($this->serverId, $status);
     }
 }
