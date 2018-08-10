@@ -2,10 +2,11 @@
 namespace Domains\Services\Queries;
 
 use Domains\Library\QueryServer\ServerQueryResult;
-use Domains\Modules\Servers\GameTypeEnum;
+use Domains\GameTypeEnum;
 use Domains\Services\Queries\Jobs\ServerQueryJob;
 use Domains\Services\Queries\Jobs\PlayerQueryJob;
 use Domains\Modules\Servers\Repositories\ServerStatusPlayerRepository;
+use Domains\Services\Queries\Entities\ServerJobEntity;
 
 
 class ServerQueryService
@@ -22,10 +23,14 @@ class ServerQueryService
      */
     public function dispatchQuery(GameTypeEnum $gameType, int $serverId, string $ip, string $port)
     {
-        ServerQueryJob::dispatch($gameType, 
-                                 $serverId, 
-                                 $ip, 
-                                 $port);
+        $entity = new ServerJobEntity($gameType->serverQueryAdapter(),
+                                      $gameType->playerQueryAdapter(),
+                                      $gameType->name(),
+                                      $serverId,
+                                      $ip,
+                                      $port);
+
+        ServerQueryJob::dispatch($entity);
     }
 
     /**
@@ -38,10 +43,10 @@ class ServerQueryService
      * @param ServerQueryResult $status
      * @return void
      */
-    public static function processServerResult(int $serverId, ServerQueryResult $status)
+    public static function processServerResult(ServerJobEntity $entity, ServerQueryResult $status)
     {
         if (count($status->getPlayerList()) > 0) {
-            PlayerQueryJob::dispatch($serverId, $status->getPlayerList());
+            PlayerQueryJob::dispatch($entity, $status->getPlayerList());
         }
     }
 
@@ -49,17 +54,17 @@ class ServerQueryService
      * Receives the result of a player query job
      *
      * @param integer $serverId
-     * @param array $identifiers
+     * @param array $playerIds
      * @return void
      */
-    public static function processPlayerResult(GameTypeEnum $gameType, int $serverId, array $identifiers)
+    public static function processPlayerResult(ServerJobEntity $entity, array $playerIds)
     {
         $serverPlayerRepository = new ServerStatusPlayerRepository();
 
-        foreach ($identifiers as $identifier) {
-            $serverPlayerRepository->store($serverId,
-                                           $identifier,
-                                           $gameType->name());
+        foreach ($playerIds as $playerId) {
+            $serverPlayerRepository->store($entity->getServerId(),
+                                           $playerId,
+                                           $entity->getGameIdentifier());
         }
     }
 }

@@ -7,50 +7,26 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Domains\Library\QueryServer\ServerQueryHandler;
-use Domains\Library\QueryServer\ServerQueryAdapterContract;
 use Domains\Services\Queries\ServerQueryService;
+use Domains\Services\Queries\Entities\ServerJobEntity;
 
 class ServerQueryJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var ServerQueryAdapterContract
+     * @var ServerJobEntity
      */
-    private $adapter;
-    
-    /**
-     * @var int
-     */
-    private $serverId;
-
-    /**
-     * @var string
-     */
-    private $serverIp;
-    
-    /**
-     * @var string
-     */
-    private $serverPort;
+    private $entity;
     
     /**
      * Create a new job instance.
      *
-     * @param ServerQueryAdapterContract $adapter
-     * @param integer $serverId
-     * @param string $ip
-     * @param string $port
+     * @param ServerJobEntity $entity
      */
-    public function __construct(ServerQueryAdapterContract $adapter,
-                                int $serverId,
-                                string $ip,
-                                string $port)
+    public function __construct(ServerJobEntity $entity)
     {
-        $this->adapter = $adapter;
-        $this->serverId = $serverId;
-        $this->serverIp = $ip;
-        $this->serverPort = $port;
+        $this->entity = $entity;
     }
 
     /**
@@ -61,11 +37,11 @@ class ServerQueryJob implements ShouldQueue
      */
     public function handle(ServerQueryHandler $serverQueryHandler)
     {
-        $serverQueryHandler->setAdapter($this->adapter);
-        $status = $serverQueryHandler->queryServer($this->serverId, 
-                                                   $this->serverIp, 
-                                                   $this->serverPort);
+        $serverQueryHandler->setAdapter($this->entity->getServerQueryAdapter());
+        $status = $serverQueryHandler->queryServer($this->entity->getServerId(), 
+                                                   $this->entity->getIp(), 
+                                                   $this->entity->getPort());
 
-        ServerQueryService::processServerResult($this->serverId, $status);
+        ServerQueryService::processServerResult($this->entity, $status);
     }
 }

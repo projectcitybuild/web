@@ -3,7 +3,7 @@
 namespace Domains\Modules\Servers\Models;
 
 use Application\Model;
-use Domains\Modules\Servers\GameTypeEnum;
+use Domains\GameTypeEnum;
 
 class Server extends Model
 {

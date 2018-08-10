@@ -3,10 +3,10 @@ namespace Domains\Library\Mojang\Api;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
-use Domains\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayer;
-use Domains\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayerNameHistory;
 use Application\Exceptions\TooManyRequestsException;
 use GuzzleHttp\Exception\ClientException;
+use Domains\Library\Mojang\Models\MojangPlayer;
+use Domains\Library\Mojang\Models\MojangPlayerNameHistory;
 
 class MojangPlayerApi
 {

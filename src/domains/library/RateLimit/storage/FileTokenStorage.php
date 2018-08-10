@@ -27,18 +27,17 @@ class FileTokenStorage implements TokenStorable
         $this->initialTokens = $initialTokens;
     }
 
-    public function bootstrap()
-    {
-    }
+    public function bootstrap() {}
 
     /**
      * Obtains an exclusive file lock for writing,
      * or a shared (read-only) lock for reading
      *
+     * @param $file
      * @param boolean $forWriting
      * @return void
      */
-    private function obtainLock(bool $forWriting = false)
+    private function obtainLock($file, bool $forWriting = false)
     {
         return flock($file, $forWriting ? LOCK_EX : LOCK_SH);
     }
@@ -61,20 +60,20 @@ class FileTokenStorage implements TokenStorable
      * and closed regardless of failure.
      *
      * @param boolean $forWriting
-     * @param Closure $block
+     * @param \Closure $block
      * @return TokenState|null
      */
-    private function withLock(bool $forWriting, Closure $block) :? TokenState
+    private function withLock(bool $forWriting, \Closure $block) :? TokenState
     {
         $file = fopen($this->filePath, $forWriting ? 'w+' : 'r+');
 
         $result = null;
-        if ($this->obtainLock($forWriting)) {
+        if ($this->obtainLock($file, $forWriting)) {
             try {
                 $result = $block($file);
             } finally {
-                fclose($file);
                 $this->unlock($file);
+                fclose($file);
             }
             return $result;
         } else {
@@ -99,7 +98,7 @@ class FileTokenStorage implements TokenStorable
      */
     public function deserialize() : TokenState
     {
-        if (!fileExists()) {
+        if (!$this->fileExists()) {
             touch($this->filePath);
             return new TokenState($this->initialTokens, 0);
         }

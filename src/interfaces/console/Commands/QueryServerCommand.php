@@ -4,8 +4,9 @@ namespace Interfaces\Console\Commands;
 use Domains\Modules\Servers\Repositories\ServerRepository;
 use Domains\Services\Queries\ServerQueryService;
 use Illuminate\Console\Command;
+use Domains\Modules\Servers\Models\Server;
 
-class QueryServerStatusesCommand extends Command
+class QueryServerCommand extends Command
 {
 
     /**
@@ -53,15 +54,37 @@ class QueryServerStatusesCommand extends Command
      */
     public function handle()
     {
-        
+        $serverIds = $this->option('id');
+
+        if (count($serverIds) === 0) {
+            if (!$this->option('all')) {
+                $this->error('You must specify either --id=* or --all');
+            } else {
+                $this->queryAllServers();
+            }
+            return;
+        }
+
+        $servers = $this->serverRepository->getServersByIds($serverIds);
+        foreach ($servers as $server) {
+            $this->queryServer($server);
+        }
     }
 
     private function queryAllServers()
     {
         $servers = $this->serverRepository->getAllQueriableServers();
 
-        // foreach ($servers as $server) {
-            // $this->serverQueryService->queryServer()
-        // }
+        foreach ($servers as $server) {
+            $this->queryServer($server);
+        }
+    }
+
+    private function queryServer(Server $server)
+    {
+        $this->serverQueryService->dispatchQuery($server->gameType(),
+                                                 $server->getKey(), 
+                                                 $server->ip, 
+                                                 $server->port);
     }
 }

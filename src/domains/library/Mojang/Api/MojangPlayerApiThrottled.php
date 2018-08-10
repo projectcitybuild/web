@@ -3,7 +3,9 @@ namespace Domains\Library\Mojang\Api;
 
 use Domains\Library\RateLimit\TokenBucket;
 use Domains\Library\RateLimit\TokenRate;
-use App\Library\RateLimit\Storage\FileTokenStorage;
+use Domains\Library\RateLimit\Storage\FileTokenStorage;
+use Domains\Library\Mojang\Models\MojangPlayer;
+use Domains\Library\Mojang\Models\MojangPlayerNameHistory;
 use Application\Exceptions\TooManyRequestsException;
 
 
@@ -13,7 +15,12 @@ use Application\Exceptions\TooManyRequestsException;
  */
 class MojangPlayerApiThrottled extends MojangPlayerApi
 {
-    private function makeTokenBucket() : TokenBucket
+    /**
+     * @var TokenBucket
+     */
+    private $tokenBucket;
+
+    private function getTokenBucket() : TokenBucket
     {
         if ($this->tokenBucket === null) {
             $refillRate = TokenRate::refill(600)->every(10, TokenRate::MINUTES);
@@ -26,9 +33,10 @@ class MojangPlayerApiThrottled extends MojangPlayerApi
 
     private function throttle() : bool
     {
-        if (!$this->tokenBucket->consume(1)) {
+        if (!$this->getTokenBucket()->consume(1)) {
             throw new TooManyRequestsException('mojang_throttled', 'Too many requests. Please try again later');
         }
+        return true;
     }
     
 

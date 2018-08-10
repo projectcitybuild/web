@@ -16,8 +16,8 @@ class PlayerQueryHandler
     public function query(array $aliases) : array
     {
         $identifiers = $this->adapter->getUniqueIdentifiers($aliases);
-        $this->adapter->createPlayers($identifiers);
+        $playerIds = $this->adapter->createPlayers($identifiers);
 
-        return $identifiers;
+        return $playerIds;
     }
 }

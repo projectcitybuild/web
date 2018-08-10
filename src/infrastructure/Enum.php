@@ -3,7 +3,7 @@ namespace Infrastructure;
 
 abstract class Enum
 {
-    private $value;
+    protected $value;
 
     public function __construct($value)
     {

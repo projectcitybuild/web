@@ -1,10 +1,11 @@
 <?php
-namespace Domains\Modules\Servers\Services\PlayerFetching\GameAdapters;
+namespace Domains\Library\QueryPlayer\GameAdapters;
 
 use Domains\Library\QueryPlayer\PlayerQueryAdapterContract;
 use Domains\Modules\Players\Services\MinecraftPlayerLookupService;
 use Domains\Modules\Players\Models\MinecraftPlayer;
 use Domains\Library\Mojang\Api\MojangPlayerApiThrottled;
+use Domains\Library\Mojang\Models\MojangPlayer;
 
 class MojangUuidAdapter implements PlayerQueryAdapterContract
 {
@@ -39,6 +40,10 @@ class MojangUuidAdapter implements PlayerQueryAdapterContract
         $players = [];
         foreach ($names as $nameChunk) {
             $response = $this->mojangPlayerApi->getUuidBatchOf($nameChunk->toArray());
+            $response = array_map(function (MojangPlayer $player) {
+                return $player->getUuid();
+            }, $response);
+
             $players = array_merge($players, $response);
         }
 
@@ -52,7 +57,8 @@ class MojangUuidAdapter implements PlayerQueryAdapterContract
     {
         $players = [];
         foreach ($identifiers as $identifier) {
-            $players[] = $this->userLookupService->getOrCreateByUuid($identifier->getUuid());
+            $player = $this->userLookupService->getOrCreateByUuid($identifier);
+            $players[] = $player->getKey();
         }
         return $players;
     }

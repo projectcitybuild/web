@@ -15,6 +15,9 @@ yarn-error.log
 mix-manifest.json
 .php_cs.cache
 
+# token buckets
+*.ratelimit
+
 # user uploaded files
 /interfaces/web/public/storage
 /storage/*.key

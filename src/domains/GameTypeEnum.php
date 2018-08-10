@@ -1,9 +1,11 @@
 <?php
-namespace Domains\Modules\Servers;
+namespace Domains;
 
 use Infrastructure\Enum;
+use Domains\Library\QueryServer\ServerQueryAdapterContract;
 use Domains\Library\QueryServer\GameAdapters\MinecraftQueryAdapter;
-use App\Modules\Servers\Services\PlayerFetching\GameAdapters\MojangUuidAdapter;
+use Domains\Library\QueryPlayer\PlayerQueryAdapterContract;
+use Domains\Library\QueryPlayer\GameAdapters\MojangUuidAdapter;
 
 /**
  * List of games PCB supports
@@ -14,21 +16,21 @@ final class GameTypeEnum extends Enum
     public const Terraria = 2;
     public const Starbound = 3;
 
-    public function serverQueryAdapter() : ?string
+    public function serverQueryAdapter() : ServerQueryAdapterContract
     {
         switch ($this->value) {
             case self::Minecraft:
-                return MinecraftQueryAdapter::class;
+                return resolve(MinecraftQueryAdapter::class);
             default:
                 return null;
         }
     }
 
-    public function playerQueryAdapter() : ?string
+    public function playerQueryAdapter() : PlayerQueryAdapterContract
     {
         switch ($this->value) {
             case self::Minecraft:
-                return MojangUuidAdapter::class;
+                return resolve(MojangUuidAdapter::class);
             default:
                 return null;
         }
