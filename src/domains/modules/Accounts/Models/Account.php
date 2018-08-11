@@ -6,10 +6,11 @@ use Application\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
+use Laravel\Cashier\Billable;
 
 class Account extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, Billable;
 
     protected $table = 'accounts';
 
