@@ -29,18 +29,6 @@ class MojangUuidAdapter_Test extends TestCase
             ->getMock();
     }
 
-    private function addApiResponse(string $uuid) : MojangPlayer
-    {
-        $player = new MojangPlayer($uuid, 'test_alias');
-
-        $this->playerApiStub
-            ->expects($this->once())
-            ->method('getUuidBatchOf')
-            ->willReturn($player);
-
-        return $player;
-    }
-
     public function testGetSingleIdentifier()
     {
         // given...
