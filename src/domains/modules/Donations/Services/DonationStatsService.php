@@ -4,6 +4,7 @@ namespace Domains\Modules\Donations\Services;
 use Domains\Modules\Donations\Repositories\DonationRepository;
 use Carbon\Carbon;
 
+// TODO: move
 class DonationStatsService
 {
 

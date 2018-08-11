@@ -19,10 +19,9 @@ class DiscourseAdminApi
     private $discoursePayloadValidator;
 
     
-    public function __construct(
-        DiscourseClient $client,
-                                DiscoursePayloadValidator $discoursePayloadValidator
-    ) {
+    public function __construct(DiscourseClient $client,
+                                DiscoursePayloadValidator $discoursePayloadValidator) 
+    {
         $this->client = $client;
         $this->discoursePayloadValidator = $discoursePayloadValidator;
     }
@@ -91,6 +90,33 @@ class DiscourseAdminApi
             'query' => [
                 'sso'           => $payload,
                 'sig'           => $signature,
+                'api_key'       => $this->getApiKey(),
+                'api_username'  => $this->getApiUser(),
+            ],
+        ]);
+
+        return json_decode($response->getBody());
+    }
+
+    public function addUserToGroup(int $userId, int $groupId)
+    {
+        $response = $this->client->post('admin/users/'.$userId.'/groups', [
+            'query' => [
+                'api_key'       => $this->getApiKey(),
+                'api_username'  => $this->getApiUser(),
+            ],
+            'form_params' => [
+                'group_id'      => $groupId,
+            ],
+        ]);
+
+        return json_decode($response->getBody());
+    }
+
+    public function deleteUserFromGroup(int $userId, int $groupId)
+    {
+        $response = $this->client->delete('admin/users/'.$userId.'/groups/'.$groupId, [
+            'query' => [
                 'api_key'       => $this->getApiKey(),
                 'api_username'  => $this->getApiUser(),
             ],

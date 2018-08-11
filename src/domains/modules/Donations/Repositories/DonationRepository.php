@@ -49,4 +49,11 @@ class DonationRepository extends Repository
             ->whereYear('created_at', $year)
             ->count();
     }
+
+    public function getExpiredDonations() : Collection {
+        return $this->getModel()
+            ->where('is_active', true)
+            ->whereDate('perks_end_at', '<=', now())
+            ->get();
+    }
 }
