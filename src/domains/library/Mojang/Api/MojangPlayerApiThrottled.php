@@ -24,7 +24,7 @@ class MojangPlayerApiThrottled extends MojangPlayerApi
     {
         if ($this->tokenBucket === null) {
             $refillRate = TokenRate::refill(600)->every(10, TokenRate::MINUTES);
-            $storage = new FileTokenStorage('mojang-api.ratelimit', 600);
+            $storage = new FileTokenStorage(storage_path('mojang-api.ratelimit'), 600);
     
             $this->tokenBucket = new TokenBucket(600, $refillRate, $storage);
         }
