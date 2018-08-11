@@ -1,7 +1,5 @@
 <?php
-namespace Domains\Modules\Servers\Services\PlayerFetching\Api\Mojang;
-
-use Domains\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayerNameChange;
+namespace Domains\Library\Mojang\Models;
 
 class MojangPlayerNameHistory
 {

@@ -1,14 +1,14 @@
 <?php
-namespace Domains\Modules\Servers\Services\PlayerFetching\Api\Mojang;
+namespace Domains\Library\Mojang\Api;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
-use Domains\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayer;
-use Domains\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangPlayerNameHistory;
 use Application\Exceptions\TooManyRequestsException;
 use GuzzleHttp\Exception\ClientException;
+use Domains\Library\Mojang\Models\MojangPlayer;
+use Domains\Library\Mojang\Models\MojangPlayerNameHistory;
 
-class MojangApiService
+class MojangPlayerApi
 {
     private $client;
 
@@ -125,11 +125,10 @@ class MojangApiService
                 return $player->name;
             })
             ->map(function ($player) {
-                return new MojangPlayer(
-                    $player->id,
-                    $player->name,
-                    isset($body->legacy),
-                    isset($body->demo)
+                return new MojangPlayer($player->id,
+                                        $player->name,
+                                        isset($body->legacy),
+                                        isset($body->demo)
                 );
             })
             ->toArray();

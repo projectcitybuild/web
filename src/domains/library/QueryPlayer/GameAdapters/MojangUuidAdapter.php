@@ -1,18 +1,19 @@
 <?php
-namespace Domains\Modules\Servers\Services\PlayerFetching\GameAdapters;
+namespace Domains\Library\QueryPlayer\GameAdapters;
 
-use Domains\Modules\Servers\Services\PlayerFetching\PlayerFetchAdapterInterface;
-use Domains\Modules\Servers\Services\PlayerFetching\Api\Mojang\MojangApiService;
+use Domains\Library\QueryPlayer\PlayerQueryAdapterContract;
 use Domains\Modules\Players\Services\MinecraftPlayerLookupService;
 use Domains\Modules\Players\Models\MinecraftPlayer;
+use Domains\Library\Mojang\Api\MojangPlayerApi;
+use Domains\Library\Mojang\Models\MojangPlayer;
 
-class MojangUuidAdapter implements PlayerFetchAdapterInterface
+class MojangUuidAdapter implements PlayerQueryAdapterContract
 {
 
     /**
-     * @var MojangApiService
+     * @var MojangPlayerApi
      */
-    private $mojangApi;
+    private $mojangPlayerApi;
 
     /**
      * @var MinecraftPlayerLookupService
@@ -20,9 +21,10 @@ class MojangUuidAdapter implements PlayerFetchAdapterInterface
     private $userLookupService;
 
 
-    public function __construct(MojangApiService $mojangApi, MinecraftPlayerLookupService $userLookupService)
+    public function __construct(MojangPlayerApi $mojangPlayerApi,
+                                MinecraftPlayerLookupService $userLookupService)
     {
-        $this->mojangApi = $mojangApi;
+        $this->mojangPlayerApi = $mojangPlayerApi;
         $this->userLookupService = $userLookupService;
     }
 
@@ -37,7 +39,11 @@ class MojangUuidAdapter implements PlayerFetchAdapterInterface
 
         $players = [];
         foreach ($names as $nameChunk) {
-            $response = $this->mojangApi->getUuidBatchOf($nameChunk->toArray());
+            $response = $this->mojangPlayerApi->getUuidBatchOf($nameChunk->toArray());
+            $response = array_map(function (MojangPlayer $player) {
+                return $player->getUuid();
+            }, $response);
+
             $players = array_merge($players, $response);
         }
 
@@ -51,7 +57,8 @@ class MojangUuidAdapter implements PlayerFetchAdapterInterface
     {
         $players = [];
         foreach ($identifiers as $identifier) {
-            $players[] = $this->userLookupService->getOrCreateByUuid($identifier->getUuid());
+            $player = $this->userLookupService->getOrCreateByUuid($identifier);
+            $players[] = $player->getKey();
         }
         return $players;
     }

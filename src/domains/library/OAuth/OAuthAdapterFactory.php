@@ -1,14 +1,14 @@
 <?php
 namespace Domains\Library\OAuth;
 
-use Infrastructure\Enum;
+use Infrastructure\LegacyEnum;
 use Domains\Library\OAuth\Adapters\Discord\DiscordOAuthAdapter;
 use Domains\Library\OAuth\Adapters\Google\GoogleOAuthAdapter;
 use Domains\Library\OAuth\Exceptions\UnsupportedOAuthAdapter;
 use Domains\Library\OAuth\Adapters\Facebook\FacebookOAuthAdapter;
 use Domains\Library\OAuth\Adapters\Twitter\TwitterOAuthAdapter;
 
-class OAuthAdapterFactory extends Enum
+class OAuthAdapterFactory extends LegacyEnum
 {
     public const FACEBOOK   = 'facebook';
     public const TWITTER    = 'twitter';

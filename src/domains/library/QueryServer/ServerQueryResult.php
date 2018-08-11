@@ -1,10 +1,7 @@
 <?php
-namespace Domains\Modules\Servers\Services\Querying;
+namespace Domains\Library\QueryServer;
 
-/**
- * Represents data returned from querying a server
- */
-class QueryResult
+class ServerQueryResult
 {
 
     /**
@@ -27,12 +24,12 @@ class QueryResult
      */
     private $isOnline;
 
-    public function __construct(
-        bool $isOnline = false,
-        int $numOfPlayers = 0,
-        int $numOfSlots = 0,
-        array $playerList = []
-    ) {
+
+    public function __construct(bool $isOnline = false,
+                                int $numOfPlayers = 0,
+                                int $numOfSlots = 0,
+                                array $playerList = []) 
+    {
         $this->isOnline = $isOnline;
         $this->numOfPlayers = $numOfPlayers;
         $this->numOfSlots = $numOfSlots;

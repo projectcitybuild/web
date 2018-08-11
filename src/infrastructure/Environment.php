@@ -3,9 +3,7 @@ namespace Infrastructure;
 
 class Environment
 {
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
 
     /**

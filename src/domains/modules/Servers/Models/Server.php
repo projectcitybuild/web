@@ -3,6 +3,7 @@
 namespace Domains\Modules\Servers\Models;
 
 use Application\Model;
+use Domains\GameTypeEnum;
 
 class Server extends Model
 {
@@ -63,5 +64,19 @@ class Server extends Model
     public function isOnline()
     {
         return $this->status && $this->status->is_online;
+    }
+
+    public function gameType() : GameTypeEnum
+    {
+        switch ($this->game_type) {
+            case GameTypeEnum::Minecraft:
+                return new GameTypeEnum(GameTypeEnum::Minecraft);
+            case GameTypeEnum::Terraria:
+                return new GameTypeEnum(GameTypeEnum::Terraria);
+            case GameTypeEnum::Starbound:
+                return new GameTypeEnum(GameTypeEnum::Starbound);
+            default:
+                throw new \InvalidArgumentException();
+        }
     }
 }

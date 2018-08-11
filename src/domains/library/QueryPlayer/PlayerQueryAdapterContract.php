@@ -1,23 +1,21 @@
 <?php
-namespace Domains\Modules\Servers\Services\PlayerFetching;
+namespace Domains\Library\QueryPlayer;
 
-interface PlayerFetchAdapterInterface
+interface PlayerQueryAdapterContract
 {
-
     /**
-     * Returns the unique identifiers for a list of players
+     * Fetches a unique player identifier for
+     * each name
      *
      * @param array $aliases
-     *
      * @return array
      */
     public function getUniqueIdentifiers(array $aliases = []) : array;
 
     /**
-     * Creates player models specific to this game
+     * Creates a player record in PCB
      *
      * @param array $identifiers
-     *
      * @return array
      */
     public function createPlayers(array $identifiers) : array;
