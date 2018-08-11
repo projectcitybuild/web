@@ -125,11 +125,10 @@ class MojangPlayerApi
                 return $player->name;
             })
             ->map(function ($player) {
-                return new MojangPlayer(
-                    $player->id,
-                    $player->name,
-                    isset($body->legacy),
-                    isset($body->demo)
+                return new MojangPlayer($player->id,
+                                        $player->name,
+                                        isset($body->legacy),
+                                        isset($body->demo)
                 );
             })
             ->toArray();

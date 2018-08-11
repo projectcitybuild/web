@@ -4,14 +4,14 @@ namespace Domains\Library\QueryPlayer\GameAdapters;
 use Domains\Library\QueryPlayer\PlayerQueryAdapterContract;
 use Domains\Modules\Players\Services\MinecraftPlayerLookupService;
 use Domains\Modules\Players\Models\MinecraftPlayer;
-use Domains\Library\Mojang\Api\MojangPlayerApiThrottled;
+use Domains\Library\Mojang\Api\MojangPlayerApi;
 use Domains\Library\Mojang\Models\MojangPlayer;
 
 class MojangUuidAdapter implements PlayerQueryAdapterContract
 {
 
     /**
-     * @var MojangPlayerApiThrottled
+     * @var MojangPlayerApi
      */
     private $mojangPlayerApi;
 
@@ -21,7 +21,7 @@ class MojangUuidAdapter implements PlayerQueryAdapterContract
     private $userLookupService;
 
 
-    public function __construct(MojangPlayerApiThrottled $mojangPlayerApi,
+    public function __construct(MojangPlayerApi $mojangPlayerApi,
                                 MinecraftPlayerLookupService $userLookupService)
     {
         $this->mojangPlayerApi = $mojangPlayerApi;
