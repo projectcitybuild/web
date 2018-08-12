@@ -9,20 +9,17 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Unit Tests">
-            <directory suffix="Test.php">./app/tests/Unit</directory>
-        </testsuite>
-        <testsuite name="Integration Tests">
-            <directory suffix="Test.php">./app/tests/Integration</directory>
+        <testsuite name="Tests">
+            <directory suffix="Test.php">./domains/tests</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./app</directory>
+            <directory suffix=".php">./domains</directory>
             <exclude>
-                <file>./app/api/Routes.php</file>
-                <file>./app/console/Routes.php</file>
-                <file>./front/routes/Routes.php</file>
+                <file>./interfaces/web/api/Routes.php</file>
+                <file>./interfaces/web/console/Routes.php</file>
+                <file>./interfaces/web/routes/Routes.php</file>
             </exclude>
         </whitelist>
     </filter>
@@ -33,10 +30,7 @@
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="DB_CONNECTION" value="tests"/>
     </php>
-
-    <!-- <logging>
-        <log type="coverage-html" target="./storage/reports/coverage" charset="UTF-8"
-            yui="true" highlight="true"
-            lowUpperBound="50" highLowerBound="80"/>
-    </logging> -->
+    <logging>
+        <log type="coverage-clover" target="clover.xml"/>
+    </logging>
 </phpunit>

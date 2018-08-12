@@ -1,8 +1,9 @@
 let mix = require('laravel-mix');
 
+mix.setPublicPath('interfaces/web/public');
 
-mix.typeScript('front/assets/js/app.tsx', 'public/assets/js')
-   .sass('front/assets/sass/app.scss', 'public/assets/css')
+mix.typeScript('interfaces/web/assets/js/app.tsx', 'interfaces/web/public/assets/js')
+   .sass('interfaces/web/assets/sass/app.scss', 'interfaces/web/public/assets/css')
    .extract([
         'react', 
         'date-fns', 
@@ -17,9 +18,10 @@ if(mix.config.production) {
     mix.browserSync({
         proxy: '192.168.99.100',
         files: [
-            'front/**/*.php',
-            'public/**/*.css', 
-            'public/**/*.js',    
+            'interfaces/web/**/*.php',
+            'interfaces/web/assets/**/*.css', 
+            'interfaces/web/assets/**/*.js',    
+            'interfaces/web/assets/**/*.ts',    
         ]
     });
 }

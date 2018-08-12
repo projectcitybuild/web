@@ -1,7 +1,7 @@
 .git
 
 # ignore cache and logs
-src/storage/app/**
+src/storage/application/**
 src/storage/framework/cache/**
 src/storage/framework/sessions/**
 src/storage/framework/testing/**
