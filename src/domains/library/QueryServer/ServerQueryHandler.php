@@ -20,6 +20,11 @@ class ServerQueryHandler
      * @var ServerStatusRepository
      */
     private $serverStatusRepository;
+
+    /**
+     * @var int
+     */
+    private $lastCreatedId;
     
 
     public function __construct(ServerStatusRepository $serverStatusRepository,
@@ -39,6 +44,11 @@ class ServerQueryHandler
     public function setAdapter(ServerQueryAdapterContract $adapter)
     {
         $this->adapter = $adapter;
+    }
+
+    public function getLastCreatedId() : ?int
+    {
+        return $this->lastCreatedId;
     }
 
     /**
@@ -76,11 +86,11 @@ class ServerQueryHandler
         $status = $this->adapter->query($ip, $port);
         $this->log->info('Received server status', ['status' => $status]);
 
-        $this->serverStatusRepository->create($serverId,
-                                              $status->isOnline(),
-                                              $status->getNumOfPlayers(),
-                                              $status->getNumOfSlots(),
-                                              $time);
+        $this->lastCreatedId = $this->serverStatusRepository->create($serverId,
+                                                                     $status->isOnline(),
+                                                                     $status->getNumOfPlayers(),
+                                                                     $status->getNumOfSlots(),
+                                                                     $time);
         return $status;
     }
 }
