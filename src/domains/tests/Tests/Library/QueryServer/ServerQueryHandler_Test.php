@@ -14,7 +14,6 @@ class ServerQueryHandler_Test extends TestCase
     use DatabaseMigrations, DatabaseTransactions;
 
     private $logStub;
-    private $statusRepositoryStub;
 
     public function setUp() 
     {
@@ -22,9 +21,6 @@ class ServerQueryHandler_Test extends TestCase
 
         $this->logStub = $this->getMockBuilder(Logger::class)
             ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->statusRepositoryStub = $this->getMockBuilder(ServerStatusRepository::class)
             ->getMock();
     }
 
@@ -37,7 +33,7 @@ class ServerQueryHandler_Test extends TestCase
             ->setPlayerCount(5)
             ->setMaxPlayers(10);
 
-        $queryHandler = new ServerQueryHandler($this->statusRepositoryStub, $this->logStub);
+        $queryHandler = new ServerQueryHandler(new ServerStatusRepository, $this->logStub);
         $queryHandler->setAdapter($mockAdapter);
 
         // when...
@@ -56,7 +52,7 @@ class ServerQueryHandler_Test extends TestCase
         $mockAdapter
             ->setIsOnline(false);
 
-        $queryHandler = new ServerQueryHandler($this->statusRepositoryStub, $this->logStub);
+        $queryHandler = new ServerQueryHandler(new ServerStatusRepository, $this->logStub);
         $queryHandler->setAdapter($mockAdapter);
 
         // when...
