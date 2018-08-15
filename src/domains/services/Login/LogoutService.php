@@ -66,11 +66,12 @@ class LogoutService
      */
     public function logoutOfDiscourseAndPcb() : bool
     {
+        $pcbId = $this->auth->id();
+
         if ($this->logoutOfPCB() === false) {
             return false;
         }
 
-        $pcbId = $this->auth->id();
         $user = $this->getDiscourseUser($pcbId);
 
         $this->log->info('Logging out user: '.$pcbId);
