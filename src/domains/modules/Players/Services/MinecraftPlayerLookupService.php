@@ -26,11 +26,10 @@ class MinecraftPlayerLookupService
     private $connection;
 
 
-    public function __construct(
-        MinecraftPlayerRepository $playerRepository,
-        MinecraftPlayerAliasRepository $aliasRepository,
-        Connection $connection
-    ) {
+    public function __construct(MinecraftPlayerRepository $playerRepository,
+                                MinecraftPlayerAliasRepository $aliasRepository,
+                                Connection $connection)
+    {
         $this->playerRepository = $playerRepository;
         $this->aliasRepository = $aliasRepository;
         $this->connection = $connection;

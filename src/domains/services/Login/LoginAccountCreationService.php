@@ -56,7 +56,7 @@ class LoginAccountCreationService
         return $this->account;
     }
 
-    public function hasAccountLink(OAuthUser $providerAccount)
+    public function hasAccountLink(OAuthUser $providerAccount) : bool
     {
         $existingLink = $this->accountLinkRepository->getByProviderAccount($providerAccount->getName(), 
                                                                            $providerAccount->getId());
