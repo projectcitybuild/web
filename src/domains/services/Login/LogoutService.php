@@ -69,7 +69,7 @@ class LogoutService
         if ($this->logoutOfPCB() === false) {
             return false;
         }
-        
+
         $pcbId = $this->auth->id();
         $user = $this->getDiscourseUser($pcbId);
 
