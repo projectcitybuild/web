@@ -118,6 +118,7 @@ class ServerJobEntity
             'serverId',
             'ip',
             'port',
+            'serverStatusId',
         ];
     }
 

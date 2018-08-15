@@ -86,11 +86,14 @@ class ServerQueryHandler
         $status = $this->adapter->query($ip, $port);
         $this->log->info('Received server status', ['status' => $status]);
 
-        $this->lastCreatedId = $this->serverStatusRepository->create($serverId,
-                                                                     $status->isOnline(),
-                                                                     $status->getNumOfPlayers(),
-                                                                     $status->getNumOfSlots(),
-                                                                     $time);
+        $statusRecord = $this->serverStatusRepository->create($serverId,
+                                                              $status->isOnline(),
+                                                              $status->getNumOfPlayers(),
+                                                              $status->getNumOfSlots(),
+                                                              $time);
+
+        $this->lastCreatedId = $statusRecord->getKey();
+        
         return $status;
     }
 }
