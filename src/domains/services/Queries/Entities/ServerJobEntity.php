@@ -37,6 +37,11 @@ class ServerJobEntity
      */
     private $port;
 
+    /**
+     * @var int
+     */
+    private $serverStatusId;
+
 
     public function __construct(ServerQueryAdapterContract $serverQueryAdapter,
                                 PlayerQueryAdapterContract $playerQueryAdapter,
@@ -84,6 +89,16 @@ class ServerJobEntity
         return $this->port;
     }
 
+    public function getServerStatusId() : ?int
+    {
+        return $this->serverStatusId;
+    }
+
+    public function setServerStatusId(int $serverStatusId)
+    {
+        $this->serverStatusId = $serverStatusId;
+    }
+
 
     /**
      * Converts adapters to their class name before
@@ -103,6 +118,7 @@ class ServerJobEntity
             'serverId',
             'ip',
             'port',
+            'serverStatusId',
         ];
     }
 

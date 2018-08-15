@@ -44,6 +44,7 @@ class LogoutService
 
     /**
      * Invalidates only a PCB session
+     * (used by Discourse)
      *
      * @return boolean
      */
@@ -59,16 +60,15 @@ class LogoutService
 
     /**
      * Invalidates both PCB and Discourse's session
+     * (used by PCB)
      *
      * @return boolean
      */
     public function logoutOfDiscourseAndPcb() : bool
     {
-        if (!$this->auth->check()) {
+        if ($this->logoutOfPCB() === false) {
             return false;
         }
-        $this->auth->logout();
-
         
         $pcbId = $this->auth->id();
         $user = $this->getDiscourseUser($pcbId);

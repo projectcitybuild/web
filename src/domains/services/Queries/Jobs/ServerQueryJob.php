@@ -42,6 +42,9 @@ class ServerQueryJob implements ShouldQueue
                                                    $this->entity->getIp(), 
                                                    $this->entity->getPort());
 
+        $lastCreatedId = $serverQueryHandler->getLastCreatedId();
+        $this->entity->setServerStatusId($lastCreatedId);
+
         ServerQueryService::processServerResult($this->entity, $status);
     }
 }
