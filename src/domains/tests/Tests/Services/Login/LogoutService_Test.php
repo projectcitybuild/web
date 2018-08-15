@@ -45,7 +45,7 @@ class LogoutService_Test extends TestCase
      */
     private function loginAsUser(Auth $auth)
     {
-        $account = factory(Account::class)->make();
+        $account = factory(Account::class)->create();
         $auth->setUser($account);
 
         $this->assertTrue($auth->check());
@@ -86,27 +86,62 @@ class LogoutService_Test extends TestCase
         $this->assertFalse($result);
     }
 
-    // public function testLogoutOfBoth_canLogoutOfPcb()
-    // {
-    //     // given...
-    //     $this->discourseUserApiMock
-    //         ->expects($this->once())
-    //         ->method('fetchUserByPcbId')
-    //         ->willReturn([
-    //             'user' => 15,
-    //         ]);
+    public function testLogoutOfBoth_canLogoutOfPcb()
+    {
+        // given...
+        $this->discourseUserApiMock
+            ->expects($this->once())
+            ->method('fetchUserByPcbId')
+            ->willReturn([
+                'user' => [
+                    'id' => 15,
+                    'username' => 'test_user',
+                ],
+            ]);
 
-    //     $auth = resolve(Auth::class);
-    //     $service = new LogoutService($this->discourseUserApiMock, 
-    //                                 $this->discourseAdminApiMock, 
-    //                                 $auth, 
-    //                                 $this->loggerStub);
-    //     $this->loginAsUser($auth);
+        $auth = resolve(Auth::class);
+        $service = new LogoutService($this->discourseUserApiMock, 
+                                    $this->discourseAdminApiMock, 
+                                    $auth, 
+                                    $this->loggerStub);
+        $this->loginAsUser($auth);
 
-    //     // when...
-    //     $service->logoutOfDiscourseAndPcb();
+        // when...
+        $service->logoutOfDiscourseAndPcb();
 
-    //     // expect...
-    //     $this->assertFalse($auth->check());
-    // }
+        // expect...
+        $this->assertFalse($auth->check());
+    }
+
+    public function testLogoutOfBoth_usesCorrectDiscourseId()
+    {
+        // given...
+        $discourseId = 111;
+
+        $this->discourseUserApiMock
+            ->expects($this->once())
+            ->method('fetchUserByPcbId')
+            ->willReturn([
+                'user' => [
+                    'id' => $discourseId,
+                    'username' => 'test_user',
+                ],
+            ]);
+
+        $auth = resolve(Auth::class);
+        $service = new LogoutService($this->discourseUserApiMock, 
+                                    $this->discourseAdminApiMock, 
+                                    $auth, 
+                                    $this->loggerStub);
+        $this->loginAsUser($auth);
+
+        // expect...
+        $this->discourseAdminApiMock
+            ->expects($this->once())
+            ->method('requestLogout')
+            ->with($this->equalTo($discourseId));
+
+        // when...
+        $service->logoutOfDiscourseAndPcb();
+    }
 }
