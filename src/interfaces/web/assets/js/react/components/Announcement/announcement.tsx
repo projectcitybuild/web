@@ -54,6 +54,9 @@ export default class Component extends React.Component<Props, InitialState> {
             }
           });
 
+        // convert relative urls to forum absolute urls
+        markup = markup.replace('href="/"', 'href="https://forums.projectcitybuild.com/"');
+
         return (
             <article className="article card" key={announcement.id}>
                 <div className="article__container">
