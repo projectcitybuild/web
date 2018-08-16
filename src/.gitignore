@@ -10,8 +10,8 @@ yarn-error.log
 .env
 
 # generated resources/builds
-/interfaces/web/public/css
-/interfaces/web/public/js
+/interfaces/web/public/assets/css
+/interfaces/web/public/assets/js
 mix-manifest.json
 .php_cs.cache
 
