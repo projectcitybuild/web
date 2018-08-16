@@ -3,8 +3,7 @@ import * as Api from './api';
 import * as dateFns from 'date-fns';
 import * as sanitizeHtml from 'sanitize-html';
 
-interface InitialState {
-};
+interface InitialState {}
 
 interface Props {
     announcement: Api.ApiTopic,
@@ -12,11 +11,9 @@ interface Props {
 }
 
 export default class Component extends React.Component<Props, InitialState> {
-    state: InitialState = {
-    }
+    state: InitialState = {}
 
     createMarkup(html: string) {
-
         return { __html: html }
     }
 
@@ -50,12 +47,15 @@ export default class Component extends React.Component<Props, InitialState> {
         const date = dateFns.format(announcement.created_at, 'ddd, Do \of MMMM, YYYY');
         const avatarUrl = "https://forums.projectcitybuild.com" + post.avatar_template.replace('{size}', '16')
 
-        const markup = sanitizeHtml(post.cooked, {
-            allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'li', 'ul', 'img', 'hr', 's'],
+        let markup = sanitizeHtml(post.cooked, {
+            allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'li', 'ul', 'img', 'hr', 's', 'h1', 'h2', 'h3', 'h4', 'h5'],
             allowedAttributes: {
               a: ['href', 'target', 'src']
             }
           });
+
+        // convert relative urls to forum absolute urls
+        markup = markup.replace('href="/"', 'href="https://forums.projectcitybuild.com/"');
 
         return (
             <article className="article card" key={announcement.id}>
