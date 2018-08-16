@@ -77,7 +77,7 @@ class LogoutService
         $this->log->info('Logging out user: '.$pcbId);
 
         try {
-            $this->discourseAdminApi->requestLogout($user['id'], $user['username']);
+            $this->discourseAdminApi->requestLogout($user['id']);
 
         } catch (ClientException $error) {
             // Discourse will throw a 404 error if the
