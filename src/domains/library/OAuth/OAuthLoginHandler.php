@@ -79,9 +79,6 @@ class OAuthLoginHandler
         }
         
         $redirectUri = $this->cache->pop();
-        if ($redirectUri === null) {
-            $redirectUri = route('front.home');
-        }
         $user = $this->provider->requestProviderAccount($redirectUri, $authCode ?: $token);
 
         return $user;
