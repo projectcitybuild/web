@@ -1,16 +1,20 @@
 <?php
 namespace Domains\Library\Discourse\Authentication;
 
+use Domains\Library\Discourse\Api\DiscourseSSOApi;
 use Domains\Library\Discourse\Exceptions\BadSSOPayloadException;
+use Domains\Library\Discourse\Entities\DiscourseNonce;
+use Domains\Library\Discourse\Entities\DiscoursePackedNonce;
+use Domains\Library\Discourse\Entities\DiscoursePayload;
 use Illuminate\Log\Logger;
 
 
 class DiscourseLoginHandler
 {
     /**
-     * @var DiscourseNonceStorage
+     * @var DiscourseSSOApi
      */
-    private $storage;
+    private $ssoApi;
 
     /**
      * @var DiscoursePayloadValidator
@@ -23,17 +27,36 @@ class DiscourseLoginHandler
     private $logger;
 
     
-    public function __construct(DiscourseNonceStorage $storage,
+    public function __construct(DiscourseSSOApi $ssoApi,
                                 DiscoursePayloadValidator $payloadValidator,
                                 Logger $logger)
     {
-        $this->storage = $storage;
+        $this->ssoApi = $ssoApi;
         $this->payloadValidator = $payloadValidator;
         $this->log = $logger;
     }
 
+    public function getRedirectUrl(int $pcbId, string $email)
+    {
+        $packedNonce = $this->getPackedNonce();
+        $nonce = $this->unpackNoncePayload($packedNonce->getSSO(), 
+                                           $packedNonce->getSignature());
 
-    public function verifyAndStorePayload(string $sso, string $signature)
+        return $this->getDiscourseRedirectUri($pcbId, 
+                                              $email, 
+                                              $nonce->getNonce(), 
+                                              $nonce->getRedirectUri());
+    }
+
+    private function getPackedNonce() : DiscoursePackedNonce
+    {
+        $response = $this->ssoApi->requestNonce();
+        $nonce = new DiscoursePackedNonce($response['sso'], $response['sig']);
+
+        return $nonce;
+    }
+
+    private function unpackNoncePayload(string $sso, string $signature) : DiscourseNonce
     {
         // validate that the given signature matches the
         // payload when signed with our private key. This
@@ -55,25 +78,11 @@ class DiscourseLoginHandler
             throw $e;
         }
 
-        // store the nonce and return url in a session so
-        // the user cannot access or tamper with it at any
-        // point during authentication
-        $this->storage->store($payload['nonce'], $payload['return_sso_url']);
-        $this->log->debug('Storing SSO data in session for login');
+        return new DiscourseNonce($payload['nonce'], $payload['return_sso_url']);
     }
 
-
-    public function getLoginRedirectUrl(int $pcbId, string $email)
+    private function getDiscourseRedirectUri(int $pcbId, string $email, string $nonce, string $returnUri)
     {
-        $sso = $this->storage->get();
-
-        $nonce     = $sso['nonce'];
-        $returnUrl = $sso['return_uri'];
-
-        if ($nonce === null || $returnUrl === null) {
-            throw new BadSSOPayloadException('`nonce` or `return` key missing in session');
-        }
-
         $payload = (new DiscoursePayload($nonce))
             ->setPcbId($pcbId)
             ->setEmail($email)
@@ -81,15 +90,11 @@ class DiscourseLoginHandler
             ->build();
 
         // generate new payload to send to discourse
-        $payload    = $this->payloadValidator->makePayload($payload);
-        $signature  = $this->payloadValidator->getSignedPayload($payload);
+        $payload   = $this->payloadValidator->makePayload($payload);
+        $signature = $this->payloadValidator->getSignedPayload($payload);
 
         // attach parameters to return url
-        $endpoint   = $this->payloadValidator->getRedirectUrl($returnUrl, $payload, $signature);
-
-        $this->storage->clear();
-
-        $this->log->info('Logging in user: '.$pcbId);
+        $endpoint  = $this->payloadValidator->getRedirectUrl($returnUri, $payload, $signature);
 
         return $endpoint;
     }

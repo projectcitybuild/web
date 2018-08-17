@@ -94,6 +94,6 @@ class ExceptionHandler extends Handler
             ], 401);
         }
 
-        return redirect()->guest(route('login.redirect'));
+        return redirect()->guest(route('front.login'));
     }
 }

@@ -2,12 +2,11 @@
 namespace Domains\Library\Discourse\Api;
 
 use function GuzzleHttp\json_decode;
-use Domains\Library\Discourse\Authentication\DiscoursePayload;
+use Domains\Library\Discourse\Entities\DiscoursePayload;
 use Domains\Library\Discourse\Authentication\DiscoursePayloadValidator;
 
 class DiscourseAdminApi
 {
-
     /**
      * @var DiscourseClient
      */
