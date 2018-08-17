@@ -48,14 +48,14 @@ export default class Component extends React.Component<Props, InitialState> {
         const avatarUrl = "https://forums.projectcitybuild.com" + post.avatar_template.replace('{size}', '16')
 
         let markup = sanitizeHtml(post.cooked, {
-            allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'li', 'ul', 'img', 'hr', 's', 'h1', 'h2', 'h3', 'h4', 'h5'],
+            allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'li', 'ul', 'img', 'hr', 's', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
             allowedAttributes: {
               a: ['href', 'target', 'src']
             }
           });
 
         // convert relative urls to forum absolute urls
-        markup = markup.replace('href="/"', 'href="https://forums.projectcitybuild.com/"');
+        markup = markup.replace(/href="\//, 'href="https://forums.projectcitybuild.com/');
 
         return (
             <article className="article card" key={announcement.id}>
