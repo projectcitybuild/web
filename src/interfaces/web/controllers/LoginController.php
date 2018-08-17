@@ -88,7 +88,7 @@ class LoginController extends WebController
      */
     public function login(LoginRequest $request)
     {
-        $this->loginOrShowForm();
+        return $this->loginOrShowForm();
     }
 
     /**
