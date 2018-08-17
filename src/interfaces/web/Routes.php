@@ -20,7 +20,6 @@ if (Environment::isProduction()) {
 
 Route::redirect('terms', 'https://forums.projectcitybuild.com/t/terms-of-services/14506')->name('terms');
 Route::redirect('privacy', 'https://forums.projectcitybuild.com/privacy')->name('privacy');
-// Route::redirect('discourse/login', 'https://forums.projectcitybuild.com/login')->name('login.redirect');
 
 Route::get('sentry/test', function () {
     throw new \Exception('Sentry test');
