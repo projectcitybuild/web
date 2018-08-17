@@ -7,7 +7,6 @@ use Domains\Library\Discourse\Authentication\DiscoursePayloadValidator;
 
 class DiscourseAdminApi
 {
-
     /**
      * @var DiscourseClient
      */
