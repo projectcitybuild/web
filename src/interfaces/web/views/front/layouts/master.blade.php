@@ -170,7 +170,7 @@
                                         <i class="fas fa-mouse-pointer"></i>
                                         Join Us
                                     </a>
-                                    <a class="hero__button hero__button--bordered" href="https://forums.projectcitybuild.com/login">
+                                    <a class="hero__button hero__button--bordered" href="{{ route('front.login') }}">
                                         Login
                                     </a>
                                 @endguest
