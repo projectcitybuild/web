@@ -13,7 +13,7 @@ use Interfaces\Web\Requests\AccountChangePasswordRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Domains\Library\Discourse\Api\DiscourseAdminApi;
-use Domains\Library\Discourse\Authentication\DiscoursePayload;
+use Domains\Library\Discourse\Entities\DiscoursePayload;
 use Domains\Modules\Accounts\Repositories\AccountEmailChangeRepository;
 use Infrastructure\Helpers\TokenHelpers;
 use Illuminate\Database\Connection;

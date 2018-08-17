@@ -40,12 +40,12 @@ class OAuthSessionStorage implements OAuthStorageContract
         $this->getSession()->remove($this->key);
     }
 
-    public function get() : string
+    public function get() : ?string
     {
         return $this->getSession()->get($this->key);
     }
 
-    public function pop() : string
+    public function pop() : ?string
     {
         $value = $this->get();
         $this->clear();

@@ -44,6 +44,7 @@ class LogoutService
 
     /**
      * Invalidates only a PCB session
+     * (used by Discourse)
      *
      * @return boolean
      */
@@ -59,24 +60,24 @@ class LogoutService
 
     /**
      * Invalidates both PCB and Discourse's session
+     * (used by PCB)
      *
      * @return boolean
      */
     public function logoutOfDiscourseAndPcb() : bool
     {
-        if (!$this->auth->check()) {
+        $pcbId = $this->auth->id();
+
+        if ($this->logoutOfPCB() === false) {
             return false;
         }
-        $this->auth->logout();
 
-        
-        $pcbId = $this->auth->id();
         $user = $this->getDiscourseUser($pcbId);
 
         $this->log->info('Logging out user: '.$pcbId);
 
         try {
-            $this->discourseAdminApi->requestLogout($user['id'], $user['username']);
+            $this->discourseAdminApi->requestLogout($user['id']);
 
         } catch (ClientException $error) {
             // Discourse will throw a 404 error if the

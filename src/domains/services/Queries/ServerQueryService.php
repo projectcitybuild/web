@@ -62,7 +62,7 @@ class ServerQueryService
         $serverPlayerRepository = new ServerStatusPlayerRepository();
 
         foreach ($playerIds as $playerId) {
-            $serverPlayerRepository->store($entity->getServerId(),
+            $serverPlayerRepository->store($entity->getServerStatusId(),
                                            $playerId,
                                            $entity->getGameIdentifier());
         }

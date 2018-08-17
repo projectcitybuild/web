@@ -131,7 +131,7 @@
                             </ul>
                         </li>
                     @else
-                        <li><a href="https://forums.projectcitybuild.com/login">Login</a></li>
+                        <li><a href="{{ route('front.login') }}">Login</a></li>
                     @endif
                 </ul>
             </div>
@@ -170,7 +170,7 @@
                                         <i class="fas fa-mouse-pointer"></i>
                                         Join Us
                                     </a>
-                                    <a class="hero__button hero__button--bordered" href="https://forums.projectcitybuild.com/login">
+                                    <a class="hero__button hero__button--bordered" href="{{ route('front.login') }}">
                                         Login
                                     </a>
                                 @endguest
