@@ -153,7 +153,8 @@ class LoginController extends WebController
 
             $this->auth->setUser($account);
 
-            $endpoint = $this->discourseLoginHandler->getLoginRedirectUrl($account->getKey(), $account->email);
+            $endpoint = $this->discourseLoginHandler->getRedirectUrl($account->getKey(), 
+                                                                     $account->email);
             return redirect()->to($endpoint);
         }
         
