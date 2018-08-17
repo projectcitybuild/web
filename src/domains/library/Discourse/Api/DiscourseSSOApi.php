@@ -13,11 +13,11 @@ class DiscourseSSOApi
         $this->client = $client;
     }
 
-    public function requestNonce() : array
+    public function requestNonce(string $returnPath = '/latest') : array
     {
-        $response = $this->client->get('session/sso?return_path=/latest', [
+        $response = $this->client->get('session/sso?return_path='.$returnPath, [
             'allow_redirects' => [
-                'max'               => 10,
+                'max'               => 3,
                 'track_redirects'   => true,
             ],
         ]);

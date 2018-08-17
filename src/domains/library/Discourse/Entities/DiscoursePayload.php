@@ -1,9 +1,8 @@
 <?php
-namespace Domains\Library\Discourse\Authentication;
+namespace Domains\Library\Discourse\Entities;
 
 class DiscoursePayload
 {
-
     /**
      * @var string
      */

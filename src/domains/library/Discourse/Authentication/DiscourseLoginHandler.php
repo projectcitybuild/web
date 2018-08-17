@@ -1,11 +1,12 @@
 <?php
 namespace Domains\Library\Discourse\Authentication;
 
-use Domains\Library\Discourse\Exceptions\BadSSOPayloadException;
 use Domains\Library\Discourse\Api\DiscourseSSOApi;
-use Illuminate\Log\Logger;
+use Domains\Library\Discourse\Exceptions\BadSSOPayloadException;
 use Domains\Library\Discourse\Entities\DiscourseNonce;
 use Domains\Library\Discourse\Entities\DiscoursePackedNonce;
+use Domains\Library\Discourse\Entities\DiscoursePayload;
+use Illuminate\Log\Logger;
 
 
 class DiscourseLoginHandler
