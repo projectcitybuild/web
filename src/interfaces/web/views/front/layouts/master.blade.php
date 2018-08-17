@@ -131,7 +131,7 @@
                             </ul>
                         </li>
                     @else
-                        <li><a href="https://forums.projectcitybuild.com/login">Login</a></li>
+                        <li><a href="{{ route('front.login') }}">Login</a></li>
                     @endif
                 </ul>
             </div>

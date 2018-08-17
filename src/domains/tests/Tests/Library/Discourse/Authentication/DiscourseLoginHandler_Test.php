@@ -3,15 +3,15 @@ namespace Tests\Library\Discourse\Authentication;
 
 use Tests\TestCase;
 use Domains\Library\Discourse\Authentication\DiscourseLoginHandler;
-use Illuminate\Log\Logger;
-use Domains\Library\Discourse\Authentication\DiscourseNonceStorage;
 use Domains\Library\Discourse\Authentication\DiscoursePayloadValidator;
 use Domains\Library\Discourse\Exceptions\BadSSOPayloadException;
+use Domains\Library\Discourse\Api\DiscourseSSOApi;
+use Illuminate\Log\Logger;
 
 class DiscourseLoginHandler_Test extends TestCase
 {
     private $logStub;
-    private $storageMock;
+    private $apiMock;
 
     public function setUp()
     {
@@ -21,66 +21,58 @@ class DiscourseLoginHandler_Test extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->storageMock = $this->getMockBuilder(DiscourseNonceStorage::class)
+        $this->apiMock = $this->getMockBuilder(DiscourseSSOApi::class)
             ->disableOriginalConstructor()
             ->getMock();
     }
 
-    public function testVerifyPayload_validPayload()
+    public function testGetLoginRedirectUrl()
     {
         // given...
         $payloadValidator = new DiscoursePayloadValidator('test_key');
-        $handler = new DiscourseLoginHandler($this->storageMock, $payloadValidator, $this->logStub);
-        
+
         $payload = [
             'nonce' => 'test_nonce',
             'return_sso_url' => 'return_url',   
         ];
         $validSSO = $payloadValidator->makePayload($payload);
         $validSignature = $payloadValidator->getSignedPayload($validSSO);
-        
-        // expect...
-        $this->storageMock
+
+        $this->apiMock
             ->expects($this->once())
-            ->method('store')
-            ->with(
-                $this->equalTo($payload['nonce']), 
-                $this->equalTo($payload['return_sso_url'])
-            );
+            ->method('requestNonce')
+            ->willReturn([
+                'sso' => $validSSO,
+                'sig' => $validSignature,
+            ]);
+
+        $handler = new DiscourseLoginHandler($this->apiMock, $payloadValidator, $this->logStub);
 
         // when...
-        $handler->verifyAndStorePayload($validSSO, $validSignature);
+        $url = $handler->getRedirectUrl(111, 'test-user@pcbmc.co');
+
+        // expect...
+        $this->assertEquals('return_url?sso=ZW1haWw9dGVzdC11c2VyJTQwcGNibWMuY28mZXh0ZXJuYWxfaWQ9MTExJm5vbmNlPXRlc3Rfbm9uY2UmcmVxdWlyZV9hY3RpdmF0aW9uPWZhbHNl&sig=64c5e8ca6b44598509ed67fbdda42d5a719e3a51926ebc7bed2be84e3ab72ed5', $url);
     }
 
     public function testVerifyPayload_badPayload()
     {
         // given...
+        $this->apiMock
+            ->expects($this->once())
+            ->method('requestNonce')
+            ->willReturn([
+                'sso' => 'bad_sso',
+                'sig' => 'bad_sig',
+            ]);
+
         $payloadValidator = new DiscoursePayloadValidator('test_key');
-        $handler = new DiscourseLoginHandler($this->storageMock, $payloadValidator, $this->logStub);
+        $handler = new DiscourseLoginHandler($this->apiMock, $payloadValidator, $this->logStub);
         
         // expect...
         $this->expectException(BadSSOPayloadException::class);
 
         // when...
-        $handler->verifyAndStorePayload('bad_payload', 'valid_payload');
-    }
-
-    public function testGetLoginRedirectUrl()
-    {
-        // given...
-        $this->storageMock->method('get')
-            ->willReturn([
-                'nonce' => 'test_nonce',
-                'return_uri' => 'test_return_uri',
-            ]);
-
-        $payloadValidator = new DiscoursePayloadValidator('test_key');
-        $handler = new DiscourseLoginHandler($this->storageMock, $payloadValidator, $this->logStub);
-
-        // when...
-        $url = $handler->getLoginRedirectUrl(111, 'test-user@pcbmc.co');
-
-        // expect...
-        $this->assertEquals('test_return_uri?sso=ZW1haWw9dGVzdC11c2VyJTQwcGNibWMuY28mZXh0ZXJuYWxfaWQ9MTExJm5vbmNlPXRlc3Rfbm9uY2UmcmVxdWlyZV9hY3RpdmF0aW9uPWZhbHNl&sig=64c5e8ca6b44598509ed67fbdda42d5a719e3a51926ebc7bed2be84e3ab72ed5', $url);
+        $handler->getRedirectUrl(111, 'test-user@pcbmc.co');
     }
 }
