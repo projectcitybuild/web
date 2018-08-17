@@ -60,15 +60,14 @@ class DiscourseAdminApi
      * Logs out the given user
      *
      * @param integer $discourseUserId
-     * @param string $discourseUsername
      * @return array
      */
-    public function requestLogout(int $discourseUserId, string $discourseUsername) : array
+    public function requestLogout(int $discourseUserId) : array
     {
         $response = $this->client->post('admin/users/'.$discourseUserId.'/log_out', [
             'query' => [
                 'api_key'       => $this->getApiKey(),
-                'api_username'  => $discourseUsername,
+                'api_username'  => $this->getApiUser(),
             ],
         ]);
         return json_decode($response->getBody(), true);
