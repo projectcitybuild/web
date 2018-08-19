@@ -1,13 +1,11 @@
 <?php
-namespace Infrastructure\Helpers;
+namespace Domains\Helpers;
 
 class TokenHelpers
 {
-    private function __construct()
-    {
-    }
-
     private const HASH_ALGORITHM = 'sha256';
+
+    private function __construct() {}
 
     public static function generateToken($message = null) : string
     {

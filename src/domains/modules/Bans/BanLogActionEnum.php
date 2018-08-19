@@ -1,7 +1,7 @@
 <?php
 namespace Domains\Modules\Bans;
 
-use Infrastructure\LegacyEnum;
+use Application\LegacyEnum;
 
 class BanLogActionEnum extends LegacyEnum
 {

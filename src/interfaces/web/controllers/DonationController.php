@@ -3,7 +3,7 @@
 namespace Interfaces\Web\Controllers;
 
 use Illuminate\Support\Facades\View;
-use Domains\Modules\Donations\Services\DonationStatsService;
+use Domains\Services\Donations\DonationStatsService;
 use Domains\Modules\Players\Models\MinecraftPlayer;
 use Domains\Modules\Accounts\Models\Account;
 use Illuminate\Support\Facades\Cache;

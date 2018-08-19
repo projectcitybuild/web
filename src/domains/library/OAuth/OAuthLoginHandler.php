@@ -3,7 +3,7 @@ namespace Domains\Library\OAuth;
 
 use Domains\Library\OAuth\Storage\OAuthStorageContract;
 use Illuminate\Http\RedirectResponse;
-use Infrastructure\Environment;
+use Application\Environment;
 use Illuminate\Http\Request;
 
 class OAuthLoginHandler 

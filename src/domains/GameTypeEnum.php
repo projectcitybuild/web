@@ -1,7 +1,7 @@
 <?php
 namespace Domains;
 
-use Infrastructure\Enum;
+use Application\Enum;
 use Domains\Library\QueryServer\ServerQueryAdapterContract;
 use Domains\Library\QueryServer\GameAdapters\MinecraftQueryAdapter;
 use Domains\Library\QueryPlayer\PlayerQueryAdapterContract;

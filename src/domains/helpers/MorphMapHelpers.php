@@ -1,5 +1,5 @@
 <?php
-namespace Infrastructure\Helpers;
+namespace Domains\Helpers;
 
 use Illuminate\Database\Eloquent\Relations\Relation;
 

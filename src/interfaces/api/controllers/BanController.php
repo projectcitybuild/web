@@ -17,7 +17,7 @@ use Domains\Modules\Players\Models\MinecraftPlayer;
 use Domains\Modules\Players\Services\MinecraftPlayerLookupService;
 use Application\Exceptions\ServerException;
 use Application\Exceptions\BadRequestException;
-use Infrastructure\Helpers\MorphMapHelpers;
+use Domains\Helpers\MorphMapHelpers;
 use Illuminate\Validation\Factory as Validator;
 use Illuminate\Database\Connection;
 use Illuminate\Http\Request;

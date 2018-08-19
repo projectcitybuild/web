@@ -1,5 +1,5 @@
 <?php
-namespace Infrastructure;
+namespace Application;
 
 abstract class Enum
 {

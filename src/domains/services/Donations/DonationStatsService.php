@@ -1,13 +1,11 @@
 <?php
-namespace Domains\Modules\Donations\Services;
+namespace Domains\Services\Donations;
 
 use Domains\Modules\Donations\Repositories\DonationRepository;
 use Carbon\Carbon;
 
-// TODO: move
 class DonationStatsService
 {
-
     /**
      * @var DonationRepository
      */

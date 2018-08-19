@@ -5,7 +5,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Interfaces\Console\Commands\QueryServerCommand;
 use Interfaces\Console\Commands\ImportCommand;
-use Infrastructure\Environment;
+use Application\Environment;
 
 class Kernel extends ConsoleKernel
 {
