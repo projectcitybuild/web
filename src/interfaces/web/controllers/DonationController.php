@@ -39,6 +39,10 @@ class DonationController extends WebController
         $stripeToken = $request->get('stripeToken');
         $amount = 500;
 
+        if ($amount <= 0) {
+            return redirect()->back();
+        }
+
         $account = $request->user();
         $accountId = $account !== null ? $account->getKey() : null;
 

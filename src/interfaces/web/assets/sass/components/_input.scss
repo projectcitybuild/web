@@ -29,10 +29,35 @@
         color: $colour-primary;
         box-shadow: 0 3px 10px 0 hsla(255, 12%, 13%, 0.1),
                     inset 0 3px 0 0 hsla(255, 12%, 13%, 0.1);
-        
     }
 
     &--error {
         border: 1px solid $colour-error;
+    }
+
+    &--prefixed {
+        padding-left: 35px;
+    }
+
+    &[disabled] {
+        color: lighten($colour-light, 5%);
+    }
+}
+
+.input-container {
+    position: relative;
+    color: darken($colour-light, 5%);
+
+    .input-suffix {
+        position: absolute;
+        right: 15px;
+        top: 14px;
+        font-size: 0.8em;
+    }
+
+    .input-prefix {
+        position: absolute;
+        top: 13px;
+        left: 15px;
     }
 }

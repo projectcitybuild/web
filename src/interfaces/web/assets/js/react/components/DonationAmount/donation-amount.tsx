@@ -56,7 +56,7 @@ export default class Component extends React.Component<{}, InitialState> {
 
     handleCustomAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = Number(event.target.value);
-        if (!Number.isNaN(newValue)) {
+        if (!Number.isNaN(newValue) && newValue >= 0 && newValue < 999999) {
             this.setState({
                 customAmount: newValue, 
             });
@@ -94,16 +94,21 @@ export default class Component extends React.Component<{}, InitialState> {
                         </button>
                     </div>
                 </div>
+                
+                <div className="input-container">
+                    <div className="input-prefix"><i className="fas fa-dollar-sign"></i></div>
+                    <div className="input-suffix">USD</div>
 
-                <input
-                    ref={input => { this.customAmountInput = input }}
-                    className="input-text" 
-                    type="text" 
-                    placeholder="3.00" 
-                    disabled={this.state.selectedOption == DonationAmountOption.SetAmount} 
-                    value={this.state.customAmount.toString()}
-                    onChange={this.handleCustomAmountChange}
-                    />
+                    <input
+                        ref={input => { this.customAmountInput = input }}
+                        className="input-text input-text--prefixed" 
+                        type="text" 
+                        placeholder="3.00" 
+                        disabled={this.state.selectedOption == DonationAmountOption.SetAmount} 
+                        value={this.state.customAmount.toString()}
+                        onChange={this.handleCustomAmountChange}
+                        />
+                </div>
 
                 <form action={this.state.submitRoute} method="POST" ref={form => { this.form = form; }}>
                     <input type="hidden" name="stripe_token" value={this.state.stripeToken} />
