@@ -13,6 +13,7 @@ use Domains\Library\Stripe\StripeHandler;
 use Domains\Modules\Payments\Repositories\AccountPaymentRepository;
 use Illuminate\Database\Connection;
 use Domains\Modules\Payments\AccountPaymentType;
+use Domains\Services\Donations\DonationCreationService;
 
 class DonationController extends WebController
 {
@@ -22,23 +23,16 @@ class DonationController extends WebController
     private $donationRepository;
 
     /**
-     * @var AccountPaymentRepository
+     * @var DonationCreationService
      */
-    private $paymentRepository;
-
-    /**
-     * @var Connection
-     */
-    private $connection;
+    private $donationCreationService;
 
 
     public function __construct(DonationRepository $donationRepository,
-                                AccountPaymentRepository $paymentRepository,
-                                Connection $connection)
+                                DonationCreationService $donationCreationService)
     {
         $this->donationRepository = $donationRepository;
-        $this->paymentRepository = $paymentRepository;
-        $this->connection = $connection;
+        $this->donationCreationService = $donationCreationService;
     }
 
     public function getView()
@@ -54,44 +48,8 @@ class DonationController extends WebController
 
         $account = $request->user();
         $accountId = $account !== null ? $account->getKey() : null;
-        
-        $stripeHandler = new StripeHandler();
 
-        try {
-            $charge = $stripeHandler->charge($amount, $stripeToken, $accountId, $email, 'PCB Contribution');
-        } catch (\Exception $e) {
-            throw $e;
-        }
-
-        $amount = (float)($amount / 100);
-
-        $isLifetime = $amount >= 30;
-        if ($isLifetime) {
-            $donationExpiry = null;
-        } else {
-            $donationExpiry = now()->addMonths(floor($amount / 3));
-        }
-
-        $this->connection->beginTransaction();
-        try {
-            $donation = $this->donationRepository->create($accountId,
-                                                          $amount,
-                                                          $donationExpiry,
-                                                          $isLifetime);
-
-            $payment = $this->paymentRepository->create(new AccountPaymentType(AccountPaymentType::Donation),
-                                                        $donation->getKey(),
-                                                        $amount / 100,
-                                                        $stripeToken,
-                                                        $accountId,
-                                                        true);
-            $this->connection->commit();
-            
-        } catch (\Exception $e) {
-            $this->connection->rollBack();
-            throw $e;
-        }
-
+        $this->donationCreationService->donate($stripeToken, $email, $amount, $accountId);
     }
 
     private function getRgbBetween($rgbStart, $rgbEnd, $percent)
