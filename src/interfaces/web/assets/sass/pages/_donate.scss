@@ -1,0 +1,60 @@
+.donate {
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 1px hsla(0, 0%, 0%, 0.05);
+    background: #fff;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+
+    @media screen and (max-width: $dimen-medium) {
+        flex-direction: column;
+    }
+
+    &__right {
+        $background: lighten($colour-secondary, 15%);
+        
+        flex: 1 1 35%;
+        background: $background;
+        padding: 2em 2.5em;
+        color: #fff;
+        border-bottom: 3px solid darken($background, 5%);
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+
+        @media screen and (max-width: $dimen-medium) {
+            border-radius: 0 0 5px 5px;
+        }
+    }
+
+    &__left {
+        flex: 1 1 65%;
+        padding: 2em 2.5em;
+        border-bottom: 3px solid darken(#fff, 5%);
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+
+        @media screen and (max-width: $dimen-medium) {
+            border-radius: 5px 5px 0 0;
+        }
+
+        h1 {
+            margin-bottom: 0.75em;
+        }
+    }
+
+    &__options {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__description {
+        line-height: 1.75em;
+        margin-bottom: 1.5em;
+    }
+
+}
