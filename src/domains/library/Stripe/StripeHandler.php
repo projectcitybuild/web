@@ -39,14 +39,14 @@ class StripeHandler
         return $this;
     }
 
-    public function charge(int $amount, string $token = null, ?int $pcbId = null, string $receiptEmail = null, string $description = null) : Charge
+    public function charge(int $amount, string $token = null, ?int $customerId = null, string $receiptEmail = null, string $description = null) : Charge
     {
         return Charge::create([
             'amount' => $amount,
             'source' => $token,
             'receipt_email' => $receiptEmail,
             'description' => $description,
-            'customer' => $pcbId,
+            'customer' => $customerId,
             'currency' => $this->currency,
         ]);
     }

@@ -47,12 +47,12 @@ class DonationDeactivatorService
             if (in_array($pcbAccountId, $deactivatedDonators) === false) {
                 $result = $this->discourseUserApi->fetchUserByPcbId($pcbAccountId);
                 
-                $discourseAccountId = $result['user'];
+                $discourseAccountId = $result['user']['id'];
                 if ($discourseAccountId === null) {
                     throw new \Exception('Failed to get Discourse account id');
                 }
 
-                $this->discourseAdminApi->deleteUserFromGroup($discourseAccountId, $donatorGroupId);
+                $this->discourseAdminApi->deleteUserFromGroup($discourseAccountId, 46);
                 $deactivatedDonators[] = $pcbAccountId;
             }
 

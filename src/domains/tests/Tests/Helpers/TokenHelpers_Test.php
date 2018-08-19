@@ -30,6 +30,6 @@ class TokenHelpers_Test extends TestCase
         $token = TokenHelpers::generateToken('data_to_be_tokenized');
         
         // expect...
-        $this->assertEqual('b3ff48dd70783b6c5bbf51f887e22d8f278ae1dbd1453844260d6cf703fdbaab', $token);
+        $this->assertEquals('b3ff48dd70783b6c5bbf51f887e22d8f278ae1dbd1453844260d6cf703fdbaab', $token);
     }
 }
