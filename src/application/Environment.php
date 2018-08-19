@@ -1,53 +1,83 @@
 <?php
-namespace Infrastructure;
+namespace Application;
+
+use Application\EnvironmentLevel;
 
 class Environment
 {
-    private function __construct() {}
-
-
     /**
-     * @var string
+     * @var EnvironmentLevel
      */
     private static $forcedLevel;
+
+    /**
+     * @var EnvironmentLevel
+     */
+    private static $level;
+
+
+    private function __construct() {}
+
+    
+    public static function getLevel() : EnvironmentLevel
+    {
+        if (self::$forcedLevel !== null) {
+            return self::$forcedLevel;
+        }
+
+        if (self::$level !== null) {
+            return self::$level;
+        }
+
+        return self::makeEnvironmentLevel();
+    }
+
+    private static function makeEnvironmentLevel() : EnvironmentLevel
+    {
+        $rawValue = config('app.env');
+        self::$level = new EnvironmentLevel($rawValue);
+
+        return self::$level;
+    }
 
     /**
      * Overrides the Environment level for
      * the current request
      *
-     * @param string $level
+     * @param EnvironmentLevel|string $level
      * @return void
      */
-    public static function overrideLevel(string $level)
+    public static function overrideLevel($level)
     {
+        if ($level instanceof EnvironmentLevel === false) {
+            $level = new EnvironmentLevel($level);
+        }
         self::$forcedLevel = $level;
     }
 
-    private static function getLevel() : string
+    public static function resetLevel()
     {
-        if (self::$forcedLevel !== null) {
-            return self::$forcedLevel;
-        }
-        return env('APP_ENV');
+        self::$forcedLevel = null;
+        self::$level = null;
     }
 
     public static function isDev() : bool
     {
-        return self::getLevel() === 'local';
+        return self::getLevel()->valueOf() === EnvironmentLevel::Dev;
     }
 
     public static function isTest() : bool
     {
-        return self::getLevel() === 'testing';
+        return self::getLevel()->valueOf() === EnvironmentLevel::Testing;
     }
 
     public static function isStaging() : bool
     {
-        return self::getLevel() === 'staging';
+        return self::getLevel()->valueOf() === EnvironmentLevel::Staging;
     }
 
     public static function isProduction() : bool
     {
-        return self::getLevel() === 'production';
+        return self::getLevel()->valueOf() === EnvironmentLevel::Production;
     }
 }

@@ -1,7 +1,10 @@
 <?php
-namespace Infrastructure;
+namespace Application;
 
-// TODO: delete this and switch to Enum
+/**
+ * TODO: delete this
+ * @deprecated Use Enum instead
+ */
 abstract class LegacyEnum
 {
     /**
