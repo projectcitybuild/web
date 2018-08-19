@@ -4,6 +4,7 @@ namespace Domains\Modules\Donations\Repositories;
 use Domains\Modules\Donations\Models\Donation;
 use Illuminate\Database\Eloquent\Collection;
 use Application\Repository;
+use Carbon\Carbon;
 
 class DonationRepository extends Repository
 {
@@ -14,6 +15,21 @@ class DonationRepository extends Repository
         return $this->getModel()
             ->orderBy('created_at', 'desc')
             ->get();
+    }
+
+    public function create(?int $accountId,
+                           float $amount,
+                           Carbon $expiryDate,
+                           bool $isLifetime,
+                           bool $isActive = true) : Donation
+    {
+        return $this->getModel()->create([
+            'account_id' => $accountId,
+            'amount' => $amount,
+            'perks_end_at' => $expiryDate,
+            'is_lifetime_perks' => $isLifetime,
+            'is_active' => $isActive,
+        ]);
     }
 
     /**

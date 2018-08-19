@@ -8,19 +8,90 @@ use Domains\Modules\Players\Models\MinecraftPlayer;
 use Domains\Modules\Accounts\Models\Account;
 use Illuminate\Support\Facades\Cache;
 use Domains\Modules\Donations\Repositories\DonationRepository;
+use Illuminate\Http\Request;
+use Domains\Library\Stripe\StripeHandler;
+use Domains\Modules\Payments\Repositories\AccountPaymentRepository;
+use Illuminate\Database\Connection;
+use Domains\Modules\Payments\AccountPaymentType;
 
 class DonationController extends WebController
 {
-
     /**
      * @var DonationRepository
      */
     private $donationRepository;
 
+    /**
+     * @var AccountPaymentRepository
+     */
+    private $paymentRepository;
 
-    public function __construct(DonationRepository $donationRepository)
+    /**
+     * @var Connection
+     */
+    private $connection;
+
+
+    public function __construct(DonationRepository $donationRepository,
+                                AccountPaymentRepository $paymentRepository,
+                                Connection $connection)
     {
         $this->donationRepository = $donationRepository;
+        $this->paymentRepository = $paymentRepository;
+        $this->connection = $connection;
+    }
+
+    public function getView()
+    {
+        return view('front.pages.donate');
+    }
+
+    public function donate(Request $request)
+    {
+        $email = $request->get('stripeEmail');
+        $stripeToken = $request->get('stripeToken');
+        $amount = 500;
+
+        $account = $request->user();
+        $accountId = $account !== null ? $account->getKey() : null;
+        
+        $stripeHandler = new StripeHandler();
+
+        try {
+            $charge = $stripeHandler->charge($amount, $stripeToken, $accountId, $email, 'PCB Contribution');
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
+        $amount = (float)($amount / 100);
+
+        $isLifetime = $amount >= 30;
+        if ($isLifetime) {
+            $donationExpiry = null;
+        } else {
+            $donationExpiry = now()->addMonths(floor($amount / 3));
+        }
+
+        $this->connection->beginTransaction();
+        try {
+            $donation = $this->donationRepository->create($accountId,
+                                                          $amount,
+                                                          $donationExpiry,
+                                                          $isLifetime);
+
+            $payment = $this->paymentRepository->create(new AccountPaymentType(AccountPaymentType::Donation),
+                                                        $donation->getKey(),
+                                                        $amount / 100,
+                                                        $stripeToken,
+                                                        $accountId,
+                                                        true);
+            $this->connection->commit();
+            
+        } catch (\Exception $e) {
+            $this->connection->rollBack();
+            throw $e;
+        }
+
     }
 
     private function getRgbBetween($rgbStart, $rgbEnd, $percent)
@@ -37,7 +108,7 @@ class DonationController extends WebController
         ];
     }
 
-    public function getView()
+    public function getListView()
     {
         $donations = $this->donationRepository->getAll();
 

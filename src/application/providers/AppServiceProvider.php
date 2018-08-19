@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Domains\Modules\Players\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\View;
 use Schema;
+use Domains\Modules\Donations\Models\Donation;
+use Domains\Modules\Payments\AccountPaymentType;
+use Interfaces\Web\Composers\MasterViewComposer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,7 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // probably not good to have this...
         Schema::defaultStringLength(191);
         
         // we don't want to store namespaces
@@ -25,13 +27,11 @@ class AppServiceProvider extends ServiceProvider
         // to unique keys instead
         Relation::morphMap([
             'minecraft_player' => MinecraftPlayer::class,
+            AccountPaymentType::Donation => Donation::class,
         ]);
 
         // bind the master view composer to the master view template
-        View::composer(
-            'front.layouts.master',
-            'Interfaces\Web\Composers\MasterViewComposer'
-        );
+        View::composer('front.layouts.master', MasterViewComposer::class);
     }
 
     /**
@@ -39,7 +39,5 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
-    {
-    }
+    public function register() {}
 }

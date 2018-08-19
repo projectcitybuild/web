@@ -10,9 +10,9 @@ use Domains\Modules\Accounts\Models\Account;
 use Domains\Modules\Accounts\Models\AccountLink;
 use Domains\Library\OAuth\OAuthUser;
 use Domains\Services\Login\LoginAccountCreationService;
+use Domains\Services\Login\Exceptions\SocialEmailInUseException;
 use Illuminate\Database\Connection;
 use Illuminate\Log\Logger;
-use Domains\Services\Login\SocialEmailInUseException;
 
 class LoginAccountCreationService_Test extends TestCase
 {

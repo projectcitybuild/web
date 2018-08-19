@@ -5,7 +5,7 @@ use Domains\Modules\Donations\Repositories\DonationRepository;
 use Domains\Library\Discourse\Api\DiscourseAdminApi;
 use Domains\Library\Discourse\Api\DiscourseUserApi;
 
-class DonationRankCleanupService
+class DonationDeactivatorService
 {
     /**
      * @var DonationRepository
