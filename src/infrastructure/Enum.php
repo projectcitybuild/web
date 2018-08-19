@@ -21,6 +21,18 @@ abstract class Enum
         return self::dynamicallyMake($name);
     }
 
+    private static function dynamicallyMake($label)
+    {
+        $keys = self::keys();
+        if (in_array($label, $keys, true) === false) {
+            throw new \InvalidArgumentException;
+        }
+
+        $class = get_called_class();
+        $const = constant("$class::$label");
+        return new $class($const);
+    }
+
     public function valueOf()
     {
         return $this->value;
@@ -46,23 +58,5 @@ abstract class Enum
     public static function values() : array
     {
         return array_values(self::constants()) ?: [];
-    }
-
-    public static function fromRawValue($rawValue)
-    {
-        $constants = self::constants();
-        foreach($constants as $key => $value) {
-            if ($value === $rawValue) {
-                return self::dynamicallyMake($value);
-            }
-        }
-        throw new \InvalidArgumentException;
-    }
-
-    private static function dynamicallyMake($label)
-    {
-        $class = get_called_class();
-        $const = constant("$class::$label");
-        return new $class($const);
     }
 }
