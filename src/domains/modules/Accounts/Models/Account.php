@@ -2,7 +2,7 @@
 
 namespace Domains\Modules\Accounts\Models;
 
-use Application\Model;
+use Domains\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;

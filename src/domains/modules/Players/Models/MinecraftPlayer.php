@@ -2,7 +2,7 @@
 
 namespace Domains\Modules\Players\Models;
 
-use Application\Model;
+use Domains\Model;
 use Domains\Modules\Bans\BannableModelInterface;
 
 class MinecraftPlayer extends Model implements BannableModelInterface

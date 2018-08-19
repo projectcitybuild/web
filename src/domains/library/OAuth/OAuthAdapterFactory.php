@@ -1,7 +1,7 @@
 <?php
 namespace Domains\Library\OAuth;
 
-use Application\LegacyEnum;
+use Domains\LegacyEnum;
 use Domains\Library\OAuth\Adapters\Discord\DiscordOAuthAdapter;
 use Domains\Library\OAuth\Adapters\Google\GoogleOAuthAdapter;
 use Domains\Library\OAuth\Exceptions\UnsupportedOAuthAdapter;

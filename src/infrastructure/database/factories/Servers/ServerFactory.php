@@ -1,7 +1,7 @@
 <?php
 
 use Domains\Modules\Servers\Models\Server;
-use Domains\GameTypeEnum;
+use Domains\Modules\GameTypeEnum;
 use Domains\Modules\Servers\Models\ServerCategory;
 
 /**

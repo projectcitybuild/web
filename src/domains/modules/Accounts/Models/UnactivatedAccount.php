@@ -2,7 +2,7 @@
 
 namespace Domains\Modules\Accounts\Models;
 
-use Application\Model;
+use Domains\Model;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Notifications\Notifiable;
 

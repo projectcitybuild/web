@@ -1,7 +1,7 @@
 <?php
 namespace Domains\Modules\Payments\Repositories;
 
-use Application\Repository;
+use Domains\Repository;
 use Carbon\Carbon;
 use Domains\Modules\Payments\Models\AccountPayment;
 use Domains\Modules\Payments\AccountPaymentType;

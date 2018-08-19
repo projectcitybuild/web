@@ -2,7 +2,7 @@
 namespace Domains\Modules\Servers\Repositories;
 
 use Domains\Modules\Servers\Models\ServerStatus;
-use Application\Repository;
+use Domains\Repository;
 use Carbon\Carbon;
 
 class ServerStatusRepository extends Repository

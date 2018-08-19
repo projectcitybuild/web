@@ -2,7 +2,7 @@
 namespace Domains\Services\Queries;
 
 use Domains\Library\QueryServer\ServerQueryResult;
-use Domains\GameTypeEnum;
+use Domains\Modules\GameTypeEnum;
 use Domains\Services\Queries\Jobs\ServerQueryJob;
 use Domains\Services\Queries\Jobs\PlayerQueryJob;
 use Domains\Modules\Servers\Repositories\ServerStatusPlayerRepository;

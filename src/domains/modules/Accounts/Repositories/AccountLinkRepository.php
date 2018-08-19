@@ -2,7 +2,7 @@
 namespace Domains\Modules\Accounts\Repositories;
 
 use Domains\Modules\Accounts\Models\AccountLink;
-use Application\Repository;
+use Domains\Repository;
 use Carbon\Carbon;
 
 class AccountLinkRepository extends Repository

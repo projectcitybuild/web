@@ -1,7 +1,7 @@
 <?php
 namespace Domains\Modules\Payments;
 
-use Application\Enum;
+use Domains\Enum;
 
 class AccountPaymentType extends Enum
 {

@@ -6,7 +6,7 @@ use Domains\Modules\Servers\Models\ServerCategory;
 use Domains\Modules\Servers\Models\Server;
 use Domains\Modules\ServerKeys\Models\ServerKey;
 use Domains\Modules\ServerKeys\Models\ServerKeyToken;
-use Domains\GameTypeEnum;
+use Domains\Modules\GameTypeEnum;
 use Domains\Modules\Servers\Repositories\ServerKeyTokenRepository;
 
 class ServerSeeds extends Seeder

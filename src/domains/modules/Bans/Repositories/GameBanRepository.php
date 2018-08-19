@@ -2,7 +2,7 @@
 namespace Domains\Modules\Bans\Repositories;
 
 use Domains\Modules\Bans\Models\GameBan;
-use Application\Repository;
+use Domains\Repository;
 use Illuminate\Database\Eloquent\Collection;
 
 class GameBanRepository extends Repository

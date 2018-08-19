@@ -2,7 +2,7 @@
 
 namespace Domains\Modules\Accounts\Models;
 
-use Application\Model;
+use Domains\Model;
 use Illuminate\Support\Facades\URL;
 
 class AccountPasswordReset extends Model

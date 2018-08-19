@@ -1,8 +1,6 @@
 <?php
 namespace Application;
 
-use Application\EnvironmentLevel;
-
 class Environment
 {
     /**

@@ -2,7 +2,7 @@
 namespace Domains\Modules\Accounts\Repositories;
 
 use Domains\Modules\Accounts\Models\AccountEmailChange;
-use Application\Repository;
+use Domains\Repository;
 use Carbon\Carbon;
 
 class AccountEmailChangeRepository extends Repository

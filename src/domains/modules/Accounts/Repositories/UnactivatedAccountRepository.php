@@ -2,7 +2,7 @@
 namespace Domains\Modules\Accounts\Repositories;
 
 use Domains\Modules\Accounts\Models\UnactivatedAccount;
-use Application\Repository;
+use Domains\Repository;
 use Carbon\Carbon;
 
 class UnactivatedAccountRepository extends Repository

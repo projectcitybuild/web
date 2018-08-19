@@ -2,7 +2,7 @@
 
 namespace Domains\Modules\Servers\Models;
 
-use Application\Model;
+use Domains\Model;
 
 class ServerStatusPlayer extends Model
 {

@@ -7,12 +7,23 @@ use Application\Environment;
 
 class Environment_Test extends TestCase
 {
-    public function setUp()
+    private $originalEnv;
+
+    protected function setUp()
     {
         parent::setUp();
 
+        $this->originalEnv = config('app.env');
         Environment::resetLevel();
     }
+
+    protected function tearDown()
+    {
+        config(['app.env' => $this->originalEnv]);
+        
+        parent::tearDown();
+    }
+
 
     public function testCanGetLevel()
     {

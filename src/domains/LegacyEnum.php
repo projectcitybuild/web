@@ -1,5 +1,5 @@
 <?php
-namespace Application;
+namespace Domains;
 
 /**
  * TODO: delete this

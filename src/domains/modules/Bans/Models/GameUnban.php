@@ -2,7 +2,7 @@
 
 namespace Domains\Modules\Bans\Models;
 
-use Application\Model;
+use Domains\Model;
 
 class GameUnban extends Model
 {
