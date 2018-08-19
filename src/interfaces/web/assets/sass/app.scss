@@ -69,3 +69,9 @@ body {
 section {
     width: 100%;
 }
+
+ul, ol {
+    &.no-list {
+        list-style: none;
+    }
+}

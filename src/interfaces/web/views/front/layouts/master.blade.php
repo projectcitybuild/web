@@ -227,6 +227,8 @@
                 </div>
             </footer>
         </main>
+
+        @stack('body-js')
         
     </body>
 </html>
