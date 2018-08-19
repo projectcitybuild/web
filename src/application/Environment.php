@@ -42,14 +42,11 @@ class Environment
      * Overrides the Environment level for
      * the current request
      *
-     * @param EnvironmentLevel|string $level
+     * @param EnvironmentLevel $level
      * @return void
      */
-    public static function overrideLevel($level)
+    public static function overrideLevel(EnvironmentLevel $level)
     {
-        if ($level instanceof EnvironmentLevel === false) {
-            $level = new EnvironmentLevel($level);
-        }
         self::$forcedLevel = $level;
     }
 

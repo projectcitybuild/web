@@ -37,23 +37,11 @@ class Environment_Test extends TestCase
         $this->assertEquals(EnvironmentLevel::Production, $environment->valueOf());
     }
 
-    public function testCanOverrideLevel_withEnum()
+    public function testCanOverrideLevel()
     {
         // given...
-        $level = new EnvironmentLevel(EnvironmentLevel::Staging);
+        $level = EnvironmentLevel::Staging();
         Environment::overrideLevel($level);
-
-        // when...
-        $environment = Environment::getLevel();
-
-        // expect...
-        $this->assertEquals(EnvironmentLevel::Staging, $environment->valueOf());
-    }
-
-    public function testCanOverrideLevel_withString()
-    {
-        // given...
-        Environment::overrideLevel(EnvironmentLevel::Staging);
 
         // when...
         $environment = Environment::getLevel();
