@@ -32,21 +32,37 @@
             </div>
             <div class="donate__section">
                 <h3>Donator perks</h3>
-                <ul>
-                    <li>In-game [$] (Donator) tag</li>
-                    <li>Coloured nickname</li>
-                </ul>
 
-                You will also receive Trusted rank permissions:
-                <ul>
-                    <li>Flying</li>
-                    <li>Custom nicknames</li>
-                    <li>Teleporting</li>
-                    <li>Death chests</li>
-                    <li>Increased home limit</li>
-                </ul>
+                <div class="donate__perks">
+                    <div class="perks-table">
+                        <div class="perks-table__header">
+                            <i class="fas fa-handshake"></i> Gain Trusted Rank Perks
+                        </div>
+                        <div class="perks-table__body">
+                            <ul class="perks-table__inner">
+                                <li>Flying</li>
+                                <li>Custom nicknames</li>
+                                <li>Teleporting</li>
+                                <li>Death chests</li>
+                                <li>Increased home limit</li>
+                            </ul>
+                        </div>
+                    </div>
 
-                If you would like to donate via a different method, please let us know. We also support PayPal and bank transfers.
+                    <div class="perks-table">
+                        <div class="perks-table__header">
+                        <i class="fas fa-money-check-alt"></i> Plus Donator-Only Perks
+                        </div>
+                        <div class="perks-table__body">
+                            <ul class="perks-table__inner">
+                                <li>Priority server slot</li>
+                                <li>In-game [$] (Donator) tag</li>
+                                <li>Coloured nickname</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="donate__section">
             
@@ -82,7 +98,7 @@
 
             <small>
                 Your payment details will be processed by <a href="https://stripe.com/" rel="noopener" target="_blank">Stripe</a>, and only a record of your donation will be stored by PCB.
-                In accordance with data laws, we <strong>do not retain any credit card or bank account information</strong>.
+                In accordance with data retention laws, <strong>we do not store any credit card or bank account information</strong>.
             </small>
         </div>
 

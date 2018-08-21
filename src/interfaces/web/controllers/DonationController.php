@@ -30,7 +30,7 @@ class DonationController extends WebController
 
     public function getView()
     {
-        return view('front.pages.donate');
+        return view('front.pages.donate.donate');
     }
 
     public function donate(Request $request)
