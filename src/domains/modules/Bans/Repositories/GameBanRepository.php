@@ -25,18 +25,17 @@ class GameBanRepository extends Repository
      *
      * @return GameBan
      */
-    public function store(
-        int $serverId,
-        int $bannedPlayerId,
-        string $bannedPlayerType,
-        string $bannedAliasAtTime,
-        int $staffPlayerId,
-        string $staffPlayerType,
-        ?string $reason = null,
-        bool $isActive = true,
-        bool $isGlobalBan = false,
-        ?int $expiresAt = null
-    ) : GameBan {
+    public function store(int $serverId,
+                          int $bannedPlayerId,
+                          string $bannedPlayerType,
+                          string $bannedAliasAtTime,
+                          int $staffPlayerId,
+                          string $staffPlayerType,
+                          ?string $reason = null,
+                          bool $isActive = true,
+                          bool $isGlobalBan = false,
+                          ?int $expiresAt = null) : GameBan 
+    {
         return $this->getModel()->create([
             'server_id'             => $serverId,
             'banned_player_id'      => $bannedPlayerId,

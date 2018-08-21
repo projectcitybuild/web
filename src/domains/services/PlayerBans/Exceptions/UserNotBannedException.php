@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Modules\Bans\Exceptions;
+namespace Domains\Services\PlayerBans\Exceptions;
 
 use Application\Exceptions\BadRequestException;
 

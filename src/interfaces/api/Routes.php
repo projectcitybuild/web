@@ -14,12 +14,12 @@
 Route::prefix('bans')->group(function () {
     Route::post('list', 'BanController@getBanList');
     
-    Route::middleware('auth.token.server')->group(function () {
+    // Route::middleware('auth.token.server')->group(function () {
         Route::post('store/ban', 'BanController@storeBan');
         Route::post('store/unban', 'BanController@storeUnban');
-        Route::post('status', 'BanController@getUserStatus');
-        Route::post('history', 'BanController@getUserBanHistory');
-    });
+        Route::post('status', 'BanController@getPlayerStatus');
+        // Route::post('history', 'BanController@getUserBanHistory');
+    // });
 });
 
 Route::prefix('servers')->group(function () {

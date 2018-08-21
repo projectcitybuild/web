@@ -15,17 +15,16 @@ class MinecraftPlayerRepository extends Repository
      * @param int $userId
      * @return GameUser
      */
-    public function store(
-        string $uuid,
-        Carbon $lastSeenAt = null,
-        ?int $accountId = null,
-        int $playTime = 0
-    ) : MinecraftPlayer {
+    public function store(string $uuid,
+                          ?Carbon $lastSeenAt = null,
+                          ?int $accountId = null,
+                          int $playTime = 0) : MinecraftPlayer 
+    {
         return $this->getModel()->create([
             'uuid'          => $uuid,
             'account_id'    => $accountId,
             'playtime'      => $playTime,
-            'last_seen_at'  => $lastSeenAt ?: Carbon::now(),
+            'last_seen_at'  => $lastSeenAt ?: now(),
         ]);
     }
 
