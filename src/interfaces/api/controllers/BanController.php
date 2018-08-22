@@ -6,11 +6,12 @@ use Domains\Modules\Bans\Resources\GameBanResource;
 use Domains\Modules\Bans\Resources\GameUnbanResource;
 use Domains\Services\PlayerBans\PlayerBanService;
 use Domains\Services\PlayerBans\PlayerUnbanService;
+use Domains\Services\PlayerBans\PlayerBanLookupService;
 use Domains\Modules\GameIdentifierType;
 use Application\Exceptions\BadRequestException;
+use Interfaces\Api\ApiController;
 use Illuminate\Validation\Factory as Validator;
 use Illuminate\Http\Request;
-use Domains\Services\PlayerBans\PlayerBanLookupService;
 
 class BanController extends ApiController
 {
@@ -77,14 +78,14 @@ class BanController extends ApiController
         $expiresAt          = $request->get('expires_at');
         $isGlobalBan        = $request->get('is_global_ban', false);
         
-        $bannedPlayerType   = new GameIdentifierType($request->get('player_id_type'));
-        $staffPlayerType    = new GameIdentifierType($request->get('staff_id_type'));
+        $bannedPlayerType   = GameIdentifierType::fromRawValue($request->get('player_id_type'));
+        $staffPlayerType    = GameIdentifierType::fromRawValue($request->get('staff_id_type'));
 
         $ban = $this->playerBanService->ban($bannedPlayerId, 
-                                            $bannedPlayerType,
+                                            $bannedPlayerType->playerType(),
                                             $bannedPlayerAlias,
                                             $staffPlayerId,
-                                            $staffPlayerType,
+                                            $staffPlayerType->playerType(),
                                             $reason,
                                             $expiresAt,
                                             $isGlobalBan);

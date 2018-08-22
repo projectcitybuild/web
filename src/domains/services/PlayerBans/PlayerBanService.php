@@ -3,7 +3,7 @@ namespace Domains\Services\PlayerBans;
 
 use Domains\Modules\Bans\Repositories\GameBanRepository;
 use Domains\Modules\Bans\Models\GameBan;
-use Domains\Modules\GameIdentifierType;
+use Domains\Modules\GamePlayerType;
 use Domains\Services\PlayerLookup\PlayerLookupService;
 use Domains\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
 use Domains\GameTypeEnum;
@@ -31,10 +31,10 @@ class PlayerBanService
 
 
     public function ban(string $bannedPlayerId,
-                        GameIdentifierType $bannedPlayerType,
+                        GamePlayerType $bannedPlayerType,
                         string $bannedPlayerAlias,
                         string $staffPlayerId,
-                        GameIdentifierType $staffPlayerType,
+                        GamePlayerType $staffPlayerType,
                         ?string $banReason,
                         ?int $banExpiresAt = null,
                         bool $isGlobalBan = false) : GameBan
@@ -42,17 +42,19 @@ class PlayerBanService
         $bannedPlayer = $this->playerLookupService->getOrCreatePlayer($bannedPlayerType, $bannedPlayerId);
         $staffPlayer  = $this->playerLookupService->getOrCreatePlayer($staffPlayerType, $staffPlayerId);
         
-        $activeBan = $this->gameBanRepository->getActiveBanByGameUserId($bannedPlayer->getKey(), $bannedPlayerType->playerType());
+        $activeBan = $this->gameBanRepository->getActiveBanByGameUserId($bannedPlayer->getKey(), $bannedPlayerType);
         if ($activeBan !== null) {
             throw new UserAlreadyBannedException('player_already_banned', 'Player is already banned');
         }
 
+        $serverId = 1;
+
         return $this->gameBanRepository->store($serverId,
                                                $bannedPlayer->getKey(),
-                                               $bannedPlayerType->playerType(),
+                                               $bannedPlayerType,
                                                $bannedPlayerAlias,
-                                               $staffPlayerId,
-                                               $staffPlayerType->playerType(),
+                                               $staffPlayer->getKey(),
+                                               $staffPlayerType,
                                                $banReason,
                                                true,
                                                $isGlobalBan,

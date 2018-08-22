@@ -59,4 +59,15 @@ abstract class Enum
     {
         return array_values(self::constants()) ?: [];
     }
+
+    public static function fromRawValue(string $rawValue)
+    {
+        $constants = self::constants();
+        foreach ($constants as $key => $value) {
+            if ($value === $rawValue) {
+                return self::dynamicallyMake($key);
+            }
+        }
+        throw new \InvalidArgumentException;
+    }
 }
