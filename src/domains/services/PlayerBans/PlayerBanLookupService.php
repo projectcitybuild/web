@@ -1,7 +1,7 @@
 <?php
 namespace Domains\Services\PlayerBans;
 
-use Domains\Modules\GameIdentifierType;
+use Domains\Modules\GamePlayerType;
 use Domains\Modules\Bans\Repositories\GameBanRepository;
 use Domains\Services\PlayerLookup\PlayerLookupService;
 
@@ -27,15 +27,15 @@ class PlayerBanLookupService
     }
 
 
-    public function getStatus(GameIdentifierType $identifierType, string $identifier)
+    public function getStatus(GamePlayerType $playerType, string $identifier)
     {
-        $player = $this->playerLookupService->getOrCreatePlayer($identifierType->playerType(), $identifier);
-
+        $player = $this->playerLookupService->getOrCreatePlayer($playerType, $identifier);
+        
         return $this->gameBanRepository->getActiveBanByGameUserId($player->getKey(), 
-                                                                  $identifierType->playerType());
+                                                                  $playerType);
     }
 
-    public function getHistory(GameIdentifierType $identifierType, string $identifier)
+    public function getHistory(GamePlayerType $playerType, string $identifier)
     {
 
     }

@@ -136,12 +136,14 @@ class BanController extends ApiController
         }
 
         $bannedPlayerId     = $request->get('player_id');
-        $bannedPlayerType   = new GameIdentifierType($request->get('player_id_type'));
+        $bannedPlayerType   = GameIdentifierType::fromRawValue($request->get('player_id_type'));
 
-        $activeBan = $this->playerBanLookupService->getStatus($bannedPlayerType, $bannedPlayerId);
+        $activeBan = $this->playerBanLookupService->getStatus($bannedPlayerType->playerType(), $bannedPlayerId);
 
         if ($activeBan === null) {
-            return null;
+            return [
+                'data' => null,
+            ];
         }
         return new GameBanResource($activeBan);
     }
