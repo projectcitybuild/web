@@ -5,7 +5,7 @@ namespace Application;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler;
-use Infrastructure\Environment;
+use Application\Environment;
 use Application\Exceptions\BaseHttpException;
 
 class ExceptionHandler extends Handler

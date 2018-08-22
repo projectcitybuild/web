@@ -1,6 +1,8 @@
 <?php
 namespace Application;
 
+use Domains\Enum;
+
 class EnvironmentLevel extends Enum
 {
     const Production = 'production';    // live

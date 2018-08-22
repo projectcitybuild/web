@@ -2,7 +2,7 @@
 namespace Tests;
 
 use Tests\TestCase;
-use Infrastructure\Enum;
+use Domains\Enum;
 
 class TestEnum extends Enum {
     const Key1 = 'value1';
