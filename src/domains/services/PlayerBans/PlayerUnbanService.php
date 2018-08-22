@@ -3,11 +3,12 @@ namespace Domains\Services\PlayerBans;
 
 use Domains\Modules\Bans\Repositories\GameUnbanRepository;
 use Domains\Modules\Bans\Models\GameUnban;
-use Domains\Modules\GameIdentifierType;
+use Domains\Modules\GamePlayerType;
 use Domains\Services\PlayerLookup\PlayerLookupService;
 use Domains\Services\PlayerBans\Exceptions\UserNotBannedException;
-use Domains\GameTypeEnum;
 use Domains\Modules\Bans\Repositories\GameBanRepository;
+use Domains\GameTypeEnum;
+use Illuminate\Database\Connection;
 
 
 class PlayerUnbanService
@@ -27,32 +28,51 @@ class PlayerUnbanService
      */
     private $playerLookupService;
 
+    /**
+     * @var Connection
+     */
+    private $connection;
+
 
     public function __construct(GameBanRepository $gameBanRepository,
                                 GameUnbanRepository $gameUnbanRepository,
-                                PlayerLookupService $playerLookupService)
+                                PlayerLookupService $playerLookupService,
+                                Connection $connection)
     {
         $this->gameUnbanRepository = $gameUnbanRepository;
         $this->gameBanRepository = $gameBanRepository;
         $this->playerLookupService = $playerLookupService;
+        $this->connection = $connection;
     }
 
 
     public function unban(string $bannedPlayerId,
-                          GameIdentifierType $bannedPlayerType,
+                          GamePlayerType $bannedPlayerType,
                           string $staffPlayerId,
-                          GameIdentifierType $staffPlayerType) : GameUnban
+                          GamePlayerType $staffPlayerType) : GameUnban
     {
         $bannedPlayer = $this->playerLookupService->getOrCreatePlayer($bannedPlayerType, $bannedPlayerId);
         $staffPlayer  = $this->playerLookupService->getOrCreatePlayer($staffPlayerType, $staffPlayerId);
         
-        $activeBan = $this->gameBanRepository->getActiveBanByGameUserId($bannedPlayer->getKey(), $bannedPlayerType->playerType());
+        $activeBan = $this->gameBanRepository->getActiveBanByGameUserId($bannedPlayer->getKey(), $bannedPlayerType);
         if ($activeBan === null) {
             throw new UserNotBannedException('player_not_banned', 'This player is not currently banned');
         }
 
-        return $this->gameUnbanRepository->store($activeBan->getKey(),
-                                                 $staffPlayerId,
-                                                 $staffPlayerType->playerType());
+        $this->connection->beginTransaction();
+        try {
+            $activeBan->is_active = false;
+            $activeBan->save();
+    
+            $unban = $this->gameUnbanRepository->store($activeBan->getKey(),
+                                                       $staffPlayer->getKey(),
+                                                       $staffPlayerType);
+            $this->connection->commit();
+            return $unban;
+
+        } catch (\Exception $e) {
+            $this->connection->rollBack();
+            throw $e;
+        }
     }
 }
