@@ -10,7 +10,7 @@ abstract class Enum
         $class = new \ReflectionObject($this);
         $constants = $class->getConstants();
         if (in_array($value, $constants, true) === false) {
-            throw new \InvalidArgumentException;
+            throw new \InvalidArgumentException($value . ' is not a valid enum case');
         }
 
         $this->value = $value;
@@ -68,6 +68,6 @@ abstract class Enum
                 return self::dynamicallyMake($key);
             }
         }
-        throw new \InvalidArgumentException;
+        throw new \InvalidArgumentException($rawValue . ' is not a valid raw enum value');
     }
 }
