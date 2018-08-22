@@ -19,7 +19,7 @@ class Environment_Test extends TestCase
 
     protected function tearDown()
     {
-        config(['app.env' => $this->originalEnv]);
+        config()->set('app.env', $this->originalEnv);
         
         parent::tearDown();
     }
@@ -28,7 +28,7 @@ class Environment_Test extends TestCase
     public function testCanGetLevel()
     {
         // given...
-        config(['app.env' => EnvironmentLevel::Production]);
+        config()->set('app.env', EnvironmentLevel::Production);
 
         // when...
         $environment = Environment::getLevel();
@@ -53,7 +53,7 @@ class Environment_Test extends TestCase
     public function testIsProduction_whenProduction()
     {
         // given...
-        config(['app.env' => EnvironmentLevel::Production]);
+        config()->set('app.env', EnvironmentLevel::Production);
         
         // expect...
         $this->assertTrue(Environment::isProduction());
@@ -62,7 +62,7 @@ class Environment_Test extends TestCase
     public function testIsProduction_whenStaging()
     {
         // given...
-        config(['app.env' => EnvironmentLevel::Staging]);
+        config()->set('app.env', EnvironmentLevel::Staging);
         
         // expect...
         $this->assertFalse(Environment::isProduction());
