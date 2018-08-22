@@ -1,6 +1,8 @@
 <?php
 namespace Domains\Modules;
 
+use Infrastructure\Enum;
+
 class GameIdentifierType extends Enum
 {
     const MinecraftUUID = 'minecraft_uuid';
