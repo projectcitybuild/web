@@ -13,7 +13,7 @@ use Interfaces\Api\ApiController;
 use Illuminate\Validation\Factory as Validator;
 use Illuminate\Http\Request;
 
-class BanController extends ApiController
+class GameBanController extends ApiController
 {
     /**
      * @var Validator
