@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Domains\Modules\Players\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\View;
 use Schema;
+use Domains\Modules\GamePlayerType;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
         // in the database so we'll map them
         // to unique keys instead
         Relation::morphMap([
-            'minecraft_player' => MinecraftPlayer::class,
+            GamePlayerType::Minecraft => MinecraftPlayer::class,
         ]);
 
         // bind the master view composer to the master view template

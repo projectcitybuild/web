@@ -13,7 +13,7 @@ $factory->define(Server::class, function (Faker\Generator $faker) {
         'ip'            => $faker->ipv4(),
         'port'          => $faker->numberBetween(20, 8000),
         'display_order' => $faker->numberBetween(1, 15),
-        'game_type'     => $faker->randomElement(GameTypeEnum::getValues()),
+        'game_type'     => $faker->randomElement(GameTypeEnum::values()),
         'is_port_visible' => true,
         'is_visible'    => true,
         'is_querying'   => true,
