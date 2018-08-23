@@ -12,6 +12,7 @@ use Application\Exceptions\BadRequestException;
 use Interfaces\Api\ApiController;
 use Illuminate\Validation\Factory as Validator;
 use Illuminate\Http\Request;
+use Domains\Services\PlayerBans\ServerKeyAuthService;
 
 class GameBanController extends ApiController
 {
@@ -35,15 +36,22 @@ class GameBanController extends ApiController
      */
     private $playerBanLookupService;
 
+    /**
+     * @var ServerKeyAuthService
+     */
+    private $serverKeyAuthService;
+
 
     public function __construct(PlayerBanService $playerBanService,
                                 PlayerUnbanService $playerUnbanService,
                                 PlayerBanLookupService $playerBanLookupService,
+                                ServerKeyAuthService $serverKeyAuthService,
                                 Validator $validationFactory) 
     {
         $this->playerBanService = $playerBanService;
         $this->playerUnbanService = $playerUnbanService;
         $this->playerBanLookupService = $playerBanLookupService;
+        $this->serverKeyAuthService = $serverKeyAuthService;
         $this->validationFactory    = $validationFactory;
     }
 
@@ -56,6 +64,9 @@ class GameBanController extends ApiController
      */
     public function storeBan(Request $request)
     {
+        $authHeader = $request->header('Authorization');
+        $serverKey = $this->serverKeyAuthService->getServerKey($authHeader);
+
         $validator = $this->validationFactory->make($request->all(), [
             'player_id_type'    => 'required',
             'player_id'         => 'required|max:60',
@@ -81,7 +92,8 @@ class GameBanController extends ApiController
         $bannedPlayerType   = GameIdentifierType::fromRawValue($request->get('player_id_type'));
         $staffPlayerType    = GameIdentifierType::fromRawValue($request->get('staff_id_type'));
 
-        $ban = $this->playerBanService->ban($bannedPlayerId, 
+        $ban = $this->playerBanService->ban($serverKey->server_id,
+                                            $bannedPlayerId, 
                                             $bannedPlayerType->playerType(),
                                             $bannedPlayerAlias,
                                             $staffPlayerId,
@@ -101,6 +113,9 @@ class GameBanController extends ApiController
      */
     public function storeUnban(Request $request)
     {
+        $authHeader = $request->header('Authorization');
+        $serverKey = $this->serverKeyAuthService->getServerKey($authHeader);
+
         $validator = $this->validationFactory->make($request->all(), [
             'player_id_type'    => 'required',
             'player_id'         => 'required',
@@ -126,6 +141,9 @@ class GameBanController extends ApiController
 
     public function getPlayerStatus(Request $request)
     {
+        $authHeader = $request->header('Authorization');
+        $serverKey = $this->serverKeyAuthService->getServerKey($authHeader);
+
         $validator = $this->validationFactory->make($request->all(), [
             'player_id_type'    => 'required',
             'player_id'         => 'required',

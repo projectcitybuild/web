@@ -30,7 +30,8 @@ class PlayerBanService
     }
 
 
-    public function ban(string $bannedPlayerId,
+    public function ban(int $serverId,
+                        string $bannedPlayerId,
                         GamePlayerType $bannedPlayerType,
                         string $bannedPlayerAlias,
                         string $staffPlayerId,
@@ -46,8 +47,6 @@ class PlayerBanService
         if ($activeBan !== null) {
             throw new UserAlreadyBannedException('player_already_banned', 'Player is already banned');
         }
-
-        $serverId = 1;
 
         return $this->gameBanRepository->store($serverId,
                                                $bannedPlayer->getKey(),

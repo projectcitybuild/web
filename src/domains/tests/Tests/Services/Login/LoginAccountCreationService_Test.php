@@ -32,7 +32,7 @@ class LoginAccountCreationService_Test extends TestCase
         $this->connection = resolve(Connection::class);
     }
 
-    public function tesAccountAndAccountLink_succeeds()
+    public function testAccountAndAccountLink_succeeds()
     {
         // given...
         $providerAccount = new OAuthUser('facebook', 'test@pcbmc.co', 'test_user', '123456');

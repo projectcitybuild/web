@@ -23,6 +23,7 @@ class ServerKey extends Model
      */
     protected $fillable = [
         'server_id',
+        'token',
         'can_local_ban',
         'can_global_ban',
         'can_access_ranks',
