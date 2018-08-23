@@ -6,6 +6,8 @@ use Interfaces\Api\ApiController;
 use Illuminate\Validation\Factory as Validator;
 use Illuminate\Http\Request;
 use Domains\Services\PlayerWarnings\PlayerWarningService;
+use Domains\Services\PlayerBans\ServerKeyAuthService;
+use Domains\Services\PlayerBans\Exceptions\UnauthorisedKeyActionException;
 
 class GameWarningController extends ApiController
 {
@@ -19,16 +21,30 @@ class GameWarningController extends ApiController
      */
     private $playerWarningService;
 
+    /**
+     * @var ServerKeyAuthService
+     */
+    private $serverKeyAuthService;
+
 
     public function __construct(PlayerWarningService $playerWarningService,
+                                ServerKeyAuthService $serverKeyAuthService,
                                 Validator $validationFactory) 
     {
         $this->playerWarningService = $playerWarningService;
+        $this->serverKeyAuthService = $serverKeyAuthService;
         $this->validationFactory = $validationFactory;
     }
 
     public function storeWarning(Request $request)
     {
+        $authHeader = $request->header('Authorization');
+        $serverKey = $this->serverKeyAuthService->getServerKey($authHeader);
+
+        if (!$serverKey->can_warn) {
+            throw new UnauthorisedKeyActionException('unauthorised_action', 'This key does not have permission to create warnings');
+        }
+
         $validator = $this->validationFactory->make($request->all(), [
             'player_id_type'    => 'required',
             'player_id'         => 'required|max:60',
@@ -66,6 +82,13 @@ class GameWarningController extends ApiController
 
     public function getWarningCount(Request $request)
     {
+        $authHeader = $request->header('Authorization');
+        $serverKey = $this->serverKeyAuthService->getServerKey($authHeader);
+
+        if (!$serverKey->can_warn) {
+            throw new UnauthorisedKeyActionException('unauthorised_action', 'This key does not have permission to create warnings');
+        }
+        
         $validator = $this->validationFactory->make($request->all(), [
             'player_id_type'    => 'required',
             'player_id'         => 'required|max:60',
