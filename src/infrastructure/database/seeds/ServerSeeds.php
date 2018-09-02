@@ -5,7 +5,6 @@ use Illuminate\Database\Seeder;
 use Domains\Modules\Servers\Models\ServerCategory;
 use Domains\Modules\Servers\Models\Server;
 use Domains\Modules\ServerKeys\Models\ServerKey;
-use Domains\Modules\ServerKeys\Models\ServerKeyToken;
 use Domains\GameTypeEnum;
 use Domains\Modules\Servers\Repositories\ServerKeyTokenRepository;
 
@@ -74,15 +73,10 @@ class ServerSeeds extends Seeder
         
         $serverKey = ServerKey::create([
             'server_id' => $minecraftServer->server_id,
+            'token' => bin2hex(random_bytes(30)),
             'can_local_ban' => true,
             'can_global_ban' => true,
-            'can_access_ranks' => true,
-        ]);
-
-        $token = ServerKeyToken::create([
-            'server_key_id' => $serverKey->server_key_id,
-            'token_hash' => bin2hex(random_bytes(30)),
-            'is_blacklisted' => false,
+            'can_warn' => true,
         ]);
     }
 }
