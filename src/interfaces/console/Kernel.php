@@ -6,6 +6,7 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Interfaces\Console\Commands\QueryServerCommand;
 use Interfaces\Console\Commands\ImportCommand;
 use Application\Environment;
+use Interfaces\Console\Commands\ImportBansCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -18,6 +19,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         QueryServerCommand::class,
         ImportCommand::class,
+        ImportBansCommand::class,
     ];
 
     /**
