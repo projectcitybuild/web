@@ -44,6 +44,7 @@
             "Interfaces\\": "interfaces/",
             "Interfaces\\Api\\": "interfaces/api/",
             "Interfaces\\Api\\Controllers\\": "interfaces/api/controllers/",
+            "Interfaces\\Api\\Requests\\": "interfaces/api/requests/",
             "Interfaces\\Console\\": "interfaces/console/",
             "Interfaces\\Web\\": "interfaces/web/",
             "Interfaces\\Web\\Controllers\\": "interfaces/web/controllers/",

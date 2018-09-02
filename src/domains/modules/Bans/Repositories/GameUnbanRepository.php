@@ -1,16 +1,12 @@
 <?php
 namespace Domains\Modules\Bans\Repositories;
 
+use Application\Repository;
 use Domains\Modules\Bans\Models\GameUnban;
 
-class GameUnbanRepository
+class GameUnbanRepository extends Repository
 {
-    private $unbanModel;
-
-    public function __construct(GameUnban $unbanModel)
-    {
-        $this->unbanModel = $unbanModel;
-    }
+    protected $model = GameUnban::class;
 
     /**
      * Stores a new GameUnban
@@ -23,7 +19,7 @@ class GameUnbanRepository
      */
     public function store(int $banId, int $staffPlayerId, string $staffPlayerType) : GameUnban
     {
-        return $this->unbanModel->create([
+        return $this->getModel()->create([
             'game_ban_id'           => $banId,
             'staff_player_id'       => $staffPlayerId,
             'staff_player_type'     => $staffPlayerType,

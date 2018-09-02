@@ -17,11 +17,10 @@ class MinecraftPlayerAliasRepository extends Repository
      * @param int $userId
      * @return GameUser
      */
-    public function store(
-        string $minecraftPlayerId,
+    public function store(string $minecraftPlayerId,
                           string $alias,
-                          Carbon $registeredAt = null
-    ) : MinecraftPlayerAlias {
+                          Carbon $registeredAt = null) : MinecraftPlayerAlias 
+    {
         return $this->getModel()->create([
             'player_minecraft_id'   => $minecraftPlayerId,
             'alias'                 => $alias,

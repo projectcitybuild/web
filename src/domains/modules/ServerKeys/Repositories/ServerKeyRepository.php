@@ -2,18 +2,16 @@
 namespace Domains\Modules\ServerKeys\Repositories;
 
 use Domains\Modules\ServerKeys\Models\ServerKey;
+use Application\Repository;
 
-class ServerKeyRepository
+class ServerKeyRepository extends Repository
 {
-    private $keyModel;
+    protected $model = ServerKey::class;
 
-    public function __construct(ServerKey $keyModel)
+    public function getByToken(string $token) : ?ServerKey
     {
-        $this->keyModel = $keyModel;
-    }
-
-    public function getById(int $keyId) : ?ServerKey
-    {
-        return $this->keyModel->find($keyId);
-    }
+        return $this->getModel()
+            ->where('token', $token)
+            ->first();
+    }    
 }

@@ -25,18 +25,17 @@ class GameBanRepository extends Repository
      *
      * @return GameBan
      */
-    public function store(
-        int $serverId,
-        int $bannedPlayerId,
-        string $bannedPlayerType,
-        string $bannedAliasAtTime,
-        int $staffPlayerId,
-        string $staffPlayerType,
-        ?string $reason = null,
-        bool $isActive = true,
-        bool $isGlobalBan = false,
-        ?int $expiresAt = null
-    ) : GameBan {
+    public function store(int $serverId,
+                          int $bannedPlayerId,
+                          string $bannedPlayerType,
+                          string $bannedAliasAtTime,
+                          int $staffPlayerId,
+                          string $staffPlayerType,
+                          ?string $reason = null,
+                          bool $isActive = true,
+                          bool $isGlobalBan = false,
+                          ?int $expiresAt = null) : GameBan 
+    {
         return $this->getModel()->create([
             'server_id'             => $serverId,
             'banned_player_id'      => $bannedPlayerId,
@@ -60,22 +59,20 @@ class GameBanRepository extends Repository
      * @param int $serverId
      * @return GameBan|null
      */
-    public function getActiveBanByGameUserId(
-        int $bannedPlayerId,
-        string $bannedPlayerType,
-        int $serverId = null,
-        array $with = []
-    ) : ?GameBan {
+    public function getActiveBanByGameUserId(int $bannedPlayerId,
+                                             string $bannedPlayerType,
+                                             int $serverId = null,
+                                             array $with = []) : ?GameBan 
+    {
         return $this->getModel()
             ->with($with)
             ->where('banned_player_id', $bannedPlayerId)
             ->where('banned_player_type', $bannedPlayerType)
             ->where('is_active', true)
-            ->when(
-                isset($serverId),
+            ->when(isset($serverId),
                 function ($q) use ($serverId) {
                     return $q->where('server_id', $serverId)
-                           ->orWhere('is_global_ban', true);
+                             ->orWhere('is_global_ban', true);
                 },
                 function ($q) {
                     return $q->where('is_global_ban', true);

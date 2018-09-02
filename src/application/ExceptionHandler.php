@@ -5,7 +5,8 @@ namespace Application;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler;
-use Infrastructure\Environment;
+use Application\Environment;
+use Application\Exceptions\BaseHttpException;
 
 class ExceptionHandler extends Handler
 {
@@ -21,11 +22,11 @@ class ExceptionHandler extends Handler
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
         \Illuminate\Session\TokenMismatchException::class,
         \Illuminate\Validation\ValidationException::class,
-        Application\Exceptions\UnauthorisedException::class,
-        Application\Exceptions\BadRequestException::class,
-        Application\Exceptions\ForbiddenException::class,
-        Application\Exceptions\NotFoundException::class,
-        Application\Exceptions\TooManyRequestsException::class
+        \Application\Exceptions\UnauthorisedException::class,
+        \Application\Exceptions\BadRequestException::class,
+        \Application\Exceptions\ForbiddenException::class,
+        \Application\Exceptions\NotFoundException::class,
+        \Application\Exceptions\TooManyRequestsException::class
     ];
 
 
