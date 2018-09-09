@@ -6,6 +6,7 @@ use Application\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
+use Domains\Modules\Groups\Models\Group;
 
 class Account extends Authenticatable
 {
@@ -41,6 +42,11 @@ class Account extends Authenticatable
     public function linkedSocialAccounts()
     {
         return $this->hasMany('Domains\Modules\Accounts\Models\AccountLink', 'account_id', 'account_id');
+    }
+
+    public function groups()
+    {
+        return $this->hasMany(Group::class, 'groups_accounts', 'group_id', 'group_id');
     }
 
     /**
