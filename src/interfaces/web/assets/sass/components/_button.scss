@@ -33,6 +33,7 @@ button.button {
     border-top: 0;
     border-left: 0;
     border-right: 0;
+    font-family: $font-body;
 }
 
 .button {
@@ -53,7 +54,7 @@ button.button {
         cursor: pointer;
     }
     &:active,
-    &:focus, {
+    &:focus{
         margin-top: 5px;
         border-bottom-width: 0px;
         color: darken(#fff, 15%);
