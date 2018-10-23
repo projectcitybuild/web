@@ -4,7 +4,6 @@ namespace Interfaces\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Interfaces\Console\Commands\QueryServerCommand;
-use Interfaces\Console\Commands\ImportCommand;
 use Application\Environment;
 
 class Kernel extends ConsoleKernel
@@ -17,7 +16,6 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         QueryServerCommand::class,
-        ImportCommand::class,
     ];
 
     /**
