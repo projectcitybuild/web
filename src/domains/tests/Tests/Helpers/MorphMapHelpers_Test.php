@@ -2,7 +2,7 @@
 namespace Tests\Helpers;
 
 use Tests\TestCase;
-use Infrastructure\Helpers\MorphMapHelpers;
+use Domains\Helpers\MorphMapHelpers;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 class MorphMapHelpers_Test extends TestCase
