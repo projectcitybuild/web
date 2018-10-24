@@ -9,6 +9,7 @@ use Domains\Library\Discourse\Api\DiscourseGroupApi;
 use Domains\Library\Discourse\Api\DiscourseAdminApi;
 use Illuminate\Support\Facades\DB;
 use Domains\Library\Discourse\Entities\DiscoursePayload;
+use Cache;
 
 class ImportGroupCommand extends Command
 {
@@ -56,6 +57,8 @@ class ImportGroupCommand extends Command
         $groupApi = resolve(DiscourseGroupApi::class);
         $adminApi = resolve(DiscourseAdminApi::class);
 
+        $importedDiscourseIds = Cache::get('import-groups', []);
+
         $this->info('Importing '.$discourseGroupName);
         $group = $groupApi->fetchGroupMembers($discourseGroupName, 300);
         $members = $group['members'];
@@ -64,14 +67,47 @@ class ImportGroupCommand extends Command
 
         foreach ($members as $member) {
             $discourseId = $member['id'];
-            $user = $adminApi->fetchUserByDiscourseId($discourseId);
-            $sso = $user['single_sign_on_record'];
-            $pcbId = $sso['external_id'];
-            dump($user);
+            if (in_array($discourseId, $importedDiscourseIds) === true) {
+                $bar->advance();
+                continue;
+            }
 
-            $account = Account::where('account_id', $pcbId)->first();
+            $user = $adminApi->fetchUserByDiscourseId($discourseId, true);
+            $sso = $user['single_sign_on_record'];
+
+            $account = null;
+            if ($sso !== null) {
+                $pcbId = $sso['external_id'];
+                $account = Account::where('account_id', $pcbId)->first();
+
+            } else {
+                $emails = $adminApi->fetchEmailsByUsername($user['username']);
+                $email = @$emails['email'];
+                if ($email === null) {
+                    $this->error('No SSO record or email for '. $user['username']);
+                    $bar->advance();
+                    $importedDiscourseIds[] = $discourseId;
+                    Cache::put('import-groups', $importedDiscourseIds, 360);
+                    continue;
+                }
+
+                $account = Account::where('email', $email)->first();
+                if ($account === null) {
+                    $this->error('No matching PCB email for '.$user['username'].': '. $user['email']);
+                    $bar->advance();
+                    $importedDiscourseIds[] = $discourseId;
+                    Cache::put('import-groups', $importedDiscourseIds, 360);
+                    continue;
+
+                } else {
+                    $this->info('Found email for '.$user['username']);
+                }
+            }
+
             $account->groups()->attach($pcbGroupId);
 
+            $importedDiscourseIds[] = $discourseId;
+            Cache::put('import-groups', $importedDiscourseIds, 360);
             $bar->advance();
         }
     }

@@ -99,7 +99,20 @@ class DiscourseAdminApi
 
     public function fetchUserByDiscourseId(int $discourseId) : array
     {
-        $response = $this->client->get('admin/users/'.$discourseId.'.json',[
+        $response = $this->client->get('admin/users/'.$discourseId.'.json', [
+            'query' => [
+                'api_key'       => $this->getApiKey(),
+                'api_username'  => $this->getApiUser(),
+            ],
+        ]);
+        $result = json_decode($response->getBody(), true);
+
+        return $result;
+    }
+
+    public function fetchEmailsByUsername(string $username) : array
+    {
+        $response = $this->client->get('u/'.$username.'/emails.json', [
             'query' => [
                 'api_key'       => $this->getApiKey(),
                 'api_username'  => $this->getApiUser(),
