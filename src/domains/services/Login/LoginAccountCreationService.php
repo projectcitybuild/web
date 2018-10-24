@@ -1,9 +1,9 @@
 <?php
 namespace Domains\Services\Login;
 
-use Entities\Accounts\Repositories\AccountRepository;
-use Entities\Accounts\Repositories\AccountLinkRepository;
-use Entities\Accounts\Models\Account;
+use Domains\Modules\Accounts\Repositories\AccountRepository;
+use Domains\Modules\Accounts\Repositories\AccountLinkRepository;
+use Domains\Modules\Accounts\Models\Account;
 use Domains\Library\OAuth\OAuthUser;
 use Illuminate\Log\Logger;
 use Illuminate\Database\Connection;
