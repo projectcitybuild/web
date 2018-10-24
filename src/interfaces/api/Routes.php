@@ -18,6 +18,10 @@ Route::prefix('bans')->group(function () {
     Route::post('status', 'GameBanController@getPlayerStatus');
 });
 
+Route::prefix('groups')->group(function () {
+    Route::get('/', 'GroupApiController@getAll');
+});
+
 Route::prefix('servers')->group(function () {
     Route::get('all', 'ServerController@getAllServers');
 });
