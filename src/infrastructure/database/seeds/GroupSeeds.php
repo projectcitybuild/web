@@ -16,6 +16,10 @@ class GroupSeeds extends Seeder
     public function run()
     {
         Group::create([
+            'name' => GroupEnum::Retired,
+        ]);
+
+        Group::create([
             'name' => GroupEnum::Member,
             'is_default' => true,
         ]);
