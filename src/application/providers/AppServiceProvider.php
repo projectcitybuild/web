@@ -4,10 +4,10 @@ namespace Application\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Domains\Modules\Players\Models\MinecraftPlayer;
+use Entities\Players\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\View;
 use Schema;
-use Domains\Modules\GamePlayerType;
+use Entities\GamePlayerType;
 
 class AppServiceProvider extends ServiceProvider
 {

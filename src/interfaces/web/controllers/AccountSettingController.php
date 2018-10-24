@@ -2,9 +2,9 @@
 
 namespace Interfaces\Web\Controllers;
 
-use Domains\Modules\Accounts\Models\Account;
-use Domains\Modules\Accounts\Repositories\AccountRepository;
-use Domains\Modules\Accounts\Notifications\AccountEmailChangeVerifyNotification;
+use Entities\Accounts\Models\Account;
+use Entities\Accounts\Repositories\AccountRepository;
+use Entities\Accounts\Notifications\AccountEmailChangeVerifyNotification;
 use Interfaces\Web\Requests\AccountChangeEmailRequest;
 use Interfaces\Web\Requests\AccountSaveNewEmailRequest;
 use Illuminate\Support\Facades\Auth;
@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Domains\Library\Discourse\Api\DiscourseAdminApi;
 use Domains\Library\Discourse\Entities\DiscoursePayload;
-use Domains\Modules\Accounts\Repositories\AccountEmailChangeRepository;
-use Infrastructure\Helpers\TokenHelpers;
+use Entities\Accounts\Repositories\AccountEmailChangeRepository;
+use Domains\Helpers\TokenHelpers;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\Notification;
 

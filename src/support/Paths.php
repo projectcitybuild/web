@@ -22,5 +22,6 @@ class Paths {
     // file paths
     const web_route_file = self::basePath.'/interfaces/web/Routes.php';
     const api_route_file = self::basePath.'/interfaces/api/Routes.php';
+    const app_file       = self::basePath.'/support/bootstrap/app.php';
 
 }
