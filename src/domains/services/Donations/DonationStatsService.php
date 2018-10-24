@@ -1,5 +1,5 @@
 <?php
-namespace Entities\Donations\Services;
+namespace Domains\Services\Donations;
 
 use Entities\Donations\Repositories\DonationRepository;
 use Carbon\Carbon;
