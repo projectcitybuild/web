@@ -22,7 +22,6 @@ class Group extends Model
      * @var array
      */
     protected $fillable = [
-        'group_id',
         'name',
         'alias',
         'is_default',
@@ -36,8 +35,6 @@ class Group extends Model
      * @var array
      */
     protected $hidden = [];
-
-    protected $dates = [];
 
     public $timestamps = false;
 

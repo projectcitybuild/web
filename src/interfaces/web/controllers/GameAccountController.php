@@ -35,12 +35,11 @@ class GameAccountController extends WebController
      */
     private $auth;
 
-    public function __construct(
-        MinecraftPlayerRepository $minecraftPlayerRepository,
+    public function __construct(MinecraftPlayerRepository $minecraftPlayerRepository,
                                 MinecraftPlayerAliasRepository $minecraftAliasRepository,
                                 MojangApiService $mojangApiService,
-                                Auth $auth
-    ) {
+                                Auth $auth) 
+    {
         $this->minecraftPlayerRepository = $minecraftPlayerRepository;
         $this->minecraftAliasRepository = $minecraftAliasRepository;
         $this->mojangApiService = $mojangApiService;

@@ -96,4 +96,17 @@ class DiscourseAdminApi
 
         return json_decode($response->getBody());
     }
+
+    public function fetchUserByDiscourseId(int $discourseId) : array
+    {
+        $response = $this->client->get('admin/users/'.$discourseId.'.json',[
+            'query' => [
+                'api_key'       => $this->getApiKey(),
+                'api_username'  => $this->getApiUser(),
+            ],
+        ]);
+        $result = json_decode($response->getBody(), true);
+
+        return $result;
+    }
 }

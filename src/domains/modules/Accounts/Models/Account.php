@@ -46,7 +46,7 @@ class Account extends Authenticatable
 
     public function groups()
     {
-        return $this->hasMany(Group::class, 'groups_accounts', 'group_id', 'group_id');
+        return $this->belongsToMany(Group::class, 'groups_accounts', 'account_id', 'group_id');
     }
 
     /**
