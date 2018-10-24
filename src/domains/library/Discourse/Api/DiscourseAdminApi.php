@@ -122,4 +122,33 @@ class DiscourseAdminApi
 
         return $result;
     }
+
+    public function addUserToGroup(string $discourseId, int $groupId) : array
+    {
+        $response = $this->client->post('admin/users/'.$discourseId.'/groups', [
+            'query' => [
+                'api_key'       => $this->getApiKey(),
+                'api_username'  => $this->getApiUser(),
+            ],
+            'form_params' => [
+                'group_id'      => $groupId,
+            ],
+        ]);
+        $result = json_decode($response->getBody(), true);
+
+        return $result;
+    }
+
+    public function removeUserFromGroup(string $discourseId, int $groupId) : array
+    {
+        $response = $this->client->delete('admin/users/'.$discourseId.'/groups/'.$groupId, [
+            'query' => [
+                'api_key'       => $this->getApiKey(),
+                'api_username'  => $this->getApiUser(),
+            ],
+        ]);
+        $result = json_decode($response->getBody(), true);
+
+        return $result;
+    }
 }

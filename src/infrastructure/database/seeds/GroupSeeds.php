@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 
 use Entities\Groups\Models\Group;
+use Entities\Groups\GroupEnum;
 
 class GroupSeeds extends Seeder
 {
@@ -15,38 +16,38 @@ class GroupSeeds extends Seeder
     public function run()
     {
         Group::create([
-            'name' => 'Member',
+            'name' => GroupEnum::Member,
             'is_default' => true,
         ]);
 
         Group::create([
-            'name' => 'Trusted',
+            'name' => GroupEnum::Trusted,
         ]);
         
         Group::create([
-            'name' => 'Donator',
+            'name' => GroupEnum::Donator,
         ]);
 
         Group::create([
-            'name' => 'Moderator',
+            'name' => GroupEnum::Moderator,
             'alias' => 'Mod',
             'is_staff' => true,
         ]);
         
         Group::create([
-            'name' => 'Operator',
+            'name' => GroupEnum::Operator,
             'alias' => 'OP',
             'is_staff' => true,
         ]);
         
         Group::create([
-            'name' => 'Senior Operator',
+            'name' => GroupEnum::SeniorOperator,
             'alias' => 'SOP',
             'is_staff' => true,
         ]);
 
         Group::create([
-            'name' => 'Administrator',
+            'name' => GroupEnum::Administrator,
             'alias' => 'Admin',
             'is_staff' => true,
             'is_admin' => true,

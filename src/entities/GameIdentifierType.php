@@ -9,7 +9,7 @@ class GameIdentifierType extends Enum
 
     public function playerType()
     {
-        switch($this->value) {
+        switch ($this->value) {
             case self::MinecraftUUID:
                 return GamePlayerType::Minecraft();
         }
