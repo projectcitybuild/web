@@ -13,25 +13,15 @@ use Illuminate\Support\Facades\Cache;
 use Application\Exceptions\BadRequestException;
 use Application\Exceptions\ServerException;
 use Domains\Library\Discourse\Api\DiscourseAdminApi;
+use Entities\Accounts\Resources\AccountResource;
 
 class TempMinecraftController extends ApiController
 {
-
-    /**
-     * @var DiscourseAdminApi
-     */
-    private $adminApi;
-
-    public function __construct(DiscourseAdminApi $adminApi)
-    {
-        $this->adminApi = $adminApi;
-    }
-    
     public function authenticate(Request $request, Validator $validation, Client $client)
     {
         $validator = $validation->make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required',
+            'email'     => 'required|email',
+            'password'  => 'required',
         ]);
 
         if ($validator->failed()) {
@@ -47,20 +37,11 @@ class TempMinecraftController extends ApiController
             throw new UnauthorisedException('invalid_credentials', 'Email and/or password is incorrect');
         }
 
-        return Cache::remember('minecraft.'.$request->get('email'), 5, function () use ($request, $client) {
-            return $this->fetch($request, $client);
-        });
-    }
-
-    private function fetch(Request $request)
-    {
-        $result = $this->adminApi->fetchUsersByEmail($request->get('email'));
-        if (count($result) === 0) {
-            throw new ServerException('no_discourse_account', 'No matching Discourse account could be found. Please contact a staff member');
-        }
+        // force group load
+        $account->groups;
 
         return [
-            'data' => $result,
+            'data' => new AccountResource($account),
         ];
     }
 }
