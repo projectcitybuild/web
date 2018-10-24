@@ -1,7 +1,7 @@
 <?php
 
-use Entities\Accounts\Services\PasswordResetCleanupService;
-use Entities\Accounts\Services\UnactivatedAccountCleanupService;
+use Domains\SErvices\PasswordReset\PasswordResetCleanupService;
+use Domains\Services\Registration\UnactivatedAccountCleanupService;
 
 /*
 |--------------------------------------------------------------------------

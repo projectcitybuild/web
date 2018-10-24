@@ -1,5 +1,5 @@
 <?php
-namespace Entities\Accounts\Services;
+namespace Domains\Services\PasswordReset;
 
 use Entities\Accounts\Repositories\AccountPasswordResetRepository;
 use Illuminate\Support\Facades\Log;

@@ -1,5 +1,5 @@
 <?php
-namespace Entities\Accounts\Services;
+namespace Domains\Services\Registration;
 
 use Entities\Accounts\Repositories\UnactivatedAccountRepository;
 use Illuminate\Support\Facades\Log;

@@ -2,7 +2,7 @@
 namespace Tests\Modules\Accounts;
 
 use Entities\Accounts\Models\AccountPasswordReset;
-use Entities\Accounts\Services\PasswordResetCleanupService;
+use Domains\SErvices\PasswordReset\PasswordResetCleanupService;
 use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;

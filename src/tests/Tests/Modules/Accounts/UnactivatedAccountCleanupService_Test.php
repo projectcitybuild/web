@@ -2,7 +2,7 @@
 namespace Tests\Modules\Accounts;
 
 use Entities\Accounts\Models\UnactivatedAccount;
-use Entities\Accounts\Services\UnactivatedAccountCleanupService;
+use Domains\Services\Registration\UnactivatedAccountCleanupService;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
