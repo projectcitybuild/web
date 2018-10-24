@@ -6,7 +6,10 @@ use Entities\Players\Repositories\MinecraftPlayerAliasRepository;
 use Entities\Players\Models\MinecraftPlayer;
 use Illuminate\Database\Connection;
 
-// TODO: move this
+/**
+ * @deprecated Use PlayerLookupService instead
+ * @todo Delete this class
+ */
 class MinecraftPlayerLookupService
 {
 
