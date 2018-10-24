@@ -2,6 +2,7 @@
 namespace Entities\Accounts\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Entities\Groups\Resources\GroupResource;
 
 class AccountResource extends JsonResource
 {
@@ -15,11 +16,13 @@ class AccountResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'account_id'    => $this->id,
+            'account_id'    => $this->account_id,
             'email'         => $this->email,
             'last_login_at' => $this->last_login_at,
-            'created_at'    => $this->created_at->timestamp,
-            'updated_at'    => $this->updated_at->timestamp,
+            'created_at'    => $this->created_at->getTimestamp(),
+            'updated_at'    => $this->updated_at->getTimestamp(),
+
+            'groups' => GroupResource::collection($this->whenLoaded('groups')),
         ];
     }
 }
