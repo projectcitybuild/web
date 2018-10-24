@@ -71,7 +71,7 @@ final class DiscourseGroupSyncService {
         $discourseGroupId = $group->discourseId();
         $this->adminApi->removeUserFromGroup($discourseId, $discourseGroupId);
 
-        $account->groups()->deattach($pcbGroupId);
+        $account->groups()->detach($pcbGroupId);
     }
 
 }

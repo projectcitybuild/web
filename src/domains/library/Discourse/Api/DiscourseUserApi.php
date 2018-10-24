@@ -18,12 +18,12 @@ class DiscourseUserApi
      * Finds a Discourse account that belongs to
      * the given PCB account id
      *
-     * @param integer $externalId
+     * @param integer $pcbId
      * @return array
      */
-    public function fetchUserByPcbId(int $externalId) : array
+    public function fetchUserByPcbId(int $pcbId) : array
     {
-        $response = $this->client->get('users/by-external/'.$externalId.'.json');
+        $response = $this->client->get('users/by-external/'.$pcbId.'.json');
         $result = json_decode($response->getBody(), true);
 
         return $result;

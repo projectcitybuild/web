@@ -1,6 +1,8 @@
 <?php
 namespace Entities\Groups;
 
+use Domains\Enum;
+
 final class GroupEnum extends Enum {
 
     const Administrator = 'administrator';
