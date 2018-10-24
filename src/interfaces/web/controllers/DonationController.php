@@ -2,7 +2,7 @@
 
 namespace Interfaces\Web\Controllers;
 
-use Domains\Modules\Donations\Repositories\DonationRepository;
+use Entities\Donations\Repositories\DonationRepository;
 use Domains\Services\Donations\DonationCreationService;
 use Domains\Services\Donations\DonationStatsService;
 use Illuminate\Support\Facades\View;

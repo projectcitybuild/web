@@ -4,8 +4,10 @@ namespace Interfaces\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Interfaces\Console\Commands\QueryServerCommand;
-use Interfaces\Console\Commands\ImportCommand;
 use Application\Environment;
+use Interfaces\Console\Commands\ImportGroupCommand;
+use Interfaces\Console\Commands\GroupAddUserCommand;
+use Interfaces\Console\Commands\GroupRemoveUserCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -17,7 +19,9 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         QueryServerCommand::class,
-        ImportCommand::class,
+        ImportGroupCommand::class,
+        GroupAddUserCommand::class,
+        GroupRemoveUserCommand::class,
     ];
 
     /**

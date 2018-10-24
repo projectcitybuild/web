@@ -37,14 +37,15 @@
             "Application\\Providers\\": "application/providers/",
             "Domains\\": "domains/",
             "Domains\\Library\\": "domains/library/",
-            "Domains\\Modules\\": "domains/modules",
             "Domains\\Services\\": "domains/services/",
+            "Entities\\": "entities/",
             "Support\\": "support/",
             "Infrastructure\\": "infrastructure/",
             "Infrastructure\\Helpers\\": "infrastructure/helpers/",
             "Interfaces\\": "interfaces/",
             "Interfaces\\Api\\": "interfaces/api/",
             "Interfaces\\Api\\Controllers\\": "interfaces/api/controllers/",
+            "Interfaces\\Api\\Requests\\": "interfaces/api/requests/",
             "Interfaces\\Console\\": "interfaces/console/",
             "Interfaces\\Web\\": "interfaces/web/",
             "Interfaces\\Web\\Controllers\\": "interfaces/web/controllers/",
@@ -54,7 +55,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "domains/tests/"
+            "Tests\\": "tests/"
         }
     },
     "extra": {

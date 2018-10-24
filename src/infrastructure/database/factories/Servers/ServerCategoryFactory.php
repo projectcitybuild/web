@@ -1,6 +1,6 @@
 <?php
 
-use Domains\Modules\Servers\Models\ServerCategory;
+use Entities\Servers\Models\ServerCategory;
 
 /**
  * @var \Illuminate\Database\Eloquent\Factory $factory

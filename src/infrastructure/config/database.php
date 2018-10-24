@@ -55,54 +55,6 @@ return [
             'engine' => null,
         ],
 
-        // TODO: delete this after launching website
-        'mysql_forums' => [
-            'driver' => 'mysql',
-            'host' => env('DB_HOST_FORUMS', '127.0.0.1'),
-            'port' => env('DB_PORT_FORUMS', '3306'),
-            'database' => env('DB_DATABASE_FORUMS', 'forge'),
-            'username' => env('DB_USERNAME_FORUMS', 'forge'),
-            'password' => env('DB_PASSWORD_FORUMS', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => 'smf_',
-            'strict' => true,
-            'engine' => null,
-        ],
-
-        // TODO: delete this after launching website
-        'mysql_import_pcbridge' => [
-            'driver' => 'mysql',
-            'host' => env('DB_HOST_FORUMS', '127.0.0.1'),
-            'port' => env('DB_PORT_FORUMS', '3306'),
-            'database' => 'pcbridge',
-            'username' => env('DB_USERNAME_FORUMS', 'forge'),
-            'password' => env('DB_PASSWORD_FORUMS', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'strict' => true,
-            'engine' => null,
-        ],
-
-        // TODO: delete this after launching website
-        'mysql_import_pcb' => [
-            'driver' => 'mysql',
-            'host' => env('DB_HOST_FORUMS', '127.0.0.1'),
-            'port' => env('DB_PORT_FORUMS', '3306'),
-            'database' => 'pcb',
-            'username' => env('DB_USERNAME_FORUMS', 'forge'),
-            'password' => env('DB_PASSWORD_FORUMS', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'strict' => true,
-            'engine' => null,
-        ],
-
     ],
 
     /*

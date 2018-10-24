@@ -96,9 +96,35 @@ class DiscourseAdminApi
         return json_decode($response->getBody());
     }
 
-    public function addUserToGroup(int $userId, int $groupId)
+    public function fetchUserByDiscourseId(int $discourseId) : array
     {
-        $response = $this->client->post('admin/users/'.$userId.'/groups', [
+        $response = $this->client->get('admin/users/'.$discourseId.'.json', [
+            'query' => [
+                'api_key'       => $this->getApiKey(),
+                'api_username'  => $this->getApiUser(),
+            ],
+        ]);
+        $result = json_decode($response->getBody(), true);
+
+        return $result;
+    }
+
+    public function fetchEmailsByUsername(string $username) : array
+    {
+        $response = $this->client->get('u/'.$username.'/emails.json', [
+            'query' => [
+                'api_key'       => $this->getApiKey(),
+                'api_username'  => $this->getApiUser(),
+            ],
+        ]);
+        $result = json_decode($response->getBody(), true);
+
+        return $result;
+    }
+
+    public function addUserToGroup(string $discourseId, int $groupId)
+    {
+        $this->client->post('admin/users/'.$discourseId.'/groups', [
             'query' => [
                 'api_key'       => $this->getApiKey(),
                 'api_username'  => $this->getApiUser(),
@@ -107,19 +133,15 @@ class DiscourseAdminApi
                 'group_id'      => $groupId,
             ],
         ]);
-
-        return json_decode($response->getBody());
     }
 
-    public function deleteUserFromGroup(int $userId, int $groupId)
+    public function removeUserFromGroup(string $discourseId, int $groupId)
     {
-        $response = $this->client->delete('admin/users/'.$userId.'/groups/'.$groupId, [
+        $this->client->delete('admin/users/'.$discourseId.'/groups/'.$groupId, [
             'query' => [
                 'api_key'       => $this->getApiKey(),
                 'api_username'  => $this->getApiUser(),
             ],
         ]);
-
-        return json_decode($response->getBody());
     }
 }

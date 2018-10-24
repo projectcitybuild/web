@@ -175,11 +175,11 @@ class LoginController extends WebController
         $providerId    = $request->get('id');
         $providerName  = $request->get('provider');
 
-        $this->accountCreationService->createAccountWithLink($providerEmail,
-                                                             $providerId,
-                                                             $providerName);
+        $account = $this->accountCreationService->createAccountWithLink($providerEmail,
+                                                                        $providerId,
+                                                                        $providerName);
 
-        $endpoint = $this->discourseLoginHandler->getLoginRedirectUrl($account->getKey(), $account->email);
+        $endpoint = $this->discourseLoginHandler->getRedirectUrl($account->getKey(), $account->email);
 
         return redirect()->to($endpoint);
     }

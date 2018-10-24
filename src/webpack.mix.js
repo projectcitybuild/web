@@ -4,6 +4,7 @@ mix.setPublicPath('interfaces/web/public');
 
 mix.typeScript('interfaces/web/assets/js/app.tsx', 'interfaces/web/public/assets/js')
    .sass('interfaces/web/assets/sass/app.scss', 'interfaces/web/public/assets/css')
+   .sass('interfaces/web/assets/sass/navonly.scss', 'interfaces/web/public/assets/css')
    .extract([
         'react', 
         'date-fns', 

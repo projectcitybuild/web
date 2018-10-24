@@ -7,6 +7,8 @@ nav#main-nav {
     border-bottom: 3px solid $border-colour;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
 
+    z-index: 1000;
+
     ul {
         list-style: none;
         margin: 0;

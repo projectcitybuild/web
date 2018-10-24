@@ -4,12 +4,13 @@ namespace Application\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Domains\Modules\Players\Models\MinecraftPlayer;
+use Entities\Players\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\View;
 use Schema;
 use Domains\Modules\Donations\Models\Donation;
 use Domains\Modules\Payments\AccountPaymentType;
 use Interfaces\Web\Composers\MasterViewComposer;
+use Entities\GamePlayerType;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
         Relation::morphMap([
             'minecraft_player' => MinecraftPlayer::class,
             AccountPaymentType::Donation => Donation::class,
+            GamePlayerType::Minecraft => MinecraftPlayer::class,
         ]);
 
         // bind the master view composer to the master view template

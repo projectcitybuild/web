@@ -4,6 +4,8 @@ namespace Domains\Helpers;
 class TokenHelpers
 {
     private const HASH_ALGORITHM = 'sha256';
+ 
+    private function __construct() {}
 
     private function __construct() {}
 

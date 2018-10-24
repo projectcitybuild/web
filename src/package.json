@@ -28,7 +28,6 @@
     "axios": "^0.18.0",
     "date-fns": "^1.29.0",
     "halogen": "^0.2.0",
-    "react-stripe-checkout": "^2.6.3",
-    "sanitize-html": "^1.18.2"
+    "react-stripe-checkout": "^2.6.3"
   }
 }

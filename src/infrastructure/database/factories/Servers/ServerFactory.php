@@ -1,8 +1,8 @@
 <?php
 
-use Domains\Modules\Servers\Models\Server;
-use Domains\Modules\GameTypeEnum;
-use Domains\Modules\Servers\Models\ServerCategory;
+use Entities\Servers\Models\Server;
+use Domains\GameTypeEnum;
+use Entities\Servers\Models\ServerCategory;
 
 /**
  * @var \Illuminate\Database\Eloquent\Factory $factory
@@ -13,7 +13,7 @@ $factory->define(Server::class, function (Faker\Generator $faker) {
         'ip'            => $faker->ipv4(),
         'port'          => $faker->numberBetween(20, 8000),
         'display_order' => $faker->numberBetween(1, 15),
-        'game_type'     => $faker->randomElement(GameTypeEnum::getValues()),
+        'game_type'     => $faker->randomElement(GameTypeEnum::values()),
         'is_port_visible' => true,
         'is_visible'    => true,
         'is_querying'   => true,

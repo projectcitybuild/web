@@ -5,7 +5,7 @@ use Domains\Library\QueryServer\ServerQueryResult;
 use Domains\Modules\GameTypeEnum;
 use Domains\Services\Queries\Jobs\ServerQueryJob;
 use Domains\Services\Queries\Jobs\PlayerQueryJob;
-use Domains\Modules\Servers\Repositories\ServerStatusPlayerRepository;
+use Entities\Servers\Repositories\ServerStatusPlayerRepository;
 use Domains\Services\Queries\Entities\ServerJobEntity;
 
 

@@ -1,7 +1,7 @@
 <?php
 namespace Domains\Services\Donations;
 
-use Domains\Modules\Donations\Repositories\DonationRepository;
+use Entities\Donations\Repositories\DonationRepository;
 use Carbon\Carbon;
 
 class DonationStatsService
