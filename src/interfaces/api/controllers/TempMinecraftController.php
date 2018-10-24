@@ -6,7 +6,7 @@ use Interfaces\Api\ApiController;
 use Illuminate\Validation\Factory as Validator;
 use Illuminate\Http\Request;
 use Application\Exceptions\UnauthorisedException;
-use Domains\Modules\Accounts\Models\Account;
+use Entities\Accounts\Models\Account;
 use GuzzleHttp\Client;
 use Hash;
 use Illuminate\Support\Facades\Cache;

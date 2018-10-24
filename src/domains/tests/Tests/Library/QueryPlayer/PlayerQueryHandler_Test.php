@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Domains\Library\QueryPlayer\GameAdapters\MojangUuidAdapter;
 use Domains\Library\QueryPlayer\PlayerQueryHandler;
-use Domains\Modules\Players\Services\MinecraftPlayerLookupService;
+use Entities\Players\Services\MinecraftPlayerLookupService;
 use Domains\Library\Mojang\Api\MojangPlayerApi;
 use Domains\Library\Mojang\Models\MojangPlayer;
 

@@ -6,8 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Domains\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
 use Domains\Services\PlayerBans\PlayerUnbanService;
-use Domains\Modules\Bans\Models\GameBan;
-use Domains\Modules\GamePlayerType;
+use Entities\Bans\Models\GameBan;
+use Entities\GamePlayerType;
 use Domains\Services\PlayerBans\Exceptions\UserNotBannedException;
 
 class PlayerUnbanService_Test extends TestCase

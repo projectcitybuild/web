@@ -67,7 +67,7 @@ return [
     'providers' => [
         'accounts' => [
             'driver' => 'eloquent',
-            'model' => Domains\Modules\Accounts\Models\Account::class,
+            'model' => Entities\Accounts\Models\Account::class,
         ],
     ],
 

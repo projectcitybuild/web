@@ -4,7 +4,7 @@ namespace Tests\Services;
 use Tests\TestCase;
 use Domains\Library\Discourse\Api\DiscourseUserApi;
 use Domains\Library\Discourse\Api\DiscourseAdminApi;
-use Domains\Modules\Accounts\Models\Account;
+use Entities\Accounts\Models\Account;
 use Domains\Services\Login\LogoutService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

@@ -1,10 +1,10 @@
 <?php
 namespace Tests\Integration;
 
-use Domains\Modules\Accounts\Models\Account;
-use Domains\Modules\Accounts\Models\AccountPasswordReset;
-use Domains\Modules\Accounts\Models\UnactivatedAccount;
-use Domains\Modules\Accounts\Notifications\AccountPasswordResetNotification;
+use Entities\Accounts\Models\Account;
+use Entities\Accounts\Models\AccountPasswordReset;
+use Entities\Accounts\Models\UnactivatedAccount;
+use Entities\Accounts\Notifications\AccountPasswordResetNotification;
 use Domains\Library\Recaptcha\RecaptchaRule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;

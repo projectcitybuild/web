@@ -8,7 +8,7 @@ use Domains\Services\PlayerBans\ServerKeyAuthService;
 use Domains\Services\PlayerBans\Exceptions\MalformedTokenException;
 use Application\Exceptions\ForbiddenException;
 use Application\Exceptions\UnauthorisedException;
-use Domains\Modules\ServerKeys\Models\ServerKey;
+use Entities\ServerKeys\Models\ServerKey;
 
 class ServerKeyAuthService_Test extends TestCase
 {

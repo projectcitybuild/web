@@ -5,8 +5,8 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Domains\Services\PlayerLookup\PlayerLookupService;
-use Domains\Modules\GamePlayerType;
-use Domains\Modules\Players\Models\MinecraftPlayer;
+use Entities\GamePlayerType;
+use Entities\Players\Models\MinecraftPlayer;
 
 class PlayerLookupService_Test extends TestCase
 {

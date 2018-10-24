@@ -5,7 +5,7 @@ use Tests\TestCase;
 use Domains\Library\QueryServer\GameAdapters\MockQueryAdapter;
 use Domains\Library\QueryServer\ServerQueryHandler;
 use Illuminate\Log\Logger;
-use Domains\Modules\Servers\Repositories\ServerStatusRepository;
+use Entities\Servers\Repositories\ServerStatusRepository;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

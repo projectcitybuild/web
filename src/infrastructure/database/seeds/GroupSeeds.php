@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-use Domains\Modules\Groups\Models\Group;
+use Entities\Groups\Models\Group;
 
 class GroupSeeds extends Seeder
 {

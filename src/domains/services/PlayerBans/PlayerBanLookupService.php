@@ -1,8 +1,8 @@
 <?php
 namespace Domains\Services\PlayerBans;
 
-use Domains\Modules\GamePlayerType;
-use Domains\Modules\Bans\Repositories\GameBanRepository;
+use Entities\GamePlayerType;
+use Entities\Bans\Repositories\GameBanRepository;
 use Domains\Services\PlayerLookup\PlayerLookupService;
 
 
