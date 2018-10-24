@@ -54,7 +54,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "domains/tests/"
+            "Tests\\": "tests/"
         }
     },
     "extra": {

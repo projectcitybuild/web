@@ -4,6 +4,7 @@ namespace Tests;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Console\Kernel;
+use Support\Paths;
 
 trait CreatesApplication
 {
@@ -14,7 +15,7 @@ trait CreatesApplication
      */
     public function createApplication()
     {
-        $app = require __DIR__.'/../../support/bootstrap/app.php';
+        $app = require Paths::app_file;
 
         $app->make(Kernel::class)->bootstrap();
         
