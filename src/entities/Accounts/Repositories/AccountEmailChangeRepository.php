@@ -2,7 +2,7 @@
 namespace Entities\Accounts\Repositories;
 
 use Entities\Accounts\Models\AccountEmailChange;
-use Application\Repository;
+use Domains\Repository;
 use Carbon\Carbon;
 
 class AccountEmailChangeRepository extends Repository

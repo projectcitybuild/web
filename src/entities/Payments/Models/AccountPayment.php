@@ -1,9 +1,9 @@
 <?php
 
-namespace Domains\Modules\Payments\Models;
+namespace Entities\Payments\Models;
 
 use Domains\Model;
-use Domains\Modules\Accounts\Models\Account;
+use Entities\Accounts\Models\Account;
 
 class AccountPayment extends Model
 {

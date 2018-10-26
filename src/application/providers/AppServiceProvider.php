@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Entities\Players\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\View;
 use Schema;
-use Domains\Modules\Donations\Models\Donation;
-use Domains\Modules\Payments\AccountPaymentType;
+use Entities\Donations\Models\Donation;
+use Entities\Payments\AccountPaymentType;
 use Interfaces\Web\Composers\MasterViewComposer;
 use Entities\GamePlayerType;
 

@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Modules;
+namespace Entities;
 
 use Domains\Enum;
 use Domains\Library\QueryServer\ServerQueryAdapterContract;

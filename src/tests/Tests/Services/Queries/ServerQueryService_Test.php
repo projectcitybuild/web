@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Domains\Services\Queries\ServerQueryService;
 use Illuminate\Support\Facades\Queue;
-use Domains\Modules\GameTypeEnum;
+use Entities\GameTypeEnum;
 use Domains\Services\Queries\Jobs\ServerQueryJob;
 use Domains\Services\Queries\Jobs\PlayerQueryJob;
 use Domains\Services\Queries\Entities\ServerJobEntity;

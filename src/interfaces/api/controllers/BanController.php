@@ -2,19 +2,19 @@
 
 namespace Interfaces\Api\Controllers;
 
-use Domains\Modules\Bans\Services\BanCreationService;
-use Domains\Modules\Bans\Services\BanAuthorisationService;
-use Domains\Modules\Bans\Services\BanLookupService;
-use Domains\Modules\Bans\Services\BanLoggerService;
-use Domains\Modules\Bans\Resources\GameBanResource;
-use Domains\Modules\Bans\Resources\GameUnbanResource;
-use Domains\Modules\Bans\Exceptions\UserNotBannedException;
-use Domains\Modules\Bans\Transformers\BanResource;
-use Domains\Modules\Servers\Repositories\ServerRepository;
-use Domains\Modules\Servers\Transformers\ServerResource;
-use Domains\Modules\ServerKeys\Exceptions\UnauthorisedKeyActionException;
-use Domains\Modules\Players\Models\MinecraftPlayer;
-use Domains\Modules\Players\Services\MinecraftPlayerLookupService;
+use Entities\Bans\Services\BanCreationService;
+use Entities\Bans\Services\BanAuthorisationService;
+use Entities\Bans\Services\BanLookupService;
+use Entities\Bans\Services\BanLoggerService;
+use Entities\Bans\Resources\GameBanResource;
+use Entities\Bans\Resources\GameUnbanResource;
+use Entities\Bans\Exceptions\UserNotBannedException;
+use Entities\Bans\Transformers\BanResource;
+use Entities\Servers\Repositories\ServerRepository;
+use Entities\Servers\Transformers\ServerResource;
+use Entities\ServerKeys\Exceptions\UnauthorisedKeyActionException;
+use Entities\Players\Models\MinecraftPlayer;
+use Entities\Players\Services\MinecraftPlayerLookupService;
 use Application\Exceptions\ServerException;
 use Application\Exceptions\BadRequestException;
 use Domains\Helpers\MorphMapHelpers;

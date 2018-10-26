@@ -1,10 +1,10 @@
 <?php
-namespace Domains\Modules\Payments\Repositories;
+namespace Entities\Payments\Repositories;
 
 use Domains\Repository;
 use Carbon\Carbon;
-use Domains\Modules\Payments\Models\AccountPayment;
-use Domains\Modules\Payments\AccountPaymentType;
+use Entities\Payments\Models\AccountPayment;
+use Entities\Payments\AccountPaymentType;
 
 class AccountPaymentRepository extends Repository
 {
