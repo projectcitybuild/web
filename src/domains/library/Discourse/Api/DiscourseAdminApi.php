@@ -96,4 +96,53 @@ class DiscourseAdminApi
 
         return json_decode($response->getBody());
     }
+
+    public function fetchUserByDiscourseId(int $discourseId) : array
+    {
+        $response = $this->client->get('admin/users/'.$discourseId.'.json', [
+            'query' => [
+                'api_key'       => $this->getApiKey(),
+                'api_username'  => $this->getApiUser(),
+            ],
+        ]);
+        $result = json_decode($response->getBody(), true);
+
+        return $result;
+    }
+
+    public function fetchEmailsByUsername(string $username) : array
+    {
+        $response = $this->client->get('u/'.$username.'/emails.json', [
+            'query' => [
+                'api_key'       => $this->getApiKey(),
+                'api_username'  => $this->getApiUser(),
+            ],
+        ]);
+        $result = json_decode($response->getBody(), true);
+
+        return $result;
+    }
+
+    public function addUserToGroup(string $discourseId, int $groupId)
+    {
+        $this->client->post('admin/users/'.$discourseId.'/groups', [
+            'query' => [
+                'api_key'       => $this->getApiKey(),
+                'api_username'  => $this->getApiUser(),
+            ],
+            'form_params' => [
+                'group_id'      => $groupId,
+            ],
+        ]);
+    }
+
+    public function removeUserFromGroup(string $discourseId, int $groupId)
+    {
+        $this->client->delete('admin/users/'.$discourseId.'/groups/'.$groupId, [
+            'query' => [
+                'api_key'       => $this->getApiKey(),
+                'api_username'  => $this->getApiUser(),
+            ],
+        ]);
+    }
 }

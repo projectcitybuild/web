@@ -2,16 +2,16 @@
 
 namespace Interfaces\Web\Controllers;
 
-use Domains\Modules\Accounts\Repositories\AccountRepository;
-use Domains\Modules\Accounts\Repositories\AccountPasswordResetRepository;
-use Domains\Modules\Accounts\Notifications\AccountPasswordResetNotification;
-use Domains\Modules\Accounts\Notifications\AccountPasswordResetCompleteNotification;
+use Entities\Accounts\Repositories\AccountRepository;
+use Entities\Accounts\Repositories\AccountPasswordResetRepository;
+use Entities\Accounts\Notifications\AccountPasswordResetNotification;
+use Entities\Accounts\Notifications\AccountPasswordResetCompleteNotification;
 use Interfaces\Web\Requests\ResetPasswordRequest;
 use Interfaces\Web\Requests\SendPasswordEmailRequest;
 use Illuminate\Http\Request;
 use Illuminate\Database\Connection;
 use Hash;
-use Infrastructure\Helpers\TokenHelpers;
+use Domains\Helpers\TokenHelpers;
 
 class PasswordRecoveryController extends WebController
 {

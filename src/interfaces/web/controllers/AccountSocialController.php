@@ -2,8 +2,8 @@
 
 namespace Interfaces\Web\Controllers;
 
-use Domains\Modules\Accounts\Repositories\AccountLinkRepository;
-use Domains\Modules\Accounts\Models\Account;
+use Entities\Accounts\Repositories\AccountLinkRepository;
+use Entities\Accounts\Models\Account;
 use Application\Environment;
 use Illuminate\Contracts\Auth\Factory as Auth;
 use Illuminate\Support\Facades\View;

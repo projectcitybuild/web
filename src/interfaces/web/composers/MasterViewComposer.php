@@ -2,7 +2,7 @@
 namespace Interfaces\Web\Composers;
 
 use Illuminate\View\View;
-use Domains\Modules\Servers\Repositories\ServerCategoryRepository;
+use Entities\Servers\Repositories\ServerCategoryRepository;
 
 class MasterViewComposer
 {

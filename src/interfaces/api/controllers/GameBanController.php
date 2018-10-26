@@ -2,12 +2,12 @@
 
 namespace Interfaces\Api\Controllers;
 
-use Domains\Modules\Bans\Resources\GameBanResource;
-use Domains\Modules\Bans\Resources\GameUnbanResource;
+use Entities\Bans\Resources\GameBanResource;
+use Entities\Bans\Resources\GameUnbanResource;
 use Domains\Services\PlayerBans\PlayerBanService;
 use Domains\Services\PlayerBans\PlayerUnbanService;
 use Domains\Services\PlayerBans\PlayerBanLookupService;
-use Domains\Modules\GameIdentifierType;
+use Entities\GameIdentifierType;
 use Application\Exceptions\BadRequestException;
 use Interfaces\Api\ApiController;
 use Illuminate\Validation\Factory as Validator;

@@ -1,6 +1,6 @@
 <?php
 
-use Domains\Modules\Accounts\Models\Account;
+use Entities\Accounts\Models\Account;
 use Illuminate\Support\Facades\Hash;
 
 /**

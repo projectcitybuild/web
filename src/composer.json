@@ -36,8 +36,8 @@
             "Application\\Providers\\": "application/providers/",
             "Domains\\": "domains/",
             "Domains\\Library\\": "domains/library/",
-            "Domains\\Modules\\": "domains/modules",
             "Domains\\Services\\": "domains/services/",
+            "Entities\\": "entities/",
             "Support\\": "support/",
             "Infrastructure\\": "infrastructure/",
             "Infrastructure\\Helpers\\": "infrastructure/helpers/",
@@ -54,7 +54,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "domains/tests/"
+            "Tests\\": "tests/"
         }
     },
     "extra": {

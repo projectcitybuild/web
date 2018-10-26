@@ -1,10 +1,10 @@
 <?php
-namespace Domains\Modules\Bans\Services;
+namespace Entities\Bans\Services;
 
-use Domains\Modules\Bans\Models\GameBan;
+use Entities\Bans\Models\GameBan;
 use Application\Exceptions\ServerException;
 use Illuminate\Log\Logger;
-use Domains\Modules\ServerKeys\Models\ServerKey;
+use Entities\ServerKeys\Models\ServerKey;
 
 class PlayerBanAuthService
 {

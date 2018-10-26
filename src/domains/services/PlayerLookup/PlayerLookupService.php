@@ -1,8 +1,8 @@
 <?php
 namespace Domains\Services\PlayerLookup;
 
-use Domains\Modules\Players\Repositories\MinecraftPlayerRepository;
-use Domains\Modules\GamePlayerType;
+use Entities\Players\Repositories\MinecraftPlayerRepository;
+use Entities\GamePlayerType;
 
 
 class PlayerLookupService
