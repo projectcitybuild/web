@@ -7,8 +7,6 @@ class TokenHelpers
  
     private function __construct() {}
 
-    private function __construct() {}
-
     public static function generateToken($message = null) : string
     {
         // generate a token using either
