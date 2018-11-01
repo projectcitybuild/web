@@ -7,6 +7,7 @@ interface InitialState {
     customAmount: number,
     stripeToken?: string,
     stripeKey: string,
+    csrfToken: string,
     submitRoute: string,
 };
 
@@ -21,6 +22,7 @@ export default class Component extends React.Component<{}, InitialState> {
         selectedAmount: 3000,
         customAmount: 0,
         stripeKey: "",
+        csrfToken: "",
         submitRoute: "",
     };
 
@@ -32,10 +34,12 @@ export default class Component extends React.Component<{}, InitialState> {
         // can't pass it via props from Blade
         const stripeKey = document.head.querySelector('[name=stripe-key]').getAttribute('content');
         const submitRoute = document.head.querySelector('[name=stripe-submit]').getAttribute('content');
+        const csrfToken = document.head.querySelector('[name=csrf-token]').getAttribute('content');
         
         this.setState({ 
             stripeKey: stripeKey,
             submitRoute: submitRoute,
+            csrfToken: csrfToken,
         });
     }
 
@@ -119,6 +123,7 @@ export default class Component extends React.Component<{}, InitialState> {
 
                 <form action={this.state.submitRoute} method="POST" ref={form => { this.form = form; }}>
                     <input type="hidden" name="stripe_token" value={this.state.stripeToken} />
+                    <input type="hidden" name="_token" value={this.state.csrfToken} />
 
                     <StripeCheckout
                         name="Project City Build"
