@@ -1,5 +1,5 @@
 <?php
-namespace Domains;
+namespace Application\Contracts;
 
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 

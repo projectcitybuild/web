@@ -2,7 +2,7 @@
 
 namespace Entities\Players\Models;
 
-use Domains\Model;
+use Application\Contracts\Model;
 
 class MinecraftPlayerAlias extends Model
 {

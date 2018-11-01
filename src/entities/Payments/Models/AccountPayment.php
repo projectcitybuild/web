@@ -2,7 +2,7 @@
 
 namespace Entities\Payments\Models;
 
-use Domains\Model;
+use Application\Contracts\Model;
 use Entities\Accounts\Models\Account;
 
 class AccountPayment extends Model

@@ -2,7 +2,7 @@
 
 namespace Entities\Accounts\Models;
 
-use Domains\Model;
+use Application\Contracts\Model;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Notifications\Notifiable;
 

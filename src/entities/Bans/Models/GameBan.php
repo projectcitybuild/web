@@ -2,7 +2,7 @@
 
 namespace Entities\Bans\Models;
 
-use Domains\Model;
+use Application\Contracts\Model;
 
 class GameBan extends Model
 {

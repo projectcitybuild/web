@@ -2,7 +2,7 @@
 
 namespace Entities\Servers\Models;
 
-use Domains\Model;
+use Application\Contracts\Model;
 use Entities\GameTypeEnum;
 
 class Server extends Model
