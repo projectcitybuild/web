@@ -2,7 +2,7 @@
 namespace Entities\ServerKeys\Repositories;
 
 use Entities\ServerKeys\Models\ServerKey;
-use Domains\Repository;
+use Application\Contracts\Repository;
 
 class ServerKeyRepository extends Repository
 {

@@ -2,7 +2,7 @@
 namespace Entities\Accounts\Repositories;
 
 use Entities\Accounts\Models\AccountLink;
-use Domains\Repository;
+use Application\Contracts\Repository;
 use Carbon\Carbon;
 
 class AccountLinkRepository extends Repository

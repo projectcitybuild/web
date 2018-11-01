@@ -2,7 +2,7 @@
 namespace Entities\Accounts\Repositories;
 
 use Entities\Accounts\Models\AccountPasswordReset;
-use Domains\Repository;
+use Application\Contracts\Repository;
 use Carbon\Carbon;
 
 class AccountPasswordResetRepository extends Repository

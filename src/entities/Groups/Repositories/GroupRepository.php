@@ -1,7 +1,7 @@
 <?php
 namespace Entities\Groups\Repositories;
 
-use Domains\Repository;
+use Application\Contracts\Repository;
 use Entities\Groups\Models\Group;
 use Illuminate\Support\Collection;
 

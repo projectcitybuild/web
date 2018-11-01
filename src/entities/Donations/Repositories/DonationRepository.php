@@ -3,7 +3,7 @@ namespace Entities\Donations\Repositories;
 
 use Entities\Donations\Models\Donation;
 use Illuminate\Database\Eloquent\Collection;
-use Domains\Repository;
+use Application\Contracts\Repository;
 use Carbon\Carbon;
 
 class DonationRepository extends Repository

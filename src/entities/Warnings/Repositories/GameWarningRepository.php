@@ -2,7 +2,7 @@
 namespace Entities\Warnings\Repositories;
 
 use Entities\Warnings\Models\GameWarning;
-use Domains\Repository;
+use Application\Contracts\Repository;
 
 class GameWarningRepository extends Repository
 {

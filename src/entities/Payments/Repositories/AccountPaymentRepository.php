@@ -1,7 +1,7 @@
 <?php
 namespace Entities\Payments\Repositories;
 
-use Domains\Repository;
+use Application\Contracts\Repository;
 use Carbon\Carbon;
 use Entities\Payments\Models\AccountPayment;
 use Entities\Payments\AccountPaymentType;
