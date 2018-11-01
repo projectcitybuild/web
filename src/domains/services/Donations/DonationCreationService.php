@@ -11,6 +11,12 @@ use Domains\Library\Discourse\Api\DiscourseUserApi;
 
 class DonationCreationService
 {
+    /**
+     * Amount that needs to be donated to be granted
+     * lifetime perks
+     */
+    const LIFETIME_REQUIRED_AMOUNT = 30;
+
      /**
      * @var DonationRepository
      */
@@ -68,7 +74,7 @@ class DonationCreationService
             throw $e;
         }
 
-        $isLifetime = $amountInDollars >= 30;
+        $isLifetime = $amountInDollars >= self::LIFETIME_REQUIRED_AMOUNT;
         if ($isLifetime) {
             $donationExpiry = null;
         } else {

@@ -8,6 +8,10 @@ use Domains\Services\Donations\DonationStatsService;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard as Auth;
+use Entities\Groups\GroupEnum;
+use Domains\Library\Discourse\Api\DiscourseUserApi;
+use Domains\Services\Groups\DiscourseGroupSyncService;
+use Entities\Groups\Repositories\GroupRepository;
 
 class DonationController extends WebController
 {
@@ -22,6 +26,21 @@ class DonationController extends WebController
     private $donationCreationService;
 
     /**
+     * @var DiscourseUserApi
+     */
+    private $discourseUserApi;
+
+    /**
+     * @var DiscourseGroupSyncService
+     */
+    private $groupSyncService;
+
+    /**
+     * @var GroupRepository
+     */
+    private $groupRepository;
+
+    /**
      * @var Auth
      */
     private $auth;
@@ -30,10 +49,16 @@ class DonationController extends WebController
     public function __construct(
         DonationRepository $donationRepository,
         DonationCreationService $donationCreationService,
+        DiscourseUserApi $discourseUserApi,
+        DiscourseGroupSyncService $groupSyncService,
+        GroupRepository $groupRepository,
         Auth $auth
     ) {
         $this->donationRepository = $donationRepository;
         $this->donationCreationService = $donationCreationService;
+        $this->discourseUserApi = $discourseUserApi;
+        $this->groupSyncService = $groupSyncService;
+        $this->groupRepository = $groupRepository;
         $this->auth = $auth;
     }
 
@@ -57,8 +82,18 @@ class DonationController extends WebController
 
         $this->donationCreationService->donate($stripeToken, $email, $amount, $accountId);
 
+        // add user to donator group if they're logged in
         if ($account !== null) {
+            $group = new GroupEnum(GroupEnum::Donator);
+            $donatorGroup = $this->groupRepository->getGroupByName(GroupEnum::Donator);
+            $donatorGroupId = $donatorGroup->getKey();
             
+            if ($account->groups->contains($donatorGroupId) === false) {
+                $discourseUser = $this->discourseUserApi->fetchUserByPcbId($account->getKey());
+                $discourseId = $discourseUser['user']['id'];
+    
+                $this->groupSyncService->addUserToGroup($discourseId, $account, $group);
+            }
         }
     }
 
