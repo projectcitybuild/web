@@ -5,6 +5,7 @@ use Entities\Accounts\Repositories\AccountRepository;
 use Entities\Accounts\Repositories\AccountLinkRepository;
 use Entities\Accounts\Models\Account;
 use Domains\Library\OAuth\OAuthUser;
+use Domains\Services\Login\Exceptions\SocialEmailInUseException;
 use Illuminate\Log\Logger;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\URL;

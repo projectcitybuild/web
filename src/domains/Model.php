@@ -1,12 +1,10 @@
 <?php
-
-namespace Application;
+namespace Domains;
 
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 
 class Model extends EloquentModel
 {
-
     /**
      * Returns the name of the table this model uses
      *

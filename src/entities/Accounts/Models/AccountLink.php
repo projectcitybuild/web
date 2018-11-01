@@ -2,7 +2,7 @@
 
 namespace Entities\Accounts\Models;
 
-use Application\Model;
+use Domains\Model;
 
 class AccountLink extends Model
 {

@@ -27,9 +27,9 @@
         <link rel="icon" type="type/x-icon" href="{{ asset('assets/favicon.ico') }}">
         <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/g1OfIGT.png" />
         
-        <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/brands.js"></script>
-        <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/solid.js"></script>
-        <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/fontawesome.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/brands.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"></script>
 
         <script defer src="{{ mix('assets/js/manifest.js') }}"></script>
         <script defer src="{{ mix('assets/js/vendor.js') }}"></script>
@@ -227,6 +227,8 @@
                 </div>
             </footer>
         </main>
+
+        @stack('body-js')
         
     </body>
 </html>

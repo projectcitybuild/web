@@ -7,19 +7,98 @@ use Domains\Services\Donations\DonationCreationService;
 use Domains\Services\Donations\DonationStatsService;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Auth\Guard as Auth;
+use Entities\Groups\GroupEnum;
+use Domains\Library\Discourse\Api\DiscourseUserApi;
+use Domains\Services\Groups\DiscourseGroupSyncService;
+use Entities\Groups\Repositories\GroupRepository;
 
 class DonationController extends WebController
 {
-
     /**
      * @var DonationRepository
      */
     private $donationRepository;
 
+    /**
+     * @var DonationCreationService
+     */
+    private $donationCreationService;
 
-    public function __construct(DonationRepository $donationRepository)
-    {
+    /**
+     * @var DiscourseUserApi
+     */
+    private $discourseUserApi;
+
+    /**
+     * @var DiscourseGroupSyncService
+     */
+    private $groupSyncService;
+
+    /**
+     * @var GroupRepository
+     */
+    private $groupRepository;
+
+    /**
+     * @var Auth
+     */
+    private $auth;
+
+
+    public function __construct(
+        DonationRepository $donationRepository,
+        DonationCreationService $donationCreationService,
+        DiscourseUserApi $discourseUserApi,
+        DiscourseGroupSyncService $groupSyncService,
+        GroupRepository $groupRepository,
+        Auth $auth
+    ) {
         $this->donationRepository = $donationRepository;
+        $this->donationCreationService = $donationCreationService;
+        $this->discourseUserApi = $discourseUserApi;
+        $this->groupSyncService = $groupSyncService;
+        $this->groupRepository = $groupRepository;
+        $this->auth = $auth;
+    }
+
+    public function getView()
+    {
+        return view('front.pages.donate.donate');
+    }
+
+    public function donate(Request $request)
+    {
+        $email = $request->get('stripe_email');
+        $stripeToken = $request->get('stripe_token');
+        $amount = $request->get('stripe_amount');
+
+        if ($amount <= 0) {
+            abort(401, "Attempted to donate zero dollars");
+        }
+
+        $account = $this->auth->user();
+        $accountId = $account !== null ? $account->getKey() : null;
+
+        $donation = $this->donationCreationService->donate($stripeToken, $email, $amount, $accountId);
+
+        // add user to donator group if they're logged in
+        if ($account !== null) {
+            $group = new GroupEnum(GroupEnum::Donator);
+            $donatorGroup = $this->groupRepository->getGroupByName(GroupEnum::Donator);
+            $donatorGroupId = $donatorGroup->getKey();
+            
+            if ($account->groups->contains($donatorGroupId) === false) {
+                $discourseUser = $this->discourseUserApi->fetchUserByPcbId($account->getKey());
+                $discourseId = $discourseUser['user']['id'];
+    
+                $this->groupSyncService->addUserToGroup($discourseId, $account, $group);
+            }
+        }
+
+        return view('front.pages.donate.donate-thanks', [
+            'donation' => $donation,
+        ]);
     }
 
     private function getRgbBetween($rgbStart, $rgbEnd, $percent)
@@ -36,7 +115,7 @@ class DonationController extends WebController
         ];
     }
 
-    public function getView()
+    public function getListView()
     {
         $donations = $this->donationRepository->getAll();
 

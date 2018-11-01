@@ -10,6 +10,7 @@ abstract class LegacyEnum
     /**
      * Returns all constants as a KvP array
      *
+     * @deprecated Use Enum instead
      * @return array
      */
     public static function getConstants()
@@ -21,6 +22,7 @@ abstract class LegacyEnum
     /**
      * Returns all constant keys
      *
+     * @deprecated Use Enum instead
      * @return array
      */
     public static function getKeys()
@@ -31,6 +33,7 @@ abstract class LegacyEnum
     /**
      * Returns all constant values
      *
+     * @deprecated Use Enum instead
      * @return void
      */
     public static function getValues()
@@ -41,6 +44,7 @@ abstract class LegacyEnum
     /**
      * Converts the given key to its value
      *
+     * @deprecated Use Enum instead
      * @param string $key
      *
      * @throws \Exception

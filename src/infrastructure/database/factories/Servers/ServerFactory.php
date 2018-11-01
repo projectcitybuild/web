@@ -1,7 +1,7 @@
 <?php
 
 use Entities\Servers\Models\Server;
-use Domains\GameTypeEnum;
+use Entities\GameTypeEnum;
 use Entities\Servers\Models\ServerCategory;
 
 /**

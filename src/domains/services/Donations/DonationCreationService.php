@@ -6,9 +6,17 @@ use Entities\Donations\Repositories\DonationRepository;
 use Entities\Payments\Repositories\AccountPaymentRepository;
 use Illuminate\Database\Connection;
 use Entities\Payments\AccountPaymentType;
+use Domains\Library\Discourse\Api\DiscourseAdminApi;
+use Domains\Library\Discourse\Api\DiscourseUserApi;
 
 class DonationCreationService
 {
+    /**
+     * Amount that needs to be donated to be granted
+     * lifetime perks
+     */
+    const LIFETIME_REQUIRED_AMOUNT = 30;
+
      /**
      * @var DonationRepository
      */
@@ -29,16 +37,30 @@ class DonationCreationService
      */
     private $stripeHandler;
 
+    /**
+     * @var DiscourseAdminApi
+     */
+    private $discourseAdminApi;
+
+    /**
+     * @var DiscourseUserApi
+     */
+    private $discourseUserApi;
+
 
     public function __construct(DonationRepository $donationRepository,
                                 AccountPaymentRepository $paymentRepository,
                                 Connection $connection,
-                                StripeHandler $stripeHandler)
+                                StripeHandler $stripeHandler,
+                                DiscourseAdminApi $discourseAdminApi,
+                                DiscourseUserApi $discourseUserApi)
     {
         $this->donationRepository = $donationRepository;
         $this->paymentRepository = $paymentRepository;
         $this->connection = $connection;
         $this->stripeHandler = $stripeHandler;
+        $this->discourseAdminApi = $discourseAdminApi;
+        $this->discourseUserApi = $discourseUserApi;
     }
 
 
@@ -47,32 +69,33 @@ class DonationCreationService
         $amountInDollars = (float)($amountInCents / 100);
 
         try {
-            $charge = $this->stripeHandler->charge($amountInCents, $stripeToken, $pcbId, $email, 'PCB Contribution');
+            $charge = $this->stripeHandler->charge($amountInCents, $stripeToken, null, $email, 'PCB Contribution');
         } catch (\Exception $e) {
             throw $e;
         }
 
-        $isLifetime = $amount >= 30;
+        $isLifetime = $amountInDollars >= self::LIFETIME_REQUIRED_AMOUNT;
         if ($isLifetime) {
             $donationExpiry = null;
         } else {
-            $donationExpiry = now()->addMonths(floor($amount / 3));
+            $donationExpiry = now()->addMonths(floor($amountInDollars / 3));
         }
 
         $this->connection->beginTransaction();
         try {
             $donation = $this->donationRepository->create($pcbId,
-                                                          $amount,
+                                                          $amountInDollars,
                                                           $donationExpiry,
                                                           $isLifetime);
 
             $payment = $this->paymentRepository->create(new AccountPaymentType(AccountPaymentType::Donation),
                                                         $donation->getKey(),
-                                                        $amount / 100,
+                                                        $amountInCents,
                                                         $stripeToken,
                                                         $pcbId,
                                                         true);
             $this->connection->commit();
+            return $donation;
             
         } catch (\Exception $e) {
             $this->connection->rollBack();

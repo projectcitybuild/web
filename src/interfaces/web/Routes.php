@@ -18,9 +18,11 @@ if (Environment::isProduction()) {
     URL::forceScheme('https');
 }
 
+// url redirects
 Route::redirect('terms', 'https://forums.projectcitybuild.com/t/terms-of-services/14506')->name('terms');
 Route::redirect('privacy', 'https://forums.projectcitybuild.com/privacy')->name('privacy');
 
+// sentry confirmation route
 Route::get('sentry/test', function () {
     throw new \Exception('Sentry test');
 });
@@ -30,9 +32,20 @@ Route::get('/', [
     'uses' => 'HomeController@getView',
 ]);
 
+Route::prefix('donate')->group(function () {
+    Route::get('/', [
+        'as' => 'front.donate',
+        'uses' => 'DonationController@getView',
+    ]);
+    Route::post('charge', [
+        'as'    => 'front.donate.charge',
+        'uses'  => 'DonationController@donate',
+    ]);
+});
+
 Route::get('donations', [
     'as'    => 'front.donation-list',
-    'uses'  => 'DonationController@getView',
+    'uses'  => 'DonationController@getListView',
 ]);
 
 Route::prefix('login')->group(function () {

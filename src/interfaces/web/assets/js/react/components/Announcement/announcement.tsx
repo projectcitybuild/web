@@ -79,7 +79,7 @@ export default class Component extends React.Component<Props, InitialState> {
                 <div className="article__footer">
                     <div className="stats-container">
                         <div className="stat">
-                            <span className="stat__figure">{ announcement.posts_count}</span>
+                            <span className="stat__figure">{ announcement.posts_count - 1 }</span>
                             <span className="stat__heading">Comments</span>
                         </div>
                         <div className="stat">

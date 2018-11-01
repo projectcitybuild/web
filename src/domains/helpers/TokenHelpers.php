@@ -14,7 +14,7 @@ class TokenHelpers
         // current timestamp
         $message = $message ?: time();
 
-        $key   = env('APP_KEY');
+        $key   = config('app.key');
         $token = hash_hmac(self::HASH_ALGORITHM, $message, $key);
 
         return $token;
