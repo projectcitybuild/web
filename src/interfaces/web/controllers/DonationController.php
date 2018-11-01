@@ -7,6 +7,7 @@ use Domains\Services\Donations\DonationCreationService;
 use Domains\Services\Donations\DonationStatsService;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Auth\Guard as Auth;
 
 class DonationController extends WebController
 {
@@ -20,12 +21,20 @@ class DonationController extends WebController
      */
     private $donationCreationService;
 
+    /**
+     * @var Auth
+     */
+    private $auth;
 
-    public function __construct(DonationRepository $donationRepository,
-                                DonationCreationService $donationCreationService)
-    {
+
+    public function __construct(
+        DonationRepository $donationRepository,
+        DonationCreationService $donationCreationService,
+        Auth $auth
+    ) {
         $this->donationRepository = $donationRepository;
         $this->donationCreationService = $donationCreationService;
+        $this->auth = $auth;
     }
 
     public function getView()
@@ -35,18 +44,22 @@ class DonationController extends WebController
 
     public function donate(Request $request)
     {
-        $email = $request->get('stripeEmail');
-        $stripeToken = $request->get('stripeToken');
-        $amount = 500;
+        $email = $request->get('stripe_email');
+        $stripeToken = $request->get('stripe_token');
+        $amount = $request->get('stripe_amount');
 
         if ($amount <= 0) {
-            return redirect()->back();
+            abort(401, "Attempted to donate zero dollars");
         }
 
-        $account = $request->user();
+        $account = $this->auth->user();
         $accountId = $account !== null ? $account->getKey() : null;
 
         $this->donationCreationService->donate($stripeToken, $email, $amount, $accountId);
+
+        if ($account !== null) {
+            
+        }
     }
 
     private function getRgbBetween($rgbStart, $rgbEnd, $percent)

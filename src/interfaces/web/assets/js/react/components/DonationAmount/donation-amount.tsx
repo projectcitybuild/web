@@ -7,6 +7,7 @@ interface InitialState {
     customAmount: number,
     stripeToken?: string,
     stripeKey: string,
+    stripeEmail: string,
     csrfToken: string,
     submitRoute: string,
 };
@@ -22,6 +23,7 @@ export default class Component extends React.Component<{}, InitialState> {
         selectedAmount: 3000,
         customAmount: 0,
         stripeKey: "",
+        stripeEmail: "",
         csrfToken: "",
         submitRoute: "",
     };
@@ -83,8 +85,19 @@ export default class Component extends React.Component<{}, InitialState> {
         return this.state.customAmount <= 0;
     }
 
+    getAmount = (): string => {
+        if (this.state.selectedOption == DonationAmountOption.SetAmount) {
+            return this.state.selectedAmount.toString();
+        } else {
+            return this.state.customAmount.toString();
+        }
+    }
+
     onStripeTokenReceived = (token: any) => {
-        this.setState({ stripeToken: token.id }, () => {
+        this.setState({ 
+            stripeToken: token.id,
+            stripeEmail: token.email,
+        }, () => {
             this.form.submit();
         });
     }
@@ -122,8 +135,10 @@ export default class Component extends React.Component<{}, InitialState> {
                 </div>
 
                 <form action={this.state.submitRoute} method="POST" ref={form => { this.form = form; }}>
-                    <input type="hidden" name="stripe_token" value={this.state.stripeToken} />
                     <input type="hidden" name="_token" value={this.state.csrfToken} />
+                    <input type="hidden" name="stripe_token" value={this.state.stripeToken} />
+                    <input type="hidden" name="stripe_email" value={this.state.stripeEmail} />
+                    <input type="hidden" name="stripe_amount" value={this.getAmount()} />
 
                     <StripeCheckout
                         name="Project City Build"
@@ -132,7 +147,7 @@ export default class Component extends React.Component<{}, InitialState> {
                         amount={this.state.selectedOption == DonationAmountOption.SetAmount ? this.state.selectedAmount : this.state.customAmount * 100}
                         stripeKey={this.state.stripeKey}
                         locale="auto"
-                        currency="usd"
+                        currency="USD"
                         token={this.onStripeTokenReceived}
                         >
                         <button className="button button--large button--fill button--primary" type="button" disabled={this.isButtonDisabled()}>
