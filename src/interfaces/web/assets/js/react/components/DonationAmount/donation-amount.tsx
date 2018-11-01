@@ -72,6 +72,13 @@ export default class Component extends React.Component<{}, InitialState> {
         return this.state.selectedOption == DonationAmountOption.CustomAmount;
     }
 
+    isButtonDisabled = (): boolean => {
+        if (this.state.selectedOption == DonationAmountOption.SetAmount) {
+            return false;
+        } 
+        return this.state.customAmount <= 0;
+    }
+
     onStripeTokenReceived = (token: any) => {
         this.setState({ stripeToken: token.id }, () => {
             this.form.submit();
@@ -117,13 +124,13 @@ export default class Component extends React.Component<{}, InitialState> {
                         name="Project City Build"
                         description="One-Time Donation"
                         image="https://forums.projectcitybuild.com/uploads/default/original/1X/847344a324d7dc0d5d908e5cad5f53a61372aded.png"
-                        amount={this.state.selectedOption == DonationAmountOption.SetAmount ? this.state.selectedAmount : this.state.customAmount}
+                        amount={this.state.selectedOption == DonationAmountOption.SetAmount ? this.state.selectedAmount : this.state.customAmount * 100}
                         stripeKey={this.state.stripeKey}
                         locale="auto"
                         currency="usd"
                         token={this.onStripeTokenReceived}
                         >
-                        <button className="button button--large button--fill button--primary" type="button">
+                        <button className="button button--large button--fill button--primary" type="button" disabled={this.isButtonDisabled()}>
                             <i className="fas fa-credit-card"></i> Donate via Card
                         </button>
                     </StripeCheckout>
