@@ -19,7 +19,7 @@ class DonationRepository extends Repository
 
     public function create(?int $accountId,
                            float $amount,
-                           Carbon $expiryDate,
+                           ?Carbon $expiryDate,
                            bool $isLifetime,
                            bool $isActive = true) : Donation
     {
