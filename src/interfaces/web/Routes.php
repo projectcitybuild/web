@@ -32,14 +32,16 @@ Route::get('/', [
     'uses' => 'HomeController@getView',
 ]);
 
-Route::get('donate', [
-    'as' => 'front.donate',
-    'uses' => 'DonationController@getView',
-]);
-Route::post('donate/charge', [
-    'as'    => 'front.donate.charge',
-    'uses'  => 'DonationController@donate',
-]);
+Route::prefix('donate')->group(function () {
+    Route::get('/', [
+        'as' => 'front.donate',
+        'uses' => 'DonationController@getView',
+    ]);
+    Route::post('charge', [
+        'as'    => 'front.donate.charge',
+        'uses'  => 'DonationController@donate',
+    ]);
+});
 
 Route::get('donations', [
     'as'    => 'front.donation-list',

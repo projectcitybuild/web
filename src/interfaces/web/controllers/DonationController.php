@@ -80,7 +80,7 @@ class DonationController extends WebController
         $account = $this->auth->user();
         $accountId = $account !== null ? $account->getKey() : null;
 
-        $this->donationCreationService->donate($stripeToken, $email, $amount, $accountId);
+        $donation = $this->donationCreationService->donate($stripeToken, $email, $amount, $accountId);
 
         // add user to donator group if they're logged in
         if ($account !== null) {
@@ -95,6 +95,10 @@ class DonationController extends WebController
                 $this->groupSyncService->addUserToGroup($discourseId, $account, $group);
             }
         }
+
+        return view('front.pages.donate.donate-thanks', [
+            'donation' => $donation,
+        ]);
     }
 
     private function getRgbBetween($rgbStart, $rgbEnd, $percent)

@@ -183,4 +183,22 @@
         flex: 1;
     }
 
+    &__confirmation--info {
+        margin-top: 1em;
+        margin-bottom: 1em;
+        line-height: 1.8em;
+    }
+
+    &__confirmation--amount {
+        font-size: 2.5em;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        color: $colour-primary;
+    }
+
+    &__confirmation--expiry {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-top: 0.3em;
+    }
 }

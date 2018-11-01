@@ -95,16 +95,11 @@ class DonationCreationService
                                                         $pcbId,
                                                         true);
             $this->connection->commit();
+            return $donation;
             
         } catch (\Exception $e) {
             $this->connection->rollBack();
             throw $e;
-        }
-
-        if ($pcbId !== null) {
-            $discourseUser = $this->discourseUserApi->fetchUserByPcbId($pcbId);
-            $discourseId = $discourseUser['user']['id'];
-            $this->discourseAdminApi->addUserToGroup($discourseId, 46);
         }
     }
 }
