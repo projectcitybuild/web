@@ -2,7 +2,7 @@
 
 namespace Entities\Groups\Models;
 
-use Application\Model;
+use Application\Contracts\Model;
 
 class Group extends Model
 {

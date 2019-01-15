@@ -38,6 +38,7 @@
 @import 'pages/home';
 @import 'pages/login';
 @import 'pages/register';
+@import 'pages/donate';
 @import 'pages/account.social';
 
 
@@ -67,4 +68,10 @@ body {
 
 section {
     width: 100%;
+}
+
+ul, ol {
+    &.no-list {
+        list-style: none;
+    }
 }

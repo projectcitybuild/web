@@ -6,7 +6,7 @@ use Entities\Bans\Models\GameBan;
 use Entities\GamePlayerType;
 use Domains\Services\PlayerLookup\PlayerLookupService;
 use Domains\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
-use Domains\GameTypeEnum;
+use Entities\GameTypeEnum;
 
 
 class PlayerBanService

@@ -21,8 +21,9 @@ if(mix.config.production) {
         files: [
             'interfaces/web/**/*.php',
             'interfaces/web/assets/**/*.css', 
-            'interfaces/web/assets/**/*.js',    
-            'interfaces/web/assets/**/*.ts',    
+            'interfaces/web/assets/**/*.js',
+            'interfaces/web/assets/**/*.ts',
+            'interfaces/web/public/**/*',
         ]
     });
 }

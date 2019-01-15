@@ -2,7 +2,7 @@
 
 namespace Entities\Servers\Models;
 
-use Application\Model;
+use Application\Contracts\Model;
 
 class ServerCategory extends Model
 {
