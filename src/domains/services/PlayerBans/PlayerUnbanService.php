@@ -7,7 +7,7 @@ use Entities\GamePlayerType;
 use Domains\Services\PlayerLookup\PlayerLookupService;
 use Domains\Services\PlayerBans\Exceptions\UserNotBannedException;
 use Entities\Bans\Repositories\GameBanRepository;
-use Domains\GameTypeEnum;
+use Entities\GameTypeEnum;
 use Illuminate\Database\Connection;
 
 

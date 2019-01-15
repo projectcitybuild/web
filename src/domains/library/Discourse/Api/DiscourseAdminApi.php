@@ -18,10 +18,9 @@ class DiscourseAdminApi
     private $discoursePayloadValidator;
 
     
-    public function __construct(
-        DiscourseClient $client,
-                                DiscoursePayloadValidator $discoursePayloadValidator
-    ) {
+    public function __construct(DiscourseClient $client,
+                                DiscoursePayloadValidator $discoursePayloadValidator) 
+    {
         $this->client = $client;
         $this->discoursePayloadValidator = $discoursePayloadValidator;
     }

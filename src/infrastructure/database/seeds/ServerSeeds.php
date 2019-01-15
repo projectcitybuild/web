@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 use Entities\Servers\Models\ServerCategory;
 use Entities\Servers\Models\Server;
 use Entities\ServerKeys\Models\ServerKey;
-use Domains\GameTypeEnum;
+use Entities\GameTypeEnum;
 use Entities\Servers\Repositories\ServerKeyTokenRepository;
 
 class ServerSeeds extends Seeder

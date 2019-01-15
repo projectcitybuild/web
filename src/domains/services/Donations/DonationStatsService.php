@@ -6,7 +6,6 @@ use Carbon\Carbon;
 
 class DonationStatsService
 {
-
     /**
      * @var DonationRepository
      */

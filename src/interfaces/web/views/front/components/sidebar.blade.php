@@ -30,7 +30,7 @@
     </div>
 
     <div class="donate-panel__container">
-        <a class="button button--large button--secondary" href="https://forums.projectcitybuild.com/t/how-to-donate/15884">
+        <a class="button button--large button--secondary" href="{{ route('front.donate') }}">
             Donate
         </a>
         <small>Donators receive a colored name, a reserved server slot and more!</small>

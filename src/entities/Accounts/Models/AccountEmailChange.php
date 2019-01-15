@@ -2,7 +2,7 @@
 
 namespace Entities\Accounts\Models;
 
-use Application\Model;
+use Application\Contracts\Model;
 use Illuminate\Support\Facades\URL;
 
 class AccountEmailChange extends Model

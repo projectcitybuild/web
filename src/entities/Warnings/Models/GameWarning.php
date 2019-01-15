@@ -1,7 +1,7 @@
 <?php
 namespace Entities\Warnings\Models;
 
-use Application\Model;
+use Application\Contracts\Model;
 
 class GameWarning extends Model
 {
