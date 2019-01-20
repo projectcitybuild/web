@@ -74,7 +74,7 @@
                 </ul>
 
                 <blockquote>
-                    <b>Community Rules</b><br>
+                    <strong>Community Rules</strong><br>
                     6. Nicknames - nicknames must be similar to your in-game name (IGN)<br>
                     Nicknames cannot be excessive in visible length (staff discretion applies).<br><br>
 
