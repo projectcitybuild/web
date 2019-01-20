@@ -19,6 +19,7 @@
         background: lighten($colour, 25%);
         border-color: lighten($colour, 22%);
         text-decoration: none;
+        cursor: not-allowed;
     }
 
     &.button--bordered {
@@ -48,15 +49,15 @@ button.button {
     text-transform: uppercase;
     text-decoration: none;
 
-    transition: all 0.3s ease;
+    transition: background 0.3s ease, border 0.3s ease;
 
     &:hover {
         cursor: pointer;
     }
     &:active,
     &:focus{
-        margin-top: 5px;
-        border-bottom-width: 0px;
+        //margin-top: 5px;
+        border-bottom-color: transparent;
         color: darken(#fff, 15%);
     }
 

@@ -74,9 +74,7 @@
 
             <h1>Dividers</h1>
             Option 1
-            <div class="divider">
-                <span class="label">OR</span>
-            </div>
+            <hr class="divider" data-text="OR">
             Option 2
 
             <h1>Blockquotes</h1>
@@ -119,76 +117,76 @@
             <h1>Badges</h1>
             <p>Used for displaying tags and counters.</p>
             <span class="badge">Basic</span>
-            <span class="badge primary">Primary</span>
-            <span class="badge secondary">Secondary</span>
-            <span class="badge accent">Accent</span>
+            <span class="badge badge--primary">Primary</span>
+            <span class="badge badge--secondary">Secondary</span>
+            <span class="badge badge--accent">Accent</span>
             <p />
-            Badges also work <span class="badge secondary">inline</span> with text and even <span class="badge primary"><i class="fas fa-edit"></i> with icons</span>.
+            Badges also work <span class="badge badge--secondary">inline</span> with text and even <span class="badge badge--primary"><i class="fas fa-edit"></i> with icons</span>.
             <p />
             Great for notification counters too:
-            <div class="button secondary">
+            <div class="button button--secondary">
                 <i class="fas fa-envelope"></i>
-                Unread Posts <span class="badge accent">2</span>
+                Unread Posts <span class="badge badge--accent">2</span>
             </div>
 
             <h1>Cards</h1>
             <p>Used for grouping content.</p>
             <div class="card">
-                <div class="card-body">
+                <div class="card__body">
                     Basic (card)
                 </div>
             </div>
 
-            <div class="card primary">
-                <div class="card-body">
+            <div class="card card--primary">
+                <div class="card__body">
                     Primary (card.primary)
                 </div>
             </div>
 
-            <div class="card secondary">
-                 <div class="card-body">
+            <div class="card card--secondary">
+                 <div class="card__body">
                     Secondary (card.secondary)
                 </div>
             </div>
 
-            <div class="card accent">
-                 <div class="card-body">
+            <div class="card card--accent">
+                 <div class="card__body">
                     Accent (card.accent)
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-header">
+                <div class="card__header">
                     Header
                 </div>
-                <div class="card-body">
+                <div class="card__body">
                     Basic (card)
                 </div>
             </div>
 
-            <div class="card primary">
-                <div class="card-header">
+            <div class="card card--primary">
+                <div class="card__header">
                     Header
                 </div>
-                <div class="card-body">
+                <div class="card__body">
                     Primary (card.primary)
                 </div>
             </div>
 
-            <div class="card secondary">
-                <div class="card-header">
+            <div class="card card--secondary">
+                <div class="card__header">
                     Header
                 </div>
-                <div class="card-body">
+                <div class="card__body">
                     Secondary (card.secondary)
                 </div>
             </div>
 
-            <div class="card accent">
-                <div class="card-header">
+            <div class="card card--accent">
+                <div class="card__header">
                     Header
                 </div>
-                <div class="card-body">
+                <div class="card__body">
                     Accent (card.accent)
                 </div>
             </div>
@@ -196,53 +194,53 @@
             <h1>Alerts</h1>
             <p>Used for flashing a quick message to the user, in particular showing errors/success when submitting a form.</p>
 
-            <div class="alert warning">
+            <div class="alert alert--warning">
                 <h3><i class="fas fa-exclamation-circle"></i> Warning</h3>
                 <p>You have <a href="#">5 unchecked</a> player reports.</p>
             </div>
-            <div class="alert error">
+            <div class="alert alert--error">
                 <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
                 <p>Image size exceeded the limit. Please upload an image less than <strong>1mb</strong>.</p>
             </div>
-            <div class="alert success">
+            <div class="alert alert--success">
                 <h3><i class="fas fa-check"></i> Success</h3>
                 <p>Ban appeal submitted succesfully!</p>
             </div>
 
             <h1>Progress Bars</h1>
-            <div class="card primary">
-                <div class="card-body">
+            <div class="card card--primary">
+                <div class="card__body">
 
-                    <div class="progressbar primary">
-                        <div class="outer">
-                            <div class="inner" style="width:25%"></div>
+                    <div class="progress progress--primary">
+                        <div class="progress__bar">
+                            <div class="progress__bar__fill" style="width:25%"></div>
                         </div>
                     </div>
                     
-                    <div class="progressbar secondary">
-                        <div class="outer">
-                            <div class="inner" style="width:25%"></div>
+                    <div class="progress progress--secondary">
+                        <div class="progress__bar">
+                            <div class="progress__bar__fill" style="width:25%"></div>
                         </div>
                     </div>
 
-                    <div class="progressbar accent small">
-                        <div class="outer">
-                            <div class="inner" style="width:25%"></div>
+                    <div class="progress progress--accent progress--small">
+                        <div class="progress__bar">
+                            <div class="progress__bar__fill" style="width:25%"></div>
                         </div>
                     </div>
 
-                    <div class="progressbar accent">
-                        <div class="outer">
-                            <div class="inner" style="width:66%">66%</div>
-                            <div class="label">33%</div>
+                    <div class="progress progress--accent">
+                        <div class="progress__bar">
+                            <div class="progress__bar__fill" style="width:66%">66%</div>
+                            <div class="progress__label">33%</div>
                         </div>
                     </div>
                     
-                    <div class="progressbar accent">
-                        <div class="outer">
-                            <div class="inner" style="width:25%"></div>
+                    <div class="progress progress--accent">
+                        <div class="progress__bar">
+                            <div class="progress__bar__fill" style="width:25%"></div>
                         </div>
-                        <div class="markers">
+                        <div class="progress__markers">
                             <span>0</span>
                             <span>250</span>
                             <span>500</span>
@@ -256,22 +254,22 @@
             
 
             <h1>Buttons</h1>
-            <a class="button primary" href="#">Link Button</a>
-            <a class="button secondary" href="#">Link Button</a>
-            <a class="button accent" href="#">Link Button</a>
+            <a class="button button--primary" href="#">Link Button</a>
+            <a class="button button--secondary" href="#">Link Button</a>
+            <a class="button button--accent" href="#">Link Button</a>
 
-            <a class="button accent" href="#">
+            <a class="button button--accent" href="#">
                 <i class="fas fa-lock"></i>
                 Link with Icon
             </a>
 
-            <a class="button primary disabled" href="#">Disabled Button</a>
-            <a class="button secondary disabled" href="#">Disabled Button</a>
-            <a class="button accent disabled" href="#">Disabled Button</a>
+            <a class="button button--primary disabled" href="#">Disabled Button</a>
+            <a class="button button--secondary disabled" href="#">Disabled Button</a>
+            <a class="button button--accent disabled" href="#">Disabled Button</a>
             
-            <a class="button accent large" href="#">Large Button</a>
+            <a class="button button--accent button--large" href="#">Large Button</a>
 
-            <a class="button secondary fill" href="#">Fill Button</a>
+            <a class="button button--secondary button--fill" href="#">Fill Button</a>
 
             <h1>Tables</h1>
             <table class="table divided">
