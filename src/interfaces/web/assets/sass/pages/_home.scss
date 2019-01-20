@@ -57,6 +57,11 @@
         img {
             max-width: 100%;
         }
+
+        .emoji {
+            width: 20px;
+            vertical-align: middle;
+        }
     }
 
     &__author {
@@ -70,6 +75,7 @@
 
         img {
             margin: 0 0.5em;
+            border-radius: 50%;
         }
     }
 

@@ -2,8 +2,9 @@
 $colour-primary     : hsl(206, 80%, 48%);
 $colour-secondary   : hsl(20, 12%, 29%);
 $colour-accent      : hsl(40, 98%, 49%);
-$colour-light       : hsl(14, 10%, 74%);
+$colour-light       : hsl(14, 10%, 40%);
+$colour-lightest    : hsl(14, 10%, 74%);
 $colour-basic       : darken(#fff, 10%);
 
-$colour-success     : hsl(88, 75%, 51%);
-$colour-error       : hsl(9, 100%, 62%);
+$colour-success     : hsl(133.4,60.9%,33.1%);
+$colour-error       : #b10e1e;
