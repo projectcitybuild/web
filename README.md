@@ -63,9 +63,15 @@ DB_PASSWORD=secret
 ```
 
 ## Development
-#### Live editing
-* From inside the container, run `npm run watch`. This will open up a BrowserSync instance in your default browser with hot-reloading. 
-* If your docker-machine IP is different to the default (192.168.99.100), you will need to change the BrowserSync proxy setting in `webpack.mix.js`.
+Once *First time setup* is complete, you only need to run one command to boot up the environment:
+```
+docker-compose up -d nginx mariadb
+```
+
+
+#### Live editing (Browsersync)
+* From inside the container, run `npm run watch`. Because we're running in headless-mode, no browser will automatically open.
+* Open `http://localhost:3000`. Any HTML, JS, CSS changes will automatically appear without refreshing. 
 
 #### Database
 * If the database schema has changed, remember to run `php artisan migrate` from inside the worksapce container to ensure you always have the latest schema.
