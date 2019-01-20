@@ -14,7 +14,7 @@
 
 @section('contents')
 
-    <div class="card">
+    <div class="card card--narrow card--centered">
         <div class="card__body card__body--padded">
             <h1>Create an Account</h1>
 
