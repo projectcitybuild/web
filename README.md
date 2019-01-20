@@ -31,21 +31,44 @@ Absolutely. Feel free to fork and send pull requests any time. I'd be thrilled t
 ## First time setup
 This repository uses *laradock* as a local development environment.
 
-1. Setup docker container: `docker-compose up -d nginx mariadb redis`
-2. Enter the main workspace container: `docker-compose exec workspace bash`
-    1. Run `cp .env.example .env` and fill out the details (make sure `DB_HOST=mysql`)
-    2. Install PHP dependencies: `composer install`
-    3. Install JS dependencies: `npm installl`
-    4. Generate private key: `php artisan key:generate`
-    5. Create and seed database: `php artisan migrate --seed`
+1. Build the docker container: `docker-compose up -d nginx mariadb`
+2. Run `cp src/.env.example src/.env`, then edit the file as appropriate (see below)
+3. Enter the main workspace container: `docker-compose exec workspace bash`
+    1. Install PHP dependencies: `composer install`
+    2. Install JS dependencies: `npm installl`
+    3. Generate private key: `php artisan key:generate`
+    4. Create and seed database: `php artisan migrate --seed`
+    5. Build JS/CSS assets: `npm run dev`
+
+You should now be able to see the site at [http://localhost](http://localhost)
+
+
+#### NPM Install
+`Python2.7` is required by one of our dependencies. Unfortunately the workspace container does not have this pre-installed, so this step is required before running `npm install`:
+
+```
+apt-get update -yqq && apt-get install -y python2.7
+npm config set python /usr/bin/python2.7
+```
+
+#### Local Environment File (.env)
+Database config:
+```
+DB_CONNECTION=mysql
+DB_HOST=mariadb
+DB_PORT=3306
+DB_DATABASE=default
+DB_USERNAME=default
+DB_PASSWORD=secret
+```
 
 ## Development
 #### Live editing
 * From inside the container, run `npm run watch`. This will open up a BrowserSync instance in your default browser with hot-reloading. 
 * If your docker-machine IP is different to the default (192.168.99.100), you will need to change the BrowserSync proxy setting in `webpack.mix.js`.
 
-#### Testing
-* Run `phpunit` inside the workspace container
-
 #### Database
 * If the database schema has changed, remember to run `php artisan migrate` from inside the worksapce container to ensure you always have the latest schema.
+
+## Testing
+* Run `phpunit` inside the workspace container
