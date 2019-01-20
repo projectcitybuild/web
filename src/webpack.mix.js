@@ -17,7 +17,8 @@ if(mix.config.production) {
 
 } else {
     mix.browserSync({
-        proxy: '192.168.99.100',
+        proxy: 'nginx',
+        open: false,
         files: [
             'interfaces/web/**/*.php',
             'interfaces/web/assets/**/*.css', 
