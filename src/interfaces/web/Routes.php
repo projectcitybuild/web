@@ -19,7 +19,7 @@ if (Environment::isProduction()) {
 }
 
 // url redirects
-Route::redirect('terms', 'https://forums.projectcitybuild.com/t/terms-of-services/14506')->name('terms');
+Route::redirect('terms', 'https://forums.projectcitybuild.com/t/community-rules/22928')->name('terms');
 Route::redirect('privacy', 'https://forums.projectcitybuild.com/privacy')->name('privacy');
 
 // sentry confirmation route
