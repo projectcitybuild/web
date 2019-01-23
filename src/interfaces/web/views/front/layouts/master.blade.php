@@ -87,9 +87,9 @@
                     <li>
                         <a href="#" class="nav-dropdown">Community <i class="fas fa-caret-down"></i></a>
                         <ul>
-                            <li><a href="#">Appeal a Ban</a></li>
-                            <li><a href="#">Report a Player</a></li>
-                            <li class="divider"><a href="#">Apply for Staff</a></li>
+                            <li><a href="https://forums.projectcitybuild.com/t/banned-read-me/12145">Appeal a Ban</a></li>
+                            <li><a href="https://forums.projectcitybuild.com/c/support/grief-player-reports">Report a Player</a></li>
+                            <li class="divider"><a href="https://goo.gl/forms/UodUsKQBZJdCzNWk1">Apply for Staff</a></li>
                             <li><a href="https://wiki.projectcitybuild.com/" target="_blank" rel="noopener">Community Wiki</a></li>
                         </ul>
                     </li>
