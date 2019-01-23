@@ -27,6 +27,10 @@ Route::get('sentry/test', function () {
     throw new \Exception('Sentry test');
 });
 
+Route::get('ui', function () {
+    return view('stylesheet');
+});
+
 Route::get('/', [
     'as' => 'front.home',
     'uses' => 'HomeController@getView',
