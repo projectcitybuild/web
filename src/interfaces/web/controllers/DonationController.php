@@ -76,6 +76,7 @@ class DonationController extends WebController
         if ($amount <= 0) {
             abort(401, "Attempted to donate zero dollars");
         }
+        $amount *= 100;
 
         $account = $this->auth->user();
         $accountId = $account !== null ? $account->getKey() : null;
