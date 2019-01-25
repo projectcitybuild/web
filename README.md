@@ -35,7 +35,7 @@ This repository uses *laradock* as a local development environment.
 2. Run `cp src/.env.example src/.env`, then edit the file as appropriate (see below)
 3. Enter the main workspace container: `docker-compose exec workspace bash`
     1. Install PHP dependencies: `composer install`
-    2. Install JS dependencies: `npm installl`
+    2. Install JS dependencies: `npm install` (see below before running this)
     3. Generate private key: `php artisan key:generate`
     4. Create and seed database: `php artisan migrate --seed`
     5. Build JS/CSS assets: `npm run dev`
@@ -71,7 +71,7 @@ docker-compose up -d nginx mariadb
 
 #### Live editing (Browsersync)
 * From inside the container, run `npm run watch`. Because we're running in headless-mode, no browser will automatically open.
-* Open `http://localhost:3000`. Any HTML, JS, CSS changes will automatically appear without refreshing. 
+* Open `http://localhost:3000` in your browser. Any HTML, JS, CSS changes will automatically appear without refreshing. 
 
 #### Database
 * If the database schema has changed, remember to run `php artisan migrate` from inside the worksapce container to ensure you always have the latest schema.
