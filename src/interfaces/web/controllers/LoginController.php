@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use \Illuminate\View\View;
 use Domains\Services\Login\Exceptions\SocialAccountAlreadyInUseException;
+use Application\Environment;
 
 final class LoginController extends WebController
 {
@@ -82,7 +83,7 @@ final class LoginController extends WebController
                 $account->getKey(), 
                 $account->email
             );
-            return redirect()->to($endpoint);
+            return $this->loginToDiscourseWithURLPayload($endpoint);
         } 
         catch (BadSSOPayloadException $e) 
         {
@@ -175,7 +176,8 @@ final class LoginController extends WebController
                 $associatedAccount->getKey(), 
                 $associatedAccount->email
             );
-            return redirect()->to($endpoint);
+
+            return $this->loginToDiscourseWithURLPayload($endpoint);
         }      
     }
 
@@ -215,7 +217,16 @@ final class LoginController extends WebController
             $account->email
         );
 
-        return redirect()->to($endpoint);
+        return $this->loginToDiscourseWithURLPayload($endpoint);
+    }
+
+    private function loginToDiscourseWithURLPayload(string $redirectUri) : RedirectResponse
+    {
+        if (Environment::isDev())
+        {
+            abort(404, 'Redirect to Discourse disabled in DEV');
+        }
+        return redirect()->to($redirectUri);
     }
 
     /**
