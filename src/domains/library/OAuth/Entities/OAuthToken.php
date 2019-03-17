@@ -1,6 +1,6 @@
 <?php
 
-namespace Domains\Library\OAuth;
+namespace Domains\Library\OAuth\Entities;
 
 final class OAuthToken
 {

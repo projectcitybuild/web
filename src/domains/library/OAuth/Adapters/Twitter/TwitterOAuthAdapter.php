@@ -2,9 +2,9 @@
 
 namespace Domains\Library\OAuth\Adapters\Twitter;
 
+use Domains\Library\OAuth\Entities\OAuthProviderContract;
+use Domains\Library\OAuth\Entities\OAuthUser;
 use Abraham\TwitterOAuth\TwitterOAuth;
-use Domains\Library\OAuth\OAuthProviderContract;
-use Domains\Library\OAuth\OAuthUser;
 
 final class TwitterOAuthAdapter implements OAuthProviderContract
 {

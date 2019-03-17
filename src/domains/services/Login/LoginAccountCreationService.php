@@ -40,11 +40,12 @@ class LoginAccountCreationService
     private $account;
 
 
-    public function __construct(AccountRepository $accountRepository,
-                                AccountLinkRepository $accountLinkRepository,
-                                Logger $logger,
-                                Connection $connection)
-    {
+    public function __construct(
+        AccountRepository $accountRepository,
+        AccountLinkRepository $accountLinkRepository,
+        Logger $logger,
+        Connection $connection
+    ) {
         $this->accountRepository = $accountRepository;
         $this->accountLinkRepository = $accountLinkRepository;
         $this->log = $logger;
@@ -98,35 +99,44 @@ class LoginAccountCreationService
         ];
     }
 
-    public function createAccountWithLink(string $providerEmail, string $providerId, string $providerName)
+    public function createAccountWithLink(string $providerEmail, string $providerId, string $providerName) : ?Account
     {
         $accountLink = $this->accountLinkRepository->getByProviderAccount($providerName, $providerId);
-        if ($accountLink !== null) {
+        
+        if ($accountLink !== null) 
+        {
             throw new \Exception('Attempting to create PCB account via OAuth, but OAuth account already exists');
         }
 
         $account = null;
         $this->connection->beginTransaction();
-        try {
+        try 
+        {
             // create a PCB account for the user
-            $account = $this->accountRepository->create($providerEmail,
-                                                        Hash::make(time()),
-                                                        null,
-                                                        now());
+            $account = $this->accountRepository->create(
+                $providerEmail,
+                Hash::make(time()),
+                null,
+                now()
+            );
 
             // and a link to their OAuth provider account
-            $this->accountLinkRepository->create($account->getKey(),
-                                                 $providerName,
-                                                 $providerId,
-                                                 $providerEmail);
+            $this->accountLinkRepository->create(
+                $account->getKey(),
+                $providerName,
+                $providerId,
+                $providerEmail
+            );
 
             $this->connection->commit();
-
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) 
+        {
             $this->connection->rollBack();
             throw $e;
         }
-    }
 
+        return $account;
+    }
 
 }

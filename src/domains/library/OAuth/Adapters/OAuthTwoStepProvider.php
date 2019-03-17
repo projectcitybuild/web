@@ -2,8 +2,8 @@
 
 namespace Domains\Library\OAuth\Adapters;
 
-use Domains\Library\OAuth\OAuthToken;
-use Domains\Library\OAuth\OAuthUser;
+use Domains\Library\OAuth\Entities\OAuthToken;
+use Domains\Library\OAuth\Entities\OAuthUser;
 use Domains\Library\OAuth\OAuthProviderContract;
 use Illuminate\Log\Logger;
 use GuzzleHttp\Client;

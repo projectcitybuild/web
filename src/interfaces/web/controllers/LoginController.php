@@ -13,8 +13,10 @@ use Interfaces\Web\Requests\LoginRequest;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Log\Logger;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use \Illuminate\View\View;
 
-class LoginController extends WebController
+final class LoginController extends WebController
 {
     /**
      * @var DiscourseLoginHandler
@@ -47,13 +49,14 @@ class LoginController extends WebController
     private $log;
 
 
-    public function __construct(DiscourseLoginHandler $discourseLoginHandler,
-                                OAuthLoginHandler $oauthLoginHandler,
-                                LoginAccountCreationService $accountCreationService,
-                                LogoutService $logoutService,
-                                Auth $auth,
-                                Logger $logger)
-    {
+    public function __construct(
+        DiscourseLoginHandler $discourseLoginHandler,
+        OAuthLoginHandler $oauthLoginHandler,
+        LoginAccountCreationService $accountCreationService,
+        LogoutService $logoutService,
+        Auth $auth,
+        Logger $logger
+    ) {
         $this->discourseLoginHandler = $discourseLoginHandler;
         $this->oauthLoginHandler = $oauthLoginHandler;
         $this->accountCreationService = $accountCreationService;
@@ -62,19 +65,27 @@ class LoginController extends WebController
         $this->log = $logger;
     }
 
-    public function loginOrShowForm()
+    /**
+     * @param Request $request
+     * @return RedirectResponse|View
+     */
+    public function loginOrShowForm(Request $request)
     {
-        if ($this->auth->check() === false) {
+        if ($this->auth->check() === false) 
+        {
             return view('front.pages.login.login');
         }
-
-        try {
+        try 
+        {
             $account  = $this->auth->user();
-            $endpoint = $this->discourseLoginHandler->getRedirectUrl($account->getKey(), 
-                                                                     $account->email);
+            $endpoint = $this->discourseLoginHandler->getRedirectUrl(
+                $account->getKey(), 
+                $account->email
+            );
             return redirect()->to($endpoint);
-
-        } catch (BadSSOPayloadException $e) {
+        } 
+        catch (BadSSOPayloadException $e) 
+        {
             $this->log->debug('Missing nonce or return key in session...', ['session' => $request->session()]);
             throw $e;
         }
@@ -84,11 +95,11 @@ class LoginController extends WebController
      * Handles a login request sent from the login form
      *
      * @param LoginRequest $request
-     * @return void
+     * @return RedirectResponse|View
      */
     public function login(LoginRequest $request)
     {
-        return $this->loginOrShowForm();
+        return $this->loginOrShowForm($request);
     }
 
     /**
@@ -97,17 +108,14 @@ class LoginController extends WebController
      * @param string $providerName
      * @return RedirectResponse
      */
-    public function redirectToProvider(string $providerName)
+    public function redirectToProvider(string $providerName) : RedirectResponse
     {
-        try {
-            $this->oauthLoginHandler->setProvider($providerName);
-        } catch (UnsupportedOAuthAdapter $e) {
-            abort(404);
-        }
+        $callbackUri = route('front.login.provider.callback', $providerName);
 
-        $redirectUri = route('front.login.provider.callback', $providerName);
-
-        return $this->oauthLoginHandler->redirectToLogin($redirectUri);
+        return $this->oauthLoginHandler->redirectToLogin(
+            $providerName, 
+            $callbackUri
+        );
     }
 
     /**
@@ -115,8 +123,7 @@ class LoginController extends WebController
      * and then either:
      * 
      * 1. Logs the user in if they have an account, or
-     * 2. Redirects the user to a page to confirm creating
-     *    a new account
+     * 2. Redirects the user to a page to confirm creating a new account
      *
      * @param string $providerName
      * @param Request $request
@@ -124,9 +131,12 @@ class LoginController extends WebController
      */
     public function handleProviderCallback(string $providerName, Request $request)
     {
-        try {
+        try 
+        {
             $this->oauthLoginHandler->setProvider($providerName);
-        } catch (UnsupportedOAuthAdapter $e) {
+        } 
+        catch (UnsupportedOAuthAdapter $e) 
+        {
             abort(404);
         }
 
@@ -175,11 +185,16 @@ class LoginController extends WebController
         $providerId    = $request->get('id');
         $providerName  = $request->get('provider');
 
-        $account = $this->accountCreationService->createAccountWithLink($providerEmail,
-                                                                        $providerId,
-                                                                        $providerName);
+        $account = $this->accountCreationService->createAccountWithLink(
+            $providerEmail,
+            $providerId,
+            $providerName
+        );
 
-        $endpoint = $this->discourseLoginHandler->getRedirectUrl($account->getKey(), $account->email);
+        $endpoint = $this->discourseLoginHandler->getRedirectUrl(
+            $account->getKey(), 
+            $account->email
+        );
 
         return redirect()->to($endpoint);
     }

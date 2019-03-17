@@ -3,8 +3,8 @@
 namespace Domains\Library\OAuth\Adapters\Google;
 
 use Domains\Library\OAuth\Adapters\OAuthTwoStepProvider;
-use Domains\Library\OAuth\OAuthUser;
-use Domains\Library\OAuth\OAuthToken;
+use Domains\Library\OAuth\Entities\OAuthUser;
+use Domains\Library\OAuth\Entities\OAuthToken;
 
 final class GoogleOAuthAdapter extends OAuthTwoStepProvider
 {

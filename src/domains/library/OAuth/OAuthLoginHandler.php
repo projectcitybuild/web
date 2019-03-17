@@ -40,47 +40,48 @@ final class OAuthLoginHandler
         $this->request = $request;
     }
 
+    /**
+     * @deprecated
+     */
     public function setProvider(string $providerName)
     {
         $this->provider = $this->adapterFactory->make($providerName);
     }
 
-    public function redirectToLogin(string $redirectUri) : RedirectResponse
+    public function redirectToLogin(string $providerName, string $redirectUri) : RedirectResponse
     {
-        if ($this->provider === null) {
-            throw new \Exception('No OAuth provider set');
-        }
-
         // Laravel converts localhost into a local IP address,
         // so we need to manually convert it back so that
         // it matches the URLs registered in Twitter, Google, etc
-        if (Environment::isDev()) {
-            $redirectUri = str_replace('http://192.168.99.100/',
-                                       'http://localhost:3000/',
-                                       $redirectUri);
-
-            $redirectUri = str_replace('http://nginx/',
-                                       'http://localhost:3000/',
-                                       $redirectUri);
+        if (Environment::isDev()) 
+        {
+            $invalidDevUrls = ['http://192.168.99.100/', 'http://nginx/'];
+            foreach ($invalidDevUrls as $invalidUrl)
+            {
+                $redirectUri = str_replace($invalidUrl, 'http://localhost:3000/', $redirectUri);
+            }
         }
 
         $this->cache->store($redirectUri);
 
-        $providerLoginUrl = $this->provider->requestProviderLoginUrl($redirectUri);
+        $provider = $this->adapterFactory->make($providerName);
+        $providerLoginUrl = $provider->requestProviderLoginUrl($redirectUri);
 
         return redirect()->to($providerLoginUrl);
     }
 
     public function getOAuthUser() : OAuthUser
     {
-        if ($this->provider === null) {
+        if ($this->provider === null) 
+        {
             throw new \Exception('No OAuth provider set');
         }
 
         $authCode = $this->request->get('code');
         $token = $this->request->get('oauth_token');  // for Twitter OAuth
 
-        if (empty($authCode) && empty($token)) {
+        if (empty($authCode) && empty($token)) 
+        {
             throw new \Exception('Invalid or missing auth code from OAuth provider');
         }
         

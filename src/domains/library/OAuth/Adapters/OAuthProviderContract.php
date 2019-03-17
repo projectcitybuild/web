@@ -2,6 +2,8 @@
 
 namespace Domains\Library\OAuth;
 
+use Domains\Library\OAuth\Entities\OAuthUser;
+
 interface OAuthProviderContract 
 {
     public function requestProviderLoginUrl(string $redirectUri) : string;
