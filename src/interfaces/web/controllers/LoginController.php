@@ -14,6 +14,7 @@ use Illuminate\Log\Logger;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use \Illuminate\View\View;
+use Domains\Services\Login\Exceptions\SocialAccountAlreadyInUseException;
 
 final class LoginController extends WebController
 {
@@ -137,41 +138,45 @@ final class LoginController extends WebController
             return redirect()->route('front.home');
         }
 
-        $providerAccount = $this->oauthLoginHandler->getOAuthUser($providerName);
-        $accountExists = false;
-        try 
-        {
-            $accountExists = $this->accountCreationService->hasAccountLink($providerAccount);
-        } 
-        catch (SocialEmailInUseException $e) 
-        {
-            // if no account link exists, but the provider account's
-            // email address is already in use, we cannot proceed.
-            // PCB/Discourse accounts must have a unique email.
-            return view('front.pages.register.register-oauth-failed', [
-                'email' => $providerAccount->getEmail(),
-            ]);
-        }
+        $providerAccount   = $this->oauthLoginHandler->getOAuthUser($providerName);
+        $associatedAccount = $this->accountCreationService->getLinkedAccount($providerAccount);
 
-        if ($accountExists) 
-        {
-            // login existing user
-            $account = $this->accountCreationService->getAccount();
+        $isProviderAccountAssociated = $associatedAccount !== null;
 
-            $this->auth->setUser($account);
-
-            $endpoint = $this->discourseLoginHandler->getRedirectUrl(
-                $account->getKey(), 
-                $account->email
-            );
-            return redirect()->to($endpoint);
-        }
-        else 
+        if (!$isProviderAccountAssociated)
         {
-            // register new user
+            // if no account link exists (ie. no one has associated the social account
+            // ID and provider type to their PCB account yet), we need to check that the 
+            // social account's email address is not already in use by another PCB account.
+            //
+            // Discourse and PCB require a unique email address, therefore the account
+            // creation should fail
+            $accountWithSameEmail = $this->accountRepository->getByEmail($providerAccount->getEmail());
+
+            if ($accountWithSameEmail !== null) {
+                $this->log->debug('Account with email ('.$providerAccount->getEmail().') already exists');
+                
+                return view('front.pages.register.register-oauth-failed', [
+                    'email' => $providerAccount->getEmail(),
+                ]);
+            }
+
+            // otherwise, let the user register a new PCB account with the provider
+            // account's information (and associate it with the new PCB account)
             $registerUrlPayload = $this->accountCreationService->generateSignedRegisterUrl($providerAccount);
             return view('front.pages.register.register-oauth', $registerUrlPayload);
-        }        
+        }
+        else
+        {
+            // or if the provider account is associated, proceed with login
+            $this->auth->setUser($associatedAccount);
+
+            $endpoint = $this->discourseLoginHandler->getRedirectUrl(
+                $associatedAccount->getKey(), 
+                $associatedAccount->email
+            );
+            return redirect()->to($endpoint);
+        }      
     }
 
     /**
@@ -186,11 +191,24 @@ final class LoginController extends WebController
         $providerId    = $request->get('id');
         $providerName  = $request->get('provider');
 
-        $account = $this->accountCreationService->createAccountWithLink(
-            $providerEmail,
-            $providerId,
-            $providerName
-        );
+        $account = null;
+        try 
+        {
+            $account = $this->accountCreationService->createAccountWithLink(
+                $providerEmail,
+                $providerId,
+                $providerName
+            );
+        }
+        catch (SocialAccountAlreadyInUseException $e)
+        {
+            // even if the email address is not registered to any PCB account, 
+            // we cannot proceed if a different account is already associated with
+            // this social account id
+            return view('front.pages.register.register-oauth-failed', [
+                'email' => $providerEmail,
+            ]);
+        }
 
         $endpoint = $this->discourseLoginHandler->getRedirectUrl(
             $account->getKey(), 

@@ -10,6 +10,7 @@ use Illuminate\Log\Logger;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Hash;
+use Domains\Services\Login\Exceptions\SocialAccountAlreadyInUseException;
 
 
 class LoginAccountCreationService
@@ -34,11 +35,6 @@ class LoginAccountCreationService
      */
     private $connection;
 
-    /**
-     * @var Account
-     */
-    private $account;
-
 
     public function __construct(
         AccountRepository $accountRepository,
@@ -52,12 +48,6 @@ class LoginAccountCreationService
         $this->connection = $connection;
     }
 
-
-    public function getAccount() : Account
-    {
-        return $this->account;
-    }
-
     public function hasAccountLink(OAuthUser $providerAccount) : bool
     {
         $existingLink = $this->accountLinkRepository->getByProviderAccount(
@@ -65,32 +55,32 @@ class LoginAccountCreationService
             $providerAccount->getId()
         );
         if ($existingLink !== null) {
-            $this->account = $existingLink->account;
             return true;
         }
-            
-        // if an account link doesn't exist, we need to check that the 
-        // email is not already in use by a different account, because 
-        // PCB and Discourse accounts must have a unique email
-        $existingAccount = $this->accountRepository->getByEmail($providerAccount->getEmail());
-        
-        if ($existingAccount !== null) {
-            $this->log->debug('Account with email ('.$providerAccount->getEmail().') already exists');
-            throw new SocialEmailInUseException();
-        }
-
-        $this->account = $existingAccount;
-
         return false;
+    }
+
+    public function getLinkedAccount(OAuthUser $providerAccount) : ?Account
+    {
+        $existingLink = $this->accountLinkRepository->getByProviderAccount(
+            $providerAccount->getProviderName(), 
+            $providerAccount->getId()
+        );
+        if ($existingLink !== null) {
+            return $existingLink->account;
+        }
+        return null;
     }
 
     public function generateSignedRegisterUrl(OAuthUser $providerAccount)
     {
         // otherwise send them to the register confirmation
         // view using their provider account data
-        $url = URL::temporarySignedRoute('front.login.social-register',
-                                         now()->addMinutes(10),
-                                         $providerAccount->toArray());
+        $url = URL::temporarySignedRoute(
+            'front.login.social-register',
+            now()->addMinutes(10),
+            $providerAccount->toArray()
+        );
 
         $this->log->debug('Generating OAuth register URL: '.$url);
 
@@ -106,7 +96,7 @@ class LoginAccountCreationService
         
         if ($accountLink !== null) 
         {
-            throw new \Exception('Attempting to create PCB account via OAuth, but OAuth account already exists');
+            throw new SocialAccountAlreadyInUseException('Attempting to create PCB account via OAuth, but OAuth account already in use');
         }
 
         $account = null;
