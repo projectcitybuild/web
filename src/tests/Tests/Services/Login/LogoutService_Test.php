@@ -55,10 +55,7 @@ class LogoutService_Test extends TestCase
     {
         // given...
         $auth = resolve(Auth::class);
-        $service = new LogoutService($this->discourseUserApiMock, 
-                                     $this->discourseAdminApiMock, 
-                                     $auth, 
-                                     $this->loggerStub);
+        $service = new LogoutService($this->discourseUserApiMock, $this->discourseAdminApiMock, $auth, $this->loggerStub);
         $this->loginAsUser($auth);
 
         // when...
@@ -72,10 +69,7 @@ class LogoutService_Test extends TestCase
     {
         // given...
         $auth = resolve(Auth::class);
-        $service = new LogoutService($this->discourseUserApiMock, 
-                                     $this->discourseAdminApiMock, 
-                                     $auth, 
-                                     $this->loggerStub);
+        $service = new LogoutService($this->discourseUserApiMock, $this->discourseAdminApiMock, $auth, $this->loggerStub);
 
         $this->assertFalse($auth->check());
 
@@ -100,10 +94,7 @@ class LogoutService_Test extends TestCase
             ]);
 
         $auth = resolve(Auth::class);
-        $service = new LogoutService($this->discourseUserApiMock, 
-                                    $this->discourseAdminApiMock, 
-                                    $auth, 
-                                    $this->loggerStub);
+        $service = new LogoutService($this->discourseUserApiMock, $this->discourseAdminApiMock, $auth, $this->loggerStub);
         $this->loginAsUser($auth);
 
         // when...
@@ -129,10 +120,7 @@ class LogoutService_Test extends TestCase
             ]);
 
         $auth = resolve(Auth::class);
-        $service = new LogoutService($this->discourseUserApiMock, 
-                                    $this->discourseAdminApiMock, 
-                                    $auth, 
-                                    $this->loggerStub);
+        $service = new LogoutService($this->discourseUserApiMock, $this->discourseAdminApiMock, $auth, $this->loggerStub);
         $this->loginAsUser($auth);
 
         // expect...

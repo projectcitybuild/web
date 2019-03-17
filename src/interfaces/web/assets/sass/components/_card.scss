@@ -3,12 +3,12 @@
     border-color: darken($bgColour, $borderDarken);
     color: $textColour;
 
-    &__header {
+    .card__header {
         background-color: darken($bgColour, 5%);
         border-bottom: 1px solid darken($bgColour, 10%);
     }
 
-    &__footer {
+    .card__footer {
         background-color: darken($bgColour, 5%);
         border-top: 1px solid darken($bgColour, 10%);
     }
@@ -65,5 +65,14 @@
         .card__body {
             padding: 0;
         }
+    }
+
+    &--narrow {
+        max-width: 500px;
+    }
+
+    &--centered {
+        margin-left: auto;
+        margin-right: auto;
     }
 }

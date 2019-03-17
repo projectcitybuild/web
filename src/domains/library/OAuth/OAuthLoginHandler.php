@@ -1,18 +1,15 @@
 <?php
+
 namespace Domains\Library\OAuth;
 
 use Domains\Library\OAuth\Storage\OAuthStorageContract;
-use Illuminate\Http\RedirectResponse;
+use Domains\Library\OAuth\Entities\OAuthUser;
 use Application\Environment;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class OAuthLoginHandler 
+final class OAuthLoginHandler 
 {
-    /**
-     * @var OAuthProviderContract
-     */
-    private $provider;
-
     /**
      * @var OAuthStorageContract
      */
@@ -29,57 +26,61 @@ class OAuthLoginHandler
     private $request;
 
 
-    public function __construct(OAuthStorageContract $cache, 
-                                OAuthAdapterFactory $adapterFactory, 
-                                Request $request)
-    {
+    public function __construct(
+        OAuthStorageContract $cache,
+        OAuthAdapterFactory $adapterFactory, 
+        Request $request
+    ) {
         $this->cache = $cache;
         $this->adapterFactory = $adapterFactory;
         $this->request = $request;
     }
 
-    public function setProvider(string $providerName)
+    public function redirectToLogin(string $providerName, string $redirectUri) : RedirectResponse
     {
-        $this->provider = $this->adapterFactory->make($providerName);
-    }
-
-    public function redirectToLogin(string $redirectUri) : RedirectResponse
-    {
-        if ($this->provider === null) {
-            throw new \Exception('No OAuth provider set');
-        }
-
         // Laravel converts localhost into a local IP address,
         // so we need to manually convert it back so that
         // it matches the URLs registered in Twitter, Google, etc
-        if (Environment::isDev()) {
-            $redirectUri = str_replace('http://192.168.99.100/',
-                                       'http://localhost:3000/',
-                                       $redirectUri);
+        if (Environment::isDev()) 
+        {
+            $invalidDevUrls = ['http://192.168.99.100/', 'http://nginx/'];
+            foreach ($invalidDevUrls as $invalidUrl)
+            {
+                $redirectUri = str_replace($invalidUrl, 'http://localhost:3000/', $redirectUri);
+            }
         }
 
         $this->cache->store($redirectUri);
 
-        $providerLoginUrl = $this->provider->requestProviderLoginUrl($redirectUri);
+        $provider = $this->adapterFactory->make($providerName);
+        $providerLoginUrl = $provider->requestProviderLoginUrl($redirectUri);
 
         return redirect()->to($providerLoginUrl);
     }
 
-    public function getOAuthUser() : OAuthUser
+    public function getOAuthUser(string $providerName) : OAuthUser
     {
-        if ($this->provider === null) {
-            throw new \Exception('No OAuth provider set');
-        }
+        $provider = $this->adapterFactory->make($providerName);
 
         $authCode = $this->request->get('code');
-        $token = $this->request->get('oauth_token');  // for Twitter OAuth
+        $token    = $this->request->get('oauth_token');  // for Twitter OAuth
 
-        if (empty($authCode) && empty($token)) {
+        if (empty($authCode) && empty($token)) 
+        {
             throw new \Exception('Invalid or missing auth code from OAuth provider');
         }
         
         $redirectUri = $this->cache->pop();
-        $user = $this->provider->requestProviderAccount($redirectUri, $authCode ?: $token);
+
+        // if this is null, it's highly likely the user refreshed the page
+        // or returned back to the OAuth login screen - both of which will
+        // invalidate the cache; in which case the user needs to start-over
+        if ($redirectUri === null)
+        {
+            abort(401, 'Session has expired. Please start-over from PCB login screen');
+        }
+
+        $user = $provider->requestProviderAccount($redirectUri, $authCode ?: $token);
 
         return $user;
     }

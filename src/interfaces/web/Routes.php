@@ -18,14 +18,27 @@ if (Environment::isProduction()) {
     URL::forceScheme('https');
 }
 
-// url redirects
-Route::redirect('terms', 'https://forums.projectcitybuild.com/t/terms-of-services/14506')->name('terms');
+/**
+ * URL redirects
+ */
+Route::redirect('terms', 'https://forums.projectcitybuild.com/t/community-rules/22928')->name('terms');
 Route::redirect('privacy', 'https://forums.projectcitybuild.com/privacy')->name('privacy');
 
-// sentry confirmation route
+/**
+ * Sentry test route
+ */
 Route::get('sentry/test', function () {
     throw new \Exception('Sentry test');
 });
+
+/**
+ * Style guide
+ */
+Route::get('ui', function () {
+    return view('stylesheet');
+});
+
+
 
 Route::get('/', [
     'as' => 'front.home',

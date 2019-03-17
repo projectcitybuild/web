@@ -1,11 +1,12 @@
 <?php
+
 namespace Domains\Library\OAuth\Adapters\Facebook;
 
 use Domains\Library\OAuth\Adapters\OAuthTwoStepProvider;
-use Domains\Library\OAuth\OAuthUser;
-use Domains\Library\OAuth\OAuthToken;
+use Domains\Library\OAuth\Entities\OAuthUser;
+use Domains\Library\OAuth\Entities\OAuthToken;
 
-class FacebookOAuthAdapter extends OAuthTwoStepProvider
+final class FacebookOAuthAdapter extends OAuthTwoStepProvider
 {
     /**
      * @inheritDoc
@@ -65,10 +66,12 @@ class FacebookOAuthAdapter extends OAuthTwoStepProvider
     {
         $facebookUser = FacebookOAuthUser::fromJSON($json);
 
-        return new OAuthUser('facebook', 
-                             $facebookUser->getEmail(), 
-                             $facebookUser->getName(), 
-                             $facebookUser->getId());
+        return new OAuthUser(
+            'facebook', 
+            $facebookUser->getEmail(), 
+            $facebookUser->getName(), 
+            $facebookUser->getId()
+        );
     }
 
     /**
@@ -76,10 +79,12 @@ class FacebookOAuthAdapter extends OAuthTwoStepProvider
      */
     protected function makeToken(array $json) : OAuthToken
     {
-        return new OAuthToken($json['access_token'],
-                              $json['token_type'],
-                              $json['expires_in'],
-                              '',
-                              '');
+        return new OAuthToken(
+            $json['access_token'],
+            $json['token_type'],
+            $json['expires_in'],
+            '',
+            ''
+        );
     }
 }

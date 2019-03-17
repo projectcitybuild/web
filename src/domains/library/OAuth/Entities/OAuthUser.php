@@ -1,7 +1,8 @@
 <?php
-namespace Domains\Library\OAuth;
 
-class OAuthUser
+namespace Domains\Library\OAuth\Entities;
+
+final class OAuthUser
 {
     /**
      * @var string

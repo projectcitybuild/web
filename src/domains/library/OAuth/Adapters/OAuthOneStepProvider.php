@@ -1,4 +1,5 @@
 <?php
+
 namespace Domains\Library\OAuth\Adapters;
 
 use Domains\Library\OAuth\OAuthToken;
@@ -15,7 +16,4 @@ use Domains\Library\OAuth\OAuthProviderContract;
  * The access token is then used to make api requests
  * on behalf of the user
  */
-abstract class OAuthOneStepProvider implements OAuthProviderContract
-{
-
-}
+abstract class OAuthOneStepProvider implements OAuthProviderContract {}

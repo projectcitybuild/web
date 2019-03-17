@@ -1,19 +1,24 @@
 <?php
+
 namespace Domains\Library\Discourse\Api;
 
-class DiscourseSSOApi
+use Domains\Library\Discourse\Entities\DiscoursePackedNonce;
+
+class DiscourseSSOApi extends DiscourseAPIRequest
 {
     /**
-     * @var DiscourseClient
+     * The normal way to get a nonce from Discourse is to redirect the user to
+     * a specific Discourse (/session/sso) URL. Discourse will then redirect the
+     * user back to our login form with an `sso` and `sig` URL parameter.
+     * 
+     * However, the double redirect is terrible for UX so instead we'll make
+     * a call to the URL on the user's behalf and extract the `sso` and `sig`
+     * parameter from the redirect response - all server side, so that no 
+     * redirection is needed at all.
+     *
+     * @return DiscoursePackedNonce
      */
-    private $client;
-
-    public function __construct(DiscourseClient $client)
-    {
-        $this->client = $client;
-    }
-
-    public function requestNonce(string $returnPath = '/latest') : array
+    public function requestPackedNonce(string $returnPath = '/latest') : DiscoursePackedNonce
     {
         $response = $this->client->get('session/sso?return_path='.$returnPath, [
             'allow_redirects' => [
@@ -29,6 +34,8 @@ class DiscourseSSOApi
         $parameters = [];
         parse_str($queryString, $parameters);
 
-        return $parameters;
+        $packedNonce = new DiscoursePackedNonce($parameters['sso'], $parameters['sig']);
+
+        return $packedNonce;
     }
 }

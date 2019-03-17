@@ -1,7 +1,8 @@
 <?php
-namespace Domains\Library\OAuth;
 
-class OAuthToken
+namespace Domains\Library\OAuth\Entities;
+
+final class OAuthToken
 {
     /**
      * @var string
@@ -29,12 +30,13 @@ class OAuthToken
     private $scope;
 
 
-    public function __construct(string $accessToken,
-                                string $tokenType,
-                                int $expiry,
-                                string $refreshToken,
-                                string $scope) 
-    {
+    public function __construct(
+        string $accessToken,
+        string $tokenType,
+        int $expiry,
+        string $refreshToken,
+        string $scope
+    ) {
         $this->accessToken = $accessToken;
         $this->tokenType = $tokenType;
         $this->expiry = $expiry;

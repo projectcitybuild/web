@@ -1,7 +1,8 @@
 <?php
+
 namespace Domains\Library\Discourse\Entities;
 
-class DiscoursePackedNonce
+final class DiscoursePackedNonce
 {
     /**
      * @var string

@@ -1,27 +1,25 @@
 <?php
+
 namespace Domains\Library\Discourse\Api;
 
 use function GuzzleHttp\json_decode;
 use Domains\Library\Discourse\Entities\DiscoursePayload;
 use Domains\Library\Discourse\Authentication\DiscoursePayloadValidator;
 
-class DiscourseAdminApi
+class DiscourseAdminApi extends DiscourseAPIRequest
 {
-    /**
-     * @var DiscourseClient
-     */
-    private $client;
-
     /**
      * @var DiscoursePayloadValidator
      */
     private $discoursePayloadValidator;
 
     
-    public function __construct(DiscourseClient $client,
-                                DiscoursePayloadValidator $discoursePayloadValidator) 
-    {
-        $this->client = $client;
+    public function __construct(
+        DiscourseClient $client,
+        DiscoursePayloadValidator $discoursePayloadValidator
+    ) {
+        parent::__construct($client);
+
         $this->discoursePayloadValidator = $discoursePayloadValidator;
     }
 

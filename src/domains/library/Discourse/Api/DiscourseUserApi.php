@@ -1,19 +1,9 @@
 <?php
+
 namespace Domains\Library\Discourse\Api;
 
-class DiscourseUserApi
+class DiscourseUserApi extends DiscourseAPIRequest
 {
-
-    /**
-     * @var DiscourseClient
-     */
-    private $client;
-
-    public function __construct(DiscourseClient $client)
-    {
-        $this->client = $client;
-    }
-
     /**
      * Finds a Discourse account that belongs to
      * the given PCB account id

@@ -1,7 +1,8 @@
 <?php
+
 namespace Domains\Library\Discourse\Entities;
 
-class DiscoursePayload
+final class DiscoursePayload
 {
     /**
      * @var string

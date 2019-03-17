@@ -70,16 +70,15 @@
                 <h3>Terms and Conditions</h3>
                 <ul>
                     <li>Please check for any applicable fees as Stripe/PayPal can change these at any time for any reason, beyond PCB’s control.</li>
-                    <li>We’ve been made aware that including the word “donation” in your message may cause the payment to be held by PayPal, as we’re not a charity. Please refrain from using this word in your message.</li>
                     <li>Please remember that donating does not exempt you from obeying the server rules. You will get no pardons or privileges regardless of how much you have donated as a donation is just that, a donation. <strong>You are not paying for a service</strong>.</li>
                 </ul>
 
                 <blockquote>
-                    Community Rules
-                    6. Nicknames - nicknames must be similar to your in-game name (IGN)
-                    Nicknames cannot be excessive in visible length (staff discretion applies).
+                    <strong>Community Rules</strong><br>
+                    6. Nicknames - nicknames must be similar to your in-game name (IGN)<br>
+                    Nicknames cannot be excessive in visible length (staff discretion applies).<br><br>
 
-                    For Donators, or other players with coloured nickname permission, your nickname colour may not resemble that of a staff rank (colours that are associated with a staff rank) . If you are unsure then request approval from a staff member. You may use a mixture of staff and other colours
+                    For Donators, or other players with coloured nickname permission, your nickname colour may not resemble that of a staff rank (colours that are associated with a staff rank) . If you are unsure then request approval from a staff member. You may use a mixture of staff and other colours<br><br>
 
                     Exceptions may be made if a player is more commonly known by another name
                 </blockquote>

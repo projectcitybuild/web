@@ -1,9 +1,10 @@
 <?php
+
 namespace Domains\Library\Discourse\Api;
 
 use GuzzleHttp\Client;
 
-class DiscourseClient extends Client
+final class DiscourseClient extends Client
 {
     public function __construct()
     {

@@ -1,7 +1,8 @@
 <?php
+
 namespace Domains\Library\OAuth\Adapters\Google;
 
-class GoogleOAuthUser
+final class GoogleOAuthUser
 {
 
     /**
@@ -18,11 +19,6 @@ class GoogleOAuthUser
      * @var array
      */
     private $emails = [];
-
-    /**
-     * @var string
-     */
-    private $objectType;
 
     /**
      * @var string
@@ -45,44 +41,29 @@ class GoogleOAuthUser
     private $image = [];
 
     /**
-     * @var bool
-     */
-    private $plusUser;
-
-    /**
      * @var string
      */
     private $language;
 
-    /**
-     * @var bool
-     */
-    private $verified;
 
-
-    public function __construct(string $kind,
-                                string $etag,
-                                array $emails,
-                                string $objectType,
-                                string $id,
-                                string $displayName,
-                                array $name,
-                                array $image,
-                                bool $plusUser,
-                                string $language,
-                                bool $verified) 
-    {
+    public function __construct(
+        string $kind,
+        string $etag,
+        array $emails,
+        string $id,
+        string $displayName,
+        array $name,
+        array $image,
+        string $language
+    ) {
         $this->kind = $kind;
         $this->etag = $etag;
         $this->emails = $emails;
-        $this->objectType = $objectType;
         $this->id = $id;
         $this->displayName = $displayName;
         $this->name = $name;
         $this->image = $image;
-        $this->plusUser = $plusUser;
         $this->language = $language;
-        $this->verified = $verified;
     }
 
 
@@ -99,11 +80,6 @@ class GoogleOAuthUser
     public function getEmails() : array
     {
         return $this->emails;
-    }
-
-    public function getObjectType() : string
-    {
-        return $this->objectType;
     }
 
     public function getId() : string
@@ -126,19 +102,9 @@ class GoogleOAuthUser
         return $this->image;
     }
 
-    public function isPlusUser() : bool
-    {
-        return $this->isPlusUser;
-    }
-
     public function getLanguage() : string 
     {
         return $this->language;
-    }
-
-    public function isVerified() : bool
-    {
-        return $this->isVerified();
     }
 
     public function getFullName() : string
@@ -160,16 +126,15 @@ class GoogleOAuthUser
 
     public static function fromJSON(array $json) : GoogleOAuthUser
     {
-        return new GoogleOAuthUser($json['kind'],
-                                   $json['etag'],
-                                   $json['emails'],
-                                   $json['objectType'],
-                                   $json['id'],
-                                   $json['displayName'],
-                                   $json['name'],
-                                   $json['image'],
-                                   $json['isPlusUser'],
-                                   $json['language'],
-                                   $json['verified']);
+        return new GoogleOAuthUser(
+            $json['kind'],
+            $json['etag'],
+            $json['emails'],
+            $json['id'],
+            $json['displayName'],
+            $json['name'],
+            $json['image'],
+            $json['language']
+        );
     }
 }

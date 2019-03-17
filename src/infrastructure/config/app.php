@@ -195,6 +195,7 @@ return [
         Application\Providers\AuthServiceProvider::class,
         Application\Providers\EventServiceProvider::class,
         Application\Providers\RouteServiceProvider::class,
+        Application\Providers\DependencyContainerProvider::class,
 
         Domains\Library\Discourse\DiscourseServiceProvider::class,
         Domains\Library\Recaptcha\RecaptchaServiceProvider::class,

@@ -64,7 +64,7 @@ class LogoutService
      *
      * @return boolean
      */
-    public function logoutOfDiscourseAndPcb() : bool
+    public function logoutOfDiscourseAndPCB() : bool
     {
         $pcbId = $this->auth->id();
 
