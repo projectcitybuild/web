@@ -3,17 +3,18 @@ namespace Entities\Accounts\Repositories;
 
 use Entities\Accounts\Models\AccountLink;
 use Application\Contracts\Repository;
-use Carbon\Carbon;
 
 class AccountLinkRepository extends Repository
 {
     protected $model = AccountLink::class;
 
-    public function create(int $accountId,
-                           string $providerName,
-                           string $providerId,
-                           string $providerEmail) : AccountLink 
-    {
+    public function create(
+        int $accountId,
+        string $providerName,
+        string $providerId,
+        string $providerEmail
+    ) : AccountLink {
+
         return $this->getModel()->create([
             'provider_name'     => $providerName,
             'provider_id'       => $providerId,
@@ -22,11 +23,13 @@ class AccountLinkRepository extends Repository
         ]);
     }
 
-    public function update(int $accountId,
-                           string $providerName,
-                           string $providerId,
-                           string $providerEmail) : int 
-    {
+    public function update(
+        int $accountId,
+        string $providerName,
+        string $providerId,
+        string $providerEmail
+    ) : int {
+
         return $this->getModel()
             ->where('account_id', $accountId)
             ->update([

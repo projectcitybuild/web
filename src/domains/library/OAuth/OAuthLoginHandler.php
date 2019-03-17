@@ -3,17 +3,13 @@
 namespace Domains\Library\OAuth;
 
 use Domains\Library\OAuth\Storage\OAuthStorageContract;
-use Illuminate\Http\RedirectResponse;
+use Domains\Library\OAuth\Entities\OAuthUser;
 use Application\Environment;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 final class OAuthLoginHandler 
 {
-    /**
-     * @var OAuthProviderContract
-     */
-    private $provider;
-
     /**
      * @var OAuthStorageContract
      */
@@ -40,14 +36,6 @@ final class OAuthLoginHandler
         $this->request = $request;
     }
 
-    /**
-     * @deprecated
-     */
-    public function setProvider(string $providerName)
-    {
-        $this->provider = $this->adapterFactory->make($providerName);
-    }
-
     public function redirectToLogin(string $providerName, string $redirectUri) : RedirectResponse
     {
         // Laravel converts localhost into a local IP address,
@@ -70,15 +58,12 @@ final class OAuthLoginHandler
         return redirect()->to($providerLoginUrl);
     }
 
-    public function getOAuthUser() : OAuthUser
+    public function getOAuthUser(string $providerName) : OAuthUser
     {
-        if ($this->provider === null) 
-        {
-            throw new \Exception('No OAuth provider set');
-        }
+        $provider = $this->adapterFactory->make($providerName);
 
         $authCode = $this->request->get('code');
-        $token = $this->request->get('oauth_token');  // for Twitter OAuth
+        $token    = $this->request->get('oauth_token');  // for Twitter OAuth
 
         if (empty($authCode) && empty($token)) 
         {
@@ -86,7 +71,16 @@ final class OAuthLoginHandler
         }
         
         $redirectUri = $this->cache->pop();
-        $user = $this->provider->requestProviderAccount($redirectUri, $authCode ?: $token);
+
+        // if this is null, it's highly likely the user refreshed the page
+        // or returned back to the OAuth login screen - both of which will
+        // invalidate the cache; in which case the user needs to start-over
+        if ($redirectUri === null)
+        {
+            abort(401, 'Session has expired');
+        }
+        
+        $user = $provider->requestProviderAccount($redirectUri, $authCode ?: $token);
 
         return $user;
     }

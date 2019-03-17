@@ -1,4 +1,5 @@
 <?php
+
 namespace Interfaces\Web\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -7,9 +8,8 @@ use Domains\Library\RateLimit\TokenRate;
 use Domains\Library\RateLimit\TokenBucket;
 use Domains\Library\RateLimit\Storage\SessionTokenStorage;
 
-class LoginRequest extends FormRequest
+final class LoginRequest extends FormRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *

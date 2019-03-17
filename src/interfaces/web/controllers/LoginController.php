@@ -5,7 +5,6 @@ namespace Interfaces\Web\Controllers;
 use Domains\Library\Discourse\Authentication\DiscourseLoginHandler;
 use Domains\Library\Discourse\Exceptions\BadSSOPayloadException;
 use Domains\Library\OAuth\OAuthLoginHandler;
-use Domains\Library\OAuth\Exceptions\UnsupportedOAuthAdapter;
 use Domains\Services\Login\LoginAccountCreationService;
 use Domains\Services\Login\LogoutService; 
 use Domains\Services\Login\Exceptions\SocialEmailInUseException;
@@ -127,29 +126,25 @@ final class LoginController extends WebController
      *
      * @param string $providerName
      * @param Request $request
-     * @return void
+     * @return RedirectResponse|View
      */
     public function handleProviderCallback(string $providerName, Request $request)
     {
-        try 
+        // if the user cancels the login from the OAuth login screen, the
+        // provider gives us a `denied` URL parameter
+        if ($request->get('denied')) 
         {
-            $this->oauthLoginHandler->setProvider($providerName);
-        } 
-        catch (UnsupportedOAuthAdapter $e) 
-        {
-            abort(404);
-        }
-
-        if ($request->get('denied')) {
             return redirect()->route('front.home');
         }
 
-        $providerAccount = $this->oauthLoginHandler->getOAuthUser();
-
+        $providerAccount = $this->oauthLoginHandler->getOAuthUser($providerName);
         $accountExists = false;
-        try {
+        try 
+        {
             $accountExists = $this->accountCreationService->hasAccountLink($providerAccount);
-        } catch (SocialEmailInUseException $e) {
+        } 
+        catch (SocialEmailInUseException $e) 
+        {
             // if no account link exists, but the provider account's
             // email address is already in use, we cannot proceed.
             // PCB/Discourse accounts must have a unique email.
@@ -158,19 +153,25 @@ final class LoginController extends WebController
             ]);
         }
 
-        if ($accountExists) {
+        if ($accountExists) 
+        {
+            // login existing user
             $account = $this->accountCreationService->getAccount();
 
             $this->auth->setUser($account);
 
-            $endpoint = $this->discourseLoginHandler->getRedirectUrl($account->getKey(), 
-                                                                     $account->email);
+            $endpoint = $this->discourseLoginHandler->getRedirectUrl(
+                $account->getKey(), 
+                $account->email
+            );
             return redirect()->to($endpoint);
         }
-        
-        $registerUrlPayload = $this->accountCreationService->generateSignedRegisterUrl($providerAccount);
-
-        return view('front.pages.register.register-oauth', $registerUrlPayload);
+        else 
+        {
+            // register new user
+            $registerUrlPayload = $this->accountCreationService->generateSignedRegisterUrl($providerAccount);
+            return view('front.pages.register.register-oauth', $registerUrlPayload);
+        }        
     }
 
     /**
@@ -225,7 +226,7 @@ final class LoginController extends WebController
      */
     public function logout(Request $request)
     {
-        $this->logoutService->logoutOfDiscourseAndPcb();
+        $this->logoutService->logoutOfDiscourseAndPCB();
         
         return redirect()->route('front.home');
     }

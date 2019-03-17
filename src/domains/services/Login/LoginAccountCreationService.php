@@ -4,7 +4,7 @@ namespace Domains\Services\Login;
 use Entities\Accounts\Repositories\AccountRepository;
 use Entities\Accounts\Repositories\AccountLinkRepository;
 use Entities\Accounts\Models\Account;
-use Domains\Library\OAuth\OAuthUser;
+use Domains\Library\OAuth\Entities\OAuthUser;
 use Domains\Services\Login\Exceptions\SocialEmailInUseException;
 use Illuminate\Log\Logger;
 use Illuminate\Database\Connection;
@@ -60,21 +60,22 @@ class LoginAccountCreationService
 
     public function hasAccountLink(OAuthUser $providerAccount) : bool
     {
-        $existingLink = $this->accountLinkRepository->getByProviderAccount($providerAccount->getProviderName(), 
-                                                                           $providerAccount->getId());
+        $existingLink = $this->accountLinkRepository->getByProviderAccount(
+            $providerAccount->getProviderName(), 
+            $providerAccount->getId()
+        );
         if ($existingLink !== null) {
             $this->account = $existingLink->account;
             return true;
         }
             
-        // if an account link doesn't exist, we need to
-        // check that the email is not already in use
-        // by a different account, because PCB and Discourse
-        // accounts must have a unique email
+        // if an account link doesn't exist, we need to check that the 
+        // email is not already in use by a different account, because 
+        // PCB and Discourse accounts must have a unique email
         $existingAccount = $this->accountRepository->getByEmail($providerAccount->getEmail());
+        
         if ($existingAccount !== null) {
-            $this->log->debug('Account with email ('.$providerAccount->getEmail().') already exists; showing error to user');
-            
+            $this->log->debug('Account with email ('.$providerAccount->getEmail().') already exists');
             throw new SocialEmailInUseException();
         }
 
