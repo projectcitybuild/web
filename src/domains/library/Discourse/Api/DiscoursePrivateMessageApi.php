@@ -1,18 +1,9 @@
 <?php
+
 namespace Domains\Library\Discourse\Api;
 
-class DiscoursePrivateMessageApi
+final class DiscoursePrivateMessageApi extends DiscourseAPIRequest
 {
-    /**
-     * @var DiscourseClient
-     */
-    private $client;
-
-    public function __construct(DiscourseClient $client)
-    {
-        $this->client = $client;
-    }
-
     public function createPrivateMessage(string $title, string $message, array $recipients, ?int $createdAt = null) : array
     {
         $response = $this->client->post('posts.json', [

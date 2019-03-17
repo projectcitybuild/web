@@ -1,18 +1,9 @@
 <?php
+
 namespace Domains\Library\Discourse\Api;
 
-class DiscourseSSOApi
+final class DiscourseSSOApi extends DiscourseAPIRequest
 {
-    /**
-     * @var DiscourseClient
-     */
-    private $client;
-
-    public function __construct(DiscourseClient $client)
-    {
-        $this->client = $client;
-    }
-
     public function requestNonce(string $returnPath = '/latest') : array
     {
         $response = $this->client->get('session/sso?return_path='.$returnPath, [
