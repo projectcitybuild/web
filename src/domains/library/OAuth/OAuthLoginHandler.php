@@ -1,4 +1,5 @@
 <?php
+
 namespace Domains\Library\OAuth;
 
 use Domains\Library\OAuth\Storage\OAuthStorageContract;
@@ -6,7 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Application\Environment;
 use Illuminate\Http\Request;
 
-class OAuthLoginHandler 
+final class OAuthLoginHandler 
 {
     /**
      * @var OAuthProviderContract

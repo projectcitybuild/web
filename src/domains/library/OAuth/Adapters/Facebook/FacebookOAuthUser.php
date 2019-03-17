@@ -1,7 +1,8 @@
 <?php
+
 namespace Domains\Library\OAuth\Adapters\Facebook;
 
-class FacebookOAuthUser
+final class FacebookOAuthUser
 {
     /**
      * @var string

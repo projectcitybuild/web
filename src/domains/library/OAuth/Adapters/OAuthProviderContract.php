@@ -1,4 +1,5 @@
 <?php
+
 namespace Domains\Library\OAuth;
 
 interface OAuthProviderContract 

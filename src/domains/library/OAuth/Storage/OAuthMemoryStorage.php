@@ -1,4 +1,5 @@
 <?php
+
 namespace Domains\Library\OAuth\Storage;
 
 use Illuminate\Http\Request;
@@ -7,7 +8,7 @@ use Illuminate\Session\Store;
 /**
  * For testing purposes
  */
-class OAuthMemoryStorage implements OAuthStorageContract
+final class OAuthMemoryStorage implements OAuthStorageContract
 {
     /**
      * @var string

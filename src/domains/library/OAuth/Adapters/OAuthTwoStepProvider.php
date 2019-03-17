@@ -1,4 +1,5 @@
 <?php
+
 namespace Domains\Library\OAuth\Adapters;
 
 use Domains\Library\OAuth\OAuthToken;

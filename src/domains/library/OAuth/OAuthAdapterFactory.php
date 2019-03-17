@@ -1,4 +1,5 @@
 <?php
+
 namespace Domains\Library\OAuth;
 
 use Domains\LegacyEnum;
@@ -8,7 +9,7 @@ use Domains\Library\OAuth\Exceptions\UnsupportedOAuthAdapter;
 use Domains\Library\OAuth\Adapters\Facebook\FacebookOAuthAdapter;
 use Domains\Library\OAuth\Adapters\Twitter\TwitterOAuthAdapter;
 
-class OAuthAdapterFactory extends LegacyEnum
+final class OAuthAdapterFactory extends LegacyEnum
 {
     public const FACEBOOK   = 'facebook';
     public const TWITTER    = 'twitter';
@@ -17,7 +18,8 @@ class OAuthAdapterFactory extends LegacyEnum
 
     public function make(string $providerName) : OAuthProviderContract
     {
-        switch ($providerName) {
+        switch ($providerName) 
+        {
             case self::DISCORD:
                 return resolve(DiscordOAuthAdapter::class);
             

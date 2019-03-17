@@ -1,4 +1,5 @@
 <?php
+
 namespace Domains\Library\OAuth\Exceptions;
 
-class UnsupportedOAuthAdapter extends \Exception {}
+final class UnsupportedOAuthAdapter extends \Exception {}

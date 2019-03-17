@@ -1,10 +1,11 @@
 <?php
+
 namespace Domains\Library\OAuth\Storage;
 
 use Illuminate\Http\Request;
 use Illuminate\Session\Store;
 
-class OAuthSessionStorage implements OAuthStorageContract
+final class OAuthSessionStorage implements OAuthStorageContract
 {
     /**
      * @var Request

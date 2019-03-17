@@ -1,11 +1,12 @@
 <?php
+
 namespace Domains\Library\OAuth\Adapters\Google;
 
 use Domains\Library\OAuth\Adapters\OAuthTwoStepProvider;
 use Domains\Library\OAuth\OAuthUser;
 use Domains\Library\OAuth\OAuthToken;
 
-class GoogleOAuthAdapter extends OAuthTwoStepProvider
+final class GoogleOAuthAdapter extends OAuthTwoStepProvider
 {
     /**
      * @inheritDoc
@@ -65,10 +66,12 @@ class GoogleOAuthAdapter extends OAuthTwoStepProvider
     {
         $googleUser = GoogleOAuthUser::fromJSON($json);
 
-        return new OAuthUser('google', 
-                             $googleUser->getFirstEmail(), 
-                             $googleUser->getDisplayName(), 
-                             $googleUser->getId());
+        return new OAuthUser(
+            'google', 
+            $googleUser->getFirstEmail(), 
+            $googleUser->getDisplayName(), 
+            $googleUser->getId()
+        );
     }
 
     /**
@@ -76,10 +79,12 @@ class GoogleOAuthAdapter extends OAuthTwoStepProvider
      */
     protected function makeToken(array $json) : OAuthToken
     {
-        return new OAuthToken($json['access_token'],
-                              $json['token_type'],
-                              $json['expires_in'],
-                              $json['id_token'],
-                              $json['scope']);
+        return new OAuthToken(
+            $json['access_token'],
+            json['token_type'],
+            $json['expires_in'],
+            $json['id_token'],
+            $json['scope']
+        );
     }
 }

@@ -6,7 +6,7 @@ use Domains\Library\OAuth\Storage\OAuthSessionStorage;
 use Domains\Library\OAuth\Storage\OAuthStorageContract;
 use Illuminate\Support\ServiceProvider;
 
-class OAuthServiceProvider extends ServiceProvider
+final class OAuthServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
