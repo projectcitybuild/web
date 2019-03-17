@@ -1,9 +1,10 @@
 <?php
+
 namespace Domains\Library\Discourse\Authentication;
 
 use Domains\Library\Discourse\Exceptions\BadSSOPayloadException;
 
-class DiscoursePayloadValidator
+final class DiscoursePayloadValidator
 {
     /**
      * Key to use when signing a payload
@@ -51,7 +52,8 @@ class DiscoursePayloadValidator
      */
     public function isValidPayload(string $payload, string $signature) : bool
     {
-        if (config('discourse.signing_enabled', false) === false) {
+        if (config('discourse.signing_enabled', false) === false) 
+        {
             return true;
         }
         return $this->getSignedPayload($payload) === $signature;
@@ -71,15 +73,16 @@ class DiscoursePayloadValidator
         $payload = base64_decode($sso);
         $payload = urldecode($payload);
 
-        $discourse = [];
-        parse_str($payload, $discourse);
+        $payloadParameters = [];
+        parse_str($payload, $payloadParameters);
 
-        if (array_key_exists('nonce', $discourse) === false ||
-            array_key_exists('return_sso_url', $discourse) === false) {
+        if (array_key_exists('nonce', $payloadParameters) === false ||
+            array_key_exists('return_sso_url', $payloadParameters) === false) 
+        {
             throw new BadSSOPayloadException('nonce or return_sso_url key missing in payload');
         }
 
-        return $discourse;
+        return $payloadParameters;
     }
 
     /**
