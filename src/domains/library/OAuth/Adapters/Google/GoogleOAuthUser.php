@@ -41,19 +41,9 @@ final class GoogleOAuthUser
     private $image = [];
 
     /**
-     * @var bool
-     */
-    private $plusUser;
-
-    /**
      * @var string
      */
     private $language;
-
-    /**
-     * @var bool
-     */
-    private $verified;
 
 
     public function __construct(
@@ -64,9 +54,7 @@ final class GoogleOAuthUser
         string $displayName,
         array $name,
         array $image,
-        bool $plusUser,
-        string $language,
-        bool $verified
+        string $language
     ) {
         $this->kind = $kind;
         $this->etag = $etag;
@@ -75,9 +63,7 @@ final class GoogleOAuthUser
         $this->displayName = $displayName;
         $this->name = $name;
         $this->image = $image;
-        $this->plusUser = $plusUser;
         $this->language = $language;
-        $this->verified = $verified;
     }
 
 
@@ -116,19 +102,9 @@ final class GoogleOAuthUser
         return $this->image;
     }
 
-    public function isPlusUser() : bool
-    {
-        return $this->isPlusUser;
-    }
-
     public function getLanguage() : string 
     {
         return $this->language;
-    }
-
-    public function isVerified() : bool
-    {
-        return $this->isVerified();
     }
 
     public function getFullName() : string
@@ -150,15 +126,15 @@ final class GoogleOAuthUser
 
     public static function fromJSON(array $json) : GoogleOAuthUser
     {
-        return new GoogleOAuthUser($json['kind'],
-                                   $json['etag'],
-                                   $json['emails'],
-                                   $json['id'],
-                                   $json['displayName'],
-                                   $json['name'],
-                                   $json['image'],
-                                   $json['isPlusUser'],
-                                   $json['language'],
-                                   $json['verified']);
+        return new GoogleOAuthUser(
+            $json['kind'],
+            $json['etag'],
+            $json['emails'],
+            $json['id'],
+            $json['displayName'],
+            $json['name'],
+            $json['image'],
+            $json['language']
+        );
     }
 }

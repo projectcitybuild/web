@@ -81,7 +81,7 @@ final class GoogleOAuthAdapter extends OAuthTwoStepProvider
     {
         return new OAuthToken(
             $json['access_token'],
-            json['token_type'],
+            $json['token_type'],
             $json['expires_in'],
             $json['id_token'],
             $json['scope']
