@@ -2,7 +2,7 @@
 
 namespace Domains\Library\Discourse\Api;
 
-final class DiscoursePrivateMessageApi extends DiscourseAPIRequest
+class DiscoursePrivateMessageApi extends DiscourseAPIRequest
 {
     public function createPrivateMessage(string $title, string $message, array $recipients, ?int $createdAt = null) : array
     {

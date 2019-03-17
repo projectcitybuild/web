@@ -4,7 +4,7 @@ namespace Domains\Library\Discourse\Api;
 
 use Domains\Library\Discourse\Entities\DiscoursePackedNonce;
 
-final class DiscourseSSOApi extends DiscourseAPIRequest
+class DiscourseSSOApi extends DiscourseAPIRequest
 {
     /**
      * The normal way to get a nonce from Discourse is to redirect the user to

@@ -2,7 +2,7 @@
 
 namespace Domains\Library\Discourse\Api;
 
-final class DiscourseUserApi extends DiscourseAPIRequest
+class DiscourseUserApi extends DiscourseAPIRequest
 {
     /**
      * Finds a Discourse account that belongs to

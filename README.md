@@ -77,4 +77,4 @@ docker-compose up -d nginx mariadb
 * If the database schema has changed, remember to run `php artisan migrate` from inside the worksapce container to ensure you always have the latest schema.
 
 ## Testing
-* Run `phpunit` inside the workspace container
+* Run `support/packages/vendor/bin/phpunit` inside the workspace container

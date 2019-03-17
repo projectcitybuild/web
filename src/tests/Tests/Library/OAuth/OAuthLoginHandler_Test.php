@@ -37,28 +37,20 @@ class OAuthLoginHandler_Test extends TestCase
 
     public function testPreservesRedirectUri()
     {
-        // given...
         $loginHandler = new OAuthLoginHandler($this->memoryCache, $this->adapterFactory, $this->request);
-        $loginHandler->setProvider('discord');
         $redirectUri = 'test_redirect_uri';
         
-        // when...
-        $loginHandler->redirectToLogin($redirectUri);
+        $loginHandler->redirectToLogin('discord', $redirectUri);
         
-        // expect...
         $this->assertEquals($redirectUri, $this->memoryCache->get());
     }
 
     public function testReturnsRedirectUri()
     {
-        // given...
         $loginHandler = new OAuthLoginHandler($this->memoryCache, $this->adapterFactory, $this->request);
-        $loginHandler->setProvider('discord');
+
+        $result = $loginHandler->redirectToLogin('discord', 'test_redirect_uri');
         
-        // when...
-        $result = $loginHandler->redirectToLogin('test_redirect_uri');
-        
-        // expect...
         $this->assertInstanceOf(RedirectResponse::class, $result);
     }
 }

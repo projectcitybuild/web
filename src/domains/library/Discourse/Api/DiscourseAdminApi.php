@@ -6,7 +6,7 @@ use function GuzzleHttp\json_decode;
 use Domains\Library\Discourse\Entities\DiscoursePayload;
 use Domains\Library\Discourse\Authentication\DiscoursePayloadValidator;
 
-final class DiscourseAdminApi extends DiscourseAPIRequest
+class DiscourseAdminApi extends DiscourseAPIRequest
 {
     /**
      * @var DiscoursePayloadValidator

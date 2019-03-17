@@ -2,9 +2,6 @@
 
 namespace Domains\Library\OAuth\Storage;
 
-use Illuminate\Http\Request;
-use Illuminate\Session\Store;
-
 /**
  * For testing purposes
  */

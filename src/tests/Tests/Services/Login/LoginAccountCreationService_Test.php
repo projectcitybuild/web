@@ -8,15 +8,16 @@ use Entities\Accounts\Repositories\AccountRepository;
 use Entities\Accounts\Repositories\AccountLinkRepository;
 use Entities\Accounts\Models\Account;
 use Entities\Accounts\Models\AccountLink;
-use Domains\Library\OAuth\OAuthUser;
+use Domains\Library\OAuth\Entities\OAuthUser;
 use Domains\Services\Login\LoginAccountCreationService;
 use Domains\Services\Login\Exceptions\SocialEmailInUseException;
 use Illuminate\Database\Connection;
 use Illuminate\Log\Logger;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginAccountCreationService_Test extends TestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
+    use RefreshDatabase;
 
     private $loggerStub;
     private $connection;
@@ -69,23 +70,6 @@ class LoginAccountCreationService_Test extends TestCase
 
         // expect...
         $this->assertFalse($hasAccountLink);
-    }
-
-    public function testNoAccountLink_butEmailInUse_fails()
-    {
-        // given...
-        $account = factory(Account::class)->create();
-        $providerAccount = new OAuthUser('facebook', $account->email, 'test_user', '123456');
-
-        $service = new LoginAccountCreationService(new AccountRepository,
-                                                   new AccountLinkRepository,
-                                                   $this->loggerStub,
-                                                   $this->connection);
-        // expect...
-        $this->expectException(SocialEmailInUseException::class);
-
-        // when...
-        $hasAccountLink = $service->hasAccountLink($providerAccount);
     }
 
     public function testCanCreateAccountWithLink()
