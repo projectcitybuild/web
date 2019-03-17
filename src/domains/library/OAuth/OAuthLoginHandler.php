@@ -30,10 +30,11 @@ final class OAuthLoginHandler
     private $request;
 
 
-    public function __construct(OAuthStorageContract $cache, 
-                                OAuthAdapterFactory $adapterFactory, 
-                                Request $request)
-    {
+    public function __construct(
+        OAuthStorageContract $cache,
+        OAuthAdapterFactory $adapterFactory, 
+        Request $request
+    ) {
         $this->cache = $cache;
         $this->adapterFactory = $adapterFactory;
         $this->request = $request;
@@ -55,6 +56,10 @@ final class OAuthLoginHandler
         // it matches the URLs registered in Twitter, Google, etc
         if (Environment::isDev()) {
             $redirectUri = str_replace('http://192.168.99.100/',
+                                       'http://localhost:3000/',
+                                       $redirectUri);
+
+            $redirectUri = str_replace('http://nginx/',
                                        'http://localhost:3000/',
                                        $redirectUri);
         }
