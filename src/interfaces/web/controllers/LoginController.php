@@ -16,6 +16,7 @@ use Illuminate\Http\RedirectResponse;
 use \Illuminate\View\View;
 use Domains\Services\Login\Exceptions\SocialAccountAlreadyInUseException;
 use Application\Environment;
+use Entities\Accounts\Repositories\AccountRepository;
 
 final class LoginController extends WebController
 {
@@ -33,6 +34,11 @@ final class LoginController extends WebController
      * @var LoginAccountCreationService
      */
     private $accountCreationService;
+
+    /**
+     * @var AccountRepository
+     */
+    private $accountRepository;
 
     /**
      * @var LogoutService
@@ -54,6 +60,7 @@ final class LoginController extends WebController
         DiscourseLoginHandler $discourseLoginHandler,
         OAuthLoginHandler $oauthLoginHandler,
         LoginAccountCreationService $accountCreationService,
+        AccountRepository $accountRepository,
         LogoutService $logoutService,
         Auth $auth,
         Logger $logger
@@ -61,6 +68,7 @@ final class LoginController extends WebController
         $this->discourseLoginHandler = $discourseLoginHandler;
         $this->oauthLoginHandler = $oauthLoginHandler;
         $this->accountCreationService = $accountCreationService;
+        $this->accountRepository = $accountRepository;
         $this->logoutService = $logoutService;
         $this->auth = $auth;
         $this->log = $logger;
@@ -83,7 +91,7 @@ final class LoginController extends WebController
                 $account->getKey(), 
                 $account->email
             );
-            return $this->loginToDiscourseWithURLPayload($endpoint);
+            return $this->goToDiscourseWithLoginPayload($endpoint);
         } 
         catch (BadSSOPayloadException $e) 
         {
@@ -177,7 +185,7 @@ final class LoginController extends WebController
                 $associatedAccount->email
             );
 
-            return $this->loginToDiscourseWithURLPayload($endpoint);
+            return $this->goToDiscourseWithLoginPayload($endpoint);
         }      
     }
 
@@ -217,14 +225,14 @@ final class LoginController extends WebController
             $account->email
         );
 
-        return $this->loginToDiscourseWithURLPayload($endpoint);
+        return $this->goToDiscourseWithLoginPayload($endpoint);
     }
 
-    private function loginToDiscourseWithURLPayload(string $redirectUri) : RedirectResponse
+    private function goToDiscourseWithLoginPayload(string $redirectUri) : RedirectResponse
     {
         if (Environment::isDev())
         {
-            abort(404, 'Redirect to Discourse disabled in DEV');
+            abort(403, 'Redirect to Discourse disabled in DEV');
         }
         return redirect()->to($redirectUri);
     }

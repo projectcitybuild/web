@@ -96,6 +96,14 @@ class LoginAccountCreationService
         
         if ($accountLink !== null) 
         {
+            // if somehow the account link already exists, attempt to recover by
+            // proceeding with that account if appropriate to do so
+            $associatedAccount = $accountLink->account;
+
+            if ($associatedAccount !== null && $associatedAccount->email === $providerEmail)
+            {
+                return $associatedAccount;
+            }
             throw new SocialAccountAlreadyInUseException('Attempting to create PCB account via OAuth, but OAuth account already in use');
         }
 
