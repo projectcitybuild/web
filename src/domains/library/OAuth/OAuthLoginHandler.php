@@ -7,6 +7,7 @@ use Domains\Library\OAuth\Entities\OAuthUser;
 use Application\Environment;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Domains\Library\OAuth\Exceptions\OAuthSessionExpiredException;
 
 final class OAuthLoginHandler 
 {
@@ -77,7 +78,7 @@ final class OAuthLoginHandler
         // invalidate the cache; in which case the user needs to start-over
         if ($redirectUri === null)
         {
-            abort(401, 'Session has expired. Please start-over from PCB login screen');
+            throw new OAuthSessionExpiredException('Session has expired. Please start-over from PCB login screen');
         }
 
         $user = $provider->requestProviderAccount($redirectUri, $authCode ?: $token);

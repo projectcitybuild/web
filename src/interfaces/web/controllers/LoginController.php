@@ -7,7 +7,6 @@ use Domains\Library\Discourse\Exceptions\BadSSOPayloadException;
 use Domains\Library\OAuth\OAuthLoginHandler;
 use Domains\Services\Login\LoginAccountCreationService;
 use Domains\Services\Login\LogoutService; 
-use Domains\Services\Login\Exceptions\SocialEmailInUseException;
 use Interfaces\Web\Requests\LoginRequest;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Log\Logger;
@@ -17,6 +16,7 @@ use \Illuminate\View\View;
 use Domains\Services\Login\Exceptions\SocialAccountAlreadyInUseException;
 use Application\Environment;
 use Entities\Accounts\Repositories\AccountRepository;
+use Domains\Library\OAuth\Exceptions\OAuthSessionExpiredException;
 
 final class LoginController extends WebController
 {
@@ -147,7 +147,16 @@ final class LoginController extends WebController
             return redirect()->route('front.home');
         }
 
-        $providerAccount   = $this->oauthLoginHandler->getOAuthUser($providerName);
+        $providerAccount = null;
+        try
+        {
+            $providerAccount = $this->oauthLoginHandler->getOAuthUser($providerName);
+        }
+        catch (OAuthSessionExpiredException $e)
+        {
+            return response()->route('front.login');
+        }
+
         $associatedAccount = $this->accountCreationService->getLinkedAccount($providerAccount);
 
         $isProviderAccountAssociated = $associatedAccount !== null;

@@ -3,14 +3,9 @@
 namespace Interfaces\Web\Controllers;
 
 use Entities\Accounts\Repositories\AccountLinkRepository;
-use Entities\Accounts\Models\Account;
-use Application\Environment;
 use Illuminate\Contracts\Auth\Factory as Auth;
-use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Domains\Library\OAuth\OAuthLoginHandler;
-use Domains\Library\OAuth\Adapters\Discord\DiscordOAuthAdapter;
-use Domains\Library\OAuth\Exceptions\UnsupportedOAuthAdapter;
 
 class AccountSocialController extends WebController
 {
@@ -57,31 +52,18 @@ class AccountSocialController extends WebController
 
     public function redirectToProvider(string $providerName)
     {
-        try {
-            $this->oauthLoginHandler->setProvider($providerName);
-        } catch (UnsupportedOAuthAdapter $e) {
-            abort(404);
-        }
-        
         $redirectUri = route('front.account.social.callback', $providerName);
-        
-        return $this->oauthLoginHandler->redirectToLogin($redirectUri);
+        return $this->oauthLoginHandler->redirectToLogin($providerName, $redirectUri);
     }
 
     public function handleProviderCallback(string $providerName, Request $request)
     {
-        try {
-            $this->oauthLoginHandler->setProvider($providerName);
-        } catch (UnsupportedOAuthAdapter $e) {
-            abort(404);
-        }
-
         $account = $this->auth->user();
         if ($account === null) {
             throw new \Exception('Logged-in account is null');
         }
 
-        $providerAccount = $this->oauthLoginHandler->getOAuthUser();
+        $providerAccount = $this->oauthLoginHandler->getOAuthUser($providerName);
         $existingAccount = $this->linkRepository->getByProviderAccount($providerAccount->getName(),
                                                                        $providerAccount->getId());
 
@@ -111,12 +93,6 @@ class AccountSocialController extends WebController
 
     public function deleteLink(string $providerName, Request $request)
     {
-        try {
-            $this->oauthLoginHandler->setProvider($providerName);
-        } catch (UnsupportedOAuthAdapter $e) {
-            abort(404);
-        }
-
         $account = $this->auth->user();
         
         $linkedAccount = $account->linkedSocialAccounts()

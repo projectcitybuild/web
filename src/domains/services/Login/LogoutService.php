@@ -84,7 +84,7 @@ class LogoutService
             // user attempts to logout when not logged-in.
             // When that happens, we want to gracefully
             // logout of just PCB
-            if ($error->getCode() !== "404") {
+            if ($error->getCode() !== '404') {
                 $this->log->notice('Caught a 404 error logging out of Discourse');
                 throw $error;
             }

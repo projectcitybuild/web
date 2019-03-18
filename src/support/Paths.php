@@ -4,7 +4,7 @@ namespace Support;
 /**
  * A centralised location to update directory paths
  */
-class Paths {
+final class Paths {
 
     private function __construct() {}
 

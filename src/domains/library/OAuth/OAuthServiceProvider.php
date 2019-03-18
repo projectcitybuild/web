@@ -5,6 +5,7 @@ namespace Domains\Library\OAuth;
 use Domains\Library\OAuth\Storage\OAuthSessionStorage;
 use Domains\Library\OAuth\Storage\OAuthStorageContract;
 use Illuminate\Support\ServiceProvider;
+use Domains\Library\OAuth\Storage\OAuthMemoryStorage;
 
 final class OAuthServiceProvider extends ServiceProvider
 {
@@ -22,7 +23,13 @@ final class OAuthServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(OAuthStorageContract::class, 
-                         OAuthSessionStorage::class);
+        if ($this->app->runningUnitTests())
+        {
+            $this->app->bind(OAuthStorageContract::class, OAuthMemoryStorage::class);
+        }
+        else
+        {
+            $this->app->bind(OAuthStorageContract::class, OAuthSessionStorage::class);
+        }
     }
 }

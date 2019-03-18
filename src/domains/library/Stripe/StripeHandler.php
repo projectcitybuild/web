@@ -38,7 +38,7 @@ class StripeHandler
         $this->currency = $currency;
         return $this;
     }
-
+    
     public function charge(int $amount, string $token = null, ?int $customerId = null, string $receiptEmail = null, string $description = null) : Charge
     {
         return Charge::create([
