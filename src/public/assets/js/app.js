@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["/app/public/assets/js/app"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["/assets/js/app"],{
 
 /***/ "./node_modules/is-buffer/index.js":
 /*!*****************************************!*\
@@ -3868,4 +3868,4 @@ module.exports = __webpack_require__(/*! /var/www/resources/sass/navonly.scss */
 
 /***/ })
 
-},[[0,"/app/public/assets/js/manifest","/app/public/assets/js/vendor"]]]);
+},[[0,"/assets/js/manifest","/assets/js/vendor"]]]);

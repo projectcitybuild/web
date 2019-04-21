@@ -11,9 +11,9 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.typeScript('resources/js/app.tsx', 'app/public/assets/js')
-   .sass('resources/sass/app.scss', 'app/public/assets/css')
-   .sass('resources/sass/navonly.scss', 'app/public/assets/css')
+mix.typeScript('resources/js/app.tsx', 'public/assets/js')
+   .sass('resources/sass/app.scss', 'public/assets/css')
+   .sass('resources/sass/navonly.scss', 'public/assets/css')
    .extract([
         'react', 
         'date-fns', 
