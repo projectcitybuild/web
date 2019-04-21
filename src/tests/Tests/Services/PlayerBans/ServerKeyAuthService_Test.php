@@ -2,17 +2,16 @@
 namespace Tests\Services;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Domains\Services\PlayerBans\ServerKeyAuthService;
 use Domains\Services\PlayerBans\Exceptions\MalformedTokenException;
 use Application\Exceptions\ForbiddenException;
 use Application\Exceptions\UnauthorisedException;
 use Entities\ServerKeys\Models\ServerKey;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ServerKeyAuthService_Test extends TestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
+    use RefreshDatabase;
 
     public function testMissingHeader_throwsException()
     {

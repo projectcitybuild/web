@@ -9,7 +9,7 @@ class FileTokenStorage_Test extends TestCase
 {
     private $path;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

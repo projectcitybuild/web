@@ -22,7 +22,7 @@ class LoginAccountCreationService_Test extends TestCase
     private $loggerStub;
     private $connection;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

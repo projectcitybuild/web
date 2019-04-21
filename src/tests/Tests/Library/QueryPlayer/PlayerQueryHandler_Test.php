@@ -2,21 +2,20 @@
 namespace Tests\Library\QueryServer;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Domains\Library\QueryPlayer\GameAdapters\MojangUuidAdapter;
 use Domains\Library\QueryPlayer\PlayerQueryHandler;
 use Entities\Players\Services\MinecraftPlayerLookupService;
 use Domains\Library\Mojang\Api\MojangPlayerApi;
 use Domains\Library\Mojang\Models\MojangPlayer;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PlayerQueryHandler_Test extends TestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
+    use RefreshDatabase;
 
     private $playerApiMock;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

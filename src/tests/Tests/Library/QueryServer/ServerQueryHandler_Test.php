@@ -6,12 +6,11 @@ use Domains\Library\QueryServer\GameAdapters\MockQueryAdapter;
 use Domains\Library\QueryServer\ServerQueryHandler;
 use Illuminate\Log\Logger;
 use Entities\Servers\Repositories\ServerStatusRepository;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ServerQueryHandler_Test extends TestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
+    use RefreshDatabase;
 
     private $logStub;
 

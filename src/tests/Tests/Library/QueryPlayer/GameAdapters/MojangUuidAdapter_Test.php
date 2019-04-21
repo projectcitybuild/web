@@ -1,22 +1,21 @@
 <?php
-namespace Tests\Library\QueryServer;
+namespace Tests\Library\QueryPlayer;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Domains\Library\QueryPlayer\GameAdapters\MojangUuidAdapter;
 use Entities\Players\Services\MinecraftPlayerLookupService;
 use Domains\Library\Mojang\Api\MojangPlayerApi;
 use Domains\Library\Mojang\Models\MojangPlayer;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MojangUuidAdapter_Test extends TestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
+    use RefreshDatabase;
 
     private $userLookupServiceStub;
     private $playerApiStub;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

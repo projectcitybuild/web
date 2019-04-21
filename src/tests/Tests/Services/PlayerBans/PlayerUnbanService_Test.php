@@ -2,17 +2,15 @@
 namespace Tests\Services;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Domains\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
 use Domains\Services\PlayerBans\PlayerUnbanService;
 use Entities\Bans\Models\GameBan;
 use Entities\GamePlayerType;
 use Domains\Services\PlayerBans\Exceptions\UserNotBannedException;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PlayerUnbanService_Test extends TestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
+    use RefreshDatabase;
 
     public function testCreatesUnban()
     {

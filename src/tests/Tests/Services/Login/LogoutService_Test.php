@@ -6,20 +6,19 @@ use Domains\Library\Discourse\Api\DiscourseUserApi;
 use Domains\Library\Discourse\Api\DiscourseAdminApi;
 use Entities\Accounts\Models\Account;
 use Domains\Services\Login\LogoutService;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Log\Logger;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LogoutService_Test extends TestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
+    use RefreshDatabase;
 
     private $loggerStub;
     private $discourseUserApiMock;
     private $discourseAdminApiMock;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

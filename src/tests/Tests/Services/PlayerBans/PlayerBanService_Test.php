@@ -2,16 +2,15 @@
 namespace Tests\Services;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Domains\Services\PlayerBans\PlayerBanService;
 use Entities\GamePlayerType;
 use Entities\Bans\Models\GameBan;
 use Domains\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PlayerBanService_Test extends TestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
+    use RefreshDatabase;
 
     public function testCreatesBan()
     {

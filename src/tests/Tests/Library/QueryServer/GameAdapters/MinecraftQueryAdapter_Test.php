@@ -10,7 +10,7 @@ class MinecraftQueryAdapter_Test extends TestCase
 {
     private $queryMock;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         

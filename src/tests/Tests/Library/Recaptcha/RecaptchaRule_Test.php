@@ -14,7 +14,7 @@ class RecaptchaRule_Test extends TestCase
 {
     private $logStub;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
