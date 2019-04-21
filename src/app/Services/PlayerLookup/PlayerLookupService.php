@@ -2,7 +2,7 @@
 namespace Domains\Services\PlayerLookup;
 
 use App\Entities\Players\Repositories\MinecraftPlayerRepository;
-use Entities\GamePlayerType;
+use App\Entities\GamePlayerType;
 
 
 class PlayerLookupService

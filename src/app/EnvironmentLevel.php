@@ -1,9 +1,10 @@
 <?php
-namespace Application;
 
-use Domains\Enum;
+namespace App;
 
-class EnvironmentLevel extends Enum
+use App\Enum;
+
+final class EnvironmentLevel extends Enum
 {
     const Production = 'production';    // live
     const Staging = 'staging';          // live staging

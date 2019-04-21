@@ -1,9 +1,10 @@
 <?php
-namespace Application;
 
-use Application\EnvironmentLevel;
+namespace App;
 
-class Environment
+use App\EnvironmentLevel;
+
+final class Environment
 {
     /**
      * @var EnvironmentLevel

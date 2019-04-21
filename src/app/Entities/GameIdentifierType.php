@@ -1,7 +1,8 @@
 <?php
-namespace Entities;
 
-use Domains\Enum;
+namespace App\Entities;
+
+use App\Enum;
 
 class GameIdentifierType extends Enum
 {

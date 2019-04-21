@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\View;
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Payments\AccountPaymentType;
 use App\Http\Composers\MasterViewComposer;
-use Entities\GamePlayerType;
+use App\Entities\GamePlayerType;
 use Schema;
 
 class AppServiceProvider extends ServiceProvider

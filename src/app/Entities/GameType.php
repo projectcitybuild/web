@@ -1,7 +1,8 @@
 <?php
-namespace Entities;
 
-use Domains\Enum;
+namespace App\Entities;
+
+use App\Enum;
 use Domains\Library\QueryServer\ServerQueryAdapterContract;
 use Domains\Library\QueryServer\GameAdapters\MinecraftQueryAdapter;
 use Domains\Library\QueryPlayer\PlayerQueryAdapterContract;
@@ -10,7 +11,7 @@ use Domains\Library\QueryPlayer\GameAdapters\MojangUuidAdapter;
 /**
  * List of games PCB supports
  */
-final class GameTypeEnum extends Enum
+final class GameType extends Enum
 {
     public const Minecraft = 1;
     public const Terraria = 2;

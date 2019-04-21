@@ -4,7 +4,7 @@ namespace Domains\Library\OAuth;
 
 use Domains\Library\OAuth\Storage\OAuthStorageContract;
 use Domains\Library\OAuth\Entities\OAuthUser;
-use Application\Environment;
+use App\Environment;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Domains\Library\OAuth\Exceptions\OAuthSessionExpiredException;

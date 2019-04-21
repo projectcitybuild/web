@@ -1,5 +1,6 @@
 <?php
-namespace Domains;
+
+namespace App;
 
 abstract class Enum
 {

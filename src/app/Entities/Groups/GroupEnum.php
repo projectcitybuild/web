@@ -1,7 +1,7 @@
 <?php
 namespace App\Entities\Groups;
 
-use Domains\Enum;
+use App\Enum;
 
 final class GroupEnum extends Enum {
 

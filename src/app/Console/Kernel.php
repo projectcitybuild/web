@@ -4,7 +4,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Interfaces\Console\Commands\QueryServerCommand;
-use Application\Environment;
+use App\Environment;
 use Interfaces\Console\Commands\ImportGroupCommand;
 use Interfaces\Console\Commands\GroupAddUserCommand;
 use Interfaces\Console\Commands\GroupRemoveUserCommand;

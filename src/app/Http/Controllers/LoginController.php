@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use \Illuminate\View\View;
 use Domains\Services\Login\Exceptions\SocialAccountAlreadyInUseException;
-use Application\Environment;
+use App\Environment;
 use App\Entities\Accounts\Repositories\AccountRepository;
 use Domains\Library\OAuth\Exceptions\OAuthSessionExpiredException;
 

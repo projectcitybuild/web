@@ -1,7 +1,7 @@
 <?php
 namespace Domains\Services\PlayerBans;
 
-use Entities\GamePlayerType;
+use App\Entities\GamePlayerType;
 use App\Entities\Bans\Repositories\GameBanRepository;
 use Domains\Services\PlayerLookup\PlayerLookupService;
 

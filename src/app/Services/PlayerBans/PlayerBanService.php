@@ -3,10 +3,10 @@ namespace Domains\Services\PlayerBans;
 
 use App\Entities\Bans\Repositories\GameBanRepository;
 use App\Entities\Bans\Models\GameBan;
-use Entities\GamePlayerType;
+use App\Entities\GamePlayerType;
 use Domains\Services\PlayerLookup\PlayerLookupService;
 use Domains\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
-use Entities\GameTypeEnum;
+use App\Entities\GameType;
 
 
 class PlayerBanService

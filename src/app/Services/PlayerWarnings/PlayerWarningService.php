@@ -2,7 +2,7 @@
 namespace Domains\Services\PlayerWarnings;
 
 use App\Entities\Warnings\Repositories\GameWarningRepository;
-use Entities\GamePlayerType;
+use App\Entities\GamePlayerType;
 use Domains\Services\PlayerLookup\PlayerLookupService;
 
 
