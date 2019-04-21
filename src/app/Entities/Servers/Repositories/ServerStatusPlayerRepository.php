@@ -3,7 +3,7 @@ namespace App\Entities\Servers\Repositories;
 
 use App\Entities\Servers\Models\ServerStatusPlayer;
 use Carbon\Carbon;
-use Application\Contracts\Repository;
+use App\Repository;
 
 class ServerStatusPlayerRepository extends Repository
 {

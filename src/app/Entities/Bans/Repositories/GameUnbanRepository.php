@@ -1,7 +1,7 @@
 <?php
 namespace App\Entities\Bans\Repositories;
 
-use Application\Contracts\Repository;
+use App\Repository;
 use App\Entities\Bans\Models\GameUnban;
 
 class GameUnbanRepository extends Repository

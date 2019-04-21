@@ -2,7 +2,7 @@
 namespace App\Entities\Accounts\Repositories;
 
 use App\Entities\Accounts\Models\AccountLink;
-use Application\Contracts\Repository;
+use App\Repository;
 
 class AccountLinkRepository extends Repository
 {

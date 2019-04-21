@@ -2,7 +2,7 @@
 namespace App\Entities\Servers\Repositories;
 
 use App\Entities\Servers\Models\ServerStatus;
-use Application\Contracts\Repository;
+use App\Repository;
 use Carbon\Carbon;
 
 class ServerStatusRepository extends Repository

@@ -2,7 +2,7 @@
 
 namespace App\Entities\Players\Models;
 
-use Application\Contracts\Model;
+use App\Model;
 use App\Entities\Bans\BannableModelInterface;
 
 class MinecraftPlayer extends Model implements BannableModelInterface

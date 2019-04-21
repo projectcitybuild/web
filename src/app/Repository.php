@@ -1,11 +1,11 @@
 <?php
-namespace Application\Contracts;
+
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 abstract class Repository
 {
-
     /**
      * Namespace that resolves to a model.
      * Each repository should override this property.

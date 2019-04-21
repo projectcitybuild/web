@@ -2,7 +2,7 @@
 namespace App\Entities\Accounts\Repositories;
 
 use App\Entities\Accounts\Models\UnactivatedAccount;
-use Application\Contracts\Repository;
+use App\Repository;
 use Carbon\Carbon;
 
 class UnactivatedAccountRepository extends Repository

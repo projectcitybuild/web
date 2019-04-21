@@ -2,7 +2,7 @@
 
 namespace App\Entities\Accounts\Models;
 
-use Application\Contracts\Model;
+use App\Model;
 
 class AccountLink extends Model
 {

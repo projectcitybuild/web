@@ -2,7 +2,7 @@
 
 namespace App\Entities\Donations\Models;
 
-use Application\Contracts\Model;
+use App\Model;
 
 class Donation extends Model
 {

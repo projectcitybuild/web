@@ -2,7 +2,7 @@
 
 namespace App\Entities\Accounts\Models;
 
-use Application\Contracts\Model;
+use App\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;

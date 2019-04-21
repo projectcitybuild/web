@@ -2,7 +2,7 @@
 
 namespace App\Entities\ServerKeys\Models;
 
-use Application\Contracts\Model;
+use App\Model;
 
 class ServerKey extends Model
 {

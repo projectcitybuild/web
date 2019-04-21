@@ -2,7 +2,7 @@
 namespace App\Entities\Players\Repositories;
 
 use App\Entities\Players\Models\MinecraftPlayer;
-use Application\Contracts\Repository;
+use App\Repository;
 use Carbon\Carbon;
 
 class MinecraftPlayerRepository extends Repository

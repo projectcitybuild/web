@@ -2,7 +2,7 @@
 
 namespace App\Entities\Servers\Models;
 
-use Application\Contracts\Model;
+use App\Model;
 use App\Entities\GameType;
 
 class Server extends Model
