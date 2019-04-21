@@ -20,7 +20,7 @@ class Register_Render_Test extends TestCase
         'g-recaptcha-response'  => 'test',
     ];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

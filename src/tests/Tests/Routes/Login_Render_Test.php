@@ -14,7 +14,7 @@ class Login_Render_Test extends TestCase
     private $signature = "82d5b1fc0cd8ec026830683bf909e67b6043c661ab030fa45409fa8ffc06d962";
 
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

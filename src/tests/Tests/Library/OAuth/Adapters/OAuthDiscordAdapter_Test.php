@@ -2,19 +2,19 @@
 namespace Tests\Library\OAuth;
 
 use Tests\TestCase;
-use Domains\Library\OAuth\Adapters\Facebook\FacebookOAuthAdapter;
+use Domains\Library\OAuth\Adapters\Discord\DiscordOAuthAdapter;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Log\Logger;
 
-class OAuthFacebookAdapter_Test extends TestCase
+class OAuthDiscordAdapter_Test extends TestCase
 {
     private $loggerStub;
     private $clientMock;
     
-    public function setUp() 
+    protected function setUp(): void
     {
         parent::setUp();
         
@@ -38,16 +38,16 @@ class OAuthFacebookAdapter_Test extends TestCase
     public function testGetLoginUrl_succeeds()
     {
         // given...
-        $adapter = new FacebookOAuthAdapter($this->clientMock, $this->loggerStub);
+        $adapter = new DiscordOAuthAdapter($this->clientMock, $this->loggerStub);
         $redirectUri = 'https://projectcitybuild.com/test_uri';
 
         // when...
         $result = $adapter->requestProviderLoginUrl($redirectUri);
 
         // expect...
-        $expectedClientId = config('services.facebook.client_id');
+        $expectedClientId = config('services.discord.client_id');
         $expectedRedirectUri = rawurlencode($redirectUri);
-        $expectedUri = 'https://www.facebook.com/v3.1/dialog/oauth?client_id='.$expectedClientId.'&redirect_uri='.$expectedRedirectUri.'&scope=email';
+        $expectedUri = 'https://discordapp.com/api/oauth2/authorize?client_id='.$expectedClientId.'&redirect_uri='.$expectedRedirectUri.'&response_type=code&scope=identify%20email';
         
         $this->assertEquals($expectedUri, $result);
     }
@@ -56,18 +56,18 @@ class OAuthFacebookAdapter_Test extends TestCase
     {
         // given...
         $client = $this->getClientWithResponses([
-            new Response(200, [], '{ "access_token": "test_access_token", "token_type": "bearer", "expires_in": 5178516 }'),
-            new Response(200, [], '{ "name": "Test User", "email": "testuser@pcbmc.co","id":"12345678901234567890"}'),
+            new Response(200, [], '{"access_token": "vdoIfMJNaZBBnGyE2461ra5HxTnW4X", "token_type": "Bearer", "expires_in": 604800, "refresh_token": "y4iaxIlfSj4cHh5YOKi3uk4lsXSykG", "scope": "identify email"}'),
+            new Response(200, [], '{"username": "test_user", "verified": true, "locale": "en-US", "mfa_enabled": false, "id": "12345678901234567890", "avatar": "887d4e404fe4d54731790635a6627fea", "discriminator": "1086", "email": "testuser@pcbmc.co"}'),
         ]);
         $redirectUri = 'https://projectcitybuild.com/test_uri';
-        $adapter = new FacebookOAuthAdapter($client, $this->loggerStub);
+        $adapter = new DiscordOAuthAdapter($client, $this->loggerStub);
 
         // when...
         $user = $adapter->requestProviderAccount($redirectUri, 'auth_code');
 
         // expect...
         $this->assertEquals('testuser@pcbmc.co', $user->getEmail());
-        $this->assertEquals('Test User', $user->getName());
+        $this->assertEquals('test_user', $user->getName());
         $this->assertEquals('12345678901234567890', $user->getId());
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 
 class MorphMapHelpers_Test extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         // clear morph map on each run
         Relation::morphMap([], false);

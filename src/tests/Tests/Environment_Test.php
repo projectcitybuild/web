@@ -9,7 +9,7 @@ class Environment_Test extends TestCase
 {
     private $originalEnv;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -17,7 +17,7 @@ class Environment_Test extends TestCase
         Environment::resetLevel();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         config()->set('app.env', $this->originalEnv);
         

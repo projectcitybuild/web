@@ -8,13 +8,13 @@ class TokenHelpers_Test extends TestCase
 {
     private $originalKey;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->originalKey = config('app.key');
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         config(['app.key' => $this->originalKey]);
         parent::tearDown();

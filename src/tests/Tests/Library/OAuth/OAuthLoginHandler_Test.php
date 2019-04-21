@@ -26,7 +26,7 @@ class OAuthLoginHandler_Test extends TestCase
     private $request;
 
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
