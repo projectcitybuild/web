@@ -11,5 +11,29 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+mix.typeScript('app/resources/js/app.tsx', 'app/public/assets/js')
+   .sass('app/resources/sass/app.scss', 'app/public/assets/css')
+   .sass('app/resources/sass/navonly.scss', 'app/public/assets/css')
+   .extract([
+        'react', 
+        'date-fns', 
+        'react-dom', 
+        'axios'
+    ]);
+
+if(mix.config.production) {
+    mix.version();
+
+} else {
+    mix.browserSync({
+        proxy: 'nginx',
+        open: false,
+        files: [
+            'app/**/*.php',
+            'app/resources/**/*.css', 
+            'app/resources/**/*.js',
+            'app/resources/**/*.ts',
+            'app/public/**/*',
+        ]
+    });
+}
