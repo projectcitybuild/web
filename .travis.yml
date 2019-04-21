@@ -4,7 +4,7 @@ php:
 
 cache:
   directories:
-    - src/support/packages/vendor
+    - src/vendor
     - src/node_modules
 
 services:
@@ -20,7 +20,7 @@ before_script:
   - php artisan migrate
 
 script:
-  - support/packages/vendor/bin/phpunit --coverage-clover=coverage.xml
+  - vendor/bin/phpunit --coverage-clover=coverage.xml
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
