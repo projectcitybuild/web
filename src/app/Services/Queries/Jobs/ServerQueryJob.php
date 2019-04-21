@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Services\Queries\Jobs;
+namespace App\Services\Queries\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -7,8 +7,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Domains\Library\QueryServer\ServerQueryHandler;
-use Domains\Services\Queries\ServerQueryService;
-use Domains\Services\Queries\Entities\ServerJobEntity;
+use App\Services\Queries\ServerQueryService;
+use App\Services\Queries\Entities\ServerJobEntity;
 
 class ServerQueryJob implements ShouldQueue
 {

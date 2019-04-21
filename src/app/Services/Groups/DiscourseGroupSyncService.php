@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Services\Groups;
+namespace App\Services\Groups;
 
 use Domains\Library\Discourse\Api\DiscourseAdminApi;
 use App\Entities\Groups\GroupEnum;

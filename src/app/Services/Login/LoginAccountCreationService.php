@@ -1,16 +1,16 @@
 <?php
-namespace Domains\Services\Login;
+namespace App\Services\Login;
 
 use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Entities\Accounts\Repositories\AccountLinkRepository;
 use App\Entities\Accounts\Models\Account;
 use Domains\Library\OAuth\Entities\OAuthUser;
-use Domains\Services\Login\Exceptions\SocialEmailInUseException;
+use App\Services\Login\Exceptions\SocialEmailInUseException;
 use Illuminate\Log\Logger;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Hash;
-use Domains\Services\Login\Exceptions\SocialAccountAlreadyInUseException;
+use App\Services\Login\Exceptions\SocialAccountAlreadyInUseException;
 
 
 class LoginAccountCreationService

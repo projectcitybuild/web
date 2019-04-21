@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Services\Donations;
+namespace App\Services\Donations;
 
 use App\Entities\Donations\Repositories\DonationRepository;
 use Domains\Library\Discourse\Api\DiscourseAdminApi;

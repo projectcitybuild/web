@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Services\PlayerLookup;
+namespace App\Services\PlayerLookup;
 
 use App\Entities\Players\Repositories\MinecraftPlayerRepository;
 use App\Entities\GamePlayerType;

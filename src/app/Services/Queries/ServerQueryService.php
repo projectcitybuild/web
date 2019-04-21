@@ -1,12 +1,12 @@
 <?php
-namespace Domains\Services\Queries;
+namespace App\Services\Queries;
 
 use Domains\Library\QueryServer\ServerQueryResult;
 use App\Entities\GameType;
-use Domains\Services\Queries\Jobs\ServerQueryJob;
-use Domains\Services\Queries\Jobs\PlayerQueryJob;
+use App\Services\Queries\Jobs\ServerQueryJob;
+use App\Services\Queries\Jobs\PlayerQueryJob;
 use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
-use Domains\Services\Queries\Entities\ServerJobEntity;
+use App\Services\Queries\Entities\ServerJobEntity;
 
 
 class ServerQueryService

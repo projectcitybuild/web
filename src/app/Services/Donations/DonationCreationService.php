@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Services\Donations;
+namespace App\Services\Donations;
 
 use Domains\Library\Stripe\StripeHandler;
 use App\Entities\Donations\Repositories\DonationRepository;

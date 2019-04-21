@@ -2,7 +2,7 @@
 namespace Interfaces\Console\Commands;
 
 use App\Entities\Servers\Repositories\ServerRepository;
-use Domains\Services\Queries\ServerQueryService;
+use App\Services\Queries\ServerQueryService;
 use Illuminate\Console\Command;
 use App\Entities\Servers\Models\Server;
 

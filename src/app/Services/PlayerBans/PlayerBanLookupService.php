@@ -1,9 +1,9 @@
 <?php
-namespace Domains\Services\PlayerBans;
+namespace App\Services\PlayerBans;
 
 use App\Entities\GamePlayerType;
 use App\Entities\Bans\Repositories\GameBanRepository;
-use Domains\Services\PlayerLookup\PlayerLookupService;
+use App\Services\PlayerLookup\PlayerLookupService;
 
 
 class PlayerBanLookupService

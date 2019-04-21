@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Entities\Donations\Repositories\DonationRepository;
-use Domains\Services\Donations\DonationCreationService;
-use Domains\Services\Donations\DonationStatsService;
+use App\Services\Donations\DonationCreationService;
+use App\Services\Donations\DonationStatsService;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use App\Entities\Groups\GroupEnum;
 use Domains\Library\Discourse\Api\DiscourseUserApi;
-use Domains\Services\Groups\DiscourseGroupSyncService;
+use App\Services\Groups\DiscourseGroupSyncService;
 use App\Entities\Groups\Repositories\GroupRepository;
 use App\Http\WebController;
 

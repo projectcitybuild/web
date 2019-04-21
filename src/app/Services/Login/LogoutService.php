@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Services\Login;
+namespace App\Services\Login;
 
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Domains\Library\Discourse\Api\DiscourseUserApi;

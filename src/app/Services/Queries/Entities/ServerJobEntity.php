@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Services\Queries\Entities;
+namespace App\Services\Queries\Entities;
 
 use Domains\Library\QueryServer\ServerQueryAdapterContract;
 use Domains\Library\QueryPlayer\PlayerQueryAdapterContract;
