@@ -1,11 +1,11 @@
 <?php
-namespace Domains\Library\Mojang\Api;
+namespace App\Library\Mojang\Api;
 
-use Domains\Library\RateLimit\TokenBucket;
-use Domains\Library\RateLimit\TokenRate;
-use Domains\Library\RateLimit\Storage\FileTokenStorage;
-use Domains\Library\Mojang\Models\MojangPlayer;
-use Domains\Library\Mojang\Models\MojangPlayerNameHistory;
+use App\Library\RateLimit\TokenBucket;
+use App\Library\RateLimit\TokenRate;
+use App\Library\RateLimit\Storage\FileTokenStorage;
+use App\Library\Mojang\Models\MojangPlayer;
+use App\Library\Mojang\Models\MojangPlayerNameHistory;
 use Application\Exceptions\TooManyRequestsException;
 
 

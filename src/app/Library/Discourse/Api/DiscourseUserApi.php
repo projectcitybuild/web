@@ -1,6 +1,6 @@
 <?php
 
-namespace Domains\Library\Discourse\Api;
+namespace App\Library\Discourse\Api;
 
 class DiscourseUserApi extends DiscourseAPIRequest
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Library\RateLimit;
+namespace App\Library\RateLimit;
 
 class TokenState
 {

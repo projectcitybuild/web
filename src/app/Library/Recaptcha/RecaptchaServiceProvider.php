@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Library\Recaptcha;
+namespace App\Library\Recaptcha;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
@@ -19,7 +19,7 @@ class RecaptchaServiceProvider extends ServiceProvider
             return "<?php echo env('RECAPTCHA_SITE_KEY') ?>";
         });
 
-        Validator::extend('recaptcha', 'Domains\Library\Recaptcha\RecaptchaRule@passes');
+        Validator::extend('recaptcha', 'App\Library\Recaptcha\RecaptchaRule@passes');
     }
 
     /**

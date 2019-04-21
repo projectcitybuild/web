@@ -1,8 +1,8 @@
 <?php
-namespace Domains\Library\RateLimit\Storage;
+namespace App\Library\RateLimit\Storage;
 
-use Domains\Library\RateLimit\TokenStorable;
-use Domains\Library\RateLimit\TokenState;
+use App\Library\RateLimit\TokenStorable;
+use App\Library\RateLimit\TokenState;
 
 /**
  * For use with global-scoped rate limiting

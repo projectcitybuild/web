@@ -1,11 +1,11 @@
 <?php
 
-namespace Domains\Library\OAuth;
+namespace App\Library\OAuth;
 
-use Domains\Library\OAuth\Storage\OAuthSessionStorage;
-use Domains\Library\OAuth\Storage\OAuthStorageContract;
+use App\Library\OAuth\Storage\OAuthSessionStorage;
+use App\Library\OAuth\Storage\OAuthStorageContract;
 use Illuminate\Support\ServiceProvider;
-use Domains\Library\OAuth\Storage\OAuthMemoryStorage;
+use App\Library\OAuth\Storage\OAuthMemoryStorage;
 
 final class OAuthServiceProvider extends ServiceProvider
 {

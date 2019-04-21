@@ -6,7 +6,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Domains\Library\QueryServer\ServerQueryHandler;
+use App\Library\QueryServer\ServerQueryHandler;
 use App\Services\Queries\ServerQueryService;
 use App\Services\Queries\Entities\ServerJobEntity;
 

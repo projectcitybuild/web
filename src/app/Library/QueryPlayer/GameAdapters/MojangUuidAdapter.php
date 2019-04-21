@@ -1,11 +1,11 @@
 <?php
-namespace Domains\Library\QueryPlayer\GameAdapters;
+namespace App\Library\QueryPlayer\GameAdapters;
 
-use Domains\Library\QueryPlayer\PlayerQueryAdapterContract;
+use App\Library\QueryPlayer\PlayerQueryAdapterContract;
 use App\Entities\Players\Services\MinecraftPlayerLookupService;
 use App\Entities\Players\Models\MinecraftPlayer;
-use Domains\Library\Mojang\Api\MojangPlayerApi;
-use Domains\Library\Mojang\Models\MojangPlayer;
+use App\Library\Mojang\Api\MojangPlayerApi;
+use App\Library\Mojang\Models\MojangPlayer;
 
 class MojangUuidAdapter implements PlayerQueryAdapterContract
 {

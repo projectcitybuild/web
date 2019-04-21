@@ -1,12 +1,12 @@
 <?php
-namespace Domains\Library\Mojang\Api;
+namespace App\Library\Mojang\Api;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Application\Exceptions\TooManyRequestsException;
 use GuzzleHttp\Exception\ClientException;
-use Domains\Library\Mojang\Models\MojangPlayer;
-use Domains\Library\Mojang\Models\MojangPlayerNameHistory;
+use App\Library\Mojang\Models\MojangPlayer;
+use App\Library\Mojang\Models\MojangPlayerNameHistory;
 
 class MojangPlayerApi
 {

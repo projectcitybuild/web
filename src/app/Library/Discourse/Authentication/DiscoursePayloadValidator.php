@@ -1,8 +1,8 @@
 <?php
 
-namespace Domains\Library\Discourse\Authentication;
+namespace App\Library\Discourse\Authentication;
 
-use Domains\Library\Discourse\Exceptions\BadSSOPayloadException;
+use App\Library\Discourse\Exceptions\BadSSOPayloadException;
 
 final class DiscoursePayloadValidator
 {

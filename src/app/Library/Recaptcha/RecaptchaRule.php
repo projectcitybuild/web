@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Library\Recaptcha;
+namespace App\Library\Recaptcha;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;

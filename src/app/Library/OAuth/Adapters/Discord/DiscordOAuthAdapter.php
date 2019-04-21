@@ -1,9 +1,9 @@
 <?php
-namespace Domains\Library\OAuth\Adapters\Discord;
+namespace App\Library\OAuth\Adapters\Discord;
 
-use Domains\Library\OAuth\Adapters\OAuthTwoStepProvider;
-use Domains\Library\OAuth\Entities\OAuthUser;
-use Domains\Library\OAuth\Entities\OAuthToken;
+use App\Library\OAuth\Adapters\OAuthTwoStepProvider;
+use App\Library\OAuth\Entities\OAuthUser;
+use App\Library\OAuth\Entities\OAuthToken;
 
 class DiscordOAuthAdapter extends OAuthTwoStepProvider
 {

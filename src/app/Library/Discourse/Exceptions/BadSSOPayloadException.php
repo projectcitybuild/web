@@ -1,4 +1,4 @@
 <?php
-namespace Domains\Library\Discourse\Exceptions;
+namespace App\Library\Discourse\Exceptions;
 
 class BadSSOPayloadException extends \Exception {}

@@ -3,10 +3,10 @@
 namespace App\Entities;
 
 use App\Enum;
-use Domains\Library\QueryServer\ServerQueryAdapterContract;
-use Domains\Library\QueryServer\GameAdapters\MinecraftQueryAdapter;
-use Domains\Library\QueryPlayer\PlayerQueryAdapterContract;
-use Domains\Library\QueryPlayer\GameAdapters\MojangUuidAdapter;
+use App\Library\QueryServer\ServerQueryAdapterContract;
+use App\Library\QueryServer\GameAdapters\MinecraftQueryAdapter;
+use App\Library\QueryPlayer\PlayerQueryAdapterContract;
+use App\Library\QueryPlayer\GameAdapters\MojangUuidAdapter;
 
 /**
  * List of games PCB supports

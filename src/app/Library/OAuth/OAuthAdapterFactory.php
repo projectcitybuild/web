@@ -1,13 +1,13 @@
 <?php
 
-namespace Domains\Library\OAuth;
+namespace App\Library\OAuth;
 
 use Domains\LegacyEnum;
-use Domains\Library\OAuth\Adapters\Discord\DiscordOAuthAdapter;
-use Domains\Library\OAuth\Adapters\Google\GoogleOAuthAdapter;
-use Domains\Library\OAuth\Exceptions\UnsupportedOAuthAdapter;
-use Domains\Library\OAuth\Adapters\Facebook\FacebookOAuthAdapter;
-use Domains\Library\OAuth\Adapters\Twitter\TwitterOAuthAdapter;
+use App\Library\OAuth\Adapters\Discord\DiscordOAuthAdapter;
+use App\Library\OAuth\Adapters\Google\GoogleOAuthAdapter;
+use App\Library\OAuth\Exceptions\UnsupportedOAuthAdapter;
+use App\Library\OAuth\Adapters\Facebook\FacebookOAuthAdapter;
+use App\Library\OAuth\Adapters\Twitter\TwitterOAuthAdapter;
 
 final class OAuthAdapterFactory extends LegacyEnum
 {

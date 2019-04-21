@@ -4,11 +4,11 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Groups\Models\Group;
-use Domains\Library\Discourse\Api\DiscourseUserApi;
-use Domains\Library\Discourse\Api\DiscourseGroupApi;
-use Domains\Library\Discourse\Api\DiscourseAdminApi;
+use App\Library\Discourse\Api\DiscourseUserApi;
+use App\Library\Discourse\Api\DiscourseGroupApi;
+use App\Library\Discourse\Api\DiscourseAdminApi;
 use Illuminate\Support\Facades\DB;
-use Domains\Library\Discourse\Entities\DiscoursePayload;
+use App\Library\Discourse\Entities\DiscoursePayload;
 use Cache;
 
 class ImportGroupCommand extends Command

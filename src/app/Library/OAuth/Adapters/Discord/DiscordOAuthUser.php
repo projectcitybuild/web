@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Library\OAuth\Adapters\Discord;
+namespace App\Library\OAuth\Adapters\Discord;
 
 class DiscordOAuthUser
 {

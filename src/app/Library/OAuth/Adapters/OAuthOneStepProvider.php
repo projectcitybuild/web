@@ -1,10 +1,10 @@
 <?php
 
-namespace Domains\Library\OAuth\Adapters;
+namespace App\Library\OAuth\Adapters;
 
-use Domains\Library\OAuth\OAuthToken;
-use Domains\Library\OAuth\OAuthUser;
-use Domains\Library\OAuth\OAuthProviderContract;
+use App\Library\OAuth\OAuthToken;
+use App\Library\OAuth\OAuthUser;
+use App\Library\OAuth\OAuthProviderContract;
 
 
 /**

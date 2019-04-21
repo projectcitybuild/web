@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Library\Stripe;
+namespace App\Library\Stripe;
 
 use Stripe\Stripe;
 use Stripe\Charge;

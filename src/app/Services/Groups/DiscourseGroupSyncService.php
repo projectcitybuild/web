@@ -1,7 +1,7 @@
 <?php
 namespace App\Services\Groups;
 
-use Domains\Library\Discourse\Api\DiscourseAdminApi;
+use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Entities\Groups\GroupEnum;
 use App\Entities\Groups\Repositories\GroupRepository;
 use App\Entities\Accounts\Repositories\AccountRepository;

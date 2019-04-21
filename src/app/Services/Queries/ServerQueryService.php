@@ -1,7 +1,7 @@
 <?php
 namespace App\Services\Queries;
 
-use Domains\Library\QueryServer\ServerQueryResult;
+use App\Library\QueryServer\ServerQueryResult;
 use App\Entities\GameType;
 use App\Services\Queries\Jobs\ServerQueryJob;
 use App\Services\Queries\Jobs\PlayerQueryJob;

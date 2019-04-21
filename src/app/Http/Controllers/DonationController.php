@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use App\Entities\Groups\GroupEnum;
-use Domains\Library\Discourse\Api\DiscourseUserApi;
+use App\Library\Discourse\Api\DiscourseUserApi;
 use App\Services\Groups\DiscourseGroupSyncService;
 use App\Entities\Groups\Repositories\GroupRepository;
 use App\Http\WebController;

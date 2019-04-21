@@ -1,13 +1,13 @@
 <?php
 
-namespace Domains\Library\OAuth;
+namespace App\Library\OAuth;
 
-use Domains\Library\OAuth\Storage\OAuthStorageContract;
-use Domains\Library\OAuth\Entities\OAuthUser;
+use App\Library\OAuth\Storage\OAuthStorageContract;
+use App\Library\OAuth\Entities\OAuthUser;
 use App\Environment;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Domains\Library\OAuth\Exceptions\OAuthSessionExpiredException;
+use App\Library\OAuth\Exceptions\OAuthSessionExpiredException;
 
 final class OAuthLoginHandler 
 {

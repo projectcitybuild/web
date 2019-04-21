@@ -1,6 +1,6 @@
 <?php
 
-namespace Domains\Library\Discourse\Entities;
+namespace App\Library\Discourse\Entities;
 
 final class DiscourseNonce
 {

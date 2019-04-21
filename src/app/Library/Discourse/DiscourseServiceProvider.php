@@ -1,8 +1,8 @@
 <?php
-namespace Domains\Library\Discourse;
+namespace App\Library\Discourse;
 
 use Illuminate\Support\ServiceProvider;
-use Domains\Library\Discourse\Authentication\DiscoursePayloadValidator;
+use App\Library\Discourse\Authentication\DiscoursePayloadValidator;
 
 class DiscourseServiceProvider extends ServiceProvider
 {

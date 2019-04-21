@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Library\Mojang\Models;
+namespace App\Library\Mojang\Models;
 
 class MojangPlayerNameHistory
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Domains\Library\OAuth;
+namespace App\Library\OAuth;
 
-use Domains\Library\OAuth\Entities\OAuthUser;
+use App\Library\OAuth\Entities\OAuthUser;
 
 interface OAuthProviderContract 
 {

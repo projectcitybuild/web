@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Library\QueryServer;
+namespace App\Library\QueryServer;
 
 class ServerQueryResult
 {

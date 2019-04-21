@@ -1,8 +1,8 @@
 <?php
-namespace Domains\Library\QueryServer\GameAdapters;
+namespace App\Library\QueryServer\GameAdapters;
 
-use Domains\Library\QueryServer\ServerQueryAdapterContract;
-use Domains\Library\QueryServer\ServerQueryResult;
+use App\Library\QueryServer\ServerQueryAdapterContract;
+use App\Library\QueryServer\ServerQueryResult;
 
 class MockQueryAdapter implements ServerQueryAdapterContract
 {

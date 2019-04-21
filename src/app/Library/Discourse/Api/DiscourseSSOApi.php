@@ -1,8 +1,8 @@
 <?php
 
-namespace Domains\Library\Discourse\Api;
+namespace App\Library\Discourse\Api;
 
-use Domains\Library\Discourse\Entities\DiscoursePackedNonce;
+use App\Library\Discourse\Entities\DiscoursePackedNonce;
 
 class DiscourseSSOApi extends DiscourseAPIRequest
 {

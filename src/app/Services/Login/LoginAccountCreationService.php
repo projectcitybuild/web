@@ -4,7 +4,7 @@ namespace App\Services\Login;
 use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Entities\Accounts\Repositories\AccountLinkRepository;
 use App\Entities\Accounts\Models\Account;
-use Domains\Library\OAuth\Entities\OAuthUser;
+use App\Library\OAuth\Entities\OAuthUser;
 use App\Services\Login\Exceptions\SocialEmailInUseException;
 use Illuminate\Log\Logger;
 use Illuminate\Database\Connection;

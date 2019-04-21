@@ -1,10 +1,10 @@
 <?php
 
-namespace Domains\Library\OAuth\Adapters\Google;
+namespace App\Library\OAuth\Adapters\Google;
 
-use Domains\Library\OAuth\Adapters\OAuthTwoStepProvider;
-use Domains\Library\OAuth\Entities\OAuthUser;
-use Domains\Library\OAuth\Entities\OAuthToken;
+use App\Library\OAuth\Adapters\OAuthTwoStepProvider;
+use App\Library\OAuth\Entities\OAuthUser;
+use App\Library\OAuth\Entities\OAuthToken;
 
 final class GoogleOAuthAdapter extends OAuthTwoStepProvider
 {

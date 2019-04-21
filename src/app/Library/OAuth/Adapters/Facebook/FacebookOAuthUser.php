@@ -1,6 +1,6 @@
 <?php
 
-namespace Domains\Library\OAuth\Adapters\Facebook;
+namespace App\Library\OAuth\Adapters\Facebook;
 
 final class FacebookOAuthUser
 {

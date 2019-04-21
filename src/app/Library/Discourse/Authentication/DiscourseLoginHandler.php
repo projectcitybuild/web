@@ -1,10 +1,10 @@
 <?php
-namespace Domains\Library\Discourse\Authentication;
+namespace App\Library\Discourse\Authentication;
 
-use Domains\Library\Discourse\Api\DiscourseSSOApi;
-use Domains\Library\Discourse\Exceptions\BadSSOPayloadException;
-use Domains\Library\Discourse\Entities\DiscourseNonce;
-use Domains\Library\Discourse\Entities\DiscoursePayload;
+use App\Library\Discourse\Api\DiscourseSSOApi;
+use App\Library\Discourse\Exceptions\BadSSOPayloadException;
+use App\Library\Discourse\Entities\DiscourseNonce;
+use App\Library\Discourse\Entities\DiscoursePayload;
 
 final class DiscourseLoginHandler
 {

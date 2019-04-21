@@ -1,10 +1,10 @@
 <?php
 
-namespace Domains\Library\OAuth\Adapters;
+namespace App\Library\OAuth\Adapters;
 
-use Domains\Library\OAuth\Entities\OAuthToken;
-use Domains\Library\OAuth\Entities\OAuthUser;
-use Domains\Library\OAuth\OAuthProviderContract;
+use App\Library\OAuth\Entities\OAuthToken;
+use App\Library\OAuth\Entities\OAuthUser;
+use App\Library\OAuth\OAuthProviderContract;
 use Illuminate\Log\Logger;
 use GuzzleHttp\Client;
 

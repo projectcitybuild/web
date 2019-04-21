@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Entities\Accounts\Repositories\AccountLinkRepository;
 use Illuminate\Contracts\Auth\Factory as Auth;
 use Illuminate\Http\Request;
-use Domains\Library\OAuth\OAuthLoginHandler;
+use App\Library\OAuth\OAuthLoginHandler;
 use App\Http\WebController;
 
 class AccountSocialController extends WebController

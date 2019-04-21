@@ -1,13 +1,13 @@
 <?php
 namespace App\Services\Donations;
 
-use Domains\Library\Stripe\StripeHandler;
+use App\Library\Stripe\StripeHandler;
 use App\Entities\Donations\Repositories\DonationRepository;
 use App\Entities\Payments\Repositories\AccountPaymentRepository;
 use Illuminate\Database\Connection;
 use App\Entities\Payments\AccountPaymentType;
-use Domains\Library\Discourse\Api\DiscourseAdminApi;
-use Domains\Library\Discourse\Api\DiscourseUserApi;
+use App\Library\Discourse\Api\DiscourseAdminApi;
+use App\Library\Discourse\Api\DiscourseUserApi;
 
 class DonationCreationService
 {

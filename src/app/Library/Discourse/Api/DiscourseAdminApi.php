@@ -1,10 +1,10 @@
 <?php
 
-namespace Domains\Library\Discourse\Api;
+namespace App\Library\Discourse\Api;
 
 use function GuzzleHttp\json_decode;
-use Domains\Library\Discourse\Entities\DiscoursePayload;
-use Domains\Library\Discourse\Authentication\DiscoursePayloadValidator;
+use App\Library\Discourse\Entities\DiscoursePayload;
+use App\Library\Discourse\Authentication\DiscoursePayloadValidator;
 
 class DiscourseAdminApi extends DiscourseAPIRequest
 {

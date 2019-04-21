@@ -1,6 +1,6 @@
 <?php
 
-namespace Domains\Library\OAuth\Entities;
+namespace App\Library\OAuth\Entities;
 
 final class OAuthUser
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Domains\Library\OAuth\Adapters\Twitter;
+namespace App\Library\OAuth\Adapters\Twitter;
 
-use Domains\Library\OAuth\Entities\OAuthProviderContract;
-use Domains\Library\OAuth\Entities\OAuthUser;
+use App\Library\OAuth\Entities\OAuthProviderContract;
+use App\Library\OAuth\Entities\OAuthUser;
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 final class TwitterOAuthAdapter implements OAuthProviderContract

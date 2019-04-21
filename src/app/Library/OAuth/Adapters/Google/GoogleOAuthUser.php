@@ -1,6 +1,6 @@
 <?php
 
-namespace Domains\Library\OAuth\Adapters\Google;
+namespace App\Library\OAuth\Adapters\Google;
 
 final class GoogleOAuthUser
 {

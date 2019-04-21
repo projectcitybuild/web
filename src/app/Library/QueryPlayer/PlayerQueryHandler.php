@@ -1,5 +1,5 @@
 <?php
-namespace Domains\Library\QueryPlayer;
+namespace App\Library\QueryPlayer;
 
 class PlayerQueryHandler
 {
