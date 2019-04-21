@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Project City Build'),
 
     /*
     |--------------------------------------------------------------------------
@@ -175,6 +175,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        App\Library\Discourse\DiscourseServiceProvider::class,
+        App\Library\Recaptcha\RecaptchaServiceProvider::class,
+        App\Library\OAuth\OAuthServiceProvider::class,
+
     ],
 
     /*
@@ -226,6 +230,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        'Sentry' => Sentry\SentryLaravel\SentryFacade::class,
     ],
 
 ];
