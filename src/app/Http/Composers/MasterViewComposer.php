@@ -1,12 +1,17 @@
 <?php
-namespace Interfaces\Web\Composers;
+
+namespace App\Http\Composers;
 
 use Illuminate\View\View;
 use Entities\Servers\Repositories\ServerCategoryRepository;
 
-class MasterViewComposer
+final class MasterViewComposer
 {
+    /**
+     * @var ServerCategoryRepository
+     */
     private $serverCategoryRepository;
+    
     
     public function __construct(ServerCategoryRepository $serverCategoryRepository)
     {

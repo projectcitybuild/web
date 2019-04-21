@@ -8,7 +8,7 @@ use Entities\Players\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\View;
 use Entities\Donations\Models\Donation;
 use Entities\Payments\AccountPaymentType;
-use Interfaces\Web\Composers\MasterViewComposer;
+use App\Http\Composers\MasterViewComposer;
 use Entities\GamePlayerType;
 use Schema;
 
