@@ -44,7 +44,6 @@
                                 <li>Flying</li>
                                 <li>Custom nicknames</li>
                                 <li>Teleporting</li>
-                                <li>Death chests</li>
                                 <li>Increased home limit</li>
                             </ul>
                         </div>
