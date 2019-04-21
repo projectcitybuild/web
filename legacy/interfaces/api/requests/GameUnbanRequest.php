@@ -2,7 +2,7 @@
 namespace Interfaces\Api\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Application\Exceptions\BadRequestException;
+use App\Exceptions\Http\BadRequestException;
 
 class GameUnbanRequest extends FormRequest
 {

@@ -15,13 +15,13 @@ class ServerQueryService
      * Dispatches a job to query a server for its
      * current status and player list
      *
-     * @param GameTypeEnum $gameType
+     * @param GameType $gameType
      * @param integer $serverId
      * @param string $ip
      * @param string $port
      * @return void
      */
-    public function dispatchQuery(GameTypeEnum $gameType, int $serverId, string $ip, string $port)
+    public function dispatchQuery(GameType $gameType, int $serverId, string $ip, string $port)
     {
         $entity = new ServerJobEntity($gameType->serverQueryAdapter(),
                                       $gameType->playerQueryAdapter(),

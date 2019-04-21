@@ -31,7 +31,7 @@ class ServerSeeds extends Seeder
         $minecraftServer = factory(Server::class)->create([
             'name'                  => 'Survival / Creative [24/7]',
             'server_category_id'    => $categoryMinecraft->server_category_id,
-            'game_type'             => GameTypeEnum::Minecraft,
+            'game_type'             => GameType::Minecraft,
             'ip'                    => '198.144.156.53',
             'ip_alias'              => 'pcbmc.co',
             'port'                  => '25565',
@@ -41,7 +41,7 @@ class ServerSeeds extends Seeder
         factory(Server::class)->create([
             'name'                  => 'Feed the Beast',
             'server_category_id'    => $categoryMinecraft->server_category_id,
-            'game_type'             => GameTypeEnum::Minecraft,
+            'game_type'             => GameType::Minecraft,
             'is_querying'           => false,
             'display_order'         => 2,
         ]);
@@ -49,7 +49,7 @@ class ServerSeeds extends Seeder
         factory(Server::class)->create([
             'name'                  => 'Pixelmon',
             'server_category_id'    => $categoryMinecraft->server_category_id,
-            'game_type'             => GameTypeEnum::Minecraft,
+            'game_type'             => GameType::Minecraft,
             'is_querying'           => false,
             'display_order'         => 3,
         ]);
@@ -57,7 +57,7 @@ class ServerSeeds extends Seeder
         factory(Server::class)->create([
             'name'                  => 'Terraria',
             'server_category_id'    => $categoryOtherGames->server_category_id,
-            'game_type'             => GameTypeEnum::Terraria,
+            'game_type'             => GameType::Terraria,
             'is_querying'           => false,
             'display_order'         => 1,
         ]);
@@ -65,7 +65,7 @@ class ServerSeeds extends Seeder
         factory(Server::class)->create([
             'name'                  => 'Starbound',
             'server_category_id'    => $categoryOtherGames->server_category_id,
-            'game_type'             => GameTypeEnum::Starbound,
+            'game_type'             => GameType::Starbound,
             'is_querying'           => false,
             'display_order'         => 2,
         ]);

@@ -1,6 +1,6 @@
 <?php
 namespace App\Services\PlayerBans\Exceptions;
 
-use Application\Exceptions\UnauthorisedException;
+use App\Exceptions\Http\UnauthorisedException;
 
 class UnauthorisedTokenException extends UnauthorisedException {}

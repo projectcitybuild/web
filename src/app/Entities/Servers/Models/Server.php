@@ -66,15 +66,15 @@ class Server extends Model
         return $this->status && $this->status->is_online;
     }
 
-    public function gameType() : GameTypeEnum
+    public function gameType() : GameType
     {
         switch ($this->game_type) {
-            case GameTypeEnum::Minecraft:
-                return new GameTypeEnum(GameTypeEnum::Minecraft);
-            case GameTypeEnum::Terraria:
-                return new GameTypeEnum(GameTypeEnum::Terraria);
-            case GameTypeEnum::Starbound:
-                return new GameTypeEnum(GameTypeEnum::Starbound);
+            case GameType::Minecraft:
+                return new GameType(GameType::Minecraft);
+            case GameType::Terraria:
+                return new GameType(GameType::Terraria);
+            case GameType::Starbound:
+                return new GameType(GameType::Starbound);
             default:
                 throw new \InvalidArgumentException();
         }

@@ -1,6 +1,6 @@
 <?php
 namespace App\Services\PlayerBans\Exceptions;
 
-use Application\Exceptions\BadRequestException;
+use App\Exceptions\Http\BadRequestException;
 
 class MalformedTokenException extends BadRequestException {}

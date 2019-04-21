@@ -5,9 +5,9 @@ namespace Interfaces\Api\Controllers;
 use Interfaces\Api\ApiController;
 use Illuminate\Validation\Factory as Validator;
 use Illuminate\Http\Request;
-use Domains\Services\PlayerWarnings\PlayerWarningService;
-use Domains\Services\PlayerBans\ServerKeyAuthService;
-use Domains\Services\PlayerBans\Exceptions\UnauthorisedKeyActionException;
+use App\Services\PlayerWarnings\PlayerWarningService;
+use App\Services\PlayerBans\ServerKeyAuthService;
+use App\Services\PlayerBans\Exceptions\UnauthorisedKeyActionException;
 
 class GameWarningController extends ApiController
 {

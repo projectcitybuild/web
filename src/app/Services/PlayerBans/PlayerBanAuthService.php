@@ -2,7 +2,7 @@
 namespace App\Entities\Bans\Services;
 
 use App\Entities\Bans\Models\GameBan;
-use Application\Exceptions\ServerException;
+use App\Exceptions\Http\ServerException;
 use Illuminate\Log\Logger;
 use App\Entities\ServerKeys\Models\ServerKey;
 

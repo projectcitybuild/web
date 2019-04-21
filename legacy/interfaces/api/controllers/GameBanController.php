@@ -2,17 +2,17 @@
 
 namespace Interfaces\Api\Controllers;
 
-use Entities\Bans\Resources\GameBanResource;
-use Entities\Bans\Resources\GameUnbanResource;
-use Domains\Services\PlayerBans\PlayerBanService;
-use Domains\Services\PlayerBans\PlayerUnbanService;
-use Domains\Services\PlayerBans\PlayerBanLookupService;
-use Entities\GameIdentifierType;
-use Application\Exceptions\BadRequestException;
+use App\Entities\Bans\Resources\GameBanResource;
+use App\Entities\Bans\Resources\GameUnbanResource;
+use App\Services\PlayerBans\PlayerBanService;
+use App\Services\PlayerBans\PlayerUnbanService;
+use App\Services\PlayerBans\PlayerBanLookupService;
+use App\Entities\GameIdentifierType;
+use App\Exceptions\Http\BadRequestException;
 use Interfaces\Api\ApiController;
 use Illuminate\Validation\Factory as Validator;
 use Illuminate\Http\Request;
-use Domains\Services\PlayerBans\ServerKeyAuthService;
+use App\Services\PlayerBans\ServerKeyAuthService;
 
 class GameBanController extends ApiController
 {

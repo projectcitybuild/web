@@ -3,8 +3,8 @@
 namespace Interfaces\Api\Controllers;
 
 use Interfaces\Api\ApiController;
-use Entities\Groups\Repositories\GroupRepository;
-use Entities\Groups\Resources\GroupResource;
+use App\Entities\Groups\Repositories\GroupRepository;
+use App\Entities\Groups\Resources\GroupResource;
 
 class GroupApiController extends ApiController
 {

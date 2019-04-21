@@ -3,7 +3,7 @@ namespace App\Library\Mojang\Api;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
-use Application\Exceptions\TooManyRequestsException;
+use App\Exceptions\Http\TooManyRequestsException;
 use GuzzleHttp\Exception\ClientException;
 use App\Library\Mojang\Models\MojangPlayer;
 use App\Library\Mojang\Models\MojangPlayerNameHistory;

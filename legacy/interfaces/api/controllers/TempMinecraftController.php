@@ -5,15 +5,15 @@ namespace Interfaces\Api\Controllers;
 use Interfaces\Api\ApiController;
 use Illuminate\Validation\Factory as Validator;
 use Illuminate\Http\Request;
-use Application\Exceptions\UnauthorisedException;
-use Entities\Accounts\Models\Account;
+use App\Exceptions\Http\UnauthorisedException;
+use App\Entities\Accounts\Models\Account;
 use GuzzleHttp\Client;
 use Hash;
 use Illuminate\Support\Facades\Cache;
-use Application\Exceptions\BadRequestException;
-use Application\Exceptions\ServerException;
-use Domains\Library\Discourse\Api\DiscourseAdminApi;
-use Entities\Accounts\Resources\AccountResource;
+use App\Exceptions\Http\BadRequestException;
+use App\Exceptions\Http\ServerException;
+use App\Library\Discourse\Api\DiscourseAdminApi;
+use App\Entities\Accounts\Resources\AccountResource;
 
 class TempMinecraftController extends ApiController
 {

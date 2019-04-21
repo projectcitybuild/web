@@ -5,7 +5,7 @@ use App\Entities\ServerKeys\Repositories\ServerKeyRepository;
 use App\Entities\ServerKeys\Models\ServerKey;
 use App\Services\PlayerBans\Exceptions\MalformedTokenException;
 use App\Services\PlayerBans\Exceptions\UnauthorisedTokenException;
-use Application\Exceptions\ForbiddenException;
+use App\Exceptions\Http\ForbiddenException;
 
 class ServerKeyAuthService
 {

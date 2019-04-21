@@ -6,7 +6,7 @@ use App\Library\RateLimit\TokenRate;
 use App\Library\RateLimit\Storage\FileTokenStorage;
 use App\Library\Mojang\Models\MojangPlayer;
 use App\Library\Mojang\Models\MojangPlayerNameHistory;
-use Application\Exceptions\TooManyRequestsException;
+use App\Exceptions\Http\TooManyRequestsException;
 
 
 /**
