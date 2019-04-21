@@ -4,39 +4,29 @@ namespace Tests\Library\QueryServer;
 use Tests\TestCase;
 use App\Library\QueryServer\GameAdapters\MockQueryAdapter;
 use App\Library\QueryServer\ServerQueryHandler;
-use Illuminate\Log\Logger;
 use App\Entities\Servers\Repositories\ServerStatusRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Entities\Servers\Models\Server;
 
 class ServerQueryHandler_Test extends TestCase
 {
     use RefreshDatabase;
 
-    private $logStub;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->logStub = $this->getMockBuilder(Logger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-    }
-
     public function testQueryOnlineServer()
     {
         // given...
-        $mockAdapter = new MockQueryAdapter();
-        $mockAdapter
+        $mockAdapter = (new MockQueryAdapter())
             ->setIsOnline(true)
             ->setPlayerCount(5)
             ->setMaxPlayers(10);
 
-        $queryHandler = new ServerQueryHandler(new ServerStatusRepository, $this->logStub);
+        $queryHandler = new ServerQueryHandler(new ServerStatusRepository);
         $queryHandler->setAdapter($mockAdapter);
 
+        $server = factory(Server::class)->create();
+
         // when...
-        $status = $queryHandler->queryServer(1, '192.168.0.1', '25565');
+        $status = $queryHandler->queryServer($server->getKey(), '192.168.0.1', '25565');
 
         // expect...
         $this->assertEquals(5, $status->getNumOfPlayers());
@@ -47,15 +37,16 @@ class ServerQueryHandler_Test extends TestCase
     public function testQueryOfflineServer()
     {
         // given...
-        $mockAdapter = new MockQueryAdapter();
-        $mockAdapter
+        $mockAdapter = (new MockQueryAdapter())
             ->setIsOnline(false);
 
-        $queryHandler = new ServerQueryHandler(new ServerStatusRepository, $this->logStub);
+        $queryHandler = new ServerQueryHandler(new ServerStatusRepository);
         $queryHandler->setAdapter($mockAdapter);
 
+        $server = factory(Server::class)->create();
+
         // when...
-        $status = $queryHandler->queryServer(1, '192.168.0.1', '25565');
+        $status = $queryHandler->queryServer($server->getKey(), '192.168.0.1', '25565');
 
         // expect...
         $this->assertFalse($status->isOnline());
@@ -64,21 +55,22 @@ class ServerQueryHandler_Test extends TestCase
     public function testQuerySavesOnlineStatus()
     {
         // given...
-        $mockAdapter = new MockQueryAdapter();
-        $mockAdapter
+        $mockAdapter = (new MockQueryAdapter())
             ->setIsOnline(true)
             ->setPlayerCount(5)
             ->setMaxPlayers(10);
 
-        $queryHandler = new ServerQueryHandler(new ServerStatusRepository, $this->logStub);
+        $queryHandler = new ServerQueryHandler(new ServerStatusRepository);
         $queryHandler->setAdapter($mockAdapter);
 
+        $server = factory(Server::class)->create();
+
         // when...
-        $status = $queryHandler->queryServer(1, '192.168.0.1', '25565');
+        $queryHandler->queryServer($server->getKey(), '192.168.0.1', '25565');
 
         // expect...
         $this->assertDatabaseHas('server_statuses', [
-            'server_id'      => 1,
+            'server_id'      => $server->getKey(),
             'is_online'      => true,
             'num_of_players' => 5,
             'num_of_slots'   => 10,
@@ -88,22 +80,24 @@ class ServerQueryHandler_Test extends TestCase
     public function testQuerySavesOfflineStatus()
     {
         // given...
-        $mockAdapter = new MockQueryAdapter();
-        $mockAdapter
+        $mockAdapter = (new MockQueryAdapter())
             ->setIsOnline(false);
 
-        $queryHandler = new ServerQueryHandler(new ServerStatusRepository, $this->logStub);
+        $queryHandler = new ServerQueryHandler(new ServerStatusRepository);
         $queryHandler->setAdapter($mockAdapter);
 
+        $server = factory(Server::class)->create();
+
         // when...
-        $status = $queryHandler->queryServer(1, '192.168.0.1', '25565');
+        $queryHandler->queryServer($server->getKey(), '192.168.0.1', '25565');
 
         // expect...
         $this->assertDatabaseHas('server_statuses', [
-            'server_id'      => 1,
+            'server_id'      => $server->getKey(),
             'is_online'      => false,
             'num_of_players' => 0,
             'num_of_slots'   => 0,
         ]);
     }
+
 }

@@ -2,7 +2,7 @@
 namespace App\Library\QueryServer;
 
 use App\Entities\Servers\Repositories\ServerStatusRepository;
-use Illuminate\Log\Logger;
+use Illuminate\Support\Facades\Log;
 
 class ServerQueryHandler
 {
@@ -10,11 +10,6 @@ class ServerQueryHandler
      * @var ServerQueryAdapterContract
      */
     private $adapter;
-
-    /**
-     * @var Logger
-     */
-    private $log;
 
     /**
      * @var ServerStatusRepository
@@ -27,11 +22,9 @@ class ServerQueryHandler
     private $lastCreatedId;
     
 
-    public function __construct(ServerStatusRepository $serverStatusRepository,
-                                Logger $logger)
+    public function __construct(ServerStatusRepository $serverStatusRepository)
     {
         $this->serverStatusRepository = $serverStatusRepository;
-        $this->log = $logger;
     }
 
     /**
@@ -68,13 +61,13 @@ class ServerQueryHandler
             'port' => $port,
         ];
 
-        $this->log->notice('Performing server status fetch...', $serverData);
+        Log::notice('Performing server status fetch...', $serverData);
         $start = microtime(true);
 
         $status = $this->requestStatus($serverId, $ip, $port);
         
         $end = microtime(true) - $start;
-        $this->log->notice('Fetch complete ['. ($end / 1000) .'ms]', $serverData);
+        Log::notice('Fetch complete ['. ($end / 1000) .'ms]', $serverData);
 
         return $status;
     }
@@ -84,13 +77,16 @@ class ServerQueryHandler
         $time = time();
 
         $status = $this->adapter->query($ip, $port);
-        $this->log->info('Received server status', ['status' => $status]);
 
-        $statusRecord = $this->serverStatusRepository->create($serverId,
-                                                              $status->isOnline(),
-                                                              $status->getNumOfPlayers(),
-                                                              $status->getNumOfSlots(),
-                                                              $time);
+        Log::info('Received server status', ['status' => $status]);
+
+        $statusRecord = $this->serverStatusRepository->create(
+            $serverId,
+            $status->isOnline(),
+            $status->getNumOfPlayers(),
+            $status->getNumOfSlots(),
+            $time
+        );
 
         $this->lastCreatedId = $statusRecord->getKey();
         

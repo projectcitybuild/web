@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Library\QueryServer\GameAdapters;
 
 use App\Library\QueryServer\ServerQueryAdapterContract;
 use App\Library\QueryServer\ServerQueryResult;
 
-class MockQueryAdapter implements ServerQueryAdapterContract
+final class MockQueryAdapter implements ServerQueryAdapterContract
 {
     /**
      * @var bool
@@ -57,10 +58,12 @@ class MockQueryAdapter implements ServerQueryAdapterContract
     public function query(string $ip, $port = null) : ServerQueryResult
     {
         if ($this->isOnline) {
-            return new ServerQueryResult(true,
-                                        $this->playerCount,
-                                        $this->maxPlayers,
-                                        $this->players);
+            return new ServerQueryResult(
+                true,
+                $this->playerCount,
+                $this->maxPlayers,
+                $this->players
+            );
         }
         return new ServerQueryResult(false, 0, 0, []);
     }

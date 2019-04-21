@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Library\QueryServer;
 
-class ServerQueryResult
+final class ServerQueryResult
 {
-
     /**
      * @var int
      */
@@ -25,11 +25,12 @@ class ServerQueryResult
     private $isOnline;
 
 
-    public function __construct(bool $isOnline = false,
-                                int $numOfPlayers = 0,
-                                int $numOfSlots = 0,
-                                array $playerList = []) 
-    {
+    public function __construct(
+        bool $isOnline = false,
+        int $numOfPlayers = 0,
+        int $numOfSlots = 0,
+        array $playerList = []
+    ) {
         $this->isOnline = $isOnline;
         $this->numOfPlayers = $numOfPlayers;
         $this->numOfSlots = $numOfSlots;

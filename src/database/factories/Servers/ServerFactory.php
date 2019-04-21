@@ -17,13 +17,6 @@ $factory->define(Server::class, function (Faker\Generator $faker) {
         'is_port_visible' => true,
         'is_visible'    => true,
         'is_querying'   => true,
-    ];
-});
-
-$factory->state(Server::class, 'withCategory', function (Faker\Generator $faker) {
-    return [
-        'server_category_id' => function () {
-            return factory(ServerCategory::class)->create()->server_category_id;
-        },
+        'server_category_id' => factory(ServerCategory::class)->create()->getKey(),
     ];
 });
