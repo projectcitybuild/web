@@ -1,7 +1,7 @@
 <?php
-namespace Entities\Accounts\Repositories;
+namespace App\Entities\Accounts\Repositories;
 
-use Entities\Accounts\Models\UnactivatedAccount;
+use App\Entities\Accounts\Models\UnactivatedAccount;
 use Application\Contracts\Repository;
 use Carbon\Carbon;
 

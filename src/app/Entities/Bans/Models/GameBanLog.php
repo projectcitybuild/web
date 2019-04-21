@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Bans\Models;
+namespace App\Entities\Bans\Models;
 
 use Application\Contracts\Model;
 

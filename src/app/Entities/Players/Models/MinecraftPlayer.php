@@ -1,9 +1,9 @@
 <?php
 
-namespace Entities\Players\Models;
+namespace App\Entities\Players\Models;
 
 use Application\Contracts\Model;
-use Entities\Bans\BannableModelInterface;
+use App\Entities\Bans\BannableModelInterface;
 
 class MinecraftPlayer extends Model implements BannableModelInterface
 {
@@ -42,7 +42,7 @@ class MinecraftPlayer extends Model implements BannableModelInterface
      */
     public function getBanReadableName(): string
     {
-        $alias = $this->belongsTo('Entities\Players\MinecraftPlayerAlias', 'player_minecraft_id', 'player_minecraft_id')->latest();
+        $alias = $this->belongsTo('App\Entities\Players\MinecraftPlayerAlias', 'player_minecraft_id', 'player_minecraft_id')->latest();
 
         return $alias !== null
             ? $alias->alias
@@ -52,11 +52,11 @@ class MinecraftPlayer extends Model implements BannableModelInterface
     
     public function account()
     {
-        return $this->hasMany('Entities\Accounts\Models\Account', 'account_id', 'account_id');
+        return $this->hasMany('App\Entities\Accounts\Models\Account', 'account_id', 'account_id');
     }
 
     public function aliases()
     {
-        return $this->hasMany('Entities\Players\Models\MinecraftPlayerAlias', 'player_minecraft_id', 'player_minecraft_id');
+        return $this->hasMany('App\Entities\Players\Models\MinecraftPlayerAlias', 'player_minecraft_id', 'player_minecraft_id');
     }
 }

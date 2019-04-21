@@ -2,10 +2,10 @@
 namespace Domains\Services\Donations;
 
 use Domains\Library\Stripe\StripeHandler;
-use Entities\Donations\Repositories\DonationRepository;
-use Entities\Payments\Repositories\AccountPaymentRepository;
+use App\Entities\Donations\Repositories\DonationRepository;
+use App\Entities\Payments\Repositories\AccountPaymentRepository;
 use Illuminate\Database\Connection;
-use Entities\Payments\AccountPaymentType;
+use App\Entities\Payments\AccountPaymentType;
 use Domains\Library\Discourse\Api\DiscourseAdminApi;
 use Domains\Library\Discourse\Api\DiscourseUserApi;
 

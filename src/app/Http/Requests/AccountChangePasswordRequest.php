@@ -1,8 +1,8 @@
 <?php
 namespace Interfaces\Web\Requests;
 
-use Entities\Accounts\Models\Account;
-use Entities\Accounts\Repositories\AccountRepository;
+use App\Entities\Accounts\Models\Account;
+use App\Entities\Accounts\Repositories\AccountRepository;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;

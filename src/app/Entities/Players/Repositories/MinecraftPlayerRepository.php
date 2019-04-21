@@ -1,7 +1,7 @@
 <?php
-namespace Entities\Players\Repositories;
+namespace App\Entities\Players\Repositories;
 
-use Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Players\Models\MinecraftPlayer;
 use Application\Contracts\Repository;
 use Carbon\Carbon;
 

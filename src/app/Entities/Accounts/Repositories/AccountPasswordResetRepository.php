@@ -1,7 +1,7 @@
 <?php
-namespace Entities\Accounts\Repositories;
+namespace App\Entities\Accounts\Repositories;
 
-use Entities\Accounts\Models\AccountPasswordReset;
+use App\Entities\Accounts\Models\AccountPasswordReset;
 use Application\Contracts\Repository;
 use Carbon\Carbon;
 

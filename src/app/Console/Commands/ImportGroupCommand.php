@@ -2,8 +2,8 @@
 namespace Interfaces\Console\Commands;
 
 use Illuminate\Console\Command;
-use Entities\Accounts\Models\Account;
-use Entities\Groups\Models\Group;
+use App\Entities\Accounts\Models\Account;
+use App\Entities\Groups\Models\Group;
 use Domains\Library\Discourse\Api\DiscourseUserApi;
 use Domains\Library\Discourse\Api\DiscourseGroupApi;
 use Domains\Library\Discourse\Api\DiscourseAdminApi;

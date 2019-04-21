@@ -2,7 +2,7 @@
 namespace Domains\Services\PlayerBans;
 
 use Entities\GamePlayerType;
-use Entities\Bans\Repositories\GameBanRepository;
+use App\Entities\Bans\Repositories\GameBanRepository;
 use Domains\Services\PlayerLookup\PlayerLookupService;
 
 

@@ -1,8 +1,8 @@
 <?php
 namespace Domains\Services\PlayerBans;
 
-use Entities\Bans\Repositories\GameBanRepository;
-use Entities\Bans\Models\GameBan;
+use App\Entities\Bans\Repositories\GameBanRepository;
+use App\Entities\Bans\Models\GameBan;
 use Entities\GamePlayerType;
 use Domains\Services\PlayerLookup\PlayerLookupService;
 use Domains\Services\PlayerBans\Exceptions\UserAlreadyBannedException;

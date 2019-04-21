@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Servers\Models;
+namespace App\Entities\Servers\Models;
 
 use Application\Contracts\Model;
 
@@ -30,6 +30,6 @@ class ServerStatus extends Model
 
     public function players()
     {
-        return $this->hasMany('Entities\Servers\Models\ServerStatusPlayer', 'server_status_id', 'server_status_id');
+        return $this->hasMany('App\Entities\Servers\Models\ServerStatusPlayer', 'server_status_id', 'server_status_id');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Servers\Models;
+namespace App\Entities\Servers\Models;
 
 use Application\Contracts\Model;
 
@@ -27,6 +27,6 @@ class ServerCategory extends Model
 
     public function servers()
     {
-        return $this->hasMany('Entities\Servers\Models\Server', 'server_category_id', 'server_category_id');
+        return $this->hasMany('App\Entities\Servers\Models\Server', 'server_category_id', 'server_category_id');
     }
 }

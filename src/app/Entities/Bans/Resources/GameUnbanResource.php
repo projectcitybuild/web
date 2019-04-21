@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Bans\Resources;
+namespace App\Entities\Bans\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 

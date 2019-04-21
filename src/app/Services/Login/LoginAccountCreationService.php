@@ -1,9 +1,9 @@
 <?php
 namespace Domains\Services\Login;
 
-use Entities\Accounts\Repositories\AccountRepository;
-use Entities\Accounts\Repositories\AccountLinkRepository;
-use Entities\Accounts\Models\Account;
+use App\Entities\Accounts\Repositories\AccountRepository;
+use App\Entities\Accounts\Repositories\AccountLinkRepository;
+use App\Entities\Accounts\Models\Account;
 use Domains\Library\OAuth\Entities\OAuthUser;
 use Domains\Services\Login\Exceptions\SocialEmailInUseException;
 use Illuminate\Log\Logger;

@@ -1,12 +1,12 @@
 <?php
 namespace Domains\Services\PlayerBans;
 
-use Entities\Bans\Repositories\GameUnbanRepository;
-use Entities\Bans\Models\GameUnban;
+use App\Entities\Bans\Repositories\GameUnbanRepository;
+use App\Entities\Bans\Models\GameUnban;
 use Entities\GamePlayerType;
 use Domains\Services\PlayerLookup\PlayerLookupService;
 use Domains\Services\PlayerBans\Exceptions\UserNotBannedException;
-use Entities\Bans\Repositories\GameBanRepository;
+use App\Entities\Bans\Repositories\GameBanRepository;
 use Entities\GameTypeEnum;
 use Illuminate\Database\Connection;
 

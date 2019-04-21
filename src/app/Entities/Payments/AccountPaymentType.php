@@ -1,5 +1,5 @@
 <?php
-namespace Entities\Payments;
+namespace App\Entities\Payments;
 
 use Domains\Enum;
 

@@ -5,11 +5,11 @@ namespace Interfaces\Web\Controllers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Http\Request;
-use Entities\Players\Repositories\MinecraftPlayerRepository;
-use Entities\Players\Repositories\MinecraftPlayerAliasRepository;
+use App\Entities\Players\Repositories\MinecraftPlayerRepository;
+use App\Entities\Players\Repositories\MinecraftPlayerAliasRepository;
 use Illuminate\Contracts\Auth\Guard as Auth;
-use Entities\Players\Services\MinecraftPlayerLookupService;
-use Entities\Servers\Services\PlayerFetching\Api\Mojang\MojangApiService;
+use App\Entities\Players\Services\MinecraftPlayerLookupService;
+use App\Entities\Servers\Services\PlayerFetching\Api\Mojang\MojangApiService;
 use Illuminate\Support\Carbon;
 
 class GameAccountController extends WebController

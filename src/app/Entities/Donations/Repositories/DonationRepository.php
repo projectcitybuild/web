@@ -1,7 +1,7 @@
 <?php
-namespace Entities\Donations\Repositories;
+namespace App\Entities\Donations\Repositories;
 
-use Entities\Donations\Models\Donation;
+use App\Entities\Donations\Models\Donation;
 use Illuminate\Database\Eloquent\Collection;
 use Application\Contracts\Repository;
 use Carbon\Carbon;

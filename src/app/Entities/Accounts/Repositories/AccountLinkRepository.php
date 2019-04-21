@@ -1,7 +1,7 @@
 <?php
-namespace Entities\Accounts\Repositories;
+namespace App\Entities\Accounts\Repositories;
 
-use Entities\Accounts\Models\AccountLink;
+use App\Entities\Accounts\Models\AccountLink;
 use Application\Contracts\Repository;
 
 class AccountLinkRepository extends Repository

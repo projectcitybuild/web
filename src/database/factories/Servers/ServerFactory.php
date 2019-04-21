@@ -1,8 +1,8 @@
 <?php
 
-use Entities\Servers\Models\Server;
+use App\Entities\Servers\Models\Server;
 use Entities\GameTypeEnum;
-use Entities\Servers\Models\ServerCategory;
+use App\Entities\Servers\Models\ServerCategory;
 
 /**
  * @var \Illuminate\Database\Eloquent\Factory $factory

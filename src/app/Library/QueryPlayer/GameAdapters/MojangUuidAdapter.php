@@ -2,8 +2,8 @@
 namespace Domains\Library\QueryPlayer\GameAdapters;
 
 use Domains\Library\QueryPlayer\PlayerQueryAdapterContract;
-use Entities\Players\Services\MinecraftPlayerLookupService;
-use Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Players\Services\MinecraftPlayerLookupService;
+use App\Entities\Players\Models\MinecraftPlayer;
 use Domains\Library\Mojang\Api\MojangPlayerApi;
 use Domains\Library\Mojang\Models\MojangPlayer;
 

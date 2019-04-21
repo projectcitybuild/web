@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Bans\Models;
+namespace App\Entities\Bans\Models;
 
 use Application\Contracts\Model;
 
@@ -47,6 +47,6 @@ class GameBan extends Model
 
     public function unban()
     {
-        return $this->belongsTo('Entities\Bans\Models\GameUnban', 'game_ban_id', 'game_ban_id');
+        return $this->belongsTo('App\Entities\Bans\Models\GameUnban', 'game_ban_id', 'game_ban_id');
     }
 }

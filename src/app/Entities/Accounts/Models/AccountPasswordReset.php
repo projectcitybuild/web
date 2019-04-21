@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Accounts\Models;
+namespace App\Entities\Accounts\Models;
 
 use Application\Contracts\Model;
 use Illuminate\Support\Facades\URL;

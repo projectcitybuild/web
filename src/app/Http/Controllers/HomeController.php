@@ -4,8 +4,8 @@ namespace Interfaces\Web\Controllers;
 
 use Illuminate\Support\Facades\View;
 use Domains\Services\Donations\DonationStatsService;
-use Entities\Players\Models\MinecraftPlayer;
-use Entities\Accounts\Models\Account;
+use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Accounts\Models\Account;
 use Illuminate\Support\Facades\Cache;
 
 class HomeController extends WebController

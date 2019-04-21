@@ -1,5 +1,5 @@
 <?php
-namespace Entities\Warnings\Models;
+namespace App\Entities\Warnings\Models;
 
 use Application\Contracts\Model;
 

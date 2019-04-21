@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Donations\Models;
+namespace App\Entities\Donations\Models;
 
 use Application\Contracts\Model;
 

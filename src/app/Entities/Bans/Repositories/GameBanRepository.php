@@ -1,7 +1,7 @@
 <?php
-namespace Entities\Bans\Repositories;
+namespace App\Entities\Bans\Repositories;
 
-use Entities\Bans\Models\GameBan;
+use App\Entities\Bans\Models\GameBan;
 use Application\Contracts\Repository;
 use Illuminate\Database\Eloquent\Collection;
 

@@ -1,8 +1,8 @@
 <?php
 namespace Domains\Services\PlayerBans;
 
-use Entities\ServerKeys\Repositories\ServerKeyRepository;
-use Entities\ServerKeys\Models\ServerKey;
+use App\Entities\ServerKeys\Repositories\ServerKeyRepository;
+use App\Entities\ServerKeys\Models\ServerKey;
 use Domains\Services\PlayerBans\Exceptions\MalformedTokenException;
 use Domains\Services\PlayerBans\Exceptions\UnauthorisedTokenException;
 use Application\Exceptions\ForbiddenException;

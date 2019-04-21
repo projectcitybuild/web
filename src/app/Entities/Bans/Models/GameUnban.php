@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Bans\Models;
+namespace App\Entities\Bans\Models;
 
 use Application\Contracts\Model;
 
@@ -27,7 +27,7 @@ class GameUnban extends Model
 
     public function ban()
     {
-        return $this->hasOne('Entities\Bans\Models\GameBan', 'game_ban_id', 'game_ban_id');
+        return $this->hasOne('App\Entities\Bans\Models\GameBan', 'game_ban_id', 'game_ban_id');
     }
 
     public function staffPlayer()

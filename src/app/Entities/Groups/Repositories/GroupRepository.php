@@ -1,8 +1,8 @@
 <?php
-namespace Entities\Groups\Repositories;
+namespace App\Entities\Groups\Repositories;
 
 use Application\Contracts\Repository;
-use Entities\Groups\Models\Group;
+use App\Entities\Groups\Models\Group;
 use Illuminate\Support\Collection;
 
 final class GroupRepository extends Repository {

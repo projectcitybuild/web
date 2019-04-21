@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Groups\Models;
+namespace App\Entities\Groups\Models;
 
 use Application\Contracts\Model;
 

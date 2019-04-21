@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Servers\Models;
+namespace App\Entities\Servers\Models;
 
 use Application\Contracts\Model;
 use Entities\GameTypeEnum;
@@ -50,12 +50,12 @@ class Server extends Model
 
     public function category()
     {
-        return $this->hasOne('Entities\Servers\Models\ServerCategory', 'server_category_id', 'server_category_id');
+        return $this->hasOne('App\Entities\Servers\Models\ServerCategory', 'server_category_id', 'server_category_id');
     }
 
     public function status()
     {
-        return $this->belongsTo('Entities\Servers\Models\ServerStatus', 'server_id', 'server_id')
+        return $this->belongsTo('App\Entities\Servers\Models\ServerStatus', 'server_id', 'server_id')
             ->take(1)
             ->latest();
     }

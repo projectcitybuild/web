@@ -2,10 +2,10 @@
 
 namespace Interfaces\Web\Controllers;
 
-use Entities\Accounts\Repositories\AccountRepository;
-use Entities\Accounts\Repositories\AccountPasswordResetRepository;
-use Entities\Accounts\Notifications\AccountPasswordResetNotification;
-use Entities\Accounts\Notifications\AccountPasswordResetCompleteNotification;
+use App\Entities\Accounts\Repositories\AccountRepository;
+use App\Entities\Accounts\Repositories\AccountPasswordResetRepository;
+use App\Entities\Accounts\Notifications\AccountPasswordResetNotification;
+use App\Entities\Accounts\Notifications\AccountPasswordResetCompleteNotification;
 use Interfaces\Web\Requests\ResetPasswordRequest;
 use Interfaces\Web\Requests\SendPasswordEmailRequest;
 use Illuminate\Http\Request;

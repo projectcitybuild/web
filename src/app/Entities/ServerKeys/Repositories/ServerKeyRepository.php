@@ -1,7 +1,7 @@
 <?php
-namespace Entities\ServerKeys\Repositories;
+namespace App\Entities\ServerKeys\Repositories;
 
-use Entities\ServerKeys\Models\ServerKey;
+use App\Entities\ServerKeys\Models\ServerKey;
 use Application\Contracts\Repository;
 
 class ServerKeyRepository extends Repository

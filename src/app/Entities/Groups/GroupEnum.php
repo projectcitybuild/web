@@ -1,5 +1,5 @@
 <?php
-namespace Entities\Groups;
+namespace App\Entities\Groups;
 
 use Domains\Enum;
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace Entities\Accounts\Models;
+namespace App\Entities\Accounts\Models;
 
 use Application\Contracts\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
-use Entities\Groups\Models\Group;
+use App\Entities\Groups\Models\Group;
 
 class Account extends Authenticatable
 {
@@ -36,12 +36,12 @@ class Account extends Authenticatable
 
     public function minecraftAccount()
     {
-        return $this->belongsTo('Entities\Players\Models\MinecraftPlayer', 'account_id', 'account_id');
+        return $this->belongsTo('App\Entities\Players\Models\MinecraftPlayer', 'account_id', 'account_id');
     }
 
     public function linkedSocialAccounts()
     {
-        return $this->hasMany('Entities\Accounts\Models\AccountLink', 'account_id', 'account_id');
+        return $this->hasMany('App\Entities\Accounts\Models\AccountLink', 'account_id', 'account_id');
     }
 
     public function groups()

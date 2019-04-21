@@ -1,7 +1,7 @@
 <?php
-namespace Entities\Warnings\Repositories;
+namespace App\Entities\Warnings\Repositories;
 
-use Entities\Warnings\Models\GameWarning;
+use App\Entities\Warnings\Models\GameWarning;
 use Application\Contracts\Repository;
 
 class GameWarningRepository extends Repository

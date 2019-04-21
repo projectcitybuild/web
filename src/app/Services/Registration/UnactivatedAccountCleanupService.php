@@ -1,7 +1,7 @@
 <?php
 namespace Domains\Services\Registration;
 
-use Entities\Accounts\Repositories\UnactivatedAccountRepository;
+use App\Entities\Accounts\Repositories\UnactivatedAccountRepository;
 use Illuminate\Support\Facades\Log;
 
 class UnactivatedAccountCleanupService

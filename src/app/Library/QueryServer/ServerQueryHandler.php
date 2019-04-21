@@ -1,7 +1,7 @@
 <?php
 namespace Domains\Library\QueryServer;
 
-use Entities\Servers\Repositories\ServerStatusRepository;
+use App\Entities\Servers\Repositories\ServerStatusRepository;
 use Illuminate\Log\Logger;
 
 class ServerQueryHandler

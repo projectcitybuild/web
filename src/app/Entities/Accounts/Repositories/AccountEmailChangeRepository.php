@@ -1,7 +1,7 @@
 <?php
-namespace Entities\Accounts\Repositories;
+namespace App\Entities\Accounts\Repositories;
 
-use Entities\Accounts\Models\AccountEmailChange;
+use App\Entities\Accounts\Models\AccountEmailChange;
 use Application\Contracts\Repository;
 use Carbon\Carbon;
 

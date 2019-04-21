@@ -1,9 +1,9 @@
 <?php
-namespace Entities\Players\Services;
+namespace App\Entities\Players\Services;
 
-use Entities\Players\Repositories\MinecraftPlayerRepository;
-use Entities\Players\Repositories\MinecraftPlayerAliasRepository;
-use Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Players\Repositories\MinecraftPlayerRepository;
+use App\Entities\Players\Repositories\MinecraftPlayerAliasRepository;
+use App\Entities\Players\Models\MinecraftPlayer;
 use Illuminate\Database\Connection;
 
 /**

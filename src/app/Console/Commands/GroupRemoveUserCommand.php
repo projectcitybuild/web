@@ -2,13 +2,13 @@
 namespace Interfaces\Console\Commands;
 
 use Illuminate\Console\Command;
-use Entities\Groups\GroupEnum;
-use Entities\Accounts\Models\Account;
-use Entities\Groups\Repositories\GroupRepository;
+use App\Entities\Groups\GroupEnum;
+use App\Entities\Accounts\Models\Account;
+use App\Entities\Groups\Repositories\GroupRepository;
 use Domains\Services\Groups\DiscourseGroupSyncService;
 use Domains\Library\Discourse\Api\DiscourseAdminApi;
 use Domains\Library\Discourse\Api\DiscourseUserApi;
-use Entities\Accounts\Repositories\AccountRepository;
+use App\Entities\Accounts\Repositories\AccountRepository;
 
 class GroupRemoveUserCommand extends Command
 {

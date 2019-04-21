@@ -1,7 +1,7 @@
 <?php
 namespace Domains\Services\PlayerWarnings;
 
-use Entities\Warnings\Repositories\GameWarningRepository;
+use App\Entities\Warnings\Repositories\GameWarningRepository;
 use Entities\GamePlayerType;
 use Domains\Services\PlayerLookup\PlayerLookupService;
 

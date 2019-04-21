@@ -1,7 +1,7 @@
 <?php
-namespace Entities\Bans\Repositories;
+namespace App\Entities\Bans\Repositories;
 
-use Entities\Bans\Models\GameBanLog;
+use App\Entities\Bans\Models\GameBanLog;
 
 class GameBanLogRepository
 {

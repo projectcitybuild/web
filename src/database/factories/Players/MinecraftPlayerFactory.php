@@ -1,6 +1,6 @@
 <?php
 
-use Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Players\Models\MinecraftPlayer;
 
 /**
  * @var \Illuminate\Database\Eloquent\Factory $factory

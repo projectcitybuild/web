@@ -3,7 +3,7 @@
 namespace App\Http\Composers;
 
 use Illuminate\View\View;
-use Entities\Servers\Repositories\ServerCategoryRepository;
+use App\Entities\Servers\Repositories\ServerCategoryRepository;
 
 final class MasterViewComposer
 {

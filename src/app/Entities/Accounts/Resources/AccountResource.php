@@ -1,8 +1,8 @@
 <?php
-namespace Entities\Accounts\Resources;
+namespace App\Entities\Accounts\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Entities\Groups\Resources\GroupResource;
+use App\Entities\Groups\Resources\GroupResource;
 
 class AccountResource extends JsonResource
 {

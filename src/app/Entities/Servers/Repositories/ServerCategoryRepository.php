@@ -1,7 +1,7 @@
 <?php
-namespace Entities\Servers\Repositories;
+namespace App\Entities\Servers\Repositories;
 
-use Entities\Servers\Models\ServerCategory;
+use App\Entities\Servers\Models\ServerCategory;
 
 class ServerCategoryRepository
 {

@@ -2,7 +2,7 @@
 
 namespace Interfaces\Web\Controllers;
 
-use Entities\Accounts\Repositories\AccountLinkRepository;
+use App\Entities\Accounts\Repositories\AccountLinkRepository;
 use Illuminate\Contracts\Auth\Factory as Auth;
 use Illuminate\Http\Request;
 use Domains\Library\OAuth\OAuthLoginHandler;

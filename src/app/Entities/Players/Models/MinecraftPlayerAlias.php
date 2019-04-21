@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Players\Models;
+namespace App\Entities\Players\Models;
 
 use Application\Contracts\Model;
 
@@ -28,6 +28,6 @@ class MinecraftPlayerAlias extends Model
     
     public function player()
     {
-        return $this->hasOne('Entities\Players\Models\MinecraftPlayer', 'player_minecraft_id', 'player_minecraft_id');
+        return $this->hasOne('App\Entities\Players\Models\MinecraftPlayer', 'player_minecraft_id', 'player_minecraft_id');
     }
 }

@@ -2,10 +2,10 @@
 namespace Domains\Services\Groups;
 
 use Domains\Library\Discourse\Api\DiscourseAdminApi;
-use Entities\Groups\GroupEnum;
-use Entities\Groups\Repositories\GroupRepository;
-use Entities\Accounts\Repositories\AccountRepository;
-use Entities\Accounts\Models\Account;
+use App\Entities\Groups\GroupEnum;
+use App\Entities\Groups\Repositories\GroupRepository;
+use App\Entities\Accounts\Repositories\AccountRepository;
+use App\Entities\Accounts\Models\Account;
 
 
 final class DiscourseGroupSyncService {

@@ -1,7 +1,7 @@
 <?php
-namespace Entities\Servers\Repositories;
+namespace App\Entities\Servers\Repositories;
 
-use Entities\Servers\Models\ServerStatusPlayer;
+use App\Entities\Servers\Models\ServerStatusPlayer;
 use Carbon\Carbon;
 use Application\Contracts\Repository;
 

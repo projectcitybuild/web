@@ -4,10 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Players\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\View;
-use Entities\Donations\Models\Donation;
-use Entities\Payments\AccountPaymentType;
+use App\Entities\Donations\Models\Donation;
+use App\Entities\Payments\AccountPaymentType;
 use App\Http\Composers\MasterViewComposer;
 use Entities\GamePlayerType;
 use Schema;

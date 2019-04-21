@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\ServerKeys\Models;
+namespace App\Entities\ServerKeys\Models;
 
 use Application\Contracts\Model;
 
@@ -44,6 +44,6 @@ class ServerKey extends Model
 
     public function server()
     {
-        return $this->hasOne('Entities\Servers\Models\Server', 'server_id', 'server_id');
+        return $this->hasOne('App\Entities\Servers\Models\Server', 'server_id', 'server_id');
     }
 }

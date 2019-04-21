@@ -1,6 +1,6 @@
 <?php
 
-use Entities\Accounts\Models\Account;
+use App\Entities\Accounts\Models\Account;
 use Illuminate\Support\Facades\Hash;
 
 /**
