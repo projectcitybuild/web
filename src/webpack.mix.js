@@ -11,9 +11,9 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.typeScript('app/resources/js/app.tsx', 'app/public/assets/js')
-   .sass('app/resources/sass/app.scss', 'app/public/assets/css')
-   .sass('app/resources/sass/navonly.scss', 'app/public/assets/css')
+mix.typeScript('resources/js/app.tsx', 'app/public/assets/js')
+   .sass('resources/sass/app.scss', 'app/public/assets/css')
+   .sass('resources/sass/navonly.scss', 'app/public/assets/css')
    .extract([
         'react', 
         'date-fns', 
@@ -29,11 +29,11 @@ if(mix.config.production) {
         proxy: 'nginx',
         open: false,
         files: [
-            'app/**/*.php',
-            'app/resources/**/*.css', 
-            'app/resources/**/*.js',
-            'app/resources/**/*.ts',
-            'app/public/**/*',
+            '**/*.php',
+            'resources/**/*.css', 
+            'resources/**/*.js',
+            'resources/**/*.ts',
+            'public/**/*',
         ]
     });
 }
