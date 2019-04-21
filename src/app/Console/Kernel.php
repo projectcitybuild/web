@@ -3,11 +3,11 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Interfaces\Console\Commands\QueryServerCommand;
+use App\Console\Commands\QueryServerCommand;
 use App\Environment;
-use Interfaces\Console\Commands\ImportGroupCommand;
-use Interfaces\Console\Commands\GroupAddUserCommand;
-use Interfaces\Console\Commands\GroupRemoveUserCommand;
+use App\Console\Commands\ImportGroupCommand;
+use App\Console\Commands\GroupAddUserCommand;
+use App\Console\Commands\GroupRemoveUserCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -53,6 +53,6 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        require base_path('Routes.php');
+        // require base_path('app\Console\Routes.php');
     }
 }

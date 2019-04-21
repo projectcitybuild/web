@@ -1,5 +1,5 @@
 <?php
-namespace Interfaces\Console\Commands;
+namespace App\Console\Commands;
 
 use App\Entities\Servers\Repositories\ServerRepository;
 use App\Services\Queries\ServerQueryService;

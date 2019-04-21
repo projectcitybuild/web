@@ -1,5 +1,5 @@
 <?php
-namespace Interfaces\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Entities\Groups\GroupEnum;
