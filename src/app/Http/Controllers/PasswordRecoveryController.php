@@ -1,6 +1,6 @@
 <?php
 
-namespace Interfaces\Web\Controllers;
+namespace App\Http\Controllers;
 
 use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Entities\Accounts\Repositories\AccountPasswordResetRepository;
@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Connection;
 use Hash;
 use Domains\Helpers\TokenHelpers;
+use App\Http\WebController;
 
 class PasswordRecoveryController extends WebController
 {

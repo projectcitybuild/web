@@ -1,6 +1,6 @@
 <?php
 
-namespace Interfaces\Web\Controllers;
+namespace App\Http\Controllers;
 
 use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Entities\Accounts\Repositories\UnactivatedAccountRepository;
@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Carbon\Carbon;
 use Hash;
+use App\Http\WebController;
 
 class RegisterController extends WebController
 {

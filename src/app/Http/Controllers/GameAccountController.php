@@ -1,6 +1,6 @@
 <?php
 
-namespace Interfaces\Web\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Contracts\Validation\Factory;
@@ -11,6 +11,7 @@ use Illuminate\Contracts\Auth\Guard as Auth;
 use App\Entities\Players\Services\MinecraftPlayerLookupService;
 use App\Entities\Servers\Services\PlayerFetching\Api\Mojang\MojangApiService;
 use Illuminate\Support\Carbon;
+use App\Http\WebController;
 
 class GameAccountController extends WebController
 {

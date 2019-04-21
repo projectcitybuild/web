@@ -1,11 +1,12 @@
 <?php
 
-namespace Interfaces\Web\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Application\Exceptions\UnauthorisedException;
 use Domains\Library\Discord\DiscordNotifyService;
 use Illuminate\Support\Facades\Log;
+use App\Http\WebController;
 
 class DeployController extends WebController
 {

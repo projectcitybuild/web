@@ -1,6 +1,6 @@
 <?php
 
-namespace Interfaces\Web\Controllers;
+namespace App\Http\Controllers;
 
 use Domains\Library\Discourse\Authentication\DiscourseLoginHandler;
 use Domains\Library\Discourse\Exceptions\BadSSOPayloadException;
@@ -17,6 +17,7 @@ use Domains\Services\Login\Exceptions\SocialAccountAlreadyInUseException;
 use App\Environment;
 use App\Entities\Accounts\Repositories\AccountRepository;
 use Domains\Library\OAuth\Exceptions\OAuthSessionExpiredException;
+use App\Http\WebController;
 
 final class LoginController extends WebController
 {

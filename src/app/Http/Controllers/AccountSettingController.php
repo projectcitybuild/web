@@ -1,6 +1,6 @@
 <?php
 
-namespace Interfaces\Web\Controllers;
+namespace App\Http\Controllers;
 
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Accounts\Repositories\AccountRepository;
@@ -18,6 +18,7 @@ use App\Entities\Accounts\Repositories\AccountEmailChangeRepository;
 use Domains\Helpers\TokenHelpers;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\Notification;
+use App\Http\WebController;
 
 class AccountSettingController extends WebController
 {

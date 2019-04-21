@@ -1,6 +1,6 @@
 <?php
 
-namespace Interfaces\Web\Controllers;
+namespace App\Http\Controllers;
 
 use App\Entities\Donations\Repositories\DonationRepository;
 use Domains\Services\Donations\DonationCreationService;
@@ -12,6 +12,7 @@ use App\Entities\Groups\GroupEnum;
 use Domains\Library\Discourse\Api\DiscourseUserApi;
 use Domains\Services\Groups\DiscourseGroupSyncService;
 use App\Entities\Groups\Repositories\GroupRepository;
+use App\Http\WebController;
 
 class DonationController extends WebController
 {
