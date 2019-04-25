@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\Queries\Jobs;
 
 use Illuminate\Bus\Queueable;
@@ -10,7 +11,7 @@ use App\Library\QueryServer\ServerQueryHandler;
 use App\Services\Queries\ServerQueryService;
 use App\Services\Queries\Entities\ServerJobEntity;
 
-class ServerQueryJob implements ShouldQueue
+final class ServerQueryJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -35,16 +36,20 @@ class ServerQueryJob implements ShouldQueue
      * @param ServerQueryHandler $serverQueryHandler
      * @return void
      */
-    public function handle(ServerQueryHandler $serverQueryHandler)
+    public function handle(ServerQueryHandler $serverQueryHandler, ServerQueryService $serverQueryService)
     {
         $serverQueryHandler->setAdapter($this->entity->getServerQueryAdapter());
-        $status = $serverQueryHandler->queryServer($this->entity->getServerId(), 
-                                                   $this->entity->getIp(), 
-                                                   $this->entity->getPort());
+        
+        $status = $serverQueryHandler->queryServer(
+            $this->entity->getServerId(), 
+            $this->entity->getIp(), 
+            $this->entity->getPort()
+        );
 
         $lastCreatedId = $serverQueryHandler->getLastCreatedId();
+        
         $this->entity->setServerStatusId($lastCreatedId);
 
-        ServerQueryService::processServerResult($this->entity, $status);
+        $serverQueryService->processServerResult($this->entity, $status);
     }
 }

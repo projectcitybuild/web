@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Library\QueryServer\GameAdapters;
 
 use App\Library\QueryServer\ServerQueryAdapterContract;
@@ -6,13 +7,12 @@ use App\Library\QueryServer\ServerQueryResult;
 use xPaw\MinecraftQuery;
 use xPaw\MinecraftQueryException;
 
-class MinecraftQueryAdapter implements ServerQueryAdapterContract
+final class MinecraftQueryAdapter implements ServerQueryAdapterContract
 {
     /**
      * @var MinecraftQuery
      */
     private $queryService;
-
 
     public function __construct(MinecraftQuery $queryService)
     {
@@ -33,12 +33,14 @@ class MinecraftQueryAdapter implements ServerQueryAdapterContract
             $numPlayers = array_key_exists('Players', $info) ? $info['Players'] : -1;
             $numSlots   = array_key_exists('MaxPlayers', $info) ? $info['MaxPlayers'] : -1;
 
-            return new ServerQueryResult(true,
-                                         $numPlayers,
-                                         $numSlots,
-                                         $players);
+            return new ServerQueryResult(
+                true,
+                $numPlayers,
+                $numSlots,
+                $players
+            );
 
-        } catch (MinecraftQueryException $e) {
+        } catch (MinecraftQue$e) {
             return new ServerQueryResult();
         }
     }

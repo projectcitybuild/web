@@ -42,20 +42,28 @@ class ServerJobEntity
      */
     private $serverStatusId;
 
+    /**
+     * @var bool
+     */
+    private $isDryRun;
 
-    public function __construct(ServerQueryAdapterContract $serverQueryAdapter,
-                                PlayerQueryAdapterContract $playerQueryAdapter,
-                                string $gameIdentifier,
-                                int $serverId,
-                                string $ip,
-                                string $port)
-    {
+
+    public function __construct(
+        ServerQueryAdapterContract $serverQueryAdapter,
+        PlayerQueryAdapterContract $playerQueryAdapter,
+        string $gameIdentifier,
+        int $serverId,
+        string $ip,
+        string $port,
+        bool $isDryRun
+    ) {
         $this->serverQueryAdapter = $serverQueryAdapter;
         $this->playerQueryAdapter = $playerQueryAdapter;
         $this->gameIdentifier = $gameIdentifier;
         $this->serverId = $serverId;
         $this->ip = $ip;
         $this->port = $port;
+        $this->isDryRun = $isDryRun;
     }
 
 
@@ -99,6 +107,11 @@ class ServerJobEntity
         $this->serverStatusId = $serverStatusId;
     }
 
+    public function getIsDryRun() : bool
+    {
+        return $this->isDryRun;
+    }
+
 
     /**
      * Converts adapters to their class name before
@@ -119,6 +132,7 @@ class ServerJobEntity
             'ip',
             'port',
             'serverStatusId',
+            'isDryRun'
         ];
     }
 

@@ -41,11 +41,12 @@ class PlayerQueryJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle(PlayerQueryHandler $playerQueryHandler)
+    public function handle(PlayerQueryHandler $playerQueryHandler, ServerQueryService $serverQueryService)
     {
-        $playerQueryHandler->setAdapter($this->entity->getPlayerQueryAdapter());
+        $adapter = $this->entity->getPlayerQueryAdapter();
+        $playerQueryHandler->setAdapter($adapter);
         $identifiers = $playerQueryHandler->query($this->playerNamesToQuery);
 
-        ServerQueryService::processPlayerResult($this->entity, $identifiers);
+        $serverQueryService->processPlayerResult($this->entity, $identifiers);
     }
 }

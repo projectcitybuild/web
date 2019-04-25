@@ -1,16 +1,26 @@
 <?php
+
 namespace App\Services\Queries;
 
 use App\Library\QueryServer\ServerQueryResult;
-use App\Entities\GameType;
 use App\Services\Queries\Jobs\ServerQueryJob;
 use App\Services\Queries\Jobs\PlayerQueryJob;
-use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
 use App\Services\Queries\Entities\ServerJobEntity;
+use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
+use App\Entities\GameType;
 
-
-class ServerQueryService
+final class ServerQueryService
 {
+    /**
+     * @var ServerStatusPlayerRepository
+     */
+    private $serverStatusRepository;
+
+    public function __construct(ServerStatusPlayerRepository $serverPlayerRepository)
+    {
+        $this->serverStatusRepository = $serverPlayerRepository;
+    }
+
     /**
      * Dispatches a job to query a server for its
      * current status and player list
@@ -21,30 +31,35 @@ class ServerQueryService
      * @param string $port
      * @return void
      */
-    public function dispatchQuery(GameType $gameType, int $serverId, string $ip, string $port)
+    public function dispatchQuery(GameType $gameType, int $serverId, string $ip, string $port, bool $isDryRun = false)
     {
-        $entity = new ServerJobEntity($gameType->serverQueryAdapter(),
-                                      $gameType->playerQueryAdapter(),
-                                      $gameType->name(),
-                                      $serverId,
-                                      $ip,
-                                      $port);
-
+        $entity = new ServerJobEntity(
+            $gameType->serverQueryAdapter(),
+            $gameType->playerQueryAdapter(),
+            $gameType->name(),
+            $serverId,
+            $ip,
+            $port,
+            $isDryRun
+        );
         ServerQueryJob::dispatch($entity);
     }
 
     /**
-     * Receives the result of a server query job, then
-     * dispatches a player query job if players were online,
-     * to uniquely identify each player and store them in
+     * Receives the result of a server query job, then dispatches a player query job 
+     * if players were online, to uniquely identify each player and store them in
      * PCB's player database for statistics
      *
      * @param integer $serverId
      * @param ServerQueryResult $status
      * @return void
      */
-    public static function processServerResult(ServerJobEntity $entity, ServerQueryResult $status)
+    public function processServerResult(ServerJobEntity $entity, ServerQueryResult $status)
     {
+        if ($entity->getIsDryRun()) {
+            dump($status);
+            return;
+        }
         if (count($status->getPlayerList()) > 0) {
             PlayerQueryJob::dispatch($entity, $status->getPlayerList());
         }
@@ -57,14 +72,17 @@ class ServerQueryService
      * @param array $playerIds
      * @return void
      */
-    public static function processPlayerResult(ServerJobEntity $entity, array $playerIds)
+    public function processPlayerResult(ServerJobEntity $entity, array $playerIds)
     {
-        $serverPlayerRepository = new ServerStatusPlayerRepository();
-
+        if ($entity->getIsDryRun()) {
+            return;
+        }
         foreach ($playerIds as $playerId) {
-            $serverPlayerRepository->store($entity->getServerStatusId(),
-                                           $playerId,
-                                           $entity->getGameIdentifier());
+            $this->serverStatusRepository->store(
+                $entity->getServerStatusId(),
+                $playerId,
+                $entity->getGameIdentifier()
+            );
         }
     }
 }

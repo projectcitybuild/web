@@ -13,8 +13,10 @@ use App\Entities\GamePlayerType;
 use Schema;
 use App\Entities\Servers\Repositories\ServerCategoryRepositoryCache;
 use Illuminate\Contracts\Cache\Factory as Cache;
+use App\Services\Queries\ServerQueryService;
+use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
 
-class AppServiceProvider extends ServiceProvider
+final class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -32,6 +34,12 @@ class AppServiceProvider extends ServiceProvider
                 );
             }
         );
+
+        $this->app->singleton(\App\Services\Queries\ServerQueryService::class, function($app) {
+            return new ServerQueryService(
+                $app->make(ServerStatusPlayerRepository::class)
+            );
+        });
     }
 
     /**
