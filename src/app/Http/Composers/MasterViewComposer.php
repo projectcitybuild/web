@@ -3,17 +3,17 @@
 namespace App\Http\Composers;
 
 use Illuminate\View\View;
-use App\Entities\Servers\Repositories\ServerCategoryRepository;
+use App\Entities\Servers\Repositories\ServerCategoryRepositoryContract;
 
 final class MasterViewComposer
 {
     /**
-     * @var ServerCategoryRepository
+     * @var ServerCategoryRepositoryContract
      */
     private $serverCategoryRepository;
     
     
-    public function __construct(ServerCategoryRepository $serverCategoryRepository)
+    public function __construct(ServerCategoryRepositoryContract $serverCategoryRepository)
     {
         $this->serverCategoryRepository = $serverCategoryRepository;
     }
@@ -26,7 +26,9 @@ final class MasterViewComposer
      */
     public function compose(View $view)
     {
-        $servers = $this->serverCategoryRepository->getAllVisible();
+        $servers = $this->serverCategoryRepository->allVisible();
+        // $populatedServers = 
+
         $view->with('serverCategories', $servers);
     }
 }

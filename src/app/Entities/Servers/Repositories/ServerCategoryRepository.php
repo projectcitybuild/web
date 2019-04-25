@@ -1,36 +1,24 @@
 <?php
+
 namespace App\Entities\Servers\Repositories;
 
 use App\Entities\Servers\Models\ServerCategory;
+use Illuminate\Database\Eloquent\Collection;
 
-class ServerCategoryRepository
+final class ServerCategoryRepository implements ServerCategoryRepositoryContract
 {
-    private $categoryModel;
-
-    public function __construct(ServerCategory $categoryModel)
+    public function all(array $with = []) : Collection
     {
-        $this->categoryModel = $categoryModel;
-    }
-    
-    /**
-     * Gets a collection of all server categories
-     *
-     * @return ServerCategory
-     */
-    public function getAll(array $with = [])
-    {
-        return $this->categoryModel
-            ->with($with)
-            ->get();
+        return ServerCategory::with($with)->get();
     }
 
-    public function getAllVisible(array $with = [])
+    public function allVisible(array $with = []) : Collection
     {
-        return $this->categoryModel
-            ->with(['servers' => function ($q) {
+        return ServerCategory::with(['servers' => function($q) {
                 $q->where('is_visible', true)
                   ->with('status');
             }])
+            ->whereHas('servers')
             ->get();
     }
 }
