@@ -27,8 +27,6 @@ final class MasterViewComposer
     public function compose(View $view)
     {
         $servers = $this->serverCategoryRepository->allVisible();
-        // $populatedServers = 
-
         $view->with('serverCategories', $servers);
     }
 }

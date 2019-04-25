@@ -11,6 +11,8 @@ use App\Entities\Payments\AccountPaymentType;
 use App\Http\Composers\MasterViewComposer;
 use App\Entities\GamePlayerType;
 use Schema;
+use App\Entities\Servers\Repositories\ServerCategoryRepositoryCache;
+use Illuminate\Contracts\Cache\Factory as Cache;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,7 +25,12 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             \App\Entities\Servers\Repositories\ServerCategoryRepositoryContract::class,
-            \App\Entities\Servers\Repositories\ServerCategoryRepository::class
+            function($app) {
+                return new ServerCategoryRepositoryCache(
+                    $app->make(Cache::class),
+                    $app->make(\App\Entities\Servers\Repositories\ServerCategoryRepository::class)
+                );
+            }
         );
     }
 
