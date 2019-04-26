@@ -61,22 +61,22 @@
                 Create an Account
             </a>
             
-            <div class="login__divider">or</div>
+            <!-- <div class="login__divider">or</div>
 
             <div class="login__social">
-                <a class="login__button login__button--facebook" href="{{ route('front.login.provider.redirect', 'facebook') }}">
+                <a class="login__button login__button--facebook" href="">
                     <i class="fab fa-facebook-square"></i> Sign in with Facebook
                 </a>
-                <a class="login__button login__button--twitter" href="{{ route('front.login.provider.redirect', 'twitter') }}">
+                <a class="login__button login__button--twitter" href="">
                     <i class="fab fa-twitter-square"></i> Sign in with Twitter
                 </a>
-                <a class="login__button login__button--google" href="{{ route('front.login.provider.redirect', 'google') }}">
+                <a class="login__button login__button--google" href="">
                     <i class="fab fa-google"></i> Sign in with Google
                 </a>
-                <a class="login__button login__button--discord" href="{{ route('front.login.provider.redirect', 'discord') }}">
+                <a class="login__button login__button--discord" href="">
                     <i class="fab fa-discord"></i> Sign in with Discord
                 </a>
-            </div>
+            </div> -->
 
         </div>
     </div>
