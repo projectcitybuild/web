@@ -1,6 +1,6 @@
 <?php
 
-namespace Interfaces\Api\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Interfaces\Api\ApiController;
 use Illuminate\Validation\Factory as Validator;
@@ -9,7 +9,7 @@ use App\Services\PlayerWarnings\PlayerWarningService;
 use App\Services\PlayerBans\ServerKeyAuthService;
 use App\Services\PlayerBans\Exceptions\UnauthorisedKeyActionException;
 
-class GameWarningController extends ApiController
+final class GameWarningController extends ApiController
 {
     /**
      * @var Validator

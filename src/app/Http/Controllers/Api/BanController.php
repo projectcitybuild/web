@@ -1,6 +1,6 @@
 <?php
 
-namespace Interfaces\Api\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Entities\Bans\Services\BanCreationService;
 use App\Entities\Bans\Services\BanAuthorisationService;
@@ -24,7 +24,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Application\Routes\Api\ApiController;
 
-class BanController extends ApiController
+final class BanController extends ApiController
 {
     
     /**

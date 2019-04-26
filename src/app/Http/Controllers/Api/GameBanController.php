@@ -1,6 +1,6 @@
 <?php
 
-namespace Interfaces\Api\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Entities\Bans\Resources\GameBanResource;
 use App\Entities\Bans\Resources\GameUnbanResource;
@@ -14,7 +14,7 @@ use Illuminate\Validation\Factory as Validator;
 use Illuminate\Http\Request;
 use App\Services\PlayerBans\ServerKeyAuthService;
 
-class GameBanController extends ApiController
+final class GameBanController extends ApiController
 {
     /**
      * @var Validator
@@ -42,12 +42,13 @@ class GameBanController extends ApiController
     private $serverKeyAuthService;
 
 
-    public function __construct(PlayerBanService $playerBanService,
-                                PlayerUnbanService $playerUnbanService,
-                                PlayerBanLookupService $playerBanLookupService,
-                                ServerKeyAuthService $serverKeyAuthService,
-                                Validator $validationFactory) 
-    {
+    public function __construct(
+        PlayerBanService $playerBanService,
+        PlayerUnbanService $playerUnbanService,
+        PlayerBanLookupService $playerBanLookupService,
+        ServerKeyAuthService $serverKeyAuthService,
+        Validator $validationFactory
+    ) {
         $this->playerBanService = $playerBanService;
         $this->playerUnbanService = $playerUnbanService;
         $this->playerBanLookupService = $playerBanLookupService;

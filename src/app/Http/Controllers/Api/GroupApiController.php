@@ -1,12 +1,12 @@
 <?php
 
-namespace Interfaces\Api\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Interfaces\Api\ApiController;
 use App\Entities\Groups\Repositories\GroupRepository;
 use App\Entities\Groups\Resources\GroupResource;
 
-class GroupApiController extends ApiController
+final class GroupApiController extends ApiController
 {
     /**
      * @var GroupRepository

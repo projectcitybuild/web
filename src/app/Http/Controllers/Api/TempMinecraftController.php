@@ -1,6 +1,6 @@
 <?php
 
-namespace Interfaces\Api\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Interfaces\Api\ApiController;
 use Illuminate\Validation\Factory as Validator;
@@ -15,7 +15,7 @@ use App\Exceptions\Http\ServerException;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Entities\Accounts\Resources\AccountResource;
 
-class TempMinecraftController extends ApiController
+final class TempMinecraftController extends ApiController
 {
     public function authenticate(Request $request, Validator $validation, Client $client)
     {

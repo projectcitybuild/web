@@ -1,6 +1,6 @@
 <?php
 
-namespace Interfaces\Api\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Interfaces\Api\ApiController;
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ use App\Library\Discourse\Api\DiscourseUserApi;
 use App\Exceptions\Http\BadRequestException;
 use App\Entities\Accounts\Resources\AccountResource;
 
-class DiscordSyncController extends ApiController
+final class DiscordSyncController extends ApiController
 {
     /**
      * @var AccountLinkRepository
