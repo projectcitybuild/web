@@ -1,10 +1,11 @@
 <?php
-namespace Interfaces\Api\Requests;
+
+namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Exceptions\Http\BadRequestException;
 
-class GameBanCheckRequest extends FormRequest
+final class GameBanCheckRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
