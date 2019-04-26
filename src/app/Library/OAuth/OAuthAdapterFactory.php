@@ -9,7 +9,7 @@ use App\Library\OAuth\Adapters\Facebook\FacebookOAuthAdapter;
 use App\Library\OAuth\Adapters\Twitter\TwitterOAuthAdapter;
 use App\Enum;
 
-final class OAuthAdapterFactory extends Enum
+final class OAuthAdapterFactory
 {
     public const FACEBOOK   = 'facebook';
     public const TWITTER    = 'twitter';
