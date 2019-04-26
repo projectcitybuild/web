@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Entities\Accounts\Repositories\UnactivatedAccountRepository;
 use App\Entities\Accounts\Notifications\AccountActivationNotification;
-use Interfaces\Web\Requests\RegisterRequest;
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Database\Connection;
 use Illuminate\Http\Request;
 use Illuminate\View\View;

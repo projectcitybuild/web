@@ -18,23 +18,23 @@
         <div class="card__body card__body--padded">
             <h1>Create an Account</h1>
 
-            <div class="register__instructions">
+            <!-- <div class="register__instructions">
                 Sign-up via social media:
             </div>
 
             <div class="register__social">
-                <a class="login__button login__button--facebook" href="{{ route('front.login.provider.redirect', 'facebook') }}">
+                <a class="login__button login__button--facebook" href="">
                     <i class="fab fa-facebook-square"></i> Facebook
                 </a>
-                <a class="login__button login__button--twitter" href="{{ route('front.login.provider.redirect', 'twitter') }}">
+                <a class="login__button login__button--twitter" href="">
                     <i class="fab fa-twitter-square"></i> Twitter
                 </a>
-                <a class="login__button login__button--google" href="{{ route('front.login.provider.redirect', 'google') }}">
+                <a class="login__button login__button--google" href="">
                     <i class="fab fa-google"></i> Google
                 </a>
             </div>
 
-            <hr class="divider" data-text="OR SIGN-UP MANUALLY">
+            <hr class="divider" data-text="OR SIGN-UP MANUALLY"> -->
 
             <form method="post" action="{{ route('front.register.submit') }}" id="form">
                 @csrf

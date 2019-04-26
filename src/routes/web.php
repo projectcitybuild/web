@@ -70,19 +70,18 @@ Route::prefix('login')->group(function () {
         'as'    => 'front.login.submit',
         'uses'  => 'LoginController@login',
     ]);
-    Route::get('{provider}/redirect', [
-        'as'    => 'front.login.provider.redirect',
-        'uses'  => 'LoginController@redirectToProvider',
-    ]);
-    Route::get('{provider}/callback', [
-        'as'    => 'front.login.provider.callback',
-        'uses'  => 'LoginController@handleProviderCallback',
-    ]);
-    Route::get('social/register', [
-        'as'    => 'front.login.social-register',
-        'uses'  => 'LoginController@createSocialAccount',
-    ])
-    ->middleware('signed');
+    // Route::get('{provider}/redirect', [
+    //     'as'    => 'front.login.provider.redirect',
+    //     'uses'  => 'LoginController@redirectToProvider',
+    // ]);
+    // Route::get('{provider}/callback', [
+    //     'as'    => 'front.login.provider.callback',
+    //     'uses'  => 'LoginController@handleProviderCallback',
+    // ]);
+    // Route::get('social/register', [
+    //     'as'    => 'front.login.social-register',
+    //     'uses'  => 'LoginController@createSocialAccount',
+    // ])->middleware('signed');
 });
 
 Route::prefix('password-reset')->group(function () {
@@ -99,8 +98,7 @@ Route::prefix('password-reset')->group(function () {
     Route::get('recovery', [
         'as'    => 'front.password-reset.recovery',
         'uses'  => 'PasswordRecoveryController@showResetForm',
-    ])
-    ->middleware('signed');
+    ])->middleware('signed');
     
     Route::post('recovery', [
         'as'    => 'front.password-reset.save',
@@ -148,8 +146,7 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function () {
         Route::get('email/confirm', [
             'as'    => 'front.account.settings.email.confirm',
             'uses'  => 'AccountSettingController@showConfirmForm',
-        ])
-        ->middleware('signed');
+        ])->middleware('signed');
     
         Route::post('email/confirm', [
             'as'    => 'front.account.settings.email.confirm.save',

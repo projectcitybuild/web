@@ -2,14 +2,14 @@
 
 namespace App\Library\OAuth;
 
-use Domains\LegacyEnum;
 use App\Library\OAuth\Adapters\Discord\DiscordOAuthAdapter;
 use App\Library\OAuth\Adapters\Google\GoogleOAuthAdapter;
 use App\Library\OAuth\Exceptions\UnsupportedOAuthAdapter;
 use App\Library\OAuth\Adapters\Facebook\FacebookOAuthAdapter;
 use App\Library\OAuth\Adapters\Twitter\TwitterOAuthAdapter;
+use App\Enum;
 
-final class OAuthAdapterFactory extends LegacyEnum
+final class OAuthAdapterFactory
 {
     public const FACEBOOK   = 'facebook';
     public const TWITTER    = 'twitter';

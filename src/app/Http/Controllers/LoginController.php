@@ -7,7 +7,7 @@ use App\Library\Discourse\Exceptions\BadSSOPayloadException;
 use App\Library\OAuth\OAuthLoginHandler;
 use App\Services\Login\LoginAccountCreationService;
 use App\Services\Login\LogoutService; 
-use Interfaces\Web\Requests\LoginRequest;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Log\Logger;
 use Illuminate\Http\Request;

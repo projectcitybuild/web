@@ -1,7 +1,8 @@
 <?php
+
 namespace Domains\Helpers;
 
-class TokenHelpers
+final class TokenHelpers
 {
     private const HASH_ALGORITHM = 'sha256';
  
@@ -9,8 +10,7 @@ class TokenHelpers
 
     public static function generateToken($message = null) : string
     {
-        // generate a token using either
-        // the supplied data or use the
+        // generate a token using either the supplied data or use the
         // current timestamp
         $message = $message ?: time();
 

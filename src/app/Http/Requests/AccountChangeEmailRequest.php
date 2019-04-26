@@ -1,5 +1,5 @@
 <?php
-namespace Interfaces\Web\Requests;
+namespace App\Http\Requests;
 
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Accounts\Repositories\AccountRepository;
