@@ -22,7 +22,7 @@ use Illuminate\Validation\Factory as Validator;
 use Illuminate\Database\Connection;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Application\Routes\Api\ApiController;
+use App\Http\ApiController;
 
 final class BanController extends ApiController
 {

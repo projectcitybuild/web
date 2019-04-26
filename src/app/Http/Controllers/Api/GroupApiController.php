@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use Interfaces\Api\ApiController;
+use App\Http\ApiController;
 use App\Entities\Groups\Repositories\GroupRepository;
 use App\Entities\Groups\Resources\GroupResource;
 

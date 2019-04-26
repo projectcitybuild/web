@@ -9,7 +9,7 @@ use App\Services\PlayerBans\PlayerUnbanService;
 use App\Services\PlayerBans\PlayerBanLookupService;
 use App\Entities\GameIdentifierType;
 use App\Exceptions\Http\BadRequestException;
-use Interfaces\Api\ApiController;
+use App\Http\ApiController;
 use Illuminate\Validation\Factory as Validator;
 use Illuminate\Http\Request;
 use App\Services\PlayerBans\ServerKeyAuthService;

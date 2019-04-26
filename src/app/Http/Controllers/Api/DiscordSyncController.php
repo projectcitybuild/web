@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use Interfaces\Api\ApiController;
+use App\Http\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory as Validator;
 use App\Entities\Accounts\Repositories\AccountLinkRepository;

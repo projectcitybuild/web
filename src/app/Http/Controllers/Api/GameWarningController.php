@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use Interfaces\Api\ApiController;
+use App\Http\ApiController;
 use Illuminate\Validation\Factory as Validator;
 use Illuminate\Http\Request;
 use App\Services\PlayerWarnings\PlayerWarningService;
