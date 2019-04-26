@@ -12,6 +12,7 @@ use App\Http\Composers\MasterViewComposer;
 use App\Entities\GamePlayerType;
 use Schema;
 use App\Entities\Servers\Repositories\ServerCategoryRepositoryCache;
+use App\Entities\Servers\Repositories\ServerCategoryRepositoryContract;
 use Illuminate\Contracts\Cache\Factory as Cache;
 use App\Services\Queries\ServerQueryService;
 use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
@@ -25,16 +26,12 @@ final class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(
-            \App\Entities\Servers\Repositories\ServerCategoryRepositoryContract::class,
-            function($app) {
-                return new ServerCategoryRepositoryCache(
-                    $app->make(Cache::class),
-                    $app->make(\App\Entities\Servers\Repositories\ServerCategoryRepository::class)
-                );
-            }
-        );
-
+        $this->app->bind(ServerCategoryRepositoryContract::class, function($app) {
+            return new ServerCategoryRepositoryCache(
+                $app->make(Cache::class),
+                $app->make(\App\Entities\Servers\Repositories\ServerCategoryRepository::class)
+            );
+        });
         $this->app->singleton(\App\Services\Queries\ServerQueryService::class, function($app) {
             return new ServerQueryService(
                 $app->make(ServerStatusPlayerRepository::class)
