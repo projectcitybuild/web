@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Exceptions\Http\BadRequestException;
+use Illuminate\Contracts\Validation\Validator;
 
 final class GameBanRequest extends FormRequest
 {
