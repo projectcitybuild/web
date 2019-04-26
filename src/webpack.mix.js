@@ -1,10 +1,19 @@
-let mix = require('laravel-mix');
+const mix = require('laravel-mix');
 
-mix.setPublicPath('interfaces/web/public');
+/*
+ |--------------------------------------------------------------------------
+ | Mix Asset Management
+ |--------------------------------------------------------------------------
+ |
+ | Mix provides a clean, fluent API for defining some Webpack build steps
+ | for your Laravel application. By default, we are compiling the Sass
+ | file for the application as well as bundling up all the JS files.
+ |
+ */
 
-mix.typeScript('interfaces/web/assets/js/app.tsx', 'interfaces/web/public/assets/js')
-   .sass('interfaces/web/assets/sass/app.scss', 'interfaces/web/public/assets/css')
-   .sass('interfaces/web/assets/sass/navonly.scss', 'interfaces/web/public/assets/css')
+mix.typeScript('resources/js/app.tsx', 'public/assets/js')
+   .sass('resources/sass/app.scss', 'public/assets/css')
+   .sass('resources/sass/navonly.scss', 'public/assets/css')
    .extract([
         'react', 
         'date-fns', 
@@ -20,11 +29,11 @@ if(mix.config.production) {
         proxy: 'nginx',
         open: false,
         files: [
-            'interfaces/web/**/*.php',
-            'interfaces/web/assets/**/*.css', 
-            'interfaces/web/assets/**/*.js',
-            'interfaces/web/assets/**/*.ts',
-            'interfaces/web/public/**/*',
+            '**/*.php',
+            'resources/**/*.css', 
+            'resources/**/*.js',
+            'resources/**/*.ts',
+            'public/**/*',
         ]
     });
 }

@@ -6,20 +6,24 @@
 npm-debug.log
 yarn-error.log
 
+# dev
+.phpunit.result.cache
+.php_cs.cache
+
 # environment settings
 .env
 
 # generated resources/builds
-/interfaces/web/public/assets/css
-/interfaces/web/public/assets/js
+/public/assets/css
+/public/assets/js
 mix-manifest.json
-.php_cs.cache
 
 # token buckets
 *.ratelimit
 
-# user uploaded files
-/interfaces/web/public/storage
+# storage
+/public/hot
+/public/storage
 /storage/*.key
 
 # IDE generated settings
