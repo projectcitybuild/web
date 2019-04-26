@@ -2,15 +2,14 @@
 namespace Tests\Services;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\PlayerLookup\PlayerLookupService;
 use App\Entities\GamePlayerType;
 use App\Entities\Players\Models\MinecraftPlayer;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PlayerLookupService_Test extends TestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
+    use RefreshDatabase;
 
     public function testCreatesNewPlayer()
     {

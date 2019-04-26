@@ -2,8 +2,6 @@
 namespace Tests\Services;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Queries\ServerQueryService;
 use Illuminate\Support\Facades\Queue;
 use App\Entities\GameType;
@@ -14,10 +12,11 @@ use App\Library\QueryServer\GameAdapters\MinecraftQueryAdapter;
 use App\Library\QueryPlayer\GameAdapters\MojangUuidAdapter;
 use App\Library\QueryServer\ServerQueryResult;
 use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ServerQueryService_Test extends TestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
+    use RefreshDatabase;
     
     private function getEntityStub() : ServerJobEntity
     {

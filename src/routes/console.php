@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
-
 /*
 |--------------------------------------------------------------------------
 | Console Routes
@@ -13,6 +11,12 @@ use Illuminate\Foundation\Inspiring;
 |
 */
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->describe('Display an inspiring quote');
+Artisan::command('cleanup:password-resets', function () {
+    $cleanupService = resolve(PasswordResetCleanupService::class);
+    $cleanupService->cleanup();
+})->describe('Delete old password reset requests');
+
+Artisan::command('cleanup:unactivated-accounts', function () {
+    $cleanupService = resolve(UnactivatedAccountCleanupService::class);
+    $cleanupService->cleanup();
+})->describe('Delete old unactivated accounts');
