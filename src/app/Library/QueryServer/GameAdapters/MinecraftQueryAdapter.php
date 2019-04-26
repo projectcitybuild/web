@@ -40,7 +40,7 @@ final class MinecraftQueryAdapter implements ServerQueryAdapterContract
                 $players
             );
 
-        } catch (MinecraftQue$e) {
+        } catch (MinecraftQueryException$e) {
             return new ServerQueryResult();
         }
     }

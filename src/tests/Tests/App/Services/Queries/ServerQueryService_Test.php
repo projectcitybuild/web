@@ -13,6 +13,7 @@ use App\Services\Queries\Entities\ServerJobEntity;
 use App\Library\QueryServer\GameAdapters\MinecraftQueryAdapter;
 use App\Library\QueryPlayer\GameAdapters\MojangUuidAdapter;
 use App\Library\QueryServer\ServerQueryResult;
+use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
 
 class ServerQueryService_Test extends TestCase
 {
@@ -20,12 +21,15 @@ class ServerQueryService_Test extends TestCase
     
     private function getEntityStub() : ServerJobEntity
     {
-        $entity = new ServerJobEntity(resolve(MinecraftQueryAdapter::class),
-                                      resolve(MojangUuidAdapter::class),
-                                      'minecraft',
-                                      1,
-                                      'test_ip',
-                                      'test_port');
+        $entity = new ServerJobEntity(
+            resolve(MinecraftQueryAdapter::class),
+            resolve(MojangUuidAdapter::class),
+            'minecraft',
+            1,
+            'test_ip',
+            'test_port',
+            false
+        );
         $entity->setServerStatusId(5);
 
         return $entity;
@@ -35,7 +39,7 @@ class ServerQueryService_Test extends TestCase
     {
         // given...
         Queue::fake();
-        $service = new ServerQueryService();
+        $service = new ServerQueryService(new ServerStatusPlayerRepository());
 
         // when...
         $service->dispatchQuery(new GameType(GameType::Minecraft), 1, 'test_ip', 'test_port');
@@ -48,7 +52,7 @@ class ServerQueryService_Test extends TestCase
     {
         // given...
         Queue::fake();
-        $service = new ServerQueryService();
+        $service = new ServerQueryService(new ServerStatusPlayerRepository());
 
         // when...
         $entity = $this->getEntityStub();
@@ -65,7 +69,7 @@ class ServerQueryService_Test extends TestCase
         // given...
         $expectedPlayerIds = [1, 2];
         $entity = $this->getEntityStub();
-        $service = new ServerQueryService();
+        $service = new ServerQueryService(new ServerStatusPlayerRepository());
 
         // when...
         $service->processPlayerResult($entity, $expectedPlayerIds);
