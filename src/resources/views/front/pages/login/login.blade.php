@@ -57,7 +57,7 @@
                 Members gain access to personal player statistics, the forums, in-game rank synchronization and more.
             </div>
             
-            <a class="button button--fill button--large button--secondary" href="{{ route('front.register') }}">
+            <a class="button button--fill button--large button--accent" href="{{ route('front.register') }}">
                 Create an Account
             </a>
             
