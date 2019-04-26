@@ -31,11 +31,12 @@ class LogoutService
     private $log;
 
     
-    public function __construct(DiscourseUserApi $discourseUserApi,
-                                DiscourseAdminApi $discourseAdminApi,
-                                Auth $auth,
-                                Logger $logger)
-    {
+    public function __construct(
+        DiscourseUserApi $discourseUserApi,
+        DiscourseAdminApi $discourseAdminApi,
+        Auth $auth,
+        Logger $logger
+    ) {
         $this->discourseUserApi = $discourseUserApi;
         $this->discourseAdminApi = $discourseAdminApi;
         $this->auth = $auth;

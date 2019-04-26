@@ -12,6 +12,7 @@ class MorphMapHelpers
      * @param string $classResolvePath
      *
      * @return string
+     * @deprecated 1.10.1
      */
     public static function getMorphKeyOf(string $classResolvePath) : string
     {
