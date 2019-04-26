@@ -2,7 +2,7 @@
 
 namespace App\Library\OAuth\Adapters\Twitter;
 
-use App\Library\OAuth\Entities\OAuthProviderContract;
+use App\Library\OAuth\OAuthProviderContract;
 use App\Library\OAuth\Entities\OAuthUser;
 use Abraham\TwitterOAuth\TwitterOAuth;
 
