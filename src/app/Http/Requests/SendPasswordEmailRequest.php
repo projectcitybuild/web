@@ -1,11 +1,12 @@
 <?php
-namespace Interfaces\Web\Requests;
+
+namespace App\Http\Requests;
 
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Accounts\Repositories\AccountRepository;
 use Illuminate\Foundation\Http\FormRequest;
 
-class SendPasswordEmailRequest extends FormRequest
+final class SendPasswordEmailRequest extends FormRequest
 {
 
     /**

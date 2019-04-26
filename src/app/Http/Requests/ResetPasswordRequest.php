@@ -1,9 +1,10 @@
 <?php
-namespace Interfaces\Web\Requests;
+
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ResetPasswordRequest extends FormRequest
+final class ResetPasswordRequest extends FormRequest
 {
 
     /**
