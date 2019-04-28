@@ -67,13 +67,18 @@ final class LoginController extends WebController
                 $account->getKey(), 
                 $account->email
             );
-            return $this->goToDiscourseWithLoginPayload($endpoint);
         } 
         catch (BadSSOPayloadException $e) 
         {
             Log::debug('Missing nonce or return key in session', ['session' => $request->session()]);
             throw $e;
         }
+
+        if (Environment::isDev())
+        {
+            abort(403, 'Redirect to Discourse disabled in DEV');
+        }
+        return redirect()->to($endpoint);
     }
 
     /**
@@ -85,31 +90,6 @@ final class LoginController extends WebController
     public function login(LoginRequest $request)
     {
         return $this->loginOrShowForm($request);
-    }
-
-    /**
-     * Redirects to the login screen of an OAuth provider
-     *
-     * @param string $providerName
-     * @return RedirectResponse
-     */
-    public function redirectToProvider(string $providerName) : RedirectResponse
-    {
-        $callbackUri = route('front.login.provider.callback', $providerName);
-
-        return $this->oauthLoginHandler->redirectToLogin(
-            $providerName, 
-            $callbackUri
-        );
-    }
-
-    private function goToDiscourseWithLoginPayload(string $redirectUri) : RedirectResponse
-    {
-        if (Environment::isDev())
-        {
-            abort(403, 'Redirect to Discourse disabled in DEV');
-        }
-        return redirect()->to($redirectUri);
     }
 
     /**
