@@ -61,21 +61,21 @@ final class Environment
 
     public static function isDev() : bool
     {
-        return self::getLevel()->valueOf() === EnvironmentLevel::Dev;
+        return self::getLevel()->valueOf() === EnvironmentLevel::ENV_DEVELOPMENT;
     }
 
     public static function isTest() : bool
     {
-        return self::getLevel()->valueOf() === EnvironmentLevel::Testing;
+        return self::getLevel()->valueOf() === EnvironmentLevel::ENV_TESTING;
     }
 
     public static function isStaging() : bool
     {
-        return self::getLevel()->valueOf() === EnvironmentLevel::Staging;
+        return self::getLevel()->valueOf() === EnvironmentLevel::ENV_STAGING;
     }
 
     public static function isProduction() : bool
     {
-        return self::getLevel()->valueOf() === EnvironmentLevel::Production;
+        return self::getLevel()->valueOf() === EnvironmentLevel::ENV_PRODUCTION;
     }
 }
