@@ -70,18 +70,6 @@ Route::prefix('login')->group(function () {
         'as'    => 'front.login.submit',
         'uses'  => 'LoginController@login',
     ]);
-    // Route::get('{provider}/redirect', [
-    //     'as'    => 'front.login.provider.redirect',
-    //     'uses'  => 'LoginController@redirectToProvider',
-    // ]);
-    // Route::get('{provider}/callback', [
-    //     'as'    => 'front.login.provider.callback',
-    //     'uses'  => 'LoginController@handleProviderCallback',
-    // ]);
-    // Route::get('social/register', [
-    //     'as'    => 'front.login.social-register',
-    //     'uses'  => 'LoginController@createSocialAccount',
-    // ])->middleware('signed');
 });
 
 Route::prefix('password-reset')->group(function () {
@@ -156,28 +144,6 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function () {
         Route::post('password', [
             'as'    => 'front.account.settings.password',
             'uses'  => 'AccountSettingController@changePassword',
-        ]);
-    });
-
-    Route::prefix('social')->group(function () {
-        Route::get('/', [
-            'as'    => 'front.account.social',
-            'uses'  => 'AccountSocialController@showView',
-        ]);
-
-        Route::get('{provider}/redirect', [
-            'as'    => 'front.account.social.redirect',
-            'uses'  => 'AccountSocialController@redirectToProvider',
-        ]);
-        
-        Route::get('{provider}/callback', [
-            'as'    => 'front.account.social.callback',
-            'uses'  => 'AccountSocialController@handleProviderCallback',
-        ]);
-
-        Route::get('{provider}/delete', [
-            'as'    => 'front.account.social.delete',
-            'uses'  => 'AccountSocialController@deleteLink',
         ]);
     });
    
