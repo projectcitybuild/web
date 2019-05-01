@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\PlayerBans;
 
 use App\Entities\Bans\Repositories\GameUnbanRepository;
@@ -10,8 +11,7 @@ use App\Entities\Bans\Repositories\GameBanRepository;
 use App\Entities\GameType;
 use Illuminate\Database\Connection;
 
-
-class PlayerUnbanService
+final class PlayerUnbanService
 {
     /**
      * @var GameUnbanRepository

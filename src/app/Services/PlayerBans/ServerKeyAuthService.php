@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\PlayerBans;
 
 use App\Entities\ServerKeys\Repositories\ServerKeyRepository;
@@ -7,7 +8,7 @@ use App\Services\PlayerBans\Exceptions\MalformedTokenException;
 use App\Services\PlayerBans\Exceptions\UnauthorisedTokenException;
 use App\Exceptions\Http\ForbiddenException;
 
-class ServerKeyAuthService
+final class ServerKeyAuthService
 {
     /**
      * @var ServerKeyRepository

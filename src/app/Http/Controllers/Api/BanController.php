@@ -2,31 +2,27 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Entities\Bans\Services\BanCreationService;
-use App\Entities\Bans\Services\BanAuthorisationService;
-use App\Entities\Bans\Services\BanLookupService;
-use App\Entities\Bans\Services\BanLoggerService;
 use App\Entities\Bans\Resources\GameBanResource;
 use App\Entities\Bans\Resources\GameUnbanResource;
 use App\Entities\Bans\Exceptions\UserNotBannedException;
-use App\Entities\Bans\Transformers\BanResource;
-use App\Entities\Servers\Repositories\ServerRepository;
-use App\Entities\Servers\Transformers\ServerResource;
 use App\Entities\ServerKeys\Exceptions\UnauthorisedKeyActionException;
 use App\Entities\Players\Models\MinecraftPlayer;
 use App\Entities\Players\Services\MinecraftPlayerLookupService;
+use App\Services\PlayerBans\BanValidator;
+use App\Services\PlayerBans\PlayerBanLookupService;
+use App\Services\PlayerBans\PlayerBanService;
+use App\Services\PlayerBans\PlayerUnbanService;
+use App\Services\PlayerBans\ServerKeyAuthService;
 use App\Exceptions\Http\ServerException;
 use App\Exceptions\Http\BadRequestException;
 use Domains\Helpers\MorphMapHelpers;
 use Illuminate\Validation\Factory as Validator;
-use Illuminate\Database\Connection;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use App\Http\ApiController;
+use Illuminate\Support\Facades\DB;
 
 final class BanController extends ApiController
 {
-    
     /**
      * @var MinecraftPlayerLookupService
      */
@@ -43,19 +39,14 @@ final class BanController extends ApiController
     private $banLookupService;
 
     /**
-     * @var BanAuthorisationService
+     * @var BanValidator
      */
-    private $banAuthService;
+    private $banValidator;
 
     /**
      * @var BanLoggerService
      */
     private $banLoggerService;
-
-    /**
-     * @var Connection
-     */
-    private $connection;
 
     /**
      * @var Validator
@@ -67,17 +58,15 @@ final class BanController extends ApiController
         MinecraftPlayerLookupService $playerLookupService,
         BanCreationService $banCreationService,
         BanLookupService $banLookupService,
-        BanAuthorisationService $banAuthService,
+        BanValidator $banValidator,
         BanLoggerService $banLoggerService,
-        Connection $connection,
         Validator $validationFactory
     ) {
         $this->playerLookupService  = $playerLookupService;
         $this->banCreationService   = $banCreationService;
         $this->banLookupService     = $banLookupService;
-        $this->banAuthService       = $banAuthService;
+        $this->banValidator       = $banValidator;
         $this->banLoggerService     = $banLoggerService;
-        $this->connection           = $connection;
         $this->validationFactory    = $validationFactory;
     }
 
@@ -123,7 +112,7 @@ final class BanController extends ApiController
         $isGlobalBan        = $request->get('is_global_ban', false);
 
         // verify that this server key is allowed to create the given ban type
-        if (!$this->banAuthService->isAllowedToBan($isGlobalBan, $serverKey)) {
+        if (!$this->banValidator->isAllowedToBan($isGlobalBan, $serverKey)) {
             if ($isGlobalBan) {
                 throw new UnauthorisedKeyActionException('This server key does not have permission to create global bans');
             } else {
@@ -154,7 +143,7 @@ final class BanController extends ApiController
         $staffPlayerType    = MorphMapHelpers::getMorphKeyOf($aliasTypeMap[$staffPlayerType]);
         
 
-        $this->connection->beginTransaction();
+        DB::beginTransaction();
         try {
             $ban = $this->banCreationService->storeBan(
                 $serverKey->server_id,
@@ -176,12 +165,13 @@ final class BanController extends ApiController
             
             $serverKey->touch();
 
-            $this->connection->commit();
-            return new GameBanResource($ban);
+            DB::commit();
+
         } catch (\Exception $e) {
-            $this->connection->rollBack();
+            DB::rollBack();
             throw $e;
         }
+        return new GameBanResource($ban);
     }
 
     /**
@@ -246,7 +236,7 @@ final class BanController extends ApiController
             throw new UserNotBannedException('player_not_banned', 'This player is not currently banned');
         }
 
-        if (!$this->banAuthService->isAllowedToUnban($activeBan, $serverKey)) {
+        if (!$this->banValidator->isAllowedToUnban($activeBan, $serverKey)) {
             if ($activeBan->is_global_ban) {
                 throw new UnauthorisedKeyActionException(
                     'no_global_ban_permission',
@@ -260,7 +250,7 @@ final class BanController extends ApiController
             }
         }
 
-        $this->connection->beginTransaction();
+        DB::beginTransaction();
         try {
             $unban = $this->banCreationService->storeUnban(
                 $serverKey->server_id,
@@ -277,12 +267,13 @@ final class BanController extends ApiController
 
             $serverKey->touch();
 
-            $this->connection->commit();
-            return new GameUnbanResource($unban);
+            DB::commit();
+
         } catch (\Exception $e) {
-            $this->connection->rollBack();
+            DB::rollBack();
             throw $e;
         }
+        return new GameUnbanResource($unban);
     }
 
     /**

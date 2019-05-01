@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\PlayerBans;
 
 use App\Entities\Bans\Repositories\GameBanRepository;
@@ -8,8 +9,7 @@ use App\Services\PlayerLookup\PlayerLookupService;
 use App\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
 use App\Entities\GameType;
 
-
-class PlayerBanService
+final class PlayerBanService
 {
     /**
      * @var GameBanRepository
