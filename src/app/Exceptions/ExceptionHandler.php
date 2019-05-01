@@ -1,9 +1,8 @@
 <?php
 
-namespace Application;
+namespace App\Exceptions;
 
 use Exception;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler;
 use App\Environment;
 use App\Exceptions\Http\BaseHttpException;
@@ -27,6 +26,16 @@ class ExceptionHandler extends Handler
         \App\Exceptions\Http\ForbiddenException::class,
         \App\Exceptions\Http\NotFoundException::class,
         \App\Exceptions\Http\TooManyRequestsException::class
+    ];
+
+    /**
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array
+     */
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
     ];
 
 
@@ -73,28 +82,5 @@ class ExceptionHandler extends Handler
         }
 
         return parent::render($request, $exception);
-    }
-
-    /**
-     * Convert an authentication exception into an unauthenticated response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
-     * @return \Illuminate\Http\Response
-     */
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        if ($request->expectsJson()) {
-            return response()->json([
-                'error' => [
-                    'id'        => 'UnauthorisedException',
-                    'title'     => 'Unauthenticated',
-                    'detail'    => 'Login is required',
-                    'status'    => 401,
-                ],
-            ], 401);
-        }
-
-        return redirect()->guest(route('front.login'));
     }
 }
