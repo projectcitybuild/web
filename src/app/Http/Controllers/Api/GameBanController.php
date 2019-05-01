@@ -84,7 +84,7 @@ final class GameBanController extends ApiController
     {        
         $serverKey = $this->getServerKeyFromHeader($request);
 
-        $validator = Validator::make($request->all(), [
+        $this->validateRequest($request->all(), [
             'player_id_type'    => ['required', Rule::in($this->getIdTypeWhitelist())],
             'player_id'         => 'required|max:60',
             'player_alias'      => 'required',
@@ -96,10 +96,6 @@ final class GameBanController extends ApiController
         ], [
             'in' => 'Invalid :attribute given. Must be ['.$this->getIdTypeWhitelist().']',
         ]);
-
-        if ($validator->fails()) {
-            throw new BadRequestException('bad_input', $validator->errors()->first());
-        }
 
         $bannedPlayerId     = $request->get('player_id');
         $bannedPlayerAlias  = $request->get('player_alias');
@@ -140,7 +136,8 @@ final class GameBanController extends ApiController
     public function storeUnban(Request $request)
     {
         $serverKey = $this->getServerKeyFromHeader($request);
-        $validator = Validator::make($request->all(), [
+
+        $this->validateRequest($request->all(), [
             'player_id_type'    => ['required', Rule::in($this->getIdTypeWhitelist())],
             'player_id'         => 'required',
             'banner_id_type'    => ['required', Rule::in($this->getIdTypeWhitelist())],
@@ -148,10 +145,6 @@ final class GameBanController extends ApiController
         ], [
             'in' => 'Invalid :attribute given. Must be ['.$this->getIdTypeWhitelist().']',
         ]);
-
-        if ($validator->fails()) {
-            throw new BadRequestException('bad_input', $validator->errors()->first());
-        }
 
         $bannedPlayerId   = $request->get('player_id');
         $staffPlayerId    = $request->get('staff_id');
@@ -168,16 +161,13 @@ final class GameBanController extends ApiController
     public function getPlayerStatus(Request $request)
     {
         $serverKey = $this->getServerKeyFromHeader($request);
-        $validator = Validator::make($request->all(), [
+
+        $this->validateRequest($request->all(), [
             'player_id_type'    => ['required', Rule::in($this->getIdTypeWhitelist())],
             'player_id'         => 'required',
         ], [
             'in' => 'Invalid :attribute given. Must be ['.$this->getIdTypeWhitelist().']',
         ]);
-
-        if ($validator->fails()) {
-            throw new BadRequestException('bad_input', $validator->errors()->first());
-        }
 
         $bannedPlayerId   = $request->get('player_id');
         $bannedPlayerType = GameIdentifierType::fromRawValue($request->get('player_id_type'));
