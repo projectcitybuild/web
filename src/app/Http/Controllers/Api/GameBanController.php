@@ -107,12 +107,8 @@ final class GameBanController extends ApiController
         $bannedPlayerType   = GameIdentifierType::fromRawValue($request->get('player_id_type'));
         $staffPlayerType    = GameIdentifierType::fromRawValue($request->get('staff_id_type'));
 
-         // if performing a global ban, assert that the key is allowed to do so
-         if ($isGlobalBan && !$serverKey->can_global_ban) {
-            throw new UnauthorisedKeyActionException('This server key does not have permission to create global bans');
-        }
-
         $ban = $this->playerBanService->ban(
+            $serverKey,
             $serverKey->server_id,
             $bannedPlayerId, 
             $bannedPlayerType->playerType(),
@@ -151,10 +147,12 @@ final class GameBanController extends ApiController
         $bannedPlayerType = GameIdentifierType::fromRawValue($request->get('player_id_type'));
         $staffPlayerType  = GameIdentifierType::fromRawValue($request->get('staff_id_type'));
 
-        $unban = $this->playerUnbanService->unban($bannedPlayerId,
-                                                  $bannedPlayerType->playerType(),
-                                                  $staffPlayerId,
-                                                  $staffPlayerType->playerType());
+        $unban = $this->playerUnbanService->unban(
+            $bannedPlayerId,
+            $bannedPlayerType->playerType(),
+            $staffPlayerId,
+            $staffPlayerType->playerType()
+        );
         return new GameUnbanResource($unban);
     }
 

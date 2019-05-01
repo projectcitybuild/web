@@ -12,29 +12,6 @@ final class BanValidator
 {
     /**
      * Returns whether the given ServerKey has permission
-     * to create a global/local ban.
-     *
-     * @param boolean $isGlobalBan
-     * @param ServerKey $serverKey
-     *
-     * @return boolean
-     */
-    public function isAllowedToBan(bool $isGlobalBan, ServerKey $serverKey)
-    {
-        if (!isset($serverKey)) {
-            // this shouldn't be triggered unless the middleware has
-            // failed to check for a server key already
-            Log::critical('Attempted ban authentication but no ServerKey provided', ['ban' => $ban]);
-            throw new BadRequestException('no_server_key', 'No server key provided');
-        }
-        
-        return $isGlobalBan
-            ? $serverKey->can_global_ban
-            : $serverKey->can_local_ban;
-    }
-
-    /**
-     * Returns whether the given ServerKey has permission
      * to unban the given GameBan
      *
      * @param GameBan $ban

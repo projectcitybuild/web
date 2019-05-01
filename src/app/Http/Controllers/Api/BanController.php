@@ -20,6 +20,8 @@ use Illuminate\Http\Request;
 use App\Http\ApiController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Entities\GameIdentifierType;
+use App\Entities\GamePlayerType;
 
 final class BanController extends ApiController
 {
@@ -34,9 +36,9 @@ final class BanController extends ApiController
     private $banCreationService;
 
     /**
-     * @var BanLookupService
+     * @var PlayerBanService
      */
-    private $banLookupService;
+    private $playerBanService;
 
     /**
      * @var BanValidator
@@ -44,23 +46,36 @@ final class BanController extends ApiController
     private $banValidator;
 
     /**
-     * @var BanLoggerService
+     * Maps game identifier types (eg. MINECRAFT_UUID) to game player type (eg. MINECRAFT)
+     *
+     * @var array
      */
-    private $banLoggerService;
+    private $identifierMapping = [
+        GameIdentifierType::MinecraftUUID => MinecraftPlayer::class,
+    ];
 
 
     public function __construct(
         MinecraftPlayerLookupService $playerLookupService,
-        BanCreationService $banCreationService,
+        PlayerBanService $playerBanService,
         BanLookupService $banLookupService,
         BanValidator $banValidator,
         BanLoggerService $banLoggerService
     ) {
         $this->playerLookupService  = $playerLookupService;
-        $this->banCreationService   = $banCreationService;
+        $this->playerBanService     = $playerBanService;
         $this->banLookupService     = $banLookupService;
-        $this->banValidator       = $banValidator;
+        $this->banValidator         = $banValidator;
         $this->banLoggerService     = $banLoggerService;
+    }
+
+    private function getPlayerByIdentifier(GameIdentifierType $identifierType, string $identifier) {
+        switch ($identifierType) {
+            case GameIdentifierType::MinecraftUUID:
+                return $this->playerLookupService->getOrCreateByUuid($identifier);
+            default:
+                return null;
+        }
     }
 
     /**
@@ -72,10 +87,8 @@ final class BanController extends ApiController
      */
     public function storeBan(Request $request)
     {
-        $aliasTypeMap = [
-            'MINECRAFT_UUID' => MinecraftPlayer::class,
-        ];
-        $aliasTypeWhitelist = implode(',', array_keys($aliasTypeMap));
+        $aliasTypeWhitelist = implode(',', array_keys($this->identifierMapping));
+        dd($aliasTypeWhitelist);
 
         $validator = Validator::make($request->all(), [
             'player_id_type'    => 'required|in:'.$aliasTypeWhitelist,
@@ -95,66 +108,50 @@ final class BanController extends ApiController
         }
 
         $serverKey          = $request->get('key');
-        $bannedPlayerType   = $request->get('player_id_type');
+        $bannedPlayerIdType = $request->get('player_id_type');
         $bannedPlayerId     = $request->get('player_id');
         $bannedAliasAtTime  = $request->get('player_alias');
-        $staffPlayerType    = $request->get('banner_id_type');
+        $staffPlayerIdType  = $request->get('banner_id_type');
         $staffPlayerId      = $request->get('banner_id');
         $reason             = $request->get('reason');
         $expiryTimestamp    = $request->get('expires_at');
         $isGlobalBan        = $request->get('is_global_ban', false);
 
-        // verify that this server key is allowed to create the given ban type
-        if (!$this->banValidator->isAllowedToBan($isGlobalBan, $serverKey)) {
-            if ($isGlobalBan) {
-                throw new UnauthorisedKeyActionException('This server key does not have permission to create global bans');
-            } else {
-                throw new UnauthorisedKeyActionException('This server key does not have permission to create local bans');
-            }
-        }
+        $bannedPlayerIdType = new GameIdentifierType($bannedPlayerIdType);
+        $staffPlayerIdType  = new GameIdentifierType($staffPlayerIdType);
 
-        // !!!
-        // TODO: move this to a factory
-        // !!!
-        switch ($bannedPlayerType) {
-            case 'MINECRAFT_UUID':
-                $bannedPlayer = $this->playerLookupService->getOrCreateByUuid($bannedPlayerId);
-                break;
-            default:
-                throw new ServerException('bad_player_identifier', 'Invalid player identifier type');
-        }
-        switch ($staffPlayerType) {
-            case 'MINECRAFT_UUID':
-                $staffPlayer = $this->playerLookupService->getOrCreateByUuid($staffPlayerId);
-                break;
-            default:
-                throw new ServerException('bad_staff_identifier', 'Invalid staff identifier type');
-        }
+        $bannedPlayerType   = MorphMapHelpers::getMorphKeyOf($this->identifierMapping[$bannedPlayerIdType->valueOf()]);
+        $staffPlayerType    = MorphMapHelpers::getMorphKeyOf($this->identifierMapping[$staffPlayerIdType->valueOf()]);
 
 
-        $bannedPlayerType   = MorphMapHelpers::getMorphKeyOf($aliasTypeMap[$bannedPlayerType]);
-        $staffPlayerType    = MorphMapHelpers::getMorphKeyOf($aliasTypeMap[$staffPlayerType]);
+        // if performing a global ban, assert that the key is allowed to do so
+        if ($isGlobalBan && !$serverKey->can_global_ban) {
+            throw new UnauthorisedKeyActionException('This server key does not have permission to create global bans');
+        }
+
+        $bannedPlayer = $this->getPlayerByIdentifier($bannedPlayerIdType, $bannedPlayerId);
+        if ($bannedPlayer === null) {
+            throw new BadRequestException('bad_player_identifier', 'Invalid player identifier type');
+        }
+
+        $staffPlayer = $this->getPlayerByIdentifier($staffPlayerIdType, $staffPlayerId);
+        if ($staffPlayer === null) {
+            throw new BadRequestException('bad_staff_identifier', 'Invalid staff identifier type');
+        }
         
-
         DB::beginTransaction();
         try {
-            $ban = $this->banCreationService->storeBan(
+            $ban = $this->playerBanService->ban(
                 $serverKey->server_id,
                 $bannedPlayer->getKey(),
-                $bannedPlayerType,
+                new GamePlayerType($bannedPlayerType),
                 $bannedAliasAtTime,
                 $staffPlayer->getKey(),
-                $staffPlayerType,
+                new GamePlayerType($staffPlayerType),
                 $reason,
                 $expiryTimestamp,
                 $isGlobalBan
-            );
-
-            $this->banLoggerService->logBanCreation(
-                $ban->game_ban_id,
-                $serverKey->server_key_id,
-                $request->ip()
-            );
+            );  
             
             $serverKey->touch();
 
@@ -177,7 +174,7 @@ final class BanController extends ApiController
     public function storeUnban(Request $request)
     {
         $aliasTypeMap = [
-            'MINECRAFT_UUID' => MinecraftPlayer::class,
+            GameIdentifierType::MinecraftUUID => MinecraftPlayer::class,
         ];
         $aliasTypeWhitelist = implode(',', array_keys($aliasTypeMap));
 
