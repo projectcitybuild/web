@@ -8,6 +8,7 @@ use App\Environment;
 use App\Console\Commands\ImportGroupCommand;
 use App\Console\Commands\GroupAddUserCommand;
 use App\Console\Commands\GroupRemoveUserCommand;
+use App\Console\Commands\ServerKeyCreateCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -22,6 +23,7 @@ class Kernel extends ConsoleKernel
         ImportGroupCommand::class,
         GroupAddUserCommand::class,
         GroupRemoveUserCommand::class,
+        ServerKeyCreateCommand::class,
     ];
 
     /**

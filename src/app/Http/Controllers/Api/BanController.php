@@ -16,10 +16,10 @@ use App\Services\PlayerBans\ServerKeyAuthService;
 use App\Exceptions\Http\ServerException;
 use App\Exceptions\Http\BadRequestException;
 use Domains\Helpers\MorphMapHelpers;
-use Illuminate\Validation\Factory as Validator;
 use Illuminate\Http\Request;
 use App\Http\ApiController;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 final class BanController extends ApiController
 {
@@ -48,26 +48,19 @@ final class BanController extends ApiController
      */
     private $banLoggerService;
 
-    /**
-     * @var Validator
-     */
-    private $validationFactory;
-
 
     public function __construct(
         MinecraftPlayerLookupService $playerLookupService,
         BanCreationService $banCreationService,
         BanLookupService $banLookupService,
         BanValidator $banValidator,
-        BanLoggerService $banLoggerService,
-        Validator $validationFactory
+        BanLoggerService $banLoggerService
     ) {
         $this->playerLookupService  = $playerLookupService;
         $this->banCreationService   = $banCreationService;
         $this->banLookupService     = $banLookupService;
         $this->banValidator       = $banValidator;
         $this->banLoggerService     = $banLoggerService;
-        $this->validationFactory    = $validationFactory;
     }
 
     /**
@@ -84,7 +77,7 @@ final class BanController extends ApiController
         ];
         $aliasTypeWhitelist = implode(',', array_keys($aliasTypeMap));
 
-        $validator = $this->validationFactory->make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'player_id_type'    => 'required|in:'.$aliasTypeWhitelist,
             'player_id'         => 'required|max:60',
             'player_alias'      => 'required',
@@ -188,7 +181,7 @@ final class BanController extends ApiController
         ];
         $aliasTypeWhitelist = implode(',', array_keys($aliasTypeMap));
 
-        $validator = $this->validationFactory->make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'player_id_type'    => 'required|in:'.$aliasTypeWhitelist,
             'player_id'         => 'required',
             'banner_id_type'    => 'required|in:'.$aliasTypeWhitelist,
@@ -290,7 +283,7 @@ final class BanController extends ApiController
         ];
         $aliasTypeWhitelist = implode(',', array_keys($aliasTypeMap));
 
-        $validator = $this->validationFactory->make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'player_id_type'    => 'required|in:'.$aliasTypeWhitelist,
             'player_id'         => 'required',
         ]);
@@ -338,7 +331,7 @@ final class BanController extends ApiController
         ];
         $aliasTypeWhitelist = implode(',', array_keys($aliasTypeMap));
 
-        $validator = $this->validationFactory->make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'player_id_type'    => 'required|in:'.$aliasTypeWhitelist,
             'player_id'         => 'required',
         ]);
