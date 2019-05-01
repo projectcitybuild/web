@@ -10,17 +10,13 @@ use App\Services\PlayerBans\PlayerBanLookupService;
 use App\Entities\GameIdentifierType;
 use App\Exceptions\Http\BadRequestException;
 use App\Http\ApiController;
-use Illuminate\Validation\Factory as Validator;
 use Illuminate\Http\Request;
 use App\Services\PlayerBans\ServerKeyAuthService;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 final class GameBanController extends ApiController
 {
-    /**
-     * @var Validator
-     */
-    private $validationFactory;
-
     /**
      * @var PlayerBanService
      */
@@ -41,19 +37,26 @@ final class GameBanController extends ApiController
      */
     private $serverKeyAuthService;
 
+    /**
+     * Maps game identifier types (eg. MINECRAFT_UUID) to game player type (eg. MINECRAFT)
+     *
+     * @var array
+     */
+    private $identifierMapping = [
+        GameIdentifierType::MinecraftUUID => MinecraftPlayer::class,
+    ];
+
 
     public function __construct(
         PlayerBanService $playerBanService,
         PlayerUnbanService $playerUnbanService,
         PlayerBanLookupService $playerBanLookupService,
-        ServerKeyAuthService $serverKeyAuthService,
-        Validator $validationFactory
+        ServerKeyAuthService $serverKeyAuthService
     ) {
         $this->playerBanService = $playerBanService;
         $this->playerUnbanService = $playerUnbanService;
         $this->playerBanLookupService = $playerBanLookupService;
         $this->serverKeyAuthService = $serverKeyAuthService;
-        $this->validationFactory    = $validationFactory;
     }
 
     /**
@@ -64,22 +67,26 @@ final class GameBanController extends ApiController
      * @return void
      */
     public function storeBan(Request $request)
-    {
+    {        
         $authHeader = $request->header('Authorization');
         $serverKey = $this->serverKeyAuthService->getServerKey($authHeader);
 
-        $validator = $this->validationFactory->make($request->all(), [
-            'player_id_type'    => 'required',
+        $idTypeWhitelist = implode(',', array_keys($this->identifierMapping));
+
+        $validator = Validator::make($request->all(), [
+            'player_id_type'    => ['required', Rule::in($idTypeWhitelist)],
             'player_id'         => 'required|max:60',
             'player_alias'      => 'required',
-            'staff_id_type'     => 'required',
+            'staff_id_type'     => ['required', Rule::in($idTypeWhitelist)],
             'staff_id'          => 'required|max:60',
             'reason'            => 'string',
             'expires_at'        => 'integer',
             'is_global_ban'     => 'boolean',
+        ], [
+            'in' => 'Invalid :attribute given. Must be ['.$idTypeWhitelist.']',
         ]);
 
-        if ($validator->failed()) {
+        if ($validator->fails()) {
             throw new BadRequestException('bad_input', $validator->errors()->first());
         }
 
@@ -93,15 +100,17 @@ final class GameBanController extends ApiController
         $bannedPlayerType   = GameIdentifierType::fromRawValue($request->get('player_id_type'));
         $staffPlayerType    = GameIdentifierType::fromRawValue($request->get('staff_id_type'));
 
-        $ban = $this->playerBanService->ban($serverKey->server_id,
-                                            $bannedPlayerId, 
-                                            $bannedPlayerType->playerType(),
-                                            $bannedPlayerAlias,
-                                            $staffPlayerId,
-                                            $staffPlayerType->playerType(),
-                                            $reason,
-                                            $expiresAt,
-                                            $isGlobalBan);
+        $ban = $this->playerBanService->ban(
+            $serverKey->server_id,
+            $bannedPlayerId, 
+            $bannedPlayerType->playerType(),
+            $bannedPlayerAlias,
+            $staffPlayerId,
+            $staffPlayerType->playerType(),
+            $reason,
+            $expiresAt,
+            $isGlobalBan
+        );
         return new GameBanResource($ban);
     }
 
@@ -124,7 +133,7 @@ final class GameBanController extends ApiController
             'banner_id'         => 'required',
         ]);
 
-        if ($validator->failed()) {
+        if ($validator->fails()) {
             throw new BadRequestException('bad_input', $validator->errors()->first());
         }
 
@@ -150,7 +159,7 @@ final class GameBanController extends ApiController
             'player_id'         => 'required',
         ]);
 
-        if ($validator->failed()) {
+        if ($validator->fails()) {
             throw new BadRequestException('bad_input', $validator->errors()->first());
         }
 
