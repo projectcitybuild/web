@@ -3,19 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\ApiController;
-use Illuminate\Validation\Factory as Validator;
 use Illuminate\Http\Request;
 use App\Services\PlayerWarnings\PlayerWarningService;
 use App\Services\PlayerBans\ServerKeyAuthService;
 use App\Services\PlayerBans\Exceptions\UnauthorisedKeyActionException;
+use App\Entities\ServerKeys\Models\ServerKey;
 
 final class GameWarningController extends ApiController
 {
-    /**
-     * @var Validator
-     */
-    private $validationFactory;
-
     /**
      * @var PlayerWarningService
      */
@@ -27,25 +22,31 @@ final class GameWarningController extends ApiController
     private $serverKeyAuthService;
 
 
-    public function __construct(PlayerWarningService $playerWarningService,
-                                ServerKeyAuthService $serverKeyAuthService,
-                                Validator $validationFactory) 
-    {
+    public function __construct(
+        PlayerWarningService $playerWarningService,
+        ServerKeyAuthService $serverKeyAuthService
+    ) {
         $this->playerWarningService = $playerWarningService;
         $this->serverKeyAuthService = $serverKeyAuthService;
-        $this->validationFactory = $validationFactory;
+    }
+
+    private function getServerKeyFromHeader(Request $request) : ServerKey
+    {
+        $authHeader = $request->header('Authorization');
+        $serverKey = $this->serverKeyAuthService->getServerKey($authHeader);
+
+        return $serverKey;
     }
 
     public function storeWarning(Request $request)
     {
-        $authHeader = $request->header('Authorization');
-        $serverKey = $this->serverKeyAuthService->getServerKey($authHeader);
+        $serverKey = $this->getServerKeyFromHeader($request);
 
         if (!$serverKey->can_warn) {
             throw new UnauthorisedKeyActionException('unauthorised_action', 'This key does not have permission to create warnings');
         }
 
-        $validator = $this->validationFactory->make($request->all(), [
+        $this->validateRequest($request->all(), [
             'player_id_type'    => 'required',
             'player_id'         => 'required|max:60',
             'staff_id_type'     => 'required',
@@ -53,10 +54,6 @@ final class GameWarningController extends ApiController
             'reason'            => 'string',
             'weight'            => 'integer',
         ]);
-
-        if ($validator->failed()) {
-            throw new BadRequestException('bad_input', $validator->errors()->first());
-        }
 
         // TODO: use ServerKey
         $serverId = 1;
@@ -69,34 +66,32 @@ final class GameWarningController extends ApiController
         $warnedPlayerType   = GameIdentifierType::fromRawValue($request->get('player_id_type'));
         $staffPlayerType    = GameIdentifierType::fromRawValue($request->get('staff_id_type'));
 
-        $warning = $this->playerWarningService->warn($warnedPlayerId,
-                                                     $warnedPlayerType->playerType(),
-                                                     $staffPlayerId,
-                                                     $staffPlayerType->playerType(),
-                                                     $reason,
-                                                     $serverId,
-                                                     $weight);
+        $warning = $this->playerWarningService->warn(
+            $warnedPlayerId,
+            $warnedPlayerType->playerType(),
+            $staffPlayerId,
+            $staffPlayerType->playerType(),
+            $reason,
+            $serverId,
+            $weight
+        );
+        
         // TODO: convert to Resource
         return $warning;
     }
 
     public function getWarningCount(Request $request)
     {
-        $authHeader = $request->header('Authorization');
-        $serverKey = $this->serverKeyAuthService->getServerKey($authHeader);
+        $serverKey = $this->getServerKeyFromHeader($request);
 
         if (!$serverKey->can_warn) {
             throw new UnauthorisedKeyActionException('unauthorised_action', 'This key does not have permission to create warnings');
         }
         
-        $validator = $this->validationFactory->make($request->all(), [
+        $this->validateRequest($request->all(), [
             'player_id_type'    => 'required',
             'player_id'         => 'required|max:60',
         ]);
-
-        if ($validator->failed()) {
-            throw new BadRequestException('bad_input', $validator->errors()->first());
-        }
 
         // TODO: use ServerKey
         $serverId = 1;

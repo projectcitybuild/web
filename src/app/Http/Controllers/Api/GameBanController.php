@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Entities\Bans\Resources\GameBanResource;
 use App\Entities\Bans\Resources\GameUnbanResource;
 use App\Services\PlayerBans\PlayerBanService;
-use App\Services\PlayerBans\PlayerUnbanService;
 use App\Services\PlayerBans\PlayerBanLookupService;
 use App\Entities\GameIdentifierType;
-use App\Exceptions\Http\BadRequestException;
 use App\Http\ApiController;
 use Illuminate\Http\Request;
 use App\Services\PlayerBans\ServerKeyAuthService;
@@ -22,11 +20,6 @@ final class GameBanController extends ApiController
      * @var PlayerBanService
      */
     private $playerBanService;
-
-    /**
-     * @var PlayerUnbanService
-     */
-    private $playerUnbanService;
 
     /**
      * @var PlayerBanLookupService
@@ -50,12 +43,10 @@ final class GameBanController extends ApiController
 
     public function __construct(
         PlayerBanService $playerBanService,
-        PlayerUnbanService $playerUnbanService,
         PlayerBanLookupService $playerBanLookupService,
         ServerKeyAuthService $serverKeyAuthService
     ) {
         $this->playerBanService = $playerBanService;
-        $this->playerUnbanService = $playerUnbanService;
         $this->playerBanLookupService = $playerBanLookupService;
         $this->serverKeyAuthService = $serverKeyAuthService;
     }
@@ -144,10 +135,11 @@ final class GameBanController extends ApiController
 
         $bannedPlayerId   = $request->get('player_id');
         $staffPlayerId    = $request->get('staff_id');
+
         $bannedPlayerType = GameIdentifierType::fromRawValue($request->get('player_id_type'));
         $staffPlayerType  = GameIdentifierType::fromRawValue($request->get('staff_id_type'));
 
-        $unban = $this->playerUnbanService->unban(
+        $unban = $this->playerBanService->unban(
             $bannedPlayerId,
             $bannedPlayerType->playerType(),
             $staffPlayerId,
