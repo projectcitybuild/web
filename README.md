@@ -1,14 +1,19 @@
-![PCB](https://projectcitybuild.com/assets/images/logo.png)
+<p align="center">
+    <img src="https://projectcitybuild.com/assets/images/logo.png" alt="Project City Build"/>
+</p>
 
-[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0) [![Build Status](https://travis-ci.org/andyksaw/ProjectCityBuild.svg?branch=master)](https://travis-ci.org/andyksaw/ProjectCityBuild)
-[![codecov](https://codecov.io/gh/andyksaw/ProjectCityBuild/branch/master/graph/badge.svg)](https://codecov.io/gh/andyksaw/ProjectCityBuild)
+<p align="center">
+    <a href="https://opensource.org/licenses/MPL-2.0"><img src="https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg" alt="License: MPL 2.0"></a>
+    <a href="https://travis-ci.org/andyksaw/ProjectCityBuild"><img src="https://travis-ci.org/andyksaw/ProjectCityBuild.svg?branch=master" alt="Build status"></a>
+    <a href="https://codecov.io/gh/andyksaw/ProjectCityBuild"><img src="https://codecov.io/gh/andyksaw/ProjectCityBuild/branch/master/graph/badge.svg" alt="codecov"></a>
+</p>
 
 ---
 
 The official repository for [Project City Build](https://projectcitybuild.com)'s homepage and related web services.
 
 ### Stack
-* Frameworks: Laravel 5.6, ReactJS 16
+* Frameworks: Laravel 5.8, ReactJS 16
 * Environment: Docker (and Docker-Compose)
 * CI/CD: Travis CI, Codecov
 
@@ -19,7 +24,7 @@ All branches, commits and pull-requests are continuously tested
 
 If you do not wish to use Docker for local dev work, feel free to go about it in the usual way by working from the `src` directory. However, you will need to install and setup all requirements manually:
 
-* PHP 7.2
+* PHP 7.2+
 * MySQL/MariaDB
 * Composer
 * NPM
@@ -31,7 +36,7 @@ Absolutely. Feel free to fork and send pull requests any time. I'd be thrilled t
 ## First time setup
 This repository uses *laradock* as a local development environment.
 
-1. Build the docker container: `docker-compose up -d nginx mariadb`
+1. Build the docker container: `docker-compose up -d nginx mariadb redis`
 2. Run `cp src/.env.example src/.env`, then edit the file as appropriate (see below)
 3. Enter the main workspace container: `docker-compose exec workspace bash`
     1. Install PHP dependencies: `composer install`
@@ -40,7 +45,7 @@ This repository uses *laradock* as a local development environment.
     4. Create and seed database: `php artisan migrate --seed`
     5. Build JS/CSS assets: `npm run dev`
 
-You should now be able to see the site at [http://localhost](http://localhost)
+You should now be able to see the site at [http://localhost](http://localhost). If that doesn't work, also try [http://192.168.99.100](http://192.168.99.100).
 
 
 #### NPM Install
@@ -65,7 +70,7 @@ DB_PASSWORD=secret
 ## Development
 Once *First time setup* is complete, you only need to run one command to boot up the environment:
 ```
-docker-compose up -d nginx mariadb
+docker-compose up -d nginx mariadb redis
 ```
 
 
@@ -77,4 +82,4 @@ docker-compose up -d nginx mariadb
 * If the database schema has changed, remember to run `php artisan migrate` from inside the worksapce container to ensure you always have the latest schema.
 
 ## Testing
-* Run `support/packages/vendor/bin/phpunit` inside the workspace container
+* Run `phpunit` inside the workspace container
