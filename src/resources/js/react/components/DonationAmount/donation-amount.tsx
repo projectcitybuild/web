@@ -151,7 +151,7 @@ export default class Component extends React.Component<{}, InitialState> {
                         token={this.onStripeTokenReceived}
                         >
                         <button className="button button--large button--fill button--primary" type="button" disabled={this.isButtonDisabled()}>
-                            <i className="fas fa-credit-card"></i> Donate via Card
+                            <i className="fas fa-credit-card"></i> Proceed to Stripe Checkout
                         </button>
                     </StripeCheckout>
                 </form>

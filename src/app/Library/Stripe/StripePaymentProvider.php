@@ -1,22 +1,14 @@
 <?php
+
 namespace App\Library\Stripe;
 
 use Stripe\Stripe;
 use Stripe\Charge;
 use Stripe\Customer;
 
-
-class StripeHandler
+final class StripePaymentProvider
 {
     private $currency = 'aud';
-
-    /**
-     * account_id if available
-     *
-     * @var int
-     */
-    private $pcbAccountId;
-
 
     public function __construct()
     {
@@ -33,7 +25,7 @@ class StripeHandler
         Stripe::setApiKey($key);
     }
 
-    public function setCurrency(string $currency) : StripeHandler
+    public function setCurrency(string $currency) : StripePaymentProvider
     {
         $this->currency = $currency;
         return $this;
