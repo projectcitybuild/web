@@ -1,0 +1,4 @@
+ignore:
+  - "src/app/Entities/**/*"
+  - "src/app/Exceptions/**/*"
+  - "src/app/Providers/**/*"
