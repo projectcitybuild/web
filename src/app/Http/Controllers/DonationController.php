@@ -23,9 +23,11 @@ final class DonationController extends WebController
 
     public function getView()
     {
-        
+        $stripeSessionId = $this->donationProvider->beginDonationSession();
 
-        return view('front.pages.donate.donate');
+        return view('front.pages.donate.donate', [
+            'stripe_session_id' => $stripeSessionId,
+        ]);
     }
 
     public function donate(Request $request)
@@ -50,5 +52,17 @@ final class DonationController extends WebController
         return view('front.pages.donate.donate-thanks', [
             'donation' => $donation,
         ]);
+    }
+
+    /**
+     * Receives a callback from Stripe via webhook to notify us that
+     * a user's donation has been processed
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function fulfillDonation(Request $request)
+    {
+        $this->donationProvider->fulfillDonation();   
     }
 }

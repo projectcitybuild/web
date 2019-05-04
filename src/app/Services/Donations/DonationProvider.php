@@ -12,6 +12,9 @@ use App\Services\Groups\DiscourseGroupSyncService;
 use Illuminate\Support\Facades\DB;
 use App\Library\API\APIClientProvider;
 use App\Requests\Discourse\DiscourseExternalUserIdRequest;
+use App\Library\Stripe\StripeLineItem;
+use App\Entities\AcceptedCurrencyType;
+use Stripe\Webhook;
 
 final class DonationProvider
 {
@@ -45,9 +48,21 @@ final class DonationProvider
         $this->apiClient = $apiClient;
     }
 
-    public function beginDonationSession()
+    public function beginDonationSession() : string
     {
-        
+        return $this->stripePaymentProvider->beginSession(
+            route('front.donate'),
+            route('front.donate'),
+            [
+                new StripeLineItem(
+                    1000, 
+                    new AcceptedCurrencyType(AcceptedCurrencyType::CURRENCY_AUD),
+                    'PCB Contribution',
+                    1,
+                    'test'
+                ),
+            ]
+        );
     }
 
     public function performDonation(string $stripeToken, string $email, int $amountInCents, ?Account $account = null)
@@ -108,5 +123,31 @@ final class DonationProvider
         }
 
         return $donation;
+    }
+
+    public function fulfillDonation()
+    {
+        $endpointSecret = env('STRIPE_DONATE_ENDPOINT_SECRET');
+
+        $payload = @file_get_contents('php://input');
+        $sigHeader = $_SERVER['HTTP_STRIPE_SIGNATURE'];
+        $event = null;
+
+        try {
+            $event = Webhook::constructEvent($payload, $sigHeader, $endpointSecret);
+        } catch(\UnexpectedValueException $e) {
+            // invalid payload
+            abort(400);
+        } catch(\Stripe\Error\SignatureVerification $e) {
+            // invalid signature
+            abort(400);
+        }
+
+        if ($event->type !== 'checkout.session.completed') {
+            return;
+        }
+
+        $session = $event->data->object;
+        dd($session);
     }
 }
