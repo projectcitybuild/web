@@ -6,6 +6,9 @@ use function GuzzleHttp\json_decode;
 use App\Library\Discourse\Entities\DiscoursePayload;
 use App\Library\Discourse\Authentication\DiscoursePayloadValidator;
 
+/**
+ * @deprecated 1.11.0 Use APIClientProvider instead
+ */
 class DiscourseAdminApi extends DiscourseAPIRequest
 {
     /**

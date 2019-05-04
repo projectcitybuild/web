@@ -47,7 +47,7 @@ final class DonationProvider
 
     public function beginDonationSession()
     {
-
+        
     }
 
     public function performDonation(string $stripeToken, string $email, int $amountInCents, ?Account $account = null)

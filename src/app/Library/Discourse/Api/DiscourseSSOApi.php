@@ -4,6 +4,9 @@ namespace App\Library\Discourse\Api;
 
 use App\Library\Discourse\Entities\DiscoursePackedNonce;
 
+/**
+ * @deprecated 1.11.0 Use APIClientProvider instead
+ */
 class DiscourseSSOApi extends DiscourseAPIRequest
 {
     /**
