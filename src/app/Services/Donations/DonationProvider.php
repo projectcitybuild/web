@@ -25,7 +25,7 @@ final class DonationProvider
     private $paymentRepository;
     private $groupRepository;
     private $stripePaymentProvider;
-    private $groupSyncService;
+    private $discourseGroupSyncService;
     private $apiClient;
 
 
@@ -35,13 +35,13 @@ final class DonationProvider
         GroupRepository $groupRepository,
         StripePaymentProvider $stripePaymentProvider,
         APIClientProvider $apiClient,
-        DiscourseGroupSyncService $groupSyncService
+        DiscourseGroupSyncService $discourseGroupSyncService
     ) {
         $this->donationRepository = $donationRepository;
         $this->paymentRepository = $paymentRepository;
         $this->stripePaymentProvider = $stripePaymentProvider;
         $this->groupRepository = $groupRepository;
-        $this->groupSyncService = $groupSyncService;
+        $this->discourseGroupSyncService = $discourseGroupSyncService;
         $this->apiClient = $apiClient;
     }
 
@@ -103,7 +103,7 @@ final class DonationProvider
                 $discourseUser = $this->apiClient->call($request);
                 $discourseId = $discourseUser['user']['id'];
     
-                $this->groupSyncService->addUserToGroup($discourseId, $account, $group);
+                $this->discourseGroupSyncService->addUserToGroup($discourseId, $account, $group);
             }
         }
 
