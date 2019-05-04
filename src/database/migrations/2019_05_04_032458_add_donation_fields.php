@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use App\Entities\Donations\Models\Donation;
 
 class AddDonationFields extends Migration
 {
@@ -17,8 +18,16 @@ class AddDonationFields extends Migration
             $table->integer('perk_recipient_account_id')->unsigned();
             $table->boolean('is_anonymous')->default(false);
             $table->boolean('is_countable')->default(true)->comment('Whether this donation should be used in calculating statistics/totals');
+        });
 
-            $table->foreign('perk_recipient_account_id')->references('account_id')->on('account');
+        $donations = Donation::get();
+        foreach ($donations as $donation) {
+            $donation->perk_recipient_account_id = $donation->account_id;
+            $donation->save();
+        }
+
+        Schema::table('donations', function (Blueprint $table) {
+            $table->foreign('perk_recipient_account_id')->references('account_id')->on('accounts');
         });
     }
 
