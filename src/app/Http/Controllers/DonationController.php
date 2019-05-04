@@ -65,7 +65,8 @@ class DonationController extends WebController
 
     public function getView()
     {
-        return view('front.pages.donate.donate');
+        abort(503);
+        // return view('front.pages.donate.donate');
     }
 
     public function donate(Request $request)
@@ -100,54 +101,6 @@ class DonationController extends WebController
 
         return view('front.pages.donate.donate-thanks', [
             'donation' => $donation,
-        ]);
-    }
-
-    private function getRgbBetween($rgbStart, $rgbEnd, $percent)
-    {
-        $w = $percent * 2 - 1;
-
-        $w1 = ($w + 1) / 2.0;
-        $w2 = 1 - $w1;
-
-        return [
-            round($rgbStart[0] * $w1 + $rgbEnd[0] * $w2),
-            round($rgbStart[1] * $w1 + $rgbEnd[1] * $w2),
-            round($rgbStart[2] * $w1 + $rgbEnd[2] * $w2),
-        ];
-    }
-
-    public function getListView()
-    {
-        $donations = $this->donationRepository->getAll();
-
-        $lastYear = date('Y') - 1;
-
-        $thisYearSum    = $this->donationRepository->getAnnualSum();
-        $thisYearAvg    = $this->donationRepository->getAnnualAverage();
-        $thisYearCount  = $this->donationRepository->getAnnualCount();
-        $lastYearSum    = $this->donationRepository->getAnnualSum($lastYear);
-        $lastYearAvg    = $this->donationRepository->getAnnualAverage($lastYear);
-        $lastYearCount  = $this->donationRepository->getAnnualCount($lastYear);
-
-        $colorBad = [136, 223, 36];
-        $colorGood = [255, 90, 61];
-
-        // shows the 'bad' color until the given amount is reached
-        $colorBadThreshold = 400;
-        
-        $colorScale = floor($thisYearSum - $colorBadThreshold) / (1000 - $colorBadThreshold);
-        $color = $this->getRgbBetween($colorBad, $colorGood, $colorScale);
-
-        return view('front.pages.donation-list', [
-            'donations'     => $donations,
-            'thisYearSum'   => $thisYearSum,
-            'thisYearAvg'   => $thisYearAvg,
-            'thisYearCount' => $thisYearCount,
-            'lastYearSum'   => $lastYearSum,
-            'lastYearAvg'   => $lastYearAvg,
-            'lastYearCount' => $lastYearCount,
-            'figureColor'   => implode(',', $color),
         ]);
     }
 }
