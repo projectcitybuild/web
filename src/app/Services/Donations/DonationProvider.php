@@ -1,7 +1,6 @@
 <?php
 namespace App\Services\Donations;
 
-use App\Library\Discourse\Api\DiscourseUserApi;
 use App\Library\Stripe\StripePaymentProvider;
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Groups\GroupEnum;
@@ -11,6 +10,8 @@ use App\Entities\Payments\AccountPaymentType;
 use App\Entities\Groups\Repositories\GroupRepository;
 use App\Services\Groups\DiscourseGroupSyncService;
 use Illuminate\Support\Facades\DB;
+use App\Library\API\APIClientProvider;
+use App\Requests\Discourse\DiscourseExternalUserIdRequest;
 
 final class DonationProvider
 {
@@ -24,8 +25,8 @@ final class DonationProvider
     private $paymentRepository;
     private $groupRepository;
     private $stripePaymentProvider;
-    private $discourseUserApi;
     private $groupSyncService;
+    private $apiClient;
 
 
     public function __construct(
@@ -33,18 +34,23 @@ final class DonationProvider
         AccountPaymentRepository $paymentRepository,
         GroupRepository $groupRepository,
         StripePaymentProvider $stripePaymentProvider,
-        DiscourseUserApi $discourseUserApi,
+        APIClientProvider $apiClient,
         DiscourseGroupSyncService $groupSyncService
     ) {
         $this->donationRepository = $donationRepository;
         $this->paymentRepository = $paymentRepository;
         $this->stripePaymentProvider = $stripePaymentProvider;
         $this->groupRepository = $groupRepository;
-        $this->discourseUserApi = $discourseUserApi;
         $this->groupSyncService = $groupSyncService;
+        $this->apiClient = $apiClient;
     }
 
-    public function donate(string $stripeToken, string $email, int $amountInCents, ?Account $account = null)
+    public function beginDonationSession()
+    {
+
+    }
+
+    public function performDonation(string $stripeToken, string $email, int $amountInCents, ?Account $account = null)
     {
         $amountInDollars = (float)($amountInCents / 100);
 
@@ -93,7 +99,8 @@ final class DonationProvider
             $donatorGroupId = $donatorGroup->getKey();
             
             if ($account->groups->contains($donatorGroupId) === false) {
-                $discourseUser = $this->discourseUserApi->fetchUserByPcbId($account->getKey());
+                $request = new DiscourseExternalUserIdRequest($account->getKey());
+                $discourseUser = $this->apiClient->call($request);
                 $discourseId = $discourseUser['user']['id'];
     
                 $this->groupSyncService->addUserToGroup($discourseId, $account, $group);

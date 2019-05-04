@@ -16,6 +16,9 @@ use App\Entities\Servers\Repositories\ServerCategoryRepositoryContract;
 use Illuminate\Contracts\Cache\Factory as Cache;
 use App\Services\Queries\ServerQueryService;
 use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
+use App\Library\API\APIClientProvider;
+use App\Library\API\GuzzleAPIClient;
+use GuzzleHttp\Client;
 
 final class AppServiceProvider extends ServiceProvider
 {
@@ -37,6 +40,10 @@ final class AppServiceProvider extends ServiceProvider
                 $app->make(ServerStatusPlayerRepository::class)
             );
         });
+        $this->app->bind(
+            APIClientProvider::class, 
+            GuzzleAPIClient::class
+        );
     }
 
     /**

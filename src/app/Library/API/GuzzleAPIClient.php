@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 use App\Exceptions\NotImplementedException;
 use Psr\Http\Message\ResponseInterface;
 
-final class APIClient
+final class GuzzleAPIClient implements APIClientProvider
 {
     private $client;
 

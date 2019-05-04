@@ -11,7 +11,7 @@ final class DonationController extends WebController
 {
     private $donationProvider;
     private $auth;
-    
+
 
     public function __construct(
         DonationProvider $donationProvider,
@@ -40,7 +40,7 @@ final class DonationController extends WebController
 
         $account = $this->auth->user();
 
-        $donation = $this->donationProvider->donate(
+        $donation = $this->donationProvider->performDonation(
             $stripeToken, 
             $email, 
             $amount, 

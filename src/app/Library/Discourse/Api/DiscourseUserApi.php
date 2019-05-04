@@ -2,6 +2,9 @@
 
 namespace App\Library\Discourse\Api;
 
+/**
+ * @deprecated 1.11.0 Use APIClientProvider instead
+ */
 class DiscourseUserApi extends DiscourseAPIRequest
 {
     /**
@@ -10,6 +13,7 @@ class DiscourseUserApi extends DiscourseAPIRequest
      *
      * @param integer $pcbId
      * @return array
+     * @deprecated 1.11.0
      */
     public function fetchUserByPcbId(int $pcbId) : array
     {
