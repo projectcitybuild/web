@@ -25,4 +25,11 @@ final class PaymentSessionRepository extends Repository
             ->where('external_session_id', $externalSessionId)
             ->first();
     }
+
+    public function deleteById(int $paymentSessionId)
+    {
+        $this->getModel()
+            ->where('payment_session_id', $paymentSessionId)
+            ->delete();
+    }
 }

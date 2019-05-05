@@ -2,7 +2,6 @@
 namespace App\Entities\Payments\Repositories;
 
 use App\Repository;
-use Carbon\Carbon;
 use App\Entities\Payments\Models\AccountPayment;
 use App\Entities\Payments\AccountPaymentType;
 
@@ -14,7 +13,7 @@ class AccountPaymentRepository extends Repository
         AccountPaymentType $paymentType,
         int $typeId,
         float $amount,
-        string $source,
+        string $clientReferenceId,
         ?int $accountId,
         bool $isProcessed = false,
         bool $isRefunded = false,
@@ -24,7 +23,7 @@ class AccountPaymentRepository extends Repository
             'payment_type' => $paymentType->valueOf(),
             'payment_id' => $typeId,
             'payment_amount' => $amount,
-            'payment_source' => $source,
+            'payment_source' => $clientReferenceId,
             'account_id' => $accountId,
             'is_processed' => $isProcessed,
             'is_refunded' => $isRefunded,

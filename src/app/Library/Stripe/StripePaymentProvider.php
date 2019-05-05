@@ -56,10 +56,10 @@ final class StripePaymentProvider
      * 
      * @return string Session ID - needs to be passed to Stripe.js for front-end integration
      */
-    public function beginSession(string $successUrl, string $cancelUrl, array $stripeLineItems) : string
+    public function beginSession(string $successUrl, string $cancelUrl, string $clientReferenceId, array $stripeLineItems) : string
     {
         $session = Session::create([
-            // 'client_reference_id' => $accountPaymentId,
+            'client_reference_id' => $clientReferenceId,
             'payment_method_types' => ['card'], // only `card` is currently supported by Stripe
             'line_items' => [
                 array_map(function(StripeLineItem $stripeLineItem) {

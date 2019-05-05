@@ -17,6 +17,7 @@ use App\Entities\Payments\Models\PaymentSession;
 use App\Entities\Payments\Repositories\PaymentSessionRepository;
 use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Entities\Accounts\Models\Account;
+use Illuminate\Support\Str;
 
 final class DonationProvider
 {
@@ -66,19 +67,21 @@ final class DonationProvider
         $stripeSessionId = $this->stripePaymentProvider->beginSession(
             route('front.donate.complete'),
             route('front.donate'),
+            Str::uuid()->toString(),
             [
                 new StripeLineItem(
                     $amountInCents, 
                     new AcceptedCurrencyType(AcceptedCurrencyType::CURRENCY_AUD),
                     'PCB Contribution',
                     1,
-                    'test'
+                    'To help pay for the ongoing server/running costs of our servers'
                 ),
             ]
         );
 
         // stores a session in our database so that when the payment has
-        // been processed by Stripe, we can apply perks to the user
+        // been processed by Stripe, we have all the information needed to
+        // complete the process (ie. give the user their perks)
         $internalSession = new DonationPaymentSession($account, $amountInCents);
         $serializedSession = json_encode($internalSession);
         
@@ -100,16 +103,17 @@ final class DonationProvider
         }
 
         $session = $event->data->object;
+        $clientReferenceId = $session->client_reference_id;
         
         $internalSession = $this->paymentSessionRepository->getByExternalSessionId($session->id);
         if ($internalSession === null) {
             throw new \Exception('No internal session found for incoming Stripe session webhook');
         }
 
-        $this->assignPerksToUser($internalSession);
+        $this->assignPerksToUser($clientReferenceId, $internalSession);
     }
 
-    private function assignPerksToUser(PaymentSession $session)
+    private function assignPerksToUser(string $clientReferenceId, PaymentSession $session)
     {
         $donationSession = DonationPaymentSession::createFromJSON($session->data);
         $amountInDollars = (float)($donationSession->getAmountInCents() / 100);
@@ -129,14 +133,18 @@ final class DonationProvider
                 $donationExpiry,
                 $isLifetime
             );
+            
             $this->paymentRepository->create(
                 new AccountPaymentType(AccountPaymentType::Donation),
                 $donation->getKey(),
                 $donationSession->getAmountInCents(),
-                "TODO", // TODO: put order id here
+                $clientReferenceId,
                 $donationSession->getAccountId(),
                 true
             );
+            
+            $this->paymentSessionRepository->deleteById($session->getKey());
+
             DB::commit();
 
         } catch (\Exception $e) {
