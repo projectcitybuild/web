@@ -2,5 +2,5 @@
 
 namespace App\Exceptions;
 
-final class NotImplementedException extends Exception {}
+final class NotImplementedException extends \Exception {}
     
