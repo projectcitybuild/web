@@ -16,6 +16,7 @@ use App\Entities\AcceptedCurrencyType;
 use App\Entities\Payments\Models\PaymentSession;
 use App\Entities\Payments\Repositories\PaymentSessionRepository;
 use App\Entities\Accounts\Repositories\AccountRepository;
+use App\Entities\Accounts\Models\Account;
 
 final class DonationProvider
 {
@@ -60,10 +61,10 @@ final class DonationProvider
         $this->apiClient = $apiClient;
     }
 
-    public function beginDonationSession(int $amountInCents) : string
+    public function beginDonationSession(?Account $account, int $amountInCents) : string
     {
         $stripeSessionId = $this->stripePaymentProvider->beginSession(
-            route('front.donate'),
+            route('front.donate.complete'),
             route('front.donate'),
             [
                 new StripeLineItem(
@@ -78,7 +79,7 @@ final class DonationProvider
 
         // stores a session in our database so that when the payment has
         // been processed by Stripe, we can apply perks to the user
-        $internalSession = new DonationPaymentSession(null, $amountInCents);
+        $internalSession = new DonationPaymentSession($account, $amountInCents);
         $serializedSession = json_encode($internalSession);
         
         $this->paymentSessionRepository->create(
@@ -92,7 +93,7 @@ final class DonationProvider
 
     public function fulfillDonation(string $signatureHeader, string $payload)
     {
-        $event = $this->stripePaymentProvider->interceptAndVerifyWebhook($payload, $signatureHeader);
+        $event = $this->stripePaymentProvider->interceptAndVerifyWebhook($payload, $signatureHeader, true);
 
         if ($event->type !== 'checkout.session.completed') {
             return;

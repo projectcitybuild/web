@@ -45,6 +45,7 @@ final class DonationController extends WebController
         }
 
         $stripeSessionId = $this->donationProvider->beginDonationSession(
+            $request->user(),
             $request->get('amount_in_cents')
         );
 
@@ -64,8 +65,7 @@ final class DonationController extends WebController
      */
     public function fulfillDonation(Request $request)
     {
-        $signatureHeader = $request->header('test');
-        // $signatureHeader = $request->header('HTTP_STRIPE_SIGNATURE');
+        $signatureHeader = $request->header('Stripe-Signature');
         $payload = $request->getContent();
 
         $this->donationProvider->fulfillDonation($signatureHeader, $payload);
