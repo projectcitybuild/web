@@ -7,6 +7,9 @@ use Stripe\Charge;
 use Stripe\Customer;
 use Stripe\Checkout\Session;
 use App\Entities\AcceptedCurrencyType;
+use Stripe\Webhook;
+use Stripe\Error\SignatureVerification;
+use Stripe\Event;
 
 final class StripePaymentProvider
 {
@@ -31,18 +34,6 @@ final class StripePaymentProvider
     {
         $this->currency = $currency;
         return $this;
-    }
-    
-    public function charge(int $amount, string $token = null, ?int $customerId = null, string $receiptEmail = null, string $description = null) : Charge
-    {
-        return Charge::create([
-            'amount' => $amount,
-            'source' => $token,
-            'receipt_email' => $receiptEmail,
-            'description' => $description,
-            'customer' => $customerId,
-            'currency' => $this->currency,
-        ]);
     }
 
     public function createCustomer(string $token, string $email) : Customer
@@ -79,5 +70,23 @@ final class StripePaymentProvider
         ]);
         
         return $session->id;
+    }
+
+    public function interceptAndVerifyWebhook(string $payload, string $signatureHeader) : Event
+    {
+        $endpointSecret = env('STRIPE_DONATE_ENDPOINT_SECRET');
+        
+        $event = null;
+        try {
+            $event = Webhook::constructEvent($payload, $signatureHeader, $endpointSecret);
+        } catch(\UnexpectedValueException $e) {
+            // invalid payload
+            abort(400);
+        } catch(SignatureVerification $e) {
+            // invalid signature
+            abort(400);
+        }
+
+        return $event;
     }
 }

@@ -1,35 +1,21 @@
 <?php
+
 namespace App\Library\Recaptcha;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Illuminate\Log\Logger;
+use Illuminate\Support\Facades\Log;
 
-class RecaptchaRule extends Rule
+final class RecaptchaRule extends Rule
 {
-
-    /**
-     * @var Client
-     */
     private $client;
-
-    /**
-     * @var Request
-     */
     private $request;
 
-    /**
-     * @var Logger
-     */
-    private $log;
-
-
-    public function __construct(Client $client, Request $request, Logger $logger)
+    public function __construct(Client $client, Request $request)
     {
         $this->client = $client;
         $this->request = $request;
-        $this->log = $logger;
     }
 
     /**
@@ -72,7 +58,7 @@ class RecaptchaRule extends Rule
         ]);
         $result = json_decode($response->getBody(), true);
 
-        $this->log->debug('Recaptcha response', ['response' => $result]);
+        Log::debug('Recaptcha response', ['response' => $result]);
 
         $success = $result['success'];
         if ($success === null || $success === false) {

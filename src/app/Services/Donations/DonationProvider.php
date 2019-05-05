@@ -2,7 +2,6 @@
 namespace App\Services\Donations;
 
 use App\Library\Stripe\StripePaymentProvider;
-use App\Entities\Accounts\Models\Account;
 use App\Entities\Groups\GroupEnum;
 use App\Entities\Donations\Repositories\DonationRepository;
 use App\Entities\Payments\Repositories\AccountPaymentRepository;
@@ -14,7 +13,9 @@ use App\Library\API\APIClientProvider;
 use App\Requests\Discourse\DiscourseExternalUserIdRequest;
 use App\Library\Stripe\StripeLineItem;
 use App\Entities\AcceptedCurrencyType;
-use Stripe\Webhook;
+use App\Entities\Payments\Models\PaymentSession;
+use App\Entities\Payments\Repositories\PaymentSessionRepository;
+use App\Entities\Accounts\Repositories\AccountRepository;
 
 final class DonationProvider
 {
@@ -24,9 +25,16 @@ final class DonationProvider
      */
     private const LIFETIME_REQUIRED_AMOUNT = 30;
 
+    /**
+     * Every X dollars grants 1 month of donator perks
+     */
+    private const DOLLARS_PER_MONTH = 3;
+
     private $donationRepository;
     private $paymentRepository;
     private $groupRepository;
+    private $paymentSessionRepository;
+    private $accountRepository;
     private $stripePaymentProvider;
     private $discourseGroupSyncService;
     private $apiClient;
@@ -36,6 +44,8 @@ final class DonationProvider
         DonationRepository $donationRepository,
         AccountPaymentRepository $paymentRepository,
         GroupRepository $groupRepository,
+        PaymentSessionRepository $paymentSessionRepository,
+        AccountRepository $accountRepository,
         StripePaymentProvider $stripePaymentProvider,
         APIClientProvider $apiClient,
         DiscourseGroupSyncService $discourseGroupSyncService
@@ -44,18 +54,20 @@ final class DonationProvider
         $this->paymentRepository = $paymentRepository;
         $this->stripePaymentProvider = $stripePaymentProvider;
         $this->groupRepository = $groupRepository;
+        $this->paymentSessionRepository = $paymentSessionRepository;
+        $this->accountRepository = $accountRepository;
         $this->discourseGroupSyncService = $discourseGroupSyncService;
         $this->apiClient = $apiClient;
     }
 
-    public function beginDonationSession() : string
+    public function beginDonationSession(int $amountInCents) : string
     {
-        return $this->stripePaymentProvider->beginSession(
+        $stripeSessionId = $this->stripePaymentProvider->beginSession(
             route('front.donate'),
             route('front.donate'),
             [
                 new StripeLineItem(
-                    1000, 
+                    $amountInCents, 
                     new AcceptedCurrencyType(AcceptedCurrencyType::CURRENCY_AUD),
                     'PCB Contribution',
                     1,
@@ -63,31 +75,55 @@ final class DonationProvider
                 ),
             ]
         );
+
+        // stores a session in our database so that when the payment has
+        // been processed by Stripe, we can apply perks to the user
+        $internalSession = new DonationPaymentSession(null, $amountInCents);
+        $serializedSession = json_encode($internalSession);
+        
+        $this->paymentSessionRepository->create(
+            $stripeSessionId,
+            $serializedSession,
+            now()->addHours(12)
+        );
+
+        return $stripeSessionId;
     }
 
-    public function performDonation(string $stripeToken, string $email, int $amountInCents, ?Account $account = null)
+    public function fulfillDonation(string $signatureHeader, string $payload)
     {
-        $amountInDollars = (float)($amountInCents / 100);
+        $event = $this->stripePaymentProvider->interceptAndVerifyWebhook($payload, $signatureHeader);
 
-        try {
-            $this->stripePaymentProvider->charge($amountInCents, $stripeToken, null, $email, 'PCB Contribution');
-        } catch (\Exception $e) {
-            throw $e;
+        if ($event->type !== 'checkout.session.completed') {
+            return;
         }
 
+        $session = $event->data->object;
+        
+        $internalSession = $this->paymentSessionRepository->getByExternalSessionId($session->id);
+        if ($internalSession === null) {
+            throw new \Exception('No internal session found for incoming Stripe session webhook');
+        }
+
+        $this->assignPerksToUser($internalSession);
+    }
+
+    private function assignPerksToUser(PaymentSession $session)
+    {
+        $donationSession = DonationPaymentSession::createFromJSON($session->data);
+        $amountInDollars = (float)($donationSession->getAmountInCents() / 100);
+        
         $isLifetime = $amountInDollars >= self::LIFETIME_REQUIRED_AMOUNT;
         if ($isLifetime) {
             $donationExpiry = null;
         } else {
-            $donationExpiry = now()->addMonths(floor($amountInDollars / 3));
+            $donationExpiry = now()->addMonths(floor($amountInDollars / self::DOLLARS_PER_MONTH));
         }
-
-        $pcbId = $account !== null ? $account->getKey() : null;
 
         DB::beginTransaction();
         try {
             $donation = $this->donationRepository->create(
-                $pcbId,
+                $donationSession->getAccountId(),
                 $amountInDollars,
                 $donationExpiry,
                 $isLifetime
@@ -95,9 +131,9 @@ final class DonationProvider
             $this->paymentRepository->create(
                 new AccountPaymentType(AccountPaymentType::Donation),
                 $donation->getKey(),
-                $amountInCents,
-                $stripeToken,
-                $pcbId,
+                $donationSession->getAmountInCents(),
+                "TODO", // TODO: put order id here
+                $donationSession->getAccountId(),
                 true
             );
             DB::commit();
@@ -106,6 +142,8 @@ final class DonationProvider
             DB::rollBack();
             throw $e;
         }
+
+        $account = $this->accountRepository->getById($donationSession->getAccountId());
 
          // add user to donator group if they're logged in
          if ($account !== null) {
@@ -121,33 +159,5 @@ final class DonationProvider
                 $this->discourseGroupSyncService->addUserToGroup($discourseId, $account, $group);
             }
         }
-
-        return $donation;
-    }
-
-    public function fulfillDonation()
-    {
-        $endpointSecret = env('STRIPE_DONATE_ENDPOINT_SECRET');
-
-        $payload = @file_get_contents('php://input');
-        $sigHeader = $_SERVER['HTTP_STRIPE_SIGNATURE'];
-        $event = null;
-
-        try {
-            $event = Webhook::constructEvent($payload, $sigHeader, $endpointSecret);
-        } catch(\UnexpectedValueException $e) {
-            // invalid payload
-            abort(400);
-        } catch(\Stripe\Error\SignatureVerification $e) {
-            // invalid signature
-            abort(400);
-        }
-
-        if ($event->type !== 'checkout.session.completed') {
-            return;
-        }
-
-        $session = $event->data->object;
-        dd($session);
     }
 }

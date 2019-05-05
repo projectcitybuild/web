@@ -10,12 +10,19 @@ final class PaymentSessionRepository extends Repository
 {
     protected $model = PaymentSession::class;
 
-    public function create(string $externalSessionId, string $serializedData, Carbon $expiresAt)
+    public function create(string $externalSessionId, string $serializedData, Carbon $expiresAt) : PaymentSession
     {
-        $this->getModel()->create([
+        return $this->getModel()->create([
             'external_session_id' => $externalSessionId,
             'data' => $serializedData,
             'expires_at' => $expiresAt,
         ]);
+    }
+
+    public function getByExternalSessionId(string $externalSessionId) : ?PaymentSession
+    {
+        return $this->getModel()
+            ->where('external_session_id', $externalSessionId)
+            ->first();
     }
 }

@@ -8,12 +8,11 @@ use App\Library\Discord\DiscordNotifyService;
 use Illuminate\Support\Facades\Log;
 use App\Http\WebController;
 
-class DeployController extends WebController
+/**
+ * @deprecated Switch to a proper CI/CD system
+ */
+final class DeployController extends WebController
 {
-
-    /**
-     * @var DiscordNotifyService
-     */
     private $discord;
 
     public function __construct(DiscordNotifyService $discord)
@@ -43,8 +42,8 @@ class DeployController extends WebController
                 'cd '.base_path().' git reset --hard 2>&1',
                 'cd '.base_path().' && git checkout ' . $branch . ' 2>&1',
                 'cd '.base_path().' && git pull 2>&1',
-                'cd '.base_path().'/src && php artisan migrate 2>&1',
-                'cd '.base_path().'/src && compose install 2>&1',
+                'cd '.base_path().'/src && php artisan migrate --force 2>&1',
+                'cd '.base_path().'/src && compose install --no-interaction --prefer-dist --no-dev 2>&1',
                 'cd '.base_path().'/src && npm install 2>&1',
                 'cd '.base_path().'/src && npm run production 2>&1',
                 'cd '.base_path().' php artisan up 2>&1',

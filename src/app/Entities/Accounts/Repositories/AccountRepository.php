@@ -32,4 +32,9 @@ class AccountRepository extends Repository
             ->where('email', $email)
             ->first();
     }
+
+    public function getById(int $accountId) : ?Account
+    {
+        return $this->getModel()->find($accountId);
+    }
 }

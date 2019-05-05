@@ -6,6 +6,8 @@ use App\Services\Donations\DonationProvider;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use App\Http\WebController;
+use Illuminate\Support\Facades\Validator;
+use App\Exceptions\Http\BadRequestException;
 
 final class DonationController extends WebController
 {
@@ -23,34 +25,33 @@ final class DonationController extends WebController
 
     public function getView()
     {
-        $stripeSessionId = $this->donationProvider->beginDonationSession();
-
-        return view('front.pages.donate.donate', [
-            'stripe_session_id' => $stripeSessionId,
-        ]);
+        return view('front.pages.donate.donate');
     }
 
-    public function donate(Request $request)
+    /**
+     * Internal API endpoint to generate and return a Stripe payment session
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function makeSession(Request $request)
     {
-        $email       = $request->get('stripe_email');
-        $stripeToken = $request->get('stripe_token');
-        $amount      = $request->get('stripe_amount_in_cents');
+        $validator = Validator::make($request->all(), [
+            'amount_in_cents' => 'bail|required|integer|gt:0',
+        ]);
 
-        if ($amount <= 0) {
-            abort(400, "Attempted to donate zero dollars");
+        if ($validator->fails()) {
+            throw new BadRequestException('validation_failure', $validator->errors()->first());
         }
 
-        $account = $this->auth->user();
-
-        $donation = $this->donationProvider->performDonation(
-            $stripeToken, 
-            $email, 
-            $amount, 
-            $account
+        $stripeSessionId = $this->donationProvider->beginDonationSession(
+            $request->get('amount_in_cents')
         );
 
-        return view('front.pages.donate.donate-thanks', [
-            'donation' => $donation,
+        return response()->json([
+            'data' => [
+                'stripe_session_id' => $stripeSessionId
+            ],
         ]);
     }
 
@@ -63,6 +64,10 @@ final class DonationController extends WebController
      */
     public function fulfillDonation(Request $request)
     {
-        $this->donationProvider->fulfillDonation();   
+        $signatureHeader = $request->header('test');
+        // $signatureHeader = $request->header('HTTP_STRIPE_SIGNATURE');
+        $payload = $request->getContent();
+
+        $this->donationProvider->fulfillDonation($signatureHeader, $payload);
     }
 }
