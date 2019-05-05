@@ -72,8 +72,13 @@ final class StripePaymentProvider
         return $session->id;
     }
 
-    public function interceptAndVerifyWebhook(string $payload, string $signatureHeader) : Event
+    public function interceptAndVerifyWebhook(string $payload, string $signatureHeader, bool $disableVerification = false) : Event
     {
+        // for testing purposes
+        if ($disableVerification) {
+            return Event::constructFrom(json_decode($payload, true));
+        }
+
         $endpointSecret = env('STRIPE_DONATE_ENDPOINT_SECRET');
         
         $event = null;
