@@ -15,7 +15,7 @@ class AddDonationFields extends Migration
     public function up()
     {
         Schema::table('donations', function (Blueprint $table) {
-            $table->integer('perk_recipient_account_id')->unsigned();
+            $table->integer('perk_recipient_account_id')->unsigned()->nullable();
             $table->boolean('is_anonymous')->default(false);
             $table->boolean('is_countable')->default(true)->comment('Whether this donation should be used in calculating statistics/totals');
         });
