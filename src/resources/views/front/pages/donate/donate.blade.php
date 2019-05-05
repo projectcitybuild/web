@@ -4,8 +4,7 @@
 @section('description', "Help keep us online by donating")
 
 @push('head')
-    <meta name="stripe-key" content="{{ config('services.stripe.key') }}" />
-    <meta name="stripe-submit" content="" />
+    <meta name="stripe-submit" content="{{ route('front.donate.make-session') }}" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <script src="https://js.stripe.com/v3/"></script>

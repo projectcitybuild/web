@@ -34,9 +34,9 @@ export default class Component extends React.Component<{}, InitialState> {
     componentDidMount() {
         // grab Stripe key from meta content, because we
         // can't pass it via props from Blade
-        const stripeKey = document.head.querySelector('[name=stripe-key]').getAttribute('content');
+        const stripeKey   = document.head.querySelector('[name=stripe-key]').getAttribute('content');
         const submitRoute = document.head.querySelector('[name=stripe-submit]').getAttribute('content');
-        const csrfToken = document.head.querySelector('[name=csrf-token]').getAttribute('content');
+        const csrfToken   = document.head.querySelector('[name=csrf-token]').getAttribute('content');
         
         this.setState({ 
             stripeKey: stripeKey,

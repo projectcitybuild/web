@@ -29,9 +29,10 @@
         "@types/react": "^16.0.34",
         "@types/react-dom": "^16.0.3",
         "@types/sanitize-html": "^1.14.0",
+        "@types/stripe": "^6.25.14",
         "axios": "^0.18.0",
         "date-fns": "^1.29.0",
         "halogen": "^0.2.0",
-        "react-stripe-checkout": "^2.6.3"
+        "stripe": "^6.31.2"
     }
 }
