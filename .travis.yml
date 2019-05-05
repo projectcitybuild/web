@@ -3,6 +3,14 @@ language: php
 php:
   - "7.2"
 
+addons:
+  apt:
+   sources:
+    - mysql-5.7-trusty
+   packages:
+    - mysql-server
+    - mysql-client
+
 cache:
   directories:
     - src/vendor
@@ -14,7 +22,7 @@ services:
 before_script:
   - cd src
   - cp .env.ci .env
-  - composer install --no-interaction
+  - composer install --no-interaction --no-dev --prefer-dist
   - npm install
   - npm run production
   - php artisan key:generate
