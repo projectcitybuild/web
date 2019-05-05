@@ -14,7 +14,7 @@
                 If you are currently in-game, please reconnect to receive your perks.
             </div>
             
-            <div class="donate__confirmation">
+            {{-- <div class="donate__confirmation">
                 <div class="donate__confirmation__left">
                     <i class="fas fa-gift fa-4x"></i>
                 </div>
@@ -34,7 +34,7 @@
                         @endif
                     @endauth
                 </div>
-            </div>
+            </div> --}}
 
             <div class="donate__confirmation--info">
                 If you have any problems, please do not hesitate to reach out to staff on the forums, Discord or in-game.

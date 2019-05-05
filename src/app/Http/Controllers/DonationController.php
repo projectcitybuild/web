@@ -28,6 +28,11 @@ final class DonationController extends WebController
         return view('front.pages.donate.donate');
     }
 
+    public function getCompleteView()
+    {
+        return view('front.pages.donate.donate-thanks');
+    }
+
     /**
      * Internal API endpoint to generate and return a Stripe payment session
      *

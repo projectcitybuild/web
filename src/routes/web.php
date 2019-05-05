@@ -58,6 +58,10 @@ Route::prefix('donate')->group(function () {
         'as'    => 'front.donate.fulfill',
         'uses'  => 'DonationController@fulfillDonation',
     ]);
+    Route::get('complete', [
+        'as' => 'front.donate.complete',
+        'uses' => 'DonationController@getCompleteView',
+    ]);
 });
 
 Route::get('donations', [
