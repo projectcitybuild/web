@@ -10,6 +10,7 @@ use App\Entities\AcceptedCurrencyType;
 use Stripe\Webhook;
 use Stripe\Error\SignatureVerification;
 use Stripe\Event;
+use App\Environment;
 
 final class StripePaymentProvider
 {
@@ -72,10 +73,11 @@ final class StripePaymentProvider
         return $session->id;
     }
 
-    public function interceptAndVerifyWebhook(string $payload, string $signatureHeader, bool $disableVerification = false) : Event
+    public function interceptAndVerifyWebhook(string $payload, string $signatureHeader) : Event
     {
-        // for testing purposes
-        if ($disableVerification) {
+        // disable in local dev environment because it's difficult to receive a webhook
+        // event if the site is not accessible over the internet
+        if (Environment::isDev()) {
             return Event::constructFrom(json_decode($payload, true));
         }
 

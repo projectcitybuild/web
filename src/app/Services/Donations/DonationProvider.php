@@ -93,7 +93,7 @@ final class DonationProvider
 
     public function fulfillDonation(string $signatureHeader, string $payload)
     {
-        $event = $this->stripePaymentProvider->interceptAndVerifyWebhook($payload, $signatureHeader, true);
+        $event = $this->stripePaymentProvider->interceptAndVerifyWebhook($payload, $signatureHeader);
 
         if ($event->type !== 'checkout.session.completed') {
             return;
