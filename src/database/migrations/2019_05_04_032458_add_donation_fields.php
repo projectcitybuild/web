@@ -17,7 +17,6 @@ class AddDonationFields extends Migration
         Schema::table('donations', function (Blueprint $table) {
             $table->integer('perk_recipient_account_id')->unsigned();
             $table->boolean('is_anonymous')->default(false);
-            $table->boolean('is_processed')->default(false);
             $table->boolean('is_countable')->default(true)->comment('Whether this donation should be used in calculating statistics/totals');
         });
 
@@ -43,7 +42,6 @@ class AddDonationFields extends Migration
             $table->dropForeign('donations_perk_recipient_account_id_foreign');
 
             $table->dropColumn('perk_recipient_account_id');
-            $table->dropColumn('is_processed');
             $table->dropColumn('is_anonymous');
             $table->dropColumn('is_countable');
         });
