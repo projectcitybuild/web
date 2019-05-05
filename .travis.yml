@@ -22,7 +22,7 @@ services:
 before_script:
   - cd src
   - cp .env.ci .env
-  - composer install --no-interaction --no-dev --prefer-dist
+  - composer install --no-interaction --prefer-dist
   - npm install
   - npm run production
   - php artisan key:generate
