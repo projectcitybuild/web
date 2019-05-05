@@ -27,9 +27,9 @@ Route::redirect('privacy', 'https://forums.projectcitybuild.com/privacy')->name(
 /**
  * Sentry test route
  */
-Route::get('sentry/test', function () {
-    throw new \Exception('Sentry test');
-});
+// Route::get('sentry/test', function () {
+//     throw new \Exception('Sentry test');
+// });
 
 /**
  * Style guide
@@ -50,9 +50,13 @@ Route::prefix('donate')->group(function () {
         'as' => 'front.donate',
         'uses' => 'DonationController@getView',
     ]);
-    Route::post('charge', [
-        'as'    => 'front.donate.charge',
-        'uses'  => 'DonationController@donate',
+    Route::post('make-session', [
+        'as' => 'front.donate.make-session',
+        'uses' => 'DonationController@makeSession',
+    ]);
+    Route::post('fulfill', [
+        'as'    => 'front.donate.fulfill',
+        'uses'  => 'DonationController@fulfillDonation',
     ]);
 });
 
