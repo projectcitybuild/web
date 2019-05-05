@@ -2,30 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\View;
-use App\Services\Donations\DonationStatsService;
 use App\Entities\Players\Models\MinecraftPlayer;
 use App\Entities\Accounts\Models\Account;
 use Illuminate\Support\Facades\Cache;
 use App\Http\WebController;
+use App\Entities\Donations\Repositories\DonationRepository;
+use Carbon\Carbon;
 
-class HomeController extends WebController
+final class HomeController extends WebController
 {
+    private $donationRepository;
 
-    /**
-     * @var DonationStatsService
-     */
-    private $donationStatsService;
-
-    
-    public function __construct(DonationStatsService $donationStatsService)
+    public function __construct(DonationRepository $donationRepository)
     {
-        $this->donationStatsService = $donationStatsService;
+        $this->donationRepository = $donationRepository;
     }
 
     public function getView()
     {
-        $donations = $this->donationStatsService->getAnnualPercentageStats();
+        $annualSum = $this->donationRepository->getAnnualSum();
+        $percentage = round(($annualSum / 1000) * 100);
+
+        $lastDayOfYear = new Carbon('last day of december');
+        $now = Carbon::now();
+        $remainingDays = $lastDayOfYear->diff($now)->days;
+
 
         // combine unique Minecraft player count + forum accounts with
         // no game account linked (due to SMF import)
@@ -37,8 +38,12 @@ class HomeController extends WebController
         });
 
         return view('front.pages.home', [
-            'donations'     => $donations,
-            'playerCount'   => $playerCount,
+            'playerCount' => $playerCount,
+            'donations' => [
+                'total'         => $annualSum ?: 0,
+                'remainingDays' => $remainingDays,
+                'percentage'    => max(1, $percentage) ?: 0,
+            ],
         ]);
     }
 }
