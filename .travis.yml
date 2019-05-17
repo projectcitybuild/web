@@ -21,6 +21,7 @@ before_script:
   - php artisan migrate
 
 script:
+  - ./vendor/bin/phpstan analyse -l max app config tests bootstrap --no-interaction --no-progress
   - ./vendor/bin/phpunit --coverage-clover=coverage.xml
 
 after_success:
