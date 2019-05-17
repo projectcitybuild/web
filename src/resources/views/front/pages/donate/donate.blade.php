@@ -4,19 +4,13 @@
 @section('description', "Help keep us online by donating")
 
 @push('head')
+    <meta name="stripe-key" content="{{ config('services.stripe.key') }}" />
     <meta name="stripe-submit" content="{{ route('front.donate.make-session') }}" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-        const stripe = Stripe('{{ config('services.stripe.key') }}');
-        /*stripe.redirectToCheckout({
-            sessionId: '',
-        }).then(function (result) {
-        // If `redirectToCheckout` fails due to a browser or network
-        // error, display the localized error message to your customer
-        // using `result.error.message`.
-        });*/
+        var stripe = Stripe('{{ config('services.stripe.key') }}');
     </script>
 @endpush
 

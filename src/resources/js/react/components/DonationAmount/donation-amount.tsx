@@ -1,29 +1,29 @@
 import * as React from 'react';
-import StripeCheckout from 'react-stripe-checkout';
+
+// stripe needs to be imported via <script> (no client-side NPM package available)
+// in the blade template
+declare var stripe: any;
 
 interface InitialState {
-    selectedOption: DonationAmountOption,
+    selectedOption: DonationAmountType,
     selectedAmount: number,
     customAmount: number,
-    stripeToken?: string,
     stripeKey: string,
-    stripeEmail: string,
     csrfToken: string,
     submitRoute: string,
 };
 
-enum DonationAmountOption {
+enum DonationAmountType {
     SetAmount,
     CustomAmount,
 }
 
 export default class Component extends React.Component<{}, InitialState> {
     state: InitialState = {
-        selectedOption: DonationAmountOption.SetAmount,
+        selectedOption: DonationAmountType.SetAmount,
         selectedAmount: 3000,
         customAmount: 0,
         stripeKey: "",
-        stripeEmail: "",
         csrfToken: "",
         submitRoute: "",
     };
@@ -47,7 +47,7 @@ export default class Component extends React.Component<{}, InitialState> {
 
     useCustomAmount = () => {
         this.setState({
-            selectedOption: DonationAmountOption.CustomAmount,
+            selectedOption: DonationAmountType.CustomAmount,
         }, () => {
             this.customAmountInput.focus();
         });
@@ -55,7 +55,7 @@ export default class Component extends React.Component<{}, InitialState> {
 
     useSetAmount = (amount: number) => {
         this.setState({
-            selectedOption: DonationAmountOption.SetAmount,
+            selectedOption: DonationAmountType.SetAmount,
             selectedAmount: amount,
         });
     }
@@ -70,36 +70,31 @@ export default class Component extends React.Component<{}, InitialState> {
     }
 
     isSetAmount = (amount: Number): Boolean => {
-        return this.state.selectedOption == DonationAmountOption.SetAmount &&
+        return this.state.selectedOption == DonationAmountType.SetAmount &&
                this.state.selectedAmount == amount;
     }
 
     isCustomAmount = (): Boolean => {
-        return this.state.selectedOption == DonationAmountOption.CustomAmount;
+        return this.state.selectedOption == DonationAmountType.CustomAmount;
     }
 
-    isButtonDisabled = (): boolean => {
-        if (this.state.selectedOption == DonationAmountOption.SetAmount) {
+    isCheckoutButtonDisabled = (): boolean => {
+        if (this.state.selectedOption == DonationAmountType.SetAmount) {
             return false;
         } 
         return this.state.customAmount <= 0;
     }
 
     getAmount = (): string => {
-        if (this.state.selectedOption == DonationAmountOption.SetAmount) {
+        if (this.state.selectedOption == DonationAmountType.SetAmount) {
             return this.state.selectedAmount.toString();
         } else {
             return this.state.customAmount.toString();
         }
     }
 
-    onStripeTokenReceived = (token: any) => {
-        this.setState({ 
-            stripeToken: token.id,
-            stripeEmail: token.email,
-        }, () => {
-            this.form.submit();
-        });
+    proceedToCheckout = () => {
+        alert('test');
     }
 
     render() {
@@ -128,33 +123,18 @@ export default class Component extends React.Component<{}, InitialState> {
                         className="input-text input-text--prefixed" 
                         type="text" 
                         placeholder="3.00" 
-                        disabled={this.state.selectedOption == DonationAmountOption.SetAmount} 
+                        disabled={this.state.selectedOption == DonationAmountType.SetAmount} 
                         value={this.state.customAmount.toString()}
                         onChange={this.handleCustomAmountChange}
                         />
                 </div>
 
-                <form action={this.state.submitRoute} method="POST" ref={form => { this.form = form; }}>
                     <input type="hidden" name="_token" value={this.state.csrfToken} />
-                    <input type="hidden" name="stripe_token" value={this.state.stripeToken} />
-                    <input type="hidden" name="stripe_email" value={this.state.stripeEmail} />
                     <input type="hidden" name="stripe_amount_in_cents" value={this.getAmount()} />
 
-                    <StripeCheckout
-                        name="Project City Build"
-                        description="One-Time Donation"
-                        image="https://forums.projectcitybuild.com/uploads/default/original/1X/847344a324d7dc0d5d908e5cad5f53a61372aded.png"
-                        amount={this.state.selectedOption == DonationAmountOption.SetAmount ? this.state.selectedAmount : this.state.customAmount * 100}
-                        stripeKey={this.state.stripeKey}
-                        locale="auto"
-                        currency="USD"
-                        token={this.onStripeTokenReceived}
-                        >
-                        <button className="button button--large button--fill button--primary" type="button" disabled={this.isButtonDisabled()}>
-                            <i className="fas fa-credit-card"></i> Proceed to Stripe Checkout
-                        </button>
-                    </StripeCheckout>
-                </form>
+                    <button className="button button--large button--fill button--primary" type="button" disabled={this.isCheckoutButtonDisabled()} onClick={this.proceedToCheckout}>
+                        <i className="fas fa-credit-card"></i> Proceed to Stripe Checkout
+                    </button>
             </div>
         );
     }

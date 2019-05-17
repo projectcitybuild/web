@@ -18,21 +18,21 @@ mix.typeScript('resources/js/app.tsx', 'public/assets/js')
         'react', 
         'date-fns', 
         'react-dom', 
-        'axios'
+        'axios',
     ]);
 
-if(mix.config.production) {
+if (mix.config.production) {
     mix.version();
-
 } else {
     mix.browserSync({
         proxy: 'nginx',
         open: false,
         files: [
             'resources/**/*.php',
-            'resources/**/*.css', 
+            'resources/**/*.scss', 
             'resources/**/*.js',
             'resources/**/*.ts',
+            'resources/**/*.tsx',
             'public/**/*',
         ]
     });
