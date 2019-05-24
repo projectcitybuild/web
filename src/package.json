@@ -10,20 +10,19 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
+        "babel-preset-react": "^6.24.1",
+        "browser-sync": "^2.26.5",
+        "browser-sync-webpack-plugin": "^2.2.2",
+        "cross-env": "^5.1",
+        "laravel-mix": "^4.0.15",
+        "normalize-scss": "^7.0.0",
+        "react": "^16.8.6",
+        "react-dom": "^16.8.6",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
-        "babel-preset-react": "^6.23.0",
-        "browser-sync": "^2.24.4",
-        "browser-sync-webpack-plugin": "^2.2.2",
-        "cross-env": "^5.1",
-        "laravel-mix": "4.0.14",
-        "normalize-scss": "^7.0.0",
-        "popper.js": "^1.12",
-        "react": "^16.2.0",
-        "react-dom": "^16.2.0",
-        "ts-loader": "^3.2.0",
-        "typescript": "^2.6.2"
+        "ts-loader": "^5.4.5",
+        "typescript": "^3.4.5"
     },
     "dependencies": {
         "@types/react": "^16.0.34",

@@ -29,7 +29,7 @@ if(mix.config.production) {
         proxy: 'nginx',
         open: false,
         files: [
-            '**/*.php',
+            'resources/**/*.php',
             'resources/**/*.css', 
             'resources/**/*.js',
             'resources/**/*.ts',
