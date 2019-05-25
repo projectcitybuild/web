@@ -1,6 +1,6 @@
 @extends('front.layouts.master')
 
-@section('title', 'Account Security Settings')
+@section('title', 'Account Settings')
 @section('description', '')
 
 @section('contents')
@@ -9,7 +9,7 @@
 
         <div class="card card--divided">
             <div class="card__body card__body--padded">
-                <h1>Account Security</h1>
+                <h1>Account Settings</h1>
                 <span class="header-description">Email, password and login related settings</span>
             </div>
             <div class="card__body card__body--padded">
@@ -34,7 +34,7 @@
                     @endif
 
                     <div class="form-row">
-                        <input class="input-text {{ $errors->any() ? 'input-text--error' : '' }}" name="email" type="email" placeholder="New Email Address" value="{{ old('email') }}" />
+                        <input class="input-text {{ $errors->has('email') ? 'input-text--error' : '' }}" name="email" type="email" placeholder="New Email Address" value="{{ old('email') }}" />
                     </div>
 
                     <div class="form-row">
@@ -79,6 +79,38 @@
                     <div class="form-row">
                         <button type="submit" class="g-recaptcha button button--large button--fill button--secondary">
                             <i class="fas fa-check"></i> Change Password
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card__body card__body--padded">
+                <h3>Change Username</h3>
+
+                <form method="post" action="{{ route('front.account.settings.username') }}" id="form">
+                    @csrf
+
+                    @if(Session::has('success_username'))
+                        <div class="alert alert--success">
+                            <h3><i class="fas fa-exclamation-circle"></i> Success</h3>
+                            {{ Session::get('success_username') }}
+                        </div>
+                        <p>
+                    @endif
+                    @if($errors->username->any())
+                        <div class="alert alert--error">
+                            <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
+                            {{ $errors->username->first() }}
+                        </div>
+                        <p>
+                    @endif
+
+                    <div class="form-row">
+                        <input class="input-text {{ $errors->has('username') ? 'input-text--error' : '' }}" name="username" type="text" placeholder="New Username" />
+                    </div>
+                    <div class="form-row">
+                        <button type="submit" class="g-recaptcha button button--large button--fill button--secondary">
+                            <i class="fas fa-check"></i> Change Username
                         </button>
                     </div>
                 </form>

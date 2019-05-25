@@ -6,6 +6,7 @@ use App\Entities\Accounts\Models\Account;
 use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Entities\Accounts\Notifications\AccountEmailChangeVerifyNotification;
 use App\Http\Requests\AccountChangeEmailRequest;
+use App\Http\Requests\AccountChangeUsernameRequest;
 use App\Http\Requests\AccountSaveNewEmailRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -205,5 +206,20 @@ class AccountSettingController extends WebController
         return redirect()
             ->route('front.account.settings')
             ->with(['success_password' => 'Password successfully updated']);
+    }
+
+    public function changeUsername(AccountChangeUsernameRequest $request)
+    {
+        $input = $request->validated();
+
+        $username = $input['username'];
+
+        $account = $request->user();
+        $account->username = $username;
+        $account->save();
+
+        return redirect()
+            ->route('front.account.settings')
+            ->with(['success_username', 'Username successfully updated']);
     }
 }

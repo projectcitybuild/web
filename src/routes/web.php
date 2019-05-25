@@ -145,6 +145,11 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function () {
             'as'    => 'front.account.settings.password',
             'uses'  => 'AccountSettingController@changePassword',
         ]);
+
+        Route::post('username', [
+            'as'    => 'front.account.settings.username',
+            'uses'  => 'AccountSettingController@changeUsername'
+        ]);
     });
    
     Route::prefix('games')->group(function () {
