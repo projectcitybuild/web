@@ -5,6 +5,42 @@ namespace App\Entities\Servers\Models;
 use App\Model;
 use App\Entities\GameType;
 
+/**
+ * App\Entities\Servers\Models\Server
+ *
+ * @property int $server_id
+ * @property int $server_category_id
+ * @property string $name
+ * @property string $ip
+ * @property string|null $ip_alias An alternative address to connect to the server
+ * @property string|null $port
+ * @property int $game_type Type of game server, used to determine an adapter to use for status querying
+ * @property mixed $is_port_visible Whether the port will be displayed
+ * @property mixed $is_querying
+ * @property mixed $is_visible Whether the server is visible in the server feed
+ * @property int $display_order
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Entities\Servers\Models\ServerCategory $category
+ * @property-read \App\Entities\Servers\Models\ServerStatus $status
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Servers\Models\Server newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Servers\Models\Server newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Servers\Models\Server query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Servers\Models\Server whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Servers\Models\Server whereDisplayOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Servers\Models\Server whereGameType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Servers\Models\Server whereIp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Servers\Models\Server whereIpAlias($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Servers\Models\Server whereIsPortVisible($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Servers\Models\Server whereIsQuerying($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Servers\Models\Server whereIsVisible($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Servers\Models\Server whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Servers\Models\Server wherePort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Servers\Models\Server whereServerCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Servers\Models\Server whereServerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Servers\Models\Server whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Server extends Model
 {
     protected $table = 'servers';
