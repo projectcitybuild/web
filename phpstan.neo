@@ -4,3 +4,5 @@ parameters:
     - app
     - config
     - bootstrap
+  autoload_files:
+    - _ide_helper.php
