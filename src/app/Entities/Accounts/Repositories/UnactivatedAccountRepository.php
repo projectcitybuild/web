@@ -11,11 +11,13 @@ class UnactivatedAccountRepository extends Repository
 
     public function create(
         string $email,
-                             string $password
+        string $username,
+        string $password
     ) : UnactivatedAccount {
         return $this->getModel()->create([
             'email'         => $email,
-            'password'      => $password,
+            'username'      => $username,
+            'password'      => $password
         ]);
     }
 

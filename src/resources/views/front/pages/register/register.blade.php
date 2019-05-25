@@ -52,6 +52,10 @@
                     <input class="input-text {{ $errors->any() ? 'input-text--error' : '' }}" name="email" type="email" placeholder="Email Address" value="{{ old('email') }}" />
                 </div>
                 <div class="form-row">
+                    <label>Username</label>
+                    <input class="input-text {{ $errors->any() ? 'input-text--error' : '' }}" name="username" type="username" placeholder="Username" value="{{ old('username') }}" />
+                </div>
+                <div class="form-row">
                     <label>Password</label>
                     <input class="input-text {{ $errors->any() ? 'input-text--error' : '' }}" name="password" type="password" placeholder="Password" />
                 </div>
