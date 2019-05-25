@@ -62,7 +62,7 @@ final class DiscourseLoginHandler
         // if the SSO and Signature parameters aren't present, it means the user has tapped the login button from
         // the PCB side. In this situation, we'll hit the Discourse SSO URL on the user's behalf to retrieve the
         // SSO and Signature parameter, so the user doesn't have to go through a double redirect (PCB -> Forum -> PCB)
-        return $this->ssoApi->requestPackedNonce();
+        return $this->ssoApi->requestNewPackedNonce();
     }
     
     /**
