@@ -6,6 +6,8 @@ use App\Library\Discourse\Exceptions\BadSSOPayloadException;
 use App\Library\Discourse\Entities\DiscourseNonce;
 use App\Library\Discourse\Entities\DiscoursePayload;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+use App\Library\Discourse\Entities\DiscoursePackedNonce;
 
 final class DiscourseLoginHandler
 {
@@ -28,9 +30,9 @@ final class DiscourseLoginHandler
         $this->payloadValidator = $payloadValidator;
     }
 
-    public function getRedirectUrl(int $pcbId, string $email)
+    public function getRedirectUrl(Request $request, int $pcbId, string $email)
     {
-        $packedNonce = $this->ssoApi->requestPackedNonce();
+        $packedNonce = $this->getPackedNonce($request);
 
         $nonce = $this->decodePackedNonce(
             $packedNonce->getSSO(), 
@@ -42,6 +44,25 @@ final class DiscourseLoginHandler
             $nonce->getNonce(), 
             $nonce->getRedirectUri()
         );
+    }
+
+    private function getPackedNonce(Request $request) : DiscoursePackedNonce
+    {
+        // if the user pressed the login button from the Discourse side or attempted an authenticated action
+        // (eg. replying), Discourse will automatically redirect the user to our login page with an SSO and 
+        // Signature parameter in the URL
+        if ($request->has('sso') && $request->has('sig'))
+        {
+            return new DiscoursePackedNonce(
+                $request->get('sso'), 
+                $request->get('sig')
+            );
+        }
+
+        // if the SSO and Signature parameters aren't present, it means the user has tapped the login button from
+        // the PCB side. In this situation, we'll hit the Discourse SSO URL on the user's behalf to retrieve the
+        // SSO and Signature parameter, so the user doesn't have to go through a double redirect (PCB -> Forum -> PCB)
+        return $this->ssoApi->requestPackedNonce();
     }
     
     /**

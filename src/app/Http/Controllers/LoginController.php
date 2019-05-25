@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Library\Discourse\Authentication\DiscourseLoginHandler;
 use App\Library\Discourse\Exceptions\BadSSOPayloadException;
+use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Services\Login\LogoutService; 
 use App\Http\Requests\LoginRequest;
+use App\Http\WebController;
+use App\Environment;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use \Illuminate\View\View;
-use App\Environment;
-use App\Entities\Accounts\Repositories\AccountRepository;
-use App\Http\WebController;
+use Illuminate\View\View;
 use Illuminate\Support\Facades\Log;
 
 final class LoginController extends WebController
@@ -64,6 +64,7 @@ final class LoginController extends WebController
         {
             $account  = $this->auth->user();
             $endpoint = $this->discourseLoginHandler->getRedirectUrl(
+                $request,
                 $account->getKey(), 
                 $account->email
             );
