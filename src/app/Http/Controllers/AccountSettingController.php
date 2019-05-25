@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Accounts\Models\Account;
 use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Entities\Accounts\Notifications\AccountEmailChangeVerifyNotification;
 use App\Http\Requests\AccountChangeEmailRequest;
-use App\Http\Requests\AccountSaveNewEmailRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use App\Http\Requests\AccountChangePasswordRequest;
 use Illuminate\Support\Facades\Hash;
@@ -15,14 +12,13 @@ use Illuminate\Http\Request;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Library\Discourse\Entities\DiscoursePayload;
 use App\Entities\Accounts\Repositories\AccountEmailChangeRepository;
-use Domains\Helpers\TokenHelpers;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\Notification;
 use App\Http\WebController;
+use App\Helpers\TokenHelpers;
 
-class AccountSettingController extends WebController
+final class AccountSettingController extends WebController
 {
-
     /**
      * @var AccountRepository
      */
@@ -43,19 +39,17 @@ class AccountSettingController extends WebController
      */
     private $connection;
 
-
     public function __construct(
         AccountRepository $accountRepository,
-                                DiscourseAdminApi $discourseApi,
-                                AccountEmailChangeRepository $emailChangeRepository,
-                                Connection $connection
+        DiscourseAdminApi $discourseApi,
+        AccountEmailChangeRepository $emailChangeRepository,
+        Connection $connection
     ) {
         $this->accountRepository = $accountRepository;
         $this->discourseApi = $discourseApi;
         $this->emailChangeRepository = $emailChangeRepository;
         $this->connection = $connection;
     }
-
 
     public function showView()
     {
@@ -75,9 +69,9 @@ class AccountSettingController extends WebController
         $token = TokenHelpers::generateToken();
         $changeRequest = $this->emailChangeRepository->create(
             $account->getKey(),
-                                                              $token,
-                                                              $account->email,
-                                                              $newEmail
+            $token,
+            $account->email,
+            $newEmail
         );
         
         // send email to current email address

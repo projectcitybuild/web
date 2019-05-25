@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\View;
 use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Http\Request;
 use App\Entities\Players\Repositories\MinecraftPlayerRepository;
 use App\Entities\Players\Repositories\MinecraftPlayerAliasRepository;
 use Illuminate\Contracts\Auth\Guard as Auth;
-use App\Entities\Players\Services\MinecraftPlayerLookupService;
-use App\Entities\Servers\Services\PlayerFetching\Api\Mojang\MojangApiService;
 use Illuminate\Support\Carbon;
 use App\Http\WebController;
+use App\Library\Mojang\Api\MojangPlayerApiThrottled;
 
-class GameAccountController extends WebController
+final class GameAccountController extends WebController
 {
 
     /**
@@ -27,7 +25,7 @@ class GameAccountController extends WebController
     private $minecraftAliasRepository;
 
     /**
-     * @var MojangApiService
+     * @var MojangPlayerApiThrottled
      */
     private $mojangApiService;
 
@@ -35,12 +33,14 @@ class GameAccountController extends WebController
      * @var Auth
      */
     private $auth;
+    
 
-    public function __construct(MinecraftPlayerRepository $minecraftPlayerRepository,
-                                MinecraftPlayerAliasRepository $minecraftAliasRepository,
-                                MojangApiService $mojangApiService,
-                                Auth $auth) 
-    {
+    public function __construct(
+        MinecraftPlayerRepository $minecraftPlayerRepository,
+        MinecraftPlayerAliasRepository $minecraftAliasRepository,
+        MojangPlayerApiThrottled $mojangApiService, // TODO: use interface instead of specifying throttled implementation
+        Auth $auth
+    ) {
         $this->minecraftPlayerRepository = $minecraftPlayerRepository;
         $this->minecraftAliasRepository = $minecraftAliasRepository;
         $this->mojangApiService = $mojangApiService;

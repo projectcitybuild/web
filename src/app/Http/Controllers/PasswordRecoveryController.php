@@ -11,12 +11,11 @@ use App\Http\Requests\SendPasswordEmailRequest;
 use Illuminate\Http\Request;
 use Illuminate\Database\Connection;
 use Hash;
-use Domains\Helpers\TokenHelpers;
 use App\Http\WebController;
+use App\Helpers\TokenHelpers;
 
-class PasswordRecoveryController extends WebController
+final class PasswordRecoveryController extends WebController
 {
-
     /**
      * @var AccountRepository
      */

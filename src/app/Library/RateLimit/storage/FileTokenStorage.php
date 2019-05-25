@@ -35,9 +35,9 @@ class FileTokenStorage implements TokenStorable
      *
      * @param $file
      * @param boolean $forWriting
-     * @return void
+     * @return bool Whether lock succeeded
      */
-    private function obtainLock($file, bool $forWriting = false)
+    private function obtainLock($file, bool $forWriting = false) : bool
     {
         return flock($file, $forWriting ? LOCK_EX : LOCK_SH);
     }
@@ -47,9 +47,9 @@ class FileTokenStorage implements TokenStorable
      * processes access to it
      *
      * @param Resource $resource
-     * @return void
+     * @return bool Whether unlock succeeded
      */
-    private function unlock($resource)
+    private function unlock($resource) : bool
     {
         return flock($resource, LOCK_UN);
     }
