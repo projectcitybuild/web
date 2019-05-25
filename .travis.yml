@@ -21,7 +21,7 @@ before_script:
   - php artisan migrate
 
 script:
-  - ./vendor/bin/phpstan analyse -c src/phpstan.neon
+  - ./vendor/bin/phpstan analyse -c phpstan.neon
   - ./vendor/bin/phpunit --coverage-clover=coverage.xml
 
 after_success:
