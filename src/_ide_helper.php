@@ -17390,7 +17390,7 @@ namespace  {
 
     class Redirect extends \Illuminate\Support\Facades\Redirect {}
 
-    class Redis extends \Illuminate\Support\Facades\Redis {}
+    // class Redis extends \Illuminate\Support\Facades\Redis {}
 
     class Request extends \Illuminate\Support\Facades\Request {}
 
