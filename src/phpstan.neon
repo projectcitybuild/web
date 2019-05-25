@@ -1,8 +1,9 @@
+includes:
+  - ./vendor/nunomaduro/larastan/extension.neon
 parameters:
   level: 0
   paths:
     - app
     - config
     - bootstrap
-  autoload_files:
-    - _ide_helper.php
+    - routes
