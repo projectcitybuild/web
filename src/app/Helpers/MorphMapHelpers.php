@@ -1,9 +1,10 @@
 <?php
-namespace Domains\Helpers;
+
+namespace App\Helpers;
 
 use Illuminate\Database\Eloquent\Relations\Relation;
 
-class MorphMapHelpers
+final class MorphMapHelpers
 {
     /**
      * Returns the key that belongs to the given class resolution path

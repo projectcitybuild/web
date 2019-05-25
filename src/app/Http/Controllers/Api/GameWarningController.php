@@ -8,6 +8,7 @@ use App\Services\PlayerWarnings\PlayerWarningService;
 use App\Services\PlayerBans\ServerKeyAuthService;
 use App\Services\PlayerBans\Exceptions\UnauthorisedKeyActionException;
 use App\Entities\ServerKeys\Models\ServerKey;
+use App\Entities\GameIdentifierType;
 
 final class GameWarningController extends ApiController
 {

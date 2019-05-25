@@ -5,6 +5,7 @@ use App\Library\Discourse\Api\DiscourseSSOApi;
 use App\Library\Discourse\Exceptions\BadSSOPayloadException;
 use App\Library\Discourse\Entities\DiscourseNonce;
 use App\Library\Discourse\Entities\DiscoursePayload;
+use Illuminate\Support\Facades\Log;
 
 final class DiscourseLoginHandler
 {
@@ -59,7 +60,7 @@ final class DiscourseLoginHandler
 
         if ($isValidPayload === false) 
         {
-            $this->log->debug('Received invalid SSO payload', ['sso' => $sso, 'signature' => $signature]);
+            Log::debug('Received invalid SSO payload', ['sso' => $sso, 'signature' => $signature]);
             throw new BadSSOPayloadException('Invalid SSO payload');
         }
 
@@ -72,7 +73,7 @@ final class DiscourseLoginHandler
         } 
         catch (BadSSOPayloadException $e) 
         {
-            $this->log->debug('Failed to unpack SSO payload', ['sso' =>  $sso, 'signature' => $signature]);
+            Log::debug('Failed to unpack SSO payload', ['sso' =>  $sso, 'signature' => $signature]);
             throw $e;
         }
 

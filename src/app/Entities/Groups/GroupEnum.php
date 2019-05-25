@@ -23,7 +23,7 @@ final class GroupEnum extends Enum {
             case self::Donator          : return 46;
             case self::Retired          : return 48;
             case self::Trusted          : return 47;
-            case self::Member           : throw new Exception('Cannot map Member to Discourse group');
+            case self::Member           : throw new \Exception('Cannot map Member to Discourse group');
         }
     }
 
