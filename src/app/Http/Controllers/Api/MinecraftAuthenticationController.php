@@ -62,9 +62,7 @@ final class MinecraftAuthenticationController extends ApiController
 
         return [
             'data' => [
-                'url' => route('front.auth.minecraft.code', [
-                    'code' => $authCode->token,
-                ]),
+                'url' => route('front.auth.minecraft.code', ['token' => $authCode->token]),
             ],
         ];
     }

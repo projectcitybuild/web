@@ -28,4 +28,11 @@ final class MinecraftAuthCodeRepository extends Repository
             ->where('player_minecraft_id', $minecraftPlayerId)
             ->delete();
     }
+
+    public function getByToken(string $token) : ?MinecraftAuthCode
+    {
+        return $this->getModel()
+            ->where('token', $token)
+            ->first();
+    }
 }

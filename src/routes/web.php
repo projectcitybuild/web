@@ -159,8 +159,8 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function () {
     });
 });
 
-Route::get('auth/minecraft/{@code}', [
-    'as'   => 'front.auth.minecraft.code',
+Route::get('auth/minecraft/{token}', [
+    'as'   => 'front.auth.minecraft.token',
     'uses' => 'MinecraftPlayerLinkController@linkMinecraftPlayerWithAccount',
 ]);
 
