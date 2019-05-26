@@ -177,7 +177,6 @@ return [
 
         App\Library\Discourse\DiscourseServiceProvider::class,
         App\Library\Recaptcha\RecaptchaServiceProvider::class,
-        App\Library\OAuth\OAuthServiceProvider::class,
 
     ],
 
