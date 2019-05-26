@@ -118,7 +118,6 @@ Route::get('logout', [
     'uses'  => 'LoginController@logout',
 ]);
 
-
 Route::group(['prefix' => 'account', 'middleware' => 'auth'], function () {
     Route::prefix('settings')->group(function () {
         Route::get('/', [
@@ -160,6 +159,10 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function () {
     });
 });
 
+Route::get('auth/minecraft/{@code}', [
+    'as'   => 'front.auth.minecraft.code',
+    'uses' => 'MinecraftPlayerLinkController@linkMinecraftPlayerWithAccount',
+]);
 
 Route::view('bans', 'front.pages.banlist')->name('banlist');
 

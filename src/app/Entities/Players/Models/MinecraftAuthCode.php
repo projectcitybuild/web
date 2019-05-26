@@ -12,7 +12,8 @@ final class MinecraftAuthCode extends Model
 
     protected $fillable = [
         'uuid',
-        'minecraft_player_id',
+        'token',
+        'player_minecraft_id',
         'expires_at',
     ];
 

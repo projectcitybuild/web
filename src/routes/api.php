@@ -20,6 +20,13 @@ Route::prefix('bans')->group(function () {
     Route::post('status', 'GameBanController@getPlayerStatus');
 });
 
+Route::prefix('auth')->group(function () {
+    Route::post('minecraft/request-url', [
+        'as'   => 'auth.minecraft.request_url',
+        'uses' => 'MinecraftAuthenticationController@requestTokenUrl',
+    ]);
+});
+
 Route::prefix('groups')->group(function () {
     Route::get('/', 'GroupApiController@getAll');
 });
@@ -30,4 +37,7 @@ Route::prefix('servers')->group(function () {
 
 Route::post('discord/sync', 'DiscordSyncController@getRank');
 
+/**
+ * @deprecated 1.11.0
+ */
 Route::post('minecraft/authenticate', 'TempMinecraftController@authenticate');
