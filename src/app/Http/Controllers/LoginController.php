@@ -58,7 +58,9 @@ final class LoginController extends WebController
     {
         if ($this->auth->check() === false) 
         {
-            return view('front.pages.login.login');
+            return view('front.pages.login.login', [
+                'return_url' => $request->get('return_url'),
+            ]);
         }
         try 
         {

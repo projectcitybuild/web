@@ -22,6 +22,13 @@ final class MinecraftAuthCodeRepository extends Repository
         ]);
     }
 
+    public function deleteById(int $minecraftAuthCodeId)
+    {
+        $this->getModel()
+            ->where('minecraft_auth_code_id', $minecraftAuthCodeId)
+            ->delete();
+    }
+
     public function deleteByMinecraftPlayerId(int $minecraftPlayerId)
     {
         $this->getModel()

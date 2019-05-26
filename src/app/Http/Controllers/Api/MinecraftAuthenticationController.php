@@ -22,6 +22,7 @@ final class MinecraftAuthenticationController extends ApiController
      */
     private $minecraftPlayerRepository;
 
+
     public function __construct(
         MinecraftAuthCodeRepository $minecraftAuthCodeRepository, 
         MinecraftPlayerRepository $minecraftPlayerRepository
@@ -39,14 +40,15 @@ final class MinecraftAuthenticationController extends ApiController
         $uuid = $request->get('minecraft_uuid');
 
         $existingPlayer = $this->minecraftPlayerRepository->getByUuid($uuid);
-        
-        if ($existingPlayer === null) {
+        if ($existingPlayer === null) 
+        {
             $existingPlayer = $this->minecraftPlayerRepository->store($uuid, Carbon::now());
         }
 
         // we don't currently support re-authenticating a Minecraft account when 
         // it's already authenticated, as this might cause some unexpected results
-        if ($existingPlayer->account_id !== null) {
+        if ($existingPlayer->account_id !== null) 
+        {
             throw new ForbiddenException('already_authenticated', 'This UUID has already been authenticated');
         }
 
@@ -62,7 +64,7 @@ final class MinecraftAuthenticationController extends ApiController
 
         return [
             'data' => [
-                'url' => route('front.auth.minecraft.code', ['token' => $authCode->token]),
+                'url' => route('front.auth.minecraft.token', ['token' => $authCode->token]),
             ],
         ];
     }

@@ -3,6 +3,7 @@
 namespace App\Entities\Players\Models;
 
 use App\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class MinecraftAuthCode extends Model
 {
@@ -20,5 +21,10 @@ final class MinecraftAuthCode extends Model
     protected $dates = [
         'expires_at',
     ];
+
+    public function minecraftPlayer() : HasOne
+    {
+        return $this->hasOne(MinecraftPlayer::class, 'player_minecraft_id', 'player_minecraft_id');
+    }
 
 }
