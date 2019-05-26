@@ -25,6 +25,10 @@ Route::prefix('auth')->group(function () {
         'as'   => 'auth.minecraft.request_url',
         'uses' => 'MinecraftAuthenticationController@requestTokenUrl',
     ]);
+    Route::get('minecraft/groups', [
+        'as'   => 'auth.minecraft.groups',
+        'uses' => 'MinecraftAuthenticationController@getGroupsForUUID',
+    ]);
 });
 
 Route::prefix('groups')->group(function () {
