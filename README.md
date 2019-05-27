@@ -6,6 +6,7 @@
     <a href="https://opensource.org/licenses/MPL-2.0"><img src="https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg" alt="License: MPL 2.0"></a>
     <a href="https://travis-ci.org/andyksaw/ProjectCityBuild"><img src="https://travis-ci.org/andyksaw/ProjectCityBuild.svg?branch=master" alt="Build status"></a>
     <a href="https://codecov.io/gh/andyksaw/ProjectCityBuild"><img src="https://codecov.io/gh/andyksaw/ProjectCityBuild/branch/master/graph/badge.svg" alt="codecov"></a>
+    <a href="https://dependabot.com"><img src="https://api.dependabot.com/badges/status?host=github&repo=andyksaw/ProjectCityBuild" alt="Dependabot Status"></a>
 </p>
 
 ---
