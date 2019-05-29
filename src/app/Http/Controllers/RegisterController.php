@@ -123,10 +123,13 @@ final class RegisterController extends WebController
             throw $e;
         }
 
-        // Login to Discourse on behalf of the user, server-side, to force Discourse to create an account
-        // for the user and therefore stay in sync with PCB. This step is necessary because some users 
-        // register an account but never login once afterwards, which means they'l have a PCB account but 
-        // not a forum account, and this causes all sorts of nasty problems later
+        // Login to Discourse on behalf of the user to force Discourse to create an account for the user. 
+        // This step is necessary because some users register an account but never login once afterwards, 
+        // which means they'll have a PCB account but not a forum account, and this causes all sorts of 
+        // nasty problems later.
+        //
+        // This step doesn't actually log the user in, because the server is making the request on behalf
+        // of the user.
         $this->forceLoginServerSide($request, $account);
 
         return view('front.pages.register.register-verify-complete');
