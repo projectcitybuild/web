@@ -7,74 +7,57 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
 use App\Entities\Groups\Models\Group;
+use App\Entities\Players\Models\MinecraftPlayer;
 
-/**
- * App\Entities\Accounts\Models\Account
- *
- * @property int $account_id
- * @property string $email
- * @property string $password
- * @property string|null $remember_token
- * @property string|null $last_login_ip
- * @property \Illuminate\Support\Carbon|null $last_login_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Groups\Models\Group[] $groups
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Accounts\Models\AccountLink[] $linkedSocialAccounts
- * @property-read \App\Entities\Players\Models\MinecraftPlayer $minecraftAccount
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account whereAccountId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account whereLastLoginAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account whereLastLoginIp($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account whereUpdatedAt($value)
- * @mixin \Eloquent
- */
-class Account extends Authenticatable
+final class Account extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = 'accounts';
+    public const TABLE_NAME = 'accounts';
 
-    protected $primaryKey = 'account_id';
+    public const COLUMN_ACCOUNT_ID = 'account_id';
+    public const COLUMN_EMAIL = 'email';
+    public const COLUMN_PASSWORD = 'password';
+    public const COLUMN_REMEMBER_TOKEN = 'remember_token';
+    public const COLUMN_LAST_LOGIN_IP = 'last_login_ip';
+    public const COLUMN_LAST_LOGIN_AT = 'last_login_at';
+
+
+    protected $table = self::TABLE_NAME;
+    protected $primaryKey = self::COLUMN_ACCOUNT_ID;
 
     protected $fillable = [
-        'email',
-        'password',
-        'remember_token',
-        'last_login_ip',
-        'last_login_at',
+        self::COLUMN_EMAIL,
+        self::COLUMN_PASSWORD,
+        self::COLUMN_REMEMBER_TOKEN,
+        self::COLUMN_LAST_LOGIN_IP,
+        self::COLUMN_LAST_LOGIN_AT,
     ];
 
     protected $hidden = [
-
+        self::COLUMN_PASSWORD,
+        self::COLUMN_REMEMBER_TOKEN,
+        self::COLUMN_LAST_LOGIN_IP,
     ];
 
     protected $dates = [
-        'created_at',
-        'updated_at',
-        'last_login_at',
+        self::COLUMN_LAST_LOGIN_AT,
     ];
 
+    
     public function minecraftAccount()
     {
-        return $this->belongsTo('App\Entities\Players\Models\MinecraftPlayer', 'account_id', 'account_id');
+        return $this->belongsTo(MinecraftPlayer::class, self::COLUMN_ACCOUNT_ID, self::COLUMN_ACCOUNT_ID);
     }
 
     public function linkedSocialAccounts()
     {
-        return $this->hasMany('App\Entities\Accounts\Models\AccountLink', 'account_id', 'account_id');
+        return $this->hasMany(AccountLink::class, self::COLUMN_ACCOUNT_ID, self::COLUMN_ACCOUNT_ID);
     }
 
     public function groups()
     {
-        return $this->belongsToMany(Group::class, 'groups_accounts', 'account_id', 'group_id');
+        return $this->belongsToMany(Group::class, 'groups_accounts', self::COLUMN_ACCOUNT_ID, 'group_id');
     }
 
     /**
