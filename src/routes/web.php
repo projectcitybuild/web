@@ -64,7 +64,7 @@ Route::get('donations', [
 Route::prefix('login')->group(function () {
     Route::get('/', [
         'as'    => 'front.login',
-        'uses'  => 'LoginController@loginOrShowForm',
+        'uses'  => 'LoginController@showLoginForm',
     ]);
     Route::post('/', [
         'as'    => 'front.login.submit',

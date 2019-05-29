@@ -54,12 +54,23 @@ final class LoginController extends WebController
      * @param Request $request
      * @return RedirectResponse|View
      */
-    public function loginOrShowForm(Request $request)
+    public function showLoginForm(Request $request)
     {
-        if ($this->auth->check() === false) 
+        if ($this->auth->check() === true) 
         {
-            return view('front.pages.login.login');
+            return response()->redirectToRoute('front.home');
         }
+        return view('front.pages.login.login');
+    }
+
+    /**
+     * Handles a login request sent from the login form
+     *
+     * @param LoginRequest $request
+     * @return RedirectResponse|View
+     */
+    public function login(LoginRequest $request)
+    {
         try 
         {
             $account  = $this->auth->user();
@@ -83,17 +94,6 @@ final class LoginController extends WebController
     }
 
     /**
-     * Handles a login request sent from the login form
-     *
-     * @param LoginRequest $request
-     * @return RedirectResponse|View
-     */
-    public function login(LoginRequest $request)
-    {
-        return $this->loginOrShowForm($request);
-    }
-
-    /**
      * Logs out the current PCB account
      *
      * (called from Discourse)
@@ -109,8 +109,7 @@ final class LoginController extends WebController
     }
 
     /**
-     * Logs out the current PCB account and
-     * its associated Discourse account
+     * Logs out the current PCB account and its associated Discourse account
      *
      * (called from this site)
      *
