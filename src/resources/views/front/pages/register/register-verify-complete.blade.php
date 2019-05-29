@@ -11,11 +11,6 @@
             <p>
                 Thank you for registering. Your account is now active.
             </p>
-
-            <a class="button button--large button--primary" href="https://forums.projectcitybuild.com/login">
-                <i class="fas fa-chevron-right"></i>
-                Go to Login Screen
-            </a>
         </div>
 
     </div>
