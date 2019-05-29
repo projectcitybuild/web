@@ -65,8 +65,7 @@ class DonationController extends WebController
 
     public function getView()
     {
-        abort(503);
-        // return view('front.pages.donate.donate');
+        return view('front.pages.donate.donate');
     }
 
     public function donate(Request $request)
