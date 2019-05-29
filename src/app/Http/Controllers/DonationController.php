@@ -73,12 +73,11 @@ class DonationController extends WebController
     {
         $email = $request->get('stripe_email');
         $stripeToken = $request->get('stripe_token');
-        $amount = $request->get('stripe_amount');
+        $amount = $request->get('stripe_amount_in_cents');
 
         if ($amount <= 0) {
             abort(401, "Attempted to donate zero dollars");
         }
-        $amount *= 100;
 
         $account = $this->auth->user();
         $accountId = $account !== null ? $account->getKey() : null;

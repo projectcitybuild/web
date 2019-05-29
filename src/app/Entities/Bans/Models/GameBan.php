@@ -4,6 +4,43 @@ namespace App\Entities\Bans\Models;
 
 use App\Model;
 
+/**
+ * App\Entities\Bans\Models\GameBan
+ *
+ * @property int $game_ban_id
+ * @property int|null $server_id
+ * @property int $banned_player_id
+ * @property string $banned_player_type Banned player identifier type
+ * @property string $banned_alias_at_time Alias of the player at ban time for logging purposes
+ * @property int|null $staff_player_id
+ * @property string $staff_player_type Staff player identifier type
+ * @property string|null $reason
+ * @property mixed $is_active Whether the ban is active
+ * @property mixed $is_global_ban Whether this player is banned on all PCB servers, not just the server they were banned on
+ * @property \Illuminate\Support\Carbon|null $expires_at Date that this ban auto-expires on
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $bannedPlayer
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $staffPlayer
+ * @property-read \App\Entities\Bans\Models\GameUnban $unban
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Bans\Models\GameBan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Bans\Models\GameBan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Bans\Models\GameBan query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Bans\Models\GameBan whereBannedAliasAtTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Bans\Models\GameBan whereBannedPlayerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Bans\Models\GameBan whereBannedPlayerType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Bans\Models\GameBan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Bans\Models\GameBan whereExpiresAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Bans\Models\GameBan whereGameBanId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Bans\Models\GameBan whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Bans\Models\GameBan whereIsGlobalBan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Bans\Models\GameBan whereReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Bans\Models\GameBan whereServerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Bans\Models\GameBan whereStaffPlayerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Bans\Models\GameBan whereStaffPlayerType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Bans\Models\GameBan whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class GameBan extends Model
 {
     protected $table = 'game_network_bans';

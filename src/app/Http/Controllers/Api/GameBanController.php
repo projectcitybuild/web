@@ -13,6 +13,7 @@ use App\Services\PlayerBans\ServerKeyAuthService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Entities\ServerKeys\Models\ServerKey;
+use App\Entities\Players\Models\MinecraftPlayer;
 
 final class GameBanController extends ApiController
 {

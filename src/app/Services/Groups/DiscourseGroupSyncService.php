@@ -4,7 +4,6 @@ namespace App\Services\Groups;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Entities\Groups\GroupEnum;
 use App\Entities\Groups\Repositories\GroupRepository;
-use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Entities\Accounts\Models\Account;
 
 
@@ -33,7 +32,7 @@ final class DiscourseGroupSyncService {
     {
         $pcbGroup = $this->groupRepository->getGroupByName($group->valueOf());
         if ($pcbGroup === null) {
-            throw new Exception('PCB group ['.$group->valueOf().'] does not exist');
+            throw new \Exception('PCB group ['.$group->valueOf().'] does not exist');
         }
         return $pcbGroup->getKey();
     }

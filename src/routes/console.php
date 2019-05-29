@@ -1,5 +1,8 @@
 <?php
 
+use App\Services\PasswordReset\PasswordResetCleanupService;
+use App\Services\Registration\UnactivatedAccountCleanupService;
+
 /*
 |--------------------------------------------------------------------------
 | Console Routes

@@ -13,7 +13,7 @@ class ServerJobEntity
     private $serverQueryAdapter;
 
     /**
-     * @var PlayerQueryAdapter
+     * @var PlayerQueryAdapterContract
      */
     private $playerQueryAdapter;
 

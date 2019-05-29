@@ -18,7 +18,7 @@ class DiscourseSSOApi extends DiscourseAPIRequest
      *
      * @return DiscoursePackedNonce
      */
-    public function requestPackedNonce(string $returnPath = '/latest') : DiscoursePackedNonce
+    public function requestNewPackedNonce(string $returnPath = '/latest') : DiscoursePackedNonce
     {
         $response = $this->client->get('session/sso?return_path='.$returnPath, [
             'allow_redirects' => [

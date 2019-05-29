@@ -35,7 +35,7 @@ return [
     ],
 
     'stripe' => [
-        'model' => Entities\Accounts\Models\Account::class,
+        'model' => App\Entities\Accounts\Models\Account::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
         'webhook' => [

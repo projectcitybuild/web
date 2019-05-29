@@ -1,11 +1,11 @@
 <?php
+
 namespace App\Entities\Bans\Repositories;
 
 use App\Entities\Bans\Models\GameBanLog;
 
-class GameBanLogRepository
+final class GameBanLogRepository
 {
-
     /**
      * @var GameBanLog
      */

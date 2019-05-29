@@ -4,8 +4,8 @@ namespace App\Services\Login;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use App\Library\Discourse\Api\DiscourseUserApi;
 use GuzzleHttp\Exception\ClientException;
-use Illuminate\Log\Logger;
 use App\Library\Discourse\Api\DiscourseAdminApi;
+use Illuminate\Support\Facades\Log;
 
 class LogoutService 
 {
@@ -25,22 +25,15 @@ class LogoutService
      */
     private $auth;
 
-    /**
-     * @var Logger
-     */
-    private $log;
-
     
     public function __construct(
         DiscourseUserApi $discourseUserApi,
         DiscourseAdminApi $discourseAdminApi,
-        Auth $auth,
-        Logger $logger
+        Auth $auth
     ) {
         $this->discourseUserApi = $discourseUserApi;
         $this->discourseAdminApi = $discourseAdminApi;
         $this->auth = $auth;
-        $this->log = $logger;
     }
 
     /**
@@ -75,18 +68,16 @@ class LogoutService
 
         $user = $this->getDiscourseUser($pcbId);
 
-        $this->log->info('Logging out user: '.$pcbId);
+        Log::info('Logging out user: '.$pcbId);
 
         try {
             $this->discourseAdminApi->requestLogout($user['id']);
 
         } catch (ClientException $error) {
-            // Discourse will throw a 404 error if the
-            // user attempts to logout when not logged-in.
-            // When that happens, we want to gracefully
-            // logout of just PCB
-            if ($error->getCode() !== '404') {
-                $this->log->notice('Caught a 404 error logging out of Discourse');
+            // Discourse will throw a 404 error if the user attempts to logout but isn't 
+            // currently logged-in. If that happens, we'll just gracefully logout of PCB
+            if ($error->getCode() !== 404) {
+                Log::notice('Caught a 404 error logging out of Discourse');
                 throw $error;
             }
         }
@@ -110,7 +101,7 @@ class LogoutService
             throw new \Exception('Discourse logout api response did not have a `user` key');
         }
         
-        $this->log->debug('Fetched Discord user', [
+        Log::debug('Fetched Discord user', [
             'id'        => $user['id'],
             'username'  => $user['username'],
             'response'  => $result,

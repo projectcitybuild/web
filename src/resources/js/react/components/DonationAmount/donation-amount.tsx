@@ -138,7 +138,7 @@ export default class Component extends React.Component<{}, InitialState> {
                     <input type="hidden" name="_token" value={this.state.csrfToken} />
                     <input type="hidden" name="stripe_token" value={this.state.stripeToken} />
                     <input type="hidden" name="stripe_email" value={this.state.stripeEmail} />
-                    <input type="hidden" name="stripe_amount" value={this.getAmount()} />
+                    <input type="hidden" name="stripe_amount_in_cents" value={this.getAmount()} />
 
                     <StripeCheckout
                         name="Project City Build"
