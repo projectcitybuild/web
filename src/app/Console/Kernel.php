@@ -41,10 +41,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('query:status --all')
                  ->everyFiveMinutes();
 
-        $schedule->command('cleanup:password-reset')
+        $schedule->command('cleanup:password-resets')
                 ->weekly();
 
-        $schedule->command('cleanup:unactivated-account')
+        $schedule->command('cleanup:unactivated-accounts')
                 ->weekly();
     }
 
