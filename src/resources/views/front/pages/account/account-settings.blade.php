@@ -25,10 +25,10 @@
                         </div>
                         <p>
                     @endif
-                    @if($errors->email->any())
+                    @if($errors->has('email'))
                         <div class="alert alert--error">
                             <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
-                            {{ $errors->email->first() }}
+                            {{ $errors->first('email') }}
                         </div>
                         <p>
                     @endif
@@ -58,10 +58,10 @@
                         </div>
                         <p>
                     @endif
-                    @if($errors->password->any())
+                    @if($errors->has('password'))
                         <div class="alert alert--error">
                             <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
-                            {{ $errors->password->first() }}
+                            {{ $errors->first('password') }}
                         </div>
                         <p>
                     @endif
@@ -97,10 +97,10 @@
                         </div>
                         <p>
                     @endif
-                    @if($errors->username->any())
+                    @if($errors->has('username'))
                         <div class="alert alert--error">
                             <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
-                            {{ $errors->username->first() }}
+                            {{ $errors->first('username') }}
                         </div>
                         <p>
                     @endif
