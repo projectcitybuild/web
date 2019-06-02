@@ -36,7 +36,7 @@
                     @endif
 
                     <div class="form-row">
-                        <input class="input-text {{ $errors->has('email') ? 'input-text--error' : '' }}" name="email" type="email" placeholder="New Email Address" value="{{ old('email') }}" />
+                        <input class="input-text {{ $errors->has('email') ? 'input-text--error' : '' }}" name="email" type="email" placeholder="New Email Address" value="{{ old('email', $user->email) }}" />
                     </div>
 
                     <div class="form-row">
@@ -112,7 +112,7 @@
                     @endif
 
                     <div class="form-row">
-                        <input class="input-text {{ $errors->has('username') ? 'input-text--error' : '' }}" name="username" type="text" placeholder="New Username" />
+                        <input class="input-text {{ $errors->has('username') ? 'input-text--error' : '' }}" name="username" type="text" placeholder="New Username" value="{{ old('username', $user->username) }}" />
                     </div>
                     <div class="form-row">
                         <button type="submit" class="g-recaptcha button button--large button--fill button--secondary">

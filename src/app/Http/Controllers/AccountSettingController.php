@@ -58,9 +58,10 @@ class AccountSettingController extends WebController
     }
 
 
-    public function showView()
+    public function showView(Request $request)
     {
-        return view('front.pages.account.account-settings');
+        $user = $request->user();
+        return view('front.pages.account.account-settings')->with(compact('user'));
     }
 
     public function sendVerificationEmail(AccountChangeEmailRequest $request)
