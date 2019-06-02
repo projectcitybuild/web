@@ -48,6 +48,40 @@
             </div>
 
             <div class="card__body card__body--padded">
+                <h3>Change Username</h3>
+
+                <form method="post" action="{{ route('front.account.settings.username') }}" id="form">
+                    @csrf
+
+                    @if(Session::has('success_username'))
+                        <div class="alert alert--success">
+                            <h3><i class="fas fa-exclamation-circle"></i> Success</h3>
+                            {{ Session::get('success_username') }}
+                        </div>
+                        <p>
+                    @endif
+                    @if($errors->username->any())
+                        <div class="alert alert--error">
+                            <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
+                            @foreach($errors->username->all() as $error)
+                                {{ $error }}<br>
+                            @endforeach
+                        </div>
+                        <p>
+                    @endif
+
+                    <div class="form-row">
+                        <input class="input-text {{ $errors->has('username') ? 'input-text--error' : '' }}" name="username" type="text" placeholder="New Username" value="{{ old('username', $user->username) }}" />
+                    </div>
+                    <div class="form-row">
+                        <button type="submit" class="g-recaptcha button button--large button--fill button--secondary">
+                            <i class="fas fa-check"></i> Change Username
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card__body card__body--padded">
                 <h3>Change Password</h3>
 
                 <form method="post" action="{{ route('front.account.settings.password') }}" id="form">
@@ -83,40 +117,6 @@
                     <div class="form-row">
                         <button type="submit" class="g-recaptcha button button--large button--fill button--secondary">
                             <i class="fas fa-check"></i> Change Password
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <div class="card__body card__body--padded">
-                <h3>Change Username</h3>
-
-                <form method="post" action="{{ route('front.account.settings.username') }}" id="form">
-                    @csrf
-
-                    @if(Session::has('success_username'))
-                        <div class="alert alert--success">
-                            <h3><i class="fas fa-exclamation-circle"></i> Success</h3>
-                            {{ Session::get('success_username') }}
-                        </div>
-                        <p>
-                    @endif
-                    @if($errors->username->any())
-                        <div class="alert alert--error">
-                            <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
-                            @foreach($errors->username->all() as $error)
-                                {{ $error }}<br>
-                            @endforeach
-                        </div>
-                        <p>
-                    @endif
-
-                    <div class="form-row">
-                        <input class="input-text {{ $errors->has('username') ? 'input-text--error' : '' }}" name="username" type="text" placeholder="New Username" value="{{ old('username', $user->username) }}" />
-                    </div>
-                    <div class="form-row">
-                        <button type="submit" class="g-recaptcha button button--large button--fill button--secondary">
-                            <i class="fas fa-check"></i> Change Username
                         </button>
                     </div>
                 </form>
