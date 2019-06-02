@@ -25,10 +25,12 @@
                         </div>
                         <p>
                     @endif
-                    @if($errors->has('email'))
+                    @if($errors->email->any())
                         <div class="alert alert--error">
                             <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
-                            {{ $errors->first('email') }}
+                            @foreach($errors->email->all() as $error)
+                                {{ $error }}<br>
+                            @endforeach
                         </div>
                         <p>
                     @endif
@@ -58,10 +60,12 @@
                         </div>
                         <p>
                     @endif
-                    @if($errors->has('password'))
+                    @if($errors->password->any())
                         <div class="alert alert--error">
                             <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
-                            {{ $errors->first('password') }}
+                            @foreach($errors->password->all() as $error)
+                                {{ $error }}<br>
+                            @endforeach
                         </div>
                         <p>
                     @endif
@@ -97,10 +101,12 @@
                         </div>
                         <p>
                     @endif
-                    @if($errors->has('username'))
+                    @if($errors->username->any())
                         <div class="alert alert--error">
                             <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
-                            {{ $errors->first('username') }}
+                            @foreach($errors->username->all() as $error)
+                                {{ $error }}<br>
+                            @endforeach
                         </div>
                         <p>
                     @endif

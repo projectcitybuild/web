@@ -47,13 +47,11 @@ class AccountChangeEmailRequest extends FormRequest
      */
     public function withValidator($validator)
     {
-        if ($validator->failed()) {
-            return;
-        }
-
         $validator->after(function ($validator) {
             $input = $validator->getData();
             $email = $input['email'];
+
+            if ($email == null) { return; }
 
             $account = $this->accountRepository->getByEmail($email);
 
@@ -63,7 +61,6 @@ class AccountChangeEmailRequest extends FormRequest
                 } else {
                     $validator->errors()->add('email', 'This email address is already in use');
                 }
-                return;
             }
         });
     }
