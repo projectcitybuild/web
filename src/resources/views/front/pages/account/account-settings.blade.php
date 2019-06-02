@@ -12,7 +12,7 @@
                 <h1>Account Settings</h1>
                 <span class="header-description">Email, password and login related settings</span>
             </div>
-            <div class="card__body card__body--padded">
+            <div class="card__body card__body--padded" id="change-email">
                 <h3>Change Email Address</h3>
 
                 <form method="post" action="{{ route('front.account.settings.email') }}" id="form">
@@ -47,7 +47,7 @@
                 </form>
             </div>
 
-            <div class="card__body card__body--padded">
+            <div class="card__body card__body--padded" id="change-username">
                 <h3>Change Username</h3>
 
                 <form method="post" action="{{ route('front.account.settings.username') }}" id="form">
@@ -81,7 +81,7 @@
                 </form>
             </div>
 
-            <div class="card__body card__body--padded">
+            <div class="card__body card__body--padded" id="change-password">
                 <h3>Change Password</h3>
 
                 <form method="post" action="{{ route('front.account.settings.password') }}" id="form">

@@ -66,6 +66,17 @@ class AccountChangeEmailRequest extends FormRequest
     }
 
     /**
+     * Redirect back to the form anchor
+     *
+     * @return string
+     */
+    protected function getRedirectUrl()
+    {
+        $url = $this->redirector->getUrlGenerator();
+        return $url->previous() . '#change-email';
+    }
+
+    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
