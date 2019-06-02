@@ -65,7 +65,8 @@ final class LoginController extends WebController
             $account  = $this->auth->user();
             $endpoint = $this->discourseLoginHandler->getRedirectUrl(
                 $account->getKey(), 
-                $account->email
+                $account->email,
+                $account->username
             );
         } 
         catch (BadSSOPayloadException $e) 

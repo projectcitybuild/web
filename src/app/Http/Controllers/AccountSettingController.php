@@ -199,6 +199,8 @@ class AccountSettingController extends WebController
 
         $password = $input['new_password'];
 
+
+
         $account = $request->user();
         $account->password = Hash::make($password);
         $account->save();
@@ -215,6 +217,25 @@ class AccountSettingController extends WebController
         $username = $input['username'];
 
         $account = $request->user();
+
+        // push the email change to Discourse
+        // via the user sync route
+        $payload = (new DiscoursePayload)
+            ->setPcbId($account->getKey())
+            ->setUsername($username);
+
+        try {
+            $this->discourseApi->requestSSOSync($payload->build());
+        } catch (\GuzzleHttp\Exception\ServerException $e) {
+            // sometimes the api fails at random because
+            // the 'requires_activation' key is needed in
+            // the payload. As a workaround we'll send the
+            // request again but with the key included
+            // this time
+            $payload->requiresActivation(false);
+            $this->discourseApi->requestSSOSync($payload->build());
+        }
+
         $account->username = $username;
         $account->save();
 

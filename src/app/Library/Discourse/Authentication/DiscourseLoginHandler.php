@@ -27,7 +27,7 @@ final class DiscourseLoginHandler
         $this->payloadValidator = $payloadValidator;
     }
 
-    public function getRedirectUrl(int $pcbId, string $email)
+    public function getRedirectUrl(int $pcbId, string $email, string $username)
     {
         $packedNonce = $this->ssoApi->requestPackedNonce();
 
@@ -37,7 +37,8 @@ final class DiscourseLoginHandler
         );
         return $this->getDiscourseRedirectUri(
             $pcbId, 
-            $email, 
+            $email,
+            $username,
             $nonce->getNonce(), 
             $nonce->getRedirectUri()
         );
@@ -91,11 +92,12 @@ final class DiscourseLoginHandler
      * @param string $returnUri
      * @return string
      */
-    private function getDiscourseRedirectUri(int $pcbId, string $email, string $nonce, string $returnUri) : string
+    private function getDiscourseRedirectUri(int $pcbId, string $email, string $username, string $nonce, string $returnUri) : string
     {
         $rawPayload = (new DiscoursePayload($nonce))
             ->setPcbId($pcbId)
             ->setEmail($email)
+            ->setUsername($username)
             ->requiresActivation(false)
             ->build();
 
