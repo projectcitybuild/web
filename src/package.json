@@ -27,7 +27,7 @@
     "dependencies": {
         "@types/react": "^16.8.19",
         "@types/react-dom": "^16.0.3",
-        "@types/sanitize-html": "^1.14.0",
+        "@types/sanitize-html": "^1.20.0",
         "axios": "^0.19.0",
         "date-fns": "^1.29.0",
         "halogen": "^0.2.0",
