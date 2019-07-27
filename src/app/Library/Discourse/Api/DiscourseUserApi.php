@@ -2,6 +2,8 @@
 
 namespace App\Library\Discourse\Api;
 
+use App\Library\Discourse\Exceptions\UserNotFound;
+
 class DiscourseUserApi extends DiscourseAPIRequest
 {
     /**

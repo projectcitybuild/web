@@ -1,6 +1,6 @@
 @extends('front.layouts.master')
 
-@section('title', 'Account Security Settings')
+@section('title', 'Account Settings')
 @section('description', '')
 
 @section('contents')
@@ -9,10 +9,10 @@
 
         <div class="card card--divided">
             <div class="card__body card__body--padded">
-                <h1>Account Security</h1>
+                <h1>Account Settings</h1>
                 <span class="header-description">Email, password and login related settings</span>
             </div>
-            <div class="card__body card__body--padded">
+            <div class="card__body card__body--padded" id="change-email">
                 <h3>Change Email Address</h3>
 
                 <form method="post" action="{{ route('front.account.settings.email') }}" id="form">
@@ -28,13 +28,15 @@
                     @if($errors->email->any())
                         <div class="alert alert--error">
                             <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
-                            {{ $errors->email->first() }}
+                            @foreach($errors->email->all() as $error)
+                                {{ $error }}<br>
+                            @endforeach
                         </div>
                         <p>
                     @endif
 
                     <div class="form-row">
-                        <input class="input-text {{ $errors->any() ? 'input-text--error' : '' }}" name="email" type="email" placeholder="New Email Address" value="{{ old('email') }}" />
+                        <input class="input-text {{ $errors->has('email') ? 'input-text--error' : '' }}" name="email" type="email" placeholder="New Email Address" value="{{ old('email', $user->email) }}" />
                     </div>
 
                     <div class="form-row">
@@ -45,7 +47,41 @@
                 </form>
             </div>
 
-            <div class="card__body card__body--padded">
+            <div class="card__body card__body--padded" id="change-username">
+                <h3>Change Username</h3>
+
+                <form method="post" action="{{ route('front.account.settings.username') }}" id="form">
+                    @csrf
+
+                    @if(Session::has('success_username'))
+                        <div class="alert alert--success">
+                            <h3><i class="fas fa-exclamation-circle"></i> Success</h3>
+                            {{ Session::get('success_username') }}
+                        </div>
+                        <p>
+                    @endif
+                    @if($errors->username->any())
+                        <div class="alert alert--error">
+                            <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
+                            @foreach($errors->username->all() as $error)
+                                {{ $error }}<br>
+                            @endforeach
+                        </div>
+                        <p>
+                    @endif
+
+                    <div class="form-row">
+                        <input class="input-text {{ $errors->has('username') ? 'input-text--error' : '' }}" name="username" type="text" placeholder="New Username" value="{{ old('username', $user->username) }}" />
+                    </div>
+                    <div class="form-row">
+                        <button type="submit" class="g-recaptcha button button--large button--fill button--secondary">
+                            <i class="fas fa-check"></i> Change Username
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card__body card__body--padded" id="change-password">
                 <h3>Change Password</h3>
 
                 <form method="post" action="{{ route('front.account.settings.password') }}" id="form">
@@ -61,7 +97,9 @@
                     @if($errors->password->any())
                         <div class="alert alert--error">
                             <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
-                            {{ $errors->password->first() }}
+                            @foreach($errors->password->all() as $error)
+                                {{ $error }}<br>
+                            @endforeach
                         </div>
                         <p>
                     @endif
