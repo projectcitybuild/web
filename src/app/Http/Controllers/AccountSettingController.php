@@ -16,6 +16,7 @@ use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\Notification;
 use App\Http\WebController;
 use App\Helpers\TokenHelpers;
+use Illuminate\Support\Facades\DB;
 
 final class AccountSettingController extends WebController
 {
@@ -34,21 +35,15 @@ final class AccountSettingController extends WebController
      */
     private $emailChangeRepository;
 
-    /**
-     * @var Connection
-     */
-    private $connection;
 
     public function __construct(
         AccountRepository $accountRepository,
         DiscourseAdminApi $discourseApi,
-        AccountEmailChangeRepository $emailChangeRepository,
-        Connection $connection
+        AccountEmailChangeRepository $emailChangeRepository
     ) {
         $this->accountRepository = $accountRepository;
         $this->discourseApi = $discourseApi;
         $this->emailChangeRepository = $emailChangeRepository;
-        $this->connection = $connection;
     }
 
     public function showView()
@@ -101,8 +96,7 @@ final class AccountSettingController extends WebController
         $email = $request->get('email');
         
         if (empty($token) || empty($email)) {
-            // if the signed url was valid and yet
-            // the email or token field is missing,
+            // if the signed url was valid and yet the email or token field is missing,
             // something has definitely gone wrong
             throw new \Exception('Email address or token missing in url parameters');
         }
@@ -110,9 +104,8 @@ final class AccountSettingController extends WebController
         $changeRequest = $this->emailChangeRepository->getByToken($token);
         
         if ($changeRequest === null) {
-            // token has either expired or the email
-            // confirmation process has already been
-            // completed
+            // token has either expired or the email confirmation process has already
+            // been completed
             abort(404);
         }
 
@@ -148,7 +141,7 @@ final class AccountSettingController extends WebController
 
         // otherwise, change their email address
         // and complete the process
-        $this->connection->beginTransaction();
+        DB::beginTransaction();
         try {
             $account = $changeRequest->account;
 
@@ -177,13 +170,14 @@ final class AccountSettingController extends WebController
 
             $changeRequest->delete();
 
-            $this->connection->commit();
+            DB::commit();
 
-            return view('front.pages.account.account-settings-email-complete');
         } catch (\Exception $e) {
-            $this->connection->rollBack();
+            DB::rollBack();
             throw $e;
         }
+
+        return view('front.pages.account.account-settings-email-complete');
     }
 
     public function changePassword(AccountChangePasswordRequest $request)
