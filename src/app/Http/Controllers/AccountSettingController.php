@@ -2,28 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Accounts\Repositories\AccountRepository;
-use App\Entities\Accounts\Notifications\AccountEmailChangeVerifyNotification;
+use App\Entities\Accounts\Repositories\AccountEmailChangeRepository;
 use App\Http\Requests\AccountChangeEmailRequest;
-use Illuminate\Support\Facades\View;
 use App\Http\Requests\AccountChangePasswordRequest;
-use Illuminate\Http\Request;
+use App\Http\Actions\AccountSettings\UpdateAccountPassword;
+use App\Http\Actions\AccountSettings\SendEmailForAccountEmailChange;
+use App\Http\WebController;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Library\Discourse\Entities\DiscoursePayload;
-use App\Entities\Accounts\Repositories\AccountEmailChangeRepository;
-use Illuminate\Support\Facades\Notification;
-use App\Http\WebController;
-use App\Helpers\TokenHelpers;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
-use App\Http\Actions\UpdateAccountPasswordAction;
+use Illuminate\Http\Request;
 
 final class AccountSettingController extends WebController
 {
-    /**
-     * @var AccountRepository
-     */
-    private $accountRepository;
-
     /**
      * @var DiscourseAdminApi
      */
@@ -35,12 +27,7 @@ final class AccountSettingController extends WebController
     private $emailChangeRepository;
 
 
-    public function __construct(
-        AccountRepository $accountRepository,
-        DiscourseAdminApi $discourseApi,
-        AccountEmailChangeRepository $emailChangeRepository
-    ) {
-        $this->accountRepository = $accountRepository;
+    public function __construct(DiscourseAdminApi $discourseApi, AccountEmailChangeRepository $emailChangeRepository) {
         $this->discourseApi = $discourseApi;
         $this->emailChangeRepository = $emailChangeRepository;
     }
@@ -50,37 +37,18 @@ final class AccountSettingController extends WebController
         return view('front.pages.account.account-settings');
     }
 
-    public function sendVerificationEmail(AccountChangeEmailRequest $request)
+    public function sendVerificationEmail(AccountChangeEmailRequest $request, SendEmailForAccountEmailChange $sendEmailForAccountEmailChange)
     {
         $input = $request->validated();
-        $newEmail = $input['email'];
 
-        $account = $request->user();
-        if ($account === null) {
-            throw new \Exception('Account is null');
-        }
-
-        $token = TokenHelpers::generateToken();
-        $changeRequest = $this->emailChangeRepository->create(
-            $account->getKey(),
-            $token,
-            $account->email,
-            $newEmail
+        $sendEmailForAccountEmailChange->execute(
+            $request->user(),
+            $input['email']
         );
-        
-        // send email to current email address
-        $mail = new AccountEmailChangeVerifyNotification($account->email, $changeRequest->getCurrentEmailUrl(20));
-        $mail->isOldEmailAddress = true;
-        $account->notify($mail);
 
-        // send email to new email address
-        $mail = new AccountEmailChangeVerifyNotification($newEmail, $changeRequest->getNewEmailUrl(20));
-        Notification::route('mail', $newEmail)
-            ->notify($mail);
-
-        return redirect()
-            ->back()
-            ->with(['success' => 'A verification email has been sent to both your new and current email address. Please click the link in both to complete the process']);
+        return redirect()->back()->with([
+            'success' => 'A verification email has been sent to both your new and current email address. Please click the link in both to complete the process'
+        ]);
     }
 
     /**
@@ -179,7 +147,7 @@ final class AccountSettingController extends WebController
         return view('front.pages.account.account-settings-email-complete');
     }
 
-    public function changePassword(AccountChangePasswordRequest $request, UpdateAccountPasswordAction $updatePassword)
+    public function changePassword(AccountChangePasswordRequest $request, UpdateAccountPassword $updatePassword)
     {
         $input = $request->validated();
 

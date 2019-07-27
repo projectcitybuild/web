@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Actions;
+namespace App\Http\Actions\AccountSettings;
 
 use App\Entities\Accounts\Models\Account;
 
-final class UpdateAccountPasswordAction 
+final class UpdateAccountPassword 
 {
     public function execute(Account $account, string $newPassword)
     {
