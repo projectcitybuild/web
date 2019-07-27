@@ -8,7 +8,7 @@ use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Services\Login\LogoutService; 
 use App\Http\Requests\LoginRequest;
 use App\Http\WebController;
-use Entities\Environment;
+use App\Entities\Environment;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
