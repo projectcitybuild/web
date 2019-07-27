@@ -12,6 +12,7 @@ final class AccountRepository extends Repository
 
     public function create(
         string $email,
+        string $username,
         string $password,
         ?string $ip,
         Carbon $createdAt
@@ -19,6 +20,7 @@ final class AccountRepository extends Repository
     {
         return $this->getModel()->create([
             'email'         => $email,
+            'username'      => $username,
             'password'      => $password,
             'remember_token' => '',
             'last_login_ip' => $ip,

@@ -2,6 +2,7 @@
 
 namespace App\Library\Discourse\Api;
 
+use App\Library\Discourse\Exceptions\UserNotFound;
 use function GuzzleHttp\json_decode;
 use App\Library\Discourse\Entities\DiscoursePayload;
 use App\Library\Discourse\Authentication\DiscoursePayloadValidator;
@@ -35,12 +36,12 @@ class DiscourseAdminApi extends DiscourseAPIRequest
     }
 
     /**
-     * Returns a list of users that match the given email address
+     * Returns the user that matches the given email address
      *
      * @param string $email
      * @return array
      */
-    public function fetchUsersByEmail(string $email) : array
+    public function fetchUserByEmail(string $email) : array
     {
         $response = $this->client->get('admin/users/list/all.json', [
             'query' => [
@@ -49,7 +50,14 @@ class DiscourseAdminApi extends DiscourseAPIRequest
                 'email'         => $email,
             ],
         ]);
-        return json_decode($response->getBody(), true);
+
+        $users = json_decode($response->getBody(), true);
+
+        if (count($users) < 1) {
+            throw new UserNotFound();
+        }
+
+        return $users[0];
     }
 
     /**

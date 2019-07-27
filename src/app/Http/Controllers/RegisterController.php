@@ -52,10 +52,11 @@ class RegisterController extends WebController
         $input = $request->validated();
 
         $email      = $input['email'];
+        $username   = $input['username'];
         $password   = $input['password'];
         $password   = Hash::make($password);
 
-        $unactivatedAccount = $this->unactivatedAccountRepository->create($email, $password);
+        $unactivatedAccount = $this->unactivatedAccountRepository->create($email, $username, $password);
         $unactivatedAccount->notify(new AccountActivationNotification($unactivatedAccount));
 
         return view('front.pages.register.register-success');
@@ -92,6 +93,7 @@ class RegisterController extends WebController
         try {
             $this->accountRepository->create(
                 $unactivatedAccount->email,
+                $unactivatedAccount->username,
                 $unactivatedAccount->password,
                 $request->ip(),
                 Carbon::now()

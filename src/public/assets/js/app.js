@@ -3783,7 +3783,7 @@ class Component extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                 react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("input", { type: "hidden", name: "_token", value: this.state.csrfToken }),
                 react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("input", { type: "hidden", name: "stripe_token", value: this.state.stripeToken }),
                 react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("input", { type: "hidden", name: "stripe_email", value: this.state.stripeEmail }),
-                react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("input", { type: "hidden", name: "stripe_amount", value: this.getAmount() }),
+                react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("input", { type: "hidden", name: "stripe_amount_in_cents", value: this.getAmount() }),
                 react__WEBPACK_IMPORTED_MODULE_0__["createElement"](react_stripe_checkout__WEBPACK_IMPORTED_MODULE_1___default.a, { name: "Project City Build", description: "One-Time Donation", image: "https://forums.projectcitybuild.com/uploads/default/original/1X/847344a324d7dc0d5d908e5cad5f53a61372aded.png", amount: this.state.selectedOption == DonationAmountOption.SetAmount ? this.state.selectedAmount : this.state.customAmount * 100, stripeKey: this.state.stripeKey, locale: "auto", currency: "USD", token: this.onStripeTokenReceived },
                     react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("button", { className: "button button--large button--fill button--primary", type: "button", disabled: this.isButtonDisabled() },
                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("i", { className: "fas fa-credit-card" }),

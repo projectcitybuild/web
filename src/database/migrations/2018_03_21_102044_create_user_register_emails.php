@@ -16,6 +16,7 @@ class CreateUserRegisterEmails extends Migration
         Schema::create('accounts_unactivated', function (Blueprint $table) {
             $table->increments('unactivated_account_id');
             $table->string('email');
+            $table->string('username');
             $table->string('password');
             $table->timestamps();
         });

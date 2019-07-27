@@ -46,13 +46,11 @@ final class AccountChangeEmailRequest extends FormRequest
      */
     public function withValidator($validator)
     {
-        if ($validator->failed()) {
-            return;
-        }
-
         $validator->after(function ($validator) {
             $input = $validator->getData();
             $email = $input['email'];
+
+            if ($email == null) { return; }
 
             $account = $this->accountRepository->getByEmail($email);
 
@@ -62,9 +60,19 @@ final class AccountChangeEmailRequest extends FormRequest
                 } else {
                     $validator->errors()->add('email', 'This email address is already in use');
                 }
-                return;
             }
         });
+    }
+
+    /**
+     * Redirect back to the form anchor
+     *
+     * @return string
+     */
+    protected function getRedirectUrl()
+    {
+        $url = $this->redirector->getUrlGenerator();
+        return $url->previous() . '#change-email';
     }
 
     /**
