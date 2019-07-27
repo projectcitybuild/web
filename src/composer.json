@@ -15,7 +15,7 @@
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
         "predis/predis": "^1.1",
-        "sentry/sentry-laravel": "1.0.1",
+        "sentry/sentry-laravel": "1.0.2",
         "stripe/stripe-php": "^6.15",
         "xpaw/php-minecraft-query": "^2.0"
     },
@@ -24,8 +24,10 @@
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^2.0",
-        "phpunit/phpunit": "^7.5"
+        "nunomaduro/collision": "^3.0",
+        "nunomaduro/larastan": "^0.3.16",
+        "phpstan/phpstan": "^0.11.6",
+        "phpunit/phpunit": "^8.1"
     },
     "config": {
         "optimize-autoloader": true,

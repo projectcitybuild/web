@@ -1,6 +1,6 @@
 <?php
 
-namespace Domains\Helpers;
+namespace App\Helpers;
 
 final class TokenHelpers
 {

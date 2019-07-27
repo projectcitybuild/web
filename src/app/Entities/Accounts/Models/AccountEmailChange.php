@@ -5,7 +5,7 @@ namespace App\Entities\Accounts\Models;
 use App\Model;
 use Illuminate\Support\Facades\URL;
 
-class AccountEmailChange extends Model
+final class AccountEmailChange extends Model
 {
     protected $table = 'account_email_changes';
 
@@ -18,9 +18,6 @@ class AccountEmailChange extends Model
         'email_new',
         'is_previous_confirmed',
         'is_new_confirmed',
-    ];
-
-    protected $hidden = [
     ];
 
     protected $dates = [

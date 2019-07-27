@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Entities\Bans\Repositories;
 
 use App\Repository;
 use App\Entities\Bans\Models\GameUnban;
 use App\Entities\GamePlayerType;
 
-class GameUnbanRepository extends Repository
+final class GameUnbanRepository extends Repository
 {
     protected $model = GameUnban::class;
 

@@ -4,9 +4,8 @@ namespace App\Entities\Accounts\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Entities\Groups\Resources\GroupResource;
 
-class AccountResource extends JsonResource
+final class AccountResource extends JsonResource
 {
-
      /**
      * Transform the resource into an array.
      *

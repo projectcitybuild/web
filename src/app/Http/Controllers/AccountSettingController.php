@@ -2,33 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Accounts\Repositories\AccountRepository;
-use App\Entities\Accounts\Notifications\AccountEmailChangeVerifyNotification;
+use App\Entities\Accounts\Repositories\AccountEmailChangeRepository;
 use App\Http\Requests\AccountChangeEmailRequest;
 use App\Http\Requests\AccountChangeUsernameRequest;
 use App\Http\Requests\AccountSaveNewEmailRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use App\Http\Requests\AccountChangePasswordRequest;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
+use App\Http\Actions\AccountSettings\UpdateAccountPassword;
+use App\Http\Actions\AccountSettings\SendEmailForAccountEmailChange;
+use App\Http\WebController;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Library\Discourse\Entities\DiscoursePayload;
-use App\Entities\Accounts\Repositories\AccountEmailChangeRepository;
-use Domains\Helpers\TokenHelpers;
-use Illuminate\Database\Connection;
-use Illuminate\Support\Facades\Notification;
-use App\Http\WebController;
+use Illuminate\Http\Request;
 
-class AccountSettingController extends WebController
+final class AccountSettingController extends WebController
 {
-
-    /**
-     * @var AccountRepository
-     */
-    private $accountRepository;
-
     /**
      * @var DiscourseAdminApi
      */
@@ -39,24 +28,11 @@ class AccountSettingController extends WebController
      */
     private $emailChangeRepository;
 
-    /**
-     * @var Connection
-     */
-    private $connection;
 
-
-    public function __construct(
-        AccountRepository $accountRepository,
-                                DiscourseAdminApi $discourseApi,
-                                AccountEmailChangeRepository $emailChangeRepository,
-                                Connection $connection
-    ) {
-        $this->accountRepository = $accountRepository;
+    public function __construct(DiscourseAdminApi $discourseApi, AccountEmailChangeRepository $emailChangeRepository) {
         $this->discourseApi = $discourseApi;
         $this->emailChangeRepository = $emailChangeRepository;
-        $this->connection = $connection;
     }
-
 
     public function showView(Request $request)
     {
@@ -64,37 +40,18 @@ class AccountSettingController extends WebController
         return view('front.pages.account.account-settings')->with(compact('user'));
     }
 
-    public function sendVerificationEmail(AccountChangeEmailRequest $request)
+    public function sendVerificationEmail(AccountChangeEmailRequest $request, SendEmailForAccountEmailChange $sendEmailForAccountEmailChange)
     {
         $input = $request->validated();
-        $newEmail = $input['email'];
 
-        $account = $request->user();
-        if ($account === null) {
-            throw new \Exception('Account is null');
-        }
-
-        $token = TokenHelpers::generateToken();
-        $changeRequest = $this->emailChangeRepository->create(
-            $account->getKey(),
-                                                              $token,
-                                                              $account->email,
-                                                              $newEmail
+        $sendEmailForAccountEmailChange->execute(
+            $request->user(),
+            $input['email']
         );
-        
-        // send email to current email address
-        $mail = new AccountEmailChangeVerifyNotification($account->email, $changeRequest->getCurrentEmailUrl(20));
-        $mail->isOldEmailAddress = true;
-        $account->notify($mail);
 
-        // send email to new email address
-        $mail = new AccountEmailChangeVerifyNotification($newEmail, $changeRequest->getNewEmailUrl(20));
-        Notification::route('mail', $newEmail)
-            ->notify($mail);
-
-        return redirect()
-            ->back()
-            ->with(['success' => 'A verification email has been sent to both your new and current email address. Please click the link in both to complete the process']);
+        return redirect()->back()->with([
+            'success' => 'A verification email has been sent to both your new and current email address. Please click the link in both to complete the process'
+        ]);
     }
 
     /**
@@ -109,8 +66,7 @@ class AccountSettingController extends WebController
         $email = $request->get('email');
         
         if (empty($token) || empty($email)) {
-            // if the signed url was valid and yet
-            // the email or token field is missing,
+            // if the signed url was valid and yet the email or token field is missing,
             // something has definitely gone wrong
             throw new \Exception('Email address or token missing in url parameters');
         }
@@ -118,9 +74,8 @@ class AccountSettingController extends WebController
         $changeRequest = $this->emailChangeRepository->getByToken($token);
         
         if ($changeRequest === null) {
-            // token has either expired or the email
-            // confirmation process has already been
-            // completed
+            // token has either expired or the email confirmation process has already
+            // been completed
             abort(404);
         }
 
@@ -156,7 +111,7 @@ class AccountSettingController extends WebController
 
         // otherwise, change their email address
         // and complete the process
-        $this->connection->beginTransaction();
+        DB::beginTransaction();
         try {
             $account = $changeRequest->account;
 
@@ -185,23 +140,21 @@ class AccountSettingController extends WebController
 
             $changeRequest->delete();
 
-            $this->connection->commit();
+            DB::commit();
 
-            return view('front.pages.account.account-settings-email-complete');
         } catch (\Exception $e) {
-            $this->connection->rollBack();
+            DB::rollBack();
             throw $e;
         }
+
+        return view('front.pages.account.account-settings-email-complete');
     }
 
-    public function changePassword(AccountChangePasswordRequest $request)
+    public function changePassword(AccountChangePasswordRequest $request, UpdateAccountPassword $updatePassword)
     {
         $input = $request->validated();
 
         $password = $input['new_password'];
-
-
-
         $account = $request->user();
         $account->password = Hash::make($password);
         $account->save();

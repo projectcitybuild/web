@@ -1,6 +1,6 @@
 <?php
 
-use App\Environment;
+use App\Entities\Environment;
 
 /*
 |--------------------------------------------------------------------------

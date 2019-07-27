@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Entities\Accounts\Repositories;
 
 use App\Entities\Accounts\Models\Account;
 use App\Repository;
 use Carbon\Carbon;
 
-class AccountRepository extends Repository
+final class AccountRepository extends Repository
 {
     protected $model = Account::class;
 
@@ -15,7 +16,8 @@ class AccountRepository extends Repository
         string $password,
         ?string $ip,
         Carbon $createdAt
-    ) : Account {
+    ) : Account 
+    {
         return $this->getModel()->create([
             'email'         => $email,
             'username'      => $username,

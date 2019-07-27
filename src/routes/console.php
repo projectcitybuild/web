@@ -1,5 +1,9 @@
 <?php
 
+use App\Services\PasswordReset\PasswordResetCleanupService;
+use App\Services\Registration\UnactivatedAccountCleanupService;
+use Illuminate\Support\Facades\Artisan;
+
 /*
 |--------------------------------------------------------------------------
 | Console Routes

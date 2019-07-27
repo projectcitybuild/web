@@ -54,7 +54,6 @@ final class AppServiceProvider extends ServiceProvider
         // in the database so we'll map them
         // to unique keys instead
         Relation::morphMap([
-            'minecraft_player' => MinecraftPlayer::class,
             AccountPaymentType::Donation => Donation::class,
             GamePlayerType::Minecraft => MinecraftPlayer::class,
         ]);
