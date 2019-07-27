@@ -6,6 +6,7 @@ use App\Entities\Accounts\Models\Account;
 use App\Helpers\TokenHelpers;
 use App\Entities\Accounts\Repositories\AccountEmailChangeRepository;
 use App\Entities\Accounts\Notifications\AccountEmailChangeVerifyNotification;
+use App\Http\Requests\AccountChangeEmailRequest;
 use Illuminate\Support\Facades\Notification;
 
 final class SendEmailForAccountEmailChange
@@ -17,7 +18,15 @@ final class SendEmailForAccountEmailChange
         $this->emailChangeRepository = $emailChangeRepository;
     }
 
-    public function execute(Account $account, string $newEmailAddress) 
+    /**
+     * Sends an email to both the current and new email address, containing a signed
+     * URL. The user must click both URLs to complete the email address change process.
+     *
+     * @param Account $account
+     * @param string $newEmailAddress
+     * @return AccountChangeEmailRequest
+     */
+    public function execute(Account $account, string $newEmailAddress) : AccountChangeEmailRequest
     {
         $token = TokenHelpers::generateToken();
         
@@ -40,5 +49,7 @@ final class SendEmailForAccountEmailChange
         $urlToVerifyNewEmailAddress = $changeRequest->getNewEmailUrl($linkExpiryTimeInMinutes);
         $mail = new AccountEmailChangeVerifyNotification($newEmailAddress, $urlToVerifyNewEmailAddress);
         Notification::route('mail', $newEmailAddress)->notify($mail);
+
+        return $changeRequest;
     }
 }
