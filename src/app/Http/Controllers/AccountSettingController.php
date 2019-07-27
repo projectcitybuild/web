@@ -7,16 +7,15 @@ use App\Entities\Accounts\Notifications\AccountEmailChangeVerifyNotification;
 use App\Http\Requests\AccountChangeEmailRequest;
 use Illuminate\Support\Facades\View;
 use App\Http\Requests\AccountChangePasswordRequest;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Library\Discourse\Entities\DiscoursePayload;
 use App\Entities\Accounts\Repositories\AccountEmailChangeRepository;
-use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\Notification;
 use App\Http\WebController;
 use App\Helpers\TokenHelpers;
 use Illuminate\Support\Facades\DB;
+use App\Http\Actions\UpdateAccountPasswordAction;
 
 final class AccountSettingController extends WebController
 {
@@ -180,15 +179,14 @@ final class AccountSettingController extends WebController
         return view('front.pages.account.account-settings-email-complete');
     }
 
-    public function changePassword(AccountChangePasswordRequest $request)
+    public function changePassword(AccountChangePasswordRequest $request, UpdateAccountPasswordAction $updatePassword)
     {
         $input = $request->validated();
 
-        $password = $input['new_password'];
-
-        $account = $request->user();
-        $account->password = Hash::make($password);
-        $account->save();
+        $updatePassword->execute(
+            $request->user(), 
+            $input['new_password']
+        );
 
         return redirect()
             ->route('front.account.settings')
