@@ -20,7 +20,6 @@ class CreateUsers extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->increments('account_id');
             $table->string('email');
-            $table->string('username');
             $table->string('password');
             $table->string('remember_token', 60)->nullable();
             $table->string('last_login_ip', 45)->nullable();
