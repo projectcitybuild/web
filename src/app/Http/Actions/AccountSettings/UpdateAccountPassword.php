@@ -10,7 +10,7 @@ final class UpdateAccountPassword
     public function execute(Account $account, string $newPassword)
     {
         if (empty($newPassword)) {
-            throw new Exception('New password cannot be empty');
+            throw new \Exception('New password cannot be empty');
         }
 
         $account->password = Hash::make($newPassword);
