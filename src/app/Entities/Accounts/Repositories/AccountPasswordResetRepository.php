@@ -1,18 +1,17 @@
 <?php
+
 namespace App\Entities\Accounts\Repositories;
 
 use App\Entities\Accounts\Models\AccountPasswordReset;
 use App\Repository;
 use Carbon\Carbon;
 
-class AccountPasswordResetRepository extends Repository
+final class AccountPasswordResetRepository extends Repository
 {
     protected $model = AccountPasswordReset::class;
 
-    public function updateOrCreateByEmail(
-        string $email,
-        string $token
-    ) : AccountPasswordReset {
+    public function updateOrCreateByEmail(string $email, string $token) : AccountPasswordReset 
+    {
         return $this->getModel()->updateOrCreate([
             'email' => $email,
         ], [
