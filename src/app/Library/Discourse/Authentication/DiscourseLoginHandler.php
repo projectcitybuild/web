@@ -29,7 +29,7 @@ final class DiscourseLoginHandler
         $this->ssoApi = $ssoApi;
         $this->payloadValidator = $payloadValidator;
     }
-    
+
     public function getRedirectUrl(Request $request, int $pcbId, string $email, string $username)
     {
         $packedNonce = $this->getPackedNonce($request);
