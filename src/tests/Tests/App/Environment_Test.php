@@ -2,8 +2,8 @@
 namespace Tests;
 
 use Tests\TestCase;
-use App\EnvironmentLevel;
-use App\Environment;
+use Entities\EnvironmentLevel;
+use Entities\Environment;
 
 class Environment_Test extends TestCase
 {

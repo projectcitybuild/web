@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\EnvironmentLevel;
+use Entities\EnvironmentLevel;
 
 final class Environment
 {
