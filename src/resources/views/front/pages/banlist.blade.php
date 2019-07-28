@@ -9,6 +9,13 @@
         <table class="table table--divided">
             <thead>
             <tr>
+                <th colspan="5">
+                    <form action="{{ route('front.banlist') }}" method="get">
+                        <input type="text" class="input-text" name="query" value="{{ $query }}" placeholder="Search banned player, reason or staff member">
+                    </form>
+                </th>
+            </tr>
+            <tr>
                 <th>
                     Banned Player
                 </th>
@@ -23,13 +30,6 @@
                 </th>
                 <th>
                     Expires
-                </th>
-            </tr>
-            <tr>
-                <th colspan="5">
-                    <form action="{{ route('front.banlist') }}" method="get">
-                        <input type="text" class="input-text" name="query" value="{{ $query }}" placeholder="Search banned player, reason or staff member">
-                    </form>
                 </th>
             </tr>
             </thead>
