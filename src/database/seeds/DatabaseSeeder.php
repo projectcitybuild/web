@@ -13,5 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(ServerSeeds::class);
         $this->call(GroupSeeds::class);
+        $this->call(GameBanSeeder::class);
     }
 }

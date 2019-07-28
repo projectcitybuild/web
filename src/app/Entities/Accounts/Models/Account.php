@@ -65,7 +65,7 @@ class Account extends Authenticatable
 
     public function minecraftAccount()
     {
-        return $this->belongsTo('App\Entities\Players\Models\MinecraftPlayer', 'account_id', 'account_id');
+        return $this->hasMany('App\Entities\Players\Models\MinecraftPlayer', 'account_id', 'account_id');
     }
 
     public function linkedSocialAccounts()
