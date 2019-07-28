@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserRegisterEmails extends Migration
+class AddUsernameToUnactivatedAccounts extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateUserRegisterEmails extends Migration
      */
     public function up()
     {
-        Schema::create('accounts_unactivated', function (Blueprint $table) {
-            $table->increments('unactivated_account_id');
-            $table->string('email');
-            $table->string('password');
-            $table->timestamps();
+        Schema::table('accounts_unactivated', function (Blueprint $table) {
+            $table->string('username')->nullable();
         });
     }
 
@@ -28,6 +25,8 @@ class CreateUserRegisterEmails extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounts_unactivated');
+        Schema::table('accounts_unactivated', function (Blueprint $table) {
+            $table->dropColumn('username');
+        });
     }
 }
