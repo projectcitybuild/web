@@ -176,6 +176,7 @@ final class AccountSettingController extends WebController
         // via the user sync route
         $payload = (new DiscoursePayload)
             ->setPcbId($account->getKey())
+            ->setEmail($account->email)
             ->setUsername($username);
 
         try {
