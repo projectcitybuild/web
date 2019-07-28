@@ -2647,6 +2647,10 @@ table.table tr.disabled {
   width: 100%;
 }
 
+.BanList__head {
+  vertical-align: middle;
+}
+
 * {
   box-sizing: border-box;
 }

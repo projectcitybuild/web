@@ -37,6 +37,7 @@
             @forelse($bans as $ban)
                 <tr>
                     <td>
+                        <img src="https://crafatar.com/avatars/{{ $ban->bannedPlayer->uuid }}?size=16" class="BanList__head" alt="">
                         {{ $ban->banned_alias_at_time }}
                     </td>
                     <td>
@@ -47,6 +48,7 @@
                         @endif
                     </td>
                     <td>
+                        <img src="https://crafatar.com/avatars/{{ $ban->staffPlayer->uuid }}?size=16" class="BanList__head" alt="">
                         {{ $ban->staffPlayer->getBanReadableName() }}
                     </td>
                     <td>
