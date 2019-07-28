@@ -2643,6 +2643,10 @@ table.table tr.disabled {
   margin-bottom: 0.25em;
 }
 
+.BanList {
+  width: 100%;
+}
+
 * {
   box-sizing: border-box;
 }

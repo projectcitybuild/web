@@ -4,7 +4,7 @@
 @section('description', 'Players listed on this page are currently banned on one or more servers on our game network')
 
 @section('contents')
-    <div id="banlist">
+    <div class="BanList">
         <h1>Ban List</h1>
         <table class="table table--divided">
             <thead>
@@ -28,7 +28,7 @@
             <tr>
                 <th colspan="5">
                     <form action="{{ route('front.banlist') }}" method="get">
-                        <input type="text" class="input-text" name="search" placeholder="Search banned player, reason or staff member">
+                        <input type="text" class="input-text" name="query" value="{{ $query }}" placeholder="Search banned player, reason or staff member">
                     </form>
                 </th>
             </tr>

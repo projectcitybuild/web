@@ -8,10 +8,19 @@ use Illuminate\Http\Request;
 
 class BanlistController extends WebController
 {
-    public function index()
+    public function index(Request $request)
     {
-        $bans = GameBan::where('is_active', 1)->latest()->paginate(50);
+        $bans = GameBan::where('is_active', 1)->latest();
 
-        return view('front.pages.banlist')->with(compact('bans'));
+        if ($request->has('query') && $request->input('query') != "") {
+            $query = $request->input('query');
+            $bans = GameBan::search($query)->constrain($bans);
+        } else {
+            $query = "";
+        }
+
+        $bans = $bans->paginate(50);
+
+        return view('front.pages.banlist')->with(compact('bans', 'query'));
     }
 }
