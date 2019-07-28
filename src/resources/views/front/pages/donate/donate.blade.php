@@ -41,7 +41,6 @@
                         </div>
                         <div class="perks-table__body">
                             <ul class="perks-table__inner">
-                                <li>Flying</li>
                                 <li>Custom nicknames</li>
                                 <li>Teleporting</li>
                                 <li>Increased home limit</li>

@@ -10,11 +10,12 @@ final class UnactivatedAccountRepository extends Repository
 {
     protected $model = UnactivatedAccount::class;
 
-    public function create(string $email,  string $password) : UnactivatedAccount 
+    public function create(string $email, string $username, string $password) : UnactivatedAccount
     {
         return $this->getModel()->create([
             'email'         => $email,
-            'password'      => $password,
+            'username'      => $username,
+            'password'      => $password
         ]);
     }
 

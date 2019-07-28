@@ -2175,6 +2175,10 @@ table.table tr.disabled {
   vertical-align: middle;
 }
 
+.article .meta {
+  display: none;
+}
+
 .article__author {
   font-size: 0.7em;
   color: #c0b6b6;

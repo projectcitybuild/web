@@ -4,19 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Entities\Accounts\Repositories\AccountEmailChangeRepository;
 use App\Http\Requests\AccountChangeEmailRequest;
+use App\Http\Requests\AccountChangeUsernameRequest;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\View;
 use App\Http\Requests\AccountChangePasswordRequest;
 use App\Http\Actions\AccountSettings\UpdateAccountPassword;
 use App\Http\Actions\AccountSettings\SendEmailForAccountEmailChange;
 use App\Http\WebController;
-use Illuminate\Support\Facades\View;
+use App\Library\Discourse\Entities\DiscoursePayload;
 use Illuminate\Http\Request;
 use App\Http\Actions\AccountSettings\UpdateAccountEmail;
 
 final class AccountSettingController extends WebController
 {
-    public function showView()
+    public function showView(Request $request)
     {
-        return view('front.pages.account.account-settings');
+        $user = $request->user();
+        return view('front.pages.account.account-settings')->with(compact('user'));
     }
 
     public function sendVerificationEmail(AccountChangeEmailRequest $request, SendEmailForAccountEmailChange $sendEmailForAccountEmailChange)
@@ -97,13 +101,48 @@ final class AccountSettingController extends WebController
     {
         $input = $request->validated();
 
-        $updatePassword->execute(
-            $request->user(), 
-            $input['new_password']
-        );
+        $password = $input['new_password'];
+        $account = $request->user();
+        $account->password = Hash::make($password);
+        $account->save();
 
         return redirect()
             ->route('front.account.settings')
             ->with(['success_password' => 'Password successfully updated']);
+    }
+
+    public function changeUsername(AccountChangeUsernameRequest $request)
+    {
+        $input = $request->validated();
+
+        $username = $input['username'];
+
+        $account = $request->user();
+
+        // push the email change to Discourse
+        // via the user sync route
+        $payload = (new DiscoursePayload)
+            ->setPcbId($account->getKey())
+            ->setEmail($account->email)
+            ->setUsername($username);
+
+        try {
+            $this->discourseApi->requestSSOSync($payload->build());
+        } catch (\GuzzleHttp\Exception\ServerException $e) {
+            // sometimes the api fails at random because
+            // the 'requires_activation' key is needed in
+            // the payload. As a workaround we'll send the
+            // request again but with the key included
+            // this time
+            $payload->requiresActivation(false);
+            $this->discourseApi->requestSSOSync($payload->build());
+        }
+
+        $account->username = $username;
+        $account->save();
+
+        return redirect()
+            ->route('front.account.settings')
+            ->with(['success_username', 'Username successfully updated']);
     }
 }
