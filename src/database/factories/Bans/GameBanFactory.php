@@ -28,6 +28,7 @@ $factory->define(GameBan::class, function (Faker\Generator $faker) {
         'reason' => $faker->sentence,
         'is_active' => $faker->boolean,
         'is_global_ban' => $faker->boolean,
-        'expires_at' => $expiresAt
+        'expires_at' => $expiresAt,
+        'created_at' => $faker->dateTimeBetween('-5 years', 'now')
     ];
 });
