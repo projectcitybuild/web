@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "230f5ff952da6530ab2ba1d8b6563ee6",
+    "content-hash": "56912193c6efd37e19a3f9374daba621",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -4442,16 +4442,16 @@
         },
         {
             "name": "xpaw/php-minecraft-query",
-            "version": "2.0.0",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xPaw/PHP-Minecraft-Query.git",
-                "reference": "d7184150af24c82341cfe3c34fc8d2c788ef2815"
+                "reference": "881072933d4537f334ce96ebcf687868c100fbb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xPaw/PHP-Minecraft-Query/zipball/d7184150af24c82341cfe3c34fc8d2c788ef2815",
-                "reference": "d7184150af24c82341cfe3c34fc8d2c788ef2815",
+                "url": "https://api.github.com/repos/xPaw/PHP-Minecraft-Query/zipball/881072933d4537f334ce96ebcf687868c100fbb9",
+                "reference": "881072933d4537f334ce96ebcf687868c100fbb9",
                 "shasum": ""
             },
             "require": {
@@ -4471,7 +4471,7 @@
             "keywords": [
                 "minecraft"
             ],
-            "time": "2016-11-06T08:23:55+00:00"
+            "time": "2019-07-08T10:15:30+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",
@@ -6231,8 +6231,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Library that provides collection, processing, and rendering functionality for PHP code coverage information.",
@@ -6502,8 +6502,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "The PHP Unit Testing framework.",
