@@ -96,7 +96,6 @@ final class DiscoursePayloadValidator
     {
         $payload = http_build_query($data);
         $payload = base64_encode($payload);
-        $payload = urlencode($payload);
 
         return $payload;
     }
