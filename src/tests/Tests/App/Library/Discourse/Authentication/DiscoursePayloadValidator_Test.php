@@ -71,7 +71,7 @@ class DiscoursePayloadValidator_Test extends TestCase
     {
         // given...
         $validator = new DiscoursePayloadValidator('test_key');
-        $expectedSignedPayload = 'bm9uY2U9dGVzdF9ub25jZSZyZXR1cm5fc3NvX3VybD10ZXN0X3VybA%3D%3D';
+        $expectedSignedPayload = 'bm9uY2U9dGVzdF9ub25jZSZyZXR1cm5fc3NvX3VybD10ZXN0X3VybA==';
 
         // when...
         $signedPayload = $validator->makePayload([
