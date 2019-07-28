@@ -8,6 +8,7 @@ use App\Entities\Accounts\Repositories\AccountEmailChangeRepository;
 use App\Entities\Accounts\Notifications\AccountEmailChangeVerifyNotification;
 use App\Http\Requests\AccountChangeEmailRequest;
 use Illuminate\Support\Facades\Notification;
+use App\Entities\Accounts\Models\AccountEmailChange;
 
 final class SendEmailForAccountEmailChange
 {
@@ -26,7 +27,7 @@ final class SendEmailForAccountEmailChange
      * @param string $newEmailAddress
      * @return AccountChangeEmailRequest
      */
-    public function execute(Account $account, string $newEmailAddress) : AccountChangeEmailRequest
+    public function execute(Account $account, string $newEmailAddress) : AccountEmailChange
     {
         $token = TokenHelpers::generateToken();
         
