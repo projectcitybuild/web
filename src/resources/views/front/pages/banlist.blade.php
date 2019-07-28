@@ -34,7 +34,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($bans as $ban)
+            @forelse($bans as $ban)
                 <tr>
                     <td>
                         {{ $ban->banned_alias_at_time }}
@@ -47,7 +47,7 @@
                         @endif
                     </td>
                     <td>
-                        {{ $ban->staff_player_id }}
+                        {{ $ban->staffPlayer->getBanReadableName() }}
                     </td>
                     <td>
                         {{ $ban->created_at->diffForHumans() }}
@@ -60,7 +60,11 @@
                         @endif
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="5">No bans match your search criteria</td>
+                </tr>
+            @endforelse
             </tbody>
 
         </table>

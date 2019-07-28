@@ -100,7 +100,8 @@ class GameBan extends Model
         $array = [
             'game_ban_id' => $this->game_ban_id,
             'banned_alias_at_time' => $this->banned_alias_at_time,
-            'reason' => $this->reason
+            'reason' => $this->reason,
+            'staff_player_name' => $this->staffPlayer->getBanReadableName()
         ];
 
         return $array;
