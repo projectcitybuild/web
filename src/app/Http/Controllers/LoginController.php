@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Library\Discourse\Api\DiscourseAdminApi;
+use App\Library\Discourse\Api\DiscourseUserApi;
 use App\Library\Discourse\Authentication\DiscourseLoginHandler;
 use App\Library\Discourse\Exceptions\BadSSOPayloadException;
 use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Services\Login\LogoutService; 
 use App\Http\Requests\LoginRequest;
 use App\Http\WebController;
-use App\Environment;
+use App\Entities\Environment;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -21,6 +23,11 @@ final class LoginController extends WebController
      * @var DiscourseLoginHandler
      */
     private $discourseLoginHandler;
+
+    /**
+     * @var DiscourseAdminApi
+     */
+    private $discourseAdminApi;
 
     /**
      * @var AccountRepository
@@ -40,11 +47,13 @@ final class LoginController extends WebController
 
     public function __construct(
         DiscourseLoginHandler $discourseLoginHandler,
+        DiscourseAdminApi $discourseAdminApi,
         AccountRepository $accountRepository,
         LogoutService $logoutService,
         Auth $auth
     ) {
         $this->discourseLoginHandler = $discourseLoginHandler;
+        $this->discourseAdminApi = $discourseAdminApi;
         $this->accountRepository = $accountRepository;
         $this->logoutService = $logoutService;
         $this->auth = $auth;
@@ -63,10 +72,19 @@ final class LoginController extends WebController
         try 
         {
             $account  = $this->auth->user();
+
+            // Check if username is set
+            if ($account->username == null) {
+                $discourseUser = $this->discourseAdminApi->fetchUserByEmail($account->email);
+                $account->username = $discourseUser["username"];
+                $account->save();
+            }
+
             $endpoint = $this->discourseLoginHandler->getRedirectUrl(
                 $request,
                 $account->getKey(), 
-                $account->email
+                $account->email,
+                $account->username
             );
         } 
         catch (BadSSOPayloadException $e) 

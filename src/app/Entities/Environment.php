@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Entities;
 
-use App\EnvironmentLevel;
+use App\Entities\EnvironmentLevel;
 
 final class Environment
 {

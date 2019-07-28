@@ -4,9 +4,8 @@ namespace App\Entities\Accounts\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Entities\Groups\Resources\GroupResource;
 
-class AccountResource extends JsonResource
+final class AccountResource extends JsonResource
 {
-
      /**
      * Transform the resource into an array.
      *
@@ -18,6 +17,7 @@ class AccountResource extends JsonResource
         return [
             'account_id'    => $this->account_id,
             'email'         => $this->email,
+            'username'      => $this->username,
             'last_login_at' => $this->last_login_at,
             'created_at'    => $this->created_at->getTimestamp(),
             'updated_at'    => $this->updated_at->getTimestamp(),

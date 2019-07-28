@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Entities\Accounts\Repositories;
 
 use App\Entities\Accounts\Models\AccountLink;
 use App\Repository;
 
-class AccountLinkRepository extends Repository
+final class AccountLinkRepository extends Repository
 {
     protected $model = AccountLink::class;
 
@@ -13,8 +14,8 @@ class AccountLinkRepository extends Repository
         string $providerName,
         string $providerId,
         string $providerEmail
-    ) : AccountLink {
-
+    ) : AccountLink 
+    {
         return $this->getModel()->create([
             'provider_name'     => $providerName,
             'provider_id'       => $providerId,
@@ -28,8 +29,8 @@ class AccountLinkRepository extends Repository
         string $providerName,
         string $providerId,
         string $providerEmail
-    ) : int {
-
+    ) : int 
+    {
         return $this->getModel()
             ->where('account_id', $accountId)
             ->update([

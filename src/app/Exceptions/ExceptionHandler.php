@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler;
-use App\Environment;
+use App\Entities\Environment;
 use App\Exceptions\Http\BaseHttpException;
 
 class ExceptionHandler extends Handler

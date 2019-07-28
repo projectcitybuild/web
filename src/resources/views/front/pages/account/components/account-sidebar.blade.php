@@ -6,9 +6,9 @@
                 <a href="{{ route('front.account.settings') }}">
                     <span class="fa-stack fa-2x">
                         <i class="fas fa-square fa-stack-2x"></i>
-                        <i class="fas fa-lock fa-stack-1x fa-inverse"></i>
+                        <i class="fas fa-user-circle fa-stack-1x fa-inverse"></i>
                     </span>
-                    Account Security
+                    Account Settings
                 </a>
             </li>
         </ul>

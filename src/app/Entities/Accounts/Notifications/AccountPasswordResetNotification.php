@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entities\Accounts\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -7,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Entities\Accounts\Models\AccountPasswordReset;
 
-class AccountPasswordResetNotification extends Notification
+final class AccountPasswordResetNotification extends Notification
 {
     use Queueable;
 

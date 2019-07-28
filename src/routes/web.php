@@ -1,6 +1,6 @@
 <?php
 
-use App\Environment;
+use App\Entities\Environment;
 
 /*
 |--------------------------------------------------------------------------
@@ -144,6 +144,11 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function () {
         Route::post('password', [
             'as'    => 'front.account.settings.password',
             'uses'  => 'AccountSettingController@changePassword',
+        ]);
+
+        Route::post('username', [
+            'as'    => 'front.account.settings.username',
+            'uses'  => 'AccountSettingController@changeUsername'
         ]);
     });
    
