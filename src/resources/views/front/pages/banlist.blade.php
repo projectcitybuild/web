@@ -4,7 +4,7 @@
 @section('description', 'Players listed on this page are currently banned on one or more servers on our game network')
 
 @section('contents')
-    <div class="BanList">
+    <div class="banlist">
         <h1>Ban List</h1>
         <table class="table table--divided">
             <thead>
@@ -37,7 +37,7 @@
             @forelse($bans as $ban)
                 <tr>
                     <td>
-                        <img src="https://crafatar.com/avatars/{{ $ban->bannedPlayer->uuid }}?size=16" class="BanList__head" alt="">
+                        <img src="https://minotar.net/avatar//{{ $ban->bannedPlayer->uuid }}/16" class="banlist__head" alt="">
                         {{ $ban->banned_alias_at_time }}
                     </td>
                     <td>
@@ -48,7 +48,7 @@
                         @endif
                     </td>
                     <td>
-                        <img src="https://crafatar.com/avatars/{{ $ban->staffPlayer->uuid }}?size=16" class="BanList__head" alt="">
+                        <img src="https://minotar.net/avatar/{{ $ban->staffPlayer->uuid }}/16" class="banlist__head" alt="">
                         {{ $ban->staffPlayer->getBanReadableName() }}
                     </td>
                     <td>

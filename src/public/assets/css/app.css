@@ -2643,11 +2643,11 @@ table.table tr.disabled {
   margin-bottom: 0.25em;
 }
 
-.BanList {
+.banlist {
   width: 100%;
 }
 
-.BanList__head {
+.banlist__head {
   vertical-align: middle;
   margin-right: 0.2rem;
 }
