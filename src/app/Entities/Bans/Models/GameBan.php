@@ -3,6 +3,7 @@
 namespace App\Entities\Bans\Models;
 
 use App\Model;
+use Laravel\Scout\Searchable;
 
 /**
  * App\Entities\Bans\Models\GameBan
@@ -43,6 +44,8 @@ use App\Model;
  */
 class GameBan extends Model
 {
+    use Searchable;
+
     protected $table = 'game_network_bans';
 
     protected $primaryKey = 'game_ban_id';
@@ -85,5 +88,22 @@ class GameBan extends Model
     public function unban()
     {
         return $this->belongsTo('App\Entities\Bans\Models\GameUnban', 'game_ban_id', 'game_ban_id');
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = [
+            'game_ban_id' => $this->game_ban_id,
+            'banned_alias_at_time' => $this->banned_alias_at_time,
+            'reason' => $this->reason,
+            'staff_player_name' => $this->staffPlayer->getBanReadableName()
+        ];
+
+        return $array;
     }
 }

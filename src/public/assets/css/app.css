@@ -1458,10 +1458,19 @@ table.table th {
 table.table thead tr {
   background: #70615c;
   border-bottom: 3px solid #625450;
+  color: #fff;
+}
+
+table.table--striped tbody tr:nth-child(even) {
+  background: #fff;
 }
 
 table.table--striped tbody tr:nth-child(odd) {
   background: #f7f7f7;
+}
+
+table.table--divided tbody tr {
+  background: #fff;
 }
 
 table.table--divided tbody tr:not(:last-child) {
@@ -2632,6 +2641,15 @@ table.table tr.disabled {
   text-align: center;
   width: 100%;
   margin-bottom: 0.25em;
+}
+
+.banlist {
+  width: 100%;
+}
+
+.banlist__head {
+  vertical-align: middle;
+  margin-right: 0.2rem;
 }
 
 * {
