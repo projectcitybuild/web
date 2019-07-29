@@ -61,14 +61,19 @@ Route::get('donations', [
     'uses'  => 'DonationController@getListView',
 ]);
 
+Route::get('sso/discourse', [
+   'as'     => 'front.sso.discourse',
+   'uses'   => 'DiscourseSSOController@create'
+])->middleware('auth');
+
 Route::prefix('login')->group(function () {
     Route::get('/', [
         'as'    => 'front.login',
-        'uses'  => 'LoginController@loginOrShowForm',
+        'uses'  => 'LoginController@create',
     ]);
     Route::post('/', [
         'as'    => 'front.login.submit',
-        'uses'  => 'LoginController@login',
+        'uses'  => 'LoginController@store',
     ]);
 });
 
