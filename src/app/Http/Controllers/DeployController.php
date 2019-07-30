@@ -46,7 +46,7 @@ class DeployController extends WebController
             echo shell_exec('cd '.base_path().' && git pull 2>&1') . '<br>';
 
             $this->discord->notifyChannel('Deployment', '-- Fetching PHP dependencies');
-            echo shell_exec('cd '.base_path().'/src && compose install 2>&1') . '<br>';
+            echo shell_exec('cd '.base_path().'/src && compose install --optimize-autoloader --no-dev 2>&1') . '<br>';
 
             $this->discord->notifyChannel('Deployment', '-- Fetching JS dependencies');
             echo shell_exec('cd '.base_path().'/src && npm install 2>&1') . '<br>';
@@ -54,6 +54,8 @@ class DeployController extends WebController
             $this->discord->notifyChannel('Deployment', '-- Building production assets');
             echo shell_exec('cd '.base_path().'/src && npm run production 2>&1') . '<br>';
 
+            echo shell_exec('cd '.base_path().'/src && php artisan config:cache 2>&1') . '<br>';
+            echo shell_exec('cd '.base_path().'/src && php artisan route:cache 2>&1') . '<br>';
             echo shell_exec('chown -R www-data:www-data '.base_path().'/src 2>&1') . '<br>';
             echo shell_exec('chmod -R 755 '.base_path().'/src/storage 2>&1') . '<br>';
             echo shell_exec('cd '.base_path().' php artisan up 2>&1') . '<br>';
