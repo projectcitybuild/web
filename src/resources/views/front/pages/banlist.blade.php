@@ -48,7 +48,7 @@
                         @endif
                     </td>
                     <td>
-                        @if(count($ban->staffPlayer->aliases) > 0)
+                        @if($ban->staff_player_id != null && count($ban->staffPlayer->aliases) > 0)
                         <img src="https://minotar.net/avatar/{{ $ban->staffPlayer->uuid }}/16" class="banlist__head" alt="">
                         {{ $ban->staffPlayer->getBanReadableName() }}
                         @else
