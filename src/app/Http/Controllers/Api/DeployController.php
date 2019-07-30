@@ -39,6 +39,12 @@ final class DeployController extends ApiController
             throw new UnauthorisedException('bad_deploy_key', 'Invalid deployment key specified');
         }
 
+        $branch = $githubPayload['ref'];
+        if ($branch !== 'refs/heads/master') {
+            Log::info('Skipping deployment for branch: '.$branch);
+            return;
+        }
+
         $this->discord->notifyChannel('Deployment', '🕒 Deployment has begun...');
 
         try {
