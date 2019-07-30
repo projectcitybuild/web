@@ -54,8 +54,8 @@ class DeployController extends WebController
             $this->discord->notifyChannel('Deployment', '-- Building production assets');
             echo shell_exec('cd '.base_path().'/src && npm run production 2>&1') . '<br>';
 
-            echo shell_exec('chown -R www-data:www-data '.base_path().'/src') . '<br>';
-            echo shell_exec('chmod -R 755 '.base_path().'/src/storage') . '<br>';
+            echo shell_exec('chown -R www-data:www-data '.base_path().'/src 2>&1') . '<br>';
+            echo shell_exec('chmod -R 755 '.base_path().'/src/storage 2>&1') . '<br>';
             echo shell_exec('cd '.base_path().' php artisan up 2>&1') . '<br>';
 
             $this->discord->notifyChannel('Deployment', '✔ Deployment complete.');
