@@ -11,7 +11,7 @@
             <tr>
                 <th colspan="5">
                     <form action="{{ route('front.banlist') }}" method="get">
-                        <input type="text" class="input-text" name="query" value="{{ $query }}" placeholder="Search banned player, reason or staff member">
+                        <input type="text" class="input-text" name="query" value="{{ $query }}" placeholder="Search banned player or reason">
                     </form>
                 </th>
             </tr>
