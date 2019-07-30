@@ -167,6 +167,3 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function () {
 
 
 Route::get('bans', 'BanlistController@index')->name('front.banlist');
-
-Route::post('deploy', 'DeployController@deploy');
-Route::get('deploy', 'DeployController@deploy');
