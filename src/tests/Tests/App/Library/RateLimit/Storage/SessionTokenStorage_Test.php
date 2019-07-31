@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Library\RateLimit;
 
+use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 use App\Library\RateLimit\Storage\SessionTokenStorage;
 use App\Library\RateLimit\TokenState;
@@ -30,7 +31,7 @@ class SessionTokenStorage_Test extends TestCase
 
         // when...
         $storage->serialize($state);
-        $result = $_SESSION['test_key'];
+        $result = Session::get('test_key');
 
         // expect...
         $this->assertNotNull($result);
