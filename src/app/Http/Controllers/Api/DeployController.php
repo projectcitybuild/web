@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Api\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Exceptions\Http\UnauthorisedException;
