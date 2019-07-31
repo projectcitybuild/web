@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Api\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Exceptions\Http\UnauthorisedException;
@@ -22,8 +22,8 @@ final class DeployController extends ApiController
 
     public function deploy(Request $request)
     {
-        $branch = env('DEPLOY_BRANCH', 'master');
-        $key    = env('DEPLOY_KEY');
+        $branch = config('deployment.branch');
+        $key    = config('deployment.key');
 
         if ($key === null) {
             $this->discord->notifyChannel('Deployment', '❌ Deployment failed: No deployment key set in .env');

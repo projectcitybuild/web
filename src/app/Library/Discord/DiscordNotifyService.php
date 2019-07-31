@@ -25,7 +25,8 @@ class DiscordNotifyService
      */
     public function notifyChannel(String $name, String $message)
     {
-        $endpoint = env('DISCORD_WEBHOOK_URL');
+        $endpoint = config('services.discord.webhook_url');
+        
         $this->client->post($endpoint, [
             'json' => [
                 'username'  => $name,
