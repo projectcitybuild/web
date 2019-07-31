@@ -94,7 +94,7 @@
                             <li><a href="https://wiki.projectcitybuild.com/" target="_blank" rel="noopener">Community Wiki</a></li>
                         </ul>
                     </li>
-                    <li><a href="{{ route('banlist') }}">Ban List</a></li>
+                    <li><a href="{{ route('front.banlist') }}">Ban List</a></li>
                 </ul>
 
                 <ul>
