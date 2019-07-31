@@ -12,6 +12,8 @@ cd src
 composer install --no-interaction --optimize-autoloader --no-dev
 npm install --production
 
+npm run production
+
 php artisan cache:clear
 php artisan config:clear
 php artisan config:cache
