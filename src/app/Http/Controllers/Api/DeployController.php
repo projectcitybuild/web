@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Api\Controllers;
 
 use Illuminate\Http\Request;
 use App\Exceptions\Http\UnauthorisedException;
@@ -49,10 +49,7 @@ final class DeployController extends ApiController
 
         try {
             $baseDir = base_path();
-            $process = new Process('cd ' . $baseDir . '../; ./deploy.sh');
-            $process->run(function ($type, $buffer) {
-                echo $buffer;
-            });
+            echo shell_exec('cd ' . $baseDir . '../; ./deploy.sh');
 
             $this->discord->notifyChannel('Deployment', '✔ Deployment complete.');
 
