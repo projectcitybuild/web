@@ -22,8 +22,8 @@ final class DeployController extends ApiController
 
     public function deploy(Request $request)
     {
-        $branch = env('DEPLOY_BRANCH', 'master');
-        $key    = env('DEPLOY_KEY');
+        $branch = config('deployment.branch');
+        $key    = config('deployment.key');
 
         if ($key === null) {
             $this->discord->notifyChannel('Deployment', '❌ Deployment failed: No deployment key set in .env');
