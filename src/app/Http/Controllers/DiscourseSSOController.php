@@ -31,6 +31,11 @@ class DiscourseSSOController extends WebController
     {
         $account  = $request->user();
 
+        if (!$request->has('sso') || !$request->has('sig'))
+        {
+            return redirect(config('discourse.sso_endpoint'));
+        }
+
         try {
             $endpoint = $this->discourseLoginHandler->getRedirectUrl(
                 $request,
