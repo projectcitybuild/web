@@ -2,36 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Accounts\Repositories\AccountRepository;
-use App\Entities\Accounts\Repositories\AccountPasswordResetRepository;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SendPasswordEmailRequest;
-use Illuminate\Http\Request;
-use Hash;
 use App\Http\WebController;
 use App\Http\Actions\AccountPasswordReset\SendPasswordResetEmail;
 use App\Http\Actions\AccountPasswordReset\ResetAccountPassword;
 use App\Exceptions\Http\NotFoundException;
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\PasswordReset;
 
 final class PasswordRecoveryController extends WebController
 {
-    /**
-     * @var AccountRepository
-     */
-    private $accountRepository;
-
-    /**
-     * @var AccountPasswordResetRepository
-     */
-    private $passwordResetRepository;
-
-
-    public function __construct(AccountRepository $accountRepository, AccountPasswordResetRepository $passwordResetRepository) 
-    {
-        $this->accountRepository = $accountRepository;
-        $this->passwordResetRepository = $passwordResetRepository;
-    }
-
     public function showEmailForm()
     {
         return view('front.pages.password-reset.password-reset');
@@ -53,17 +34,22 @@ final class PasswordRecoveryController extends WebController
     public function showResetForm(Request $request)
     {
         $token = $request->get('token');
+        
         if ($token === null) {
-            abort(401, "No token provided");
+            return redirect()
+                ->route('front.password-reset')
+                ->withErrors('error', 'Invalid URL. Please try again');
         }
 
-        $passwordReset = $this->passwordResetRepository->getByToken($token);
+        $passwordReset = PasswordReset::where('token', $token)->first();
         if ($passwordReset === null) {
-            abort(401, "Token invalid or has expired");
+            return redirect()
+                ->route('front.password-reset')
+                ->withErrors('error', 'URL is invalid or has expired. Please try again');
         }
 
         return view('front.pages.password-reset.password-reset-form', [
-            'passwordToken' => $request->get('token')
+            'passwordToken' => $token
         ]);
     }
 
