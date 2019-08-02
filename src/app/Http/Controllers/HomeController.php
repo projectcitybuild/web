@@ -21,7 +21,7 @@ final class HomeController extends WebController
         $this->donationStatsService = $donationStatsService;
     }
 
-    public function getView()
+    public function index()
     {
         $donations = $this->donationStatsService->getAnnualPercentageStats();
 

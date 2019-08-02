@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SendPasswordEmailRequest;
 use App\Http\WebController;
+use App\Entities\Accounts\Models\AccountPasswordReset;
 use App\Http\Actions\AccountPasswordReset\SendPasswordResetEmail;
 use App\Http\Actions\AccountPasswordReset\ResetAccountPassword;
 use App\Exceptions\Http\NotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Auth\Events\PasswordReset;
 
 final class PasswordRecoveryController extends WebController
 {
@@ -41,7 +41,7 @@ final class PasswordRecoveryController extends WebController
                 ->withErrors('error', 'Invalid URL. Please try again');
         }
 
-        $passwordReset = PasswordReset::where('token', $token)->first();
+        $passwordReset = AccountPasswordReset::where('token', $token)->first();
         if ($passwordReset === null) {
             return redirect()
                 ->route('front.password-reset')

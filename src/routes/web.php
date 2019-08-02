@@ -42,7 +42,7 @@ Route::get('ui', function () {
 
 Route::get('/', [
     'as' => 'front.home',
-    'uses' => 'HomeController@getView',
+    'uses' => 'HomeController@index',
 ]);
 
 Route::prefix('donate')->group(function () {
