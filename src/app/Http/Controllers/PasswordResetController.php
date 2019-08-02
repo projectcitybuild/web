@@ -11,14 +11,14 @@ use App\Http\Actions\AccountPasswordReset\ResetAccountPassword;
 use App\Exceptions\Http\NotFoundException;
 use Illuminate\Http\Request;
 
-final class PasswordRecoveryController extends WebController
+final class PasswordResetController extends WebController
 {
-    public function showEmailForm()
+    public function create()
     {
         return view('front.pages.password-reset.password-reset');
     }
 
-    public function sendVerificationEmail(SendPasswordEmailRequest $request, SendPasswordResetEmail $sendPasswordResetEmail)
+    public function store(SendPasswordEmailRequest $request, SendPasswordResetEmail $sendPasswordResetEmail)
     {
         $input = $request->validated();
         $email = $input['email'];
@@ -30,8 +30,8 @@ final class PasswordRecoveryController extends WebController
 
         return redirect()->back()->with(['success' => $email]);
     }
-
-    public function showResetForm(Request $request)
+    
+    public function edit(Request $request)
     {
         $token = $request->get('token');
         
@@ -53,7 +53,7 @@ final class PasswordRecoveryController extends WebController
         ]);
     }
 
-    public function resetPassword(ResetPasswordRequest $request, ResetAccountPassword $resetAccountPassword)
+    public function update(ResetPasswordRequest $request, ResetAccountPassword $resetAccountPassword)
     {
         $input = $request->validated();
 

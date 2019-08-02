@@ -80,22 +80,22 @@ Route::prefix('login')->group(function () {
 Route::prefix('password-reset')->group(function () {
     Route::get('/', [
         'as'    => 'front.password-reset',
-        'uses'  => 'PasswordRecoveryController@showEmailForm',
+        'uses'  => 'PasswordResetEmailController@create',
     ]);
     
     Route::post('/', [
         'as'    => 'front.password-reset.submit',
-        'uses'  => 'PasswordRecoveryController@sendVerificationEmail',
+        'uses'  => 'PasswordResetEmailController@store',
     ]);
 
     Route::get('recovery', [
         'as'    => 'front.password-reset.recovery',
-        'uses'  => 'PasswordRecoveryController@showResetForm',
+        'uses'  => 'PasswordResetController@edit',
     ])->middleware('signed');
     
     Route::post('recovery', [
         'as'    => 'front.password-reset.save',
-        'uses'  => 'PasswordRecoveryController@resetPassword',
+        'uses'  => 'PasswordResetController@update',
     ]);
 });
 
