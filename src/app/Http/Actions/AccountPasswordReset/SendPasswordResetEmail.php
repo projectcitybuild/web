@@ -6,6 +6,7 @@ use App\Helpers\TokenHelpers;
 use App\Entities\Accounts\Models\AccountPasswordReset;
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Accounts\Notifications\AccountPasswordResetNotification;
+use Illuminate\Support\Carbon;
 
 final class SendPasswordResetEmail
 {
