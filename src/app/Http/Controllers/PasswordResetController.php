@@ -13,11 +13,23 @@ use Illuminate\Http\Request;
 
 final class PasswordResetController extends WebController
 {
+    /**
+     * Shows the form to send a verification URL to the user's email address
+     *
+     * @return void
+     */
     public function create()
     {
         return view('front.pages.password-reset.password-reset');
     }
 
+    /**
+     * Creates a password reset request and sends a verification email to the user
+     *
+     * @param SendPasswordEmailRequest $request
+     * @param SendPasswordResetEmail $sendPasswordResetEmail
+     * @return void
+     */
     public function store(SendPasswordEmailRequest $request, SendPasswordResetEmail $sendPasswordResetEmail)
     {
         $input = $request->validated();
@@ -30,7 +42,13 @@ final class PasswordResetController extends WebController
 
         return redirect()->back()->with(['success' => $email]);
     }
-    
+
+    /**
+     * Shows the form to allow the user to set a new password
+     *
+     * @param Request $request
+     * @return void
+     */
     public function edit(Request $request)
     {
         $token = $request->get('token');
@@ -53,6 +71,13 @@ final class PasswordResetController extends WebController
         ]);
     }
 
+    /**
+     * Saves the user's new password
+     *
+     * @param ResetPasswordRequest $request
+     * @param ResetAccountPassword $resetAccountPassword
+     * @return void
+     */
     public function update(ResetPasswordRequest $request, ResetAccountPassword $resetAccountPassword)
     {
         $input = $request->validated();
