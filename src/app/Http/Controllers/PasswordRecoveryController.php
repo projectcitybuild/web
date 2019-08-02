@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Entities\Accounts\Repositories\AccountPasswordResetRepository;
-use App\Entities\Accounts\Notifications\AccountPasswordResetCompleteNotification;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SendPasswordEmailRequest;
 use Illuminate\Http\Request;
 use Hash;
 use App\Http\WebController;
-use Illuminate\Support\Facades\DB;
 use App\Http\Actions\AccountPasswordReset\SendPasswordResetEmail;
+use App\Http\Actions\AccountPasswordReset\ResetAccountPassword;
+use App\Exceptions\Http\NotFoundException;
 
 final class PasswordRecoveryController extends WebController
 {
@@ -47,9 +47,7 @@ final class PasswordRecoveryController extends WebController
             $email
         );
 
-        return redirect()
-            ->back()
-            ->with(['success' => $email]);
+        return redirect()->back()->with(['success' => $email]);
     }
 
     public function showResetForm(Request $request)
@@ -69,41 +67,21 @@ final class PasswordRecoveryController extends WebController
         ]);
     }
 
-    public function resetPassword(ResetPasswordRequest $request)
+    public function resetPassword(ResetPasswordRequest $request, ResetAccountPassword $resetAccountPassword)
     {
         $input = $request->validated();
-        $token = $input['password_token'];
 
-        $passwordReset = $this->passwordResetRepository->getByToken($token);
-        if ($passwordReset === null) {
-            return redirect()
-                ->route('front.password-reset')
-                ->withErrors('error', 'Password token not found');
-        }
-
-        $account = $this->accountRepository->getByEmail($passwordReset->email);
-        if ($account === null) {
-            return redirect()
-                ->route('front.password-reset')
-                ->withErrors('error', 'Account not found');
-        }
-
-        DB::beginTransaction();
         try {
-            $account->password = Hash::make($request->get('password'));
-            $account->save();
-
-            $passwordReset->delete();
-            
-            DB::commit();
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
+            $resetAccountPassword->execute(
+                $input['password_token'],
+                $input['password']
+            );
+        } catch(NotFoundException $e) {
+            return redirect()
+                ->route('front.password-reset')
+                ->withErrors('error', $e->getMessage());
         }
-
-        $account->notify(new AccountPasswordResetCompleteNotification);
-
+        
         return view('front.pages.password-reset.password-reset-success');
     }
 }
