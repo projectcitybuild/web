@@ -9,10 +9,10 @@ use App\Entities\Accounts\Notifications\AccountPasswordResetCompleteNotification
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SendPasswordEmailRequest;
 use Illuminate\Http\Request;
-use Illuminate\Database\Connection;
 use Hash;
 use App\Http\WebController;
 use App\Helpers\TokenHelpers;
+use Illuminate\Support\Facades\DB;
 
 final class PasswordRecoveryController extends WebController
 {
@@ -26,20 +26,11 @@ final class PasswordRecoveryController extends WebController
      */
     private $passwordResetRepository;
 
-    /**
-     * @var Connection
-     */
-    private $connection;
 
-
-    public function __construct(
-        AccountRepository $accountRepository,
-        AccountPasswordResetRepository $passwordResetRepository,
-        Connection $connection
-    ) {
+    public function __construct(AccountRepository $accountRepository, AccountPasswordResetRepository $passwordResetRepository) 
+    {
         $this->accountRepository = $accountRepository;
         $this->passwordResetRepository = $passwordResetRepository;
-        $this->connection = $connection;
     }
 
     public function showEmailForm()
@@ -100,16 +91,17 @@ final class PasswordRecoveryController extends WebController
                 ->withErrors('error', 'Account not found');
         }
 
-        $this->connection->beginTransaction();
+        DB::beginTransaction();
         try {
             $account->password = Hash::make($request->get('password'));
             $account->save();
 
             $passwordReset->delete();
+            
+            DB::commit();
 
-            $this->connection->commit();
         } catch (\Exception $e) {
-            $this->connection->rollBack();
+            DB::rollBack();
             throw $e;
         }
 
