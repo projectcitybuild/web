@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Api\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Exceptions\Http\UnauthorisedException;
@@ -22,8 +22,8 @@ final class DeployController extends ApiController
 
     public function deploy(Request $request)
     {
-        $branch = env('DEPLOY_BRANCH', 'master');
-        $key    = env('DEPLOY_KEY');
+        $branch = config('deployment.branch');
+        $key    = config('deployment.key');
 
         if ($key === null) {
             $this->discord->notifyChannel('Deployment', '❌ Deployment failed: No deployment key set in .env');
@@ -39,7 +39,9 @@ final class DeployController extends ApiController
             throw new UnauthorisedException('bad_deploy_key', 'Invalid deployment key specified');
         }
 
-        $branch = $githubPayload['ref'];
+        $decodedPayload = json_decode($githubPayload, true);
+
+        $branch = $decodedPayload['ref'];
         if ($branch !== 'refs/heads/master') {
             Log::info('Skipping deployment for branch: '.$branch);
             return;
@@ -48,8 +50,8 @@ final class DeployController extends ApiController
         $this->discord->notifyChannel('Deployment', '🕒 Deployment has begun...');
 
         try {
-            $baseDir = base_path();
-            echo shell_exec('cd ' . $baseDir . '../; ./deploy.sh');
+            chdir(base_path() . '/../');
+            echo shell_exec('./deploy.sh 2>&1');
 
             $this->discord->notifyChannel('Deployment', '✔ Deployment complete.');
 
