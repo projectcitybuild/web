@@ -79,22 +79,22 @@ Route::prefix('login')->group(function () {
 
 Route::prefix('password-reset')->group(function () {
     Route::get('/', [
-        'as'    => 'front.password-reset',
+        'as'    => 'front.password-reset.create',
         'uses'  => 'PasswordResetEmailController@create',
     ]);
     
     Route::post('/', [
-        'as'    => 'front.password-reset.submit',
+        'as'    => 'front.password-reset.store',
         'uses'  => 'PasswordResetEmailController@store',
     ]);
 
     Route::get('edit', [
-        'as'    => 'front.password-reset.recovery',
+        'as'    => 'front.password-reset.edit',
         'uses'  => 'PasswordResetController@edit',
     ])->middleware('signed');
     
     Route::patch('edit', [
-        'as'    => 'front.password-reset.save',
+        'as'    => 'front.password-reset.update',
         'uses'  => 'PasswordResetController@update',
     ]);
 });
