@@ -3,19 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Library\Discourse\Api\DiscourseUserApi;
-use App\Library\Discourse\Authentication\DiscourseLoginHandler;
-use App\Library\Discourse\Exceptions\BadSSOPayloadException;
 use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Services\Login\LogoutService; 
 use App\Http\Requests\LoginRequest;
 use App\Http\WebController;
-use App\Entities\Environment;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
-use Illuminate\Support\Facades\Log;
 
 final class LoginController extends WebController
 {
