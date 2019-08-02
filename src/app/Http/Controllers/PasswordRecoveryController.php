@@ -4,15 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Entities\Accounts\Repositories\AccountPasswordResetRepository;
-use App\Entities\Accounts\Notifications\AccountPasswordResetNotification;
 use App\Entities\Accounts\Notifications\AccountPasswordResetCompleteNotification;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SendPasswordEmailRequest;
 use Illuminate\Http\Request;
 use Hash;
 use App\Http\WebController;
-use App\Helpers\TokenHelpers;
 use Illuminate\Support\Facades\DB;
+use App\Http\Actions\AccountPasswordReset\SendPasswordResetEmail;
 
 final class PasswordRecoveryController extends WebController
 {
@@ -38,16 +37,15 @@ final class PasswordRecoveryController extends WebController
         return view('front.pages.password-reset.password-reset');
     }
 
-    public function sendVerificationEmail(SendPasswordEmailRequest $request)
+    public function sendVerificationEmail(SendPasswordEmailRequest $request, SendPasswordResetEmail $sendPasswordResetEmail)
     {
         $input = $request->validated();
         $email = $input['email'];
 
-        $token = TokenHelpers::generateToken();
-        $passwordReset = $this->passwordResetRepository->updateOrCreateByEmail($email, $token);
-
-        $account = $request->getAccount();
-        $account->notify(new AccountPasswordResetNotification($passwordReset));
+        $sendPasswordResetEmail->execute(
+            $request->getAccount(),
+            $email
+        );
 
         return redirect()
             ->back()
@@ -56,7 +54,6 @@ final class PasswordRecoveryController extends WebController
 
     public function showResetForm(Request $request)
     {
-        // make sure a token was provided
         $token = $request->get('token');
         if ($token === null) {
             abort(401, "No token provided");
