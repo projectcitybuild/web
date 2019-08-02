@@ -1,7 +1,6 @@
 ## Overview of Changes
 TODO
 
----
 
 ## Additional Information
 ### Deployment Steps (Optional)
@@ -9,7 +8,7 @@ TODO
 * For example, migrations, artisan commands, etc
 
 ### Dependencies (Optional)
-Any new packages or dependencies introduced
+* Any new packages or dependencies introduced
 
 ### Screenshots (Optional)
 |Before|After|
