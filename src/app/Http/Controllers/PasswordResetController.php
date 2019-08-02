@@ -15,8 +15,6 @@ final class PasswordResetController extends WebController
 {
     /**
      * Shows the form to send a verification URL to the user's email address
-     *
-     * @return void
      */
     public function create()
     {
@@ -28,7 +26,6 @@ final class PasswordResetController extends WebController
      *
      * @param SendPasswordEmailRequest $request
      * @param SendPasswordResetEmail $sendPasswordResetEmail
-     * @return void
      */
     public function store(SendPasswordEmailRequest $request, SendPasswordResetEmail $sendPasswordResetEmail)
     {
@@ -47,7 +44,6 @@ final class PasswordResetController extends WebController
      * Shows the form to allow the user to set a new password
      *
      * @param Request $request
-     * @return void
      */
     public function edit(Request $request)
     {
@@ -76,7 +72,6 @@ final class PasswordResetController extends WebController
      *
      * @param ResetPasswordRequest $request
      * @param ResetAccountPassword $resetAccountPassword
-     * @return void
      */
     public function update(ResetPasswordRequest $request, ResetAccountPassword $resetAccountPassword)
     {

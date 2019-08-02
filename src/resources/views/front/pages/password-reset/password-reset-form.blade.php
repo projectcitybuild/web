@@ -11,6 +11,7 @@
             <p>Please enter a new password for your account.</p>
 
             <form method="post" action="{{ route('front.password-reset.save') }}">
+                @method('PATCH')
                 @csrf
                 
                 @if($errors->any())

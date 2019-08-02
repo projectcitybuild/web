@@ -88,12 +88,12 @@ Route::prefix('password-reset')->group(function () {
         'uses'  => 'PasswordResetEmailController@store',
     ]);
 
-    Route::get('recovery', [
+    Route::get('edit', [
         'as'    => 'front.password-reset.recovery',
         'uses'  => 'PasswordResetController@edit',
     ])->middleware('signed');
     
-    Route::post('recovery', [
+    Route::patch('edit', [
         'as'    => 'front.password-reset.save',
         'uses'  => 'PasswordResetController@update',
     ]);
