@@ -13,48 +13,6 @@ final class GameBanRepository extends Repository
     protected $model = GameBan::class;
 
     /**
-     * Stores a new GameBan
-     *
-     * @param integer $serverId
-     * @param integer $bannedPlayerId
-     * @param string $bannedPlayerType
-     * @param string $bannedAliasAtTime
-     * @param integer $staffPlayerId
-     * @param string $staffPlayerType
-     * @param string|null $reason
-     * @param boolean $isActive
-     * @param boolean $isGlobalBan
-     * @param integer|null $expiresAt
-     *
-     * @return GameBan
-     */
-    public function store(
-        int $serverId,
-        int $bannedPlayerId,
-        GamePlayerType $bannedPlayerType,
-        string $bannedAliasAtTime,
-        int $staffPlayerId,
-        GamePlayerType $staffPlayerType,
-        ?string $reason = null,
-        bool $isActive = true,
-        bool $isGlobalBan = false,
-        ?int $expiresAt = null) : GameBan 
-    {
-        return $this->getModel()->create([
-            'server_id'             => $serverId,
-            'banned_player_id'      => $bannedPlayerId,
-            'banned_player_type'    => $bannedPlayerType->valueOf(),
-            'banned_alias_at_time'  => $bannedAliasAtTime,
-            'staff_player_id'       => $staffPlayerId,
-            'staff_player_type'     => $staffPlayerType->valueOf(),
-            'reason'                => $reason,
-            'is_active'             => $isActive,
-            'is_global_ban'         => $isGlobalBan,
-            'expires_at'            => $expiresAt,
-        ]);
-    }
-
-    /**
      * Gets the first active ban for the given game user id.
      * If a server id is not specified, searches only for global bans
      *
