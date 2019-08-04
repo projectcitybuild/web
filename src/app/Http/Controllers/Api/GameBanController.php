@@ -33,15 +33,6 @@ final class GameBanController extends ApiController
      */
     private $serverKeyAuthService;
 
-    /**
-     * Maps game identifier types (eg. MINECRAFT_UUID) to game player type (eg. MINECRAFT)
-     *
-     * @var array
-     */
-    private $identifierMapping = [
-        GameIdentifierType::MinecraftUUID => MinecraftPlayer::class,
-    ];
-
 
     public function __construct(
         PlayerBanService $playerBanService,
@@ -61,11 +52,6 @@ final class GameBanController extends ApiController
         return $serverKey;
     }
 
-    private function getIdTypeWhitelist() : string
-    {
-        return implode(',', array_keys($this->identifierMapping));
-    }
-
     /**
      * Creates a new player ban
      *
@@ -78,16 +64,16 @@ final class GameBanController extends ApiController
         $serverKey = $this->getServerKeyFromHeader($request);
 
         $this->validateRequest($request->all(), [
-            'player_id_type'    => ['required', Rule::in($this->getIdTypeWhitelist())],
+            'player_id_type'    => ['required', Rule::in(GameIdentifierType::identifierMappingStr())],
             'player_id'         => 'required|max:60',
             'player_alias'      => 'required',
-            'staff_id_type'     => ['required', Rule::in($this->getIdTypeWhitelist())],
+            'staff_id_type'     => ['required', Rule::in(GameIdentifierType::identifierMappingStr())],
             'staff_id'          => 'required|max:60',
             'reason'            => 'string',
             'expires_at'        => 'integer',
             'is_global_ban'     => 'required|boolean',
         ], [
-            'in' => 'Invalid :attribute given. Must be ['.$this->getIdTypeWhitelist().']',
+            'in' => 'Invalid :attribute given. Must be ['.GameIdentifierType::identifierMappingStr().']',
         ]);
 
         $bannedPlayerId     = $request->get('player_id');
@@ -121,10 +107,10 @@ final class GameBanController extends ApiController
         $serverKey = $this->getServerKeyFromHeader($request);
 
         $this->validateRequest($request->all(), [
-            'player_id_type'    => ['required', Rule::in($this->getIdTypeWhitelist())],
+            'player_id_type'    => ['required', Rule::in(GameIdentifierType::identifierMappingStr())],
             'player_id'         => 'required',
         ], [
-            'in' => 'Invalid :attribute given. Must be ['.$this->getIdTypeWhitelist().']',
+            'in' => 'Invalid :attribute given. Must be ['.GameIdentifierType::identifierMappingStr().']',
         ]);
 
         $bannedPlayerId   = $request->get('player_id');
