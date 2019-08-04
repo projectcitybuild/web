@@ -3,26 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Entities\Bans\Resources\GameBanResource;
-use App\Entities\Bans\Resources\GameUnbanResource;
-use App\Services\PlayerBans\PlayerBanService;
 use App\Services\PlayerBans\PlayerBanLookupService;
 use App\Entities\GameIdentifierType;
 use App\Http\ApiController;
 use Illuminate\Http\Request;
 use App\Services\PlayerBans\ServerKeyAuthService;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use App\Entities\ServerKeys\Models\ServerKey;
-use App\Entities\Players\Models\MinecraftPlayer;
 use App\Http\Actions\GameBans\CreatePlayerBan;
+use App\Http\Requests\Api\GameBanStoreRequest;
+use App\Http\Requests\Api\GameBanShowRequest;
+use App\Services\PlayerBans\Exceptions\UnauthorisedKeyActionException;
 
 final class GameBanController extends ApiController
 {
-    /**
-     * @var PlayerBanService
-     */
-    private $playerBanService;
-
     /**
      * @var PlayerBanLookupService
      */
@@ -35,11 +29,9 @@ final class GameBanController extends ApiController
 
 
     public function __construct(
-        PlayerBanService $playerBanService,
         PlayerBanLookupService $playerBanLookupService,
         ServerKeyAuthService $serverKeyAuthService
     ) {
-        $this->playerBanService = $playerBanService;
         $this->playerBanLookupService = $playerBanLookupService;
         $this->serverKeyAuthService = $serverKeyAuthService;
     }
@@ -59,35 +51,30 @@ final class GameBanController extends ApiController
      * @param Validator $validationFactory
      * @return void
      */
-    public function store(Request $request, CreatePlayerBan $createPlayerBan)
+    public function store(GameBanStoreRequest $request, CreatePlayerBan $createPlayerBan)
     {        
         $serverKey = $this->getServerKeyFromHeader($request);
 
-        $this->validateRequest($request->all(), [
-            'player_id_type'    => ['required', Rule::in(GameIdentifierType::identifierMappingStr())],
-            'player_id'         => 'required|max:60',
-            'player_alias'      => 'required',
-            'staff_id_type'     => ['required', Rule::in(GameIdentifierType::identifierMappingStr())],
-            'staff_id'          => 'required|max:60',
-            'reason'            => 'string',
-            'expires_at'        => 'integer',
-            'is_global_ban'     => 'required|boolean',
-        ], [
-            'in' => 'Invalid :attribute given. Must be ['.GameIdentifierType::identifierMappingStr().']',
-        ]);
+        $input = $request->validated();
 
-        $bannedPlayerId     = $request->get('player_id');
-        $bannedPlayerAlias  = $request->get('player_alias');
-        $staffPlayerId      = $request->get('staff_id');
-        $reason             = $request->get('reason');
-        $expiresAt          = $request->get('expires_at');
-        $isGlobalBan        = $request->get('is_global_ban', false);
+        $bannedPlayerId     = $input['player_id'];
+        $bannedPlayerAlias  = $input['player_alias'];
+        $staffPlayerId      = $input['staff_id'];
+        $reason             = $input['reason'];
+        $expiresAt          = $input['expires_at'];
+        $isGlobalBan        = $input['is_global_ban'] ?? false;
         
-        $bannedPlayerType   = GameIdentifierType::fromRawValue($request->get('player_id_type'));
-        $staffPlayerType    = GameIdentifierType::fromRawValue($request->get('staff_id_type'));
+        $bannedPlayerType   = $input['player_id_type'];
+        $bannedPlayerType   = GameIdentifierType::fromRawValue($bannedPlayerType);
+
+        $staffPlayerType    = $input['staff_id_type'];
+        $staffPlayerType    = GameIdentifierType::fromRawValue($staffPlayerType);
+
+        if ($isGlobalBan && !$serverKey->can_global_ban) {
+            throw new UnauthorisedKeyActionException('limited_key', 'This server key does not have permission to create global bans');
+        }
 
         $ban = $createPlayerBan->execute(
-            $serverKey,
             $serverKey->server_id,
             $bannedPlayerId, 
             $bannedPlayerType->playerType(),
@@ -102,21 +89,20 @@ final class GameBanController extends ApiController
         return new GameBanResource($ban);
     }
 
-    public function show(Request $request)
+    public function show(GameBanShowRequest $request)
     {
-        $serverKey = $this->getServerKeyFromHeader($request);
+        $this->getServerKeyFromHeader($request);
 
-        $this->validateRequest($request->all(), [
-            'player_id_type'    => ['required', Rule::in(GameIdentifierType::identifierMappingStr())],
-            'player_id'         => 'required',
-        ], [
-            'in' => 'Invalid :attribute given. Must be ['.GameIdentifierType::identifierMappingStr().']',
-        ]);
+        $input = $request->validated();
 
-        $bannedPlayerId   = $request->get('player_id');
-        $bannedPlayerType = GameIdentifierType::fromRawValue($request->get('player_id_type'));
+        $bannedPlayerId   = $input['player_id'];
+        $bannedPlayerType = $input['player_id_type'];
+        $bannedPlayerType = GameIdentifierType::fromRawValue($bannedPlayerType);
 
-        $activeBan = $this->playerBanLookupService->getStatus($bannedPlayerType->playerType(), $bannedPlayerId);
+        $activeBan = $this->playerBanLookupService->getStatus(
+            $bannedPlayerType->playerType(), 
+            $bannedPlayerId
+        );
 
         if ($activeBan === null) {
             return [

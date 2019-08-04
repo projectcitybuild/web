@@ -4,8 +4,6 @@ namespace App\Http\Actions\GameBans;
 
 use App\Entities\Bans\Models\GameBan;
 use App\Entities\GamePlayerType;
-use App\Entities\ServerKeys\Models\ServerKey;
-use App\Services\PlayerBans\Exceptions\UnauthorisedKeyActionException;
 use App\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
 use App\Http\Actions\Players\GetOrCreatePlayer;
 
@@ -21,7 +19,6 @@ final class CreatePlayerBan
     }
 
     public function execute(
-        ServerKey $serverKey,
         int $serverId,
         string $bannedPlayerId,
         GamePlayerType $bannedPlayerType,
@@ -33,10 +30,6 @@ final class CreatePlayerBan
         bool $isGlobalBan = false
     ) : GameBan {
 
-        if ($isGlobalBan && !$serverKey->can_global_ban) {
-            throw new UnauthorisedKeyActionException('limited_key', 'This server key does not have permission to create global bans');
-        }
- 
         $bannedPlayer = $this->getOrCreatePlayer->execute(
             $bannedPlayerType, 
             $bannedPlayerId
@@ -47,8 +40,9 @@ final class CreatePlayerBan
             $staffPlayerId
         );
 
+        $getOnlyFirstResult = true;
         $activeBan = $this->getPlayerBans->execute(
-            true, 
+            $getOnlyFirstResult, 
             $bannedPlayer->getKey(), 
             $bannedPlayerType
         );
