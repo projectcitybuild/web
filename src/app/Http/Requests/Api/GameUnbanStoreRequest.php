@@ -5,8 +5,10 @@ namespace App\Http\Requests\Api;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Exceptions\Http\BadRequestException;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\Rule;
+use App\Entities\GameIdentifierType;
 
-final class GameUnbanRequest extends FormRequest
+final class GameUnbanStoreRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -16,10 +18,22 @@ final class GameUnbanRequest extends FormRequest
     public function rules() : array
     {
         return [
-            'player_id_type'    => 'required',
+            'player_id_type'    => ['required', Rule::in(GameIdentifierType::identifierMappingStr())],
             'player_id'         => 'required',
-            'banner_id_type'    => 'required',
+            'banner_id_type'    => ['required', Rule::in(GameIdentifierType::identifierMappingStr())],
             'banner_id'         => 'required',
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages() : array
+    {
+        return [
+            'in' => 'Invalid :attribute given. Must be ['.GameIdentifierType::identifierMappingStr().']',
         ];
     }
 

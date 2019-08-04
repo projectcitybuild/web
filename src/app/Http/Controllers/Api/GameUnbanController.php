@@ -2,54 +2,26 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Entities\Bans\Resources\GameBanResource;
 use App\Entities\Bans\Resources\GameUnbanResource;
-use App\Services\PlayerBans\PlayerBanService;
-use App\Services\PlayerBans\PlayerBanLookupService;
 use App\Entities\GameIdentifierType;
 use App\Http\ApiController;
-use Illuminate\Http\Request;
 use App\Services\PlayerBans\ServerKeyAuthService;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use App\Entities\ServerKeys\Models\ServerKey;
-use App\Entities\Players\Models\MinecraftPlayer;
-use App\Http\Actions\GameBans\CreatePlayerBan;
+use App\Http\Requests\Api\GameUnbanStoreRequest;
+use App\Http\Actions\GameBans\CreatePlayerUnban;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 final class GameBanController extends ApiController
 {
-    /**
-     * @var PlayerBanService
-     */
-    private $playerBanService;
-
-    /**
-     * @var PlayerBanLookupService
-     */
-    private $playerBanLookupService;
-
     /**
      * @var ServerKeyAuthService
      */
     private $serverKeyAuthService;
 
-    /**
-     * Maps game identifier types (eg. MINECRAFT_UUID) to game player type (eg. MINECRAFT)
-     *
-     * @var array
-     */
-    private $identifierMapping = [
-        GameIdentifierType::MinecraftUUID => MinecraftPlayer::class,
-    ];
 
-
-    public function __construct(
-        PlayerBanService $playerBanService,
-        PlayerBanLookupService $playerBanLookupService,
-        ServerKeyAuthService $serverKeyAuthService
-    ) {
-        $this->playerBanService = $playerBanService;
-        $this->playerBanLookupService = $playerBanLookupService;
+    public function __construct(ServerKeyAuthService $serverKeyAuthService) 
+    {
         $this->serverKeyAuthService = $serverKeyAuthService;
     }
 
@@ -61,11 +33,6 @@ final class GameBanController extends ApiController
         return $serverKey;
     }
 
-    private function getIdTypeWhitelist() : string
-    {
-        return implode(',', array_keys($this->identifierMapping));
-    }
-
     /**
      * Creates a new player unban
      *
@@ -73,26 +40,21 @@ final class GameBanController extends ApiController
      * @param Validator $validationFactory
      * @return void
      */
-    public function store(Request $request)
+    public function store(GameUnbanStoreRequest $request, CreatePlayerUnban $createPlayerUnban)
     {
         $serverKey = $this->getServerKeyFromHeader($request);
 
-        $this->validateRequest($request->all(), [
-            'player_id_type'    => ['required', Rule::in($this->getIdTypeWhitelist())],
-            'player_id'         => 'required',
-            'banner_id_type'    => ['required', Rule::in($this->getIdTypeWhitelist())],
-            'banner_id'         => 'required',
-        ], [
-            'in' => 'Invalid :attribute given. Must be ['.$this->getIdTypeWhitelist().']',
-        ]);
+        $input = $request->validated();
 
-        $bannedPlayerId   = $request->get('player_id');
-        $staffPlayerId    = $request->get('staff_id');
+        $bannedPlayerId   = $input['player_id'];
+        $staffPlayerId    = $input['staff_id'];
+        $bannedPlayerType = $input['player_id_type'];
+        $staffPlayerType  = $input['staff_id_type'];
 
-        $bannedPlayerType = GameIdentifierType::fromRawValue($request->get('player_id_type'));
-        $staffPlayerType  = GameIdentifierType::fromRawValue($request->get('staff_id_type'));
+        $bannedPlayerType = GameIdentifierType::fromRawValue($bannedPlayerType);
+        $staffPlayerType  = GameIdentifierType::fromRawValue($staffPlayerType);
 
-        $unban = $this->playerBanService->unban(
+        $unban = $createPlayerUnban->execute(
             $bannedPlayerId,
             $bannedPlayerType->playerType(),
             $staffPlayerId,

@@ -3,36 +3,28 @@
 namespace App\Http\Controllers\Api;
 
 use App\Entities\Bans\Resources\GameBanResource;
-use App\Services\PlayerBans\PlayerBanLookupService;
-use App\Entities\GameIdentifierType;
-use App\Http\ApiController;
-use Illuminate\Http\Request;
-use App\Services\PlayerBans\ServerKeyAuthService;
-use Illuminate\Support\Facades\Validator;
 use App\Entities\ServerKeys\Models\ServerKey;
+use App\Entities\GameIdentifierType;
+use App\Services\PlayerBans\ServerKeyAuthService;
+use App\Services\PlayerBans\Exceptions\UnauthorisedKeyActionException;
 use App\Http\Actions\GameBans\CreatePlayerBan;
 use App\Http\Requests\Api\GameBanStoreRequest;
 use App\Http\Requests\Api\GameBanShowRequest;
-use App\Services\PlayerBans\Exceptions\UnauthorisedKeyActionException;
+use App\Http\Actions\GameBans\GetPlayerBans;
+use App\Http\ApiController;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 final class GameBanController extends ApiController
 {
-    /**
-     * @var PlayerBanLookupService
-     */
-    private $playerBanLookupService;
-
     /**
      * @var ServerKeyAuthService
      */
     private $serverKeyAuthService;
 
 
-    public function __construct(
-        PlayerBanLookupService $playerBanLookupService,
-        ServerKeyAuthService $serverKeyAuthService
-    ) {
-        $this->playerBanLookupService = $playerBanLookupService;
+    public function __construct(ServerKeyAuthService $serverKeyAuthService) 
+    {
         $this->serverKeyAuthService = $serverKeyAuthService;
     }
 
@@ -89,9 +81,9 @@ final class GameBanController extends ApiController
         return new GameBanResource($ban);
     }
 
-    public function show(GameBanShowRequest $request)
+    public function show(GameBanShowRequest $request, GetPlayerBans $getPlayerBans)
     {
-        $this->getServerKeyFromHeader($request);
+        $serverKey = $this->getServerKeyFromHeader($request);
 
         $input = $request->validated();
 
@@ -99,16 +91,19 @@ final class GameBanController extends ApiController
         $bannedPlayerType = $input['player_id_type'];
         $bannedPlayerType = GameIdentifierType::fromRawValue($bannedPlayerType);
 
-        $activeBan = $this->playerBanLookupService->getStatus(
-            $bannedPlayerType->playerType(), 
-            $bannedPlayerId
+        $getOnlyFirstResult = false;
+        $activeBans = $getPlayerBans->execute(
+            $getOnlyFirstResult,
+            $bannedPlayerId,
+            $bannedPlayerType->playerType(),
+            $serverKey->server_id
         );
 
-        if ($activeBan === null) {
+        if ($activeBans === null) {
             return [
-                'data' => null,
+                'data' => [],
             ];
         }
-        return new GameBanResource($activeBan);
+        return new GameBanResource::collection($activeBans);
     }
 }
