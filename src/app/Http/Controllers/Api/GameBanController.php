@@ -104,6 +104,6 @@ final class GameBanController extends ApiController
                 'data' => [],
             ];
         }
-        return new GameBanResource::collection($activeBans);
+        return GameBanResource::collection($activeBans);
     }
 }
