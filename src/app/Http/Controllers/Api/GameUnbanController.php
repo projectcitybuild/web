@@ -12,7 +12,7 @@ use App\Http\Actions\GameBans\CreatePlayerUnban;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
-final class GameBanController extends ApiController
+final class GameUnbanController extends ApiController
 {
     /**
      * @var ServerKeyAuthService
