@@ -14,10 +14,12 @@ use Illuminate\Http\Request;
 */
 
 Route::prefix('bans')->group(function () {
-    Route::post('list', 'GameBanController@getBanList');
-    Route::post('store/ban', 'GameBanController@storeBan');
-    Route::post('store/unban', 'GameBanController@storeUnban');
-    Route::post('status', 'GameBanController@getPlayerStatus');
+    Route::post('/', 'GameBanController@store');
+    Route::get('show', 'GameBanController@show');
+});
+
+Route::prefix('unbans')->group(function () {
+    Route::post('/', 'GameUnbanController@store');
 });
 
 Route::prefix('groups')->group(function () {
