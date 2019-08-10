@@ -31,7 +31,7 @@
                 If the account exists, an email will be sent with a link to change your password.
             </p>
 
-            <form method="post" action="{{ route('front.password-reset.submit') }}" id="form">
+            <form method="post" action="{{ route('front.password-reset.store') }}" id="form">
                 @csrf
                 
                 @if($errors->any())

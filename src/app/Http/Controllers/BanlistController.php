@@ -6,7 +6,7 @@ use App\Entities\Bans\Models\GameBan;
 use App\Http\WebController;
 use Illuminate\Http\Request;
 
-class BanlistController extends WebController
+final class BanlistController extends WebController
 {
     public function index(Request $request)
     {

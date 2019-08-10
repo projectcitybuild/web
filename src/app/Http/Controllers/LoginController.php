@@ -3,27 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Library\Discourse\Api\DiscourseUserApi;
-use App\Library\Discourse\Authentication\DiscourseLoginHandler;
-use App\Library\Discourse\Exceptions\BadSSOPayloadException;
 use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Services\Login\LogoutService; 
 use App\Http\Requests\LoginRequest;
 use App\Http\WebController;
-use App\Entities\Environment;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
-use Illuminate\Support\Facades\Log;
 
 final class LoginController extends WebController
 {
-    /**
-     * @var DiscourseLoginHandler
-     */
-    private $discourseLoginHandler;
-
     /**
      * @var DiscourseAdminApi
      */
@@ -46,70 +34,38 @@ final class LoginController extends WebController
 
 
     public function __construct(
-        DiscourseLoginHandler $discourseLoginHandler,
         DiscourseAdminApi $discourseAdminApi,
         AccountRepository $accountRepository,
         LogoutService $logoutService,
         Auth $auth
     ) {
-        $this->discourseLoginHandler = $discourseLoginHandler;
         $this->discourseAdminApi = $discourseAdminApi;
         $this->accountRepository = $accountRepository;
         $this->logoutService = $logoutService;
         $this->auth = $auth;
     }
 
-    /**
-     * @param Request $request
-     * @return RedirectResponse|View
-     */
-    public function loginOrShowForm(Request $request)
+    public function create()
     {
-        if ($this->auth->check() === false) 
-        {
-            return view('front.pages.login.login');
-        }
-        try 
-        {
-            $account  = $this->auth->user();
-
-            // Check if username is set
-            if ($account->username == null) {
-                $discourseUser = $this->discourseAdminApi->fetchUserByEmail($account->email);
-                $account->username = $discourseUser["username"];
-                $account->save();
-            }
-
-            $endpoint = $this->discourseLoginHandler->getRedirectUrl(
-                $request,
-                $account->getKey(), 
-                $account->email,
-                $account->username
-            );
-        } 
-        catch (BadSSOPayloadException $e) 
-        {
-            Log::debug('Missing nonce or return key in session', ['session' => $request->session()]);
-            throw $e;
-        }
-
-        if (Environment::isDev())
-        {
-            abort(403, 'Redirect to Discourse disabled in DEV');
-        }
-        return redirect()->to($endpoint);
+        return view('front.pages.login.login');
     }
 
-    /**
-     * Handles a login request sent from the login form
-     *
-     * @param LoginRequest $request
-     * @return RedirectResponse|View
-     */
-    public function login(LoginRequest $request)
+    public function store(LoginRequest $request)
     {
-        return $this->loginOrShowForm($request);
+        $account  = $this->auth->user();
+
+        // Set the user's nickname from Discourse if it isn't already
+        if ($account->username == null) {
+            $discourseUser = $this->discourseAdminApi->fetchUserByEmail($account->email);
+            $account->username = $discourseUser["username"];
+            $account->save();
+        }
+
+        // Redirect back to the intended page
+        // If the user is just logging in, perform discourse SSO
+        return redirect()->intended(route('front.sso.discourse'));
     }
+
 
     /**
      * Logs out the current PCB account
