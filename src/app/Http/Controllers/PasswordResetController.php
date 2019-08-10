@@ -51,14 +51,14 @@ final class PasswordResetController extends WebController
         
         if ($token === null) {
             return redirect()
-                ->route('front.password-reset')
+                ->route('front.password-reset.create')
                 ->withErrors('error', 'Invalid URL. Please try again');
         }
 
         $passwordReset = AccountPasswordReset::where('token', $token)->first();
         if ($passwordReset === null) {
             return redirect()
-                ->route('front.password-reset')
+                ->route('front.password-reset.create')
                 ->withErrors('error', 'URL is invalid or has expired. Please try again');
         }
 
@@ -84,7 +84,7 @@ final class PasswordResetController extends WebController
             );
         } catch(NotFoundException $e) {
             return redirect()
-                ->route('front.password-reset')
+                ->route('front.password-reset.create')
                 ->withErrors('error', $e->getMessage());
         }
         
