@@ -35,7 +35,27 @@ class LoginTest extends TestCase
             'password' => "wrong"
         ]);
 
-        $this->assertFalse(Auth::check());
+        $this->assertGuest();
+    }
+
+    public function testIfUserDoesNotEnterEmail()
+    {
+        $this->post(route('front.login.submit'), [
+            'email' => "",
+            'password' => "secret"
+        ]);
+
+        $this->assertGuest();
+    }
+
+    public function testIfUserDoesNotEnterPassword()
+    {
+        $this->post(route('front.login.submit'), [
+            'email' => $this->account->email,
+            'password' => ""
+        ]);
+
+        $this->assertGuest();
     }
 
     public function testUserWithNullUsernameFetchesFromDiscourse()
