@@ -50,10 +50,8 @@ final class DeployController extends ApiController
         $this->discord->notifyChannel('Deployment', '🕒 Deployment has begun...');
 
         try {
-            chdir(base_path() . '/../');
+            chdir(base_path() . '/../../');
             echo shell_exec('./deploy.sh 2>&1');
-
-            $this->discord->notifyChannel('Deployment', '✔ Deployment complete.');
 
         } catch (\Exception $e) {
             $this->discord->notifyChannel('Deployment', '❌ Deployment failed: '.$e->getMessage());
