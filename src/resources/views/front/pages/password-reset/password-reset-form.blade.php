@@ -10,7 +10,8 @@
             <h1>Set Your Password</h1>
             <p>Please enter a new password for your account.</p>
 
-            <form method="post" action="{{ route('front.password-reset.save') }}">
+            <form method="post" action="{{ route('front.password-reset.update') }}">
+                @method('PATCH')
                 @csrf
                 
                 @if($errors->any())

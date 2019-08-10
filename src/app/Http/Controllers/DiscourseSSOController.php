@@ -1,17 +1,14 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
-
-use App\Entities\Environment;
 use App\Http\WebController;
 use App\Library\Discourse\Authentication\DiscourseLoginHandler;
 use App\Library\Discourse\Exceptions\BadSSOPayloadException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class DiscourseSSOController extends WebController
+final class DiscourseSSOController extends WebController
 {
     /**
      * @var DiscourseLoginHandler

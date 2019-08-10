@@ -11,7 +11,7 @@
 
             <small>
                 <i class="fas fa-exclamation-circle"></i> 
-                Notice: Anyone with a forum account before we moved to Discourse <a href="{{ route('front.password-reset') }}">must reset their password first</a>!
+                Notice: Anyone with a forum account before we moved to Discourse <a href="{{ route('front.password-reset.create') }}">must reset their password first</a>!
                 <p />
                 See <a href="https://forums.projectcitybuild.com/t/welcome-to-the-new-forums/32708/1" target="_blank">this post</a> for more details.
             </small>
@@ -43,7 +43,7 @@
                     <div class="login__options">
                         <div class="login__remember"></div>
                         <div class="login__forgot">
-                            <a href="{{ route('front.password-reset') }}">Forgot your password?</a>
+                            <a href="{{ route('front.password-reset.create') }}">Forgot your password?</a>
                         </div>
                     </div>
                 </div>

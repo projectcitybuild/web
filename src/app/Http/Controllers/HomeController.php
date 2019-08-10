@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\View;
 use App\Services\Donations\DonationStatsService;
 use App\Entities\Players\Models\MinecraftPlayer;
 use App\Entities\Accounts\Models\Account;
 use Illuminate\Support\Facades\Cache;
 use App\Http\WebController;
 
-class HomeController extends WebController
+final class HomeController extends WebController
 {
-
     /**
      * @var DonationStatsService
      */
@@ -23,7 +21,7 @@ class HomeController extends WebController
         $this->donationStatsService = $donationStatsService;
     }
 
-    public function getView()
+    public function index()
     {
         $donations = $this->donationStatsService->getAnnualPercentageStats();
 
