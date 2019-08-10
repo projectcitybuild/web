@@ -80,12 +80,12 @@ Route::prefix('login')->group(function () {
 Route::prefix('password-reset')->group(function () {
     Route::get('/', [
         'as'    => 'front.password-reset.create',
-        'uses'  => 'PasswordResetEmailController@create',
+        'uses'  => 'PasswordResetController@create',
     ]);
     
     Route::post('/', [
         'as'    => 'front.password-reset.store',
-        'uses'  => 'PasswordResetEmailController@store',
+        'uses'  => 'PasswordResetController@store',
     ]);
 
     Route::get('edit', [
