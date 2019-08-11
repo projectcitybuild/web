@@ -20,14 +20,6 @@ final class MinecraftPlayerLinkController extends WebController
             ]);
         }
 
-        // We can't associate a PCB account with a Minecraft player if they're not logged in.
-        // Force them through the login flow and then redirect them back here after they're done
-        if (Auth::check() === false || Auth::id() === null) {
-            return redirect()->route('front.login', [
-                'return_url' => url()->full(),
-            ]);
-        }
-
         DB::beginTransaction();
         try {
             $minecraftPlayer = $authCode->minecraftPlayer;
