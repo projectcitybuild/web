@@ -11,14 +11,23 @@ table.table {
     thead tr {
         background: $colour-light;
         border-bottom: 3px solid darken($colour-light, 5%);
+        color: #fff;
     }
 
     &--striped {
+        tbody tr:nth-child(even) {
+            background: #fff;
+        }
         tbody tr:nth-child(odd) {
             background: darken(#fff, 3%);
         }
     }
+
     &--divided {
+        tbody tr {
+            background: $colour-white;
+        }
+
         tbody tr:not(:last-child) {
             border-bottom: 1px solid darken(#fff, 5%);
         }

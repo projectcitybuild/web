@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Rules\DiscourseUsernameRule;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use App\Entities\Players\Models\MinecraftPlayer;
@@ -58,5 +60,6 @@ final class AppServiceProvider extends ServiceProvider
 
         // bind the master view composer to the master view template
         View::composer('front.layouts.master', MasterViewComposer::class);
+
     }
 }

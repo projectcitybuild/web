@@ -4,7 +4,7 @@ namespace App\Entities;
 
 use App\Enum;
 
-class GameIdentifierType extends Enum
+final class GameIdentifierType extends Enum
 {
     const MinecraftUUID = 'minecraft_uuid';
 

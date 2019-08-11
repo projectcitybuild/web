@@ -44,7 +44,7 @@ class AccountPasswordReset extends Model
 
     public function getPasswordResetUrl()
     {
-        return URL::temporarySignedRoute('front.password-reset.recovery', now()->addMinutes(20), [
+        return URL::temporarySignedRoute('front.password-reset.edit', now()->addMinutes(20), [
             'token' => $this->token,
         ]);
     }

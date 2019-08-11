@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Hash;
 $factory->define(Account::class, function (Faker\Generator $faker) {
     return [
         'email' => $faker->email,
-        'password' => Hash::make($faker->password),
+        'username' => $faker->userName,
+        'password' => Hash::make("secret"),
         'last_login_ip' => $faker->ipv4,
         'last_login_at' => $faker->dateTimeBetween('-180days', '-1hours'),
     ];

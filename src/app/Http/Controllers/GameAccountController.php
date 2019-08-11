@@ -13,7 +13,6 @@ use App\Library\Mojang\Api\MojangPlayerApiThrottled;
 
 final class GameAccountController extends WebController
 {
-
     /**
      * @var MinecraftPlayerRepository
      */

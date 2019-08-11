@@ -3,13 +3,14 @@ namespace App\Library\RateLimit\Storage;
 
 use App\Library\RateLimit\TokenStorable;
 use App\Library\RateLimit\TokenState;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 /**
  * For use with user-scoped rate limitng
  */
 class SessionTokenStorage implements TokenStorable
 {
-
     /**
      * @var string
      */
@@ -27,16 +28,11 @@ class SessionTokenStorage implements TokenStorable
         $this->initialTokens = $initialTokens;
     }
 
-    public function bootstrap()
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-    }
+    public function bootstrap() {}
 
     public function deserialize() : TokenState
     {
-        $storedData = @$_SESSION[$this->sessionName];
+        $storedData = Session::get($this->sessionName);
         if ($storedData === null) {
             return new TokenState($this->initialTokens, 0);
         }
@@ -45,6 +41,6 @@ class SessionTokenStorage implements TokenStorable
 
     public function serialize(TokenState $data)
     {
-        $_SESSION[$this->sessionName] = $data->toArray();
+        Session::put($this->sessionName, $data->toArray());
     }
 }

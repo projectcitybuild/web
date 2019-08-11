@@ -65,8 +65,7 @@ class DonationController extends WebController
 
     public function getView()
     {
-        abort(503);
-        // return view('front.pages.donate.donate');
+        return view('front.pages.donate.donate');
     }
 
     public function donate(Request $request)
@@ -82,7 +81,21 @@ class DonationController extends WebController
         $account = $this->auth->user();
         $accountId = $account !== null ? $account->getKey() : null;
 
-        $donation = $this->donationCreationService->donate($stripeToken, $email, $amount, $accountId);
+        try {
+            $donation = $this->donationCreationService->donate($stripeToken, $email, $amount, $accountId);
+        } catch (\Stripe\Error\Card $exception) {
+            $body = $exception->getJsonBody();
+            $message = $body['error']['message'];
+
+            return view('front.pages.donate.donate-error', [
+                'message' => $message
+            ]);
+        } catch (\Stripe\Error\Base $e) {
+            app('sentry')->captureException($e);
+            return view('front.pages.donate.donate-error', [
+                'message' => "There was a problem processing your transaction, please try again later."
+            ]);
+        }
 
         // add user to donator group if they're logged in
         if ($account !== null) {

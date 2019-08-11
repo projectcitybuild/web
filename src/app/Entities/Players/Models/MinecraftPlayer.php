@@ -67,11 +67,7 @@ class MinecraftPlayer extends Model implements BannableModelInterface
      */
     public function getBanReadableName(): string
     {
-        $alias = $this->belongsTo(MinecraftPlayerAlias::class, 'player_minecraft_id', 'player_minecraft_id')->latest();
-
-        return $alias !== null
-            ? $alias->alias
-            : '';
+        return $this->aliases->first()->alias;
     }
 
     

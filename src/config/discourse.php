@@ -21,6 +21,17 @@ return [
     | Key for signing and verifying payloads from Discourse
     |
     */
-    'sso_secret' => env('DISCOURSE_SSO_SECRET')
+    'sso_secret' => env('DISCOURSE_SSO_SECRET'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Discourse SSO endpoint
+    |--------------------------------------------------------------------------
+    |
+    | The URI the user should be redirected to to start an SSO session
+    | with discourse
+    |
+    */
+    'sso_endpoint' => env('DISCOURSE_SSO_ENDPOINT')
 
 ];

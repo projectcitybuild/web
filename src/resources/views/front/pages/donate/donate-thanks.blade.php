@@ -1,6 +1,6 @@
 @extends('front.layouts.master')
 
-@section('title', 'Account Verification')
+@section('title', 'Thank you for your donation')
 @section('description', "")
 
 @section('contents')

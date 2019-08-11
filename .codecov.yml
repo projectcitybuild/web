@@ -1,0 +1,10 @@
+ignore:
+  - "src/app/Entities"
+  - "src/app/Exceptions"
+  - "src/app/Providers"
+  - "src/bootstrap"
+  - "src/config"
+  - "src/database"
+  - "src/public"
+  - "src/resources"
+  - "src/routes"

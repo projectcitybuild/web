@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entities\Accounts\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -6,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class AccountEmailChangeVerifyNotification extends Notification
+final class AccountEmailChangeVerifyNotification extends Notification
 {
     use Queueable;
 

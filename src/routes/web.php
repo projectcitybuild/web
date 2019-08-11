@@ -1,6 +1,6 @@
 <?php
 
-use App\Environment;
+use App\Entities\Environment;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ Route::get('ui', function () {
 
 Route::get('/', [
     'as' => 'front.home',
-    'uses' => 'HomeController@getView',
+    'uses' => 'HomeController@index',
 ]);
 
 Route::prefix('donate')->group(function () {
@@ -61,36 +61,41 @@ Route::get('donations', [
     'uses'  => 'DonationController@getListView',
 ]);
 
+Route::get('sso/discourse', [
+   'as'     => 'front.sso.discourse',
+   'uses'   => 'DiscourseSSOController@create'
+])->middleware('auth');
+
 Route::prefix('login')->group(function () {
     Route::get('/', [
         'as'    => 'front.login',
-        'uses'  => 'LoginController@loginOrShowForm',
+        'uses'  => 'LoginController@create',
     ]);
     Route::post('/', [
         'as'    => 'front.login.submit',
-        'uses'  => 'LoginController@login',
+        'uses'  => 'LoginController@store',
     ]);
 });
 
 Route::prefix('password-reset')->group(function () {
     Route::get('/', [
-        'as'    => 'front.password-reset',
-        'uses'  => 'PasswordRecoveryController@showEmailForm',
+        'as'    => 'front.password-reset.create',
+        'uses'  => 'PasswordResetController@create',
     ]);
     
     Route::post('/', [
-        'as'    => 'front.password-reset.submit',
-        'uses'  => 'PasswordRecoveryController@sendVerificationEmail',
+        'as'    => 'front.password-reset.store',
+        'uses'  => 'PasswordResetController@store',
     ]);
 
-    Route::get('recovery', [
-        'as'    => 'front.password-reset.recovery',
-        'uses'  => 'PasswordRecoveryController@showResetForm',
+    Route::get('edit', [
+        'as'    => 'front.password-reset.edit',
+        'uses'  => 'PasswordResetController@edit',
     ])->middleware('signed');
     
-    Route::post('recovery', [
-        'as'    => 'front.password-reset.save',
-        'uses'  => 'PasswordRecoveryController@resetPassword',
+    Route::patch('edit', [
+        'as'    => 'front.password-reset.update',
+        'uses'  => 'PasswordResetController@update',
     ]);
 });
 
@@ -144,6 +149,11 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function () {
             'as'    => 'front.account.settings.password',
             'uses'  => 'AccountSettingController@changePassword',
         ]);
+
+        Route::post('username', [
+            'as'    => 'front.account.settings.username',
+            'uses'  => 'AccountSettingController@changeUsername'
+        ]);
     });
    
     Route::prefix('games')->group(function () {
@@ -164,7 +174,4 @@ Route::get('auth/minecraft/{token}', [
     'uses' => 'MinecraftPlayerLinkController@linkMinecraftPlayerWithAccount',
 ]);
 
-Route::view('bans', 'front.pages.banlist')->name('banlist');
-
-Route::post('deploy', 'DeployController@deploy');
-Route::get('deploy', 'DeployController@deploy');
+Route::get('bans', 'BanlistController@index')->name('front.banlist');
