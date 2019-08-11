@@ -28,6 +28,7 @@ final class MinecraftAuthTokenController extends ApiController
         ]);
 
         $uuid = $request->get('minecraft_uuid');
+        $uuid = str_replace($uuid, '-', '');
 
         $existingPlayer = MinecraftPlayer::where('uuid', $uuid)->first();
         
@@ -73,13 +74,13 @@ final class MinecraftAuthTokenController extends ApiController
      */
     public function show(Request $request, String $minecraftUUID)
     {
-        if (empty($minecraftUUID)) {
+        $uuid = str_replace('-', '', $minecraftUUID);
+
+        if (empty($uuid)) {
             throw new BadRequestException('bad_input', 'minecraft_uuid cannot be empty');
         }
 
-        // TODO: validate UUID (is hyphens required?)
-
-        $existingPlayer = MinecraftPlayer::where('uuid', $minecraftUUID)->first();
+        $existingPlayer = MinecraftPlayer::where('uuid', $uuid)->first();
 
         if ($existingPlayer === null || $existingPlayer->account === null) {
             throw new UnauthorisedException('account_not_linked', 'This UUID has not been linked to a PCB account. Please complete the authorization flow first');
