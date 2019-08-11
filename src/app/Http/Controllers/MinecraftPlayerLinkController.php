@@ -42,7 +42,6 @@ final class MinecraftPlayerLinkController extends WebController
             throw $e;
         }
 
-        // TODO: show 'authentication complete' page - tell user to run `/auth sync` command
-        return 'TODO';
+        return view('front.pages.minecraft-auth.complete');
     }
 }
