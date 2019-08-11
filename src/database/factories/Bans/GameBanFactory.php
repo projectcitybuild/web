@@ -6,11 +6,13 @@
 
 use App\Entities\Bans\Models\GameBan;
 use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Players\Models\MinecraftPlayerAlias;
 use App\Entities\Servers\Models\Server;
 
 $factory->define(GameBan::class, function (Faker\Generator $faker) {
-    $bannedPlayer = MinecraftPlayer::inRandomOrder()->first();
-    $staffPlayer = MinecraftPlayer::inRandomOrder()->first();
+    $bannedPlayer = factory(MinecraftPlayer::class)->create();
+    $staffPlayer = factory(MinecraftPlayer::class)->create();
+    $bannedPlayer->aliases()->save(factory(MinecraftPlayerAlias::class)->make());
 
     if (rand(0, 1) == 0) {
         $expiresAt = $faker->dateTimeBetween('-1 years', '+ 1 year');

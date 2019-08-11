@@ -15,14 +15,6 @@ class BanlistTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        $this->account = factory(Account::class)->create();
-        $this->mcAccount = factory(MinecraftPlayer::class)->create([
-            'account_id' => $this->account->account_id
-        ]);
-        $this->alias = factory(MinecraftPlayerAlias::class)->create([
-            'player_minecraft_id' => $this->mcAccount->player_minecraft_id
-        ]);
         $this->ban = factory(GameBan::class)->create();
     }
 
