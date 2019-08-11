@@ -17,7 +17,7 @@
             </small>
             <br>
 
-            <form method="post" action="{{ route('front.login.submit', ['return_url' => $return_url ?: null]) }}">
+            <form method="post" action="{{ route('front.login.submit') }}">
                 @csrf
                 
                 @if($errors->any())

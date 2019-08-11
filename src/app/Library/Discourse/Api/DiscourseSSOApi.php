@@ -18,19 +18,14 @@ class DiscourseSSOApi extends DiscourseAPIRequest
      *
      * @return DiscoursePackedNonce
      */
-    public function requestNewPackedNonce(?string $returnPath = null) : DiscoursePackedNonce
+    public function requestNewPackedNonce(string $returnPath = '/latest') : DiscoursePackedNonce
     {
-        $urlParameters = [];
-        if ($returnPath !== null) {
-            $urlParameters['query']['return_path'] = $returnPath;
-        }
-
-        $response = $this->client->get('session/sso', array_merge($urlParameters, [
+        $response = $this->client->get('session/sso?return_path='.$returnPath, [
             'allow_redirects' => [
                 'max'               => 3,
                 'track_redirects'   => true,
             ],
-        ]));
+        ]);
 
         $redirectUri = $response->getHeaderLine('X-Guzzle-Redirect-History');
         
