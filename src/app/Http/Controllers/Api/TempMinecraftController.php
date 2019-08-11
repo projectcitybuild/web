@@ -15,6 +15,11 @@ use App\Exceptions\Http\ServerException;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Entities\Accounts\Resources\AccountResource;
 
+/**
+ * Obsoleted as of 1.12.0
+ * 
+ * @deprecated 1.11.0 Use the new authentication flow provided by MinecraftAuthenticationController
+ */
 final class TempMinecraftController extends ApiController
 {
     public function authenticate(Request $request, Validator $validation, Client $client)
