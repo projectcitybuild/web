@@ -171,7 +171,7 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function () {
 
 Route::get('auth/minecraft/{token}', [
     'as'   => 'front.auth.minecraft.token',
-    'uses' => 'MinecraftPlayerLinkController@linkMinecraftPlayerWithAccount',
+    'uses' => 'MinecraftPlayerLinkController@index',
 ]);
 
 Route::get('bans', 'BanlistController@index')->name('front.banlist');
