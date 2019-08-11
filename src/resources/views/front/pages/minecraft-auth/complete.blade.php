@@ -10,8 +10,8 @@
             <h1>Account Linked</h1>
 
             <p>
-                Your Minecraft account has been successfully linked to your PCB account. 
-                Please run the <strong>/sync finish</strong> command in-game to finish the process
+                Your Minecraft account has been successfully linked to your PCB account. <br />
+                Please run the <strong>/sync finish</strong> command in-game to finish the process.
             </p>
         </div>
 
