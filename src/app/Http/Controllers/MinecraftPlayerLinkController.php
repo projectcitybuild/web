@@ -15,7 +15,9 @@ final class MinecraftPlayerLinkController extends WebController
         $authCode = MinecraftAuthCode::where('token', $token)->first();
 
         if ($authCode === null) {
-            abort(400, 'Invalid or expired token. Please restart the authentication process');
+            return view('front.pages.minecraft-auth.error', [
+                'message' => 'Invalid or expired token. Please restart the authentication process from in-game',
+            ]);
         }
 
         // We can't associate a PCB account with a Minecraft player if they're not logged in.
