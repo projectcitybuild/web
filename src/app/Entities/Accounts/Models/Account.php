@@ -8,35 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
 use App\Entities\Groups\Models\Group;
 
-/**
- * App\Entities\Accounts\Models\Account
- *
- * @property int $account_id
- * @property string $email
- * @property string $password
- * @property string|null $remember_token
- * @property string|null $last_login_ip
- * @property \Illuminate\Support\Carbon|null $last_login_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Groups\Models\Group[] $groups
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Accounts\Models\AccountLink[] $linkedSocialAccounts
- * @property-read \App\Entities\Players\Models\MinecraftPlayer $minecraftAccount
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account whereAccountId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account whereLastLoginAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account whereLastLoginIp($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Accounts\Models\Account whereUpdatedAt($value)
- * @mixin \Eloquent
- */
-class Account extends Authenticatable
+final class Account extends Authenticatable
 {
     use Notifiable;
 
