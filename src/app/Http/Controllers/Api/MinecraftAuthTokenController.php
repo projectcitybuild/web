@@ -28,7 +28,7 @@ final class MinecraftAuthTokenController extends ApiController
         ]);
 
         $uuid = $request->get('minecraft_uuid');
-        $uuid = str_replace($uuid, '-', '');
+        $uuid = str_replace('-', '', $uuid);
 
         $existingPlayer = MinecraftPlayer::where('uuid', $uuid)->first();
         
