@@ -36,7 +36,6 @@ class AccountSettingUsernameTest extends TestCase
             $mock->shouldReceive('requestSSOSync')->once();
         });
 
-        echo "current username:" . $this->account->username;
         $newUsername = $this->faker->userName;
         $this->submitUsernameChange($newUsername)
             ->assertSessionHasNoErrors();
