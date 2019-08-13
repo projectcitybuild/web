@@ -27,6 +27,6 @@ class BanlistTest extends TestCase
     {
         $ban = $this->makeBan();
         $this->get(route('front.banlist'))
-            ->assertSee($this->ban->reason);
+            ->assertSee($ban->reason);
     }
 }
