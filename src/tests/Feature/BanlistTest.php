@@ -15,11 +15,17 @@ class BanlistTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->ban = factory(GameBan::class)->create();
     }
 
-    public function testBanIsShownOnList()
+    public function makeBan($args = [])
     {
+        return factory(GameBan::class)->create($args);
+
+    }
+
+    public function testActiveBanIsShownOnList()
+    {
+        $ban = $this->makeBan();
         $this->get(route('front.banlist'))
             ->assertSee($this->ban->reason);
     }
