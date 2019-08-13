@@ -9,7 +9,7 @@ use App\Library\Discourse\Api\DiscourseAdminApi;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class AccountSettingUsernameTest extends TestCase
+class AccountSettingsUsernameTest extends TestCase
 {
     use WithFaker;
 

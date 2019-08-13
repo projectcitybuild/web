@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
-class AccountSettingEmailTest extends TestCase
+class AccountSettingsEmailTest extends TestCase
 {
     use WithFaker;
 
