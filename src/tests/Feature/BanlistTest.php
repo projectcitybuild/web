@@ -29,4 +29,11 @@ class BanlistTest extends TestCase
         $this->get(route('front.banlist'))
             ->assertSee($ban->reason);
     }
+
+    public function testInactiveBanIsNotShownOnList()
+    {
+        $ban = $this->makeBan(['is_active' => 0]);
+        $this->get(route('front.banlist'))
+            ->assertDontSee($ban->reason);
+    }
 }

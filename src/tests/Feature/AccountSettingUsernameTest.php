@@ -54,7 +54,7 @@ class AccountSettingUsernameTest extends TestCase
             ->assertSessionHasErrors();
     }
 
-    public function testCantSubmitEmptyEmail()
+    public function testCantSubmitEmptyUsername()
     {
         $this->submitUsernameChange("")
             ->assertSessionHasErrors();
