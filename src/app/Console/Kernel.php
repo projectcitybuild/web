@@ -9,6 +9,7 @@ use App\Console\Commands\ImportGroupCommand;
 use App\Console\Commands\GroupAddUserCommand;
 use App\Console\Commands\GroupRemoveUserCommand;
 use App\Console\Commands\ServerKeyCreateCommand;
+use App\Console\Commands\StripUUIDHyphens;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,6 +25,7 @@ class Kernel extends ConsoleKernel
         GroupAddUserCommand::class,
         GroupRemoveUserCommand::class,
         ServerKeyCreateCommand::class,
+        StripUUIDHyphens::class,
     ];
 
     /**
