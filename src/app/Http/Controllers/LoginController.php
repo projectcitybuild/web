@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Entities\Accounts\Repositories\AccountRepository;
-use App\Services\Login\LogoutService; 
+use App\Library\Discourse\Exceptions\UserNotFound;
+use App\Services\Login\LogoutService;
 use App\Http\Requests\LoginRequest;
 use App\Http\WebController;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 final class LoginController extends WebController
 {
@@ -56,9 +58,14 @@ final class LoginController extends WebController
 
         // Set the user's nickname from Discourse if it isn't already
         if ($account->username == null) {
-            $discourseUser = $this->discourseAdminApi->fetchUserByEmail($account->email);
-            $account->username = $discourseUser["username"];
-            $account->save();
+            try {
+                $discourseUser = $this->discourseAdminApi->fetchUserByEmail($account->email);
+                $account->username = $discourseUser["username"];
+            } catch (UserNotFound $e) {
+                $account->username = Str::random(10);
+            } finally {
+                $account->save();
+            }
         }
 
         // Redirect back to the intended page
@@ -94,7 +101,7 @@ final class LoginController extends WebController
     public function logout(Request $request)
     {
         $this->logoutService->logoutOfDiscourseAndPCB();
-        
+
         return redirect()->route('front.home');
     }
 }
