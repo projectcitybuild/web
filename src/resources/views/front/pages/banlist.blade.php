@@ -56,11 +56,11 @@
                         @endif
                     </td>
                     <td>
-                        {{ $ban->created_at->diffForHumans() }}
+                        {{ $ban->created_at->format('j M Y H:i') }}
                     </td>
                     <td>
                         @if ($ban->expires_at != null)
-                        {{ $ban->expires_at->diffForHumans() }}
+                        {{ $ban->created_at->format('j M Y H:i') }}
                         @else
                         -
                         @endif

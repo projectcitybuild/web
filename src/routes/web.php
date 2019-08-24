@@ -13,7 +13,7 @@ use App\Entities\Environment;
 |
 */
 
-// force all web routes to load over https
+// Force all web routes to load over https
 if (Environment::isProduction()) {
     URL::forceScheme('https');
 }
@@ -25,19 +25,9 @@ Route::redirect('terms', 'https://forums.projectcitybuild.com/t/community-rules/
 Route::redirect('privacy', 'https://forums.projectcitybuild.com/privacy')->name('privacy');
 
 /**
- * Sentry test route
- */
-Route::get('sentry/test', function () {
-    throw new \Exception('Sentry test');
-});
-
-/**
  * Style guide
  */
-Route::get('ui', function () {
-    return view('stylesheet');
-});
-
+Route::view('ui', 'stylesheet');
 
 
 Route::get('/', [
@@ -123,7 +113,6 @@ Route::get('logout', [
     'uses'  => 'LoginController@logout',
 ]);
 
-
 Route::group(['prefix' => 'account', 'middleware' => 'auth'], function () {
     Route::prefix('settings')->group(function () {
         Route::get('/', [
@@ -170,5 +159,11 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function () {
     });
 });
 
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('auth/minecraft/{token}', [
+        'as'   => 'front.auth.minecraft.token',
+        'uses' => 'MinecraftPlayerLinkController@index',
+    ]);
+});
 
 Route::get('bans', 'BanlistController@index')->name('front.banlist');
