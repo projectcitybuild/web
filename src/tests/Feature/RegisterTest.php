@@ -46,4 +46,17 @@ class RegisterTest extends TestCase
         $this->post(route('front.register.submit'), $newAccount->toArray())
             ->assertSessionHasErrors();
     }
+
+    public function testAssertPasswordIsHashed()
+    {
+        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm')->make();
+
+        $this->post(route('front.register.submit'), $unactivatedAccount->toArray())
+            ->assertSessionHasNoErrors();
+
+        $this->assertDatabaseMissing('accounts', [
+            'email' => $unactivatedAccount->email,
+            'password' => $unactivatedAccount->password
+        ]);
+    }
 }
