@@ -15,3 +15,12 @@ $factory->define(Account::class, function (Faker\Generator $faker) {
         'last_login_at' => $faker->dateTimeBetween('-180days', '-1hours'),
     ];
 });
+
+$factory->state(Account::class, 'unhashed', [
+    'password' => 'password'
+]);
+
+$factory->state(Account::class, 'with-confirm', [
+    'password_confirm' => 'password'
+]);
+

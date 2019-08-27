@@ -64,4 +64,17 @@ final class Account extends Authenticatable
             'new_email' => $newEmail,
         ]);
     }
+
+    /**
+     * Gets an URL to the activation route with a
+     * signed signature to prevent tampering
+     *
+     * @return string
+     */
+    public function getActivationUrl() : string
+    {
+        return URL::temporarySignedRoute('front.register.activate', now()->addDay(), [
+            'email' => $this->email,
+        ]);
+    }
 }
