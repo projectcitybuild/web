@@ -56,6 +56,11 @@ final class Account extends Authenticatable
         return $this->hasMany(Donation::class, 'account_id');
     }
 
+    public function inGroup(Group $group)
+    {
+        return $this->groups->contains($group);
+    }
+
     /**
      * Gets an URL to the 'email change verification'
      * route with a signed signature to prevent

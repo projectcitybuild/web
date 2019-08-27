@@ -81,3 +81,9 @@ ul, ol {
 .inline {
     display: inline;
 }
+
+.spaced-icon-link {
+    svg {
+        margin-right: 0.3rem;
+    }
+}

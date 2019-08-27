@@ -63,10 +63,11 @@
                     <tr>
                         <td>Last login at</td>
                         <td>
-                            {{ $account->last_login_at }} ({{ $account->last_login_ip }} <a
+                            {{ $account->last_login_at }}<br>(from {{ $account->last_login_ip }} <a
                                 href="https://www.ip-tracker.org/locator/ip-lookup.php?ip={{ $account->last_login_ip }}"
+                                class="spaced-icon-link"
                                 target="_blank">
-                                <i class="fas fa-map-marked"></i> Locate last login </a>)
+                                <i class="fas fa-map-marked"></i>Locate</a>)
                             </a>
                         </td>
                     </tr>
@@ -85,32 +86,21 @@
                 </table>
             </div>
         </div>
-        <div class="card card--no-padding">
+        <div class="card">
             <div class="card__header">
                 Groups
             </div>
             <div class="card__body">
-                <ul>
-                    @foreach($account->groups as $group)
-                        <li>{{ $group->name }}
-                            <button class="button button--accent button--bordered"><i class="fas fa-trash-alt"></i>
-                            </button>
-                        </li>
+                <form action="">
+                    @foreach($groups as $group)
+                        <div>
+                            <label><input type="checkbox" name="group_ids[]" value="{{ $group->id }}"
+                                @if($account->inGroup($group)) checked @endif
+                                > {{ $group->name }}</label>
+                        </div>
                     @endforeach
-                </ul>
-            </div>
-            <div class="card__footer">
-                <form action="#" method="post">
-                    <div class="form-row">
-                        <label for="group_id">Add new group</label>
-                        <select name="group_id" id="group_id">
-                            <option value="" disabled selected>Select group</option>
-                            @foreach($groups as $group)
-                                <option value="{{ $group->id }}">{{ $group->name }}</option>
-                            @endforeach
-                        </select>
-                        <button class="button button--primary ">Add group</button>
-                    </div>
+
+                    <button type="submit" class="button button--primary">Save</button>
                 </form>
             </div>
         </div>
