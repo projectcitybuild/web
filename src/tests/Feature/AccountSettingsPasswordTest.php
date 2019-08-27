@@ -33,9 +33,7 @@ class AccountSettingsPasswordTest extends TestCase
     public function testPasswordChange()
     {
         $newPassword = $this->faker->password(8);
-
-        echo "\n\n\nNEW PASSWORD:" . $newPassword . "\n\n\n";
-
+        
         $this->submitPasswordChange("secret", $newPassword, $newPassword)
             ->assertSessionHasNoErrors();
 
