@@ -181,5 +181,10 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
             'as'   => 'activate',
             'uses' => 'AccountActivate'
         ]);
+
+        Route::post('resend-activation', [
+            'as'   => 'resend-activation',
+            'uses' => 'AccountResendActivation'
+        ]);
     });
 });
