@@ -72,7 +72,7 @@ Route::prefix('password-reset')->group(function () {
         'as'    => 'front.password-reset.create',
         'uses'  => 'PasswordResetController@create',
     ]);
-    
+
     Route::post('/', [
         'as'    => 'front.password-reset.store',
         'uses'  => 'PasswordResetController@store',
@@ -82,7 +82,7 @@ Route::prefix('password-reset')->group(function () {
         'as'    => 'front.password-reset.edit',
         'uses'  => 'PasswordResetController@edit',
     ])->middleware('signed');
-    
+
     Route::patch('edit', [
         'as'    => 'front.password-reset.update',
         'uses'  => 'PasswordResetController@update',
@@ -129,7 +129,7 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function () {
             'as'    => 'front.account.settings.email.confirm',
             'uses'  => 'AccountSettingController@showConfirmForm',
         ])->middleware('signed');
-    
+
         Route::post('email/confirm', [
             'as'    => 'front.account.settings.email.confirm.save',
             'uses'  => 'AccountSettingController@confirmEmailChange',
@@ -145,7 +145,7 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth'], function () {
             'uses'  => 'AccountSettingController@changeUsername'
         ]);
     });
-   
+
     Route::prefix('games')->group(function () {
         Route::get('games', [
             'as'    => 'front.account.games',
@@ -167,3 +167,7 @@ Route::group(['middleware' => 'auth'], function() {
 });
 
 Route::get('bans', 'BanlistController@index')->name('front.banlist');
+
+Route::prefix('panel')->group(function() {
+    Route::resource('accounts', 'Panel\AccountController');
+});
