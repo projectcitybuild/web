@@ -49,7 +49,7 @@ class AccountController extends WebController
      */
     public function show(Account $account)
     {
-        //
+        return view('front.pages.panel.account.show')->with(compact('account'));
     }
 
     /**

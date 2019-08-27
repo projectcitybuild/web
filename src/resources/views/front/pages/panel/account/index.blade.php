@@ -1,7 +1,6 @@
 @extends('front.layouts.master')
 
-@section('title', 'Player Ban List')
-@section('description', 'Players listed on this page are currently banned on one or more servers on our game network')
+@section('title', 'Accounts - Staff Panel')
 
 @section('contents')
     <div class="staff-panel">
@@ -34,7 +33,7 @@
                     <td>{{ $account->email }}</td>
                     <td>{{ $account->username }}</td>
                     <td>{{ $account->last_login_at }}</td>
-                    <td><a href="#">Manage</a> | <a href="#">Forums</a></td>
+                    <td><a href="{{ route('front.panel.accounts.show', $account->account_id) }}">Manage</a> | <a href="{{ route('front.panel.accounts.discourse-admin-redirect', $account->account_id) }}" target="_blank">Discourse</a></td>
                 </tr>
             @endforeach
             </tbody>
