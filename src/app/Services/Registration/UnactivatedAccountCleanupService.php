@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Log;
 
 class UnactivatedAccountCleanupService
 {
-    const DAY_THRESHOLD = 14;
+    private  $DAY_THRESHOLD;
 
     /**
      * @var UnactivatedAccountRepository
@@ -16,13 +16,14 @@ class UnactivatedAccountCleanupService
     public function __construct(UnactivatedAccountRepository $repository)
     {
         $this->repository = $repository;
+        $this->DAY_THRESHOLD = config('auth.unactivated_cleanup_days');
     }
 
     public function cleanup()
     {
         Log::info('Running unactivated account cleanup service...');
 
-        $thresholdDate = now()->subDays(self::DAY_THRESHOLD);
+        $thresholdDate = now()->subDays($this->DAY_THRESHOLD);
         $this->repository->deleteOlderThan($thresholdDate);
     }
 }

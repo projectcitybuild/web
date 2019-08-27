@@ -170,4 +170,16 @@ Route::get('bans', 'BanlistController@index')->name('front.banlist');
 
 Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel'], function() {
     Route::resource('accounts', 'AccountController');
+
+    Route::group(['prefix' => 'accounts/{account}', 'as' => 'accounts.'], function() {
+        Route::get('discourse-admin', [
+            'as'   => 'discourse-admin-redirect',
+            'uses' => 'AccountDiscourseAdminRedirect'
+        ]);
+
+        Route::post('activate', [
+            'as'   => 'activate',
+            'uses' => 'AccountActivate'
+        ]);
+    });
 });
