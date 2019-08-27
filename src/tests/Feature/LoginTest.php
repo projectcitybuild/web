@@ -28,6 +28,16 @@ class LoginTest extends TestCase
             ->assertRedirect("/sso/discourse");
     }
 
+    public function testUserCannotLogInWithUnactivatedAccount()
+    {
+        $account = factory(Account::class)->state('unactivated')->create();
+
+        $this->post(route('front.login.submit'), [
+            'email' => $account->email,
+            'password' => "secret"
+        ])->assertSessionHasErrors();
+    }
+
     public function testUserIsShownErrorWithWrongCredentials()
     {
         $this->post(route('front.login.submit'), [
