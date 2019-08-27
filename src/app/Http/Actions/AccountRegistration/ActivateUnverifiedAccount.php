@@ -3,7 +3,6 @@
 namespace App\Http\Actions\AccountRegistration;
 
 use App\Entities\Accounts\Repositories\AccountRepository;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 
 final class ActivateUnverifiedAccount
