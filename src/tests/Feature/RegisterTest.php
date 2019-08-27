@@ -11,7 +11,7 @@ class RegisterTest extends TestCase
 {
     public function testUserCanRegister()
     {
-        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm')->make();
+        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'unactivated')->make();
 
         $this->post(route('front.register.submit'), $unactivatedAccount->toArray())
             ->assertSessionHasNoErrors();
