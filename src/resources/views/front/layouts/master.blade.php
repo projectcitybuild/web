@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>    
+    <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,7 +9,7 @@
         <meta name="description" content="@yield('description')">
         <meta name="theme-color" content="#524641">
         <meta name="apple-mobile-web-app-title" content="PCB">
-        
+
         <meta property="og:url"         content="https://www.projectcitybuild.com">
         <meta property="og:title"       content="@yield('title', 'Project City Build')">
         <meta property="og:description" content="@yield('description')">
@@ -26,10 +26,10 @@
         <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}">
         <link rel="icon" type="type/x-icon" href="{{ asset('assets/favicon.ico') }}">
         <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/g1OfIGT.png" />
-        
-        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/brands.js"></script>
-        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"></script>
-        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"></script>
+
+        <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/brands.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/solid.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/fontawesome.js"></script>
 
         <script defer src="{{ mix('assets/js/manifest.js') }}"></script>
         <script defer src="{{ mix('assets/js/vendor.js') }}"></script>
@@ -49,7 +49,7 @@
         @endif
     </head>
     <body>
-        
+
         <nav id="main-nav">
             <div class="container">
                 <ul>
@@ -138,13 +138,13 @@
             </div>
         </nav>
 
-        
+
         <div class="drawer-btn-container">
             <a href="#" id="drawer-btn"><i class="fas fa-bars"></i></a>
         </div>
 
         <main>
-        
+
             @php
                 $isHomepage = Route::current()->getName() === 'front.home';
             @endphp
@@ -152,10 +152,10 @@
                 <div class="container header__container">
                     <div class="header__left">
                         <img class="header__logo {{ !$isHomepage ? 'header__logo--nopadding' : '' }}" src="{{ asset('assets/images/logo.png') }}" alt="Project City Build" />
-                    
+
                         @includeWhen($isHomepage, 'front.components.server-feed')
                     </div>
-                    
+
                     <div class="header__right">
                         @if($isHomepage)
                         <div class="hero">
@@ -230,6 +230,6 @@
         </main>
 
         @stack('body-js')
-        
+
     </body>
 </html>
