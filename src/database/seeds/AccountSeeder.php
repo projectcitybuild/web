@@ -1,9 +1,10 @@
 <?php
 
 use App\Entities\Accounts\Models\Account;
+use App\Entities\Accounts\Models\UnactivatedAccount;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class AccountSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,8 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(ServerSeeds::class);
-        $this->call(GroupSeeds::class);
-        $this->call(GameBanSeeder::class);
+        factory(Account::class, 500)->create();
+        factory(UnactivatedAccount::class, 50)->create();
     }
 }

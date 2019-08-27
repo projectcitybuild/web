@@ -1,0 +1,88 @@
+<?php
+
+namespace App\Http\Controllers\Panel;
+
+use App\Entities\Accounts\Models\Account;
+use App\Http\WebController;
+use Illuminate\Http\Request;
+
+class AccountController extends WebController
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $accounts = Account::paginate(100);
+
+        return view('front.pages.panel.account.index')->with(compact('accounts'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Entities\Accounts\Models\Account  $account
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Account $account)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Entities\Accounts\Models\Account  $account
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Account $account)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Entities\Accounts\Models\Account  $account
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Account $account)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Entities\Accounts\Models\Account  $account
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Account $account)
+    {
+        //
+    }
+}
