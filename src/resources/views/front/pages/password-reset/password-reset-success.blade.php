@@ -10,7 +10,7 @@
             <h1>Password Reset</h1>
             <p>Your password has successfully been reset. Please proceed to the login screen to complete the process.</p>
 
-            <a class="button button--large button--primary" href="https://forums.projectcitybuild.com/login">
+            <a class="button button--large button--primary" href="{{ route('front.sso.discourse') }}">
                 <i class="fas fa-chevron-right"></i>
                 Go to Login Screen
             </a>
