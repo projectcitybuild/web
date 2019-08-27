@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Entities\Accounts\Models\Account;
+use App\Entities\Groups\Models\Group;
 use App\Http\WebController;
 use Illuminate\Http\Request;
 
@@ -49,7 +50,8 @@ class AccountController extends WebController
      */
     public function show(Account $account)
     {
-        return view('front.pages.panel.account.show')->with(compact('account'));
+        $groups = Group::all();
+        return view('front.pages.panel.account.show')->with(compact('account', 'groups'));
     }
 
     /**

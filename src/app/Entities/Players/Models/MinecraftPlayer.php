@@ -20,7 +20,7 @@ final class MinecraftPlayer extends Model implements BannableModelInterface
     ];
 
     protected $hidden = [
-        
+
     ];
 
     protected $dates = [
@@ -43,10 +43,10 @@ final class MinecraftPlayer extends Model implements BannableModelInterface
      */
     public function getBanReadableName(): string
     {
-        return $this->aliases->first()->alias;
+        return $this->aliases->last()->alias;
     }
 
-    
+
     public function account()
     {
         return $this->hasOne(Account::class, 'account_id', 'account_id');
