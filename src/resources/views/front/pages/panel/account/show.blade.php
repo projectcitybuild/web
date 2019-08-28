@@ -31,7 +31,8 @@
 
         <div class="card card--no-padding">
             <div class="card__header">
-                Details <a href="{{ route('front.panel.accounts.edit', $account) }}" class="spaced-icon-link"><i class="fas fa-pencil-alt"></i>Edit</a>
+                Details <a href="{{ route('front.panel.accounts.edit', $account) }}" class="spaced-icon-link"><i
+                        class="fas fa-pencil-alt"></i>Edit</a>
             </div>
             <div class="card__body">
                 <table class="table table--divided">
@@ -196,12 +197,42 @@
                             <td>{{ $player->last_seen_at }}</td>
                             <td>{{ $player->created_at }}</td>
                             <td>
-                                <form action="{{ route('front.panel.accounts.game-account.delete', [$account, $player]) }}" method="post">
+                                <form
+                                    action="{{ route('front.panel.accounts.game-account.delete', [$account, $player]) }}"
+                                    method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <button>Delete</button>
+                                    <button>Unlink</button>
                                 </form>
                             </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card card--no-padding">
+            <div class="card__header">
+                Bans
+            </div>
+            <div class="card__body">
+                <table class="table table--divided">
+                    <thead>
+                    <tr>
+                        <th>Reason</th>
+                        <th>Banned By</th>
+                        <th>Active</th>
+                        <th>Expires at</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($account->gameBans() as $ban)
+                        <tr>
+                            <td>{{ $ban->reason }}</td>
+                            <td>{{ $ban->staffPlayer->getBanReadableName() }}</td>
+                            <td>{{ $ban->is_active }}</td>
+                            <td>{{ $ban->expires_at }}</td>
                         </tr>
                     @endforeach
                     </tbody>

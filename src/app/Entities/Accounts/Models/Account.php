@@ -61,6 +61,28 @@ final class Account extends Authenticatable
         return $this->hasMany(AccountEmailChange::class, 'account_id');
     }
 
+    public function gameBans()
+    {
+        // TODO: there's probably a way to optimise this just using the DB
+        $bans = collect();
+
+        foreach ($this->minecraftAccount as $minecraftAccount) {
+            $bans = $bans->concat($minecraftAccount->gameBans);
+        }
+
+        return $bans;
+    }
+
+    public function isBanned()
+    {
+        // TODO: there's probably a way to optimise this just using the DB
+        foreach ($this->minecraftAccount as $account) {
+            if ($account->isBanned()) return true;
+        }
+
+        return false;
+    }
+
     public function inGroup(Group $group)
     {
         return $this->groups->contains($group);
