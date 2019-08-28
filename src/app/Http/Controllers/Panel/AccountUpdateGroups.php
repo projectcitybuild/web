@@ -12,6 +12,7 @@ class AccountUpdateGroups
 {
     public function __invoke(Request $request, Account $account)
     {
+        // TODO: consider ID validation
         $account->groups()->sync($request->groups);
 
         return redirect()->back();

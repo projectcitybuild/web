@@ -127,13 +127,16 @@
             <div class="card__body">
                 <form action="{{ route('front.panel.accounts.update-groups', $account) }}" method="post">
                     @csrf
-                    @foreach($groups as $group)
-                        <div>
-                            <label><input type="checkbox" name="groups[]" value="{{ $group->group_id }}"
-                                          @if($account->inGroup($group)) checked @endif
-                                > {{ $group->name }}</label>
-                        </div>
-                    @endforeach
+                    <div class="checkbox-list">
+                        @foreach($groups as $group)
+                            <div>
+                                <label><input type="checkbox" name="groups[]" value="{{ $group->group_id }}"
+                                              @if($account->inGroup($group)) checked @endif
+                                    > {{ $group->name }}</label>
+                            </div>
+                        @endforeach
+                    </div>
+
 
                     <button type="submit" class="button button--primary">Save</button>
                 </form>
