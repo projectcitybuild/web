@@ -4,7 +4,7 @@ namespace App\Services\PlayerBans;
 
 use App\Entities\Eloquent\Bans\Repositories\GameBanRepository;
 use App\Entities\Eloquent\Bans\Models\GameBan;
-use App\Entities\Eloquent\GamePlayerType;
+use App\Entities\GamePlayerType;
 use App\Services\PlayerLookup\PlayerLookupService;
 use App\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
 use App\Entities\Eloquent\ServerKeys\Models\ServerKey;

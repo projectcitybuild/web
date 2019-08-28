@@ -3,7 +3,7 @@ namespace Tests\Services;
 
 use Tests\TestCase;
 use App\Services\PlayerBans\PlayerBanService;
-use App\Entities\Eloquent\GamePlayerType;
+use App\Entities\GamePlayerType;
 use App\Entities\Eloquent\Bans\Models\GameBan;
 use App\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
 use Illuminate\Foundation\Testing\RefreshDatabase;

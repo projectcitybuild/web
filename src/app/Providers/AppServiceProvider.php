@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\View;
 use App\Entities\Eloquent\Donations\Models\Donation;
 use App\Entities\Eloquent\Payments\AccountPaymentType;
 use App\Http\Composers\MasterViewComposer;
-use App\Entities\Eloquent\GamePlayerType;
+use App\Entities\GamePlayerType;
 use Schema;
 use App\Entities\Eloquent\Servers\Repositories\ServerCategoryRepositoryCache;
 use App\Entities\Eloquent\Servers\Repositories\ServerCategoryRepositoryContract;

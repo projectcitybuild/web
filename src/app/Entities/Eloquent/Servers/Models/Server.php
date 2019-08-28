@@ -3,7 +3,7 @@
 namespace App\Entities\Eloquent\Servers\Models;
 
 use App\Model;
-use App\Entities\Eloquent\GameType;
+use App\Entities\GameType;
 
 final class Server extends Model
 {

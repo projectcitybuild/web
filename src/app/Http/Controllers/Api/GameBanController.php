@@ -6,7 +6,7 @@ use App\Entities\Eloquent\Bans\Resources\GameBanResource;
 use App\Entities\Eloquent\Bans\Resources\GameUnbanResource;
 use App\Services\PlayerBans\PlayerBanService;
 use App\Services\PlayerBans\PlayerBanLookupService;
-use App\Entities\Eloquent\GameIdentifierType;
+use App\Entities\GameIdentifierType;
 use App\Http\ApiController;
 use Illuminate\Http\Request;
 use App\Services\PlayerBans\ServerKeyAuthService;
