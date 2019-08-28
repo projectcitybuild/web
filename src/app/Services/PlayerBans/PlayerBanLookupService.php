@@ -2,8 +2,8 @@
 
 namespace App\Services\PlayerBans;
 
-use App\Entities\GamePlayerType;
-use App\Entities\Bans\Repositories\GameBanRepository;
+use App\Entities\Eloquent\GamePlayerType;
+use App\Entities\Eloquent\Bans\Repositories\GameBanRepository;
 use App\Services\PlayerLookup\PlayerLookupService;
 
 final class PlayerBanLookupService

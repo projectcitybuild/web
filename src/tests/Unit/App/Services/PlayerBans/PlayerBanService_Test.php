@@ -3,11 +3,11 @@ namespace Tests\Services;
 
 use Tests\TestCase;
 use App\Services\PlayerBans\PlayerBanService;
-use App\Entities\GamePlayerType;
-use App\Entities\Bans\Models\GameBan;
+use App\Entities\Eloquent\GamePlayerType;
+use App\Entities\Eloquent\Bans\Models\GameBan;
 use App\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Entities\ServerKeys\Models\ServerKey;
+use App\Entities\Eloquent\ServerKeys\Models\ServerKey;
 use Illuminate\Support\Str;
 use App\Services\PlayerBans\Exceptions\UserNotBannedException;
 

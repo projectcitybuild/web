@@ -2,7 +2,7 @@
 
 namespace App\Http\Actions\AccountSettings;
 
-use App\Entities\Accounts\Models\Account;
+use App\Entities\Eloquent\Accounts\Models\Account;
 use Illuminate\Support\Facades\Hash;
 
 final class UpdateAccountPassword 

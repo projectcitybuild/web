@@ -1,8 +1,8 @@
 <?php
 
-use App\Entities\Players\Models\MinecraftPlayerAlias;
-use App\Entities\Servers\Services\Querying\Jobs\CreateMinecraftPlayerJob;
-use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Eloquent\Players\Models\MinecraftPlayerAlias;
+use App\Entities\Eloquent\Servers\Services\Querying\Jobs\CreateMinecraftPlayerJob;
+use App\Entities\Eloquent\Players\Models\MinecraftPlayer;
 
 /**
  * @var \Illuminate\Database\Eloquent\Factory $factory

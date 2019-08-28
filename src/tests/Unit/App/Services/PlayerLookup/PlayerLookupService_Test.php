@@ -3,8 +3,8 @@ namespace Tests\Services;
 
 use Tests\TestCase;
 use App\Services\PlayerLookup\PlayerLookupService;
-use App\Entities\GamePlayerType;
-use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Eloquent\GamePlayerType;
+use App\Entities\Eloquent\Players\Models\MinecraftPlayer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PlayerLookupService_Test extends TestCase

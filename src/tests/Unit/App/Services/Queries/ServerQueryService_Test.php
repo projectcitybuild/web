@@ -4,14 +4,14 @@ namespace Tests\Services;
 use Tests\TestCase;
 use App\Services\Queries\ServerQueryService;
 use Illuminate\Support\Facades\Queue;
-use App\Entities\GameType;
+use App\Entities\Eloquent\GameType;
 use App\Services\Queries\Jobs\ServerQueryJob;
 use App\Services\Queries\Jobs\PlayerQueryJob;
 use App\Services\Queries\Entities\ServerJobEntity;
 use App\Library\QueryServer\GameAdapters\MinecraftQueryAdapter;
 use App\Library\QueryPlayer\GameAdapters\MojangUuidAdapter;
 use App\Library\QueryServer\ServerQueryResult;
-use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
+use App\Entities\Eloquent\Servers\Repositories\ServerStatusPlayerRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ServerQueryService_Test extends TestCase

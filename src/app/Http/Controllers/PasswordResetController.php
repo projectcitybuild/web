@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SendPasswordEmailRequest;
 use App\Http\WebController;
-use App\Entities\Accounts\Models\AccountPasswordReset;
+use App\Entities\Eloquent\Accounts\Models\AccountPasswordReset;
 use App\Http\Actions\AccountPasswordReset\SendPasswordResetEmail;
 use App\Http\Actions\AccountPasswordReset\ResetAccountPassword;
 use App\Exceptions\Http\NotFoundException;

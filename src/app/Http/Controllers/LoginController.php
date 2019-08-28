@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Entities\Accounts\Repositories\AccountRepository;
+use App\Entities\Eloquent\Accounts\Repositories\AccountRepository;
 use App\Library\Discourse\Exceptions\UserNotFound;
 use App\Services\Login\LogoutService;
 use App\Http\Requests\LoginRequest;

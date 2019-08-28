@@ -3,10 +3,10 @@
 namespace App\Http\Actions\AccountSettings;
 
 use App\Helpers\TokenHelpers;
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Accounts\Repositories\AccountEmailChangeRepository;
-use App\Entities\Accounts\Notifications\AccountEmailChangeVerifyNotification;
-use App\Entities\Accounts\Models\AccountEmailChange;
+use App\Entities\Eloquent\Accounts\Models\Account;
+use App\Entities\Eloquent\Accounts\Repositories\AccountEmailChangeRepository;
+use App\Entities\Eloquent\Accounts\Notifications\AccountEmailChangeVerifyNotification;
+use App\Entities\Eloquent\Accounts\Models\AccountEmailChange;
 use App\Http\Requests\AccountChangeEmailRequest;
 use Illuminate\Support\Facades\Notification;
 

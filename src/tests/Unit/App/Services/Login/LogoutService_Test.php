@@ -4,7 +4,7 @@ namespace Tests\Services;
 use Tests\TestCase;
 use App\Library\Discourse\Api\DiscourseUserApi;
 use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Entities\Accounts\Models\Account;
+use App\Entities\Eloquent\Accounts\Models\Account;
 use App\Services\Login\LogoutService;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Log\Logger;

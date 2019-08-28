@@ -1,7 +1,7 @@
 <?php
 namespace App\Library\QueryServer;
 
-use App\Entities\Servers\Repositories\ServerStatusRepository;
+use App\Entities\Eloquent\Servers\Repositories\ServerStatusRepository;
 use Illuminate\Support\Facades\Log;
 
 class ServerQueryHandler

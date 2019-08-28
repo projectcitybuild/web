@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Entities\Bans\Resources\GameBanResource;
-use App\Entities\Bans\Resources\GameUnbanResource;
+use App\Entities\Eloquent\Bans\Resources\GameBanResource;
+use App\Entities\Eloquent\Bans\Resources\GameUnbanResource;
 use App\Services\PlayerBans\PlayerBanService;
 use App\Services\PlayerBans\PlayerBanLookupService;
-use App\Entities\GameIdentifierType;
+use App\Entities\Eloquent\GameIdentifierType;
 use App\Http\ApiController;
 use Illuminate\Http\Request;
 use App\Services\PlayerBans\ServerKeyAuthService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use App\Entities\ServerKeys\Models\ServerKey;
-use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Eloquent\ServerKeys\Models\ServerKey;
+use App\Entities\Eloquent\Players\Models\MinecraftPlayer;
 
 final class GameBanController extends ApiController
 {

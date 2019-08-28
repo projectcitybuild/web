@@ -2,9 +2,9 @@
 namespace App\Services\Groups;
 
 use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Entities\Groups\GroupEnum;
-use App\Entities\Groups\Repositories\GroupRepository;
-use App\Entities\Accounts\Models\Account;
+use App\Entities\Eloquent\Groups\GroupEnum;
+use App\Entities\Eloquent\Groups\Repositories\GroupRepository;
+use App\Entities\Eloquent\Accounts\Models\Account;
 
 
 final class DiscourseGroupSyncService {

@@ -1,8 +1,8 @@
 <?php
 namespace App\Services\PlayerWarnings;
 
-use App\Entities\Warnings\Repositories\GameWarningRepository;
-use App\Entities\GamePlayerType;
+use App\Entities\Eloquent\Warnings\Repositories\GameWarningRepository;
+use App\Entities\Eloquent\GamePlayerType;
 use App\Services\PlayerLookup\PlayerLookupService;
 
 

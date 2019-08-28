@@ -1,8 +1,8 @@
 <?php
 namespace App\Services\PlayerLookup;
 
-use App\Entities\Players\Repositories\MinecraftPlayerRepository;
-use App\Entities\GamePlayerType;
+use App\Entities\Eloquent\Players\Repositories\MinecraftPlayerRepository;
+use App\Entities\Eloquent\GamePlayerType;
 
 
 class PlayerLookupService

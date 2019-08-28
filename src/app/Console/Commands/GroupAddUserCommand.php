@@ -2,13 +2,13 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Entities\Groups\GroupEnum;
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Groups\Repositories\GroupRepository;
+use App\Entities\Eloquent\Groups\GroupEnum;
+use App\Entities\Eloquent\Accounts\Models\Account;
+use App\Entities\Eloquent\Groups\Repositories\GroupRepository;
 use App\Services\Groups\DiscourseGroupSyncService;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Library\Discourse\Api\DiscourseUserApi;
-use App\Entities\Accounts\Repositories\AccountRepository;
+use App\Entities\Eloquent\Accounts\Repositories\AccountRepository;
 
 class GroupAddUserCommand extends Command
 {

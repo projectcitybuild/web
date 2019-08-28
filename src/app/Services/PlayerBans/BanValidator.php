@@ -2,8 +2,8 @@
 
 namespace App\Services\PlayerBans;
 
-use App\Entities\Bans\Models\GameBan;
-use App\Entities\ServerKeys\Models\ServerKey;
+use App\Entities\Eloquent\Bans\Models\GameBan;
+use App\Entities\Eloquent\ServerKeys\Models\ServerKey;
 use App\Exceptions\Http\UnauthorisedException;
 use App\Exceptions\Http\BadRequestException;
 use Illuminate\Support\Facades\Log;

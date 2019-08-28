@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Players\Models\MinecraftAuthCode;
+use App\Entities\Eloquent\Players\Models\MinecraftAuthCode;
 use App\Http\WebController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

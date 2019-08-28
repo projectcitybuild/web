@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Http\Request;
-use App\Entities\Players\Repositories\MinecraftPlayerRepository;
-use App\Entities\Players\Repositories\MinecraftPlayerAliasRepository;
+use App\Entities\Eloquent\Players\Repositories\MinecraftPlayerRepository;
+use App\Entities\Eloquent\Players\Repositories\MinecraftPlayerAliasRepository;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Support\Carbon;
 use App\Http\WebController;

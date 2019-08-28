@@ -1,10 +1,10 @@
 <?php
 namespace App\Console\Commands;
 
-use App\Entities\Servers\Repositories\ServerRepository;
+use App\Entities\Eloquent\Servers\Repositories\ServerRepository;
 use App\Services\Queries\ServerQueryService;
 use Illuminate\Console\Command;
-use App\Entities\Servers\Models\Server;
+use App\Entities\Eloquent\Servers\Models\Server;
 
 final class QueryServerCommand extends Command
 {

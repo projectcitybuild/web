@@ -4,7 +4,7 @@
 namespace Tests\Feature;
 
 
-use App\Entities\Accounts\Models\Account;
+use App\Entities\Eloquent\Accounts\Models\Account;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;

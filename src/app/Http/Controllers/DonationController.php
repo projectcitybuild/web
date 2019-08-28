@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Donations\Repositories\DonationRepository;
+use App\Entities\Eloquent\Donations\Repositories\DonationRepository;
 use App\Services\Donations\DonationCreationService;
 use App\Services\Donations\DonationStatsService;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard as Auth;
-use App\Entities\Groups\GroupEnum;
+use App\Entities\Eloquent\Groups\GroupEnum;
 use App\Library\Discourse\Api\DiscourseUserApi;
 use App\Services\Groups\DiscourseGroupSyncService;
-use App\Entities\Groups\Repositories\GroupRepository;
+use App\Entities\Eloquent\Groups\Repositories\GroupRepository;
 use App\Http\WebController;
 
 class DonationController extends WebController

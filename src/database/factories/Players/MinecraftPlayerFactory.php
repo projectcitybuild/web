@@ -1,12 +1,12 @@
 <?php
 
-use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Eloquent\Players\Models\MinecraftPlayer;
 
 /**
  * @var \Illuminate\Database\Eloquent\Factory $factory
  */
 $factory->define(MinecraftPlayer::class, function (Faker\Generator $faker) {
-    $account = factory(\App\Entities\Accounts\Models\Account::class)->create();
+    $account = factory(\App\Entities\Eloquent\Accounts\Models\Account::class)->create();
     return [
         'account_id' => $account->account_id,
         'uuid' => $faker->uuid,

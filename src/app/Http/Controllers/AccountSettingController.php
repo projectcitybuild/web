@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Accounts\Repositories\AccountEmailChangeRepository;
+use App\Entities\Eloquent\Accounts\Repositories\AccountEmailChangeRepository;
 use App\Http\Requests\AccountChangeEmailRequest;
 use App\Http\Requests\AccountChangeUsernameRequest;
 use App\Http\Requests\AccountChangePasswordRequest;

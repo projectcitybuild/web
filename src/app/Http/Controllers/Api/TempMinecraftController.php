@@ -6,14 +6,14 @@ use App\Http\ApiController;
 use Illuminate\Validation\Factory as Validator;
 use Illuminate\Http\Request;
 use App\Exceptions\Http\UnauthorisedException;
-use App\Entities\Accounts\Models\Account;
+use App\Entities\Eloquent\Accounts\Models\Account;
 use GuzzleHttp\Client;
 use Hash;
 use Illuminate\Support\Facades\Cache;
 use App\Exceptions\Http\BadRequestException;
 use App\Exceptions\Http\ServerException;
 use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Entities\Accounts\Resources\AccountResource;
+use App\Entities\Eloquent\Accounts\Resources\AccountResource;
 
 /**
  * Obsoleted as of 1.12.0

@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory as Validator;
-use App\Entities\Accounts\Repositories\AccountLinkRepository;
+use App\Entities\Eloquent\Accounts\Repositories\AccountLinkRepository;
 use App\Library\Discourse\Api\DiscourseUserApi;
 use App\Exceptions\Http\BadRequestException;
-use App\Entities\Accounts\Resources\AccountResource;
+use App\Entities\Eloquent\Accounts\Resources\AccountResource;
 
 final class DiscordSyncController extends ApiController
 {

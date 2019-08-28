@@ -3,7 +3,7 @@
 namespace App\Http\Composers;
 
 use Illuminate\View\View;
-use App\Entities\Servers\Repositories\ServerCategoryRepositoryContract;
+use App\Entities\Eloquent\Servers\Repositories\ServerCategoryRepositoryContract;
 
 final class MasterViewComposer
 {

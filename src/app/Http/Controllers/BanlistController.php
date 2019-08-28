@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Bans\Models\GameBan;
+use App\Entities\Eloquent\Bans\Models\GameBan;
 use App\Http\WebController;
 use Illuminate\Http\Request;
 

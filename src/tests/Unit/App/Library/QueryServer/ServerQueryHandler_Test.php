@@ -4,9 +4,9 @@ namespace Tests\Library\QueryServer;
 use Tests\TestCase;
 use App\Library\QueryServer\GameAdapters\MockQueryAdapter;
 use App\Library\QueryServer\ServerQueryHandler;
-use App\Entities\Servers\Repositories\ServerStatusRepository;
+use App\Entities\Eloquent\Servers\Repositories\ServerStatusRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Entities\Servers\Models\Server;
+use App\Entities\Eloquent\Servers\Models\Server;
 
 class ServerQueryHandler_Test extends TestCase
 {

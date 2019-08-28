@@ -2,10 +2,10 @@
 namespace App\Services\Donations;
 
 use App\Library\Stripe\StripeHandler;
-use App\Entities\Donations\Repositories\DonationRepository;
-use App\Entities\Payments\Repositories\AccountPaymentRepository;
+use App\Entities\Eloquent\Donations\Repositories\DonationRepository;
+use App\Entities\Eloquent\Payments\Repositories\AccountPaymentRepository;
 use Illuminate\Database\Connection;
-use App\Entities\Payments\AccountPaymentType;
+use App\Entities\Eloquent\Payments\AccountPaymentType;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Library\Discourse\Api\DiscourseUserApi;
 

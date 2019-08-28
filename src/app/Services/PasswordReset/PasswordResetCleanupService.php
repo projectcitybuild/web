@@ -1,7 +1,7 @@
 <?php
 namespace App\Services\PasswordReset;
 
-use App\Entities\Accounts\Repositories\AccountPasswordResetRepository;
+use App\Entities\Eloquent\Accounts\Repositories\AccountPasswordResetRepository;
 use Illuminate\Support\Facades\Log;
 
 class PasswordResetCleanupService

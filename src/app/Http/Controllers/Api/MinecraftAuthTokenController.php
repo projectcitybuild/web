@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\ApiController;
 use App\Exceptions\Http\ForbiddenException;
-use App\Entities\Players\Models\MinecraftPlayer;
-use App\Entities\Players\Models\MinecraftAuthCode;
+use App\Entities\Eloquent\Players\Models\MinecraftPlayer;
+use App\Entities\Eloquent\Players\Models\MinecraftAuthCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use App\Exceptions\Http\UnauthorisedException;
-use App\Entities\Accounts\Resources\AccountResource;
+use App\Entities\Eloquent\Accounts\Resources\AccountResource;
 use App\Exceptions\Http\BadRequestException;
 
 final class MinecraftAuthTokenController extends ApiController

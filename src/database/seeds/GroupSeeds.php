@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Seeder;
 
-use App\Entities\Groups\Models\Group;
-use App\Entities\Groups\GroupEnum;
+use App\Entities\Eloquent\Groups\Models\Group;
+use App\Entities\Eloquent\Groups\GroupEnum;
 
 class GroupSeeds extends Seeder
 {

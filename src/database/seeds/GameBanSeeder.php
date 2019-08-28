@@ -11,6 +11,6 @@ class GameBanSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Entities\Bans\Models\GameBan::class, 30)->create();
+        factory(\App\Entities\Eloquent\Bans\Models\GameBan::class, 30)->create();
     }
 }

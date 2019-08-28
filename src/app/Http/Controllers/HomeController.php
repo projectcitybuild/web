@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Services\Donations\DonationStatsService;
-use App\Entities\Players\Models\MinecraftPlayer;
-use App\Entities\Accounts\Models\Account;
+use App\Entities\Eloquent\Players\Models\MinecraftPlayer;
+use App\Entities\Eloquent\Accounts\Models\Account;
 use Illuminate\Support\Facades\Cache;
 use App\Http\WebController;
 

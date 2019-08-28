@@ -4,10 +4,10 @@
 namespace Tests\Feature;
 
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Bans\Models\GameBan;
-use App\Entities\Players\Models\MinecraftPlayer;
-use App\Entities\Players\Models\MinecraftPlayerAlias;
+use App\Entities\Eloquent\Accounts\Models\Account;
+use App\Entities\Eloquent\Bans\Models\GameBan;
+use App\Entities\Eloquent\Players\Models\MinecraftPlayer;
+use App\Entities\Eloquent\Players\Models\MinecraftPlayerAlias;
 use Tests\TestCase;
 
 class BanlistTest extends TestCase

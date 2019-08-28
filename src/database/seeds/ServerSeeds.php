@@ -2,11 +2,11 @@
 
 use Illuminate\Database\Seeder;
 
-use App\Entities\Servers\Models\ServerCategory;
-use App\Entities\Servers\Models\Server;
-use App\Entities\ServerKeys\Models\ServerKey;
-use App\Entities\GameType;
-use App\Entities\Servers\Repositories\ServerKeyTokenRepository;
+use App\Entities\Eloquent\Servers\Models\ServerCategory;
+use App\Entities\Eloquent\Servers\Models\Server;
+use App\Entities\Eloquent\ServerKeys\Models\ServerKey;
+use App\Entities\Eloquent\GameType;
+use App\Entities\Eloquent\Servers\Repositories\ServerKeyTokenRepository;
 
 class ServerSeeds extends Seeder
 {

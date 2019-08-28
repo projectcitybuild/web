@@ -1,7 +1,7 @@
 <?php
 namespace App\Services\Donations;
 
-use App\Entities\Donations\Repositories\DonationRepository;
+use App\Entities\Eloquent\Donations\Repositories\DonationRepository;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Library\Discourse\Api\DiscourseUserApi;
 

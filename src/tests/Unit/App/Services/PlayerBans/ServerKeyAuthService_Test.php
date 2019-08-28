@@ -6,7 +6,7 @@ use App\Services\PlayerBans\ServerKeyAuthService;
 use App\Services\PlayerBans\Exceptions\MalformedTokenException;
 use App\Exceptions\Http\ForbiddenException;
 use App\Exceptions\Http\UnauthorisedException;
-use App\Entities\ServerKeys\Models\ServerKey;
+use App\Entities\Eloquent\ServerKeys\Models\ServerKey;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ServerKeyAuthService_Test extends TestCase

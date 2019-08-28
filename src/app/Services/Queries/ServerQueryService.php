@@ -6,8 +6,8 @@ use App\Library\QueryServer\ServerQueryResult;
 use App\Services\Queries\Jobs\ServerQueryJob;
 use App\Services\Queries\Jobs\PlayerQueryJob;
 use App\Services\Queries\Entities\ServerJobEntity;
-use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
-use App\Entities\GameType;
+use App\Entities\Eloquent\Servers\Repositories\ServerStatusPlayerRepository;
+use App\Entities\Eloquent\GameType;
 
 final class ServerQueryService
 {

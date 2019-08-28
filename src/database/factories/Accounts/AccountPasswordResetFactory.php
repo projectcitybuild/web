@@ -2,8 +2,8 @@
 
 /* @var $factory \Illuminate\Database\Eloquent\Factory */
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Accounts\Models\AccountPasswordReset;
+use App\Entities\Eloquent\Accounts\Models\Account;
+use App\Entities\Eloquent\Accounts\Models\AccountPasswordReset;
 use App\Helpers\TokenHelpers;
 use Faker\Generator as Faker;
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Entities\Accounts\Repositories\AccountRepository;
+use App\Entities\Eloquent\Accounts\Repositories\AccountRepository;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 

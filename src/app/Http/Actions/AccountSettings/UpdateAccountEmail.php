@@ -3,10 +3,10 @@
 namespace App\Http\Actions\AccountSettings;
 
 use Illuminate\Support\Facades\DB;
-use App\Entities\Accounts\Models\Account;
+use App\Entities\Eloquent\Accounts\Models\Account;
 use App\Library\Discourse\Entities\DiscoursePayload;
 use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Entities\Accounts\Models\AccountEmailChange;
+use App\Entities\Eloquent\Accounts\Models\AccountEmailChange;
 
 final class UpdateAccountEmail
 {

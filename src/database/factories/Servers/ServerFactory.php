@@ -1,8 +1,8 @@
 <?php
 
-use App\Entities\Servers\Models\Server;
-use App\Entities\GameType;
-use App\Entities\Servers\Models\ServerCategory;
+use App\Entities\Eloquent\Servers\Models\Server;
+use App\Entities\Eloquent\GameType;
+use App\Entities\Eloquent\Servers\Models\ServerCategory;
 
 /**
  * @var \Illuminate\Database\Eloquent\Factory $factory

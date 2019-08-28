@@ -2,8 +2,8 @@
 namespace App\Library\QueryPlayer\GameAdapters;
 
 use App\Library\QueryPlayer\PlayerQueryAdapterContract;
-use App\Entities\Players\Services\MinecraftPlayerLookupService;
-use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Eloquent\Players\Services\MinecraftPlayerLookupService;
+use App\Entities\Eloquent\Players\Models\MinecraftPlayer;
 use App\Library\Mojang\Api\MojangPlayerApi;
 use App\Library\Mojang\Models\MojangPlayer;
 

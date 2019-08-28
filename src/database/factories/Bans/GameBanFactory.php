@@ -4,10 +4,10 @@
  * @var \Illuminate\Database\Eloquent\Factory $factory
  */
 
-use App\Entities\Bans\Models\GameBan;
-use App\Entities\Players\Models\MinecraftPlayer;
-use App\Entities\Players\Models\MinecraftPlayerAlias;
-use App\Entities\Servers\Models\Server;
+use App\Entities\Eloquent\Bans\Models\GameBan;
+use App\Entities\Eloquent\Players\Models\MinecraftPlayer;
+use App\Entities\Eloquent\Players\Models\MinecraftPlayerAlias;
+use App\Entities\Eloquent\Servers\Models\Server;
 
 $factory->define(GameBan::class, function (Faker\Generator $faker) {
     $bannedPlayer = factory(MinecraftPlayer::class)->create();

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\ApiController;
-use App\Entities\Groups\Repositories\GroupRepository;
-use App\Entities\Groups\Resources\GroupResource;
+use App\Entities\Eloquent\Groups\Repositories\GroupRepository;
+use App\Entities\Eloquent\Groups\Resources\GroupResource;
 
 final class GroupApiController extends ApiController
 {

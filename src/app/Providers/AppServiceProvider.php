@@ -6,18 +6,18 @@ use App\Rules\DiscourseUsernameRule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Eloquent\Players\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\View;
-use App\Entities\Donations\Models\Donation;
-use App\Entities\Payments\AccountPaymentType;
+use App\Entities\Eloquent\Donations\Models\Donation;
+use App\Entities\Eloquent\Payments\AccountPaymentType;
 use App\Http\Composers\MasterViewComposer;
-use App\Entities\GamePlayerType;
+use App\Entities\Eloquent\GamePlayerType;
 use Schema;
-use App\Entities\Servers\Repositories\ServerCategoryRepositoryCache;
-use App\Entities\Servers\Repositories\ServerCategoryRepositoryContract;
+use App\Entities\Eloquent\Servers\Repositories\ServerCategoryRepositoryCache;
+use App\Entities\Eloquent\Servers\Repositories\ServerCategoryRepositoryContract;
 use Illuminate\Contracts\Cache\Factory as Cache;
 use App\Services\Queries\ServerQueryService;
-use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
+use App\Entities\Eloquent\Servers\Repositories\ServerStatusPlayerRepository;
 
 final class AppServiceProvider extends ServiceProvider
 {
@@ -31,7 +31,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->bind(ServerCategoryRepositoryContract::class, function($app) {
             return new ServerCategoryRepositoryCache(
                 $app->make(Cache::class),
-                $app->make(\App\Entities\Servers\Repositories\ServerCategoryRepository::class)
+                $app->make(\App\Entities\Eloquent\Servers\Repositories\ServerCategoryRepository::class)
             );
         });
         $this->app->singleton(\App\Services\Queries\ServerQueryService::class, function($app) {

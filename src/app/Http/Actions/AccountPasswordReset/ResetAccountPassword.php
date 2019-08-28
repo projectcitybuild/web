@@ -3,9 +3,9 @@
 namespace App\Http\Actions\AccountPasswordReset;
 
 use App\Http\Actions\AccountSettings\UpdateAccountPassword;
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Accounts\Models\AccountPasswordReset;
-use App\Entities\Accounts\Notifications\AccountPasswordResetCompleteNotification;
+use App\Entities\Eloquent\Accounts\Models\Account;
+use App\Entities\Eloquent\Accounts\Models\AccountPasswordReset;
+use App\Entities\Eloquent\Accounts\Notifications\AccountPasswordResetCompleteNotification;
 use App\Exceptions\Http\NotFoundException;
 use Illuminate\Support\Facades\DB;
 

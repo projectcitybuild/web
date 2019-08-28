@@ -2,15 +2,15 @@
 
 namespace App\Services\PlayerBans;
 
-use App\Entities\Bans\Repositories\GameBanRepository;
-use App\Entities\Bans\Models\GameBan;
-use App\Entities\GamePlayerType;
+use App\Entities\Eloquent\Bans\Repositories\GameBanRepository;
+use App\Entities\Eloquent\Bans\Models\GameBan;
+use App\Entities\Eloquent\GamePlayerType;
 use App\Services\PlayerLookup\PlayerLookupService;
 use App\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
-use App\Entities\ServerKeys\Models\ServerKey;
+use App\Entities\Eloquent\ServerKeys\Models\ServerKey;
 use App\Services\PlayerBans\Exceptions\UnauthorisedKeyActionException;
-use App\Entities\Bans\Repositories\GameUnbanRepository;
-use App\Entities\Bans\Models\GameUnban;
+use App\Entities\Eloquent\Bans\Repositories\GameUnbanRepository;
+use App\Entities\Eloquent\Bans\Models\GameUnban;
 use Illuminate\Support\Facades\DB;
 use App\Services\PlayerBans\Exceptions\UserNotBannedException;
 use Carbon\Carbon;

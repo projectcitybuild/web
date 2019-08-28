@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Entities\ServerKeys\Models\ServerKey;
-use App\Entities\Servers\Models\Server;
+use App\Entities\Eloquent\ServerKeys\Models\ServerKey;
+use App\Entities\Eloquent\Servers\Models\Server;
 use Illuminate\Support\Str;
 
 final class ServerKeyCreateCommand extends Command

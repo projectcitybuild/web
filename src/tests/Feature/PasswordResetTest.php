@@ -4,9 +4,9 @@
 namespace Tests\Feature;
 
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Accounts\Models\AccountPasswordReset;
-use App\Entities\Accounts\Notifications\AccountPasswordResetNotification;
+use App\Entities\Eloquent\Accounts\Models\Account;
+use App\Entities\Eloquent\Accounts\Models\AccountPasswordReset;
+use App\Entities\Eloquent\Accounts\Notifications\AccountPasswordResetNotification;
 use App\Http\Actions\AccountPasswordReset\SendPasswordResetEmail;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
