@@ -15,8 +15,8 @@ class AccountGameAccount
             return abort(422);
         }
 
-        $minecraftPlayer->aliases()->delete();
-        $minecraftPlayer->delete();
+        $minecraftPlayer->account_id = null;
+        $minecraftPlayer->save();
 
         return redirect()->back();
     }
