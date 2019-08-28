@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Panel;
 
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Groups\Models\Group;
+use App\Http\Requests\PanelUpdateUserRequest;
 use App\Http\WebController;
 use Illuminate\Http\Request;
 
@@ -62,7 +63,7 @@ class AccountController extends WebController
      */
     public function edit(Account $account)
     {
-        //
+        return view('front.pages.panel.account.edit')->with(compact('account'));
     }
 
     /**
@@ -74,7 +75,12 @@ class AccountController extends WebController
      */
     public function update(Request $request, Account $account)
     {
-        //
+        $account->update($request->all());
+        $account->save();
+
+        $account->emailChangeRequests()->delete();
+
+        return redirect(route('front.panel.accounts.show', $account));
     }
 
     /**
