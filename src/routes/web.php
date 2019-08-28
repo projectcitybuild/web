@@ -169,6 +169,8 @@ Route::group(['middleware' => 'auth'], function() {
 Route::get('bans', 'BanlistController@index')->name('front.banlist');
 
 Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel'], function() {
+    Route::view('/', 'front.pages.panel');
+
     Route::resource('accounts', 'AccountController');
 
     Route::group(['prefix' => 'accounts/{account}', 'as' => 'accounts.'], function() {
@@ -195,6 +197,11 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
         Route::delete('game-account/{minecraftPlayer}', [
             'as'   => 'game-account.delete',
             'uses' => 'AccountGameAccount@delete'
+        ]);
+
+        Route::post('update-groups', [
+            'as'   => 'update-groups',
+            'uses' => 'AccountUpdateGroups'
         ]);
     });
 });
