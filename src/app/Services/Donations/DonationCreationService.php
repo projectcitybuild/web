@@ -4,10 +4,8 @@ namespace App\Services\Donations;
 use App\Library\Stripe\StripeHandler;
 use App\Entities\Eloquent\Donations\Repositories\DonationRepository;
 use App\Entities\Eloquent\Payments\Repositories\AccountPaymentRepository;
-use Illuminate\Database\Connection;
 use App\Entities\Eloquent\Payments\AccountPaymentType;
-use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Library\Discourse\Api\DiscourseUserApi;
+use Illuminate\Support\Facades\DB;
 
 class DonationCreationService
 {
@@ -28,39 +26,19 @@ class DonationCreationService
     private $paymentRepository;
 
     /**
-     * @var Connection
-     */
-    private $connection;
-
-    /**
      * @var StripeHandler
      */
     private $stripeHandler;
 
-    /**
-     * @var DiscourseAdminApi
-     */
-    private $discourseAdminApi;
 
-    /**
-     * @var DiscourseUserApi
-     */
-    private $discourseUserApi;
-
-
-    public function __construct(DonationRepository $donationRepository,
-                                AccountPaymentRepository $paymentRepository,
-                                Connection $connection,
-                                StripeHandler $stripeHandler,
-                                DiscourseAdminApi $discourseAdminApi,
-                                DiscourseUserApi $discourseUserApi)
-    {
+    public function __construct(
+        DonationRepository $donationRepository,
+        AccountPaymentRepository $paymentRepository,
+        StripeHandler $stripeHandler
+    ) {
         $this->donationRepository = $donationRepository;
         $this->paymentRepository = $paymentRepository;
-        $this->connection = $connection;
         $this->stripeHandler = $stripeHandler;
-        $this->discourseAdminApi = $discourseAdminApi;
-        $this->discourseUserApi = $discourseUserApi;
     }
 
 
@@ -69,7 +47,7 @@ class DonationCreationService
         $amountInDollars = (float)($amountInCents / 100);
 
         try {
-            $charge = $this->stripeHandler->charge($amountInCents, $stripeToken, null, $email, 'PCB Contribution');
+            $this->stripeHandler->charge($amountInCents, $stripeToken, null, $email, 'PCB Contribution');
         } catch (\Exception $e) {
             throw $e;
         }
@@ -81,25 +59,29 @@ class DonationCreationService
             $donationExpiry = now()->addMonths(floor($amountInDollars / 3));
         }
 
-        $this->connection->beginTransaction();
+        DB::beginTransaction();
         try {
-            $donation = $this->donationRepository->create($pcbId,
-                                                          $amountInDollars,
-                                                          $donationExpiry,
-                                                          $isLifetime);
-
-            $payment = $this->paymentRepository->create(new AccountPaymentType(AccountPaymentType::Donation),
-                                                        $donation->getKey(),
-                                                        $amountInCents,
-                                                        $stripeToken,
-                                                        $pcbId,
-                                                        true);
-            $this->connection->commit();
-            return $donation;
-            
-        } catch (\Exception $e) {
-            $this->connection->rollBack();
+            $donation = $this->donationRepository->create(
+                $pcbId,
+                $amountInDollars,
+                $donationExpiry,
+                $isLifetime
+            );
+            $this->paymentRepository->create(
+                new AccountPaymentType(AccountPaymentType::Donation),
+                $donation->getKey(),
+                $amountInCents,
+                $stripeToken,
+                $pcbId,
+                true
+            );
+            DB::commit();
+        } 
+        catch (\Exception $e) {
+            DB::rollBack();
             throw $e;
         }
+
+        return $donation;
     }
 }

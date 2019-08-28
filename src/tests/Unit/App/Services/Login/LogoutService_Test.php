@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Services;
 
 use Tests\TestCase;
@@ -52,36 +53,29 @@ class LogoutService_Test extends TestCase
 
     public function testLogoutOfPcb_canLogout()
     {
-        // given...
         $auth = resolve(Auth::class);
         $service = new LogoutService($this->discourseUserApiMock, $this->discourseAdminApiMock, $auth, $this->loggerStub);
         $this->loginAsUser($auth);
 
-        // when...
         $service->logoutOfPCB();
 
-        // expect...
         $this->assertFalse($auth->check());
     }
     
     public function testLogoutOfPcb_notLoggedIn_doesNothing()
     {
-        // given...
         $auth = resolve(Auth::class);
         $service = new LogoutService($this->discourseUserApiMock, $this->discourseAdminApiMock, $auth, $this->loggerStub);
 
         $this->assertFalse($auth->check());
 
-        // when...
         $result = $service->logoutOfPCB();
 
-        // expect...
         $this->assertFalse($result);
     }
 
     public function testLogoutOfBoth_canLogoutOfPcb()
     {
-        // given...
         $this->discourseUserApiMock
             ->expects($this->once())
             ->method('fetchUserByPcbId')
@@ -96,16 +90,13 @@ class LogoutService_Test extends TestCase
         $service = new LogoutService($this->discourseUserApiMock, $this->discourseAdminApiMock, $auth, $this->loggerStub);
         $this->loginAsUser($auth);
 
-        // when...
         $service->logoutOfDiscourseAndPcb();
 
-        // expect...
         $this->assertFalse($auth->check());
     }
 
     public function testLogoutOfBoth_usesCorrectDiscourseId()
     {
-        // given...
         $discourseId = 111;
 
         $this->discourseUserApiMock
@@ -122,13 +113,11 @@ class LogoutService_Test extends TestCase
         $service = new LogoutService($this->discourseUserApiMock, $this->discourseAdminApiMock, $auth, $this->loggerStub);
         $this->loginAsUser($auth);
 
-        // expect...
         $this->discourseAdminApiMock
             ->expects($this->once())
             ->method('requestLogout')
             ->with($this->equalTo($discourseId));
 
-        // when...
         $service->logoutOfDiscourseAndPcb();
     }
 }

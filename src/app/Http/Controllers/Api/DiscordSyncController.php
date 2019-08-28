@@ -6,7 +6,6 @@ use App\Http\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory as Validator;
 use App\Entities\Eloquent\Accounts\Repositories\AccountLinkRepository;
-use App\Library\Discourse\Api\DiscourseUserApi;
 use App\Exceptions\Http\BadRequestException;
 use App\Entities\Eloquent\Accounts\Resources\AccountResource;
 

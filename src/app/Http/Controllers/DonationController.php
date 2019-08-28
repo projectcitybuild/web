@@ -4,15 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Entities\Eloquent\Donations\Repositories\DonationRepository;
 use App\Services\Donations\DonationCreationService;
-use App\Services\Donations\DonationStatsService;
-use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use App\Entities\Eloquent\Groups\GroupEnum;
-use App\Library\Discourse\Api\DiscourseUserApi;
 use App\Services\Groups\DiscourseGroupSyncService;
 use App\Entities\Eloquent\Groups\Repositories\GroupRepository;
+use App\Entities\Requests\Discourse\DiscourseUserFetchAPIRequest;
 use App\Http\WebController;
+use App\Library\APIClient\APIClient;
 
 class DonationController extends WebController
 {
@@ -27,9 +26,9 @@ class DonationController extends WebController
     private $donationCreationService;
 
     /**
-     * @var DiscourseUserApi
+     * @var APIClient
      */
-    private $discourseUserApi;
+    private $apiClient;
 
     /**
      * @var DiscourseGroupSyncService
@@ -50,14 +49,14 @@ class DonationController extends WebController
     public function __construct(
         DonationRepository $donationRepository,
         DonationCreationService $donationCreationService,
-        DiscourseUserApi $discourseUserApi,
+        APIClient $apiClient,
         DiscourseGroupSyncService $groupSyncService,
         GroupRepository $groupRepository,
         Auth $auth
     ) {
         $this->donationRepository = $donationRepository;
         $this->donationCreationService = $donationCreationService;
-        $this->discourseUserApi = $discourseUserApi;
+        $this->apiClient = $apiClient;
         $this->groupSyncService = $groupSyncService;
         $this->groupRepository = $groupRepository;
         $this->auth = $auth;
@@ -104,7 +103,8 @@ class DonationController extends WebController
             $donatorGroupId = $donatorGroup->getKey();
             
             if ($account->groups->contains($donatorGroupId) === false) {
-                $discourseUser = $this->discourseUserApi->fetchUserByPcbId($account->getKey());
+                $request = new DiscourseUserFetchAPIRequest($account->getKey());
+                $discourseUser = $this->apiClient->request($request);
                 $discourseId = $discourseUser['user']['id'];
     
                 $this->groupSyncService->addUserToGroup($discourseId, $account, $group);

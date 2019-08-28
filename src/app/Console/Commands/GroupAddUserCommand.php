@@ -3,12 +3,11 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Entities\Eloquent\Groups\GroupEnum;
-use App\Entities\Eloquent\Accounts\Models\Account;
 use App\Entities\Eloquent\Groups\Repositories\GroupRepository;
 use App\Services\Groups\DiscourseGroupSyncService;
-use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Library\Discourse\Api\DiscourseUserApi;
 use App\Entities\Eloquent\Accounts\Repositories\AccountRepository;
+use App\Entities\Requests\Discourse\DiscourseUserFetchAPIRequest;
+use App\Library\APIClient\APIClient;
 
 class GroupAddUserCommand extends Command
 {
@@ -38,9 +37,9 @@ class GroupAddUserCommand extends Command
     private $groupRepository;
 
     /**
-     * @var DiscourseUserApi
+     * @var APIClient
      */
-    private $userApi;
+    private $apiClient;
 
     /**
      * @var DiscourseGroupSyncService
@@ -51,14 +50,14 @@ class GroupAddUserCommand extends Command
     public function __construct(
         AccountRepository $accountRepository,
         GroupRepository $groupRepository,
-        DiscourseUserApi $userApi,
+        APIClient $apiClient,
         DiscourseGroupSyncService $groupSyncService
     ) {
         parent::__construct();
 
         $this->accountRepository = $accountRepository;
         $this->groupRepository = $groupRepository;
-        $this->userApi = $userApi;
+        $this->apiClient = $apiClient;
         $this->groupSyncService = $groupSyncService;
     }
 
@@ -94,7 +93,8 @@ class GroupAddUserCommand extends Command
             return;
         }
 
-        $discourseUser = $this->userApi->fetchUserByPcbId($account->getKey());
+        $request = new DiscourseUserFetchAPIRequest($account->getKey());
+        $discourseUser = $this->apiClient->request($request);
         $discourseId = $discourseUser['user']['id'];
 
         $this->groupSyncService->addUserToGroup($discourseId, $account, $rawGroup);

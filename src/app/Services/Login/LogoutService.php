@@ -1,19 +1,19 @@
 <?php
 namespace App\Services\Login;
 
+use App\Entities\Requests\Discourse\DiscourseUserFetchAPIRequest;
+use App\Library\APIClient\APIClient;
 use Illuminate\Contracts\Auth\Guard as Auth;
-use App\Library\Discourse\Api\DiscourseUserApi;
 use GuzzleHttp\Exception\ClientException;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use Illuminate\Support\Facades\Log;
 
-class LogoutService 
+final class LogoutService 
 {
-
     /**
-     * @var DiscourseUserApi
+     * @var APIClient
      */
-    private $discourseUserApi;
+    private $apiClient;
 
     /**
      * @var DiscourseAdminApi
@@ -27,11 +27,11 @@ class LogoutService
 
     
     public function __construct(
-        DiscourseUserApi $discourseUserApi,
+        APIClient $apiClient,
         DiscourseAdminApi $discourseAdminApi,
         Auth $auth
     ) {
-        $this->discourseUserApi = $discourseUserApi;
+        $this->apiClient = $apiClient;
         $this->discourseAdminApi = $discourseAdminApi;
         $this->auth = $auth;
     }
@@ -94,7 +94,8 @@ class LogoutService
      */
     private function getDiscourseUser(int $pcbId) : array
     {
-        $result = $this->discourseUserApi->fetchUserByPcbId($pcbId);
+        $request = new DiscourseUserFetchAPIRequest($pcbId);
+        $result = $this->apiClient->request($request);
 
         $user = $result['user'];
         if ($user === null) {

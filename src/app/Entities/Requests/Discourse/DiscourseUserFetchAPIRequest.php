@@ -27,7 +27,7 @@ final class DiscourseUserFetchAPIRequest extends APIRequest
 
     private $pcbUserId;
 
-    public function __construct(string $pcbUserId)
+    public function __construct(int $pcbUserId)
     {
         $this->pcbUserId = $pcbUserId;
     }

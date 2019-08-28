@@ -2,8 +2,9 @@
 namespace App\Services\Donations;
 
 use App\Entities\Eloquent\Donations\Repositories\DonationRepository;
+use App\Entities\Requests\Discourse\DiscourseUserFetchAPIRequest;
+use App\Library\APIClient\APIClient;
 use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Library\Discourse\Api\DiscourseUserApi;
 
 class DonationDeactivatorService
 {
@@ -18,18 +19,19 @@ class DonationDeactivatorService
     private $discourseAdminApi;
 
     /**
-     * @var DiscourseUserApi
+     * @var APIClient
      */
-    private $discourseUserApi;
+    private $apiClient;
 
 
-    public function __construct(DonationRepository $donationRepository,
-                                DiscourseAdminApi $discourseAdminApi,
-                                DiscourseUserApi $discourseUserApi)
-    {
+    public function __construct(
+        DonationRepository $donationRepository,
+        DiscourseAdminApi $discourseAdminApi,
+        APIClient $apiClient
+    ) {
         $this->donationRepository = $donationRepository;
         $this->discourseAdminApi = $discourseAdminApi;
-        $this->discourseUserApi = $discourseUserApi;
+        $this->apiClient = $apiClient;
     }
 
     public function execute()
@@ -45,7 +47,8 @@ class DonationDeactivatorService
             $pcbAccountId = $expiredDonation->account_id;
 
             if (in_array($pcbAccountId, $deactivatedDonators) === false) {
-                $result = $this->discourseUserApi->fetchUserByPcbId($pcbAccountId);
+                $request = new DiscourseUserFetchAPIRequest($pcbAccountId);
+                $result = $this->apiClient->request($request);
                 
                 $discourseAccountId = $result['user']['id'];
                 if ($discourseAccountId === null) {
