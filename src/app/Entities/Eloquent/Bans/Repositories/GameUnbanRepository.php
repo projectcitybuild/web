@@ -4,7 +4,7 @@ namespace App\Entities\Eloquent\Bans\Repositories;
 
 use App\Repository;
 use App\Entities\Eloquent\Bans\Models\GameUnban;
-use App\Entities\Eloquent\GamePlayerType;
+use App\Entities\GamePlayerType;
 
 final class GameUnbanRepository extends Repository
 {

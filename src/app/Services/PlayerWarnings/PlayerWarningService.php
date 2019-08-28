@@ -2,7 +2,7 @@
 namespace App\Services\PlayerWarnings;
 
 use App\Entities\Eloquent\Warnings\Repositories\GameWarningRepository;
-use App\Entities\Eloquent\GamePlayerType;
+use App\Entities\GamePlayerType;
 use App\Services\PlayerLookup\PlayerLookupService;
 
 

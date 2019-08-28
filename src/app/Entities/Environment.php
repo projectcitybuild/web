@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-use App\Entities\Eloquent\EnvironmentLevel;
+use App\Entities\EnvironmentLevel;
 
 final class Environment
 {

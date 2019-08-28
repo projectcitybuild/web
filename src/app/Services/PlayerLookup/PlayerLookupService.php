@@ -2,7 +2,7 @@
 namespace App\Services\PlayerLookup;
 
 use App\Entities\Eloquent\Players\Repositories\MinecraftPlayerRepository;
-use App\Entities\Eloquent\GamePlayerType;
+use App\Entities\GamePlayerType;
 
 
 class PlayerLookupService

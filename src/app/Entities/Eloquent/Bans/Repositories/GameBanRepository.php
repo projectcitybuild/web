@@ -5,7 +5,7 @@ namespace App\Entities\Eloquent\Bans\Repositories;
 use App\Entities\Eloquent\Bans\Models\GameBan;
 use App\Repository;
 use Illuminate\Database\Eloquent\Collection;
-use App\Entities\Eloquent\GamePlayerType;
+use App\Entities\GamePlayerType;
 use Carbon\Carbon;
 
 final class GameBanRepository extends Repository

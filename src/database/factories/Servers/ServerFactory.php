@@ -1,7 +1,7 @@
 <?php
 
 use App\Entities\Eloquent\Servers\Models\Server;
-use App\Entities\Eloquent\GameType;
+use App\Entities\GameType;
 use App\Entities\Eloquent\Servers\Models\ServerCategory;
 
 /**

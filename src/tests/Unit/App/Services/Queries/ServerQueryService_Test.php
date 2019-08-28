@@ -4,7 +4,7 @@ namespace Tests\Services;
 use Tests\TestCase;
 use App\Services\Queries\ServerQueryService;
 use Illuminate\Support\Facades\Queue;
-use App\Entities\Eloquent\GameType;
+use App\Entities\GameType;
 use App\Services\Queries\Jobs\ServerQueryJob;
 use App\Services\Queries\Jobs\PlayerQueryJob;
 use App\Services\Queries\Entities\ServerJobEntity;
