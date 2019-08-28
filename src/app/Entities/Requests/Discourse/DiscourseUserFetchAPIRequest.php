@@ -5,6 +5,9 @@ namespace App\Entities\Requests\Discourse;
 use App\Library\APIClient\APIRequest;
 use App\Library\APIClient\APIRequestMethod;
 
+/**
+ * Finds a Discourse account that belongs to the given PCB account id
+ */
 final class DiscourseUserFetchAPIRequest extends APIRequest
 {
     public function path(): string 
