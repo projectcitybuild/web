@@ -183,17 +183,25 @@
                         <th>Playtime</th>
                         <th>Last Seen</th>
                         <th>First Seen</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($account->minecraftAccount as $account)
+                    @foreach($account->minecraftAccount as $player)
                         <tr>
-                            <td><img src="https://minotar.net/avatar/{{ $account->uuid }}/16" alt=""></td>
-                            <td>{{ $account->getBanReadableName() }}</td>
-                            <td>{{ $account->uuid }}</td>
-                            <td>{{ $account->playtime }}</td>
-                            <td>{{ $account->last_seen_at }}</td>
-                            <td>{{ $account->created_at }}</td>
+                            <td><img src="https://minotar.net/avatar/{{ $player->uuid }}/16" alt=""></td>
+                            <td>{{ $player->getBanReadableName() }}</td>
+                            <td>{{ $player->uuid }}</td>
+                            <td>{{ $player->playtime }}</td>
+                            <td>{{ $player->last_seen_at }}</td>
+                            <td>{{ $player->created_at }}</td>
+                            <td>
+                                <form action="{{ route('front.panel.accounts.game-account.delete', [$account, $player]) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button>Delete</button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

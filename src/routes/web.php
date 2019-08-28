@@ -191,5 +191,10 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
             'as'   => 'email-change.approve',
             'uses' => 'AccountApproveEmailChange'
         ]);
+
+        Route::delete('game-account/{minecraftPlayer}', [
+            'as'   => 'game-account.delete',
+            'uses' => 'AccountGameAccount@delete'
+        ]);
     });
 });

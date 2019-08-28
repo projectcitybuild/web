@@ -49,7 +49,7 @@ final class MinecraftPlayer extends Model implements BannableModelInterface
 
     public function account()
     {
-        return $this->hasOne(Account::class, 'account_id', 'account_id');
+        return $this->belongsTo(Account::class, 'account_id', 'account_id');
     }
 
     public function aliases()
