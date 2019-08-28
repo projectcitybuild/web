@@ -186,5 +186,10 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
             'as'   => 'resend-activation',
             'uses' => 'AccountResendActivation'
         ]);
+
+        Route::post('email-change/{accountEmailChange}/approve', [
+            'as'   => 'email-change.approve',
+            'uses' => 'AccountApproveEmailChange'
+        ]);
     });
 });

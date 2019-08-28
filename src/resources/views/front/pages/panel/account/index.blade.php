@@ -33,7 +33,9 @@
                     <td>{{ $account->email }}</td>
                     <td>{{ $account->username }}</td>
                     <td>{{ $account->last_login_at }}</td>
-                    <td><a href="{{ route('front.panel.accounts.show', $account->account_id) }}">Manage</a> | <a href="{{ route('front.panel.accounts.discourse-admin-redirect', $account->account_id) }}" target="_blank">Discourse</a></td>
+                    <td><a href="{{ route('front.panel.accounts.show', $account->account_id) }}">Manage</a> | <a
+                            href="{{ route('front.panel.accounts.discourse-admin-redirect', $account->account_id) }}"
+                            target="_blank">Discourse</a></td>
                 </tr>
             @endforeach
             </tbody>

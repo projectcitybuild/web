@@ -56,6 +56,11 @@ final class Account extends Authenticatable
         return $this->hasMany(Donation::class, 'account_id');
     }
 
+    public function emailChangeRequests()
+    {
+        return $this->hasMany(AccountEmailChange::class, 'account_id');
+    }
+
     public function inGroup(Group $group)
     {
         return $this->groups->contains($group);

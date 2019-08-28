@@ -15,12 +15,12 @@
                 </div>
                 <div class="card__footer">
                     <form class="inline"
-                          action="{{ route('front.panel.accounts.resend-activation', $account->account_id) }}"
+                          action="{{ route('front.panel.accounts.resend-activation', $account) }}"
                           method="post">
                         @csrf
                         <button class="button button--primary" type="submit">Resend activation</button>
                     </form>
-                    <form class="inline" action="{{ route('front.panel.accounts.activate', $account->account_id) }}"
+                    <form class="inline" action="{{ route('front.panel.accounts.activate', $account) }}"
                           method="post">
                         @csrf
                         <button class="button button--secondary" type="submit">Manually activate</button>
@@ -31,7 +31,7 @@
 
         <div class="card card--no-padding">
             <div class="card__header">
-                Details
+                Details <a href="{{ route('front.panel.accounts.edit', $account) }}" class="spaced-icon-link"><i class="fas fa-pencil-alt"></i>Edit</a>
             </div>
             <div class="card__body">
                 <table class="table table--divided">
@@ -39,6 +39,39 @@
                         <td>Email</td>
                         <td>
                             {{ $account->email }}
+
+                            @forelse($account->emailChangeRequests as $request)
+                                <div>
+                                    <strong>Pending Changes:</strong>
+                                    <ul>
+                                        <li>
+                                            @if($request->is_previous_confirmed)
+                                                <i class="fas fa-check"></i>
+                                            @else
+                                                <i class="fas fa-times"></i>
+                                                @endif
+                                                {{ $request->email_previous }} &rarr;
+
+                                                @if($request->is_new_confirmed)
+                                                    <i class="fas fa-check"></i>
+                                                @else
+                                                    <i class="fas fa-times"></i>
+                                                @endif
+                                                {{ $request->email_new }}
+
+                                                <form
+                                                    class="inline"
+                                                    method="post"
+                                                    action="{{ route('front.panel.accounts.email-change.approve', [$account, $request]) }}">
+                                                    @csrf
+                                                    <button>Approve</button>
+                                                </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            @empty
+                                <em>No pending change requests</em>
+                            @endforelse
                         </td>
                     </tr>
                     <tr>
@@ -91,11 +124,12 @@
                 Groups
             </div>
             <div class="card__body">
-                <form action="">
+                <form action="" method="post">
+                    @csrf
                     @foreach($groups as $group)
                         <div>
                             <label><input type="checkbox" name="group_ids[]" value="{{ $group->id }}"
-                                @if($account->inGroup($group)) checked @endif
+                                          @if($account->inGroup($group)) checked @endif
                                 > {{ $group->name }}</label>
                         </div>
                     @endforeach
