@@ -168,7 +168,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 Route::get('bans', 'BanlistController@index')->name('front.banlist');
 
-Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel'], function() {
+Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel', 'middleware' => 'admin'], function() {
     Route::view('/', 'front.pages.panel');
 
     Route::resource('accounts', 'AccountController');

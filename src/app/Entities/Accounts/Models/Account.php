@@ -88,6 +88,11 @@ final class Account extends Authenticatable
         return $this->groups->contains($group);
     }
 
+    public function isAdmin()
+    {
+        return $this->groups()->where('is_admin', true)->count() > 0;
+    }
+
     /**
      * Gets an URL to the 'email change verification'
      * route with a signed signature to prevent
