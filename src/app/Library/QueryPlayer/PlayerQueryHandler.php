@@ -1,7 +1,8 @@
 <?php
+
 namespace App\Library\QueryPlayer;
 
-class PlayerQueryHandler
+final class PlayerQueryHandler
 {
     /**
      * @var PlayerQueryAdapterContract

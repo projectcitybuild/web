@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Library\QueryPlayer\GameAdapters;
 
 use App\Library\QueryPlayer\PlayerQueryAdapterContract;
@@ -6,7 +7,7 @@ use App\Entities\Players\Services\MinecraftPlayerLookupService;
 use App\Library\Mojang\Api\MojangPlayerApiContract;
 use App\Library\Mojang\Models\MojangPlayer;
 
-class MojangUuidAdapter implements PlayerQueryAdapterContract
+final class MojangUuidAdapter implements PlayerQueryAdapterContract
 {
     /**
      * @var MojangPlayerApiContract
@@ -32,7 +33,7 @@ class MojangUuidAdapter implements PlayerQueryAdapterContract
      */
     public function getUniqueIdentifiers(array $aliases = []) : array
     {
-        // split names into chunks since the Mojang API
+        // Split names into chunks since the Mojang API
         // won't allow more than 100 names in a batch at once
         $names = collect($aliases)->chunk(100);
 

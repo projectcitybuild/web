@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Library\RateLimit;
 
-class TokenState
+final class TokenState
 {
-
     /**
      * @var int
      */
@@ -20,7 +20,6 @@ class TokenState
         $this->tokensAvailable = $tokensAvailable;
         $this->lastConsumeTime = $lastConsumeTime;
     }
-
 
     public function toJSON() : string
     {
@@ -39,13 +38,17 @@ class TokenState
     {
         $tokens = json_decode($json, true);
         
-        return new TokenState($tokens['available'],
-                              $tokens['last_consume']);
+        return new TokenState(
+            $tokens['available'],
+            $tokens['last_consume']
+        );
     }
 
     public static function fromArray(array $array) : TokenState
     {
-        return new TokenState($array['available'],
-                              $array['last_consume']);
+        return new TokenState(
+            $array['available'],
+            $array['last_consume']
+        );
     }
 }

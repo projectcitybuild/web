@@ -1,15 +1,15 @@
 <?php
+
 namespace App\Library\RateLimit\Storage;
 
 use App\Library\RateLimit\TokenStorable;
 use App\Library\RateLimit\TokenState;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 /**
  * For use with user-scoped rate limitng
  */
-class SessionTokenStorage implements TokenStorable
+final class SessionTokenStorage implements TokenStorable
 {
     /**
      * @var string

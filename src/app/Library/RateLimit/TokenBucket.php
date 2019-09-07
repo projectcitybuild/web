@@ -1,23 +1,26 @@
 <?php
+
 namespace App\Library\RateLimit;
 
-class TokenBucket
+final class TokenBucket
 {
-
     /**
-     * Total number of tokens that this
-     * bucket can hold
+     * Total number of tokens that this bucket can hold
      *
      * @var int
      */
     private $capacity;
 
     /**
+     * Rate at which the bucket refills tokens
+     * 
      * @var TokenRate
      */
     private $rate;
     
     /**
+     * Persistent storage of remaining tokens
+     * 
      * @var TokenStorable
      */
     private $storage;
@@ -25,9 +28,9 @@ class TokenBucket
 
     public function __construct(int $capacity, TokenRate $refillRate, TokenStorable $storage)
     {
-        $this->capacity   = $capacity;
-        $this->rate       = $refillRate;
-        $this->storage    = $storage;
+        $this->capacity = $capacity;
+        $this->rate = $refillRate;
+        $this->storage = $storage;
 
         $this->storage->bootstrap();
     }
@@ -37,8 +40,8 @@ class TokenBucket
      * Returns false if not enough tokens are available,
      * or true otherwise
      *
-     * @param integer $tokensToConsume
-     * @return boolean Were enough tokens available?
+     * @param integer $tokensToConsume Number of tokens to be consumed
+     * @return boolean Whether enough tokens were available
      */
     public function consume(int $tokensToConsume = 1) : bool
     {

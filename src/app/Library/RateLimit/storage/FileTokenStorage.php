@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Library\RateLimit\Storage;
 
 use App\Library\RateLimit\TokenStorable;
@@ -7,9 +8,8 @@ use App\Library\RateLimit\TokenState;
 /**
  * For use with global-scoped rate limiting
  */
-class FileTokenStorage implements TokenStorable
+final class FileTokenStorage implements TokenStorable
 {
-
     /**
      * @var string
      */
