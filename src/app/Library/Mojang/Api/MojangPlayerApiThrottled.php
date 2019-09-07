@@ -26,9 +26,8 @@ final class MojangPlayerApiThrottled implements MojangPlayerApiContract
     private $mojangPlayerApi;
 
 
-    public function __construct(Client $client, MojangPlayerApiContract $mojangPlayerApi)
+    public function __construct(MojangPlayerApiContract $mojangPlayerApi)
     {
-        parent::__construct($client);
         $this->mojangPlayerApi = $mojangPlayerApi;
     }
 

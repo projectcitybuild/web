@@ -3,15 +3,13 @@ namespace App\Library\QueryPlayer\GameAdapters;
 
 use App\Library\QueryPlayer\PlayerQueryAdapterContract;
 use App\Entities\Players\Services\MinecraftPlayerLookupService;
-use App\Entities\Players\Models\MinecraftPlayer;
-use App\Library\Mojang\Api\MojangPlayerApi;
+use App\Library\Mojang\Api\MojangPlayerApiContract;
 use App\Library\Mojang\Models\MojangPlayer;
 
 class MojangUuidAdapter implements PlayerQueryAdapterContract
 {
-
     /**
-     * @var MojangPlayerApi
+     * @var MojangPlayerApiContract
      */
     private $mojangPlayerApi;
 
@@ -21,9 +19,10 @@ class MojangUuidAdapter implements PlayerQueryAdapterContract
     private $userLookupService;
 
 
-    public function __construct(MojangPlayerApi $mojangPlayerApi,
-                                MinecraftPlayerLookupService $userLookupService)
-    {
+    public function __construct(
+        MojangPlayerApiContract $mojangPlayerApi,
+        MinecraftPlayerLookupService $userLookupService
+    ) {
         $this->mojangPlayerApi = $mojangPlayerApi;
         $this->userLookupService = $userLookupService;
     }
