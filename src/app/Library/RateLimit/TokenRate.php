@@ -62,7 +62,7 @@ final class TokenRate
      * @param int $rate
      * @return TokenRate
      */
-    public function every(float $interval, int $rate) : TokenRate
+    public function every(float $interval, float $rate) : TokenRate
     {
         $this->interval = $interval;
         $this->rate = $rate;

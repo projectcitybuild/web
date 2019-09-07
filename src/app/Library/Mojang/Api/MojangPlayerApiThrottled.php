@@ -2,16 +2,13 @@
 
 namespace App\Library\Mojang\Api;
 
-use App\Library\RateLimit\TokenBucket;
-use App\Library\RateLimit\TokenRate;
-use App\Library\RateLimit\Storage\FileTokenStorage;
 use App\Library\Mojang\Models\MojangPlayer;
 use App\Library\Mojang\Models\MojangPlayerNameHistory;
 use App\Exceptions\Http\TooManyRequestsException;
+use App\Library\RateLimit\TokenBucketContract;
 
 /**
- * A proxy for the Mojang player API, but with
- * site-wide throttled access
+ * Adds global rate-limiting to the Mojang player API
  */
 final class MojangPlayerApiThrottled implements MojangPlayerApiContract
 {
@@ -26,20 +23,10 @@ final class MojangPlayerApiThrottled implements MojangPlayerApiContract
     private $mojangPlayerApi;
 
 
-    public function __construct(MojangPlayerApiContract $mojangPlayerApi)
+    public function __construct(TokenBucketContract $tokenBucket, MojangPlayerApiContract $mojangPlayerApi)
     {
+        $this->tokenBucket = $tokenBucket;
         $this->mojangPlayerApi = $mojangPlayerApi;
-    }
-
-    private function getTokenBucket() : TokenBucket
-    {
-        if ($this->tokenBucket === null) {
-            $refillRate = TokenRate::refill(600)->every(10, TokenRate::MINUTES);
-            $storage = new FileTokenStorage(storage_path('mojang-api.ratelimit'), 600);
-    
-            $this->tokenBucket = new TokenBucket(600, $refillRate, $storage);
-        }
-        return $this->tokenBucket;
     }
 
     private function throttle(int $tokensToConsume = 1) : bool

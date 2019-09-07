@@ -19,6 +19,9 @@ use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
 use App\Library\Mojang\Api\MojangPlayerApi;
 use App\Library\Mojang\Api\MojangPlayerApiContract;
 use App\Library\Mojang\Api\MojangPlayerApiThrottled;
+use App\Library\RateLimit\Storage\FileTokenStorage;
+use App\Library\RateLimit\TokenBucket;
+use App\Library\RateLimit\TokenRate;
 use GuzzleHttp\Client;
 use Schema;
 
@@ -78,9 +81,13 @@ final class AppServiceProvider extends ServiceProvider
             );
         });
         $this->app->bind(MojangPlayerApiContract::class, function($app) {
+            $refillRate = TokenRate::refill(600)->every(10, TokenRate::MINUTES);
+            $storage = new FileTokenStorage(storage_path('mojang-api.ratelimit'), 600);
+            $tokenBucket = new TokenBucket(600, $refillRate, $storage);
+            
             $client = $app->make(Client::class);
             $api = new MojangPlayerApi($client);
-            return new MojangPlayerApiThrottled($api);
+            return new MojangPlayerApiThrottled($tokenBucket, $api);
         });
     }
 }

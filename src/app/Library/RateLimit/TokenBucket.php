@@ -2,7 +2,7 @@
 
 namespace App\Library\RateLimit;
 
-final class TokenBucket
+final class TokenBucket implements TokenBucketContract
 {
     /**
      * Total number of tokens that this bucket can hold
@@ -36,12 +36,7 @@ final class TokenBucket
     }
 
     /**
-     * Attempts to consume the given number of tokens.
-     * Returns false if not enough tokens are available,
-     * or true otherwise
-     *
-     * @param integer $tokensToConsume Number of tokens to be consumed
-     * @return boolean Whether enough tokens were available
+     * @inheritDoc
      */
     public function consume(int $tokensToConsume = 1) : bool
     {
@@ -61,10 +56,7 @@ final class TokenBucket
     }
 
     /**
-     * Returns the number of tokens currently
-     * available for consumption
-     *
-     * @return float
+     * @inheritDoc
      */
     public function getAvailableTokens() : float
     {
@@ -83,6 +75,9 @@ final class TokenBucket
         return $availableTokens;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getCapacity() : int
     {
         return $this->capacity;
