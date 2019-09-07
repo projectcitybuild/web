@@ -39,7 +39,7 @@ final class SendPasswordEmailRequest extends FormRequest
     {
         return [
             'email'                 => 'email|required',
-            'g-recaptcha-response'  => 'required|recaptcha',
+            'g-recaptcha-response'  => 'recaptcha',
         ];
     }
 

@@ -17,7 +17,7 @@ use App\Entities\Accounts\Resources\AccountResource;
 
 /**
  * Obsoleted as of 1.12.0
- * 
+ *
  * @deprecated 1.11.0 Use the new authentication flow provided by MinecraftAuthenticationController
  */
 final class TempMinecraftController extends ApiController
@@ -40,6 +40,10 @@ final class TempMinecraftController extends ApiController
 
         if (Hash::check($request->get('password'), $account->password) === false) {
             throw new UnauthorisedException('invalid_credentials', 'Email and/or password is incorrect');
+        }
+
+        if (!$account->activated) {
+            throw new UnauthorisedException('invalid_credentials', 'Your account hasn\'t been activated.');
         }
 
         // force group load

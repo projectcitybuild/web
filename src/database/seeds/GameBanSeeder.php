@@ -11,13 +11,6 @@ class GameBanSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Entities\Accounts\Models\Account::class, 50)->create()->each(function ($account) {
-            $mcAccount = $account->minecraftAccount()
-                    ->save(factory(\App\Entities\Players\Models\MinecraftPlayer::class)
-                    ->make());
-
-            $mcAccount->aliases()->save(factory(\App\Entities\Players\Models\MinecraftPlayerAlias::class)->make());
-        });
-        factory(\App\Entities\Bans\Models\GameBan::class, 500)->create();
+        factory(\App\Entities\Bans\Models\GameBan::class, 30)->create();
     }
 }

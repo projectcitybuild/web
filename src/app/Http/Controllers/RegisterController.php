@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Actions\AccountRegistration\SendRegisterVerificationEmail;
+use App\Entities\Accounts\Notifications\AccountActivationNotification;
+use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Http\Actions\AccountRegistration\ActivateUnverifiedAccount;
 use App\Http\Requests\RegisterRequest;
 use App\Http\WebController;
@@ -16,15 +17,13 @@ final class RegisterController extends WebController
         return view('front.pages.register.register');
     }
 
-    public function register(RegisterRequest $request, SendRegisterVerificationEmail $sendVerificationEmail)
+    public function register(RegisterRequest $request, AccountRepository $accountRepository)
     {
         $input = $request->validated();
 
-        $sendVerificationEmail->execute(
-            $input['email'],
-            $input['username'],
-            $input['password']
-        );
+        $account = $accountRepository->create($input['email'], $input['username'], $input['password'], $request->ip());
+
+        $account->notify(new AccountActivationNotification($account));
 
         return view('front.pages.register.register-success');
     }
@@ -34,6 +33,7 @@ final class RegisterController extends WebController
      *
      * @param Request $request
      *
+     * @param ActivateUnverifiedAccount $activateUnverifiedAccount
      * @return View
      * @throws \Exception
      */

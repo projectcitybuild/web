@@ -34,6 +34,7 @@ class RecaptchaRule extends Rule
 
     /**
      * Disables Recaptcha for the current request
+     * @param bool $enabled
      */
     public static function enable(bool $enabled = true)
     {
