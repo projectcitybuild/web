@@ -1,14 +1,14 @@
 <?php
+
 namespace App\Library\Mojang\Api;
 
-use Carbon\Carbon;
 use GuzzleHttp\Client;
 use App\Exceptions\Http\TooManyRequestsException;
 use GuzzleHttp\Exception\ClientException;
 use App\Library\Mojang\Models\MojangPlayer;
 use App\Library\Mojang\Models\MojangPlayerNameHistory;
 
-class MojangPlayerApi
+final class MojangPlayerApi implements MojangPlayerApiContract
 {
     private $client;
 
@@ -18,16 +18,7 @@ class MojangPlayerApi
     }
 
     /**
-     * Retrieves the UUID that belongs to the given name at the given time.
-     * The name returned is the current name of the player who owned the name at the time.
-     *
-     * If no time given, uses the current time.
-     *
-     * @param string $name
-     * @param int|null $time
-     *
-     * @return MojangPlayer
-     * @throws TooManyRequestsException
+     * @inheritDoc
      */
     public function getUuidOf(string $name, ?int $time = null) : ?MojangPlayer
     {
@@ -42,7 +33,8 @@ class MojangPlayerApi
                     'at' => $time,
                 ],
             ]);
-        } catch (ClientException $e) {
+        } 
+        catch (ClientException $e) {
             if ($e->getCode() === 429) {
                 throw new TooManyRequestsException('rate_limited', 'Too many requests sent to the Mojang API');
             }
@@ -55,6 +47,7 @@ class MojangPlayerApi
         }
 
         $body = json_decode($response->getBody());
+
         return new MojangPlayer(
             $body->id,
             $body->name,
@@ -64,13 +57,7 @@ class MojangPlayerApi
     }
 
     /**
-     * Retrieves the UUID for the person who first registered
-     * the given name, regardless of who currently owns it now.
-     *
-     * @param $name
-     *
-     * @return MojangPlayer
-     * @throws TooManyRequestsException
+     * @inheritDoc
      */
     public function getOriginalOwnerUuidOf(string $name) : ?MojangPlayer
     {
@@ -78,16 +65,7 @@ class MojangPlayerApi
     }
 
     /**
-     * Retrieves UUIDs for every name in the given array, in a
-     * single lookup.
-     *
-     * The API only allows a max of 100 names per lookup.
-     *
-     * @param array $names
-     *
-     * @return array
-     * @throws TooManyRequestsException
-     * @throws \Exception
+     * @inheritDoc
      */
     public function getUuidBatchOf(array $names) : ?array
     {
@@ -95,8 +73,8 @@ class MojangPlayerApi
             throw new \Exception('Batch must contain between 1 and 100 names to search');
         }
 
-        // check for invalid names before hitting the api, or else
-        // the entire request could fail midway
+        // Check for invalid names before hitting the api. The entire request will fail midway
+        // if one of the batches containts an empty name
         foreach ($names as $name) {
             if (empty($name)) {
                 throw new \Exception('Name cannot be null or empty');
@@ -108,7 +86,8 @@ class MojangPlayerApi
             $response = $this->client->request('POST', 'https://api.mojang.com/profiles/minecraft', [
                 'json' => $names,
             ]);
-        } catch (ClientException $e) {
+        } 
+        catch (ClientException $e) {
             if ($e->getCode() === 429) {
                 throw new TooManyRequestsException('rate_limited', 'Too many requests sent to the Mojang API');
             }
@@ -125,25 +104,18 @@ class MojangPlayerApi
                 return $player->name;
             })
             ->map(function ($player) {
-                return new MojangPlayer($player->id,
-                                        $player->name,
-                                        isset($body->legacy),
-                                        isset($body->demo)
+                return new MojangPlayer(
+                    $player->id,
+                    $player->name,
+                    isset($player->legacy),
+                    isset($player->demo)
                 );
             })
             ->toArray();
     }
 
     /**
-     * Returns all the usernames this user has used in the past and
-     * the one they are using currently.
-     *
-     * The UUID must be given without hyphens.
-     *
-     * @param $uuid
-     *
-     * @return array|null
-     * @throws TooManyRequestsException
+     * @inheritDoc
      */
     public function getNameHistoryOf($uuid) : ?MojangPlayerNameHistory
     {
@@ -168,15 +140,7 @@ class MojangPlayerApi
     }
 
     /**
-     * Returns all the usernames this user has used in the past and
-     * the one they are using currently.
-     *
-     * Performs two lookups as the original API can only be queried using an UUID.
-     *
-     * @param $name
-     *
-     * @return array|null
-     * @throws TooManyRequestsException
+     * @inheritDoc
      */
     public function getNameHistoryByNameOf($name) : ?MojangPlayerNameHistory
     {

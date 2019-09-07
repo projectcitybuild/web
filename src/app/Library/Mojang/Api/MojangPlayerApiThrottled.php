@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Library\Mojang\Api;
 
 use App\Library\RateLimit\TokenBucket;
@@ -8,17 +9,28 @@ use App\Library\Mojang\Models\MojangPlayer;
 use App\Library\Mojang\Models\MojangPlayerNameHistory;
 use App\Exceptions\Http\TooManyRequestsException;
 
-
 /**
  * A proxy for the Mojang player API, but with
  * site-wide throttled access
  */
-class MojangPlayerApiThrottled extends MojangPlayerApi
+final class MojangPlayerApiThrottled implements MojangPlayerApiContract
 {
     /**
      * @var TokenBucket
      */
     private $tokenBucket;
+
+    /**
+     * @var MojangPlayerApiContract
+     */
+    private $mojangPlayerApi;
+
+
+    public function __construct(Client $client, MojangPlayerApiContract $mojangPlayerApi)
+    {
+        parent::__construct($client);
+        $this->mojangPlayerApi = $mojangPlayerApi;
+    }
 
     private function getTokenBucket() : TokenBucket
     {
@@ -31,42 +43,56 @@ class MojangPlayerApiThrottled extends MojangPlayerApi
         return $this->tokenBucket;
     }
 
-    private function throttle() : bool
+    private function throttle(int $tokensToConsume = 1) : bool
     {
-        if (!$this->getTokenBucket()->consume(1)) {
+        if (!$this->getTokenBucket()->consume($tokensToConsume)) {
             throw new TooManyRequestsException('mojang_throttled', 'Too many requests. Please try again later');
         }
         return true;
     }
-    
 
+    /**
+     * @inheritDoc
+     */
     public function getUuidOf(string $name, ?int $time = null) : ?MojangPlayer
     {
         $this->throttle();
-        return parent::getUuidOf($name, $time);
+        return $this->mojangPlayerApi->getUuidOf($name, $time);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getOriginalOwnerUuidOf(string $name) : ?MojangPlayer
     {
         $this->throttle();
-        return parent::getOriginalOwnerUuidOf($name);
+        return $this->mojangPlayerApi->getOriginalOwnerUuidOf($name);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getUuidBatchOf(array $names) : ?array
     {
         $this->throttle();
-        return parent::getUuidBatchOf($names);
+        return $this->mojangPlayerApi->getUuidBatchOf($names);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getNameHistoryOf($uuid) : ?MojangPlayerNameHistory
     {
         $this->throttle();
-        return parent::getNameHistoryOf($uuid);
+        return $this->mojangPlayerApi->getNameHistoryOf($uuid);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getNameHistoryByNameOf($name) : ?MojangPlayerNameHistory
     {
         $this->throttle();
-        return parent::getNameHistoryByNameOf($name);
+        return $this->getNameHistoryByNameOf($name);
     }
 }
