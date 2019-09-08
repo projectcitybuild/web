@@ -88,6 +88,16 @@
                 </table>
             </div>
         </div>
+
+        <div class="card">
+            <div class="card__body">
+                <form action="{{ route('front.panel.accounts.force-discourse-sync', $account) }}" method="post">
+                    @csrf
+                    <button type="submit" class="button button--primary">SSO Sync</button>
+                </form>
+            </div>
+        </div>
+
         <div class="card card--no-padding">
             <div class="card__header">
                 Account Dates

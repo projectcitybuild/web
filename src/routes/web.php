@@ -179,6 +179,11 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
             'uses' => 'AccountDiscourseAdminRedirect'
         ]);
 
+        Route::post('force-sync', [
+            'as'   => 'force-discourse-sync',
+            'uses' => 'AccountDiscourseForceSync'
+        ]);
+
         Route::post('activate', [
             'as'   => 'activate',
             'uses' => 'AccountActivate'
