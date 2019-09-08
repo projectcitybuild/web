@@ -171,7 +171,7 @@ Route::get('bans', 'BanlistController@index')->name('front.banlist');
 Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel', 'middleware' => 'admin'], function() {
     Route::view('/', 'front.pages.panel');
 
-    Route::resource('accounts', 'AccountController');
+    Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);
 
     Route::group(['prefix' => 'accounts/{account}', 'as' => 'accounts.'], function() {
         Route::get('discourse-admin', [
