@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Panel;
 
 
 use App\Entities\Accounts\Models\Account;
+use App\Http\Actions\SyncUserToDiscourse;
 use Illuminate\Http\Request;
 
 class AccountUpdateGroups
@@ -14,6 +15,9 @@ class AccountUpdateGroups
     {
         // TODO: consider ID validation
         $account->groups()->sync($request->groups);
+
+        $syncAction = new SyncUserToDiscourse($account);
+        $syncAction->syncAll();
 
         return redirect()->back();
     }

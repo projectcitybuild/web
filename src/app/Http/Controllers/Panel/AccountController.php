@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Panel;
 
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Groups\Models\Group;
+use App\Http\Actions\SyncUserToDiscourse;
 use App\Http\Requests\PanelUpdateUserRequest;
 use App\Http\WebController;
 use App\Library\Discourse\Entities\DiscoursePayload;
@@ -81,10 +82,8 @@ class AccountController extends WebController
 
         $account->emailChangeRequests()->delete();
 
-        $payload = (new DiscoursePayload)
-            ->setPcbId($account->getKey())
-            ->setEmail($account->email)
-            ->setUsername($account->username);
+        $syncAction = new SyncUserToDiscourse($account);
+        $syncAction->syncAll();
 
         return redirect(route('front.panel.accounts.show', $account));
     }
