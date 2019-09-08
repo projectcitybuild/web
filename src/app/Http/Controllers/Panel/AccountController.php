@@ -82,7 +82,8 @@ class AccountController extends WebController
 
         $account->emailChangeRequests()->delete();
 
-        $syncAction = new SyncUserToDiscourse($account);
+        $syncAction = resolve(SyncUserToDiscourse::class);
+        $syncAction->setUser($account);
         $syncAction->syncAll();
 
         return redirect(route('front.panel.accounts.show', $account));

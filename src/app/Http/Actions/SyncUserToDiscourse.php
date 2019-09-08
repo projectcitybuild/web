@@ -21,10 +21,14 @@ class SyncUserToDiscourse
      */
     private $discourseAdminApi;
 
-    public function __construct(Account $account)
+    public function __construct(DiscourseAdminApi $discourseAdminApi)
+    {
+        $this->discourseAdminApi = $discourseAdminApi;
+    }
+
+    public function setUser($account)
     {
         $this->account = $account;
-        $this->discourseAdminApi = resolve(DiscourseAdminApi::class);
     }
 
     public function syncAll()
