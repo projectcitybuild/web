@@ -5,6 +5,7 @@ namespace App\Http\Actions;
 
 
 use App\Entities\Accounts\Models\Account;
+use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Library\Discourse\Entities\DiscoursePayload;
 
 class SyncUserToDiscourse
@@ -14,9 +15,16 @@ class SyncUserToDiscourse
      */
     private $account;
 
-    public function __construct(Account $account)
+    
+    /**
+     * @var DiscourseAdminApi
+     */
+    private $discourseAdminApi;
+
+    public function __construct(Account $account, DiscourseAdminApi $discourseAdminApi)
     {
         $this->account = $account;
+        $this->discourseAdminApi = $discourseAdminApi;
     }
 
     public function syncAll()
