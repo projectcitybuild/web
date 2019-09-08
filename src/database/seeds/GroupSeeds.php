@@ -7,7 +7,7 @@ use App\Entities\Groups\GroupEnum;
 
 class GroupSeeds extends Seeder
 {
-    
+
     /**
      * Run the database seeds.
      *
@@ -16,45 +16,58 @@ class GroupSeeds extends Seeder
     public function run()
     {
         Group::create([
-            'name' => GroupEnum::Retired,
+            'name' => 'retired',
+            'discourse_name' => 'retired'
         ]);
 
         Group::create([
-            'name' => GroupEnum::Member,
+            'name' => 'member',
             'is_default' => true,
+            'discourse_name' => null
         ]);
 
         Group::create([
-            'name' => GroupEnum::Trusted,
-        ]);
-        
-        Group::create([
-            'name' => GroupEnum::Donator,
+            'name' => 'trusted',
+            'discourse_name' => 'trusted'
         ]);
 
         Group::create([
-            'name' => GroupEnum::Moderator,
+           'name' => 'trusted+',
+           'discourse_name' => 'trusted-plus'
+        ]);
+
+        Group::create([
+            'name' => 'donator',
+            'discourse_name' => 'donator'
+        ]);
+
+        Group::create([
+            'name' => 'moderator',
             'alias' => 'Mod',
             'is_staff' => true,
-        ]);
-        
-        Group::create([
-            'name' => GroupEnum::Operator,
-            'alias' => 'OP',
-            'is_staff' => true,
-        ]);
-        
-        Group::create([
-            'name' => GroupEnum::SeniorOperator,
-            'alias' => 'SOP',
-            'is_staff' => true,
+            'discourse_name' => 'moderator'
         ]);
 
         Group::create([
-            'name' => GroupEnum::Administrator,
+            'name' => 'operator',
+            'alias' => 'OP',
+            'is_staff' => true,
+            'discourse_name' => 'operator'
+        ]);
+
+        Group::create([
+            'name' => 'senior operator',
+            'alias' => 'SOP',
+            'is_staff' => true,
+            'discourse_name' => 'senior-operator'
+        ]);
+
+        Group::create([
+            'name' => 'administrator',
             'alias' => 'Admin',
             'is_staff' => true,
             'is_admin' => true,
+            'discourse_name' => 'administrator'
         ]);
     }
 }

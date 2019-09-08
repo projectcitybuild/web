@@ -24,6 +24,6 @@ class UnactivatedAccountCleanupService
         Log::info('Running unactivated account cleanup service...');
 
         $thresholdDate = now()->subDays($this->DAY_THRESHOLD);
-        $this->repository->deleteOlderThan($thresholdDate);
+        $this->repository->deleteUnactivatedOlderThan($thresholdDate);
     }
 }

@@ -6,6 +6,7 @@ use App\Entities\Accounts\Models\Account;
 use App\Entities\Groups\Models\Group;
 use App\Http\Requests\PanelUpdateUserRequest;
 use App\Http\WebController;
+use App\Library\Discourse\Entities\DiscoursePayload;
 use Illuminate\Http\Request;
 
 class AccountController extends WebController
@@ -79,6 +80,11 @@ class AccountController extends WebController
         $account->save();
 
         $account->emailChangeRequests()->delete();
+
+        $payload = (new DiscoursePayload)
+            ->setPcbId($account->getKey())
+            ->setEmail($account->email)
+            ->setUsername($account->username);
 
         return redirect(route('front.panel.accounts.show', $account));
     }

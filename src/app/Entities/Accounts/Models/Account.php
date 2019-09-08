@@ -93,6 +93,12 @@ final class Account extends Authenticatable
         return $this->groups()->where('is_admin', true)->count() > 0;
     }
 
+    public function discourseGroupString()
+    {
+        $groups = $this->groups->pluck("discourse_name");
+        return implode(",", array_filter($groups->toArray()));
+    }
+
     /**
      * Gets an URL to the 'email change verification'
      * route with a signed signature to prevent
