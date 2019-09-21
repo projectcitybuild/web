@@ -7,6 +7,7 @@ use App\Console\Commands\QueryServerCommand;
 use App\Entities\Environment;
 use App\Console\Commands\ImportGroupCommand;
 use App\Console\Commands\ServerKeyCreateCommand;
+use App\Console\Commands\StripUUIDHyphensCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -20,6 +21,7 @@ class Kernel extends ConsoleKernel
         QueryServerCommand::class,
         ImportGroupCommand::class,
         ServerKeyCreateCommand::class,
+        StripUUIDHyphensCommand::class,
     ];
 
     /**

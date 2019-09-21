@@ -95,7 +95,7 @@ class MojangPlayerApi
             throw new \Exception('Batch must contain between 1 and 100 names to search');
         }
 
-        // check for invalid names before hitting the api, or else
+        // Check for invalid names before hitting the api, or else
         // the entire request could fail midway
         foreach ($names as $name) {
             if (empty($name)) {
@@ -125,10 +125,11 @@ class MojangPlayerApi
                 return $player->name;
             })
             ->map(function ($player) {
-                return new MojangPlayer($player->id,
-                                        $player->name,
-                                        isset($body->legacy),
-                                        isset($body->demo)
+                return new MojangPlayer(
+                    $player->id,
+                    $player->name,
+                    isset($body->legacy),
+                    isset($body->demo)
                 );
             })
             ->toArray();

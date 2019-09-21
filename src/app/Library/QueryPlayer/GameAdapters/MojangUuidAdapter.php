@@ -1,15 +1,14 @@
 <?php
+
 namespace App\Library\QueryPlayer\GameAdapters;
 
 use App\Library\QueryPlayer\PlayerQueryAdapterContract;
 use App\Entities\Players\Services\MinecraftPlayerLookupService;
-use App\Entities\Players\Models\MinecraftPlayer;
 use App\Library\Mojang\Api\MojangPlayerApi;
 use App\Library\Mojang\Models\MojangPlayer;
 
-class MojangUuidAdapter implements PlayerQueryAdapterContract
+final class MojangUuidAdapter implements PlayerQueryAdapterContract
 {
-
     /**
      * @var MojangPlayerApi
      */
@@ -20,10 +19,10 @@ class MojangUuidAdapter implements PlayerQueryAdapterContract
      */
     private $userLookupService;
 
-
-    public function __construct(MojangPlayerApi $mojangPlayerApi,
-                                MinecraftPlayerLookupService $userLookupService)
-    {
+    public function __construct(
+        MojangPlayerApi $mojangPlayerApi,
+        MinecraftPlayerLookupService $userLookupService
+    ) {
         $this->mojangPlayerApi = $mojangPlayerApi;
         $this->userLookupService = $userLookupService;
     }
@@ -33,7 +32,7 @@ class MojangUuidAdapter implements PlayerQueryAdapterContract
      */
     public function getUniqueIdentifiers(array $aliases = []) : array
     {
-        // split names into chunks since the Mojang API
+        // Split names into chunks since the Mojang API
         // won't allow more than 100 names in a batch at once
         $names = collect($aliases)->chunk(100);
 
@@ -41,7 +40,9 @@ class MojangUuidAdapter implements PlayerQueryAdapterContract
         foreach ($names as $nameChunk) {
             $response = $this->mojangPlayerApi->getUuidBatchOf($nameChunk->toArray());
             $response = array_map(function (MojangPlayer $player) {
-                return $player->getUuid();
+                $uuid = $player->getUuid();
+                $uuid = str_replace('-', '', $uuid);
+                return $uuid;
             }, $response);
 
             $players = array_merge($players, $response);
