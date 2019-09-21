@@ -26,6 +26,7 @@ final class Group extends Model
         'is_default',
         'is_staff',
         'is_admin',
+        'discourse_name'
     ];
 
     /**
