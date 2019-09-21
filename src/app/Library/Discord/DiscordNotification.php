@@ -1,11 +1,11 @@
 <?php
+
 namespace App\Library\Discord;
 
 use GuzzleHttp\Client;
 
-class DiscordNotifyService
+final class DiscordNotification
 {
-    
     /**
      * @var Client
      */
@@ -20,10 +20,10 @@ class DiscordNotifyService
      * Sends a message via a Discord webhook
      * @see https://discordapp.com/developers/docs/resources/webhook
      *
-     * @param String $name
-     * @param String $message
+     * @param String $name      Discord channel to send to
+     * @param String $message   Message to send
      */
-    public function notifyChannel(String $name, String $message)
+    public function sendToChannel(String $name, String $message)
     {
         $endpoint = config('services.discord.webhook_url');
         
