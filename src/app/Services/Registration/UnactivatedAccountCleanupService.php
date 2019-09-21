@@ -1,28 +1,29 @@
 <?php
 namespace App\Services\Registration;
 
-use App\Entities\Accounts\Repositories\UnactivatedAccountRepository;
+use App\Entities\Accounts\Repositories\AccountRepository;
 use Illuminate\Support\Facades\Log;
 
 class UnactivatedAccountCleanupService
 {
-    const DAY_THRESHOLD = 14;
+    private  $DAY_THRESHOLD;
 
     /**
-     * @var UnactivatedAccountRepository
+     * @var AccountRepository
      */
     private $repository;
 
-    public function __construct(UnactivatedAccountRepository $repository)
+    public function __construct(AccountRepository $repository)
     {
         $this->repository = $repository;
+        $this->DAY_THRESHOLD = config('auth.unactivated_cleanup_days');
     }
 
     public function cleanup()
     {
         Log::info('Running unactivated account cleanup service...');
 
-        $thresholdDate = now()->subDays(self::DAY_THRESHOLD);
-        $this->repository->deleteOlderThan($thresholdDate);
+        $thresholdDate = now()->subDays($this->DAY_THRESHOLD);
+        $this->repository->deleteUnactivatedOlderThan($thresholdDate);
     }
 }

@@ -2,29 +2,29 @@
 
 namespace App\Entities\Accounts\Notifications;
 
+use App\Entities\Accounts\Models\Account;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Entities\Accounts\Models\UnactivatedAccount;
 
 final class AccountActivationNotification extends Notification
 {
     use Queueable;
 
     /**
-    * @var UnactivatedAccount
+    * @var Account
     */
-    private $unactivatedAccount;
-    
+    private $account;
+
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param Account $account
      */
-    public function __construct(UnactivatedAccount $unactivatedAccount)
+    public function __construct(Account $account)
     {
-        $this->unactivatedAccount = $unactivatedAccount;
+        $this->account = $account;
     }
 
     /**
@@ -46,12 +46,12 @@ final class AccountActivationNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = $this->unactivatedAccount->getActivationUrl();
+        $url = $this->account->getActivationUrl();
 
         return (new MailMessage)
                     ->subject('Activate Your PCB Account')
                     ->from('no-reply@projectcitybuild.com')
-                    
+
                     ->greeting('Just One More Step')
                     ->line('Click the button below to activate your Project City Build account.')
                     ->action('Activate Account', $url)

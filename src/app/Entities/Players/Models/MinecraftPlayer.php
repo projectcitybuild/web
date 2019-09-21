@@ -2,6 +2,7 @@
 
 namespace App\Entities\Players\Models;
 
+use App\Entities\Bans\Models\GameBan;
 use App\Model;
 use App\Entities\Bans\BannableModelInterface;
 use App\Entities\Accounts\Models\Account;
@@ -20,7 +21,7 @@ final class MinecraftPlayer extends Model implements BannableModelInterface
     ];
 
     protected $hidden = [
-        
+
     ];
 
     protected $dates = [
@@ -43,17 +44,27 @@ final class MinecraftPlayer extends Model implements BannableModelInterface
      */
     public function getBanReadableName(): string
     {
-        return $this->aliases->first()->alias;
+        return $this->aliases->last()->alias;
     }
 
-    
+
     public function account()
     {
-        return $this->hasOne(Account::class, 'account_id', 'account_id');
+        return $this->belongsTo(Account::class, 'account_id', 'account_id');
     }
 
     public function aliases()
     {
         return $this->hasMany(MinecraftPlayerAlias::class, 'player_minecraft_id', 'player_minecraft_id');
+    }
+
+    public function gameBans()
+    {
+        return $this->morphMany(GameBan::class, 'banned_player');
+    }
+
+    public function isBanned()
+    {
+        return $this->gameBans()->where('is_active', true)->count() > 0;
     }
 }

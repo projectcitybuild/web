@@ -53,6 +53,7 @@ final class LoginRequest extends FormRequest
             $credentials = [
                 'email'     => $email,
                 'password'  => $password,
+                'activated' => true
             ];
 
             if (Auth::attempt($credentials, true) === false) {

@@ -5,6 +5,7 @@ namespace App\Entities\Accounts\Repositories;
 use App\Entities\Accounts\Models\Account;
 use App\Repository;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 final class AccountRepository extends Repository
 {
@@ -14,19 +15,16 @@ final class AccountRepository extends Repository
         string $email,
         string $username,
         string $password,
-        ?string $ip,
-        Carbon $createdAt
-    ) : Account 
+        ?string $ip
+    ) : Account
     {
         return $this->getModel()->create([
             'email'         => $email,
             'username'      => $username,
-            'password'      => $password,
+            'password'      => Hash::make($password),
             'remember_token' => '',
             'last_login_ip' => $ip,
-            'last_login_at' => Carbon::now(),
-            'created_at'    => $createdAt,
-            'updated_at'    => Carbon::now(),
+            'last_login_at' => Carbon::now()
         ]);
     }
 
@@ -35,5 +33,13 @@ final class AccountRepository extends Repository
         return $this->getModel()
             ->where('email', $email)
             ->first();
+    }
+
+    public function deleteUnactivatedOlderThan(Carbon $date)
+    {
+        return $this->getModel()
+            ->where('activated', false)
+            ->whereDate('updated_at', '<', $date)
+            ->delete();
     }
 }

@@ -39,6 +39,11 @@ final class DiscoursePayload
      */
     private $requiresActivation;
 
+    /**
+     * @var string
+     */
+    private $groups;
+
 
     public function __construct(string $nonce = null)
     {
@@ -81,6 +86,18 @@ final class DiscoursePayload
         return $this;
     }
 
+    /**
+     * Comma separated list of group slugs
+     *
+     * @param string $groups
+     * @return $this
+     */
+    public function setGroups(string $groups)
+    {
+        $this->groups = $groups;
+        return $this;
+    }
+
     public function build() : array
     {
         $payload = [
@@ -102,6 +119,9 @@ final class DiscoursePayload
         }
         if ($this->name !== null) {
             $payload['name'] = $this->name;
+        }
+        if ($this->groups != null) {
+            $payload['groups'] = $this->groups;
         }
 
         return $payload;
