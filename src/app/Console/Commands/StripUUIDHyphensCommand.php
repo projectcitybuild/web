@@ -9,7 +9,7 @@ use App\Entities\Players\Models\MinecraftPlayer;
 use App\Entities\Players\Models\MinecraftPlayerAlias;
 use Illuminate\Support\Facades\DB;
 
-final class StripUUIDHyphens extends Command
+final class StripUUIDHyphensCommand extends Command
 {
     /**
      * The name and signature of the console command.
