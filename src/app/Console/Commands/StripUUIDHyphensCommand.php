@@ -37,7 +37,7 @@ final class StripUUIDHyphensCommand extends Command
         $progressBar = $this->output->createProgressBar(count($playersWithHyphenUuids));
         $progressBar->start();
      
-        DB::transaction(function() {
+        DB::transaction(function() use($playersWithHyphenUuids, &$progressBar) {
             foreach ($playersWithHyphenUuids as $unstrippedPlayer) {
                 // Check if an account exists with the UUID stripped
                 $newUuid = str_replace('-', '', $unstrippedPlayer->uuid);
