@@ -2,6 +2,7 @@
 
 namespace App\Entities\Accounts\Models;
 
+use App\Entities\Donations\Models\Donation;
 use App\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -48,6 +49,54 @@ final class Account extends Authenticatable
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'groups_accounts', 'account_id', 'group_id');
+    }
+
+    public function donations()
+    {
+        return $this->hasMany(Donation::class, 'account_id');
+    }
+
+    public function emailChangeRequests()
+    {
+        return $this->hasMany(AccountEmailChange::class, 'account_id');
+    }
+
+    public function gameBans()
+    {
+        // TODO: there's probably a way to optimise this just using the DB
+        $bans = collect();
+
+        foreach ($this->minecraftAccount as $minecraftAccount) {
+            $bans = $bans->concat($minecraftAccount->gameBans);
+        }
+
+        return $bans;
+    }
+
+    public function isBanned()
+    {
+        // TODO: there's probably a way to optimise this just using the DB
+        foreach ($this->minecraftAccount as $account) {
+            if ($account->isBanned()) return true;
+        }
+
+        return false;
+    }
+
+    public function inGroup(Group $group)
+    {
+        return $this->groups->contains($group);
+    }
+
+    public function isAdmin()
+    {
+        return $this->groups()->where('is_admin', true)->count() > 0;
+    }
+
+    public function discourseGroupString()
+    {
+        $groups = $this->groups->pluck("discourse_name");
+        return implode(",", array_filter($groups->toArray()));
     }
 
     /**

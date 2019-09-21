@@ -8,9 +8,7 @@ use App\Services\Donations\DonationStatsService;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard as Auth;
-use App\Entities\Groups\GroupEnum;
 use App\Library\Discourse\Api\DiscourseUserApi;
-use App\Services\Groups\DiscourseGroupSyncService;
 use App\Entities\Groups\Repositories\GroupRepository;
 use App\Http\WebController;
 
@@ -31,10 +29,6 @@ class DonationController extends WebController
      */
     private $discourseUserApi;
 
-    /**
-     * @var DiscourseGroupSyncService
-     */
-    private $groupSyncService;
 
     /**
      * @var GroupRepository
@@ -51,14 +45,12 @@ class DonationController extends WebController
         DonationRepository $donationRepository,
         DonationCreationService $donationCreationService,
         DiscourseUserApi $discourseUserApi,
-        DiscourseGroupSyncService $groupSyncService,
         GroupRepository $groupRepository,
         Auth $auth
     ) {
         $this->donationRepository = $donationRepository;
         $this->donationCreationService = $donationCreationService;
         $this->discourseUserApi = $discourseUserApi;
-        $this->groupSyncService = $groupSyncService;
         $this->groupRepository = $groupRepository;
         $this->auth = $auth;
     }
@@ -99,15 +91,11 @@ class DonationController extends WebController
 
         // add user to donator group if they're logged in
         if ($account !== null) {
-            $group = new GroupEnum(GroupEnum::Donator);
-            $donatorGroup = $this->groupRepository->getGroupByName(GroupEnum::Donator);
+            $donatorGroup = $this->groupRepository->getGroupByName("donator");
             $donatorGroupId = $donatorGroup->getKey();
-            
+
             if ($account->groups->contains($donatorGroupId) === false) {
-                $discourseUser = $this->discourseUserApi->fetchUserByPcbId($account->getKey());
-                $discourseId = $discourseUser['user']['id'];
-    
-                $this->groupSyncService->addUserToGroup($discourseId, $account, $group);
+               $account->groups->attach($donatorGroupId);
             }
         }
 

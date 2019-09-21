@@ -10,8 +10,13 @@
         .contents__sidebar {
             margin-left: 1em;
             max-width: 30%;
+
+            &--left {
+                margin-left: 0;
+                margin-right: 1em;
+            }
         }
-    
+
         .contents__body {
             flex: 1;
         }
@@ -43,7 +48,7 @@
         font-size: 0.7em;
         margin-bottom: 2.5em;
     }
-    
+
     &__body {
         font-size: 0.7em;
         line-height: 2em;
@@ -51,9 +56,9 @@
 
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Rubik', sans-serif;
-            text-transform: none; 
+            text-transform: none;
         }
-        
+
         img {
             max-width: 100%;
             height: auto;
@@ -125,7 +130,7 @@
             font-weight: 100;
         }
     }
-    
+
     .sidebar-btn__heading {
         font-size: 1.25em;
         display: block;

@@ -6,8 +6,6 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\QueryServerCommand;
 use App\Entities\Environment;
 use App\Console\Commands\ImportGroupCommand;
-use App\Console\Commands\GroupAddUserCommand;
-use App\Console\Commands\GroupRemoveUserCommand;
 use App\Console\Commands\ServerKeyCreateCommand;
 
 class Kernel extends ConsoleKernel
@@ -21,8 +19,6 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         QueryServerCommand::class,
         ImportGroupCommand::class,
-        GroupAddUserCommand::class,
-        GroupRemoveUserCommand::class,
         ServerKeyCreateCommand::class,
     ];
 
@@ -37,7 +33,7 @@ class Kernel extends ConsoleKernel
         if (Environment::isDev()) {
             return;
         }
-        
+
         $schedule->command('query:status --all')
                  ->everyFiveMinutes();
 

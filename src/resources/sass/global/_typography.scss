@@ -9,7 +9,7 @@ $font-body: 'Rubik', sans-serif;
 }
 
 
-body { 
+body {
     font-family: $font-body;
     font-size: 16px;
 }
@@ -27,12 +27,16 @@ span, h1, h2, h3, h4, h5, h6 {
     &.primary { color: $colour-primary; }
     &.accent  { color: $colour-accent; }
     &.light   { color: $colour-light; }
-    
+
     &.strong  { font-weight: bold; }
 }
 
 a {
     color: $colour-primary;
+
+    &:hover {
+        color: lighten($colour-primary, 5%);
+    }
 }
 
 span.header-description {
