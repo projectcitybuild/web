@@ -5,7 +5,6 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\QueryServerCommand;
 use App\Entities\Environment;
-use App\Console\Commands\ImportGroupCommand;
 use App\Console\Commands\ServerKeyCreateCommand;
 use App\Console\Commands\StripUUIDHyphensCommand;
 
@@ -19,7 +18,6 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         QueryServerCommand::class,
-        ImportGroupCommand::class,
         ServerKeyCreateCommand::class,
         StripUUIDHyphensCommand::class,
     ];
