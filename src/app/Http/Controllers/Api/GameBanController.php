@@ -128,8 +128,8 @@ final class GameBanController extends ApiController
         $this->validateRequest($request->all(), [
             'player_id_type'    => ['required', Rule::in($this->getIdTypeWhitelist())],
             'player_id'         => 'required',
-            'banner_id_type'    => ['required', Rule::in($this->getIdTypeWhitelist())],
-            'banner_id'         => 'required',
+            'staff_id_type'     => ['required', Rule::in($this->getIdTypeWhitelist())],
+            'staff_id'          => 'required',
         ], [
             'in' => 'Invalid :attribute given. Must be ['.$this->getIdTypeWhitelist().']',
         ]);
