@@ -30,6 +30,11 @@ final class PlayerBanLookupService
 
     public function getStatus(GamePlayerType $playerType, string $identifier)
     {
+        if ($playerType->valueOf() === GamePlayerType::Minecraft) {
+            // Strip hyphens from Minecraft UUIDs
+            $identifier = str_replace('-', '', $identifier);
+        }
+
         $player = $this->playerLookupService->getOrCreatePlayer($playerType, $identifier);
         
         return $this->gameBanRepository->getActiveBanByGameUserId($player->getKey(), $playerType);

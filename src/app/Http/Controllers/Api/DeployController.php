@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Exceptions\Http\UnauthorisedException;
-use App\Library\Discord\DiscordNotifyService;
+use App\Library\Discord\DiscordNotification;
 use Illuminate\Support\Facades\Log;
 use App\Http\ApiController;
 
 final class DeployController extends ApiController
 {
     /**
-     * @var DiscordNotifyService
+     * @var DiscordNotification
      */
     private $discord;
 
-    public function __construct(DiscordNotifyService $discord)
+    public function __construct(DiscordNotification $discord)
     {
         $this->discord = $discord;
     }
@@ -26,7 +26,7 @@ final class DeployController extends ApiController
         $key    = config('deployment.key');
 
         if ($key === null) {
-            $this->discord->notifyChannel('Deployment', '❌ Deployment failed: No deployment key set in .env');
+            $this->discord->sendToChannel('Deployment', '❌ Deployment failed: No deployment key set in .env');
             throw new \Exception('No deployment key setup');
         }
 
@@ -47,14 +47,14 @@ final class DeployController extends ApiController
             return;
         }
 
-        $this->discord->notifyChannel('Deployment', '🕒 Deployment has begun...');
+        $this->discord->sendToChannel('Deployment', '🕒 Deployment has begun...');
 
         try {
             chdir(base_path() . '/../../');
             echo shell_exec('./deploy.sh 2>&1');
 
         } catch (\Exception $e) {
-            $this->discord->notifyChannel('Deployment', '❌ Deployment failed: '.$e->getMessage());
+            $this->discord->sendToChannel('Deployment', '❌ Deployment failed: '.$e->getMessage());
             Log::fatal($e);
         }
     }
