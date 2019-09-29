@@ -33,8 +33,8 @@ final class MojangUuidAdapter implements PlayerQueryAdapterContract
     public function getUniqueIdentifiers(array $aliases = []) : array
     {
         // Split names into chunks since the Mojang API
-        // won't allow more than 100 names in a batch at once
-        $names = collect($aliases)->chunk(100);
+        // won't allow more than 10 names in a batch at once
+        $names = collect($aliases)->chunk(10);
 
         $players = [];
         foreach ($names as $nameChunk) {

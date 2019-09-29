@@ -38,7 +38,8 @@ final class DiscourseSSOController extends WebController
                 $request,
                 $account->getKey(),
                 $account->email,
-                $account->username
+                $account->username,
+                $account->discourseGroupString()
             );
         } catch (BadSSOPayloadException $e)
         {

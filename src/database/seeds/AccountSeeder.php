@@ -14,6 +14,5 @@ class AccountSeeder extends Seeder
     public function run()
     {
         factory(Account::class, 500)->create();
-        factory(UnactivatedAccount::class, 50)->create();
     }
 }
