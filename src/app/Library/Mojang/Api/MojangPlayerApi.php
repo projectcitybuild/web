@@ -81,7 +81,7 @@ class MojangPlayerApi
      * Retrieves UUIDs for every name in the given array, in a
      * single lookup.
      *
-     * The API only allows a max of 100 names per lookup.
+     * The API only allows a max of 10 names per lookup.
      *
      * @param array $names
      *
@@ -91,8 +91,8 @@ class MojangPlayerApi
      */
     public function getUuidBatchOf(array $names) : ?array
     {
-        if (count($names) === 0 || count($names) > 100) {
-            throw new \Exception('Batch must contain between 1 and 100 names to search');
+        if (count($names) === 0 || count($names) > 10) {
+            throw new \Exception('Batch must contain between 1 and 10 names to search');
         }
 
         // Check for invalid names before hitting the api, or else
