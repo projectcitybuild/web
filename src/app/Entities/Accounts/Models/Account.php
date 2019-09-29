@@ -8,10 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
 use App\Entities\Groups\Models\Group;
+use Laravel\Scout\Searchable;
 
 final class Account extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, Searchable;
 
     protected $table = 'accounts';
 
@@ -35,6 +36,17 @@ final class Account extends Authenticatable
         'updated_at',
         'last_login_at',
     ];
+
+    public function toSearchableArray()
+    {
+        $array = [
+            'account_id' => $this->getKey(),
+            'email' => $this->email,
+            'username' => $this->username
+        ];
+
+        return $array;
+    }
 
     public function minecraftAccount()
     {

@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Panel;
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Groups\Models\Group;
 use App\Http\Actions\SyncUserToDiscourse;
-use App\Http\Requests\PanelUpdateUserRequest;
 use App\Http\WebController;
-use App\Library\Discourse\Entities\DiscoursePayload;
 use Illuminate\Http\Request;
 
 class AccountController extends WebController
@@ -17,11 +15,17 @@ class AccountController extends WebController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $accounts = Account::paginate(100);
+        if ($request->has('query') && $request->input('query') != "") {
+            $query = $request->input('query');
+            $accounts = Account::search($query)->paginate(100);
+        } else {
+            $query = "";
+            $accounts = Account::paginate(100);
+        }
 
-        return view('front.pages.panel.account.index')->with(compact('accounts'));
+        return view('front.pages.panel.account.index')->with(compact('accounts', 'query'));
     }
 
     /**
