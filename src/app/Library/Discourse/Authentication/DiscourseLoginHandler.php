@@ -101,7 +101,7 @@ final class DiscourseLoginHandler
      * @param integer $pcbId
      * @param string $email
      * @param string $username
-     * @param string $groupString
+     * @param string $groups
      * @param string $nonce
      * @param string $returnUri
      * @return string
