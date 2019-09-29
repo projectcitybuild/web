@@ -204,7 +204,13 @@
                     @foreach($account->minecraftAccount as $player)
                         <tr>
                             <td><img src="https://minotar.net/avatar/{{ $player->uuid }}/16" alt=""></td>
-                            <td>{{ $player->getBanReadableName() }}</td>
+                            <td>
+                                @if($player->aliases()->count() == 0)
+                                    <em>No alias</em>
+                                @else
+                                    {{ $player->aliases->last()->alias }}
+                                @endempty
+                            </td>
                             <td>{{ $player->uuid }}</td>
                             <td>{{ $player->playtime }}</td>
                             <td>{{ $player->last_seen_at }}</td>

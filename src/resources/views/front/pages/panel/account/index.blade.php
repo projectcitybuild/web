@@ -9,6 +9,13 @@
         <table class="table table--divided">
             <thead>
             <tr>
+                <th colspan="5">
+                    <form action="{{ route('front.panel.accounts.index') }}" method="get">
+                        <input type="text" class="input-text" name="query" value="{{ $query }}" placeholder="Search player email or username">
+                    </form>
+                </th>
+            </tr>
+            <tr>
                 <th>
                     ID
                 </th>
