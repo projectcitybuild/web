@@ -30,19 +30,20 @@ final class DiscourseLoginHandler
         $this->payloadValidator = $payloadValidator;
     }
 
-    public function getRedirectUrl(Request $request, int $pcbId, string $email, string $username)
+    public function getRedirectUrl(Request $request, int $pcbId, string $email, string $username, string $groups)
     {
         $packedNonce = $this->getPackedNonce($request);
 
         $nonce = $this->decodePackedNonce(
-            $packedNonce->getSSO(), 
+            $packedNonce->getSSO(),
             $packedNonce->getSignature()
         );
         return $this->getDiscourseRedirectUri(
-            $pcbId, 
+            $pcbId,
             $email,
             $username,
-            $nonce->getNonce(), 
+            $groups,
+            $nonce->getNonce(),
             $nonce->getRedirectUri()
         );
     }
@@ -54,7 +55,7 @@ final class DiscourseLoginHandler
             $request->get('sig')
         );
     }
-    
+
     /**
      * Decodes the given packed nonce, and extracts the nonce and
      * return URL from it
@@ -65,24 +66,24 @@ final class DiscourseLoginHandler
      */
     private function decodePackedNonce(string $sso, string $signature) : DiscourseNonce
     {
-        // validate that the given signature matches the payload when 
+        // validate that the given signature matches the payload when
         // signed with our private key. This prevents any payload tampering
         $isValidPayload = $this->payloadValidator->isValidPayload($sso, $signature);
 
-        if ($isValidPayload === false) 
+        if ($isValidPayload === false)
         {
             Log::debug('Received invalid SSO payload', ['sso' => $sso, 'signature' => $signature]);
             throw new BadSSOPayloadException('Invalid SSO payload');
         }
 
-        // ensure that the payload has all the necessary data required to 
+        // ensure that the payload has all the necessary data required to
         // create a new payload after authentication
         $payload = null;
-        try 
+        try
         {
             $payload = $this->payloadValidator->unpackPayload($sso);
-        } 
-        catch (BadSSOPayloadException $e) 
+        }
+        catch (BadSSOPayloadException $e)
         {
             Log::debug('Failed to unpack SSO payload', ['sso' =>  $sso, 'signature' => $signature]);
             throw $e;
@@ -93,22 +94,25 @@ final class DiscourseLoginHandler
 
     /**
      * Generates an URL to redirect the user to.
-     * 
+     *
      * The URL contains a signed payload containing their pcbId, email address,
      * nonce and a URL to redirect to if the login succeeds
      *
      * @param integer $pcbId
      * @param string $email
+     * @param string $username
+     * @param string $groups
      * @param string $nonce
      * @param string $returnUri
      * @return string
      */
-    private function getDiscourseRedirectUri(int $pcbId, string $email, string $username, string $nonce, string $returnUri) : string
+    private function getDiscourseRedirectUri(int $pcbId, string $email, string $username, string $groups, string $nonce, string $returnUri) : string
     {
         $rawPayload = (new DiscoursePayload($nonce))
             ->setPcbId($pcbId)
             ->setEmail($email)
             ->setUsername($username)
+            ->setGroups($groups)
             ->requiresActivation(false)
             ->build();
 
@@ -122,6 +126,6 @@ final class DiscourseLoginHandler
         return $endpoint;
     }
 
-    
+
 
 }
