@@ -12,8 +12,15 @@ use Illuminate\View\View;
 
 final class RegisterController extends WebController
 {
-    public function showRegisterView()
+    public function showRegisterView(Request $request)
     {
+        if ($request->session()->has('url.intended')) {
+            return response()->view('front.pages.register.register')->cookie(
+                'intended',
+                $request->session()->get('url.intended'),
+                60);
+        }
+
         return view('front.pages.register.register');
     }
 
@@ -49,6 +56,12 @@ final class RegisterController extends WebController
             $email,
             $request->ip()
         );
+
+        if ($request->cookies->has('intended')) {
+            $intended = $request->cookies->get('intended');
+            $request->cookies->remove('intended');
+            return redirect($intended);
+        }
 
         return view('front.pages.register.register-verify-complete');
     }
