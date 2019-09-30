@@ -96,6 +96,9 @@ class MojangPlayerApi
             throw new \Exception('Batch must contain between 1 and 10 names to search');
         }
 
+        // Just in case a dictionary was given to us, use only the values
+        $names = array_values($names);
+
         // Strip empty names from the batch or else the API will return an error
         $names = array_filter($names, function($name) {
             return !empty($name);
