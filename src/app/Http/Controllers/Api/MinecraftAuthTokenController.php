@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use App\Exceptions\Http\UnauthorisedException;
 use App\Entities\Accounts\Resources\AccountResource;
 use App\Exceptions\Http\BadRequestException;
+use App\Entities\Groups\Models\Group;
 
 final class MinecraftAuthTokenController extends ApiController
 {
@@ -86,8 +87,14 @@ final class MinecraftAuthTokenController extends ApiController
             throw new UnauthorisedException('account_not_linked', 'This UUID has not been linked to a PCB account. Please complete the authorization flow first');
         }
 
-        // Force load groups
-        $existingPlayer->account->groups;
+        // If for some reason the user has no groups but has an account, assign them
+        // to the Member group because that's the default non-Guest group
+        $groups = $existingPlayer->account->groups;
+        if (count($groups) === 0) {
+            $defaultGroups = Group::where('is_default', 1)->get()->pluck('group_id');
+            $existingPlayer->account->groups()->attach($defaultGroups);
+            $existingPlayer->account->groups->push($defaultGroups);
+        }
         
         return [
             'data' => new AccountResource($existingPlayer->account),
