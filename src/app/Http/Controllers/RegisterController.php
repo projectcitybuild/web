@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Entities\Accounts\Notifications\AccountActivationNotification;
 use App\Entities\Accounts\Repositories\AccountRepository;
+use App\Entities\Groups\Models\Group;
 use App\Http\Actions\AccountRegistration\ActivateUnverifiedAccount;
 use App\Http\Requests\RegisterRequest;
 use App\Http\WebController;
@@ -12,8 +13,15 @@ use Illuminate\View\View;
 
 final class RegisterController extends WebController
 {
-    public function showRegisterView()
+    public function showRegisterView(Request $request)
     {
+        if ($request->session()->has('url.intended')) {
+            return response()->view('front.pages.register.register')->cookie(
+                'intended',
+                $request->session()->get('url.intended'),
+                60);
+        }
+
         return view('front.pages.register.register');
     }
 
@@ -22,6 +30,10 @@ final class RegisterController extends WebController
         $input = $request->validated();
 
         $account = $accountRepository->create($input['email'], $input['username'], $input['password'], $request->ip());
+
+        $defaultGroups = Group::where('is_default', 1)->get()->pluck('group_id');
+
+        $account->groups()->attach($defaultGroups);
 
         $account->notify(new AccountActivationNotification($account));
 
@@ -49,6 +61,12 @@ final class RegisterController extends WebController
             $email,
             $request->ip()
         );
+
+        if ($request->cookies->has('intended')) {
+            $intended = $request->cookies->get('intended');
+            $request->cookies->remove('intended');
+            return redirect($intended);
+        }
 
         return view('front.pages.register.register-verify-complete');
     }

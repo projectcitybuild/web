@@ -5,6 +5,7 @@ namespace Tests\Feature;
 
 
 use App\Entities\Accounts\Models\Account;
+use App\Entities\Groups\Models\Group;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
@@ -57,6 +58,26 @@ class RegisterTest extends TestCase
         $this->assertDatabaseMissing('accounts', [
             'email' => $unactivatedAccount->email,
             'password' => $unactivatedAccount->password
+        ]);
+    }
+
+    public function testNewMemberIsPutInDefaultGroup()
+    {
+        $memberGroup = Group::create([
+            'name' => 'member',
+            'is_default' => 1
+        ]);
+
+        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'unactivated')->make();
+
+        $this->post(route('front.register.submit'), $unactivatedAccount->toArray())
+            ->assertSessionHasNoErrors();
+
+        $account = Account::where('email', $unactivatedAccount["email"])->firstOrFail();
+
+        $this->assertDatabaseHas('groups_accounts', [
+            'group_id' => $memberGroup->group_id,
+            'account_id' => $account->account_id
         ]);
     }
 }
