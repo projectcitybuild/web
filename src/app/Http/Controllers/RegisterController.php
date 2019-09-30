@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Entities\Accounts\Notifications\AccountActivationNotification;
 use App\Entities\Accounts\Repositories\AccountRepository;
+use App\Entities\Groups\Models\Group;
 use App\Http\Actions\AccountRegistration\ActivateUnverifiedAccount;
 use App\Http\Requests\RegisterRequest;
 use App\Http\WebController;
@@ -29,6 +30,10 @@ final class RegisterController extends WebController
         $input = $request->validated();
 
         $account = $accountRepository->create($input['email'], $input['username'], $input['password'], $request->ip());
+
+        $defaultGroups = Group::where('is_default', 1)->get()->pluck('group_id');
+
+        $account->groups()->attach($defaultGroups);
 
         $account->notify(new AccountActivationNotification($account));
 
