@@ -41,9 +41,4 @@ Route::prefix('servers')->group(function () {
 
 Route::post('discord/sync', 'DiscordSyncController@getRank');
 
-/**
- * @deprecated 1.11.0
- */
-Route::post('minecraft/authenticate', 'TempMinecraftController@authenticate');
-
 Route::post('deploy', 'DeployController@deploy');
