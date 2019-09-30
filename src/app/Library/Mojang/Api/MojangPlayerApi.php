@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Library\Mojang\Api;
 
 use Carbon\Carbon;
@@ -95,13 +96,10 @@ class MojangPlayerApi
             throw new \Exception('Batch must contain between 1 and 10 names to search');
         }
 
-        // Check for invalid names before hitting the api, or else
-        // the entire request could fail midway
-        foreach ($names as $name) {
-            if (empty($name)) {
-                throw new \Exception('Name cannot be null or empty');
-            }
-        }
+        // Strip empty names from the batch or else the API will return an error
+        $names = array_filter($names, function($name) {
+            return !empty($name);
+        });
 
         $response = null;
         try {
