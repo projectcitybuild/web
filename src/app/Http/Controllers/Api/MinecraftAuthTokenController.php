@@ -91,8 +91,8 @@ final class MinecraftAuthTokenController extends ApiController
         // to the Member group because that's the default non-Guest group
         $groups = $existingPlayer->account->groups;
         if (count($groups) === 0) {
-            $defaultGroups = Group::where('is_default', 1)->get()->pluck('group_id');
-            $existingPlayer->account->groups()->attach($defaultGroups);
+            $defaultGroups = Group::where('is_default', 1)->get();
+            $existingPlayer->account->groups()->attach($defaultGroups->pluck('group_id'));
             $existingPlayer->account->groups->push($defaultGroups);
         }
         
