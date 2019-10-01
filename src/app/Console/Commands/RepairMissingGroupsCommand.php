@@ -31,6 +31,12 @@ final class RepairMissingGroupsCOmmand extends Command
     public function handle()
     {
         $accountsWithoutGroups = Account::doesntHave('groups')->get();
+
+        if (count($accountsWithoutGroups) === 0) {
+            $this->info('No accounts need to be assigned a group');
+            return;   
+        }
+
         $defaultGroupIds = Group::where('is_default', 1)->get()->pluck('group_id');
 
         $progressBar = $this->output->createProgressBar(count($accountsWithoutGroups));
