@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Entities\Accounts\Models\Account;
+use App\Entities\Groups\Models\Group;
 use Illuminate\Support\Facades\DB;
 
 final class RepairMissingGroupsCOmmand extends Command
@@ -30,14 +31,14 @@ final class RepairMissingGroupsCOmmand extends Command
     public function handle()
     {
         $accountsWithoutGroups = Account::doesntHave('groups')->get();
-        $defaultGroups = Group::where('is_default', 1)->get();
+        $defaultGroupIds = Group::where('is_default', 1)->get()->pluck('group_id');
 
         $progressBar = $this->output->createProgressBar(count($accountsWithoutGroups));
         $progressBar->start();
      
-        DB::transaction(function() use($accountsWithoutGroups, &$progressBar) {
+        DB::transaction(function() use($accountsWithoutGroups, $defaultGroupIds, &$progressBar) {
             foreach ($accountsWithoutGroups as $account) {
-                $account->groups()->attach($defaultGroups->pluck('group_id'));
+                $account->groups()->attach($defaultGroupIds);
                 $progressBar->advance();
             }
         });
