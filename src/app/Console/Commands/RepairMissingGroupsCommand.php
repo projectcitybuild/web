@@ -7,7 +7,7 @@ use App\Entities\Accounts\Models\Account;
 use App\Entities\Groups\Models\Group;
 use Illuminate\Support\Facades\DB;
 
-final class RepairMissingGroupsCOmmand extends Command
+final class RepairMissingGroupsCommand extends Command
 {
     /**
      * The name and signature of the console command.

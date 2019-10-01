@@ -7,7 +7,7 @@ use App\Console\Commands\QueryServerCommand;
 use App\Entities\Environment;
 use App\Console\Commands\ServerKeyCreateCommand;
 use App\Console\Commands\StripUUIDHyphensCommand;
-use App\Console\Commands\RepairMissingGroupsCOmmand;
+use App\Console\Commands\RepairMissingGroupsCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -21,7 +21,7 @@ class Kernel extends ConsoleKernel
         QueryServerCommand::class,
         ServerKeyCreateCommand::class,
         StripUUIDHyphensCommand::class,
-        RepairMissingGroupsCOmmand::class,
+        RepairMissingGroupsCommand::class,
     ];
 
     /**
