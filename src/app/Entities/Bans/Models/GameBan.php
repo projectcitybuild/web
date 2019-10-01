@@ -53,6 +53,13 @@ final class GameBan extends Model
         return $this->belongsTo('App\Entities\Bans\Models\GameUnban', 'game_ban_id', 'game_ban_id');
     }
 
+    public function getStaffName()
+    {
+        if (is_null($this->staffPlayer)) return "System";
+
+        return $this->staffPlayer->getBanReadableName;
+    }
+
     /**
      * Get the indexable data array for the model.
      *
