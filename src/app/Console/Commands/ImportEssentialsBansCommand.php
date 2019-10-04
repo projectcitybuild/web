@@ -74,7 +74,7 @@ class ImportEssentialsBansCommand extends Command
                 'is_global_ban' => 1,
                 'expires_at' => null,
                 'created_at' => $date,
-                'updated_ast' => $date
+                'updated_at' => $date
             ]);
         }
     }
