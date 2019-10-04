@@ -67,7 +67,7 @@ class ImportEssentialsBansCommand extends Command
                 'banned_alias_at_time' => $essBan["name"],
                 'staff_player_id' => null,
                 'staff_player_type' => 'minecraft_player',
-                'reason' => $essBan["reason"],
+                'reason' => $essBan["reason"] . " (imported ban from " . $essBan["source"] .")",
                 'is_active' => 1,
                 'is_global_ban' => 1,
                 'expires_at' => null,
