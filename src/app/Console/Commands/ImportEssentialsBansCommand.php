@@ -42,7 +42,7 @@ class ImportEssentialsBansCommand extends Command
      */
     public function handle()
     {
-        $essBans = json_decode(Storage::get('banned-players.json'), true);
+        $essBans = json_decode(Storage::drive()->get('banned-players.json'), true);
 
         foreach ($essBans as $essBan) {
             $essBan["uuid"] = str_replace("-", "", $essBan["uuid"]);
