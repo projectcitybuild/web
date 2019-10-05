@@ -249,7 +249,7 @@
                     @foreach($account->gameBans() as $ban)
                         <tr>
                             <td>{{ $ban->reason }}</td>
-                            <td>{{ $ban->staffPlayer->getBanReadableName() }}</td>
+                            <td>{{ $ban->getStaffName() }}</td>
                             <td>{{ $ban->is_active }}</td>
                             <td>{{ $ban->expires_at }}</td>
                         </tr>

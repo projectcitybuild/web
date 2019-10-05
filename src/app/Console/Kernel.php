@@ -1,6 +1,7 @@
 <?php
 namespace App\Console;
 
+use App\Console\Commands\ImportEssentialsBansCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\QueryServerCommand;
@@ -22,6 +23,7 @@ class Kernel extends ConsoleKernel
         ServerKeyCreateCommand::class,
         StripUUIDHyphensCommand::class,
         RepairMissingGroupsCommand::class,
+        ImportEssentialsBansCommand::class
     ];
 
     /**

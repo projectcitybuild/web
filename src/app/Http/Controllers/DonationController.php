@@ -95,7 +95,7 @@ class DonationController extends WebController
             $donatorGroupId = $donatorGroup->getKey();
 
             if ($account->groups->contains($donatorGroupId) === false) {
-               $account->groups->attach($donatorGroupId);
+               $account->groups()->attach($donatorGroupId);
             }
         }
 
