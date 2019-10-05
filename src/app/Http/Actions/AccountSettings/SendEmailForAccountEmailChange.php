@@ -7,7 +7,6 @@ use App\Entities\Accounts\Models\Account;
 use App\Entities\Accounts\Repositories\AccountEmailChangeRepository;
 use App\Entities\Accounts\Notifications\AccountEmailChangeVerifyNotification;
 use App\Entities\Accounts\Models\AccountEmailChange;
-use App\Http\Requests\AccountChangeEmailRequest;
 use Illuminate\Support\Facades\Notification;
 
 final class SendEmailForAccountEmailChange
@@ -25,7 +24,7 @@ final class SendEmailForAccountEmailChange
      *
      * @param Account $account
      * @param string $newEmailAddress
-     * @return AccountChangeEmailRequest
+     * @return AccountEmailChange
      */
     public function execute(Account $account, string $newEmailAddress) : AccountEmailChange
     {
