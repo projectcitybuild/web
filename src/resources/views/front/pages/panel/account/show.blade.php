@@ -171,10 +171,10 @@
                     <tbody>
                     @foreach($account->donations as $donation)
                         <tr>
-                            <td>{{ $donation->is_active }}</td>
-                            <td>${{ $donation->amount/100 }}</td>
+                            <td>{{ $donation->is_active ? 'Yes' : 'No' }}</td>
+                            <td>${{ $donation->amount }}</td>
                             <td>{{ $donation->perks_end_at }}</td>
-                            <td>{{ $donation->is_lifetime_perks }}</td>
+                            <td>{{ $donation->is_lifetime_perks ? 'Yes' : 'No' }}</td>
                             <td>{{ $donation->donation_time }}</td>
                         </tr>
                     @endforeach
