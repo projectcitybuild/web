@@ -172,7 +172,7 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
     Route::view('/', 'front.pages.panel');
 
     Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);
-    Route::resource('donations', 'DonationController')->only(['index', 'create', 'store', 'edit', 'update']);
+    Route::resource('donations', 'DonationController')->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 
     Route::group(['prefix' => 'accounts/{account}', 'as' => 'accounts.'], function() {
         Route::get('discourse-admin', [

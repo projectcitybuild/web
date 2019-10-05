@@ -53,7 +53,15 @@
                         </tr>
                         <tr>
                             <td></td>
-                            <td><button type="submit" class="button button--primary">Save</button></td>
+                            <td>
+                                <button type="submit" class="button button--primary button--large"><i class="fas fa-check"></i> Save</button>
+
+                                <form method="post" action="{{ route('front.panel.donations.destroy', $donation) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="button button--large">Delete</button>
+                                </form>
+                            </td>
                         </tr>
                     </table>
                 </form>

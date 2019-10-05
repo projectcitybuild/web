@@ -137,4 +137,17 @@ class DonationController extends WebController
 
         return redirect(route('front.panel.donations.index'));
     }
+
+    /**
+     * Delete the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Entities\Donations\Models\Donation   $donation
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, Donation $donation)
+    {
+        $donation->delete();
+        return redirect(route('front.panel.donations.index'));
+    }
 }
