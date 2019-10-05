@@ -59,6 +59,12 @@ class DonationController extends WebController
             'perks_end_at' => 'nullable|date',
         ]);
 
+        $validator->after(function ($validator) use($request) {
+            if ($request->get('is_lifetime_perks') == false && $request->get('perks_end_at') == null) {
+                $validator->errors()->add('is_lifetime_perks', 'Expiry date is required if perks aren\'t lifetime');
+            }
+        });
+
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
