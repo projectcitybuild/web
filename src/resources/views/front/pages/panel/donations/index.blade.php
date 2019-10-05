@@ -9,6 +9,11 @@
         <table class="table table--divided">
             <thead>
             <tr>
+                <th colspan="8">
+                    <a href="{{ route('front.panel.donations.create') }}" class="button button--secondary"><i class="fas fa-plus"></i> Manually Add Donation</a>
+                </th>
+            </tr>
+            <tr>
                 <th>
                     ID
                 </th>
