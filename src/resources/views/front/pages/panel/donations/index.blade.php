@@ -53,7 +53,7 @@
                     <td>{{ $donation->is_lifetime_perks ? 'Yes' : 'No' }}</td>
                     <td>{{ $donation->perks_end_at }}</td>
                     <td>{{ $donation->is_active ? 'Yes' : 'No' }}</td>
-                    <td><a href="{{ route('front.panel.donations.show', $donation->donation_id) }}">Edit</a></td>
+                    <td><a href="{{ route('front.panel.donations.edit', $donation->donation_id) }}">Edit</a></td>
                 </tr>
             @endforeach
             </tbody>

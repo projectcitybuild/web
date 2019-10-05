@@ -23,26 +23,14 @@ class DonationController extends WebController
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Entities\Accounts\Models\Account  $account
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Account $account)
-    {
-        $groups = Group::all();
-        return view('front.pages.panel.account.show')->with(compact('account', 'groups'));
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Entities\Accounts\Models\Account  $account
      * @return \Illuminate\Http\Response
      */
-    public function edit(Account $account)
+    public function edit(Donation $donation)
     {
-        return view('front.pages.panel.account.edit')->with(compact('account'));
+        return view('front.pages.panel.donations.edit')->with(compact('donation'));
     }
 
     /**
