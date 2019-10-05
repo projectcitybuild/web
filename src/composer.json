@@ -19,7 +19,8 @@
         "sentry/sentry-laravel": "1.0.2",
         "stripe/stripe-php": "^6.15",
         "teamtnt/laravel-scout-tntsearch-driver": "^7.1",
-        "xpaw/php-minecraft-query": "^2.0"
+        "xpaw/php-minecraft-query": "^2.0",
+        "ext-json": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
