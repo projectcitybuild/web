@@ -8,6 +8,7 @@ use App\Entities\Groups\Models\Group;
 use App\Http\Actions\SyncUserToDiscourse;
 use App\Http\WebController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class DonationController extends WebController
 {
@@ -25,7 +26,7 @@ class DonationController extends WebController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Entities\Accounts\Models\Account  $account
+     * @param  \App\Entities\Donations\Models\Donation  $donation
      * @return \Illuminate\Http\Response
      */
     public function edit(Donation $donation)
@@ -37,20 +38,36 @@ class DonationController extends WebController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Accounts\Models\Account  $account
+     * @param  \App\Entities\Donations\Models\Donation   $donation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Account $account)
+    public function update(Request $request, Donation $donation)
     {
-        $account->update($request->all());
-        $account->save();
+        // Checkbox input isn't sent to the server if not ticked by the user
+        if (!$request->has('is_active')) {
+            $request->request->add(['is_active' => false]);
+        }
+        if (!$request->has('is_lifetime_perks')) {
+            $request->request->add(['is_lifetime_perks' => false]);
+        }
 
-        $account->emailChangeRequests()->delete();
+        $validator = Validator::make($request->all(), [
+            'amount' => 'required|numeric',
+            'is_active' => 'boolean',
+            'is_lifetime_perks' => 'boolean',
+            'created_at' => 'required|date',
+            'perks_end_at' => 'nullable|date',
+        ]);
 
-        $syncAction = resolve(SyncUserToDiscourse::class);
-        $syncAction->setUser($account);
-        $syncAction->syncAll();
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
-        return redirect(route('front.panel.accounts.show', $account));
+        $donation->update($request->all());
+        $donation->save();
+
+        return redirect(route('front.panel.donations.index'));
     }
 }

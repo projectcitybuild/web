@@ -23,25 +23,26 @@
                         <tr>
                             <td><label for="created_at">Donation Date</label></td>
                             <td>
-                                <input type="text" class="input-text" name="created_at" id="created_at" value="{{ old('active', $donation->created_at) }}">
+                                <input type="text" class="input-text" name="created_at" id="created_at" value="{{ old('created_at', $donation->created_at) }}">
                             </td>
                         </tr>
                         <tr>
-                            <td><label for="expires_at">Expiry Date</label></td>
+                            <td><label for="perks_end_at">Expiry Date</label></td>
                             <td>
-                                <input type="text" class="input-text" name="expires_at" id="expires_at" value="{{ old('active', $donation->expires_at) }}">
+                                <input type="text" class="input-text" name="perks_end_at" id="perks_end_at" value="{{ old('perks_end_at', $donation->perks_end_at) }}"><br />
+                                (Required if not lifetime)
                             </td>
                         </tr>
                         <tr>
-                            <td><label for="active">Active</label></td>
+                            <td><label for="is_active">Active</label></td>
                             <td>
-                                <input type="checkbox" name="active" id="active" value="1"{{ old('active', $donation->is_active) ? ' checked' : '' }}>
+                                <input type="checkbox" name="is_active" id="is_active" value="1"{{ old('is_active', $donation->is_active) ? ' checked' : '' }}>
                             </td>
                         </tr>
                         <tr>
-                            <td><label for="lifetime">Lifetime</label></td>
+                            <td><label for="is_lifetime_perks">Lifetime</label></td>
                             <td>
-                                <input type="checkbox" name="lifetime" id="lifetime" value="1"{{ old('lifetime', $donation->is_lifetime_perks ? ' checked' : '') }}>
+                                <input type="checkbox" name="is_lifetime_perks" id="is_lifetime_perks" value="1"{{ old('is_lifetime_perks', $donation->is_lifetime_perks ? ' checked' : '') }}>
                             </td>
                         </tr>
                         <tr>
