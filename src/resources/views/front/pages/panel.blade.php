@@ -12,6 +12,7 @@
             <div class="card__body">
                 <ul>
                     <li><a href="{{ route('front.panel.accounts.index') }}">Accounts</a></li>
+                    <li><a href="{{ route('front.panel.donations.index') }}">Donations</a></li>
                 </ul>
             </div>
         </div>
