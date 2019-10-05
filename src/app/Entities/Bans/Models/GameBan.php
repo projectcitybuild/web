@@ -57,7 +57,7 @@ final class GameBan extends Model
     {
         if (is_null($this->staffPlayer)) return "System";
 
-        return $this->staffPlayer->getBanReadableName;
+        return $this->staffPlayer->getBanReadableName();
     }
 
     /**
