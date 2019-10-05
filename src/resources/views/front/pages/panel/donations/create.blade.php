@@ -54,6 +54,10 @@
                             <td></td>
                             <td><button type="submit" class="button button--primary">Create</button></td>
                         </tr>
+                        <tr>
+                            <td></td>
+                            <td>(Creating a donation does <strong>NOT</strong> automatically assign an account to the Donator group)</td>
+                        </tr>
                     </table>
                 </form>
             </div>
