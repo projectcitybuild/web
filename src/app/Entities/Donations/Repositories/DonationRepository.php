@@ -17,21 +17,6 @@ class DonationRepository extends Repository
             ->get();
     }
 
-    public function create(?int $accountId,
-                           float $amount,
-                           ?Carbon $expiryDate,
-                           bool $isLifetime,
-                           bool $isActive = true) : Donation
-    {
-        return $this->getModel()->create([
-            'account_id' => $accountId,
-            'amount' => $amount,
-            'perks_end_at' => $expiryDate,
-            'is_lifetime_perks' => $isLifetime,
-            'is_active' => $isActive,
-        ]);
-    }
-
     /**
      * Gets the total donated for the given year. Uses the
      * current year if no year given

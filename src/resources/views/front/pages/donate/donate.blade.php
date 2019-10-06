@@ -5,7 +5,7 @@
 
 @push('head')
     <meta name="stripe-key" content="{{ config('services.stripe.key') }}" />
-    <meta name="stripe-submit" content="{{ route('front.donate.charge') }}" />
+    <meta name="stripe-submit" content="{{ route('front.donate.store') }}" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 

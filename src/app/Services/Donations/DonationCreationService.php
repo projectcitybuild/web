@@ -1,13 +1,11 @@
 <?php
 namespace App\Services\Donations;
 
+use App\Entities\Donations\Models\Donation;
+use App\Entities\Payments\Models\AccountPayment;
 use App\Library\Stripe\StripeHandler;
-use App\Entities\Donations\Repositories\DonationRepository;
-use App\Entities\Payments\Repositories\AccountPaymentRepository;
-use Illuminate\Database\Connection;
 use App\Entities\Payments\AccountPaymentType;
-use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Library\Discourse\Api\DiscourseUserApi;
+use Illuminate\Support\Facades\DB;
 
 class DonationCreationService
 {
@@ -17,50 +15,15 @@ class DonationCreationService
      */
     const LIFETIME_REQUIRED_AMOUNT = 30;
 
-     /**
-     * @var DonationRepository
-     */
-    private $donationRepository;
-
-    /**
-     * @var AccountPaymentRepository
-     */
-    private $paymentRepository;
-
-    /**
-     * @var Connection
-     */
-    private $connection;
-
     /**
      * @var StripeHandler
      */
     private $stripeHandler;
 
-    /**
-     * @var DiscourseAdminApi
-     */
-    private $discourseAdminApi;
 
-    /**
-     * @var DiscourseUserApi
-     */
-    private $discourseUserApi;
-
-
-    public function __construct(DonationRepository $donationRepository,
-                                AccountPaymentRepository $paymentRepository,
-                                Connection $connection,
-                                StripeHandler $stripeHandler,
-                                DiscourseAdminApi $discourseAdminApi,
-                                DiscourseUserApi $discourseUserApi)
+    public function __construct(StripeHandler $stripeHandler)
     {
-        $this->donationRepository = $donationRepository;
-        $this->paymentRepository = $paymentRepository;
-        $this->connection = $connection;
         $this->stripeHandler = $stripeHandler;
-        $this->discourseAdminApi = $discourseAdminApi;
-        $this->discourseUserApi = $discourseUserApi;
     }
 
 
@@ -69,36 +32,51 @@ class DonationCreationService
         $amountInDollars = (float)($amountInCents / 100);
 
         try {
-            $charge = $this->stripeHandler->charge($amountInCents, $stripeToken, null, $email, 'PCB Contribution');
-        } catch (\Exception $e) {
+            $this->stripeHandler->charge(
+                $amountInCents,
+                $stripeToken,
+                null,
+                $email,
+                'PCB Contribution'
+            );
+        }
+        catch (\Exception $e) {
             throw $e;
         }
 
         $isLifetime = $amountInDollars >= self::LIFETIME_REQUIRED_AMOUNT;
-        if ($isLifetime) {
-            $donationExpiry = null;
-        } else {
+
+        $donationExpiry = null;
+        if (!$isLifetime) {
             $donationExpiry = now()->addMonths(floor($amountInDollars / 3));
         }
 
-        $this->connection->beginTransaction();
+        DB::beginTransaction();
         try {
-            $donation = $this->donationRepository->create($pcbId,
-                                                          $amountInDollars,
-                                                          $donationExpiry,
-                                                          $isLifetime);
+            $donation = Donation::create([
+                'account_id' => $pcbId,
+                'amount' => $amountInDollars,
+                'perks_end_at' => $donationExpiry,
+                'is_lifetime_perks' => $isLifetime,
+                'is_active' => true,
+            ]);
 
-            $payment = $this->paymentRepository->create(new AccountPaymentType(AccountPaymentType::Donation),
-                                                        $donation->getKey(),
-                                                        $amountInCents,
-                                                        $stripeToken,
-                                                        $pcbId,
-                                                        true);
-            $this->connection->commit();
+            AccountPayment::create([
+                'payment_type' => AccountPaymentType::Donation,
+                'payment_id' => $donation->getKey(),
+                'payment_amount' => $amountInCents,
+                'payment_source' => $stripeToken,
+                'account_id' => $pcbId,
+                'is_processed' => true,
+                'is_refunded' => false,
+                'is_subscription_payment' => false,
+            ]);
+
+            DB::commit();
             return $donation;
             
         } catch (\Exception $e) {
-            $this->connection->rollBack();
+            DB::rollBack();
             throw $e;
         }
     }

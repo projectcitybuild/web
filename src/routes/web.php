@@ -38,11 +38,11 @@ Route::get('/', [
 Route::prefix('donate')->group(function () {
     Route::get('/', [
         'as' => 'front.donate',
-        'uses' => 'DonationController@getView',
+        'uses' => 'DonationController@index',
     ]);
     Route::post('charge', [
-        'as'    => 'front.donate.charge',
-        'uses'  => 'DonationController@donate',
+        'as'    => 'front.donate.store',
+        'uses'  => 'DonationController@store',
     ]);
 });
 

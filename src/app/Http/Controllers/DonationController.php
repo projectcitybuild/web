@@ -55,12 +55,12 @@ class DonationController extends WebController
         $this->auth = $auth;
     }
 
-    public function getView()
+    public function index()
     {
         return view('front.pages.donate.donate');
     }
 
-    public function donate(Request $request)
+    public function store(Request $request)
     {
         $email = $request->get('stripe_email');
         $stripeToken = $request->get('stripe_token');
