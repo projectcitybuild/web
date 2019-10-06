@@ -6,16 +6,16 @@ use App\Entities\Accounts\Models\Account;
 use App\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-final class Donation extends Model
+final class DonationPerk extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'donations';
+    protected $table = 'donation_perks';
 
-    protected $primaryKey = 'donation_id';
+    protected $primaryKey = 'donation_perk_id';
 
     /**
      * The attributes that are mass assignable.
@@ -23,11 +23,11 @@ final class Donation extends Model
      * @var array
      */
     protected $fillable = [
+        'donation_id',
         'account_id',
-        'amount',
-        'perks_end_at',
         'is_lifetime_perks',
         'is_active',
+        'expires_at',
         'created_at',
         'updated_at',
     ];
@@ -40,7 +40,7 @@ final class Donation extends Model
     protected $hidden = [];
 
     protected $dates = [
-        'perks_end_at',
+        'expires_at',
         'created_at',
         'updated_at',
     ];
