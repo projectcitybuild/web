@@ -79,7 +79,7 @@ final class DeactivateDonatorPerksCommand extends Command
                         $this->syncAction->setUser($expiredPerk->account);
                         $this->syncAction->syncAll();
 
-                        $expiredPerk->account->groups()->deatach($donatorGroup->getKey());
+                        $expiredPerk->account->groups()->detach($donatorGroup->getKey());
                     }
 
                     // TODO: Send message to user (mail? Discourse notification? Discourse mail?)
