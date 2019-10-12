@@ -69,6 +69,23 @@ final class DeactivateDonatorPerksCommand_Test extends TestCase
         $this->assertTrue($perk->is_active);
     }
 
+    public function testDoesNotDeactivateLifetimePerk()
+    {
+        $expectedPerk = factory(DonationPerk::class)->create([
+            'is_active' => true,
+            'is_lifetime_perks' => true,
+            'expires_at' => null,
+            'account_id' => factory(Account::class)->create()->getKey(),
+        ]);
+
+        $command = $this->makeCommand();
+        $command->handle();
+
+        $perk = DonationPerk::find($expectedPerk->getKey());
+
+        $this->assertTrue($perk->is_active);
+    }
+
     public function testRemovesDonatorGroupWhenExpired()
     {
         $expectedAccount = factory(Account::class)->create();
@@ -88,5 +105,63 @@ final class DeactivateDonatorPerksCommand_Test extends TestCase
 
         $account = Account::find($expectedAccount->getKey());
         $this->assertFalse($account->groups->contains($this->donatorGroup->getKey()));
+    }
+
+    public function testDoesNotRemoveDonatorGroupIfMultiplePerks()
+    {
+        $expectedAccount = factory(Account::class)->create();
+        $expectedAccount->groups()->attach($this->donatorGroup->getKey());
+
+        factory(DonationPerk::class)->create([
+            'account_id' => $expectedAccount->getKey(),
+            'is_active' => true,
+            'is_lifetime_perks' => false,
+            'expires_at' => now()->subDay(),
+        ]);
+
+        factory(DonationPerk::class)->create([
+            'account_id' => $expectedAccount->getKey(),
+            'is_active' => true,
+            'is_lifetime_perks' => false,
+            'expires_at' => now()->addDay(),
+        ]);
+
+        $expectedAccount = Account::find($expectedAccount->getKey());
+        $this->assertTrue($expectedAccount->groups->contains($this->donatorGroup->getKey()));
+
+        $command = $this->makeCommand();
+        $command->handle();
+
+        $account = Account::find($expectedAccount->getKey());
+        $this->assertTrue($account->groups->contains($this->donatorGroup->getKey()));
+    }
+
+    public function testDoesNotRemoveDonatorGroupIfOtherLifetimePerk()
+    {
+        $expectedAccount = factory(Account::class)->create();
+        $expectedAccount->groups()->attach($this->donatorGroup->getKey());
+
+        factory(DonationPerk::class)->create([
+            'account_id' => $expectedAccount->getKey(),
+            'is_active' => true,
+            'is_lifetime_perks' => false,
+            'expires_at' => now()->subDay(),
+        ]);
+
+        factory(DonationPerk::class)->create([
+            'account_id' => $expectedAccount->getKey(),
+            'is_active' => true,
+            'is_lifetime_perks' => true,
+            'expires_at' => null,
+        ]);
+
+        $expectedAccount = Account::find($expectedAccount->getKey());
+        $this->assertTrue($expectedAccount->groups->contains($this->donatorGroup->getKey()));
+
+        $command = $this->makeCommand();
+        $command->handle();
+
+        $account = Account::find($expectedAccount->getKey());
+        $this->assertTrue($account->groups->contains($this->donatorGroup->getKey()));
     }
 }
