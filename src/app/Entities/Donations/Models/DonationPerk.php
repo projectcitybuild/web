@@ -15,7 +15,7 @@ final class DonationPerk extends Model
      */
     protected $table = 'donation_perks';
 
-    protected $primaryKey = 'donation_perk_id';
+    protected $primaryKey = 'donation_perks_id';
 
     /**
      * The attributes that are mass assignable.
@@ -39,13 +39,29 @@ final class DonationPerk extends Model
      */
     protected $hidden = [];
 
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
     protected $dates = [
         'expires_at',
         'created_at',
         'updated_at',
     ];
 
-    public function account() : HasOne {
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_active' => 'boolean',
+        'is_lifetime_perks' => 'boolean',
+    ];
+
+    public function account() : HasOne
+    {
         return $this->hasOne(Account::class, 'account_id', 'account_id');
     }
 }

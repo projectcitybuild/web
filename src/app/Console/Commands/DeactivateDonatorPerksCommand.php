@@ -29,7 +29,7 @@ final class DeactivateDonatorPerksCommand extends Command
     private $syncAction;
 
 
-    public function __construct(SyncUserkerneToDiscourse $syncUserToDiscourse)
+    public function __construct(SyncUserToDiscourse $syncUserToDiscourse)
     {
         parent::__construct();
         $this->syncAction = $syncUserToDiscourse;
@@ -46,7 +46,6 @@ final class DeactivateDonatorPerksCommand extends Command
 
         $expiredPerks = DonationPerk::where('is_active', true)
             ->where('is_lifetime_perks', false)
-            ->whereDate('expires_at', '<=', now())
             ->get();
 
         if ($expiredPerks === null || count($expiredPerks) === 0) {
@@ -58,19 +57,26 @@ final class DeactivateDonatorPerksCommand extends Command
 
         foreach ($expiredPerks as $expiredPerk) {
             // Check that the user doesn't have any other active perks
-            $otherActivePerks = DonationPerk::where('is_active', true)
-                ->where('')
-                ->get();
+            if ($expiredPerk->account !== null) {
+                $otherActivePerks = DonationPerk::where('account_id', $expiredPerk->account->getKey())
+                    ->where('is_active', true)
+                    ->where(function($q) {
+                        $q->where('is_lifetime_perks', true);
+                        $q->orWhere(function($q) {
+                            $q->where('is_lifetime_perks', false);
+                            $q->whereDate('expires_at', '>', now());
+                        });
+                    })
+                    ->get();
 
-            $hasOtherActivePerks = $otherActivePerks === null || count($otherActivePerks) === 0;
+                if ($otherActivePerks !== null) {
+                    $this->syncAction->setUser($expiredPerk->account);
+                    $this->syncAction->syncAll();
 
-            if (!$hasOtherActivePerks && $expiredPerk->account !== null) {
-                $this->syncAction->setUser($expiredPerk->account);
-                $this->syncAction->syncAll();
+                    $expiredPerk->account->groups()->deattach($donatorGroup->getKey());
 
-                $expiredPerk->account->groups()->deattach($donatorGroup->getKey());
-
-                // TODO: Send message to user (mail? Discourse notification? Discourse mail?)
+                    // TODO: Send message to user (mail? Discourse notification? Discourse mail?)
+                }
             }
 
             $expiredPerk->is_active = false;
