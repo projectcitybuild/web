@@ -46,6 +46,7 @@ final class DeactivateDonatorPerksCommand extends Command
 
         $expiredPerks = DonationPerk::where('is_active', true)
             ->where('is_lifetime_perks', false)
+            ->whereDate('expires_at', '<=', now())
             ->get();
 
         if ($expiredPerks === null || count($expiredPerks) === 0) {
@@ -69,11 +70,17 @@ final class DeactivateDonatorPerksCommand extends Command
                     })
                     ->get();
 
-                if ($otherActivePerks !== null) {
-                    $this->syncAction->setUser($expiredPerk->account);
-                    $this->syncAction->syncAll();
+                if (count($otherActivePerks) === 0) {
+                    $isInDonatorGroup = $expiredPerk->account->groups
+                        ->pluck('group_id')
+                        ->contains($donatorGroup->getKey());
 
-                    $expiredPerk->account->groups()->deattach($donatorGroup->getKey());
+                    if ($isInDonatorGroup) {
+                        $this->syncAction->setUser($expiredPerk->account);
+                        $this->syncAction->syncAll();
+
+                        $expiredPerk->account->groups()->deatach($donatorGroup->getKey());
+                    }
 
                     // TODO: Send message to user (mail? Discourse notification? Discourse mail?)
                 }
