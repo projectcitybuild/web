@@ -10,7 +10,10 @@
             <thead>
             <tr>
                 <th colspan="8">
-                    <a href="{{ route('front.panel.donations.create') }}" class="button button--secondary"><i class="fas fa-plus"></i> Manually Add Donation</a>
+                    <a href="{{ route('front.panel.donations.index') }}" class="button button--secondary">Donations</a>
+                    <a href="{{ route('front.panel.donation-perks.index') }}" class="button button--secondary">Donator Perks</a>
+
+                    <a href="{{ route('front.panel.donations.create') }}" class="button button--primary"><i class="fas fa-plus"></i> Manually Add Donation</a>
                 </th>
             </tr>
             <tr>
@@ -25,15 +28,6 @@
                 </th>
                 <th>
                     Donation Date
-                </th>
-                <th>
-                    Lifetime Perks?
-                </th>
-                <th>
-                    Perks Expiry Date
-                </th>
-                <th>
-                    Active
                 </th>
                 <th>
                     Manage
@@ -55,9 +49,6 @@
                         @endif
                     </td>
                     <td>{{ $donation->created_at }}</td>
-                    <td>{{ $donation->is_lifetime_perks ? 'Yes' : 'No' }}</td>
-                    <td>{{ $donation->perks_end_at }}</td>
-                    <td>{{ $donation->is_active ? 'Yes' : 'No' }}</td>
                     <td><a href="{{ route('front.panel.donations.edit', $donation->donation_id) }}">Edit</a></td>
                 </tr>
             @endforeach

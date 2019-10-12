@@ -60,8 +60,13 @@ final class DonationPerk extends Model
         'is_lifetime_perks' => 'boolean',
     ];
 
-    public function account() : HasOne
+    public function account(): HasOne
     {
         return $this->hasOne(Account::class, 'account_id', 'account_id');
+    }
+
+    public function donation(): HasOne
+    {
+        return $this->hasOne(Donation::class, 'donation_id', 'donation_id');
     }
 }
