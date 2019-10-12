@@ -2,6 +2,7 @@
 namespace App\Console;
 
 use App\Console\Commands\CleanupUnactivatedAccountsCommand;
+use App\Console\Commands\DeactivateDonatorPerksCommand;
 use App\Console\Commands\ImportEssentialsBansCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -25,6 +26,7 @@ class Kernel extends ConsoleKernel
         RepairMissingGroupsCommand::class,
         ImportEssentialsBansCommand::class,
         CleanupUnactivatedAccountsCommand::class,
+        DeactivateDonatorPerksCommand::class,
     ];
 
     /**
