@@ -46,6 +46,9 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('cleanup:unactivated-accounts')
                 ->weekly();
+
+        $schedule->command('donator-perks:expire')
+                ->hourly();
     }
 
     /**

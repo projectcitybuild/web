@@ -14,7 +14,7 @@ final class DeactivateDonatorPerksCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'donators:update';
+    protected $signature = 'donator-perks:expire';
 
     /**
      * The console command description.
@@ -29,7 +29,7 @@ final class DeactivateDonatorPerksCommand extends Command
     private $syncAction;
 
 
-    public function __construct(SyncUserToDiscourse $syncUserToDiscourse)
+    public function __construct(SyncUserkerneToDiscourse $syncUserToDiscourse)
     {
         parent::__construct();
         $this->syncAction = $syncUserToDiscourse;
