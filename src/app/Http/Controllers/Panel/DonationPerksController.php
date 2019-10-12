@@ -2,11 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationPerk;
-use App\Entities\Groups\Models\Group;
-use App\Http\Actions\SyncUserToDiscourse;
 use App\Http\WebController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -31,7 +27,7 @@ class DonationPerksController extends WebController
      */
     public function create(Request $request)
     {
-        return view('front.pages.panel.donations.create');
+        return view('front.pages.panel.donation-perks.create');
     }
 
     /**
@@ -51,16 +47,16 @@ class DonationPerksController extends WebController
         }
 
         $validator = Validator::make($request->all(), [
-            'amount' => 'required|numeric|gt:0',
+            'donation_id' => 'numeric|exists:donations,donation_id',
             'account_id' => 'nullable|numeric|exists:accounts,account_id',
             'is_active' => 'boolean',
             'is_lifetime_perks' => 'boolean',
             'created_at' => 'required|date',
-            'perks_end_at' => 'nullable|date',
+            'expires_at' => 'nullable|date',
         ]);
 
         $validator->after(function ($validator) use($request) {
-            if ($request->get('is_lifetime_perks') == false && $request->get('perks_end_at') == null) {
+            if ($request->get('is_lifetime_perks') == false && $request->get('expires_at') == null) {
                 $validator->errors()->add('is_lifetime_perks', 'Expiry date is required if perks aren\'t lifetime');
             }
         });
@@ -71,38 +67,38 @@ class DonationPerksController extends WebController
                 ->withInput();
         }
 
-        Donation::create([
-            'amount' => $request->get('amount'),
+        DonationPerk::create([
+            'donation_id' => $request->get('donation_id'),
             'account_id' => $request->get('account_id'),
             'is_active' => $request->get('is_active'),
             'is_lifetime_perks' => $request->get('is_lifetime_perks'),
+            'expires_at' => $request->get('expires_at'),
             'created_at' => $request->get('created_at'),
-            'updated_at' => $request->get('updated_at'),
-            'perks_end_at' => $request->get('perks_end_at'),
+            'updated_at' => $request->get('created_at'),
         ]);
 
-        return redirect(route('front.panel.donations.index'));
+        return redirect(route('front.panel.donation-perks.index'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Entities\Donations\Models\Donation  $donation
+     * @param  \App\Entities\Donations\Models\DonationPerk  $perk
      * @return \Illuminate\Http\Response
      */
-    public function edit(Donation $donation)
+    public function edit(DonationPerk $perk)
     {
-        return view('front.pages.panel.donations.edit')->with(compact('donation'));
+        return view('front.pages.panel.donation-perks.edit')->with(compact('perk'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Donations\Models\Donation   $donation
+     * @param  \App\Entities\Donations\Models\DonationPerk   $perk
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Donation $donation)
+    public function update(Request $request, DonationPerk $perk)
     {
         // Checkbox input isn't sent to the server if not ticked by the user
         if (!$request->has('is_active')) {
@@ -113,16 +109,16 @@ class DonationPerksController extends WebController
         }
 
         $validator = Validator::make($request->all(), [
-            'amount' => 'required|numeric|gt:0',
-            'account_id' => 'nullable|numeric',
+            'donation_id' => 'numeric|exists:donations,donation_id',
+            'account_id' => 'nullable|numeric|exists:accounts,account_id',
             'is_active' => 'boolean',
             'is_lifetime_perks' => 'boolean',
+            'expires_at' => 'nullable|date',
             'created_at' => 'required|date',
-            'perks_end_at' => 'nullable|date',
         ]);
 
         $validator->after(function ($validator) use($request) {
-            if ($request->get('is_lifetime_perks') == false && $request->get('perks_end_at') == null) {
+            if ($request->get('is_lifetime_perks') == false && $request->get('expires_at') == null) {
                 $validator->errors()->add('is_lifetime_perks', 'Expiry date is required if perks aren\'t lifetime');
             }
         });
@@ -133,22 +129,22 @@ class DonationPerksController extends WebController
                 ->withInput();
         }
 
-        $donation->update($request->all());
-        $donation->save();
+        $perk->update($request->all());
+        $perk->save();
 
-        return redirect(route('front.panel.donations.index'));
+        return redirect(route('front.panel.donation-perks.index'));
     }
 
     /**
      * Delete the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Donations\Models\Donation   $donation
+     * @param  \App\Entities\Donations\Models\DonationPerk   $perk
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Donation $donation)
+    public function destroy(Request $request, DonationPerk $perk)
     {
-        $donation->delete();
-        return redirect(route('front.panel.donations.index'));
+        $perk->delete();
+        return redirect(route('front.panel.donation-perks.index'));
     }
 }

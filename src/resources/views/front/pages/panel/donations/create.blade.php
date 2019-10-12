@@ -32,25 +32,6 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><label for="perks_end_at">Expiry Date</label></td>
-                            <td>
-                                <input type="text" class="input-text" name="perks_end_at" id="perks_end_at" value="{{ old('perks_end_at', now()) }}"><br />
-                                (Required if not lifetime)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="is_active">Active</label></td>
-                            <td>
-                                <input type="checkbox" name="is_active" id="is_active" value="1"{{ old('is_active', true) ? ' checked' : '' }}>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="is_lifetime_perks">Lifetime</label></td>
-                            <td>
-                                <input type="checkbox" name="is_lifetime_perks" id="is_lifetime_perks" value="1"{{ old('is_lifetime_perks', false) ? ' checked' : '' }}>
-                            </td>
-                        </tr>
-                        <tr>
                             <td></td>
                             <td><button type="submit" class="button button--primary">Create</button></td>
                         </tr>
