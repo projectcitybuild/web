@@ -1,21 +1,11 @@
 <?php
 namespace App\Services\Donations;
 
-use App\Entities\Donations\Repositories\DonationRepository;
+use App\Entities\Donations\Models\Donation;
 use Carbon\Carbon;
 
 class DonationStatsService
 {
-    /**
-     * @var DonationRepository
-     */
-    private $donationRepository;
-
-    public function __construct(DonationRepository $donationRepository)
-    {
-        $this->donationRepository = $donationRepository;
-    }
-
     /**
      * Returns an array of stats related to the overall annual donation percentage
      *
@@ -23,7 +13,8 @@ class DonationStatsService
      */
     public function getAnnualPercentageStats() : array
     {
-        $annualSum = $this->donationRepository->getAnnualSum();
+        $year = date('Y');
+        $annualSum = Donation::whereYear('created_at', $year)->sum('amount');
         $percentage = round(($annualSum / 1000) * 100);
 
         $lastDayOfYear = new Carbon('last day of december');
