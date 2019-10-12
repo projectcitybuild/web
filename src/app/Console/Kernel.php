@@ -1,6 +1,7 @@
 <?php
 namespace App\Console;
 
+use App\Console\Commands\CleanupUnactivatedAccountsCommand;
 use App\Console\Commands\ImportEssentialsBansCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -12,7 +13,6 @@ use App\Console\Commands\RepairMissingGroupsCommand;
 
 class Kernel extends ConsoleKernel
 {
-
     /**
      * The Artisan commands provided by your application.
      *
@@ -23,7 +23,8 @@ class Kernel extends ConsoleKernel
         ServerKeyCreateCommand::class,
         StripUUIDHyphensCommand::class,
         RepairMissingGroupsCommand::class,
-        ImportEssentialsBansCommand::class
+        ImportEssentialsBansCommand::class,
+        CleanupUnactivatedAccountsCommand::class,
     ];
 
     /**

@@ -34,12 +34,4 @@ final class AccountRepository extends Repository
             ->where('email', $email)
             ->first();
     }
-
-    public function deleteUnactivatedOlderThan(Carbon $date)
-    {
-        return $this->getModel()
-            ->where('activated', false)
-            ->whereDate('updated_at', '<', $date)
-            ->delete();
-    }
 }
