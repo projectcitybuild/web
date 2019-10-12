@@ -8,11 +8,21 @@
 
         @include('front.components.form-error')
 
-        <div class="card card--no-padding">
-            <div class="card__body">
-                <form action="{{ route('front.panel.donation-perks.update', $perk) }}" method="post">
+        <div class="card">
+            <div class="card__body card--narrow">
+                <form method="post" action="{{ route('front.panel.donation-perks.destroy', $perk) }}">
                     @csrf
-                    @method('PUT')
+                    @method('DELETE')
+                    <button type="submit" class="button button--secondary button--bordered"><i class="fas fa-trash"></i> Delete</button>
+                </form>
+            </div>
+        </div>
+
+        <form action="{{ route('front.panel.donation-perks.update', $perk) }}" method="post">
+            @csrf
+            @method('PUT')
+            <div class="card">
+                <div class="card__body">
                     <table class="table table--divided">
                         <tr>
                             <td><label for="account_id">Donation ID</label></td>
@@ -51,21 +61,13 @@
                                 <input type="checkbox" name="is_lifetime_perks" id="is_lifetime_perks" value="1"{{ old('is_lifetime_perks', $perk->is_lifetime_perks) ? ' checked' : '' }}>
                             </td>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <button type="submit" class="button button--primary button--large"><i class="fas fa-check"></i> Save</button>
-                            </td>
-                        </tr>
                     </table>
-                </form>
-
-                <form method="post" action="{{ route('front.panel.donation-perks.destroy', $perk) }}">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="button button--large">Delete</button>
-                </form>
+                </div>
+                <div class="card__footer">
+                    <button type="submit" class="button button--primary button--large"><i class="fas fa-check"></i> Save</button>
+                </div>
             </div>
-        </div>
+        </form>
+
     </div>
 @endsection
