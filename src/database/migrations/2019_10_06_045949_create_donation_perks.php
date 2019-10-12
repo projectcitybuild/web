@@ -45,9 +45,14 @@ class CreateDonationPerks extends Migration
                 ]);
             }
 
+            // SQLite doesn't like multiple dropColumn() in a single operation
             Schema::table('donations', function (Blueprint $table) {
                 $table->dropColumn('perks_end_at');
+            });
+            Schema::table('donations', function (Blueprint $table) {
                 $table->dropColumn('is_lifetime_perks');
+            });
+            Schema::table('donations', function (Blueprint $table) {
                 $table->dropColumn('is_active');
             });
         });
