@@ -4,6 +4,9 @@ namespace App\Entities\ServerKeys\Repositories;
 use App\Entities\ServerKeys\Models\ServerKey;
 use App\Repository;
 
+/**
+ * @deprecated Use ServerKey model facade instead
+ */
 class ServerKeyRepository extends Repository
 {
     protected $model = ServerKey::class;

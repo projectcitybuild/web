@@ -5,6 +5,9 @@ use App\Entities\Servers\Models\ServerStatus;
 use App\Repository;
 use Carbon\Carbon;
 
+/**
+ * @deprecated Use ServerStatus model facade instead
+ */
 class ServerStatusRepository extends Repository
 {
     protected $model = ServerStatus::class;

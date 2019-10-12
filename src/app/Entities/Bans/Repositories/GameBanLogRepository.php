@@ -4,6 +4,9 @@ namespace App\Entities\Bans\Repositories;
 
 use App\Entities\Bans\Models\GameBanLog;
 
+/**
+ * @deprecated Use GameBanLog model facade instead
+ */
 final class GameBanLogRepository
 {
     /**

@@ -3,6 +3,9 @@ namespace App\Entities\Servers\Repositories;
 
 use App\Entities\Servers\Models\Server;
 
+/**
+ * @deprecated Use Server model facade instead
+ */
 class ServerRepository
 {
     private $serverModel;

@@ -7,6 +7,9 @@ use App\Repository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * @deprecated Use Account model facade instead
+ */
 final class AccountRepository extends Repository
 {
     protected $model = Account::class;

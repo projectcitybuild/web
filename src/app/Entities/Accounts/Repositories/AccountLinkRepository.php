@@ -5,6 +5,9 @@ namespace App\Entities\Accounts\Repositories;
 use App\Entities\Accounts\Models\AccountLink;
 use App\Repository;
 
+/**
+ * @deprecated Use AccountLink model facade instead
+ */
 final class AccountLinkRepository extends Repository
 {
     protected $model = AccountLink::class;
