@@ -13,9 +13,15 @@ final class HomeController extends WebController
 {
     public function index()
     {
-        $donations = $this->getAnnualPercentageStats();
+        $thisYear = date('Y');
+        $now = Carbon::now();
+        $lastDayOfThisYear = new Carbon('last day of december');
 
-        // combine unique Minecraft player count + forum accounts with
+        $totalDonationsThisYear = Donation::whereYear('created_at', $thisYear)->sum('amount');
+        $percentage = round(($totalDonationsThisYear / 1000) * 100);
+        $remainingDaysThisYear = $lastDayOfThisYear->diff($now)->days;
+
+        // Combine unique Minecraft player count + forum accounts with
         // no game account linked (due to SMF import)
         $playerCount = Cache::remember('front.player_count', 10, function () {
             $minecraftPlayers = MinecraftPlayer::count();
@@ -25,25 +31,12 @@ final class HomeController extends WebController
         });
 
         return view('front.pages.home', [
-            'donations'     => $donations,
-            'playerCount'   => $playerCount,
+            'playerCount' => $playerCount,
+            'donations' => [
+                'total'         => $totalDonationsThisYear ?: 0,
+                'remainingDays' => $remainingDaysThisYear,
+                'percentage'    => max(1, $percentage) ?: 0,
+            ],
         ]);
-    }
-
-    private function getAnnualPercentageStats() : array
-    {
-        $year = date('Y');
-        $annualSum = Donation::whereYear('created_at', $year)->sum('amount');
-        $percentage = round(($annualSum / 1000) * 100);
-
-        $lastDayOfYear = new Carbon('last day of december');
-        $now = Carbon::now();
-        $remainingDays = $lastDayOfYear->diff($now)->days;
-
-        return [
-            'total'         => $annualSum ?: 0,
-            'remainingDays' => $remainingDays,
-            'percentage'    => max(1, $percentage) ?: 0,
-        ];
     }
 }
