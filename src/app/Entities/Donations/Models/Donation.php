@@ -66,6 +66,6 @@ final class Donation extends Model
 
     public function perks() : BelongsToMany
     {
-        return $this->belongsToMany(DonatorPerk::class, 'donator_perks', 'donation_id', 'donation_id');
+        return $this->belongsToMany(DonationPerk::class, 'donator_perks', 'donation_id', 'donation_id');
     }
 }
