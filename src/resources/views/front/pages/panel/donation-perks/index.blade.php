@@ -4,7 +4,7 @@
 
 @section('contents')
     <div class="staff-panel">
-        <h1>Donations</h1>
+        <h1>Donation Perks</h1>
 
         <table class="table table--divided">
             <thead>

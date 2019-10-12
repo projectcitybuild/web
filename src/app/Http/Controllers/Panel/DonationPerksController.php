@@ -16,7 +16,7 @@ class DonationPerksController extends WebController
      */
     public function index(Request $request)
     {
-        $perks = DonationPerk::with('account')->orderBy('created_at', 'desc')->paginate(100);
+        $perks = DonationPerk::with(['account', 'donation'])->orderBy('created_at', 'desc')->paginate(100);
         return view('front.pages.panel.donation-perks.index')->with(compact('perks'));
     }
 
@@ -83,22 +83,22 @@ class DonationPerksController extends WebController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Entities\Donations\Models\DonationPerk  $perk
+     * @param  \App\Entities\Donations\Models\DonationPerk  $donationPerk
      * @return \Illuminate\Http\Response
      */
-    public function edit(DonationPerk $perk)
+    public function edit(DonationPerk $donationPerk)
     {
-        return view('front.pages.panel.donation-perks.edit')->with(compact('perk'));
+        return view('front.pages.panel.donation-perks.edit')->with(['perk' => $donationPerk]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Donations\Models\DonationPerk   $perk
+     * @param  \App\Entities\Donations\Models\DonationPerk   $donationPerk
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DonationPerk $perk)
+    public function update(Request $request, DonationPerk $donationPerk)
     {
         // Checkbox input isn't sent to the server if not ticked by the user
         if (!$request->has('is_active')) {
@@ -129,8 +129,8 @@ class DonationPerksController extends WebController
                 ->withInput();
         }
 
-        $perk->update($request->all());
-        $perk->save();
+        $donationPerk->update($request->all());
+        $donationPerk->save();
 
         return redirect(route('front.panel.donation-perks.index'));
     }
@@ -139,12 +139,12 @@ class DonationPerksController extends WebController
      * Delete the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Donations\Models\DonationPerk   $perk
+     * @param  \App\Entities\Donations\Models\DonationPerk   $donationPerk
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, DonationPerk $perk)
+    public function destroy(Request $request, DonationPerk $donationPerk)
     {
-        $perk->delete();
+        $donationPerk->delete();
         return redirect(route('front.panel.donation-perks.index'));
     }
 }
