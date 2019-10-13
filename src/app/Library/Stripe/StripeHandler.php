@@ -1,22 +1,15 @@
 <?php
+
 namespace App\Library\Stripe;
 
+use Stripe\Checkout\Session;
 use Stripe\Stripe;
 use Stripe\Charge;
 use Stripe\Customer;
 
-
 class StripeHandler
 {
     private $currency = 'aud';
-
-    /**
-     * account_id if available
-     *
-     * @var int
-     */
-    private $pcbAccountId;
-
 
     public function __construct()
     {
@@ -57,5 +50,31 @@ class StripeHandler
             'email' => $email,
             'source' => $token,
         ]);
+    }
+
+    /**
+     * Creates a new session for using Stripe's Checkout flow
+     *
+     * @return string Session ID
+     */
+    public function createCheckoutSession(): string
+    {
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [
+                [
+                    'name' => 'PCB Contribution',
+                    'description' => 'One time payment',
+                    'images' => [],
+                    'amount' => 300,
+                    'currency' => $this->currency,
+                    'quantity' => 1,
+                ],
+            ],
+            'success_url' => '',
+            'cancel_url' => '',
+        ]);
+
+        return $session->id;
     }
 }

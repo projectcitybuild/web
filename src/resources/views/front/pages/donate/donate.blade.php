@@ -4,9 +4,22 @@
 @section('description', "Help keep us online by donating")
 
 @push('head')
-    <meta name="stripe-key" content="{{ config('services.stripe.key') }}" />
-    <meta name="stripe-submit" content="{{ route('front.donate.store') }}" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        const stripe = Stripe('{{ config('services.stripe.key') }}');
+
+        stripe.redirectToCheckout({
+            // Make the id field from the Checkout Session creation API response
+            // available to this file, so you can provide it as parameter here
+            // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+            sessionId: '{{CHECKOUT_SESSION_ID}}'
+        }).then(function (result) {
+            // If `redirectToCheckout` fails due to a browser or network
+            // error, display the localized error message to your customer
+            // using `result.error.message`.
+        });
+    </script>
 @endpush
 
 @section('contents')
@@ -92,7 +105,11 @@
                 </div>
             @endguest
 
-            <div id="donation-amount"></div>
+            <div>
+                <button class="button button--large button--fill button--primary" type="button">
+                    <i class="fas fa-credit-card"></i> Donate via Card
+                </button>
+            </div>
 
             <small>
                 Your payment details will be processed by <a href="https://stripe.com/" rel="noopener" target="_blank">Stripe</a>, and only a record of your donation will be stored by PCB.

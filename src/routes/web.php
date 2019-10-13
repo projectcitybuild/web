@@ -46,11 +46,6 @@ Route::prefix('donate')->group(function () {
     ]);
 });
 
-Route::get('donations', [
-    'as'    => 'front.donation-list',
-    'uses'  => 'DonationController@getListView',
-]);
-
 Route::get('sso/discourse', [
    'as'     => 'front.sso.discourse',
    'uses'   => 'DiscourseSSOController@create'
