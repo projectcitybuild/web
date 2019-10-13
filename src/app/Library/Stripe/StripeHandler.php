@@ -6,6 +6,7 @@ use Stripe\Checkout\Session;
 use Stripe\Stripe;
 use Stripe\Charge;
 use Stripe\Customer;
+use Stripe\Webhook;
 
 class StripeHandler
 {
@@ -30,18 +31,6 @@ class StripeHandler
     {
         $this->currency = $currency;
         return $this;
-    }
-    
-    public function charge(int $amount, string $token = null, ?int $customerId = null, string $receiptEmail = null, string $description = null) : Charge
-    {
-        return Charge::create([
-            'amount' => $amount,
-            'source' => $token,
-            'receipt_email' => $receiptEmail,
-            'description' => $description,
-            'customer' => $customerId,
-            'currency' => $this->currency,
-        ]);
     }
 
     public function createCustomer(string $token, string $email) : Customer
@@ -76,5 +65,11 @@ class StripeHandler
         ]);
 
         return $session->id;
+    }
+
+    public function getWebhookEvent(string $payload, string $signature, string $secret): Webhook
+    {
+        $event = Webhook::constructEvent($payload, $signature, $secret);
+        return $event;
     }
 }
