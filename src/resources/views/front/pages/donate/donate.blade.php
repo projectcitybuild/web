@@ -8,17 +8,44 @@
 
     <script>
         const stripe = Stripe('{{ config('services.stripe.key') }}');
+        const sessionStartEndpoint = '{{ route('donations.create') }}';
 
-        stripe.redirectToCheckout({
-            // Make the id field from the Checkout Session creation API response
-            // available to this file, so you can provide it as parameter here
-            // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
-            sessionId: '{{CHECKOUT_SESSION_ID}}'
-        }).then(function (result) {
-            // If `redirectToCheckout` fails due to a browser or network
-            // error, display the localized error message to your customer
-            // using `result.error.message`.
-        });
+        async function startCheckoutFlow() {
+            try {
+                const response = await fetch(sessionStartEndpoint, {
+                    method: 'GET',
+                    mode: 'same-origin',
+                    cache: 'no-cache',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const json = await response.json();
+
+                redirectToCheckout(json.data.session_id)
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        async function redirectToCheckout(sessionId) {
+            const {error} = await stripe.redirectToCheckout({
+                sessionId: sessionId,
+            })
+
+            if (error) {
+                console.error(error);
+
+                // If `redirectToCheckout` fails due to a browser or network
+                // error, display the localized error message to your customer
+                // using `error.message`.
+            }
+        }
+
+        window.onload = function() {
+            document.getElementById('stripe-donate-button').onclick = startCheckoutFlow;
+        }
     </script>
 @endpush
 
@@ -106,7 +133,7 @@
             @endguest
 
             <div>
-                <button class="button button--large button--fill button--primary" type="button">
+                <button class="button button--large button--fill button--primary" type="button" id="stripe-donate-button">
                     <i class="fas fa-credit-card"></i> Donate via Card
                 </button>
             </div>

@@ -40,10 +40,6 @@ Route::prefix('donate')->group(function () {
         'as' => 'front.donate',
         'uses' => 'DonationController@index',
     ]);
-    Route::post('charge', [
-        'as'    => 'front.donate.store',
-        'uses'  => 'DonationController@store',
-    ]);
 });
 
 Route::get('sso/discourse', [

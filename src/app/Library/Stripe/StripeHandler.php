@@ -71,8 +71,8 @@ class StripeHandler
                     'quantity' => 1,
                 ],
             ],
-            'success_url' => '',
-            'cancel_url' => '',
+            'success_url' => route('front.donate'),
+            'cancel_url' => route('front.donate'),
         ]);
 
         return $session->id;
