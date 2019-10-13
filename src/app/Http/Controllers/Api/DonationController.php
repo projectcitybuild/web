@@ -8,6 +8,7 @@ use App\Entities\Payments\AccountPaymentType;
 use App\Entities\Payments\Models\AccountPayment;
 use App\Http\ApiController;
 use App\Library\Stripe\StripeHandler;
+use App\Library\Stripe\StripeWebhookEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -41,10 +42,10 @@ final class DonationController extends ApiController
         $payload = @file_get_contents('php://input');
         $signature = $request->headers->get('HTTP_STRIPE_SIGNATURE');
 
-        $event = null;
+        $webhook = null;
 
         try {
-            $event = $this->stripeHandler->getWebhookEvent($payload, $signature, $endpointSecret);
+            $webhook = $this->stripeHandler->getWebhookEvent($payload, $signature, $endpointSecret);
         }
         catch(\UnexpectedValueException $e) {
             // Invalid payload
@@ -57,16 +58,14 @@ final class DonationController extends ApiController
             abort(400);
         }
 
-        if ($event->type == 'checkout.session.completed') {
-            $session = $event->data->object;
-
-            if ($session->display_items[0]->amount <= 0) {
+        if ($webhook->getEvent() == StripeWebhookEvent::CheckoutSessionCompleted) {
+            if ($webhook->getAmountInCents() <= 0) {
                 abort(400, 'Received a zero amount donation from Stripe');
             }
 
             $this->fulfillDonation(
-                $session->id,
-                $session->display_items[0]->amount
+                $webhook->getTransactionId(),
+                $webhook->getAmountInCents()
             );
         }
 
