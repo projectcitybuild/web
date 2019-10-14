@@ -12,6 +12,7 @@ use App\Library\Stripe\StripeWebhookEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Stripe\Error\SignatureVerification;
 
 final class DonationController extends ApiController
 {
@@ -52,7 +53,7 @@ final class DonationController extends ApiController
             app('sentry')->captureException($e);
             abort(400);
         }
-        catch(\Stripe\Error\SignatureVerificationException $e) {
+        catch(SignatureVerification $e) {
             // Invalid signature
             app('sentry')->captureException($e);
             abort(400);
