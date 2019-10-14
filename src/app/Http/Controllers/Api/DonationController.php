@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Entities\Accounts\Models\Account;
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Groups\Models\Group;
 use App\Entities\Payments\AccountPaymentType;
@@ -52,8 +53,8 @@ final class DonationController extends ApiController
     public function store(Request $request)
     {
         $endpointSecret = config('stripe.secret');
-        $payload = @file_get_contents('php://input');
-        $signature = $request->headers->get('HTTP_STRIPE_SIGNATURE');
+        $payload = $request->getContent();
+        $signature = $request->headers->get('stripe-signature');
 
         $webhook = null;
 
@@ -71,6 +72,11 @@ final class DonationController extends ApiController
             abort(400);
         }
 
+        $session = AccountPaymentSession::where('session_id', $webhook->getSessionId())->first();
+        if ($session === null) {
+            throw new \Exception('Could not fulfill donation. Internal session id not found: '.$webhook->getSessionId());
+        }
+
         if ($webhook->getEvent() == StripeWebhookEvent::CheckoutSessionCompleted) {
             if ($webhook->getAmountInCents() <= 0) {
                 abort(400, 'Received a zero amount donation from Stripe');
@@ -78,17 +84,17 @@ final class DonationController extends ApiController
 
             $this->fulfillDonation(
                 $webhook->getTransactionId(),
-                $webhook->getAmountInCents()
+                $webhook->getAmountInCents(),
+                $session
             );
         }
 
         return response()->json(null, 200);
     }
 
-    private function fulfillDonation(string $transactionId, int $amountInCents)
+    private function fulfillDonation(string $transactionId, int $amountInCents, AccountPaymentSession $session)
     {
-        $account = Auth::user();
-        $accountId = $account !== null ? $account->getKey() : null;
+        $accountId = $session->account !== null ? $session->account->getKey() : null;
 
         $amountInDollars = (float)($amountInCents / 100);
         $isLifetime = $amountInDollars >= Donation::LIFETIME_REQUIRED_AMOUNT;
@@ -121,6 +127,9 @@ final class DonationController extends ApiController
                 'is_subscription_payment' => false,
             ]);
 
+            $session->is_processed = true;
+            $session->save();
+
             DB::commit();
         }
         catch (\Exception $e) {
@@ -129,12 +138,12 @@ final class DonationController extends ApiController
         }
 
         // Add user to Donator group if they're logged in
-        if ($account !== null) {
+        if ($session->account !== null) {
             $donatorGroup = Group::where('name', 'donator')->first();
             $donatorGroupId = $donatorGroup->getKey();
 
-            if (!$account->groups->contains($donatorGroupId)) {
-                $account->groups()->attach($donatorGroupId);
+            if (!$session->account->groups->contains($donatorGroupId)) {
+                $session->account->groups()->attach($donatorGroupId);
             }
         }
     }

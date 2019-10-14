@@ -126,6 +126,7 @@ class StripeHandler
         $webhook = new StripeWebhook(
             StripeWebhookEvent::fromRawValue($event->type),
             $event->data->object->id,
+            $event->data->object->client_reference_id,
             $event->data->object->display_items[0]->amount
         );
         return $webhook;
