@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Entities\Accounts\Models\Account;
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Groups\Models\Group;
 use App\Entities\Payments\AccountPaymentType;
@@ -14,8 +13,7 @@ use App\Library\Stripe\StripeWebhookEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Ramsey\Uuid\Uuid;
-use Stripe\Error\SignatureVerification;
+use Illuminate\Support\Str;
 
 final class DonationController extends ApiController
 {
@@ -31,7 +29,7 @@ final class DonationController extends ApiController
 
     public function create(Request $request)
     {
-        $pcbSessionUuid = Uuid::fromInteger(time());
+        $pcbSessionUuid = Str::uuid();
         $stripeSessionId = $this->stripeHandler->createCheckoutSession($pcbSessionUuid);
 
         $account = Auth::user();
@@ -52,9 +50,9 @@ final class DonationController extends ApiController
 
     public function store(Request $request)
     {
-        $endpointSecret = config('services.stripe.secret');
+        $endpointSecret = config('services.stripe.webhook.secret');
         $payload = $request->getContent();
-        $signature = $request->headers->get('stripe-signature');
+        $signature = $request->headers->get('Stripe-Signature');
 
         $webhook = $this->stripeHandler->getWebhookEvent($payload, $signature, $endpointSecret);
 
@@ -65,7 +63,7 @@ final class DonationController extends ApiController
 
         if ($webhook->getEvent() == StripeWebhookEvent::CheckoutSessionCompleted) {
             if ($webhook->getAmountInCents() <= 0) {
-                abort(400, 'Received a zero amount donation from Stripe');
+                throw new \Exception('Received a zero amount donation from Stripe');
             }
 
             $this->fulfillDonation(
