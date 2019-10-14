@@ -1,26 +1,25 @@
 <?php
 
-namespace App\Entities\Donations\Models;
+namespace App\Entities\Payments\Models;
 
-use App\Entities\Accounts\Models\Account;
 use App\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Entities\Accounts\Models\Account;
 
-final class DonationPerk extends Model
+final class AccountPaymentSession extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'donation_perks';
+    protected $table = 'account_payment_sessions';
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'donation_perks_id';
+    protected $primaryKey = 'account_payment_session_id';
 
     /**
      * The attributes that are mass assignable.
@@ -28,11 +27,9 @@ final class DonationPerk extends Model
      * @var array
      */
     protected $fillable = [
-        'donation_id',
+        'session_id',
         'account_id',
-        'is_lifetime_perks',
-        'is_active',
-        'expires_at',
+        'is_processed',
         'created_at',
         'updated_at',
     ];
@@ -50,7 +47,6 @@ final class DonationPerk extends Model
      * @var array
      */
     protected $dates = [
-        'expires_at',
         'created_at',
         'updated_at',
     ];
@@ -61,17 +57,12 @@ final class DonationPerk extends Model
      * @var array
      */
     protected $casts = [
-        'is_active' => 'boolean',
-        'is_lifetime_perks' => 'boolean',
+        'is_processed' => 'boolean',
     ];
 
-    public function account(): HasOne
+
+    public function account()
     {
         return $this->hasOne(Account::class, 'account_id', 'account_id');
-    }
-
-    public function donation(): HasOne
-    {
-        return $this->hasOne(Donation::class, 'donation_id', 'donation_id');
     }
 }

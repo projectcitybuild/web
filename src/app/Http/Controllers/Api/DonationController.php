@@ -6,12 +6,14 @@ use App\Entities\Donations\Models\Donation;
 use App\Entities\Groups\Models\Group;
 use App\Entities\Payments\AccountPaymentType;
 use App\Entities\Payments\Models\AccountPayment;
+use App\Entities\Payments\Models\AccountPaymentSession;
 use App\Http\ApiController;
 use App\Library\Stripe\StripeHandler;
 use App\Library\Stripe\StripeWebhookEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Ramsey\Uuid\Uuid;
 use Stripe\Error\SignatureVerification;
 
 final class DonationController extends ApiController
@@ -28,11 +30,21 @@ final class DonationController extends ApiController
 
     public function create(Request $request)
     {
-        $sessionId = $this->stripeHandler->createCheckoutSession();
+        $pcbSessionUuid = Uuid::fromInteger(time());
+        $stripeSessionId = $this->stripeHandler->createCheckoutSession($pcbSessionUuid);
+
+        $account = Auth::user();
+        $accountId = $account !== null ? $account->getKey() : null;
+
+        AccountPaymentSession::create([
+            'session_id' => $pcbSessionUuid->toString(),
+            'account_id' => $accountId,
+            'is_processed' => false,
+        ]);
 
         return [
             'data' => [
-                'session_id' => $sessionId,
+                'session_id' => $stripeSessionId,
             ]
         ];
     }

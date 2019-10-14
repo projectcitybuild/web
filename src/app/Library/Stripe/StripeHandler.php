@@ -36,12 +36,16 @@ class StripeHandler
     /**
      * Creates a new session for using Stripe's Checkout flow
      *
-     * @return string Session ID
+     * @param string $uniqueSessionId   A unique UUID that will be sent to Stripe to be stored alongside the
+     *                                  session. When Stripe notifies us via WebHook that the payment is processed,
+     *                                  they will pass us back the UUID so we can fulfill the purchase.
+     * @return string Stripe session ID
      */
-    public function createCheckoutSession(): string
+    public function createCheckoutSession(string $uniqueSessionId): string
     {
         $session = Session::create([
             'payment_method_types' => ['card'],
+            'client_reference_id' => $uniqueSessionId,
             'line_items' => [
                 [
                     'name' => 'PCB Contribution',
