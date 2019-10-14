@@ -56,21 +56,7 @@ final class DonationController extends ApiController
         $payload = $request->getContent();
         $signature = $request->headers->get('stripe-signature');
 
-        $webhook = null;
-
-        try {
-            $webhook = $this->stripeHandler->getWebhookEvent($payload, $signature, $endpointSecret);
-        }
-        catch(\UnexpectedValueException $e) {
-            // Invalid payload
-            app('sentry')->captureException($e);
-            abort(400);
-        }
-        catch(SignatureVerification $e) {
-            // Invalid signature
-            app('sentry')->captureException($e);
-            abort(400);
-        }
+        $webhook = $this->stripeHandler->getWebhookEvent($payload, $signature, $endpointSecret);
 
         $session = AccountPaymentSession::where('session_id', $webhook->getSessionId())->first();
         if ($session === null) {
