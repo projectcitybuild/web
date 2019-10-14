@@ -52,7 +52,7 @@ final class DonationController extends ApiController
 
     public function store(Request $request)
     {
-        $endpointSecret = config('stripe.secret');
+        $endpointSecret = config('services.stripe.secret');
         $payload = $request->getContent();
         $signature = $request->headers->get('stripe-signature');
 
