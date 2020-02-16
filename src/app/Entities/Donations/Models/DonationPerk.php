@@ -4,32 +4,18 @@ namespace App\Entities\Donations\Models;
 
 use App\Entities\Accounts\Models\Account;
 use App\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-final class Donation extends Model
+final class DonationPerk extends Model
 {
-    /**
-     * Amount that needs to be donated to be granted
-     * lifetime perks
-     */
-    const LIFETIME_REQUIRED_AMOUNT = 30;
-
-    /**
-     * Amount that needs to be donated to receive one month
-     * worth of donator perks
-     */
-    const ONE_MONTH_REQUIRED_AMOUNT = 3;
-
-
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'donations';
+    protected $table = 'donation_perks';
 
-    protected $primaryKey = 'donation_id';
+    protected $primaryKey = 'donation_perks_id';
 
     /**
      * The attributes that are mass assignable.
@@ -37,11 +23,11 @@ final class Donation extends Model
      * @var array
      */
     protected $fillable = [
+        'donation_id',
         'account_id',
-        'amount',
-        'perks_end_at',
         'is_lifetime_perks',
         'is_active',
+        'expires_at',
         'created_at',
         'updated_at',
     ];
@@ -53,19 +39,34 @@ final class Donation extends Model
      */
     protected $hidden = [];
 
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
     protected $dates = [
-        'perks_end_at',
+        'expires_at',
         'created_at',
         'updated_at',
     ];
 
-    public function account() : HasOne
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_active' => 'boolean',
+        'is_lifetime_perks' => 'boolean',
+    ];
+
+    public function account(): HasOne
     {
         return $this->hasOne(Account::class, 'account_id', 'account_id');
     }
 
-    public function perks() : BelongsToMany
+    public function donation(): HasOne
     {
-        return $this->belongsToMany(DonationPerk::class, 'donator_perks', 'donation_id', 'donation_id');
+        return $this->hasOne(Donation::class, 'donation_id', 'donation_id');
     }
 }

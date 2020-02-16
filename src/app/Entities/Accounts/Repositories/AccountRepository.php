@@ -7,6 +7,9 @@ use App\Repository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * @deprecated Use Account model facade instead
+ */
 final class AccountRepository extends Repository
 {
     protected $model = Account::class;
@@ -33,13 +36,5 @@ final class AccountRepository extends Repository
         return $this->getModel()
             ->where('email', $email)
             ->first();
-    }
-
-    public function deleteUnactivatedOlderThan(Carbon $date)
-    {
-        return $this->getModel()
-            ->where('activated', false)
-            ->whereDate('updated_at', '<', $date)
-            ->delete();
     }
 }

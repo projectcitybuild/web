@@ -6,6 +6,9 @@ use App\Entities\Warnings\Models\GameWarning;
 use App\Entities\Bans\Models\GameBan;
 use App\Repository;
 
+/**
+ * @deprecated Use GameWarning model facade instead
+ */
 final class GameWarningRepository extends Repository
 {
     protected $model = GameWarning::class;
