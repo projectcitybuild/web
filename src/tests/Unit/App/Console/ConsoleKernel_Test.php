@@ -26,4 +26,10 @@ final class ConsoleKernel_Test extends TestCase
         $this->artisan('cleanup:unactivated-accounts')
             ->assertExitCode(0);
     }
+
+    public function testCommand_DeactivateDonatorPerks()
+    {
+        $this->artisan('donator-perks:expire')
+            ->assertExitCode(0);
+    }
 }

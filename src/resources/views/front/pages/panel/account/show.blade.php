@@ -161,21 +161,45 @@
                 <table class="table table--divided">
                     <thead>
                     <tr>
-                        <th>Active</th>
                         <th>Amount</th>
-                        <th>Perks end at</th>
-                        <th>Lifetime?</th>
-                        <th>Donation time</th>
+                        <th>Donation Date</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($account->donations as $donation)
                         <tr>
-                            <td>{{ $donation->is_active ? 'Yes' : 'No' }}</td>
                             <td>${{ $donation->amount }}</td>
-                            <td>{{ $donation->perks_end_at }}</td>
-                            <td>{{ $donation->is_lifetime_perks ? 'Yes' : 'No' }}</td>
-                            <td>{{ $donation->donation_time }}</td>
+                            <td>{{ $donation->created_at }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card card--no-padding">
+            <div class="card__header">
+                Donation Perks
+            </div>
+            <div class="card__body">
+                <table class="table table--divided">
+                    <thead>
+                    <tr>
+                        <th>Active</th>
+                        <th>Donation ID</th>
+                        <th>Perks end at</th>
+                        <th>Lifetime?</th>
+                        <th>Start Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($account->donationPerks as $perk)
+                        <tr>
+                            <td>{{ $perk->is_active ? 'Yes' : 'No' }}</td>
+                            <td>${{ $perk->donation_id }}</td>
+                            <td>{{ $perk->expires_at }}</td>
+                            <td>{{ $perk->is_lifetime_perks ? 'Yes' : 'No' }}</td>
+                            <td>{{ $perk->created_at }}</td>
                         </tr>
                     @endforeach
                     </tbody>

@@ -35,10 +35,6 @@ Route::prefix('groups')->group(function () {
     Route::get('/', 'GroupApiController@getAll');
 });
 
-Route::prefix('servers')->group(function () {
-    Route::get('all', 'ServerController@getAllServers');
-});
-
 Route::post('discord/sync', 'DiscordSyncController@getRank');
 
 Route::post('deploy', 'DeployController@deploy');

@@ -5,6 +5,9 @@ use App\Entities\Servers\Models\ServerStatusPlayer;
 use Carbon\Carbon;
 use App\Repository;
 
+/**
+ * @deprecated Use ServerStatusPlayer model facade instead
+ */
 class ServerStatusPlayerRepository extends Repository
 {
     protected $model = ServerStatusPlayer::class;
