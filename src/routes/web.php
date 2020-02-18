@@ -40,7 +40,7 @@ Route::prefix('donate')->group(function () {
         'as' => 'front.donate',
         'uses' => 'DonationController@index',
     ]);
-    Route::get('/success', [
+    Route::get('success', [
         'as' => 'front.donate.success',
         'uses' => 'DonationController@success',
     ]);
