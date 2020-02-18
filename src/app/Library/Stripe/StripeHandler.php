@@ -39,11 +39,13 @@ class StripeHandler
      * @param string $uniqueSessionId   A unique UUID that will be sent to Stripe to be stored alongside the
      *                                  session. When Stripe notifies us via WebHook that the payment is processed,
      *                                  they will pass us back the UUID so we can fulfill the purchase.
+     * @param int $amountInCents
+     * $param ?string $email            If provided, prefills the 'customer email' field on the checkout page
      * @return string Stripe session ID
      */
-    public function createCheckoutSession(string $uniqueSessionId, int $amountInCents): string
+    public function createOneTimeCheckoutSession(string $uniqueSessionId, int $amountInCents, ?string $email = null): string
     {
-        $session = Session::create([
+        $sessionData = [
             'payment_method_types' => ['card'],
             'client_reference_id' => $uniqueSessionId,
             'line_items' => [
@@ -55,6 +57,30 @@ class StripeHandler
                     'currency' => $this->currency,
                     'quantity' => 1,
                 ],
+            ],
+            'success_url' => route('front.donate.success'),
+            'cancel_url' => route('front.donate'),
+        ];
+
+        if ($email !== null) {
+            $sessionData['customer_email'] = $email;
+        }
+
+        $session = Session::create($sessionData);
+
+        return $session->id;
+    }
+
+    public function createRecurringCheckoutSession(string $uniqueSessionId, int $amountInCents): string
+    {
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'client_reference_id' => $uniqueSessionId,
+            'subscription_data' => [
+                'items' => [[
+                    'plan' => 'plan_Gl1KcR6J405bpG',
+                    'quantity' => round($amountInCents / 100),
+                ]],
             ],
             'success_url' => route('front.donate.success'),
             'cancel_url' => route('front.donate'),

@@ -31,6 +31,7 @@ final class DonationController extends ApiController
 
     public function create(Request $request)
     {
+        $isRecurring = $request->get('is_recurring', false);
         $accountId = $request->get('account_id');
         $amountInDollars = $request->get('amount', 3.00);
         $amountInCents = $amountInDollars * 100;
