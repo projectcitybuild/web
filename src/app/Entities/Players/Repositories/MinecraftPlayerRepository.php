@@ -5,6 +5,9 @@ use App\Entities\Players\Models\MinecraftPlayer;
 use App\Repository;
 use Carbon\Carbon;
 
+/**
+ * @deprecated Use MinecraftPlayer model facade instead
+ */
 class MinecraftPlayerRepository extends Repository
 {
     protected $model = MinecraftPlayer::class;

@@ -1,7 +1,6 @@
 <?php
 
 use App\Services\PasswordReset\PasswordResetCleanupService;
-use App\Services\Registration\UnactivatedAccountCleanupService;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -19,8 +18,3 @@ Artisan::command('cleanup:password-resets', function () {
     $cleanupService = resolve(PasswordResetCleanupService::class);
     $cleanupService->cleanup();
 })->describe('Delete old password reset requests');
-
-Artisan::command('cleanup:unactivated-accounts', function () {
-    $cleanupService = resolve(UnactivatedAccountCleanupService::class);
-    $cleanupService->cleanup();
-})->describe('Delete old unactivated accounts');

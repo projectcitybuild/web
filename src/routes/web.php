@@ -38,18 +38,13 @@ Route::get('/', [
 Route::prefix('donate')->group(function () {
     Route::get('/', [
         'as' => 'front.donate',
-        'uses' => 'DonationController@getView',
+        'uses' => 'DonationController@index',
     ]);
-    Route::post('charge', [
-        'as'    => 'front.donate.charge',
-        'uses'  => 'DonationController@donate',
+    Route::get('success', [
+        'as' => 'front.donate.success',
+        'uses' => 'DonationController@success',
     ]);
 });
-
-Route::get('donations', [
-    'as'    => 'front.donation-list',
-    'uses'  => 'DonationController@getListView',
-]);
 
 Route::get('sso/discourse', [
    'as'     => 'front.sso.discourse',
@@ -173,6 +168,7 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
 
     Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);
     Route::resource('donations', 'DonationController')->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('donation-perks', 'DonationPerksController')->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 
     Route::group(['prefix' => 'accounts/{account}', 'as' => 'accounts.'], function() {
         Route::get('discourse-admin', [

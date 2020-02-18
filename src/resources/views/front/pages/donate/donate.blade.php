@@ -4,9 +4,56 @@
 @section('description', "Help keep us online by donating")
 
 @push('head')
-    <meta name="stripe-key" content="{{ config('services.stripe.key') }}" />
-    <meta name="stripe-submit" content="{{ route('front.donate.charge') }}" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        const stripe = Stripe('{{ config('services.stripe.key') }}');
+        const sessionStartEndpoint = '{{ route('donations.create') }}';
+
+        async function startCheckoutFlow() {
+            try {
+                const amountInDollars = document.getElementById('donation-amount').value;
+                @auth
+                const endpoint = `${sessionStartEndpoint}?amount=${amountInDollars}&account_id={{ Auth::user()->getKey() }}`
+                @else
+                const endpoint = `${sessionStartEndpoint}?amount=${amountInDollars}`
+                @endauth
+
+                const response = await fetch(endpoint, {
+                    method: 'GET',
+                    mode: 'same-origin',
+                    cache: 'no-cache',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const json = await response.json();
+
+                await redirectToCheckout(json.data.session_id)
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        async function redirectToCheckout(sessionId) {
+            const {error} = await stripe.redirectToCheckout({
+                sessionId: sessionId,
+            })
+
+            if (error) {
+                console.error(error);
+
+                // If `redirectToCheckout` fails due to a browser or network
+                // error, display the localized error message to your customer
+                // using `error.message`.
+            }
+        }
+
+        window.onload = function() {
+            document.getElementById('stripe-donate-button').onclick = startCheckoutFlow;
+        }
+    </script>
 @endpush
 
 @section('contents')
@@ -92,7 +139,12 @@
                 </div>
             @endguest
 
-            <div id="donation-amount"></div>
+            <div>
+                <input type="text" class="input-text" id="donation-amount" value="3.00" placeholder="3.00" />
+                <button class="button button--large button--fill button--primary" type="button" id="stripe-donate-button">
+                    <i class="fas fa-credit-card"></i> Donate via Card
+                </button>
+            </div>
 
             <small>
                 Your payment details will be processed by <a href="https://stripe.com/" rel="noopener" target="_blank">Stripe</a>, and only a record of your donation will be stored by PCB.

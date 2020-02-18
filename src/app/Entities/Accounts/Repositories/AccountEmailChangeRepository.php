@@ -5,6 +5,9 @@ namespace App\Entities\Accounts\Repositories;
 use App\Entities\Accounts\Models\AccountEmailChange;
 use App\Repository;
 
+/**
+ * @deprecated Use AccountEmailChange model facade instead
+ */
 final class AccountEmailChangeRepository extends Repository
 {
     protected $model = AccountEmailChange::class;

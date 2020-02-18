@@ -6,6 +6,9 @@ use App\Entities\Accounts\Models\AccountPasswordReset;
 use App\Repository;
 use Carbon\Carbon;
 
+/**
+ * @deprecated Use AccountPasswordReset model facade instead
+ */
 final class AccountPasswordResetRepository extends Repository
 {
     protected $model = AccountPasswordReset::class;

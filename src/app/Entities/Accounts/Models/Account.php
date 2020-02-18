@@ -3,6 +3,7 @@
 namespace App\Entities\Accounts\Models;
 
 use App\Entities\Donations\Models\Donation;
+use App\Entities\Donations\Models\DonationPerk;
 use App\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -66,6 +67,11 @@ final class Account extends Authenticatable
     public function donations()
     {
         return $this->hasMany(Donation::class, 'account_id');
+    }
+
+    public function donationPerks()
+    {
+        return $this->hasMany(DonationPerk::class, 'account_id', 'account_id');
     }
 
     public function emailChangeRequests()

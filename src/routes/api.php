@@ -31,12 +31,19 @@ Route::prefix('auth')->group(function () {
     ]);
 });
 
-Route::prefix('groups')->group(function () {
-    Route::get('/', 'GroupApiController@getAll');
+Route::prefix('donations')->group(function () {
+    Route::get('create', [
+        'as'    => 'donations.create',
+        'uses'  => 'DonationController@create',
+    ]);
+    Route::post('store', [
+        'as'    => 'donations.store',
+        'uses'  => 'DonationController@store',
+    ]);
 });
 
-Route::prefix('servers')->group(function () {
-    Route::get('all', 'ServerController@getAllServers');
+Route::prefix('groups')->group(function () {
+    Route::get('/', 'GroupApiController@getAll');
 });
 
 Route::post('discord/sync', 'DiscordSyncController@getRank');

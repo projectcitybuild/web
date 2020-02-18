@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Collection;
 use App\Entities\GamePlayerType;
 use Carbon\Carbon;
 
+/**
+ * @deprecated Use GameBan model facade instead
+ */
 final class GameBanRepository extends Repository
 {
     protected $model = GameBan::class;

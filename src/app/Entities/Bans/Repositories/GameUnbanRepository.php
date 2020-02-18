@@ -6,6 +6,9 @@ use App\Repository;
 use App\Entities\Bans\Models\GameUnban;
 use App\Entities\GamePlayerType;
 
+/**
+ * @deprecated Use GameUnban model facade instead
+ */
 final class GameUnbanRepository extends Repository
 {
     protected $model = GameUnban::class;

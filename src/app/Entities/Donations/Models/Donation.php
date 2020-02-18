@@ -4,10 +4,23 @@ namespace App\Entities\Donations\Models;
 
 use App\Entities\Accounts\Models\Account;
 use App\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class Donation extends Model
 {
+    /**
+     * Amount that needs to be donated to be granted
+     * lifetime perks
+     */
+    const LIFETIME_REQUIRED_AMOUNT = 30;
+
+    /**
+     * Amount that needs to be donated to receive one month
+     * worth of donator perks
+     */
+    const ONE_MONTH_REQUIRED_AMOUNT = 3;
+
 
     /**
      * The table associated with the model.
@@ -46,7 +59,13 @@ final class Donation extends Model
         'updated_at',
     ];
 
-    public function account() : HasOne {
+    public function account() : HasOne
+    {
         return $this->hasOne(Account::class, 'account_id', 'account_id');
+    }
+
+    public function perks() : BelongsToMany
+    {
+        return $this->belongsToMany(DonationPerk::class, 'donator_perks', 'donation_id', 'donation_id');
     }
 }

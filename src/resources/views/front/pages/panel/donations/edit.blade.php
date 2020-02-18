@@ -8,11 +8,22 @@
 
         @include('front.components.form-error')
 
-        <div class="card card--no-padding">
+
+        <div class="card">
             <div class="card__body">
-                <form action="{{ route('front.panel.donations.update', $donation) }}" method="post">
+                <form method="post" action="{{ route('front.panel.donations.destroy', $donation) }}">
                     @csrf
-                    @method('PUT')
+                    @method('DELETE')
+                    <button type="submit" class="button button--secondary button--bordered"><i class="fas fa-trash"></i> Delete</button>
+                </form>
+            </div>
+        </div>
+
+        <form action="{{ route('front.panel.donations.update', $donation) }}" method="post">
+            @csrf
+            @method('PUT')
+            <div class="card">
+                <div class="card__body">
                     <table class="table table--divided">
                         <tr>
                             <td><label for="amount">Donation Amount</label></td>
@@ -32,40 +43,13 @@
                                 <input type="text" class="input-text" name="created_at" id="created_at" value="{{ old('created_at', $donation->created_at) }}">
                             </td>
                         </tr>
-                        <tr>
-                            <td><label for="perks_end_at">Expiry Date</label></td>
-                            <td>
-                                <input type="text" class="input-text" name="perks_end_at" id="perks_end_at" value="{{ old('perks_end_at', $donation->perks_end_at) }}"><br />
-                                (Required if not lifetime)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="is_active">Active</label></td>
-                            <td>
-                                <input type="checkbox" name="is_active" id="is_active" value="1"{{ old('is_active', $donation->is_active) ? ' checked' : '' }}>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="is_lifetime_perks">Lifetime</label></td>
-                            <td>
-                                <input type="checkbox" name="is_lifetime_perks" id="is_lifetime_perks" value="1"{{ old('is_lifetime_perks', $donation->is_lifetime_perks) ? ' checked' : '' }}>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <button type="submit" class="button button--primary button--large"><i class="fas fa-check"></i> Save</button>
-
-                                <form method="post" action="{{ route('front.panel.donations.destroy', $donation) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="button button--large">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
                     </table>
-                </form>
+                </div>
+
+                <div class="card__footer">
+                    <button type="submit" class="button button--primary button--large"><i class="fas fa-check"></i> Save</button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 @endsection
