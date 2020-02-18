@@ -10,7 +10,7 @@ use Stripe\Webhook;
 
 class StripeHandler
 {
-    private $currency = 'aud';
+    private $currency = 'usd';
 
     public function __construct()
     {

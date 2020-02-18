@@ -13,6 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 
+// Webhook subscribers
+Route::prefix('webhooks')->group(function () {
+    Route::post('stripe', 'WebhookController@stripe');
+});
+
 Route::prefix('bans')->group(function () {
     Route::post('list', 'GameBanController@getBanList');
     Route::post('store/ban', 'GameBanController@storeBan');
@@ -35,10 +40,6 @@ Route::prefix('donations')->group(function () {
     Route::get('create', [
         'as'    => 'donations.create',
         'uses'  => 'DonationController@create',
-    ]);
-    Route::post('store', [
-        'as'    => 'donations.store',
-        'uses'  => 'DonationController@store',
     ]);
 });
 
