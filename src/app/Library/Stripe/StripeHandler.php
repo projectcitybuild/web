@@ -78,11 +78,11 @@ class StripeHandler
             'client_reference_id' => $uniqueSessionId,
             'subscription_data' => [
                 'items' => [[
-                    'plan' => 'plan_Gl1KcR6J405bpG',
+                    'plan' => config('services.stripe.plans.recurring'),
                     'quantity' => round($amountInCents / 100),
                 ]],
             ],
-            'success_url' => route('front.donate.success'),
+            'success_url' => route('front.donate.success', ['session_id' => '{CHECKOUT_SESSION_ID}']),
             'cancel_url' => route('front.donate'),
         ]);
 

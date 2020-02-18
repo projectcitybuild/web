@@ -37,7 +37,12 @@ final class DonationController extends ApiController
         $amountInCents = $amountInDollars * 100;
 
         $pcbSessionUuid = Str::uuid();
-        $stripeSessionId = $this->stripeHandler->createCheckoutSession($pcbSessionUuid, $amountInCents);
+
+        if ($isRecurring) {
+            $stripeSessionId = $this->stripeHandler->createRecurringCheckoutSession($pcbSessionUuid, $amountInCents);
+        } else {
+            $stripeSessionId = $this->stripeHandler->createOneTimeCheckoutSession($pcbSessionUuid, $amountInCents);
+        }
 
         $session = AccountPaymentSession::create([
             'session_id' => $pcbSessionUuid->toString(),
