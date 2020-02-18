@@ -31,6 +31,17 @@ Route::prefix('auth')->group(function () {
     ]);
 });
 
+Route::prefix('donations')->group(function () {
+    Route::get('create', [
+        'as'    => 'donations.create',
+        'uses'  => 'DonationController@create',
+    ]);
+    Route::post('store', [
+        'as'    => 'donations.store',
+        'uses'  => 'DonationController@store',
+    ]);
+});
+
 Route::prefix('groups')->group(function () {
     Route::get('/', 'GroupApiController@getAll');
 });

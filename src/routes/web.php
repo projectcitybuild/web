@@ -40,16 +40,11 @@ Route::prefix('donate')->group(function () {
         'as' => 'front.donate',
         'uses' => 'DonationController@index',
     ]);
-    Route::post('charge', [
-        'as'    => 'front.donate.store',
-        'uses'  => 'DonationController@store',
+    Route::get('success', [
+        'as' => 'front.donate.success',
+        'uses' => 'DonationController@success',
     ]);
 });
-
-Route::get('donations', [
-    'as'    => 'front.donation-list',
-    'uses'  => 'DonationController@getListView',
-]);
 
 Route::get('sso/discourse', [
    'as'     => 'front.sso.discourse',

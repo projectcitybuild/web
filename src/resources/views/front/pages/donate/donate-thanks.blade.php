@@ -12,30 +12,11 @@
             <div class="donate__confirmation--info">
                 Your perks have been assigned to your account if you were logged into the website.<br />
                 If you are currently in-game, please reconnect to receive your perks.
+                <p />
+                In the case where you don't immediately receive your perks, please wait a few minutes as your payment may still
+                be processing.
             </div>
             
-            <div class="donate__confirmation">
-                <div class="donate__confirmation__left">
-                    <i class="fas fa-gift fa-4x"></i>
-                </div>
-                <div class="donate__confirmation__right">
-                    <h3>Payment Details</h3>
-
-                    Amount donated 
-                    <div class="donate__confirmation--amount">${{ number_format($donation['amount'], 2) }}</div>
-
-                    @auth
-                        @if($donation['is_lifetime_perks'] == false)
-                            Donator perks until: 
-                            <div class="donate__confirmation--expiry">{{ date('M jS (D) Y, g:iA', $donation['perks_end_at']->timestamp) }}</div>
-                        @else
-                            Donator perks until: 
-                            <div class="donate__confirmation--expiry">Forever</div>
-                        @endif
-                    @endauth
-                </div>
-            </div>
-
             <div class="donate__confirmation--info">
                 If you have any problems, please do not hesitate to reach out to staff on the forums, Discord or in-game.
             </div>
