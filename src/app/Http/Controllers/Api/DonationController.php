@@ -13,6 +13,7 @@ use App\Library\Stripe\StripeWebhookEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 final class DonationController extends ApiController
@@ -38,11 +39,13 @@ final class DonationController extends ApiController
         $account = Auth::user();
         $accountId = $account !== null ? $account->getKey() : null;
 
-        AccountPaymentSession::create([
+        $session = AccountPaymentSession::create([
             'session_id' => $pcbSessionUuid->toString(),
             'account_id' => $accountId,
             'is_processed' => false,
         ]);
+
+        Log::debug('Generated payment session', ['session' => $session]);
 
         return [
             'data' => [
@@ -57,17 +60,28 @@ final class DonationController extends ApiController
         $payload = $request->getContent();
         $signature = $request->headers->get('Stripe-Signature');
 
+        Log::debug('Received payment webhook', [
+            'payload' => $payload,
+            'signature' => $signature,
+        ]);
+
         $webhook = $this->stripeHandler->getWebhookEvent($payload, $signature, $endpointSecret);
+
+        Log::debug('Parsed webhook data', ['webhook' => $webhook]);
 
         $session = AccountPaymentSession::where('session_id', $webhook->getSessionId())->first();
         if ($session === null) {
             throw new \Exception('Could not fulfill donation. Internal session id not found: '.$webhook->getSessionId());
         }
 
+        Log::debug('Found associated session', ['session' => $session]);
+
         if ($webhook->getEvent() == StripeWebhookEvent::CheckoutSessionCompleted) {
             if ($webhook->getAmountInCents() <= 0) {
                 throw new \Exception('Received a zero amount donation from Stripe');
             }
+
+            Log::debug('Fulfilling donation...');
 
             $this->fulfillDonation(
                 $webhook->getTransactionId(),
@@ -75,6 +89,8 @@ final class DonationController extends ApiController
                 $session
             );
         }
+
+        Log::debug('Webhook acknowledged');
 
         return response()->json(null, 200);
     }
@@ -127,6 +143,8 @@ final class DonationController extends ApiController
 
         // Add user to Donator group if they're logged in
         if ($session->account !== null && $numberOfMonthsOfPerks > 0) {
+            Log::debug('Adding donator perks to account');
+
             $donatorGroup = Group::where('name', 'donator')->first();
             $donatorGroupId = $donatorGroup->getKey();
 
