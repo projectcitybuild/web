@@ -33,7 +33,7 @@ final class WebhookController extends ApiController
                 Log::info('Webhook acknowledged');
 
                 $controller = new DonationController($stripeHandler);
-                $response = $controller->store($request);
+                $response = $controller->store($webhook);
                 return $response;
 
             default:

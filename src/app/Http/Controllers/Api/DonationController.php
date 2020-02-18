@@ -53,12 +53,63 @@ final class DonationController extends ApiController
         ];
     }
 
-    public function store(Request $request, StripeWebhook $webhook)
+    /**
+     * Receives a Webhook from Stripe for payments
+     *
+     * @param StripeWebhook $webhook
+     * @return StripeWebhook
+     * @throws \Exception
+     *
+     * Example Webhook Payload:
+     * {
+     *    "created": 1326853478,
+     *    "livemode": false,
+     *    "id": "evt_00000000000000",
+     *    "type": "checkout.session.completed",
+     *    "object": "event",
+     *    "request": null,
+     *    "pending_webhooks": 1,
+     *    "api_version": "2018-07-27",
+     *    "data": {
+     *       "object": {
+     *           "id": "cs_00000000000000",
+     *           "object": "checkout.session",
+     *           "billing_address_collection": null,
+     *           "cancel_url": "https://example.com/cancel",
+     *           "client_reference_id": null,
+     *           "customer": null,
+     *           "customer_email": null,
+     *           "display_items": [
+     *               {
+     *                   "amount": 1500,
+     *                   "currency": "usd",
+     *                   "custom": {
+     *                       "description": "Comfortable cotton t-shirt",
+     *                       "images": null,
+     *                       "name": "T-shirt"
+     *                   },
+     *                   "quantity": 2,
+     *                   "type": "custom"
+     *               }
+     *           ],
+     *           "livemode": false,
+     *           "locale": null,
+     *           "mode": null,
+     *           "payment_intent": "pi_00000000000000",
+     *           "payment_method_types": [
+     *               "card"
+     *           ],
+     *           "setup_intent": null,
+     *           "submit_type": null,
+     *           "subscription": null,
+     *           "success_url": "https://example.com/success"
+     *       }
+     *    }
+     * }
+     */
+    public function store(StripeWebhook $webhook)
     {
-        // Sanity checks
-        if ($webhook->getEvent() !== StripeWebhookEvent::CheckoutSessionCompleted) {
-            throw new \Exception('Unsupported webhook event');
-        }
+        // Sanity check
         if ($webhook->getAmountInCents() <= 0) {
             throw new \Exception('Received a zero amount donation from Stripe');
         }
