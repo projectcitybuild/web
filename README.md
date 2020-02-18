@@ -77,13 +77,17 @@ docker-compose up -d nginx mariadb redis
 
 To enter the workspace at anytime use `docker-compose exec workspace bash`
 
-
 #### Live editing (Browsersync)
 * From inside the container, run `npm run watch`. Because we're running in headless-mode, no browser will automatically open.
 * Open `http://localhost:3000` in your browser. Any HTML, JS, CSS changes will automatically appear without refreshing. 
 
 #### Database
 * If the database schema has changed, remember to run `php artisan migrate` from inside the workspace container to ensure you always have the latest schema.
+
+#### Stripe Webhooks
+Use [stripe-cli](https://stripe.com/docs/stripe-cli) to receive payment webhooks locally.
+
+After installing, run `stripe listen --forward-to localhost/api/donations/store` to forward webhook events to the correct endpoint.
 
 ## Testing
 Inside the workspace container:
