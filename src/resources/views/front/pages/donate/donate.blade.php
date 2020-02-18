@@ -13,7 +13,12 @@
         async function startCheckoutFlow() {
             try {
                 const amountInDollars = document.getElementById('donation-amount').value;
+                @auth
+                const endpoint = `${sessionStartEndpoint}?amount=${amountInDollars}&account_id={{ Auth::user()->getKey() }}`
+                @else
                 const endpoint = `${sessionStartEndpoint}?amount=${amountInDollars}`
+                @endauth
+
                 const response = await fetch(endpoint, {
                     method: 'GET',
                     mode: 'same-origin',

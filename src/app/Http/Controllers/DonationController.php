@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\WebController;
-use Illuminate\Support\Facades\Auth;
 
 final class DonationController extends WebController
 {
