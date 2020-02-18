@@ -5,14 +5,16 @@ namespace App\Library\Stripe;
 final class StripePaymentWebhook extends StripeWebhook
 {
     private $sessionId;
+    private $customerId;
     private $amountInCents;
     private $subscriptionId;
 
-    public function __construct(StripeWebhookEvent $event, string $transactionId, string $sessionId, int $amountInCents, ?string $subscriptionId)
+    public function __construct(StripeWebhookEvent $event, string $transactionId, string $sessionId, string $customerId, int $amountInCents, ?string $subscriptionId)
     {
         parent::_construct($event, $transactionId);
 
         $this->sessionId = $sessionId;
+        $this->customerId = $customerId;
         $this->amountInCents = $amountInCents;
         $this->subscriptionId = $subscriptionId;
     }
@@ -31,6 +33,7 @@ final class StripePaymentWebhook extends StripeWebhook
             $event,
             $object->id,
             $object->client_reference_id,
+            $object->customer,
             $displayItem->amount * $displayItem->quantity,
             $subscriptionId
         );
@@ -44,5 +47,15 @@ final class StripePaymentWebhook extends StripeWebhook
     public function getAmountInCents(): int
     {
         return $this->amountInCents;
+    }
+
+    public function getCustomerId(): string
+    {
+        return $this->customerId;
+    }
+
+    public function subscriptionId(): string
+    {
+        return $this->subscriptionId;
     }
 }

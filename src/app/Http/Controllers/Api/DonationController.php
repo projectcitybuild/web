@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Entities\Accounts\Models\AccountCustomer;
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationPerk;
 use App\Entities\Groups\Models\Group;
@@ -155,6 +156,11 @@ final class DonationController extends ApiController
                     'is_active' => true,
                     'is_lifetime_perks' => $isLifetime,
                     'expires_at' => $donationExpiry,
+                ]);
+
+                AccountCustomer::create([
+                    'account_id' => $accountId,
+                    'customer_id' => $webhook->getCustomerId(),
                 ]);
             }
 
