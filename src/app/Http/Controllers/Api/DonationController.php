@@ -10,8 +10,8 @@ use App\Entities\Payments\Models\AccountPayment;
 use App\Entities\Payments\Models\AccountPaymentSession;
 use App\Http\ApiController;
 use App\Library\Stripe\StripeHandler;
+use App\Library\Stripe\StripePaymentWebhook;
 use App\Library\Stripe\StripeWebhook;
-use App\Library\Stripe\StripeWebhookEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -113,7 +113,7 @@ final class DonationController extends ApiController
      *    }
      * }
      */
-    public function store(StripeWebhook $webhook)
+    public function store(StripePaymentWebhook $webhook)
     {
         // Sanity check
         if ($webhook->getAmountInCents() <= 0) {
