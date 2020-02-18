@@ -29,8 +29,11 @@ final class DonationController extends ApiController
 
     public function create(Request $request)
     {
+        $amountInDollars = $request->get('amount', 3.00);
+        $amountInCents = $amountInDollars * 100;
+
         $pcbSessionUuid = Str::uuid();
-        $stripeSessionId = $this->stripeHandler->createCheckoutSession($pcbSessionUuid);
+        $stripeSessionId = $this->stripeHandler->createCheckoutSession($pcbSessionUuid, $amountInCents);
 
         $account = Auth::user();
         $accountId = $account !== null ? $account->getKey() : null;

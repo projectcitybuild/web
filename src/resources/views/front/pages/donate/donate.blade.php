@@ -12,7 +12,9 @@
 
         async function startCheckoutFlow() {
             try {
-                const response = await fetch(sessionStartEndpoint, {
+                const amountInDollars = document.getElementById('donation-amount').value;
+                const endpoint = `${sessionStartEndpoint}?amount=${amountInDollars}`
+                const response = await fetch(endpoint, {
                     method: 'GET',
                     mode: 'same-origin',
                     cache: 'no-cache',
@@ -22,7 +24,7 @@
                 });
                 const json = await response.json();
 
-                redirectToCheckout(json.data.session_id)
+                await redirectToCheckout(json.data.session_id)
 
             } catch (error) {
                 console.error(error);
@@ -133,6 +135,7 @@
             @endguest
 
             <div>
+                <input type="text" class="input-text" id="donation-amount" placeholder="3.00" />
                 <button class="button button--large button--fill button--primary" type="button" id="stripe-donate-button">
                     <i class="fas fa-credit-card"></i> Donate via Card
                 </button>

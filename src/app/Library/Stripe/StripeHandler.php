@@ -41,7 +41,7 @@ class StripeHandler
      *                                  they will pass us back the UUID so we can fulfill the purchase.
      * @return string Stripe session ID
      */
-    public function createCheckoutSession(string $uniqueSessionId): string
+    public function createCheckoutSession(string $uniqueSessionId, int $amountInCents): string
     {
         $session = Session::create([
             'payment_method_types' => ['card'],
@@ -51,7 +51,7 @@ class StripeHandler
                     'name' => 'PCB Contribution',
                     'description' => 'One time payment',
                     'images' => [],
-                    'amount' => 300,
+                    'amount' => $amountInCents,
                     'currency' => $this->currency,
                     'quantity' => 1,
                 ],
