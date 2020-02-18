@@ -119,12 +119,20 @@ class StripeHandler
      *    }
      * }
      */
-    public function getWebhookEvent(string $payload, string $signature, string $secret): StripeWebhook
+    public function getWebhookEvent(string $payload, string $signature, string $secret): ?StripeWebhook
     {
         $event = Webhook::constructEvent($payload, $signature, $secret);
 
+        // Only parse Webhook events we care about
+        $webhookEvent = null;
+        try {
+            $webhookEvent = StripeWebhookEvent::fromRawValue($event->type);
+        } catch(\Exception $e) {
+            return null;
+        }
+
         $webhook = new StripeWebhook(
-            StripeWebhookEvent::fromRawValue($event->type),
+            $webhookEvent,
             $event->data->object->id,
             $event->data->object->client_reference_id,
             $event->data->object->display_items[0]->amount

@@ -135,7 +135,7 @@
             @endguest
 
             <div>
-                <input type="text" class="input-text" id="donation-amount" placeholder="3.00" />
+                <input type="text" class="input-text" id="donation-amount" value="3.00" placeholder="3.00" />
                 <button class="button button--large button--fill button--primary" type="button" id="stripe-donate-button">
                     <i class="fas fa-credit-card"></i> Donate via Card
                 </button>

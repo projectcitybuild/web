@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Entities\Donations\Models\Donation;
+use App\Entities\Donations\Models\DonationPerk;
 use App\Entities\Groups\Models\Group;
 use App\Entities\Payments\AccountPaymentType;
 use App\Entities\Payments\Models\AccountPayment;
@@ -66,22 +67,23 @@ final class DonationController extends ApiController
         ]);
 
         $webhook = $this->stripeHandler->getWebhookEvent($payload, $signature, $endpointSecret);
-
-        Log::debug('Parsed webhook data', ['webhook' => $webhook]);
-
-        $session = AccountPaymentSession::where('session_id', $webhook->getSessionId())->first();
-        if ($session === null) {
-            throw new \Exception('Could not fulfill donation. Internal session id not found: '.$webhook->getSessionId());
+        if (!$webhook) {
+            Log::debug('Ignoring webhook - no handler for event');
+            return;
         }
 
-        Log::debug('Found associated session', ['session' => $session]);
+        Log::debug('Parsed webhook data', ['webhook' => $webhook]);
 
         if ($webhook->getEvent() == StripeWebhookEvent::CheckoutSessionCompleted) {
             if ($webhook->getAmountInCents() <= 0) {
                 throw new \Exception('Received a zero amount donation from Stripe');
             }
 
-            Log::debug('Fulfilling donation...');
+            $session = AccountPaymentSession::where('session_id', $webhook->getSessionId())->first();
+            if ($session === null) {
+                throw new \Exception('Could not fulfill donation. Internal session id not found: '.$webhook->getSessionId());
+            }
+            Log::debug('Found associated session', ['session' => $session]);
 
             $this->fulfillDonation(
                 $webhook->getTransactionId(),
@@ -115,9 +117,14 @@ final class DonationController extends ApiController
             $donation = Donation::create([
                 'account_id' => $accountId,
                 'amount' => $amountInDollars,
-                'perks_end_at' => $donationExpiry,
-                'is_lifetime_perks' => $isLifetime,
+            ]);
+
+            DonationPerk::create([
+                'donation_id' => $donation->getKey(),
+                'account_id' => $accountId,
                 'is_active' => true,
+                'is_lifetime_perks' => $isLifetime,
+                'expires_at' => $donationExpiry,
             ]);
 
             AccountPayment::create([
