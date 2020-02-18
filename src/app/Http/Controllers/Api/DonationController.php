@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Entities\Donations\Models\Donation;
+use App\Entities\Donations\Models\DonationPerk;
 use App\Entities\Groups\Models\Group;
 use App\Entities\Payments\AccountPaymentType;
 use App\Entities\Payments\Models\AccountPayment;
@@ -30,14 +31,12 @@ final class DonationController extends ApiController
 
     public function create(Request $request)
     {
+        $accountId = $request->get('account_id');
         $amountInDollars = $request->get('amount', 3.00);
         $amountInCents = $amountInDollars * 100;
 
         $pcbSessionUuid = Str::uuid();
         $stripeSessionId = $this->stripeHandler->createCheckoutSession($pcbSessionUuid, $amountInCents);
-
-        $account = Auth::user();
-        $accountId = $account !== null ? $account->getKey() : null;
 
         $session = AccountPaymentSession::create([
             'session_id' => $pcbSessionUuid->toString(),
@@ -66,31 +65,35 @@ final class DonationController extends ApiController
         ]);
 
         $webhook = $this->stripeHandler->getWebhookEvent($payload, $signature, $endpointSecret);
-
-        Log::debug('Parsed webhook data', ['webhook' => $webhook]);
-
-        $session = AccountPaymentSession::where('session_id', $webhook->getSessionId())->first();
-        if ($session === null) {
-            throw new \Exception('Could not fulfill donation. Internal session id not found: '.$webhook->getSessionId());
+        if (!$webhook) {
+            Log::debug('No handler for webhook event');
+            return;
         }
 
-        Log::debug('Found associated session', ['session' => $session]);
-
-        if ($webhook->getEvent() == StripeWebhookEvent::CheckoutSessionCompleted) {
+        switch ($webhook->getEvent()) {
+        case StripeWebhookEvent::CheckoutSessionCompleted:
             if ($webhook->getAmountInCents() <= 0) {
                 throw new \Exception('Received a zero amount donation from Stripe');
             }
 
-            Log::debug('Fulfilling donation...');
+            $session = AccountPaymentSession::where('session_id', $webhook->getSessionId())->first();
+            if ($session === null) {
+                throw new \Exception('Could not fulfill donation. Internal session id not found: '.$webhook->getSessionId());
+            }
+            Log::debug('Found associated session', ['session' => $session]);
 
             $this->fulfillDonation(
                 $webhook->getTransactionId(),
                 $webhook->getAmountInCents(),
                 $session
             );
-        }
 
-        Log::debug('Webhook acknowledged');
+            Log::debug('Webhook acknowledged');
+            break;
+
+        default:
+            Log::debug('Webhook ignored');
+        }
 
         return response()->json(null, 200);
     }
@@ -115,10 +118,17 @@ final class DonationController extends ApiController
             $donation = Donation::create([
                 'account_id' => $accountId,
                 'amount' => $amountInDollars,
-                'perks_end_at' => $donationExpiry,
-                'is_lifetime_perks' => $isLifetime,
-                'is_active' => true,
             ]);
+
+            if ($accountId !== null) {
+                DonationPerk::create([
+                    'donation_id' => $donation->getKey(),
+                    'account_id' => $accountId,
+                    'is_active' => true,
+                    'is_lifetime_perks' => $isLifetime,
+                    'expires_at' => $donationExpiry,
+                ]);
+            }
 
             AccountPayment::create([
                 'payment_type' => AccountPaymentType::Donation,
