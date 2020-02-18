@@ -56,7 +56,7 @@ class StripeHandler
                     'quantity' => 1,
                 ],
             ],
-            'success_url' => route('front.donate'),
+            'success_url' => route('front.donate.success'),
             'cancel_url' => route('front.donate'),
         ]);
 

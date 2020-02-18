@@ -10,4 +10,9 @@ final class DonationController extends WebController
     {
         return view('front.pages.donate.donate');
     }
+
+    public function success()
+    {
+        return view('front.pages.donate.donate-thanks');
+    }
 }

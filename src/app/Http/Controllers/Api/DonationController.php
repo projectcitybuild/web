@@ -87,6 +87,7 @@ final class DonationController extends ApiController
         $isLifetime = $amountInDollars >= Donation::LIFETIME_REQUIRED_AMOUNT;
 
         $donationExpiry = null;
+        $numberOfMonthsOfPerks = 0;
         if (!$isLifetime) {
             $numberOfMonthsOfPerks = floor($amountInDollars / Donation::ONE_MONTH_REQUIRED_AMOUNT);
             $donationExpiry = now()->addMonths($numberOfMonthsOfPerks);
@@ -125,7 +126,7 @@ final class DonationController extends ApiController
         }
 
         // Add user to Donator group if they're logged in
-        if ($session->account !== null) {
+        if ($session->account !== null && $numberOfMonthsOfPerks > 0) {
             $donatorGroup = Group::where('name', 'donator')->first();
             $donatorGroupId = $donatorGroup->getKey();
 
