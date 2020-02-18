@@ -10,6 +10,7 @@ use App\Entities\Payments\Models\AccountPayment;
 use App\Entities\Payments\Models\AccountPaymentSession;
 use App\Http\ApiController;
 use App\Library\Stripe\StripeHandler;
+use App\Library\Stripe\StripeWebhook;
 use App\Library\Stripe\StripeWebhookEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -52,60 +53,31 @@ final class DonationController extends ApiController
         ];
     }
 
-    public function store(Request $request)
+    public function store(Request $request, StripeWebhook $webhook)
     {
-        $endpointSecret = config('services.stripe.webhook.secret');
-        $payload = $request->getContent();
-        $signature = $request->headers->get('Stripe-Signature');
-
-        Log::debug('Received payment webhook', [
-            'payload' => $payload,
-            'signature' => $signature,
-        ]);
-
-        $webhook = $this->stripeHandler->getWebhookEvent($payload, $signature, $endpointSecret);
-        if (!$webhook) {
-            Log::debug('No handler for webhook event');
-            return;
+        // Sanity checks
+        if ($webhook->getEvent() !== StripeWebhookEvent::CheckoutSessionCompleted) {
+            throw new \Exception('Unsupported webhook event');
+        }
+        if ($webhook->getAmountInCents() <= 0) {
+            throw new \Exception('Received a zero amount donation from Stripe');
         }
 
-        switch ($webhook->getEvent()) {
-        case StripeWebhookEvent::CheckoutSessionCompleted:
-            if ($webhook->getAmountInCents() <= 0) {
-                throw new \Exception('Received a zero amount donation from Stripe');
-            }
-
-            $session = AccountPaymentSession::where('session_id', $webhook->getSessionId())->first();
-            if ($session === null) {
-                throw new \Exception('Could not fulfill donation. Internal session id not found: '.$webhook->getSessionId());
-            }
-            Log::debug('Found associated session', ['session' => $session]);
-
-            $this->fulfillDonation(
-                $webhook->getTransactionId(),
-                $webhook->getAmountInCents(),
-                $session
-            );
-
-            Log::debug('Webhook acknowledged');
-            break;
-
-        default:
-            Log::debug('Webhook ignored');
+        $session = AccountPaymentSession::where('session_id', $webhook->getSessionId())->first();
+        if ($session === null) {
+            throw new \Exception('Could not fulfill donation. Internal session id not found: '.$webhook->getSessionId());
         }
+        Log::debug('Found associated session', ['session' => $session]);
 
-        return response()->json(null, 200);
-    }
 
-    private function fulfillDonation(string $transactionId, int $amountInCents, AccountPaymentSession $session)
-    {
         $accountId = $session->account !== null ? $session->account->getKey() : null;
-
+        $amountInCents = $webhook->getAmountInCents();
         $amountInDollars = (float)($amountInCents / 100);
+
+        $numberOfMonthsOfPerks = 0;
+        $donationExpiry = null;
         $isLifetime = $amountInDollars >= Donation::LIFETIME_REQUIRED_AMOUNT;
 
-        $donationExpiry = null;
-        $numberOfMonthsOfPerks = 0;
         if (!$isLifetime) {
             $numberOfMonthsOfPerks = floor($amountInDollars / Donation::ONE_MONTH_REQUIRED_AMOUNT);
             $donationExpiry = now()->addMonths($numberOfMonthsOfPerks);
@@ -133,7 +105,7 @@ final class DonationController extends ApiController
                 'payment_type' => AccountPaymentType::Donation,
                 'payment_id' => $donation->getKey(),
                 'payment_amount' => $amountInCents,
-                'payment_source' => $transactionId,
+                'payment_source' => $webhook->getTransactionId(),
                 'account_id' => $accountId,
                 'is_processed' => true,
                 'is_refunded' => false,
@@ -161,5 +133,7 @@ final class DonationController extends ApiController
                 $session->account->groups()->attach($donatorGroupId);
             }
         }
+
+        return response()->json(null, 200);
     }
 }
