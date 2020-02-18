@@ -90,9 +90,9 @@ final class DonationController extends ApiController
                 $webhook->getAmountInCents(),
                 $session
             );
-        }
 
-        Log::debug('Webhook acknowledged');
+            Log::debug('Webhook acknowledged');
+        }
 
         return response()->json(null, 200);
     }
