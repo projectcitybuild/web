@@ -11,7 +11,7 @@ final class StripePaymentWebhook extends StripeWebhook
 
     public function __construct(StripeWebhookEvent $event, string $transactionId, string $sessionId, string $customerId, int $amountInCents, ?string $subscriptionId)
     {
-        parent::_construct($event, $transactionId);
+        parent::__construct($event, $transactionId);
 
         $this->sessionId = $sessionId;
         $this->customerId = $customerId;

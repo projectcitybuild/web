@@ -41,10 +41,10 @@ class StripeHandler
      *                                  session. When Stripe notifies us via WebHook that the payment is processed,
      *                                  they will pass us back the UUID so we can fulfill the purchase.
      * @param int $amountInCents
-     * $param ?string $email            If provided, prefills the 'customer email' field on the checkout page
+     * @param string $customerId        Associated Stripe customer id
      * @return string Stripe session ID
      */
-    public function createOneTimeCheckoutSession(string $uniqueSessionId, int $amountInCents, ?string $email = null): string
+    public function createOneTimeCheckoutSession(string $uniqueSessionId, int $amountInCents, ?string $customerId = null): string
     {
         $sessionData = [
             'payment_method_types' => ['card'],
@@ -63,8 +63,8 @@ class StripeHandler
             'cancel_url' => route('front.donate'),
         ];
 
-        if ($email !== null) {
-            $sessionData['customer_email'] = $email;
+        if ($customerId !== null) {
+            $sessionData['customer'] = $customerId;
         }
 
         $session = Session::create($sessionData);
@@ -72,9 +72,9 @@ class StripeHandler
         return $session->id;
     }
 
-    public function createRecurringCheckoutSession(string $uniqueSessionId, int $amountInCents): string
+    public function createRecurringCheckoutSession(string $uniqueSessionId, int $amountInCents, ?string $customerId = null): string
     {
-        $session = Session::create([
+        $sessionData = [
             'payment_method_types' => ['card'],
             'client_reference_id' => $uniqueSessionId,
             'subscription_data' => [
@@ -85,7 +85,13 @@ class StripeHandler
             ],
             'success_url' => route('front.donate.success', ['session_id' => '{CHECKOUT_SESSION_ID}']),
             'cancel_url' => route('front.donate'),
-        ]);
+        ];
+
+        if ($customerId !== null) {
+            $sessionData['customer'] = $customerId;
+        }
+
+        $session = Session::create($sessionData);
 
         return $session->id;
     }
