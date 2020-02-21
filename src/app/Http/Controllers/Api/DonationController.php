@@ -10,9 +10,9 @@ use App\Entities\Payments\Models\AccountPayment;
 use App\Entities\Payments\Models\AccountPaymentSession;
 use App\Http\ApiController;
 use App\Library\Stripe\StripeHandler;
+use App\Library\Stripe\StripeWebhook;
 use App\Library\Stripe\StripeWebhookEvent;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -53,60 +53,82 @@ final class DonationController extends ApiController
         ];
     }
 
-    public function store(Request $request)
+    /**
+     * Receives a Webhook from Stripe for payments
+     *
+     * @param StripeWebhook $webhook
+     * @return StripeWebhook
+     * @throws \Exception
+     *
+     * Example Webhook Payload:
+     * {
+     *    "created": 1326853478,
+     *    "livemode": false,
+     *    "id": "evt_00000000000000",
+     *    "type": "checkout.session.completed",
+     *    "object": "event",
+     *    "request": null,
+     *    "pending_webhooks": 1,
+     *    "api_version": "2018-07-27",
+     *    "data": {
+     *       "object": {
+     *           "id": "cs_00000000000000",
+     *           "object": "checkout.session",
+     *           "billing_address_collection": null,
+     *           "cancel_url": "https://example.com/cancel",
+     *           "client_reference_id": null,
+     *           "customer": null,
+     *           "customer_email": null,
+     *           "display_items": [
+     *               {
+     *                   "amount": 1500,
+     *                   "currency": "usd",
+     *                   "custom": {
+     *                       "description": "Comfortable cotton t-shirt",
+     *                       "images": null,
+     *                       "name": "T-shirt"
+     *                   },
+     *                   "quantity": 2,
+     *                   "type": "custom"
+     *               }
+     *           ],
+     *           "livemode": false,
+     *           "locale": null,
+     *           "mode": null,
+     *           "payment_intent": "pi_00000000000000",
+     *           "payment_method_types": [
+     *               "card"
+     *           ],
+     *           "setup_intent": null,
+     *           "submit_type": null,
+     *           "subscription": null,
+     *           "success_url": "https://example.com/success"
+     *       }
+     *    }
+     * }
+     */
+    public function store(StripeWebhook $webhook)
     {
-        $endpointSecret = config('services.stripe.webhook.secret');
-        $payload = $request->getContent();
-        $signature = $request->headers->get('Stripe-Signature');
-
-        Log::debug('Received payment webhook', [
-            'payload' => $payload,
-            'signature' => $signature,
-        ]);
-
-        $webhook = $this->stripeHandler->getWebhookEvent($payload, $signature, $endpointSecret);
-        if (!$webhook) {
-            Log::debug('No handler for webhook event');
-            return;
+        // Sanity check
+        if ($webhook->getAmountInCents() <= 0) {
+            throw new \Exception('Received a zero amount donation from Stripe');
         }
 
-        switch ($webhook->getEvent()) {
-        case StripeWebhookEvent::CheckoutSessionCompleted:
-            if ($webhook->getAmountInCents() <= 0) {
-                throw new \Exception('Received a zero amount donation from Stripe');
-            }
-
-            $session = AccountPaymentSession::where('session_id', $webhook->getSessionId())->first();
-            if ($session === null) {
-                throw new \Exception('Could not fulfill donation. Internal session id not found: '.$webhook->getSessionId());
-            }
-            Log::debug('Found associated session', ['session' => $session]);
-
-            $this->fulfillDonation(
-                $webhook->getTransactionId(),
-                $webhook->getAmountInCents(),
-                $session
-            );
-
-            Log::debug('Webhook acknowledged');
-            break;
-
-        default:
-            Log::debug('Webhook ignored');
+        $session = AccountPaymentSession::where('session_id', $webhook->getSessionId())->first();
+        if ($session === null) {
+            throw new \Exception('Could not fulfill donation. Internal session id not found: '.$webhook->getSessionId());
         }
+        Log::debug('Found associated session', ['session' => $session]);
 
-        return response()->json(null, 200);
-    }
 
-    private function fulfillDonation(string $transactionId, int $amountInCents, AccountPaymentSession $session)
-    {
         $accountId = $session->account !== null ? $session->account->getKey() : null;
-
+        $amountInCents = $webhook->getAmountInCents();
         $amountInDollars = (float)($amountInCents / 100);
+
+        $numberOfMonthsOfPerks = 0;
+        $donationExpiry = null;
         $isLifetime = $amountInDollars >= Donation::LIFETIME_REQUIRED_AMOUNT;
 
-        $donationExpiry = null;
-        $numberOfMonthsOfPerks = 0;
         if (!$isLifetime) {
             $numberOfMonthsOfPerks = floor($amountInDollars / Donation::ONE_MONTH_REQUIRED_AMOUNT);
             $donationExpiry = now()->addMonths($numberOfMonthsOfPerks);
@@ -134,7 +156,7 @@ final class DonationController extends ApiController
                 'payment_type' => AccountPaymentType::Donation,
                 'payment_id' => $donation->getKey(),
                 'payment_amount' => $amountInCents,
-                'payment_source' => $transactionId,
+                'payment_source' => $webhook->getTransactionId(),
                 'account_id' => $accountId,
                 'is_processed' => true,
                 'is_refunded' => false,
@@ -162,5 +184,7 @@ final class DonationController extends ApiController
                 $session->account->groups()->attach($donatorGroupId);
             }
         }
+
+        return response()->json(null, 200);
     }
 }
