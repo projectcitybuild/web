@@ -91,10 +91,11 @@
 
         <div class="card">
             <div class="card__body">
-                <form action="{{ route('front.panel.accounts.force-discourse-sync', $account) }}" method="post">
+                <form action="{{ route('front.panel.accounts.force-discourse-sync', $account) }}" method="post" style="display:inline;">
                     @csrf
                     <button type="submit" class="button button--primary">SSO Sync</button>
                 </form>
+                <a href="{{ route('front.panel.accounts.discourse-admin-redirect', $account) }}" class="button button--primary">Forum Admin</a>
             </div>
         </div>
 
