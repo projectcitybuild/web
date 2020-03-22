@@ -24,7 +24,7 @@ class PanelAccountTest extends TestCase
         $this->adminAccount = factory(Account::class)->create();
         $adminGroup = Group::create([
             'name' => 'Administrator',
-            'is_admin' => true
+            'can_access_panel' => true
         ]);
 
         $this->adminAccount->groups()->attach($adminGroup->group_id);

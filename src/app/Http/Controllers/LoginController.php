@@ -8,6 +8,7 @@ use App\Library\Discourse\Exceptions\UserNotFound;
 use App\Services\Login\LogoutService;
 use App\Http\Requests\LoginRequest;
 use App\Http\WebController;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -55,6 +56,10 @@ final class LoginController extends WebController
     public function store(LoginRequest $request)
     {
         $account  = $this->auth->user();
+
+        $account->last_login_ip = $request->ip();
+        $account->last_login_at = Carbon::now();
+        $account->save();
 
         // Set the user's nickname from Discourse if it isn't already
         if ($account->username == null) {
