@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class AdminOnly
+class PanelAccess
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class AdminOnly
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::check() || !$request->user()->isAdmin()) {
+        if (!Auth::check() || !$request->user()->canAccessPanel()) {
             return abort(403);
         }
 
