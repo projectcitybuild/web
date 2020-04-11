@@ -57,6 +57,7 @@ final class LoginRequest extends FormRequest
             ];
 
             if (Auth::attempt($credentials, true) === false) {
+                // Authentication has failed
                 $triesLeft = floor($rateLimit->getAvailableTokens());
                 $validator->errors()->add('error', 'Email or password is incorrect: '.$triesLeft.' attempts remaining');
             }

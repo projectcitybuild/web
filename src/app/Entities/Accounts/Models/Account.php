@@ -116,6 +116,11 @@ final class Account extends Authenticatable
         return $this->groups()->where('is_admin', true)->count() > 0;
     }
 
+    public function canAccessPanel()
+    {
+        return $this->groups()->where('can_access_panel', true)->count() > 0;
+    }
+
     public function discourseGroupString()
     {
         $groups = $this->groups->pluck("discourse_name");

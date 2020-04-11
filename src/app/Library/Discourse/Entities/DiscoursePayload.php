@@ -62,7 +62,7 @@ final class DiscoursePayload
         return $this;
     }
 
-    public function setUsername(string $username)
+    public function setUsername(?string $username)
     {
         $this->username = $username;
         return $this;
