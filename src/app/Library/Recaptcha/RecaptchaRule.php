@@ -61,6 +61,8 @@ class RecaptchaRule extends Rule
      */
     public function passes($attribute, $value)
     {
+        if (config('recaptcha.enabled', true) == false) return true;
+
         $response = $this->client->post('https://www.google.com/recaptcha/api/siteverify', [
             'form_params' => [
                 'secret'    => config('recaptcha.keys.secret'),
