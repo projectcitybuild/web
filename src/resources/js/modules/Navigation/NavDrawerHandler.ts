@@ -25,7 +25,7 @@ export default class NavDrawerHandler implements NavigationHandler {
 
     private _drawerElement: HTMLDivElement = document.querySelector('#main-nav');
 
-    private _bodyElement: HTMLMainElement = document.querySelector('main');
+    private _bodyElement: HTMLElement = document.querySelector('main');
 
     private _drawerBtnElement: HTMLElement = document.querySelector('#drawer-btn');
 
