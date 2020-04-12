@@ -2,10 +2,10 @@
 
 namespace App\Exceptions;
 
-use Exception;
 use Illuminate\Foundation\Exceptions\Handler;
 use App\Entities\Environment;
 use App\Exceptions\Http\BaseHttpException;
+use Throwable;
 
 class ExceptionHandler extends Handler
 {
@@ -47,7 +47,7 @@ class ExceptionHandler extends Handler
      * @param  \Exception  $exception
      * @return void
      */
-    public function report(Exception $exception)
+    public function report(Throwable $exception)
     {
         if (Environment::isStaging() || Environment::isProduction()) {
             if (app()->bound('sentry') && $this->shouldReport($exception)) {
@@ -65,7 +65,7 @@ class ExceptionHandler extends Handler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         // output exceptions in our API as JSON
         if ($request->is('api/*') && $exception instanceof BaseHttpException) {
