@@ -3,15 +3,13 @@
 DIR_SRC="$(CURDIR)/src"
 DIR_LARADOCK="$(CURDIR)/laradock"
 
-PATH_TO_ENV = "$(DIR_SRC)/.env"
-
 help:
 	@echo ""
 	@echo "Available tasks:"
 	@echo "    bootstrap            Prepares your environment for first-time use"
 	@echo "    start              	Creates a docker-compose container for local dev"
 	@echo "    container            Creates and enters a docker-compose container for local dev"
-	@echo "    test            		Runs unit and linter tests in the container"
+	@echo "    test   				Runs unit and linter tests in the container"
 	@echo ""
 
 bootstrap:
