@@ -9,8 +9,8 @@ help:
 	@echo ""
 	@echo "Available tasks:"
 	@echo "    bootstrap            Prepares your environment for first-time use"
-	@echo "    install              Downloads all required JS and PHP dependencies"
-	@echo "    container            Creates a docker-compose container for local dev"
+	@echo "    start              	Creates a docker-compose container for local dev"
+	@echo "    container            Creates and enters a docker-compose container for local dev"
 	@echo "    test            		Runs unit and linter tests in the container"
 	@echo ""
 
@@ -19,19 +19,16 @@ bootstrap:
 	./scripts/bootstrap.sh
 	cd $(DIR_SRC)
 
-install:
-	@echo "Installing dependencies"
-	make container
+start:
+	docker-compose up -d nginx mariadb redis && \
 
 container:
-	@echo "Preparing container..."
 	cd $(DIR_LARADOCK) && \
 	docker-compose up -d nginx mariadb redis && \
 	docker-compose exec workspace bash
 
 # TODO: find a way to merge this into the `container` target
 container-windows:
-	@echo "Preparing container..."
 	cd $(DIR_LARADOCK) && \
 	docker-compose up -d nginx mysql redis && \
 	docker-compose exec workspace bash

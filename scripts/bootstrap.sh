@@ -7,4 +7,7 @@ else
     cp src/.env.example src/.env
 fi
 
+docker-compose exec workspace composer install
+docker-compose exec workspace npm install
+
 echo "Bootstrap complete"
