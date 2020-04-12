@@ -20,6 +20,6 @@ class Model extends EloquentModel
      */
     public static function getTableName() : string
     {
-        return with(new static)->getTable();
+        return with(new self)->getTable();
     }
 }

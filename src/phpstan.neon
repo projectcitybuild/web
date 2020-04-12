@@ -9,3 +9,4 @@ parameters:
     - routes
   ignoreErrors:
     - '#does not call parent constructor from Symfony\\Component\\HttpFoundation\\Request.#'
+    - '#Instantiated class [a-zA-Z0-9\\_]+ is abstract.#'
