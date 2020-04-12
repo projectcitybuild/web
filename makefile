@@ -8,15 +8,28 @@ PATH_TO_ENV = "$(DIR_SRC)/.env"
 help:
 	@echo ""
 	@echo "Available tasks:"
-	@echo "    install              Prepares your environment for first-time use"
+	@echo "    bootstrap            Prepares your environment for first-time use"
+	@echo "    install              Downloads all required JS and PHP dependencies"
 	@echo "    container            Creates a docker-compose container for local dev"
 	@echo ""
 
-install:
+bootstrap:
+	@echo "Preparing first-time installation"
+	./scripts/bootstrap.sh
 	cd $(DIR_SRC)
+
+install:
+	@echo "Installing dependencies"
+	make container
 
 container:
 	@echo "Preparing container..."
 	cd $(DIR_LARADOCK) && \
 	docker-compose up -d nginx mariadb redis && \
+	docker-compose exec workspace bash
+
+container-windows:
+	@echo "Preparing container..."
+	cd $(DIR_LARADOCK) && \
+	docker-compose up -d nginx mysql redis && \
 	docker-compose exec workspace bash
