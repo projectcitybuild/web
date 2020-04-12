@@ -1,7 +1,7 @@
 <?php
 namespace App\Entities\Groups\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class GroupResource extends Resource
 {

@@ -2,7 +2,7 @@
 
 namespace App\Entities\Servers\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ServerCategoryResource extends Resource
 {
