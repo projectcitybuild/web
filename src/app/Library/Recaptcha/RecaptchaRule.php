@@ -1,6 +1,7 @@
 <?php
 namespace App\Library\Recaptcha;
 
+use App\Entities\Environment;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -60,13 +61,9 @@ class RecaptchaRule extends Rule
      */
     public function passes($attribute, $value)
     {
-        if (config('recaptcha.enabled', false) === false) {
-            return true;
-        }
-
         $response = $this->client->post('https://www.google.com/recaptcha/api/siteverify', [
             'form_params' => [
-                'secret'    => env('RECAPTCHA_SECRET_KEY'),
+                'secret'    => config('recaptcha.keys.secret'),
                 'response'  => $value,
                 'remoteip'  => $this->request->ip(),
             ],
