@@ -14,7 +14,7 @@ class DiscourseAdminApi extends DiscourseAPIRequest
      */
     private $discoursePayloadValidator;
 
-    
+
     public function __construct(
         DiscourseClient $client,
         DiscoursePayloadValidator $discoursePayloadValidator
@@ -24,16 +24,6 @@ class DiscourseAdminApi extends DiscourseAPIRequest
         $this->discoursePayloadValidator = $discoursePayloadValidator;
     }
 
-
-    private function getApiKey()
-    {
-        return env('DISCOURSE_API_KEY');
-    }
-
-    private function getApiUser()
-    {
-        return env('DISCOURSE_API_USER');
-    }
 
     /**
      * Returns the user that matches the given email address
@@ -45,8 +35,6 @@ class DiscourseAdminApi extends DiscourseAPIRequest
     {
         $response = $this->client->get('admin/users/list/all.json', [
             'query' => [
-                'api_key'       => $this->getApiKey(),
-                'api_username'  => $this->getApiUser(),
                 'email'         => $email,
             ],
         ]);
@@ -68,12 +56,7 @@ class DiscourseAdminApi extends DiscourseAPIRequest
      */
     public function requestLogout(int $discourseUserId) : array
     {
-        $response = $this->client->post('admin/users/'.$discourseUserId.'/log_out', [
-            'query' => [
-                'api_key'       => $this->getApiKey(),
-                'api_username'  => $this->getApiUser(),
-            ],
-        ]);
+        $response = $this->client->post('admin/users/'.$discourseUserId.'/log_out');
         return json_decode($response->getBody(), true);
     }
 
@@ -93,9 +76,7 @@ class DiscourseAdminApi extends DiscourseAPIRequest
         $response = $this->client->post('admin/users/sync_sso', [
             'query' => [
                 'sso'           => $payload,
-                'sig'           => $signature,
-                'api_key'       => $this->getApiKey(),
-                'api_username'  => $this->getApiUser(),
+                'sig'           => $signature
             ],
         ]);
 
@@ -104,12 +85,7 @@ class DiscourseAdminApi extends DiscourseAPIRequest
 
     public function fetchUserByDiscourseId(int $discourseId) : array
     {
-        $response = $this->client->get('admin/users/'.$discourseId.'.json', [
-            'query' => [
-                'api_key'       => $this->getApiKey(),
-                'api_username'  => $this->getApiUser(),
-            ],
-        ]);
+        $response = $this->client->get('admin/users/'.$discourseId.'.json');
         $result = json_decode($response->getBody(), true);
 
         return $result;
@@ -117,12 +93,7 @@ class DiscourseAdminApi extends DiscourseAPIRequest
 
     public function fetchEmailsByUsername(string $username) : array
     {
-        $response = $this->client->get('u/'.$username.'/emails.json', [
-            'query' => [
-                'api_key'       => $this->getApiKey(),
-                'api_username'  => $this->getApiUser(),
-            ],
-        ]);
+        $response = $this->client->get('u/'.$username.'/emails.json');
         $result = json_decode($response->getBody(), true);
 
         return $result;
@@ -130,24 +101,11 @@ class DiscourseAdminApi extends DiscourseAPIRequest
 
     public function addUserToGroup(string $discourseId, int $groupId)
     {
-        $this->client->post('admin/users/'.$discourseId.'/groups', [
-            'query' => [
-                'api_key'       => $this->getApiKey(),
-                'api_username'  => $this->getApiUser(),
-            ],
-            'form_params' => [
-                'group_id'      => $groupId,
-            ],
-        ]);
+        $this->client->post('admin/users/'.$discourseId.'/groups');
     }
 
     public function removeUserFromGroup(string $discourseId, int $groupId)
     {
-        $this->client->delete('admin/users/'.$discourseId.'/groups/'.$groupId, [
-            'query' => [
-                'api_key'       => $this->getApiKey(),
-                'api_username'  => $this->getApiUser(),
-            ],
-        ]);
+        $this->client->delete('admin/users/'.$discourseId.'/groups/'.$groupId);
     }
 }
