@@ -28,3 +28,7 @@ $factory->state(Account::class, 'with-confirm', [
 $factory->state(Account::class, 'unactivated', [
     'activated' => false
 ]);
+
+$factory->state(Account::class, 'with-recaptcha', [
+    'g-recaptcha-response' => \Illuminate\Support\Str::random()
+]);

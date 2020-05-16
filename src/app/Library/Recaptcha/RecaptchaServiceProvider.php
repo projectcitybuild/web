@@ -16,7 +16,7 @@ class RecaptchaServiceProvider extends ServiceProvider
     public function boot()
     {
         Blade::directive('recaptcha_key', function () {
-            return "<?php echo env('RECAPTCHA_SITE_KEY') ?>";
+            return "<?php echo config('recaptcha.keys.site') ?>";
         });
 
         Validator::extend('recaptcha', 'App\Library\Recaptcha\RecaptchaRule@passes');

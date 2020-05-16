@@ -32,6 +32,10 @@ return [
     | with discourse
     |
     */
-    'sso_endpoint' => env('DISCOURSE_SSO_ENDPOINT')
+    'sso_endpoint' => env('DISCOURSE_SSO_ENDPOINT'),
+
+    'api_key' => env('DISCOURSE_API_KEY'),
+
+    'api_user' => env('DISCOURSE_API_USER')
 
 ];

@@ -6,13 +6,21 @@ namespace Tests\Feature;
 
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Groups\Models\Group;
+use App\Library\Recaptcha\RecaptchaRule;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        RecaptchaRule::enable(false);
+    }
+
     public function testUserCanRegister()
     {
-        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'unactivated')->make();
+        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'unactivated', 'with-recaptcha')->make();
 
         $this->post(route('front.register.submit'), $unactivatedAccount->toArray())
             ->assertSessionHasNoErrors();
@@ -24,11 +32,34 @@ class RegisterTest extends TestCase
         ]);
     }
 
+    public function testRecaptchaFieldIsRequired()
+    {
+        RecaptchaRule::enable(true);
+
+        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'unactivated')->make();
+
+        $this->post(route('front.register.submit'), $unactivatedAccount->toArray())
+            ->assertSessionHasErrors('g-recaptcha-response');
+    }
+
+    public function testRecaptchaFieldIsValidated()
+    {
+        RecaptchaRule::enable(true);
+
+        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'unactivated')
+            ->make([
+                'g-recaptcha-response' => Str::random()
+            ]);
+
+        $this->post(route('front.register.submit'), $unactivatedAccount->toArray())
+            ->assertSessionHasErrors('g-recaptcha-response');
+    }
+
     public function testUserCannotRegisterWithSameEmailAsOtherAccount()
     {
         $existingAccount = factory(Account::class)->create();
 
-        $newAccount = factory(Account::class)->states('unhashed', 'with-confirm')->make([
+        $newAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'with-recaptcha')->make([
             'email' => $existingAccount->email
         ]);
 
@@ -40,7 +71,7 @@ class RegisterTest extends TestCase
     {
         $existingAccount = factory(Account::class)->create();
 
-        $newAccount = factory(Account::class)->states('unhashed', 'with-confirm')->make([
+        $newAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'with-recaptcha')->make([
             'username' => $existingAccount->username
         ]);
 
@@ -50,7 +81,7 @@ class RegisterTest extends TestCase
 
     public function testAssertPasswordIsHashed()
     {
-        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm')->make();
+        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'with-recaptcha')->make();
 
         $this->post(route('front.register.submit'), $unactivatedAccount->toArray())
             ->assertSessionHasNoErrors();
@@ -68,7 +99,7 @@ class RegisterTest extends TestCase
             'is_default' => 1
         ]);
 
-        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'unactivated')->make();
+        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'unactivated', 'with-recaptcha')->make();
 
         $this->post(route('front.register.submit'), $unactivatedAccount->toArray())
             ->assertSessionHasNoErrors();

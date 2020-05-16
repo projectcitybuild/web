@@ -93,6 +93,7 @@ return [
     'not_regex' => 'The :attribute format is invalid.',
     'numeric' => 'The :attribute must be a number.',
     'present' => 'The :attribute field must be present.',
+    'recaptcha' => 'Something went wrong with reCAPTCHA. Please try again later.',
     'regex' => 'The :attribute format is invalid.',
     'required' => 'The :attribute field is required.',
     'required_if' => 'The :attribute field is required when :other is :value.',
@@ -127,11 +128,7 @@ return [
     |
     */
 
-    'custom' => [
-        'g-recaptcha-response' => [
-            'required' => 'Something went wrong with reCAPTCHA. Please try again later.',
-        ],
-    ],
+    'custom' => [],
 
     /*
     |--------------------------------------------------------------------------
