@@ -35,7 +35,7 @@ class DiscourseAdminApi extends DiscourseAPIRequest
     {
         $response = $this->client->get('admin/users/list/all.json', [
             'query' => [
-                'email'         => $email,
+                'email' => $email,
             ],
         ]);
 
@@ -75,8 +75,8 @@ class DiscourseAdminApi extends DiscourseAPIRequest
 
         $response = $this->client->post('admin/users/sync_sso', [
             'query' => [
-                'sso'           => $payload,
-                'sig'           => $signature
+                'sso' => $payload,
+                'sig' => $signature
             ],
         ]);
 
