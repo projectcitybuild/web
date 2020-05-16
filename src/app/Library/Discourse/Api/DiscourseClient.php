@@ -20,12 +20,10 @@ final class DiscourseClient extends Client
     {
         parent::__construct([
             'base_uri' => 'https://forums.projectcitybuild.com/',
-            [
-                'headers' => [
-                    'Api-Key' => $this->getApiKey(),
-                    'Api-User' => $this->getApiUser()
-                ]
-            ]
+            'headers' => [
+                'Api-Key' => $this->getApiKey(),
+                'Api-Username' => $this->getApiUser()
+            ],
         ]);
     }
 }
