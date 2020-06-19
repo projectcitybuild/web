@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Entities\Accounts\Models\Account;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Library\RateLimit\TokenRate;
@@ -57,6 +58,9 @@ final class LoginRequest extends FormRequest
             ];
 
             if (Auth::attempt($credentials, true) === false) {
+                if (Account::where('email', $email)->exists()) {
+                    $validator->errors()->add('error', 'You need to verify your email address. If you haven\'t got the verification email, ask staff for help.');
+                }
                 // Authentication has failed
                 $triesLeft = floor($rateLimit->getAvailableTokens());
                 $validator->errors()->add('error', 'Email or password is incorrect: '.$triesLeft.' attempts remaining');
