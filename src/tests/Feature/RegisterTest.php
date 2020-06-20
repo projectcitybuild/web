@@ -5,8 +5,12 @@ namespace Tests\Feature;
 
 
 use App\Entities\Accounts\Models\Account;
+use App\Entities\Accounts\Notifications\AccountActivationNotification;
 use App\Entities\Groups\Models\Group;
 use App\Library\Recaptcha\RecaptchaRule;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -110,5 +114,37 @@ class RegisterTest extends TestCase
             'group_id' => $memberGroup->group_id,
             'account_id' => $account->account_id
         ]);
+    }
+
+    public function testUserIsSentVerificationMail()
+    {
+        Notification::fake();
+
+        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'unactivated', 'with-recaptcha')->make();
+
+        $this->post(route('front.register.submit'), $unactivatedAccount->toArray())
+            ->assertSuccessful()
+            ->assertSessionDoesntHaveErrors();
+
+        Notification::assertSentTo(Account::first(), AccountActivationNotification::class);
+    }
+
+    public function testUserCanVerifyEmail()
+    {
+        $unactivatedAccount = factory(Account::class)->states('unactivated')->create();
+
+        $this->get($unactivatedAccount->getActivationUrl())
+            ->assertSuccessful();
+
+        $this->assertEquals(true, Account::first()->activated);
+    }
+
+    public function testUserIsRedirectedToIntentAfterVerification()
+    {
+        Session::put('url.intended', '/my/path');
+
+        $unactivatedAccount = factory(Account::class)->states('unactivated')->create();
+        $this->get($unactivatedAccount->getActivationUrl())
+            ->assertRedirect('/my/path');
     }
 }

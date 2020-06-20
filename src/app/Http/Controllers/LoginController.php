@@ -88,7 +88,7 @@ final class LoginController extends WebController
         }
 
         $account = $this->auth->user();
-        
+
         $account->updateLastLogin($request->ip());
 
         // Set the user's nickname from Discourse if it isn't already

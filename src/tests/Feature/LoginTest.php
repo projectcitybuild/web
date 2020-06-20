@@ -7,6 +7,7 @@ namespace Tests\Feature;
 use App\Entities\Accounts\Models\Account;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
