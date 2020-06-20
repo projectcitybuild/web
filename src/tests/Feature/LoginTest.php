@@ -95,4 +95,20 @@ class LoginTest extends TestCase
         ])
             ->assertRedirect(route('front.account.settings'));
     }
+
+    public function testLastLoginDetailsUpdated()
+    {
+        $oldLoginTime = $this->account->last_login_at;
+        $oldLoginIp = $this->account->last_login_ip;
+
+        $this->post(route('front.login.submit'), [
+            'email' => $this->account->email,
+            'password' => "secret"
+        ])->assertSessionHasNoErrors();
+
+        $this->account->refresh();
+
+        $this->assertNotEquals($oldLoginIp, $this->account->last_login_ip);
+        $this->assertNotEquals($oldLoginTime, $this->account->last_login_at);
+    }
 }
