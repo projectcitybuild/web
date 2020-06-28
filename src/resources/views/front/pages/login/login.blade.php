@@ -9,17 +9,11 @@
         <div class="login__left">
             <h1>Sign In to PCB</h1>
 
-            <small>
-                <i class="fas fa-exclamation-circle"></i> 
-                Notice: Anyone with a forum account before we moved to Discourse <a href="{{ route('front.password-reset.create') }}">must reset their password first</a>!
-                <p />
-                See <a href="https://forums.projectcitybuild.com/t/welcome-to-the-new-forums/32708/1" target="_blank">this post</a> for more details.
-            </small>
             <br>
 
             <form method="post" action="{{ route('front.login.submit') }}">
                 @csrf
-                
+
                 @if($errors->any())
                     <div class="alert alert--error">
                         <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
@@ -56,11 +50,11 @@
             <div class="login__description">
                 Members gain access to personal player statistics, the forums, in-game rank synchronization and more.
             </div>
-            
+
             <a class="button button--fill button--large button--accent" href="{{ route('front.register') }}">
                 Create an Account
             </a>
-            
+
             <!-- <div class="login__divider">or</div>
 
             <div class="login__social">
