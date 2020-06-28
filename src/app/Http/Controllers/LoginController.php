@@ -5,13 +5,18 @@ namespace App\Http\Controllers;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Library\Discourse\Exceptions\UserNotFound;
+use App\Library\RateLimit\Storage\SessionTokenStorage;
+use App\Library\RateLimit\TokenBucket;
+use App\Library\RateLimit\TokenRate;
 use App\Services\Login\LogoutService;
 use App\Http\Requests\LoginRequest;
 use App\Http\WebController;
 use Carbon\Carbon;
-use Illuminate\Contracts\Auth\Guard as Auth;
+use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 final class LoginController extends WebController
 {
@@ -31,7 +36,7 @@ final class LoginController extends WebController
     private $logoutService;
 
     /**
-     * @var Auth
+     * @var AuthGuard
      */
     private $auth;
 
@@ -40,8 +45,9 @@ final class LoginController extends WebController
         DiscourseAdminApi $discourseAdminApi,
         AccountRepository $accountRepository,
         LogoutService $logoutService,
-        Auth $auth
-    ) {
+        AuthGuard $auth
+    )
+    {
         $this->discourseAdminApi = $discourseAdminApi;
         $this->accountRepository = $accountRepository;
         $this->logoutService = $logoutService;
@@ -55,11 +61,35 @@ final class LoginController extends WebController
 
     public function store(LoginRequest $request)
     {
-        $account  = $this->auth->user();
+        $refillRate = TokenRate::refill(3)->every(2, TokenRate::MINUTES);
+        $sessionStorage = new SessionTokenStorage('login.rate', 5);
+        $rateLimit = new TokenBucket(6, $refillRate, $sessionStorage);
 
-        $account->last_login_ip = $request->ip();
-        $account->last_login_at = Carbon::now();
-        $account->save();
+        if ($rateLimit->consume(1) === false) {
+            throw ValidationException::withMessages([
+                'error' => ['Too many login attempts. Please try again in a few minutes'],
+            ]);
+        }
+
+        if (!Auth::attempt($request->validated())) {
+            $triesLeft = floor($rateLimit->getAvailableTokens());
+
+            throw ValidationException::withMessages([
+                'error' => ['Email or password is incorrect: ' . $triesLeft . ' attempts remaining'],
+            ]);
+        }
+
+        if (!$this->auth->user()->activated) {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'error' => ['Your email has not been confirmed. If you didn\'t receive it, check your spam. If you need help, ask PCB staff.']
+            ]);
+        }
+
+        $account = $this->auth->user();
+
+        $account->updateLastLogin($request->ip());
 
         // Set the user's nickname from Discourse if it isn't already
         if ($account->username == null) {

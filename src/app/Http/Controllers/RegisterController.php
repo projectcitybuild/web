@@ -62,9 +62,9 @@ final class RegisterController extends WebController
             $request->ip()
         );
 
-        if ($request->cookies->has('intended')) {
-            $intended = $request->cookies->get('intended');
-            $request->cookies->remove('intended');
+        if ($request->session()->has('url.intended')) {
+            $intended = $request->session()->get('url.intended');
+            $request->session()->remove('intended');
             return redirect($intended);
         }
 

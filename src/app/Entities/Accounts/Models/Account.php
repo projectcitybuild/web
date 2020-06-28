@@ -5,6 +5,7 @@ namespace App\Entities\Accounts\Models;
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationPerk;
 use App\Model;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
@@ -148,5 +149,12 @@ final class Account extends Authenticatable
         return URL::temporarySignedRoute('front.register.activate', now()->addDay(), [
             'email' => $this->email,
         ]);
+    }
+
+    public function updateLastLogin($ip)
+    {
+        $this->last_login_ip = $ip;
+        $this->last_login_at = Carbon::now();
+        $this->save();
     }
 }
