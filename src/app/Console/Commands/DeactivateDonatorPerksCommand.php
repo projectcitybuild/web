@@ -55,6 +55,7 @@ final class DeactivateDonatorPerksCommand extends Command
         }
 
         $donatorGroup = Group::where('name', 'donator')->first();
+        $memberGroup = Group::where('name', 'member')->first();
 
         foreach ($expiredPerks as $expiredPerk) {
             // Check that the user doesn't have any other active perks
@@ -80,6 +81,11 @@ final class DeactivateDonatorPerksCommand extends Command
                         $this->syncAction->syncAll();
 
                         $expiredPerk->account->groups()->detach($donatorGroup->getKey());
+
+                        // Assign to Member group if not a member of any other group
+                        if (count($expiredPerk->account->groups) === 0) {
+                            $expiredPerk->account->groups()->attach($memberGroup->getKey());
+                        }
                     }
 
                     // TODO: Send message to user (mail? Discourse notification? Discourse mail?)
