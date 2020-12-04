@@ -55,9 +55,14 @@ final class DeactivateDonatorPerksCommand extends Command
         }
 
         $donatorGroup = Group::where('name', 'donator')->first();
-        $memberGroup = Group::where('name', 'member')->first();
+        $memberGroup = Group::where('is_default', true)->first();
+
+        if ($memberGroup === null) {
+            throw new \Exception("Cannot find default member group. Does any group have `is_default`=true?");
+        }
 
         foreach ($expiredPerks as $expiredPerk) {
+
             // Check that the user doesn't have any other active perks
             if ($expiredPerk->account !== null) {
                 $otherActivePerks = DonationPerk::where('account_id', $expiredPerk->account->getKey())
@@ -71,25 +76,29 @@ final class DeactivateDonatorPerksCommand extends Command
                     })
                     ->get();
 
-                if (count($otherActivePerks) === 0) {
-                    $isInDonatorGroup = $expiredPerk->account->groups
-                        ->pluck('group_id')
-                        ->contains($donatorGroup->getKey());
-
-                    if ($isInDonatorGroup) {
-                        $this->syncAction->setUser($expiredPerk->account);
-                        $this->syncAction->syncAll();
-
-                        $expiredPerk->account->groups()->detach($donatorGroup->getKey());
-
-                        // Assign to Member group if not a member of any other group
-                        if (count($expiredPerk->account->groups) === 0) {
-                            $expiredPerk->account->groups()->attach($memberGroup->getKey());
-                        }
-                    }
-
-                    // TODO: Send message to user (mail? Discourse notification? Discourse mail?)
+                if (count($otherActivePerks) > 0) {
+                    continue;
                 }
+
+                $isInDonatorGroup = $expiredPerk->account->groups
+                    ->pluck('group_id')
+                    ->contains($donatorGroup->getKey());
+
+                if ($isInDonatorGroup) {
+                    $expiredPerk->account->groups()->detach($donatorGroup->getKey());
+                    $expiredPerk->account->load('groups');
+                }
+
+                // Assign to Member group if no other groups assigned to this user
+                if (count($expiredPerk->account->groups) === 0) {
+                    $expiredPerk->account->groups()->attach($memberGroup->getKey());
+                    $expiredPerk->account->load('groups');
+                }
+
+                $this->syncAction->setUser($expiredPerk->account);
+                $this->syncAction->syncAll();
+
+                // TODO: Send message to user (mail? Discourse notification? Discourse mail?)
             }
 
             $expiredPerk->is_active = false;

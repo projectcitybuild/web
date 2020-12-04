@@ -19,11 +19,17 @@ final class DeactivateDonatorPerksCommand_Test extends TestCase
      */
     private $donatorGroup;
 
+    /**
+     * @var Group
+     */
+    private $memberGroup;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->donatorGroup = factory(Group::class)->create(['name' => 'donator']);
+        $this->memberGroup = factory(Group::class)->create(['name' => 'member', 'is_default' => true]);
     }
 
     private function makeCommand(): DeactivateDonatorPerksCommand
@@ -163,5 +169,28 @@ final class DeactivateDonatorPerksCommand_Test extends TestCase
 
         $account = Account::find($expectedAccount->getKey());
         $this->assertTrue($account->groups->contains($this->donatorGroup->getKey()));
+    }
+
+    public function testAssignsExpiredDonatorToMemberGroupIfNoGroup()
+    {
+        $account = factory(Account::class)->create();
+        $account->groups()->attach($this->donatorGroup->getKey());
+
+        factory(DonationPerk::class)->create([
+            'account_id' => $account->getKey(),
+            'is_active' => true,
+            'is_lifetime_perks' => false,
+            'expires_at' => now()->subDay(),
+        ]);
+
+        $account = Account::find($account->getKey());
+        $this->assertTrue($account->groups->contains($this->donatorGroup->getKey()));
+
+        $command = $this->makeCommand();
+        $command->handle();
+
+        $account = Account::find($account->getKey());
+        $this->assertTrue($account->groups->contains($this->memberGroup->getKey()));
+        $this->assertEquals(1, count($account->groups));
     }
 }
