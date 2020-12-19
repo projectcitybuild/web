@@ -57,7 +57,7 @@ jobs:
         run: npm ci
 
       - name: NPM Build
-        run: npm production
+        run: npm run prod
 
       - name: Prepare Laravel
         run: |
