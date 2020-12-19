@@ -25,9 +25,8 @@ class AccountSettingsEmailTest extends TestCase
 
     /**
      * @param $newEmail
-     * @return \Illuminate\Foundation\Testing\TestResponse
      */
-    private function submitEmailChange($newEmail): \Illuminate\Foundation\Testing\TestResponse
+    private function submitEmailChange($newEmail): \Illuminate\Testing\TestResponse
     {
         return $this->actingAs($this->account)->post(route('front.account.settings.email'), [
             'email' => $newEmail

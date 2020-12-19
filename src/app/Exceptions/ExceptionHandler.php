@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Foundation\Exceptions\Handler;
 use App\Entities\Environment;
 use App\Exceptions\Http\BaseHttpException;
+use Throwable;
 
 class ExceptionHandler extends Handler
 {
@@ -44,17 +45,18 @@ class ExceptionHandler extends Handler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
+     * @param Throwable $exception
      * @return void
+     * @throws Throwable
      */
-    public function report(Exception $exception)
+    public function report(Throwable $exception)
     {
         if (Environment::isStaging() || Environment::isProduction()) {
             if (app()->bound('sentry') && $this->shouldReport($exception)) {
                 app('sentry')->captureException($exception);
             }
         }
-    
+
         parent::report($exception);
     }
 
@@ -65,7 +67,7 @@ class ExceptionHandler extends Handler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         // output exceptions in our API as JSON
         if ($request->is('api/*') && $exception instanceof BaseHttpException) {

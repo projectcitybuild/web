@@ -21,7 +21,7 @@ class AccountSettingsUsernameTest extends TestCase
         $this->account = factory(Account::class)->create();
     }
 
-    private function submitUsernameChange($newUsername): \Illuminate\Foundation\Testing\TestResponse
+    private function submitUsernameChange($newUsername): \Illuminate\Testing\TestResponse
     {
         return $this->actingAs($this->account)->post(route('front.account.settings.username'), [
             'username' => $newUsername
