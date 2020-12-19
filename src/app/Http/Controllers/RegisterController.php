@@ -31,7 +31,7 @@ final class RegisterController extends WebController
 
         $account = $accountRepository->create($input['email'], $input['username'], $input['password'], $request->ip());
 
-        $defaultGroups = Group::where('is_default', 1)->get()->pluck('group_id');
+        $defaultGroups = Group::where('is_default', 1)->pluck('group_id');
 
         $account->groups()->attach($defaultGroups);
 

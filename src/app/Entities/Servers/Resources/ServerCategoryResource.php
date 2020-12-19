@@ -2,9 +2,10 @@
 
 namespace App\Entities\Servers\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
 
-class ServerCategoryResource extends Resource
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class ServerCategoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +21,7 @@ class ServerCategoryResource extends Resource
             'display_order'         => $this->display_order,
             // 'created_at'            => $this->created_at->getTimestamp(),
             // 'updated_at'            => $this->updated_at->getTimestamp(),
-            
+
             'servers' => ServerResource::collection($this->whenLoaded('servers')),
         ];
     }

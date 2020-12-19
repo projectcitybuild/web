@@ -34,14 +34,14 @@ final class RepairMissingGroupsCommand extends Command
 
         if (count($accountsWithoutGroups) === 0) {
             $this->info('No accounts need to be assigned a group');
-            return;   
+            return;
         }
 
-        $defaultGroupIds = Group::where('is_default', 1)->get()->pluck('group_id');
+        $defaultGroupIds = Group::where('is_default', 1)->pluck('group_id');
 
         $progressBar = $this->output->createProgressBar(count($accountsWithoutGroups));
         $progressBar->start();
-     
+
         DB::transaction(function() use($accountsWithoutGroups, $defaultGroupIds, &$progressBar) {
             foreach ($accountsWithoutGroups as $account) {
                 $account->groups()->attach($defaultGroupIds);

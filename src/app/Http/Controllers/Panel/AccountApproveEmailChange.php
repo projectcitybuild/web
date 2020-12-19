@@ -14,7 +14,7 @@ class AccountApproveEmailChange extends WebController
     public function __invoke(Account $account, AccountEmailChange $accountEmailChange, UpdateAccountEmail $updateAccountEmail)
     {
         if (!$accountEmailChange->account->is($account)) {
-            return abort(422);
+            abort(422);
         }
 
         $updateAccountEmail->execute($account, $accountEmailChange);

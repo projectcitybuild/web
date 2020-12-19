@@ -2,9 +2,10 @@
 
 namespace App\Entities\Servers\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
 
-class ServerResource extends Resource
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class ServerResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

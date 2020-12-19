@@ -12,7 +12,7 @@ class AccountGameAccount
     public function delete(Account $account, MinecraftPlayer $minecraftPlayer)
     {
         if (!$minecraftPlayer->account->is($account)) {
-            return abort(422);
+            abort(422);
         }
 
         $minecraftPlayer->account_id = null;

@@ -1,9 +1,10 @@
 <?php
 namespace App\Entities\Groups\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
 
-class GroupResource extends Resource
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class GroupResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

@@ -31,6 +31,7 @@ abstract class Enum
 
         $class = get_called_class();
         $const = constant("$class::$label");
+        /** @phpstan-ignore-next-line */
         return new $class($const);
     }
 

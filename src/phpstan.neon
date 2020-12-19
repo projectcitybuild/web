@@ -7,5 +7,3 @@ parameters:
     - config
     - bootstrap
     - routes
-  ignoreErrors:
-    - '#does not call parent constructor from Symfony\\Component\\HttpFoundation\\Request.#'

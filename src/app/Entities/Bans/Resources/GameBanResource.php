@@ -2,11 +2,12 @@
 
 namespace App\Entities\Bans\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
 
-class GameBanResource extends Resource
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class GameBanResource extends JsonResource
 {
-    
+
     /**
      * Transform the resource into an array.
      *
