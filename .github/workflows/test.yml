@@ -33,6 +33,9 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: Copy environment
+        run:  cp .env.ci .env
+
       - name: Validate composer.json and composer.lock
         run: composer validate
 
@@ -56,13 +59,9 @@ jobs:
       - name: NPM Build
         run: npm production
 
-      - name: Prepare Laravel Application
+      - name: Prepare Laravel
         run: |
-          cp .env.ci .env
           php artisan key:generate
-
-      - name: Prepare Database
-        run: |
           php artisan migrate
 
       - name: Larastan
