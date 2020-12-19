@@ -14,7 +14,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container:
-      image: kirschbaumdevelopment/laravel-test-runner:8.0
+      image: kirschbaumdevelopment/laravel-test-runner:7.4
     services:
       mysql:
         image: mysql:8.0
