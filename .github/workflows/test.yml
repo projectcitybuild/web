@@ -14,10 +14,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container:
-      image: kirschbaumdevelopment/laravel-test-runner:7.2
+      image: kirschbaumdevelopment/laravel-test-runner:8.0
     services:
       mysql:
-        image: mysql:5.7
+        image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: pcb
