@@ -29,6 +29,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - run: cd src
+
       - name: Validate composer.json and composer.lock
         run: composer validate
 
