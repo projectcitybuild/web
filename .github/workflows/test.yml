@@ -68,7 +68,7 @@ jobs:
         run: ./vendor/bin/phpstan analyse --memory-limit=1G
 
       - name: PHPUnit
-        run: ./vendor/bin/phpunit --coverage-clover=coverage.xml
+        run: phpdbg -dmemory_limit=1G -qrr vendor/bin/phpunit --coverage-clover tests/coverage/clover.xml
 
       - name: Upload coverage
-        run: curl -s https://codecov.io/bash | bash
+        run: curl -s https://codecov.io/bash | bash -f
