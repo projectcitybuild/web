@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Entities\Accounts\Models\Account;
 use Illuminate\Database\Seeder;
 

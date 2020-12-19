@@ -1,7 +1,8 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Entities\Accounts\Models\Account;
-use App\Entities\Accounts\Models\UnactivatedAccount;
 use Illuminate\Database\Seeder;
 
 class AccountSeeder extends Seeder

@@ -1,16 +1,17 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
 use App\Entities\Servers\Models\ServerCategory;
 use App\Entities\Servers\Models\Server;
 use App\Entities\ServerKeys\Models\ServerKey;
 use App\Entities\GameType;
-use App\Entities\Servers\Repositories\ServerKeyTokenRepository;
 
 class ServerSeeds extends Seeder
 {
-    
+
     /**
      * Run the database seeds.
      *
@@ -22,7 +23,7 @@ class ServerSeeds extends Seeder
             'name'          => 'minecraft',
             'display_order' => 1,
         ]);
-        
+
         $categoryOtherGames = factory(ServerCategory::class)->create([
             'name'          => 'other games',
             'display_order' => 2,
@@ -61,7 +62,7 @@ class ServerSeeds extends Seeder
             'is_querying'           => false,
             'display_order'         => 1,
         ]);
-        
+
         factory(Server::class)->create([
             'name'                  => 'Starbound',
             'server_category_id'    => $categoryOtherGames->server_category_id,
@@ -70,7 +71,7 @@ class ServerSeeds extends Seeder
             'display_order'         => 2,
         ]);
 
-        
+
         $serverKey = ServerKey::create([
             'server_id' => $minecraftServer->server_id,
             'token' => bin2hex(random_bytes(30)),

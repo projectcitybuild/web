@@ -1,9 +1,9 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
 use App\Entities\Groups\Models\Group;
-use App\Entities\Groups\GroupEnum;
 
 class GroupSeeds extends Seeder
 {

@@ -10,10 +10,6 @@ on:
       - master
       - dev
 
-defaults:
-  run:
-    working-directory: src
-
 jobs:
   test:
     runs-on: ubuntu-latest
