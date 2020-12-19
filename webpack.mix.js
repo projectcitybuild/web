@@ -29,7 +29,6 @@ if(mix.config.production) {
 
 } else {
     mix.browserSync({
-        proxy: 'nginx',
         open: false,
         files: [
             'resources/**/*.php',
