@@ -108,7 +108,7 @@ Route::get('logout', [
     'uses'  => 'LoginController@logout',
 ]);
 
-Route::group(['prefix' => 'account', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Settings'], function () {
     Route::prefix('settings')->group(function () {
         Route::get('/', [
             'as'    => 'front.account.settings',
