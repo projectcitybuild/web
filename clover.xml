@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1608475540">
-  <project timestamp="1608475540">
+<coverage generated="1608477068">
+  <project timestamp="1608477068">
     <file name="/var/www/html/app/Console/Commands/CleanupUnactivatedAccountsCommand.php">
       <class name="App\Console\Commands\CleanupUnactivatedAccountsCommand" namespace="global">
         <metrics complexity="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="8" coveredstatements="0" elements="9" coveredelements="0"/>
@@ -3445,38 +3445,38 @@
     </file>
     <file name="/var/www/html/app/Library/Stripe/StripeHandler.php">
       <class name="App\Library\Stripe\StripeHandler" namespace="global">
-        <metrics complexity="6" methods="5" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="23" coveredstatements="20" elements="28" coveredelements="23"/>
+        <metrics complexity="6" methods="5" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="23" coveredstatements="0" elements="28" coveredelements="0"/>
       </class>
-      <line num="15" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="2"/>
-      <line num="17" type="stmt" count="2"/>
-      <line num="18" type="stmt" count="2"/>
-      <line num="19" type="stmt" count="2"/>
-      <line num="21" type="method" name="setApiKey" visibility="private" complexity="2" crap="2.03" count="2"/>
-      <line num="23" type="stmt" count="2"/>
-      <line num="24" type="stmt" count="2"/>
+      <line num="15" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="17" type="stmt" count="0"/>
+      <line num="18" type="stmt" count="0"/>
+      <line num="19" type="stmt" count="0"/>
+      <line num="21" type="method" name="setApiKey" visibility="private" complexity="2" crap="6" count="0"/>
+      <line num="23" type="stmt" count="0"/>
+      <line num="24" type="stmt" count="0"/>
       <line num="25" type="stmt" count="0"/>
-      <line num="27" type="stmt" count="2"/>
-      <line num="28" type="stmt" count="2"/>
-      <line num="30" type="method" name="setCurrency" visibility="public" complexity="1" crap="1" count="2"/>
-      <line num="32" type="stmt" count="2"/>
-      <line num="33" type="stmt" count="2"/>
-      <line num="44" type="method" name="createCheckoutSession" visibility="public" complexity="1" crap="1" count="2"/>
-      <line num="46" type="stmt" count="2"/>
-      <line num="47" type="stmt" count="2"/>
-      <line num="48" type="stmt" count="2"/>
-      <line num="51" type="stmt" count="2"/>
-      <line num="52" type="stmt" count="2"/>
-      <line num="54" type="stmt" count="2"/>
-      <line num="55" type="stmt" count="2"/>
-      <line num="56" type="stmt" count="2"/>
-      <line num="59" type="stmt" count="2"/>
-      <line num="60" type="stmt" count="2"/>
-      <line num="63" type="stmt" count="2"/>
+      <line num="27" type="stmt" count="0"/>
+      <line num="28" type="stmt" count="0"/>
+      <line num="30" type="method" name="setCurrency" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="32" type="stmt" count="0"/>
+      <line num="33" type="stmt" count="0"/>
+      <line num="44" type="method" name="createCheckoutSession" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="46" type="stmt" count="0"/>
+      <line num="47" type="stmt" count="0"/>
+      <line num="48" type="stmt" count="0"/>
+      <line num="51" type="stmt" count="0"/>
+      <line num="52" type="stmt" count="0"/>
+      <line num="54" type="stmt" count="0"/>
+      <line num="55" type="stmt" count="0"/>
+      <line num="56" type="stmt" count="0"/>
+      <line num="59" type="stmt" count="0"/>
+      <line num="60" type="stmt" count="0"/>
+      <line num="63" type="stmt" count="0"/>
       <line num="122" type="method" name="getWebhookEvent" visibility="public" complexity="1" crap="2" count="0"/>
       <line num="124" type="stmt" count="0"/>
       <line num="125" type="stmt" count="0"/>
       <line num="127" type="stmt" count="1"/>
-      <metrics loc="126" ncloc="62" classes="1" methods="5" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="23" coveredstatements="20" elements="28" coveredelements="23"/>
+      <metrics loc="126" ncloc="62" classes="1" methods="5" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="23" coveredstatements="0" elements="28" coveredelements="0"/>
     </file>
     <file name="/var/www/html/app/Library/Stripe/StripeWebhook.php">
       <class name="App\Library\Stripe\StripeWebhook" namespace="global">
@@ -3993,6 +3993,6 @@
       <line num="88" type="stmt" count="1"/>
       <metrics loc="87" ncloc="58" classes="1" methods="4" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="2" elements="25" coveredelements="3"/>
     </file>
-    <metrics files="201" loc="10628" ncloc="8364" classes="170" methods="508" coveredmethods="31" conditionals="0" coveredconditionals="0" statements="2266" coveredstatements="124" elements="2774" coveredelements="155"/>
+    <metrics files="201" loc="10628" ncloc="8364" classes="170" methods="508" coveredmethods="28" conditionals="0" coveredconditionals="0" statements="2266" coveredstatements="104" elements="2774" coveredelements="132"/>
   </project>
 </coverage>
