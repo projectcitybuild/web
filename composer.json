@@ -19,7 +19,7 @@
         "laravel/tinker": "^2.0",
         "predis/predis": "^1.1",
         "sentry/sentry-laravel": "^2.3",
-        "stripe/stripe-php": "^6.15",
+        "stripe/stripe-php": "^7.67",
         "teamtnt/laravel-scout-tntsearch-driver": "^11.0",
         "xpaw/php-minecraft-query": "^2.0"
     },

@@ -183,6 +183,12 @@ final class DonationController extends ApiController
             if (!$session->account->groups->contains($donatorGroupId)) {
                 $session->account->groups()->attach($donatorGroupId);
             }
+
+            // Detach the user from the member group
+            $memberGroup = Group::where('is_default', true)->first();
+            $memberGroupId = $memberGroup->getKey();
+
+            $session->account->groups()->detach($memberGroupId);
         }
 
         return response()->json(null, 200);
