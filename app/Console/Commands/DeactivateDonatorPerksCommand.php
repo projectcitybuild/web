@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 use App\Entities\Donations\Models\DonationPerk;
 use App\Entities\Groups\Models\Group;
 use App\Http\Actions\SyncUserToDiscourse;
+use App\Entities\Donations\Notifications\DonationEndedNotification;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -95,7 +96,7 @@ final class DeactivateDonatorPerksCommand extends Command
                         $expiredPerk->account->load('groups');
                     }
 
-                    // TODO: Send message to user (mail? Discourse notification? Discourse mail?)
+                    $expiredPerk->account->notify(new DonationEndedNotification());
                 }
             }
 

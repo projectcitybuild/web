@@ -7,6 +7,9 @@ use App\Entities\Accounts\Models\Account;
 use App\Entities\Donations\Models\DonationPerk;
 use App\Entities\Groups\Models\Group;
 use App\Http\Actions\SyncUserToDiscourse;
+use App\Entities\Donations\Notifications\DonationEndedNotification;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -43,11 +46,15 @@ final class DeactivateDonatorPerksCommand_Test extends TestCase
 
     public function testDeactivatesExpiredPerk()
     {
+        Notification::fake();
+
+        $account = factory(Account::class)->create();
+
         $expectedPerk = factory(DonationPerk::class)->create([
             'is_active' => true,
             'is_lifetime_perks' => false,
             'expires_at' => now()->subDay(),
-            'account_id' => factory(Account::class)->create()->getKey(),
+            'account_id' => $account->getKey()
         ]);
 
         $command = $this->makeCommand();
@@ -56,6 +63,8 @@ final class DeactivateDonatorPerksCommand_Test extends TestCase
         $perk = DonationPerk::find($expectedPerk->getKey());
 
         $this->assertFalse($perk->is_active);
+
+        Notification::assertSentTo($account, DonationEndedNotification::class);
     }
 
     public function testDoesNotDeactivateUnexpiredPerk()
