@@ -1,0 +1,70 @@
+name: PHP Test
+
+on:
+  pull_request:
+    branches:
+      - master
+      - dev
+  push:
+    branches:
+      - master
+      - dev
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:7.4
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: pcb
+        ports:
+          - 33306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Copy environment
+        run:  cp .env.ci .env
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Composer dependencies
+        run: composer install --no-interaction
+
+      - name: NPM Install
+        run: npm ci
+
+      - name: NPM Build
+        run: npm run prod
+
+      - name: Prepare Laravel
+        run: |
+          php artisan key:generate
+          php artisan migrate
+
+      - name: Larastan
+        run: ./vendor/bin/phpstan analyse --memory-limit=1G
+
+      - name: PHPUnit
+        run: phpdbg -dmemory_limit=1G -qrr vendor/bin/phpunit --coverage-clover tests/coverage/clover.xml
+
+      - name: Upload coverage
+        run: curl -s https://codecov.io/bash | bash -f
