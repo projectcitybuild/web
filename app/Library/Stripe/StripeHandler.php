@@ -36,10 +36,11 @@ class StripeHandler
     /**
      * Creates a new session for using Stripe's Checkout flow
      *
-     * @param string $uniqueSessionId   A unique UUID that will be sent to Stripe to be stored alongside the
+     * @param string $uniqueSessionId A unique UUID that will be sent to Stripe to be stored alongside the
      *                                  session. When Stripe notifies us via WebHook that the payment is processed,
      *                                  they will pass us back the UUID so we can fulfill the purchase.
      * @return string Stripe session ID
+     * @throws \Stripe\Exception\ApiErrorException
      */
     public function createCheckoutSession(string $uniqueSessionId, int $amountInCents): string
     {

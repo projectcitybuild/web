@@ -187,6 +187,7 @@ final class DonationController extends ApiController
             // Detach the user from the member group
             $memberGroup = Group::where('is_default', true)->first();
             $memberGroupId = $memberGroup->getKey();
+            $session->account->groups()->detach($memberGroup);
 
             $session->account->groups()->detach($memberGroupId);
         }

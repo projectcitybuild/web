@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Entities\Accounts\Models\Account;
-use App\Entities\Payments\Models\AccountPaymentSession;
 use App\Library\Stripe\StripeHandler;
 use Mockery\MockInterface;
 use Tests\TestCase;

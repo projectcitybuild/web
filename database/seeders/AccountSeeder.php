@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Entities\Accounts\Models\Account;
+use App\Entities\Groups\Models\Group;
 use Illuminate\Database\Seeder;
 
 class AccountSeeder extends Seeder
@@ -14,6 +15,8 @@ class AccountSeeder extends Seeder
      */
     public function run()
     {
-        factory(Account::class, 500)->create();
+        $account = factory(Account::class, 500)->create();
+        $defaultGroup = Group::where('is_default',1)->first();
+        $account->groups()->attach($defaultGroup->getKey());
     }
 }
