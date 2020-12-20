@@ -141,6 +141,13 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Set
         ]);
     });
 
+    Route::prefix('donations')->group(function() {
+        Route::get('/', [
+            'as'   => 'front.account.donations',
+            'uses' => 'AccountDonationController@index'
+        ]);
+    });
+
     Route::prefix('games')->group(function () {
         Route::get('games', [
             'as'    => 'front.account.games',
