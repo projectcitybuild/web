@@ -13,9 +13,15 @@ $factory->define(DonationPerk::class, function (Faker\Generator $faker) {
     return [
         'donation_id' => $donation->getKey(),
         'is_active' => true,
-        'is_lifetime_perks' => true,
+        'is_lifetime_perks' => false,
         'expires_at' => $faker->dateTime(),
         'created_at' => $faker->dateTime(),
         'updated_at' => $faker->dateTime(),
     ];
+});
+
+$factory->state(DonationPerk::class,'lifetime', function() {
+   return [
+       'is_lifetime_perks' => true
+   ];
 });

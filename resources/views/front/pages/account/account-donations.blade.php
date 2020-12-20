@@ -10,7 +10,7 @@
                 <h1>Donations</h1>
                 <span class="header-description">A record of all your contributions to help keep PCB running</span>
             </div>
-            @if($donations->empty())
+            @if($donations->count() == 0)
                 <div class="card__body card__body--padded">
                     <p>You haven't donated yet! Donations are the only way to keep PCB running.</p>
                     <h3 class="mb-0">Missing a donation?</h3>
