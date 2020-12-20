@@ -71,7 +71,7 @@ You can enter the workspace with `sail shell`
 #### Stripe Webhooks
 Use [stripe-cli](https://stripe.com/docs/stripe-cli) to receive payment webhooks locally.
 
-After installing, run `stripe listen --forward-to localhost/api/donations/store` to forward webhook events to the correct endpoint.
+After installing, run `stripe listen --forward-to localhost/api/webhooks/stripe` to forward webhook events to the correct endpoint. Copy the code you're given into the `STRIPE_WEBHOOK_SECRET` env value.
 
 ## Testing
 Inside the workspace container:
