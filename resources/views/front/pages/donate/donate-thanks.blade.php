@@ -16,12 +16,14 @@
                 In the case where you don't immediately receive your perks, please wait a few minutes as your payment may still
                 be processing.
             </div>
-            
+
             <div class="donate__confirmation--info">
                 If you have any problems, please do not hesitate to reach out to staff on the forums, Discord or in-game.
             </div>
 
-            <p />
+            <a class="button button--secondary" href="{{ route('front.account.donations') }}">
+                See your donations <i class="fas fa-chevron-right"></i>
+            </a>
 
             <a class="button button--secondary" href="{{ route('front.home') }}">
                 Back to Home <i class="fas fa-chevron-right"></i>
