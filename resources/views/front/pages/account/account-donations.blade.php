@@ -44,7 +44,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    {{ $perk->humanReadableStatus() }}
+                                    {{ $this->is_active ? 'Active' : 'Expired' }}
                                 </td>
                             </tr>
                         @endforeach

@@ -75,9 +75,4 @@ final class DonationPerk extends Model
     {
         return $this->belongsTo(Donation::class, 'donation_id', 'donation_id');
     }
-
-    public function humanReadableStatus()
-    {
-        return $this->is_active ? 'Active' : 'Expired';
-    }
 }
