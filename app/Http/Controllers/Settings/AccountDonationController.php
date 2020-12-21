@@ -4,10 +4,10 @@
 namespace App\Http\Controllers\Settings;
 
 
-use Barryvdh\Debugbar\Controllers\BaseController;
+use App\Http\WebController;
 use Illuminate\Http\Request;
 
-final class AccountDonationController extends BaseController
+final class AccountDonationController extends WebController
 {
     public function index(Request $request)
     {
