@@ -44,7 +44,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    {{ $this->is_active ? 'Active' : 'Expired' }}
+                                    {{ $perk->is_active ? 'Active' : 'Expired' }}
                                 </td>
                             </tr>
                         @endforeach
