@@ -32,7 +32,6 @@ final class CleanupUnactivatedAccountsCommand extends Command
     {
         $elapsedDaysToDelete = $this->option('days') 
             ?: config('registration.days_elapsed_until_unactivated_purge', 14);
-        $this->info($elapsedDaysToDelete);
 
         $thresholdDate = now()->subDays($elapsedDaysToDelete);
 
