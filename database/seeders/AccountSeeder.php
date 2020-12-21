@@ -16,7 +16,7 @@ class AccountSeeder extends Seeder
     public function run()
     {
         $account = factory(Account::class, 500)->create();
-        $defaultGroup = Group::where('is_default',1)->first();
+        $defaultGroup = Group::where('is_default', 1)->first();
         $account->groups()->attach($defaultGroup->getKey());
     }
 }

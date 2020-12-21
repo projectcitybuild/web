@@ -78,6 +78,6 @@ final class DonationPerk extends Model
 
     public function humanReadableStatus()
     {
-        return $this->is_active ? "Active" : "Expired";
+        return $this->is_active ? 'Active' : 'Expired';
     }
 }

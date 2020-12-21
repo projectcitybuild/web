@@ -20,7 +20,7 @@ $factory->define(DonationPerk::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->state(DonationPerk::class,'lifetime', function() {
+$factory->state(DonationPerk::class, 'lifetime', function() {
    return [
        'is_lifetime_perks' => true
    ];

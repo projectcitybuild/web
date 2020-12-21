@@ -32,7 +32,7 @@
                             <tr>
                                 @if($perk->donation != null)
                                     <td>{{ $perk->donation->created_at->toFormattedDateString() }}</td>
-                                    <td>${{ number_format($perk->donation->amount,2) }}</td>
+                                    <td>${{ number_format($perk->donation->amount, 2) }}</td>
                                 @else
                                     <td>Unable to find transaction</td>
                                 @endif
