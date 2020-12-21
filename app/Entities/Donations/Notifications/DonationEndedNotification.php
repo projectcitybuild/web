@@ -42,7 +42,6 @@ class DonationEndedNotification extends Notification
     {
         return (new MailMessage)
                     ->subject('Your Donation has Ended')
-                    ->from('no-reply@projectcitybuild.com')
                     ->line('Your period of Donator has now ended and you\'ve been reset to your previous rank.')
                     ->line('Thank you for helping support PCB - contributions from our members are the only way we can keep running! If you would like to keep supporting us, you can extend your donation here')
                     ->action('Extend your donation', action('DonationController@index'))
