@@ -11,6 +11,15 @@
                     Account Settings
                 </a>
             </li>
+            <li>
+                <a href="{{ route('front.account.donations') }}">
+                    <span class="fa-stack fa-2x">
+                        <i class="fas fa-square fa-stack-2x"></i>
+                        <i class="fas fa-star fa-stack-1x fa-inverse"></i>
+                    </span>
+                    Donations
+                </a>
+            </li>
         </ul>
 
     </div>

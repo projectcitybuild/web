@@ -5,6 +5,7 @@ namespace App\Entities\Donations\Models;
 use App\Entities\Accounts\Models\Account;
 use App\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class Donation extends Model
@@ -64,8 +65,8 @@ final class Donation extends Model
         return $this->hasOne(Account::class, 'account_id', 'account_id');
     }
 
-    public function perks() : BelongsToMany
+    public function perks() : HasMany
     {
-        return $this->belongsToMany(DonationPerk::class, 'donator_perks', 'donation_id', 'donation_id');
+        return $this->hasMany(DonationPerk::class, 'donation_id', 'donation_id');
     }
 }

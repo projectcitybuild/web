@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Settings;
 
 use App\Entities\Accounts\Repositories\AccountEmailChangeRepository;
 use App\Http\Requests\AccountChangeEmailRequest;
@@ -48,9 +48,9 @@ final class AccountSettingController extends WebController
     {
         $token = $request->get('token');
         $email = $request->get('email');
-        
+
         if (empty($token) || empty($email)) {
-            // If the email or token field is missing, the user has highly likely 
+            // If the email or token field is missing, the user has highly likely
             // tampered with the URL
             throw new \Exception('Email address and/or token missing');
         }
@@ -71,7 +71,7 @@ final class AccountSettingController extends WebController
             break;
 
         default:
-            // If the supplied email matches neither the old nor the new email address in 
+            // If the supplied email matches neither the old nor the new email address in
             // the stored email change request, the request cannot be performed
             throw new \Exception('Provided email address does not match the current or new email address');
         }
@@ -85,9 +85,9 @@ final class AccountSettingController extends WebController
                 'changeRequest' => $changeRequest,
             ]);
         }
-           
+
         $updateAccountEmail->execute(
-            $changeRequest->account, 
+            $changeRequest->account,
             $changeRequest
         );
 

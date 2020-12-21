@@ -33,20 +33,26 @@ table.table {
         }
     }
 
+    &--first-col-padded {
+        tr th:first-child, tr td:first-child {
+            padding-left: 2em;
+        }
+    }
+
     tr {
-        &.accent { 
+        &.accent {
             background: $colour-accent;
         }
-        &.primary { 
+        &.primary {
             background: $colour-primary;
             color: #fff;
         }
-        &.secondary { 
-            background: $colour-secondary; 
+        &.secondary {
+            background: $colour-secondary;
             color: #fff;
         }
-        &.success { 
-            background: $colour-success; 
+        &.success {
+            background: $colour-success;
         }
         &.error {
             background: $colour-error;
