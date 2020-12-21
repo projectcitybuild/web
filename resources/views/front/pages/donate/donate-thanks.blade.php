@@ -12,7 +12,7 @@
             <div class="donate__confirmation--info">
                 Your perks have been assigned to your account if you were logged into the website.<br />
                 If you are currently in-game, please reconnect to receive your perks.
-                <p />
+                <br />
                 In the case where you don't immediately receive your perks, please wait a few minutes as your payment may still
                 be processing.
             </div>
