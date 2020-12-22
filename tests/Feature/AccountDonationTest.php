@@ -35,7 +35,9 @@ class AccountDonationTest extends TestCase
 
     public function testShowsLifetimeDonation()
     {
-        $account = Account::factory()->create();
+        $account = Account::factory()
+            ->has(Donation::factory())
+            ->create();
         $this->actingAs($account);
 
         $donation = Donation::factory()->create(['account_id' => $account->getKey()]);
