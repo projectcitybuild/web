@@ -63,6 +63,9 @@ jobs:
       - name: Larastan
         run: ./vendor/bin/phpstan analyse --memory-limit=1G
 
+      - name: PHP Insights
+        run: vendor/bin/phpinsights -n --ansi --format=github-action
+
       - name: PHPUnit
         run: phpdbg -dmemory_limit=1G -qrr vendor/bin/phpunit --coverage-clover tests/coverage/clover.xml
 
