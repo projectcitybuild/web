@@ -42,10 +42,11 @@ final class UpdateAccountEmail
         }
     }
 
-    private function updateDiscourseAccount(int $pcbAccountId, string $newEmailAddress)
+    private function updateDiscourseAccount(Account $account, string $newEmailAddress)
     {
         $payload = (new DiscoursePayload())
-            ->setPcbId($pcbAccountId)
+            ->setPcbId($account->getKey())
+            ->setGroups($account->discourseGroupString())
             ->setEmail($newEmailAddress);
 
         try {

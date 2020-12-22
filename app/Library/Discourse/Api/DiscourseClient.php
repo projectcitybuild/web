@@ -10,7 +10,7 @@ final class DiscourseClient extends Client
     public function __construct()
     {
         parent::__construct([
-            'base_uri' => 'https://forums.projectcitybuild.com/',
+            'base_uri' => config('discourse.base_url'),
             'headers' => [
                 'Api-Key' => $this->getApiKey(),
                 'Api-Username' => $this->getApiUser(),

@@ -25,6 +25,7 @@ final class UpdateAccountUsername
         $payload = (new DiscoursePayload())
             ->setPcbId($account->getKey())
             ->setEmail($account->email)
+            ->setGroups($account->discourseGroupString())
             ->setUsername($newUsername);
 
         try {
