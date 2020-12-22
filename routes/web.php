@@ -149,14 +149,9 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Set
     });
 
     Route::prefix('games')->group(function () {
-        Route::get('games', [
+        Route::get('/', [
             'as'    => 'front.account.games',
-            'uses'  => 'GameAccountController@showView',
-        ]);
-
-        Route::post('games', [
-            'as'    => 'front.account.games.save',
-            'uses'  => 'GameAccountController@saveAccounts',
+            'uses'  => 'AccountGameAccountController@index',
         ]);
     });
 });
