@@ -4,6 +4,5 @@ parameters:
   level: 0
   paths:
     - app
-    - config
     - bootstrap
     - routes
