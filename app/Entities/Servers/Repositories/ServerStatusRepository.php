@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entities\Servers\Repositories;
 
 use App\Entities\Servers\Models\ServerStatus;
@@ -20,20 +21,21 @@ class ServerStatusRepository extends Repository
      * @param int $numOfPlayers
      * @param int $numOfSlots
      * @param int $createdAt
+     *
      * @return void
      */
-    public function create(int $serverId, 
-                           bool $isOnline, 
-                           int $numOfPlayers, 
-                           int $numOfSlots, 
+    public function create(int $serverId,
+                           bool $isOnline,
+                           int $numOfPlayers,
+                           int $numOfSlots,
                            int $createdAt)
     {
         return $this->getModel()->create([
-            'server_id'         => $serverId,
-            'is_online'         => $isOnline,
-            'num_of_players'    => $numOfPlayers,
-            'num_of_slots'      => $numOfSlots,
-            'created_at'        => Carbon::createFromTimestamp($createdAt),
+            'server_id' => $serverId,
+            'is_online' => $isOnline,
+            'num_of_players' => $numOfPlayers,
+            'num_of_slots' => $numOfSlots,
+            'created_at' => Carbon::createFromTimestamp($createdAt),
         ]);
     }
 }

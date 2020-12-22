@@ -1,15 +1,15 @@
 <?php
+
 namespace App\Services\Login;
 
-use Illuminate\Contracts\Auth\Guard as Auth;
+use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Library\Discourse\Api\DiscourseUserApi;
 use GuzzleHttp\Exception\ClientException;
-use App\Library\Discourse\Api\DiscourseAdminApi;
+use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Support\Facades\Log;
 
-class LogoutService 
+class LogoutService
 {
-
     /**
      * @var DiscourseUserApi
      */
@@ -25,7 +25,6 @@ class LogoutService
      */
     private $auth;
 
-    
     public function __construct(
         DiscourseUserApi $discourseUserApi,
         DiscourseAdminApi $discourseAdminApi,
@@ -40,11 +39,11 @@ class LogoutService
      * Invalidates only a PCB session
      * (used by Discourse)
      *
-     * @return boolean
+     * @return bool
      */
-    public function logoutOfPCB() : bool
+    public function logoutOfPCB(): bool
     {
-        if (!$this->auth->check()) {
+        if (! $this->auth->check()) {
             return false;
         }
         $this->auth->logout();
@@ -56,9 +55,9 @@ class LogoutService
      * Invalidates both PCB and Discourse's session
      * (used by PCB)
      *
-     * @return boolean
+     * @return bool
      */
-    public function logoutOfDiscourseAndPCB() : bool
+    public function logoutOfDiscourseAndPCB(): bool
     {
         $pcbId = $this->auth->id();
 
@@ -72,9 +71,8 @@ class LogoutService
 
         try {
             $this->discourseAdminApi->requestLogout($user['id']);
-
         } catch (ClientException $error) {
-            // Discourse will throw a 404 error if the user attempts to logout but isn't 
+            // Discourse will throw a 404 error if the user attempts to logout but isn't
             // currently logged-in. If that happens, we'll just gracefully logout of PCB
             if ($error->getCode() !== 404) {
                 Log::notice('Caught a 404 error logging out of Discourse');
@@ -89,10 +87,11 @@ class LogoutService
      * Fetches the Discourse user associated
      * with the given PCB account ID
      *
-     * @param integer $pcbId
+     * @param int $pcbId
+     *
      * @return array
      */
-    private function getDiscourseUser(int $pcbId) : array
+    private function getDiscourseUser(int $pcbId): array
     {
         $result = $this->discourseUserApi->fetchUserByPcbId($pcbId);
 
@@ -100,14 +99,13 @@ class LogoutService
         if ($user === null) {
             throw new \Exception('Discourse logout api response did not have a `user` key');
         }
-        
+
         Log::debug('Fetched Discord user', [
-            'id'        => $user['id'],
-            'username'  => $user['username'],
-            'response'  => $result,
+            'id' => $user['id'],
+            'username' => $user['username'],
+            'response' => $result,
         ]);
-        
+
         return $user;
     }
-
 }

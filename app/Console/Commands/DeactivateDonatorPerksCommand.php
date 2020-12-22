@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Console\Commands;
 
 use App\Entities\Donations\Models\DonationPerk;
+use App\Entities\Donations\Notifications\DonationEndedNotification;
 use App\Entities\Groups\Models\Group;
 use App\Http\Actions\SyncUserToDiscourse;
-use App\Entities\Donations\Notifications\DonationEndedNotification;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -28,7 +29,6 @@ final class DeactivateDonatorPerksCommand extends Command
      * @var SyncUserToDiscourse
      */
     private $syncAction;
-
 
     public function __construct(SyncUserToDiscourse $syncUserToDiscourse)
     {
@@ -59,7 +59,7 @@ final class DeactivateDonatorPerksCommand extends Command
         $memberGroup = Group::where('is_default', true)->first();
 
         if ($memberGroup === null) {
-            throw new \Exception("Cannot find default member group. Does any group have `is_default`=true?");
+            throw new \Exception('Cannot find default member group. Does any group have `is_default`=true?');
         }
 
         foreach ($expiredPerks as $expiredPerk) {
@@ -67,9 +67,9 @@ final class DeactivateDonatorPerksCommand extends Command
             if ($expiredPerk->account !== null) {
                 $otherActivePerks = DonationPerk::where('account_id', $expiredPerk->account->getKey())
                     ->where('is_active', true)
-                    ->where(function($q) {
+                    ->where(function ($q) {
                         $q->where('is_lifetime_perks', true);
-                        $q->orWhere(function($q) {
+                        $q->orWhere(function ($q) {
                             $q->where('is_lifetime_perks', false);
                             $q->whereDate('expires_at', '>', now());
                         });
@@ -87,7 +87,7 @@ final class DeactivateDonatorPerksCommand extends Command
 
                         $expiredPerk->account->groups()->detach($donatorGroup->getKey());
 
-                        $expiredPerk->account->load("groups");
+                        $expiredPerk->account->load('groups');
                     }
 
                     // Check if the user now doesn't have any groups

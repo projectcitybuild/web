@@ -7,6 +7,7 @@ use App\Model;
 final class GameBanLog extends Model
 {
 
+    public $timestamps = false;
     /**
      * The table associated with the model.
      *
@@ -39,6 +40,4 @@ final class GameBanLog extends Model
     protected $dates = [
         'created_at',
     ];
-
-    public $timestamps = false;
 }

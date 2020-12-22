@@ -17,11 +17,11 @@ class AccountController extends WebController
      */
     public function index(Request $request)
     {
-        if ($request->has('query') && $request->input('query') != "") {
+        if ($request->has('query') && $request->input('query') !== '') {
             $query = $request->input('query');
             $accounts = Account::search($query)->paginate(100);
         } else {
-            $query = "";
+            $query = '';
             $accounts = Account::paginate(100);
         }
 
@@ -32,6 +32,7 @@ class AccountController extends WebController
      * Display the specified resource.
      *
      * @param  \App\Entities\Accounts\Models\Account  $account
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Account $account)
@@ -44,6 +45,7 @@ class AccountController extends WebController
      * Show the form for editing the specified resource.
      *
      * @param  \App\Entities\Accounts\Models\Account  $account
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Account $account)
@@ -56,6 +58,7 @@ class AccountController extends WebController
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Entities\Accounts\Models\Account  $account
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Account $account)

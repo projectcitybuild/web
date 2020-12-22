@@ -55,7 +55,9 @@ final class GameBan extends Model
 
     public function getStaffName()
     {
-        if (is_null($this->staffPlayer)) return "System";
+        if (is_null($this->staffPlayer)) {
+            return 'System';
+        }
 
         return $this->staffPlayer->getBanReadableName();
     }
@@ -67,12 +69,10 @@ final class GameBan extends Model
      */
     public function toSearchableArray()
     {
-        $array = [
+        return [
             'game_ban_id' => $this->game_ban_id,
             'banned_alias_at_time' => $this->banned_alias_at_time,
-            'reason' => $this->reason
+            'reason' => $this->reason,
         ];
-
-        return $array;
     }
 }

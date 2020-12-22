@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Entities\Bans;
 
 interface BannableModelInterface
 {
-    
     /**
      * Returns the data of a field used to identify a player
      * in banning.
@@ -12,12 +12,12 @@ interface BannableModelInterface
      *
      * @return string
      */
-    public function getBanIdentifier() : string;
+    public function getBanIdentifier(): string;
 
     /**
      * Returns the human-readable, display name
      *
      * @return string
      */
-    public function getBanReadableName() : string;
+    public function getBanReadableName(): string;
 }

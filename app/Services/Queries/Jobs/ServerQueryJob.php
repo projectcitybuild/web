@@ -2,14 +2,14 @@
 
 namespace App\Services\Queries\Jobs;
 
+use App\Library\QueryServer\ServerQueryHandler;
+use App\Services\Queries\Entities\ServerJobEntity;
+use App\Services\Queries\ServerQueryService;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Library\QueryServer\ServerQueryHandler;
-use App\Services\Queries\ServerQueryService;
-use App\Services\Queries\Entities\ServerJobEntity;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 final class ServerQueryJob implements ShouldQueue
 {
@@ -19,7 +19,7 @@ final class ServerQueryJob implements ShouldQueue
      * @var ServerJobEntity
      */
     private $entity;
-    
+
     /**
      * Create a new job instance.
      *
@@ -34,20 +34,21 @@ final class ServerQueryJob implements ShouldQueue
      * Execute the job.
      *
      * @param ServerQueryHandler $serverQueryHandler
+     *
      * @return void
      */
     public function handle(ServerQueryHandler $serverQueryHandler, ServerQueryService $serverQueryService)
     {
         $serverQueryHandler->setAdapter($this->entity->getServerQueryAdapter());
-        
+
         $status = $serverQueryHandler->queryServer(
-            $this->entity->getServerId(), 
-            $this->entity->getIp(), 
+            $this->entity->getServerId(),
+            $this->entity->getIp(),
             $this->entity->getPort()
         );
 
         $lastCreatedId = $serverQueryHandler->getLastCreatedId();
-        
+
         $this->entity->setServerStatusId($lastCreatedId);
 
         $serverQueryService->processServerResult($this->entity, $status);

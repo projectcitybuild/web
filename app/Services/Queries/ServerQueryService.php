@@ -2,12 +2,12 @@
 
 namespace App\Services\Queries;
 
-use App\Library\QueryServer\ServerQueryResult;
-use App\Services\Queries\Jobs\ServerQueryJob;
-use App\Services\Queries\Jobs\PlayerQueryJob;
-use App\Services\Queries\Entities\ServerJobEntity;
-use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
 use App\Entities\GameType;
+use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
+use App\Library\QueryServer\ServerQueryResult;
+use App\Services\Queries\Entities\ServerJobEntity;
+use App\Services\Queries\Jobs\PlayerQueryJob;
+use App\Services\Queries\Jobs\ServerQueryJob;
 
 final class ServerQueryService
 {
@@ -26,9 +26,10 @@ final class ServerQueryService
      * current status and player list
      *
      * @param GameType $gameType
-     * @param integer $serverId
+     * @param int $serverId
      * @param string $ip
      * @param string $port
+     *
      * @return void
      */
     public function dispatchQuery(GameType $gameType, int $serverId, string $ip, string $port, bool $isDryRun = false)
@@ -46,12 +47,13 @@ final class ServerQueryService
     }
 
     /**
-     * Receives the result of a server query job, then dispatches a player query job 
+     * Receives the result of a server query job, then dispatches a player query job
      * if players were online, to uniquely identify each player and store them in
      * PCB's player database for statistics
      *
-     * @param integer $serverId
+     * @param int $serverId
      * @param ServerQueryResult $status
+     *
      * @return void
      */
     public function processServerResult(ServerJobEntity $entity, ServerQueryResult $status)
@@ -68,8 +70,9 @@ final class ServerQueryService
     /**
      * Receives the result of a player query job
      *
-     * @param integer $serverId
+     * @param int $serverId
      * @param array $playerIds
+     *
      * @return void
      */
     public function processPlayerResult(ServerJobEntity $entity, array $playerIds)

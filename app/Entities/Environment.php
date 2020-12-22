@@ -2,8 +2,6 @@
 
 namespace App\Entities;
 
-use App\Entities\EnvironmentLevel;
-
 final class Environment
 {
     /**
@@ -16,11 +14,11 @@ final class Environment
      */
     private static $level;
 
+    private function __construct()
+    {
+    }
 
-    private function __construct() {}
-
-    
-    public static function getLevel() : EnvironmentLevel
+    public static function getLevel(): EnvironmentLevel
     {
         if (self::$forcedLevel !== null) {
             return self::$forcedLevel;
@@ -33,19 +31,12 @@ final class Environment
         return self::makeEnvironmentLevel();
     }
 
-    private static function makeEnvironmentLevel() : EnvironmentLevel
-    {
-        $rawValue = config('app.env');
-        self::$level = new EnvironmentLevel($rawValue);
-
-        return self::$level;
-    }
-
     /**
      * Overrides the Environment level for
      * the current request
      *
      * @param EnvironmentLevel $level
+     *
      * @return void
      */
     public static function overrideLevel(EnvironmentLevel $level)
@@ -59,23 +50,31 @@ final class Environment
         self::$level = null;
     }
 
-    public static function isDev() : bool
+    public static function isDev(): bool
     {
         return self::getLevel()->valueOf() === EnvironmentLevel::ENV_DEVELOPMENT;
     }
 
-    public static function isTest() : bool
+    public static function isTest(): bool
     {
         return self::getLevel()->valueOf() === EnvironmentLevel::ENV_TESTING;
     }
 
-    public static function isStaging() : bool
+    public static function isStaging(): bool
     {
         return self::getLevel()->valueOf() === EnvironmentLevel::ENV_STAGING;
     }
 
-    public static function isProduction() : bool
+    public static function isProduction(): bool
     {
         return self::getLevel()->valueOf() === EnvironmentLevel::ENV_PRODUCTION;
+    }
+
+    private static function makeEnvironmentLevel(): EnvironmentLevel
+    {
+        $rawValue = config('app.env');
+        self::$level = new EnvironmentLevel($rawValue);
+
+        return self::$level;
     }
 }

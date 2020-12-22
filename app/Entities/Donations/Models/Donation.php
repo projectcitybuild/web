@@ -4,7 +4,6 @@ namespace App\Entities\Donations\Models;
 
 use App\Entities\Accounts\Models\Account;
 use App\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -21,7 +20,6 @@ final class Donation extends Model
      * worth of donator perks
      */
     const ONE_MONTH_REQUIRED_AMOUNT = 3;
-
 
     /**
      * The table associated with the model.
@@ -60,12 +58,12 @@ final class Donation extends Model
         'updated_at',
     ];
 
-    public function account() : HasOne
+    public function account(): HasOne
     {
         return $this->hasOne(Account::class, 'account_id', 'account_id');
     }
 
-    public function perks() : HasMany
+    public function perks(): HasMany
     {
         return $this->hasMany(DonationPerk::class, 'donation_id', 'donation_id');
     }

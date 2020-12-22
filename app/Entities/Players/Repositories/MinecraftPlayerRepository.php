@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entities\Players\Repositories;
 
 use App\Entities\Players\Models\MinecraftPlayer;
@@ -16,29 +17,30 @@ class MinecraftPlayerRepository extends Repository
      * Creates a new MinecraftPlayer
      *
      * @param int $userId
+     *
      * @return GameUser
      */
     public function store(string $uuid,
                           ?Carbon $lastSeenAt = null,
                           ?int $accountId = null,
-                          int $playTime = 0) : MinecraftPlayer 
+                          int $playTime = 0): MinecraftPlayer
     {
         return $this->getModel()->create([
-            'uuid'          => $uuid,
-            'account_id'    => $accountId,
-            'playtime'      => $playTime,
-            'last_seen_at'  => $lastSeenAt ?: now(),
+            'uuid' => $uuid,
+            'account_id' => $accountId,
+            'playtime' => $playTime,
+            'last_seen_at' => $lastSeenAt ? $lastSeenAt : now(),
         ]);
     }
 
-    public function getByUuid(string $uuid) : ?MinecraftPlayer
+    public function getByUuid(string $uuid): ?MinecraftPlayer
     {
         return $this->getModel()
             ->where('uuid', $uuid)
             ->first();
     }
 
-    public function getByAccountId(int $accountId) : ?MinecraftPlayer
+    public function getByAccountId(int $accountId): ?MinecraftPlayer
     {
         return $this->getModel()
             ->where('account_id', $accountId)

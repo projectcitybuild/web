@@ -65,6 +65,14 @@ Once *First time setup* is complete, you only need to run one command to boot up
 
 You can enter the workspace with `sail shell`
 
+#### Linter
+
+We use [PHP Insights](https://phpinsights.com/) for linting.
+
+You can run the linter locally with `sail php artisan insights`
+
+If you want automatic fixing, you can run it with the `--fix` option
+
 #### Database
 * If the database schema has changed, remember to run `sail artisan migrate` from inside the workspace container to ensure you always have the latest schema.
 

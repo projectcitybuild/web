@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Library\QueryServer;
 
 use App\Entities\Servers\Repositories\ServerStatusRepository;
@@ -20,7 +21,6 @@ class ServerQueryHandler
      * @var int
      */
     private $lastCreatedId;
-    
 
     public function __construct(ServerStatusRepository $serverStatusRepository)
     {
@@ -32,6 +32,7 @@ class ServerQueryHandler
      * the server query
      *
      * @param ServerQueryAdapterContract $adapter
+     *
      * @return void
      */
     public function setAdapter(ServerQueryAdapterContract $adapter)
@@ -39,7 +40,7 @@ class ServerQueryHandler
         $this->adapter = $adapter;
     }
 
-    public function getLastCreatedId() : ?int
+    public function getLastCreatedId(): ?int
     {
         return $this->lastCreatedId;
     }
@@ -48,12 +49,13 @@ class ServerQueryHandler
      * Queries the given server address for
      * its current status and player data
      *
-     * @param integer $serverId
+     * @param int $serverId
      * @param string $ip
      * @param string $port
+     *
      * @return ServerQueryResult
      */
-    public function queryServer(int $serverId, string $ip, string $port) : ServerQueryResult
+    public function queryServer(int $serverId, string $ip, string $port): ServerQueryResult
     {
         $serverData = [
             'server_id' => $serverId,
@@ -65,14 +67,14 @@ class ServerQueryHandler
         $start = microtime(true);
 
         $status = $this->requestStatus($serverId, $ip, $port);
-        
+
         $end = microtime(true) - $start;
         Log::notice('Fetch complete ['. ($end / 1000) .'ms]', $serverData);
 
         return $status;
     }
 
-    private function requestStatus(int $serverId, string $ip, string $port) : ServerQueryResult
+    private function requestStatus(int $serverId, string $ip, string $port): ServerQueryResult
     {
         $time = time();
 
@@ -89,7 +91,7 @@ class ServerQueryHandler
         );
 
         $this->lastCreatedId = $statusRecord->getKey();
-        
+
         return $status;
     }
 }

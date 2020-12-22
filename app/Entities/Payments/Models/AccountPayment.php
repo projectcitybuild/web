@@ -2,8 +2,8 @@
 
 namespace App\Entities\Payments\Models;
 
-use App\Model;
 use App\Entities\Accounts\Models\Account;
+use App\Model;
 
 final class AccountPayment extends Model
 {

@@ -3,10 +3,10 @@
 namespace App\Entities;
 
 use App\Enum;
-use App\Library\QueryServer\ServerQueryAdapterContract;
-use App\Library\QueryServer\GameAdapters\MinecraftQueryAdapter;
-use App\Library\QueryPlayer\PlayerQueryAdapterContract;
 use App\Library\QueryPlayer\GameAdapters\MojangUuidAdapter;
+use App\Library\QueryPlayer\PlayerQueryAdapterContract;
+use App\Library\QueryServer\GameAdapters\MinecraftQueryAdapter;
+use App\Library\QueryServer\ServerQueryAdapterContract;
 
 /**
  * List of games PCB supports
@@ -17,7 +17,7 @@ final class GameType extends Enum
     public const Terraria = 2;
     public const Starbound = 3;
 
-    public function serverQueryAdapter() : ServerQueryAdapterContract
+    public function serverQueryAdapter(): ServerQueryAdapterContract
     {
         switch ($this->value) {
             case self::Minecraft:
@@ -27,7 +27,7 @@ final class GameType extends Enum
         }
     }
 
-    public function playerQueryAdapter() : PlayerQueryAdapterContract
+    public function playerQueryAdapter(): PlayerQueryAdapterContract
     {
         switch ($this->value) {
             case self::Minecraft:
@@ -37,7 +37,7 @@ final class GameType extends Enum
         }
     }
 
-    public function name() : ?string
+    public function name(): ?string
     {
         switch ($this->value) {
             case self::Minecraft:
@@ -46,5 +46,4 @@ final class GameType extends Enum
                 return null;
         }
     }
-    
 }

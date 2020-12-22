@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Http\Controllers\Panel;
-
 
 use App\Entities\Accounts\Models\Account;
 use App\Http\WebController;
@@ -17,6 +15,7 @@ class AccountDiscourseAdminRedirect extends WebController
 
     /**
      * AccountDiscourseAdminRedirect constructor.
+     *
      * @param DiscourseUserApi $discourseUserApi
      */
     public function __construct(DiscourseUserApi $discourseUserApi)
@@ -27,9 +26,9 @@ class AccountDiscourseAdminRedirect extends WebController
     public function __invoke(Account $account)
     {
         $discourseUser = $this->discourseUserApi->fetchUserByPcbId($account->account_id);
-        $discourseId = $discourseUser["user"]["id"];
-        $discourseUsername = $discourseUser["user"]["username"];
+        $discourseId = $discourseUser['user']['id'];
+        $discourseUsername = $discourseUser['user']['username'];
 
-        return redirect("https://forums.projectcitybuild.com/admin/users/$discourseId/$discourseUsername");
+        return redirect("https://forums.projectcitybuild.com/admin/users/${discourseId}/${discourseUsername}");
     }
 }

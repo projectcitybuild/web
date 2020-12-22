@@ -44,8 +44,7 @@ final class DiscoursePayload
      */
     private $groups;
 
-
-    public function __construct(string $nonce = null)
+    public function __construct(?string $nonce = null)
     {
         $this->nonce = $nonce;
     }
@@ -90,6 +89,7 @@ final class DiscoursePayload
      * Comma separated list of group slugs
      *
      * @param string $groups
+     *
      * @return $this
      */
     public function setGroups(string $groups)
@@ -98,14 +98,14 @@ final class DiscoursePayload
         return $this;
     }
 
-    public function build() : array
+    public function build(): array
     {
         $payload = [
-            'email'         => $this->email,
-            'external_id'   => $this->pcbId,
+            'email' => $this->email,
+            'external_id' => $this->pcbId,
         ];
 
-        if (!empty($this->nonce)) {
+        if (! empty($this->nonce)) {
             $payload['nonce'] = $this->nonce;
         }
         if ($this->requiresActivation !== null) {
@@ -120,7 +120,7 @@ final class DiscoursePayload
         if ($this->name !== null) {
             $payload['name'] = $this->name;
         }
-        if ($this->groups != null) {
+        if ($this->groups !== null) {
             $payload['groups'] = $this->groups;
         }
 

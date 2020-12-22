@@ -16,14 +16,13 @@ final class ServerCategory extends Model
     ];
 
     protected $hidden = [
-        
+
     ];
 
     protected $dates = [
         'created_at',
         'updated_at',
     ];
-
 
     public function servers()
     {

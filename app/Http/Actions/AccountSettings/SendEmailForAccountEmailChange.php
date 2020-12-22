@@ -2,11 +2,11 @@
 
 namespace App\Http\Actions\AccountSettings;
 
-use App\Helpers\TokenHelpers;
 use App\Entities\Accounts\Models\Account;
-use App\Entities\Accounts\Repositories\AccountEmailChangeRepository;
-use App\Entities\Accounts\Notifications\AccountEmailChangeVerifyNotification;
 use App\Entities\Accounts\Models\AccountEmailChange;
+use App\Entities\Accounts\Notifications\AccountEmailChangeVerifyNotification;
+use App\Entities\Accounts\Repositories\AccountEmailChangeRepository;
+use App\Helpers\TokenHelpers;
 use Illuminate\Support\Facades\Notification;
 
 final class SendEmailForAccountEmailChange
@@ -24,12 +24,13 @@ final class SendEmailForAccountEmailChange
      *
      * @param Account $account
      * @param string $newEmailAddress
+     *
      * @return AccountEmailChange
      */
-    public function execute(Account $account, string $newEmailAddress) : AccountEmailChange
+    public function execute(Account $account, string $newEmailAddress): AccountEmailChange
     {
         $token = TokenHelpers::generateToken();
-        
+
         $changeRequest = $this->emailChangeRepository->create(
             $account->getKey(),
             $token,
@@ -38,7 +39,7 @@ final class SendEmailForAccountEmailChange
         );
 
         $linkExpiryTimeInMinutes = 20;
-        
+
         // Send email with link to verify that the user owns the current email address
         $urlToVerifyCurrentEmailAddress = $changeRequest->getCurrentEmailUrl($linkExpiryTimeInMinutes);
         $mail = new AccountEmailChangeVerifyNotification($account->email, $urlToVerifyCurrentEmailAddress);

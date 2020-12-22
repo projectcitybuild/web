@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\ApiController;
-use Illuminate\Http\Request;
-use Illuminate\Contracts\Validation\Factory as Validator;
 use App\Entities\Accounts\Repositories\AccountLinkRepository;
-use App\Library\Discourse\Api\DiscourseUserApi;
-use App\Exceptions\Http\BadRequestException;
 use App\Entities\Accounts\Resources\AccountResource;
+use App\Exceptions\Http\BadRequestException;
+use App\Http\ApiController;
+use Illuminate\Contracts\Validation\Factory as Validator;
+use Illuminate\Http\Request;
 
 final class DiscordSyncController extends ApiController
 {
@@ -17,7 +16,7 @@ final class DiscordSyncController extends ApiController
      */
     private $accountLinkRepository;
 
-    public function __construct(AccountLinkRepository $accountLinkRepository) 
+    public function __construct(AccountLinkRepository $accountLinkRepository)
     {
         $this->accountLinkRepository = $accountLinkRepository;
     }
@@ -33,7 +32,7 @@ final class DiscordSyncController extends ApiController
         }
 
         $discordUserId = $request->get('discord_id');
-        
+
         $discordLink = $this->accountLinkRepository->getByProviderAccount('discord', $discordUserId);
         if ($discordLink === null) {
             return [

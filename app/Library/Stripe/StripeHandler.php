@@ -4,8 +4,6 @@ namespace App\Library\Stripe;
 
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
-use Stripe\Charge;
-use Stripe\Customer;
 use Stripe\Webhook;
 
 class StripeHandler
@@ -18,16 +16,7 @@ class StripeHandler
         $this->setCurrency($this->currency);
     }
 
-    private function setApiKey()
-    {
-        $key = config('services.stripe.secret');
-        if (empty($key)) {
-            throw new \Exception('No Stripe API secret set');
-        }
-        Stripe::setApiKey($key);
-    }
-
-    public function setCurrency(string $currency) : StripeHandler
+    public function setCurrency(string $currency): StripeHandler
     {
         $this->currency = $currency;
         return $this;
@@ -39,7 +28,9 @@ class StripeHandler
      * @param string $uniqueSessionId A unique UUID that will be sent to Stripe to be stored alongside the
      *                                  session. When Stripe notifies us via WebHook that the payment is processed,
      *                                  they will pass us back the UUID so we can fulfill the purchase.
+     *
      * @return string Stripe session ID
+     *
      * @throws \Stripe\Exception\ApiErrorException
      */
     public function createCheckoutSession(string $uniqueSessionId, int $amountInCents): string
@@ -70,7 +61,9 @@ class StripeHandler
      * @param string $payload
      * @param string $signature
      * @param string $secret
+     *
      * @return StripeWebhook
+     *
      * @throws \Stripe\Error\SignatureVerification
      *
      * Example Webhook Payload:
@@ -124,5 +117,14 @@ class StripeHandler
     {
         $event = Webhook::constructEvent($payload, $signature, $secret);
         return StripeWebhook::fromJSON($event);
+    }
+
+    private function setApiKey()
+    {
+        $key = config('services.stripe.secret');
+        if (empty($key)) {
+            throw new \Exception('No Stripe API secret set');
+        }
+        Stripe::setApiKey($key);
     }
 }

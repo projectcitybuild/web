@@ -4,7 +4,7 @@ namespace App\Library\Discourse\Api;
 
 class DiscoursePrivateMessageApi extends DiscourseAPIRequest
 {
-    public function createPrivateMessage(string $title, string $message, array $recipients, ?int $createdAt = null) : array
+    public function createPrivateMessage(string $title, string $message, array $recipients, ?int $createdAt = null): array
     {
         $response = $this->client->post('posts.json', [
             'json' => [
@@ -12,11 +12,9 @@ class DiscoursePrivateMessageApi extends DiscourseAPIRequest
                 'raw' => $message,
                 'target_usernames' => $recipients,
                 'archetype' => 'private_message',
-                'created_at' => $createdAt ?: now(),
+                'created_at' => $createdAt ? $createdAt : now(),
             ],
         ]);
-        $result = json_decode($response->getBody(), true);
-
-        return $result;
+        return json_decode($response->getBody(), true);
     }
 }

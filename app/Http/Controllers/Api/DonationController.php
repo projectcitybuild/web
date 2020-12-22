@@ -11,7 +11,6 @@ use App\Entities\Payments\Models\AccountPaymentSession;
 use App\Http\ApiController;
 use App\Library\Stripe\StripeHandler;
 use App\Library\Stripe\StripeWebhook;
-use App\Library\Stripe\StripeWebhookEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -49,7 +48,7 @@ final class DonationController extends ApiController
         return [
             'data' => [
                 'session_id' => $stripeSessionId,
-            ]
+            ],
         ];
     }
 
@@ -57,7 +56,9 @@ final class DonationController extends ApiController
      * Receives a Webhook from Stripe for payments
      *
      * @param StripeWebhook $webhook
+     *
      * @return StripeWebhook
+     *
      * @throws \Exception
      *
      * Example Webhook Payload:
@@ -120,16 +121,15 @@ final class DonationController extends ApiController
         }
         Log::debug('Found associated session', ['session' => $session]);
 
-
         $accountId = $session->account !== null ? $session->account->getKey() : null;
         $amountInCents = $webhook->getAmountInCents();
-        $amountInDollars = (float)($amountInCents / 100);
+        $amountInDollars = (float) ($amountInCents / 100);
 
         $numberOfMonthsOfPerks = 0;
         $donationExpiry = null;
         $isLifetime = $amountInDollars >= Donation::LIFETIME_REQUIRED_AMOUNT;
 
-        if (!$isLifetime) {
+        if (! $isLifetime) {
             $numberOfMonthsOfPerks = floor($amountInDollars / Donation::ONE_MONTH_REQUIRED_AMOUNT);
             $donationExpiry = now()->addMonths($numberOfMonthsOfPerks);
         }
@@ -167,8 +167,7 @@ final class DonationController extends ApiController
             $session->save();
 
             DB::commit();
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
@@ -180,7 +179,7 @@ final class DonationController extends ApiController
             $donatorGroup = Group::where('name', 'donator')->first();
             $donatorGroupId = $donatorGroup->getKey();
 
-            if (!$session->account->groups->contains($donatorGroupId)) {
+            if (! $session->account->groups->contains($donatorGroupId)) {
                 $session->account->groups()->attach($donatorGroupId);
             }
 

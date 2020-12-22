@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Library\QueryServer;
 
 interface ServerQueryAdapterContract
@@ -8,7 +9,8 @@ interface ServerQueryAdapterContract
      *
      * @param string $ip
      * @param string $port
+     *
      * @return QueryResult
      */
-    public function query(string $ip, $port = null) : ServerQueryResult;
+    public function query(string $ip, $port = null): ServerQueryResult;
 }

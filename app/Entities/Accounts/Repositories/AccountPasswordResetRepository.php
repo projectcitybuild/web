@@ -13,7 +13,7 @@ final class AccountPasswordResetRepository extends Repository
 {
     protected $model = AccountPasswordReset::class;
 
-    public function updateOrCreateByEmail(string $email, string $token) : AccountPasswordReset 
+    public function updateOrCreateByEmail(string $email, string $token): AccountPasswordReset
     {
         return $this->getModel()->updateOrCreate([
             'email' => $email,
@@ -23,14 +23,14 @@ final class AccountPasswordResetRepository extends Repository
         ]);
     }
 
-    public function getByEmail(string $email) : ?AccountPasswordReset
+    public function getByEmail(string $email): ?AccountPasswordReset
     {
         return $this->getModel()
             ->where('email', $email)
             ->first();
     }
 
-    public function getByToken(string $token) : ?AccountPasswordReset
+    public function getByToken(string $token): ?AccountPasswordReset
     {
         return $this->getModel()
             ->where('token', $token)

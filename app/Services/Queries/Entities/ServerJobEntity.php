@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Services\Queries\Entities;
 
-use App\Library\QueryServer\ServerQueryAdapterContract;
 use App\Library\QueryPlayer\PlayerQueryAdapterContract;
-
+use App\Library\QueryServer\ServerQueryAdapterContract;
 
 class ServerJobEntity
 {
@@ -47,7 +47,6 @@ class ServerJobEntity
      */
     private $isDryRun;
 
-
     public function __construct(
         ServerQueryAdapterContract $serverQueryAdapter,
         PlayerQueryAdapterContract $playerQueryAdapter,
@@ -66,53 +65,6 @@ class ServerJobEntity
         $this->isDryRun = $isDryRun;
     }
 
-
-    public function getServerQueryAdapter() : ServerQueryAdapterContract
-    {
-        return $this->serverQueryAdapter;
-    }
-
-    public function getPlayerQueryAdapter() : PlayerQueryAdapterContract
-    {
-        return $this->playerQueryAdapter;
-    }
-
-    public function getGameIdentifier() : string
-    {
-        return $this->gameIdentifier;
-    }
-
-    public function getServerId() : int
-    {
-        return $this->serverId;
-    }
-
-    public function getIp() : string
-    {
-        return $this->ip;
-    }
-
-    public function getPort() : string
-    {
-        return $this->port;
-    }
-
-    public function getServerStatusId() : ?int
-    {
-        return $this->serverStatusId;
-    }
-
-    public function setServerStatusId(int $serverStatusId)
-    {
-        $this->serverStatusId = $serverStatusId;
-    }
-
-    public function getIsDryRun() : bool
-    {
-        return $this->isDryRun;
-    }
-
-
     /**
      * Converts adapters to their class name before
      * serialization
@@ -123,7 +75,7 @@ class ServerJobEntity
     {
         $this->serverQueryAdapter = get_class($this->serverQueryAdapter);
         $this->playerQueryAdapter = get_class($this->playerQueryAdapter);
-        
+
         return [
             'serverQueryAdapter',
             'playerQueryAdapter',
@@ -132,7 +84,7 @@ class ServerJobEntity
             'ip',
             'port',
             'serverStatusId',
-            'isDryRun'
+            'isDryRun',
         ];
     }
 
@@ -145,5 +97,49 @@ class ServerJobEntity
         $this->serverQueryAdapter = resolve($this->serverQueryAdapter);
         $this->playerQueryAdapter = resolve($this->playerQueryAdapter);
     }
-    
+
+    public function getServerQueryAdapter(): ServerQueryAdapterContract
+    {
+        return $this->serverQueryAdapter;
+    }
+
+    public function getPlayerQueryAdapter(): PlayerQueryAdapterContract
+    {
+        return $this->playerQueryAdapter;
+    }
+
+    public function getGameIdentifier(): string
+    {
+        return $this->gameIdentifier;
+    }
+
+    public function getServerId(): int
+    {
+        return $this->serverId;
+    }
+
+    public function getIp(): string
+    {
+        return $this->ip;
+    }
+
+    public function getPort(): string
+    {
+        return $this->port;
+    }
+
+    public function getServerStatusId(): ?int
+    {
+        return $this->serverStatusId;
+    }
+
+    public function setServerStatusId(int $serverStatusId)
+    {
+        $this->serverStatusId = $serverStatusId;
+    }
+
+    public function getIsDryRun(): bool
+    {
+        return $this->isDryRun;
+    }
 }

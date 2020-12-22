@@ -40,7 +40,6 @@ final class ServerKey extends Model
         'updated_at',
     ];
 
-
     public function server()
     {
         return $this->hasOne('App\Entities\Servers\Models\Server', 'server_id', 'server_id');

@@ -2,8 +2,8 @@
 
 namespace App\Entities\Payments\Models;
 
-use App\Model;
 use App\Entities\Accounts\Models\Account;
+use App\Model;
 
 final class AccountPaymentSession extends Model
 {
@@ -59,7 +59,6 @@ final class AccountPaymentSession extends Model
     protected $casts = [
         'is_processed' => 'boolean',
     ];
-
 
     public function account()
     {

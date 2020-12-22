@@ -3,13 +3,13 @@
 namespace App\Http\Actions\AccountRegistration;
 
 use App\Entities\Accounts\Repositories\AccountRepository;
-use Illuminate\Support\Carbon;
 
 final class ActivateUnverifiedAccount
 {
     private $accountRepository;
 
-    public function __construct(AccountRepository $accountRepository) {
+    public function __construct(AccountRepository $accountRepository)
+    {
         $this->accountRepository = $accountRepository;
     }
 
@@ -20,7 +20,7 @@ final class ActivateUnverifiedAccount
             throw new \Exception('This unactivated account does not exist');
         }
 
-        if ($account->activated == true) {
+        if ($account->activated === true) {
             // Account already activated
             abort(410);
         }

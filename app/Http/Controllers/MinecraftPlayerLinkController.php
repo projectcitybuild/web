@@ -31,8 +31,7 @@ final class MinecraftPlayerLinkController extends WebController
             MinecraftAuthCode::where('minecraft_auth_code_id', $authCode->getKey())->delete();
 
             DB::commit();
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }

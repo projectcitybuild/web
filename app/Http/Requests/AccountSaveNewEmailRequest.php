@@ -1,20 +1,17 @@
 <?php
+
 namespace App\Http\Requests;
 
-use App\Entities\Accounts\Models\Account;
 use App\Entities\Accounts\Repositories\AccountRepository;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AccountSaveNewEmailRequest extends FormRequest
 {
-
     /**
      * @var AccountRepository
      */
     private $accountRepository;
-
 
     public function __construct(AccountRepository $accountRepository)
     {
@@ -26,12 +23,12 @@ class AccountSaveNewEmailRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'new_email' => 'required|email',
             'old_email' => 'required|email',
-            'password'  => 'required',
+            'password' => 'required',
         ];
     }
 
@@ -39,6 +36,7 @@ class AccountSaveNewEmailRequest extends FormRequest
      * Configure the validator instance.
      *
      * @param  \Illuminate\Validation\Validator  $validator
+     *
      * @return void
      */
     public function withValidator($validator)
@@ -46,9 +44,9 @@ class AccountSaveNewEmailRequest extends FormRequest
         if ($validator->failed()) {
             return;
         }
-        
+
         $validator->after(function ($validator) {
-            $input    = $validator->getData();
+            $input = $validator->getData();
             $oldEmail = $input['old_email'];
             $password = $input['password'];
 
@@ -68,7 +66,7 @@ class AccountSaveNewEmailRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize() : bool
+    public function authorize(): bool
     {
         return true;
     }

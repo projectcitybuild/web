@@ -8,7 +8,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 final class SendPasswordEmailRequest extends FormRequest
 {
-
     /**
      * @var Account
      */
@@ -19,13 +18,12 @@ final class SendPasswordEmailRequest extends FormRequest
      */
     private $accountRepository;
 
-
     public function __construct(AccountRepository $accountRepository)
     {
         $this->accountRepository = $accountRepository;
     }
 
-    public function getAccount() : ?Account
+    public function getAccount(): ?Account
     {
         return $this->account;
     }
@@ -35,11 +33,11 @@ final class SendPasswordEmailRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
-            'email'                 => 'email|required',
-            'g-recaptcha-response'  => 'recaptcha',
+            'email' => 'email|required',
+            'g-recaptcha-response' => 'recaptcha',
         ];
     }
 
@@ -47,6 +45,7 @@ final class SendPasswordEmailRequest extends FormRequest
      * Configure the validator instance.
      *
      * @param  \Illuminate\Validation\Validator  $validator
+     *
      * @return void
      */
     public function withValidator($validator)
@@ -54,7 +53,7 @@ final class SendPasswordEmailRequest extends FormRequest
         if ($validator->failed()) {
             return;
         }
-        
+
         $validator->after(function ($validator) {
             $input = $validator->getData();
             $email = $input['email'];
@@ -74,7 +73,7 @@ final class SendPasswordEmailRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize() : bool
+    public function authorize(): bool
     {
         return true;
     }

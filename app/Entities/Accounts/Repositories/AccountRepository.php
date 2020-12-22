@@ -19,19 +19,18 @@ final class AccountRepository extends Repository
         string $username,
         string $password,
         ?string $ip
-    ) : Account
-    {
+    ): Account {
         return $this->getModel()->create([
-            'email'         => $email,
-            'username'      => $username,
-            'password'      => Hash::make($password),
+            'email' => $email,
+            'username' => $username,
+            'password' => Hash::make($password),
             'remember_token' => '',
             'last_login_ip' => $ip,
-            'last_login_at' => Carbon::now()
+            'last_login_at' => Carbon::now(),
         ]);
     }
 
-    public function getByEmail(string $email) : ?Account
+    public function getByEmail(string $email): ?Account
     {
         return $this->getModel()
             ->where('email', $email)

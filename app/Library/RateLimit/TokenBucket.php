@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Library\RateLimit;
 
 class TokenBucket
 {
-
     /**
      * Total number of tokens that this
      * bucket can hold
@@ -16,18 +16,17 @@ class TokenBucket
      * @var TokenRate
      */
     private $rate;
-    
+
     /**
      * @var TokenStorable
      */
     private $storage;
 
-
     public function __construct(int $capacity, TokenRate $refillRate, TokenStorable $storage)
     {
-        $this->capacity   = $capacity;
-        $this->rate       = $refillRate;
-        $this->storage    = $storage;
+        $this->capacity = $capacity;
+        $this->rate = $refillRate;
+        $this->storage = $storage;
 
         $this->storage->bootstrap();
     }
@@ -37,10 +36,11 @@ class TokenBucket
      * Returns false if not enough tokens are available,
      * or true otherwise
      *
-     * @param integer $tokensToConsume
-     * @return boolean Were enough tokens available?
+     * @param int $tokensToConsume
+     *
+     * @return bool Were enough tokens available?
      */
-    public function consume(int $tokensToConsume = 1) : bool
+    public function consume(int $tokensToConsume = 1): bool
     {
         $now = microtime(true);
 
@@ -63,7 +63,7 @@ class TokenBucket
      *
      * @return float
      */
-    public function getAvailableTokens() : float
+    public function getAvailableTokens(): float
     {
         $storedData = $this->storage->deserialize();
 
@@ -72,7 +72,7 @@ class TokenBucket
         } else {
             $secondsSinceLastConsume = microtime(true) - $storedData->lastConsumeTime;
 
-            $refilledAmount  = $secondsSinceLastConsume * $this->rate->getRefillPerSecond() * $this->rate->getRefillAmount();
+            $refilledAmount = $secondsSinceLastConsume * $this->rate->getRefillPerSecond() * $this->rate->getRefillAmount();
             $availableTokens = $storedData->tokensAvailable + $refilledAmount;
             $availableTokens = min($this->capacity, $availableTokens);
         }
@@ -80,7 +80,7 @@ class TokenBucket
         return $availableTokens;
     }
 
-    public function getCapacity() : int
+    public function getCapacity(): int
     {
         return $this->capacity;
     }

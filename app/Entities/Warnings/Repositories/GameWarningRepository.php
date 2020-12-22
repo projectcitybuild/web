@@ -2,8 +2,8 @@
 
 namespace App\Entities\Warnings\Repositories;
 
-use App\Entities\Warnings\Models\GameWarning;
 use App\Entities\Bans\Models\GameBan;
+use App\Entities\Warnings\Models\GameWarning;
 use App\Repository;
 
 /**
@@ -22,16 +22,16 @@ final class GameWarningRepository extends Repository
         string $reason,
         int $weight = 1,
         bool $isActive = true
-    ) : GameBan {
+    ): GameBan {
         return $this->getModel()->create([
-            'server_id'             => $serverId,
-            'warned_player_id'      => $warnedPlayerId,
-            'warned_player_type'    => $warnedPlayerType,
-            'staff_player_id'       => $staffPlayerId,
-            'staff_player_type'     => $staffPlayerType,
-            'reason'                => $reason,
-            'weight'                => $weight,
-            'is_active'             => $isActive,
+            'server_id' => $serverId,
+            'warned_player_id' => $warnedPlayerId,
+            'warned_player_type' => $warnedPlayerType,
+            'staff_player_id' => $staffPlayerId,
+            'staff_player_type' => $staffPlayerType,
+            'reason' => $reason,
+            'weight' => $weight,
+            'is_active' => $isActive,
         ]);
     }
 
@@ -39,7 +39,7 @@ final class GameWarningRepository extends Repository
         int $serverId,
         int $warnedPlayerId,
         string $warnedPlayerType
-    ) : int {
+    ): int {
         return $this->getModel()
             ->where('warned_player_id', $warnedPlayerId)
             ->where('warned_player_type', $warnedPlayerType)

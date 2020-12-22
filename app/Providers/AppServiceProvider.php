@@ -2,22 +2,20 @@
 
 namespace App\Providers;
 
-use App\Rules\DiscourseUsernameRule;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use App\Entities\Players\Models\MinecraftPlayer;
-use Illuminate\Support\Facades\View;
 use App\Entities\Donations\Models\Donation;
-use App\Entities\Payments\AccountPaymentType;
-use App\Http\Composers\MasterViewComposer;
 use App\Entities\GamePlayerType;
-use Schema;
+use App\Entities\Payments\AccountPaymentType;
+use App\Entities\Players\Models\MinecraftPlayer;
 use App\Entities\Servers\Repositories\ServerCategoryRepositoryCache;
 use App\Entities\Servers\Repositories\ServerCategoryRepositoryContract;
-use Illuminate\Contracts\Cache\Factory as Cache;
-use App\Services\Queries\ServerQueryService;
 use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
+use App\Http\Composers\MasterViewComposer;
+use App\Services\Queries\ServerQueryService;
+use Illuminate\Contracts\Cache\Factory as Cache;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
+use Schema;
 
 final class AppServiceProvider extends ServiceProvider
 {
@@ -28,13 +26,13 @@ final class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(ServerCategoryRepositoryContract::class, function($app) {
+        $this->app->bind(ServerCategoryRepositoryContract::class, function ($app) {
             return new ServerCategoryRepositoryCache(
                 $app->make(Cache::class),
                 $app->make(\App\Entities\Servers\Repositories\ServerCategoryRepository::class)
             );
         });
-        $this->app->singleton(\App\Services\Queries\ServerQueryService::class, function($app) {
+        $this->app->singleton(\App\Services\Queries\ServerQueryService::class, function ($app) {
             return new ServerQueryService(
                 $app->make(ServerStatusPlayerRepository::class)
             );
@@ -49,7 +47,7 @@ final class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
-        
+
         // we don't want to store namespaces
         // in the database so we'll map them
         // to unique keys instead
@@ -60,6 +58,5 @@ final class AppServiceProvider extends ServiceProvider
 
         // bind the master view composer to the master view template
         View::composer('front.layouts.master', MasterViewComposer::class);
-
     }
 }
