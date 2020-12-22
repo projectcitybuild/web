@@ -153,6 +153,11 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Set
             'as'    => 'front.account.games',
             'uses'  => 'AccountGameAccountController@index',
         ]);
+
+        Route::delete('/{minecraft_player}', [
+            'as'    => 'front.account.games.delete',
+            'uses'  => 'AccountGameAccountController@destroy'
+        ]);
     });
 });
 
