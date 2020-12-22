@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AccountChangePasswordRequest extends FormRequest
 {
-
     /**
      * The key to be used for the view error bag.
      *

@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Settings;
 
-
 use App\Http\WebController;
-
 use Illuminate\Http\Request;
 
 final class AccountDonationController extends WebController
