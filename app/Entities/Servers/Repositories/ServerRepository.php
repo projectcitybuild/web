@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entities\Servers\Repositories;
 
 use App\Entities\Servers\Models\Server;
@@ -27,7 +28,7 @@ class ServerRepository
             ->get();
     }
 
-    public function getServerByName(string $name) : ?Server
+    public function getServerByName(string $name): ?Server
     {
         return $this->serverModel
             ->where('name', $name)
@@ -41,7 +42,7 @@ class ServerRepository
             ->get();
     }
 
-    public function getById(int $serverId) : ?Server
+    public function getById(int $serverId): ?Server
     {
         return $this->serverModel->find($serverId);
     }

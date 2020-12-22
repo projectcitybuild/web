@@ -25,7 +25,6 @@ final class MinecraftPlayerAlias extends Model
         'updated_at',
     ];
 
-    
     public function player()
     {
         return $this->hasOne('App\Entities\Players\Models\MinecraftPlayer', 'player_minecraft_id', 'player_minecraft_id');

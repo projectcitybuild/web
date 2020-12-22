@@ -46,7 +46,9 @@ final class RegisterController extends WebController
      * @param Request $request
      *
      * @param ActivateUnverifiedAccount $activateUnverifiedAccount
+     *
      * @return View
+     *
      * @throws \Exception
      */
     public function activate(Request $request, ActivateUnverifiedAccount $activateUnverifiedAccount)

@@ -2,11 +2,11 @@
 
 namespace App\Http\Actions\AccountPasswordReset;
 
-use App\Http\Actions\AccountSettings\UpdateAccountPassword;
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Accounts\Models\AccountPasswordReset;
 use App\Entities\Accounts\Notifications\AccountPasswordResetCompleteNotification;
 use App\Exceptions\Http\NotFoundException;
+use App\Http\Actions\AccountSettings\UpdateAccountPassword;
 use Illuminate\Support\Facades\DB;
 
 final class ResetAccountPassword
@@ -36,19 +36,18 @@ final class ResetAccountPassword
         DB::beginTransaction();
         try {
             $this->updateAccountPassword->execute(
-                $account, 
+                $account,
                 $newPassword
             );
 
             $passwordReset->delete();
-            
-            DB::commit();
 
+            DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
 
-        $account->notify(new AccountPasswordResetCompleteNotification);
+        $account->notify(new AccountPasswordResetCompleteNotification());
     }
 }

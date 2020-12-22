@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Entities\ServerKeys\Models\ServerKey;
 use App\Entities\Servers\Models\Server;
+use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
 final class ServerKeyCreateCommand extends Command
@@ -35,9 +35,9 @@ final class ServerKeyCreateCommand extends Command
             return;
         }
 
-        $serverId     = $this->option('server_id');
+        $serverId = $this->option('server_id');
         $canGlobalBan = $this->option('can_global_ban') ?? false;
-        $canWarn      = $this->option('can_warn') ?? false;
+        $canWarn = $this->option('can_warn') ?? false;
 
         $server = Server::find($serverId);
         if ($server === null) {
@@ -51,8 +51,8 @@ final class ServerKeyCreateCommand extends Command
             'server_id' => $serverId,
             'token' => $token,
             'can_local_ban' => true,
-            'can_global_ban' => (bool)$canGlobalBan,
-            'can_warn' => (bool)$canWarn,
+            'can_global_ban' => (bool) $canGlobalBan,
+            'can_warn' => (bool) $canWarn,
         ]);
 
         $this->info('Token created: '.$token);

@@ -22,17 +22,9 @@ abstract class Enum
         return self::dynamicallyMake($name);
     }
 
-    private static function dynamicallyMake($label)
+    public function __toString()
     {
-        $keys = self::keys();
-        if (in_array($label, $keys, true) === false) {
-            throw new \InvalidArgumentException;
-        }
-
-        $class = get_called_class();
-        $const = constant("$class::$label");
-        /** @phpstan-ignore-next-line */
-        return new $class($const);
+        return (string) $this->value;
     }
 
     public function valueOf()
@@ -40,24 +32,18 @@ abstract class Enum
         return $this->value;
     }
 
-    public function __toString()
+    public static function constants(): array
     {
-        return (string)$this->value;
-    }
-
-
-    public static function constants() : array
-    {
-        $class = new \ReflectionClass(get_called_class());
+        $class = new \ReflectionClass(static::class);
         return $class->getConstants() ?: [];
     }
 
-    public static function keys() : array
+    public static function keys(): array
     {
         return array_keys(self::constants()) ?: [];
     }
 
-    public static function values() : array
+    public static function values(): array
     {
         return array_values(self::constants()) ?: [];
     }
@@ -71,5 +57,18 @@ abstract class Enum
             }
         }
         throw new \InvalidArgumentException($rawValue . ' is not a valid raw enum value');
+    }
+
+    private static function dynamicallyMake($label)
+    {
+        $keys = self::keys();
+        if (in_array($label, $keys, true) === false) {
+            throw new \InvalidArgumentException();
+        }
+
+        $class = static::class;
+        $const = constant("${class}::${label}");
+        
+        return new $class($const);
     }
 }

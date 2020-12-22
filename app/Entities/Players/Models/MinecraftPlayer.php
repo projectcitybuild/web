@@ -2,10 +2,10 @@
 
 namespace App\Entities\Players\Models;
 
+use App\Entities\Accounts\Models\Account;
+use App\Entities\Bans\BannableModelInterface;
 use App\Entities\Bans\Models\GameBan;
 use App\Model;
-use App\Entities\Bans\BannableModelInterface;
-use App\Entities\Accounts\Models\Account;
 
 final class MinecraftPlayer extends Model implements BannableModelInterface
 {
@@ -30,23 +30,15 @@ final class MinecraftPlayer extends Model implements BannableModelInterface
         'last_seen_at',
     ];
 
-
-    /**
-     * {@inheritDoc}
-     */
     public function getBanIdentifier(): string
     {
         return $this->uuid;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getBanReadableName(): string
     {
         return $this->aliases->last()->alias;
     }
-
 
     public function account()
     {

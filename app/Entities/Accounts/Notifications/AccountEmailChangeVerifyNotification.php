@@ -3,13 +3,21 @@
 namespace App\Entities\Accounts\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 final class AccountEmailChangeVerifyNotification extends Notification
 {
     use Queueable;
+
+    /**
+     * Whether this recipient is the
+     * old email address (the address
+     * before it was changed)
+     *
+     * @var bool
+     */
+    public $isOldEmailAddress = false;
 
     /**
      * @var string
@@ -22,21 +30,11 @@ final class AccountEmailChangeVerifyNotification extends Notification
     private $confirmLink;
 
     /**
-     * Whether this recipient is the
-     * old email address (the address
-     * before it was changed)
-     *
-     * @var boolean
-     */
-    public $isOldEmailAddress = false;
-
-
-    /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(String $email, string $confirmLink)
+    public function __construct(string $email, string $confirmLink)
     {
         $this->email = $email;
         $this->confirmLink = $confirmLink;
@@ -46,6 +44,7 @@ final class AccountEmailChangeVerifyNotification extends Notification
      * Get the notification's delivery channels.
      *
      * @param  mixed  $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -57,11 +56,12 @@ final class AccountEmailChangeVerifyNotification extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        $message = (new MailMessage)
+        $message = (new MailMessage())
             ->subject('Email Address Change was Requested')
             ->from('no-reply@projectcitybuild.com');
 
@@ -88,6 +88,7 @@ final class AccountEmailChangeVerifyNotification extends Notification
      * Get the array representation of the notification.
      *
      * @param  mixed  $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable)

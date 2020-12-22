@@ -17,6 +17,7 @@ final class DiscourseSSOController extends WebController
 
     /**
      * DiscourseSSOController constructor.
+     *
      * @param DiscourseLoginHandler $discourseLoginHandler
      */
     public function __construct(DiscourseLoginHandler $discourseLoginHandler)
@@ -26,10 +27,9 @@ final class DiscourseSSOController extends WebController
 
     public function create(Request $request)
     {
-        $account  = $request->user();
+        $account = $request->user();
 
-        if (!$request->has('sso') || !$request->has('sig'))
-        {
+        if (! $request->has('sso') || ! $request->has('sig')) {
             return redirect(config('discourse.sso_endpoint'));
         }
 
@@ -41,13 +41,11 @@ final class DiscourseSSOController extends WebController
                 $account->username,
                 $account->discourseGroupString()
             );
-        } catch (BadSSOPayloadException $e)
-        {
+        } catch (BadSSOPayloadException $e) {
             Log::debug('Missing nonce or return key in session', ['session' => $request->session()]);
             throw $e;
         }
 
         return redirect()->to($endpoint);
-
     }
 }

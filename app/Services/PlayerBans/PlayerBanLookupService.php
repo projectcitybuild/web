@@ -2,8 +2,8 @@
 
 namespace App\Services\PlayerBans;
 
-use App\Entities\GamePlayerType;
 use App\Entities\Bans\Repositories\GameBanRepository;
+use App\Entities\GamePlayerType;
 use App\Services\PlayerLookup\PlayerLookupService;
 
 final class PlayerBanLookupService
@@ -18,7 +18,6 @@ final class PlayerBanLookupService
      */
     private $playerLookupService;
 
-
     public function __construct(
         GameBanRepository $gameBanRepository,
         PlayerLookupService $playerLookupService
@@ -26,7 +25,6 @@ final class PlayerBanLookupService
         $this->gameBanRepository = $gameBanRepository;
         $this->playerLookupService = $playerLookupService;
     }
-
 
     public function getStatus(GamePlayerType $playerType, string $identifier)
     {
@@ -36,12 +34,11 @@ final class PlayerBanLookupService
         }
 
         $player = $this->playerLookupService->getOrCreatePlayer($playerType, $identifier);
-        
+
         return $this->gameBanRepository->getActiveBanByGameUserId($player->getKey(), $playerType);
     }
 
     public function getHistory(GamePlayerType $playerType, string $identifier)
     {
-
     }
 }

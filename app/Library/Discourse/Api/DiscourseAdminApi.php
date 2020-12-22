@@ -2,10 +2,10 @@
 
 namespace App\Library\Discourse\Api;
 
+use App\Library\Discourse\Authentication\DiscoursePayloadValidator;
+use App\Library\Discourse\Entities\DiscoursePayload;
 use App\Library\Discourse\Exceptions\UserNotFound;
 use function GuzzleHttp\json_decode;
-use App\Library\Discourse\Entities\DiscoursePayload;
-use App\Library\Discourse\Authentication\DiscoursePayloadValidator;
 
 class DiscourseAdminApi extends DiscourseAPIRequest
 {
@@ -13,7 +13,6 @@ class DiscourseAdminApi extends DiscourseAPIRequest
      * @var DiscoursePayloadValidator
      */
     private $discoursePayloadValidator;
-
 
     public function __construct(
         DiscourseClient $client,
@@ -24,14 +23,14 @@ class DiscourseAdminApi extends DiscourseAPIRequest
         $this->discoursePayloadValidator = $discoursePayloadValidator;
     }
 
-
     /**
      * Returns the user that matches the given email address
      *
      * @param string $email
+     *
      * @return array
      */
-    public function fetchUserByEmail(string $email) : array
+    public function fetchUserByEmail(string $email): array
     {
         $response = $this->client->get('admin/users/list/all.json', [
             'query' => [
@@ -51,10 +50,11 @@ class DiscourseAdminApi extends DiscourseAPIRequest
     /**
      * Logs out the given user
      *
-     * @param integer $discourseUserId
+     * @param int $discourseUserId
+     *
      * @return array
      */
-    public function requestLogout(int $discourseUserId) : array
+    public function requestLogout(int $discourseUserId): array
     {
         $response = $this->client->post('admin/users/'.$discourseUserId.'/log_out');
         return json_decode($response->getBody(), true);
@@ -66,37 +66,34 @@ class DiscourseAdminApi extends DiscourseAPIRequest
      * be updated with the given parameters.
      *
      * @param DiscoursePayload $payload
+     *
      * @return array
      */
     public function requestSSOSync(array $payload)
     {
-        $payload   = $this->discoursePayloadValidator->makePayload($payload);
+        $payload = $this->discoursePayloadValidator->makePayload($payload);
         $signature = $this->discoursePayloadValidator->getSignedPayload($payload);
 
         $response = $this->client->post('admin/users/sync_sso', [
             'query' => [
                 'sso' => $payload,
-                'sig' => $signature
+                'sig' => $signature,
             ],
         ]);
 
         return json_decode($response->getBody());
     }
 
-    public function fetchUserByDiscourseId(int $discourseId) : array
+    public function fetchUserByDiscourseId(int $discourseId): array
     {
         $response = $this->client->get('admin/users/'.$discourseId.'.json');
-        $result = json_decode($response->getBody(), true);
-
-        return $result;
+        return json_decode($response->getBody(), true);
     }
 
-    public function fetchEmailsByUsername(string $username) : array
+    public function fetchEmailsByUsername(string $username): array
     {
         $response = $this->client->get('u/'.$username.'/emails.json');
-        $result = json_decode($response->getBody(), true);
-
-        return $result;
+        return json_decode($response->getBody(), true);
     }
 
     public function addUserToGroup(string $discourseId, int $groupId)

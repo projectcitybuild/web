@@ -22,9 +22,8 @@ final class MinecraftAuthCode extends Model
         'expires_at',
     ];
 
-    public function minecraftPlayer() : HasOne
+    public function minecraftPlayer(): HasOne
     {
         return $this->hasOne(MinecraftPlayer::class, 'player_minecraft_id', 'player_minecraft_id');
     }
-
 }

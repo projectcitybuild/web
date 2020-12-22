@@ -18,19 +18,20 @@ final class DiscordNotification
 
     /**
      * Sends a message via a Discord webhook
+     *
      * @see https://discordapp.com/developers/docs/resources/webhook
      *
      * @param String $name      Discord channel to send to
      * @param String $message   Message to send
      */
-    public function sendToChannel(String $name, String $message)
+    public function sendToChannel(string $name, string $message)
     {
         $endpoint = config('services.discord.webhook_url');
-        
+
         $this->client->post($endpoint, [
             'json' => [
-                'username'  => $name,
-                'content'   => $message,
+                'username' => $name,
+                'content' => $message,
             ],
         ]);
     }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Actions\AccountSettings;
 
-use Illuminate\Support\Facades\DB;
 use App\Entities\Accounts\Models\Account;
-use App\Library\Discourse\Entities\DiscoursePayload;
-use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Entities\Accounts\Models\AccountEmailChange;
+use App\Library\Discourse\Api\DiscourseAdminApi;
+use App\Library\Discourse\Entities\DiscoursePayload;
+use Illuminate\Support\Facades\DB;
 
 final class UpdateAccountEmail
 {
@@ -36,7 +36,6 @@ final class UpdateAccountEmail
             $emailChangeRequest->delete();
 
             DB::commit();
-
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
@@ -45,13 +44,12 @@ final class UpdateAccountEmail
 
     private function updateDiscourseAccount(int $pcbAccountId, string $newEmailAddress)
     {
-        $payload = (new DiscoursePayload)
+        $payload = (new DiscoursePayload())
             ->setPcbId($pcbAccountId)
             ->setEmail($newEmailAddress);
 
         try {
             $this->discourseAdminApi->requestSSOSync($payload->build());
-
         } catch (\GuzzleHttp\Exception\ServerException $e) {
             // Sometimes the API fails because the 'requires_activation' key is needed at random in
             // the payload. As a workaround we'll send the request again but with the key included

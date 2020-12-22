@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Entities\Accounts\Repositories\AccountEmailChangeRepository;
-use App\Http\Requests\AccountChangeEmailRequest;
-use App\Http\Requests\AccountChangeUsernameRequest;
-use App\Http\Requests\AccountChangePasswordRequest;
-use App\Http\Actions\AccountSettings\UpdateAccountPassword;
 use App\Http\Actions\AccountSettings\SendEmailForAccountEmailChange;
 use App\Http\Actions\AccountSettings\UpdateAccountEmail;
+use App\Http\Actions\AccountSettings\UpdateAccountPassword;
 use App\Http\Actions\AccountSettings\UpdateAccountUsername;
+use App\Http\Requests\AccountChangeEmailRequest;
+use App\Http\Requests\AccountChangePasswordRequest;
+use App\Http\Requests\AccountChangeUsernameRequest;
 use App\Http\WebController;
-use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 final class AccountSettingController extends WebController
 {
@@ -32,7 +32,7 @@ final class AccountSettingController extends WebController
         );
 
         return redirect()->back()->with([
-            'success' => 'A verification email has been sent to both your new and current email address. Please click the link in both to complete the process'
+            'success' => 'A verification email has been sent to both your new and current email address. Please click the link in both to complete the process',
         ]);
     }
 
@@ -42,6 +42,7 @@ final class AccountSettingController extends WebController
      * they own both email addresses (current and new)
      *
      * @param Request $request
+     *
      * @return View
      */
     public function showConfirmForm(Request $request, AccountEmailChangeRepository $emailChangeRepository, UpdateAccountEmail $updateAccountEmail)
@@ -64,21 +65,21 @@ final class AccountSettingController extends WebController
         switch ($email) {
         case $changeRequest->email_previous:
             $changeRequest->is_previous_confirmed = true;
-            break;
+break;
 
         case $changeRequest->email_new:
             $changeRequest->is_new_confirmed = true;
-            break;
+break;
 
         default:
             // If the supplied email matches neither the old nor the new email address in
             // the stored email change request, the request cannot be performed
-            throw new \Exception('Provided email address does not match the current or new email address');
+throw new \Exception('Provided email address does not match the current or new email address');
         }
 
         $areBothAddressesVerified = $changeRequest->is_previous_confirmed && $changeRequest->is_new_confirmed;
 
-        if (!$areBothAddressesVerified) {
+        if (! $areBothAddressesVerified) {
             $changeRequest->save();
 
             return view('front.pages.account.account-settings-email-confirm', [

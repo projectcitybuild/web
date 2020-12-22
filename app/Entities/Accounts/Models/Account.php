@@ -4,12 +4,11 @@ namespace App\Entities\Accounts\Models;
 
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationPerk;
-use App\Model;
+use App\Entities\Groups\Models\Group;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
-use App\Entities\Groups\Models\Group;
 use Laravel\Scout\Searchable;
 
 final class Account extends Authenticatable
@@ -41,13 +40,11 @@ final class Account extends Authenticatable
 
     public function toSearchableArray()
     {
-        $array = [
+        return [
             'account_id' => $this->getKey(),
             'email' => $this->email,
-            'username' => $this->username
+            'username' => $this->username,
         ];
-
-        return $array;
     }
 
     public function minecraftAccount()
@@ -96,7 +93,9 @@ final class Account extends Authenticatable
     {
         // TODO: there's probably a way to optimise this just using the DB
         foreach ($this->minecraftAccount as $account) {
-            if ($account->isBanned()) return true;
+            if ($account->isBanned()) {
+                return true;
+            }
         }
 
         return false;
@@ -119,8 +118,8 @@ final class Account extends Authenticatable
 
     public function discourseGroupString()
     {
-        $groups = $this->groups->pluck("discourse_name");
-        return implode(",", array_filter($groups->toArray()));
+        $groups = $this->groups->pluck('discourse_name');
+        return implode(',', array_filter($groups->toArray()));
     }
 
     /**
@@ -130,7 +129,7 @@ final class Account extends Authenticatable
      *
      * @return string
      */
-    public function getEmailChangeVerificationUrl(string $newEmail) : string
+    public function getEmailChangeVerificationUrl(string $newEmail): string
     {
         return URL::temporarySignedRoute('front.account.settings.email.confirm', now()->addMinutes(15), [
             'old_email' => $this->email,
@@ -144,7 +143,7 @@ final class Account extends Authenticatable
      *
      * @return string
      */
-    public function getActivationUrl() : string
+    public function getActivationUrl(): string
     {
         return URL::temporarySignedRoute('front.register.activate', now()->addDay(), [
             'email' => $this->email,

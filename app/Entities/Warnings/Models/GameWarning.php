@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entities\Warnings\Models;
 
 use App\Model;

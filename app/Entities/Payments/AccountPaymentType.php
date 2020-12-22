@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entities\Payments;
 
 use App\Enum;

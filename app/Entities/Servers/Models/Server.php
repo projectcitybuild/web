@@ -2,8 +2,8 @@
 
 namespace App\Entities\Servers\Models;
 
-use App\Model;
 use App\Entities\GameType;
+use App\Model;
 
 final class Server extends Model
 {
@@ -25,7 +25,7 @@ final class Server extends Model
     ];
 
     protected $hidden = [
-        
+
     ];
 
     protected $dates = [
@@ -38,15 +38,14 @@ final class Server extends Model
      *
      * @return string
      */
-    public function getAddress() : string
+    public function getAddress(): string
     {
-        $port = $this->port != null && $this->is_port_visible
+        $port = $this->port !== null && $this->is_port_visible
             ? ':'.$this->port
             : '';
 
         return $this->ip . $port;
     }
-
 
     public function category()
     {
@@ -59,14 +58,13 @@ final class Server extends Model
             ->take(1)
             ->latest();
     }
-    
 
     public function isOnline()
     {
         return $this->status && $this->status->is_online;
     }
 
-    public function gameType() : GameType
+    public function gameType(): GameType
     {
         switch ($this->game_type) {
             case GameType::Minecraft:

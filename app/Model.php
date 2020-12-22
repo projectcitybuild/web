@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use Illuminate\Database\Eloquent\Model as EloquentModel;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Model as EloquentModel;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model query()
+ *
  * @mixin \Eloquent
  */
 class Model extends EloquentModel
@@ -18,8 +20,8 @@ class Model extends EloquentModel
      *
      * @return string
      */
-    public static function getTableName() : string
+    public static function getTableName(): string
     {
-        return with(new self)->getTable();
+        return with(new self())->getTable();
     }
 }

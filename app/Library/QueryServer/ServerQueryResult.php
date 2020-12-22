@@ -24,7 +24,6 @@ final class ServerQueryResult
      */
     private $isOnline;
 
-
     public function __construct(
         bool $isOnline = false,
         int $numOfPlayers = 0,
@@ -36,29 +35,29 @@ final class ServerQueryResult
         $this->numOfSlots = $numOfSlots;
         $this->playerList = $playerList;
     }
-    
-    public function getPlayerList() : array
+
+    public function getPlayerList(): array
     {
-        if (!$this->isOnline()) {
+        if (! $this->isOnline()) {
             return [];
         }
         return $this->playerList;
     }
-    
-    public function getNumOfPlayers() : int
+
+    public function getNumOfPlayers(): int
     {
-        if (!$this->isOnline()) {
+        if (! $this->isOnline()) {
             return 0;
         }
         return $this->numOfPlayers;
     }
 
-    public function getNumOfSlots() : int
+    public function getNumOfSlots(): int
     {
         return $this->numOfSlots;
     }
 
-    public function isOnline() : bool
+    public function isOnline(): bool
     {
         return $this->isOnline;
     }

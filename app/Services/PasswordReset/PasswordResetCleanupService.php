@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\PasswordReset;
 
 use App\Entities\Accounts\Repositories\AccountPasswordResetRepository;

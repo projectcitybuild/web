@@ -24,9 +24,9 @@ abstract class Repository
      *
      * @return Model
      */
-    public function getModel() : Model
+    public function getModel(): Model
     {
-        if (!isset($this->instance)) {
+        if (! isset($this->instance)) {
             $this->instance = resolve($this->model);
         }
         return $this->instance;

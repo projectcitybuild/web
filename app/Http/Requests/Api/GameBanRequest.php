@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Api;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Exceptions\Http\BadRequestException;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 
 final class GameBanRequest extends FormRequest
 {
@@ -13,31 +13,18 @@ final class GameBanRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
-            'player_id_type'    => 'required',
-            'player_id'         => 'required|max:60',
-            'player_alias'      => 'required',
-            'staff_id_type'     => 'required',
-            'staff_id'          => 'required|max:60',
-            'reason'            => 'string',
-            'expires_at'        => 'integer',
-            'is_global_ban'     => 'boolean',
+            'player_id_type' => 'required',
+            'player_id' => 'required|max:60',
+            'player_alias' => 'required',
+            'staff_id_type' => 'required',
+            'staff_id' => 'required|max:60',
+            'reason' => 'string',
+            'expires_at' => 'integer',
+            'is_global_ban' => 'boolean',
         ];
-    }
-
-     /**
-     * Handle a failed validation attempt.
-     *
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
-     * @return void
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    protected function failedValidation(Validator $validator)
-    {
-        throw new BadRequestException('bad_input', $validator->errors()->first());
     }
 
     /**
@@ -45,8 +32,22 @@ final class GameBanRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize() : bool
+    public function authorize(): bool
     {
         return true;
+    }
+
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     *
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        throw new BadRequestException('bad_input', $validator->errors()->first());
     }
 }

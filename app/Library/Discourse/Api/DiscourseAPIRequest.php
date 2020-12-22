@@ -2,7 +2,7 @@
 
 namespace App\Library\Discourse\Api;
 
-abstract class DiscourseAPIRequest 
+abstract class DiscourseAPIRequest
 {
     /**
      * @var DiscourseClient

@@ -14,19 +14,18 @@ final class DiscourseNonce
      */
     private $redirectUri;
 
-    
     public function __construct(string $nonce, string $redirectUri)
     {
         $this->nonce = $nonce;
         $this->redirectUri = $redirectUri;
     }
 
-    public function getNonce() : string
+    public function getNonce(): string
     {
         return $this->nonce;
     }
 
-    public function getRedirectUri() : string
+    public function getRedirectUri(): string
     {
         return $this->redirectUri;
     }

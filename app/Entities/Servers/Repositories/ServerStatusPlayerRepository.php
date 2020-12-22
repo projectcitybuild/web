@@ -1,8 +1,8 @@
 <?php
+
 namespace App\Entities\Servers\Repositories;
 
 use App\Entities\Servers\Models\ServerStatusPlayer;
-use Carbon\Carbon;
 use App\Repository;
 
 /**
@@ -14,12 +14,12 @@ class ServerStatusPlayerRepository extends Repository
 
     public function store(int $serverStatusId,
                           int $playerId,
-                          string $playerType) : ServerStatusPlayer
+                          string $playerType): ServerStatusPlayer
     {
         return $this->getModel()->create([
-            'server_status_id'  => $serverStatusId,
-            'player_id'         => $playerId,
-            'player_type'       => $playerType,
+            'server_status_id' => $serverStatusId,
+            'player_id' => $playerId,
+            'player_type' => $playerType,
         ]);
     }
 }

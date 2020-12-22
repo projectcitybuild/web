@@ -4,8 +4,8 @@ namespace App\Services\PlayerBans;
 
 use App\Entities\Bans\Models\GameBan;
 use App\Entities\ServerKeys\Models\ServerKey;
-use App\Exceptions\Http\UnauthorisedException;
 use App\Exceptions\Http\BadRequestException;
+use App\Exceptions\Http\UnauthorisedException;
 use Illuminate\Support\Facades\Log;
 
 final class BanValidator
@@ -17,18 +17,18 @@ final class BanValidator
      * @param GameBan $ban
      * @param ServerKey $serverKey
      *
-     * @return boolean
+     * @return bool
      */
     public function isAllowedToUnban(GameBan $ban, ServerKey $serverKey)
     {
-        if (!isset($serverKey)) {
+        if (! isset($serverKey)) {
             // this shouldn't be triggered unless the middleware has
             // failed to check for a server key already
             Log::critical('Attempted unban authentication but no ServerKey provided', ['ban' => $ban]);
             throw new UnauthorisedException('no_server_key', 'No server key provided during unban authentication');
         }
 
-        if (!isset($ban)) {
+        if (! isset($ban)) {
             Log::critical('Attempted unban authentication but no GameBan provided', ['key' => $serverKey]);
             throw new BadRequestException('not_banned', 'No ban provided for unban authentication');
         }
@@ -45,7 +45,7 @@ final class BanValidator
         if ($ban->server_id === $serverKey->server_id) {
             return $serverKey->can_local_ban;
         }
-        
+
         return $serverKey->can_global_ban;
     }
 }

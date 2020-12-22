@@ -27,7 +27,6 @@ final class ServerStatus extends Model
         'updated_at',
     ];
 
-
     public function players()
     {
         return $this->hasMany('App\Entities\Servers\Models\ServerStatusPlayer', 'server_status_id', 'server_status_id');

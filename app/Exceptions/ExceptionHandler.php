@@ -2,10 +2,9 @@
 
 namespace App\Exceptions;
 
-use Exception;
-use Illuminate\Foundation\Exceptions\Handler;
 use App\Entities\Environment;
 use App\Exceptions\Http\BaseHttpException;
+use Illuminate\Foundation\Exceptions\Handler;
 use Throwable;
 
 class ExceptionHandler extends Handler
@@ -26,7 +25,7 @@ class ExceptionHandler extends Handler
         \App\Exceptions\Http\BadRequestException::class,
         \App\Exceptions\Http\ForbiddenException::class,
         \App\Exceptions\Http\NotFoundException::class,
-        \App\Exceptions\Http\TooManyRequestsException::class
+        \App\Exceptions\Http\TooManyRequestsException::class,
     ];
 
     /**
@@ -39,14 +38,15 @@ class ExceptionHandler extends Handler
         'password_confirmation',
     ];
 
-
     /**
      * Report or log an exception.
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
      * @param Throwable $exception
+     *
      * @return void
+     *
      * @throws Throwable
      */
     public function report(Throwable $exception)
@@ -65,6 +65,7 @@ class ExceptionHandler extends Handler
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
+     *
      * @return \Illuminate\Http\Response
      */
     public function render($request, Throwable $exception)
@@ -75,10 +76,10 @@ class ExceptionHandler extends Handler
 
             return response()->json([
                 'error' => [
-                    'id'        => $exception->getId(),
-                    'title'     => $reflection->getShortName(),
-                    'detail'    => $exception->getMessage(),
-                    'status'    => $exception->getStatusCode(),
+                    'id' => $exception->getId(),
+                    'title' => $reflection->getShortName(),
+                    'detail' => $exception->getMessage(),
+                    'status' => $exception->getStatusCode(),
                 ],
             ], $exception->getStatusCode());
         }

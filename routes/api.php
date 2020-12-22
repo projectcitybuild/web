@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -27,19 +25,19 @@ Route::prefix('bans')->group(function () {
 
 Route::prefix('auth')->group(function () {
     Route::post('minecraft', [
-        'as'   => 'auth.minecraft.store',
+        'as' => 'auth.minecraft.store',
         'uses' => 'MinecraftAuthTokenController@store',
     ]);
     Route::get('minecraft/{minecraftUUID}', [
-        'as'   => 'auth.minecraft.show',
+        'as' => 'auth.minecraft.show',
         'uses' => 'MinecraftAuthTokenController@show',
     ]);
 });
 
 Route::prefix('donations')->group(function () {
     Route::get('create', [
-        'as'    => 'donations.create',
-        'uses'  => 'DonationController@create',
+        'as' => 'donations.create',
+        'uses' => 'DonationController@create',
     ]);
 });
 

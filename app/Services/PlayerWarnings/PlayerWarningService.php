@@ -1,10 +1,10 @@
 <?php
+
 namespace App\Services\PlayerWarnings;
 
-use App\Entities\Warnings\Repositories\GameWarningRepository;
 use App\Entities\GamePlayerType;
+use App\Entities\Warnings\Repositories\GameWarningRepository;
 use App\Services\PlayerLookup\PlayerLookupService;
-
 
 class PlayerWarningService
 {
@@ -17,7 +17,6 @@ class PlayerWarningService
      * @var PlayerLookupService
      */
     private $playerLookupService;
-
 
     public function __construct(GameWarningRepository $gameWarningRepository,
                                 PlayerLookupService $playerLookupService)
@@ -35,7 +34,7 @@ class PlayerWarningService
                          int $weight = 1)
     {
         $warnedPlayer = $this->playerLookupService->getOrCreatePlayer($warnedPlayerType, $warnedPlayerId);
-        $staffPlayer  = $this->playerLookupService->getOrCreatePlayer($staffPlayerType, $staffPlayerId);
+        $staffPlayer = $this->playerLookupService->getOrCreatePlayer($staffPlayerType, $staffPlayerId);
 
         return $this->gameWarningRepository->store($serverId,
                                                    $warnedPlayer->getKey(),
@@ -52,9 +51,9 @@ class PlayerWarningService
                                     int $serverId)
     {
         $warnedPlayer = $this->playerLookupService->getOrCreatePlayer($warnedPlayerType, $warnedPlayerId);
-        
-        return $this->gameWarningRepository->getCount($serverId, 
-                                                      $warnedPlayer->getKey(), 
+
+        return $this->gameWarningRepository->getCount($serverId,
+                                                      $warnedPlayer->getKey(),
                                                       $warnedPlayerType);
     }
 }

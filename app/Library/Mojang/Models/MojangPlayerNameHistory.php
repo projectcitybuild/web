@@ -1,13 +1,13 @@
 <?php
+
 namespace App\Library\Mojang\Models;
 
 class MojangPlayerNameHistory
 {
-
     /**
      * An array of all name changes for the player
      *
-     * @var MojangPlayerNameChange[]
+     * @var array<MojangPlayerNameChange>
      */
     private $nameChanges = [];
 
@@ -24,9 +24,9 @@ class MojangPlayerNameHistory
     }
 
     /**
-     * @return MojangPlayerNameChange[]
+     * @return array<MojangPlayerNameChange>
      */
-    public function getNameChanges() : array
+    public function getNameChanges(): array
     {
         return $this->nameChanges;
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Library\QueryPlayer;
 
 class PlayerQueryHandler
@@ -13,11 +14,9 @@ class PlayerQueryHandler
         $this->adapter = $adapter;
     }
 
-    public function query(array $aliases) : array
+    public function query(array $aliases): array
     {
         $identifiers = $this->adapter->getUniqueIdentifiers($aliases);
-        $playerIds = $this->adapter->createPlayers($identifiers);
-
-        return $playerIds;
+        return $this->adapter->createPlayers($identifiers);
     }
 }

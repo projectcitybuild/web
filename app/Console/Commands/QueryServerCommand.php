@@ -1,14 +1,14 @@
 <?php
+
 namespace App\Console\Commands;
 
+use App\Entities\Servers\Models\Server;
 use App\Entities\Servers\Repositories\ServerRepository;
 use App\Services\Queries\ServerQueryService;
 use Illuminate\Console\Command;
-use App\Entities\Servers\Models\Server;
 
 final class QueryServerCommand extends Command
 {
-
     /**
      * The name and signature of the console command.
      *
@@ -45,7 +45,7 @@ final class QueryServerCommand extends Command
         parent::__construct();
 
         $this->serverQueryService = $serverQueryService;
-        $this->serverRepository   = $serverRepository;
+        $this->serverRepository = $serverRepository;
     }
 
     /**
@@ -56,10 +56,10 @@ final class QueryServerCommand extends Command
     public function handle()
     {
         $serverIds = $this->option('id');
-        $isDryRun  = $this->option('dry-run') === true;
+        $isDryRun = $this->option('dry-run') === true;
 
         if (count($serverIds) === 0) {
-            if (!$this->option('all')) {
+            if (! $this->option('all')) {
                 $this->error('You must specify either --id=* or --all');
             } else {
                 $this->queryAllServers($isDryRun);
@@ -87,8 +87,8 @@ final class QueryServerCommand extends Command
     {
         $this->serverQueryService->dispatchQuery(
             $server->gameType(),
-            $server->getKey(), 
-            $server->ip, 
+            $server->getKey(),
+            $server->ip,
             $server->port,
             $isDryRun
         );

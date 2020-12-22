@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\ApiController;
-use App\Exceptions\Http\ForbiddenException;
-use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Accounts\Resources\AccountResource;
 use App\Entities\Players\Models\MinecraftAuthCode;
+use App\Entities\Players\Models\MinecraftPlayer;
+use App\Exceptions\Http\BadRequestException;
+use App\Exceptions\Http\ForbiddenException;
+use App\Exceptions\Http\UnauthorisedException;
+use App\Http\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use App\Exceptions\Http\UnauthorisedException;
-use App\Entities\Accounts\Resources\AccountResource;
-use App\Exceptions\Http\BadRequestException;
-use App\Entities\Groups\Models\Group;
 
 final class MinecraftAuthTokenController extends ApiController
 {
@@ -20,6 +19,7 @@ final class MinecraftAuthTokenController extends ApiController
      * Requests an URL that the user can click to link their PCB account
      *
      * @param Request $request
+     *
      * @return void
      */
     public function store(Request $request)
@@ -32,12 +32,12 @@ final class MinecraftAuthTokenController extends ApiController
         $uuid = str_replace('-', '', $uuid);
 
         $existingPlayer = MinecraftPlayer::where('uuid', $uuid)->first();
-        
+
         if ($existingPlayer === null) {
             $existingPlayer = MinecraftPlayer::create([
-                'uuid'         => $uuid,
-                'account_id'   => null,
-                'playtime'     => 0,
+                'uuid' => $uuid,
+                'account_id' => null,
+                'playtime' => 0,
                 'last_seen_at' => Carbon::now(),
             ]);
         }
@@ -53,9 +53,9 @@ final class MinecraftAuthTokenController extends ApiController
 
         $authCode = MinecraftAuthCode::create([
             'player_minecraft_id' => $existingPlayer->getKey(),
-            'uuid'                => $uuid,
-            'token'               => Str::uuid()->toString(),
-            'expires_at'          => Carbon::now()->addMinutes(30),
+            'uuid' => $uuid,
+            'token' => Str::uuid()->toString(),
+            'expires_at' => Carbon::now()->addMinutes(30),
         ]);
 
         $authCompletionRoute = route('front.auth.minecraft.token', ['token' => $authCode->token]);
@@ -66,14 +66,15 @@ final class MinecraftAuthTokenController extends ApiController
             ],
         ];
     }
-    
+
     /**
      * Returns the PCB groups that the given UUID belongs to
      *
      * @param Request $request
+     *
      * @return void
      */
-    public function show(Request $request, String $minecraftUUID)
+    public function show(Request $request, string $minecraftUUID)
     {
         $uuid = str_replace('-', '', $minecraftUUID);
 
@@ -89,7 +90,7 @@ final class MinecraftAuthTokenController extends ApiController
 
         // Force load groups
         $existingPlayer->account->groups;
-        
+
         return [
             'data' => new AccountResource($existingPlayer->account),
         ];

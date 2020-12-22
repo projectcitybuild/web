@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Http\Controllers\Panel;
-
 
 use App\Entities\Accounts\Models\Account;
 use App\Http\WebController;

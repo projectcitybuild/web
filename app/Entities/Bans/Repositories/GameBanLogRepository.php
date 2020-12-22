@@ -26,10 +26,10 @@ final class GameBanLogRepository
         ?string $ip
     ) {
         return $this->model->create([
-            'game_ban_id'   => $gameBanId,
+            'game_ban_id' => $gameBanId,
             'server_key_id' => $serverKeyId,
-            'ban_action'    => $banAction,
-            'incoming_ip'   => $ip,
+            'ban_action' => $banAction,
+            'incoming_ip' => $ip,
         ]);
     }
 }

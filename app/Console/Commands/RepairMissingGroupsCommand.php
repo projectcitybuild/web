@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Groups\Models\Group;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
 final class RepairMissingGroupsCommand extends Command
@@ -42,7 +42,7 @@ final class RepairMissingGroupsCommand extends Command
         $progressBar = $this->output->createProgressBar(count($accountsWithoutGroups));
         $progressBar->start();
 
-        DB::transaction(function() use($accountsWithoutGroups, $defaultGroupIds, &$progressBar) {
+        DB::transaction(function () use ($accountsWithoutGroups, $defaultGroupIds, &$progressBar) {
             foreach ($accountsWithoutGroups as $account) {
                 $account->groups()->attach($defaultGroupIds);
                 $progressBar->advance();

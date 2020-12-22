@@ -3,8 +3,8 @@
 namespace App\Http\Actions\AccountSettings;
 
 use App\Entities\Accounts\Models\Account;
-use App\Library\Discourse\Entities\DiscoursePayload;
 use App\Library\Discourse\Api\DiscourseAdminApi;
+use App\Library\Discourse\Entities\DiscoursePayload;
 
 final class UpdateAccountUsername
 {
@@ -22,14 +22,13 @@ final class UpdateAccountUsername
         }
 
         // Push the email change to Discourse via the user sync route
-        $payload = (new DiscoursePayload)
+        $payload = (new DiscoursePayload())
             ->setPcbId($account->getKey())
             ->setEmail($account->email)
             ->setUsername($newUsername);
 
         try {
             $this->discourseAdminApi->requestSSOSync($payload->build());
-           
         } catch (\GuzzleHttp\Exception\ServerException $e) {
             // Sometimes the API fails because the 'requires_activation' key is needed at random in
             // the payload. As a workaround we'll send the request again but with the key included

@@ -2,12 +2,11 @@
 
 namespace App\Library\Mojang\Api;
 
-use Carbon\Carbon;
-use GuzzleHttp\Client;
 use App\Exceptions\Http\TooManyRequestsException;
-use GuzzleHttp\Exception\ClientException;
 use App\Library\Mojang\Models\MojangPlayer;
 use App\Library\Mojang\Models\MojangPlayerNameHistory;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 class MojangPlayerApi
 {
@@ -28,14 +27,15 @@ class MojangPlayerApi
      * @param int|null $time
      *
      * @return MojangPlayer
+     *
      * @throws TooManyRequestsException
      */
-    public function getUuidOf(string $name, ?int $time = null) : ?MojangPlayer
+    public function getUuidOf(string $name, ?int $time = null): ?MojangPlayer
     {
         if (is_null($time)) {
             $time = time();
         }
-        
+
         $response = null;
         try {
             $response = $this->client->request('GET', 'https://api.mojang.com/users/profiles/minecraft/' . $name, [
@@ -71,9 +71,10 @@ class MojangPlayerApi
      * @param $name
      *
      * @return MojangPlayer
+     *
      * @throws TooManyRequestsException
      */
-    public function getOriginalOwnerUuidOf(string $name) : ?MojangPlayer
+    public function getOriginalOwnerUuidOf(string $name): ?MojangPlayer
     {
         return $this->getUuidOf($name, 0);
     }
@@ -87,10 +88,11 @@ class MojangPlayerApi
      * @param array $names
      *
      * @return array
+     *
      * @throws TooManyRequestsException
      * @throws \Exception
      */
-    public function getUuidBatchOf(array $names) : ?array
+    public function getUuidBatchOf(array $names): ?array
     {
         if (count($names) === 0 || count($names) > 10) {
             throw new \Exception('Batch must contain between 1 and 10 names to search');
@@ -100,8 +102,8 @@ class MojangPlayerApi
         $names = array_values($names);
 
         // Strip empty names from the batch or else the API will return an error
-        $names = array_filter($names, function($name) {
-            return !empty($name);
+        $names = array_filter($names, function ($name) {
+            return ! empty($name);
         });
 
         $response = null;
@@ -145,9 +147,10 @@ class MojangPlayerApi
      * @param $uuid
      *
      * @return array|null
+     *
      * @throws TooManyRequestsException
      */
-    public function getNameHistoryOf($uuid) : ?MojangPlayerNameHistory
+    public function getNameHistoryOf($uuid): ?MojangPlayerNameHistory
     {
         $response = null;
         try {
@@ -178,9 +181,10 @@ class MojangPlayerApi
      * @param $name
      *
      * @return array|null
+     *
      * @throws TooManyRequestsException
      */
-    public function getNameHistoryByNameOf($name) : ?MojangPlayerNameHistory
+    public function getNameHistoryByNameOf($name): ?MojangPlayerNameHistory
     {
         $player = $this->getUuidOf($name);
         if ($player !== null) {

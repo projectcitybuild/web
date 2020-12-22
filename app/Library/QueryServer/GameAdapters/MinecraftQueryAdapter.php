@@ -20,18 +20,18 @@ final class MinecraftQueryAdapter implements ServerQueryAdapterContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function query(string $ip, $port = 25565) : ServerQueryResult
+    public function query(string $ip, $port = 25565): ServerQueryResult
     {
         try {
             $this->queryService->Connect($ip, $port);
-            
+
             $info = $this->queryService->GetInfo() ?: [];
             $players = $this->queryService->GetPlayers() ?: [];
 
             $numPlayers = array_key_exists('Players', $info) ? $info['Players'] : -1;
-            $numSlots   = array_key_exists('MaxPlayers', $info) ? $info['MaxPlayers'] : -1;
+            $numSlots = array_key_exists('MaxPlayers', $info) ? $info['MaxPlayers'] : -1;
 
             return new ServerQueryResult(
                 true,
@@ -39,7 +39,6 @@ final class MinecraftQueryAdapter implements ServerQueryAdapterContract
                 $numSlots,
                 $players
             );
-
         } catch (MinecraftQueryException$e) {
             return new ServerQueryResult();
         }
