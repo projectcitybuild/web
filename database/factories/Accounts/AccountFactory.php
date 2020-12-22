@@ -1,34 +1,62 @@
 <?php
 
+namespace Database\Factories;
+
 use App\Entities\Accounts\Models\Account;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 
-/**
- * @var \Illuminate\Database\Eloquent\Factory $factory
- */
-$factory->define(Account::class, function (Faker\Generator $faker) {
-    return [
-        'email' => $faker->email,
-        'username' => $faker->userName,
-        'password' => Hash::make("secret"),
-        'activated' => true,
-        'last_login_ip' => $faker->ipv4,
-        'last_login_at' => $faker->dateTimeBetween('-180days', '-1hours'),
-    ];
-});
+class AccountFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Account::class;
 
-$factory->state(Account::class, 'unhashed', [
-    'password' => 'password'
-]);
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'email' => $this->faker->email,
+            'username' => $this->faker->userName,
+            'password' => Hash::make("secret"),
+            'activated' => true,
+            'last_login_ip' => $this->faker->ipv4,
+            'last_login_at' => $this->faker->dateTimeBetween('-180days', '-1hours'),
+        ];
+    }
 
-$factory->state(Account::class, 'with-confirm', [
-    'password_confirm' => 'password'
-]);
+    /**
+     * Sets the password to the string 'password' unhashed
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function passwordUnhashed()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'password' => 'password',
+            ];
+        });
+    }
 
-$factory->state(Account::class, 'unactivated', [
-    'activated' => false
-]);
-
-$factory->state(Account::class, 'with-recaptcha', [
-    'g-recaptcha-response' => \Illuminate\Support\Str::random()
-]);
+    /**
+     * Deactivates the account
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function unactivated()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'activated' => false,
+            ];
+        });
+    }
+}

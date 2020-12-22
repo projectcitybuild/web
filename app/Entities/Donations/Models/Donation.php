@@ -4,11 +4,14 @@ namespace App\Entities\Donations\Models;
 
 use App\Entities\Accounts\Models\Account;
 use App\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class Donation extends Model
 {
+    use HasFactory;
+
     /**
      * Amount that needs to be donated to be granted
      * lifetime perks

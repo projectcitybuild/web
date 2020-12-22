@@ -1,15 +1,30 @@
 <?php
 
-/**
- * @var \Illuminate\Database\Eloquent\Factory $factory
- */
+namespace Database\Factories;
 
 use App\Entities\Donations\Models\Donation;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Donation::class, function (Faker\Generator $faker) {
-    return [
-        'amount' => $faker->numberBetween(3, 100),
-        'created_at' => $faker->dateTime(),
-        'updated_at' => $faker->dateTime(),
-    ];
-});
+class DonationFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Donation::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'amount' => $this->faker->numberBetween(3, 100),
+            'created_at' => $this->faker->dateTime(),
+            'updated_at' => $this->faker->dateTime(),
+        ];
+    }
+}

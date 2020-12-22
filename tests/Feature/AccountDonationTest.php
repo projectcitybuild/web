@@ -21,10 +21,11 @@ class AccountDonationTest extends TestCase
 
     public function testShowsTemporaryDonation()
     {
-        $account = factory(Account::class)->create();
+        $account = Account::factory()->create();
         $this->actingAs($account);
-        $donation = factory(Donation::class)->create(['account_id' => $account->getKey()]);
-        $perkData = factory(DonationPerk::class)->raw(['account_id' => $account->getKey()]);
+
+        $donation = Donation::factory()->create(['account_id' => $account->getKey()]);
+        $perkData = DonationPerk::factory()->create(['account_id' => $account->getKey()]);
         $donation->perks()->create($perkData);
 
         $this->get(route('front.account.donations'))
@@ -34,11 +35,11 @@ class AccountDonationTest extends TestCase
 
     public function testShowsLifetimeDonation()
     {
-        $account = factory(Account::class)->create();
+        $account = Account::factory()->create();
         $this->actingAs($account);
-        $donation = factory(Donation::class)->create(['account_id' => $account->getKey()]);
-        $perkData = factory(DonationPerk::class)->state('lifetime')->raw(['account_id' => $account->getKey()]);
-        $donation->perks()->create($perkData);
+
+        $donation = Donation::factory()->create(['account_id' => $account->getKey()]);
+        DonationPerk::factory()->lifetime()->for($donation)->create();
 
         $this->get(route('front.account.donations'))
             ->assertOk()
