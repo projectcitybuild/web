@@ -31,6 +31,7 @@
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^5.0",
         "nunomaduro/larastan": "^0.6.11",
+        "nunomaduro/phpinsights": "dev-feature/php8-and-github-action",
         "phpunit/phpunit": "^9.0"
     },
     "config": {
