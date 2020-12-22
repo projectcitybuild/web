@@ -4,11 +4,21 @@
 @section('description', '')
 
 @section('contents')
-    <div class="contents__body account-donations">
+    <div class="contents__body">
+        @if(Session::get('game_account_added', false))
+        <div class="alert alert--success contents__flash">
+            <h3><i class="fas fa-check"></i> Account Linked</h3>
+            <p>
+                Your Minecraft account has been successfully linked to your PCB account. <br />
+                Please run the <strong>/sync finish</strong> command in-game to finish the process.
+            </p>
+        </div>
+        @endif
         <div class="card card--divided">
             <div class="card__body card__body--padded">
                 <h1>Game Accounts</h1>
-                <span class="header-description">The Minecraft accounts you've linked to your PCB account. Linked accounts will automatically receive your rank.</span>
+
+                <p class="header-description">The Minecraft accounts you've linked to your PCB account. Linked accounts will automatically receive your rank.</p>
                 <p class="header-description">To link a new account, run /sync in game and follow the instructions</p>
             </div>
             @if($mcAccounts->count() == 0)

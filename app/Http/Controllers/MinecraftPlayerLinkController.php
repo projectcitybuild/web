@@ -7,6 +7,7 @@ use App\Http\WebController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 final class MinecraftPlayerLinkController extends WebController
 {
@@ -36,6 +37,7 @@ final class MinecraftPlayerLinkController extends WebController
             throw $e;
         }
 
-        return view('front.pages.minecraft-auth.complete');
+        $request->session()->flash('game_account_added', true);
+        return view('front.pages.account.account-game-accounts');
     }
 }
