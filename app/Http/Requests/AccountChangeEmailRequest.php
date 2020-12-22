@@ -8,16 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 final class AccountChangeEmailRequest extends FormRequest
 {
-    /**
-     * @var AccountRepository
-     */
-    private $accountRepository;
-
-
-    public function __construct(AccountRepository $accountRepository)
-    {
-        $this->accountRepository = $accountRepository;
-    }
 
     /**
      * The key to be used for the view error bag.
@@ -25,13 +15,22 @@ final class AccountChangeEmailRequest extends FormRequest
      * @var string
      */
     protected $errorBag = 'email';
+    /**
+     * @var AccountRepository
+     */
+    private $accountRepository;
+
+    public function __construct(AccountRepository $accountRepository)
+    {
+        $this->accountRepository = $accountRepository;
+    }
 
     /**
      * Get the validation rules that apply to the request.
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'email' => 'required|email',
@@ -42,6 +41,7 @@ final class AccountChangeEmailRequest extends FormRequest
      * Configure the validator instance.
      *
      * @param  \Illuminate\Validation\Validator  $validator
+     *
      * @return void
      */
     public function withValidator($validator)
@@ -50,7 +50,9 @@ final class AccountChangeEmailRequest extends FormRequest
             $input = $validator->getData();
             $email = $input['email'];
 
-            if ($email == null) { return; }
+            if ($email === null) {
+                return;
+            }
 
             $account = $this->accountRepository->getByEmail($email);
 
@@ -65,6 +67,16 @@ final class AccountChangeEmailRequest extends FormRequest
     }
 
     /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
      * Redirect back to the form anchor
      *
      * @return string
@@ -73,15 +85,5 @@ final class AccountChangeEmailRequest extends FormRequest
     {
         $url = $this->redirector->getUrlGenerator();
         return $url->previous() . '#change-email';
-    }
-
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize() : bool
-    {
-        return true;
     }
 }

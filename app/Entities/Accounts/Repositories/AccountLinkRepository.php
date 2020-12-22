@@ -17,13 +17,12 @@ final class AccountLinkRepository extends Repository
         string $providerName,
         string $providerId,
         string $providerEmail
-    ) : AccountLink 
-    {
+    ): AccountLink {
         return $this->getModel()->create([
-            'provider_name'     => $providerName,
-            'provider_id'       => $providerId,
-            'provider_email'    => $providerEmail,
-            'account_id'        => $accountId,
+            'provider_name' => $providerName,
+            'provider_id' => $providerId,
+            'provider_email' => $providerEmail,
+            'account_id' => $accountId,
         ]);
     }
 
@@ -32,18 +31,17 @@ final class AccountLinkRepository extends Repository
         string $providerName,
         string $providerId,
         string $providerEmail
-    ) : int 
-    {
+    ): int {
         return $this->getModel()
             ->where('account_id', $accountId)
             ->update([
-                'provider_name'     => $providerName,
-                'provider_id'       => $providerId,
-                'provider_email'    => $providerEmail,
+                'provider_name' => $providerName,
+                'provider_id' => $providerId,
+                'provider_email' => $providerEmail,
             ]);
     }
 
-    public function getByUserAndProvider(string $accountId, string $providerName) : ?AccountLink
+    public function getByUserAndProvider(string $accountId, string $providerName): ?AccountLink
     {
         return $this->getModel()
             ->where('provider_name', $providerName)
@@ -51,7 +49,7 @@ final class AccountLinkRepository extends Repository
             ->first();
     }
 
-    public function getByProviderAccount(string $providerName, string $providerId) : ?AccountLink
+    public function getByProviderAccount(string $providerName, string $providerId): ?AccountLink
     {
         return $this->getModel()
             ->where('provider_name', $providerName)

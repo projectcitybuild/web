@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Entities\Accounts\Models\Account;
 use App\Entities\Donations\Models\Donation;
-use App\Entities\Groups\Models\Group;
-use App\Http\Actions\SyncUserToDiscourse;
 use App\Http\WebController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -37,6 +34,7 @@ class DonationController extends WebController
      * Add a specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -67,6 +65,7 @@ class DonationController extends WebController
      * Show the form for editing the specified resource.
      *
      * @param  \App\Entities\Donations\Models\Donation  $donation
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Donation $donation)
@@ -79,6 +78,7 @@ class DonationController extends WebController
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Entities\Donations\Models\Donation   $donation
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Donation $donation)
@@ -106,6 +106,7 @@ class DonationController extends WebController
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Entities\Donations\Models\Donation   $donation
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, Donation $donation)

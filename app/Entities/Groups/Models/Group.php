@@ -6,6 +6,13 @@ use App\Model;
 
 final class Group extends Model
 {
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
     /**
      * The table associated with the model.
      *
@@ -27,7 +34,7 @@ final class Group extends Model
         'is_staff',
         'is_admin',
         'discourse_name',
-        'can_access_panel'
+        'can_access_panel',
     ];
 
     /**
@@ -36,13 +43,4 @@ final class Group extends Model
      * @var array
      */
     protected $hidden = [];
-
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
 }

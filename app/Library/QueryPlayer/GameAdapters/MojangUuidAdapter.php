@@ -2,10 +2,10 @@
 
 namespace App\Library\QueryPlayer\GameAdapters;
 
-use App\Library\QueryPlayer\PlayerQueryAdapterContract;
 use App\Entities\Players\Services\MinecraftPlayerLookupService;
 use App\Library\Mojang\Api\MojangPlayerApi;
 use App\Library\Mojang\Models\MojangPlayer;
+use App\Library\QueryPlayer\PlayerQueryAdapterContract;
 
 final class MojangUuidAdapter implements PlayerQueryAdapterContract
 {
@@ -28,9 +28,9 @@ final class MojangUuidAdapter implements PlayerQueryAdapterContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function getUniqueIdentifiers(array $aliases = []) : array
+    public function getUniqueIdentifiers(array $aliases = []): array
     {
         // Split names into chunks since the Mojang API
         // won't allow more than 10 names in a batch at once
@@ -41,8 +41,8 @@ final class MojangUuidAdapter implements PlayerQueryAdapterContract
             $response = $this->mojangPlayerApi->getUuidBatchOf($nameChunk->toArray());
             $response = array_map(function (MojangPlayer $player) {
                 $uuid = $player->getUuid();
-                $uuid = str_replace('-', '', $uuid);
-                return $uuid;
+                return str_replace('-', '', $uuid);
+            
             }, $response);
 
             $players = array_merge($players, $response);
@@ -52,9 +52,9 @@ final class MojangUuidAdapter implements PlayerQueryAdapterContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function createPlayers(array $identifiers) : array
+    public function createPlayers(array $identifiers): array
     {
         $players = [];
         foreach ($identifiers as $identifier) {

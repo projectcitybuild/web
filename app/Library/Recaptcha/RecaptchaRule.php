@@ -1,15 +1,14 @@
 <?php
+
 namespace App\Library\Recaptcha;
 
-use App\Entities\Environment;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Log\Logger;
+use Illuminate\Validation\Rule;
 
 class RecaptchaRule extends Rule
 {
-
     /**
      * @var Client
      */
@@ -25,7 +24,6 @@ class RecaptchaRule extends Rule
      */
     private $log;
 
-
     public function __construct(Client $client, Request $request, Logger $logger)
     {
         $this->client = $client;
@@ -35,6 +33,7 @@ class RecaptchaRule extends Rule
 
     /**
      * Disables Recaptcha for the current request
+     *
      * @param bool $enabled
      */
     public static function enable(bool $enabled = true)
@@ -57,17 +56,20 @@ class RecaptchaRule extends Rule
      *
      * @param  string  $attribute
      * @param  mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)
     {
-        if (config('recaptcha.enabled', true) == false) return true;
+        if (config('recaptcha.enabled', true) === false) {
+            return true;
+        }
 
         $response = $this->client->post('https://www.google.com/recaptcha/api/siteverify', [
             'form_params' => [
-                'secret'    => config('recaptcha.keys.secret'),
-                'response'  => $value,
-                'remoteip'  => $this->request->ip(),
+                'secret' => config('recaptcha.keys.secret'),
+                'response' => $value,
+                'remoteip' => $this->request->ip(),
             ],
         ]);
         $result = json_decode($response->getBody(), true);

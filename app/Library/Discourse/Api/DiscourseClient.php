@@ -6,6 +6,17 @@ use GuzzleHttp\Client;
 
 final class DiscourseClient extends Client
 {
+
+    public function __construct()
+    {
+        parent::__construct([
+            'base_uri' => 'https://forums.projectcitybuild.com/',
+            'headers' => [
+                'Api-Key' => $this->getApiKey(),
+                'Api-Username' => $this->getApiUser(),
+            ],
+        ]);
+    }
     private function getApiKey()
     {
         return config('discourse.api_key');
@@ -14,16 +25,5 @@ final class DiscourseClient extends Client
     private function getApiUser()
     {
         return config('discourse.api_user');
-    }
-
-    public function __construct()
-    {
-        parent::__construct([
-            'base_uri' => 'https://forums.projectcitybuild.com/',
-            'headers' => [
-                'Api-Key' => $this->getApiKey(),
-                'Api-Username' => $this->getApiUser()
-            ],
-        ]);
     }
 }

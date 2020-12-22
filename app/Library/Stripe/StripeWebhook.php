@@ -21,7 +21,7 @@ final class StripeWebhook
         $webhookEvent = null;
         try {
             $webhookEvent = StripeWebhookEvent::fromRawValue($json->type);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return null;
         }
 

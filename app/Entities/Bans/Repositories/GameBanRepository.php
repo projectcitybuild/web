@@ -3,10 +3,10 @@
 namespace App\Entities\Bans\Repositories;
 
 use App\Entities\Bans\Models\GameBan;
-use App\Repository;
-use Illuminate\Database\Eloquent\Collection;
 use App\Entities\GamePlayerType;
+use App\Repository;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * @deprecated Use GameBan model facade instead
@@ -18,16 +18,16 @@ final class GameBanRepository extends Repository
     /**
      * Stores a new GameBan
      *
-     * @param integer $serverId
-     * @param integer $bannedPlayerId
+     * @param int $serverId
+     * @param int $bannedPlayerId
      * @param string $bannedPlayerType
      * @param string $bannedAliasAtTime
-     * @param integer $staffPlayerId
+     * @param int $staffPlayerId
      * @param string $staffPlayerType
      * @param string|null $reason
-     * @param boolean $isActive
-     * @param boolean $isGlobalBan
-     * @param integer|null $expiresAt
+     * @param bool $isActive
+     * @param bool $isGlobalBan
+     * @param int|null $expiresAt
      *
      * @return GameBan
      */
@@ -41,19 +41,19 @@ final class GameBanRepository extends Repository
         ?string $reason = null,
         bool $isActive = true,
         bool $isGlobalBan = false,
-        ?int $expiresAt = null) : GameBan 
+        ?int $expiresAt = null): GameBan
     {
         return $this->getModel()->create([
-            'server_id'             => $serverId,
-            'banned_player_id'      => $bannedPlayerId,
-            'banned_player_type'    => $bannedPlayerType->valueOf(),
-            'banned_alias_at_time'  => $bannedAliasAtTime,
-            'staff_player_id'       => $staffPlayerId,
-            'staff_player_type'     => $staffPlayerType->valueOf(),
-            'reason'                => $reason,
-            'is_active'             => $isActive,
-            'is_global_ban'         => $isGlobalBan,
-            'expires_at'            => $expiresAt,
+            'server_id' => $serverId,
+            'banned_player_id' => $bannedPlayerId,
+            'banned_player_type' => $bannedPlayerType->valueOf(),
+            'banned_alias_at_time' => $bannedAliasAtTime,
+            'staff_player_id' => $staffPlayerId,
+            'staff_player_type' => $staffPlayerType->valueOf(),
+            'reason' => $reason,
+            'is_active' => $isActive,
+            'is_global_ban' => $isGlobalBan,
+            'expires_at' => $expiresAt,
         ]);
     }
 
@@ -64,13 +64,14 @@ final class GameBanRepository extends Repository
      * @param int $bannedPlayerId
      * @param string $bannedPlayerType
      * @param int $serverId
+     *
      * @return GameBan|null
      */
     public function getActiveBanByGameUserId(
         int $bannedPlayerId,
         GamePlayerType $bannedPlayerType,
-        int $serverId = null,
-        array $with = []) : ?GameBan 
+        ?int $serverId = null,
+        array $with = []): ?GameBan
     {
         return $this->getModel()
             ->with($with)
@@ -80,7 +81,7 @@ final class GameBanRepository extends Repository
             ->when(isset($serverId),
                 function ($q) use ($serverId) {
                     return $q->where('server_id', $serverId)
-                             ->orWhere('is_global_ban', true);
+                        ->orWhere('is_global_ban', true);
                 },
                 function ($q) {
                     return $q->where('is_global_ban', true);
@@ -93,6 +94,7 @@ final class GameBanRepository extends Repository
      * Sets the given ban as inactive
      *
      * @param int $banId
+     *
      * @return void
      */
     public function deactivateBan(int $banId)
@@ -111,9 +113,10 @@ final class GameBanRepository extends Repository
      * @param int $offset
      * @param array $sort
      * @param array $filter
+     *
      * @return void
      */
-    public function getBans(int $take = 50, int $offset = 0, array $sort = null, array $filter = [])
+    public function getBans(int $take = 50, int $offset = 0, ?array $sort = null, array $filter = [])
     {
         return $this->getModel()
             ->when(count($filter) > 0, function ($q) use ($filter) {
@@ -154,7 +157,7 @@ final class GameBanRepository extends Repository
             ->get();
     }
 
-    public function getBansByPlayer(int $bannedPlayerId, string $bannedPlayerType, array $with = []) : ?Collection
+    public function getBansByPlayer(int $bannedPlayerId, string $bannedPlayerType, array $with = []): ?Collection
     {
         return $this->getModel()
             ->with($with)

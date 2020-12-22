@@ -1,16 +1,17 @@
 <?php
+
 namespace App\Console;
 
 use App\Console\Commands\CleanupUnactivatedAccountsCommand;
 use App\Console\Commands\DeactivateDonatorPerksCommand;
 use App\Console\Commands\ImportEssentialsBansCommand;
-use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\QueryServerCommand;
-use App\Entities\Environment;
+use App\Console\Commands\RepairMissingGroupsCommand;
 use App\Console\Commands\ServerKeyCreateCommand;
 use App\Console\Commands\StripUUIDHyphensCommand;
-use App\Console\Commands\RepairMissingGroupsCommand;
+use App\Entities\Environment;
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
@@ -33,6 +34,7 @@ class Kernel extends ConsoleKernel
      * Define the application's command schedule.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     *
      * @return void
      */
     protected function schedule(Schedule $schedule)
@@ -42,16 +44,16 @@ class Kernel extends ConsoleKernel
         }
 
         $schedule->command('query:status --all')
-                 ->everyFiveMinutes();
+            ->everyFiveMinutes();
 
         $schedule->command('cleanup:password-resets')
-                ->weekly();
+            ->weekly();
 
         $schedule->command('cleanup:unactivated-accounts')
-                ->weekly();
+            ->weekly();
 
         $schedule->command('donator-perks:expire')
-                ->hourly();
+            ->hourly();
     }
 
     /**

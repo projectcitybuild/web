@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Entities\Accounts\Repositories\AccountRepository;
+use App\Http\Requests\LoginRequest;
+use App\Http\WebController;
+use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Library\Discourse\Exceptions\UserNotFound;
 use App\Library\RateLimit\Storage\SessionTokenStorage;
 use App\Library\RateLimit\TokenBucket;
 use App\Library\RateLimit\TokenRate;
 use App\Services\Login\LogoutService;
-use App\Http\Requests\LoginRequest;
-use App\Http\WebController;
-use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,14 +39,12 @@ final class LoginController extends WebController
      */
     private $auth;
 
-
     public function __construct(
         DiscourseAdminApi $discourseAdminApi,
         AccountRepository $accountRepository,
         LogoutService $logoutService,
         AuthGuard $auth
-    )
-    {
+    ) {
         $this->discourseAdminApi = $discourseAdminApi;
         $this->accountRepository = $accountRepository;
         $this->logoutService = $logoutService;
@@ -71,7 +68,7 @@ final class LoginController extends WebController
             ]);
         }
 
-        if (!Auth::attempt($request->validated())) {
+        if (! Auth::attempt($request->validated())) {
             $triesLeft = floor($rateLimit->getAvailableTokens());
 
             throw ValidationException::withMessages([
@@ -79,11 +76,11 @@ final class LoginController extends WebController
             ]);
         }
 
-        if (!$this->auth->user()->activated) {
+        if (! $this->auth->user()->activated) {
             Auth::logout();
 
             throw ValidationException::withMessages([
-                'error' => ['Your email has not been confirmed. If you didn\'t receive it, check your spam. If you need help, ask PCB staff.']
+                'error' => ['Your email has not been confirmed. If you didn\'t receive it, check your spam. If you need help, ask PCB staff.'],
             ]);
         }
 
@@ -92,10 +89,10 @@ final class LoginController extends WebController
         $account->updateLastLogin($request->ip());
 
         // Set the user's nickname from Discourse if it isn't already
-        if ($account->username == null) {
+        if ($account->username === null) {
             try {
                 $discourseUser = $this->discourseAdminApi->fetchUserByEmail($account->email);
-                $account->username = $discourseUser["username"];
+                $account->username = $discourseUser['username'];
             } catch (UserNotFound $e) {
                 $account->username = Str::random(10);
             } finally {
@@ -108,13 +105,13 @@ final class LoginController extends WebController
         return redirect()->intended(route('front.sso.discourse'));
     }
 
-
     /**
      * Logs out the current PCB account
      *
      * (called from Discourse)
      *
      * @param Request $request
+     *
      * @return void
      */
     public function logoutFromDiscourse(Request $request)
@@ -131,6 +128,7 @@ final class LoginController extends WebController
      * (called from this site)
      *
      * @param Request $request
+     *
      * @return void
      */
     public function logout(Request $request)

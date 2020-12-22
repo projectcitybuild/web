@@ -12,9 +12,8 @@ final class DiscoursePayloadValidator
      * @var string
      */
     private $key;
-    
 
-    public function __construct(string $key = null)
+    public function __construct(?string $key = null)
     {
         if ($key === null) {
             throw new \Exception('No Discourse SSO key set');
@@ -35,9 +34,10 @@ final class DiscoursePayloadValidator
      * Hashes the given string with our private sso secret
      *
      * @param string $payload
+     *
      * @return string
      */
-    public function getSignedPayload(string $payload) : string
+    public function getSignedPayload(string $payload): string
     {
         return hash_hmac('sha256', $payload, $this->key);
     }
@@ -48,12 +48,12 @@ final class DiscoursePayloadValidator
      *
      * @param string $payload
      * @param string $signature
-     * @return boolean
+     *
+     * @return bool
      */
-    public function isValidPayload(string $payload, string $signature) : bool
+    public function isValidPayload(string $payload, string $signature): bool
     {
-        if (config('discourse.signing_enabled', false) === false) 
-        {
+        if (config('discourse.signing_enabled', false) === false) {
             return true;
         }
         return $this->getSignedPayload($payload) === $signature;
@@ -66,9 +66,10 @@ final class DiscoursePayloadValidator
      * @param string $sso
      *
      * @throws BadSSOPayloadException
+     *
      * @return array
      */
-    public function unpackPayload(string $sso) : array
+    public function unpackPayload(string $sso): array
     {
         $payload = base64_decode($sso);
         $payload = urldecode($payload);
@@ -77,8 +78,7 @@ final class DiscoursePayloadValidator
         parse_str($payload, $payloadParameters);
 
         if (array_key_exists('nonce', $payloadParameters) === false ||
-            array_key_exists('return_sso_url', $payloadParameters) === false) 
-        {
+            array_key_exists('return_sso_url', $payloadParameters) === false) {
             throw new BadSSOPayloadException('nonce or return_sso_url key missing in payload');
         }
 
@@ -90,14 +90,14 @@ final class DiscoursePayloadValidator
      * Discourse can handle
      *
      * @param array $data
+     *
      * @return string
      */
-    public function makePayload(array $data) : string
+    public function makePayload(array $data): string
     {
         $payload = http_build_query($data);
-        $payload = base64_encode($payload);
-
-        return $payload;
+        return base64_encode($payload);
+    
     }
 
     /**
@@ -106,13 +106,14 @@ final class DiscoursePayloadValidator
      * @param string $url
      * @param string $sso
      * @param string $signature
+     *
      * @return string
      */
-    public function getRedirectUrl(string $return, string $sso, string $signature) : string
+    public function getRedirectUrl(string $return, string $sso, string $signature): string
     {
         return $return.'?'.http_build_query([
             'sso' => $sso,
-            'sig' => $signature
+            'sig' => $signature,
         ]);
     }
 }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Http\Controllers\Settings;
-
 
 use Barryvdh\Debugbar\Controllers\BaseController;
 use Illuminate\Http\Request;

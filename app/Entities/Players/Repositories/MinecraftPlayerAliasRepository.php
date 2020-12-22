@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entities\Players\Repositories;
 
 use App\Entities\Players\Models\MinecraftPlayerAlias;
@@ -18,32 +19,33 @@ class MinecraftPlayerAliasRepository extends Repository
      * MinecraftPlayer id
      *
      * @param int $userId
+     *
      * @return GameUser
      */
     public function store(string $minecraftPlayerId,
                           string $alias,
-                          Carbon $registeredAt = null) : MinecraftPlayerAlias 
+                          ?Carbon $registeredAt = null): MinecraftPlayerAlias
     {
         return $this->getModel()->create([
-            'player_minecraft_id'   => $minecraftPlayerId,
-            'alias'                 => $alias,
-            'registered_at'         => $registeredAt,
+            'player_minecraft_id' => $minecraftPlayerId,
+            'alias' => $alias,
+            'registered_at' => $registeredAt,
         ]);
     }
 
-    public function getByAlias(string $alias) : ?MinecraftPlayerAlias
+    public function getByAlias(string $alias): ?MinecraftPlayerAlias
     {
         return $this->getModel()
             ->where('alias', $alias)
             ->first();
     }
 
-    public function getAllByAlias(string $alias) : Collection
+    public function getAllByAlias(string $alias): Collection
     {
         $results = $this->getModel()
             ->where('alias', $alias)
             ->get();
 
-        return $results ?: collect();
+        return $results ? $results : collect();
     }
 }

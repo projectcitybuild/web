@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Rules\DiscourseUsernameRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,6 +25,18 @@ class AccountChangeUsernameRequest extends FormRequest
     }
 
     /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'username' => ['required', 'unique:accounts,username', new DiscourseUsernameRule()],
+        ];
+    }
+
+    /**
      * Redirect back to the form anchor
      *
      * @return string
@@ -34,17 +45,5 @@ class AccountChangeUsernameRequest extends FormRequest
     {
         $url = $this->redirector->getUrlGenerator();
         return $url->previous() . '#change-username';
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
-    {
-        return [
-            'username' => ['required', 'unique:accounts,username', new DiscourseUsernameRule]
-        ];
     }
 }

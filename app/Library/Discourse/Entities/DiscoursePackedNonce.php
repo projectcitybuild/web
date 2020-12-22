@@ -14,19 +14,18 @@ final class DiscoursePackedNonce
      */
     private $signature;
 
-    
     public function __construct(string $sso, string $signature)
     {
         $this->sso = $sso;
         $this->signature = $signature;
     }
 
-    public function getSSO() : string
+    public function getSSO(): string
     {
         return $this->sso;
     }
 
-    public function getSignature() : string
+    public function getSignature(): string
     {
         return $this->signature;
     }

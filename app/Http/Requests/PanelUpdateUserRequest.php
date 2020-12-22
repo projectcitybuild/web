@@ -28,7 +28,7 @@ class PanelUpdateUserRequest extends FormRequest
     {
         return [
             'email' => ['required', 'email', Rule::unique('accounts')->ignore($this->route('account'), 'account_id')],
-            'username' => ['required', Rule::unique('accounts')->ignore($this->route('account'), 'account_id'), new DiscourseUsernameRule]
+            'username' => ['required', Rule::unique('accounts')->ignore($this->route('account'), 'account_id'), new DiscourseUsernameRule()],
         ];
     }
 }

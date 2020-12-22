@@ -1,14 +1,15 @@
 <?php
+
 namespace App\Services\Queries\Jobs;
 
+use App\Library\QueryPlayer\PlayerQueryHandler;
+use App\Services\Queries\Entities\ServerJobEntity;
+use App\Services\Queries\ServerQueryService;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Library\QueryPlayer\PlayerQueryHandler;
-use App\Services\Queries\ServerQueryService;
-use App\Services\Queries\Entities\ServerJobEntity;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class PlayerQueryJob implements ShouldQueue
 {
@@ -27,7 +28,7 @@ class PlayerQueryJob implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param integer $serverId
+     * @param int $serverId
      * @param array $playerNamesToQuery
      */
     public function __construct(ServerJobEntity $entity, array $playerNamesToQuery)

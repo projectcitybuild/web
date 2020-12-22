@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\Validation\Factory;
-use Illuminate\Http\Request;
-use App\Entities\Players\Repositories\MinecraftPlayerRepository;
 use App\Entities\Players\Repositories\MinecraftPlayerAliasRepository;
-use Illuminate\Contracts\Auth\Guard as Auth;
-use Illuminate\Support\Carbon;
+use App\Entities\Players\Repositories\MinecraftPlayerRepository;
 use App\Http\WebController;
 use App\Library\Mojang\Api\MojangPlayerApiThrottled;
+use Illuminate\Contracts\Auth\Guard as Auth;
+use Illuminate\Contracts\Validation\Factory;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 final class GameAccountController extends WebController
 {
@@ -32,7 +32,6 @@ final class GameAccountController extends WebController
      * @var Auth
      */
     private $auth;
-    
 
     public function __construct(
         MinecraftPlayerRepository $minecraftPlayerRepository,
@@ -64,15 +63,15 @@ final class GameAccountController extends WebController
 
         return view('front.pages.account.account-games', [
             'minecraft' => [
-                'uuid'      => $minecraftUuid,
-                'aliases'   => $minecraftAliases,
+                'uuid' => $minecraftUuid,
+                'aliases' => $minecraftAliases,
             ],
         ]);
     }
-    
+
     public function saveAccounts(Request $request, Factory $validation)
     {
-        if (!$this->auth->check()) {
+        if (! $this->auth->check()) {
             abort(401);
         }
 
@@ -119,7 +118,7 @@ final class GameAccountController extends WebController
             $registeredAt = $nameChange->getChangeDate() !== null
                 ? Carbon::createFromTimestamp($nameChange->getChangeDate())
                 : null;
-            
+
             $existingAlias = $existingAliases
                 ->where('alias', $nameChange->getAlias())
                 ->first();

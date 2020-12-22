@@ -7,11 +7,13 @@ use Illuminate\Support\Facades\URL;
 
 final class AccountPasswordReset extends Model
 {
+
+    public $incrementing = false;
+
+    public $timestamps = false;
     protected $table = 'account_password_resets';
 
     protected $primaryKey = 'email';
-    
-    public $incrementing = false;
 
     protected $fillable = [
         'email',
@@ -25,8 +27,6 @@ final class AccountPasswordReset extends Model
     protected $dates = [
         'created_at',
     ];
-
-    public $timestamps = false;
 
     public function getPasswordResetUrl()
     {

@@ -2,7 +2,6 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\AdminOnly;
 use App\Http\Middleware\PanelAccess;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -62,7 +61,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'panel' => PanelAccess::class
+        'panel' => PanelAccess::class,
     ];
 
     /**

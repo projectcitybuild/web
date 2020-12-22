@@ -17,19 +17,18 @@ final class AccountEmailChangeRepository extends Repository
         string $token,
         string $previousEmail,
         string $newEmail
-    ) : AccountEmailChange 
-    {
+    ): AccountEmailChange {
         return $this->getModel()->create([
-            'account_id'            => $accountId,
-            'token'                 => $token,
-            'email_previous'        => $previousEmail,
-            'email_new'             => $newEmail,
+            'account_id' => $accountId,
+            'token' => $token,
+            'email_previous' => $previousEmail,
+            'email_new' => $newEmail,
             'is_previous_confirmed' => false,
-            'is_new_confirmed'      => false,
+            'is_new_confirmed' => false,
         ]);
     }
 
-    public function getByToken(string $token) : ?AccountEmailChange
+    public function getByToken(string $token): ?AccountEmailChange
     {
         return $this->getModel()
             ->where('token', $token)

@@ -6,6 +6,8 @@ use App\Model;
 
 final class ServerStatusPlayer extends Model
 {
+
+    public $timestamps = false;
     protected $table = 'server_statuses_players';
 
     protected $primaryKey = 'server_status_player_id';
@@ -19,9 +21,6 @@ final class ServerStatusPlayer extends Model
     protected $hidden = [
 
     ];
-
-    public $timestamps = false;
-
 
     public function player()
     {
