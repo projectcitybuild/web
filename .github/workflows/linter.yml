@@ -1,0 +1,17 @@
+name: PHP Linter
+
+on:
+  - pull_request
+  - push
+
+jobs:
+  phpinsights:
+    runs-on: ubuntu-latest
+    name: PHP Insights checks
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v1
+        with:
+          php-version: 7.3
+      - run: composer install --prefer-dist --no-progress --no-suggest
+      - run: vendor/bin/phpinsights -n --ansi --format=github-action
