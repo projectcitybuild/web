@@ -59,4 +59,16 @@ final class MinecraftPlayer extends Model implements BannableModelInterface
     {
         return $this->gameBans()->where('is_active', true)->count() > 0;
     }
+
+    /**
+     * Update the last seen at time of the player to now
+     *
+     * @return bool
+     */
+    public function touchLastSeenAt(): bool
+    {
+        $this->last_seen_at = $this->freshTimestamp();
+
+        return $this->save();
+    }
 }

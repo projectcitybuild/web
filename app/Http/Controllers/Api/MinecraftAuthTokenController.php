@@ -88,6 +88,9 @@ final class MinecraftAuthTokenController extends ApiController
             throw new UnauthorisedException('account_not_linked', 'This UUID has not been linked to a PCB account. Please complete the authorization flow first');
         }
 
+        // Update last seen at time
+        $existingPlayer->touchLastSeenAt();
+
         // Force load groups
         $existingPlayer->account->groups;
 
