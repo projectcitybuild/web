@@ -6,7 +6,6 @@ use App\Model;
 
 final class ServerStatusPlayer extends Model
 {
-
     public $timestamps = false;
     protected $table = 'server_statuses_players';
 

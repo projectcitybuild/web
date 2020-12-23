@@ -6,7 +6,6 @@ use GuzzleHttp\Client;
 
 final class DiscourseClient extends Client
 {
-
     public function __construct()
     {
         parent::__construct([
