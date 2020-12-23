@@ -44,7 +44,7 @@ class LogoutService_Test extends TestCase
      */
     private function loginAsUser(Auth $auth)
     {
-        $account = factory(Account::class)->create();
+        $account = Account::factory()->create();
         $auth->setUser($account);
 
         $this->assertTrue($auth->check());
@@ -63,7 +63,7 @@ class LogoutService_Test extends TestCase
         // expect...
         $this->assertFalse($auth->check());
     }
-    
+
     public function testLogoutOfPcb_notLoggedIn_doesNothing()
     {
         // given...

@@ -6,9 +6,14 @@ use App\Entities\Accounts\Models\Account;
 use App\Entities\Bans\BannableModelInterface;
 use App\Entities\Bans\Models\GameBan;
 use App\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 final class MinecraftPlayer extends Model implements BannableModelInterface
 {
+    use HasFactory;
+
     protected $table = 'players_minecraft';
 
     protected $primaryKey = 'player_minecraft_id';
@@ -20,9 +25,7 @@ final class MinecraftPlayer extends Model implements BannableModelInterface
         'last_seen_at',
     ];
 
-    protected $hidden = [
-
-    ];
+    protected $hidden = [];
 
     protected $dates = [
         'created_at',
@@ -40,12 +43,12 @@ final class MinecraftPlayer extends Model implements BannableModelInterface
         return $this->aliases->last()->alias;
     }
 
-    public function account()
+    public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class, 'account_id', 'account_id');
     }
 
-    public function aliases()
+    public function aliases(): HasMany
     {
         return $this->hasMany(MinecraftPlayerAlias::class, 'player_minecraft_id', 'player_minecraft_id');
     }

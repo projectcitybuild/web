@@ -11,7 +11,7 @@ class DonationTest extends TestCase
 {
     public function testDonationCreateAuthenticated()
     {
-        $account = factory(Account::class)->create();
+        $account = Account::factory()->create();
         $this->actingAs($account);
 
         $this->mock(StripeHandler::class, function (MockInterface $mock) {

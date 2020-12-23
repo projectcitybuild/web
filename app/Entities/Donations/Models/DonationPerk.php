@@ -4,11 +4,13 @@ namespace App\Entities\Donations\Models;
 
 use App\Entities\Accounts\Models\Account;
 use App\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class DonationPerk extends Model
 {
+    use HasFactory;
+
     /**
      * The table associated with the model.
      *
@@ -66,9 +68,9 @@ final class DonationPerk extends Model
         'is_lifetime_perks' => 'boolean',
     ];
 
-    public function account(): HasOne
+    public function account(): BelongsTo
     {
-        return $this->hasOne(Account::class, 'account_id', 'account_id');
+        return $this->belongsTo(Account::class, 'account_id', 'account_id');
     }
 
     public function donation(): BelongsTo

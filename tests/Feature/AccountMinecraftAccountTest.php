@@ -11,24 +11,31 @@ class AccountMinecraftAccountTest extends TestCase
 {
     private Account $account;
     private MinecraftPlayer $mcPlayer;
+    private MinecraftPlayerAlias $mcPlayerAlias;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->account = factory(Account::class)->create();
-        $this->mcPlayer = factory(MinecraftPlayer::class)->create(['account_id' => $this->account->getKey()]);
+
+        $this->account = Account::factory()->create();
+
+        $this->mcPlayer = MinecraftPlayer::factory()
+            ->for($this->account)
+            ->create();
+
+        $this->mcPlayerAlias = MinecraftPlayerAlias::factory()
+            ->for($this->mcPlayer)
+            ->create();
     }
 
     public function testMinecraftAccountShownInList()
     {
-        $mcPlayerAlias = $this->withAlias();
-
         $this->actingAs($this->account);
 
         $this->get(route('front.account.games'))
             ->assertOk()
             ->assertSee($this->mcPlayer->uuid)
-            ->assertSee($mcPlayerAlias->alias);
+            ->assertSee($this->mcPlayerAlias->alias);
     }
 
     public function testMinecraftAccountWithoutAlias()
@@ -43,7 +50,6 @@ class AccountMinecraftAccountTest extends TestCase
     public function testCanUnlinkOwnAccount()
     {
         $this->actingAs($this->account);
-        $this->withAlias();
 
         $this->delete(route('front.account.games.delete', $this->mcPlayer->getKey()))
             ->assertRedirect();
@@ -56,18 +62,9 @@ class AccountMinecraftAccountTest extends TestCase
 
     public function testCannotUnlinkOthersAccount()
     {
-        $this->actingAs(factory(Account::class)->create());
-        $this->withAlias();
+        $this->actingAs(Account::factory()->create());
 
         $this->delete(route('front.account.games.delete', $this->mcPlayer->getKey()))
             ->assertForbidden();
-    }
-
-    /**
-     * Generate an alias for the minecraft player
-     */
-    private function withAlias()
-    {
-        return factory(MinecraftPlayerAlias::class)->create(['player_minecraft_id' => $this->mcPlayer->getKey()]);
     }
 }

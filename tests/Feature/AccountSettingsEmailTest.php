@@ -20,7 +20,7 @@ class AccountSettingsEmailTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->account = factory(Account::class)->create();
+        $this->account = Account::factory()->create();
     }
 
     /**
@@ -56,7 +56,7 @@ class AccountSettingsEmailTest extends TestCase
 
     public function testCantChangeEmailToExistingEmail()
     {
-        $otherAccount = factory(Account::class)->create();
+        $otherAccount = Account::factory()->create();
 
         $this->submitEmailChange($otherAccount->email)
             ->assertSessionHasErrors();

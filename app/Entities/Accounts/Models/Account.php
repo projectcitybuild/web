@@ -6,6 +6,7 @@ use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationPerk;
 use App\Entities\Groups\Models\Group;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
@@ -13,7 +14,7 @@ use Laravel\Scout\Searchable;
 
 final class Account extends Authenticatable
 {
-    use Notifiable, Searchable;
+    use Notifiable, Searchable, HasFactory;
 
     protected $table = 'accounts';
 

@@ -15,7 +15,9 @@ class PanelAccountListTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->adminAccount = factory(Account::class)->create();
+
+        $this->adminAccount = Account::factory()->create();
+
         $adminGroup = Group::create([
             'name' => 'Administrator',
             'can_access_panel' => true
@@ -27,7 +29,8 @@ class PanelAccountListTest extends TestCase
 
     public function testAccountShownInList()
     {
-        $account = factory(Account::class)->create();
+        $account = Account::factory()->create();
+
         $this->actingAs($this->adminAccount)
             ->get(route('front.panel.accounts.index'))
             ->assertSee($account->username);
@@ -35,7 +38,7 @@ class PanelAccountListTest extends TestCase
 
     public function testUnactivatedAccountShownInList()
     {
-        $account = factory(Account::class)->state('unactivated')->create();
+        $account = Account::factory()->unactivated()->create();
 
         $this->actingAs($this->adminAccount)
             ->get(route('front.panel.accounts.index'))
