@@ -17,7 +17,7 @@ class LoginTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->account = factory(Account::class)->create();
+        $this->account = Account::factory()->create();
     }
 
     public function testUserIsRedirectedToDiscourseSSOWhenLoggingInWithCorrectCredentials()
@@ -31,7 +31,7 @@ class LoginTest extends TestCase
 
     public function testUserCannotLogInWithUnactivatedAccount()
     {
-        $account = factory(Account::class)->state('unactivated')->create();
+        $account = Account::factory()->unactivated()->create();
 
         $this->post(route('front.login.submit'), [
             'email' => $account->email,
@@ -71,7 +71,7 @@ class LoginTest extends TestCase
 
     public function testUserWithNullUsernameFetchesFromDiscourse()
     {
-        $user = factory(Account::class)->create(["username" => null]);
+        $user = Account::factory()->create(['username' => null]);
 
         $this->mock(DiscourseAdminApi::class, function ($mock) use ($user) {
             $mock->shouldReceive('fetchUserByEmail')->with($user->email)->once();

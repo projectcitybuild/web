@@ -28,7 +28,7 @@ class PasswordResetTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->account = factory(Account::class)->create();
+        $this->account = Account::factory()->create();
         $this->sendPasswordResetEmail = new SendPasswordResetEmail();
 
         $this->sendPasswordResetEmail->execute($this->account, $this->account->email);
@@ -52,7 +52,7 @@ class PasswordResetTest extends TestCase
 
     public function testUserCanViewPasswordReset()
     {
-        $reset = factory(AccountPasswordReset::class)->create();
+        $reset = AccountPasswordReset::factory()->create();
 
         $this->get($reset->getPasswordResetUrl())
         ->assertSuccessful();
@@ -60,7 +60,7 @@ class PasswordResetTest extends TestCase
 
     public function testUserCanChangePassword()
     {
-        $reset = factory(AccountPasswordReset::class)->create();
+        $reset = AccountPasswordReset::factory()->create();
 
         $this->get($reset->getPasswordResetUrl())
             ->assertSuccessful();

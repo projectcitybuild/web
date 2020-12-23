@@ -49,7 +49,7 @@ class AccountTest extends TestCase
 
     public function testIsAdminForAdmin()
     {
-        $account = factory(Account::class)->create();
+        $account = Account::factory()->create();
         $account->groups()->attach($this->adminGroup->group_id);
 
         $this->assertTrue($account->isAdmin());
@@ -57,7 +57,7 @@ class AccountTest extends TestCase
 
     public function testIsAdminForNonAdmin()
     {
-        $account = factory(Account::class)->create();
+        $account = Account::factory()->create();
         $account->groups()->attach($this->normalGroup->group_id);
 
         $this->assertFalse($account->isAdmin());
@@ -65,7 +65,7 @@ class AccountTest extends TestCase
 
     public function testDiscourseGroupString()
     {
-        $account = factory(Account::class)->create();
+        $account = Account::factory()->create();
 
         $account->groups()->attach($this->normalGroup->group_id);
 
@@ -79,7 +79,7 @@ class AccountTest extends TestCase
 
     public function testDiscourseGroupStringForNullGroup()
     {
-        $account = factory(Account::class)->create();
+        $account = Account::factory()->create();
 
         $account->groups()->attach($this->memberGroup->group_id);
         $account->groups()->attach($this->normalGroup->group_id);

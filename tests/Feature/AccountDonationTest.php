@@ -12,7 +12,7 @@ class AccountDonationTest extends TestCase
 {
     public function testShowsNoDonations()
     {
-        $this->actingAs(factory(Account::class)->create());
+        $this->actingAs(Account::factory()->create());
 
         $this->get(route('front.account.donations'))
             ->assertOk()
@@ -21,24 +21,34 @@ class AccountDonationTest extends TestCase
 
     public function testShowsTemporaryDonation()
     {
-        $account = factory(Account::class)->create();
+        $expiryDate = Carbon::now()->addDay();
+
+        $account = Account::factory()->create();
+
+        DonationPerk::factory()
+            ->for($account)
+            ->for(Donation::factory()->for($account))
+            ->state(['expires_at' => $expiryDate])
+            ->create();
+
         $this->actingAs($account);
-        $donation = factory(Donation::class)->create(['account_id' => $account->getKey()]);
-        $perkData = factory(DonationPerk::class)->raw(['account_id' => $account->getKey()]);
-        $donation->perks()->create($perkData);
 
         $this->get(route('front.account.donations'))
             ->assertOk()
-            ->assertSee(Carbon::instance($perkData["expires_at"])->toFormattedDateString());
+            ->assertSee($expiryDate->toFormattedDateString());
     }
 
     public function testShowsLifetimeDonation()
     {
-        $account = factory(Account::class)->create();
+        $account = Account::factory()->create();
+
+        DonationPerk::factory()
+            ->for($account)
+            ->for(Donation::factory()->for($account))
+            ->lifetime()
+            ->create();
+
         $this->actingAs($account);
-        $donation = factory(Donation::class)->create(['account_id' => $account->getKey()]);
-        $perkData = factory(DonationPerk::class)->state('lifetime')->raw(['account_id' => $account->getKey()]);
-        $donation->perks()->create($perkData);
 
         $this->get(route('front.account.donations'))
             ->assertOk()

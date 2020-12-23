@@ -12,6 +12,7 @@ use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
 use App\Http\Composers\MasterViewComposer;
 use App\Services\Queries\ServerQueryService;
 use Illuminate\Contracts\Cache\Factory as Cache;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -48,15 +49,19 @@ final class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        // we don't want to store namespaces
-        // in the database so we'll map them
+        // We don't want to store namespaces in the database so we'll map them
         // to unique keys instead
         Relation::morphMap([
             AccountPaymentType::Donation => Donation::class,
             GamePlayerType::Minecraft => MinecraftPlayer::class,
         ]);
 
-        // bind the master view composer to the master view template
+        // Bind the master view composer to the master view template
         View::composer('front.layouts.master', MasterViewComposer::class);
+
+        // Fix the factory() function always searching for factory files with a relative namespace
+        Factory::guessFactoryNamesUsing(function (string $modelName) {
+            return 'Database\Factories\\' . class_basename($modelName) . 'Factory';
+        });
     }
 }

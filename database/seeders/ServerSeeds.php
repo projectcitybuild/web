@@ -19,17 +19,17 @@ class ServerSeeds extends Seeder
      */
     public function run()
     {
-        $categoryMinecraft = factory(ServerCategory::class)->create([
+        $categoryMinecraft = ServerCategory::factory()->create([
             'name'          => 'minecraft',
             'display_order' => 1,
         ]);
 
-        $categoryOtherGames = factory(ServerCategory::class)->create([
+        $categoryOtherGames = ServerCategory::factory()->create([
             'name'          => 'other games',
             'display_order' => 2,
         ]);
 
-        $minecraftServer = factory(Server::class)->create([
+        $minecraftServer = Server::factory()->create([
             'name'                  => 'Survival / Creative [24/7]',
             'server_category_id'    => $categoryMinecraft->server_category_id,
             'game_type'             => GameType::Minecraft,
@@ -39,7 +39,7 @@ class ServerSeeds extends Seeder
             'display_order'         => 1,
         ]);
 
-        factory(Server::class)->create([
+        Server::factory()->create([
             'name'                  => 'Feed the Beast',
             'server_category_id'    => $categoryMinecraft->server_category_id,
             'game_type'             => GameType::Minecraft,
@@ -47,7 +47,7 @@ class ServerSeeds extends Seeder
             'display_order'         => 2,
         ]);
 
-        factory(Server::class)->create([
+        Server::factory()->create([
             'name'                  => 'Pixelmon',
             'server_category_id'    => $categoryMinecraft->server_category_id,
             'game_type'             => GameType::Minecraft,
@@ -55,7 +55,7 @@ class ServerSeeds extends Seeder
             'display_order'         => 3,
         ]);
 
-        factory(Server::class)->create([
+        Server::factory()->create([
             'name'                  => 'Terraria',
             'server_category_id'    => $categoryOtherGames->server_category_id,
             'game_type'             => GameType::Terraria,
@@ -63,7 +63,7 @@ class ServerSeeds extends Seeder
             'display_order'         => 1,
         ]);
 
-        factory(Server::class)->create([
+        Server::factory()->create([
             'name'                  => 'Starbound',
             'server_category_id'    => $categoryOtherGames->server_category_id,
             'game_type'             => GameType::Starbound,

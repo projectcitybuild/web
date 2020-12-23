@@ -3,9 +3,12 @@
 namespace App\Entities\Servers\Models;
 
 use App\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 final class ServerCategory extends Model
 {
+    use HasFactory;
+
     protected $table = 'server_categories';
 
     protected $primaryKey = 'server_category_id';
