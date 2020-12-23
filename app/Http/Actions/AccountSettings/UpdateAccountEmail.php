@@ -28,7 +28,7 @@ final class UpdateAccountEmail
         DB::beginTransaction();
         try {
             // Notify Discourse that the user's email address has changed
-            $this->updateDiscourseAccount($account->getKey(), $newEmailAddress);
+            $this->updateDiscourseAccount($account, $newEmailAddress);
 
             $account->email = $newEmailAddress;
             $account->save();
