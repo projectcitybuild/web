@@ -2,6 +2,7 @@
 
 namespace App\Entities\Bans\Models;
 
+use App\Entities\Servers\Models\Server;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Scout\Searchable;
@@ -49,7 +50,12 @@ final class GameBan extends Model
 
     public function unban()
     {
-        return $this->belongsTo('App\Entities\Bans\Models\GameUnban', 'game_ban_id', 'game_ban_id');
+        return $this->belongsTo(GameUnban::class, 'game_ban_id', 'game_ban_id');
+    }
+
+    public function server()
+    {
+        return $this->belongsTo(Server::class, 'server_id', 'server_id');
     }
 
     public function getStaffName()

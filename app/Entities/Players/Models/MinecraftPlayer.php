@@ -23,9 +23,7 @@ final class MinecraftPlayer extends Model implements BannableModelInterface
         'last_seen_at',
     ];
 
-    protected $hidden = [
-
-    ];
+    protected $hidden = [];
 
     protected $dates = [
         'created_at',

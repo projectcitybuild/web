@@ -69,9 +69,9 @@ final class DonationPerk extends Model
         'is_lifetime_perks' => 'boolean',
     ];
 
-    public function account(): HasOne
+    public function account(): BelongsTo
     {
-        return $this->hasOne(Account::class, 'account_id', 'account_id');
+        return $this->belongsTo(Account::class, 'account_id', 'account_id');
     }
 
     public function donation(): BelongsTo

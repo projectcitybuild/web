@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Entities\Bans\Models\GameBan;
 use App\Entities\Players\Models\MinecraftPlayer;
 use App\Entities\Servers\Models\Server;
+use App\Entities\Servers\Models\ServerCategory;
 use Tests\TestCase;
 
 class BanlistTest extends TestCase
@@ -12,7 +13,7 @@ class BanlistTest extends TestCase
     public function testActiveBanIsShownOnList()
     {
         $ban = GameBan::factory()
-            ->has(Server::factory()->withNewCategory())
+            ->hasServer(Server::factory()->has(ServerCategory::factory()))
             ->hasBannedPlayer(MinecraftPlayer::factory())
             ->hasStaffPlayer(MinecraftPlayer::factory())
             ->create();
@@ -25,7 +26,7 @@ class BanlistTest extends TestCase
     {
         $ban = GameBan::factory()
             ->inactive()
-            ->has(Server::factory()->withNewCategory())
+            ->hasServer(Server::factory()->has(ServerCategory::factory()))
             ->hasBannedPlayer(MinecraftPlayer::factory())
             ->hasStaffPlayer(MinecraftPlayer::factory())
             ->create();

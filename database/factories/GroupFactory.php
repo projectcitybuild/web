@@ -36,11 +36,28 @@ class GroupFactory extends Factory
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    public function isDefault()
+    public function member()
     {
         return $this->state(function (array $attributes) {
             return [
+                'name' => 'member',
+                'discourse_name' => 'member',
                 'is_default' => true,
+            ];
+        });
+    }
+
+    /**
+     * Sets the group as the donators group
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function donator()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'name' => 'donator',
+                'discourse_name' => 'donator',
             ];
         });
     }

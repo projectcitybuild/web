@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Console\Commands\DeactivateDonatorPerksCommand;
 use App\Entities\Accounts\Models\Account;
+use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationPerk;
 use App\Entities\Groups\Models\Group;
 use App\Http\Actions\SyncUserToDiscourse;
@@ -17,22 +18,16 @@ final class DeactivateDonatorPerksCommand_Test extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @var Group
-     */
-    private $donatorGroup;
+    private Group $donatorGroup;
 
-    /**
-     * @var Group
-     */
-    private $memberGroup;
+    private Group $memberGroup;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->donatorGroup = Group::factory()->create(['name' => 'donator']);
-        $this->memberGroup = Group::factory()->isDefault()->create(['name' => 'member']);
+        $this->donatorGroup = Group::factory()->donator()->create();
+        $this->memberGroup = Group::factory()->member()->create();
     }
 
     private function makeCommand(): DeactivateDonatorPerksCommand
@@ -44,162 +39,143 @@ final class DeactivateDonatorPerksCommand_Test extends TestCase
         return new DeactivateDonatorPerksCommand($mockSyncAction);
     }
 
-    public function testDeactivatesExpiredPerk()
+    public function testSendsNotificationWhenDonationExpires()
     {
         Notification::fake();
 
         $account = Account::factory()->create();
 
-        $expectedPerk = DonationPerk::factory()->create([
-            'is_active' => true,
-            'is_lifetime_perks' => false,
-            'expires_at' => now()->subDay(),
-            'account_id' => $account->getKey()
-        ]);
+        DonationPerk::factory()
+            ->for($account)
+            ->for(Donation::factory()->for($account))
+            ->expired()
+            ->create();
 
         $command = $this->makeCommand();
         $command->handle();
-
-        $perk = DonationPerk::find($expectedPerk->getKey());
-
-        $this->assertFalse($perk->is_active);
 
         Notification::assertSentTo($account, DonationEndedNotification::class);
     }
 
-    public function testDoesNotDeactivateUnexpiredPerk()
+    public function testDeactivatesExpiredPerks()
     {
-        $expectedPerk = DonationPerk::factory()->create([
-            'is_active' => true,
-            'is_lifetime_perks' => false,
-            'expires_at' => now()->addDay(),
-            'account_id' => Account::factory()->create()->getKey(),
-        ]);
+        $account = Account::factory()->create();
+
+        $expiredPerk = DonationPerk::factory()
+            ->for($account)
+            ->for(Donation::factory()->for($account))
+            ->expired()
+            ->create();
+
+        $notExpiredPerk = DonationPerk::factory()
+            ->for($account)
+            ->for(Donation::factory()->for($account))
+            ->notExpired()
+            ->create();
+
+        $lifetimePerk = DonationPerk::factory()
+            ->for($account)
+            ->for(Donation::factory()->for($account))
+            ->expired()
+            ->lifetime()
+            ->create();
 
         $command = $this->makeCommand();
         $command->handle();
 
-        $perk = DonationPerk::find($expectedPerk->getKey());
-
-        $this->assertTrue($perk->is_active);
+        $this->assertFalse(DonationPerk::find($expiredPerk->getKey())->is_active);
+        $this->assertTrue(DonationPerk::find($notExpiredPerk->getKey())->is_active);
+        $this->assertTrue(DonationPerk::find($lifetimePerk->getKey())->is_active);
     }
 
-    public function testDoesNotDeactivateLifetimePerk()
+    public function testRemovesDonatorGroupWhenAllPerksHaveExpired()
     {
-        $expectedPerk = DonationPerk::factory()->create([
-            'is_active' => true,
-            'is_lifetime_perks' => true,
-            'expires_at' => null,
-            'account_id' => Account::factory()->create()->getKey(),
-        ]);
+        $account = Account::factory()
+            ->hasAttached($this->donatorGroup)
+            ->create();
+
+        DonationPerk::factory()
+            ->for($account)
+            ->for(Donation::factory()->for($account))
+            ->expired()
+            ->count(2)
+            ->create();
 
         $command = $this->makeCommand();
         $command->handle();
 
-        $perk = DonationPerk::find($expectedPerk->getKey());
-
-        $this->assertTrue($perk->is_active);
-    }
-
-    public function testRemovesDonatorGroupWhenExpired()
-    {
-        $expectedAccount = Account::factory()->create();
-        $expectedAccount->groups()->attach($this->donatorGroup->getKey());
-
-        $expectedPerk = DonationPerk::factory()->create([
-            'account_id' => $expectedAccount->getKey(),
-            'is_active' => true,
-            'is_lifetime_perks' => false,
-            'expires_at' => now()->subDay(),
-        ]);
-
-        $this->assertTrue($expectedPerk->account->groups->contains($this->donatorGroup->getKey()));
-
-        $command = $this->makeCommand();
-        $command->handle();
-
-        $account = Account::find($expectedAccount->getKey());
+        $account = Account::find($account->getKey());
         $this->assertFalse($account->groups->contains($this->donatorGroup->getKey()));
     }
 
-    public function testDoesNotRemoveDonatorGroupIfMultiplePerks()
+    public function testDoesNotRemoveDonatorGroupIfOtherUnexpiredPerk()
     {
-        $expectedAccount = Account::factory()->create();
-        $expectedAccount->groups()->attach($this->donatorGroup->getKey());
+        $account = Account::factory()
+            ->hasAttached($this->donatorGroup)
+            ->create();
 
-        DonationPerk::factory()->create([
-            'account_id' => $expectedAccount->getKey(),
-            'is_active' => true,
-            'is_lifetime_perks' => false,
-            'expires_at' => now()->subDay(),
-        ]);
+        DonationPerk::factory()
+            ->for($account)
+            ->for(Donation::factory()->for($account))
+            ->expired()
+            ->create();
 
-        DonationPerk::factory()->create([
-            'account_id' => $expectedAccount->getKey(),
-            'is_active' => true,
-            'is_lifetime_perks' => false,
-            'expires_at' => now()->addDay(),
-        ]);
-
-        $expectedAccount = Account::find($expectedAccount->getKey());
-        $this->assertTrue($expectedAccount->groups->contains($this->donatorGroup->getKey()));
+        DonationPerk::factory()
+            ->for($account)
+            ->for(Donation::factory()->for($account))
+            ->notExpired()
+            ->create();
 
         $command = $this->makeCommand();
         $command->handle();
 
-        $account = Account::find($expectedAccount->getKey());
+        $account = Account::find($account->getKey());
         $this->assertTrue($account->groups->contains($this->donatorGroup->getKey()));
     }
 
-    public function testDoesNotRemoveDonatorGroupIfOtherLifetimePerk()
+    public function testDoesNotRemoveDonatorGroupIfOtherPerkIsLifetime()
     {
-        $expectedAccount = Account::factory()->create();
-        $expectedAccount->groups()->attach($this->donatorGroup->getKey());
+        $account = Account::factory()
+            ->hasAttached($this->donatorGroup)
+            ->create();
 
-        DonationPerk::factory()->create([
-            'account_id' => $expectedAccount->getKey(),
-            'is_active' => true,
-            'is_lifetime_perks' => false,
-            'expires_at' => now()->subDay(),
-        ]);
+        DonationPerk::factory()
+            ->for($account)
+            ->for(Donation::factory()->for($account))
+            ->expired()
+            ->create();
 
-        DonationPerk::factory()->create([
-            'account_id' => $expectedAccount->getKey(),
-            'is_active' => true,
-            'is_lifetime_perks' => true,
-            'expires_at' => null,
-        ]);
-
-        $expectedAccount = Account::find($expectedAccount->getKey());
-        $this->assertTrue($expectedAccount->groups->contains($this->donatorGroup->getKey()));
+        DonationPerk::factory()
+            ->for($account)
+            ->for(Donation::factory()->for($account))
+            ->lifetime()
+            ->create();
 
         $command = $this->makeCommand();
         $command->handle();
 
-        $account = Account::find($expectedAccount->getKey());
+        $account = Account::find($account->getKey());
         $this->assertTrue($account->groups->contains($this->donatorGroup->getKey()));
     }
 
     public function testAssignsExpiredDonatorToMemberGroupIfNoGroup()
     {
-        $account = Account::factory()->create();
-        $account->groups()->attach($this->donatorGroup->getKey());
+        $account = Account::factory()
+            ->hasAttached($this->donatorGroup)
+            ->create();
 
-        DonationPerk::factory()->create([
-            'account_id' => $account->getKey(),
-            'is_active' => true,
-            'is_lifetime_perks' => false,
-            'expires_at' => now()->subDay(),
-        ]);
-
-        $account = Account::find($account->getKey());
-        $this->assertTrue($account->groups->contains($this->donatorGroup->getKey()));
+        DonationPerk::factory()
+            ->for($account)
+            ->for(Donation::factory()->for($account))
+            ->expired()
+            ->create();
 
         $command = $this->makeCommand();
         $command->handle();
 
         $account = Account::find($account->getKey());
         $this->assertTrue($account->groups->contains($this->memberGroup->getKey()));
+        $this->assertFalse($account->groups->contains($this->donatorGroup->getKey()));
         $this->assertEquals(1, count($account->groups));
     }
 }

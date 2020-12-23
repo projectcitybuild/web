@@ -18,6 +18,7 @@ class PanelDonationsListTest extends TestCase
         parent::setUp();
 
         $this->adminAccount = Account::factory()->create();
+
         $adminGroup = Group::create([
             'name' => 'Administrator',
             'can_access_panel' => true
@@ -28,7 +29,7 @@ class PanelDonationsListTest extends TestCase
 
     public function testDonationShownInList()
     {
-        $donation = factory(Donation::class)->create();
+        $donation = Donation::factory()->create();
 
         $this->actingAs($this->adminAccount)
             ->get(route('front.panel.donations.index'))

@@ -32,14 +32,38 @@ class DonationPerkFactory extends Factory
 
     /**
      * Indicate that the donation will never expire
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    public function lifetime()
+    public function lifetime(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
                 'is_lifetime_perks' => true,
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the donation has already expired
+     */
+    public function expired(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'is_lifetime_perks' => false,
+                'expires_at' => now()->subDay(),
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the donation will expire in the future
+     */
+    public function notExpired(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'is_lifetime_perks' => false,
+                'expires_at' => now()->addDay(),
             ];
         });
     }

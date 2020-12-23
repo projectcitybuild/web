@@ -14,7 +14,6 @@ class ServerQueryHandler_Test extends TestCase
 
     public function testQueryOnlineServer()
     {
-        // given...
         $mockAdapter = (new MockQueryAdapter())
             ->setIsOnline(true)
             ->setPlayerCount(5)
@@ -23,12 +22,12 @@ class ServerQueryHandler_Test extends TestCase
         $queryHandler = new ServerQueryHandler(new ServerStatusRepository);
         $queryHandler->setAdapter($mockAdapter);
 
-        $server = Server::factory()->withNewCategory()->create();
+        $server = Server::factory()
+            ->has(ServerCategory::factory())
+            ->create();
 
-        // when...
         $status = $queryHandler->queryServer($server->getKey(), '192.168.0.1', '25565');
 
-        // expect...
         $this->assertEquals(5, $status->getNumOfPlayers());
         $this->assertEquals(10, $status->getNumOfSlots());
         $this->assertTrue($status->isOnline());
@@ -36,25 +35,23 @@ class ServerQueryHandler_Test extends TestCase
 
     public function testQueryOfflineServer()
     {
-        // given...
         $mockAdapter = (new MockQueryAdapter())
             ->setIsOnline(false);
 
         $queryHandler = new ServerQueryHandler(new ServerStatusRepository);
         $queryHandler->setAdapter($mockAdapter);
 
-        $server = Server::factory()->withNewCategory()->create();
+        $server = Server::factory()
+            ->has(ServerCategory::factory())
+            ->create();
 
-        // when...
         $status = $queryHandler->queryServer($server->getKey(), '192.168.0.1', '25565');
 
-        // expect...
         $this->assertFalse($status->isOnline());
     }
 
     public function testQuerySavesOnlineStatus()
     {
-        // given...
         $mockAdapter = (new MockQueryAdapter())
             ->setIsOnline(true)
             ->setPlayerCount(5)
@@ -63,12 +60,12 @@ class ServerQueryHandler_Test extends TestCase
         $queryHandler = new ServerQueryHandler(new ServerStatusRepository);
         $queryHandler->setAdapter($mockAdapter);
 
-        $server = Server::factory()->withNewCategory()->create();
+        $server = Server::factory()
+            ->has(ServerCategory::factory())
+            ->create();
 
-        // when...
         $queryHandler->queryServer($server->getKey(), '192.168.0.1', '25565');
 
-        // expect...
         $this->assertDatabaseHas('server_statuses', [
             'server_id'      => $server->getKey(),
             'is_online'      => true,
@@ -79,7 +76,6 @@ class ServerQueryHandler_Test extends TestCase
 
     public function testQuerySavesOfflineStatus()
     {
-        // given...
         $mockAdapter = (new MockQueryAdapter())
             ->setIsOnline(false);
 
@@ -88,10 +84,8 @@ class ServerQueryHandler_Test extends TestCase
 
         $server = Server::factory()->withNewCategory()->create();
 
-        // when...
         $queryHandler->queryServer($server->getKey(), '192.168.0.1', '25565');
 
-        // expect...
         $this->assertDatabaseHas('server_statuses', [
             'server_id'      => $server->getKey(),
             'is_online'      => false,
