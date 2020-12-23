@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 final class AccountChangeEmailRequest extends FormRequest
 {
-
     /**
      * The key to be used for the view error bag.
      *

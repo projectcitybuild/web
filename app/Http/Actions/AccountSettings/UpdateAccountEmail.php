@@ -28,7 +28,7 @@ final class UpdateAccountEmail
         DB::beginTransaction();
         try {
             // Notify Discourse that the user's email address has changed
-            $this->updateDiscourseAccount($account->getKey(), $newEmailAddress);
+            $this->updateDiscourseAccount($account, $newEmailAddress);
 
             $account->email = $newEmailAddress;
             $account->save();
@@ -42,10 +42,11 @@ final class UpdateAccountEmail
         }
     }
 
-    private function updateDiscourseAccount(int $pcbAccountId, string $newEmailAddress)
+    private function updateDiscourseAccount(Account $account, string $newEmailAddress)
     {
         $payload = (new DiscoursePayload())
-            ->setPcbId($pcbAccountId)
+            ->setPcbId($account->getKey())
+            ->setGroups($account->discourseGroupString())
             ->setEmail($newEmailAddress);
 
         try {

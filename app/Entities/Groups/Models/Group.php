@@ -6,7 +6,6 @@ use App\Model;
 
 final class Group extends Model
 {
-
     /**
      * Indicates if the model should be timestamped.
      *

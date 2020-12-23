@@ -12,7 +12,6 @@ use Illuminate\Contracts\Validation\Rule;
  */
 class DiscourseUsernameRule implements Rule
 {
-
     // usernames must consist of a-z A-Z 0-9 _ - .
     private const ASCII_INVALID_CHARACTERS = "/[^\w.-]/";
     // usernames can start with a-z A-Z 0-0 _
@@ -33,7 +32,6 @@ class DiscourseUsernameRule implements Rule
      */
     public function __construct()
     {
-        
     }
 
     /**
