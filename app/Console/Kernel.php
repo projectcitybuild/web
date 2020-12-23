@@ -54,6 +54,15 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('donator-perks:expire')
             ->hourly();
+
+        $schedule->command('backup:clean')
+            ->dailyAt("00:00");
+
+        $schedule->command('backup:run')
+            ->dailyAt('01:00');
+
+        $schedule->command('backup:monitor')
+            ->dailyAt('02:00');
     }
 
     /**

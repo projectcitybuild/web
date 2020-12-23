@@ -46,5 +46,3 @@ Route::prefix('groups')->group(function () {
 });
 
 Route::post('discord/sync', 'DiscordSyncController@getRank');
-
-Route::post('deploy', 'DeployController@deploy');
