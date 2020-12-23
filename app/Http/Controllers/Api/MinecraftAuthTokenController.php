@@ -36,9 +36,7 @@ final class MinecraftAuthTokenController extends ApiController
         if ($existingPlayer === null) {
             $existingPlayer = MinecraftPlayer::create([
                 'uuid' => $uuid,
-                'account_id' => null,
-                'playtime' => 0,
-                'last_seen_at' => Carbon::now(),
+                'account_id' => null
             ]);
         }
 
@@ -89,7 +87,7 @@ final class MinecraftAuthTokenController extends ApiController
         }
 
         // Update last seen at time
-        $existingPlayer->touchLastSeenAt();
+        $existingPlayer->touchLastSyncedAt();
 
         // Force load groups
         $existingPlayer->account->groups;

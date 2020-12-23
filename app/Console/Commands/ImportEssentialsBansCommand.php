@@ -56,8 +56,6 @@ class ImportEssentialsBansCommand extends Command
             if (! $player) {
                 $player = MinecraftPlayer::create([
                     'uuid' => $essBan['uuid'],
-                    'playtime' => 0,
-                    'last_seen_at' => new Carbon($essBan['created']),
                 ]);
             }
 

@@ -219,8 +219,7 @@
                         <th></th>
                         <th>Last Alias</th>
                         <th>UUID</th>
-                        <th>Playtime</th>
-                        <th>Last Seen</th>
+                        <th>Last Synced</th>
                         <th>First Seen</th>
                         <th>Actions</th>
                     </tr>
@@ -237,8 +236,7 @@
                                 @endempty
                             </td>
                             <td>{{ $player->uuid }}</td>
-                            <td>{{ $player->playtime }}</td>
-                            <td>{{ $player->last_seen_at }}</td>
+                            <td>{{ $player->last_synced_at }}</td>
                             <td>{{ $player->created_at }}</td>
                             <td>
                                 <form
