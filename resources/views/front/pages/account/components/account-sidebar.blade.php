@@ -2,7 +2,7 @@
     <div class="card__body">
 
         <ul class="sidemenu">
-            <li>
+            <li @if(\Route::currentRouteName() == 'front.account.settings') class="sidemenu--active" @endif>
                 <a href="{{ route('front.account.settings') }}">
                     <span class="fa-stack fa-2x">
                         <i class="fas fa-square fa-stack-2x"></i>
@@ -11,13 +11,22 @@
                     Account Settings
                 </a>
             </li>
-            <li>
+            <li @if(\Route::currentRouteName() == 'front.account.donations') class="sidemenu--active" @endif>
                 <a href="{{ route('front.account.donations') }}">
                     <span class="fa-stack fa-2x">
                         <i class="fas fa-square fa-stack-2x"></i>
                         <i class="fas fa-star fa-stack-1x fa-inverse"></i>
                     </span>
                     Donations
+                </a>
+            </li>
+            <li @if(\Route::currentRouteName() == 'front.account.games') class="sidemenu--active" @endif>
+                <a href="{{ route('front.account.games') }}">
+                    <span class="fa-stack fa-2x">
+                        <i class="fas fa-square fa-stack-2x"></i>
+                        <i class="fas fa-gamepad fa-stack-1x fa-inverse"></i>
+                    </span>
+                    Game Accounts
                 </a>
             </li>
         </ul>

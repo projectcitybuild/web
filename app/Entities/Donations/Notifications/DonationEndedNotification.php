@@ -17,7 +17,6 @@ class DonationEndedNotification extends Notification
      */
     public function __construct()
     {
-        
     }
 
     /**

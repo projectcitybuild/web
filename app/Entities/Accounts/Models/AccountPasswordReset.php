@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\URL;
 
 final class AccountPasswordReset extends Model
 {
-
     public $incrementing = false;
 
     public $timestamps = false;
