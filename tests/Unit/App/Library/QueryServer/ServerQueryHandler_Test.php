@@ -23,7 +23,7 @@ class ServerQueryHandler_Test extends TestCase
         $queryHandler = new ServerQueryHandler(new ServerStatusRepository);
         $queryHandler->setAdapter($mockAdapter);
 
-        $server = factory(Server::class)->create();
+        $server = Server::factory()->withNewCategory()->create();
 
         // when...
         $status = $queryHandler->queryServer($server->getKey(), '192.168.0.1', '25565');
@@ -43,7 +43,7 @@ class ServerQueryHandler_Test extends TestCase
         $queryHandler = new ServerQueryHandler(new ServerStatusRepository);
         $queryHandler->setAdapter($mockAdapter);
 
-        $server = factory(Server::class)->create();
+        $server = Server::factory()->withNewCategory()->create();
 
         // when...
         $status = $queryHandler->queryServer($server->getKey(), '192.168.0.1', '25565');
@@ -63,7 +63,7 @@ class ServerQueryHandler_Test extends TestCase
         $queryHandler = new ServerQueryHandler(new ServerStatusRepository);
         $queryHandler->setAdapter($mockAdapter);
 
-        $server = factory(Server::class)->create();
+        $server = Server::factory()->withNewCategory()->create();
 
         // when...
         $queryHandler->queryServer($server->getKey(), '192.168.0.1', '25565');
@@ -86,7 +86,7 @@ class ServerQueryHandler_Test extends TestCase
         $queryHandler = new ServerQueryHandler(new ServerStatusRepository);
         $queryHandler->setAdapter($mockAdapter);
 
-        $server = factory(Server::class)->create();
+        $server = Server::factory()->withNewCategory()->create();
 
         // when...
         $queryHandler->queryServer($server->getKey(), '192.168.0.1', '25565');

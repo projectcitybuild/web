@@ -18,7 +18,8 @@ class AccountSettingsPasswordTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->account = factory(Account::class)->create();
+
+        $this->account = Account::factory()->create();
     }
 
     private function submitPasswordChange($old, $new, $newConfirmation)
@@ -33,7 +34,7 @@ class AccountSettingsPasswordTest extends TestCase
     public function testPasswordChange()
     {
         $newPassword = $this->faker->password(8);
-        
+
         $this->submitPasswordChange("secret", $newPassword, $newPassword)
             ->assertSessionHasNoErrors();
 

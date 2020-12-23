@@ -18,7 +18,7 @@ class AccountSettingsUsernameTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->account = factory(Account::class)->create();
+        $this->account = Account::factory()->create();
     }
 
     private function submitUsernameChange($newUsername): \Illuminate\Testing\TestResponse
@@ -48,7 +48,7 @@ class AccountSettingsUsernameTest extends TestCase
 
     public function testCantChangeToExistingUsername()
     {
-        $otherAccount = factory(Account::class)->create();
+        $otherAccount = Account::factory()->create();
 
         $this->submitUsernameChange($otherAccount->username)
             ->assertSessionHasErrors();

@@ -6,9 +6,12 @@ use App\Entities\Accounts\Models\Account;
 use App\Entities\Bans\BannableModelInterface;
 use App\Entities\Bans\Models\GameBan;
 use App\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 final class MinecraftPlayer extends Model implements BannableModelInterface
 {
+    use HasFactory;
+
     protected $table = 'players_minecraft';
 
     protected $primaryKey = 'player_minecraft_id';

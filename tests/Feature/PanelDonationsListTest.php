@@ -17,7 +17,7 @@ class PanelDonationsListTest extends TestCase
     {
         parent::setUp();
 
-        $this->adminAccount = factory(Account::class)->create();
+        $this->adminAccount = Account::factory()->create();
         $adminGroup = Group::create([
             'name' => 'Administrator',
             'can_access_panel' => true

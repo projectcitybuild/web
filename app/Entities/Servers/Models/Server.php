@@ -4,9 +4,12 @@ namespace App\Entities\Servers\Models;
 
 use App\Entities\GameType;
 use App\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 final class Server extends Model
 {
+    use HasFactory;
+
     protected $table = 'servers';
 
     protected $primaryKey = 'server_id';

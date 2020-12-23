@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Entities\Donations\Models\DonationPerk;
+use App\Entities\Groups\Models\Group;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class DonationPerkFactory extends Factory
+class GroupFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = DonationPerk::class;
+    protected $model = Group::class;
 
     /**
      * Define the model's default state.
@@ -22,24 +22,25 @@ class DonationPerkFactory extends Factory
     public function definition()
     {
         return [
-            'is_active' => true,
-            'is_lifetime_perks' => false,
-            'expires_at' => $this->faker->dateTime(),
-            'created_at' => $this->faker->dateTime(),
-            'updated_at' => $this->faker->dateTime(),
+            'name' => $this->faker->name(),
+            'alias' => $this->faker->name(),
+            'is_default' => false,
+            'is_staff' => false,
+            'is_admin' => false,
+            'discourse_name' => $this->faker->name(),
         ];
     }
 
     /**
-     * Indicate that the donation will never expire
+     * Sets the group as the default group assigned to members who don't yet have one
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    public function lifetime()
+    public function isDefault()
     {
         return $this->state(function (array $attributes) {
             return [
-                'is_lifetime_perks' => true,
+                'is_default' => true,
             ];
         });
     }

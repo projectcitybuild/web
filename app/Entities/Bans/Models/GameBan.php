@@ -3,11 +3,12 @@
 namespace App\Entities\Bans\Models;
 
 use App\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Scout\Searchable;
 
 final class GameBan extends Model
 {
-    use Searchable;
+    use Searchable, HasFactory;
 
     protected $table = 'game_network_bans';
 
@@ -28,9 +29,7 @@ final class GameBan extends Model
         'updated_at',
     ];
 
-    protected $hidden = [
-
-    ];
+    protected $hidden = [];
 
     protected $dates = [
         'expires_at',

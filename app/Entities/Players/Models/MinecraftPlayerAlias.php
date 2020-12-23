@@ -3,9 +3,12 @@
 namespace App\Entities\Players\Models;
 
 use App\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 final class MinecraftPlayerAlias extends Model
 {
+    use HasFactory;
+
     protected $table = 'players_minecraft_aliases';
 
     protected $primaryKey = 'players_minecraft_alias_id';
