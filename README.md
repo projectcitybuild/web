@@ -44,7 +44,7 @@ This repository uses *Laravel Sail* as a local development environment.
 
 1. Run `cp src/.env.example src/.env`, then edit the file as appropriate (see below)
 2. Install the composer dependencies using the helper container
-```
+```shell
 docker run --rm \
     -v $(pwd):/opt \
     -w /opt \
@@ -74,7 +74,26 @@ You can run the linter locally with `sail php artisan insights`
 If you want automatic fixing, you can run it with the `--fix` option
 
 #### Database
-* If the database schema has changed, remember to run `sail artisan migrate` from inside the workspace container to ensure you always have the latest schema.
+If the database schema has changed, remember to run `sail artisan migrate` from inside the workspace container to ensure you always have the latest schema.
+
+#### S3 Bucket
+Backups go to an S3 bucket specified in the `backup` disk. To run this functionality in development, you need to configure a valid bucket. To avoid having to use a real one:
+
+1. Install Minio with [Takeout](https://github.com/tighten/takeout), accepting the defaults
+2. Go to `http://localhost:9000`, using the credentials minioadmin/minioadmin
+3. Make a bucket called `pcb-backup`
+4. Put this in your `.env`:
+
+```dotenv
+AWS_ACCESS_KEY_ID=minioadmin
+AWS_SECRET_ACCESS_KEY=minioadmin
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=pcb-backup
+AWS_ENDPOINT="http://minio:9000"
+AWS_URL="http://minio:9000"
+```
+
+The Sail container's networking has already been configured to connect to Takeout's networking, so the Minio container is accessible at the hostname `minio`.
 
 #### Stripe Webhooks
 Use [stripe-cli](https://stripe.com/docs/stripe-cli) to receive payment webhooks locally.

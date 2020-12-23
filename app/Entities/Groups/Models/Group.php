@@ -3,9 +3,11 @@
 namespace App\Entities\Groups\Models;
 
 use App\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 final class Group extends Model
 {
+    use HasFactory;
 
     /**
      * Indicates if the model should be timestamped.

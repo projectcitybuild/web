@@ -2,12 +2,15 @@
 
 namespace App\Entities\Bans\Models;
 
+use App\Entities\Servers\Models\Server;
 use App\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Scout\Searchable;
 
 final class GameBan extends Model
 {
-    use Searchable;
+    use Searchable, HasFactory;
 
     protected $table = 'game_network_bans';
 
@@ -28,9 +31,7 @@ final class GameBan extends Model
         'updated_at',
     ];
 
-    protected $hidden = [
-
-    ];
+    protected $hidden = [];
 
     protected $dates = [
         'expires_at',
@@ -50,7 +51,12 @@ final class GameBan extends Model
 
     public function unban()
     {
-        return $this->belongsTo('App\Entities\Bans\Models\GameUnban', 'game_ban_id', 'game_ban_id');
+        return $this->belongsTo(GameUnban::class, 'game_ban_id', 'game_ban_id');
+    }
+
+    public function server(): BelongsTo
+    {
+        return $this->belongsTo(Server::class, 'server_id', 'server_id');
     }
 
     public function getStaffName()

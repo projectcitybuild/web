@@ -4,9 +4,13 @@ namespace App\Entities\Servers\Models;
 
 use App\Entities\GameType;
 use App\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class Server extends Model
 {
+    use HasFactory;
+
     protected $table = 'servers';
 
     protected $primaryKey = 'server_id';
@@ -24,9 +28,7 @@ final class Server extends Model
         'game_type',
     ];
 
-    protected $hidden = [
-
-    ];
+    protected $hidden = [];
 
     protected $dates = [
         'created_at',
@@ -47,14 +49,14 @@ final class Server extends Model
         return $this->ip . $port;
     }
 
-    public function category()
+    public function serverCategory(): BelongsTo
     {
-        return $this->hasOne('App\Entities\Servers\Models\ServerCategory', 'server_category_id', 'server_category_id');
+        return $this->belongsTo(ServerCategory::class, 'server_category_id', 'server_category_id');
     }
 
     public function status()
     {
-        return $this->belongsTo('App\Entities\Servers\Models\ServerStatus', 'server_id', 'server_id')
+        return $this->belongsTo(ServerStatus::class, 'server_id', 'server_id')
             ->take(1)
             ->latest();
     }

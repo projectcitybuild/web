@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Log;
 
 final class DiscourseSSOController extends WebController
 {
+    private const DISCOURSE_SSO_ENDPOINT = 'session/sso';
+
     /**
      * @var DiscourseLoginHandler
      */
@@ -30,7 +32,7 @@ final class DiscourseSSOController extends WebController
         $account = $request->user();
 
         if (! $request->has('sso') || ! $request->has('sig')) {
-            return redirect(config('discourse.sso_endpoint'));
+            return redirect(config('discourse.base_url') . self::DISCOURSE_SSO_ENDPOINT);
         }
 
         try {

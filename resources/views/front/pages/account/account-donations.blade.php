@@ -4,7 +4,7 @@
 @section('description', '')
 
 @section('contents')
-    <div class="contents__body account-donations">
+    <div class="contents__body">
         <div class="card card--divided">
             <div class="card__body card__body--padded">
                 <h1>Donations</h1>

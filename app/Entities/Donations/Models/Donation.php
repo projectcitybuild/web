@@ -4,11 +4,14 @@ namespace App\Entities\Donations\Models;
 
 use App\Entities\Accounts\Models\Account;
 use App\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class Donation extends Model
 {
+    use HasFactory;
+
     /**
      * Amount that needs to be donated to be granted
      * lifetime perks
@@ -38,9 +41,6 @@ final class Donation extends Model
     protected $fillable = [
         'account_id',
         'amount',
-        'perks_end_at',
-        'is_lifetime_perks',
-        'is_active',
         'created_at',
         'updated_at',
     ];
@@ -53,14 +53,13 @@ final class Donation extends Model
     protected $hidden = [];
 
     protected $dates = [
-        'perks_end_at',
         'created_at',
         'updated_at',
     ];
 
-    public function account(): HasOne
+    public function account(): BelongsTo
     {
-        return $this->hasOne(Account::class, 'account_id', 'account_id');
+        return $this->belongsTo(Account::class, 'account_id', 'account_id');
     }
 
     public function perks(): HasMany
