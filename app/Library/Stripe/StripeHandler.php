@@ -58,12 +58,6 @@ class StripeHandler
     /**
      * Receives a Webhook from Stripe and parses it into a generalized model
      *
-     * @param string $payload
-     * @param string $signature
-     * @param string $secret
-     *
-     * @return StripeWebhook
-     *
      * @throws \Stripe\Error\SignatureVerification
      *
      * Example Webhook Payload:
@@ -119,7 +113,7 @@ class StripeHandler
         return StripeWebhook::fromJSON($event);
     }
 
-    private function setApiKey()
+    private function setApiKey(): void
     {
         $key = config('services.stripe.secret');
         if (empty($key)) {

@@ -13,7 +13,7 @@ class GroupResource extends JsonResource
      *
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'group_id' => $this->group_id,

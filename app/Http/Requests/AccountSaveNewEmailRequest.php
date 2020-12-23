@@ -8,10 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AccountSaveNewEmailRequest extends FormRequest
 {
-    /**
-     * @var AccountRepository
-     */
-    private $accountRepository;
+    private AccountRepository $accountRepository;
 
     public function __construct(AccountRepository $accountRepository)
     {
@@ -34,18 +31,14 @@ class AccountSaveNewEmailRequest extends FormRequest
 
     /**
      * Configure the validator instance.
-     *
-     * @param  \Illuminate\Validation\Validator  $validator
-     *
-     * @return void
      */
-    public function withValidator($validator)
+    public function withValidator(\Illuminate\Validation\Validator $validator): void
     {
         if ($validator->failed()) {
             return;
         }
 
-        $validator->after(function ($validator) {
+        $validator->after(function ($validator): void {
             $input = $validator->getData();
             $oldEmail = $input['old_email'];
             $password = $input['password'];
@@ -63,8 +56,6 @@ class AccountSaveNewEmailRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {

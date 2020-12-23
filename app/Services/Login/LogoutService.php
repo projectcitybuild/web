@@ -10,20 +10,11 @@ use Illuminate\Support\Facades\Log;
 
 class LogoutService
 {
-    /**
-     * @var DiscourseUserApi
-     */
-    private $discourseUserApi;
+    private DiscourseUserApi $discourseUserApi;
 
-    /**
-     * @var DiscourseAdminApi
-     */
-    private $discourseAdminApi;
+    private DiscourseAdminApi $discourseAdminApi;
 
-    /**
-     * @var Auth
-     */
-    private $auth;
+    private Auth $auth;
 
     public function __construct(
         DiscourseUserApi $discourseUserApi,
@@ -38,8 +29,6 @@ class LogoutService
     /**
      * Invalidates only a PCB session
      * (used by Discourse)
-     *
-     * @return bool
      */
     public function logoutOfPCB(): bool
     {
@@ -54,8 +43,6 @@ class LogoutService
     /**
      * Invalidates both PCB and Discourse's session
      * (used by PCB)
-     *
-     * @return bool
      */
     public function logoutOfDiscourseAndPCB(): bool
     {
@@ -86,8 +73,6 @@ class LogoutService
     /**
      * Fetches the Discourse user associated
      * with the given PCB account ID
-     *
-     * @param int $pcbId
      *
      * @return array
      */

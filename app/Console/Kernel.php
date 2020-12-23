@@ -20,7 +20,7 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [
+    protected array $commands = [
         QueryServerCommand::class,
         ServerKeyCreateCommand::class,
         StripUUIDHyphensCommand::class,
@@ -32,12 +32,8 @@ class Kernel extends ConsoleKernel
 
     /**
      * Define the application's command schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     *
-     * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
         if (Environment::isDev()) {
             return;
@@ -58,10 +54,8 @@ class Kernel extends ConsoleKernel
 
     /**
      * Register the Closure based commands for the application.
-     *
-     * @return void
      */
-    protected function commands()
+    protected function commands(): void
     {
         require base_path('routes/console.php');
     }

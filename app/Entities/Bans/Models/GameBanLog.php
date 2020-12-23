@@ -9,10 +9,8 @@ final class GameBanLog extends Model
     public $timestamps = false;
     /**
      * The table associated with the model.
-     *
-     * @var string
      */
-    protected $table = 'game_network_ban_logs';
+    protected string $table = 'game_network_ban_logs';
 
     protected $primaryKey = 'game_ban_log_id';
 
@@ -21,7 +19,7 @@ final class GameBanLog extends Model
      *
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'game_ban_id',
         'server_key_id',
         'ban_action',
@@ -34,7 +32,7 @@ final class GameBanLog extends Model
      *
      * @var array
      */
-    protected $hidden = [];
+    protected array $hidden = [];
 
     protected $dates = [
         'created_at',

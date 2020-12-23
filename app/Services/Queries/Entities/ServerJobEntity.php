@@ -7,45 +7,21 @@ use App\Library\QueryServer\ServerQueryAdapterContract;
 
 class ServerJobEntity
 {
-    /**
-     * @var ServerQueryAdapterContract
-     */
-    private $serverQueryAdapter;
+    private ServerQueryAdapterContract $serverQueryAdapter;
 
-    /**
-     * @var PlayerQueryAdapterContract
-     */
-    private $playerQueryAdapter;
+    private PlayerQueryAdapterContract $playerQueryAdapter;
 
-    /**
-     * @var string
-     */
-    private $gameIdentifier;
+    private string $gameIdentifier;
 
-    /**
-     * @var int
-     */
-    private $serverId;
+    private int $serverId;
 
-    /**
-     * @var string
-     */
-    private $ip;
+    private string $ip;
 
-    /**
-     * @var string
-     */
-    private $port;
+    private string $port;
 
-    /**
-     * @var int
-     */
-    private $serverStatusId;
+    private int $serverStatusId;
 
-    /**
-     * @var bool
-     */
-    private $isDryRun;
+    private bool $isDryRun;
 
     public function __construct(
         ServerQueryAdapterContract $serverQueryAdapter,
@@ -71,7 +47,7 @@ class ServerJobEntity
      *
      * @return array
      */
-    public function __sleep()
+    public function __sleep(): array
     {
         $this->serverQueryAdapter = get_class($this->serverQueryAdapter);
         $this->playerQueryAdapter = get_class($this->playerQueryAdapter);
@@ -92,7 +68,7 @@ class ServerJobEntity
      * Converts adapter class names to class instances
      * after unserializing
      */
-    public function __wakeup()
+    public function __wakeup(): void
     {
         $this->serverQueryAdapter = resolve($this->serverQueryAdapter);
         $this->playerQueryAdapter = resolve($this->playerQueryAdapter);
@@ -133,7 +109,7 @@ class ServerJobEntity
         return $this->serverStatusId;
     }
 
-    public function setServerStatusId(int $serverStatusId)
+    public function setServerStatusId(int $serverStatusId): void
     {
         $this->serverStatusId = $serverStatusId;
     }

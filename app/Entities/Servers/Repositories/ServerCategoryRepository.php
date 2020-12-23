@@ -14,7 +14,7 @@ final class ServerCategoryRepository implements ServerCategoryRepositoryContract
 
     public function allVisible(array $with = []): Collection
     {
-        return ServerCategory::with(['servers' => function ($q) {
+        return ServerCategory::with(['servers' => function ($q): void {
             $q->where('is_visible', true)
                 ->with('status');
         },

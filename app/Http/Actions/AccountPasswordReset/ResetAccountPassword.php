@@ -11,17 +11,14 @@ use Illuminate\Support\Facades\DB;
 
 final class ResetAccountPassword
 {
-    /**
-     * @var UpdateAccountPassword
-     */
-    private $updateAccountPassword;
+    private UpdateAccountPassword $updateAccountPassword;
 
     public function __construct(UpdateAccountPassword $updateAccountPassword)
     {
         $this->updateAccountPassword = $updateAccountPassword;
     }
 
-    public function execute(string $token, string $newPassword)
+    public function execute(string $token, string $newPassword): void
     {
         $passwordReset = AccountPasswordReset::where('token', $token)->first();
         if ($passwordReset === null) {

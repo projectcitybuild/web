@@ -11,10 +11,8 @@ class DonationPerksController extends WebController
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\Http\Response
     {
         $perks = DonationPerk::with(['account', 'donation'])->orderBy('created_at', 'desc')->paginate(100);
         return view('front.pages.panel.donation-perks.index')->with(compact('perks'));
@@ -22,22 +20,16 @@ class DonationPerksController extends WebController
 
     /**
      * Show the form for creating the specified resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request): \Illuminate\Http\Response
     {
         return view('front.pages.panel.donation-perks.create');
     }
 
     /**
      * Add a specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\Response
     {
         // Checkbox input isn't sent to the server if not ticked by the user
         if (! $request->has('is_active')) {
@@ -56,7 +48,7 @@ class DonationPerksController extends WebController
             'expires_at' => 'nullable|date',
         ]);
 
-        $validator->after(function ($validator) use ($request) {
+        $validator->after(function ($validator) use ($request): void {
             if ($request->get('is_lifetime_perks') === false && $request->get('expires_at') === null) {
                 $validator->errors()->add('is_lifetime_perks', 'Expiry date is required if perks aren\'t lifetime');
             }
@@ -83,25 +75,16 @@ class DonationPerksController extends WebController
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Entities\Donations\Models\DonationPerk  $donationPerk
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function edit(DonationPerk $donationPerk)
+    public function edit(DonationPerk $donationPerk): \Illuminate\Http\Response
     {
         return view('front.pages.panel.donation-perks.edit')->with(['perk' => $donationPerk]);
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Donations\Models\DonationPerk   $donationPerk
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DonationPerk $donationPerk)
+    public function update(Request $request, DonationPerk $donationPerk): \Illuminate\Http\Response
     {
         // Checkbox input isn't sent to the server if not ticked by the user
         if (! $request->has('is_active')) {
@@ -120,7 +103,7 @@ class DonationPerksController extends WebController
             'created_at' => 'required|date',
         ]);
 
-        $validator->after(function ($validator) use ($request) {
+        $validator->after(function ($validator) use ($request): void {
             if ($request->get('is_lifetime_perks') === false && $request->get('expires_at') === null) {
                 $validator->errors()->add('is_lifetime_perks', 'Expiry date is required if perks aren\'t lifetime');
             }
@@ -140,13 +123,8 @@ class DonationPerksController extends WebController
 
     /**
      * Delete the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Donations\Models\DonationPerk   $donationPerk
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, DonationPerk $donationPerk)
+    public function destroy(Request $request, DonationPerk $donationPerk): \Illuminate\Http\Response
     {
         $donationPerk->delete();
         return redirect(route('front.panel.donation-perks.index'));

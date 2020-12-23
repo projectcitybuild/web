@@ -17,27 +17,18 @@ use Illuminate\Validation\Rule;
 
 final class GameBanController extends ApiController
 {
-    /**
-     * @var PlayerBanService
-     */
-    private $playerBanService;
+    private PlayerBanService $playerBanService;
 
-    /**
-     * @var PlayerBanLookupService
-     */
-    private $playerBanLookupService;
+    private PlayerBanLookupService $playerBanLookupService;
 
-    /**
-     * @var ServerKeyAuthService
-     */
-    private $serverKeyAuthService;
+    private ServerKeyAuthService $serverKeyAuthService;
 
     /**
      * Maps game identifier types (eg. MINECRAFT_UUID) to game player type (eg. MINECRAFT)
      *
      * @var array
      */
-    private $identifierMapping = [
+    private array $identifierMapping = [
         GameIdentifierType::MinecraftUUID => MinecraftPlayer::class,
     ];
 
@@ -54,12 +45,9 @@ final class GameBanController extends ApiController
     /**
      * Creates a new player ban
      *
-     * @param Request $request
      * @param Validator $validationFactory
-     *
-     * @return void
      */
-    public function storeBan(Request $request)
+    public function storeBan(Request $request): void
     {
         $serverKey = $this->getServerKeyFromHeader($request);
 
@@ -104,12 +92,9 @@ final class GameBanController extends ApiController
     /**
      * Creates a new player unban
      *
-     * @param Request $request
      * @param Validator $validationFactory
-     *
-     * @return void
      */
-    public function storeUnban(Request $request)
+    public function storeUnban(Request $request): void
     {
         $serverKey = $this->getServerKeyFromHeader($request);
 

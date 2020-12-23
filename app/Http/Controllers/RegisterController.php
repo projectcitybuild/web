@@ -43,15 +43,9 @@ final class RegisterController extends WebController
     /**
      * Attempts to activate an account via token
      *
-     * @param Request $request
-     *
-     * @param ActivateUnverifiedAccount $activateUnverifiedAccount
-     *
-     * @return View
-     *
      * @throws \Exception
      */
-    public function activate(Request $request, ActivateUnverifiedAccount $activateUnverifiedAccount)
+    public function activate(Request $request, ActivateUnverifiedAccount $activateUnverifiedAccount): View
     {
         $email = $request->get('email');
 

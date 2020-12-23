@@ -9,17 +9,14 @@ class PasswordResetCleanupService
 {
     const DAY_THRESHOLD = 14;
 
-    /**
-     * @var AccountPasswordResetRepository
-     */
-    private $passwordResetRepository;
+    private AccountPasswordResetRepository $passwordResetRepository;
 
     public function __construct(AccountPasswordResetRepository $passwordResetRepository)
     {
         $this->passwordResetRepository = $passwordResetRepository;
     }
 
-    public function cleanup()
+    public function cleanup(): void
     {
         Log::info('Running password reset cleanup service...');
 

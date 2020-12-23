@@ -13,7 +13,7 @@ class ApiController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected function validateRequest(array $requestData, array $rules, array $messages = [])
+    protected function validateRequest(array $requestData, array $rules, array $messages = []): void
     {
         $validator = Validator::make($requestData, $rules, $messages);
 

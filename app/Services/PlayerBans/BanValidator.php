@@ -13,13 +13,8 @@ final class BanValidator
     /**
      * Returns whether the given ServerKey has permission
      * to unban the given GameBan
-     *
-     * @param GameBan $ban
-     * @param ServerKey $serverKey
-     *
-     * @return bool
      */
-    public function isAllowedToUnban(GameBan $ban, ServerKey $serverKey)
+    public function isAllowedToUnban(GameBan $ban, ServerKey $serverKey): bool
     {
         if (! isset($serverKey)) {
             // this shouldn't be triggered unless the middleware has

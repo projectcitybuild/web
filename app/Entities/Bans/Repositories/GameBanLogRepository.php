@@ -9,10 +9,7 @@ use App\Entities\Bans\Models\GameBanLog;
  */
 final class GameBanLogRepository
 {
-    /**
-     * @var GameBanLog
-     */
-    private $model;
+    private GameBanLog $model;
 
     public function __construct(GameBanLog $model)
     {

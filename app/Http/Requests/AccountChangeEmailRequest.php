@@ -10,14 +10,9 @@ final class AccountChangeEmailRequest extends FormRequest
 {
     /**
      * The key to be used for the view error bag.
-     *
-     * @var string
      */
-    protected $errorBag = 'email';
-    /**
-     * @var AccountRepository
-     */
-    private $accountRepository;
+    protected string $errorBag = 'email';
+    private AccountRepository $accountRepository;
 
     public function __construct(AccountRepository $accountRepository)
     {
@@ -38,14 +33,10 @@ final class AccountChangeEmailRequest extends FormRequest
 
     /**
      * Configure the validator instance.
-     *
-     * @param  \Illuminate\Validation\Validator  $validator
-     *
-     * @return void
      */
-    public function withValidator($validator)
+    public function withValidator(\Illuminate\Validation\Validator $validator): void
     {
-        $validator->after(function ($validator) {
+        $validator->after(function ($validator): void {
             $input = $validator->getData();
             $email = $input['email'];
 
@@ -67,8 +58,6 @@ final class AccountChangeEmailRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -77,10 +66,8 @@ final class AccountChangeEmailRequest extends FormRequest
 
     /**
      * Redirect back to the form anchor
-     *
-     * @return string
      */
-    protected function getRedirectUrl()
+    protected function getRedirectUrl(): string
     {
         $url = $this->redirector->getUrlGenerator();
         return $url->previous() . '#change-email';

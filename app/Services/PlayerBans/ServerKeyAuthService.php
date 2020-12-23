@@ -10,10 +10,7 @@ use App\Services\PlayerBans\Exceptions\UnauthorisedTokenException;
 
 final class ServerKeyAuthService
 {
-    /**
-     * @var ServerKeyRepository
-     */
-    private $serverKeyRepository;
+    private ServerKeyRepository $serverKeyRepository;
 
     public function __construct(ServerKeyRepository $serverKeyRepository)
     {
@@ -27,8 +24,6 @@ final class ServerKeyAuthService
      * @param string $token     ServerKeyToken string
      *
      * @throws InvalidTokenException
-     *
-     * @return ServerKey
      */
     public function getServerKey(?string $authHeader): ServerKey
     {
@@ -48,8 +43,6 @@ final class ServerKeyAuthService
      * @param string $authHeader    String in the format of 'Bearer <token>'
      *
      * @throws MalformedTokenException
-     *
-     * @return string
      */
     private function getTokenBearer(?string $authHeader): string
     {

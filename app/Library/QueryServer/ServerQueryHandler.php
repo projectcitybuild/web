@@ -7,20 +7,11 @@ use Illuminate\Support\Facades\Log;
 
 class ServerQueryHandler
 {
-    /**
-     * @var ServerQueryAdapterContract
-     */
-    private $adapter;
+    private ServerQueryAdapterContract $adapter;
 
-    /**
-     * @var ServerStatusRepository
-     */
-    private $serverStatusRepository;
+    private ServerStatusRepository $serverStatusRepository;
 
-    /**
-     * @var int
-     */
-    private $lastCreatedId;
+    private int $lastCreatedId;
 
     public function __construct(ServerStatusRepository $serverStatusRepository)
     {
@@ -30,12 +21,8 @@ class ServerQueryHandler
     /**
      * Sets the adapter that will perform
      * the server query
-     *
-     * @param ServerQueryAdapterContract $adapter
-     *
-     * @return void
      */
-    public function setAdapter(ServerQueryAdapterContract $adapter)
+    public function setAdapter(ServerQueryAdapterContract $adapter): void
     {
         $this->adapter = $adapter;
     }
@@ -48,12 +35,6 @@ class ServerQueryHandler
     /**
      * Queries the given server address for
      * its current status and player data
-     *
-     * @param int $serverId
-     * @param string $ip
-     * @param string $port
-     *
-     * @return ServerQueryResult
      */
     public function queryServer(int $serverId, string $ip, string $port): ServerQueryResult
     {

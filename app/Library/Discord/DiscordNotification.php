@@ -6,10 +6,7 @@ use GuzzleHttp\Client;
 
 final class DiscordNotification
 {
-    /**
-     * @var Client
-     */
-    private $client;
+    private Client $client;
 
     public function __construct(Client $client)
     {
@@ -24,7 +21,7 @@ final class DiscordNotification
      * @param String $name      Discord channel to send to
      * @param String $message   Message to send
      */
-    public function sendToChannel(string $name, string $message)
+    public function sendToChannel(string $name, string $message): void
     {
         $endpoint = config('services.discord.webhook_url');
 

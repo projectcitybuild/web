@@ -6,24 +6,18 @@ class MojangPlayerNameChange
 {
     /**
      * In-game alias
-     *
-     * @var string
      */
-    private $alias;
+    private string $alias;
 
     /**
      * Timestamp of when this name was switched to
-     *
-     * @var int
      */
-    private $changedToAt;
+    private int $changedToAt;
 
     /**
      * Whether the alias is their current name in use
-     *
-     * @var bool
      */
-    private $isCurrent;
+    private bool $isCurrent;
 
     public function __construct(string $alias,
                                 ?int $changedToAt = null,

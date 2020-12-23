@@ -34,7 +34,7 @@ Route::get('/', [
     'uses' => 'HomeController@index',
 ]);
 
-Route::prefix('donate')->group(function () {
+Route::prefix('donate')->group(function (): void {
     Route::get('/', [
         'as' => 'front.donate',
         'uses' => 'DonationController@index',
@@ -50,7 +50,7 @@ Route::get('sso/discourse', [
     'uses' => 'DiscourseSSOController@create',
 ])->middleware('auth');
 
-Route::prefix('login')->group(function () {
+Route::prefix('login')->group(function (): void {
     Route::get('/', [
         'as' => 'front.login',
         'uses' => 'LoginController@create',
@@ -61,7 +61,7 @@ Route::prefix('login')->group(function () {
     ]);
 });
 
-Route::prefix('password-reset')->group(function () {
+Route::prefix('password-reset')->group(function (): void {
     Route::get('/', [
         'as' => 'front.password-reset.create',
         'uses' => 'PasswordResetController@create',
@@ -83,7 +83,7 @@ Route::prefix('password-reset')->group(function () {
     ]);
 });
 
-Route::prefix('register')->group(function () {
+Route::prefix('register')->group(function (): void {
     Route::get('/', [
         'as' => 'front.register',
         'uses' => 'RegisterController@showRegisterView',
@@ -107,8 +107,8 @@ Route::get('logout', [
     'uses' => 'LoginController@logout',
 ]);
 
-Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Settings'], function () {
-    Route::prefix('settings')->group(function () {
+Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Settings'], function (): void {
+    Route::prefix('settings')->group(function (): void {
         Route::get('/', [
             'as' => 'front.account.settings',
             'uses' => 'AccountSettingController@showView',
@@ -140,14 +140,14 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Set
         ]);
     });
 
-    Route::prefix('donations')->group(function () {
+    Route::prefix('donations')->group(function (): void {
         Route::get('/', [
             'as' => 'front.account.donations',
             'uses' => 'AccountDonationController@index',
         ]);
     });
 
-    Route::prefix('games')->group(function () {
+    Route::prefix('games')->group(function (): void {
         Route::get('/', [
             'as' => 'front.account.games',
             'uses' => 'AccountGameAccountController@index',
@@ -161,7 +161,7 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Set
     });
 });
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth'], function (): void {
     Route::get('auth/minecraft/{token}', [
         'as' => 'front.auth.minecraft.token',
         'uses' => 'MinecraftPlayerLinkController@index',
@@ -170,14 +170,14 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('bans', 'BanlistController@index')->name('front.banlist');
 
-Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel', 'middleware' => 'panel'], function () {
+Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel', 'middleware' => 'panel'], function (): void {
     Route::view('/', 'front.pages.panel');
 
     Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);
     Route::resource('donations', 'DonationController')->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
     Route::resource('donation-perks', 'DonationPerksController')->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 
-    Route::group(['prefix' => 'accounts/{account}', 'as' => 'accounts.'], function () {
+    Route::group(['prefix' => 'accounts/{account}', 'as' => 'accounts.'], function (): void {
         Route::get('discourse-admin', [
             'as' => 'discourse-admin-redirect',
             'uses' => 'AccountDiscourseAdminRedirect',

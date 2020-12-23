@@ -11,10 +11,8 @@ class DonationController extends WebController
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\Http\Response
     {
         $donations = Donation::with('account')->orderBy('created_at', 'desc')->paginate(100);
         return view('front.pages.panel.donations.index')->with(compact('donations'));
@@ -22,22 +20,16 @@ class DonationController extends WebController
 
     /**
      * Show the form for creating the specified resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request): \Illuminate\Http\Response
     {
         return view('front.pages.panel.donations.create');
     }
 
     /**
      * Add a specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\Response
     {
         $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric|gt:0',
@@ -63,25 +55,16 @@ class DonationController extends WebController
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Entities\Donations\Models\Donation  $donation
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function edit(Donation $donation)
+    public function edit(Donation $donation): \Illuminate\Http\Response
     {
         return view('front.pages.panel.donations.edit')->with(compact('donation'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Donations\Models\Donation   $donation
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Donation $donation)
+    public function update(Request $request, Donation $donation): \Illuminate\Http\Response
     {
         $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric|gt:0',
@@ -103,13 +86,8 @@ class DonationController extends WebController
 
     /**
      * Delete the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Donations\Models\Donation   $donation
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Donation $donation)
+    public function destroy(Request $request, Donation $donation): \Illuminate\Http\Response
     {
         $donation->delete();
         return redirect(route('front.panel.donations.index'));

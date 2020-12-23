@@ -15,15 +15,10 @@ final class ServerQueryJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * @var ServerJobEntity
-     */
-    private $entity;
+    private ServerJobEntity $entity;
 
     /**
      * Create a new job instance.
-     *
-     * @param ServerJobEntity $entity
      */
     public function __construct(ServerJobEntity $entity)
     {
@@ -32,12 +27,8 @@ final class ServerQueryJob implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @param ServerQueryHandler $serverQueryHandler
-     *
-     * @return void
      */
-    public function handle(ServerQueryHandler $serverQueryHandler, ServerQueryService $serverQueryService)
+    public function handle(ServerQueryHandler $serverQueryHandler, ServerQueryService $serverQueryService): void
     {
         $serverQueryHandler->setAdapter($this->entity->getServerQueryAdapter());
 

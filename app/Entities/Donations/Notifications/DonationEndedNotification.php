@@ -26,7 +26,7 @@ class DonationEndedNotification extends Notification
      *
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return ['mail'];
     }
@@ -35,10 +35,8 @@ class DonationEndedNotification extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     *
-     * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail($notifiable): \Illuminate\Notifications\Messages\MailMessage
     {
         return (new MailMessage())
             ->subject('Your Donation has Ended')
@@ -55,7 +53,7 @@ class DonationEndedNotification extends Notification
      *
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray($notifiable): array
     {
         return [
 

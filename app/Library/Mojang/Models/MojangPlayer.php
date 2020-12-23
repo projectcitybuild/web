@@ -6,31 +6,23 @@ class MojangPlayer
 {
     /**
      * Player's unique Mojang identifier (UUID)
-     *
-     * @var string
      */
-    private $uuid;
+    private string $uuid;
 
     /**
      * Player's in-game name
-     *
-     * @var string
      */
-    private $alias;
+    private string $alias;
 
     /**
      * Whether the account has not migrated to a Mojang account
-     *
-     * @var bool
      */
-    private $isLegacyAccount;
+    private bool $isLegacyAccount;
 
     /**
      * Whether the account is a free account (ie. unpaid)
-     *
-     * @var bool
      */
-    private $isDemoAccount;
+    private bool $isDemoAccount;
 
     public function __construct(string $uuid,
                                 string $alias,

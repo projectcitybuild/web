@@ -11,17 +11,13 @@ final class RepairMissingGroupsCommand extends Command
 {
     /**
      * The name and signature of the console command.
-     *
-     * @var string
      */
-    protected $signature = 'groups:assign';
+    protected string $signature = 'groups:assign';
 
     /**
      * The console command description.
-     *
-     * @var string
      */
-    protected $description = 'Finds any accounts without a group assigned, and assigns them to the default groups';
+    protected string $description = 'Finds any accounts without a group assigned, and assigns them to the default groups';
 
     /**
      * Execute the console command.
@@ -42,7 +38,7 @@ final class RepairMissingGroupsCommand extends Command
         $progressBar = $this->output->createProgressBar(count($accountsWithoutGroups));
         $progressBar->start();
 
-        DB::transaction(function () use ($accountsWithoutGroups, $defaultGroupIds, &$progressBar) {
+        DB::transaction(function () use ($accountsWithoutGroups, $defaultGroupIds, &$progressBar): void {
             foreach ($accountsWithoutGroups as $account) {
                 $account->groups()->attach($defaultGroupIds);
                 $progressBar->advance();

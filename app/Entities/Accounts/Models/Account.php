@@ -127,8 +127,6 @@ final class Account extends Authenticatable
      * Gets an URL to the 'email change verification'
      * route with a signed signature to prevent
      * tampering
-     *
-     * @return string
      */
     public function getEmailChangeVerificationUrl(string $newEmail): string
     {
@@ -141,8 +139,6 @@ final class Account extends Authenticatable
     /**
      * Gets an URL to the activation route with a
      * signed signature to prevent tampering
-     *
-     * @return string
      */
     public function getActivationUrl(): string
     {
@@ -151,7 +147,7 @@ final class Account extends Authenticatable
         ]);
     }
 
-    public function updateLastLogin($ip)
+    public function updateLastLogin($ip): void
     {
         $this->last_login_ip = $ip;
         $this->last_login_at = Carbon::now();

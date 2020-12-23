@@ -14,7 +14,7 @@ class ExceptionHandler extends Handler
      *
      * @var array
      */
-    protected $dontReport = [
+    protected array $dontReport = [
         \Illuminate\Auth\AuthenticationException::class,
         \Illuminate\Auth\Access\AuthorizationException::class,
         \Symfony\Component\HttpKernel\Exception\HttpException::class,
@@ -33,7 +33,7 @@ class ExceptionHandler extends Handler
      *
      * @var array
      */
-    protected $dontFlash = [
+    protected array $dontFlash = [
         'password',
         'password_confirmation',
     ];
@@ -43,13 +43,9 @@ class ExceptionHandler extends Handler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param Throwable $exception
-     *
-     * @return void
-     *
      * @throws Throwable
      */
-    public function report(Throwable $exception)
+    public function report(Throwable $exception): void
     {
         if (Environment::isStaging() || Environment::isProduction()) {
             if (app()->bound('sentry') && $this->shouldReport($exception)) {
@@ -63,12 +59,9 @@ class ExceptionHandler extends Handler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function render($request, Throwable $exception)
+    public function render(\Illuminate\Http\Request $request, Throwable $exception): \Illuminate\Http\Response
     {
         // output exceptions in our API as JSON
         if ($request->is('api/*') && $exception instanceof BaseHttpException) {

@@ -11,20 +11,11 @@ class TokenRate
     public const HOURS = 3600.0;
     public const DAYS = 86400.0;
 
-    /**
-     * @var float
-     */
-    private $tokensToRefill;
+    private float $tokensToRefill;
 
-    /**
-     * @var float
-     */
-    private $interval;
+    private float $interval;
 
-    /**
-     * @var float
-     */
-    private $rate;
+    private float $rate;
 
     private function __construct(float $tokensToRefill)
     {
@@ -43,10 +34,6 @@ class TokenRate
 
     /**
      * Number of tokens to refill each time
-     *
-     * @param float $tokensToRefill
-     *
-     * @return TokenRate
      */
     public static function refill(float $tokensToRefill): TokenRate
     {
@@ -56,11 +43,6 @@ class TokenRate
     /**
      * Specifies the amount of time to
      * wait between refills
-     *
-     * @param float $interval
-     * @param int $rate
-     *
-     * @return TokenRate
      */
     public function every(float $interval, int $rate): TokenRate
     {

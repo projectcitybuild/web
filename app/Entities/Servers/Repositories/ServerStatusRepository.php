@@ -15,20 +15,12 @@ class ServerStatusRepository extends Repository
 
     /**
      * Creates a new server status
-     *
-     * @param int $serverId
-     * @param bool $isOnline
-     * @param int $numOfPlayers
-     * @param int $numOfSlots
-     * @param int $createdAt
-     *
-     * @return void
      */
     public function create(int $serverId,
                            bool $isOnline,
                            int $numOfPlayers,
                            int $numOfSlots,
-                           int $createdAt)
+                           int $createdAt): void
     {
         return $this->getModel()->create([
             'server_id' => $serverId,

@@ -4,15 +4,9 @@ namespace App\Exceptions\Http;
 
 abstract class BaseHttpException extends \Exception
 {
-    /**
-     * @var string
-     */
-    protected $id;
+    protected string $id;
 
-    /**
-     * @var int
-     */
-    protected $status;
+    protected int $status;
 
     public function __construct($id, $message)
     {
@@ -23,8 +17,6 @@ abstract class BaseHttpException extends \Exception
 
     /**
      * Returns the unique identifier for this exception
-     *
-     * @return string
      */
     public function getId(): string
     {
@@ -33,10 +25,8 @@ abstract class BaseHttpException extends \Exception
 
     /**
      * Returns a HTTP code (eg. 400, 404)
-     *
-     * @return void
      */
-    public function getStatusCode()
+    public function getStatusCode(): void
     {
         return $this->status;
     }

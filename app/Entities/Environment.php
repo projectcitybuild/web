@@ -4,15 +4,9 @@ namespace App\Entities;
 
 final class Environment
 {
-    /**
-     * @var EnvironmentLevel
-     */
-    private static $forcedLevel;
+    private static EnvironmentLevel $forcedLevel;
 
-    /**
-     * @var EnvironmentLevel
-     */
-    private static $level;
+    private static EnvironmentLevel $level;
 
     private function __construct()
     {
@@ -34,17 +28,13 @@ final class Environment
     /**
      * Overrides the Environment level for
      * the current request
-     *
-     * @param EnvironmentLevel $level
-     *
-     * @return void
      */
-    public static function overrideLevel(EnvironmentLevel $level)
+    public static function overrideLevel(EnvironmentLevel $level): void
     {
         self::$forcedLevel = $level;
     }
 
-    public static function resetLevel()
+    public static function resetLevel(): void
     {
         self::$forcedLevel = null;
         self::$level = null;

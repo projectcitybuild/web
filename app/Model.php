@@ -17,8 +17,6 @@ class Model extends EloquentModel
 {
     /**
      * Returns the name of the table this model uses
-     *
-     * @return string
      */
     public static function getTableName(): string
     {

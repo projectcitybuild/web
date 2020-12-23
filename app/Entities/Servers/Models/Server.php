@@ -37,8 +37,6 @@ final class Server extends Model
 
     /**
      * Gets the ip address of the server (with port depending on availability)
-     *
-     * @return string
      */
     public function getAddress(): string
     {

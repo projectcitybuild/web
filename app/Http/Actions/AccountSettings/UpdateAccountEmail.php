@@ -17,7 +17,7 @@ final class UpdateAccountEmail
         $this->discourseAdminApi = $discourseAdminApi;
     }
 
-    public function execute(Account $account, AccountEmailChange $emailChangeRequest)
+    public function execute(Account $account, AccountEmailChange $emailChangeRequest): void
     {
         $newEmailAddress = $emailChangeRequest->email_new;
 
@@ -42,7 +42,7 @@ final class UpdateAccountEmail
         }
     }
 
-    private function updateDiscourseAccount(Account $account, string $newEmailAddress)
+    private function updateDiscourseAccount(Account $account, string $newEmailAddress): void
     {
         $payload = (new DiscoursePayload())
             ->setPcbId($account->getKey())

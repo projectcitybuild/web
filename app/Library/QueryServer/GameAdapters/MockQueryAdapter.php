@@ -7,25 +7,16 @@ use App\Library\QueryServer\ServerQueryResult;
 
 final class MockQueryAdapter implements ServerQueryAdapterContract
 {
-    /**
-     * @var bool
-     */
-    private $isOnline = false;
+    private bool $isOnline = false;
 
-    /**
-     * @var int
-     */
-    private $playerCount = 0;
+    private int $playerCount = 0;
 
-    /**
-     * @var int
-     */
-    private $maxPlayers = 0;
+    private int $maxPlayers = 0;
 
     /**
      * @var array
      */
-    private $players = [];
+    private array $players = [];
 
     public function setIsOnline(bool $isOnline): MockQueryAdapter
     {

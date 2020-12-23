@@ -8,27 +8,21 @@ use App\Library\Discourse\Entities\DiscoursePayload;
 
 class SyncUserToDiscourse
 {
-    /**
-     * @var Account
-     */
-    private $account;
+    private Account $account;
 
-    /**
-     * @var DiscourseAdminApi
-     */
-    private $discourseAdminApi;
+    private DiscourseAdminApi $discourseAdminApi;
 
     public function __construct(DiscourseAdminApi $discourseAdminApi)
     {
         $this->discourseAdminApi = $discourseAdminApi;
     }
 
-    public function setUser($account)
+    public function setUser($account): void
     {
         $this->account = $account;
     }
 
-    public function syncAll()
+    public function syncAll(): void
     {
         $payload = (new DiscoursePayload())
             ->setPcbId($this->account->getKey())

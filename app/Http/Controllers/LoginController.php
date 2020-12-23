@@ -19,25 +19,13 @@ use Illuminate\Validation\ValidationException;
 
 final class LoginController extends WebController
 {
-    /**
-     * @var DiscourseAdminApi
-     */
-    private $discourseAdminApi;
+    private DiscourseAdminApi $discourseAdminApi;
 
-    /**
-     * @var AccountRepository
-     */
-    private $accountRepository;
+    private AccountRepository $accountRepository;
 
-    /**
-     * @var LogoutService
-     */
-    private $logoutService;
+    private LogoutService $logoutService;
 
-    /**
-     * @var AuthGuard
-     */
-    private $auth;
+    private AuthGuard $auth;
 
     public function __construct(
         DiscourseAdminApi $discourseAdminApi,
@@ -109,12 +97,8 @@ final class LoginController extends WebController
      * Logs out the current PCB account
      *
      * (called from Discourse)
-     *
-     * @param Request $request
-     *
-     * @return void
      */
-    public function logoutFromDiscourse(Request $request)
+    public function logoutFromDiscourse(Request $request): void
     {
         $this->logoutService->logoutOfPCB();
 
@@ -126,12 +110,8 @@ final class LoginController extends WebController
      * its associated Discourse account
      *
      * (called from this site)
-     *
-     * @param Request $request
-     *
-     * @return void
      */
-    public function logout(Request $request)
+    public function logout(Request $request): void
     {
         $this->logoutService->logoutOfDiscourseAndPCB();
 

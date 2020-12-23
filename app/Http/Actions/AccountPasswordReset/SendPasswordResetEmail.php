@@ -10,7 +10,7 @@ use Illuminate\Support\Carbon;
 
 final class SendPasswordResetEmail
 {
-    public function execute(Account $account, string $email)
+    public function execute(Account $account, string $email): void
     {
         $passwordReset = AccountPasswordReset::updateOrCreate([
             'email' => $email,

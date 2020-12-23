@@ -11,10 +11,7 @@ use Illuminate\Http\Request;
 
 final class DiscordSyncController extends ApiController
 {
-    /**
-     * @var AccountLinkRepository
-     */
-    private $accountLinkRepository;
+    private AccountLinkRepository $accountLinkRepository;
 
     public function __construct(AccountLinkRepository $accountLinkRepository)
     {

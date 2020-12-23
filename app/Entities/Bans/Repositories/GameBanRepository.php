@@ -18,18 +18,8 @@ final class GameBanRepository extends Repository
     /**
      * Stores a new GameBan
      *
-     * @param int $serverId
-     * @param int $bannedPlayerId
      * @param string $bannedPlayerType
-     * @param string $bannedAliasAtTime
-     * @param int $staffPlayerId
      * @param string $staffPlayerType
-     * @param string|null $reason
-     * @param bool $isActive
-     * @param bool $isGlobalBan
-     * @param int|null $expiresAt
-     *
-     * @return GameBan
      */
     public function store(
         int $serverId,
@@ -61,11 +51,7 @@ final class GameBanRepository extends Repository
      * Gets the first active ban for the given game user id.
      * If a server id is not specified, searches only for global bans
      *
-     * @param int $bannedPlayerId
      * @param string $bannedPlayerType
-     * @param int $serverId
-     *
-     * @return GameBan|null
      */
     public function getActiveBanByGameUserId(
         int $bannedPlayerId,
@@ -92,12 +78,8 @@ final class GameBanRepository extends Repository
 
     /**
      * Sets the given ban as inactive
-     *
-     * @param int $banId
-     *
-     * @return void
      */
-    public function deactivateBan(int $banId)
+    public function deactivateBan(int $banId): void
     {
         return $this->getModel()
             ->where('game_ban_id', $banId)
@@ -109,14 +91,10 @@ final class GameBanRepository extends Repository
     /**
      * Returns a collection of GameBans
      *
-     * @param int $take
-     * @param int $offset
      * @param array $sort
      * @param array $filter
-     *
-     * @return void
      */
-    public function getBans(int $take = 50, int $offset = 0, ?array $sort = null, array $filter = [])
+    public function getBans(int $take = 50, int $offset = 0, ?array $sort = null, array $filter = []): void
     {
         return $this->getModel()
             ->when(count($filter) > 0, function ($q) use ($filter) {
@@ -129,7 +107,7 @@ final class GameBanRepository extends Repository
                 return $q;
             })
             ->when(array_key_exists('banned_alias', $filter), function ($q) use ($filter) {
-                return $q->whereHas('bannedAlias', function ($sq) use ($filter) {
+                return $q->whereHas('bannedAlias', function ($sq) use ($filter): void {
                     $sq->where('alias', $filter['banned_alias']);
                 });
             })

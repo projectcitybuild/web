@@ -15,12 +15,6 @@ final class GameUnbanRepository extends Repository
 
     /**
      * Stores a new GameUnban
-     *
-     * @param int $banId
-     * @param int $staffPlayerId
-     * @param GamePlayerType $staffPlayerType
-     *
-     * @return GameUnban
      */
     public function store(int $banId, int $staffPlayerId, GamePlayerType $staffPlayerType): GameUnban
     {

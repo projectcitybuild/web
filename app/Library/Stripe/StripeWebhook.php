@@ -60,12 +60,12 @@ final class StripeWebhook
         return $this->amountInCents;
     }
 
-    public function setAmountInCents(int $amountInCents)
+    public function setAmountInCents(int $amountInCents): void
     {
         $this->amountInCents = $amountInCents;
     }
 
-    public function setSessionId(string $sessionId)
+    public function setSessionId(string $sessionId): void
     {
         $this->sessionId = $sessionId;
     }

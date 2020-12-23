@@ -14,20 +14,11 @@ use Illuminate\Database\Connection;
  */
 class MinecraftPlayerLookupService
 {
-    /**
-     * @var MinecraftPlayerRepository
-     */
-    private $playerRepository;
+    private MinecraftPlayerRepository $playerRepository;
 
-    /**
-     * @var MinecraftPlayerAliasRepository
-     */
-    private $aliasRepository;
+    private MinecraftPlayerAliasRepository $aliasRepository;
 
-    /**
-     * @var Connection
-     */
-    private $connection;
+    private Connection $connection;
 
     public function __construct(MinecraftPlayerRepository $playerRepository,
                                 MinecraftPlayerAliasRepository $aliasRepository,
@@ -56,11 +47,6 @@ class MinecraftPlayerLookupService
     /**
      * Gets a MinecraftPlayer by uuid. If the uuid doesn't match
      * a player, the player is created first
-     *
-     * @param string $uuid
-     * @param string|null $createAlias
-     *
-     * @return MinecraftPlayer
      */
     public function getOrCreateByUuid(string $uuid, ?string $createAlias = null): MinecraftPlayer
     {

@@ -22,10 +22,8 @@ final class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->bind(ServerCategoryRepositoryContract::class, function ($app) {
             return new ServerCategoryRepositoryCache(
@@ -42,10 +40,8 @@ final class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Schema::defaultStringLength(191);
 

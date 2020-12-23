@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
-Artisan::command('cleanup:password-resets', function () {
+Artisan::command('cleanup:password-resets', function (): void {
     $cleanupService = resolve(PasswordResetCleanupService::class);
     $cleanupService->cleanup();
 })->describe('Delete old password reset requests');

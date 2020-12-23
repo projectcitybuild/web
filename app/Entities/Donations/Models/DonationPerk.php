@@ -13,24 +13,20 @@ final class DonationPerk extends Model
 
     /**
      * The table associated with the model.
-     *
-     * @var string
      */
-    protected $table = 'donation_perks';
+    protected string $table = 'donation_perks';
 
     /**
      * The primary key associated with the table.
-     *
-     * @var string
      */
-    protected $primaryKey = 'donation_perks_id';
+    protected string $primaryKey = 'donation_perks_id';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'donation_id',
         'account_id',
         'is_lifetime_perks',
@@ -45,14 +41,14 @@ final class DonationPerk extends Model
      *
      * @var array
      */
-    protected $hidden = [];
+    protected array $hidden = [];
 
     /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
-    protected $dates = [
+    protected array $dates = [
         'expires_at',
         'created_at',
         'updated_at',
@@ -63,7 +59,7 @@ final class DonationPerk extends Model
      *
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'is_active' => 'boolean',
         'is_lifetime_perks' => 'boolean',
     ];

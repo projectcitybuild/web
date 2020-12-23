@@ -4,15 +4,9 @@ namespace App\Library\Discourse\Entities;
 
 final class DiscourseNonce
 {
-    /**
-     * @var string
-     */
-    private $nonce;
+    private string $nonce;
 
-    /**
-     * @var string
-     */
-    private $redirectUri;
+    private string $redirectUri;
 
     public function __construct(string $nonce, string $redirectUri)
     {

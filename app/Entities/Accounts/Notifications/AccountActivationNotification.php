@@ -11,15 +11,10 @@ final class AccountActivationNotification extends Notification
 {
     use Queueable;
 
-    /**
-     * @var Account
-     */
-    private $account;
+    private Account $account;
 
     /**
      * Create a new notification instance.
-     *
-     * @param Account $account
      */
     public function __construct(Account $account)
     {
@@ -33,7 +28,7 @@ final class AccountActivationNotification extends Notification
      *
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return ['mail'];
     }
@@ -42,10 +37,8 @@ final class AccountActivationNotification extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     *
-     * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail($notifiable): \Illuminate\Notifications\Messages\MailMessage
     {
         $url = $this->account->getActivationUrl();
 
@@ -67,7 +60,7 @@ final class AccountActivationNotification extends Notification
      *
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray($notifiable): array
     {
         return [
 

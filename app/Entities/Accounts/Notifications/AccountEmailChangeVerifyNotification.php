@@ -14,20 +14,12 @@ final class AccountEmailChangeVerifyNotification extends Notification
      * Whether this recipient is the
      * old email address (the address
      * before it was changed)
-     *
-     * @var bool
      */
-    public $isOldEmailAddress = false;
+    public bool $isOldEmailAddress = false;
 
-    /**
-     * @var string
-     */
-    private $email;
+    private string $email;
 
-    /**
-     * @var string
-     */
-    private $confirmLink;
+    private string $confirmLink;
 
     /**
      * Create a new message instance.
@@ -47,7 +39,7 @@ final class AccountEmailChangeVerifyNotification extends Notification
      *
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return ['mail'];
     }
@@ -56,10 +48,8 @@ final class AccountEmailChangeVerifyNotification extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     *
-     * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail($notifiable): \Illuminate\Notifications\Messages\MailMessage
     {
         $message = (new MailMessage())
             ->subject('Email Address Change was Requested')
@@ -91,7 +81,7 @@ final class AccountEmailChangeVerifyNotification extends Notification
      *
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray($notifiable): array
     {
         return [];
     }

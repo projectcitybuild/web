@@ -9,20 +9,13 @@ abstract class Repository
     /**
      * Namespace that resolves to a model.
      * Each repository should override this property.
-     *
-     * @var string
      */
-    protected $model;
+    protected string $model;
 
-    /**
-     * @var Model
-     */
-    private $instance;
+    private Model $instance;
 
     /**
      * Returns an instance of the model
-     *
-     * @return Model
      */
     public function getModel(): Model
     {

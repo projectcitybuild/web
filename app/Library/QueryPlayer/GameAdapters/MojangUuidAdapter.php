@@ -9,15 +9,9 @@ use App\Library\QueryPlayer\PlayerQueryAdapterContract;
 
 final class MojangUuidAdapter implements PlayerQueryAdapterContract
 {
-    /**
-     * @var MojangPlayerApi
-     */
-    private $mojangPlayerApi;
+    private MojangPlayerApi $mojangPlayerApi;
 
-    /**
-     * @var MinecraftPlayerLookupService
-     */
-    private $userLookupService;
+    private MinecraftPlayerLookupService $userLookupService;
 
     public function __construct(
         MojangPlayerApi $mojangPlayerApi,

@@ -23,11 +23,6 @@ class MojangPlayerApi
      *
      * If no time given, uses the current time.
      *
-     * @param string $name
-     * @param int|null $time
-     *
-     * @return MojangPlayer
-     *
      * @throws TooManyRequestsException
      */
     public function getUuidOf(string $name, ?int $time = null): ?MojangPlayer
@@ -69,8 +64,6 @@ class MojangPlayerApi
      * the given name, regardless of who currently owns it now.
      *
      * @param $name
-     *
-     * @return MojangPlayer
      *
      * @throws TooManyRequestsException
      */

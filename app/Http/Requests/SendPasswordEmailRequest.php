@@ -8,15 +8,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 final class SendPasswordEmailRequest extends FormRequest
 {
-    /**
-     * @var Account
-     */
-    private $account;
+    private Account $account;
 
-    /**
-     * @var AccountRepository
-     */
-    private $accountRepository;
+    private AccountRepository $accountRepository;
 
     public function __construct(AccountRepository $accountRepository)
     {
@@ -43,18 +37,14 @@ final class SendPasswordEmailRequest extends FormRequest
 
     /**
      * Configure the validator instance.
-     *
-     * @param  \Illuminate\Validation\Validator  $validator
-     *
-     * @return void
      */
-    public function withValidator($validator)
+    public function withValidator(\Illuminate\Validation\Validator $validator): void
     {
         if ($validator->failed()) {
             return;
         }
 
-        $validator->after(function ($validator) {
+        $validator->after(function ($validator): void {
             $input = $validator->getData();
             $email = $input['email'];
 
@@ -70,8 +60,6 @@ final class SendPasswordEmailRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {

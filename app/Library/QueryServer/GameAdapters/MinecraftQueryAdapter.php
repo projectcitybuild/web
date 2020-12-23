@@ -9,10 +9,7 @@ use xPaw\MinecraftQueryException;
 
 final class MinecraftQueryAdapter implements ServerQueryAdapterContract
 {
-    /**
-     * @var MinecraftQuery
-     */
-    private $queryService;
+    private MinecraftQuery $queryService;
 
     public function __construct(MinecraftQuery $queryService)
     {

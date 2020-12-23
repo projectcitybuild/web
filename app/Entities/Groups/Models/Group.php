@@ -11,16 +11,12 @@ final class Group extends Model
 
     /**
      * Indicates if the model should be timestamped.
-     *
-     * @var bool
      */
-    public $timestamps = false;
+    public bool $timestamps = false;
     /**
      * The table associated with the model.
-     *
-     * @var string
      */
-    protected $table = 'groups';
+    protected string $table = 'groups';
 
     protected $primaryKey = 'group_id';
 
@@ -29,7 +25,7 @@ final class Group extends Model
      *
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'name',
         'alias',
         'is_default',
@@ -44,5 +40,5 @@ final class Group extends Model
      *
      * @var array
      */
-    protected $hidden = [];
+    protected array $hidden = [];
 }

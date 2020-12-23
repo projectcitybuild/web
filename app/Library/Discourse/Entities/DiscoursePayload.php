@@ -4,45 +4,21 @@ namespace App\Library\Discourse\Entities;
 
 final class DiscoursePayload
 {
-    /**
-     * @var string
-     */
-    private $nonce;
+    private string $nonce;
 
-    /**
-     * @var int
-     */
-    private $pcbId;
+    private int $pcbId;
 
-    /**
-     * @var string
-     */
-    private $email;
+    private string $email;
 
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var string
-     */
-    private $username;
+    private string $username;
 
-    /**
-     * @var string
-     */
-    private $avatarUrl;
+    private string $avatarUrl;
 
-    /**
-     * @var bool
-     */
-    private $requiresActivation;
+    private bool $requiresActivation;
 
-    /**
-     * @var string
-     */
-    private $groups;
+    private string $groups;
 
     public function __construct(?string $nonce = null)
     {
@@ -87,8 +63,6 @@ final class DiscoursePayload
 
     /**
      * Comma separated list of group slugs
-     *
-     * @param string $groups
      *
      * @return $this
      */

@@ -26,10 +26,8 @@ final class Donation extends Model
 
     /**
      * The table associated with the model.
-     *
-     * @var string
      */
-    protected $table = 'donations';
+    protected string $table = 'donations';
 
     protected $primaryKey = 'donation_id';
 
@@ -38,7 +36,7 @@ final class Donation extends Model
      *
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'account_id',
         'amount',
         'created_at',
@@ -50,7 +48,7 @@ final class Donation extends Model
      *
      * @var array
      */
-    protected $hidden = [];
+    protected array $hidden = [];
 
     protected $dates = [
         'created_at',

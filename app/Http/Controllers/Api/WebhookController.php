@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 final class WebhookController extends ApiController
 {
-    public function stripe(Request $request, StripeHandler $stripeHandler)
+    public function stripe(Request $request, StripeHandler $stripeHandler): void
     {
         $endpointSecret = config('services.stripe.webhook.secret');
         $payload = $request->getContent();

@@ -10,10 +10,8 @@ class PanelUpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         // TODO: Check user has permissions to update users
         return true;
@@ -24,7 +22,7 @@ class PanelUpdateUserRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'email' => ['required', 'email', Rule::unique('accounts')->ignore($this->route('account'), 'account_id')],

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 
 final class UpdateAccountPassword
 {
-    public function execute(Account $account, string $newPassword)
+    public function execute(Account $account, string $newPassword): void
     {
         if (empty($newPassword)) {
             throw new \Exception('New password cannot be empty');

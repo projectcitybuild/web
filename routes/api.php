@@ -12,18 +12,18 @@
 */
 
 // Webhook subscribers
-Route::prefix('webhooks')->group(function () {
+Route::prefix('webhooks')->group(function (): void {
     Route::post('stripe', 'WebhookController@stripe');
 });
 
-Route::prefix('bans')->group(function () {
+Route::prefix('bans')->group(function (): void {
     Route::post('list', 'GameBanController@getBanList');
     Route::post('store/ban', 'GameBanController@storeBan');
     Route::post('store/unban', 'GameBanController@storeUnban');
     Route::post('status', 'GameBanController@getPlayerStatus');
 });
 
-Route::prefix('auth')->group(function () {
+Route::prefix('auth')->group(function (): void {
     Route::post('minecraft', [
         'as' => 'auth.minecraft.store',
         'uses' => 'MinecraftAuthTokenController@store',
@@ -34,14 +34,14 @@ Route::prefix('auth')->group(function () {
     ]);
 });
 
-Route::prefix('donations')->group(function () {
+Route::prefix('donations')->group(function (): void {
     Route::get('create', [
         'as' => 'donations.create',
         'uses' => 'DonationController@create',
     ]);
 });
 
-Route::prefix('groups')->group(function () {
+Route::prefix('groups')->group(function (): void {
     Route::get('/', 'GroupApiController@getAll');
 });
 

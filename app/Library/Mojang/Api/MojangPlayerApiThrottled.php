@@ -15,10 +15,7 @@ use App\Library\RateLimit\TokenRate;
  */
 class MojangPlayerApiThrottled extends MojangPlayerApi
 {
-    /**
-     * @var TokenBucket
-     */
-    private $tokenBucket;
+    private TokenBucket $tokenBucket;
 
     public function getUuidOf(string $name, ?int $time = null): ?MojangPlayer
     {

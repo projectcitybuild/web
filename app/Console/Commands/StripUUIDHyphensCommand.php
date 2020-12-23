@@ -13,17 +13,13 @@ final class StripUUIDHyphensCommand extends Command
 {
     /**
      * The name and signature of the console command.
-     *
-     * @var string
      */
-    protected $signature = 'uuid:repair';
+    protected string $signature = 'uuid:repair';
 
     /**
      * The console command description.
-     *
-     * @var string
      */
-    protected $description = 'Iterates through every registered Minecraft UUID and strips the hyphens from it. If a stripped version already exists, it combines the records with it';
+    protected string $description = 'Iterates through every registered Minecraft UUID and strips the hyphens from it. If a stripped version already exists, it combines the records with it';
 
     /**
      * Execute the console command.
@@ -37,7 +33,7 @@ final class StripUUIDHyphensCommand extends Command
         $progressBar = $this->output->createProgressBar(count($playersWithHyphenUuids));
         $progressBar->start();
 
-        DB::transaction(function () use ($playersWithHyphenUuids, &$progressBar) {
+        DB::transaction(function () use ($playersWithHyphenUuids, &$progressBar): void {
             foreach ($playersWithHyphenUuids as $unstrippedPlayer) {
                 // Check if an account exists with the UUID stripped
                 $newUuid = str_replace('-', '', $unstrippedPlayer->uuid);

@@ -11,14 +11,9 @@ class AccountChangePasswordRequest extends FormRequest
 {
     /**
      * The key to be used for the view error bag.
-     *
-     * @var string
      */
-    protected $errorBag = 'password';
-    /**
-     * @var AccountRepository
-     */
-    private $accountRepository;
+    protected string $errorBag = 'password';
+    private AccountRepository $accountRepository;
 
     public function __construct(AccountRepository $accountRepository)
     {
@@ -41,18 +36,14 @@ class AccountChangePasswordRequest extends FormRequest
 
     /**
      * Configure the validator instance.
-     *
-     * @param  \Illuminate\Validation\Validator  $validator
-     *
-     * @return void
      */
-    public function withValidator($validator)
+    public function withValidator(\Illuminate\Validation\Validator $validator): void
     {
         if ($validator->failed()) {
             return;
         }
 
-        $validator->after(function ($validator) {
+        $validator->after(function ($validator): void {
             $input = $validator->getData();
             $password = $input['old_password'];
 
@@ -66,8 +57,6 @@ class AccountChangePasswordRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -76,10 +65,8 @@ class AccountChangePasswordRequest extends FormRequest
 
     /**
      * Redirect back to the form anchor
-     *
-     * @return string
      */
-    protected function getRedirectUrl()
+    protected function getRedirectUrl(): string
     {
         $url = $this->redirector->getUrlGenerator();
         return $url->previous() . '#change-password';

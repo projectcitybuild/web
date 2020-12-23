@@ -79,10 +79,6 @@ return [
         ForbiddenDefineFunctions::class,
         ForbiddenNormalClasses::class,
         ForbiddenTraits::class,
-        ParameterTypeHintSniff::class,
-        PropertyTypeHintSniff::class,
-        ReturnTypeHintSniff::class,
-        UselessFunctionDocCommentSniff::class,
     ],
 
     'config' => [

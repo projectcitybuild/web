@@ -15,15 +15,12 @@ class PlayerQueryJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * @var ServerJobEntity
-     */
-    private $entity;
+    private ServerJobEntity $entity;
 
     /**
      * @var array
      */
-    private $playerNamesToQuery;
+    private array $playerNamesToQuery;
 
     /**
      * Create a new job instance.
@@ -39,10 +36,8 @@ class PlayerQueryJob implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
-    public function handle(PlayerQueryHandler $playerQueryHandler, ServerQueryService $serverQueryService)
+    public function handle(PlayerQueryHandler $playerQueryHandler, ServerQueryService $serverQueryService): void
     {
         $adapter = $this->entity->getPlayerQueryAdapter();
         $playerQueryHandler->setAdapter($adapter);

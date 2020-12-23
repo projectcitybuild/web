@@ -11,10 +11,7 @@ final class AccountPasswordResetNotification extends Notification
 {
     use Queueable;
 
-    /**
-     * @var AccountPasswordReset
-     */
-    private $passwordReset;
+    private AccountPasswordReset $passwordReset;
 
     /**
      * Create a new message instance.
@@ -33,7 +30,7 @@ final class AccountPasswordResetNotification extends Notification
      *
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return ['mail'];
     }
@@ -42,10 +39,8 @@ final class AccountPasswordResetNotification extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     *
-     * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail($notifiable): \Illuminate\Notifications\Messages\MailMessage
     {
         $url = $this->passwordReset->getPasswordResetUrl();
 
@@ -67,7 +62,7 @@ final class AccountPasswordResetNotification extends Notification
      *
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray($notifiable): array
     {
         return [
 

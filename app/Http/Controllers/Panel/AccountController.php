@@ -12,10 +12,8 @@ class AccountController extends WebController
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\Http\Response
     {
         if ($request->has('query') && $request->input('query') !== '') {
             $query = $request->input('query');
@@ -30,12 +28,8 @@ class AccountController extends WebController
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Entities\Accounts\Models\Account  $account
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function show(Account $account)
+    public function show(Account $account): \Illuminate\Http\Response
     {
         $groups = Group::all();
         return view('front.pages.panel.account.show')->with(compact('account', 'groups'));
@@ -43,25 +37,16 @@ class AccountController extends WebController
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Entities\Accounts\Models\Account  $account
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function edit(Account $account)
+    public function edit(Account $account): \Illuminate\Http\Response
     {
         return view('front.pages.panel.account.edit')->with(compact('account'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Accounts\Models\Account  $account
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Account $account)
+    public function update(Request $request, Account $account): \Illuminate\Http\Response
     {
         $account->update($request->all());
         $account->save();

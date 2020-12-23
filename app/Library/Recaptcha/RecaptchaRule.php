@@ -9,20 +9,11 @@ use Illuminate\Validation\Rule;
 
 class RecaptchaRule extends Rule
 {
-    /**
-     * @var Client
-     */
-    private $client;
+    private Client $client;
 
-    /**
-     * @var Request
-     */
-    private $request;
+    private Request $request;
 
-    /**
-     * @var Logger
-     */
-    private $log;
+    private Logger $log;
 
     public function __construct(Client $client, Request $request, Logger $logger)
     {
@@ -33,20 +24,16 @@ class RecaptchaRule extends Rule
 
     /**
      * Disables Recaptcha for the current request
-     *
-     * @param bool $enabled
      */
-    public static function enable(bool $enabled = true)
+    public static function enable(bool $enabled = true): void
     {
         config(['recaptcha.enabled' => $enabled]);
     }
 
     /**
      * Get the validation error message.
-     *
-     * @return string
      */
-    public function message()
+    public function message(): string
     {
         return 'reCAPTCHA failed. Are you a bot?';
     }
@@ -54,12 +41,9 @@ class RecaptchaRule extends Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
      * @param  mixed  $value
-     *
-     * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes(string $attribute, $value): bool
     {
         if (config('recaptcha.enabled', true) === false) {
             return true;

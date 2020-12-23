@@ -4,25 +4,16 @@ namespace App\Library\QueryServer;
 
 final class ServerQueryResult
 {
-    /**
-     * @var int
-     */
-    private $numOfPlayers;
+    private int $numOfPlayers;
 
-    /**
-     * @var int
-     */
-    private $numOfSlots;
+    private int $numOfSlots;
 
     /**
      * @var array
      */
-    private $playerList;
+    private array $playerList;
 
-    /**
-     * @var bool
-     */
-    private $isOnline;
+    private bool $isOnline;
 
     public function __construct(
         bool $isOnline = false,

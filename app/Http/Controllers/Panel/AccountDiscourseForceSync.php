@@ -8,10 +8,7 @@ use App\Http\WebController;
 
 class AccountDiscourseForceSync extends WebController
 {
-    /**
-     * @var SyncUserToDiscourse
-     */
-    private $syncUserToDiscourse;
+    private SyncUserToDiscourse $syncUserToDiscourse;
 
     public function __construct(SyncUserToDiscourse $syncUserToDiscourse)
     {

@@ -17,20 +17,11 @@ use Illuminate\Support\Facades\DB;
 
 final class PlayerBanService
 {
-    /**
-     * @var GameBanRepository
-     */
-    private $gameBanRepository;
+    private GameBanRepository $gameBanRepository;
 
-    /**
-     * @var GameUnbanRepository
-     */
-    private $gameUnbanRepository;
+    private GameUnbanRepository $gameUnbanRepository;
 
-    /**
-     * @var PlayerLookupService
-     */
-    private $playerLookupService;
+    private PlayerLookupService $playerLookupService;
 
     public function __construct(
         GameBanRepository $gameBanRepository,

@@ -10,17 +10,13 @@ final class CleanupUnactivatedAccountsCommand extends Command
 {
     /**
      * The name and signature of the console command.
-     *
-     * @var string
      */
-    protected $signature = 'cleanup:unactivated-accounts';
+    protected string $signature = 'cleanup:unactivated-accounts';
 
     /**
      * The console command description.
-     *
-     * @var string
      */
-    protected $description = 'Deletes any accounts not activated within a threshold';
+    protected string $description = 'Deletes any accounts not activated within a threshold';
 
     /**
      * Execute the console command.

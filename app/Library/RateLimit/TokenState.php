@@ -4,15 +4,9 @@ namespace App\Library\RateLimit;
 
 class TokenState
 {
-    /**
-     * @var int
-     */
-    public $tokensAvailable;
+    public int $tokensAvailable;
 
-    /**
-     * @var float
-     */
-    public $lastConsumeTime;
+    public float $lastConsumeTime;
 
     public function __construct(int $tokensAvailable, float $lastConsumeTime)
     {

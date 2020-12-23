@@ -13,7 +13,7 @@ class GameUnbanResource extends JsonResource
      *
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'game_unban_id' => $this->game_unban_id,

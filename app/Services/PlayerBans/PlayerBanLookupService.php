@@ -8,15 +8,9 @@ use App\Services\PlayerLookup\PlayerLookupService;
 
 final class PlayerBanLookupService
 {
-    /**
-     * @var GameBanRepository
-     */
-    private $gameBanRepository;
+    private GameBanRepository $gameBanRepository;
 
-    /**
-     * @var PlayerLookupService
-     */
-    private $playerLookupService;
+    private PlayerLookupService $playerLookupService;
 
     public function __construct(
         GameBanRepository $gameBanRepository,
@@ -38,7 +32,7 @@ final class PlayerBanLookupService
         return $this->gameBanRepository->getActiveBanByGameUserId($player->getKey(), $playerType);
     }
 
-    public function getHistory(GamePlayerType $playerType, string $identifier)
+    public function getHistory(GamePlayerType $playerType, string $identifier): void
     {
     }
 }

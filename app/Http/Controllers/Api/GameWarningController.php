@@ -12,15 +12,9 @@ use Illuminate\Http\Request;
 
 final class GameWarningController extends ApiController
 {
-    /**
-     * @var PlayerWarningService
-     */
-    private $playerWarningService;
+    private PlayerWarningService $playerWarningService;
 
-    /**
-     * @var ServerKeyAuthService
-     */
-    private $serverKeyAuthService;
+    private ServerKeyAuthService $serverKeyAuthService;
 
     public function __construct(
         PlayerWarningService $playerWarningService,

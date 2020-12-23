@@ -8,15 +8,9 @@ use App\Services\PlayerLookup\PlayerLookupService;
 
 class PlayerWarningService
 {
-    /**
-     * @var GameWarningRepository
-     */
-    private $gameWarningRepository;
+    private GameWarningRepository $gameWarningRepository;
 
-    /**
-     * @var PlayerLookupService
-     */
-    private $playerLookupService;
+    private PlayerLookupService $playerLookupService;
 
     public function __construct(GameWarningRepository $gameWarningRepository,
                                 PlayerLookupService $playerLookupService)

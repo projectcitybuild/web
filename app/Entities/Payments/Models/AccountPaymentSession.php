@@ -9,24 +9,20 @@ final class AccountPaymentSession extends Model
 {
     /**
      * The table associated with the model.
-     *
-     * @var string
      */
-    protected $table = 'account_payment_sessions';
+    protected string $table = 'account_payment_sessions';
 
     /**
      * The primary key associated with the table.
-     *
-     * @var string
      */
-    protected $primaryKey = 'account_payment_session_id';
+    protected string $primaryKey = 'account_payment_session_id';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'session_id',
         'account_id',
         'is_processed',
@@ -39,14 +35,14 @@ final class AccountPaymentSession extends Model
      *
      * @var array
      */
-    protected $hidden = [];
+    protected array $hidden = [];
 
     /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
-    protected $dates = [
+    protected array $dates = [
         'created_at',
         'updated_at',
     ];
@@ -56,7 +52,7 @@ final class AccountPaymentSession extends Model
      *
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'is_processed' => 'boolean',
     ];
 

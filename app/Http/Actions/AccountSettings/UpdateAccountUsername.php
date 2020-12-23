@@ -15,7 +15,7 @@ final class UpdateAccountUsername
         $this->discourseAdminApi = $discourseAdminApi;
     }
 
-    public function execute(Account $account, string $newUsername)
+    public function execute(Account $account, string $newUsername): void
     {
         if (empty($newUsername)) {
             throw new \Exception('New email address cannot be empty');

@@ -73,7 +73,7 @@ final class GameBan extends Model
      *
      * @return array
      */
-    public function toSearchableArray()
+    public function toSearchableArray(): array
     {
         return [
             'game_ban_id' => $this->game_ban_id,

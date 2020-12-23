@@ -18,10 +18,7 @@ use Illuminate\Support\Str;
 
 final class DonationController extends ApiController
 {
-    /**
-     * @var StripeHandler
-     */
-    private $stripeHandler;
+    private StripeHandler $stripeHandler;
 
     public function __construct(StripeHandler $stripeHandler)
     {
@@ -54,10 +51,6 @@ final class DonationController extends ApiController
 
     /**
      * Receives a Webhook from Stripe for payments
-     *
-     * @param StripeWebhook $webhook
-     *
-     * @return StripeWebhook
      *
      * @throws \Exception
      *
@@ -108,7 +101,7 @@ final class DonationController extends ApiController
      *    }
      * }
      */
-    public function store(StripeWebhook $webhook)
+    public function store(StripeWebhook $webhook): StripeWebhook
     {
         // Sanity check
         if ($webhook->getAmountInCents() <= 0) {

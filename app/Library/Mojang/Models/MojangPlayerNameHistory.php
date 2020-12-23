@@ -9,7 +9,7 @@ class MojangPlayerNameHistory
      *
      * @var array<MojangPlayerNameChange>
      */
-    private $nameChanges = [];
+    private array $nameChanges = [];
 
     public function __construct(array $nameChanges)
     {

@@ -13,22 +13,15 @@ final class DeactivateDonatorPerksCommand extends Command
 {
     /**
      * The name and signature of the console command.
-     *
-     * @var string
      */
-    protected $signature = 'donator-perks:expire';
+    protected string $signature = 'donator-perks:expire';
 
     /**
      * The console command description.
-     *
-     * @var string
      */
-    protected $description = 'Deactivates donator perks if they have expired. Also removes the Donator group from the user if necessary';
+    protected string $description = 'Deactivates donator perks if they have expired. Also removes the Donator group from the user if necessary';
 
-    /**
-     * @var SyncUserToDiscourse
-     */
-    private $syncAction;
+    private SyncUserToDiscourse $syncAction;
 
     public function __construct(SyncUserToDiscourse $syncUserToDiscourse)
     {
@@ -67,9 +60,9 @@ final class DeactivateDonatorPerksCommand extends Command
             if ($expiredPerk->account !== null) {
                 $otherActivePerks = DonationPerk::where('account_id', $expiredPerk->account->getKey())
                     ->where('is_active', true)
-                    ->where(function ($q) {
+                    ->where(function ($q): void {
                         $q->where('is_lifetime_perks', true);
-                        $q->orWhere(function ($q) {
+                        $q->orWhere(function ($q): void {
                             $q->where('is_lifetime_perks', false);
                             $q->whereDate('expires_at', '>', now());
                         });

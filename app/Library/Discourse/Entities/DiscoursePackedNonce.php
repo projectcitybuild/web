@@ -4,15 +4,9 @@ namespace App\Library\Discourse\Entities;
 
 final class DiscoursePackedNonce
 {
-    /**
-     * @var string
-     */
-    private $sso;
+    private string $sso;
 
-    /**
-     * @var string
-     */
-    private $signature;
+    private string $signature;
 
     public function __construct(string $sso, string $signature)
     {

@@ -8,8 +8,6 @@ class DiscourseUserApi extends DiscourseAPIRequest
      * Finds a Discourse account that belongs to
      * the given PCB account id
      *
-     * @param int $pcbId
-     *
      * @return array
      */
     public function fetchUserByPcbId(int $pcbId): array

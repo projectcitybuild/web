@@ -7,10 +7,7 @@ use App\Entities\Players\Repositories\MinecraftPlayerRepository;
 
 class PlayerLookupService
 {
-    /**
-     * @var MinecraftPlayerRepository
-     */
-    private $minecraftPlayerRepository;
+    private MinecraftPlayerRepository $minecraftPlayerRepository;
 
     public function __construct(MinecraftPlayerRepository $minecraftPlayerRepository)
     {

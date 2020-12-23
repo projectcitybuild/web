@@ -4,12 +4,9 @@ namespace App\Library\QueryPlayer;
 
 class PlayerQueryHandler
 {
-    /**
-     * @var PlayerQueryAdapterContract
-     */
-    private $adapter;
+    private PlayerQueryAdapterContract $adapter;
 
-    public function setAdapter(PlayerQueryAdapterContract $adapter)
+    public function setAdapter(PlayerQueryAdapterContract $adapter): void
     {
         $this->adapter = $adapter;
     }

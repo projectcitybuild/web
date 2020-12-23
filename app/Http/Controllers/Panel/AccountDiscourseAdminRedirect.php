@@ -8,15 +8,10 @@ use App\Library\Discourse\Api\DiscourseUserApi;
 
 class AccountDiscourseAdminRedirect extends WebController
 {
-    /**
-     * @var DiscourseUserApi
-     */
-    private $discourseUserApi;
+    private DiscourseUserApi $discourseUserApi;
 
     /**
      * AccountDiscourseAdminRedirect constructor.
-     *
-     * @param DiscourseUserApi $discourseUserApi
      */
     public function __construct(DiscourseUserApi $discourseUserApi)
     {

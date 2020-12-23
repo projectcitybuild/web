@@ -11,27 +11,17 @@ final class QueryServerCommand extends Command
 {
     /**
      * The name and signature of the console command.
-     *
-     * @var string
      */
-    protected $signature = 'query:status {--id=*} {--all} {--dry-run}}';
+    protected string $signature = 'query:status {--id=*} {--all} {--dry-run}}';
 
     /**
      * The console command description.
-     *
-     * @var string
      */
-    protected $description = 'Fetches the status of all queriable servers. Running with --dry-run will not save the result';
+    protected string $description = 'Fetches the status of all queriable servers. Running with --dry-run will not save the result';
 
-    /**
-     * @var ServerQueryService
-     */
-    private $serverQueryService;
+    private ServerQueryService $serverQueryService;
 
-    /**
-     * @var ServerRepository
-     */
-    private $serverRepository;
+    private ServerRepository $serverRepository;
 
     /**
      * Create a new command instance.
@@ -74,7 +64,7 @@ final class QueryServerCommand extends Command
         }
     }
 
-    private function queryAllServers(bool $isDryRun = false)
+    private function queryAllServers(bool $isDryRun = false): void
     {
         $servers = $this->serverRepository->getAllQueriableServers();
 
@@ -83,7 +73,7 @@ final class QueryServerCommand extends Command
         }
     }
 
-    private function queryServer(Server $server, bool $isDryRun = false)
+    private function queryServer(Server $server, bool $isDryRun = false): void
     {
         $this->serverQueryService->dispatchQuery(
             $server->gameType(),

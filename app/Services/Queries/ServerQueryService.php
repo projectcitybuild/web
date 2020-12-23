@@ -11,10 +11,7 @@ use App\Services\Queries\Jobs\ServerQueryJob;
 
 final class ServerQueryService
 {
-    /**
-     * @var ServerStatusPlayerRepository
-     */
-    private $serverStatusRepository;
+    private ServerStatusPlayerRepository $serverStatusRepository;
 
     public function __construct(ServerStatusPlayerRepository $serverPlayerRepository)
     {
@@ -24,15 +21,8 @@ final class ServerQueryService
     /**
      * Dispatches a job to query a server for its
      * current status and player list
-     *
-     * @param GameType $gameType
-     * @param int $serverId
-     * @param string $ip
-     * @param string $port
-     *
-     * @return void
      */
-    public function dispatchQuery(GameType $gameType, int $serverId, string $ip, string $port, bool $isDryRun = false)
+    public function dispatchQuery(GameType $gameType, int $serverId, string $ip, string $port, bool $isDryRun = false): void
     {
         $entity = new ServerJobEntity(
             $gameType->serverQueryAdapter(),
@@ -52,11 +42,8 @@ final class ServerQueryService
      * PCB's player database for statistics
      *
      * @param int $serverId
-     * @param ServerQueryResult $status
-     *
-     * @return void
      */
-    public function processServerResult(ServerJobEntity $entity, ServerQueryResult $status)
+    public function processServerResult(ServerJobEntity $entity, ServerQueryResult $status): void
     {
         if ($entity->getIsDryRun()) {
             dump($status);
@@ -72,10 +59,8 @@ final class ServerQueryService
      *
      * @param int $serverId
      * @param array $playerIds
-     *
-     * @return void
      */
-    public function processPlayerResult(ServerJobEntity $entity, array $playerIds)
+    public function processPlayerResult(ServerJobEntity $entity, array $playerIds): void
     {
         if ($entity->getIsDryRun()) {
             return;

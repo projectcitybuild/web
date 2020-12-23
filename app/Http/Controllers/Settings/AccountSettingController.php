@@ -40,12 +40,8 @@ final class AccountSettingController extends WebController
      * Either shows information about the current stage in the email change process,
      * or completes the email change process if the user has just finished verifying
      * they own both email addresses (current and new)
-     *
-     * @param Request $request
-     *
-     * @return View
      */
-    public function showConfirmForm(Request $request, AccountEmailChangeRepository $emailChangeRepository, UpdateAccountEmail $updateAccountEmail)
+    public function showConfirmForm(Request $request, AccountEmailChangeRepository $emailChangeRepository, UpdateAccountEmail $updateAccountEmail): View
     {
         $token = $request->get('token');
         $email = $request->get('email');
@@ -65,16 +61,16 @@ final class AccountSettingController extends WebController
         switch ($email) {
         case $changeRequest->email_previous:
             $changeRequest->is_previous_confirmed = true;
-break;
+                break;
 
         case $changeRequest->email_new:
             $changeRequest->is_new_confirmed = true;
-break;
+                break;
 
         default:
             // If the supplied email matches neither the old nor the new email address in
             // the stored email change request, the request cannot be performed
-throw new \Exception('Provided email address does not match the current or new email address');
+                throw new \Exception('Provided email address does not match the current or new email address');
         }
 
         $areBothAddressesVerified = $changeRequest->is_previous_confirmed && $changeRequest->is_new_confirmed;

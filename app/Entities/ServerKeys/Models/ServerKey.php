@@ -8,10 +8,8 @@ final class ServerKey extends Model
 {
     /**
      * The table associated with the model.
-     *
-     * @var string
      */
-    protected $table = 'server_keys';
+    protected string $table = 'server_keys';
 
     protected $primaryKey = 'server_key_id';
 
@@ -20,7 +18,7 @@ final class ServerKey extends Model
      *
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'server_id',
         'token',
         'can_local_ban',
@@ -33,7 +31,7 @@ final class ServerKey extends Model
      *
      * @var array
      */
-    protected $hidden = [];
+    protected array $hidden = [];
 
     protected $dates = [
         'created_at',

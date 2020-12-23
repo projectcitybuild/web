@@ -12,15 +12,10 @@ final class DiscourseSSOController extends WebController
 {
     private const DISCOURSE_SSO_ENDPOINT = 'session/sso';
 
-    /**
-     * @var DiscourseLoginHandler
-     */
-    private $discourseLoginHandler;
+    private DiscourseLoginHandler $discourseLoginHandler;
 
     /**
      * DiscourseSSOController constructor.
-     *
-     * @param DiscourseLoginHandler $discourseLoginHandler
      */
     public function __construct(DiscourseLoginHandler $discourseLoginHandler)
     {

@@ -11,17 +11,13 @@ final class ServerKeyCreateCommand extends Command
 {
     /**
      * The name and signature of the console command.
-     *
-     * @var string
      */
-    protected $signature = 'server-key:create {--server_id=} {--can_global_ban=} {--can_warn=} ';
+    protected string $signature = 'server-key:create {--server_id=} {--can_global_ban=} {--can_warn=} ';
 
     /**
      * The console command description.
-     *
-     * @var string
      */
-    protected $description = 'Creates a server key for the given server_id';
+    protected string $description = 'Creates a server key for the given server_id';
 
     /**
      * Execute the console command.

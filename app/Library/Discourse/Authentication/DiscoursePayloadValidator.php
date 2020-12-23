@@ -8,10 +8,8 @@ final class DiscoursePayloadValidator
 {
     /**
      * Key to use when signing a payload
-     *
-     * @var string
      */
-    private $key;
+    private string $key;
 
     public function __construct(?string $key = null)
     {
@@ -25,17 +23,13 @@ final class DiscoursePayloadValidator
      * Disables payload checking for the current
      * request
      */
-    public static function disablePayloadChecks()
+    public static function disablePayloadChecks(): void
     {
         config(['discourse.signing_enabled' => false]);
     }
 
     /**
      * Hashes the given string with our private sso secret
-     *
-     * @param string $payload
-     *
-     * @return string
      */
     public function getSignedPayload(string $payload): string
     {
@@ -45,11 +39,6 @@ final class DiscoursePayloadValidator
     /**
      * Returns whether the given signature matches the given
      * payload hashed with our private sso secret
-     *
-     * @param string $payload
-     * @param string $signature
-     *
-     * @return bool
      */
     public function isValidPayload(string $payload, string $signature): bool
     {
@@ -62,8 +51,6 @@ final class DiscoursePayloadValidator
     /**
      * Decodes the given sso string and returns the keys
      * required for creating a new payload after authentication
-     *
-     * @param string $sso
      *
      * @throws BadSSOPayloadException
      *
@@ -90,8 +77,6 @@ final class DiscoursePayloadValidator
      * Discourse can handle
      *
      * @param array $data
-     *
-     * @return string
      */
     public function makePayload(array $data): string
     {
@@ -103,10 +88,6 @@ final class DiscoursePayloadValidator
      * Attaches the given sso and signature to a return url
      *
      * @param string $url
-     * @param string $sso
-     * @param string $signature
-     *
-     * @return string
      */
     public function getRedirectUrl(string $return, string $sso, string $signature): string
     {

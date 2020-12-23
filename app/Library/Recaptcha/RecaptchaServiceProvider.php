@@ -10,10 +10,8 @@ class RecaptchaServiceProvider extends ServiceProvider
 {
     /**
      * Perform post-registration booting of services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Blade::directive('recaptcha_key', function () {
             return "<?php echo config('recaptcha.keys.site') ?>";
@@ -24,10 +22,8 @@ class RecaptchaServiceProvider extends ServiceProvider
 
     /**
      * Register bindings in the container.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
     }
 }

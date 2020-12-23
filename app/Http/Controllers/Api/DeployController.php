@@ -10,17 +10,14 @@ use Illuminate\Support\Facades\Log;
 
 final class DeployController extends ApiController
 {
-    /**
-     * @var DiscordNotification
-     */
-    private $discord;
+    private DiscordNotification $discord;
 
     public function __construct(DiscordNotification $discord)
     {
         $this->discord = $discord;
     }
 
-    public function deploy(Request $request)
+    public function deploy(Request $request): void
     {
         $branch = config('deployment.branch');
         $key = config('deployment.key');

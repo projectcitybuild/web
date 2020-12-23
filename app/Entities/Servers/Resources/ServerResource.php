@@ -13,7 +13,7 @@ class ServerResource extends JsonResource
      *
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'server_id' => $this->server_id,

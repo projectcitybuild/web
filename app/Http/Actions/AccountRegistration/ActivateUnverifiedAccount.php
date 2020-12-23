@@ -13,7 +13,7 @@ final class ActivateUnverifiedAccount
         $this->accountRepository = $accountRepository;
     }
 
-    public function execute(string $email, string $ip)
+    public function execute(string $email, string $ip): void
     {
         $account = $this->accountRepository->getByEmail($email);
         if ($account === null) {

@@ -7,15 +7,9 @@ use Illuminate\Database\Eloquent\Collection;
 
 final class ServerCategoryRepositoryCache implements ServerCategoryRepositoryContract
 {
-    /**
-     * @var Cache
-     */
-    private $cache;
+    private Cache $cache;
 
-    /**
-     * @var ServerCategoryRepositoryContract
-     */
-    private $repository;
+    private ServerCategoryRepositoryContract $repository;
 
     public function __construct(Cache $cache, ServerCategoryRepositoryContract $repository)
     {

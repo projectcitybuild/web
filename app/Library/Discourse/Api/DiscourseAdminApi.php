@@ -9,10 +9,7 @@ use function GuzzleHttp\json_decode;
 
 class DiscourseAdminApi extends DiscourseAPIRequest
 {
-    /**
-     * @var DiscoursePayloadValidator
-     */
-    private $discoursePayloadValidator;
+    private DiscoursePayloadValidator $discoursePayloadValidator;
 
     public function __construct(
         DiscourseClient $client,
@@ -25,8 +22,6 @@ class DiscourseAdminApi extends DiscourseAPIRequest
 
     /**
      * Returns the user that matches the given email address
-     *
-     * @param string $email
      *
      * @return array
      */
@@ -50,8 +45,6 @@ class DiscourseAdminApi extends DiscourseAPIRequest
     /**
      * Logs out the given user
      *
-     * @param int $discourseUserId
-     *
      * @return array
      */
     public function requestLogout(int $discourseUserId): array
@@ -69,7 +62,7 @@ class DiscourseAdminApi extends DiscourseAPIRequest
      *
      * @return array
      */
-    public function requestSSOSync(array $payload)
+    public function requestSSOSync(array $payload): array
     {
         $payload = $this->discoursePayloadValidator->makePayload($payload);
         $signature = $this->discoursePayloadValidator->getSignedPayload($payload);
@@ -96,12 +89,12 @@ class DiscourseAdminApi extends DiscourseAPIRequest
         return json_decode($response->getBody(), true);
     }
 
-    public function addUserToGroup(string $discourseId, int $groupId)
+    public function addUserToGroup(string $discourseId, int $groupId): void
     {
         $this->client->post('admin/users/'.$discourseId.'/groups');
     }
 
-    public function removeUserFromGroup(string $discourseId, int $groupId)
+    public function removeUserFromGroup(string $discourseId, int $groupId): void
     {
         $this->client->delete('admin/users/'.$discourseId.'/groups/'.$groupId);
     }

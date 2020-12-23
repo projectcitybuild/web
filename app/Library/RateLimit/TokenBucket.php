@@ -7,20 +7,12 @@ class TokenBucket
     /**
      * Total number of tokens that this
      * bucket can hold
-     *
-     * @var int
      */
-    private $capacity;
+    private int $capacity;
 
-    /**
-     * @var TokenRate
-     */
-    private $rate;
+    private TokenRate $rate;
 
-    /**
-     * @var TokenStorable
-     */
-    private $storage;
+    private TokenStorable $storage;
 
     public function __construct(int $capacity, TokenRate $refillRate, TokenStorable $storage)
     {
@@ -35,8 +27,6 @@ class TokenBucket
      * Attempts to consume the given number of tokens.
      * Returns false if not enough tokens are available,
      * or true otherwise
-     *
-     * @param int $tokensToConsume
      *
      * @return bool Were enough tokens available?
      */
@@ -60,8 +50,6 @@ class TokenBucket
     /**
      * Returns the number of tokens currently
      * available for consumption
-     *
-     * @return float
      */
     public function getAvailableTokens(): float
     {
