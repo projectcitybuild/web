@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 final class DiscourseSSOController extends WebController
 {
-    private const DISCOURSE_SSO_ENDPOINT = "session/sso";
+    private const DISCOURSE_SSO_ENDPOINT = 'session/sso';
 
     /**
      * @var DiscourseLoginHandler

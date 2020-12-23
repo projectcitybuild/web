@@ -123,7 +123,7 @@ final class DiscoursePayload
         if ($this->groups !== null) {
             $payload['groups'] = $this->groups;
         } else {
-            throw new \Exception("Groups must be provided in the payload");
+            throw new \Exception('Groups must be provided in the payload');
         }
 
         return $payload;
