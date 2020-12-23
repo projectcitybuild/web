@@ -28,11 +28,10 @@ return [
     | Discourse SSO endpoint
     |--------------------------------------------------------------------------
     |
-    | The URI the user should be redirected to to start an SSO session
-    | with discourse
+    | The URL of the Discourse instance with trailing slash
     |
     */
-    'sso_endpoint' => env('DISCOURSE_SSO_ENDPOINT'),
+    'base_url' => env('DISCOURSE_BASE_URL'),
 
     'api_key' => env('DISCOURSE_API_KEY'),
 
