@@ -148,14 +148,15 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Set
     });
 
     Route::prefix('games')->group(function () {
-        Route::get('games', [
+        Route::get('/', [
             'as' => 'front.account.games',
-            'uses' => 'GameAccountController@showView',
+            'uses' => 'AccountGameAccountController@index',
         ]);
 
-        Route::post('games', [
-            'as' => 'front.account.games.save',
-            'uses' => 'GameAccountController@saveAccounts',
+        Route::delete('/{minecraft_player}', [
+            'as' => 'front.account.games.delete',
+            'uses' => 'AccountGameAccountController@destroy',
+
         ]);
     });
 });

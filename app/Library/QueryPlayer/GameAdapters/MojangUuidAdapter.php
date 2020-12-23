@@ -42,7 +42,6 @@ final class MojangUuidAdapter implements PlayerQueryAdapterContract
             $response = array_map(function (MojangPlayer $player) {
                 $uuid = $player->getUuid();
                 return str_replace('-', '', $uuid);
-            
             }, $response);
 
             $players = array_merge($players, $response);
