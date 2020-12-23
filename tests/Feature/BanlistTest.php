@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Entities\Accounts\Models\Account;
 use App\Entities\Bans\Models\GameBan;
 use App\Entities\Players\Models\MinecraftPlayer;
 use App\Entities\Servers\Models\Server;
@@ -10,12 +11,20 @@ use Tests\TestCase;
 
 class BanlistTest extends TestCase
 {
+    private function makeMinecraftPlayer(): MinecraftPlayer
+    {
+        return MinecraftPlayer::factory()
+            ->for(Account::factory())
+            ->create();
+    }
+
     public function testActiveBanIsShownOnList()
     {
         $ban = GameBan::factory()
             ->for(Server::factory()->for(ServerCategory::factory()))
-            ->for(MinecraftPlayer::factory(), 'staffPlayer')
-            ->for(MinecraftPlayer::factory(), 'bannedPlayer')
+            ->for($this->makeMinecraftPlayer(), 'bannedPlayer')
+            ->for($this->makeMinecraftPlayer(), 'staffPlayer')
+            ->active()
             ->create();
 
         $this->get(route('front.banlist'))
@@ -25,10 +34,10 @@ class BanlistTest extends TestCase
     public function testInactiveBanIsNotShownOnList()
     {
         $ban = GameBan::factory()
-            ->inactive()
             ->for(Server::factory()->for(ServerCategory::factory()))
-            ->for(MinecraftPlayer::factory(), 'staffPlayer')
-            ->for(MinecraftPlayer::factory(), 'bannedPlayer')
+            ->for($this->makeMinecraftPlayer(), 'bannedPlayer')
+            ->for($this->makeMinecraftPlayer(), 'staffPlayer')
+            ->inactive()
             ->create();
 
         $this->get(route('front.banlist'))

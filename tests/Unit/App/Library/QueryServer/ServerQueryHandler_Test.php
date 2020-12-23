@@ -24,7 +24,7 @@ class ServerQueryHandler_Test extends TestCase
         $queryHandler->setAdapter($mockAdapter);
 
         $server = Server::factory()
-            ->has(ServerCategory::factory())
+            ->for(ServerCategory::factory())
             ->create();
 
         $status = $queryHandler->queryServer($server->getKey(), '192.168.0.1', '25565');
@@ -43,7 +43,7 @@ class ServerQueryHandler_Test extends TestCase
         $queryHandler->setAdapter($mockAdapter);
 
         $server = Server::factory()
-            ->has(ServerCategory::factory())
+            ->for(ServerCategory::factory())
             ->create();
 
         $status = $queryHandler->queryServer($server->getKey(), '192.168.0.1', '25565');
@@ -62,7 +62,7 @@ class ServerQueryHandler_Test extends TestCase
         $queryHandler->setAdapter($mockAdapter);
 
         $server = Server::factory()
-            ->has(ServerCategory::factory())
+            ->for(ServerCategory::factory())
             ->create();
 
         $queryHandler->queryServer($server->getKey(), '192.168.0.1', '25565');

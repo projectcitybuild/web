@@ -23,7 +23,7 @@ class GameBanFactory extends Factory
     {
         return [
             'banned_player_type' => 'minecraft_player',
-            'banned_alias_at_time' => $this->faker->name(),
+            'banned_alias_at_time' => $this->faker->name,
             'staff_player_type' => 'minecraft_player',
             'reason' => $this->faker->sentence,
             'is_active' => $this->faker->boolean,
@@ -31,6 +31,20 @@ class GameBanFactory extends Factory
             'expires_at' => $this->faker->dateTimeBetween('-5 years', 'now'),
             'created_at' => $this->faker->dateTimeBetween('-5 years', 'now'),
         ];
+    }
+
+    /**
+     * Enables the ban
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function active()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'is_active' => true,
+            ];
+        });
     }
 
     /**

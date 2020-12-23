@@ -23,7 +23,7 @@ class AccountDonationTest extends TestCase
     {
         $expiryDate = Carbon::now()->addDay();
 
-        $account = Account::factory();
+        $account = Account::factory()->create();
 
         DonationPerk::factory()
             ->for($account)
@@ -43,6 +43,7 @@ class AccountDonationTest extends TestCase
         $account = Account::factory()->create();
 
         DonationPerk::factory()
+            ->for($account)
             ->for(Donation::factory()->for($account))
             ->lifetime()
             ->create();
