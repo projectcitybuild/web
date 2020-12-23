@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Library\Backup;
+namespace App\Library\Discord;
 
 
 use Illuminate\Notifications\Messages\SlackMessage;

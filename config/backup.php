@@ -139,7 +139,7 @@ return [
          * Here you can specify the notifiable to which the notifications should be sent. The default
          * notifiable will use the variables specified in this config file.
          */
-        'notifiable' => \App\Library\Discord\DiscordWebhookNotifiable::class,
+        'notifiable' => \App\Entities\Deploy\DiscordWebhookNotifiable::class,
     ],
 
     /*
