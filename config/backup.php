@@ -132,7 +132,7 @@ return [
             \App\Library\Backup\CleanupHasFailed::class => ['discord'],
             \App\Library\Backup\BackupWasSuccessful::class => ['discord'],
             \App\Library\Backup\HealthyBackupWasFound::class => ['discord'],
-            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessful::class => ['discord'],
+            \App\Library\Backup\CleanupWasSuccessful::class => ['discord'],
         ],
 
         /*
