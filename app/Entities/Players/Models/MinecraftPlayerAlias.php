@@ -4,6 +4,7 @@ namespace App\Entities\Players\Models;
 
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class MinecraftPlayerAlias extends Model
 {
@@ -19,8 +20,7 @@ final class MinecraftPlayerAlias extends Model
         'registered_at',
     ];
 
-    protected $hidden = [
-    ];
+    protected $hidden = [];
 
     protected $dates = [
         'registered_at',
@@ -28,8 +28,8 @@ final class MinecraftPlayerAlias extends Model
         'updated_at',
     ];
 
-    public function player()
+    public function player(): BelongsTo
     {
-        return $this->hasOne('App\Entities\Players\Models\MinecraftPlayer', 'player_minecraft_id', 'player_minecraft_id');
+        return $this->belongsTo(MinecraftPlayer::class, 'player_minecraft_id', 'player_minecraft_id');
     }
 }

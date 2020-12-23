@@ -23,9 +23,12 @@ class AccountDonationTest extends TestCase
     {
         $expiryDate = Carbon::now()->addDay();
 
-        $account = Account::factory()
-            ->has(Donation::factory())
-            ->has(DonationPerk::factory()->state(['expires_at' => $expiryDate]))
+        $account = Account::factory();
+
+        DonationPerk::factory()
+            ->for($account)
+            ->for(Donation::factory()->for($account))
+            ->state(['expires_at' => $expiryDate])
             ->create();
 
         $this->actingAs($account);
@@ -37,9 +40,11 @@ class AccountDonationTest extends TestCase
 
     public function testShowsLifetimeDonation()
     {
-        $account = Account::factory()
-            ->has(Donation::factory())
-            ->has(DonationPerk::factory()->lifetime())
+        $account = Account::factory()->create();
+
+        DonationPerk::factory()
+            ->for(Donation::factory()->for($account))
+            ->lifetime()
             ->create();
 
         $this->actingAs($account);

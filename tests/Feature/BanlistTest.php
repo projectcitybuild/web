@@ -13,9 +13,9 @@ class BanlistTest extends TestCase
     public function testActiveBanIsShownOnList()
     {
         $ban = GameBan::factory()
-            ->hasServer(Server::factory()->has(ServerCategory::factory()))
-            ->hasBannedPlayer(MinecraftPlayer::factory())
-            ->hasStaffPlayer(MinecraftPlayer::factory())
+            ->for(Server::factory()->for(ServerCategory::factory()))
+            ->for(MinecraftPlayer::factory(), 'staffPlayer')
+            ->for(MinecraftPlayer::factory(), 'bannedPlayer')
             ->create();
 
         $this->get(route('front.banlist'))
@@ -26,9 +26,9 @@ class BanlistTest extends TestCase
     {
         $ban = GameBan::factory()
             ->inactive()
-            ->hasServer(Server::factory()->has(ServerCategory::factory()))
-            ->hasBannedPlayer(MinecraftPlayer::factory())
-            ->hasStaffPlayer(MinecraftPlayer::factory())
+            ->for(Server::factory()->for(ServerCategory::factory()))
+            ->for(MinecraftPlayer::factory(), 'staffPlayer')
+            ->for(MinecraftPlayer::factory(), 'bannedPlayer')
             ->create();
 
         $this->get(route('front.banlist'))

@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Library\QueryServer;
 
+use App\Entities\Servers\Models\ServerCategory;
 use Tests\TestCase;
 use App\Library\QueryServer\GameAdapters\MockQueryAdapter;
 use App\Library\QueryServer\ServerQueryHandler;
