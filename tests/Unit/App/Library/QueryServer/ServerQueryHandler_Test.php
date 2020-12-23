@@ -83,7 +83,7 @@ class ServerQueryHandler_Test extends TestCase
         $queryHandler = new ServerQueryHandler(new ServerStatusRepository);
         $queryHandler->setAdapter($mockAdapter);
 
-        $server = Server::factory()->withNewCategory()->create();
+        $server = Server::factory()->for(ServerCategory::factory())->create();
 
         $queryHandler->queryServer($server->getKey(), '192.168.0.1', '25565');
 

@@ -19,11 +19,12 @@ class AccountMinecraftAccountTest extends TestCase
 
         $this->account = Account::factory()->create();
 
-        $this->mcPlayerAlias = MinecraftPlayerAlias::factory()->create();
-
         $this->mcPlayer = MinecraftPlayer::factory()
             ->for($this->account)
-            ->has($this->mcPlayerAlias)
+            ->create();
+
+        $this->mcPlayerAlias = MinecraftPlayerAlias::factory()
+            ->for($this->mcPlayer)
             ->create();
     }
 
@@ -61,7 +62,7 @@ class AccountMinecraftAccountTest extends TestCase
 
     public function testCannotUnlinkOthersAccount()
     {
-        $this->actingAs(factory(Account::class)->create());
+        $this->actingAs(Account::factory()->create());
 
         $this->delete(route('front.account.games.delete', $this->mcPlayer->getKey()))
             ->assertForbidden();

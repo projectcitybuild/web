@@ -28,7 +28,7 @@ final class MinecraftPlayerAlias extends Model
         'updated_at',
     ];
 
-    public function player(): BelongsTo
+    public function minecraftPlayer(): BelongsTo
     {
         return $this->belongsTo(MinecraftPlayer::class, 'player_minecraft_id', 'player_minecraft_id');
     }

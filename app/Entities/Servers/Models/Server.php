@@ -49,7 +49,7 @@ final class Server extends Model
         return $this->ip . $port;
     }
 
-    public function category(): BelongsTo
+    public function serverCategory(): BelongsTo
     {
         return $this->belongsTo(ServerCategory::class, 'server_category_id', 'server_category_id');
     }
