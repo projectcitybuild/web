@@ -51,7 +51,13 @@
                                         {{ $mcAccount->aliases->last()->alias }}
                                     @endempty
                                 </td>
-                                <td>{{ $mcAccount->last_synced_at->toFormattedDateString() }}</td>
+                                <td>
+                                    @isset($mcAccount->last_synced_at)
+                                    {{ $mcAccount->last_synced_at->toFormattedDateString() }}
+                                    @else
+                                    Never
+                                    @endisset
+                                </td>
                                 <td>{{ $mcAccount->created_at->toFormattedDateString() }}</td>
                                 <td>
                                     <form action="{{ route('front.account.games.delete', $mcAccount) }}" method="post">

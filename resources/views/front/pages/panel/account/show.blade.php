@@ -236,7 +236,13 @@
                                 @endempty
                             </td>
                             <td>{{ $player->uuid }}</td>
-                            <td>{{ $player->last_synced_at }}</td>
+                            <td>
+                                @isset($mcAccount->last_synced_at)
+                                    {{ $mcAccount->last_synced_at->toFormattedDateString() }}
+                                @else
+                                    Never
+                                @endisset
+                            </td>
                             <td>{{ $player->created_at }}</td>
                             <td>
                                 <form

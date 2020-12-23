@@ -42,9 +42,29 @@ class AccountMinecraftAccountTest extends TestCase
     {
         $this->actingAs($this->account);
 
+        $noAliasMcPlayer = MinecraftPlayer::factory()
+            ->for($this->account)
+            ->create();
+
         $this->get(route('front.account.games'))
             ->assertOk()
-            ->assertSee($this->account->uuid);
+            ->assertSee($noAliasMcPlayer->uuid);
+    }
+
+    // This shouldn't ever happen, but test just in case
+    public function testMinecraftAccountNeverSynced()
+    {
+        $this->actingAs($this->account);
+
+        $neverSyncedMcPlayer = MinecraftPlayer::factory()
+            ->neverSynced()
+            ->for($this->account)
+            ->create();
+
+        $this->get(route('front.account.games'))
+            ->assertOk()
+            ->assertSee($neverSyncedMcPlayer->uuid)
+            ->assertSee("Never");
     }
 
     public function testCanUnlinkOwnAccount()
