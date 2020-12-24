@@ -53,12 +53,12 @@
                                 </td>
                                 <td>
                                     @isset($mcAccount->last_synced_at)
-                                    {{ $mcAccount->last_synced_at->toFormattedDateString() }}
+                                    {{ $mcAccount->last_synced_at->format('j M Y g:ia') }}
                                     @else
                                     Never
                                     @endisset
                                 </td>
-                                <td>{{ $mcAccount->created_at->toFormattedDateString() }}</td>
+                                <td>{{ $mcAccount->created_at->format('j M Y') }}</td>
                                 <td>
                                     <form action="{{ route('front.account.games.delete', $mcAccount) }}" method="post">
                                         @csrf
