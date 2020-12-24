@@ -31,52 +31,42 @@ We use Laravel Sail to create a dockerised development environment. You can also
 * NPM
 
 ### Can I contribute?
-Absolutely. Feel free to fork and send pull requests any time. I'd be thrilled to have some help.
+Absolutely. Feel free to fork and send pull requests any time. We'd be thrilled to have some help.
 
 # Contributing
 
 You should read the [Laravel Sail](https://laravel.com/docs/8.x/sail) documentation first. If you're using Windows you have to run it through WSL2.
 
-For brevity this readme assumes you've aliased `vendor/bin/sail` to `sail`. If not, you need to write it out in full each time.
-
 ## First time setup
-This repository uses *Laravel Sail* as a local development environment.
 
-1. Run `cp src/.env.example src/.env`, then edit the file as appropriate (see below)
-2. Install the composer dependencies using the helper container
-```shell
-docker run --rm \
-    -v $(pwd):/opt \
-    -w /opt \
-    laravelsail/php74-composer:latest \
-    composer install
-```
+1. Run `cp .env.example .env`, then edit the file as appropriate (see below)
+2. Run `make bootstrap`
 
-3. Start Laravel Sail with `sail up -d`
-4. `sail artisan migrate --seed`
-5. Run `sail npm install`
-6. Run `sail npm watch`
+You'll then be able to access the website on `http://localhost`
 
 ## Development
 Once *First time setup* is complete, you only need to run one command to boot up the environment:
 
-1. `sail up -d` to start Sail
-2. `sail npm watch` to start NPM build. This also starts BrowserSync on `http://localhost:3000`
+`sail up -d` to start Sail
 
-You can enter the workspace with `sail shell`
+For front-end development, you'll want to run:
 
-#### Linter
+`sail npm watch` to start NPM build. This also starts BrowserSync on `http://localhost:3000`
 
-We use [PHP Insights](https://phpinsights.com/) for linting.
+You can enter the container at any time with `sail shell`
+
+### Linter
+
+We automatically run [PHP Insights](https://phpinsights.com/) on CI for linting.
 
 You can run the linter locally with `sail php artisan insights`
 
 If you want automatic fixing, you can run it with the `--fix` option
 
-#### Database
-If the database schema has changed, remember to run `sail artisan migrate` from inside the workspace container to ensure you always have the latest schema.
+### Database
+* If the database schema has changed, remember to run `sail artisan migrate` from inside the workspace container to ensure you always have the latest schema.
 
-#### S3 Bucket
+### S3 Bucket
 Backups go to an S3 bucket specified in the `backup` disk. To run this functionality in development, you need to configure a valid bucket. To avoid having to use a real one:
 
 1. Install Minio with [Takeout](https://github.com/tighten/takeout), accepting the defaults
@@ -95,12 +85,11 @@ AWS_URL="http://minio:9000"
 
 The Sail container's networking has already been configured to connect to Takeout's networking, so the Minio container is accessible at the hostname `minio`.
 
-#### Stripe Webhooks
+### Stripe Webhooks
 Use [stripe-cli](https://stripe.com/docs/stripe-cli) to receive payment webhooks locally.
 
 After installing, run `stripe listen --forward-to localhost/api/webhooks/stripe` to forward webhook events to the correct endpoint. Copy the code you're given into the `STRIPE_WEBHOOK_SECRET` env value.
 
 ## Testing
-Inside the workspace container:
 * Run `sail test` to run all unit/integration tests
 * Enter the container with `sail shell` and run `phpstan -c phpstan.neon` to run PHP analysis
