@@ -159,6 +159,18 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Set
 
         ]);
     });
+
+    Route::prefix('security')->group(function() {
+        Route::get('/', [
+            'as' => 'front.account.security',
+            'uses' => 'AccountSecurityController@show'
+        ]);
+
+        Route::post('/', [
+            'as' => 'front.account.security.enable',
+            'uses' => 'Totp\\EnableTotpController'
+        ]);
+    });
 });
 
 Route::group(['middleware' => 'auth'], function () {
