@@ -1,0 +1,51 @@
+.twofa {
+    p {
+        line-height: 1.2;
+    }
+
+    &__backup {
+        margin: 2rem 0;
+
+        label {
+            text-align: center;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        &-code {
+            width: 100%;
+            font-size: 1.5rem;
+            font-family: monospace;
+            padding: 0.5rem;
+            border: 1px dashed $colour-lightest;
+            text-align: center;
+            word-wrap: break-word;
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+
+    &__keys {
+        @media screen and (min-width: $dimen-medium) {
+            display: flex;
+        }
+    }
+
+    &__qr-container {
+        margin-bottom: 3rem;
+
+        @media screen and (min-width: $dimen-medium) {
+            margin-bottom: 0;
+            margin-right: 3rem;
+        }
+    }
+
+    &__manual-key {
+        font-family: monospace;
+        font-size: 1.2rem;
+        margin-top: 0.5rem;
+    }
+}

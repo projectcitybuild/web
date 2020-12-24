@@ -166,9 +166,19 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Set
             'uses' => 'AccountSecurityController@show'
         ]);
 
-        Route::post('/', [
-            'as' => 'front.account.security.enable',
-            'uses' => 'Totp\\EnableTotpController'
+        Route::post('/mfa', [
+            'as' => 'front.account.security.start',
+            'uses' => 'Mfa\\StartMfaController'
+        ]);
+
+        Route::get('/mfa/setup', [
+            'as' => 'front.account.security.setup',
+            'uses' => 'Mfa\\SetupMfaController'
+        ]);
+
+        Route::post('/mfa/finish', [
+            'as' => 'front.account.security.finish',
+            'uses' => 'Mfa\\FinishMfaController'
         ]);
     });
 });

@@ -39,6 +39,10 @@ final class Account extends Authenticatable
         'last_login_at',
     ];
 
+    protected $casts = [
+        'is_totp_enabled' => 'boolean'
+    ];
+
     public function toSearchableArray()
     {
         return [

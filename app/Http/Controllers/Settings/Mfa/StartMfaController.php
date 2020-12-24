@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Settings\Totp;
 
-use App\Http\WebController;
+namespace App\Http\Controllers\Settings\Mfa;
+
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use PragmaRX\Google2FA\Google2FA;
 
-class EnableTotpController extends WebController
+class StartMfaController extends \App\Http\WebController
 {
     /**
      * @var Google2FA
@@ -23,18 +25,18 @@ class EnableTotpController extends WebController
     }
 
 
-    /**
-     * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function __invoke(Request $request)
     {
+        if ($request->user()->is_totp_enabled) {
+            abort(403);
+        }
+
         $secret = $this->google2FA->generateSecretKey();
+        $backupCode = Str::random(32);
         $request->user()->totp_secret = $secret;
+        $request->user()->totp_backup_code = $backupCode;
         $request->user()->save();
 
-        r
+        return redirect()->route('front.account.security.setup');
     }
 }

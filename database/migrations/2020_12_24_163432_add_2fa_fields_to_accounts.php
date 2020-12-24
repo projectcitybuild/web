@@ -15,7 +15,9 @@ class Add2faFieldsToAccounts extends Migration
     {
         Schema::table('accounts', function (Blueprint $table) {
             $table->string('totp_secret')->nullable();
+            $table->string('totp_backup_code')->nullable();
             $table->boolean('is_totp_enabled')->default(false);
+            $table->integer('totp_last_used')->nullable();
         });
     }
 
@@ -28,7 +30,9 @@ class Add2faFieldsToAccounts extends Migration
     {
         Schema::table('accounts', function (Blueprint $table) {
             $table->dropColumn('totp_secret');
+            $table->dropColumn('totp_backup_code');
             $table->dropColumn('is_totp_enabled');
+            $table->dropColumn('totp_last_used');
         });
     }
 }
