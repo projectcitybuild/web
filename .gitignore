@@ -1,3 +1,38 @@
-.idea
+# packages
+/node_modules
+/vendor
+
+# logs
+npm-debug.log
+yarn-error.log
+
+# dev
+.phpunit.result.cache
+.php_cs.cache
+
+# environment settings
 .env
+
+# generated resources/builds
+/public/assets/css
+/public/assets/js
+mix-manifest.json
+
+# token buckets
+*.ratelimit
+
+# storage
+/public/hot
+/public/storage
+/storage/*.key
+
+# IDE generated settings
 .vscode
+/.idea
+
+# dev environments
+/.vagrant
+Homestead.json
+Homestead.yaml
+
+clover.xml

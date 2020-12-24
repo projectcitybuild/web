@@ -4,9 +4,9 @@
 
 <p align="center">
     <a href="https://opensource.org/licenses/MPL-2.0"><img src="https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg" alt="License: MPL 2.0"></a>
-    <a href="https://travis-ci.org/andyksaw/ProjectCityBuild"><img src="https://travis-ci.org/andyksaw/ProjectCityBuild.svg?branch=master" alt="Build status"></a>
-    <a href="https://codecov.io/gh/andyksaw/ProjectCityBuild"><img src="https://codecov.io/gh/andyksaw/ProjectCityBuild/branch/master/graph/badge.svg" alt="codecov"></a>
-    <a href="https://dependabot.com"><img src="https://api.dependabot.com/badges/status?host=github&repo=andyksaw/ProjectCityBuild" alt="Dependabot Status"></a>
+    <a href="https://github.com/projectcitybuild/web/actions?query=workflow%3A%22PHP+Test%22"><img src="https://github.com/projectcitybuild/web/workflows/PHP%20Test/badge.svg?branch=dev" alt="Build status"></a>
+    <a href="https://codecov.io/gh/projectcitybuild/web/"><img src="https://codecov.io/gh/projectcitybuild/web/branch/master/graph/badge.svg" alt="codecov"></a>
+    <a href="https://dependabot.com"><img src="https://api.dependabot.com/badges/status?host=github&repo=projectcitybuild/web" alt="Dependabot Status"></a>
 </p>
 
 ---
@@ -14,87 +14,82 @@
 The official repository for [Project City Build](https://projectcitybuild.com)'s homepage and related web services.
 
 ### Stack
-* Frameworks: Laravel 5.8, ReactJS 16
-* Environment: Docker (and Docker-Compose)
-* CI/CD: Travis CI, Codecov
+* Frameworks: Laravel 8, ReactJS 16
+* Environment: Dockerised with Laravel Sail
+* CI/CD: Github Actions, Codecov
 
 All branches, commits and pull-requests are continuously tested
 
 ### Requirements
 * Docker
 
-If you do not wish to use Docker for local dev work, feel free to go about it in the usual way by working from the `src` directory. However, you will need to install and setup all requirements manually:
+We use Laravel Sail to create a dockerised development environment. You can also run it as a traditional application, you'll need:
 
-* PHP 7.2+
+* PHP 7.4
 * MySQL/MariaDB
 * Composer
 * NPM
 
 ### Can I contribute?
-Absolutely. Feel free to fork and send pull requests any time. I'd be thrilled to have some help.
+Absolutely. Feel free to fork and send pull requests any time. We'd be thrilled to have some help.
 
 # Contributing
+
+You should read the [Laravel Sail](https://laravel.com/docs/8.x/sail) documentation first. If you're using Windows you have to run it through WSL2.
+
 ## First time setup
-This repository uses *laradock* as a local development environment.
 
-1. Enter the `laradock` folder
-2. Build the docker container: `docker-compose up -d nginx mariadb redis`
-3. Run `cp src/.env.example src/.env`, then edit the file as appropriate (see below)
-4. Enter the main workspace container: `docker-compose exec workspace bash`
-    1. Install PHP dependencies: `composer install`
-    2. Install JS dependencies: `npm install` (see below before running this)
-    3. Generate private key: `php artisan key:generate`
-    4. Create and seed database: `php artisan migrate --seed`
-    5. Build JS/CSS assets: `npm run dev`
+1. Run `cp .env.example .env`, then edit the file as appropriate (see below)
+2. Run `make bootstrap`
 
-You should now be able to see the site at [http://localhost](http://localhost). If that doesn't work, also try [http://192.168.99.100](http://192.168.99.100).
-
-
-#### NPM Install
-`Python2.7` is required by one of our dependencies. Unfortunately the workspace container does not have this pre-installed, so this step is required before running `npm install`:
-
-```
-apt-get update -yqq && apt-get install -y python2.7
-npm config set python /usr/bin/python2.7
-```
-
-#### Local Environment File (.env)
-Database config:
-```
-DB_CONNECTION=mysql
-DB_HOST=mariadb
-DB_PORT=3306
-DB_DATABASE=default
-DB_USERNAME=default
-DB_PASSWORD=secret
-```
+You'll then be able to access the website on `http://localhost`
 
 ## Development
 Once *First time setup* is complete, you only need to run one command to boot up the environment:
+
+`sail up -d` to start Sail
+
+For front-end development, you'll want to run:
+
+`sail npm watch` to start NPM build. This also starts BrowserSync on `http://localhost:3000`
+
+You can enter the container at any time with `sail shell`
+
+### Linter
+
+We automatically run [PHP Insights](https://phpinsights.com/) on CI for linting.
+
+You can run the linter locally with `sail php artisan insights`
+
+If you want automatic fixing, you can run it with the `--fix` option
+
+### Database
+* If the database schema has changed, remember to run `sail artisan migrate` from inside the workspace container to ensure you always have the latest schema.
+
+### S3 Bucket
+Backups go to an S3 bucket specified in the `backup` disk. To run this functionality in development, you need to configure a valid bucket. To avoid having to use a real one:
+
+1. Install Minio with [Takeout](https://github.com/tighten/takeout), accepting the defaults
+2. Go to `http://localhost:9000`, using the credentials minioadmin/minioadmin
+3. Make a bucket called `pcb-backup`
+4. Put this in your `.env`:
+
+```dotenv
+AWS_ACCESS_KEY_ID=minioadmin
+AWS_SECRET_ACCESS_KEY=minioadmin
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=pcb-backup
+AWS_ENDPOINT="http://minio:9000"
+AWS_URL="http://minio:9000"
 ```
-docker-compose up -d nginx mariadb redis
-```
 
-To enter the workspace at anytime use `docker-compose exec workspace bash`
+The Sail container's networking has already been configured to connect to Takeout's networking, so the Minio container is accessible at the hostname `minio`.
 
-#### Live editing (Browsersync)
-* From inside the container, run `npm run watch`. Because we're running in headless-mode, no browser will automatically open.
-* Open `http://localhost:3000` in your browser. Any HTML, JS, CSS changes will automatically appear without refreshing. 
-
-#### Database
-* If the database schema has changed, remember to run `php artisan migrate` from inside the workspace container to ensure you always have the latest schema.
-
-#### Stripe Webhooks
+### Stripe Webhooks
 Use [stripe-cli](https://stripe.com/docs/stripe-cli) to receive payment webhooks locally.
 
-After installing, run `stripe listen --forward-to localhost/api/donations/store` to forward webhook events to the correct endpoint.
+After installing, run `stripe listen --forward-to localhost/api/webhooks/stripe` to forward webhook events to the correct endpoint. Copy the code you're given into the `STRIPE_WEBHOOK_SECRET` env value.
 
 ## Testing
-Inside the workspace container:
-* Run `phpunit` to run all unit/integration tests
-* Run `phpstan -c phpstan.neon` to run PHP analysis
-
-## Troubleshooting Laradock
-Docker might not go smoothly for Windows users. If you're having trouble booting up a MariaDB instance, you may need to use a MySQL container instead.
-In this case the boot command would be `docker-compose up -d nginx mysql redis`.
-The `.env` file will also need to be updated to point at the correct container: `DB_HOST=mysql`
+* Run `sail test` to run all unit/integration tests
+* Enter the container with `sail shell` and run `phpstan -c phpstan.neon` to run PHP analysis
