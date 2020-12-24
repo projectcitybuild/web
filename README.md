@@ -39,7 +39,10 @@ You should read the [Laravel Sail](https://laravel.com/docs/8.x/sail) documentat
 
 ## First time setup
 
-Run `make bootstrap`
+1. Run `make bootstrap`
+2. Fill in any required credentials in the `.env` file
+
+You'll then be able to access the website on `http://localhost`
 
 ## Development
 Once *First time setup* is complete, you only need to run one command to boot up the environment:
