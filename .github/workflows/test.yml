@@ -13,8 +13,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container:
-      image: kirschbaumdevelopment/laravel-test-runner:7.4
     services:
       mysql:
         image: mysql:8.0
@@ -25,9 +23,15 @@ jobs:
           - 33306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
-
     steps:
       - uses: actions/checkout@v1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+          coverage: none
 
       - name: Copy environment
         run:  cp .env.ci .env
@@ -56,6 +60,8 @@ jobs:
         run: npm run prod
 
       - name: Prepare Laravel
+        env:
+          DB_CONNECTION: mysql
         run: |
           php artisan key:generate
           php artisan migrate
@@ -67,6 +73,8 @@ jobs:
         run: vendor/bin/phpinsights -n --ansi --format=github-action
 
       - name: PHPUnit
+        env:
+          DB_CONNECTION: mysql
         run: phpdbg -dmemory_limit=1G -qrr vendor/bin/phpunit --coverage-clover tests/coverage/clover.xml
 
       - name: Upload coverage
