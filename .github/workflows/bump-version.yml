@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - release
+      - version-bump-action
 
 jobs:
   build:
