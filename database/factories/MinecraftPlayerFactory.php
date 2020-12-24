@@ -23,8 +23,21 @@ class MinecraftPlayerFactory extends Factory
     {
         return [
             'uuid' => $this->faker->uuid,
-            'playtime' => $this->faker->numberBetween(0, 99999),
-            'last_seen_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),
+            'last_synced_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),
         ];
+    }
+
+    /**
+     * Generate a player who does not have a synced time
+     *
+     * @return MinecraftPlayerFactory
+     */
+    public function neverSynced()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'last_synced_at' => null,
+            ];
+        });
     }
 }

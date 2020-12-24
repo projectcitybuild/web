@@ -21,8 +21,7 @@ final class MinecraftPlayer extends Model implements BannableModelInterface
     protected $fillable = [
         'uuid',
         'account_id',
-        'playtime',
-        'last_seen_at',
+        'last_synced_at',
     ];
 
     protected $hidden = [];
@@ -30,7 +29,7 @@ final class MinecraftPlayer extends Model implements BannableModelInterface
     protected $dates = [
         'created_at',
         'updated_at',
-        'last_seen_at',
+        'last_synced_at',
     ];
 
     public function getBanIdentifier(): string
@@ -61,5 +60,17 @@ final class MinecraftPlayer extends Model implements BannableModelInterface
     public function isBanned()
     {
         return $this->gameBans()->where('is_active', true)->count() > 0;
+    }
+
+    /**
+     * Update the last seen at time of the player to now
+     *
+     * @return bool
+     */
+    public function touchLastSyncedAt(): bool
+    {
+        $this->last_synced_at = $this->freshTimestamp();
+
+        return $this->save();
     }
 }

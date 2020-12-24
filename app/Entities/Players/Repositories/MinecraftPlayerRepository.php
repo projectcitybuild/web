@@ -22,14 +22,12 @@ class MinecraftPlayerRepository extends Repository
      */
     public function store(string $uuid,
                           ?Carbon $lastSeenAt = null,
-                          ?int $accountId = null,
-                          int $playTime = 0): MinecraftPlayer
+                          ?int $accountId = null
+                          ): MinecraftPlayer
     {
         return $this->getModel()->create([
             'uuid' => $uuid,
             'account_id' => $accountId,
-            'playtime' => $playTime,
-            'last_seen_at' => $lastSeenAt ? $lastSeenAt : now(),
         ]);
     }
 
