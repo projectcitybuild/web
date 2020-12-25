@@ -48,4 +48,13 @@
         font-size: 1.2rem;
         margin-top: 0.5rem;
     }
+
+    &__buttons {
+        display:flex;
+        justify-content: space-between;
+
+        & a:only-child, & button:only-child {
+            margin-left: auto;
+        }
+    }
 }

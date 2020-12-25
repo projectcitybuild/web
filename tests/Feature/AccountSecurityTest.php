@@ -52,7 +52,7 @@ class AccountSecurityTest extends TestCase
             'backup_saved' => 1,
             'code' => $validCode
         ])
-        ->assertRedirect(route('front.account.security'));
+            ->assertRedirect(route('front.account.security'));
 
         $this->assertDatabaseHas('accounts', [
             'account_id' => $account->getKey(),
@@ -124,10 +124,38 @@ class AccountSecurityTest extends TestCase
         ]);
     }
 
-//    public function testAskedToRegenBackupCode()
-//    {
-//        $this->actingAs(Account::factory()->hasFinishedTotp()->create());
-//        $this->get(route('front.account.security.regen-backup-info'))
-//            ->assertRedirect(route('front.account.security.regen-backup'));
-//    }
+    public function testCantRefreshBackupIfNotEnabled()
+    {
+        $this->actingAs(Account::factory()->hasStartedTotp()->create());
+        $this->disableReauthMiddleware();
+        $this->get(route('front.account.security.reset-backup'))
+            ->assertForbidden();
+    }
+
+    public function testAskedToConfirmPasswordToRefreshBackup()
+    {
+        $this->actingAs(Account::factory()->hasFinishedTotp()->create());
+
+        $this->get(route('front.account.security.reset-backup'))
+            ->assertRedirect(route('password.confirm'));
+    }
+
+    public function testCanSeeNewBackupCodeAfterConfirming()
+    {
+        $account = Account::factory()->hasFinishedTotp()->create();
+        $originalCode = $account->totp_backup_code;
+
+
+        $this->actingAs($account);
+        $this->disableReauthMiddleware();
+
+        $resp = $this->post(route('front.account.security.reset-backup'))
+            ->assertOk();
+
+        $account = $account->fresh();
+        $newCode = $account->totp_backup_code;
+        $this->assertNotEquals($originalCode, $newCode);
+
+        $resp->assertSee($newCode);
+    }
 }

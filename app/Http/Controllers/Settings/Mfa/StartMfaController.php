@@ -32,7 +32,7 @@ class StartMfaController extends \App\Http\WebController
         }
 
         $secret = $this->google2FA->generateSecretKey();
-        $backupCode = Str::random(32);
+        $backupCode = Str::random(config('auth.totp.backup_code_length'));
         $request->user()->totp_secret = $secret;
         $request->user()->totp_backup_code = $backupCode;
         $request->user()->save();

@@ -32,7 +32,7 @@
                     <h2 class="account-security__twofa-enabled"><i class="fas fa-lock"></i> 2FA Enabled</h2>
                     <p>You've secured your account with 2-factor authentication.</p>
 
-                    <a href="#" class="button button--primary">Regenerate Backup Code</a>
+                    <a href="{{ route('front.account.security.reset-backup') }}" class="button button--primary">Regenerate Backup Code</a>
                     <a href="{{ route('front.account.security.disable') }}" class="button button--primary">Disable 2FA</a>
                 </div>
             @else

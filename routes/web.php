@@ -202,6 +202,16 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Set
             'as' => 'front.account.security.disable',
             'uses' => 'Mfa\\DisableMfaController@destroy'
         ])->middleware('password.confirm');
+
+        Route::get('/mfa/backup', [
+            'as' => 'front.account.security.reset-backup',
+            'uses' => 'Mfa\\ResetBackupController@show'
+        ])->middleware('password.confirm');
+
+        Route::post('/mfa/backup', [
+            'as' => 'front.account.security.reset-backup',
+            'uses' => 'Mfa\\ResetBackupController@update'
+        ])->middleware('password.confirm');
     });
 });
 
