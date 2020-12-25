@@ -9,6 +9,10 @@
             "labels": ["Bug"]
         },
         {
+            "title": "## CI/CD changes",
+            "labels": ["CI/CD"]
+        },
+        {
             "title": "## Other changes",
             "labels": ["Cleanup"]
         }
