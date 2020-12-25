@@ -4,15 +4,23 @@
 @section('description', '')
 
 @section('contents')
-    @if(Session::get('mfa_setup_finished', false))
-        <div class="alert alert--success contents__flash">
-            <h3><i class="fas fa-check"></i> 2FA Enabled</h3>
-            <p>
-                2FA has successfully been enabled on your account
-            </p>
-        </div>
-    @endif
     <div class="contents__body">
+        @if(Session::get('mfa_setup_finished', false))
+            <div class="alert alert--success contents__flash">
+                <h3><i class="fas fa-check"></i> 2FA Enabled</h3>
+                <p>
+                    2FA has successfully been enabled on your account
+                </p>
+            </div>
+        @endif
+        @if(Session::get('mfa_disabled', false))
+            <div class="alert alert--success contents__flash">
+                <h3><i class="fas fa-check"></i> 2FA Disabled</h3>
+                <p>
+                    2FA has successfully removed from your account
+                </p>
+            </div>
+        @endif
         <div class="card card--divided">
             <div class="card__body card__body--padded">
                 <h1>Security</h1>
@@ -23,6 +31,9 @@
                 <div class="card__body card__body--padded">
                     <h2 class="account-security__twofa-enabled"><i class="fas fa-lock"></i> 2FA Enabled</h2>
                     <p>You've secured your account with 2-factor authentication.</p>
+
+                    <a href="#" class="button button--primary">Regenerate Backup Code</a>
+                    <a href="{{ route('front.account.security.disable') }}" class="button button--primary">Disable 2FA</a>
                 </div>
             @else
                 <div class="card__body card__body--padded">
@@ -32,12 +43,17 @@
                     <form action="{{ route('front.account.security.start') }}" method="post">
                         @csrf
                         <button class="button button--large button--primary">
-                            Start Enabling
+                            Set Up
                             <i class="fas fa-chevron-right"></i>
                         </button>
                     </form>
                 </div>
             @endif
+
+            <div class="card__body card__body--padded">
+                <h2>Logout Everywhere</h2>
+                <p>Log out of PCB on all devices</p>
+            </div>
         </div>
     </div>
     <div class="contents__sidebar">

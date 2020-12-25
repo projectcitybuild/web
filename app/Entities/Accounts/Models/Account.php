@@ -30,7 +30,9 @@ final class Account extends Authenticatable
     ];
 
     protected $hidden = [
-
+        'password',
+        'totp_secret',
+        'totp_backup_code'
     ];
 
     protected $dates = [

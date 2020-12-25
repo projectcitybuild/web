@@ -1,14 +1,10 @@
 @extends('front.layouts.master')
 
-@section('title', 'Your Donations')
+@section('title', 'Setup 2FA')
 @section('description', '')
 
 @section('contents')
     <div class="contents__body twofa">
-        @if(Session::get('mfa_setup_finished', false))
-            <div class="alert alert--success"></div>
-        @endif
-
         <form action="{{ route('front.account.security.finish') }}" method="post">
             <div class="card card--divided card--medium card--centered">
                 <div class="card__body card__body--padded">
@@ -28,8 +24,7 @@
                 <div class="card__body card__body--padded">
                     <h2>Step 2: Save your backup code</h2>
                     <p>You need to save your backup code somewhere safe. If you ever lose access to your authentication
-                        app you can use this to disable 2fa on your account.</p>
-
+                        app you can use this to disable 2FA on your account.</p>
 
                     <div class="twofa__backup">
                         <label>Your backup code:</label>
@@ -76,7 +71,7 @@
                                name="code" id="code" type="text"/>
                     </div>
 
-                    <button class="button button--primary button--large">Next <i class="fas fa-chevron-right"></i>
+                    <button class="button button--primary button--large">Enable <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
             </div>

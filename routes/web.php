@@ -61,6 +61,18 @@ Route::prefix('login')->group(function () {
     ]);
 });
 
+Route::prefix('/login/reauth')->group(function() {
+    Route::get('/', [
+        'as' => 'password.confirm',
+        'uses' => 'ReauthController@show'
+    ])->middleware('auth');
+
+    Route::post('/', [
+        'as' => 'password.confirm',
+        'uses' => 'ReauthController@process'
+    ])->middleware(['auth', 'throttle:6,1']);
+});
+
 Route::prefix('password-reset')->group(function () {
     Route::get('/', [
         'as' => 'front.password-reset.create',
@@ -180,6 +192,16 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Set
             'as' => 'front.account.security.finish',
             'uses' => 'Mfa\\FinishMfaController'
         ]);
+
+        Route::get('/mfa/disable', [
+            'as' => 'front.account.security.disable',
+            'uses' => 'Mfa\\DisableMfaController@show'
+        ])->middleware('password.confirm');
+
+        Route::delete('/mfa/disable', [
+            'as' => 'front.account.security.disable',
+            'uses' => 'Mfa\\DisableMfaController@destroy'
+        ])->middleware('password.confirm');
     });
 });
 

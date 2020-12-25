@@ -82,4 +82,52 @@ class AccountSecurityTest extends TestCase
             'code' => '000000'
         ])->assertForbidden();
     }
+
+    public function testAskedToConfirmPasswordToDisable()
+    {
+        $this->actingAs(Account::factory()->hasFinishedTotp()->create());
+
+        $this->get(route('front.account.security.disable'))
+            ->assertRedirect(route('password.confirm'));
+    }
+
+    public function testCantDisableIfNotEnabled()
+    {
+        $this->actingAs(Account::factory()->hasStartedTotp()->create());
+        $this->disableReauthMiddleware();
+        $this->get(route('front.account.security.disable'))
+            ->assertForbidden();
+    }
+
+    public function testCanSeeDisableWhenConfirmed()
+    {
+        $this->actingAs(Account::factory()->hasFinishedTotp()->create());
+        $this->disableReauthMiddleware();
+        $this->get(route('front.account.security.disable'))
+            ->assertOk();
+    }
+
+    public function testCanDisableTotp()
+    {
+        $account = Account::factory()->hasFinishedTotp()->create();
+        $this->actingAs($account);
+        $this->disableReauthMiddleware();
+        $this->delete(route('front.account.security.disable'))
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('accounts', [
+            'account_id' => $account->getKey(),
+            'totp_secret' => null,
+            'totp_backup_code' => null,
+            'is_totp_enabled' => 0,
+            'totp_last_used' => null
+        ]);
+    }
+
+//    public function testAskedToRegenBackupCode()
+//    {
+//        $this->actingAs(Account::factory()->hasFinishedTotp()->create());
+//        $this->get(route('front.account.security.regen-backup-info'))
+//            ->assertRedirect(route('front.account.security.regen-backup'));
+//    }
 }
