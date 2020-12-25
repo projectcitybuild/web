@@ -1,0 +1,18 @@
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
+        with:
+          destination_branch: "master"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_title: "Sync release with master"
+          pr_body: ":robot: An automated PR to keep master in sync with the release branch"
+          pr_label: "Auto Generated"
