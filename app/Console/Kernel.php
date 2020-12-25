@@ -4,7 +4,6 @@ namespace App\Console;
 
 use App\Console\Commands\CleanupUnactivatedAccountsCommand;
 use App\Console\Commands\DeactivateDonatorPerksCommand;
-use App\Console\Commands\ImportEssentialsBansCommand;
 use App\Console\Commands\QueryServerCommand;
 use App\Console\Commands\RepairMissingGroupsCommand;
 use App\Console\Commands\ServerKeyCreateCommand;
@@ -25,7 +24,6 @@ class Kernel extends ConsoleKernel
         ServerKeyCreateCommand::class,
         StripUUIDHyphensCommand::class,
         RepairMissingGroupsCommand::class,
-        ImportEssentialsBansCommand::class,
         CleanupUnactivatedAccountsCommand::class,
         DeactivateDonatorPerksCommand::class,
     ];
