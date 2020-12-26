@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Http\Middleware\MfaGate;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -16,8 +17,15 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
     }
 
-    protected function disableReauthMiddleware()
+    protected function disableReauthMiddleware(): TestCase
     {
         Session::put('auth.password_confirmed_at', time());
+        return $this;
+    }
+
+    protected function flagNeedsMfa(): TestCase
+    {
+        Session::put(MfaGate::NEEDS_MFA_KEY, "true");
+        return $this;
     }
 }

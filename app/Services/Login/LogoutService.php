@@ -7,6 +7,7 @@ use App\Library\Discourse\Api\DiscourseUserApi;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class LogoutService
 {

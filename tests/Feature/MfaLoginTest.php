@@ -22,12 +22,6 @@ class MfaLoginTest extends TestCase
         $this->google2fa = $this->app->make(Google2FA::class);
     }
 
-    private function flagNeedsMfa()
-    {
-        Session::put(MfaGate::NEEDS_MFA_KEY, "true");
-
-    }
-
     public function testMfaFlagIsSetOnLogin()
     {
         $this->post(route('front.login.submit'), [
@@ -50,12 +44,29 @@ class MfaLoginTest extends TestCase
         $this->actingAs($this->mfaAccount)
             ->flagNeedsMfa();
 
-        $this->withoutExceptionHandling();
-
         $validCode = $this->google2fa->getCurrentOtp(Crypt::decryptString($this->mfaAccount->totp_secret));
 
         $this->post(route('front.login.mfa'), [
             'code' => $validCode
         ])->assertSessionHasNoErrors()->assertRedirect();
+    }
+
+    public function testCantSubmitWrongMfaCode()
+    {
+        $this->actingAs($this->mfaAccount)
+            ->flagNeedsMfa();
+
+        $this->post(route('front.login.mfa'), [
+            'code' => '000000'
+        ])->assertSessionHasErrors(['code']);
+    }
+
+    public function testCantSubmitNoMfaCode()
+    {
+        $this->actingAs($this->mfaAccount)
+            ->flagNeedsMfa();
+
+        $this->post(route('front.login.mfa'), [])
+            ->assertSessionHasErrors(['code']);
     }
 }

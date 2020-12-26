@@ -162,4 +162,12 @@ final class Account extends Authenticatable
         $this->last_login_at = Carbon::now();
         $this->save();
     }
+
+    public function resetTotp()
+    {
+        $this->totp_secret = null;
+        $this->totp_backup_code = null;
+        $this->totp_last_used = null;
+        $this->is_totp_enabled = false;
+    }
 }

@@ -17,8 +17,10 @@ class MfaGate
      * @var array|string[]
      */
     private array $exclude = [
-        'front.login.mfa'
+        'front.login.mfa',
+        'front.login.mfa-recover'
     ];
+
     /**
      * @var ResponseFactory
      */
@@ -56,11 +58,11 @@ class MfaGate
      * @param Request $request
      * @return bool
      */
-    private function accountDoesntNeedMfa(Request  $request): bool
+    private function accountDoesntNeedMfa(Request $request): bool
     {
         return $request->routeIs($this->exclude) ||
-        $request->user() == null ||
-        !$request->user()->is_totp_enabled ||
-        !Session::has(self::NEEDS_MFA_KEY);
+            $request->user() == null ||
+            !$request->user()->is_totp_enabled ||
+            !Session::has(self::NEEDS_MFA_KEY);
     }
 }

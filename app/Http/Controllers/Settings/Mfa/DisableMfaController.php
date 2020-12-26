@@ -19,10 +19,7 @@ class DisableMfaController extends WebController
     public function destroy(Request $request)
     {
         $account = $request->user();
-        $account->totp_secret = null;
-        $account->totp_backup_code = null;
-        $account->is_totp_enabled = false;
-        $account->totp_last_used = null;
+        $account->resetTotp();
         $account->save();
 
         return redirect(route('front.account.security'))->with(['mfa_disabled' => true]);
