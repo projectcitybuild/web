@@ -4,30 +4,34 @@ on:
   pull_request:
     branches:
       - master
-      - dev
+      - release
   push:
     branches:
       - master
-      - dev
+      - release
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    container:
-      image: kirschbaumdevelopment/laravel-test-runner:7.4
     services:
       mysql:
-        image: mysql:8.0
+        image: mariadb:10.3
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: pcb
         ports:
-          - 33306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=5s --health-retries=3
 
     steps:
       - uses: actions/checkout@v1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+          coverage: none
 
       - name: Copy environment
         run:  cp .env.ci .env
@@ -55,10 +59,14 @@ jobs:
       - name: NPM Build
         run: npm run prod
 
-      - name: Prepare Laravel
-        run: |
-          php artisan key:generate
-          php artisan migrate
+      - name: Generate Key
+        run: php artisan key:generate
+
+      - name: Prepare Database
+        env:
+          DB_CONNECTION: mysql
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+        run: php artisan migrate
 
       - name: Larastan
         run: ./vendor/bin/phpstan analyse --memory-limit=1G
@@ -67,6 +75,9 @@ jobs:
         run: vendor/bin/phpinsights -n --ansi --format=github-action
 
       - name: PHPUnit
+        env:
+          DB_CONNECTION: mysql
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
         run: phpdbg -dmemory_limit=1G -qrr vendor/bin/phpunit --coverage-clover tests/coverage/clover.xml
 
       - name: Upload coverage
