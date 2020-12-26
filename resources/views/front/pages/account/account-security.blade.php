@@ -49,11 +49,6 @@
                     </form>
                 </div>
             @endif
-
-            <div class="card__body card__body--padded">
-                <h2>Logout Everywhere</h2>
-                <p>Log out of PCB on all devices</p>
-            </div>
         </div>
     </div>
     <div class="contents__sidebar">
