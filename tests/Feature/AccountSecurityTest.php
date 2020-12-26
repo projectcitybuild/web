@@ -35,7 +35,7 @@ class AccountSecurityTest extends TestCase
         $resp = $this->followingRedirects()
             ->post(route('front.account.security.start'))
             ->assertOk();
-        
+
         $account = $account->fresh();
         $this->assertNotNull($account->totp_secret);
         $this->assertNotNull($account->totp_backup_code);

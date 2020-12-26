@@ -14,6 +14,7 @@ use App\Services\Login\LogoutService;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
@@ -98,6 +99,11 @@ final class LoginController extends WebController
             } finally {
                 $account->save();
             }
+        }
+
+        // Check if the user needs to complete 2FA
+        if ($account->is_totp_enabled) {
+            Session::put('auth.needs-mfa', true);
         }
 
         // Redirect back to the intended page

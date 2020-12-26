@@ -59,18 +59,26 @@ Route::prefix('login')->group(function () {
         'as' => 'front.login.submit',
         'uses' => 'LoginController@store',
     ]);
-});
 
-Route::prefix('/login/reauth')->group(function() {
-    Route::get('/', [
+    Route::get('/reauth', [
         'as' => 'password.confirm',
         'uses' => 'ReauthController@show'
     ])->middleware('auth');
 
-    Route::post('/', [
+    Route::post('/reauth', [
         'as' => 'password.confirm',
         'uses' => 'ReauthController@process'
     ])->middleware(['auth', 'throttle:6,1']);
+
+    Route::get('/mfa', [
+        'as' => 'front.login.mfa',
+        'uses' => 'MfaLoginGateController@create'
+    ]);
+
+    Route::post('/mfa', [
+        'as' => 'front.login.mfa',
+        'uses' => 'MfaLoginGateController@store'
+    ]);
 });
 
 Route::prefix('password-reset')->group(function () {
