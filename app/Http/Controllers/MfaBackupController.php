@@ -6,6 +6,7 @@ use App\Http\Middleware\MfaGate;
 use App\Http\WebController;
 use App\Services\Login\LogoutService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
 
 class MfaBackupController extends WebController
@@ -21,7 +22,7 @@ class MfaBackupController extends WebController
             'backup_code' => 'required'
         ]);
 
-        if ($request->backup_code != $request->user()->totp_backup_code) {
+        if ($request->backup_code != Crypt::decryptString($request->user()->totp_backup_code)) {
             return back()->withErrors([
                 'backup_code' => 'Your backup code is incorrect, please try again. If you have lost access, please ask PCB staff for help'
             ]);

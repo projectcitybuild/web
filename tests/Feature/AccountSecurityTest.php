@@ -41,7 +41,7 @@ class AccountSecurityTest extends TestCase
         $this->assertNotNull($account->totp_backup_code);
         $this->assertFalse($account->is_totp_enabled);
 
-        $resp->assertSee($account->totp_backup_code)
+        $resp->assertSee(Crypt::decryptString($account->totp_backup_code))
             ->assertSee(Crypt::decryptString($account->totp_secret));
     }
 
@@ -163,7 +163,7 @@ class AccountSecurityTest extends TestCase
         $account = Account::factory()->hasFinishedTotp()->create();
         $originalCode = $account->totp_backup_code;
 
-
+        $this->withoutExceptionHandling();
         $this->actingAs($account);
         $this->disableReauthMiddleware();
 
@@ -174,6 +174,6 @@ class AccountSecurityTest extends TestCase
         $newCode = $account->totp_backup_code;
         $this->assertNotEquals($originalCode, $newCode);
 
-        $resp->assertSee($newCode);
+        $resp->assertSee(Crypt::decryptString($newCode));
     }
 }

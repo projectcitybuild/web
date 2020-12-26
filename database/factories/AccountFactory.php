@@ -76,7 +76,7 @@ class AccountFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'totp_backup_code' => Str::random(32)
+                'totp_backup_code' => Crypt::encryptString(Str::random(32))
             ];
         });
     }

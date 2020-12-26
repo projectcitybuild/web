@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Entities\Accounts\Models\Account;
 use App\Http\Middleware\MfaGate;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -32,9 +33,12 @@ class MfaBackupTest extends TestCase
         $this->actingAs($this->mfaAccount)
             ->flagNeedsMfa();
 
+        $this->withoutExceptionHandling();
+
         $this->delete(route('front.login.mfa-recover'), [
-            'backup_code' => $this->mfaAccount->totp_backup_code
+            'backup_code' => Crypt::decryptString($this->mfaAccount->totp_backup_code)
         ])
+            ->assertSessionHasNoErrors()
             ->assertRedirect(route('front.login'))
             ->assertSessionHas('mfa_removed')
             ->assertSessionMissing(MfaGate::NEEDS_MFA_KEY);

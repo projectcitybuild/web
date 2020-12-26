@@ -28,7 +28,7 @@
 
                     <div class="twofa__backup">
                         <label>Your backup code:</label>
-                        <div class="twofa__backup-code">{{ $backupCode }}</div>
+                        <div class="twofa__backup-code">{{ Crypt::decryptString($backupCode) }}</div>
                     </div>
 
                     <p>Please check below to confirm you've saved this:</p>

@@ -35,7 +35,7 @@ class StartMfaController extends \App\Http\WebController
         $secret = $this->google2FA->generateSecretKey();
         $backupCode = Str::random(config('auth.totp.backup_code_length'));
         $request->user()->totp_secret = Crypt::encryptString($secret);
-        $request->user()->totp_backup_code = $backupCode;
+        $request->user()->totp_backup_code = Crypt::encryptString($backupCode);
         $request->user()->save();
 
         return redirect()->route('front.account.security.setup');
