@@ -2,17 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\MfaGate;
 use App\Http\WebController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
+use PragmaRX\Google2FA\Google2FA;
 
 class MfaLoginGateController extends WebController
 {
+    private Google2FA $google2FA;
+
+    /**
+     * MfaLoginGateController constructor.
+     * @param Google2FA $google2FA
+     */
+    public function __construct(Google2FA $google2FA)
+    {
+        $this->google2FA = $google2FA;
+    }
+
+
     public function create()
     {
-        if (!Session::has('auth.needs-2fa')) {
+        if (!Session::has(MfaGate::NEEDS_MFA_KEY)) {
             abort(403);
         }
 
@@ -21,7 +35,7 @@ class MfaLoginGateController extends WebController
 
     public function store(Request $request)
     {
-        if (Session::has('auth.needs-mfa')) {
+        if (!Session::has(MfaGate::NEEDS_MFA_KEY)) {
             abort(403);
         }
 
@@ -40,7 +54,7 @@ class MfaLoginGateController extends WebController
         $request->user()->totp_last_used = $keyTimestamp;
         $request->user()->save();
 
-        Session::forget('auth.needs-mfa');
+        Session::forget(MfaGate::NEEDS_MFA_KEY);
 
         return redirect()->intended(route('front.sso.discourse'));
     }

@@ -3,26 +3,59 @@
 namespace Tests\Feature;
 
 use App\Entities\Accounts\Models\Account;
+use App\Http\Middleware\MfaGate;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Session;
+use PragmaRX\Google2FA\Google2FA;
 use Tests\TestCase;
 
 class MfaLoginTest extends TestCase
 {
-    private $mfaAccount;
+    private Account $mfaAccount;
+    private Google2FA $google2fa;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->mfaAccount = Account::factory()->hasFinishedTotp()->create();
+        $this->google2fa = $this->app->make(Google2FA::class);
     }
 
-    public function testMfaAccountIsRedirectedToChallengeOnLogin()
+    private function flagNeedsMfa()
     {
-        $this->actingAs($this->mfaAccount);
-        $this->withoutExceptionHandling();
-        $this->post(route('front.login'), [
+        Session::put(MfaGate::NEEDS_MFA_KEY, "true");
+
+    }
+
+    public function testMfaFlagIsSetOnLogin()
+    {
+        $this->post(route('front.login.submit'), [
             'email' => $this->mfaAccount->email,
             'password' => 'secret'
-        ])->assertSessionHas('auth.needs-mfa');
+        ])->assertSessionHas(MfaGate::NEEDS_MFA_KEY);
+    }
+
+    public function testMfaFlagCausesRedirect()
+    {
+        $this->actingAs($this->mfaAccount)
+            ->flagNeedsMfa();
+
+        $this->get(route('front.account.settings'))
+            ->assertRedirect(route('front.login.mfa'));
+    }
+
+    public function testSubmitMfaCodeRemovesFlag()
+    {
+        $this->actingAs($this->mfaAccount)
+            ->flagNeedsMfa();
+
+        $this->withoutExceptionHandling();
+
+        $validCode = $this->google2fa->getCurrentOtp(Crypt::decryptString($this->mfaAccount->totp_secret));
+
+        $this->post(route('front.login.mfa'), [
+            'code' => $validCode
+        ])->assertSessionHasNoErrors()->assertRedirect();
     }
 }

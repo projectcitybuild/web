@@ -8,6 +8,7 @@ use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 use PragmaRX\Google2FA\Google2FA;
 
@@ -59,7 +60,7 @@ class SetupMfaController extends WebController
         $qrUrl = $this->google2FA->getQRCodeUrl(
             config('app.name'),
             $request->user()->email,
-            $secret
+            Crypt::decryptString($secret)
         );
 
         $qrSvg = $this->getWriter()->writeString($qrUrl);

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Session;
 
 class MfaGate
 {
+    const NEEDS_MFA_KEY = 'auth.needs-mfa';
+
     /**
      * Routes to not redirect to the MFA gate on
      *
@@ -59,6 +61,6 @@ class MfaGate
         return $request->routeIs($this->exclude) ||
         $request->user() == null ||
         !$request->user()->is_totp_enabled ||
-        !Session::has('auth.needs_mfa');
+        !Session::has(self::NEEDS_MFA_KEY);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Entities\Accounts\Repositories\AccountRepository;
+use App\Http\Middleware\MfaGate;
 use App\Http\Requests\LoginRequest;
 use App\Http\WebController;
 use App\Library\Discourse\Api\DiscourseAdminApi;
@@ -103,7 +104,7 @@ final class LoginController extends WebController
 
         // Check if the user needs to complete 2FA
         if ($account->is_totp_enabled) {
-            Session::put('auth.needs-mfa', true);
+            Session::put(MfaGate::NEEDS_MFA_KEY, "true");
         }
 
         // Redirect back to the intended page
