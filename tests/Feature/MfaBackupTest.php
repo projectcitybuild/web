@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Accounts\Notifications\AccountMfaBackupCodeRegeneratedNotification;
+use App\Entities\Accounts\Notifications\AccountMfaBackupCodeUsedNotification;
 use App\Http\Middleware\MfaGate;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Notification;
@@ -37,8 +38,6 @@ class MfaBackupTest extends TestCase
         $this->actingAs($this->mfaAccount)
             ->flagNeedsMfa();
 
-        $this->withoutExceptionHandling();
-
         $this->delete(route('front.login.mfa-recover'), [
             'backup_code' => Crypt::decryptString($this->mfaAccount->totp_backup_code)
         ])
@@ -47,7 +46,7 @@ class MfaBackupTest extends TestCase
             ->assertSessionHas('mfa_removed')
             ->assertSessionMissing(MfaGate::NEEDS_MFA_KEY);
 
-        Notification::assertSentTo($this->mfaAccount, AccountMfaBackupCodeRegeneratedNotification::class);
+        Notification::assertSentTo($this->mfaAccount, AccountMfaBackupCodeUsedNotification::class);
 
         $account = $this->mfaAccount->refresh();
 
