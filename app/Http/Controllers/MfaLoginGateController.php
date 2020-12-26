@@ -26,18 +26,14 @@ class MfaLoginGateController extends WebController
 
     public function create()
     {
-        if (!Session::has(MfaGate::NEEDS_MFA_KEY)) {
-            abort(403);
-        }
-
         return view('front.pages.login.mfa');
     }
 
     public function store(Request $request)
     {
-        if (!Session::has(MfaGate::NEEDS_MFA_KEY)) {
-            abort(403);
-        }
+        $request->validate([
+            'code' => 'required|numeric'
+        ]);
 
         $keyTimestamp = $this->google2FA->verifyKeyNewer(
             Crypt::decryptString($request->user()->totp_secret),

@@ -69,4 +69,13 @@ class MfaLoginTest extends TestCase
         $this->post(route('front.login.mfa'), [])
             ->assertSessionHasErrors(['code']);
     }
+
+    public function testCantSubmitMalformedMfaCode()
+    {
+        $this->actingAs($this->mfaAccount)
+            ->flagNeedsMfa();
+
+        $this->post(route('front.login.mfa'), ['backup_code' => 'abcdefg'])
+            ->assertSessionHasErrors(['code']);
+    }
 }

@@ -73,22 +73,22 @@ Route::prefix('login')->group(function () {
     Route::get('/mfa', [
         'as' => 'front.login.mfa',
         'uses' => 'MfaLoginGateController@create'
-    ])->middleware(['auth']);
+    ])->middleware(['auth', 'active-mfa']);
 
     Route::post('/mfa', [
         'as' => 'front.login.mfa',
         'uses' => 'MfaLoginGateController@store'
-    ])->middleware(['auth', 'throttle:6,1']);
+    ])->middleware(['auth', 'active-mfa', 'throttle:6,1']);
 
     Route::get('/mfa/recover', [
         'as' => 'front.login.mfa-recover',
         'uses' => 'MfaBackupController@show'
-    ])->middleware(['auth']);
+    ])->middleware(['auth', 'active-mfa']);
 
     Route::delete('/mfa/recover', [
         'as' => 'front.login.mfa-recover',
         'uses' => 'MfaBackupController@destroy'
-    ])->middleware(['auth', 'throttle:6,1']);
+    ])->middleware(['auth', 'active-mfa', 'throttle:6,1']);
 });
 
 Route::prefix('password-reset')->group(function () {
