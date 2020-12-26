@@ -3,8 +3,10 @@
 namespace Tests\Feature;
 
 use App\Entities\Accounts\Models\Account;
+use App\Entities\Accounts\Notifications\AccountMfaBackupCodeRegeneratedNotification;
 use App\Http\Middleware\MfaGate;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -30,6 +32,8 @@ class MfaBackupTest extends TestCase
 
     public function testCanSubmitBackupForm()
     {
+        Notification::fake();
+
         $this->actingAs($this->mfaAccount)
             ->flagNeedsMfa();
 
@@ -42,6 +46,8 @@ class MfaBackupTest extends TestCase
             ->assertRedirect(route('front.login'))
             ->assertSessionHas('mfa_removed')
             ->assertSessionMissing(MfaGate::NEEDS_MFA_KEY);
+
+        Notification::assertSentTo($this->mfaAccount, AccountMfaBackupCodeRegeneratedNotification::class);
 
         $account = $this->mfaAccount->refresh();
 

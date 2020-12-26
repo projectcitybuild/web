@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Settings\Mfa;
 
+use App\Entities\Accounts\Notifications\AccountMfaDisabledNotification;
 use App\Http\WebController;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,7 @@ class DisableMfaController extends WebController
         $account = $request->user();
         $account->resetTotp();
         $account->save();
+        $account->notify(new AccountMfaDisabledNotification());
 
         return redirect(route('front.account.security'))->with(['mfa_disabled' => true]);
     }

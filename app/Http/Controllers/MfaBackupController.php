@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\MfaGate;
+use App\Entities\Accounts\Notifications\AccountMfaBackupCodeUsedNotification;
 use App\Http\WebController;
 use App\Services\Login\LogoutService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Session;
 
 class MfaBackupController extends WebController
 {
@@ -30,7 +29,7 @@ class MfaBackupController extends WebController
 
         $request->user()->resetTotp();
         $request->user()->save();
-
+        $request->user()->notify(new AccountMfaBackupCodeUsedNotification());
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         $request->session()->flash('mfa_removed', true);

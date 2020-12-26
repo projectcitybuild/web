@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Settings\Mfa;
 
+use App\Entities\Accounts\Notifications\AccountMfaEnabledNotification;
 use App\Http\WebController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -58,6 +59,8 @@ class FinishMfaController extends WebController
         $request->user()->is_totp_enabled = true;
         $request->user()->totp_last_used = $keyTimestamp;
         $request->user()->save();
+
+        $request->user()->notify(new AccountMfaEnabledNotification());
 
         return redirect()->route('front.account.security')->with([
             'mfa_setup_finished' => true

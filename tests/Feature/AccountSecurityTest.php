@@ -5,7 +5,11 @@ namespace Tests\Feature;
 
 
 use App\Entities\Accounts\Models\Account;
+use App\Entities\Accounts\Notifications\AccountMfaBackupCodeRegeneratedNotification;
+use App\Entities\Accounts\Notifications\AccountMfaDisabledNotification;
+use App\Entities\Accounts\Notifications\AccountMfaEnabledNotification;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Notification;
 use PragmaRX\Google2FA\Google2FA;
 use Tests\TestCase;
 
@@ -78,6 +82,19 @@ class AccountSecurityTest extends TestCase
         ]);
     }
 
+    public function testSetupSendsNotification()
+    {
+        Notification::fake();
+        $account = Account::factory()->hasStartedTotp()->create();
+        $validCode = $this->g2fa->getCurrentOtp(Crypt::decryptString($account->totp_secret));
+        $this->actingAs($account);
+        $this->post(route('front.account.security.finish'), [
+            'backup_saved' => 1,
+            'code' => $validCode
+        ]);
+        Notification::assertSentTo($account, AccountMfaEnabledNotification::class);
+    }
+
     public function testCantReStartIfSetUp()
     {
         $this->actingAs(Account::factory()->hasFinishedTotp()->create());
@@ -142,6 +159,17 @@ class AccountSecurityTest extends TestCase
         ]);
     }
 
+    public function testDisablingSendsNotification()
+    {
+        Notification::fake();
+        $account = Account::factory()->hasFinishedTotp()->create();
+        $this->actingAs($account);
+        $this->disableReauthMiddleware();
+        $this->delete(route('front.account.security.disable'))
+            ->assertRedirect();
+        Notification::assertSentTo($account, AccountMfaDisabledNotification::class);
+    }
+
     public function testCantRefreshBackupIfNotEnabled()
     {
         $this->actingAs(Account::factory()->hasStartedTotp()->create());
@@ -175,5 +203,14 @@ class AccountSecurityTest extends TestCase
         $this->assertNotEquals($originalCode, $newCode);
 
         $resp->assertSee(Crypt::decryptString($newCode));
+    }
+
+    public function testRegeneratingBackupCodeSendsNotification()
+    {
+        Notification::fake();
+        $account = Account::factory()->hasFinishedTotp()->create();
+        $this->actingAs($account)->disableReauthMiddleware();
+        $this->post(route('front.account.security.reset-backup'));
+        Notification::assertSentTo($account, AccountMfaBackupCodeRegeneratedNotification::class);
     }
 }
