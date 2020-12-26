@@ -5,6 +5,7 @@ namespace Tests\Feature;
 
 
 use App\Entities\Accounts\Models\Account;
+use Illuminate\Support\Facades\Crypt;
 use PragmaRX\Google2FA\Google2FA;
 use Tests\TestCase;
 
@@ -31,20 +32,37 @@ class AccountSecurityTest extends TestCase
         $account = Account::factory()->create();
         $this->actingAs($account);
 
-        $this->post(route('front.account.security.start'))
-            ->assertRedirect(route('front.account.security.setup'));
-
+        $resp = $this->followingRedirects()
+            ->post(route('front.account.security.start'))
+            ->assertOk();
+        
         $account = $account->fresh();
         $this->assertNotNull($account->totp_secret);
         $this->assertNotNull($account->totp_backup_code);
         $this->assertFalse($account->is_totp_enabled);
+
+        $resp->assertSee($account->totp_backup_code)
+            ->assertSee(Crypt::decryptString($account->totp_secret));
+    }
+
+    public function testSecretIsEncrypted()
+    {
+        $account = Account::factory()->create();
+        $this->actingAs($account);
+
+        $this->post(route('front.account.security.start'))
+            ->assertRedirect(route('front.account.security.setup'));
+
+        $account = $account->fresh();
+        $decryptedSecret = Crypt::decryptString($account->totp_secret);
+        $this->assertEquals(16, strlen($decryptedSecret));
     }
 
     public function testCanFinishSetup()
     {
         $account = Account::factory()->hasStartedTotp()->create();
 
-        $validCode = $this->g2fa->getCurrentOtp($account->totp_secret);
+        $validCode = $this->g2fa->getCurrentOtp(Crypt::decryptString($account->totp_secret));
 
         $this->actingAs($account);
 

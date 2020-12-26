@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Settings\Mfa;
 
 use App\Http\WebController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\ValidationException;
 use PragmaRX\Google2FA\Google2FA;
 
@@ -42,7 +43,7 @@ class FinishMfaController extends WebController
         ]);
 
         $keyTimestamp = $this->google2FA->verifyKeyNewer(
-            $request->user()->totp_secret,
+            Crypt::decryptString($request->user()->totp_secret),
             $request->code,
             $request->user()->totp_last_used
         );

@@ -50,7 +50,7 @@
                             <div class="twofa__qr-manual">
                                 If you can't scan the code, manually enter the key
                                 <div class="twofa__manual-key">
-                                    {{ $secretKey }}
+                                    {{ Crypt::decryptString($secretKey) }}
                                 </div>
                             </div>
                         </div>

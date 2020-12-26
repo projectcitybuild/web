@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Settings\Mfa;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 use PragmaRX\Google2FA\Google2FA;
 
@@ -33,7 +34,7 @@ class StartMfaController extends \App\Http\WebController
 
         $secret = $this->google2FA->generateSecretKey();
         $backupCode = Str::random(config('auth.totp.backup_code_length'));
-        $request->user()->totp_secret = $secret;
+        $request->user()->totp_secret = Crypt::encryptString($secret);
         $request->user()->totp_backup_code = $backupCode;
         $request->user()->save();
 

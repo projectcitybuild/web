@@ -17,13 +17,15 @@
                 <form action="{{ route('front.account.security.disable') }}" method="post">
                     @csrf
                     @method('DELETE')
-                    <div class="twofa__buttons">
-                        <a href="{{ route('front.account.security') }}" class="button button--large button--accent">Cancel</a>
-                        <button type="submit" class="button button--primary button--large">
-                            Confirm <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
                 </form>
+            </div>
+            <div class="card__footer">
+                <div class="twofa__buttons">
+                    <a href="{{ route('front.account.security') }}" class="button button--large button--accent">Cancel</a>
+                    <button type="submit" class="button button--primary button--large">
+                        Confirm <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

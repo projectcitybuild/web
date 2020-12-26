@@ -14,7 +14,7 @@ class Add2faFieldsToAccounts extends Migration
     public function up()
     {
         Schema::table('accounts', function (Blueprint $table) {
-            $table->string('totp_secret')->nullable();
+            $table->text('totp_secret')->nullable();
             $table->string('totp_backup_code')->nullable();
             $table->boolean('is_totp_enabled')->default(false);
             $table->integer('totp_last_used')->nullable();

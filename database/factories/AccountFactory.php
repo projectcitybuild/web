@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Entities\Accounts\Models\Account;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use PragmaRX\Google2FA\Google2FA;
@@ -66,7 +67,7 @@ class AccountFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'totp_secret' => (new Google2FA)->generateSecretKey()
+                'totp_secret' => Crypt::encryptString((new Google2FA)->generateSecretKey())
             ];
         });
     }
