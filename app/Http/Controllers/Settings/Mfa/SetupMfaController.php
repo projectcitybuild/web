@@ -47,7 +47,7 @@ class SetupMfaController extends WebController
         $qrUrl = $this->google2FA->getQRCodeUrl(
             config('app.name'),
             $request->user()->email,
-            Crypt::decryptString($secret)
+            $secret
         );
 
         $qrSvg = $this->getWriter()->writeString($qrUrl);
