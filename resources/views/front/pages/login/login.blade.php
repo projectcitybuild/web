@@ -19,7 +19,13 @@
                         <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
                         {{ $errors->first() }}
                     </div>
-                    <p>
+                @endif
+
+                @if(Session::get('mfa_removed', false))
+                    <div class="alert alert--success">
+                        <h3><i class="fas fa-check"></i> 2FA Reset</h3>
+                        <p>2FA has been removed from your account, please sign in again.</p>
+                    </div>
                 @endif
 
                 <div class="form-row">

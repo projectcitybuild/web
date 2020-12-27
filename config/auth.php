@@ -104,6 +104,14 @@ return [
      * Amount of time to clean up unactivated accounts after
      */
 
-    'unactivated_cleanup_days' => 14
+    'unactivated_cleanup_days' => 14,
+
+    /*
+     * Two-factor authentication settings
+     */
+
+    'totp' => [
+        'backup_code_length' => 32,
+    ],
 
 ];
