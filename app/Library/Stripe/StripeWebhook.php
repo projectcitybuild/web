@@ -28,11 +28,13 @@ final class StripeWebhook
         $webhook = new StripeWebhook($webhookEvent, $json->data->object->id);
 
         $items = $json->data->object->display_items;
+
         if ($items !== null && count($items) > 0) {
             $webhook->setAmountInCents($json->data->object->display_items[0]->amount);
         }
 
         $sessionId = $json->data->object->client_reference_id;
+
         if ($sessionId !== null) {
             $webhook->setSessionId($sessionId);
         }

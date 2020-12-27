@@ -46,6 +46,7 @@ class MinecraftPlayerLookupService
     public function getByAlias(string $alias): ?MinecraftPlayer
     {
         $alias = $this->aliasRepository->getByAlias($alias);
+
         if ($alias === null) {
             return null;
         }
@@ -55,16 +56,12 @@ class MinecraftPlayerLookupService
 
     /**
      * Gets a MinecraftPlayer by uuid. If the uuid doesn't match
-     * a player, the player is created first
-     *
-     * @param string $uuid
-     * @param string|null $createAlias
-     *
-     * @return MinecraftPlayer
+     * a player, the player is created first.
      */
     public function getOrCreateByUuid(string $uuid, ?string $createAlias = null): MinecraftPlayer
     {
         $player = $this->getByUuid($uuid);
+
         if ($player !== null) {
             return $player;
         }
@@ -78,6 +75,7 @@ class MinecraftPlayerLookupService
             }
 
             $this->connection->commit();
+
             return $player;
         } catch (\Exception $e) {
             $this->connection->rollBack();

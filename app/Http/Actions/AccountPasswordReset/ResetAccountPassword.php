@@ -24,11 +24,13 @@ final class ResetAccountPassword
     public function execute(string $token, string $newPassword)
     {
         $passwordReset = AccountPasswordReset::where('token', $token)->first();
+
         if ($passwordReset === null) {
             throw new NotFoundException('no_password_reset', 'Password reset request not found');
         }
 
         $account = Account::where('email', $passwordReset->email)->first();
+
         if ($account === null) {
             throw new NotFoundException('no_account', 'Account not found');
         }

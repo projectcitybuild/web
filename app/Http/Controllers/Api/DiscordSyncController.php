@@ -34,6 +34,7 @@ final class DiscordSyncController extends ApiController
         $discordUserId = $request->get('discord_id');
 
         $discordLink = $this->accountLinkRepository->getByProviderAccount('discord', $discordUserId);
+
         if ($discordLink === null) {
             return [
                 'data' => null,

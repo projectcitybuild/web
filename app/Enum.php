@@ -10,8 +10,9 @@ abstract class Enum
     {
         $class = new \ReflectionObject($this);
         $constants = $class->getConstants();
+
         if (in_array($value, $constants, true) === false) {
-            throw new \InvalidArgumentException($value . ' is not a valid enum case');
+            throw new \InvalidArgumentException($value.' is not a valid enum case');
         }
 
         $this->value = $value;
@@ -35,6 +36,7 @@ abstract class Enum
     public static function constants(): array
     {
         $class = new \ReflectionClass(static::class);
+
         return $class->getConstants() ?: [];
     }
 
@@ -51,17 +53,19 @@ abstract class Enum
     public static function fromRawValue(string $rawValue)
     {
         $constants = self::constants();
+
         foreach ($constants as $key => $value) {
             if ($value === $rawValue) {
                 return self::dynamicallyMake($key);
             }
         }
-        throw new \InvalidArgumentException($rawValue . ' is not a valid raw enum value');
+        throw new \InvalidArgumentException($rawValue.' is not a valid raw enum value');
     }
 
     private static function dynamicallyMake($label)
     {
         $keys = self::keys();
+
         if (in_array($label, $keys, true) === false) {
             throw new \InvalidArgumentException();
         }

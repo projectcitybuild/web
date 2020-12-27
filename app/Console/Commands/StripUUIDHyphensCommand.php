@@ -27,8 +27,6 @@ final class StripUUIDHyphensCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {
@@ -54,18 +52,21 @@ final class StripUUIDHyphensCommand extends Command
 
                 // Otherwise, combine the accounts into the original (stripped) version
                 $bans = GameBan::where('banned_player_id', $unstrippedPlayer->getKey())->get();
+
                 foreach ($bans as $ban) {
                     $ban->banned_player_id = $originalAccount->getKey();
                     $ban->save();
                 }
 
                 $bans = GameBan::where('staff_player_id', $unstrippedPlayer->getKey())->get();
+
                 foreach ($bans as $ban) {
                     $ban->staff_player_id = $originalAccount->getKey();
                     $ban->save();
                 }
 
                 $unbans = GameUnban::where('staff_player_id', $unstrippedPlayer->getKey())->get();
+
                 foreach ($unbans as $unban) {
                     $unban->staff_player_id = $originalAccount->getKey();
                     $unban->save();
@@ -74,6 +75,7 @@ final class StripUUIDHyphensCommand extends Command
                 // Transfer Minecraft alias if necessary
                 $alias = MinecraftPlayerAlias::where('player_minecraft_id', $unstrippedPlayer->getKey())->first();
                 $existingAlias = MinecraftPlayerAlias::where('player_minecraft_id', $originalAccount->getKey())->first();
+
                 if ($alias !== null && $existingAlias !== null) {
                     if ($existingAlias->updated_at < $alias->updated_at) {
                         $existingAlias->alias = $alias->alias;

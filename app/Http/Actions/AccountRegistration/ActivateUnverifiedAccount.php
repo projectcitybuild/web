@@ -16,6 +16,7 @@ final class ActivateUnverifiedAccount
     public function execute(string $email, string $ip)
     {
         $account = $this->accountRepository->getByEmail($email);
+
         if ($account === null) {
             throw new \Exception('This unactivated account does not exist');
         }

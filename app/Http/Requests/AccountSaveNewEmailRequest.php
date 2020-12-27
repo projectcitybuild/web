@@ -20,8 +20,6 @@ class AccountSaveNewEmailRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -51,6 +49,7 @@ class AccountSaveNewEmailRequest extends FormRequest
             $password = $input['password'];
 
             $account = $this->accountRepository->getByEmail($oldEmail);
+
             if ($account === null) {
                 throw new \Exception('Failed to find account by email address');
             }
@@ -63,8 +62,6 @@ class AccountSaveNewEmailRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {

@@ -32,9 +32,7 @@ class RecaptchaRule extends Rule
     }
 
     /**
-     * Disables Recaptcha for the current request
-     *
-     * @param bool $enabled
+     * Disables Recaptcha for the current request.
      */
     public static function enable(bool $enabled = true)
     {
@@ -55,7 +53,6 @@ class RecaptchaRule extends Rule
      * Determine if the validation rule passes.
      *
      * @param  string  $attribute
-     * @param  mixed  $value
      *
      * @return bool
      */
@@ -77,6 +74,7 @@ class RecaptchaRule extends Rule
         $this->log->debug('Recaptcha response', ['response' => $result]);
 
         $success = $result['success'];
+
         if ($success === null || $success === false) {
             return false;
         }

@@ -41,11 +41,9 @@ final class RegisterController extends WebController
     }
 
     /**
-     * Attempts to activate an account via token
+     * Attempts to activate an account via token.
      *
-     * @param Request $request
      *
-     * @param ActivateUnverifiedAccount $activateUnverifiedAccount
      *
      * @return View
      *
@@ -67,6 +65,7 @@ final class RegisterController extends WebController
         if ($request->session()->has('url.intended')) {
             $intended = $request->session()->get('url.intended');
             $request->session()->remove('intended');
+
             return redirect($intended);
         }
 

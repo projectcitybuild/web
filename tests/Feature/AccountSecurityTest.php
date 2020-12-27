@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Tests\Feature;
-
 
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Accounts\Notifications\AccountMfaBackupCodeRegeneratedNotification;
@@ -72,7 +70,7 @@ class AccountSecurityTest extends TestCase
 
         $this->post(route('front.account.security.finish'), [
             'backup_saved' => 1,
-            'code' => $validCode
+            'code' => $validCode,
         ])
             ->assertRedirect(route('front.account.security'));
 
@@ -90,7 +88,7 @@ class AccountSecurityTest extends TestCase
         $this->actingAs($account);
         $this->post(route('front.account.security.finish'), [
             'backup_saved' => 1,
-            'code' => $validCode
+            'code' => $validCode,
         ]);
         Notification::assertSentTo($account, AccountMfaEnabledNotification::class);
     }
@@ -114,7 +112,7 @@ class AccountSecurityTest extends TestCase
         $this->actingAs(Account::factory()->hasFinishedTotp()->create());
         $this->post(route('front.account.security.finish'), [
             'backup_saved' => 1,
-            'code' => '000000'
+            'code' => '000000',
         ])->assertForbidden();
     }
 
@@ -155,7 +153,7 @@ class AccountSecurityTest extends TestCase
             'totp_secret' => null,
             'totp_backup_code' => null,
             'is_totp_enabled' => 0,
-            'totp_last_used' => null
+            'totp_last_used' => null,
         ]);
     }
 

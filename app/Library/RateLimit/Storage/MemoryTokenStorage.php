@@ -6,7 +6,7 @@ use App\Library\RateLimit\TokenState;
 use App\Library\RateLimit\TokenStorable;
 
 /**
- * For use with user-scoped rate limitng
+ * For use with user-scoped rate limitng.
  */
 class MemoryTokenStorage implements TokenStorable
 {
@@ -39,8 +39,10 @@ class MemoryTokenStorage implements TokenStorable
     {
         if (array_key_exists($this->key, $this->store)) {
             $storedData = $this->store[$this->key];
+
             return TokenState::fromArray($storedData);
         }
+
         return new TokenState($this->initialTokens, 0);
     }
 

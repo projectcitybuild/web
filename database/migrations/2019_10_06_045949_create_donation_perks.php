@@ -1,11 +1,8 @@
 <?php
 
-use App\Entities\Donations\Models\Donation;
-use App\Entities\Donations\Models\DonationPerk;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateDonationPerks extends Migration
 {

@@ -53,9 +53,8 @@ final class DonationController extends ApiController
     }
 
     /**
-     * Receives a Webhook from Stripe for payments
+     * Receives a Webhook from Stripe for payments.
      *
-     * @param StripeWebhook $webhook
      *
      * @return StripeWebhook
      *
@@ -116,6 +115,7 @@ final class DonationController extends ApiController
         }
 
         $session = AccountPaymentSession::where('session_id', $webhook->getSessionId())->first();
+
         if ($session === null) {
             throw new \Exception('Could not fulfill donation. Internal session id not found: '.$webhook->getSessionId());
         }

@@ -18,8 +18,6 @@ class FinishMfaController extends WebController
 
     /**
      * EnableTotpController constructor.
-     *
-     * @param Google2FA $google2FA
      */
     public function __construct(Google2FA $google2FA)
     {
@@ -29,7 +27,6 @@ class FinishMfaController extends WebController
     /**
      * Handle the incoming request.
      *
-     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\RedirectResponse
      *

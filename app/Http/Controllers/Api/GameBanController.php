@@ -12,7 +12,6 @@ use App\Services\PlayerBans\PlayerBanLookupService;
 use App\Services\PlayerBans\PlayerBanService;
 use App\Services\PlayerBans\ServerKeyAuthService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 final class GameBanController extends ApiController
@@ -33,7 +32,7 @@ final class GameBanController extends ApiController
     private $serverKeyAuthService;
 
     /**
-     * Maps game identifier types (eg. MINECRAFT_UUID) to game player type (eg. MINECRAFT)
+     * Maps game identifier types (eg. MINECRAFT_UUID) to game player type (eg. MINECRAFT).
      *
      * @var array
      */
@@ -52,10 +51,8 @@ final class GameBanController extends ApiController
     }
 
     /**
-     * Creates a new player ban
+     * Creates a new player ban.
      *
-     * @param Request $request
-     * @param Validator $validationFactory
      *
      * @return void
      */
@@ -98,14 +95,13 @@ final class GameBanController extends ApiController
             $expiresAt,
             $isGlobalBan
         );
+
         return new GameBanResource($ban);
     }
 
     /**
-     * Creates a new player unban
+     * Creates a new player unban.
      *
-     * @param Request $request
-     * @param Validator $validationFactory
      *
      * @return void
      */
@@ -134,6 +130,7 @@ final class GameBanController extends ApiController
             $staffPlayerId,
             $staffPlayerType->playerType()
         );
+
         return new GameUnbanResource($unban);
     }
 
@@ -158,12 +155,14 @@ final class GameBanController extends ApiController
                 'data' => null,
             ];
         }
+
         return new GameBanResource($activeBan);
     }
 
     private function getServerKeyFromHeader(Request $request): ServerKey
     {
         $authHeader = $request->header('Authorization');
+
         return $this->serverKeyAuthService->getServerKey($authHeader);
     }
 

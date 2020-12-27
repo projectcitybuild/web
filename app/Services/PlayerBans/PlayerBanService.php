@@ -63,6 +63,7 @@ final class PlayerBanService
             // Strip hyphens from Minecraft UUIDs
             $bannedPlayerId = str_replace('-', '', $bannedPlayerId);
         }
+
         if ($staffPlayerType->valueOf() === GamePlayerType::Minecraft) {
             // Strip hyphens from Minecraft UUIDs
             $staffPlayerId = str_replace('-', '', $staffPlayerId);
@@ -101,6 +102,7 @@ final class PlayerBanService
             // Strip hyphens from Minecraft UUIDs
             $bannedPlayerId = str_replace('-', '', $bannedPlayerId);
         }
+
         if ($staffPlayerType->valueOf() === GamePlayerType::Minecraft) {
             // Strip hyphens from Minecraft UUIDs
             $staffPlayerId = str_replace('-', '', $staffPlayerId);
@@ -110,6 +112,7 @@ final class PlayerBanService
         $staffPlayer = $this->playerLookupService->getOrCreatePlayer($staffPlayerType, $staffPlayerId);
 
         $activeBan = $this->gameBanRepository->getActiveBanByGameUserId($bannedPlayer->getKey(), $bannedPlayerType);
+
         if ($activeBan === null) {
             throw new UserNotBannedException('player_not_banned', 'This player is not currently banned');
         }
@@ -129,6 +132,7 @@ final class PlayerBanService
             DB::rollBack();
             throw $e;
         }
+
         return $unban;
     }
 }

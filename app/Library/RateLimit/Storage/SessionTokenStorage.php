@@ -7,7 +7,7 @@ use App\Library\RateLimit\TokenStorable;
 use Illuminate\Support\Facades\Session;
 
 /**
- * For use with user-scoped rate limitng
+ * For use with user-scoped rate limitng.
  */
 class SessionTokenStorage implements TokenStorable
 {
@@ -34,9 +34,11 @@ class SessionTokenStorage implements TokenStorable
     public function deserialize(): TokenState
     {
         $storedData = Session::get($this->sessionName);
+
         if ($storedData === null) {
             return new TokenState($this->initialTokens, 0);
         }
+
         return TokenState::fromArray($storedData);
     }
 

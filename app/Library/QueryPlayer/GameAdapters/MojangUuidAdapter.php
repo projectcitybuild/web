@@ -37,10 +37,12 @@ final class MojangUuidAdapter implements PlayerQueryAdapterContract
         $names = collect($aliases)->chunk(10);
 
         $players = [];
+
         foreach ($names as $nameChunk) {
             $response = $this->mojangPlayerApi->getUuidBatchOf($nameChunk->toArray());
             $response = array_map(function (MojangPlayer $player) {
                 $uuid = $player->getUuid();
+
                 return str_replace('-', '', $uuid);
             }, $response);
 
@@ -56,10 +58,12 @@ final class MojangUuidAdapter implements PlayerQueryAdapterContract
     public function createPlayers(array $identifiers): array
     {
         $players = [];
+
         foreach ($identifiers as $identifier) {
             $player = $this->userLookupService->getOrCreateByUuid($identifier);
             $players[] = $player->getKey();
         }
+
         return $players;
     }
 }
