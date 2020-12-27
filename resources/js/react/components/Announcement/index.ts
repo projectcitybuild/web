@@ -1,1 +1,0 @@
-export { default as AnnouncementManager } from './announcement-manager';
