@@ -36,7 +36,7 @@ final class MinecraftAuthTokenController extends ApiController
         if ($existingPlayer === null) {
             $existingPlayer = MinecraftPlayer::create([
                 'uuid' => $uuid,
-                'account_id' => null
+                'account_id' => null,
             ]);
         }
 
