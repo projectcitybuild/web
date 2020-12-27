@@ -3,7 +3,6 @@
 namespace App\Entities\Accounts\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -18,13 +17,14 @@ class AccountMfaBackupCodeUsedNotification extends Notification
      */
     public function __construct()
     {
-        //
+        
     }
 
     /**
      * Get the notification's delivery channels.
      *
      * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -36,11 +36,12 @@ class AccountMfaBackupCodeUsedNotification extends Notification
      * Get the mail representation of the notification.
      *
      * @param mixed $notifiable
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Your 2FA Backup Code Was Used')
             ->greeting('2FA Backup Code Used')
             ->line('Your 2FA backup code was used, 2FA has been disabled on your account.')
@@ -51,12 +52,13 @@ class AccountMfaBackupCodeUsedNotification extends Notification
      * Get the array representation of the notification.
      *
      * @param mixed $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
-            //
+
         ];
     }
 }

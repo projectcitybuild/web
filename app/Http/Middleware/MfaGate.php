@@ -14,11 +14,11 @@ class MfaGate
     /**
      * Routes to not redirect to the MFA gate on
      *
-     * @var array|string[]
+     * @var array<string>
      */
     private array $exclude = [
         'front.login.mfa',
-        'front.login.mfa-recover'
+        'front.login.mfa-recover',
     ];
 
     /**
@@ -28,6 +28,7 @@ class MfaGate
 
     /**
      * MfaGate constructor.
+     *
      * @param ResponseFactory $responseFactory
      */
     public function __construct(ResponseFactory $responseFactory)
@@ -35,12 +36,12 @@ class MfaGate
         $this->responseFactory = $responseFactory;
     }
 
-
     /**
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure $next
+     *
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
@@ -56,13 +57,14 @@ class MfaGate
      * Check if the given request does not require MFA first
      *
      * @param Request $request
+     *
      * @return bool
      */
     private function accountDoesntNeedMfa(Request $request): bool
     {
         return $request->routeIs($this->exclude) ||
-            $request->user() == null ||
-            !$request->user()->is_totp_enabled ||
-            !Session::has(self::NEEDS_MFA_KEY);
+            $request->user() === null ||
+            ! $request->user()->is_totp_enabled ||
+            ! Session::has(self::NEEDS_MFA_KEY);
     }
 }

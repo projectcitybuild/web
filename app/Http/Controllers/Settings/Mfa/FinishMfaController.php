@@ -18,6 +18,7 @@ class FinishMfaController extends WebController
 
     /**
      * EnableTotpController constructor.
+     *
      * @param Google2FA $google2FA
      */
     public function __construct(Google2FA $google2FA)
@@ -29,7 +30,9 @@ class FinishMfaController extends WebController
      * Handle the incoming request.
      *
      * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse
+     *
      * @throws ValidationException
      */
     public function __invoke(Request $request)
@@ -40,7 +43,7 @@ class FinishMfaController extends WebController
 
         $request->validate([
             'backup_saved' => 'accepted',
-            'code' => 'required'
+            'code' => 'required',
         ]);
 
         $keyTimestamp = $this->google2FA->verifyKeyNewer(
@@ -63,7 +66,7 @@ class FinishMfaController extends WebController
         $request->user()->notify(new AccountMfaEnabledNotification());
 
         return redirect()->route('front.account.security')->with([
-            'mfa_setup_finished' => true
+            'mfa_setup_finished' => true,
         ]);
     }
 }

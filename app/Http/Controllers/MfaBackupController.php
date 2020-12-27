@@ -18,12 +18,12 @@ class MfaBackupController extends WebController
     public function destroy(Request $request, LogoutService $logoutService)
     {
         $request->validate([
-            'backup_code' => 'required'
+            'backup_code' => 'required',
         ]);
 
-        if ($request->backup_code != Crypt::decryptString($request->user()->totp_backup_code)) {
+        if ($request->backup_code !== Crypt::decryptString($request->user()->totp_backup_code)) {
             return back()->withErrors([
-                'backup_code' => 'Your backup code is incorrect, please try again. If you have lost access, please ask PCB staff for help'
+                'backup_code' => 'Your backup code is incorrect, please try again. If you have lost access, please ask PCB staff for help',
             ]);
         }
 

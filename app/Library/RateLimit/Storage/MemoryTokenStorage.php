@@ -1,8 +1,9 @@
 <?php
+
 namespace App\Library\RateLimit\Storage;
 
-use App\Library\RateLimit\TokenStorable;
 use App\Library\RateLimit\TokenState;
+use App\Library\RateLimit\TokenStorable;
 
 /**
  * For use with user-scoped rate limitng
@@ -24,16 +25,17 @@ class MemoryTokenStorage implements TokenStorable
      */
     private $store = [];
 
-
     public function __construct(string $key, int $initialTokens = 0)
     {
         $this->key = $key;
         $this->initialTokens = $initialTokens;
     }
 
-    public function bootstrap() {}
+    public function bootstrap()
+    {
+    }
 
-    public function deserialize() : TokenState
+    public function deserialize(): TokenState
     {
         if (array_key_exists($this->key, $this->store)) {
             $storedData = $this->store[$this->key];

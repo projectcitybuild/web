@@ -31,7 +31,7 @@ final class Account extends Authenticatable
 
     protected $hidden = [
         'totp_secret',
-        'totp_backup_code'
+        'totp_backup_code',
     ];
 
     protected $dates = [
@@ -41,7 +41,7 @@ final class Account extends Authenticatable
     ];
 
     protected $casts = [
-        'is_totp_enabled' => 'boolean'
+        'is_totp_enabled' => 'boolean',
     ];
 
     public function toSearchableArray()

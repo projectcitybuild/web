@@ -10,7 +10,7 @@ class DisableMfaController extends WebController
 {
     public function show(Request $request)
     {
-        if (!$request->user()->is_totp_enabled) {
+        if (! $request->user()->is_totp_enabled) {
             abort(403);
         }
 

@@ -104,7 +104,7 @@ final class LoginController extends WebController
 
         // Check if the user needs to complete 2FA
         if ($account->is_totp_enabled) {
-            Session::put(MfaGate::NEEDS_MFA_KEY, "true");
+            Session::put(MfaGate::NEEDS_MFA_KEY, 'true');
         }
 
         // Redirect back to the intended page

@@ -62,32 +62,32 @@ Route::prefix('login')->group(function () {
 
     Route::get('/reauth', [
         'as' => 'password.confirm',
-        'uses' => 'ReauthController@show'
+        'uses' => 'ReauthController@show',
     ])->middleware('auth');
 
     Route::post('/reauth', [
         'as' => 'password.confirm',
-        'uses' => 'ReauthController@process'
+        'uses' => 'ReauthController@process',
     ])->middleware(['auth', 'throttle:6,1']);
 
     Route::get('/mfa', [
         'as' => 'front.login.mfa',
-        'uses' => 'MfaLoginGateController@create'
+        'uses' => 'MfaLoginGateController@create',
     ])->middleware(['auth', 'active-mfa']);
 
     Route::post('/mfa', [
         'as' => 'front.login.mfa',
-        'uses' => 'MfaLoginGateController@store'
+        'uses' => 'MfaLoginGateController@store',
     ])->middleware(['auth', 'active-mfa', 'throttle:6,1']);
 
     Route::get('/mfa/recover', [
         'as' => 'front.login.mfa-recover',
-        'uses' => 'MfaBackupController@show'
+        'uses' => 'MfaBackupController@show',
     ])->middleware(['auth', 'active-mfa']);
 
     Route::delete('/mfa/recover', [
         'as' => 'front.login.mfa-recover',
-        'uses' => 'MfaBackupController@destroy'
+        'uses' => 'MfaBackupController@destroy',
     ])->middleware(['auth', 'active-mfa', 'throttle:6,1']);
 });
 
@@ -190,45 +190,45 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Set
         ]);
     });
 
-    Route::prefix('security')->group(function() {
+    Route::prefix('security')->group(function () {
         Route::get('/', [
             'as' => 'front.account.security',
-            'uses' => 'AccountSecurityController@show'
+            'uses' => 'AccountSecurityController@show',
         ]);
 
         Route::post('/mfa', [
             'as' => 'front.account.security.start',
-            'uses' => 'Mfa\\StartMfaController'
+            'uses' => 'Mfa\\StartMfaController',
         ]);
 
         Route::get('/mfa/setup', [
             'as' => 'front.account.security.setup',
-            'uses' => 'Mfa\\SetupMfaController'
+            'uses' => 'Mfa\\SetupMfaController',
         ]);
 
         Route::post('/mfa/finish', [
             'as' => 'front.account.security.finish',
-            'uses' => 'Mfa\\FinishMfaController'
+            'uses' => 'Mfa\\FinishMfaController',
         ]);
 
         Route::get('/mfa/disable', [
             'as' => 'front.account.security.disable',
-            'uses' => 'Mfa\\DisableMfaController@show'
+            'uses' => 'Mfa\\DisableMfaController@show',
         ])->middleware('password.confirm');
 
         Route::delete('/mfa/disable', [
             'as' => 'front.account.security.disable',
-            'uses' => 'Mfa\\DisableMfaController@destroy'
+            'uses' => 'Mfa\\DisableMfaController@destroy',
         ])->middleware('password.confirm');
 
         Route::get('/mfa/backup', [
             'as' => 'front.account.security.reset-backup',
-            'uses' => 'Mfa\\ResetBackupController@show'
+            'uses' => 'Mfa\\ResetBackupController@show',
         ])->middleware('password.confirm');
 
         Route::post('/mfa/backup', [
             'as' => 'front.account.security.reset-backup',
-            'uses' => 'Mfa\\ResetBackupController@update'
+            'uses' => 'Mfa\\ResetBackupController@update',
         ])->middleware('password.confirm');
     });
 });

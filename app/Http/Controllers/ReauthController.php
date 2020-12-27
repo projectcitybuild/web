@@ -12,6 +12,7 @@ class ReauthController extends WebController
      * Handle the incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request)
@@ -23,7 +24,7 @@ class ReauthController extends WebController
     {
         if (! Hash::check($request->password, $request->user()->password)) {
             return back()->withErrors([
-                'password' => ['The provided password does not match our records.']
+                'password' => ['The provided password does not match our records.'],
             ]);
         }
 

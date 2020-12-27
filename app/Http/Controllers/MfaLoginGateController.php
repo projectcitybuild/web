@@ -7,7 +7,6 @@ use App\Http\WebController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Validation\ValidationException;
 use PragmaRX\Google2FA\Google2FA;
 
 class MfaLoginGateController extends WebController
@@ -16,6 +15,7 @@ class MfaLoginGateController extends WebController
 
     /**
      * MfaLoginGateController constructor.
+     *
      * @param Google2FA $google2FA
      */
     public function __construct(Google2FA $google2FA)
@@ -31,7 +31,7 @@ class MfaLoginGateController extends WebController
     public function store(Request $request)
     {
         $request->validate([
-            'code' => 'required|numeric'
+            'code' => 'required|numeric',
         ]);
 
         $keyTimestamp = $this->google2FA->verifyKeyNewer(
@@ -42,7 +42,7 @@ class MfaLoginGateController extends WebController
 
         if ($keyTimestamp === false) {
             return back()->withErrors([
-                'code' => 'This 2FA code isn\'t valid. Please try again.'
+                'code' => 'This 2FA code isn\'t valid. Please try again.',
             ]);
         }
 

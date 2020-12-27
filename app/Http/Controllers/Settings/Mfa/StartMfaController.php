@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Http\Controllers\Settings\Mfa;
-
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -18,13 +16,13 @@ class StartMfaController extends \App\Http\WebController
 
     /**
      * EnableTotpController constructor.
+     *
      * @param Google2FA $google2FA
      */
     public function __construct(Google2FA $google2FA)
     {
         $this->google2FA = $google2FA;
     }
-
 
     public function __invoke(Request $request)
     {

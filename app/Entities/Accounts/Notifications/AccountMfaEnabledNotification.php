@@ -3,7 +3,6 @@
 namespace App\Entities\Accounts\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -18,13 +17,14 @@ class AccountMfaEnabledNotification extends Notification
      */
     public function __construct()
     {
-        //
+        
     }
 
     /**
      * Get the notification's delivery channels.
      *
      * @param  mixed  $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -36,27 +36,29 @@ class AccountMfaEnabledNotification extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->subject('2FA Has Been Enabled on your Account')
-                    ->greeting('2FA Enabled')
-                    ->line('2-factor authentication has been enabled on your account.')
-                    ->line('If this wasn\'t you, please speak to a member of PCB staff immediately.');
+        return (new MailMessage())
+            ->subject('2FA Has Been Enabled on your Account')
+            ->greeting('2FA Enabled')
+            ->line('2-factor authentication has been enabled on your account.')
+            ->line('If this wasn\'t you, please speak to a member of PCB staff immediately.');
     }
 
     /**
      * Get the array representation of the notification.
      *
      * @param  mixed  $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
-            //
+
         ];
     }
 }

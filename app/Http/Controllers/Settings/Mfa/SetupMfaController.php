@@ -9,7 +9,6 @@ use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Str;
 use PragmaRX\Google2FA\Google2FA;
 
 class SetupMfaController extends WebController
@@ -21,6 +20,7 @@ class SetupMfaController extends WebController
 
     /**
      * EnableTotpController constructor.
+     *
      * @param Google2FA $google2FA
      */
     public function __construct(Google2FA $google2FA)
@@ -29,24 +29,10 @@ class SetupMfaController extends WebController
     }
 
     /**
-     * Generate the QR Code writer
-     *
-     * @return Writer
-     */
-    private function getWriter(): Writer
-    {
-        return new Writer(
-            new ImageRenderer(
-                new RendererStyle(150, 0),
-                new SvgImageBackEnd()
-            )
-        );
-    }
-
-    /**
      * Handle the incoming request.
      *
      * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function __invoke(Request $request)
@@ -68,8 +54,23 @@ class SetupMfaController extends WebController
 
         return view('front.pages.account.security.2fa-setup')->with([
             'backupCode' => $backupCode,
-            'qrSvg'  => $qrSvg,
-            'secretKey' => $secret
+            'qrSvg' => $qrSvg,
+            'secretKey' => $secret,
         ]);
+    }
+
+    /**
+     * Generate the QR Code writer
+     *
+     * @return Writer
+     */
+    private function getWriter(): Writer
+    {
+        return new Writer(
+            new ImageRenderer(
+                new RendererStyle(150, 0),
+                new SvgImageBackEnd()
+            )
+        );
     }
 }

@@ -12,7 +12,7 @@ class ResetBackupController extends WebController
 {
     public function show(Request $request)
     {
-        if (!$request->user()->is_totp_enabled) {
+        if (! $request->user()->is_totp_enabled) {
             abort(403);
         }
 
@@ -21,7 +21,7 @@ class ResetBackupController extends WebController
 
     public function update(Request $request)
     {
-        if (!$request->user()->is_totp_enabled) {
+        if (! $request->user()->is_totp_enabled) {
             abort(403);
         }
 
