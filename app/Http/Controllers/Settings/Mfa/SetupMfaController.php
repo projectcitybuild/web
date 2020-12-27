@@ -55,7 +55,8 @@ class SetupMfaController extends WebController
             abort(403);
         }
 
-        $secret = $request->user()->totp_secret;
+        $secret = Crypt::decryptString($request->user()->totp_secret);
+        $backupCode = Crypt::decryptString($request->user()->totp_backup_code);
 
         $qrUrl = $this->google2FA->getQRCodeUrl(
             config('app.name'),
@@ -66,7 +67,7 @@ class SetupMfaController extends WebController
         $qrSvg = $this->getWriter()->writeString($qrUrl);
 
         return view('front.pages.account.security.2fa-setup')->with([
-            'backupCode' => $request->user()->totp_backup_code,
+            'backupCode' => $backupCode,
             'qrSvg'  => $qrSvg,
             'secretKey' => $secret
         ]);

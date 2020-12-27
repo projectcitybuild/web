@@ -28,7 +28,7 @@
 
                     <div class="twofa__backup">
                         <label>Your backup code:</label>
-                        <div class="twofa__backup-code">{{ Crypt::decryptString($backupCode) }}</div>
+                        <div class="twofa__backup-code">{{ $backupCode }}</div>
                     </div>
 
                     <p>Please check below to confirm you've saved this:</p>
@@ -50,7 +50,7 @@
                             <div class="twofa__qr-manual">
                                 If you can't scan the code, manually enter the key
                                 <div class="twofa__manual-key">
-                                    {{ Crypt::decryptString($secretKey) }}
+                                    {{ $secretKey }}
                                 </div>
                             </div>
                         </div>

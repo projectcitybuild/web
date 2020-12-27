@@ -23,7 +23,6 @@ class MfaLoginGateController extends WebController
         $this->google2FA = $google2FA;
     }
 
-
     public function create()
     {
         return view('front.pages.login.mfa');
