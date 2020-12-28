@@ -67,7 +67,7 @@ class ServerJobEntity
 
     /**
      * Converts adapters to their class name before
-     * serialization
+     * serialization.
      *
      * @return array
      */
@@ -90,7 +90,7 @@ class ServerJobEntity
 
     /**
      * Converts adapter class names to class instances
-     * after unserializing
+     * after unserializing.
      */
     public function __wakeup()
     {

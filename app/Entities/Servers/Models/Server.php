@@ -36,9 +36,7 @@ final class Server extends Model
     ];
 
     /**
-     * Gets the ip address of the server (with port depending on availability)
-     *
-     * @return string
+     * Gets the ip address of the server (with port depending on availability).
      */
     public function getAddress(): string
     {
@@ -46,7 +44,7 @@ final class Server extends Model
             ? ':'.$this->port
             : '';
 
-        return $this->ip . $port;
+        return $this->ip.$port;
     }
 
     public function serverCategory(): BelongsTo

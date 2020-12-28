@@ -7,7 +7,7 @@ use App\Library\Discourse\Exceptions\BadSSOPayloadException;
 final class DiscoursePayloadValidator
 {
     /**
-     * Key to use when signing a payload
+     * Key to use when signing a payload.
      *
      * @var string
      */
@@ -23,7 +23,7 @@ final class DiscoursePayloadValidator
 
     /**
      * Disables payload checking for the current
-     * request
+     * request.
      */
     public static function disablePayloadChecks()
     {
@@ -31,11 +31,7 @@ final class DiscoursePayloadValidator
     }
 
     /**
-     * Hashes the given string with our private sso secret
-     *
-     * @param string $payload
-     *
-     * @return string
+     * Hashes the given string with our private sso secret.
      */
     public function getSignedPayload(string $payload): string
     {
@@ -44,30 +40,23 @@ final class DiscoursePayloadValidator
 
     /**
      * Returns whether the given signature matches the given
-     * payload hashed with our private sso secret
-     *
-     * @param string $payload
-     * @param string $signature
-     *
-     * @return bool
+     * payload hashed with our private sso secret.
      */
     public function isValidPayload(string $payload, string $signature): bool
     {
         if (config('discourse.signing_enabled', false) === false) {
             return true;
         }
+
         return $this->getSignedPayload($payload) === $signature;
     }
 
     /**
      * Decodes the given sso string and returns the keys
-     * required for creating a new payload after authentication
+     * required for creating a new payload after authentication.
      *
-     * @param string $sso
      *
      * @throws BadSSOPayloadException
-     *
-     * @return array
      */
     public function unpackPayload(string $sso): array
     {
@@ -87,26 +76,17 @@ final class DiscoursePayloadValidator
 
     /**
      * Encodes the given array into a string that
-     * Discourse can handle
-     *
-     * @param array $data
-     *
-     * @return string
+     * Discourse can handle.
      */
     public function makePayload(array $data): string
     {
         $payload = http_build_query($data);
+
         return base64_encode($payload);
     }
 
     /**
-     * Attaches the given sso and signature to a return url
-     *
-     * @param string $url
-     * @param string $sso
-     * @param string $signature
-     *
-     * @return string
+     * Attaches the given sso and signature to a return url.
      */
     public function getRedirectUrl(string $return, string $sso, string $signature): string
     {

@@ -1,24 +1,25 @@
 <?php
+
 namespace Tests\Services;
 
-use Tests\TestCase;
-use App\Services\Queries\ServerQueryService;
-use Illuminate\Support\Facades\Queue;
 use App\Entities\GameType;
-use App\Services\Queries\Jobs\ServerQueryJob;
-use App\Services\Queries\Jobs\PlayerQueryJob;
-use App\Services\Queries\Entities\ServerJobEntity;
-use App\Library\QueryServer\GameAdapters\MinecraftQueryAdapter;
-use App\Library\QueryPlayer\GameAdapters\MojangUuidAdapter;
-use App\Library\QueryServer\ServerQueryResult;
 use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
+use App\Library\QueryPlayer\GameAdapters\MojangUuidAdapter;
+use App\Library\QueryServer\GameAdapters\MinecraftQueryAdapter;
+use App\Library\QueryServer\ServerQueryResult;
+use App\Services\Queries\Entities\ServerJobEntity;
+use App\Services\Queries\Jobs\PlayerQueryJob;
+use App\Services\Queries\Jobs\ServerQueryJob;
+use App\Services\Queries\ServerQueryService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Queue;
+use Tests\TestCase;
 
 class ServerQueryService_Test extends TestCase
 {
     use RefreshDatabase;
-    
-    private function getEntityStub() : ServerJobEntity
+
+    private function getEntityStub(): ServerJobEntity
     {
         $entity = new ServerJobEntity(
             resolve(MinecraftQueryAdapter::class),
@@ -42,7 +43,7 @@ class ServerQueryService_Test extends TestCase
 
         // when...
         $service->dispatchQuery(new GameType(GameType::Minecraft), 1, 'test_ip', 'test_port');
-    
+
         // expect...
         Queue::assertPushed(ServerQueryJob::class, 1);
     }
@@ -58,7 +59,7 @@ class ServerQueryService_Test extends TestCase
         $result = new ServerQueryResult(true, 2, 5, ['player1', 'player2']);
 
         $service->processServerResult($entity, $result);
-    
+
         // expect...
         Queue::assertPushed(PlayerQueryJob::class, 1);
     }

@@ -37,13 +37,14 @@ class AccountChangeUsernameRequest extends FormRequest
     }
 
     /**
-     * Redirect back to the form anchor
+     * Redirect back to the form anchor.
      *
      * @return string
      */
     protected function getRedirectUrl()
     {
         $url = $this->redirector->getUrlGenerator();
-        return $url->previous() . '#change-username';
+
+        return $url->previous().'#change-username';
     }
 }

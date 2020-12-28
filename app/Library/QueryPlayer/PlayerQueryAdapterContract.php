@@ -6,20 +6,12 @@ interface PlayerQueryAdapterContract
 {
     /**
      * Fetches a unique player identifier for
-     * each name
-     *
-     * @param array $aliases
-     *
-     * @return array
+     * each name.
      */
     public function getUniqueIdentifiers(array $aliases = []): array;
 
     /**
-     * Creates a player record in PCB
-     *
-     * @param array $identifiers
-     *
-     * @return array
+     * Creates a player record in PCB.
      */
     public function createPlayers(array $identifiers): array;
 }

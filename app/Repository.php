@@ -20,15 +20,14 @@ abstract class Repository
     private $instance;
 
     /**
-     * Returns an instance of the model
-     *
-     * @return Model
+     * Returns an instance of the model.
      */
     public function getModel(): Model
     {
         if (! isset($this->instance)) {
             $this->instance = resolve($this->model);
         }
+
         return $this->instance;
     }
 }
