@@ -5,69 +5,69 @@ on: push
 jobs:
   test:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mariadb:10.3
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: pcb
-        ports:
-          - 3306
-        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=5s --health-retries=3
+
+#    services:
+#      mysql:
+#        image: mariadb:10.3
+#        env:
+#          MYSQL_ROOT_PASSWORD: root
+#          MYSQL_DATABASE: pcb
+#        ports:
+#          - 3306
+#        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=5s --health-retries=3
 
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout branch
+        uses: actions/checkout@v2
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.4
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
-          coverage: none
+      - name: Build Docker containers
+        run:  docker-compose up -d
+
+        docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
 
       - name: Copy environment
-        run:  cp .env.ci .env
+        run:  docker-compose exec cp .env.ci .env
 
       - name: Validate composer.json and composer.lock
-        run: composer validate
+        run:  docker-compose exec composer validate
 
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+#      - name: Get Composer Cache Directory
+#        id: composer-cache
+#        run: |
+#          echo "::set-output name=dir::$(composer config cache-files-dir)"
+#      - uses: actions/cache@v1
+#        with:
+#          path: ${{ steps.composer-cache.outputs.dir }}
+#          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+#          restore-keys: |
+#            ${{ runner.os }}-composer-
 
       - name: Composer dependencies
-        run: composer install --no-interaction
+        run:  docker-compose exec composer install --no-interaction
 
       - name: NPM Install
-        run: npm ci
+        run:  docker-compose exec npm ci
 
       - name: NPM Build
-        run: npm run prod
+        run:  docker-compose exec npm run prod
 
       - name: Generate Key
-        run: php artisan key:generate
+        run:  docker-compose exec php artisan key:generate
 
       - name: Prepare Database
         env:
           DB_CONNECTION: mysql
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
-        run: php artisan migrate
+        run:  docker-compose exec php artisan migrate
 
       - name: Larastan
-        run: ./vendor/bin/phpstan analyse --memory-limit=1G
+        run:  docker-compose exec ./vendor/bin/phpstan analyse --memory-limit=1G
 
       - name: PHPUnit
         env:
           DB_CONNECTION: mysql
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
-        run: phpdbg -dmemory_limit=1G -qrr vendor/bin/phpunit --coverage-clover tests/coverage/clover.xml
+        run:  docker-compose exec phpdbg -dmemory_limit=1G -qrr vendor/bin/phpunit --coverage-clover tests/coverage/clover.xml
 
       - name: Upload coverage
-        run: curl -s https://codecov.io/bash | bash -f
+        run:  docker-compose exec curl -s https://codecov.io/bash | bash -f
