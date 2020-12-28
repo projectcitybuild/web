@@ -1,0 +1,9 @@
+.account-security {
+    &__twofa-enabled {
+        color: $colour-success;
+    }
+
+    &__twofa-not-enabled {
+        color: $colour-error;
+    }
+}

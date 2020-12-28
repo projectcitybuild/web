@@ -7,10 +7,7 @@ use Illuminate\View\View;
 
 final class MasterViewComposer
 {
-    /**
-     * @var ServerCategoryRepositoryContract
-     */
-    private $serverCategoryRepository;
+    private ServerCategoryRepositoryContract $serverCategoryRepository;
 
     public function __construct(ServerCategoryRepositoryContract $serverCategoryRepository)
     {
@@ -24,9 +21,10 @@ final class MasterViewComposer
      *
      * @return void
      */
-    public function compose(View $view)
+    public function compose(View $view): void
     {
         $servers = $this->serverCategoryRepository->allVisible();
+
         $view->with('serverCategories', $servers);
     }
 }

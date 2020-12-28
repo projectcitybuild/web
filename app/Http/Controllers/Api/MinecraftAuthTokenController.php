@@ -37,8 +37,6 @@ final class MinecraftAuthTokenController extends ApiController
             $existingPlayer = MinecraftPlayer::create([
                 'uuid' => $uuid,
                 'account_id' => null,
-                'playtime' => 0,
-                'last_seen_at' => Carbon::now(),
             ]);
         }
 
@@ -87,6 +85,9 @@ final class MinecraftAuthTokenController extends ApiController
         if ($existingPlayer === null || $existingPlayer->account === null) {
             throw new UnauthorisedException('account_not_linked', 'This UUID has not been linked to a PCB account. Please complete the authorization flow first');
         }
+
+        // Update last seen at time
+        $existingPlayer->touchLastSyncedAt();
 
         // Force load groups
         $existingPlayer->account->groups;

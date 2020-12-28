@@ -30,13 +30,18 @@ final class Account extends Authenticatable
     ];
 
     protected $hidden = [
-
+        'totp_secret',
+        'totp_backup_code',
     ];
 
     protected $dates = [
         'created_at',
         'updated_at',
         'last_login_at',
+    ];
+
+    protected $casts = [
+        'is_totp_enabled' => 'boolean',
     ];
 
     public function toSearchableArray()
@@ -156,5 +161,13 @@ final class Account extends Authenticatable
         $this->last_login_ip = $ip;
         $this->last_login_at = Carbon::now();
         $this->save();
+    }
+
+    public function resetTotp()
+    {
+        $this->totp_secret = null;
+        $this->totp_backup_code = null;
+        $this->totp_last_used = null;
+        $this->is_totp_enabled = false;
     }
 }
