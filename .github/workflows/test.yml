@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build Docker containers
-        run:  docker-compose up -d
+        run:  docker-compose -f docker-compose.yml -f docker-compose.dev.yml -f docker-compose.ci.yml up -d
 
       - name: Copy environment
         run:  docker-compose exec php-fpm cp .env.ci .env

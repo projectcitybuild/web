@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+    php-fpm:
+        build:
+            args:
+                ENV: "DEV"
+        volumes:
+            - "./:/var/www/html"
+
+    mariadb:
+        environment:
+            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+            MYSQL_DATABASE: "${DB_DATABASE}"
+            MYSQL_USER: "${DB_USERNAME}"
+            MYSQL_PASSWORD: "${DB_PASSWORD}"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+    mailhog:
+        image: 'mailhog/mailhog:latest'
+        ports:
+            - 1025:1025
+            - 8025:8025
+        networks:
+            - pcb-web

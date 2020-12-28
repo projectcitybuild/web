@@ -6,15 +6,13 @@ services:
             context: .
             dockerfile: docker/php-fpm/Dockerfile
             args:
-              ENV: "DEV"
-        volumes:
-            - "./:/var/www/html"
+                ENV: "PROD"
         networks:
             - pcb-web
         links:
-          - "mariadb:db"
-          - "redis:redis"
-          - "mailhog:mailhog"
+            - "mariadb:db"
+            - "redis:redis"
+            - "mailhog:mailhog"
         depends_on:
             - mariadb
             - redis
@@ -25,25 +23,19 @@ services:
             context: .
             dockerfile: docker/nginx/Dockerfile
         ports:
-          - "80:80"
-          - "443:443"
+            - "80:80"
+            - "443:443"
         links:
-          - "php-fpm:pcb-laravel"
+            - "php-fpm:pcb-laravel"
         networks:
-          - pcb-web
+            - pcb-web
         depends_on:
-          - php-fpm
+            - php-fpm
 
     mariadb:
         image: "mariadb:10.5"
         ports:
             - "3306:3306"
-        environment:
-            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
-            MYSQL_DATABASE: "${DB_DATABASE}"
-            MYSQL_USER: "${DB_USERNAME}"
-            MYSQL_PASSWORD: "${DB_PASSWORD}"
-            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
         volumes:
             - "mysql:/var/lib/mysql"
         networks:
@@ -55,14 +47,6 @@ services:
             - '6379:6379'
         volumes:
             - 'redis:/data'
-        networks:
-            - pcb-web
-
-    mailhog:
-        image: 'mailhog/mailhog:latest'
-        ports:
-            - 1025:1025
-            - 8025:8025
         networks:
             - pcb-web
 
