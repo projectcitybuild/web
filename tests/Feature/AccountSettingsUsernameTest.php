@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Tests\Feature;
-
 
 use App\Entities\Accounts\Models\Account;
 use App\Library\Discourse\Api\DiscourseAdminApi;
@@ -24,7 +22,7 @@ class AccountSettingsUsernameTest extends TestCase
     private function submitUsernameChange($newUsername): \Illuminate\Testing\TestResponse
     {
         return $this->actingAs($this->account)->post(route('front.account.settings.username'), [
-            'username' => $newUsername
+            'username' => $newUsername,
         ]);
     }
 
@@ -42,7 +40,7 @@ class AccountSettingsUsernameTest extends TestCase
 
         $this->assertDatabaseHas('accounts', [
             'email' => $this->account->email,
-            'username' => $newUsername
+            'username' => $newUsername,
         ]);
     }
 
@@ -56,7 +54,7 @@ class AccountSettingsUsernameTest extends TestCase
 
     public function testCantSubmitEmptyUsername()
     {
-        $this->submitUsernameChange("")
+        $this->submitUsernameChange('')
             ->assertSessionHasErrors();
     }
 

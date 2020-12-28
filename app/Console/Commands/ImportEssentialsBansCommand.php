@@ -37,7 +37,6 @@ class ImportEssentialsBansCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
      *
      * @throws \Exception
      */
@@ -70,7 +69,7 @@ class ImportEssentialsBansCommand extends Command
                 'banned_alias_at_time' => $essBan['name'],
                 'staff_player_id' => null,
                 'staff_player_type' => 'minecraft_player',
-                'reason' => $essBan['reason'] . ' (imported ban from ' . preg_replace($formattingRegex, '', $essBan['source']) . ')',
+                'reason' => $essBan['reason'].' (imported ban from '.preg_replace($formattingRegex, '', $essBan['source']).')',
                 'is_active' => 1,
                 'is_global_ban' => 1,
                 'expires_at' => null,

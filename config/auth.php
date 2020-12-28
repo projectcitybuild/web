@@ -104,6 +104,6 @@ return [
      * Amount of time to clean up unactivated accounts after
      */
 
-    'unactivated_cleanup_days' => 14
+    'unactivated_cleanup_days' => 14,
 
 ];

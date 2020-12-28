@@ -17,6 +17,7 @@ class DonationPerksController extends WebController
     public function index(Request $request)
     {
         $perks = DonationPerk::with(['account', 'donation'])->orderBy('created_at', 'desc')->paginate(100);
+
         return view('front.pages.panel.donation-perks.index')->with(compact('perks'));
     }
 
@@ -33,7 +34,6 @@ class DonationPerksController extends WebController
     /**
      * Add a specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\Http\Response
      */
@@ -84,7 +84,6 @@ class DonationPerksController extends WebController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Entities\Donations\Models\DonationPerk  $donationPerk
      *
      * @return \Illuminate\Http\Response
      */
@@ -96,8 +95,6 @@ class DonationPerksController extends WebController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Donations\Models\DonationPerk   $donationPerk
      *
      * @return \Illuminate\Http\Response
      */
@@ -141,14 +138,13 @@ class DonationPerksController extends WebController
     /**
      * Delete the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Donations\Models\DonationPerk   $donationPerk
      *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, DonationPerk $donationPerk)
     {
         $donationPerk->delete();
+
         return redirect(route('front.panel.donation-perks.index'));
     }
 }

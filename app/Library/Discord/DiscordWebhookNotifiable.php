@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Library\Discord;
-
 
 use Illuminate\Notifications\Notifiable;
 

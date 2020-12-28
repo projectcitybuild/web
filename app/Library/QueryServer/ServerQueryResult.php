@@ -41,6 +41,7 @@ final class ServerQueryResult
         if (! $this->isOnline()) {
             return [];
         }
+
         return $this->playerList;
     }
 
@@ -49,6 +50,7 @@ final class ServerQueryResult
         if (! $this->isOnline()) {
             return 0;
         }
+
         return $this->numOfPlayers;
     }
 

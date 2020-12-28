@@ -56,7 +56,7 @@ class AccountMinecraftAccountTest extends TestCase
 
         $this->assertDatabaseHas('players_minecraft', [
             'uuid' => $this->mcPlayer->uuid,
-            'account_id' => null
+            'account_id' => null,
         ]);
     }
 

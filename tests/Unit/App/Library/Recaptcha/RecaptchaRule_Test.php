@@ -1,14 +1,15 @@
 <?php
+
 namespace Tests\Library\Recaptcha;
 
-use Tests\TestCase;
 use App\Library\Recaptcha\RecaptchaRule;
-use Illuminate\Log\Logger;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-use Illuminate\Http\Request;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Http\Request;
+use Illuminate\Log\Logger;
+use Tests\TestCase;
 
 class RecaptchaRule_Test extends TestCase
 {
@@ -27,9 +28,9 @@ class RecaptchaRule_Test extends TestCase
 
     private function getClientWithResponses(array $responses)
     {
-        $mock        = new MockHandler($responses);
+        $mock = new MockHandler($responses);
         $mockHandler = HandlerStack::create($mock);
-        $client      = new Client(['handler' => $mockHandler]);
+        $client = new Client(['handler' => $mockHandler]);
 
         return $client;
     }

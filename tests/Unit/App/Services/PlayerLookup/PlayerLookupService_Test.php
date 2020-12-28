@@ -1,11 +1,12 @@
 <?php
+
 namespace Tests\Services;
 
-use Tests\TestCase;
-use App\Services\PlayerLookup\PlayerLookupService;
 use App\Entities\GamePlayerType;
 use App\Entities\Players\Models\MinecraftPlayer;
+use App\Services\PlayerLookup\PlayerLookupService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class PlayerLookupService_Test extends TestCase
 {
@@ -16,7 +17,7 @@ class PlayerLookupService_Test extends TestCase
         // given...
         $service = resolve(PlayerLookupService::class);
         $this->assertDatabaseMissing('players_minecraft', [
-            'uuid' => 'test_uuid', 
+            'uuid' => 'test_uuid',
         ]);
 
         // when...
@@ -24,7 +25,7 @@ class PlayerLookupService_Test extends TestCase
 
         // expect...
         $this->assertDatabaseHas('players_minecraft', [
-            'uuid' => 'test_uuid', 
+            'uuid' => 'test_uuid',
         ]);
     }
 

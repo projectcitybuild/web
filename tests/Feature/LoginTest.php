@@ -1,13 +1,9 @@
 <?php
 
-
 namespace Tests\Feature;
-
 
 use App\Entities\Accounts\Models\Account;
 use App\Library\Discourse\Api\DiscourseAdminApi;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
@@ -24,9 +20,9 @@ class LoginTest extends TestCase
     {
         $this->post(route('front.login.submit'), [
             'email' => $this->account->email,
-            'password' => "secret"
+            'password' => 'secret',
         ])
-            ->assertRedirect("/sso/discourse");
+            ->assertRedirect('/sso/discourse');
     }
 
     public function testUserCannotLogInWithUnactivatedAccount()
@@ -35,7 +31,7 @@ class LoginTest extends TestCase
 
         $this->post(route('front.login.submit'), [
             'email' => $account->email,
-            'password' => "secret"
+            'password' => 'secret',
         ])->assertSessionHasErrors();
     }
 
@@ -43,7 +39,7 @@ class LoginTest extends TestCase
     {
         $this->post(route('front.login.submit'), [
             'email' => $this->account->email,
-            'password' => "wrong"
+            'password' => 'wrong',
         ]);
 
         $this->assertGuest();
@@ -52,8 +48,8 @@ class LoginTest extends TestCase
     public function testIfUserDoesNotEnterEmail()
     {
         $this->post(route('front.login.submit'), [
-            'email' => "",
-            'password' => "secret"
+            'email' => '',
+            'password' => 'secret',
         ]);
 
         $this->assertGuest();
@@ -63,7 +59,7 @@ class LoginTest extends TestCase
     {
         $this->post(route('front.login.submit'), [
             'email' => $this->account->email,
-            'password' => ""
+            'password' => '',
         ]);
 
         $this->assertGuest();
@@ -79,7 +75,7 @@ class LoginTest extends TestCase
 
         $this->post(route('front.login.submit'), [
             'email' => $user->email,
-            'password' => "secret"
+            'password' => 'secret',
         ]);
     }
 
@@ -92,7 +88,7 @@ class LoginTest extends TestCase
 
         $this->post(route('front.login.submit'), [
             'email' => $this->account->email,
-            'password' => "secret"
+            'password' => 'secret',
         ])
             ->assertRedirect(route('front.account.settings'));
     }
@@ -104,7 +100,7 @@ class LoginTest extends TestCase
 
         $this->post(route('front.login.submit'), [
             'email' => $this->account->email,
-            'password' => "secret"
+            'password' => 'secret',
         ])->assertSessionHasNoErrors();
 
         $this->account->refresh();

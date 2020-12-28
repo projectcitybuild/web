@@ -36,6 +36,7 @@ final class MinecraftPlayerLinkController extends WebController
         }
 
         $request->session()->flash('game_account_added', true);
+
         return redirect(route('front.account.games'));
     }
 }
