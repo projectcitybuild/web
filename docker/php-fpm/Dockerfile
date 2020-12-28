@@ -17,14 +17,10 @@ RUN apk add shadow && \
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN rm -rf composer-setup.php
-#
-#RUN mkdir -p /run/php/
-#RUN touch /run/php/php7.4-fpm.pid
-#RUN touch /run/php/php7.4-fpm.sock
-#
-#COPY ./docker/php-fpm/php-fpm.conf /etc/php7/php-fpm.conf
 
 COPY ./docker/php-fpm/supervisord.conf /etc/supervisord.conf
+
+RUN echo "* * * * * cd /var/www/html && php artisan schedule:run >> /dev/null 2>&1" > /etc/crontabs/root
 
 COPY . .
 
