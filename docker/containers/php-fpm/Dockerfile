@@ -6,8 +6,9 @@ RUN echo "UTC" > /etc/timezone
 
 RUN apk add --no-cache zip unzip curl sqlite supervisor
 
-#RUN docker-php-source extract \
-#    && docker-php-source-delete
+RUN apk add shadow && \
+    usermod -u 1000 www-data && \
+    groupmod -g 1000 www-data
 
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
@@ -23,13 +24,13 @@ RUN rm -rf composer-setup.php
 #
 ##COPY ./docker/php-fpm/php-fpm.conf /etc/php7/php-fpm.conf
 
-COPY . .
-#COPY --chown=www-data:www-data . .
+COPY --chown=www-data:www-data . .
 #RUN rm -rf ./docker
 
 RUN composer install --no-dev
 
-RUN chown -R www-data:www-data .
+RUN chmod 664 -R . && \
+    chmod 775 -R ./storage
 
 EXPOSE 80
 
