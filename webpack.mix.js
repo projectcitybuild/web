@@ -11,11 +11,15 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.sass('resources/sass/app.scss', 'public/assets/css')
+mix.typeScript('resources/js/app.ts', 'public/assets/js')
+    .sass('resources/sass/app.scss', 'public/assets/css')
     .options({
         processCssUrls: false
     })
-   .sass('resources/sass/navonly.scss', 'public/assets/css');
+   .sass('resources/sass/navonly.scss', 'public/assets/css')
+   .extract([
+        'vue'
+    ]);
 
 if(mix.config.production) {
     mix.version();
