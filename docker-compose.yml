@@ -14,9 +14,11 @@ services:
         links:
           - "mariadb:db"
           - "redis:redis"
+          - "mailhog:mailhog"
         depends_on:
             - mariadb
             - redis
+            - mailhog
 
     nginx:
         build:
