@@ -63,7 +63,9 @@ final class MinecraftPlayer extends Model implements BannableModelInterface
     }
 
     /**
-     * Update the last seen at time of the player to now.
+     * Update the last seen at time of the player to now
+     *
+     * @return bool
      */
     public function touchLastSyncedAt(): bool
     {

@@ -23,6 +23,8 @@ class MojangPlayerApi
      *
      * If no time given, uses the current time.
      *
+     * @param string $name
+     * @param int|null $time
      *
      * @return MojangPlayer
      *
@@ -36,7 +38,7 @@ class MojangPlayerApi
 
         $response = null;
         try {
-            $response = $this->client->request('GET', 'https://api.mojang.com/users/profiles/minecraft/'.$name, [
+            $response = $this->client->request('GET', 'https://api.mojang.com/users/profiles/minecraft/' . $name, [
                 'query' => [
                     'at' => $time,
                 ],
@@ -54,7 +56,6 @@ class MojangPlayerApi
         }
 
         $body = json_decode($response->getBody());
-
         return new MojangPlayer(
             $body->id,
             $body->name,
@@ -84,6 +85,7 @@ class MojangPlayerApi
      *
      * The API only allows a max of 10 names per lookup.
      *
+     * @param array $names
      *
      * @return array
      *
@@ -152,7 +154,7 @@ class MojangPlayerApi
     {
         $response = null;
         try {
-            $response = $this->client->request('GET', 'https://api.mojang.com/user/profiles/'.$uuid.'/names');
+            $response = $this->client->request('GET', 'https://api.mojang.com/user/profiles/' . $uuid . '/names');
         } catch (ClientException $e) {
             if ($e->getCode() === 429) {
                 throw new TooManyRequestsException('rate_limited', 'Too many requests sent to the Mojang API');
@@ -188,7 +190,6 @@ class MojangPlayerApi
         if ($player !== null) {
             return $this->getNameHistoryOf($player->getUuid());
         }
-
         return null;
     }
 }

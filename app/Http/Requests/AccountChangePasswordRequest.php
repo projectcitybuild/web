@@ -27,6 +27,8 @@ class AccountChangePasswordRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
+     *
+     * @return array
      */
     public function rules(): array
     {
@@ -64,6 +66,8 @@ class AccountChangePasswordRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
+     *
+     * @return bool
      */
     public function authorize(): bool
     {
@@ -71,14 +75,13 @@ class AccountChangePasswordRequest extends FormRequest
     }
 
     /**
-     * Redirect back to the form anchor.
+     * Redirect back to the form anchor
      *
      * @return string
      */
     protected function getRedirectUrl()
     {
         $url = $this->redirector->getUrlGenerator();
-
-        return $url->previous().'#change-password';
+        return $url->previous() . '#change-password';
     }
 }

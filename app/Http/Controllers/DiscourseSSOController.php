@@ -19,6 +19,8 @@ final class DiscourseSSOController extends WebController
 
     /**
      * DiscourseSSOController constructor.
+     *
+     * @param DiscourseLoginHandler $discourseLoginHandler
      */
     public function __construct(DiscourseLoginHandler $discourseLoginHandler)
     {
@@ -30,7 +32,7 @@ final class DiscourseSSOController extends WebController
         $account = $request->user();
 
         if (! $request->has('sso') || ! $request->has('sig')) {
-            return redirect(config('discourse.base_url').self::DISCOURSE_SSO_ENDPOINT);
+            return redirect(config('discourse.base_url') . self::DISCOURSE_SSO_ENDPOINT);
         }
 
         try {

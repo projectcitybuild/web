@@ -6,11 +6,13 @@ use App\Console\Commands\DeactivateDonatorPerksCommand;
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationPerk;
-use App\Entities\Donations\Notifications\DonationEndedNotification;
 use App\Entities\Groups\Models\Group;
 use App\Http\Actions\SyncUserToDiscourse;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Entities\Donations\Notifications\DonationEndedNotification;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 final class DeactivateDonatorPerksCommand_Test extends TestCase
 {

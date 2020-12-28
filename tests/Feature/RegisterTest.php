@@ -1,11 +1,14 @@
 <?php
 
+
 namespace Tests\Feature;
+
 
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Accounts\Notifications\AccountActivationNotification;
 use App\Entities\Groups\Models\Group;
 use App\Library\Recaptcha\RecaptchaRule;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -19,8 +22,7 @@ class RegisterTest extends TestCase
         RecaptchaRule::enable(false);
     }
 
-    private function withRequiredFormFields(Account $account): array
-    {
+    private function withRequiredFormFields(Account $account): array {
         return array_merge($account->toArray(), [
             'password_confirm' => 'password',
             'g-recaptcha-response' => Str::random(),
@@ -40,7 +42,7 @@ class RegisterTest extends TestCase
         $this->assertDatabaseHas('accounts', [
             'email' => $unactivatedAccount->email,
             'username' => $unactivatedAccount->username,
-            'activated' => false,
+            'activated' => false
         ]);
     }
 
@@ -105,7 +107,7 @@ class RegisterTest extends TestCase
 
         $this->assertDatabaseMissing('accounts', [
             'email' => $unactivatedAccount->email,
-            'password' => $unactivatedAccount->password,
+            'password' => $unactivatedAccount->password
         ]);
     }
 
@@ -113,7 +115,7 @@ class RegisterTest extends TestCase
     {
         $memberGroup = Group::create([
             'name' => 'member',
-            'is_default' => 1,
+            'is_default' => 1
         ]);
 
         $unactivatedAccount = Account::factory()
@@ -128,7 +130,7 @@ class RegisterTest extends TestCase
 
         $this->assertDatabaseHas('groups_accounts', [
             'group_id' => $memberGroup->group_id,
-            'account_id' => $account->account_id,
+            'account_id' => $account->account_id
         ]);
     }
 

@@ -52,6 +52,6 @@ class AccountDonationTest extends TestCase
 
         $this->get(route('front.account.donations'))
             ->assertOk()
-            ->assertSee('Lifetime');
+            ->assertSee("Lifetime");
     }
 }

@@ -1,9 +1,8 @@
 <?php
-
 namespace Tests\Library\QueryServer\GameAdapters;
 
-use App\Library\QueryServer\GameAdapters\MinecraftQueryAdapter;
 use Tests\TestCase;
+use App\Library\QueryServer\GameAdapters\MinecraftQueryAdapter;
 use xPaw\MinecraftQuery;
 use xPaw\MinecraftQueryException;
 
@@ -14,7 +13,7 @@ class MinecraftQueryAdapter_Test extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
+        
         $this->queryMock = $this->getMockBuilder(MinecraftQuery::class)
             ->getMock();
     }

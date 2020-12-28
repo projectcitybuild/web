@@ -1,14 +1,13 @@
 <?php
-
 namespace Tests\Library\QueryServer;
 
+use Tests\TestCase;
+use App\Library\QueryPlayer\GameAdapters\MojangUuidAdapter;
+use App\Library\QueryPlayer\PlayerQueryHandler;
 use App\Entities\Players\Services\MinecraftPlayerLookupService;
 use App\Library\Mojang\Api\MojangPlayerApi;
 use App\Library\Mojang\Models\MojangPlayer;
-use App\Library\QueryPlayer\GameAdapters\MojangUuidAdapter;
-use App\Library\QueryPlayer\PlayerQueryHandler;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
 class PlayerQueryHandler_Test extends TestCase
 {

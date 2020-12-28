@@ -6,7 +6,7 @@ use App\Library\RateLimit\TokenState;
 use App\Library\RateLimit\TokenStorable;
 
 /**
- * For use with global-scoped rate limiting.
+ * For use with global-scoped rate limiting
  */
 class FileTokenStorage implements TokenStorable
 {
@@ -31,26 +31,27 @@ class FileTokenStorage implements TokenStorable
     }
 
     /**
-     * Reads from file (with a shared read-access lock).
+     * Reads from file (with a shared read-access lock)
+     *
+     * @return TokenState
      */
     public function deserialize(): TokenState
     {
         if (! $this->fileExists()) {
             touch($this->filePath);
-
             return new TokenState($this->initialTokens, 0);
         }
 
         return $this->withLock(false, function ($file) {
             $json = stream_get_contents($file);
-
             return TokenState::fromJSON($json);
         });
     }
 
     /**
-     * Writes to file (with an exclusive lock).
+     * Writes to file (with an exclusive lock)
      *
+     * @param TokenState $data
      *
      * @return void
      */
@@ -63,9 +64,10 @@ class FileTokenStorage implements TokenStorable
 
     /**
      * Obtains an exclusive file lock for writing,
-     * or a shared (read-only) lock for reading.
+     * or a shared (read-only) lock for reading
      *
      * @param $file
+     * @param bool $forWriting
      *
      * @return bool Whether lock succeeded
      */
@@ -76,9 +78,9 @@ class FileTokenStorage implements TokenStorable
 
     /**
      * Unlocks the given file to allow other
-     * processes access to it.
+     * processes access to it
      *
-     * @param resource $resource
+     * @param Resource $resource
      *
      * @return bool Whether unlock succeeded
      */
@@ -91,6 +93,11 @@ class FileTokenStorage implements TokenStorable
      * Runs a closure on a resource after obtaining
      * a file lock. The file is automatically unlocked
      * and closed regardless of failure.
+     *
+     * @param bool $forWriting
+     * @param \Closure $block
+     *
+     * @return TokenState|null
      */
     private function withLock(bool $forWriting, \Closure $block): ?TokenState
     {
@@ -104,14 +111,17 @@ class FileTokenStorage implements TokenStorable
                 $this->unlock($file);
                 fclose($file);
             }
-
             return $result;
         }
         throw new \Exception('Failed to obtain file lock for token storage');
+
+    
     }
 
     /**
-     * Returns whether the file already exists or not.
+     * Returns whether the file already exists or not
+     *
+     * @return bool
      */
     private function fileExists(): bool
     {

@@ -1,11 +1,12 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateServers extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -33,12 +34,12 @@ class CreateServers extends Migration
             $table->boolean('is_visible')->default(true)->comment('Whether the server is visible in the server feed');
             $table->integer('display_order');
             $table->timestamps();
-
+            
             $table->foreign('server_category_id')->references('server_category_id')->on('server_categories');
         });
 
         /**
-         * Represents a set of rights to API resources.
+         * Represents a set of rights to API resources
          */
         Schema::create('server_keys', function (Blueprint $table) {
             $table->increments('server_key_id');
@@ -47,7 +48,7 @@ class CreateServers extends Migration
             $table->boolean('can_global_ban')->default(false)->comment('Whether this key can create bans that affect every PCB service');
             $table->boolean('can_access_ranks')->default(true)->comment('Whether this key can access rank data of players');
             $table->timestamps();
-
+            
             $table->foreign('server_id')->references('server_id')->on('servers');
         });
 
@@ -65,6 +66,7 @@ class CreateServers extends Migration
             $table->foreign('server_key_id')->references('server_key_id')->on('server_keys');
         });
 
+
         Schema::create('server_statuses', function (Blueprint $table) {
             $table->bigIncrements('server_status_id');
             $table->integer('server_id')->unsigned();
@@ -81,7 +83,7 @@ class CreateServers extends Migration
             $table->integer('server_status_id')->unsigned();
             $table->string('player_type');
             $table->integer('player_id')->unsigned();
-
+            
             // why is this spewing errors? (╯°□°）╯︵ ┻━┻
             // $table->foreign('server_status_id')->references('server_status_id')->on('server_statuses');
         });

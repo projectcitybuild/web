@@ -1,11 +1,10 @@
 <?php
-
 namespace Tests\Library\RateLimit;
 
-use App\Library\RateLimit\Storage\MemoryTokenStorage;
+use Tests\TestCase;
 use App\Library\RateLimit\TokenBucket;
 use App\Library\RateLimit\TokenRate;
-use Tests\TestCase;
+use App\Library\RateLimit\Storage\MemoryTokenStorage;
 
 class TokenBucket_Test extends TestCase
 {
@@ -19,7 +18,7 @@ class TokenBucket_Test extends TestCase
         $bucket = new TokenBucket(6, $rate, $storage);
 
         // expect...
-        $this->assertEquals(3, (int) $bucket->getAvailableTokens());
+        $this->assertEquals(3, (int)$bucket->getAvailableTokens());
         $this->assertEquals(6, $bucket->getCapacity());
     }
 
@@ -34,7 +33,7 @@ class TokenBucket_Test extends TestCase
         $consumed = $bucket->consume(1);
 
         // expect...
-        $this->assertEquals(2, (int) $bucket->getAvailableTokens());
+        $this->assertEquals(2, (int)$bucket->getAvailableTokens());
         $this->assertTrue($consumed);
     }
 
@@ -49,7 +48,7 @@ class TokenBucket_Test extends TestCase
         $consumed = $bucket->consume(2);
 
         // expect...
-        $this->assertEquals(1, (int) $bucket->getAvailableTokens());
+        $this->assertEquals(1, (int)$bucket->getAvailableTokens());
         $this->assertTrue($consumed);
     }
 
@@ -78,7 +77,7 @@ class TokenBucket_Test extends TestCase
         $bucket->consume(1);
 
         // expect...
-        $this->assertEquals(0, (int) $bucket->getAvailableTokens());
+        $this->assertEquals(0, (int)$bucket->getAvailableTokens());
     }
 
     public function testRefills_bySeconds()
@@ -91,9 +90,9 @@ class TokenBucket_Test extends TestCase
         $bucket = new TokenBucket(3, $rate, $storage);
 
         // when...
-        $this->assertEquals(3, (int) $bucket->getAvailableTokens());
+        $this->assertEquals(3, (int)$bucket->getAvailableTokens());
         $bucket->consume(1);
-        $this->assertEquals(2, (int) $bucket->getAvailableTokens());
+        $this->assertEquals(2, (int)$bucket->getAvailableTokens());
 
         // rewind the consumption time by 1 minute
         $tokenState = $storage->deserialize();
@@ -101,7 +100,7 @@ class TokenBucket_Test extends TestCase
         $storage->serialize($tokenState);
 
         // expect...
-        $this->assertEquals(3, (int) $bucket->getAvailableTokens());
+        $this->assertEquals(3, (int)$bucket->getAvailableTokens());
     }
 
     public function testRefills_byMinutes()
@@ -114,9 +113,9 @@ class TokenBucket_Test extends TestCase
         $bucket = new TokenBucket(3, $rate, $storage);
 
         // when...
-        $this->assertEquals(3, (int) $bucket->getAvailableTokens());
+        $this->assertEquals(3, (int)$bucket->getAvailableTokens());
         $bucket->consume(1);
-        $this->assertEquals(2, (int) $bucket->getAvailableTokens());
+        $this->assertEquals(2, (int)$bucket->getAvailableTokens());
 
         // rewind the consumption time by 1 minute
         $tokenState = $storage->deserialize();
@@ -124,6 +123,6 @@ class TokenBucket_Test extends TestCase
         $storage->serialize($tokenState);
 
         // expect...
-        $this->assertEquals(3, (int) $bucket->getAvailableTokens());
+        $this->assertEquals(3, (int)$bucket->getAvailableTokens());
     }
 }

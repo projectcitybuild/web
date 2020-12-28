@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Groups\Models\Group;
+use App\Http\Actions\SyncUserToDiscourse;
+use Mockery;
 use Tests\TestCase;
 
 class PanelDonationsListTest extends TestCase
@@ -19,7 +21,7 @@ class PanelDonationsListTest extends TestCase
 
         $adminGroup = Group::create([
             'name' => 'Administrator',
-            'can_access_panel' => true,
+            'can_access_panel' => true
         ]);
 
         $this->adminAccount->groups()->attach($adminGroup->group_id);

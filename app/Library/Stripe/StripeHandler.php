@@ -19,12 +19,11 @@ class StripeHandler
     public function setCurrency(string $currency): StripeHandler
     {
         $this->currency = $currency;
-
         return $this;
     }
 
     /**
-     * Creates a new session for using Stripe's Checkout flow.
+     * Creates a new session for using Stripe's Checkout flow
      *
      * @param string $uniqueSessionId A unique UUID that will be sent to Stripe to be stored alongside the
      *                                  session. When Stripe notifies us via WebHook that the payment is processed,
@@ -57,8 +56,11 @@ class StripeHandler
     }
 
     /**
-     * Receives a Webhook from Stripe and parses it into a generalized model.
+     * Receives a Webhook from Stripe and parses it into a generalized model
      *
+     * @param string $payload
+     * @param string $signature
+     * @param string $secret
      *
      * @return StripeWebhook
      *
@@ -114,7 +116,6 @@ class StripeHandler
     public function getWebhookEvent(string $payload, string $signature, string $secret): ?StripeWebhook
     {
         $event = Webhook::constructEvent($payload, $signature, $secret);
-
         return StripeWebhook::fromJSON($event);
     }
 

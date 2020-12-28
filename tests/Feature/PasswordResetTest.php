@@ -1,6 +1,8 @@
 <?php
 
+
 namespace Tests\Feature;
+
 
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Accounts\Models\AccountPasswordReset;
@@ -40,7 +42,7 @@ class PasswordResetTest extends TestCase
         Notification::assertNothingSent();
 
         $this->post(route('front.password-reset.store'), [
-            'email' => $this->account->email,
+            'email' => $this->account->email
         ])->assertSessionHasNoErrors();
 
         Notification::assertSentTo(

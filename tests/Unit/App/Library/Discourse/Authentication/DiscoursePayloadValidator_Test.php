@@ -1,9 +1,8 @@
 <?php
-
 namespace Tests\Library\Discourse\Authentication;
 
-use App\Library\Discourse\Authentication\DiscoursePayloadValidator;
 use Tests\TestCase;
+use App\Library\Discourse\Authentication\DiscoursePayloadValidator;
 
 class DiscoursePayloadValidator_Test extends TestCase
 {
@@ -89,7 +88,7 @@ class DiscoursePayloadValidator_Test extends TestCase
         // given...
         $expectedUrl = 'test_url?sso=test_sso&sig=test_sig';
         $validator = new DiscoursePayloadValidator('test_key');
-
+        
         // when...
         $redirectUrl = $validator->getRedirectUrl('test_url', 'test_sso', 'test_sig');
 

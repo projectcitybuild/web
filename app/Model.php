@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 
 /**
- * App\Model.
+ * App\Model
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model newQuery()
@@ -16,7 +16,9 @@ use Illuminate\Database\Eloquent\Model as EloquentModel;
 class Model extends EloquentModel
 {
     /**
-     * Returns the name of the table this model uses.
+     * Returns the name of the table this model uses
+     *
+     * @return string
      */
     public static function getTableName(): string
     {

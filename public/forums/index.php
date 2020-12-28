@@ -10,16 +10,16 @@ parse_str($query, $parameters);
 // redirection
 if (array_key_exists('topic', $parameters) === false) {
     http_response_code(404);
-    exit();
+    die();
 }
 
 $topic = $parameters['topic'];
 $matches = [];
 
 if (preg_match('/^([0-9]+)$/', $topic, $matches)) {
-    $topic = $matches[1].'.0';
+    $topic = $matches[1] . '.0';
 } elseif (preg_match('/^([0-9]+)\.[0-9]+$/', $topic, $matches)) {
-    $topic = $matches[1].'.0';
+    $topic = $matches[1] . '.0';
 } elseif (preg_match('/^([0-9]+)\.msg[0-9]+$/', $topic, $matches)) {
     $topic = $topic;
 } else {

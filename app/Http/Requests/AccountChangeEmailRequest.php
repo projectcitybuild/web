@@ -26,6 +26,8 @@ final class AccountChangeEmailRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
+     *
+     * @return array
      */
     public function rules(): array
     {
@@ -65,6 +67,8 @@ final class AccountChangeEmailRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
+     *
+     * @return bool
      */
     public function authorize(): bool
     {
@@ -72,14 +76,13 @@ final class AccountChangeEmailRequest extends FormRequest
     }
 
     /**
-     * Redirect back to the form anchor.
+     * Redirect back to the form anchor
      *
      * @return string
      */
     protected function getRedirectUrl()
     {
         $url = $this->redirector->getUrlGenerator();
-
-        return $url->previous().'#change-email';
+        return $url->previous() . '#change-email';
     }
 }

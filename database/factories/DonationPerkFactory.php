@@ -31,7 +31,7 @@ class DonationPerkFactory extends Factory
     }
 
     /**
-     * Indicate that the donation will never expire.
+     * Indicate that the donation will never expire
      */
     public function lifetime(): Factory
     {
@@ -43,7 +43,7 @@ class DonationPerkFactory extends Factory
     }
 
     /**
-     * Indicate that the donation has already expired.
+     * Indicate that the donation has already expired
      */
     public function expired(): Factory
     {
@@ -56,7 +56,7 @@ class DonationPerkFactory extends Factory
     }
 
     /**
-     * Indicate that the donation will expire in the future.
+     * Indicate that the donation will expire in the future
      */
     public function notExpired(): Factory
     {

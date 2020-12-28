@@ -14,8 +14,9 @@ class MinecraftPlayerRepository extends Repository
     protected $model = MinecraftPlayer::class;
 
     /**
-     * Creates a new MinecraftPlayer.
+     * Creates a new MinecraftPlayer
      *
+     * @param int $userId
      *
      * @return GameUser
      */

@@ -129,7 +129,6 @@ final class PlayerBanService
             DB::rollBack();
             throw $e;
         }
-
         return $unban;
     }
 }

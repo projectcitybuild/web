@@ -1,22 +1,21 @@
 <?php
-
 namespace Tests\Services;
 
-use App\Entities\Bans\Models\GameBan;
-use App\Entities\GamePlayerType;
-use App\Entities\ServerKeys\Models\ServerKey;
-use App\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
-use App\Services\PlayerBans\Exceptions\UserNotBannedException;
-use App\Services\PlayerBans\PlayerBanService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Str;
 use Tests\TestCase;
+use App\Services\PlayerBans\PlayerBanService;
+use App\Entities\GamePlayerType;
+use App\Entities\Bans\Models\GameBan;
+use App\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Entities\ServerKeys\Models\ServerKey;
+use Illuminate\Support\Str;
+use App\Services\PlayerBans\Exceptions\UserNotBannedException;
 
 class PlayerBanService_Test extends TestCase
 {
     use RefreshDatabase;
 
-    private function makeServerKey(int $serverId): ServerKey
+    private function makeServerKey(int $serverId) : ServerKey
     {
         return ServerKey::create([
             'server_id' => $serverId,
@@ -62,7 +61,7 @@ class PlayerBanService_Test extends TestCase
             'staff_player_id' => $staffPlayerId,
             'staff_player_type' => $staffPlayerType->valueOf(),
             'reason' => $reason,
-        ]);
+        ]); 
     }
 
     public function testCannotCreateBanWhenAlreadyExists()

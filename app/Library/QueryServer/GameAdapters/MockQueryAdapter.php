@@ -30,28 +30,24 @@ final class MockQueryAdapter implements ServerQueryAdapterContract
     public function setIsOnline(bool $isOnline): MockQueryAdapter
     {
         $this->isOnline = $isOnline;
-
         return $this;
     }
 
     public function setPlayerCount(int $count): MockQueryAdapter
     {
         $this->playerCount = $count;
-
         return $this;
     }
 
     public function setMaxPlayers(int $count): MockQueryAdapter
     {
         $this->maxPlayers = $count;
-
         return $this;
     }
 
     public function setPlayers(array $players): MockQueryAdapter
     {
         $this->players = $players;
-
         return $this;
     }
 
@@ -68,7 +64,6 @@ final class MockQueryAdapter implements ServerQueryAdapterContract
                 $this->players
             );
         }
-
         return new ServerQueryResult(false, 0, 0, []);
     }
 }

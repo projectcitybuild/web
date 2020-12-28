@@ -22,6 +22,8 @@ final class ServerQueryJob implements ShouldQueue
 
     /**
      * Create a new job instance.
+     *
+     * @param ServerJobEntity $entity
      */
     public function __construct(ServerJobEntity $entity)
     {
@@ -31,6 +33,7 @@ final class ServerQueryJob implements ShouldQueue
     /**
      * Execute the job.
      *
+     * @param ServerQueryHandler $serverQueryHandler
      *
      * @return void
      */

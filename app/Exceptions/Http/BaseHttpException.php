@@ -22,7 +22,9 @@ abstract class BaseHttpException extends \Exception
     }
 
     /**
-     * Returns the unique identifier for this exception.
+     * Returns the unique identifier for this exception
+     *
+     * @return string
      */
     public function getId(): string
     {
@@ -30,7 +32,7 @@ abstract class BaseHttpException extends \Exception
     }
 
     /**
-     * Returns a HTTP code (eg. 400, 404).
+     * Returns a HTTP code (eg. 400, 404)
      *
      * @return void
      */

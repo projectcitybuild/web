@@ -33,8 +33,9 @@ final class Environment
 
     /**
      * Overrides the Environment level for
-     * the current request.
+     * the current request
      *
+     * @param EnvironmentLevel $level
      *
      * @return void
      */

@@ -5,7 +5,7 @@ namespace App\Library\Mojang\Models;
 class MojangPlayerNameHistory
 {
     /**
-     * An array of all name changes for the player.
+     * An array of all name changes for the player
      *
      * @var array<MojangPlayerNameChange>
      */

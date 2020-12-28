@@ -14,13 +14,13 @@ final class Donation extends Model
 
     /**
      * Amount that needs to be donated to be granted
-     * lifetime perks.
+     * lifetime perks
      */
     const LIFETIME_REQUIRED_AMOUNT = 30;
 
     /**
      * Amount that needs to be donated to receive one month
-     * worth of donator perks.
+     * worth of donator perks
      */
     const ONE_MONTH_REQUIRED_AMOUNT = 3;
 

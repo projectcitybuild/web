@@ -17,7 +17,6 @@ final class TokenHelpers
         $message = $message ? $message : time();
 
         $key = config('app.key');
-
         return hash_hmac(self::HASH_ALGORITHM, $message, $key);
     }
 }

@@ -35,6 +35,6 @@ return [
 
     'api_key' => env('DISCOURSE_API_KEY'),
 
-    'api_user' => env('DISCOURSE_API_USER'),
+    'api_user' => env('DISCOURSE_API_USER')
 
 ];

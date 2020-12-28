@@ -1,9 +1,13 @@
 <?php
 
+
 namespace Tests\Unit\App\Entities\Accounts\Models;
 
+
 use App\Entities\Accounts\Models\Account;
+use App\Entities\Groups\GroupEnum;
 use App\Entities\Groups\Models\Group;
+use GroupSeeds;
 use Tests\TestCase;
 
 class AccountTest extends TestCase
@@ -22,24 +26,24 @@ class AccountTest extends TestCase
             'alias' => 'Admin',
             'is_staff' => true,
             'is_admin' => true,
-            'discourse_name' => 'administrator',
+            'discourse_name' => 'administrator'
         ]);
 
         $this->staffGroup = Group::create([
             'name' => 'operator',
             'alias' => 'OP',
             'is_staff' => true,
-            'discourse_name' => 'operator',
+            'discourse_name' => 'operator'
         ]);
 
         $this->normalGroup = Group::create([
             'name' => 'trusted',
-            'discourse_name' => 'trusted',
+            'discourse_name' => 'trusted'
         ]);
 
         $this->memberGroup = Group::create([
             'name' => 'member',
-            'discourse_name' => '',
+            'discourse_name' => ''
         ]);
     }
 
@@ -65,12 +69,12 @@ class AccountTest extends TestCase
 
         $account->groups()->attach($this->normalGroup->group_id);
 
-        $this->assertEquals('trusted', $account->discourseGroupString());
+        $this->assertEquals("trusted", $account->discourseGroupString());
 
         $account->groups()->attach($this->staffGroup->group_id);
         $account->refresh();
 
-        $this->assertEquals('trusted,operator', $account->discourseGroupString());
+        $this->assertEquals("trusted,operator", $account->discourseGroupString());
     }
 
     public function testDiscourseGroupStringForNullGroup()
@@ -80,6 +84,6 @@ class AccountTest extends TestCase
         $account->groups()->attach($this->memberGroup->group_id);
         $account->groups()->attach($this->normalGroup->group_id);
 
-        $this->assertEquals('trusted', $account->discourseGroupString());
+        $this->assertEquals("trusted", $account->discourseGroupString());
     }
 }

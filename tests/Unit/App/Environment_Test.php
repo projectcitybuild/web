@@ -1,9 +1,9 @@
 <?php
-
 namespace Tests;
 
-use App\Entities\Environment;
+use Tests\TestCase;
 use App\Entities\EnvironmentLevel;
+use App\Entities\Environment;
 
 class Environment_Test extends TestCase
 {
@@ -20,9 +20,10 @@ class Environment_Test extends TestCase
     protected function tearDown(): void
     {
         config()->set('app.env', $this->originalEnv);
-
+        
         parent::tearDown();
     }
+
 
     public function testCanGetLevel()
     {
@@ -53,7 +54,7 @@ class Environment_Test extends TestCase
     {
         // given...
         config()->set('app.env', EnvironmentLevel::ENV_PRODUCTION);
-
+        
         // expect...
         $this->assertTrue(Environment::isProduction());
     }
@@ -62,8 +63,10 @@ class Environment_Test extends TestCase
     {
         // given...
         config()->set('app.env', EnvironmentLevel::ENV_STAGING);
-
+        
         // expect...
         $this->assertFalse(Environment::isProduction());
     }
+
+
 }

@@ -27,6 +27,9 @@ class PlayerQueryJob implements ShouldQueue
 
     /**
      * Create a new job instance.
+     *
+     * @param int $serverId
+     * @param array $playerNamesToQuery
      */
     public function __construct(ServerJobEntity $entity, array $playerNamesToQuery)
     {

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class AllowNullBanStaff extends Migration
 {
@@ -13,16 +13,16 @@ class AllowNullBanStaff extends Migration
      */
     public function up()
     {
-        Schema::table('game_network_bans', function (Blueprint $table) {
-            $table->integer('staff_player_id')->unsigned()->nullable()->change();
+        Schema::table('game_network_bans', function(Blueprint $table) {
+            $table->integer('staff_player_id')-> unsigned()->nullable()->change();
         });
 
-        Schema::table('game_network_unbans', function (Blueprint $table) {
-            $table->integer('staff_player_id')->unsigned()->nullable()->change();
+        Schema::table('game_network_unbans', function(Blueprint $table) {
+            $table->integer('staff_player_id')-> unsigned()->nullable()->change();
         });
 
-        Schema::table('game_network_warnings', function (Blueprint $table) {
-            $table->integer('staff_player_id')->unsigned()->nullable()->change();
+        Schema::table('game_network_warnings', function(Blueprint $table) {
+            $table->integer('staff_player_id')-> unsigned()->nullable()->change();
         });
     }
 
@@ -33,16 +33,16 @@ class AllowNullBanStaff extends Migration
      */
     public function down()
     {
-        Schema::table('game_network_warnings', function (Blueprint $table) {
-            $table->integer('staff_player_id')->unsigned()->change();
+        Schema::table('game_network_warnings', function(Blueprint $table) {
+            $table->integer('staff_player_id')-> unsigned()->change();
         });
 
-        Schema::table('game_network_bans', function (Blueprint $table) {
-            $table->integer('staff_player_id')->unsigned()->change();
+        Schema::table('game_network_bans', function(Blueprint $table) {
+            $table->integer('staff_player_id')-> unsigned()->change();
         });
 
-        Schema::table('game_network_bans', function (Blueprint $table) {
-            $table->integer('staff_player_id')->unsigned()->change();
+        Schema::table('game_network_bans', function(Blueprint $table) {
+            $table->integer('staff_player_id')-> unsigned()->change();
         });
     }
 }

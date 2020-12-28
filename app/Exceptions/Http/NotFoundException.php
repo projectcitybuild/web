@@ -3,7 +3,7 @@
 namespace App\Exceptions\Http;
 
 /**
- * A resource does not exist.
+ * A resource does not exist
  */
 class NotFoundException extends BaseHttpException
 {

@@ -19,13 +19,13 @@ if (Environment::isProduction()) {
 }
 
 /**
- * URL redirects.
+ * URL redirects
  */
 Route::redirect('terms', 'https://forums.projectcitybuild.com/t/community-rules/22928')->name('terms');
 Route::redirect('privacy', 'https://forums.projectcitybuild.com/privacy')->name('privacy');
 
 /**
- * Style guide.
+ * Style guide
  */
 Route::view('ui', 'stylesheet');
 

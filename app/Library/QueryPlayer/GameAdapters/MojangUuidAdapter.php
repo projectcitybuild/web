@@ -41,7 +41,6 @@ final class MojangUuidAdapter implements PlayerQueryAdapterContract
             $response = $this->mojangPlayerApi->getUuidBatchOf($nameChunk->toArray());
             $response = array_map(function (MojangPlayer $player) {
                 $uuid = $player->getUuid();
-
                 return str_replace('-', '', $uuid);
             }, $response);
 
@@ -61,7 +60,6 @@ final class MojangUuidAdapter implements PlayerQueryAdapterContract
             $player = $this->userLookupService->getOrCreateByUuid($identifier);
             $players[] = $player->getKey();
         }
-
         return $players;
     }
 }

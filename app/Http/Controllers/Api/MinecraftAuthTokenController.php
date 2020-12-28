@@ -16,8 +16,9 @@ use Illuminate\Support\Str;
 final class MinecraftAuthTokenController extends ApiController
 {
     /**
-     * Requests an URL that the user can click to link their PCB account.
+     * Requests an URL that the user can click to link their PCB account
      *
+     * @param Request $request
      *
      * @return void
      */
@@ -65,8 +66,9 @@ final class MinecraftAuthTokenController extends ApiController
     }
 
     /**
-     * Returns the PCB groups that the given UUID belongs to.
+     * Returns the PCB groups that the given UUID belongs to
      *
+     * @param Request $request
      *
      * @return void
      */

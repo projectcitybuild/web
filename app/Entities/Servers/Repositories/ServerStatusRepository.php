@@ -14,8 +14,13 @@ class ServerStatusRepository extends Repository
     protected $model = ServerStatus::class;
 
     /**
-     * Creates a new server status.
+     * Creates a new server status
      *
+     * @param int $serverId
+     * @param bool $isOnline
+     * @param int $numOfPlayers
+     * @param int $numOfSlots
+     * @param int $createdAt
      *
      * @return void
      */

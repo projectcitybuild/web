@@ -2,12 +2,12 @@
 
 namespace Tests\Library\QueryPlayer;
 
+use Tests\TestCase;
+use App\Library\QueryPlayer\GameAdapters\MojangUuidAdapter;
 use App\Entities\Players\Services\MinecraftPlayerLookupService;
 use App\Library\Mojang\Api\MojangPlayerApi;
 use App\Library\Mojang\Models\MojangPlayer;
-use App\Library\QueryPlayer\GameAdapters\MojangUuidAdapter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
 class MojangUuidAdapter_Test extends TestCase
 {
@@ -67,7 +67,7 @@ class MojangUuidAdapter_Test extends TestCase
         $this->assertEquals($player1->getUuid(), $identifiers[0]);
         $this->assertEquals($player2->getUuid(), $identifiers[1]);
     }
-
+    
     public function testCreateSinglePlayer()
     {
         $userLookupService = resolve(MinecraftPlayerLookupService::class);

@@ -15,6 +15,8 @@ class MfaLoginGateController extends WebController
 
     /**
      * MfaLoginGateController constructor.
+     *
+     * @param Google2FA $google2FA
      */
     public function __construct(Google2FA $google2FA)
     {

@@ -15,6 +15,8 @@ class DiscourseSSOApi extends DiscourseAPIRequest
      * a call to the URL on the user's behalf and extract the `sso` and `sig`
      * parameter from the redirect response - all server side, so that no
      * redirection is needed at all.
+     *
+     * @return DiscoursePackedNonce
      */
     public function requestNewPackedNonce(string $returnPath = '/latest'): DiscoursePackedNonce
     {

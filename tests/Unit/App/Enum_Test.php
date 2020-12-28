@@ -2,10 +2,10 @@
 
 namespace Tests;
 
+use Tests\TestCase;
 use App\Enum;
 
-class TestEnum extends Enum
-{
+class TestEnum extends Enum {
     const Key1 = 'value1';
     const Key2 = 'value2';
 }
@@ -47,7 +47,7 @@ class Enum_Test extends TestCase
         $enum = new TestEnum(TestEnum::Key1);
         $this->assertEquals(TestEnum::Key1, $enum->valueOf());
     }
-
+    
     public function testCanGetKeys()
     {
         $keys = TestEnum::keys();

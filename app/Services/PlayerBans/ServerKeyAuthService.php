@@ -24,8 +24,11 @@ final class ServerKeyAuthService
      * Takes in a server key's token and returns a ServerKey if
      * the token has not been blacklisted.
      *
+     * @param string $token     ServerKeyToken string
      *
      * @throws InvalidTokenException
+     *
+     * @return ServerKey
      */
     public function getServerKey(?string $authHeader): ServerKey
     {
@@ -40,11 +43,13 @@ final class ServerKeyAuthService
     }
 
     /**
-     * Extracts a bearer token from an authorization request header.
+     * Extracts a bearer token from an authorization request header
      *
      * @param string $authHeader    String in the format of 'Bearer <token>'
      *
      * @throws MalformedTokenException
+     *
+     * @return string
      */
     private function getTokenBearer(?string $authHeader): string
     {

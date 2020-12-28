@@ -6,7 +6,7 @@ class TokenBucket
 {
     /**
      * Total number of tokens that this
-     * bucket can hold.
+     * bucket can hold
      *
      * @var int
      */
@@ -34,8 +34,9 @@ class TokenBucket
     /**
      * Attempts to consume the given number of tokens.
      * Returns false if not enough tokens are available,
-     * or true otherwise.
+     * or true otherwise
      *
+     * @param int $tokensToConsume
      *
      * @return bool Were enough tokens available?
      */
@@ -58,7 +59,9 @@ class TokenBucket
 
     /**
      * Returns the number of tokens currently
-     * available for consumption.
+     * available for consumption
+     *
+     * @return float
      */
     public function getAvailableTokens(): float
     {

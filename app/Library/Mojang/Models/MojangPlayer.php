@@ -5,28 +5,28 @@ namespace App\Library\Mojang\Models;
 class MojangPlayer
 {
     /**
-     * Player's unique Mojang identifier (UUID).
+     * Player's unique Mojang identifier (UUID)
      *
      * @var string
      */
     private $uuid;
 
     /**
-     * Player's in-game name.
+     * Player's in-game name
      *
      * @var string
      */
     private $alias;
 
     /**
-     * Whether the account has not migrated to a Mojang account.
+     * Whether the account has not migrated to a Mojang account
      *
      * @var bool
      */
     private $isLegacyAccount;
 
     /**
-     * Whether the account is a free account (ie. unpaid).
+     * Whether the account is a free account (ie. unpaid)
      *
      * @var bool
      */

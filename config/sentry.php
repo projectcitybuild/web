@@ -1,6 +1,6 @@
 <?php
 
-return [
+return array(
     'dsn' => env('SENTRY_DSN'),
 
     // capture release as git sha
@@ -8,4 +8,4 @@ return [
 
     // Capture bindings on SQL queries
     'breadcrumbs.sql_bindings' => true,
-];
+);

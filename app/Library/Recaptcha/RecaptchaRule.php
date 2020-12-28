@@ -32,7 +32,9 @@ class RecaptchaRule extends Rule
     }
 
     /**
-     * Disables Recaptcha for the current request.
+     * Disables Recaptcha for the current request
+     *
+     * @param bool $enabled
      */
     public static function enable(bool $enabled = true)
     {
@@ -53,6 +55,7 @@ class RecaptchaRule extends Rule
      * Determine if the validation rule passes.
      *
      * @param  string  $attribute
+     * @param  mixed  $value
      *
      * @return bool
      */

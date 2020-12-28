@@ -29,8 +29,9 @@ class ServerQueryHandler
 
     /**
      * Sets the adapter that will perform
-     * the server query.
+     * the server query
      *
+     * @param ServerQueryAdapterContract $adapter
      *
      * @return void
      */
@@ -46,7 +47,13 @@ class ServerQueryHandler
 
     /**
      * Queries the given server address for
-     * its current status and player data.
+     * its current status and player data
+     *
+     * @param int $serverId
+     * @param string $ip
+     * @param string $port
+     *
+     * @return ServerQueryResult
      */
     public function queryServer(int $serverId, string $ip, string $port): ServerQueryResult
     {
@@ -62,7 +69,7 @@ class ServerQueryHandler
         $status = $this->requestStatus($serverId, $ip, $port);
 
         $end = microtime(true) - $start;
-        Log::notice('Fetch complete ['.($end / 1000).'ms]', $serverData);
+        Log::notice('Fetch complete ['. ($end / 1000) .'ms]', $serverData);
 
         return $status;
     }

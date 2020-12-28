@@ -88,13 +88,14 @@ return [
         'secret' => env('ALGOLIA_SECRET', ''),
     ],
 
+
     'tntsearch' => [
         'storage' => storage_path('search'), //place where the index files will be stored
         'fuzziness' => env('TNTSEARCH_FUZZINESS', false),
         'fuzzy' => [
             'prefix_length' => 2,
             'max_expansions' => 50,
-            'distance' => 2,
+            'distance' => 2
         ],
         'asYouType' => true,
         'searchBoolean' => env('TNTSEARCH_BOOLEAN', false),

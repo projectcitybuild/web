@@ -25,7 +25,6 @@ final class WebhookController extends ApiController
 
         if ($webhook === null) {
             Log::debug('No handler for webhook event');
-
             return;
         }
 
@@ -34,12 +33,10 @@ final class WebhookController extends ApiController
                 Log::info('Webhook acknowledged');
 
                 $controller = new DonationController($stripeHandler);
-
                 return $controller->store($webhook);
 
             default:
                 Log::info('Webhook ignored');
-
                 return response()->json(null, 204);
         }
     }

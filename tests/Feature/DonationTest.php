@@ -25,7 +25,7 @@ class DonationTest extends TestCase
 
         $this->assertDatabaseHas('account_payment_sessions', [
             'account_id' => $account->getKey(),
-            'is_processed' => 0,
+            'is_processed' => 0
         ]);
 
         $resp->assertJson(['data' => ['session_id' => 'abc123']]);
@@ -44,7 +44,7 @@ class DonationTest extends TestCase
 
         $this->assertDatabaseHas('account_payment_sessions', [
             'account_id' => null,
-            'is_processed' => 0,
+            'is_processed' => 0
         ]);
 
         $resp->assertJson(['data' => ['session_id' => 'abc123']]);

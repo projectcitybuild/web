@@ -11,7 +11,7 @@ use App\Library\RateLimit\TokenRate;
 
 /**
  * A proxy for the Mojang player API, but with
- * site-wide throttled access.
+ * site-wide throttled access
  */
 class MojangPlayerApiThrottled extends MojangPlayerApi
 {
@@ -23,35 +23,30 @@ class MojangPlayerApiThrottled extends MojangPlayerApi
     public function getUuidOf(string $name, ?int $time = null): ?MojangPlayer
     {
         $this->throttle();
-
         return parent::getUuidOf($name, $time);
     }
 
     public function getOriginalOwnerUuidOf(string $name): ?MojangPlayer
     {
         $this->throttle();
-
         return parent::getOriginalOwnerUuidOf($name);
     }
 
     public function getUuidBatchOf(array $names): ?array
     {
         $this->throttle();
-
         return parent::getUuidBatchOf($names);
     }
 
     public function getNameHistoryOf($uuid): ?MojangPlayerNameHistory
     {
         $this->throttle();
-
         return parent::getNameHistoryOf($uuid);
     }
 
     public function getNameHistoryByNameOf($name): ?MojangPlayerNameHistory
     {
         $this->throttle();
-
         return parent::getNameHistoryByNameOf($name);
     }
 
@@ -63,7 +58,6 @@ class MojangPlayerApiThrottled extends MojangPlayerApi
 
             $this->tokenBucket = new TokenBucket(600, $refillRate, $storage);
         }
-
         return $this->tokenBucket;
     }
 
@@ -72,7 +66,6 @@ class MojangPlayerApiThrottled extends MojangPlayerApi
         if (! $this->getTokenBucket()->consume(1)) {
             throw new TooManyRequestsException('mojang_throttled', 'Too many requests. Please try again later');
         }
-
         return true;
     }
 }

@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 final class PasswordResetController extends WebController
 {
     /**
-     * Shows the form to send a verification URL to the user's email address.
+     * Shows the form to send a verification URL to the user's email address
      */
     public function create()
     {
@@ -22,7 +22,10 @@ final class PasswordResetController extends WebController
     }
 
     /**
-     * Creates a password reset request and sends a verification email to the user.
+     * Creates a password reset request and sends a verification email to the user
+     *
+     * @param SendPasswordEmailRequest $request
+     * @param SendPasswordResetEmail $sendPasswordResetEmail
      */
     public function store(SendPasswordEmailRequest $request, SendPasswordResetEmail $sendPasswordResetEmail)
     {
@@ -38,7 +41,9 @@ final class PasswordResetController extends WebController
     }
 
     /**
-     * Shows the form to allow the user to set a new password.
+     * Shows the form to allow the user to set a new password
+     *
+     * @param Request $request
      */
     public function edit(Request $request)
     {
@@ -63,7 +68,10 @@ final class PasswordResetController extends WebController
     }
 
     /**
-     * Saves the user's new password.
+     * Saves the user's new password
+     *
+     * @param ResetPasswordRequest $request
+     * @param ResetAccountPassword $resetAccountPassword
      */
     public function update(ResetPasswordRequest $request, ResetAccountPassword $resetAccountPassword)
     {

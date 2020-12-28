@@ -11,7 +11,6 @@ final class GroupApiController extends ApiController
     public function getAll()
     {
         $groups = Group::get();
-
         return GroupResource::collection($groups);
     }
 }

@@ -16,7 +16,6 @@ final class DiscourseClient extends Client
             ],
         ]);
     }
-
     private function getApiKey()
     {
         return config('discourse.api_key');

@@ -6,7 +6,9 @@ use Illuminate\Contracts\Validation\Rule;
 
 /**
  * PHP implementation of
- * https://github.com/discourse/discourse/blob/888e68a1637ca784a7bf51a6bbb524dcf7413b13/app/models/username_validator.rb.
+ * https://github.com/discourse/discourse/blob/888e68a1637ca784a7bf51a6bbb524dcf7413b13/app/models/username_validator.rb
+ *
+ * @package App\Rules
  */
 class DiscourseUsernameRule implements Rule
 {
@@ -36,6 +38,7 @@ class DiscourseUsernameRule implements Rule
      * Determine if the validation rule passes.
      *
      * @param string $attribute
+     * @param mixed $value
      *
      * @return bool
      */

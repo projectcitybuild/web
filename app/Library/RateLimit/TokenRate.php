@@ -42,7 +42,11 @@ class TokenRate
     }
 
     /**
-     * Number of tokens to refill each time.
+     * Number of tokens to refill each time
+     *
+     * @param float $tokensToRefill
+     *
+     * @return TokenRate
      */
     public static function refill(float $tokensToRefill): TokenRate
     {
@@ -51,7 +55,12 @@ class TokenRate
 
     /**
      * Specifies the amount of time to
-     * wait between refills.
+     * wait between refills
+     *
+     * @param float $interval
+     * @param int $rate
+     *
+     * @return TokenRate
      */
     public function every(float $interval, int $rate): TokenRate
     {

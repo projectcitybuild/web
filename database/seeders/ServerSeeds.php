@@ -2,14 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Entities\GameType;
-use App\Entities\ServerKeys\Models\ServerKey;
-use App\Entities\Servers\Models\Server;
-use App\Entities\Servers\Models\ServerCategory;
 use Illuminate\Database\Seeder;
+
+use App\Entities\Servers\Models\ServerCategory;
+use App\Entities\Servers\Models\Server;
+use App\Entities\ServerKeys\Models\ServerKey;
+use App\Entities\GameType;
 
 class ServerSeeds extends Seeder
 {
+
     /**
      * Run the database seeds.
      *
@@ -68,6 +70,7 @@ class ServerSeeds extends Seeder
             'is_querying'           => false,
             'display_order'         => 2,
         ]);
+
 
         $serverKey = ServerKey::create([
             'server_id' => $minecraftServer->server_id,

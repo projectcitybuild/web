@@ -1,11 +1,12 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateUsers extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -14,7 +15,7 @@ class CreateUsers extends Migration
     public function up()
     {
         /**
-         * An account contains basic logic details.
+         * An account contains basic logic details
          */
         Schema::create('accounts', function (Blueprint $table) {
             $table->increments('account_id');
@@ -27,7 +28,7 @@ class CreateUsers extends Migration
         });
 
         /**
-         * Represents a single Minecraft player identified by uuid, tied to a player_id.
+         * Represents a single Minecraft player identified by uuid, tied to a player_id
          */
         Schema::create('players_minecraft', function (Blueprint $table) {
             $table->increments('player_minecraft_id');
@@ -36,13 +37,13 @@ class CreateUsers extends Migration
             $table->integer('playtime')->unsigned()->comment('Total playtime in minutes');
             $table->datetime('last_seen_at');
             $table->timestamps();
-
+            
             $table->index('uuid');
             $table->foreign('account_id')->references('account_id')->on('accounts');
         });
 
         /**
-         * Represents an in-game Minecraft name. Used to track name changes in Minecraft.
+         * Represents an in-game Minecraft name. Used to track name changes in Minecraft
          */
         Schema::create('players_minecraft_aliases', function (Blueprint $table) {
             $table->increments('players_minecraft_alias_id');

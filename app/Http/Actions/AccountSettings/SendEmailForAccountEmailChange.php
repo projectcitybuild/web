@@ -21,6 +21,11 @@ final class SendEmailForAccountEmailChange
     /**
      * Sends an email to both the current and new email address, containing a signed
      * URL. The user must click both URLs to complete the email address change process.
+     *
+     * @param Account $account
+     * @param string $newEmailAddress
+     *
+     * @return AccountEmailChange
      */
     public function execute(Account $account, string $newEmailAddress): AccountEmailChange
     {

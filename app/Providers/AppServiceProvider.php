@@ -57,7 +57,7 @@ final class AppServiceProvider extends ServiceProvider
 
         // Fix the factory() function always searching for factory files with a relative namespace
         Factory::guessFactoryNamesUsing(function (string $modelName) {
-            return 'Database\Factories\\'.class_basename($modelName).'Factory';
+            return 'Database\Factories\\' . class_basename($modelName) . 'Factory';
         });
     }
 }

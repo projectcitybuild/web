@@ -52,55 +52,49 @@ final class DiscoursePayload
     public function setName(string $name)
     {
         $this->name = $name;
-
         return $this;
     }
 
     public function setEmail(string $email)
     {
         $this->email = $email;
-
         return $this;
     }
 
     public function setUsername(?string $username)
     {
         $this->username = $username;
-
         return $this;
     }
 
     public function setAvatarUrl(string $url)
     {
         $this->avatarUrl = $url;
-
         return $this;
     }
 
     public function setPcbId(int $id)
     {
         $this->pcbId = $id;
-
         return $this;
     }
 
     public function requiresActivation(bool $value)
     {
         $this->requiresActivation = $value;
-
         return $this;
     }
 
     /**
-     * Comma separated list of group slugs.
+     * Comma separated list of group slugs
      *
+     * @param string $groups
      *
      * @return $this
      */
     public function setGroups(string $groups)
     {
         $this->groups = $groups;
-
         return $this;
     }
 

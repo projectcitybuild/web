@@ -32,7 +32,7 @@ class GroupFactory extends Factory
     }
 
     /**
-     * Sets the group as the default group assigned to members who don't yet have one.
+     * Sets the group as the default group assigned to members who don't yet have one
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
@@ -48,7 +48,7 @@ class GroupFactory extends Factory
     }
 
     /**
-     * Sets the group as the donators group.
+     * Sets the group as the donators group
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
