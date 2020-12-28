@@ -30,7 +30,7 @@ docker-compose help > /dev/null || \
 
 echo "=> Orchestrating dev environment"
 
-docker-compose up-d
+docker-compose up -d
 
 # ------------------------------------------------------------------------------------------------
 
@@ -65,8 +65,8 @@ docker-compose exec php-fpm npm run dev
 # ------------------------------------------------------------------------------------------------
 
 echo "=================================="
-echo "="
-echo "= Done! Ready for development"
-echo "= Visit http://localhost"
-echo "="
+echo " "
+echo "Done! Ready for development"
+echo "Visit http://localhost"
+echo " "
 echo "=================================="
