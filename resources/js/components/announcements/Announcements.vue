@@ -5,12 +5,13 @@
             <p class="alert__message">{{ error }}</p>
         </div>
         <div v-if="announcements.length === 0">
-            <skeleton-announcement />
-            <skeleton-announcement />
-            <skeleton-announcement />
+            <skeleton-announcement/>
+            <skeleton-announcement/>
+            <skeleton-announcement/>
         </div>
-        <div v-else>ho</div>
-
+        <div v-else>
+            <announcement v-for="topic in announcements" :topic_id="topic.id" :key="topic.id"/>
+        </div>
     </div>
 </template>
 
@@ -18,10 +19,11 @@
 import Vue from 'vue';
 import * as Api from './api';
 import SkeletonAnnouncement from "./SkeletonAnnouncement.vue";
+import Announcement from "./Announcement.vue";
 
-export default Vue.extend( {
+export default Vue.extend({
     name: "Announcements",
-    components: {SkeletonAnnouncement},
+    components: {Announcement, SkeletonAnnouncement},
     data() {
         return {
             announcements: [] as Api.ApiTopic[],
@@ -34,7 +36,7 @@ export default Vue.extend( {
     },
 
     methods: {
-        async getAnnouncements(){
+        async getAnnouncements() {
             Api.getAnnouncements().then((response) => {
                 this.announcements = response.topic_list.topics.slice(0, 3);
             }).catch((e) => {

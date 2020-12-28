@@ -11,8 +11,7 @@
             <div class="article__body">
                 <div v-for="i in numLines"
                      class="skeleton"
-                     :style="{width: getRandom(60, 100) + '%'}"> </div>
-            </div>
+                     :style="{width: getRandom(60, 100) + '%'}"></div>
             </div>
 
             <div class="article__author">
