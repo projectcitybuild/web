@@ -35,14 +35,15 @@ Absolutely. Feel free to fork and send pull requests any time. We'd be thrilled 
 
 # Contributing
 
-You should read the [Laravel Sail](https://laravel.com/docs/8.x/sail) documentation first. If you're using Windows you have to run it through WSL2.
+We use docker (with docker-compose) to orchestrate a development environment.
+If you're using Windows you have to run it through [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 
 ## First time setup
 
 1. Run `cp .env.example .env`, then edit the file as appropriate (see below)
 2. Run `make bootstrap`
 
-You'll then be able to access the website on `http://localhost`
+You'll then be able to access the website at `http://localhost`
 
 ## Development
 Once *First time setup* is complete, you only need to run one command to boot up the environment:
@@ -54,14 +55,6 @@ For front-end development, you'll want to run:
 `sail npm watch` to start NPM build. This also starts BrowserSync on `http://localhost:3000`
 
 You can enter the container at any time with `sail shell`
-
-### Linter
-
-We automatically run [PHP Insights](https://phpinsights.com/) on CI for linting.
-
-You can run the linter locally with `sail php artisan insights`
-
-If you want automatic fixing, you can run it with the `--fix` option
 
 ### Database
 * If the database schema has changed, remember to run `sail artisan migrate` from inside the workspace container to ensure you always have the latest schema.

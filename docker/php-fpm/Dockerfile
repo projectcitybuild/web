@@ -36,7 +36,8 @@ RUN if [ "$ENV" = "prod" ] ; then \
 
 RUN chown -R www-data:www-data . && \
     chmod 664 -R . && \
-    chmod 775 -R ./storage
+    chmod 775 -R ./storage && \
+    chmod 777 -R ./scripts
 
 EXPOSE 80
 
