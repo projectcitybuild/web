@@ -125,15 +125,14 @@ final class Account extends Authenticatable
     public function discourseGroupString()
     {
         $groups = $this->groups->pluck('discourse_name');
+
         return implode(',', array_filter($groups->toArray()));
     }
 
     /**
      * Gets an URL to the 'email change verification'
      * route with a signed signature to prevent
-     * tampering
-     *
-     * @return string
+     * tampering.
      */
     public function getEmailChangeVerificationUrl(string $newEmail): string
     {
@@ -145,9 +144,7 @@ final class Account extends Authenticatable
 
     /**
      * Gets an URL to the activation route with a
-     * signed signature to prevent tampering
-     *
-     * @return string
+     * signed signature to prevent tampering.
      */
     public function getActivationUrl(): string
     {

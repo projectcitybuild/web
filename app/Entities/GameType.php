@@ -9,7 +9,7 @@ use App\Library\QueryServer\GameAdapters\MinecraftQueryAdapter;
 use App\Library\QueryServer\ServerQueryAdapterContract;
 
 /**
- * List of games PCB supports
+ * List of games PCB supports.
  */
 final class GameType extends Enum
 {

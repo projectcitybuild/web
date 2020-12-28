@@ -63,9 +63,6 @@ jobs:
       - name: Larastan
         run: ./vendor/bin/phpstan analyse --memory-limit=1G
 
-      - name: PHP Insights
-        run: vendor/bin/phpinsights -n --ansi --format=github-action
-
       - name: PHPUnit
         env:
           DB_CONNECTION: mysql

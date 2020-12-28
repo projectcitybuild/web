@@ -5,21 +5,21 @@ namespace App\Library\Mojang\Models;
 class MojangPlayerNameChange
 {
     /**
-     * In-game alias
+     * In-game alias.
      *
      * @var string
      */
     private $alias;
 
     /**
-     * Timestamp of when this name was switched to
+     * Timestamp of when this name was switched to.
      *
      * @var int
      */
     private $changedToAt;
 
     /**
-     * Whether the alias is their current name in use
+     * Whether the alias is their current name in use.
      *
      * @var bool
      */
@@ -44,6 +44,7 @@ class MojangPlayerNameChange
         if ($this->changedToAt !== null) {
             return $this->changedToAt / 1000;
         }
+
         return null;
     }
 

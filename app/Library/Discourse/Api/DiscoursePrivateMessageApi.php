@@ -15,6 +15,7 @@ class DiscoursePrivateMessageApi extends DiscourseAPIRequest
                 'created_at' => $createdAt ? $createdAt : now(),
             ],
         ]);
+
         return json_decode($response->getBody(), true);
     }
 }

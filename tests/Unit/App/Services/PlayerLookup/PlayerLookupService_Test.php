@@ -1,11 +1,12 @@
 <?php
+
 namespace Tests\Services;
 
-use Tests\TestCase;
-use App\Services\PlayerLookup\PlayerLookupService;
 use App\Entities\GamePlayerType;
 use App\Entities\Players\Models\MinecraftPlayer;
+use App\Services\PlayerLookup\PlayerLookupService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class PlayerLookupService_Test extends TestCase
 {
@@ -33,7 +34,7 @@ class PlayerLookupService_Test extends TestCase
         // given...
         $service = resolve(PlayerLookupService::class);
         MinecraftPlayer::create([
-            'uuid' => 'existing_uuid'
+            'uuid' => 'existing_uuid',
         ]);
 
         // when...

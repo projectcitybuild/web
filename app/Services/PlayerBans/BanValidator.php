@@ -12,10 +12,8 @@ final class BanValidator
 {
     /**
      * Returns whether the given ServerKey has permission
-     * to unban the given GameBan
+     * to unban the given GameBan.
      *
-     * @param GameBan $ban
-     * @param ServerKey $serverKey
      *
      * @return bool
      */

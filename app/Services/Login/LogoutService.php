@@ -37,9 +37,7 @@ class LogoutService
 
     /**
      * Invalidates only a PCB session
-     * (used by Discourse)
-     *
-     * @return bool
+     * (used by Discourse).
      */
     public function logoutOfPCB(): bool
     {
@@ -53,9 +51,7 @@ class LogoutService
 
     /**
      * Invalidates both PCB and Discourse's session
-     * (used by PCB)
-     *
-     * @return bool
+     * (used by PCB).
      */
     public function logoutOfDiscourseAndPCB(): bool
     {
@@ -85,11 +81,7 @@ class LogoutService
 
     /**
      * Fetches the Discourse user associated
-     * with the given PCB account ID
-     *
-     * @param int $pcbId
-     *
-     * @return array
+     * with the given PCB account ID.
      */
     private function getDiscourseUser(int $pcbId): array
     {
