@@ -53,9 +53,8 @@ final class DonationController extends ApiController
     }
 
     /**
-     * Receives a Webhook from Stripe for payments
+     * Receives a Webhook from Stripe for payments.
      *
-     * @param StripeWebhook $webhook
      *
      * @return StripeWebhook
      *

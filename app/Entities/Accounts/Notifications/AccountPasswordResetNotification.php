@@ -29,7 +29,6 @@ final class AccountPasswordResetNotification extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
      *
      * @return array
      */
@@ -41,7 +40,6 @@ final class AccountPasswordResetNotification extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
      *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
@@ -63,7 +61,6 @@ final class AccountPasswordResetNotification extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
      *
      * @return array
      */

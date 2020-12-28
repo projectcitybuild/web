@@ -1,13 +1,14 @@
 <?php
+
 namespace Tests\Library\QueryServer;
 
+use App\Entities\Servers\Models\Server;
 use App\Entities\Servers\Models\ServerCategory;
-use Tests\TestCase;
+use App\Entities\Servers\Repositories\ServerStatusRepository;
 use App\Library\QueryServer\GameAdapters\MockQueryAdapter;
 use App\Library\QueryServer\ServerQueryHandler;
-use App\Entities\Servers\Repositories\ServerStatusRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Entities\Servers\Models\Server;
+use Tests\TestCase;
 
 class ServerQueryHandler_Test extends TestCase
 {
@@ -94,5 +95,4 @@ class ServerQueryHandler_Test extends TestCase
             'num_of_slots'   => 0,
         ]);
     }
-
 }

@@ -96,6 +96,7 @@ final class GameWarningController extends ApiController
     private function getServerKeyFromHeader(Request $request): ServerKey
     {
         $authHeader = $request->header('Authorization');
+
         return $this->serverKeyAuthService->getServerKey($authHeader);
     }
 }

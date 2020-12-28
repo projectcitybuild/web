@@ -25,13 +25,12 @@ final class ServerKeyCreateCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {
         if ($this->option('server_id') === null) {
             $this->error('No `server_id` provided');
+
             return;
         }
 
@@ -42,6 +41,7 @@ final class ServerKeyCreateCommand extends Command
         $server = Server::find($serverId);
         if ($server === null) {
             $this->error('Server with the given id does not exist');
+
             return;
         }
 

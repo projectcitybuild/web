@@ -15,8 +15,6 @@ class AccountDiscourseAdminRedirect extends WebController
 
     /**
      * AccountDiscourseAdminRedirect constructor.
-     *
-     * @param DiscourseUserApi $discourseUserApi
      */
     public function __construct(DiscourseUserApi $discourseUserApi)
     {

@@ -16,8 +16,6 @@ class StartMfaController extends \App\Http\WebController
 
     /**
      * EnableTotpController constructor.
-     *
-     * @param Google2FA $google2FA
      */
     public function __construct(Google2FA $google2FA)
     {

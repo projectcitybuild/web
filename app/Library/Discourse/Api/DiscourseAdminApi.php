@@ -24,11 +24,7 @@ class DiscourseAdminApi extends DiscourseAPIRequest
     }
 
     /**
-     * Returns the user that matches the given email address
-     *
-     * @param string $email
-     *
-     * @return array
+     * Returns the user that matches the given email address.
      */
     public function fetchUserByEmail(string $email): array
     {
@@ -48,15 +44,12 @@ class DiscourseAdminApi extends DiscourseAPIRequest
     }
 
     /**
-     * Logs out the given user
-     *
-     * @param int $discourseUserId
-     *
-     * @return array
+     * Logs out the given user.
      */
     public function requestLogout(int $discourseUserId): array
     {
         $response = $this->client->post('admin/users/'.$discourseUserId.'/log_out');
+
         return json_decode($response->getBody(), true);
     }
 
@@ -87,12 +80,14 @@ class DiscourseAdminApi extends DiscourseAPIRequest
     public function fetchUserByDiscourseId(int $discourseId): array
     {
         $response = $this->client->get('admin/users/'.$discourseId.'.json');
+
         return json_decode($response->getBody(), true);
     }
 
     public function fetchEmailsByUsername(string $username): array
     {
         $response = $this->client->get('u/'.$username.'/emails.json');
+
         return json_decode($response->getBody(), true);
     }
 

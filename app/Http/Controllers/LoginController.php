@@ -74,7 +74,7 @@ final class LoginController extends WebController
             $triesLeft = floor($rateLimit->getAvailableTokens());
 
             throw ValidationException::withMessages([
-                'error' => ['Email or password is incorrect: ' . $triesLeft . ' attempts remaining'],
+                'error' => ['Email or password is incorrect: '.$triesLeft.' attempts remaining'],
             ]);
         }
 
@@ -113,11 +113,10 @@ final class LoginController extends WebController
     }
 
     /**
-     * Logs out the current PCB account
+     * Logs out the current PCB account.
      *
      * (called from Discourse)
      *
-     * @param Request $request
      *
      * @return void
      */
@@ -130,11 +129,10 @@ final class LoginController extends WebController
 
     /**
      * Logs out the current PCB account and
-     * its associated Discourse account
+     * its associated Discourse account.
      *
      * (called from this site)
      *
-     * @param Request $request
      *
      * @return void
      */

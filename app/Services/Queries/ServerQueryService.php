@@ -23,12 +23,8 @@ final class ServerQueryService
 
     /**
      * Dispatches a job to query a server for its
-     * current status and player list
+     * current status and player list.
      *
-     * @param GameType $gameType
-     * @param int $serverId
-     * @param string $ip
-     * @param string $port
      *
      * @return void
      */
@@ -49,10 +45,8 @@ final class ServerQueryService
     /**
      * Receives the result of a server query job, then dispatches a player query job
      * if players were online, to uniquely identify each player and store them in
-     * PCB's player database for statistics
+     * PCB's player database for statistics.
      *
-     * @param int $serverId
-     * @param ServerQueryResult $status
      *
      * @return void
      */
@@ -60,6 +54,7 @@ final class ServerQueryService
     {
         if ($entity->getIsDryRun()) {
             dump($status);
+
             return;
         }
         if (count($status->getPlayerList()) > 0) {
@@ -68,10 +63,8 @@ final class ServerQueryService
     }
 
     /**
-     * Receives the result of a player query job
+     * Receives the result of a player query job.
      *
-     * @param int $serverId
-     * @param array $playerIds
      *
      * @return void
      */

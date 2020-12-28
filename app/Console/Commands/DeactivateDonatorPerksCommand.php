@@ -38,8 +38,6 @@ final class DeactivateDonatorPerksCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {
@@ -52,6 +50,7 @@ final class DeactivateDonatorPerksCommand extends Command
 
         if ($expiredPerks === null || count($expiredPerks) === 0) {
             Log::info('No donator perks have expired');
+
             return;
         }
 
