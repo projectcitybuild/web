@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Entities\Accounts\Models\Account;
 use App\Http\Middleware\MfaGate;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Session;
 use PragmaRX\Google2FA\Google2FA;
 use Tests\TestCase;
 
@@ -26,7 +25,7 @@ class MfaLoginTest extends TestCase
     {
         $this->post(route('front.login.submit'), [
             'email' => $this->mfaAccount->email,
-            'password' => 'secret'
+            'password' => 'secret',
         ])->assertSessionHas(MfaGate::NEEDS_MFA_KEY);
     }
 
@@ -47,7 +46,7 @@ class MfaLoginTest extends TestCase
         $validCode = $this->google2fa->getCurrentOtp(Crypt::decryptString($this->mfaAccount->totp_secret));
 
         $this->post(route('front.login.mfa'), [
-            'code' => $validCode
+            'code' => $validCode,
         ])->assertSessionHasNoErrors()->assertRedirect();
     }
 
@@ -57,7 +56,7 @@ class MfaLoginTest extends TestCase
             ->flagNeedsMfa();
 
         $this->post(route('front.login.mfa'), [
-            'code' => '000000'
+            'code' => '000000',
         ])->assertSessionHasErrors(['code']);
     }
 

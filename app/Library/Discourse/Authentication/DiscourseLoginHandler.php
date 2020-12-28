@@ -38,6 +38,7 @@ final class DiscourseLoginHandler
             $packedNonce->getSSO(),
             $packedNonce->getSignature()
         );
+
         return $this->getDiscourseRedirectUri(
             $pcbId,
             $email,
@@ -58,12 +59,7 @@ final class DiscourseLoginHandler
 
     /**
      * Decodes the given packed nonce, and extracts the nonce and
-     * return URL from it
-     *
-     * @param string $sso
-     * @param string $signature
-     *
-     * @return DiscourseNonce
+     * return URL from it.
      */
     private function decodePackedNonce(string $sso, string $signature): DiscourseNonce
     {
@@ -94,15 +90,6 @@ final class DiscourseLoginHandler
      *
      * The URL contains a signed payload containing their pcbId, email address,
      * nonce and a URL to redirect to if the login succeeds
-     *
-     * @param int $pcbId
-     * @param string $email
-     * @param string $username
-     * @param string $groups
-     * @param string $nonce
-     * @param string $returnUri
-     *
-     * @return string
      */
     private function getDiscourseRedirectUri(int $pcbId, string $email, string $username, string $groups, string $nonce, string $returnUri): string
     {

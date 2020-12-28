@@ -31,20 +31,19 @@ class AccountController extends WebController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Entities\Accounts\Models\Account  $account
      *
      * @return \Illuminate\Http\Response
      */
     public function show(Account $account)
     {
         $groups = Group::all();
+
         return view('front.pages.panel.account.show')->with(compact('account', 'groups'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Entities\Accounts\Models\Account  $account
      *
      * @return \Illuminate\Http\Response
      */
@@ -56,8 +55,6 @@ class AccountController extends WebController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Accounts\Models\Account  $account
      *
      * @return \Illuminate\Http\Response
      */

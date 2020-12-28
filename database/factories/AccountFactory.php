@@ -28,7 +28,7 @@ class AccountFactory extends Factory
         return [
             'email' => $this->faker->email,
             'username' => $this->faker->userName,
-            'password' => Hash::make("secret"),
+            'password' => Hash::make('secret'),
             'activated' => true,
             'last_login_ip' => $this->faker->ipv4,
             'last_login_at' => $this->faker->dateTimeBetween('-180days', '-1hours'),
@@ -36,7 +36,7 @@ class AccountFactory extends Factory
     }
 
     /**
-     * Sets the password to the string 'password' unhashed
+     * Sets the password to the string 'password' unhashed.
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
@@ -50,7 +50,7 @@ class AccountFactory extends Factory
     }
 
     /**
-     * Deactivates the account
+     * Deactivates the account.
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
@@ -67,7 +67,7 @@ class AccountFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'totp_secret' => Crypt::encryptString((new Google2FA)->generateSecretKey())
+                'totp_secret' => Crypt::encryptString((new Google2FA)->generateSecretKey()),
             ];
         });
     }
@@ -76,7 +76,7 @@ class AccountFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'totp_backup_code' => Crypt::encryptString(Str::random(32))
+                'totp_backup_code' => Crypt::encryptString(Str::random(32)),
             ];
         });
     }
@@ -90,7 +90,7 @@ class AccountFactory extends Factory
     {
         return $this->hasStartedTotp()->state(function (array $attributes) {
             return [
-                'is_totp_enabled' => true
+                'is_totp_enabled' => true,
             ];
         });
     }

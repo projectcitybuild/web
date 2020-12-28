@@ -18,8 +18,6 @@ final class AccountActivationNotification extends Notification
 
     /**
      * Create a new notification instance.
-     *
-     * @param Account $account
      */
     public function __construct(Account $account)
     {
@@ -29,7 +27,6 @@ final class AccountActivationNotification extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
      *
      * @return array
      */
@@ -41,7 +38,6 @@ final class AccountActivationNotification extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
      *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
@@ -63,7 +59,6 @@ final class AccountActivationNotification extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
      *
      * @return array
      */

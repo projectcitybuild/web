@@ -16,9 +16,8 @@ class MinecraftPlayerAliasRepository extends Repository
 
     /**
      * Creates a new MinecraftPlayerAlias tied to a
-     * MinecraftPlayer id
+     * MinecraftPlayer id.
      *
-     * @param int $userId
      *
      * @return GameUser
      */

@@ -1,13 +1,12 @@
 <?php
+
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-
 use App\Entities\Groups\Models\Group;
+use Illuminate\Database\Seeder;
 
 class GroupSeeds extends Seeder
 {
-
     /**
      * Run the database seeds.
      *
@@ -17,49 +16,49 @@ class GroupSeeds extends Seeder
     {
         Group::create([
             'name' => 'retired',
-            'discourse_name' => 'retired'
+            'discourse_name' => 'retired',
         ]);
 
         Group::create([
             'name' => 'member',
             'is_default' => true,
-            'discourse_name' => null
+            'discourse_name' => null,
         ]);
 
         Group::create([
             'name' => 'trusted',
-            'discourse_name' => 'trusted'
+            'discourse_name' => 'trusted',
         ]);
 
         Group::create([
-           'name' => 'trusted+',
-           'discourse_name' => 'trusted-plus'
+            'name' => 'trusted+',
+            'discourse_name' => 'trusted-plus',
         ]);
 
         Group::create([
             'name' => 'donator',
-            'discourse_name' => 'donator'
+            'discourse_name' => 'donator',
         ]);
 
         Group::create([
             'name' => 'moderator',
             'alias' => 'Mod',
             'is_staff' => true,
-            'discourse_name' => 'moderator'
+            'discourse_name' => 'moderator',
         ]);
 
         Group::create([
             'name' => 'operator',
             'alias' => 'OP',
             'is_staff' => true,
-            'discourse_name' => 'operator'
+            'discourse_name' => 'operator',
         ]);
 
         Group::create([
             'name' => 'senior operator',
             'alias' => 'SOP',
             'is_staff' => true,
-            'discourse_name' => 'senior-operator'
+            'discourse_name' => 'senior-operator',
         ]);
 
         Group::create([
@@ -67,7 +66,7 @@ class GroupSeeds extends Seeder
             'alias' => 'Admin',
             'is_staff' => true,
             'is_admin' => true,
-            'discourse_name' => 'administrator'
+            'discourse_name' => 'administrator',
         ]);
     }
 }

@@ -12,7 +12,7 @@ class MfaGate
     const NEEDS_MFA_KEY = 'auth.needs-mfa';
 
     /**
-     * Routes to not redirect to the MFA gate on
+     * Routes to not redirect to the MFA gate on.
      *
      * @var array<string>
      */
@@ -21,15 +21,10 @@ class MfaGate
         'front.login.mfa-recover',
     ];
 
-    /**
-     * @var ResponseFactory
-     */
     private ResponseFactory $responseFactory;
 
     /**
      * MfaGate constructor.
-     *
-     * @param ResponseFactory $responseFactory
      */
     public function __construct(ResponseFactory $responseFactory)
     {
@@ -38,11 +33,6 @@ class MfaGate
 
     /**
      * Handle an incoming request.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
-     *
-     * @return mixed
      */
     public function handle(Request $request, Closure $next)
     {
@@ -54,11 +44,7 @@ class MfaGate
     }
 
     /**
-     * Check if the given request does not require MFA first
-     *
-     * @param Request $request
-     *
-     * @return bool
+     * Check if the given request does not require MFA first.
      */
     private function accountDoesntNeedMfa(Request $request): bool
     {

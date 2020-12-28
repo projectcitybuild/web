@@ -34,7 +34,7 @@ class GameBanFactory extends Factory
     }
 
     /**
-     * Enables the ban
+     * Enables the ban.
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
@@ -48,7 +48,7 @@ class GameBanFactory extends Factory
     }
 
     /**
-     * Disables the ban
+     * Disables the ban.
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
@@ -62,7 +62,7 @@ class GameBanFactory extends Factory
     }
 
     /**
-     * Indicates that this ban has already expired
+     * Indicates that this ban has already expired.
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
@@ -76,7 +76,7 @@ class GameBanFactory extends Factory
     }
 
     /**
-     * Indicates that this ban will never expire
+     * Indicates that this ban will never expire.
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */

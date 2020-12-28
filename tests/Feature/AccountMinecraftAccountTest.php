@@ -64,7 +64,7 @@ class AccountMinecraftAccountTest extends TestCase
         $this->get(route('front.account.games'))
             ->assertOk()
             ->assertSee($neverSyncedMcPlayer->uuid)
-            ->assertSee("Never");
+            ->assertSee('Never');
     }
 
     public function testCanUnlinkOwnAccount()
@@ -76,7 +76,7 @@ class AccountMinecraftAccountTest extends TestCase
 
         $this->assertDatabaseHas('players_minecraft', [
             'uuid' => $this->mcPlayer->uuid,
-            'account_id' => null
+            'account_id' => null,
         ]);
     }
 
