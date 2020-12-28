@@ -55,14 +55,14 @@ services:
             - 'redis:/data'
         networks:
             - pcb-web
-#
-#    mailhog:
-#        image: 'mailhog/mailhog:latest'
-#        ports:
-#            - 1025:1025
-#            - 8025:8025
-#        networks:
-#            - pcb-web
+
+    mailhog:
+        image: 'mailhog/mailhog:latest'
+        ports:
+            - 1025:1025
+            - 8025:8025
+        networks:
+            - pcb-web
 
 networks:
     pcb-web:
