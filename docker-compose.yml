@@ -9,8 +9,10 @@ services:
             - "./:/var/www/html"
         networks:
             - pcb-web
-#        depends_on:
-#            - mysql
+        links:
+          - "mariadb:db"
+        depends_on:
+            - mariadb
 #            - redis
 
     nginx:
@@ -27,21 +29,21 @@ services:
         depends_on:
           - php-fpm
 
-#    mariadb:
-#        image: "mariadb:10.5"
-#        ports:
-#            - "3306:3306"
-#        environment:
-#            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
-#            MYSQL_DATABASE: "${DB_DATABASE}"
-#            MYSQL_USER: "${DB_USERNAME}"
-#            MYSQL_PASSWORD: "${DB_PASSWORD}"
-#            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-#        volumes:
-#            - "mysql:/var/lib/mysql"
-#        networks:
-#            - pcb-web
-#
+    mariadb:
+        image: "mariadb:10.5"
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+            MYSQL_DATABASE: "${DB_DATABASE}"
+            MYSQL_USER: "${DB_USERNAME}"
+            MYSQL_PASSWORD: "${DB_PASSWORD}"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        volumes:
+            - "mysql:/var/lib/mysql"
+        networks:
+            - pcb-web
+
 #    redis:
 #        image: 'redis:alpine'
 #        ports:
@@ -63,8 +65,8 @@ networks:
     pcb-web:
         driver: bridge
 
-#volumes:
-#    mysql:
-#        driver: local
+volumes:
+    mysql:
+        driver: local
 #    redis:
 #        driver: local
