@@ -14,6 +14,8 @@ RUN apk add shadow && \
     usermod -u 1000 www-data && \
     groupmod -g 1000 www-data
 
+COPY ./docker/php-fpm/php.ini /etc/php7.4/conf.d/php.ini
+
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN rm -rf composer-setup.php

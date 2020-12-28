@@ -10,3 +10,5 @@ storage/framework/views/**
 storage/logs/**
 storage/debugbar/**
 storage/search/**
+
+supervisord.log
