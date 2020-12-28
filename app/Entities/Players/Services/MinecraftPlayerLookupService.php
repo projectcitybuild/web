@@ -55,12 +55,7 @@ class MinecraftPlayerLookupService
 
     /**
      * Gets a MinecraftPlayer by uuid. If the uuid doesn't match
-     * a player, the player is created first
-     *
-     * @param string $uuid
-     * @param string|null $createAlias
-     *
-     * @return MinecraftPlayer
+     * a player, the player is created first.
      */
     public function getOrCreateByUuid(string $uuid, ?string $createAlias = null): MinecraftPlayer
     {
@@ -78,6 +73,7 @@ class MinecraftPlayerLookupService
             }
 
             $this->connection->commit();
+
             return $player;
         } catch (\Exception $e) {
             $this->connection->rollBack();

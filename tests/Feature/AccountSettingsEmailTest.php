@@ -1,13 +1,10 @@
 <?php
 
-
 namespace Tests\Feature;
-
 
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Accounts\Notifications\AccountEmailChangeVerifyNotification;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
@@ -29,7 +26,7 @@ class AccountSettingsEmailTest extends TestCase
     private function submitEmailChange($newEmail): \Illuminate\Testing\TestResponse
     {
         return $this->actingAs($this->account)->post(route('front.account.settings.email'), [
-            'email' => $newEmail
+            'email' => $newEmail,
         ]);
     }
 
@@ -45,7 +42,7 @@ class AccountSettingsEmailTest extends TestCase
 
         $this->assertDatabaseHas('account_email_changes', [
             'email_previous' => $oldEmail,
-            'email_new' => $newEmail
+            'email_new' => $newEmail,
         ]);
 
         // Test notification to old email
@@ -64,13 +61,13 @@ class AccountSettingsEmailTest extends TestCase
 
     public function testCantSubmitEmptyEmail()
     {
-        $this->submitEmailChange("")
+        $this->submitEmailChange('')
             ->assertSessionHasErrors();
     }
 
     public function testCantSubmitInvalidEmail()
     {
-        $this->submitEmailChange("test")
+        $this->submitEmailChange('test')
             ->assertSessionHasErrors();
     }
 

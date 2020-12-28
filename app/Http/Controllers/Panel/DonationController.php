@@ -17,6 +17,7 @@ class DonationController extends WebController
     public function index(Request $request)
     {
         $donations = Donation::with('account')->orderBy('created_at', 'desc')->paginate(100);
+
         return view('front.pages.panel.donations.index')->with(compact('donations'));
     }
 
@@ -33,7 +34,6 @@ class DonationController extends WebController
     /**
      * Add a specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\Http\Response
      */
@@ -64,7 +64,6 @@ class DonationController extends WebController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Entities\Donations\Models\Donation  $donation
      *
      * @return \Illuminate\Http\Response
      */
@@ -76,8 +75,6 @@ class DonationController extends WebController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Donations\Models\Donation   $donation
      *
      * @return \Illuminate\Http\Response
      */
@@ -104,14 +101,13 @@ class DonationController extends WebController
     /**
      * Delete the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Donations\Models\Donation   $donation
      *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, Donation $donation)
     {
         $donation->delete();
+
         return redirect(route('front.panel.donations.index'));
     }
 }

@@ -1,14 +1,15 @@
 <?php
+
 namespace Tests\Services;
 
-use Tests\TestCase;
-use App\Library\Discourse\Api\DiscourseUserApi;
-use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Entities\Accounts\Models\Account;
+use App\Library\Discourse\Api\DiscourseAdminApi;
+use App\Library\Discourse\Api\DiscourseUserApi;
 use App\Services\Login\LogoutService;
 use Illuminate\Contracts\Auth\Guard as Auth;
-use Illuminate\Log\Logger;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Log\Logger;
+use Tests\TestCase;
 
 class LogoutService_Test extends TestCase
 {
@@ -37,9 +38,8 @@ class LogoutService_Test extends TestCase
 
     /**
      * Creates a new Account and logins
-     * as that account
+     * as that account.
      *
-     * @param Auth $auth
      * @return void
      */
     private function loginAsUser(Auth $auth)

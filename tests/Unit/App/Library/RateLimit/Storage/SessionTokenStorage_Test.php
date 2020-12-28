@@ -1,10 +1,11 @@
 <?php
+
 namespace Tests\Library\RateLimit;
 
-use Illuminate\Support\Facades\Session;
-use Tests\TestCase;
 use App\Library\RateLimit\Storage\SessionTokenStorage;
 use App\Library\RateLimit\TokenState;
+use Illuminate\Support\Facades\Session;
+use Tests\TestCase;
 
 class SessionTokenStorage_Test extends TestCase
 {

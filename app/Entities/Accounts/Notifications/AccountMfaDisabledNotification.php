@@ -17,13 +17,11 @@ class AccountMfaDisabledNotification extends Notification
      */
     public function __construct()
     {
-        
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
      *
      * @return array
      */
@@ -35,7 +33,6 @@ class AccountMfaDisabledNotification extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
      *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
@@ -51,7 +48,6 @@ class AccountMfaDisabledNotification extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
      *
      * @return array
      */

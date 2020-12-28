@@ -9,15 +9,11 @@ interface BannableModelInterface
      * in banning.
      *
      * For example, for Minecraft return the UUID field
-     *
-     * @return string
      */
     public function getBanIdentifier(): string;
 
     /**
-     * Returns the human-readable, display name
-     *
-     * @return string
+     * Returns the human-readable, display name.
      */
     public function getBanReadableName(): string;
 }
