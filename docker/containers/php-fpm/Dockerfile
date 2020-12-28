@@ -1,12 +1,14 @@
 FROM php:7.4-fpm-alpine
 
+ARG ENV
+
 WORKDIR /var/www/html
 
 RUN echo "UTC" > /etc/timezone
 
 RUN apk add --no-cache --update zip unzip curl sqlite supervisor nodejs npm
 
-RUN docker-php-ext-install mysqli pdo pdo_mysql
+RUN docker-php-ext-install mysqli pdo_mysql
 
 RUN apk add shadow && \
     usermod -u 1000 www-data && \
@@ -26,13 +28,16 @@ RUN rm -rf composer-setup.php
 #
 ##COPY ./docker/php-fpm/php-fpm.conf /etc/php7/php-fpm.conf
 
-
 COPY --chown=www-data:www-data . .
 #RUN rm -rf ./docker
 
-RUN composer install --no-dev
-
-RUN npm install && npm run prod
+# We don't need to bake-in dependencies since they'll be overwritten
+# by a mounted volume in a dev environment
+RUN if [ "$ENV" = "prod" ] ; then \
+        composer install --no-dev ; \
+        npm install ; \
+        npm run prod ; \
+    fi
 
 RUN chmod 664 -R . && \
     chmod 775 -R ./storage

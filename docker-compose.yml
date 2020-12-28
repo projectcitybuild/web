@@ -5,6 +5,8 @@ services:
         build:
             context: .
             dockerfile: docker/containers/php-fpm/Dockerfile
+            args:
+              ENV: "DEV"
         volumes:
             - "./:/var/www/html"
         networks:
