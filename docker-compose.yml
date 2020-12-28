@@ -4,7 +4,7 @@ services:
     php-fpm:
         build:
             context: .
-            dockerfile: docker/containers/php-fpm/Dockerfile
+            dockerfile: docker/php-fpm/Dockerfile
             args:
               ENV: "DEV"
         volumes:
@@ -13,14 +13,15 @@ services:
             - pcb-web
         links:
           - "mariadb:db"
+          - "redis:redis"
         depends_on:
             - mariadb
-#            - redis
+            - redis
 
     nginx:
         build:
             context: .
-            dockerfile: docker/containers/nginx/Dockerfile
+            dockerfile: docker/nginx/Dockerfile
         ports:
           - "80:80"
           - "443:443"
@@ -46,14 +47,14 @@ services:
         networks:
             - pcb-web
 
-#    redis:
-#        image: 'redis:alpine'
-#        ports:
-#            - '${FORWARD_REDIS_PORT:-6379}:6379'
-#        volumes:
-#            - 'redis:/data'
-#        networks:
-#            - pcb-web
+    redis:
+        image: 'redis:alpine'
+        ports:
+            - '6379:6379'
+        volumes:
+            - 'redis:/data'
+        networks:
+            - pcb-web
 #
 #    mailhog:
 #        image: 'mailhog/mailhog:latest'
@@ -70,5 +71,5 @@ networks:
 volumes:
     mysql:
         driver: local
-#    redis:
-#        driver: local
+    redis:
+        driver: local
