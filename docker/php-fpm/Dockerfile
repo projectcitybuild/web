@@ -24,9 +24,9 @@ RUN rm -rf composer-setup.php
 #
 #COPY ./docker/php-fpm/php-fpm.conf /etc/php7/php-fpm.conf
 
-COPY ./docker/php-fpm/supervisord.conf /etc/supervisor/supervisord.conf
+COPY ./docker/php-fpm/supervisord.conf /etc/supervisord.conf
 
-COPY --chown=www-data:www-data . .
+COPY . .
 
 # We don't need to bake-in dependencies since they'll be overwritten
 # by a mounted volume in a dev environment
@@ -36,9 +36,10 @@ RUN if [ "$ENV" = "prod" ] ; then \
         npm run prod ; \
     fi
 
-RUN chmod 664 -R . && \
+RUN chown -R www-data:www-data . && \
+    chmod 664 -R . && \
     chmod 775 -R ./storage
 
 EXPOSE 80
 
-CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
