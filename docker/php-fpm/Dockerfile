@@ -17,19 +17,16 @@ RUN apk add shadow && \
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN rm -rf composer-setup.php
-
-#RUN mkdir -p /etc/supervisor.d/
-#COPY ./docker/php-fpm/supervisor.ini /etc/supervisor.d/supervisord.ini
-##COPY ./docker/php-fpm/supervisord.conf /etc/supervisor.d/supervisord.conf
 #
 #RUN mkdir -p /run/php/
 #RUN touch /run/php/php7.4-fpm.pid
 #RUN touch /run/php/php7.4-fpm.sock
 #
-##COPY ./docker/php-fpm/php-fpm.conf /etc/php7/php-fpm.conf
+#COPY ./docker/php-fpm/php-fpm.conf /etc/php7/php-fpm.conf
+
+COPY ./docker/php-fpm/supervisord.conf /etc/supervisor/supervisord.conf
 
 COPY --chown=www-data:www-data . .
-#RUN rm -rf ./docker
 
 # We don't need to bake-in dependencies since they'll be overwritten
 # by a mounted volume in a dev environment
@@ -44,4 +41,4 @@ RUN chmod 664 -R . && \
 
 EXPOSE 80
 
-#CMD ["supervisord", "-c", "/etc/supervisor.d/supervisord.ini"]
+CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
