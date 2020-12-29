@@ -5,12 +5,3 @@ services:
         build:
             args:
                 ENV: "DEV"
-        volumes:
-            - "./:/var/www/html"
-
-    mariadb:
-        environment:
-            MYSQL_ROOT_PASSWORD: "root"
-            MYSQL_DATABASE: "pcb"
-            MYSQL_USER: "default"
-            MYSQL_PASSWORD: "default"

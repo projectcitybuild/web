@@ -7,14 +7,10 @@ services:
                 ENV: "DEV"
         volumes:
             - "./:/var/www/html"
-
-    mariadb:
-        environment:
-            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
-            MYSQL_DATABASE: "${DB_DATABASE}"
-            MYSQL_USER: "${DB_USERNAME}"
-            MYSQL_PASSWORD: "${DB_PASSWORD}"
-            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        links:
+            - "mailhog:mailhog"
+        depends_on:
+            - mailhog
 
     mailhog:
         image: 'mailhog/mailhog:latest'

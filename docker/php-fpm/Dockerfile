@@ -24,21 +24,20 @@ COPY ./docker/php-fpm/supervisord.conf /etc/supervisord.conf
 
 RUN echo "* * * * * cd /var/www/html && php artisan schedule:run >> /dev/null 2>&1" > /etc/crontabs/root
 
-COPY . .
+COPY --chown=www-data:www-data . .
 
 # We don't need to bake-in dependencies since they'll be overwritten
 # by a mounted volume in a dev environment
 RUN if [ "$ENV" = "prod" ] ; then \
-        composer install --no-dev ; \
+        rm -rf vendor && composer install --no-dev ; \
         npm install ; \
         npm run prod ; \
     fi
 
-RUN chown -R www-data:www-data . && \
-    chmod 664 -R . && \
+RUN chmod 664 -R . && \
     chmod 775 -R ./storage && \
-    chmod 777 -R ./scripts
+    chmod 775 -R ./scripts
 
 EXPOSE 80
 
-ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
