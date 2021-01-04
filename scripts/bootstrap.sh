@@ -28,7 +28,13 @@ docker-compose help > /dev/null || \
 
 # ------------------------------------------------------------------------------------------------
 
-echo "=> Orchestrating dev environment"
+echo "=> Generating SSL certificate for local dev..."
+
+./scripts/generate-cert.sh || exit 1
+
+# ------------------------------------------------------------------------------------------------
+
+echo "=> Orchestrating dev environment..."
 
 docker-compose up -d
 

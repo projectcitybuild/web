@@ -36,5 +36,6 @@ mix-manifest.json
 /.vagrant
 Homestead.json
 Homestead.yaml
+dhparam
 
 clover.xml
