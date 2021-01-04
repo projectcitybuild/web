@@ -6,15 +6,19 @@ services:
             context: .
             dockerfile: docker/php-fpm/Dockerfile
             args:
-                ENV: "PROD"
+                ENV: "DEV"
         networks:
             - pcb-web
+        volumes:
+            - "./:/var/www/html"
         links:
             - "mariadb:db"
             - "redis:redis"
+            - "mailhog:mailhog"
         depends_on:
             - mariadb
             - redis
+            - mailhog
 
     nginx:
         build:
@@ -23,12 +27,36 @@ services:
         ports:
             - "80:80"
             - "443:443"
+        volumes:
+#            - "certbot-etc:/etc/letsencrypt"
+#            - "certbot-var:/var/lib/letsencrypt"
+            - "./docker/nginx/certs/projectcitybuild.com+2.pem:/etc/letsencrypt/live/projectcitybuild.com/projectcitybuild.com+2.pem"
+            - "./docker/nginx/certs/projectcitybuild.com+2-key.pem:/etc/letsencrypt/live/projectcitybuild.com/projectcitybuild.com+2-key.pem"
+#            - "dhparam:/etc/ssl/certs"
         links:
             - "php-fpm:pcb-laravel"
         networks:
             - pcb-web
         depends_on:
             - php-fpm
+#            - certbot
+
+#    certbot:
+#        image: certbot/certbot
+#        container_name: certbot
+#        volumes:
+#            - "certbot-etc:/etc/letsencrypt"
+#            - "certbot-var:/var/lib/letsencrypt"
+#            - "./:/var/www/html"
+#        networks:
+#            - pcb-web
+#        command: certonly \
+#            --webroot \
+#            --webroot-path=/var/www/html \
+#            --email noreply@projectcitybuild.com \
+#            --agree-tos \
+#            --no-eff-email \
+#            --staging -d projectcitybuild.com -d www.projectcitybuild.com
 
     mariadb:
         image: "mariadb:10.5"
@@ -54,6 +82,14 @@ services:
         networks:
             - pcb-web
 
+    mailhog:
+        image: 'mailhog/mailhog:latest'
+        ports:
+            - 1025:1025
+            - 8025:8025
+        networks:
+            - pcb-web
+
 networks:
     pcb-web:
         driver: bridge
@@ -63,3 +99,11 @@ volumes:
         driver: local
     redis:
         driver: local
+#    certbot-etc:
+#    certbot-var:
+#    dhparam:
+#        driver: local
+#        driver_opts:
+#            type: none
+#            device: dhparam/
+#            o: bind

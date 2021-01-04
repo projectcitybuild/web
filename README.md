@@ -56,6 +56,16 @@ For front-end development, you'll want to run:
 
 You can enter the container at any time with `sail shell`
 
+### Certificate
+You'll need to install [mkcert](https://github.com/FiloSottile/mkcert) so that HTTPS works locally (https://localhost).
+
+Installation instructions differ based on your OS and distribution.
+
+Then run `mkcert -install`.
+
+> If you're using WSL (Windows) with Firefox, you'll need to install mkcert on Windows too, then perform [these extra steps](https://ddev.readthedocs.io/en/stable/#windows-and-firefox-mkcert-install-additional-instructions)
+> followed by [these steps](https://github.com/microsoft/WSL/issues/3161#issuecomment-451863149).
+
 ### Database
 * If the database schema has changed, remember to run `sail artisan migrate` from inside the workspace container to ensure you always have the latest schema.
 
