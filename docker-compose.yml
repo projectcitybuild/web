@@ -7,6 +7,9 @@ services:
             dockerfile: docker/php-fpm/Dockerfile
             args:
                 ENV: "DEV"
+        ports:
+            - "3000:3000" # Browsersync
+            - "3001:3001" # Browsersync control panel
         networks:
             - pcb-web
         volumes:
@@ -27,11 +30,12 @@ services:
         ports:
             - "80:80"
             - "443:443"
+            - "8000:3000" # Browsersync
         volumes:
-#            - "certbot-etc:/etc/letsencrypt"
-#            - "certbot-var:/var/lib/letsencrypt"
             - "./docker/nginx/certs/projectcitybuild.com+2.pem:/etc/letsencrypt/live/projectcitybuild.com/projectcitybuild.com+2.pem"
             - "./docker/nginx/certs/projectcitybuild.com+2-key.pem:/etc/letsencrypt/live/projectcitybuild.com/projectcitybuild.com+2-key.pem"
+#            - "certbot-etc:/etc/letsencrypt"
+#            - "certbot-var:/var/lib/letsencrypt"
 #            - "dhparam:/etc/ssl/certs"
         links:
             - "php-fpm:pcb-laravel"
