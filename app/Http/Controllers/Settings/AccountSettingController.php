@@ -19,6 +19,7 @@ final class AccountSettingController extends WebController
     public function showView(Request $request)
     {
         $user = $request->user();
+
         return view('front.pages.account.account-settings')->with(compact('user'));
     }
 
@@ -39,9 +40,8 @@ final class AccountSettingController extends WebController
     /**
      * Either shows information about the current stage in the email change process,
      * or completes the email change process if the user has just finished verifying
-     * they own both email addresses (current and new)
+     * they own both email addresses (current and new).
      *
-     * @param Request $request
      *
      * @return View
      */

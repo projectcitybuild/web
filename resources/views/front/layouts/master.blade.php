@@ -70,9 +70,8 @@
                             <li>
                                 <h5>Feed the Beast</h5>
                                 <ul>
-                                    <li><a href="#">Rules & Guidelines</a></li>
-                                    <li><a href="#">Installation Guide</a></li>
-                                    <li><a href="#">Real-Time Map</a></li>
+                                    <li><a href="https://forums.projectcitybuild.com/t/modded-is-back-with-our-custom-false-hope-pack/34989/3">Rules & Guidelines</a></li>
+                                    <li><a href="https://forums.projectcitybuild.com/t/modded-is-back-with-our-custom-false-hope-pack/34989/2">Installation Guide</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -151,7 +150,7 @@
             <header class="header {{ !$isHomepage ? 'header--thin' : '' }}">
                 <div class="container header__container">
                     <div class="header__left">
-                        <img class="header__logo {{ !$isHomepage ? 'header__logo--nopadding' : '' }}" src="{{ asset('assets/images/logo.png') }}" alt="Project City Build" />
+                        <img class="header__logo {{ !$isHomepage ? 'header__logo--nopadding' : '' }}" src="{{ asset('assets/images/logo-est.png') }}" alt="Project City Build" />
 
                         @includeWhen($isHomepage, 'front.components.server-feed')
                     </div>
@@ -209,8 +208,8 @@
                         </ul>
                         <ul class="footer__bullets">
                             <li><h5 class="footer__subheading">Open Source</h5></li>
-                            <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener" href="https://github.com/andyksaw/PCBridge">PCBridge</a></li>
-                            <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener" href="https://github.com/andyksaw/ProjectCityBuild">projectcitybuild.com</a></li>
+                            <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener" href="https://github.com/projectcitybuild/PCBridge">PCBridge</a></li>
+                            <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener" href="https://github.com/projectcitybuild/web">projectcitybuild.com</a></li>
                         </ul>
                     </div>
                     <div class="footer__right">

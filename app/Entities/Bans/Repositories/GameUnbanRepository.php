@@ -14,13 +14,7 @@ final class GameUnbanRepository extends Repository
     protected $model = GameUnban::class;
 
     /**
-     * Stores a new GameUnban
-     *
-     * @param int $banId
-     * @param int $staffPlayerId
-     * @param GamePlayerType $staffPlayerType
-     *
-     * @return GameUnban
+     * Stores a new GameUnban.
      */
     public function store(int $banId, int $staffPlayerId, GamePlayerType $staffPlayerType): GameUnban
     {

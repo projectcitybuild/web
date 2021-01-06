@@ -20,8 +20,6 @@ class SetupMfaController extends WebController
 
     /**
      * EnableTotpController constructor.
-     *
-     * @param Google2FA $google2FA
      */
     public function __construct(Google2FA $google2FA)
     {
@@ -31,7 +29,6 @@ class SetupMfaController extends WebController
     /**
      * Handle the incoming request.
      *
-     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\Response
      */
@@ -60,9 +57,7 @@ class SetupMfaController extends WebController
     }
 
     /**
-     * Generate the QR Code writer
-     *
-     * @return Writer
+     * Generate the QR Code writer.
      */
     private function getWriter(): Writer
     {
