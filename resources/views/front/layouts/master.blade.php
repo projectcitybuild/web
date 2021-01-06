@@ -150,7 +150,7 @@
             <header class="header {{ !$isHomepage ? 'header--thin' : '' }}">
                 <div class="container header__container">
                     <div class="header__left">
-                        <img class="header__logo {{ !$isHomepage ? 'header__logo--nopadding' : '' }}" src="{{ asset('assets/images/logo.png') }}" alt="Project City Build" />
+                        <img class="header__logo {{ !$isHomepage ? 'header__logo--nopadding' : '' }}" src="{{ asset('assets/images/logo-est.png') }}" alt="Project City Build" />
 
                         @includeWhen($isHomepage, 'front.components.server-feed')
                     </div>
