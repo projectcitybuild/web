@@ -21,14 +21,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build Docker containers
-        run:  |
-          docker-compose --env-file ./docker/.env.ci up -d
-          cat ./docker/.env.ci
+        run:  docker-compose --env-file ./docker/.env.ci up -d
+
+      - name: Check containers are running
+        run:  docker ps -a
 
       - name: Overwrite environment file
-        run:  |
-          docker-compose exec -T php-fpm cp .env.ci .env
-          cat .env
+        run:  docker-compose exec -T php-fpm cp .env.ci .env
 
       - name: Validate composer.json and composer.lock
         run:  docker-compose exec -T php-fpm composer validate
