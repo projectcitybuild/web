@@ -24,10 +24,10 @@ jobs:
         run:  docker-compose up -d
 
       - name: Overwrite environment file
-        run:  docker-compose exec php-fpm cp .env.ci .env
+        run:  docker-compose exec -t php-fpm cp .env.ci .env
 
       - name: Validate composer.json and composer.lock
-        run:  docker-compose exec php-fpm composer validate
+        run:  docker-compose exec -t php-fpm composer validate
 
 #      - name: Get Composer Cache Directory
 #        id: composer-cache
@@ -41,22 +41,22 @@ jobs:
 #            ${{ runner.os }}-composer-
 
       - name: Composer dependencies
-        run:  docker-compose exec php-fpm composer install --no-interaction
+        run:  docker-compose exec -t php-fpm composer install --no-interaction
 
       - name: NPM Install
-        run:  docker-compose exec php-fpm npm ci
+        run:  docker-compose exec -t php-fpm npm ci
 
       - name: NPM Build
-        run:  docker-compose exec php-fpm npm run prod
+        run:  docker-compose exec -t php-fpm npm run prod
 
       - name: Generate Key
-        run:  docker-compose exec php-fpm php artisan key:generate
+        run:  docker-compose exec -t php-fpm php artisan key:generate
 
       - name: Prepare Database
-        run:  docker-compose exec php-fpm php artisan migrate
+        run:  docker-compose exec -t php-fpm php artisan migrate
 
       - name: Larastan
-        run:  docker-compose exec php-fpm ./vendor/bin/phpstan analyse --memory-limit=1G
+        run:  docker-compose exec -t php-fpm ./vendor/bin/phpstan analyse --memory-limit=1G
 
       - name: PHPUnit
         env:
