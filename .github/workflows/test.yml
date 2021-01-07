@@ -66,9 +66,6 @@ jobs:
       - name: Generate key
         run:  docker-compose exec -T php-fpm php artisan key:generate
 
-      - name: Debug
-        run: docker-compose logs mariadb
-
       - name: Prepare database
         run:  docker-compose exec -T php-fpm php artisan migrate
 
