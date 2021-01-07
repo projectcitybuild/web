@@ -8,9 +8,9 @@ help:
 	@echo "Available tasks:"
 	@echo "    bootstrap            Prepares your environment for first-time use"
 	@echo "    cert                 Generates a SSL certificate for use with local dev"
+	@echo "    shell                Enters the php-fpm container (with Sh shell)"
 	@echo "    test                 Runs phpunit tests in the php-fpm container"
 	@echo "    watch                Runs browsersync with hotloading and file watching"
-	@echo "    workspace            Enters the php-fpm container (with Sh shell)"
 	@echo ""
 
 .PHONY: bootstrap
@@ -21,6 +21,10 @@ bootstrap:
 cert:
 	@./scripts/generate-cert.sh
 
+.PHONE: shell
+workspace:
+	@./scripts/shell.sh
+
 .PHONY: test
 test:
 	@./scripts/test.sh
@@ -28,7 +32,3 @@ test:
 .PHONE: watch
 watch:
 	@./scripts/browsersync.sh
-
-.PHONE: workspace
-workspace:
-	@./scripts/workspace.sh
