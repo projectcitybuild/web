@@ -6,16 +6,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-#    services:
-#      mysql:
-#        image: mariadb:10.3
-#        env:
-#          MYSQL_ROOT_PASSWORD: root
-#          MYSQL_DATABASE: pcb
-#        ports:
-#          - 3306
-#        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=5s --health-retries=3
-
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
@@ -35,7 +25,7 @@ jobs:
         run:  docker-compose logs && docker ps -a
 
       - name: Overwrite environment file
-        run:  docker-compose exec -T php-fpm cp .env.ci .env
+        run:  docker-compose exec -T php-fpm cp .env.ci .env && docker-compose exec -T php-fpm cat .env
 
       - name: Validate composer.json and composer.lock
         run:  docker-compose exec -T php-fpm composer validate
@@ -64,7 +54,7 @@ jobs:
         run:  docker-compose exec -T php-fpm php artisan key:generate
 
       - name: Prepare Database
-        run:  docker-compose exec -T php-fpm php artisan migrate
+        run:  docker-compose exec -T php-fpm cat .env && docker-compose exec -T php-fpm php artisan migrate
 
       - name: Larastan
         run:  docker-compose exec -T php-fpm ./vendor/bin/phpstan analyse --memory-limit=1G
