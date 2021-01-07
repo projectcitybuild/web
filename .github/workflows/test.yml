@@ -10,13 +10,30 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v2
 
+      - name: Cache localhost certificate
+        uses: actions/cache@v2
+        id:   cache-certs
+        with:
+          path: |
+            docker/nginx/certs/projectcitybuild.com+2.pem
+            docker/nginx/certs/projectcitybuild.com+2-key.pem
+          key: ${{ runner.os }}-build-cert
+
       - name: Generate localhost certificate
+        if:   steps.cache-certs.outputs.cache-hit != 'true'
         run:  |
           sudo apt-get install libnss3-tools
           brew install mkcert
           mkcert projectcitybuild.com localhost 127.0.0.1
           mv projectcitybuild.com+2.pem docker/nginx/certs
           mv projectcitybuild.com+2-key.pem docker/nginx/certs
+
+      # Fetch pull-only images because it's usually faster than caching
+#      - name: Pull docker images
+#        run:  docker-compose pull
+
+#      - uses: satackey/action-docker-layer-caching@v0.0.11
+#        continue-on-error: true
 
       - name: Build Docker containers
         run:  docker-compose --env-file ./docker/.env.ci up -d
@@ -25,7 +42,7 @@ jobs:
         run:  docker-compose logs && docker ps -a
 
       - name: Overwrite environment file
-        run:  docker-compose exec -T php-fpm cp .env.ci .env && docker-compose exec -T php-fpm cat .env
+        run:  docker-compose exec -T php-fpm cp .env.ci .env
 
       - name: Validate composer.json and composer.lock
         run:  docker-compose exec -T php-fpm composer validate
@@ -54,7 +71,7 @@ jobs:
         run:  docker-compose exec -T php-fpm php artisan key:generate
 
       - name: Prepare Database
-        run:  docker-compose exec -T php-fpm cat .env && docker-compose exec -T php-fpm php artisan migrate
+        run:  docker-compose exec -T php-fpm php artisan migrate
 
       - name: Larastan
         run:  docker-compose exec -T php-fpm ./vendor/bin/phpstan analyse --memory-limit=1G
