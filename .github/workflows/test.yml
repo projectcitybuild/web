@@ -20,6 +20,9 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v2
 
+      - name: Generate localhost certificate
+        run:  apt install libnss3-tools && brew install mkcert
+
       - name: Build Docker containers
         run:  docker-compose --env-file ./docker/.env.ci up -d
 
