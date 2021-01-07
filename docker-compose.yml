@@ -78,19 +78,19 @@ services:
             - pcb-web
 
     redis:
-        image: 'redis:alpine'
+        image: "redis:alpine"
         ports:
-            - '6379:6379'
+            - "6379:6379"
         volumes:
-            - 'redis:/data'
+            - "redis:/data"
         networks:
             - pcb-web
 
     mailhog:
-        image: 'mailhog/mailhog:latest'
+        image: "mailhog/mailhog:latest"
         ports:
-            - 1025:1025
-            - 8025:8025
+            - "1025:1025"
+            - "8025:8025"
         networks:
             - pcb-web
 
