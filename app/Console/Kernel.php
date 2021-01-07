@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\CleanupUnactivatedAccountsCommand;
 use App\Console\Commands\DeactivateDonatorPerksCommand;
+use App\Console\Commands\DebugCommand;
 use App\Console\Commands\QueryServerCommand;
 use App\Console\Commands\RepairMissingGroupsCommand;
 use App\Console\Commands\ServerKeyCreateCommand;
@@ -26,6 +27,7 @@ class Kernel extends ConsoleKernel
         RepairMissingGroupsCommand::class,
         CleanupUnactivatedAccountsCommand::class,
         DeactivateDonatorPerksCommand::class,
+        DebugCommand::class,
     ];
 
     /**
