@@ -21,9 +21,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build Docker containers
-        run:  docker-compose -f docker-compose.yml -f docker-compose.dev.yml -f docker-compose.ci.yml up -d
+        run:  docker-compose up -d
 
-      - name: Copy environment
+      - name: Overwrite environment file
         run:  docker-compose exec php-fpm cp .env.ci .env
 
       - name: Validate composer.json and composer.lock
