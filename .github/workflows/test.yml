@@ -24,7 +24,7 @@ jobs:
         run:  docker-compose --env-file ./docker/.env.ci up -d
 
       - name: Check containers are running
-        run:  docker ps -a
+        run:  docker-compose logs && docker ps -a
 
       - name: Overwrite environment file
         run:  docker-compose exec -T php-fpm cp .env.ci .env
