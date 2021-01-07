@@ -21,7 +21,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Generate localhost certificate
-        run:  apt install libnss3-tools && brew install mkcert
+        run:  |
+          sudo apt-get install libnss3-tools
+          brew install mkcert
+          mkcert projectcitybuild.com localhost 127.0.0.1
+          mv projectcitybuild.com+2.pem docker/nginx/certs
+          mv projectcitybuild.com+2-key.pem docker/nginx/certs
 
       - name: Build Docker containers
         run:  docker-compose --env-file ./docker/.env.ci up -d
