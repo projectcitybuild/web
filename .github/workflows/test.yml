@@ -17,7 +17,7 @@ jobs:
           path: |
             docker/nginx/certs/projectcitybuild.com+2.pem
             docker/nginx/certs/projectcitybuild.com+2-key.pem
-          key: ${{ runner.os }}-build-cert
+          key: ${{ runner.os }}-build-cert-${{ hashFiles('**/docker/nginx/conf.d/app.conf') }}
 
       - name: Generate localhost certificate
         if:   steps.cache-certs.outputs.cache-hit != 'true'
@@ -28,21 +28,17 @@ jobs:
           mv projectcitybuild.com+2.pem docker/nginx/certs
           mv projectcitybuild.com+2-key.pem docker/nginx/certs
 
-      # Fetch pull-only images because it's usually faster than caching
-#      - name: Pull docker images
-#        run:  docker-compose pull
-
-#      - uses: satackey/action-docker-layer-caching@v0.0.11
-#        continue-on-error: true
+      - name: Set-up environment file
+        run:  cp .env.ci .env
 
       - name: Build Docker containers
         run:  docker-compose --env-file ./docker/.env.ci up -d
 
-      - name: Check containers are running
-        run:  docker-compose logs && docker ps -a
+      - name: Output logs
+        run: docker-compose logs
 
-      - name: Overwrite environment file
-        run:  docker-compose exec -T php-fpm cp .env.ci .env
+      - name: Check containers are running
+        run:  docker ps -a
 
       - name: Validate composer.json and composer.lock
         run:  docker-compose exec -T php-fpm composer validate
@@ -61,16 +57,16 @@ jobs:
       - name: Composer dependencies
         run:  docker-compose exec -T php-fpm composer install --no-interaction
 
-      - name: NPM Install
+      - name: NPM install
         run:  docker-compose exec -T php-fpm npm ci
 
-      - name: NPM Build
+      - name: NPM build
         run:  docker-compose exec -T php-fpm npm run prod
 
-      - name: Generate Key
+      - name: Generate key
         run:  docker-compose exec -T php-fpm php artisan key:generate
 
-      - name: Prepare Database
+      - name: Prepare database
         run:  docker-compose exec -T php-fpm php artisan migrate
 
       - name: Larastan

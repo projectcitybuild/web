@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
     php-fpm:
@@ -16,8 +16,6 @@ services:
             - "./:/var/www/html"
         links:
             - "mariadb:db"
-            - "redis:redis"
-            - "mailhog:mailhog"
         depends_on:
             - mariadb
             - redis
@@ -67,11 +65,10 @@ services:
         ports:
             - "3306:3306"
         environment:
-            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
             MYSQL_DATABASE: "${DB_DATABASE}"
             MYSQL_USER: "${DB_USERNAME}"
             MYSQL_PASSWORD: "${DB_PASSWORD}"
-            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
         volumes:
             - "mysql:/var/lib/mysql"
         networks:
