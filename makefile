@@ -2,6 +2,8 @@
 
 SHELL=/bin/bash
 
+args = `arg="$(filter-out $@,$(MAKECMDGOALS))" && echo $${arg:-${1}}`
+
 .PHONY: help
 help:
 	@echo ""
@@ -22,14 +24,22 @@ bootstrap:
 cert:
 	@./scripts/generate-cert.sh
 
-.PHONE: shell
-workspace:
+.PHONY: shell
+shell:
 	@./scripts/shell.sh
+
+.PHONY: stripe
+stripe:
+	@./scripts/stripe.sh $(filter-out $@,$(MAKECMDGOALS))
 
 .PHONY: test
 test:
 	@./scripts/test.sh
 
-.PHONE: watch
+.PHONY: watch
 watch:
 	@./scripts/browsersync.sh
+
+# Filter out any unrecognised commands or arguments
+%:
+	@:
