@@ -6,9 +6,23 @@ WORKDIR /var/www/html
 
 RUN echo "UTC" > /etc/timezone
 
-RUN apk add --no-cache --update zip unzip curl sqlite supervisor nodejs npm
+RUN apk add --no-cache --update \
+    zip \
+    unzip \
+    libzip-dev \
+    curl \
+    sqlite \
+    supervisor \
+    nodejs \
+    npm \
+    mysql-client
 
-RUN docker-php-ext-install mysqli pdo_mysql
+RUN docker-php-ext-configure zip
+
+RUN docker-php-ext-install \
+    mysqli \
+    pdo_mysql \
+    zip
 
 RUN apk add shadow && \
     usermod -u 1000 www-data && \
