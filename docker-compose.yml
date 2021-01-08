@@ -97,6 +97,8 @@ services:
           STRIPE_API_KEY: "${STRIPE_SECRET}"
           STRIPE_DEVICE_NAME: "${STRIPE_DEVICE_NAME:-docker-local-stripe-cli}"
         command: listen --forward-to http://nginx/api/webhooks/stripe
+        volumes:
+            - "./docker/stripe:/usr/local/share/stripe-fixtures"
         networks:
             - pcb-web
 
