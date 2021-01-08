@@ -43,7 +43,7 @@ Once *First time setup* is complete, you only need to run one command to boot up
 
 `docker-compose up -d` to start Sail
 
-If necessary, you can enter the container at any time with `make shell`
+If necessary, you can enter the container at any time with `make shell` or run artisan commands with `make artisan`
 
 ### Front-end
 
@@ -65,7 +65,7 @@ Then run `mkcert -install`
 Should you need to regenerate the certificate, you can run `make cert`
 
 ### Database
-If the database schema has changed, remember to run `php artisan migrate` from within the php-fpm container to ensure you always have the latest schema.
+If the database schema has changed, remember to run `make artisan migrate` to ensure you always have the latest schema.
 
 ### S3 Bucket
 Backups go to an S3 bucket specified in the `backup` disk. To run this functionality in development, you need to configure a valid bucket. To avoid having to use a real one:
