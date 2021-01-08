@@ -41,7 +41,7 @@ You'll then be able to access the website at `http://localhost`
 ## Development
 Once *First time setup* is complete, you only need to run one command to boot up the environment:
 
-`docker-compose up -d` to start Sail
+`docker-compose up -d`
 
 If necessary, you can enter the container at any time with `make shell` or run artisan commands with `make artisan`
 
