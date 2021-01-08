@@ -9,6 +9,7 @@ help:
 	@echo "    bootstrap            Prepares your environment for first-time use"
 	@echo "    cert                 Generates a SSL certificate for use with local dev"
 	@echo "    shell                Enters the php-fpm container (with Sh shell)"
+	@echo "    stripe payment       Creates a (test) Stripe payment and forwards the event to our webhook API"
 	@echo "    test                 Runs phpunit tests in the php-fpm container"
 	@echo "    watch                Runs browsersync with hotloading and file watching"
 	@echo ""
