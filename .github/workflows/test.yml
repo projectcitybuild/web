@@ -73,7 +73,7 @@ jobs:
         run:  docker-compose exec -T php-fpm ./vendor/bin/phpstan analyse --memory-limit=1G
 
       - name: PHPUnit
-        run:  docker-compose exec -T php-fpm phpdbg -dmemory_limit=1G -qrr vendor/bin/phpunit --coverage-clover tests/coverage/clover.xml
+        run:  docker-compose exec -T php-fpm phpdbg -dmemory_limit=1G -qrr vendor/bin/phpunit --coverage-clover tests/coverage/clover.xml; DB_CONNECTION=mysql
 
       - name: Upload coverage
         run:  docker-compose exec -T php-fpm curl -s https://codecov.io/bash | bash -f
