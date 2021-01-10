@@ -30,6 +30,7 @@ if(mix.config.production) {
 } else {
     mix.browserSync({
         open: false,
+        proxy: 'laravel.test',
         files: [
             'resources/**/*.php',
             'resources/**/*.css',
