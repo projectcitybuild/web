@@ -5,6 +5,7 @@ namespace App\Entities\Accounts\Models;
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationPerk;
 use App\Entities\Groups\Models\Group;
+use App\Entities\Players\Models\MinecraftPlayer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -55,7 +56,7 @@ final class Account extends Authenticatable
 
     public function minecraftAccount()
     {
-        return $this->hasMany('App\Entities\Players\Models\MinecraftPlayer', 'account_id', 'account_id');
+        return $this->hasMany(MinecraftPlayer::class, 'account_id', 'account_id');
     }
 
     public function linkedSocialAccounts()

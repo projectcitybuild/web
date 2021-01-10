@@ -18,21 +18,20 @@ if (Environment::isProduction()) {
     URL::forceScheme('https');
 }
 
-/**
- * URL redirects.
- */
+// URL redirects
 Route::redirect('terms', 'https://forums.projectcitybuild.com/t/community-rules/22928')->name('terms');
 Route::redirect('privacy', 'https://forums.projectcitybuild.com/privacy')->name('privacy');
 
-/**
- * Style guide.
- */
+// Style guide
 Route::view('ui', 'stylesheet');
 
 Route::get('/', [
     'as' => 'front.home',
     'uses' => 'HomeController@index',
 ]);
+
+Route::get('bans', 'BanlistController@index')->name('front.banlist');
+Route::get('donators', 'DonationListController@index')->name('front.donators');
 
 Route::prefix('donate')->group(function () {
     Route::get('/', [
@@ -239,8 +238,6 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'MinecraftPlayerLinkController@index',
     ]);
 });
-
-Route::get('bans', 'BanlistController@index')->name('front.banlist');
 
 Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel', 'middleware' => 'panel'], function () {
     Route::view('/', 'front.pages.panel');
