@@ -4,7 +4,6 @@
 @section('description', "List of all players who have donated to Project City Build")
 
 @section('contents')
-
     <div class="donation-list">
 
         <div class="donation-list__left">
@@ -28,7 +27,7 @@
                                         $donation->account->minecraftAccount === null ||
                                         $donation->account->minecraftAccount->first()->aliases === null
                                     )
-                                        Anonymous
+                                        <span class="anonymous">anonymous</span>
                                     @else
                                         <img src="https://minotar.net/avatar/{{ $donation->account->minecraftAccount->first()->aliases->last()->alias }}/16" width="16" height="16" alt="">
                                         {{ $donation->account->minecraftAccount->first()->aliases->last()->alias }}
@@ -63,7 +62,7 @@
                                         $donation->account->minecraftAccount === null ||
                                         $donation->account->minecraftAccount->first()->aliases === null
                                     )
-                                        Anonymous
+                                        <span class="anonymous">anonymous</span>
                                     @else
                                         <img src="https://minotar.net/avatar/{{ $donation->account->minecraftAccount->first()->aliases->last()->alias }}/16" width="16" height="16" alt="">
                                         {{ $donation->account->minecraftAccount->first()->aliases->last()->alias }}
@@ -103,7 +102,7 @@
                                         $donation->account->minecraftAccount === null ||
                                         $donation->account->minecraftAccount->first()->aliases === null
                                     )
-                                        Anonymous
+                                        <span class="anonymous">anonymous</span>
                                     @else
                                         <img src="https://minotar.net/avatar/{{ $donation->account->minecraftAccount->first()->aliases->last()->alias }}/16" width="16" height="16" alt="">
                                         {{ $donation->account->minecraftAccount->first()->aliases->last()->alias }}
