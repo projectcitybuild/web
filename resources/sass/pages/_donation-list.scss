@@ -1,0 +1,20 @@
+.donation-list {
+    display: flex;
+    justify-content: space-between;;
+    width: 100%;
+
+    &__left {
+        flex: 1 1 0;
+
+        .card:not(:first-child) {
+            margin-top: 1em;
+        }
+
+
+    }
+
+    &__right {
+        margin-left: 1em;
+        width: 300px;
+    }
+}
