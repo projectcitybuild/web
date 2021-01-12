@@ -1,10 +1,10 @@
 <template>
     <div id="announcements">
-        <div class="alert alert--warning" v-if="error">
+        <div v-if="error" class="alert alert--warning" >
             <h3 class="alert__header"><i class="fas fa-exclamation-circle"></i> Failed to fetch announcements</h3>
             <p class="alert__message">{{ error }}</p>
         </div>
-        <div v-if="announcements.length === 0">
+        <div v-else-if="announcements.length === 0">
             <skeleton-announcement/>
             <skeleton-announcement/>
             <skeleton-announcement/>
