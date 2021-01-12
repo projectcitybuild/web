@@ -32,7 +32,7 @@ export default Vue.extend({
     },
 
     created() {
-        // this.getAnnouncements();
+        this.getAnnouncements();
     },
 
     methods: {
