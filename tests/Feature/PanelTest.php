@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Auth\AuthenticationException;
 use Tests\TestCase;
 
 class PanelTest extends TestCase
@@ -9,6 +10,6 @@ class PanelTest extends TestCase
     public function testGuestCannotSeePanel()
     {
         $this->get(route('front.panel.accounts.index'))
-            ->assertForbidden();
+            ->assertRedirect(route('front.login'));
     }
 }
