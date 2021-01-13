@@ -197,7 +197,7 @@
                     @foreach($account->donationPerks as $perk)
                         <tr>
                             <td>{{ $perk->is_active ? 'Yes' : 'No' }}</td>
-                            <td>${{ $perk->donation_id }}</td>
+                            <td>{{ $perk->donation_id }}</td>
                             <td>{{ $perk->expires_at }}</td>
                             <td>{{ $perk->is_lifetime_perks ? 'Yes' : 'No' }}</td>
                             <td>{{ $perk->created_at }}</td>
