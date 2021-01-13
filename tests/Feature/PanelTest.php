@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Auth\AuthenticationException;
 use Tests\TestCase;
 
 class PanelTest extends TestCase
