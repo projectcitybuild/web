@@ -1,10 +1,13 @@
 import Vue from 'vue';
-import axios from 'axios';
 
-import Announcements from "./components/announcements/Announcements.vue";
+// Register Vue Components
+import './components/register'
 
-Vue.component('announcements', Announcements);
-
+// Initialise base app
 const app = new Vue({
     el: '#app',
 });
+
+// Initialise legacy JS-only components
+import Navigation from "./navigation/Navigation";
+const navigation = new Navigation()
