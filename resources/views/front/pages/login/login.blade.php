@@ -35,7 +35,7 @@
                     <input class="input-text {{ $errors->any() ? 'input-text--error' : '' }}" name="password" type="password" placeholder="Password" />
                 </div>
                 <div class="form-row">
-                    <label for="remember_me"><input type="checkbox" name="remember_me" checked> Remember Me</label>
+                    <label for="remember_me"><input type="checkbox" name="remember_me" id="remember_me"> Stay logged in</label>
                 </div>
                 <div class="form-row">
                     <button class="button button--large button--fill button--primary" type="submit">
