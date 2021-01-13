@@ -53,204 +53,311 @@
     @endif
 </head>
 <body>
-<div id="app">
-    <nav id="main-nav">
-        <div class="container">
-            <ul>
-                <li><a href="{{ route('front.home') }}">Home</a></li>
-                <li><a href="https://forums.projectcitybuild.com/">Forums</a></li>
-                <li>
-                    <a href="#" class="nav-dropdown">Servers <i class="fas fa-caret-down"></i></a>
-                    <ul class="menu-sideway">
-                        <li>
-                            <h5>Minecraft</h5>
-                            <ul>
-                                <li><a href="https://forums.projectcitybuild.com/t/pcb-community-rules/22928">Rules &
-                                        Guidelines</a></li>
-                                <li><a href="https://forums.projectcitybuild.com/t/pcb-ranks/32812">Ranks</a></li>
-                                <li><a href="https://wiki.projectcitybuild.com/wiki/List_of_Staff_Members">Staff</a>
-                                </li>
-                                <li><a href="http://pcbmc.co:8123/" target="_blank">Real-Time Map</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <h5>Feed the Beast</h5>
-                            <ul>
-                                <li><a href="#">Rules & Guidelines</a></li>
-                                <li><a href="#">Installation Guide</a></li>
-                                <li><a href="#">Real-Time Map</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <h5>Terraria</h5>
-                            <ul>
-                                <li><a href="#">Rules & Guidelines</a></li>
-                                <li><a href="#">Installation Guide</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" class="nav-dropdown">Community <i class="fas fa-caret-down"></i></a>
-                    <ul>
-                        <li><a href="https://forums.projectcitybuild.com/t/banned-read-me/12145">Appeal a Ban</a></li>
-                        <li><a href="https://forums.projectcitybuild.com/c/support/grief-player-reports">Report a
-                                Player</a></li>
-                        <li class="divider"><a href="https://goo.gl/forms/UodUsKQBZJdCzNWk1">Apply for Staff</a></li>
-                        <li class="divider"><a href="{{ route('front.donate') }}">Donate</a></li>
-                        <li><a href="https://wiki.projectcitybuild.com/" target="_blank" rel="noopener">Community
-                                Wiki</a></li>
-                    </ul>
-                </li>
-                <li><a href="{{ route('front.banlist') }}">Ban List</a></li>
-            </ul>
 
-            <ul>
-                <li class="social-icon">
-                    <a target="_blank" rel="noopener" href="https://www.facebook.com/ProjectCityBuild">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                </li>
-                <li class="social-icon">
-                    <a target="_blank" rel="noopener" href="https://www.instagram.com/projectcitybuild">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                </li>
-                <li class="social-icon">
-                    <a target="_blank" rel="noopener" href="https://www.youtube.com/user/PCBMinecraft">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                </li>
-                <li class="social-icon">
-                    <a target="_blank" rel="noopener" href="http://steamcommunity.com/groups/ProjectCityBuild">
-                        <i class="fab fa-steam-symbol"></i>
-                    </a>
-                </li>
-                @if(Auth::check())
+<nav id="main-nav">
+    <div class="container">
+        <ul>
+            <li><a href="{{ route('front.home') }}">Home</a></li>
+            <li><a href="https://forums.projectcitybuild.com/">Forums</a></li>
+            <li>
+                <a href="#" class="nav-dropdown">Servers <i class="fas fa-caret-down"></i></a>
+                <ul class="menu-sideway">
                     <li>
-                        <a href="#" class="nav-dropdown">Account <i class="fas fa-caret-down"></i></a>
+                        <h5>Minecraft</h5>
                         <ul>
-                            <li><a href="{{ route('front.account.settings') }}">Account Settings</a></li>
-                            <li class="divider"><a href="https://forums.projectcitybuild.com/my/preferences/account">Forum
-                                    Settings</a></li>
-                            <li>
-                                <a href="{{ route('front.logout') }}">
-                                    <i class="fas fa-sign-out-alt"></i> Logout
-                                </a>
-                            </li>
+                            <li><a href="https://forums.projectcitybuild.com/t/pcb-community-rules/22928">Rules &
+                                    Guidelines</a></li>
+                            <li><a href="https://forums.projectcitybuild.com/t/pcb-ranks/32812">Ranks</a></li>
+                            <li><a href="https://wiki.projectcitybuild.com/wiki/List_of_Staff_Members">Staff</a></li>
+                            <li><a href="http://pcbmc.co:8123/" target="_blank">Real-Time Map</a></li>
                         </ul>
                     </li>
-                @else
-                    <li><a href="{{ route('front.login') }}">Login</a></li>
-                @endif
+                    <li>
+                        <h5>Feed the Beast</h5>
+                        <ul>
+                            <li>
+                                <a href="https://forums.projectcitybuild.com/t/modded-is-back-with-our-custom-false-hope-pack/34989/3">Rules
+                                    & Guidelines</a></li>
+                            <li>
+                                <a href="https://forums.projectcitybuild.com/t/modded-is-back-with-our-custom-false-hope-pack/34989/2">Installation
+                                    Guide</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h5>Terraria</h5>
+                        <ul>
+                            <li><a href="#">Rules & Guidelines</a></li>
+                            <li><a href="#">Installation Guide</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" class="nav-dropdown">Community <i class="fas fa-caret-down"></i></a>
+                <ul>
+                    <li><a href="https://forums.projectcitybuild.com/t/banned-read-me/12145">Appeal a Ban</a></li>
+                    <li><a href="https://forums.projectcitybuild.com/c/support/grief-player-reports">Report a Player</a>
+                    </li>
+                    <li class="divider"><a href="https://goo.gl/forms/UodUsKQBZJdCzNWk1">Apply for Staff</a></li>
+                    <li class="divider"><a href="{{ route('front.donate') }}">Donate</a></li>
+                    <li><a href="https://wiki.projectcitybuild.com/" target="_blank" rel="noopener">Community Wiki</a>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="{{ route('front.banlist') }}">Ban List</a></li>
+        </ul>
+
+        <ul>
+            <li class="social-icon">
+                <a target="_blank" rel="noopener" href="https://www.facebook.com/ProjectCityBuild">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+            </li>
+            <li class="social-icon">
+                <a target="_blank" rel="noopener" href="https://www.instagram.com/projectcitybuild">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </li>
+            <li class="social-icon">
+                <a target="_blank" rel="noopener" href="https://www.youtube.com/user/PCBMinecraft">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </li>
+            <li class="social-icon">
+                <a target="_blank" rel="noopener" href="http://steamcommunity.com/groups/ProjectCityBuild">
+                    <i class="fab fa-steam-symbol"></i>
+                </a>
+            </li>
+            @if(Auth::check())
+                <li>
+                    <h5>Minecraft</h5>
+                    <ul>
+                        <li><a href="https://forums.projectcitybuild.com/t/pcb-community-rules/22928">Rules &
+                                Guidelines</a></li>
+                        <li><a href="https://forums.projectcitybuild.com/t/pcb-ranks/32812">Ranks</a></li>
+                        <li><a href="https://wiki.projectcitybuild.com/wiki/List_of_Staff_Members">Staff</a>
+                        </li>
+                        <li><a href="http://pcbmc.co:8123/" target="_blank">Real-Time Map</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <h5>Feed the Beast</h5>
+                    <ul>
+                        <li><a href="#">Rules & Guidelines</a></li>
+                        <li><a href="#">Installation Guide</a></li>
+                        <li><a href="#">Real-Time Map</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <h5>Terraria</h5>
+                    <ul>
+                        <li><a href="#">Rules & Guidelines</a></li>
+                        <li><a href="#">Installation Guide</a></li>
+                    </ul>
+                </li>
+        </ul>
+        </li>
+        <li>
+            <a href="#" class="nav-dropdown">Community <i class="fas fa-caret-down"></i></a>
+            <ul>
+                <li><a href="https://forums.projectcitybuild.com/t/banned-read-me/12145">Appeal a Ban</a></li>
+                <li><a href="https://forums.projectcitybuild.com/c/support/grief-player-reports">Report a
+                        Player</a></li>
+                <li class="divider"><a href="https://goo.gl/forms/UodUsKQBZJdCzNWk1">Apply for Staff</a></li>
+                <li class="divider"><a href="{{ route('front.donate') }}">Donate</a></li>
+                <li><a href="https://wiki.projectcitybuild.com/" target="_blank" rel="noopener">Community
+                        Wiki</a></li>
             </ul>
-        </div>
-    </nav>
+        </li>
+        <li><a href="{{ route('front.banlist') }}">Ban List</a></li>
+        </ul>
 
-
-    <div class="drawer-btn-container">
-        <a href="#" id="drawer-btn"><i class="fas fa-bars"></i></a>
+        <ul>
+            <li class="social-icon">
+                <a target="_blank" rel="noopener" href="https://www.facebook.com/ProjectCityBuild">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+            </li>
+            <li class="social-icon">
+                <a target="_blank" rel="noopener" href="https://www.instagram.com/projectcitybuild">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </li>
+            <li class="social-icon">
+                <a target="_blank" rel="noopener" href="https://www.youtube.com/user/PCBMinecraft">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </li>
+            <li class="social-icon">
+                <a target="_blank" rel="noopener" href="http://steamcommunity.com/groups/ProjectCityBuild">
+                    <i class="fab fa-steam-symbol"></i>
+                </a>
+            </li>
+            @if(Auth::check())
+                <li>
+                    <a href="#" class="nav-dropdown">Account <i class="fas fa-caret-down"></i></a>
+                    <ul>
+                        <li><a href="{{ route('front.account.settings') }}">Account Settings</a></li>
+                        <li class="divider"><a href="https://forums.projectcitybuild.com/my/preferences/account">Forum
+                                Settings</a></li>
+                        <li>
+                            <a href="{{ route('front.logout') }}">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @else
+                <li><a href="{{ route('front.login') }}">Login</a></li>
+            @endif
+        </ul>
     </div>
+</nav>
 
-    <main>
 
-        @php
-            $isHomepage = Route::current()->getName() === 'front.home';
-        @endphp
-        <header class="header {{ !$isHomepage ? 'header--thin' : '' }}">
-            <div class="container header__container">
-                <div class="header__left">
-                    <img class="header__logo {{ !$isHomepage ? 'header__logo--nopadding' : '' }}"
-                         src="{{ asset('assets/images/logo.png') }}" alt="Project City Build"/>
-
-                    @includeWhen($isHomepage, 'front.components.server-feed')
-                </div>
-
-                <div class="header__right">
-                    @if($isHomepage)
-                        <div class="hero">
-                            <h1 class="hero__header">We Build Stuff.</h1>
-                            <div class="hero__slogan">
-                                PCB is a gaming community of creative players and city builders.<br>
-                                Over <span class="accent strong">{{ number_format($playerCount) ?: 0 }}</span>
-                                registered players and always growing.
-                            </div>
-
-                            <div class="hero__actions">
-                                @guest
-                                    <a class="hero__button" href="{{ route('front.register') }}">
-                                        <i class="fas fa-mouse-pointer"></i>
-                                        Join Us
-                                    </a>
-                                    <a class="hero__button hero__button--bordered" href="{{ route('front.login') }}">
-                                        Login
-                                    </a>
-                                @endguest
-
-                                @auth
-                                    <a class="hero__button" href="https://forums.projectcitybuild.com/my/summary">
-                                        Profile
-                                    </a>
-                                    <a class="hero__button hero__button--bordered"
-                                       href="https://forums.projectcitybuild.com/my/preferences/account">
-                                        Settings
-                                    </a>
-                                @endauth
-                            </div>
-                        </div>
-                    @endif
-
-                    @includeWhen(!$isHomepage, 'front.components.server-feed')
-                </div>
-            </div>
-        </header>
-
-        <section>
-            <div class="container contents">
-                @yield('contents')
-            </div>
-        </section>
-
-        <footer class="footer">
-            <div class="container footer__container">
-                <div class="footer__left">
-                    <ul class="footer__bullets">
-                        <li><h5 class="footer__subheading">Legal</h5></li>
-                        <li><i class="fas fa-check-circle"></i> <a href="{{ route('terms') }}">Terms of Service</a></li>
-                        <li><i class="fas fa-check-circle"></i> <a href="{{ route('privacy') }}">Privacy Policy</a></li>
-                    </ul>
-                    <ul class="footer__bullets">
-                        <li><h5 class="footer__subheading">Open Source</h5></li>
-                        <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener"
-                                                                  href="https://github.com/andyksaw/PCBridge">PCBridge</a>
-                        </li>
-                        <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener"
-                                                                  href="https://github.com/andyksaw/ProjectCityBuild">projectcitybuild.com</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="footer__right">
-                    <div class="footer__social-icons">
-                        <a target="_blank" rel="noopener" href="https://www.facebook.com/ProjectCityBuild"><i
-                                class="fab fa-facebook-square"></i></a>
-                        <a target="_blank" rel="noopener" href="https://twitter.com/PCB_Minecraft"><i
-                                class="fab fa-twitter-square"></i></a>
-                        <a target="_blank" rel="noopener" href="https://www.instagram.com/projectcitybuild"><i
-                                class="fab fa-instagram"></i></a>
-                        <a target="_blank" rel="noopener" href="https://www.youtube.com/user/PCBMinecraft"><i
-                                class="fab fa-youtube"></i></a>
-                        <a target="_blank" rel="noopener" href="http://projectcitybuild.tumblr.com/"><i
-                                class="fab fa-tumblr-square"></i></a>
-                        <a target="_blank" rel="noopener" href="http://steamcommunity.com/groups/ProjectCityBuild"><i
-                                class="fab fa-steam-square"></i></a>
-                    </div>
-                    <a href="#top">Return to Top</a>
-                </div>
-
-            </div>
-        </footer>
-    </main>
+<<<<<<< HEAD
+<div class="drawer-btn-container">
+    <a href="#" id="drawer-btn"><i class="fas fa-bars"></i></a>
 </div>
+=======
+@php
+    $isHomepage = Route::current()->getName() === 'front.home';
+@endphp
+<header class="header {{ !$isHomepage ? 'header--thin' : '' }}">
+    <div class="container header__container">
+        <div class="header__left">
+            <img class="header__logo {{ !$isHomepage ? 'header__logo--nopadding' : '' }}"
+                 src="{{ asset('assets/images/logo-est.png') }}" alt="Project City Build"/>
+            >>>>>>> master
+
+            <main>
+
+                @php
+                    $isHomepage = Route::current()->getName() === 'front.home';
+                @endphp
+                <header class="header {{ !$isHomepage ? 'header--thin' : '' }}">
+                    <div class="container header__container">
+                        <div class="header__left">
+                            <img class="header__logo {{ !$isHomepage ? 'header__logo--nopadding' : '' }}"
+                                 src="{{ asset('assets/images/logo.png') }}" alt="Project City Build"/>
+
+                            @includeWhen($isHomepage, 'front.components.server-feed')
+                        </div>
+
+                        <div class="header__right">
+                            @if($isHomepage)
+                                <div class="hero">
+                                    <h1 class="hero__header">We Build Stuff.</h1>
+                                    <div class="hero__slogan">
+                                        PCB is a gaming community of creative players and city builders.<br>
+                                        Over <span class="accent strong">{{ number_format($playerCount) ?: 0 }}</span>
+                                        registered players and always growing.
+                                    </div>
+
+                                    <div class="hero__actions">
+                                        @guest
+                                            <a class="hero__button" href="{{ route('front.register') }}">
+                                                <i class="fas fa-mouse-pointer"></i>
+                                                Join Us
+                                            </a>
+                                            <a class="hero__button hero__button--bordered"
+                                               href="{{ route('front.login') }}">
+                                                Login
+                                            </a>
+                                        @endguest
+
+                                        @auth
+                                            <a class="hero__button"
+                                               href="https://forums.projectcitybuild.com/my/summary">
+                                                Profile
+                                            </a>
+                                            <a class="hero__button hero__button--bordered"
+                                               href="https://forums.projectcitybuild.com/my/preferences/account">
+                                                Settings
+                                            </a>
+                                        @endauth
+                                    </div>
+                                </div>
+                            @endif
+
+                            @includeWhen(!$isHomepage, 'front.components.server-feed')
+                        </div>
+                    </div>
+                </header>
+
+                <section>
+                    <div class="container contents">
+                        @yield('contents')
+                    </div>
+                </section>
+
+                <footer class="footer">
+                    <div class="container footer__container">
+                        <div class="footer__left">
+                            <ul class="footer__bullets">
+                                <li><h5 class="footer__subheading">Legal</h5></li>
+                                <li><i class="fas fa-check-circle"></i> <a href="{{ route('terms') }}">Terms of
+                                        Service</a></li>
+                                <li><i class="fas fa-check-circle"></i> <a href="{{ route('privacy') }}">Privacy
+                                        Policy</a></li>
+                            </ul>
+                            <ul class="footer__bullets">
+                                <li><h5 class="footer__subheading">Open Source</h5></li>
+                                <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener"
+                                                                          href="https://github.com/andyksaw/PCBridge">PCBridge</a>
+                                </li>
+                                <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener"
+                                                                          href="https://github.com/andyksaw/ProjectCityBuild">projectcitybuild.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <<<<<<< HEAD
+                        <div class="footer__right">
+                            <div class="footer__social-icons">
+                                <a target="_blank" rel="noopener" href="https://www.facebook.com/ProjectCityBuild"><i
+                                        class="fab fa-facebook-square"></i></a>
+                                <a target="_blank" rel="noopener" href="https://twitter.com/PCB_Minecraft"><i
+                                        class="fab fa-twitter-square"></i></a>
+                                <a target="_blank" rel="noopener" href="https://www.instagram.com/projectcitybuild"><i
+                                        class="fab fa-instagram"></i></a>
+                                <a target="_blank" rel="noopener" href="https://www.youtube.com/user/PCBMinecraft"><i
+                                        class="fab fa-youtube"></i></a>
+                                <a target="_blank" rel="noopener" href="http://projectcitybuild.tumblr.com/"><i
+                                        class="fab fa-tumblr-square"></i></a>
+                                <a target="_blank" rel="noopener"
+                                   href="http://steamcommunity.com/groups/ProjectCityBuild"><i
+                                        class="fab fa-steam-square"></i></a>
+                                =======
+                                </section>
+
+                                <footer class="footer">
+                                    <div class="container footer__container">
+                                        <div class="footer__left">
+                                            <ul class="footer__bullets">
+                                                <li><h5 class="footer__subheading">Legal</h5></li>
+                                                <li><i class="fas fa-check-circle"></i> <a href="{{ route('terms') }}">Terms
+                                                        of Service</a></li>
+                                                <li><i class="fas fa-check-circle"></i> <a
+                                                        href="{{ route('privacy') }}">Privacy Policy</a></li>
+                                            </ul>
+                                            <ul class="footer__bullets">
+                                                <li><h5 class="footer__subheading">Open Source</h5></li>
+                                                <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener"
+                                                                                          href="https://github.com/projectcitybuild/PCBridge">PCBridge</a>
+                                                </li>
+                                                <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener"
+                                                                                          href="https://github.com/projectcitybuild/web">projectcitybuild.com</a>
+                                                </li>
+                                            </ul>
+                                            >>>>>>> master
+                                        </div>
+                                        <a href="#top">Return to Top</a>
+                                    </div>
+
+                            </div>
+                </footer>
+            </main>
+        </div>
 @stack('body-js')
 
 </body>
