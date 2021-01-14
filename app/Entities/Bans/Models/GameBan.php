@@ -65,7 +65,7 @@ final class GameBan extends Model
             return 'System';
         }
 
-        return $this->staffPlayer->getBanReadableName() ?? "No Alias";
+        return $this->staffPlayer->getBanReadableName() ?? 'No Alias';
     }
 
     /**

@@ -7,7 +7,6 @@ use App\Entities\Bans\Models\GameBan;
 use App\Entities\Groups\Models\Group;
 use App\Entities\Players\Models\MinecraftPlayer;
 use App\Http\Actions\SyncUserToDiscourse;
-use Database\Factories\MinecraftPlayerFactory;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 

@@ -93,10 +93,10 @@ class GameBanFactory extends Factory
     public function bannedBy(MinecraftPlayer $minecraftPlayer): GameBanFactory
     {
         return $this->state(function (array $attributes) use ($minecraftPlayer) {
-           return [
-               'staff_player_id' => $minecraftPlayer->getKey(),
-               'staff_player_type' => 'minecraft_player'
-           ];
+            return [
+                'staff_player_id' => $minecraftPlayer->getKey(),
+                'staff_player_type' => 'minecraft_player',
+            ];
         });
     }
 }
