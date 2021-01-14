@@ -14,6 +14,7 @@ interface BannableModelInterface
 
     /**
      * Returns the human-readable, display name.
+     * Returns null if no alias is known
      */
-    public function getBanReadableName(): string;
+    public function getBanReadableName(): ?string;
 }
