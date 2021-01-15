@@ -8,9 +8,9 @@ use App\Entities\Environment;
 use App\Entities\Groups\Models\Group;
 use App\Entities\Players\Models\MinecraftPlayer;
 use App\Entities\Players\Models\MinecraftPlayerAlias;
+use DB;
 use Illuminate\Database\Seeder;
 use Schema;
-use DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -46,7 +46,8 @@ class DatabaseSeeder extends Seeder
         }
     }
 
-    private function truncateAllTables() {
+    private function truncateAllTables()
+    {
         Schema::disableForeignKeyConstraints();
 
         $tableNames = Schema::getConnection()->getDoctrineSchemaManager()->listTableNames();
