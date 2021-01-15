@@ -37,8 +37,13 @@ final class MinecraftPlayer extends Model implements BannableModelInterface
         return $this->uuid;
     }
 
-    public function getBanReadableName(): string
+    public function getBanReadableName(): ?string
     {
+        $aliases = $this->aliases;
+        if ($aliases->count() == 0) {
+            return null;
+        }
+
         return $this->aliases->last()->alias;
     }
 

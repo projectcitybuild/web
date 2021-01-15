@@ -239,7 +239,7 @@ Route::group(['middleware' => 'auth'], function () {
     ]);
 });
 
-Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel', 'middleware' => 'panel'], function () {
+Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel', 'middleware' => ['auth', 'panel']], function () {
     Route::view('/', 'front.pages.panel');
 
     Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);

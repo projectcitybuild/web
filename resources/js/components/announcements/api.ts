@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosPromise } from 'axios';
+import axios from 'axios';
 
 interface ApiTopicList {
     topic_list: {
@@ -40,10 +40,10 @@ export interface ApiPost {
     avatar_template: string,
 }
 
-/** 
+/**
  * Fetches a list of the most recent announcement
  * category topics
-*/
+ */
 export const getAnnouncements = async() : Promise<ApiTopicList> => {
     try {
         const response = await axios.get('https://forums.projectcitybuild.com/c/announcements/l/latest.json?order=created');
@@ -59,11 +59,11 @@ export const getAnnouncements = async() : Promise<ApiTopicList> => {
 
 /**
  * Fetches data for a single topic.
- * 
+ *
  * Required because discourse doesn't give the topic's
  * content when querying for a list of topics
- * 
- * @param topicId 
+ *
+ * @param topicId
  */
 export const getTopic = async(topicId: number) : Promise<ApiTopicDetail> => {
     try {

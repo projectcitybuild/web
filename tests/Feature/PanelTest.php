@@ -9,6 +9,6 @@ class PanelTest extends TestCase
     public function testGuestCannotSeePanel()
     {
         $this->get(route('front.panel.accounts.index'))
-            ->assertForbidden();
+            ->assertRedirect(route('front.login'));
     }
 }

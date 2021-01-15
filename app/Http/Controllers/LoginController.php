@@ -70,7 +70,7 @@ final class LoginController extends WebController
             ]);
         }
 
-        if (! Auth::attempt($request->validated())) {
+        if (! Auth::attempt($request->validated(), $request->filled('remember_me'))) {
             $triesLeft = floor($rateLimit->getAvailableTokens());
 
             throw ValidationException::withMessages([
