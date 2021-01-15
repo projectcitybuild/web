@@ -11,17 +11,14 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.typeScript('resources/js/app.tsx', 'public/assets/js')
+mix.typeScript('resources/js/app.ts', 'public/assets/js')
     .sass('resources/sass/app.scss', 'public/assets/css')
     .options({
         processCssUrls: false
     })
    .sass('resources/sass/navonly.scss', 'public/assets/css')
    .extract([
-        'react',
-        'date-fns',
-        'react-dom',
-        'axios'
+        'vue'
     ]);
 
 if(mix.config.production) {

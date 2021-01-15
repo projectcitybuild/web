@@ -5,5 +5,5 @@
 @section('header_style', 'hero')
 
 @section('left')
-    <div id="announcements"></div>
+    <announcements></announcements>
 @endsection

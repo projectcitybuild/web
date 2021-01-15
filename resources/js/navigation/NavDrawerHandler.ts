@@ -1,5 +1,5 @@
 import { NavigationHandler } from "./Navigation";
-import { queueRead, queueWrite } from "../../library/DomQueue";
+import { queueRead, queueWrite } from "../library/DomQueue";
 
 type ClickListener = (event: Event) => void;
 
@@ -36,7 +36,7 @@ export default class NavDrawerHandler implements NavigationHandler {
         this._toggleDrawer = this._toggleDrawer.bind(this);
         this._toggleMenu = this._toggleMenu.bind(this);
     }
-    
+
     private _getInitialState() : void {
         const links = document.querySelectorAll('#main-nav .nav-dropdown');
 
@@ -81,7 +81,7 @@ export default class NavDrawerHandler implements NavigationHandler {
             this._bodyElement.classList.remove('pushed');
         });
 
-        this._drawerBtnElement.removeEventListener('click', this._toggleDrawer);   
+        this._drawerBtnElement.removeEventListener('click', this._toggleDrawer);
         this._menuStates.forEach(state => {
             state.linkElement.removeEventListener('click', state.clickListener);
             state.clickListener = null;
@@ -92,7 +92,7 @@ export default class NavDrawerHandler implements NavigationHandler {
 
     /**
      * Toggles the drawer open or closed
-     * 
+     *
      * @param event
      */
     private _toggleDrawer(event: Event) : void {
@@ -107,16 +107,16 @@ export default class NavDrawerHandler implements NavigationHandler {
             }
             this._drawerElement.classList.toggle('opened');
             this._bodyElement.classList.toggle('pushed');
-            
+
             this._isDrawerOpen = !this._isDrawerOpen;
         });
     }
 
     /**
      * Toggles a dropdown menu open
-     * 
-     * @param event 
-     * @param state 
+     *
+     * @param event
+     * @param state
      */
     private _toggleMenu(event: Event, state: MenuState) : void {
         event.preventDefault();
@@ -128,7 +128,7 @@ export default class NavDrawerHandler implements NavigationHandler {
             state.menuElement.classList.toggle('collapsed');
             state.linkElement.classList.toggle('expanded');
             state.linkElement.classList.toggle('collapsed');
-    
+
             state.isCollapsed = !state.isCollapsed;
         });
     }
