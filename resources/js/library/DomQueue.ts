@@ -11,8 +11,8 @@ let isRunning : boolean = false;
 /**
  * Runs each action in the given queue in order,
  * buffered, to prevent race conditions
- * 
- * @param queue 
+ *
+ * @param queue
  */
 function processQueue(queue : Array<Function>) {
     const size = queue.length;
@@ -40,7 +40,7 @@ function run() : void {
 }
 
 /**
- * Request for the queue to be processed on the next 
+ * Request for the queue to be processed on the next
  * available animation frame
  */
 function requestRun() : void {
@@ -53,7 +53,7 @@ function requestRun() : void {
 /**
  * Queues a DOM read action to run on the next available
  * animation frame
- * 
+ *
  * @param action
  */
 export function queueRead(action : Function) : void {
@@ -64,8 +64,8 @@ export function queueRead(action : Function) : void {
 /**
  * Queues a DOM write action to run on the next available
  * animation frame
- * 
- * @param action 
+ *
+ * @param action
  */
 export function queueWrite(action : Function) : void {
     writeQueue.push(action);
