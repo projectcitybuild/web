@@ -34,6 +34,7 @@ final class DonationListController extends WebController
             ->get()
             ->map(function ($donation) {
                 $donation->total_amount = $donation->amount;
+
                 return $donation;
             });
 
