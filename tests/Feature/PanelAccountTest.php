@@ -65,7 +65,7 @@ class PanelAccountTest extends TestCase
 
     public function testBanWithNoAliases()
     {
-        $banningStaffAccount = Account::factory()->has(MinecraftPlayer::factory()->count(1), 'minecraftAccount')->create();
+        $banningStaffAccount = Account::factory()->has(MinecraftPlayer::factory(), 'minecraftAccount')->create();
         $bannedPlayerAccount = Account::factory()
             ->has(MinecraftPlayer::factory()->count(1)
                 ->has(GameBan::factory()->count(1)
