@@ -164,6 +164,7 @@
                     <tr>
                         <th>Amount</th>
                         <th>Donation Date</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -171,6 +172,7 @@
                         <tr>
                             <td>${{ $donation->amount }}</td>
                             <td>{{ $donation->created_at }}</td>
+                            <td><a href="{{ route('front.panel.donations.edit', $donation) }}">Edit</a></td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -191,16 +193,18 @@
                         <th>Perks end at</th>
                         <th>Lifetime?</th>
                         <th>Start Date</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($account->donationPerks as $perk)
                         <tr>
                             <td>{{ $perk->is_active ? 'Yes' : 'No' }}</td>
-                            <td>${{ $perk->donation_id }}</td>
+                            <td><a href="{{ route('front.panel.donations.edit', $perk->donation_id) }}">{{ $perk->donation_id }}</a></td>
                             <td>{{ $perk->expires_at }}</td>
                             <td>{{ $perk->is_lifetime_perks ? 'Yes' : 'No' }}</td>
                             <td>{{ $perk->created_at }}</td>
+                            <td><a href="{{ route('front.panel.donation-perks.edit', $perk) }}">Edit</a></td>
                         </tr>
                     @endforeach
                     </tbody>
