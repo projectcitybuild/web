@@ -4,20 +4,16 @@
             <h2 class="article__heading">{{ topic.title }}</h2>
             <div class="article__date">{{ date }}</div>
 
-            <div class="article__body" v-html="content" v-if="topic.details"></div>
+            <div class="article__body" v-html="content" v-if="topicDetails"></div>
             <div class="article__body" v-else>
-                <div class="spinner">
-                    <div class="rect1"></div>
-                    <div class="rect2"></div>
-                    <div class="rect3"></div>
-                    <div class="rect4"></div>
-                    <div class="rect5"></div>
-                </div>
+                <div class="skeleton" :style="{width: 100}"></div>
+                <div class="skeleton" :style="{width: 100}"></div>
+                <div class="skeleton" :style="{width: 80}"></div>
             </div>
-            <div class="article__author" v-if="topic.details">
+            <div class="article__author" v-if="topicDetails">
                 Posted by&nbsp;
-                <img :src="avatarUrl" width="16" :alt="`${topic.details.created_by.username}'s Avatar`"/>
-                <a :href="`https://forums.projectcitybuild.com/u/${topic.details.created_by.username}`">{{ topic.details.created_by.username }}</a>
+                <img :src="avatarUrl" width="16" :alt="`${topicDetails.details.created_by.username}'s Avatar`"/>
+                <a :href="`https://forums.projectcitybuild.com/u/${topicDetails.details.created_by.username}`">{{ topicDetails.details.created_by.username }}</a>
             </div>
             <div class="article__author" v-else>
                 <div class="skeleton-row">
@@ -50,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue, { PropType } from "vue";
 import * as Api from "./api";
 import * as dateFns from "date-fns";
 
@@ -58,23 +54,24 @@ export default Vue.extend({
     name: "Announcement",
 
     props: {
+        topic: Object as PropType<Api.DiscourseTopic>,
         topic_id: Number
     },
 
     data() {
         return {
-            topic: null as Api.DiscourseTopicDetails
+            topicDetails: null as Api.DiscourseTopicDetails
         }
     },
 
     created() {
-        Api.getTopicDetails(this.topic_id).then(topic => this.topic = topic)
+        Api.getTopicDetails(this.topic_id).then(topic => this.topicDetails = topic)
     },
 
     computed: {
         initialPost(): Api.DiscoursePost {
-            return this.topic.post_stream.posts[0]
-        }
+            return this.topicDetails.post_stream.posts[0]
+        },
 
         content(): string {
             let content = this.initialPost.cooked;
@@ -88,6 +85,12 @@ export default Vue.extend({
 
         date(): string {
             return dateFns.format(this.topic.created_at, 'ddd, Do \of MMMM, YYYY');
+        },
+
+        getRandom(min: number, max: number): number {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min) + min);
         }
     }
 });

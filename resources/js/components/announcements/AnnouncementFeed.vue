@@ -10,7 +10,7 @@
             <skeleton-announcement/>
         </div>
         <div v-else>
-            <announcement v-for="topic in announcements" :topic_id="topic.id" :key="topic.id"/>
+            <announcement v-for="topic in announcements" :topic_id="topic.id" :topic="topic" :key="topic.id"/>
         </div>
     </div>
 </template>
