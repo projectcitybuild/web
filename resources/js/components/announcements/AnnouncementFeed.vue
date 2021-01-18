@@ -10,7 +10,7 @@
             <skeleton-announcement/>
         </div>
         <div v-else>
-            <announcement v-for="topic in announcements" :topic_id="topic.id" :key="topic.id"/>
+            <announcement v-for="topic in announcements" :topic_id="topic.id" :topic="topic" :key="topic.id"/>
         </div>
     </div>
 </template>
@@ -22,11 +22,11 @@ import SkeletonAnnouncement from "./SkeletonAnnouncement.vue";
 import Announcement from "./Announcement.vue";
 
 export default Vue.extend({
-    name: "Announcements",
+    name: "AnnouncementFeed",
     components: {Announcement, SkeletonAnnouncement},
     data() {
         return {
-            announcements: [] as Api.ApiTopic[],
+            announcements: [] as Api.DiscourseTopic[],
             error: null as String
         }
     },

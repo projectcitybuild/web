@@ -1,23 +1,19 @@
 <template>
-    <article class="article card">
+    <article class="article card" v-if="topic">
         <div class="article__container">
             <h2 class="article__heading">{{ topic.title }}</h2>
             <div class="article__date">{{ date }}</div>
 
-            <div class="article__body" v-html="content" v-if="topic.details"></div>
+            <div class="article__body" v-html="content" v-if="topicDetails"></div>
             <div class="article__body" v-else>
-                <div class="spinner">
-                    <div class="rect1"></div>
-                    <div class="rect2"></div>
-                    <div class="rect3"></div>
-                    <div class="rect4"></div>
-                    <div class="rect5"></div>
-                </div>
+                <div class="skeleton" :style="{width: 100}"></div>
+                <div class="skeleton" :style="{width: 100}"></div>
+                <div class="skeleton" :style="{width: 80}"></div>
             </div>
-            <div class="article__author" v-if="topic.details">
-                Posted by
-                <img :src="avatarUrl" width="16" :alt="`${topic.details.details.created_by.username}'s Avatar`"/>
-                <a :href="`https://forums.projectcitybuild.com/u/${topic.details.details.created_by.username}`">{{ topic.details.details.created_by.username }}</a>
+            <div class="article__author" v-if="topicDetails">
+                Posted by&nbsp;
+                <img :src="avatarUrl" width="16" :alt="`${topicDetails.details.created_by.username}'s Avatar`"/>
+                <a :href="`https://forums.projectcitybuild.com/u/${topicDetails.details.created_by.username}`">{{ topicDetails.details.created_by.username }}</a>
             </div>
             <div class="article__author" v-else>
                 <div class="skeleton-row">
@@ -50,30 +46,31 @@
 </template>
 
 <script lang="ts">
-import Vue, {PropType} from "vue";
-import * as Api from './api';
-import {ApiPost} from "./api";
+import Vue, { PropType } from "vue";
+import * as Api from "./api";
+import * as dateFns from "date-fns";
 
 export default Vue.extend({
     name: "Announcement",
 
     props: {
+        topic: Object as PropType<Api.DiscourseTopic>,
         topic_id: Number
     },
 
     data() {
         return {
-            topic: null as Api.ApiTopic
+            topicDetails: null as Api.DiscourseTopicDetails
         }
     },
 
     created() {
-        Api.getTopic(this.topic_id).then((topic) => this.topic = topic)
+        Api.getTopicDetails(this.topic_id).then(topic => this.topicDetails = topic)
     },
 
     computed: {
-        initialPost(): ApiPost {
-            return this.topic.details.post_stream[0];
+        initialPost(): Api.DiscoursePost {
+            return this.topicDetails.post_stream.posts[0]
         },
 
         content(): string {
@@ -82,8 +79,12 @@ export default Vue.extend({
             return content;
         },
 
-        avatarUrl() {
+        avatarUrl(): string {
             return "https://forums.projectcitybuild.com" + this.initialPost.avatar_template.replace('{size}', '16');
+        },
+
+        date(): string {
+            return dateFns.format(this.topic.created_at, 'ddd, Do \of MMMM, YYYY');
         }
     }
 });

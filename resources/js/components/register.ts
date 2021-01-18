@@ -1,4 +1,4 @@
 import Vue from 'vue';
-import Announcements from "./announcements/Announcements.vue";
+import AnnouncementFeed from "./announcements/AnnouncementFeed.vue";
 
-Vue.component('announcements', Announcements);
+Vue.component('announcement-feed', AnnouncementFeed);
