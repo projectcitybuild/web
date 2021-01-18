@@ -22,7 +22,7 @@ import SkeletonAnnouncement from "./SkeletonAnnouncement.vue";
 import Announcement from "./Announcement.vue";
 
 export default Vue.extend({
-    name: "Announcements",
+    name: "AnnouncementFeed",
     components: {Announcement, SkeletonAnnouncement},
     data() {
         return {
