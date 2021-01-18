@@ -154,7 +154,7 @@
     <a href="#" id="drawer-btn"><i class="fas fa-bars"></i></a>
 </div>
 
-<main>
+<main id="app">
 
     @php
         $isHomepage = Route::current()->getName() === 'front.home';
