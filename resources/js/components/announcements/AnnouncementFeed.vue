@@ -26,7 +26,7 @@ export default Vue.extend({
     components: {Announcement, SkeletonAnnouncement},
     data() {
         return {
-            announcements: [] as Api.ApiTopic[],
+            announcements: [] as Api.DiscourseTopic[],
             error: null as String
         }
     },
