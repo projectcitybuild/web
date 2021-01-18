@@ -85,12 +85,6 @@ export default Vue.extend({
 
         date(): string {
             return dateFns.format(this.topic.created_at, 'ddd, Do \of MMMM, YYYY');
-        },
-
-        getRandom(min: number, max: number): number {
-            min = Math.ceil(min);
-            max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min) + min);
         }
     }
 });
