@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Entities\Bans\Models\GameBan;
+use App\Entities\Players\Models\MinecraftPlayer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GameBanFactory extends Factory
@@ -85,6 +86,16 @@ class GameBanFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'expires_at' => null,
+            ];
+        });
+    }
+
+    public function bannedBy(MinecraftPlayer $minecraftPlayer): GameBanFactory
+    {
+        return $this->state(function (array $attributes) use ($minecraftPlayer) {
+            return [
+                'staff_player_id' => $minecraftPlayer->getKey(),
+                'staff_player_type' => 'minecraft_player',
             ];
         });
     }

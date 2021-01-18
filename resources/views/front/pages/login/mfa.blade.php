@@ -17,7 +17,7 @@
                         <label for="code">Enter your current 2FA code to continue</label>
                         <input class="input-text input-2fa {{ $errors->any() ? 'input-text--error' : '' }}"
                                maxlength="6" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" size="6"
-                               name="code" id="code" type="text"/>
+                               name="code" id="code" type="text" autofocus/>
                     </div>
                 </div>
                 <div class="card__footer">

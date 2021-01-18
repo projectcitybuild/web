@@ -242,7 +242,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('bans', 'BanlistController@index')->name('front.banlist');
 
-Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel', 'middleware' => 'panel'], function () {
+Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel', 'middleware' => ['auth', 'panel']], function () {
     Route::view('/', 'front.pages.panel');
 
     Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);

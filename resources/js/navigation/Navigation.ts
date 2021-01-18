@@ -1,4 +1,4 @@
-import { queueRead, queueWrite } from '../../library/DomQueue';
+import { queueRead, queueWrite } from '../library/DomQueue';
 import { default as NavBarHandler } from './NavBarHandler';
 import { default as NavDrawerHandler } from './NavDrawerHandler';
 
@@ -59,10 +59,10 @@ export default class Navigation {
     }
 
     /**
-     * Gracefully switches the current navigation to the 
+     * Gracefully switches the current navigation to the
      * given navigator
-     * 
-     * @param newState 
+     *
+     * @param newState
      */
     private _switchNav(newState: NavigationHandler) : void {
         this._currentState.onDestroy();
@@ -91,7 +91,7 @@ export default class Navigation {
                 this._switchNav(this._navigationStates[0]);
             } else {
                 this._switchNav(this._navigationStates[1]);
-            }    
+            }
         }
 
         this._lastKnownViewportWidth = viewportWidth;
