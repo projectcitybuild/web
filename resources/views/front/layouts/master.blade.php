@@ -36,27 +36,13 @@
     <script defer src="{{ mix('assets/js/app.js') }}"></script>
 
     @stack('head')
-
-    @if(env('APP_ENV') != 'local')
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2747125-5"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-
-            function gtag() {
-                dataLayer.push(arguments);
-            }
-
-            gtag('js', new Date());
-
-            gtag('config', 'UA-2747125-5');
-        </script>
-    @endif
 </head>
 <body>
 
-<nav id="main-nav">
+<nav class="navbar">
     <div class="container">
         <ul>
+            <li><img src="assets/images/logo.png" /></li>
             <li><a href="{{ route('front.home') }}">Home</a></li>
             <li><a href="https://forums.projectcitybuild.com/">Forums</a></li>
             <li>
@@ -108,26 +94,6 @@
         </ul>
 
         <ul>
-            <li class="social-icon">
-                <a target="_blank" rel="noopener" href="https://www.facebook.com/ProjectCityBuild">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-            </li>
-            <li class="social-icon">
-                <a target="_blank" rel="noopener" href="https://www.instagram.com/projectcitybuild">
-                    <i class="fab fa-instagram"></i>
-                </a>
-            </li>
-            <li class="social-icon">
-                <a target="_blank" rel="noopener" href="https://www.youtube.com/user/PCBMinecraft">
-                    <i class="fab fa-youtube"></i>
-                </a>
-            </li>
-            <li class="social-icon">
-                <a target="_blank" rel="noopener" href="http://steamcommunity.com/groups/ProjectCityBuild">
-                    <i class="fab fa-steam-symbol"></i>
-                </a>
-            </li>
             @if(Auth::check())
                 <li>
                     <a href="#" class="nav-dropdown">Account <i class="fas fa-caret-down"></i></a>
@@ -143,117 +109,51 @@
                     </ul>
                 </li>
             @else
-                <li><a href="{{ route('front.login') }}">Login</a></li>
+                <li><a href="{{ route('front.register') }}">Create an Account</a></li>
+                <li><a href="{{ route('front.login') }}">Sign In</a></li>
             @endif
         </ul>
     </div>
 </nav>
 
-
-<div class="drawer-btn-container">
-    <a href="#" id="drawer-btn"><i class="fas fa-bars"></i></a>
-</div>
-
 <main id="app">
+    <header class="hero">
 
-    @php
-        $isHomepage = Route::current()->getName() === 'front.home';
-    @endphp
-    <header class="header {{ !$isHomepage ? 'header--thin' : '' }}">
-        <div class="container header__container">
-            <div class="header__left">
-                <img class="header__logo {{ !$isHomepage ? 'header__logo--nopadding' : '' }}"
-                     src="{{ asset('assets/images/logo-est.png') }}" alt="Project City Build"/>
+        <div class="hero__container">
+            <div class="hero__cta">
+                <h1>We Build Stuff.<br />Come Join Us!</h1>
+                <h2>
+                    One of the world's longest-running Minecraft servers; we're a <br />
+                    community of creative players and city builders
+                </h2>
 
-                @includeWhen($isHomepage, 'front.components.server-feed')
+                <a href="" class="button button__outlined">
+                    <i class="fas fa-mouse-pointer"></i>
+                    Join Now
+                </a>
             </div>
 
-            <div class="header__right">
-                @if($isHomepage)
-                    <div class="hero">
-                        <h1 class="hero__header">We Build Stuff.</h1>
-                        <div class="hero__slogan">
-                            PCB is a gaming community of creative players and city builders.<br>
-                            Over <span class="accent strong">{{ number_format($playerCount) ?: 0 }}</span> registered
-                            players and always growing.
-                        </div>
-
-                        <div class="hero__actions">
-                            @guest
-                                <a class="hero__button" href="{{ route('front.register') }}">
-                                    <i class="fas fa-mouse-pointer"></i>
-                                    Join Us
-                                </a>
-                                <a class="hero__button hero__button--bordered" href="{{ route('front.login') }}">
-                                    Login
-                                </a>
-                            @endguest
-
-                            @auth
-                                <a class="hero__button" href="https://forums.projectcitybuild.com/my/summary">
-                                    Profile
-                                </a>
-                                <a class="hero__button hero__button--bordered"
-                                   href="https://forums.projectcitybuild.com/my/preferences/account">
-                                    Settings
-                                </a>
-                            @endauth
-                        </div>
-                    </div>
-                @endif
-
-                @includeWhen(!$isHomepage, 'front.components.server-feed')
-            </div>
-        </div>
-    </header>
-
-    <section>
-        <div class="container contents">
-            @yield('contents')
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container footer__container">
-            <div class="footer__left">
-                <ul class="footer__bullets">
-                    <li><h5 class="footer__subheading">Legal</h5></li>
-                    <li><i class="fas fa-check-circle"></i> <a href="{{ route('terms') }}">Terms of Service</a></li>
-                    <li><i class="fas fa-check-circle"></i> <a href="{{ route('privacy') }}">Privacy Policy</a></li>
-                </ul>
-                <ul class="footer__bullets">
-                    <li><h5 class="footer__subheading">Open Source</h5></li>
-                    <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener"
-                                                              href="https://github.com/projectcitybuild/PCBridge">PCBridge</a>
-                    </li>
-                    <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener"
-                                                              href="https://github.com/projectcitybuild/web">projectcitybuild.com</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="footer__right">
-                <div class="footer__social-icons">
-                    <a target="_blank" rel="noopener" href="https://www.facebook.com/ProjectCityBuild"><i
-                            class="fab fa-facebook-square"></i></a>
-                    <a target="_blank" rel="noopener" href="https://twitter.com/PCB_Minecraft"><i
-                            class="fab fa-twitter-square"></i></a>
-                    <a target="_blank" rel="noopener" href="https://www.instagram.com/projectcitybuild"><i
-                            class="fab fa-instagram"></i></a>
-                    <a target="_blank" rel="noopener" href="https://www.youtube.com/user/PCBMinecraft"><i
-                            class="fab fa-youtube"></i></a>
-                    <a target="_blank" rel="noopener" href="http://projectcitybuild.tumblr.com/"><i
-                            class="fab fa-tumblr-square"></i></a>
-                    <a target="_blank" rel="noopener" href="http://steamcommunity.com/groups/ProjectCityBuild"><i
-                            class="fab fa-steam-square"></i></a>
+            <div class="hero__server-feed">
+                <div class="server-feed__server">
+                    <span class="server-feed__title">Minecraft (Java)</span>
+                    <span class="server-feed__player-count">10/80</span>
+                    <span class="server-feed__address">pcbmc.co</span>
                 </div>
-                <a href="#top">Return to Top</a>
+                <div class="server-feed__server">
+                    <span class="server-feed__title">Minecraft (Java)</span>
+                    <span class="server-feed__player-count">10/80</span>
+                    <span class="server-feed__address">pcbmc.co</span>
+                </div>
             </div>
 
+            <div class="hero__background-credits">
+                <span class="credits__title">/warp anjin</span>
+                <span class="credits__desc">An asian inspired town by <a href="#">@a_good_shrimp</a></span>
+            </div>
         </div>
-    </footer>
-</main>
 
-@stack('body-js')
+    </header>
+</main>
 
 </body>
 </html>

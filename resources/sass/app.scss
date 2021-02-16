@@ -1,57 +1,24 @@
-@charset 'utf-8';
+@charset "utf-8";
 
-@import '~normalize-scss/sass/normalize';
+@import "~normalize-scss/sass/normalize";
 @include normalize();
 
+@import "foundation/colors";
+@import "foundation/dimensions";
+@import "foundation/typography";
 
-@import 'mixins/utility';
+@import "elements/button";
 
-@import 'global/colours';
-@import 'global/dimensions';
-@import 'global/typography';
-@import 'global/images';
-
-@import 'components/alert';
-@import 'components/badge';
-@import 'components/blockquote';
-@import 'components/bubble';
-@import 'components/button';
-@import 'components/card';
-@import 'components/divider';
-@import 'components/grid';
-@import 'components/input';
-@import 'components/pagination';
-@import 'components/progressbar';
-@import 'components/sidemenu';
-@import 'components/skeleton';
-@import 'components/stat';
-@import 'components/spinner';
-@import 'components/table';
-
-@import 'layouts/donate-panel';
-@import 'layouts/footer';
-@import 'layouts/grid';
-@import 'layouts/header';
-@import 'layouts/navigation';
-@import 'layouts/server-feed';
-
-@import 'pages/home';
-@import 'pages/login';
-@import 'pages/register';
-@import 'pages/donate';
-@import 'pages/account.social';
-@import 'pages/account.2fa';
-@import 'pages/account.security';
-@import "pages/banlist";
-@import 'pages/staff-panel';
+@import "molecules/hero";
+@import "molecules/navbar";
+@import "molecules/server-feed";
 
 
 * {
     box-sizing: border-box;
 }
 
-html,
-body {
+html, body {
     height: 100%;
     min-height: 100%;
 }
@@ -59,33 +26,6 @@ body {
 body {
     overflow-x: hidden;
     background-color: hsl(55, 100%, 93%);
-    background-image: url('/assets/images/background1.jpg');
-    background-size: cover;
-    background-position: center top;
-    background-repeat: no-repeat;
-
-    @media screen and (min-width: $dimen-medium) {
-        background-position: center 40px;
-        background-size: contain;
-    }
-}
-
-section {
-    width: 100%;
-}
-
-ul, ol {
-    &.no-list {
-        list-style: none;
-    }
-}
-
-.inline {
-    display: inline;
-}
-
-.spaced-icon-link {
-    svg {
-        margin-right: 0.3rem;
-    }
+    font-family: $font-body;
+    font-size: 16px;
 }

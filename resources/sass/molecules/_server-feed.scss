@@ -1,0 +1,39 @@
+.server-feed {
+
+    &__server {
+        background: hsla(0, 5, 12, 75%);
+        margin-bottom: 0.5em;
+        padding: 1em;
+        border-radius: 4px;
+        border-bottom: 4px solid hsla(0, 0, 0, 25%);
+
+        display: flex;
+        align-content: center;
+    }
+
+    &__title {
+        color: #fff;
+        font-family: $font-header;
+        font-size: 1.5em;
+        margin-right: 1em;
+    }
+
+    &__player-count {
+        display: inline-block;
+        background: hsla(0, 0, 77, 20%);
+        border-radius: 4px;
+        padding: 0.5em;
+        color: #fff;
+        font-size: 0.8em;
+        margin-right: 1em;
+    }
+
+    &__address {
+        display: inline-block;
+        flex: auto;
+        text-align: right;
+        font-size: 0.8em;
+        color: #fff;
+        text-decoration: underline;
+    }
+}
