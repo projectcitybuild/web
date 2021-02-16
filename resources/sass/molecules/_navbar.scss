@@ -1,12 +1,14 @@
-nav#main-nav {
-    $border-colour: darken($nav-colour, 10%);
+$nav-color: $color-secondary;
+$nav-secondary-color: $color-primary;
+
+.navbar {
+    $border-color: darken($nav-color, 10%);
 
     width: 100%;
     position: fixed;
-    background: $nav-colour;
-    border-bottom: 3px solid $border-colour;
+    background: $nav-color;
+    border-bottom: 3px solid $border-color;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
-
     z-index: 1000;
 
     ul {
@@ -15,7 +17,7 @@ nav#main-nav {
         padding: 0;
     }
 
-    // collapse all multi level menus by default
+    // Collapse all menus by default
     li > ul {
         display: none;
     }
@@ -24,17 +26,20 @@ nav#main-nav {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        padding: 0 12em;
+
+        max-width: 1600px;
+        margin: auto;
     }
 
-    // main bar
     .container > ul {
         display: flex;
 
         & > li {
-            border-right: 1px solid $border-colour;
+            border-right: 1px solid $border-color;
 
             &:first-child {
-                border-left: 1px solid $border-colour;
+                border-left: 1px solid $border-color;
             }
         }
 
@@ -48,12 +53,12 @@ nav#main-nav {
 
             &:focus,
             &:active {
-                background: darken($nav-colour, 10%);
+                background: darken($nav-color, 10%);
             }
         }
 
         & > li:hover {
-            background-color: lighten($nav-colour, 5%);
+            background-color: lighten($nav-color, 5%);
 
             & ul {
                 display: inherit;
@@ -64,20 +69,21 @@ nav#main-nav {
         }
     }
 
-    // drop-down menu
+    // Drop-down menu
     .container > ul > li > ul {
-        $border-colour: lighten($nav-secondary-colour, 45%);
+        $border-color: lighten($nav-secondary-color, 45%);
+
         background: #fff;
         position: absolute;
-        border: 1px solid $border-colour;
+        border: 1px solid $border-color;
         border-bottom-width: 3px;
 
         .divider {
-            border-bottom: 1px solid $border-colour;
+            border-bottom: 1px solid $border-color;
         }
-        
+
         a {
-            color: $nav-secondary-colour;
+            color: $nav-secondary-color;
             padding: 1em 1.5em;
 
             &:hover {
@@ -89,12 +95,11 @@ nav#main-nav {
             }
         }
 
-        // splits the menu into a giant sideway panel
         &.menu-sideway {
             flex-direction: row;
 
             & > li:not(:last-child) {
-                border-right: 1px solid $border-colour;
+                border-right: 1px solid $border-color;
             }
 
             h5 {
