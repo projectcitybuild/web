@@ -8,24 +8,11 @@
 @import "foundation/typography";
 
 @import "elements/button";
+@import "elements/body";
+@import "elements/container";
 
 @import "molecules/hero";
 @import "molecules/navbar";
+@import "molecules/news-bar";
 @import "molecules/server-feed";
-
-
-* {
-    box-sizing: border-box;
-}
-
-html, body {
-    height: 100%;
-    min-height: 100%;
-}
-
-body {
-    overflow-x: hidden;
-    background-color: hsl(55, 100%, 93%);
-    font-family: $font-body;
-    font-size: 16px;
-}
+@import "molecules/introduction";

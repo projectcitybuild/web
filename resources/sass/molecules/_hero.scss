@@ -1,16 +1,13 @@
 .hero {
     width: 100%;
-    background-image:
-        linear-gradient(to right, hsla(0, 0, 0, 0) 40%, hsla(0, 21%, 7%, 69%)),
-        url('/assets/images/hero-bg1.png');
+    background-image: linear-gradient(to right, hsla(0, 0, 0, 0) 40%, hsla(0, 21%, 7%, 69%)),
+    url('/assets/images/hero-bg1.png');
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
 
-    &__container {
+    .container {
         padding: 6em 12em;
-        margin: auto;
-        max-width: 1600px;
         display: grid;
         grid-template-columns: 35% auto;
         grid-template-rows: auto;

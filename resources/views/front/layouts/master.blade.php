@@ -116,10 +116,9 @@
     </div>
 </nav>
 
-<main id="app">
+<div id="app">
     <header class="hero">
-
-        <div class="hero__container">
+        <div class="container">
             <div class="hero__cta">
                 <h1>We Build Stuff.<br />Come Join Us!</h1>
                 <h2>
@@ -134,15 +133,14 @@
             </div>
 
             <div class="hero__server-feed">
-                <div class="server-feed__server">
+                <div class="server-feed__server online">
                     <span class="server-feed__title">Minecraft (Java)</span>
                     <span class="server-feed__player-count">10/80</span>
                     <span class="server-feed__address">pcbmc.co</span>
                 </div>
-                <div class="server-feed__server">
-                    <span class="server-feed__title">Minecraft (Java)</span>
-                    <span class="server-feed__player-count">10/80</span>
-                    <span class="server-feed__address">pcbmc.co</span>
+                <div class="server-feed__server offline">
+                    <span class="server-feed__title">Feed The Beast</span>
+                    <span class="server-feed__address">51.254.81.134</span>
                 </div>
             </div>
 
@@ -151,9 +149,41 @@
                 <span class="credits__desc">An asian inspired town by <a href="#">@a_good_shrimp</a></span>
             </div>
         </div>
-
     </header>
-</main>
+
+    <main>
+        <section class="news-bar">
+            <div class="container">
+            <span class="news-bar__date">
+                <i class="fas fa-calendar-day"></i> Jan 1st, 2020
+            </span>
+                <a class="news-bar__title" href="#">Announcement post title will go here</a>
+                <a class="news-bar__view-more" href="#">All Announcements</a>
+            </div>
+        </section>
+
+        <section class="introduction">
+            <div class="container">
+                <h1>Minecraft 24/7</h1>
+
+                <div class="introduction__content">
+                    <div class="introduction__text">
+                        With our free-build Creative and Survival multiplayer maps, we offer a fun platform & building experience like no other. You can visit and build in established towns & cities or start your own.
+                    </div>
+
+                    <ul class="introduction__points fa-ul">
+                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Free-build maps</li>
+                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Grief protection</li>
+                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Friendly community</li>
+                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Earn trust based perks</li>
+                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Helpful staff</li>
+                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Events and competitions</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
 
 </body>
 </html>

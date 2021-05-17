@@ -1,0 +1,15 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    min-height: 100%;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: hsl(55, 100%, 93%);
+    font-family: $font-body;
+    font-size: 16px;
+}
