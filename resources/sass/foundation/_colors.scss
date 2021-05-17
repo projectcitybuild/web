@@ -1,3 +1,4 @@
+// Legacy - will be deleted
 $color-primary: hsl(206, 80%, 48%);
 $color-secondary: hsl(20, 12%, 29%);
 $color-accent: hsl(40, 98%, 49%);
@@ -9,3 +10,10 @@ $color-white: #fff;
 $color-success: hsl(133.4,60.9%,33.1%);
 $color-error: #b10e1e;
 
+
+$color-heading-primary: hsl(0, 0%, 15%);
+
+$color-text-primary: hsl(0, 0, 20%);
+
+// Button
+$color-button-accent: $color-accent;
