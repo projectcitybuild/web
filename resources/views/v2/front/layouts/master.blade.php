@@ -23,7 +23,7 @@
 
     <title>@yield('title', 'Project City Build')</title>
 
-    <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}">
+    <link rel="stylesheet" href="{{ mix('assets/css/app-v2.css') }}">
     <link rel="icon" type="type/x-icon" href="{{ asset('assets/favicon.ico') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/g1OfIGT.png"/>
 
