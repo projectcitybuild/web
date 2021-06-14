@@ -12,4 +12,10 @@
         0 4px 4px hsla(0, 0, 0, 25%),
         inset 0 4px 4px hsla(0, 0, 0, 35%); // Because button is see-through
     text-shadow: 0 4px 4px hsla(0, 0, 0, 35%);
+
+    // TODO: find a better way to do this
+    .fa-mouse-pointer {
+        width: 0.45em;
+        margin-right: 0.1em;
+    }
 }

@@ -36,13 +36,27 @@
     <script defer src="{{ mix('assets/js/app.js') }}"></script>
 
     @stack('head')
+
+    @if(env('APP_ENV') != 'local')
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2747125-5"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+
+            gtag('js', new Date());
+
+            gtag('config', 'UA-2747125-5');
+        </script>
+    @endif
 </head>
 <body>
 
-<nav class="navbar">
+<nav id="main-nav">
     <div class="container">
         <ul>
-            <li><img src="assets/images/logo.png" /></li>
             <li><a href="{{ route('front.home') }}">Home</a></li>
             <li><a href="https://forums.projectcitybuild.com/">Forums</a></li>
             <li>
@@ -94,6 +108,26 @@
         </ul>
 
         <ul>
+            <li class="social-icon">
+                <a target="_blank" rel="noopener" href="https://www.facebook.com/ProjectCityBuild">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+            </li>
+            <li class="social-icon">
+                <a target="_blank" rel="noopener" href="https://www.instagram.com/projectcitybuild">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </li>
+            <li class="social-icon">
+                <a target="_blank" rel="noopener" href="https://www.youtube.com/user/PCBMinecraft">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </li>
+            <li class="social-icon">
+                <a target="_blank" rel="noopener" href="http://steamcommunity.com/groups/ProjectCityBuild">
+                    <i class="fab fa-steam-symbol"></i>
+                </a>
+            </li>
             @if(Auth::check())
                 <li>
                     <a href="#" class="nav-dropdown">Account <i class="fas fa-caret-down"></i></a>
@@ -109,194 +143,117 @@
                     </ul>
                 </li>
             @else
-                <li><a href="{{ route('front.register') }}">Create an Account</a></li>
-                <li><a href="{{ route('front.login') }}">Sign In</a></li>
+                <li><a href="{{ route('front.login') }}">Login</a></li>
             @endif
         </ul>
     </div>
 </nav>
 
-<div id="app">
-    <header class="hero">
-        <div class="container">
-            <div class="hero__cta">
-                <h1>We Build Stuff.<br />Come Join Us!</h1>
-                <h2>
-                    One of the world's longest-running Minecraft servers; we're a <br />
-                    community of creative players and city builders
-                </h2>
 
-                <a href="" class="button button__outlined">
-                    <i class="fas fa-mouse-pointer"></i>
-                    Join Now
-                </a>
+<div class="drawer-btn-container">
+    <a href="#" id="drawer-btn"><i class="fas fa-bars"></i></a>
+</div>
+
+<main id="app">
+
+    @php
+        $isHomepage = Route::current()->getName() === 'front.home';
+    @endphp
+    <header class="header {{ !$isHomepage ? 'header--thin' : '' }}">
+        <div class="container header__container">
+            <div class="header__left">
+                <img class="header__logo {{ !$isHomepage ? 'header__logo--nopadding' : '' }}"
+                     src="{{ asset('assets/images/logo-est.png') }}" alt="Project City Build"/>
+
+                @includeWhen($isHomepage, 'front.components.server-feed')
             </div>
 
-            <div class="hero__server-feed">
-                <div class="server-feed__server online">
-                    <span class="server-feed__title">Minecraft (Java)</span>
-                    <span class="server-feed__player-count">10/80</span>
-                    <span class="server-feed__address">pcbmc.co</span>
-                </div>
-                <div class="server-feed__server offline">
-                    <span class="server-feed__title">Feed The Beast</span>
-                    <span class="server-feed__address">51.254.81.134</span>
-                </div>
+            <div class="header__right">
+                @if($isHomepage)
+                    <div class="hero">
+                        <h1 class="hero__header">We Build Stuff.</h1>
+                        <div class="hero__slogan">
+                            PCB is a gaming community of creative players and city builders.<br>
+                            Over <span class="accent strong">{{ number_format($playerCount) ?: 0 }}</span> registered
+                            players and always growing.
+                        </div>
+
+                        <div class="hero__actions">
+                            @guest
+                                <a class="hero__button" href="{{ route('front.register') }}">
+                                    <i class="fas fa-mouse-pointer"></i>
+                                    Join Us
+                                </a>
+                                <a class="hero__button hero__button--bordered" href="{{ route('front.login') }}">
+                                    Login
+                                </a>
+                            @endguest
+
+                            @auth
+                                <a class="hero__button" href="https://forums.projectcitybuild.com/my/summary">
+                                    Profile
+                                </a>
+                                <a class="hero__button hero__button--bordered"
+                                   href="https://forums.projectcitybuild.com/my/preferences/account">
+                                    Settings
+                                </a>
+                            @endauth
+                        </div>
+                    </div>
+                @endif
+
+                @includeWhen(!$isHomepage, 'front.components.server-feed')
             </div>
         </div>
     </header>
 
-    <main>
-        <section class="news-bar">
-            <div class="container">
-            <span class="news-bar__date">
-                <i class="fas fa-calendar-day"></i> Jan 1st, 2020
-            </span>
-                <a class="news-bar__title" href="#">Announcement post title will go here</a>
-                <a class="news-bar__view-more" href="#"><i class="fas fa-chevron-right"></i> All Announcements</a>
+    <section>
+        <div class="container contents">
+            @yield('contents')
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer__container">
+            <div class="footer__left">
+                <ul class="footer__bullets">
+                    <li><h5 class="footer__subheading">Legal</h5></li>
+                    <li><i class="fas fa-check-circle"></i> <a href="{{ route('terms') }}">Terms of Service</a></li>
+                    <li><i class="fas fa-check-circle"></i> <a href="{{ route('privacy') }}">Privacy Policy</a></li>
+                </ul>
+                <ul class="footer__bullets">
+                    <li><h5 class="footer__subheading">Open Source</h5></li>
+                    <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener"
+                                                              href="https://github.com/projectcitybuild/PCBridge">PCBridge</a>
+                    </li>
+                    <li><i class="fas fa-code-branch"></i> <a target="_blank" rel="noopener"
+                                                              href="https://github.com/projectcitybuild/web">projectcitybuild.com</a>
+                    </li>
+                </ul>
             </div>
-        </section>
-
-        <section class="introduction">
-            <div class="container">
-                <h1>Minecraft 24/7</h1>
-
-                <div class="introduction__content">
-                    <div class="introduction__text">
-                        With our free-build Creative and Survival multiplayer maps, we offer a fun platform & building experience like no other. You can visit and build in established towns & cities or start your own.
-                    </div>
-
-                    <ul class="introduction__points fa-ul">
-                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Free-build maps</li>
-                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Grief protection</li>
-                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Friendly community</li>
-                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Earn trust based perks</li>
-                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Helpful staff</li>
-                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Events and competitions</li>
-                    </ul>
+            <div class="footer__right">
+                <div class="footer__social-icons">
+                    <a target="_blank" rel="noopener" href="https://www.facebook.com/ProjectCityBuild"><i
+                            class="fab fa-facebook-square"></i></a>
+                    <a target="_blank" rel="noopener" href="https://twitter.com/PCB_Minecraft"><i
+                            class="fab fa-twitter-square"></i></a>
+                    <a target="_blank" rel="noopener" href="https://www.instagram.com/projectcitybuild"><i
+                            class="fab fa-instagram"></i></a>
+                    <a target="_blank" rel="noopener" href="https://www.youtube.com/user/PCBMinecraft"><i
+                            class="fab fa-youtube"></i></a>
+                    <a target="_blank" rel="noopener" href="http://projectcitybuild.tumblr.com/"><i
+                            class="fab fa-tumblr-square"></i></a>
+                    <a target="_blank" rel="noopener" href="http://steamcommunity.com/groups/ProjectCityBuild"><i
+                            class="fab fa-steam-square"></i></a>
                 </div>
-            </div>
-        </section>
-
-        <section class="server-overview">
-            <div class="server-overview__server">
-                <div class="server-image"></div>
-                <div class="server-text">
-                    <h1>Survival</h1>
-
-                    <div class="server-text__desc">
-                        Some text about this particular world can go here blah blah blah. Some text about this particular world can go here blah blah blah.
-                    </div>
-                    <div class="server-text__links">
-                        <ul>
-                            <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Read More</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <a href="#top">Return to Top</a>
             </div>
 
-            <div class="server-overview__server right">
-                <div class="server-text">
-                    <h1>Creative</h1>
+        </div>
+    </footer>
+</main>
 
-                    <div class="server-text__desc">
-                        Some text about this particular world can go here blah blah blah. Some text about this particular world can go here blah blah blah.
-                    </div>
-                    <div class="server-text__links">
-                        <ul>
-                            <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Read More</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="server-image"></div>
-            </div>
-
-            <div class="server-overview__server">
-                <div class="server-image"></div>
-                <div class="server-text">
-                    <h1>Monarch</h1>
-
-                    <div class="server-text__desc">
-                        Some text about this particular world can go here blah blah blah. Some text about this particular world can go here blah blah blah.
-                    </div>
-                    <div class="server-text__links">
-                        <ul>
-                            <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Read More</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="server-overview__server right">
-                <div class="server-text">
-                    <h1>Arcade</h1>
-
-                    <div class="server-text__desc">
-                        Some text about this particular world can go here blah blah blah. Some text about this particular world can go here blah blah blah.
-                    </div>
-                    <div class="server-text__links">
-                        <ul>
-                            <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Read More</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="server-image"></div>
-            </div>
-        </section>
-
-        <footer>
-            <div class="footer-sitemap">
-                <div class="container">
-                    <h1>Explore More</h1>
-
-                    <div class="footer-links">
-                        <div class="footer-links__category">
-                            <h2>Server</h2>
-                            <ul>
-                                <li><i class="fas fa-cube"></i> <a href="#">Rules & Guidelines</a></li>
-                                <li><i class="fas fa-cube"></i> <a href="#">Ranks</a></li>
-                                <li><i class="fas fa-cube"></i> <a href="#">Commands</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-links__category">
-                            <h2>Community</h2>
-                            <ul>
-                                <li><i class="fas fa-cube"></i> <a href="#">Community Wiki</a></li>
-                                <li><i class="fas fa-cube"></i> <a href="#">Vote For Our Server</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-links__category">
-                            <h2>Social Media</h2>
-                            <ul>
-                                <li><i class="fas fa-cube"></i> <a href="#">YouTube</a></li>
-                                <li><i class="fas fa-cube"></i> <a href="#">Instagram</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </main>
-</div>
+@stack('body-js')
 
 </body>
 </html>

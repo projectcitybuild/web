@@ -38,3 +38,4 @@ Homestead.yaml
 clover.xml
 
 *.pem
+*:Zone.Identifier

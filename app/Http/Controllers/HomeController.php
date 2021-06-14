@@ -30,7 +30,7 @@ final class HomeController extends WebController
             return $minecraftPlayers + $unlinkedAccounts;
         });
 
-        return view('front.pages.home', [
+        return view('v2.front.pages.home', [
             'playerCount' => $playerCount,
             'donations' => [
                 'total' => $totalDonationsThisYear ? $totalDonationsThisYear : 0,
