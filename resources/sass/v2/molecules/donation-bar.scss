@@ -1,0 +1,29 @@
+.donation-bar {
+
+    &__outer {
+        background: #fff;
+        border-radius: 5px;
+        padding: 2px;
+    }
+
+    &__inner {
+        background: #FF842A;
+        border-radius: 5px 0px 0 5px;
+        padding: 0.25em 0.5em;
+        font-size: 0.8em;
+        text-align: center;
+    }
+
+    &__indicators {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0.5em;
+
+        li {
+            font-size: 0.7em;
+            color: #B7BBCF;
+        }
+    }
+}

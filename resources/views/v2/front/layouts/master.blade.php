@@ -296,18 +296,52 @@
                 </div>
             </section>
 
-            <section class="donations">
+            <section class="footer-donations">
                 <div class="container">
-                    <div class="donations__left">
+                    <div class="footer-donations__left">
                         <h1>Help Keep Us Online</h1>
 
-                        <span>
+                        <div class="description">
                             Donations are the only way to keep our server running.<br />
-                            Donators receive perks such as flying, colored names and much more
-                        </span>
-                    </div>
-                    <div class="donations__right">
+                            Donators receive perks such as flying, colored names and <a href="#">much more</a>
+                        </div>
 
+                        <a class="donate-button" href="#">
+                            <i class="fas fa-dollar-sign"></i>
+                            Donate
+                        </a>
+                    </div>
+
+                    <div class="footer-donations__right">
+                        <div class="donation-bar">
+                            <div class="donation-bar__outer">
+                                <div class="donation-bar__inner" style="width: 30%">$305</div>
+                            </div>
+                            <ul class="donation-bar__indicators">
+                                <li>$0</li>
+                                <li>$250</li>
+                                <li>$500</li>
+                                <li>$750</li>
+                                <li>$1000</li>
+                            </ul>
+                        </div>
+
+                        <div class="spacer"></div>
+
+                        <table class="donation-stats">
+                            <tr>
+                                <th>Days Remaining</th>
+                                <td>310</td>
+                            </tr>
+                            <tr>
+                                <th>Funds Still Needed</th>
+                                <td>$690</td>
+                            </tr>
+                            <tr>
+                                <th>Raised Last Year</th>
+                                <td>$983.5</td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </section>
