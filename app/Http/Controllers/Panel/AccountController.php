@@ -22,10 +22,10 @@ class AccountController extends WebController
             $accounts = Account::search($query)->paginate(100);
         } else {
             $query = '';
-            $accounts = Account::paginate(100);
+            $accounts = Account::paginate(20);
         }
 
-        return view('front.pages.panel.account.index')->with(compact('accounts', 'query'));
+        return view('admin.account.index')->with(compact('accounts', 'query'));
     }
 
     /**
