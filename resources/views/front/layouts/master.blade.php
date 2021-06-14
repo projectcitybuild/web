@@ -143,11 +143,6 @@
                     <span class="server-feed__address">51.254.81.134</span>
                 </div>
             </div>
-
-            <div class="hero__background-credits">
-                <span class="credits__title">/warp anjin</span>
-                <span class="credits__desc">An asian inspired town by <a href="#">@a_good_shrimp</a></span>
-            </div>
         </div>
     </header>
 
@@ -158,7 +153,7 @@
                 <i class="fas fa-calendar-day"></i> Jan 1st, 2020
             </span>
                 <a class="news-bar__title" href="#">Announcement post title will go here</a>
-                <a class="news-bar__view-more" href="#">All Announcements</a>
+                <a class="news-bar__view-more" href="#"><i class="fas fa-chevron-right"></i> All Announcements</a>
             </div>
         </section>
 
@@ -180,6 +175,89 @@
                         <li><span class="fa-li"><i class="fas fa-cube"></i></span> Events and competitions</li>
                     </ul>
                 </div>
+            </div>
+        </section>
+
+        <section class="server-overview">
+            <div class="server-overview__server">
+                <div class="server-image"></div>
+                <div class="server-text">
+                    <h1>Survival</h1>
+
+                    <div class="server-text__desc">
+                        Some text about this particular world can go here blah blah blah. Some text about this particular world can go here blah blah blah.
+                    </div>
+                    <div class="server-text__links">
+                        <ul>
+                            <li>
+                                <a href="#"><i class="fas fa-chevron-right"></i> Read More</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="server-overview__server right">
+                <div class="server-text">
+                    <h1>Creative</h1>
+
+                    <div class="server-text__desc">
+                        Some text about this particular world can go here blah blah blah. Some text about this particular world can go here blah blah blah.
+                    </div>
+                    <div class="server-text__links">
+                        <ul>
+                            <li>
+                                <a href="#"><i class="fas fa-chevron-right"></i> Read More</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="server-image"></div>
+            </div>
+
+            <div class="server-overview__server">
+                <div class="server-image"></div>
+                <div class="server-text">
+                    <h1>Monarch</h1>
+
+                    <div class="server-text__desc">
+                        Some text about this particular world can go here blah blah blah. Some text about this particular world can go here blah blah blah.
+                    </div>
+                    <div class="server-text__links">
+                        <ul>
+                            <li>
+                                <a href="#"><i class="fas fa-chevron-right"></i> Read More</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="server-overview__server">
+                <div class="server-text">
+                    <h1>Arcade</h1>
+
+                    <div class="server-text__desc">
+                        Some text about this particular world can go here blah blah blah. Some text about this particular world can go here blah blah blah.
+                    </div>
+                    <div class="server-text__links">
+                        <ul>
+                            <li>
+                                <a href="#"><i class="fas fa-chevron-right"></i> Read More</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="server-image"></div>
             </div>
         </section>
     </main>

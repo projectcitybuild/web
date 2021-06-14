@@ -27,31 +27,6 @@
         margin-bottom: 6em;
     }
 
-    &__background-credits {
-        grid-column: 2;
-        grid-row: 2;
-
-        background: linear-gradient(to right, hsla(0, 0, 0, 0) 20%, hsla(0, 21%, 7%, 69%));
-        text-align: right;
-        padding: 1em 0;
-
-        .credits__title {
-            display: block;
-            color: hsl(0, 4, 55);
-            font-family: $font-header;
-            font-size: 2.5em;
-        }
-
-        .credits__desc {
-            color: hsl(0, 5, 52);
-            font-size: 0.8em;
-
-            a {
-                color: hsl(212, 13, 74);
-            }
-        }
-    }
-
     h1 {
         color: #fff;
         font-size: 6.5em;
