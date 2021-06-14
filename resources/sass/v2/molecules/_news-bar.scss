@@ -2,6 +2,13 @@
     background: hsl(240, 2, 24);
     padding: 1em;
 
+    a:link, a:visited {
+        color: #fff;
+    }
+    a:hover {
+        color: $color-text-accent;
+    }
+
     .container {
         display: flex;
         align-items: center;

@@ -121,12 +121,12 @@
         <div class="container">
             <div class="hero__cta">
                 <h1>We Build Stuff.<br />Come Join Us!</h1>
-                <h2>
+                <div class="subtitle">
                     One of the world's longest-running Minecraft servers; we're a <br />
                     community of creative players and city builders
-                </h2>
+                </div>
 
-                <a href="" class="button button__outlined">
+                <a href="#" class="button outlined">
                     <i class="fas fa-mouse-pointer"></i>
                     Join Now
                 </a>
