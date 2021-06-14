@@ -1,0 +1,63 @@
+.server-overview {
+
+    &__server {
+        display: flex;
+        align-items: center;
+        background: #F3F3F3;
+
+        .server-text {
+            width: 50%;
+            padding: 5em;
+
+            h1 {
+                color: $color-heading-primary;
+                font-size: 3.8em;
+                font-family: $font-header;
+                font-weight: 500;
+                text-transform: uppercase;
+                font-kerning: normal;
+                line-height: 0.95em;
+                margin-bottom: 0.2em;
+            }
+
+            &__desc, &__links {
+                font-size: 0.9em;
+                line-height: 2em;
+            }
+
+            &__desc {
+                color: $color-text-primary;
+            }
+
+            &__links {
+                margin-top: 2em;
+                font-weight: 500;
+
+                ul {
+                    list-style: none;
+                    padding: 0;
+                    display: flex;
+                }
+                li:not(:last-child) {
+                    padding-right: 1.5em;
+                }
+            }
+        }
+
+        .server-image {
+            width: 50%;
+            background: #000;
+            background-size: cover;
+            background-image: url('/assets/images/hero-bg3.png');
+            min-height: 500px;
+        }
+    }
+
+    &__server.right {
+        text-align: right;
+
+        .server-text__links ul {
+            justify-content: end;
+        }
+    }
+}
