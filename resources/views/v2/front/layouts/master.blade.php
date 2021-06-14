@@ -136,11 +136,20 @@
                 <div class="server-feed__server online">
                     <span class="server-feed__title">Minecraft (Java)</span>
                     <span class="server-feed__player-count"><i class="fas fa-user"></i> 10/80</span>
-                    <span class="server-feed__address">pcbmc.co</span>
+                    <span class="server-feed__address"><a href="#"><i class="fas fa-copy"></i> pcbmc.co</a></span>
                 </div>
                 <div class="server-feed__server offline">
                     <span class="server-feed__title">Feed The Beast</span>
-                    <span class="server-feed__address">51.254.81.134</span>
+                    <span class="server-feed__address">
+                        <a href="#"><i class="fas fa-copy"></i> 51.254.81.134</a>
+                    </span>
+                </div>
+                <div class="server-feed__server online discord">
+                    <span class="server-feed__title"><i class="fab fa-discord"></i> Discord</span>
+                    <span class="server-feed__player-count"><i class="fas fa-user"></i> 45/596</span>
+                    <span class="server-feed__address">
+                        <a href="https://discord.gg/3NYaUeScDX" target="_blank">Connect / Open</a>
+                    </span>
                 </div>
             </div>
         </div>
@@ -307,7 +316,7 @@
                         </div>
 
                         <a class="donate-button" href="#">
-                            <i class="fas fa-dollar-sign"></i>
+                            <i class="fas fa-coins"></i>
                             Donate
                         </a>
                     </div>
