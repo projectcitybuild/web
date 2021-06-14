@@ -19,6 +19,10 @@
 
     &__content {
         display: flex;
+
+        @media screen and (max-width: 1024px) {
+            flex-direction: column;
+        }
     }
 
     &__text {}
@@ -34,6 +38,11 @@
         & > li {
             width: 50%;
             text-transform: uppercase;
+        }
+
+        @media screen and (max-width: 1300px) {
+            width: 50%;
+            padding-left: 0;
         }
     }
 }

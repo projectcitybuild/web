@@ -53,3 +53,15 @@
         }
     }
 }
+
+@media screen and (max-width: 1400px) {
+    .server-feed__title {
+        font-size: 1.2em;
+    }
+    .server-feed__player-count {
+        font-size: 0.7em;
+    }
+    .server-feed__address {
+        font-size: 0.7em;
+    }
+}

@@ -1,6 +1,12 @@
 .container {
     margin: auto;
     max-width: 1600px;
-    padding-left: 6em;
-    padding-right: 6em;
+    padding: 0 6em;
+
+    @media screen and (max-width: 1300px) {
+        padding: 0 4.5em;
+    }
+    @media screen and (max-width: 1024px) {
+        padding: 0 3em;
+    }
 }
