@@ -36,3 +36,5 @@ Homestead.json
 Homestead.yaml
 
 clover.xml
+
+*.pem
