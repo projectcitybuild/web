@@ -49,7 +49,7 @@ class AccountController extends WebController
      */
     public function edit(Account $account)
     {
-        return view('front.pages.panel.account.edit')->with(compact('account'));
+        return view('admin.account.edit')->with(compact('account'));
     }
 
     /**
@@ -60,6 +60,7 @@ class AccountController extends WebController
      */
     public function update(Request $request, Account $account)
     {
+        // TODO: Validate this
         $account->update($request->all());
         $account->save();
 

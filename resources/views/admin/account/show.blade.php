@@ -174,7 +174,7 @@
 
         </div>
     </div>
-    <div class="row row-cols-1 row-cols-md-2 g-4 mt-3">
+    <div class="row row-cols-1 g-4 mt-3">
         <div class="col">
             <div class="card h-100">
                 <div class="card-header">Donation Perks</div>
@@ -208,11 +208,6 @@
                     @endforelse
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-header">Donations</div>
             </div>
         </div>
     </div>
