@@ -18,8 +18,11 @@
     <div class="row">
         <div class="col-md-6">
             <div class="card card-default">
-                <div class="card-header">
-                    Details
+                <div class="card-header d-flex justify-content-between">
+                    <span>Details</span>
+                    <a href="{{ route('front.panel.accounts.edit', $account) }}" class="btn btn-outline-primary btn-sm py-0">
+                        <i class="fas fa-pencil-alt"></i> Edit
+                    </a>
                 </div>
                 <dl class="kv">
                     <div class="row g-0">
@@ -87,8 +90,20 @@
                         <dd class="col-md-9">
                             <div>{{ $account->last_login_at }}</div>
                             <div class="text-muted">
-                                from {{ $account->last_login_ip }} <a href="https://www.ip-tracker.org/locator/ip-lookup.php?ip={{ $account->last_login_ip }}" class="text-muted" target="_blank"><i class="fas fa-map-marked"></i> Locate</a>
+                                from {{ $account->last_login_ip }} <a href="https://www.ip-tracker.org/locator/ip-lookup.php?ip={{ $account->last_login_ip }}" class="text-muted ms-1" target="_blank"><i class="fas fa-map-marked me-1"></i>Locate</a>
                             </div>
+                        </dd>
+                    </div>
+                    <div class="row g-0">
+                        <dt class="col-md-3">
+                            2FA Status
+                        </dt>
+                        <dd class="col-md-9">
+                            @if($account->is_totp_enabled)
+                                <span class="badge bg-success"><i class="fas fa-lock me-1"></i> Enabled</span>
+                            @else
+                                <span class="badge bg-secondary"><i class="fas fa-lock-open me-1"></i> Disabled</span>
+                            @endif
                         </dd>
                     </div>
                 </dl>
@@ -146,7 +161,12 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         @foreach($groups as $group)
-                        <li class="list-group-item"><label><input type="checkbox" class="me-2" name="groups[]" value="{{ $group->group_id }}" @if($account->inGroup($group)) checked @endif> {{ $group->name }}</label></li>
+                        <li class="list-group-item">
+                            <div class="form-check mb-0">
+                                <input type="checkbox" class="form-check-input" name="groups[]" value="{{ $group->group_id }}" id="group-{{ $group->group_id }}" {{ $account->inGroup($group) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="group-{{ $group->group_id }}">{{ $group->name }}</label>
+                            </div>
+                        </li>
                         @endforeach
                     </ul>
                 </div>
@@ -192,7 +212,7 @@
         </div>
         <div class="col">
             <div class="card h-100">
-                todo: donations, maybe swap this row
+                <div class="card-header">Donations</div>
             </div>
         </div>
     </div>
