@@ -21,7 +21,8 @@ mix.typeScript('resources/js/app.ts', 'public/assets/js')
    .sass('resources/sass/navonly.scss', 'public/assets/css')
    .extract([
         'vue'
-    ]);
+    ])
+    .copy('resources/js/admin/admin.js', 'public/assets/js');
 
 if(mix.config.production) {
     mix.version();

@@ -38,7 +38,7 @@ class AccountController extends WebController
     {
         $groups = Group::all();
 
-        return view('front.pages.panel.account.show')->with(compact('account', 'groups'));
+        return view('admin.account.show')->with(compact('account', 'groups'));
     }
 
     /**
