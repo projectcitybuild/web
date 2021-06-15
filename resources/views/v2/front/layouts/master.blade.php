@@ -190,7 +190,7 @@
 
         <section class="server-overview">
             <div class="server-overview__server">
-                <div class="server-image"></div>
+                <div class="server-image creative"></div>
                 <div class="server-text">
                     <h1>Creative</h1>
 
@@ -228,11 +228,11 @@
                         </ul>
                     </div>
                 </div>
-                <div class="server-image"></div>
+                <div class="server-image survival"></div>
             </div>
 
             <div class="server-overview__server">
-                <div class="server-image"></div>
+                <div class="server-image monarch"></div>
                 <div class="server-text">
                     <h1>Monarch</h1>
 
@@ -267,7 +267,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="server-image"></div>
+                <div class="server-image arcade"></div>
             </div>
         </section>
 
@@ -299,16 +299,7 @@
                             <ul>
                                 <li><i class="fab fa-youtube"></i> <a href="https://www.youtube.com/user/PCBMinecraft" target="_blank">YouTube</a></li>
                                 <li><i class="fab fa-instagram"></i> <a href="https://www.instagram.com/projectcitybuild" target="_blank">Instagram</a></li>
-                                <li><i class="fab fa-steam"></i> <a href="https://steamcommunity.com/groups/ProjectCityBuild" target="_blank">Steam</a></li>
                                 <li><i class="fab fa-facebook-f"></i> <a href="https://www.facebook.com/ProjectCityBuild" target="_blank">Facebook</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-links__category">
-                            <h2>Legal</h2>
-                            <ul>
-                                <li><i class="fas fa-cube"></i> <a href="https://www.youtube.com/user/PCBMinecraft">Terms of Service</a></li>
-                                <li><i class="fas fa-cube"></i> <a href="https://www.instagram.com/projectcitybuild">Privacy Policy</a></li>
                             </ul>
                         </div>
                     </div>
@@ -362,6 +353,15 @@
                             </tr>
                         </table>
                     </div>
+                </div>
+            </section>
+
+            <section class="footer-legal">
+                <div class="container">
+                    <ul>
+                        <li><a href="{{ route('terms') }}">Terms of Service</a></li>
+                        <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
+                    </ul>
                 </div>
             </section>
         </footer>
