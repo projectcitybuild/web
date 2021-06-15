@@ -78,6 +78,6 @@ class PanelAccountTest extends TestCase
         $resp = $this->actingAs($this->adminAccount)
             ->get(route('front.panel.accounts.show', $bannedPlayerAccount))
             ->assertOk()
-            ->assertSee('No alias');
+            ->assertSee('No Alias');
     }
 }
