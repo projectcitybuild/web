@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Dashboard Template · Bootstrap v5.0</title>
+    <title>Staff Panel - @yield('title')</title>
 
 
     <!-- Bootstrap core CSS -->
