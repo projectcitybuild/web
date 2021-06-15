@@ -42,7 +42,7 @@
 <nav class="navbar">
     <div class="container">
         <ul>
-            <li><img src="assets/images/logo.png" /></li>
+            <li class="logo"><img src="assets/images/logo.png" /></li>
             <li><a href="{{ route('front.home') }}">Home</a></li>
             <li><a href="https://forums.projectcitybuild.com/">Forums</a></li>
             <li>
@@ -82,15 +82,14 @@
                 <a href="#" class="nav-dropdown">Community <i class="fas fa-caret-down"></i></a>
                 <ul>
                     <li><a href="https://forums.projectcitybuild.com/t/banned-read-me/12145">Appeal a Ban</a></li>
-                    <li><a href="https://forums.projectcitybuild.com/c/support/grief-player-reports">Report a Player</a>
-                    </li>
+                    <li><a href="https://forums.projectcitybuild.com/c/support/grief-player-reports">Report a Player</a></li>
                     <li class="divider"><a href="https://goo.gl/forms/UodUsKQBZJdCzNWk1">Apply for Staff</a></li>
-                    <li class="divider"><a href="{{ route('front.donate') }}">Donate</a></li>
-                    <li><a href="https://wiki.projectcitybuild.com/" target="_blank" rel="noopener">Community Wiki</a>
-                    </li>
+                    <li class="divider"><a href="https://wiki.projectcitybuild.com/" target="_blank" rel="noopener">Community Wiki</a></li>
+                    <li><a href="{{ route('front.banlist') }}">Ban List</a></li>
                 </ul>
             </li>
-            <li><a href="{{ route('front.banlist') }}">Ban List</a></li>
+            <li><a href="#">Media</a></li>
+            <li><a href="{{ route('front.donate') }}">Donate</a></li>
         </ul>
 
         <ul>
@@ -109,7 +108,7 @@
                     </ul>
                 </li>
             @else
-                <li><a href="{{ route('front.register') }}">Create an Account</a></li>
+                <li><a href="{{ route('front.register') }}">Join Us</a></li>
                 <li><a href="{{ route('front.login') }}">Sign In</a></li>
             @endif
         </ul>
@@ -126,7 +125,7 @@
                     community of creative players and city builders
                 </div>
 
-                <a href="#" class="button outlined">
+                <a href="{{ route('front.register') }}" class="button outlined">
                     <i class="fas fa-mouse-pointer"></i>
                     Join Now
                 </a>
@@ -146,7 +145,6 @@
                 </div>
                 <div class="server-feed__server online discord">
                     <span class="server-feed__title"><i class="fab fa-discord"></i> Discord</span>
-                    <span class="server-feed__player-count"><i class="fas fa-user"></i> 45/596</span>
                     <span class="server-feed__address">
                         <a href="https://discord.gg/3NYaUeScDX" target="_blank">Connect / Open</a>
                     </span>
@@ -173,6 +171,8 @@
 
                 <div class="introduction__content">
                     <div class="introduction__text">
+                        We're a Minecraft community that has been around since 2010.<p />
+
                         With our free-build Creative and Survival multiplayer maps, we offer a fun platform & building experience like no other. You can visit and build in established towns & cities or start your own.
                     </div>
 
@@ -192,7 +192,7 @@
             <div class="server-overview__server">
                 <div class="server-image"></div>
                 <div class="server-text">
-                    <h1>Survival</h1>
+                    <h1>Creative</h1>
 
                     <div class="server-text__desc">
                         Some text about this particular world can go here blah blah blah. Some text about this particular world can go here blah blah blah.
@@ -212,7 +212,7 @@
 
             <div class="server-overview__server right">
                 <div class="server-text">
-                    <h1>Creative</h1>
+                    <h1>Survival</h1>
 
                     <div class="server-text__desc">
                         Some text about this particular world can go here blah blah blah. Some text about this particular world can go here blah blah blah.
@@ -297,8 +297,18 @@
                         <div class="footer-links__category">
                             <h2>Social Media</h2>
                             <ul>
-                                <li><i class="fas fa-cube"></i> <a href="#">YouTube</a></li>
-                                <li><i class="fas fa-cube"></i> <a href="#">Instagram</a></li>
+                                <li><i class="fab fa-youtube"></i> <a href="https://www.youtube.com/user/PCBMinecraft" target="_blank">YouTube</a></li>
+                                <li><i class="fab fa-instagram"></i> <a href="https://www.instagram.com/projectcitybuild" target="_blank">Instagram</a></li>
+                                <li><i class="fab fa-steam"></i> <a href="https://steamcommunity.com/groups/ProjectCityBuild" target="_blank">Steam</a></li>
+                                <li><i class="fab fa-facebook-f"></i> <a href="https://www.facebook.com/ProjectCityBuild" target="_blank">Facebook</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-links__category">
+                            <h2>Legal</h2>
+                            <ul>
+                                <li><i class="fas fa-cube"></i> <a href="https://www.youtube.com/user/PCBMinecraft">Terms of Service</a></li>
+                                <li><i class="fas fa-cube"></i> <a href="https://www.instagram.com/projectcitybuild">Privacy Policy</a></li>
                             </ul>
                         </div>
                     </div>
@@ -316,7 +326,7 @@
                         </div>
 
                         <a class="donate-button" href="#">
-                            <i class="fas fa-coins"></i>
+                            <i class="fas fa-dollar-sign"></i>
                             Donate
                         </a>
                     </div>

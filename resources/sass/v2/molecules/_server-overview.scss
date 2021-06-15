@@ -5,18 +5,9 @@
         align-items: center;
         background: #F3F3F3;
 
-        @media screen and (max-width: 1024px) {
-            flex-direction: column;
-        }
-
         .server-text {
             width: 50%;
             padding: 5em;
-
-            @media screen and (max-width: 1024px) {
-                width: 100%;
-                text-align: center;
-            }
 
             h1 {
                 color: $color-heading-primary;
@@ -59,23 +50,39 @@
             background-size: cover;
             background-image: url('/assets/images/gallery1.png');
             min-height: 500px;
-
-            @media screen and (max-width: 1024px) {
-                width: 100%;
-                min-height: 400px;
-            }
         }
     }
 
     &__server.right {
         text-align: right;
 
-        @media screen and (max-width: 1024px) {
-            flex-direction: column-reverse;
-        }
-
         .server-text__links ul {
             justify-content: end;
+        }
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .server-overview__server {
+        flex-direction: column;
+
+        .server-text {
+            width: 100%;
+            text-align: center;
+        }
+        .server-image {
+            width: 100%;
+            min-height: 400px;
+        }
+        .server-text__links ul {
+            justify-content: center;
+        }
+    }
+    .server-overview__server.right {
+        flex-direction: column-reverse;
+
+        .server-text__links ul {
+            justify-content: center;
         }
     }
 }

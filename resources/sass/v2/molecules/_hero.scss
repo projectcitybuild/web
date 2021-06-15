@@ -7,7 +7,7 @@
     background-repeat: no-repeat;
 
     .container {
-        padding: 10em 12em 6em 12em;
+        padding: 8em 12em 6em 12em;
         display: grid;
         grid-template-columns: 35% auto;
         grid-template-rows: auto;
@@ -86,12 +86,15 @@
 
 @media screen and (max-width: 750px) {
     .hero .container {
-        padding: 4em;
+        padding: 8em 4em;
     }
     .hero h1 {
         font-size: 4em;
     }
     .hero .subtitle {
         font-size: 1em;
+    }
+    .hero .button {
+        width: 100%;
     }
 }

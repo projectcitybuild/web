@@ -75,6 +75,7 @@
     }
 
     .donate-button {
+        display: inline-flex;
         background: #FF842A;
         font-family: $font-header;
         font-size: 2em;
@@ -86,10 +87,29 @@
         padding: 0.4em 4.5em;
         box-shadow: 0 4px 4px hsla(0, 0, 0, 25%),
                     inset 0 -4px 0 hsla(0, 0, 0, 25%);
-        display: flex;
 
-        .fa-coins {
+        .fa-dollar-sign {
             margin-right: 0.25em;
         }
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .footer-donations > .container {
+        flex-direction: column;
+    }
+
+    .footer-donations__left {
+        text-align: center;
+        margin-right: 0;
+    }
+
+    .footer-donations__right {
+        margin-top: 3em;
+    }
+
+    .footer-donations table {
+        margin: 0 auto;
+        display: block;
     }
 }

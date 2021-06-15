@@ -34,11 +34,12 @@ $nav-secondary-color: $color-primary;
 
     .container > ul {
         display: flex;
+        align-items: stretch;
 
         & > li {
             border-right: 1px solid $border-color;
 
-            &:first-child {
+            &:not(.logo):first-child {
                 border-left: 1px solid $border-color;
             }
         }
@@ -57,7 +58,7 @@ $nav-secondary-color: $color-primary;
             }
         }
 
-        & > li:hover {
+        & > li:not(.logo):hover {
             background-color: lighten($nav-color, 5%);
 
             & ul {
