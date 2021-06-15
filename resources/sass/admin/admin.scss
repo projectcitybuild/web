@@ -112,6 +112,27 @@ td.actions {
     }
 
     a:last-of-type {
-        margin-right: 0px;
+        margin-right: 0;
+    }
+}
+
+dl.kv {
+    margin-bottom: 0;
+
+    .row {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+
+    .row:nth-of-type(even) {
+        background-color: rgba($black, $table-striped-bg-factor);
+    }
+
+    dt {
+        padding-left: 1rem;
+    }
+
+    dd {
+        margin-bottom: 0;
     }
 }
