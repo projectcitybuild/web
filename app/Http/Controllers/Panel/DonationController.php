@@ -16,9 +16,15 @@ class DonationController extends WebController
      */
     public function index(Request $request)
     {
-        $donations = Donation::with('account')->orderBy('created_at', 'desc')->paginate(100);
+        $donations = Donation::with('account', 'perks')->orderBy('created_at', 'desc')->paginate(100);
 
-        return view('front.pages.panel.donations.index')->with(compact('donations'));
+        return view('admin.donation.index')->with(compact('donations'));
+    }
+
+    public function show(Donation $donation)
+    {
+        $donation->load('perks', 'perks.account');
+        return view('admin.donation.show')->with(compact('donation'));
     }
 
     /**

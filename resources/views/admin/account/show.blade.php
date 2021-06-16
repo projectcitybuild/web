@@ -182,7 +182,7 @@
                     <thead>
                     <tr>
                         <th>Active</th>
-                        <th>Donation ID</th>
+                        <th>Donation</th>
                         <th>Starts at</th>
                         <th>Ends at</th>
                         <th>Lifetime?</th>
@@ -193,7 +193,11 @@
                     @forelse($account->donationPerks as $perk)
                         <tr>
                             <td>{{ $perk->is_active ? 'Yes' : 'No' }}</td>
-                            <td><a href="{{ route('front.panel.donations.edit', $perk->donation_id) }}">{{ $perk->donation_id }}</a></td>
+                            <td>
+                                <a href="{{ route('front.panel.donations.show', $perk->donation_id) }}#perk-{{ $perk->donation_perks_id  }}">
+                                    #{{ $perk->donation_id }}
+                                </a>
+                            </td>
                             <td>{{ $perk->created_at }}</td>
                             <td>{{ $perk->expires_at }}</td>
                             <td>{{ $perk->is_lifetime_perks ? 'Yes' : 'No' }}</td>
