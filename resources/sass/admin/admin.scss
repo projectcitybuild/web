@@ -107,12 +107,12 @@ body {
 }
 
 td.actions {
-    a {
+    > * {
         margin-right: 5px;
-    }
 
-    a:last-of-type {
-        margin-right: 0;
+        &:last-child {
+            margin-right: 0;
+        }
     }
 }
 
@@ -134,5 +134,11 @@ dl.kv {
 
     dd {
         margin-bottom: 0;
+    }
+}
+
+.highlight-linked {
+    :target {
+        background-color: shift-color($warning, -80%);
     }
 }
