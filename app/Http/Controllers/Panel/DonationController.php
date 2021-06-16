@@ -24,6 +24,7 @@ class DonationController extends WebController
     public function show(Donation $donation)
     {
         $donation->load('perks', 'perks.account');
+
         return view('admin.donation.show')->with(compact('donation'));
     }
 
