@@ -2,6 +2,12 @@
 
 @section('title', 'Donations')
 
+@section('toolbar')
+    <div class="btn-group btn-group-sm" role="group">
+        <a href="{{ route('front.panel.donations.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
+    </div>
+@endsection
+
 @section('body')
     <div class="table-responsive">
         <table class="table table-striped">
