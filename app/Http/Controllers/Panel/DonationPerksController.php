@@ -10,18 +10,6 @@ use Illuminate\Support\Facades\Validator;
 class DonationPerksController extends WebController
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $perks = DonationPerk::with(['account', 'donation'])->orderBy('created_at', 'desc')->paginate(100);
-
-        return view('front.pages.panel.donation-perks.index')->with(compact('perks'));
-    }
-
-    /**
      * Show the form for creating the specified resource.
      *
      * @return \Illuminate\Http\Response
