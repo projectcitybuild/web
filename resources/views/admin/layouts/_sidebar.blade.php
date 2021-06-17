@@ -37,12 +37,6 @@
                     Donations
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('front.panel.donation-perks.index') }}">
-                    <i class="fas fa-star"></i>
-                    Donation Perks
-                </a>
-            </li>
         </ul>
     </div>
 </nav>
