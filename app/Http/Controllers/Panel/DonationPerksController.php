@@ -91,7 +91,7 @@ class DonationPerksController extends WebController
      */
     public function edit(DonationPerk $donationPerk)
     {
-        return view('front.pages.panel.donation-perks.edit')->with(['perk' => $donationPerk]);
+        return view('admin.donation-perk.edit')->with(['perk' => $donationPerk]);
     }
 
     /**
