@@ -28,7 +28,9 @@ class DonationPerksController extends WebController
      */
     public function create(Request $request)
     {
-        return view('front.pages.panel.donation-perks.create');
+        $perk = new DonationPerk();
+
+        return view('admin.donation-perk.create')->with(compact('perk'));
     }
 
     /**
