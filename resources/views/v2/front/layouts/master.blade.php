@@ -47,7 +47,9 @@
 <nav class="navbar">
     <div class="container">
         <ul>
-            <li class="logo"><img src="assets/images/logo.png" /></li>
+            <li class="logo">
+                <img src="assets/images/logo.png" />
+            </li>
             <li><a href="{{ route('front.home') }}">Home</a></li>
             <li><a href="https://forums.projectcitybuild.com/">Forums</a></li>
             <li>
