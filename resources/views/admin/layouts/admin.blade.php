@@ -12,6 +12,8 @@
     <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/solid.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/fontawesome.js"></script>
 
+    <script defer src="{{ mix('assets/js/manifest.js') }}"></script>
+    <script defer src="{{ mix('assets/admin/js/admin-vendor.js') }}"></script>
     <script defer src="{{ mix('assets/admin/js/admin.js') }}"></script>
 </head>
 <body>
