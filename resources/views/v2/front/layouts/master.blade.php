@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{{ mix('assets/css/app-v2.css') }}">
     <link rel="icon" type="type/x-icon" href="{{ asset('assets/favicon.ico') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/g1OfIGT.png"/>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/brands.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/solid.js"></script>
@@ -36,6 +37,10 @@
     <script defer src="{{ mix('assets/js/app.js') }}"></script>
 
     @stack('head')
+
+    <script>
+        AOS.init();
+    </script>
 </head>
 <body>
 
@@ -112,20 +117,19 @@
     <header class="hero">
         <div class="container">
             <div class="hero__cta">
-                <h1>We Build Stuff.<br />Come Join Us!</h1>
-                <div class="subtitle">
+                <h1 data-aos="fade-up" data-aos-duration="750">We Build Stuff.<br />Come Join Us!</h1>
+                <div class="subtitle" data-aos="fade-left" data-aos-delay="150" data-aos-duration="750">
                     One of the world's longest-running Minecraft servers; we're a <br />
                     community of creative players and city builders
                 </div>
 
-                <a href="{{ route('front.register') }}" class="button outlined">
+                <a href="{{ route('front.register') }}" class="button outlined" data-aos="fade-left" data-aos-delay="350" data-aos-duration="750">
                     <i class="fas fa-mouse-pointer"></i>
                     Join Now
                 </a>
             </div>
 
             <div class="hero__server-feed">
-
                 @foreach($servers as $server)
                     <div class="server-feed__server {{ $server->isOnline() ? 'online' : 'offline' }}">
                         <span class="server-feed__title">{{ $server->name }}</span>
@@ -366,6 +370,11 @@
         </footer>
     </main>
 </div>
+
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
 
 </body>
 </html>

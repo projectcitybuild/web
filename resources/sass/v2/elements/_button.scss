@@ -18,6 +18,11 @@
         width: 0.45em;
         margin-right: 0.1em;
     }
+
+    &:hover {
+        color: darken($color-button-accent, 5%);
+        border-color: darken($color-button-accent, 5%);
+    }
 }
 
 a.button {
