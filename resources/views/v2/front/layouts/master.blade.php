@@ -316,7 +316,7 @@
                             Donators receive perks such as flying, colored names and <a href="#">much more</a>
                         </div>
 
-                        <a class="donate-button" href="#">
+                        <a class="donate-button" href="{{ route('front.donate') }}">
                             <i class="fas fa-dollar-sign"></i>
                             Donate
                         </a>
@@ -325,7 +325,9 @@
                     <div class="footer-donations__right">
                         <div class="donation-bar">
                             <div class="donation-bar__outer">
-                                <div class="donation-bar__inner" style="width: 30%">$305</div>
+                                <div class="donation-bar__inner" style="width: {{ $donations['percentage'] }}%; min-width: 75px">
+                                    ${{ number_format($donations['raised_this_year'], 2) }}
+                                </div>
                             </div>
                             <ul class="donation-bar__indicators">
                                 <li>$0</li>
@@ -341,15 +343,15 @@
                         <table class="donation-stats">
                             <tr>
                                 <th>Days Remaining</th>
-                                <td>310</td>
+                                <td>{{ $donations['remaining_days'] }}</td>
                             </tr>
                             <tr>
                                 <th>Funds Still Needed</th>
-                                <td>$690</td>
+                                <td>${{ number_format($donations['still_required'], 2) }}</td>
                             </tr>
                             <tr>
                                 <th>Raised Last Year</th>
-                                <td>$983.5</td>
+                                <td>${{ number_format($donations['raised_last_year'], 2) }}</td>
                             </tr>
                         </table>
                     </div>
