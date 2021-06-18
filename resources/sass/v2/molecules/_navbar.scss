@@ -26,10 +26,6 @@ $nav-secondary-color: $color-primary;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        padding: 0 12em;
-
-        max-width: 1600px;
-        margin: auto;
     }
 
     .container > ul {
@@ -111,4 +107,14 @@ $nav-secondary-color: $color-primary;
             }
         }
     }
+}
+
+@media screen and (max-width: 1200px) {
+    .navbar .container > ul a {
+        padding: 1em 1em;
+    }
+}
+@media screen and (max-width: 750px) {
+}
+@media screen and (max-width: 550px) {
 }
