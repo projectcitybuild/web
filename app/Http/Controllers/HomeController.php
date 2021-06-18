@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Accounts\Models\Account;
 use App\Entities\Donations\Models\Donation;
-use App\Entities\Players\Models\MinecraftPlayer;
 use App\Http\WebController;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -25,6 +23,7 @@ final class HomeController extends WebController
 
         $totalDonationsLastYear = Cache::remember('donations.raised_last_year', 15, function () use ($now) {
             $lastYear = $now->subYear()->year;
+
             return Donation::whereYear('created_at', $lastYear)->sum('amount');
         });
 
