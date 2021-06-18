@@ -26,12 +26,22 @@
         font-size: 1.1em;
         font-weight: bold;
         color: #fff;
+
+        &.defocussed {
+            font-weight: normal;
+            color: #999999;
+        }
     }
 
     &__view-more {
         flex-grow: 0;
         color: hsl(0, 0, 78);
         font-size: 0.8em;
+    }
+
+    &__spinner {
+        flex-grow: 1;
+        flex-shrink: 0;
     }
 }
 

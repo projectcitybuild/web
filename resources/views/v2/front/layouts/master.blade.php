@@ -151,16 +151,7 @@
     </header>
 
     <main>
-        <section class="news-bar">
-            <div class="container">
-                <span class="news-bar__date">
-                    <i class="fas fa-calendar-day"></i> Jan 1st, 2020
-                </span>
-
-                <a class="news-bar__title" href="#">Announcement post title will go here</a>
-                <a class="news-bar__view-more" href="#"><i class="fas fa-chevron-right"></i> All Announcements</a>
-            </div>
-        </section>
+        <news-bar></news-bar>
 
         <section class="introduction">
             <div class="container">
