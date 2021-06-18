@@ -19,10 +19,10 @@ class AccountController extends WebController
     {
         if ($request->has('query') && $request->input('query') !== '') {
             $query = $request->input('query');
-            $accounts = Account::search($query)->paginate(100);
+            $accounts = Account::search($query)->paginate(50);
         } else {
             $query = '';
-            $accounts = Account::paginate(20);
+            $accounts = Account::paginate(50);
         }
 
         return view('admin.account.index')->with(compact('accounts', 'query'));
