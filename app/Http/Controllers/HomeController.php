@@ -6,7 +6,6 @@ use App\Entities\Donations\Models\Donation;
 use App\Entities\Servers\Models\Server;
 use App\Http\WebController;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
 
 final class HomeController extends WebController
 {
