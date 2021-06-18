@@ -169,14 +169,18 @@
                         With our free-build Creative and Survival multiplayer maps, we offer a fun platform & building experience like no other. You can visit and build in established towns & cities or start your own.
                     </div>
 
-                    <ul class="introduction__points fa-ul">
-                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Free-build maps</li>
-                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Grief protection</li>
-                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Friendly community</li>
-                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Earn trust based perks</li>
-                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Helpful staff</li>
-                        <li><span class="fa-li"><i class="fas fa-cube"></i></span> Events and competitions</li>
-                    </ul>
+                    <div class="introduction__points">
+                        <ul>
+                            <li><i class="fas fa-cube"></i> Free-build maps</li>
+                            <li><i class="fas fa-cube"></i> Grief protection</li>
+                            <li><i class="fas fa-cube"></i> Friendly community</li>
+                        </ul>
+                        <ul>
+                            <li><i class="fas fa-cube"></i> Earn trust based perks</li>
+                            <li><i class="fas fa-cube"></i> Helpful staff</li>
+                            <li><i class="fas fa-cube"></i> Events and competitions</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>

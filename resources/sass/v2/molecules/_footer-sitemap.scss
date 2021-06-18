@@ -44,4 +44,10 @@
             padding-right: 3em;
         }
     }
+
+    @media screen and (max-width: 1024px) {
+        .footer-links {
+            flex-wrap: wrap;
+        }
+    }
 }

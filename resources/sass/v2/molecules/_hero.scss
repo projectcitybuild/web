@@ -56,6 +56,9 @@
 
 @media screen and (max-width: 1300px) {
     .hero .container {
+        padding: 8em 5em 5em 5em;
+    }
+    .hero .container {
         grid-template-columns: 50% auto;
         column-gap: 4em;
     }
@@ -71,10 +74,7 @@
     }
 }
 
-@media screen and (max-width: 1024px) {
-    .hero .container {
-        padding: 8em 5em 5em 5em;
-    }
+@media screen and (max-width: 750px) {
     .hero__cta {
         text-align: center;
     }
@@ -82,9 +82,6 @@
         grid-column-start: 1;
         grid-column-end: span 2;
     }
-}
-
-@media screen and (max-width: 750px) {
     .hero .container {
         padding: 8em 4em;
     }
