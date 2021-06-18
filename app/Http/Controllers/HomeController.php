@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Accounts\Models\Account;
 use App\Entities\Donations\Models\Donation;
-use App\Entities\Players\Models\MinecraftPlayer;
 use App\Entities\Servers\Models\Server;
 use App\Http\WebController;
 use Carbon\Carbon;
