@@ -56,8 +56,10 @@
     .news-bar .container {
         flex-wrap: wrap;
     }
-    .news-bar *:not(:first-child) {
-        width: 100%;
+    .news-bar {
+        &__date, &__title, &__view-more {
+            width: 100%;
+        }
     }
     .news-bar__title {
         margin-top: 0.5em;

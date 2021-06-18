@@ -57,7 +57,7 @@ export default Vue.extend({
     },
 
     created() {
-        this.fetchAnnouncements()
+        // this.fetchAnnouncements()
     },
 
     methods: {

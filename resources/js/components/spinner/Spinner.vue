@@ -3,17 +3,21 @@
         From SpinKit: https://tobiasahlin.com/spinkit/
     */
     .spinner {
+        flex-grow: 0;
         height: 20px; /* Remove this hardcodings later if needed */
-        width: 50px; /* Remove this hardcodings later if needed */
         text-align: center;
         font-size: 10px;
+        display: flex;
+    }
+
+    .spinner > div:not(:last-child) {
+        margin-right: 1px;
     }
 
     .spinner > div {
         background-color: #606060; /* Remove this hardcodings later if needed */
         height: 100%;
         width: 6px;
-        display: inline-block;
 
         -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
         animation: sk-stretchdelay 1.2s infinite ease-in-out;
@@ -48,10 +52,11 @@
         0%, 40%, 100% {
             transform: scaleY(0.4);
             -webkit-transform: scaleY(0.4);
-        }  20% {
-               transform: scaleY(1.0);
-               -webkit-transform: scaleY(1.0);
-           }
+        }
+        20% {
+            transform: scaleY(1.0);
+            -webkit-transform: scaleY(1.0);
+        }
     }
 </style>
 
