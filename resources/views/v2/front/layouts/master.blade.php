@@ -196,7 +196,7 @@
                     <h1>Creative</h1>
 
                     <div class="server-text__desc">
-                        Some text about this particular world can go here blah blah blah. Some text about this particular world can go here blah blah blah.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut lorem gravida, sollicitudin mi nec, posuere magna. Suspendisse ac ornare magna, eget tristique mauris. Aenean porta, nibh condimentum pulvinar porta, nunc tortor volutpat tortor, sed tempor nisl est eu enim. Vivamus tincidunt consectetur ante at efficitur.
                     </div>
                     <div class="server-text__links">
                         <ul>
@@ -216,7 +216,7 @@
                     <h1>Survival</h1>
 
                     <div class="server-text__desc">
-                        Some text about this particular world can go here blah blah blah. Some text about this particular world can go here blah blah blah.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut lorem gravida, sollicitudin mi nec, posuere magna. Suspendisse ac ornare magna, eget tristique mauris. Aenean porta, nibh condimentum pulvinar porta, nunc tortor volutpat tortor, sed tempor nisl est eu enim. Vivamus tincidunt consectetur ante at efficitur.
                     </div>
                     <div class="server-text__links">
                         <ul>
@@ -238,7 +238,7 @@
                     <h1>Monarch</h1>
 
                     <div class="server-text__desc">
-                        Some text about this particular world can go here blah blah blah. Some text about this particular world can go here blah blah blah.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut lorem gravida, sollicitudin mi nec, posuere magna. Suspendisse ac ornare magna, eget tristique mauris. Aenean porta, nibh condimentum pulvinar porta, nunc tortor volutpat tortor, sed tempor nisl est eu enim. Vivamus tincidunt consectetur ante at efficitur.
                     </div>
                     <div class="server-text__links">
                         <ul>
@@ -258,7 +258,7 @@
                     <h1>Arcade</h1>
 
                     <div class="server-text__desc">
-                        Some text about this particular world can go here blah blah blah. Some text about this particular world can go here blah blah blah.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut lorem gravida, sollicitudin mi nec, posuere magna. Suspendisse ac ornare magna, eget tristique mauris. Aenean porta, nibh condimentum pulvinar porta, nunc tortor volutpat tortor, sed tempor nisl est eu enim. Vivamus tincidunt consectetur ante at efficitur.
                     </div>
                     <div class="server-text__links">
                         <ul>

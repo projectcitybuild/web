@@ -1,8 +1,6 @@
 .news-bar {
     background: hsl(240, 2, 24);
     padding: 1em;
-    position: sticky;
-    top: 40px;
 
     a:link, a:visited {
         color: #fff;
@@ -34,5 +32,27 @@
         flex-grow: 0;
         color: hsl(0, 0, 78);
         font-size: 0.8em;
+    }
+}
+
+@media screen and (min-width: 750px) {
+    .news-bar {
+        position: sticky;
+        top: 40px;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .news-bar .container {
+        flex-wrap: wrap;
+    }
+    .news-bar *:not(:first-child) {
+        width: 100%;
+    }
+    .news-bar__title {
+        margin-top: 0.5em;
+    }
+    .news-bar__view-more {
+        margin-top: 1em;
     }
 }
