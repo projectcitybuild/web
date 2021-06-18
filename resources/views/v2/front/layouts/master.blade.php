@@ -69,13 +69,6 @@
                                     Guide</a></li>
                         </ul>
                     </li>
-                    <li>
-                        <h5>Terraria</h5>
-                        <ul>
-                            <li><a href="#">Rules & Guidelines</a></li>
-                            <li><a href="#">Installation Guide</a></li>
-                        </ul>
-                    </li>
                 </ul>
             </li>
             <li>
@@ -132,17 +125,17 @@
             </div>
 
             <div class="hero__server-feed">
-                <div class="server-feed__server online">
-                    <span class="server-feed__title">Minecraft (Java)</span>
-                    <span class="server-feed__player-count"><i class="fas fa-user"></i> 10/80</span>
-                    <span class="server-feed__address"><a href="#"><i class="fas fa-copy"></i> pcbmc.co</a></span>
-                </div>
-                <div class="server-feed__server offline">
-                    <span class="server-feed__title">Feed The Beast</span>
-                    <span class="server-feed__address">
-                        <a href="#"><i class="fas fa-copy"></i> 51.254.81.134</a>
-                    </span>
-                </div>
+
+                @foreach($servers as $server)
+                    <div class="server-feed__server {{ $server->isOnline() ? 'online' : 'offline' }}">
+                        <span class="server-feed__title">{{ $server->name }}</span>
+                        @if($server->isOnline())
+                        <span class="server-feed__player-count"><i class="fas fa-user"></i> {{ $server->status->num_of_players . '/' . $server->status->num_of_slots }}</span>
+                        @endif
+                        <span class="server-feed__address"><a href="#"><i class="fas fa-copy"></i> {{ $server->ip_alias ?: $server->getAddress() }}</a></span>
+                    </div>
+                @endforeach
+
                 <div class="server-feed__server online discord">
                     <span class="server-feed__title"><i class="fab fa-discord"></i> Discord</span>
                     <span class="server-feed__address">
@@ -280,8 +273,8 @@
                         <div class="footer-links__category">
                             <h2>Server</h2>
                             <ul>
-                                <li><i class="fas fa-cube"></i> <a href="#">Rules & Guidelines</a></li>
-                                <li><i class="fas fa-cube"></i> <a href="#">Ranks</a></li>
+                                <li><i class="fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/pcb-community-rules/22928">Rules & Guidelines</a></li>
+                                <li><i class="fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/pcb-ranks/32812">Ranks</a></li>
                                 <li><i class="fas fa-cube"></i> <a href="#">Commands</a></li>
                             </ul>
                         </div>
@@ -289,8 +282,8 @@
                         <div class="footer-links__category">
                             <h2>Community</h2>
                             <ul>
-                                <li><i class="fas fa-cube"></i> <a href="#">Community Wiki</a></li>
-                                <li><i class="fas fa-cube"></i> <a href="#">Vote For Our Server</a></li>
+                                <li><i class="fas fa-cube"></i> <a href="{{ route('wiki') }}">Community Wiki</a></li>
+                                <li><i class="fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/vote-for-our-server/18568">Vote For Our Server</a></li>
                             </ul>
                         </div>
 
