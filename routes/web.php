@@ -253,7 +253,7 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
     Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
         Route::get('accounts', [
             'as' => 'account-search',
-            'uses' => 'Api\\AccountSearchController'
+            'uses' => 'Api\\AccountSearchController',
         ]);
     });
 
