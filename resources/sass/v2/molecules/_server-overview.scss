@@ -2,7 +2,7 @@
 
     &__server {
         display: flex;
-        align-items: center;
+        align-items: stretch;
         background: #F3F3F3;
 
         .server-text {
@@ -49,6 +49,7 @@
             background: #d9d9d9;
             background-size: cover;
             min-height: 500px;
+            flex-grow: 1;
 
             &.creative {
                 background-image: url('/assets/images/gallery1.png');
@@ -77,11 +78,20 @@
 
 @media screen and (max-width: 1024px) {
     .server-overview__server {
+        .server-text {
+            padding: 3em;
+        }
+    }
+}
+@media screen and (max-width: 768px) {
+    .server-overview__server {
         flex-direction: column;
 
         .server-text {
             width: 100%;
             text-align: center;
+            padding-left: 2em;
+            padding-right: 2em;
         }
         .server-image {
             width: 100%;

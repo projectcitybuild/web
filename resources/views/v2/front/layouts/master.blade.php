@@ -46,10 +46,10 @@
 
 <nav class="navbar">
     <div class="container">
-        <ul>
-            <li class="logo">
-                <img src="assets/images/logo.png" />
-            </li>
+        <div class="logo">
+            <img src="assets/images/logo.png" />
+        </div>
+        <ul class="nav-links">
             <li><a href="{{ route('front.home') }}">Home</a></li>
             <li><a href="https://forums.projectcitybuild.com/">Forums</a></li>
             <li>
@@ -58,8 +58,7 @@
                     <li>
                         <h5>Minecraft</h5>
                         <ul>
-                            <li><a href="https://forums.projectcitybuild.com/t/pcb-community-rules/22928">Rules &
-                                    Guidelines</a></li>
+                            <li><a href="https://forums.projectcitybuild.com/t/pcb-community-rules/22928">Rules & Guidelines</a></li>
                             <li><a href="https://forums.projectcitybuild.com/t/pcb-ranks/32812">Ranks</a></li>
                             <li><a href="https://wiki.projectcitybuild.com/wiki/List_of_Staff_Members">Staff</a></li>
                             <li><a href="http://pcbmc.co:8123/" target="_blank">Real-Time Map</a></li>
@@ -69,11 +68,15 @@
                         <h5>Feed the Beast</h5>
                         <ul>
                             <li>
-                                <a href="https://forums.projectcitybuild.com/t/modded-is-back-with-our-custom-false-hope-pack/34989/3">Rules
-                                    & Guidelines</a></li>
+                                <a href="https://forums.projectcitybuild.com/t/modded-is-back-with-our-custom-false-hope-pack/34989/3">
+                                    Rules & Guidelines
+                                </a>
+                            </li>
                             <li>
-                                <a href="https://forums.projectcitybuild.com/t/modded-is-back-with-our-custom-false-hope-pack/34989/2">Installation
-                                    Guide</a></li>
+                                <a href="https://forums.projectcitybuild.com/t/modded-is-back-with-our-custom-false-hope-pack/34989/2">
+                                    Installation Guide
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -90,9 +93,9 @@
             </li>
             <li><a href="#">Media</a></li>
             <li><a href="{{ route('front.donate') }}">Donate</a></li>
-        </ul>
 
-        <ul>
+            <li class="spacer"></li>
+
             @if(Auth::check())
                 <li>
                     <a href="#" class="nav-dropdown">Account <i class="fas fa-caret-down"></i></a>
@@ -112,6 +115,12 @@
                 <li><a href="{{ route('front.login') }}">Sign In</a></li>
             @endif
         </ul>
+
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
     </div>
 </nav>
 
@@ -173,7 +182,7 @@
                             <li><i class="fas fa-cube"></i> Friendly community</li>
                         </ul>
                         <ul>
-                            <li><i class="fas fa-cube"></i> Earn trust based perks</li>
+                            <li><i class="fas fa-cube"></i> Earn trust & skill based perks</li>
                             <li><i class="fas fa-cube"></i> Helpful staff</li>
                             <li><i class="fas fa-cube"></i> Events and competitions</li>
                         </ul>
@@ -307,7 +316,7 @@
 
                         <div class="description">
                             Donations are the only way to keep our server running.<br />
-                            Donators receive perks such as flying, colored names and <a href="#">much more</a>
+                            Donators receive perks such as flying, colored names and <a href="{{ route('front.donate') }}">much more</a>
                         </div>
 
                         <a class="donate-button" href="{{ route('front.donate') }}">

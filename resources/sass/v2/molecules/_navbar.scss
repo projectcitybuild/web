@@ -25,12 +25,12 @@ $nav-secondary-color: $color-primary;
     .container {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
     }
 
-    .container > ul {
+    .nav-links {
         display: flex;
         align-items: stretch;
+        flex-grow: 1;
 
         & > li {
             border-right: 1px solid $border-color;
@@ -107,16 +107,94 @@ $nav-secondary-color: $color-primary;
             }
         }
     }
-}
 
-.logo {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    .spacer {
+        flex-grow: 1;
+        flex-shrink: 1;
+    }
+
+    .logo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        img {
+            // Subtract the padding baked into the image
+            margin-left: -11px;
+        }
+    }
+
+    .hamburger {
+        flex-direction: column;
+        justify-content: center;
+        cursor: pointer;
+        border-left: 1px solid darken($nav-color, 10%);
+        border-right: 1px solid darken($nav-color, 10%);
+        padding: 0.5em;
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 4px;
+            margin: 2px auto;
+            transition: all 0.3s ease-in-out;
+            background-color: #fff;
+        }
+
+        &.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        &.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        &.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+    }
 }
 
 @media screen and (max-width: 1200px) {
     .navbar .container > ul a {
         padding: 1em 1em;
+    }
+}
+
+@media screen and (min-width: 1025px) {
+    .navbar {
+        .hamburger {
+            display: none;
+        }
+    }
+}
+// Drawer for smaller devices
+@media screen and (max-width: 1024px) {
+    .navbar {
+        .hamburger {
+            display: flex;
+        }
+        .container {
+            justify-content: space-between;
+        }
+        .nav-links {
+            display: none;
+        }
+
+        .nav-links.active {
+            position: fixed;
+            left: 0;
+            top: 43px;
+            display: block;
+            background: darken($nav-color, 5%);
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+
+            & > li:not(:last-child) {
+                border-bottom: 1px solid darken($nav-color, 10%);
+            }
+        }
     }
 }
