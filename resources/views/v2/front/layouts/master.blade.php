@@ -177,14 +177,14 @@
 
                     <div class="introduction__points">
                         <ul>
-                            <li><i class="fas fa-cube"></i> Free-build maps</li>
-                            <li><i class="fas fa-cube"></i> Grief protection</li>
-                            <li><i class="fas fa-cube"></i> Friendly community</li>
+                            <li><i class="bullet fas fa-cube"></i> Free-build maps</li>
+                            <li><i class="bullet fas fa-cube"></i> Grief protection</li>
+                            <li><i class="bullet fas fa-cube"></i> Friendly community</li>
                         </ul>
                         <ul>
-                            <li><i class="fas fa-cube"></i> Earn trust & skill based perks</li>
-                            <li><i class="fas fa-cube"></i> Helpful staff</li>
-                            <li><i class="fas fa-cube"></i> Events and competitions</li>
+                            <li><i class="bullet fas fa-cube"></i> Earn trust & skill based perks</li>
+                            <li><i class="bullet fas fa-cube"></i> Helpful staff</li>
+                            <li><i class="bullet fas fa-cube"></i> Events and competitions</li>
                         </ul>
                     </div>
                 </div>
@@ -283,26 +283,26 @@
                         <div class="footer-links__category">
                             <h2>Server</h2>
                             <ul>
-                                <li><i class="fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/pcb-community-rules/22928">Rules & Guidelines</a></li>
-                                <li><i class="fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/pcb-ranks/32812">Ranks</a></li>
-                                <li><i class="fas fa-cube"></i> <a href="#">Commands</a></li>
+                                <li><i class="bullet fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/pcb-community-rules/22928">Rules & Guidelines</a></li>
+                                <li><i class="bullet fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/pcb-ranks/32812">Ranks</a></li>
+                                <li><i class="bullet fas fa-cube"></i> <a href="#">Commands</a></li>
                             </ul>
                         </div>
 
                         <div class="footer-links__category">
                             <h2>Community</h2>
                             <ul>
-                                <li><i class="fas fa-cube"></i> <a href="{{ route('wiki') }}">Community Wiki</a></li>
-                                <li><i class="fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/vote-for-our-server/18568">Vote For Our Server</a></li>
+                                <li><i class="bullet fas fa-cube"></i> <a href="{{ route('wiki') }}">Community Wiki</a></li>
+                                <li><i class="bullet fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/vote-for-our-server/18568">Vote For Our Server</a></li>
                             </ul>
                         </div>
 
                         <div class="footer-links__category">
                             <h2>Social Media</h2>
                             <ul>
-                                <li><i class="fab fa-youtube"></i> <a href="https://www.youtube.com/user/PCBMinecraft" target="_blank">YouTube</a></li>
-                                <li><i class="fab fa-instagram"></i> <a href="https://www.instagram.com/projectcitybuild" target="_blank">Instagram</a></li>
-                                <li><i class="fab fa-facebook-f"></i> <a href="https://www.facebook.com/ProjectCityBuild" target="_blank">Facebook</a></li>
+                                <li><i class="bullet fab fa-youtube"></i> <a href="https://www.youtube.com/user/PCBMinecraft" target="_blank">YouTube</a></li>
+                                <li><i class="bullet fab fa-instagram"></i> <a href="https://www.instagram.com/projectcitybuild" target="_blank">Instagram</a></li>
+                                <li><i class="bullet fab fa-facebook-f"></i> <a href="https://www.facebook.com/ProjectCityBuild" target="_blank">Facebook</a></li>
                             </ul>
                         </div>
                     </div>
