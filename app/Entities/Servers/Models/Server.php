@@ -41,8 +41,9 @@ final class Server extends Model
             return $this->ip_alias;
         }
         if ($this->port && $this->is_port_visible) {
-            return $this->ip . ':' . $this->port;
+            return $this->ip.':'.$this->port;
         }
+
         return $this->ip;
     }
 
