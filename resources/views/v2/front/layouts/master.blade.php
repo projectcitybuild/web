@@ -148,8 +148,8 @@
                         <span class="server-feed__player-count"><i class="fas fa-user"></i> {{ $server->status->num_of_players . '/' . $server->status->num_of_slots }}</span>
                         @endif
                         <span class="server-feed__address">
-                            <a href="javascript:void(0)" data-server-address="{{ $server->ip_alias ?: $server->getAddress() }}">
-                                <i class="fas fa-copy"></i> {{ $server->ip_alias ?: $server->getAddress() }}
+                            <a href="javascript:void(0)" data-server-address="{{ $server->address() }}">
+                                <i class="fas fa-copy"></i> {{ $server->address() }}
                             </a>
                         </span>
                     </div>
