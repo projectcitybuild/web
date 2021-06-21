@@ -61,7 +61,7 @@
                             <li><a href="https://forums.projectcitybuild.com/t/pcb-community-rules/22928">Rules & Guidelines</a></li>
                             <li><a href="https://forums.projectcitybuild.com/t/pcb-ranks/32812">Ranks</a></li>
                             <li><a href="https://wiki.projectcitybuild.com/wiki/List_of_Staff_Members">Staff</a></li>
-                            <li><a href="http://pcbmc.co:8123/" target="_blank">Real-Time Map</a></li>
+                            <li><a href="http://pcbmc.co:8123/" target="_blank" rel="noopener noreferrer">Real-Time Map</a></li>
                         </ul>
                     </li>
                     <li>
@@ -91,7 +91,7 @@
                     <li><a href="{{ route('front.banlist') }}">Ban List</a></li>
                 </ul>
             </li>
-            <li><a href="#">Media</a></li>
+            <li><a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer">Media</a></li>
             <li><a href="{{ route('front.donate') }}">Donate</a></li>
 
             <li class="spacer"></li>
@@ -158,7 +158,7 @@
                 <div class="server-feed__server online discord">
                     <span class="server-feed__title"><i class="fab fa-discord"></i> Discord</span>
                     <span class="server-feed__address">
-                        <a href="https://discord.gg/3NYaUeScDX" target="_blank">Connect / Open</a>
+                        <a href="https://discord.gg/3NYaUeScDX" target="_blank" rel="noopener noreferrer">Connect / Open</a>
                     </span>
                 </div>
             </div>
@@ -207,7 +207,7 @@
                     <div class="server-text__links">
                         <ul>
                             <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Read More</a>
+                                <a href="#"><i class="fas fa-chevron-right"></i> Gallery</a>
                             </li>
                             <li>
                                 <a href="#"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
@@ -227,7 +227,7 @@
                     <div class="server-text__links">
                         <ul>
                             <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Read More</a>
+                                <a href="#"><i class="fas fa-chevron-right"></i> Gallery</a>
                             </li>
                             <li>
                                 <a href="#"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
@@ -251,6 +251,9 @@
                         <ul>
                             <li>
                                 <a href="#"><i class="fas fa-chevron-right"></i> Apply to Build</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fas fa-chevron-right"></i> Gallery</a>
                             </li>
                             <li>
                                 <a href="#"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
@@ -305,9 +308,9 @@
                         <div class="footer-links__category">
                             <h2>Social Media</h2>
                             <ul>
-                                <li><i class="bullet fab fa-youtube"></i> <a href="https://www.youtube.com/user/PCBMinecraft" target="_blank">YouTube</a></li>
-                                <li><i class="bullet fab fa-instagram"></i> <a href="https://www.instagram.com/projectcitybuild" target="_blank">Instagram</a></li>
-                                <li><i class="bullet fab fa-facebook-f"></i> <a href="https://www.facebook.com/ProjectCityBuild" target="_blank">Facebook</a></li>
+                                <li><i class="bullet fab fa-youtube"></i> <a href="https://www.youtube.com/user/PCBMinecraft" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+                                <li><i class="bullet fab fa-instagram"></i> <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                                <li><i class="bullet fab fa-facebook-f"></i> <a href="https://www.facebook.com/ProjectCityBuild" target="_blank" rel="noopener noreferrer">Facebook</a></li>
                             </ul>
                         </div>
                     </div>
