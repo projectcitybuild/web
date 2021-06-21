@@ -52,11 +52,12 @@ $nav-secondary-color: $color-primary;
             &:active {
                 background: darken($nav-color, 10%);
             }
+            &:hover {
+                background-color: lighten($nav-color, 5%);
+            }
         }
 
-        & > li:not(.logo):hover {
-            background-color: lighten($nav-color, 5%);
-
+        & > li:hover {
             & ul {
                 display: inherit;
             }
@@ -178,14 +179,11 @@ $nav-secondary-color: $color-primary;
             justify-content: space-between;
         }
         .nav-links {
-            display: none;
-        }
-
-        .nav-links.active {
+            visibility: hidden;
             position: fixed;
+            display: block;
             left: 0;
             top: 43px;
-            display: block;
             background: darken($nav-color, 5%);
             width: 100%;
             margin: 0;
@@ -195,6 +193,10 @@ $nav-secondary-color: $color-primary;
             & > li:not(:last-child) {
                 border-bottom: 1px solid darken($nav-color, 10%);
             }
+        }
+        .nav-links.active {
+            visibility: visible;
+            transform: translateY(0);
         }
     }
 }

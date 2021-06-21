@@ -147,7 +147,11 @@
                         @if($server->isOnline())
                         <span class="server-feed__player-count"><i class="fas fa-user"></i> {{ $server->status->num_of_players . '/' . $server->status->num_of_slots }}</span>
                         @endif
-                        <span class="server-feed__address"><a href="#"><i class="fas fa-copy"></i> {{ $server->ip_alias ?: $server->getAddress() }}</a></span>
+                        <span class="server-feed__address">
+                            <a href="javascript:void(0)" data-server-address="{{ $server->ip_alias ?: $server->getAddress() }}">
+                                <i class="fas fa-copy"></i> {{ $server->ip_alias ?: $server->getAddress() }}
+                            </a>
+                        </span>
                     </div>
                 @endforeach
 
@@ -240,12 +244,13 @@
                     <h1>Monarch</h1>
 
                     <div class="server-text__desc">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut lorem gravida, sollicitudin mi nec, posuere magna. Suspendisse ac ornare magna, eget tristique mauris. Aenean porta, nibh condimentum pulvinar porta, nunc tortor volutpat tortor, sed tempor nisl est eu enim. Vivamus tincidunt consectetur ante at efficitur.
+                        Our premier city project, featuring builds at a realistic scale.
+                        Over 9 years in development, Monarch is open to viewing by all and open to building by trusted builders of our community who have applied.
                     </div>
                     <div class="server-text__links">
                         <ul>
                             <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Read More</a>
+                                <a href="#"><i class="fas fa-chevron-right"></i> Apply to Build</a>
                             </li>
                             <li>
                                 <a href="#"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
