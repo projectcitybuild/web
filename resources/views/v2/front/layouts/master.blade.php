@@ -37,10 +37,6 @@
     <script defer src="{{ mix('assets/js/app.js') }}"></script>
 
     @stack('head')
-
-    <script>
-        AOS.init();
-    </script>
 </head>
 <body>
 
@@ -169,7 +165,7 @@
         <news-bar></news-bar>
 
         <section class="introduction">
-            <div class="container">
+            <div class="container" data-aos="fade-up">
                 <h1>Minecraft 24/7</h1>
 
                 <div class="introduction__content">
@@ -197,8 +193,8 @@
 
         <section class="server-overview">
             <div class="server-overview__server">
-                <div class="server-image creative"></div>
-                <div class="server-text">
+                <div class="server-image creative" data-aos="fade-right"></div>
+                <div class="server-text" data-aos="fade-left">
                     <h1>Creative</h1>
 
                     <div class="server-text__desc">
@@ -218,7 +214,7 @@
             </div>
 
             <div class="server-overview__server right">
-                <div class="server-text">
+                <div class="server-text" data-aos="fade-right">
                     <h1>Survival</h1>
 
                     <div class="server-text__desc">
@@ -235,12 +231,12 @@
                         </ul>
                     </div>
                 </div>
-                <div class="server-image survival"></div>
+                <div class="server-image survival" data-aos="fade-left"></div>
             </div>
 
             <div class="server-overview__server">
-                <div class="server-image monarch"></div>
-                <div class="server-text">
+                <div class="server-image monarch" data-aos="fade-right"></div>
+                <div class="server-text" data-aos="fade-left">
                     <h1>Monarch</h1>
 
                     <div class="server-text__desc">
@@ -264,7 +260,7 @@
             </div>
 
             <div class="server-overview__server right">
-                <div class="server-text">
+                <div class="server-text" data-aos="fade-right">
                     <h1>Arcade</h1>
 
                     <div class="server-text__desc">
@@ -278,13 +274,13 @@
                         </ul>
                     </div>
                 </div>
-                <div class="server-image arcade"></div>
+                <div class="server-image arcade" data-aos="fade-left"></div>
             </div>
         </section>
 
         <footer>
             <section class="footer-sitemap">
-                <div class="container">
+                <div class="container" data-aos="fade-up">
                     <h1>Explore More</h1>
 
                     <div class="footer-links">
@@ -318,7 +314,7 @@
             </section>
 
             <section class="footer-donations">
-                <div class="container">
+                <div class="container" data-aos="fade-up">
                     <div class="footer-donations__left">
                         <h1>Help Keep Us Online</h1>
 
@@ -383,7 +379,9 @@
 
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 <script>
-    AOS.init();
+    AOS.init({
+        once: true,
+    });
 </script>
 
 </body>
