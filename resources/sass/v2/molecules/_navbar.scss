@@ -1,0 +1,219 @@
+$nav-color: $color-secondary;
+$nav-secondary-color: $color-primary;
+
+// Super hacky stuff in here. This will all be rewritten later...
+
+.navbar {
+    $border-color: darken($nav-color, 10%);
+
+    width: 100%;
+    position: fixed;
+    background: $nav-color;
+    border-bottom: 3px solid $border-color;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    // Collapse all menus by default
+    li > ul {
+        display: none;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: stretch;
+        flex-grow: 1;
+
+        & > li {
+            border-right: 1px solid $border-color;
+
+            &:not(.logo):first-child {
+                border-left: 1px solid $border-color;
+            }
+        }
+
+        a {
+            display: block;
+            font-size: 0.8em;
+            padding: 1em 1.5em;
+            text-decoration: none;
+            text-transform: uppercase;
+            color: #fff;
+
+            &:focus,
+            &:active {
+                background: darken($nav-color, 10%);
+            }
+            &:hover {
+                background-color: lighten($nav-color, 5%);
+            }
+        }
+
+        @media screen and (min-width: 1025px) {
+            & > li:hover {
+                & ul {
+                    display: inherit;
+                }
+                & ul.menu-sideway {
+                    display: flex;
+                }
+            }
+        }
+    }
+
+    // Drop-down menu
+    .container > ul > li > ul {
+        $border-color: lighten($nav-secondary-color, 45%);
+
+        background: #fff;
+        position: absolute;
+        border: 1px solid $border-color;
+        border-bottom-width: 3px;
+
+        .divider {
+            border-bottom: 1px solid $border-color;
+        }
+
+        a {
+            color: $nav-secondary-color;
+            padding: 1em 1.5em;
+
+            &:hover {
+                background-color: #f6f6f6;
+            }
+            &:focus,
+            &:active {
+                background-color: darken(#f6f6f6, 5%);
+            }
+        }
+
+        &.menu-sideway {
+            flex-direction: row;
+
+            & > li:not(:last-child) {
+                border-right: 1px solid $border-color;
+            }
+
+            h5 {
+                text-transform: uppercase;
+                padding: 1em 1.5em;
+                font-weight: 700;
+                margin: 0;
+            }
+        }
+    }
+
+    .spacer {
+        flex-grow: 1;
+        flex-shrink: 1;
+    }
+
+    .logo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        img {
+            // Subtract the padding baked into the image
+            margin-left: -11px;
+        }
+    }
+
+    .hamburger {
+        flex-direction: column;
+        justify-content: center;
+        cursor: pointer;
+        border-left: 1px solid darken($nav-color, 10%);
+        border-right: 1px solid darken($nav-color, 10%);
+        padding: 0.5em;
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 4px;
+            margin: 2px auto;
+            transition: all 0.3s ease-in-out;
+            background-color: #fff;
+        }
+
+        &.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        &.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        &.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .navbar .container > ul a {
+        padding: 1em 1em;
+    }
+}
+
+@media screen and (min-width: 1025px) {
+    .navbar {
+        .hamburger {
+            display: none;
+        }
+    }
+}
+// Drawer for smaller devices
+@media screen and (max-width: 1024px) {
+    .navbar {
+        .hamburger {
+            display: flex;
+        }
+        .container {
+            justify-content: space-between;
+        }
+        .nav-links {
+            visibility: hidden;
+            position: fixed;
+            display: block;
+            left: 0;
+            top: 43px;
+            background: darken($nav-color, 5%);
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+
+            & > li:not(:last-child) {
+                border-bottom: 1px solid darken($nav-color, 10%);
+            }
+        }
+        .nav-links.active {
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .nav-links > li > a:focus + ul {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+
+            & > li > ul {
+                display: flex;
+                flex-direction: column;
+            }
+            &.menu-sideway {
+                display: flex;
+            }
+        }
+    }
+}

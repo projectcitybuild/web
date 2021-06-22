@@ -1,0 +1,97 @@
+.hero {
+    width: 100%;
+    background-image: linear-gradient(to right, hsla(0, 0, 0, 0) 40%, hsla(0, 21%, 7%, 79%)),
+                      url('/assets/images/hero-bg1.png');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+
+    .container {
+        padding: 8em 12em 6em 12em;
+        display: grid;
+        grid-template-columns: 35% auto;
+        grid-template-rows: auto;
+        column-gap: 4em;
+    }
+
+    &__server-feed {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    &__cta {
+        grid-column: 2;
+        grid-row: 1;
+
+        text-align: right;
+        margin-bottom: 6em;
+    }
+
+    h1 {
+        color: #fff;
+        font-size: 6.5em;
+        font-family: $font-header;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-kerning: normal;
+        line-height: 0.95em;
+        text-shadow: 0px 2px 9px hsla(0, 0, 0, 35%);
+        margin-bottom: 0.2em;
+        text-rendering: geometricPrecision;
+
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .subtitle {
+        color: #e6e6e6;
+        font-weight: 500;
+        font-size: 1.2em;
+        letter-spacing: -0.02em;
+        text-shadow: 0px 2px 4px hsla(0, 0, 0, 55%);
+        line-height: 1.7em;
+        margin-bottom: 3em;
+    }
+}
+
+@media screen and (max-width: 1300px) {
+    .hero .container {
+        padding: 8em 5em 5em 5em;
+    }
+    .hero .container {
+        grid-template-columns: 50% auto;
+        column-gap: 4em;
+    }
+    .hero__cta {
+        grid-column-start: 1;
+        grid-column-end: span 2;
+    }
+    .hero h1 {
+        font-size: 5em;
+    }
+    .hero .subtitle {
+        font-size: 1.1em;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .hero__cta {
+        text-align: center;
+    }
+    .hero__server-feed {
+        grid-column-start: 1;
+        grid-column-end: span 2;
+    }
+    .hero .container {
+        padding: 8em 4em;
+    }
+    .hero h1 {
+        font-size: 4em;
+    }
+    .hero .subtitle {
+        font-size: 1em;
+    }
+    .hero .button {
+        width: 100%;
+    }
+}

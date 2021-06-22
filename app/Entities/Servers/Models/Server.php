@@ -35,8 +35,21 @@ final class Server extends Model
         'updated_at',
     ];
 
+    public function address(): string
+    {
+        if ($this->ip_alias) {
+            return $this->ip_alias;
+        }
+        if ($this->port && $this->is_port_visible) {
+            return $this->ip.':'.$this->port;
+        }
+
+        return $this->ip;
+    }
+
     /**
      * Gets the ip address of the server (with port depending on availability).
+     * @deprecated
      */
     public function getAddress(): string
     {
