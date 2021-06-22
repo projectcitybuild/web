@@ -47,4 +47,7 @@
             flex-wrap: wrap;
         }
     }
+    @media screen and (max-width: 768px) {
+        padding: 4em 0;
+    }
 }

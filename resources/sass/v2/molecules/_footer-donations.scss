@@ -113,3 +113,10 @@
         display: block;
     }
 }
+@media screen and (max-width: 768px) {
+    .footer-donations .donate-button {
+        padding: 0.4em 1em;
+        width: 100%;
+        justify-content: center;
+    }
+}
