@@ -198,7 +198,9 @@
                     <h1>Creative</h1>
 
                     <div class="server-text__desc">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut lorem gravida, sollicitudin mi nec, posuere magna. Suspendisse ac ornare magna, eget tristique mauris. Aenean porta, nibh condimentum pulvinar porta, nunc tortor volutpat tortor, sed tempor nisl est eu enim. Vivamus tincidunt consectetur ante at efficitur.
+                        We don't believe in plots—our Creative map is the definition of freebuild.
+                        Here you will find all sorts of interesting projects, from alien landscapes to cruise ships, from castles to entire cities.
+                        Let your imagination run wild!
                     </div>
                     <div class="server-text__links">
                         <ul>
@@ -206,7 +208,7 @@
                                 <a href="#"><i class="fas fa-chevron-right"></i> Gallery</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
+                                <a href="https://pcbmc.co:8123" target="_blank"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
                             </li>
                         </ul>
                     </div>
@@ -218,15 +220,14 @@
                     <h1>Survival</h1>
 
                     <div class="server-text__desc">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut lorem gravida, sollicitudin mi nec, posuere magna. Suspendisse ac ornare magna, eget tristique mauris. Aenean porta, nibh condimentum pulvinar porta, nunc tortor volutpat tortor, sed tempor nisl est eu enim. Vivamus tincidunt consectetur ante at efficitur.
+                        We've stripped back our Survival world to be as close to the vanilla experience as possible.
+                        There are no warps or teleports, and no dynamic map, so you'll have to figure out your own way.
+                        It's Minecraft in its purest form.
                     </div>
                     <div class="server-text__links">
                         <ul>
                             <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Gallery</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
+                                <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Gallery</a>
                             </li>
                         </ul>
                     </div>
@@ -241,18 +242,16 @@
 
                     <div class="server-text__desc">
                         Our premier city project, featuring builds at a realistic scale.
-                        Over 9 years in development, Monarch is open to viewing by all and open to building by trusted builders of our community who have applied.
+                        Over 5 years in development, Monarch showcases the talents of our most skilled builders.
+                        Feel free to take a look around, and if you've got what it takes, you can make your own mark in the city.
                     </div>
                     <div class="server-text__links">
                         <ul>
                             <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Apply to Build</a>
+                                <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Gallery</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Gallery</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
+                                <a href="https://pcbmc.co:8123"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
                             </li>
                         </ul>
                     </div>
@@ -264,12 +263,14 @@
                     <h1>Arcade</h1>
 
                     <div class="server-text__desc">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut lorem gravida, sollicitudin mi nec, posuere magna. Suspendisse ac ornare magna, eget tristique mauris. Aenean porta, nibh condimentum pulvinar porta, nunc tortor volutpat tortor, sed tempor nisl est eu enim. Vivamus tincidunt consectetur ante at efficitur.
+                        Who doesn't love minigames? In the Arcade you will find a whole host to try out.
+                        Become a Spleef champion, or test out your crazy ideas in the Redstone Playground.
+                        The fun never stops!
                     </div>
                     <div class="server-text__links">
                         <ul>
                             <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Read More</a>
+                                <i class="fas fa-chevron-right"></i> Coming Soon
                             </li>
                         </ul>
                     </div>
