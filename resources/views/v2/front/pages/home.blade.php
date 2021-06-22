@@ -1,5 +1,5 @@
 @extends('v2.front.layouts.master')
 
-@section('title', 'Project City Build - Creative Gaming Community')
-@section('description', 'Medium size Minecraft community active since 2010. We host multiple servers and maps, including Survival, Creative, as well as maps dedicated to projects such as our signature Big City map. With over 28,000 registrants, PCB has a bit of something for everyone.')
-@section('header_style', 'hero')
+@section('title', 'Project City Build - Creative Minecraft Community')
+@section('description')
+One of the world's longest-running Minecraft servers; we're a community of creative players and city builders @endsection

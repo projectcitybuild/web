@@ -1,6 +1,8 @@
 $nav-color: $color-secondary;
 $nav-secondary-color: $color-primary;
 
+// Super hacky stuff in here. This will all be rewritten later...
+
 .navbar {
     $border-color: darken($nav-color, 10%);
 
@@ -57,12 +59,14 @@ $nav-secondary-color: $color-primary;
             }
         }
 
-        & > li:hover {
-            & ul {
-                display: inherit;
-            }
-            & ul.menu-sideway {
-                display: flex;
+        @media screen and (min-width: 1025px) {
+            & > li:hover {
+                & ul {
+                    display: inherit;
+                }
+                & ul.menu-sideway {
+                    display: flex;
+                }
             }
         }
     }
@@ -197,6 +201,19 @@ $nav-secondary-color: $color-primary;
         .nav-links.active {
             visibility: visible;
             transform: translateY(0);
+        }
+        .nav-links > li > a:focus + ul {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+
+            & > li > ul {
+                display: flex;
+                flex-direction: column;
+            }
+            &.menu-sideway {
+                display: flex;
+            }
         }
     }
 }
