@@ -1,0 +1,6 @@
+// constrains the page to a fixed width on desktops and widescreens
+.container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
