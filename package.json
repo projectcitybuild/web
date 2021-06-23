@@ -26,7 +26,7 @@
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.20.3",
         "sass-loader": "^7.1.0",
-        "selectize": "https://github.com/selectize/selectize.js#18ae944",
+        "selectize": "https://github.com/selectize/selectize.js/archive/refs/tags/v0.13.3.tar.gz",
         "ts-loader": "^6.0.2",
         "typescript": "^3.9.10",
         "vue": "^2.6.12",
