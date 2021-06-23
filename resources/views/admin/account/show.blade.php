@@ -285,7 +285,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($account->gameBans() as $ban)
+                    @forelse($account->gameBans() as $ban)
                         <tr class="{{ $ban->is_active ? 'table-danger' : '' }}">
                             <td data-bs-toggle="tooltip" data-bs-placement="left" title="{{ $ban->is_active ? 'Active' : 'Expired' }}">
                                 <i class="fas fa-{{ $ban->is_active ? 'check' : 'clock' }}"></i>
@@ -295,7 +295,11 @@
                             <td>{{ $ban->created_at }}</td>
                             <td>{{ $ban->expires_at }}</td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-muted text-center">No bans</td>
+                        </tr>
+                    @endforelse
                     </tbody>
                 </table>
             </div>
