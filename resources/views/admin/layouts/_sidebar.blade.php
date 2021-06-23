@@ -2,7 +2,7 @@
     <div class="position-sticky pt-3">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ route('front.panel.index') }}">
+                <a class="nav-link {{ request()->is('panel') ? 'active' : '' }}" aria-current="page" href="{{ route('front.panel.index') }}">
                     <i class="fas fa-home fa-fw"></i>
                     Home
                 </a>
@@ -14,7 +14,7 @@
         </h6>
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('front.panel.accounts.index') }}">
+                <a class="nav-link {{ request()->is('panel/accounts*') ? 'active' : '' }}" href="{{ route('front.panel.accounts.index') }}">
                     <i class="fas fa-users fa-fw"></i>
                     Accounts
                 </a>
@@ -32,7 +32,7 @@
         </h6>
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('front.panel.donations.index') }}">
+                <a class="nav-link {{ request()->is('panel/donations*') ? 'active' : '' }}" href="{{ route('front.panel.donations.index') }}">
                     <i class="fas fa-credit-card fa-fw"></i>
                     Donations
                 </a>
