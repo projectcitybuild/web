@@ -11,11 +11,13 @@ use App\Entities\Servers\Repositories\ServerCategoryRepositoryContract;
 use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
 use App\Http\Composers\MasterViewComposer;
 use App\Services\Queries\ServerQueryService;
+use App\View\Components\NavBarComponent;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Schema;
+use Blade;
 
 final class AppServiceProvider extends ServiceProvider
 {
@@ -51,6 +53,8 @@ final class AppServiceProvider extends ServiceProvider
             AccountPaymentType::Donation => Donation::class,
             GamePlayerType::Minecraft => MinecraftPlayer::class,
         ]);
+
+        Blade::component('navbar', NavBarComponent::class);
 
         // Bind the master view composer to the master view template
         View::composer('front.layouts.master', MasterViewComposer::class);
