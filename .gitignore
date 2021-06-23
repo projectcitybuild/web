@@ -16,6 +16,7 @@ yarn-error.log
 # generated resources/builds
 /public/assets/css
 /public/assets/js
+/public/assets/admin
 mix-manifest.json
 
 # token buckets

@@ -14,15 +14,16 @@ const mix = require('laravel-mix');
 mix.typeScript('resources/js/app.ts', 'public/assets/js')
     .sass('resources/sass/app.scss', 'public/assets/css')
     .sass('resources/sass/v2/app-v2.scss', 'public/assets/css')
-    .sass('resources/sass/admin/admin.scss', 'public/assets/css')
+    .sass('resources/sass/admin/admin.scss', 'public/assets/admin/css')
     .options({
         processCssUrls: false
     })
    .sass('resources/sass/navonly.scss', 'public/assets/css')
    .extract([
         'vue'
-    ])
-    .copy('resources/js/admin/admin.js', 'public/assets/js');
+    ]);
+
+mix.typeScript('resources/js/admin/admin.ts', 'public/assets/admin/js')
 
 if(mix.config.production) {
     mix.version();

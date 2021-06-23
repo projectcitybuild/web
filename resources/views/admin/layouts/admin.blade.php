@@ -6,15 +6,13 @@
 
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="{{ mix('assets/css/admin.css') }}">
+    <link rel="stylesheet" href="{{ mix('assets/admin/css/admin.css') }}">
 
     <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/brands.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/solid.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/fontawesome.js"></script>
 
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/tom-select@1.7.5/dist/js/tom-select.complete.min.js"></script>
-    <script defer src="/assets/js/admin.js"></script>
+    <script defer src="{{ mix('assets/admin/js/admin.js') }}"></script>
 </head>
 <body>
 
