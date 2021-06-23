@@ -19,13 +19,13 @@ class AccountController extends WebController
     {
         if ($request->has('query') && $request->input('query') !== '') {
             $query = $request->input('query');
-            $accounts = Account::search($query)->paginate(100);
+            $accounts = Account::search($query)->paginate(50);
         } else {
             $query = '';
-            $accounts = Account::paginate(100);
+            $accounts = Account::paginate(50);
         }
 
-        return view('front.pages.panel.account.index')->with(compact('accounts', 'query'));
+        return view('admin.account.index')->with(compact('accounts', 'query'));
     }
 
     /**
@@ -38,7 +38,7 @@ class AccountController extends WebController
     {
         $groups = Group::all();
 
-        return view('front.pages.panel.account.show')->with(compact('account', 'groups'));
+        return view('admin.account.show')->with(compact('account', 'groups'));
     }
 
     /**
@@ -49,7 +49,7 @@ class AccountController extends WebController
      */
     public function edit(Account $account)
     {
-        return view('front.pages.panel.account.edit')->with(compact('account'));
+        return view('admin.account.edit')->with(compact('account'));
     }
 
     /**
@@ -60,6 +60,7 @@ class AccountController extends WebController
      */
     public function update(Request $request, Account $account)
     {
+        // TODO: Validate this
         $account->update($request->all());
         $account->save();
 

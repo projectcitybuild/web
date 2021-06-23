@@ -11,9 +11,21 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.typeScript('resources/js/app.ts', 'public/assets/js')
+mix.webpackConfig({
+    resolve: {
+        alias: {
+            // "jquery/dist/jquery.js" or "jquery/dist/jquery.slim.js"
+            jquery: "jquery/dist/jquery.slim.js",
+        }
+    },
+});
+
+mix.typeScript('resources/js/admin/admin.ts', 'public/assets/admin/js')
+    .extract(['bootstrap'], 'assets/admin/js/admin-vendor.js')
+    .typeScript('resources/js/app.ts', 'public/assets/js')
     .sass('resources/sass/app.scss', 'public/assets/css')
     .sass('resources/sass/v2/app-v2.scss', 'public/assets/css')
+    .sass('resources/sass/admin/admin.scss', 'public/assets/admin/css')
     .options({
         processCssUrls: false
     })

@@ -1,0 +1,14 @@
+.donations {
+    width: 100%;
+    background: #3B3B3D;
+    padding: 3em 0;
+    display: flex;
+
+    h1 {
+        font-family: $font-header;
+        font-size: 2.5em;
+        font-weight: 0;
+        color: $color-heading-contrast;
+        margin-bottom: 0.5em;
+    }
+}
