@@ -5,6 +5,9 @@ namespace App\Http\Composers;
 use App\Entities\Servers\Repositories\ServerCategoryRepositoryContract;
 use Illuminate\View\View;
 
+/**
+ * @deprecated
+ */
 final class MasterViewComposer
 {
     private ServerCategoryRepositoryContract $serverCategoryRepository;

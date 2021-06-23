@@ -9,15 +9,34 @@ const app = new Vue({
 });
 
 // Nav bar
-const hamburger = document.querySelector(".hamburger");
-const navLinks = document.querySelector(".nav-links");
+const hamburger = document.querySelector(".hamburger")
+const navLinks = document.querySelector(".nav-links")
 
-hamburger.addEventListener("click", openDrawer);
+hamburger.addEventListener("click", openDrawer)
 
 function openDrawer() {
-    hamburger.classList.toggle("active");
-    navLinks.classList.toggle("active");
+    hamburger.classList.toggle("active")
+    navLinks.classList.toggle("active")
 }
+
+const dropdownLinks = document.querySelectorAll(".nav-dropdown")
+
+dropdownLinks.forEach(node => {
+    node.addEventListener("click", () => {
+        console.log(node.classList)
+
+        // Collapse every other submenu first
+        // FIXME: optimize this later
+        dropdownLinks.forEach(otherNode => {
+            if (!node.isEqualNode(otherNode)) {
+                otherNode.nextElementSibling.classList.remove("active")
+            }
+        })
+
+        let menu = node.nextElementSibling
+        menu.classList.toggle("active")
+    })
+})
 
 // Server feed copy-to-clipboard
 document.querySelectorAll(`[data-server-address]`).forEach(element => {
