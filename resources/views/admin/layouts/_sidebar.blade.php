@@ -15,7 +15,7 @@
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('front.panel.accounts.index') }}">
-                    <i class="fas fa-users"></i>
+                    <i class="fas fa-users fa-fw"></i>
                     Accounts
                 </a>
             </li>
@@ -33,7 +33,7 @@
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('front.panel.donations.index') }}">
-                    <i class="fas fa-credit-card"></i>
+                    <i class="fas fa-credit-card fa-fw"></i>
                     Donations
                 </a>
             </li>
