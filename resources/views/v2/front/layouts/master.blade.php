@@ -326,7 +326,7 @@
 
                         <div class="description">
                             Donations are the only way to keep our server running.<br />
-                            Donators receive perks such as flying, colored names and <a href="{{ route('front.donate') }}">much more</a>
+                            Donors receive perks such as flying, colored names and <a href="{{ route('front.donate') }}">much more</a>
                         </div>
 
                         <a class="donate-button" href="{{ route('front.donate') }}">
