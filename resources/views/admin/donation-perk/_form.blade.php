@@ -7,7 +7,11 @@
 <div class="row mb-3">
     <label for="account_id" class="col-sm-3 col-form-label text-end">Account ID</label>
     <div class="col-sm-9">
-        <input type="text" id="account_id" name="account_id" class="form-control" value="{{ old('account_id', $perk->account_id) }}">
+        <select name="account_id" id="account_id" data-pcb-user-picker>
+            @isset($perk->account_id)
+                <option value="{{ $perk->account_id }}" selected data-data='@json($perk->account->toResource())'></option>
+            @endisset
+        </select>
     </div>
 </div>
 <div class="row mb-3">
