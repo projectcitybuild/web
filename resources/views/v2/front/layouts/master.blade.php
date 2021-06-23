@@ -205,10 +205,12 @@
                     <div class="server-text__links">
                         <ul>
                             <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Gallery</a>
+                                <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer">
+                                    <i class="fas fa-chevron-right"></i> Gallery
+                                </a>
                             </li>
                             <li>
-                                <a href="https://pcbmc.co:8123" target="_blank"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
+                                <a href="http://pcbmc.co:8123" target="_blank"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
                             </li>
                         </ul>
                     </div>
@@ -227,7 +229,9 @@
                     <div class="server-text__links">
                         <ul>
                             <li>
-                                <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Gallery</a>
+                                <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer">
+                                    <i class="fas fa-chevron-right"></i> Gallery
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -251,7 +255,7 @@
                                 <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Gallery</a>
                             </li>
                             <li>
-                                <a href="https://pcbmc.co:8123"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
+                                <a href="http://pcbmc.co:8123"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
                             </li>
                         </ul>
                     </div>
@@ -290,7 +294,8 @@
                             <ul>
                                 <li><i class="bullet fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/pcb-community-rules/22928">Rules & Guidelines</a></li>
                                 <li><i class="bullet fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/pcb-ranks/32812">Ranks</a></li>
-                                <li><i class="bullet fas fa-cube"></i> <a href="#">Commands</a></li>
+                                <li><i class="bullet fas fa-cube"></i> <a href="https://wiki.projectcitybuild.com/wiki/List_of_Staff_Members">Staff</a></li>
+                                <li><i class="bullet fas fa-cube"></i> <a href="http://pcbmc.co:8123/" target="_blank" rel="noopener noreferrer">Real-Time Map</a></li>
                             </ul>
                         </div>
 
