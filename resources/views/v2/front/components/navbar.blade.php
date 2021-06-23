@@ -3,12 +3,13 @@
         <div class="logo">
             <img src="assets/images/logo.png" />
         </div>
+
         <ul class="nav-links">
             <li><a href="{{ route('front.home') }}">Home</a></li>
             <li><a href="https://forums.projectcitybuild.com/">Forums</a></li>
             <li>
                 <a href="javascript:void(0)" class="nav-dropdown">Servers <i class="fas fa-caret-down"></i></a>
-                <ul class="menu-sideway">
+                <ul class="dropdown multi">
                     <li>
                         <h5>Minecraft</h5>
                         <ul>
@@ -37,7 +38,7 @@
             </li>
             <li>
                 <a href="javascript:void(0)" class="nav-dropdown">Community <i class="fas fa-caret-down"></i></a>
-                <ul>
+                <ul class="dropdown single">
                     <li><a href="https://forums.projectcitybuild.com/t/banned-read-me/12145">Appeal a Ban</a></li>
                     <li><a href="https://forums.projectcitybuild.com/c/support/grief-player-reports">Report a Player</a></li>
                     <li class="divider"><a href="https://goo.gl/forms/UodUsKQBZJdCzNWk1">Apply for Staff</a></li>
