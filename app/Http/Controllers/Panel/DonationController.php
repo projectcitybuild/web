@@ -16,9 +16,16 @@ class DonationController extends WebController
      */
     public function index(Request $request)
     {
-        $donations = Donation::with('account')->orderBy('created_at', 'desc')->paginate(100);
+        $donations = Donation::with('account', 'perks')->orderBy('created_at', 'desc')->paginate(100);
 
-        return view('front.pages.panel.donations.index')->with(compact('donations'));
+        return view('admin.donation.index')->with(compact('donations'));
+    }
+
+    public function show(Donation $donation)
+    {
+        $donation->load('perks', 'perks.account');
+
+        return view('admin.donation.show')->with(compact('donation'));
     }
 
     /**
@@ -28,7 +35,9 @@ class DonationController extends WebController
      */
     public function create(Request $request)
     {
-        return view('front.pages.panel.donations.create');
+        $donation = new Donation();
+
+        return view('admin.donation.create')->with(compact('donation'));
     }
 
     /**
@@ -69,7 +78,7 @@ class DonationController extends WebController
      */
     public function edit(Donation $donation)
     {
-        return view('front.pages.panel.donations.edit')->with(compact('donation'));
+        return view('admin.donation.edit')->with(compact('donation'));
     }
 
     /**
@@ -95,7 +104,7 @@ class DonationController extends WebController
         $donation->update($request->all());
         $donation->save();
 
-        return redirect(route('front.panel.donations.index'));
+        return redirect(route('front.panel.donations.show', $donation->donation_id));
     }
 
     /**

@@ -40,85 +40,7 @@
 </head>
 <body>
 
-<nav class="navbar">
-    <div class="container">
-        <div class="logo">
-            <img src="assets/images/logo.png" />
-        </div>
-        <ul class="nav-links">
-            <li><a href="{{ route('front.home') }}">Home</a></li>
-            <li><a href="https://forums.projectcitybuild.com/">Forums</a></li>
-            <li>
-                <a href="#" class="nav-dropdown">Servers <i class="fas fa-caret-down"></i></a>
-                <ul class="menu-sideway">
-                    <li>
-                        <h5>Minecraft</h5>
-                        <ul>
-                            <li><a href="https://forums.projectcitybuild.com/t/pcb-community-rules/22928">Rules & Guidelines</a></li>
-                            <li><a href="https://forums.projectcitybuild.com/t/pcb-ranks/32812">Ranks</a></li>
-                            <li><a href="https://wiki.projectcitybuild.com/wiki/List_of_Staff_Members">Staff</a></li>
-                            <li><a href="http://pcbmc.co:8123/" target="_blank" rel="noopener noreferrer">Real-Time Map</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <h5>Feed the Beast</h5>
-                        <ul>
-                            <li>
-                                <a href="https://forums.projectcitybuild.com/t/modded-is-back-with-our-custom-false-hope-pack/34989/3">
-                                    Rules & Guidelines
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://forums.projectcitybuild.com/t/modded-is-back-with-our-custom-false-hope-pack/34989/2">
-                                    Installation Guide
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#" class="nav-dropdown">Community <i class="fas fa-caret-down"></i></a>
-                <ul>
-                    <li><a href="https://forums.projectcitybuild.com/t/banned-read-me/12145">Appeal a Ban</a></li>
-                    <li><a href="https://forums.projectcitybuild.com/c/support/grief-player-reports">Report a Player</a></li>
-                    <li class="divider"><a href="https://goo.gl/forms/UodUsKQBZJdCzNWk1">Apply for Staff</a></li>
-                    <li class="divider"><a href="https://wiki.projectcitybuild.com/" target="_blank" rel="noopener">Community Wiki</a></li>
-                    <li><a href="{{ route('front.banlist') }}">Ban List</a></li>
-                </ul>
-            </li>
-            <li><a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer">Media</a></li>
-            <li><a href="{{ route('front.donate') }}">Donate</a></li>
-
-            <li class="spacer"></li>
-
-            @if(Auth::check())
-                <li>
-                    <a href="#" class="nav-dropdown">Account <i class="fas fa-caret-down"></i></a>
-                    <ul>
-                        <li><a href="{{ route('front.account.settings') }}">Account Settings</a></li>
-                        <li class="divider"><a href="https://forums.projectcitybuild.com/my/preferences/account">Forum
-                                Settings</a></li>
-                        <li>
-                            <a href="{{ route('front.logout') }}">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            @else
-                <li><a href="{{ route('front.register') }}">Join Us</a></li>
-                <li><a href="{{ route('front.login') }}">Sign In</a></li>
-            @endif
-        </ul>
-
-        <div class="hamburger">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </div>
-    </div>
-</nav>
+<x-navbar />
 
 <div id="app">
     <header class="hero">
@@ -205,10 +127,12 @@
                     <div class="server-text__links">
                         <ul>
                             <li>
-                                <a href="#"><i class="fas fa-chevron-right"></i> Gallery</a>
+                                <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer">
+                                    <i class="fas fa-chevron-right"></i> Gallery
+                                </a>
                             </li>
                             <li>
-                                <a href="https://pcbmc.co:8123" target="_blank"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
+                                <a href="http://pcbmc.co:8123" target="_blank"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
                             </li>
                         </ul>
                     </div>
@@ -227,7 +151,9 @@
                     <div class="server-text__links">
                         <ul>
                             <li>
-                                <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Gallery</a>
+                                <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer">
+                                    <i class="fas fa-chevron-right"></i> Gallery
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -251,7 +177,7 @@
                                 <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Gallery</a>
                             </li>
                             <li>
-                                <a href="https://pcbmc.co:8123"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
+                                <a href="http://pcbmc.co:8123"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
                             </li>
                         </ul>
                     </div>
@@ -290,7 +216,8 @@
                             <ul>
                                 <li><i class="bullet fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/pcb-community-rules/22928">Rules & Guidelines</a></li>
                                 <li><i class="bullet fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/pcb-ranks/32812">Ranks</a></li>
-                                <li><i class="bullet fas fa-cube"></i> <a href="#">Commands</a></li>
+                                <li><i class="bullet fas fa-cube"></i> <a href="https://wiki.projectcitybuild.com/wiki/List_of_Staff_Members">Staff</a></li>
+                                <li><i class="bullet fas fa-cube"></i> <a href="http://pcbmc.co:8123/" target="_blank" rel="noopener noreferrer">Real-Time Map</a></li>
                             </ul>
                         </div>
 
@@ -321,7 +248,7 @@
 
                         <div class="description">
                             Donations are the only way to keep our server running.<br />
-                            Donators receive perks such as flying, colored names and <a href="{{ route('front.donate') }}">much more</a>
+                            Donors receive perks such as flying, colored names and <a href="{{ route('front.donate') }}">much more</a>
                         </div>
 
                         <a class="donate-button" href="{{ route('front.donate') }}">

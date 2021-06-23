@@ -244,11 +244,18 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('bans', 'BanlistController@index')->name('front.banlist');
 
 Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel', 'middleware' => ['auth', 'panel']], function () {
-    Route::view('/', 'front.pages.panel');
+    Route::view('/', 'admin.index')->name('index');
 
     Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);
-    Route::resource('donations', 'DonationController')->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
-    Route::resource('donation-perks', 'DonationPerksController')->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('donations', 'DonationController');
+    Route::resource('donation-perks', 'DonationPerksController')->only(['create', 'store', 'edit', 'update', 'destroy']);
+
+    Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
+        Route::get('accounts', [
+            'as' => 'account-search',
+            'uses' => 'Api\\AccountSearchController',
+        ]);
+    });
 
     Route::group(['prefix' => 'accounts/{account}', 'as' => 'accounts.'], function () {
         Route::get('discourse-admin', [

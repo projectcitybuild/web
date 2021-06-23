@@ -10,25 +10,15 @@ use Illuminate\Support\Facades\Validator;
 class DonationPerksController extends WebController
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $perks = DonationPerk::with(['account', 'donation'])->orderBy('created_at', 'desc')->paginate(100);
-
-        return view('front.pages.panel.donation-perks.index')->with(compact('perks'));
-    }
-
-    /**
      * Show the form for creating the specified resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
     {
-        return view('front.pages.panel.donation-perks.create');
+        $perk = new DonationPerk();
+
+        return view('admin.donation-perk.create')->with(compact('perk'));
     }
 
     /**
@@ -89,7 +79,7 @@ class DonationPerksController extends WebController
      */
     public function edit(DonationPerk $donationPerk)
     {
-        return view('front.pages.panel.donation-perks.edit')->with(['perk' => $donationPerk]);
+        return view('admin.donation-perk.edit')->with(['perk' => $donationPerk]);
     }
 
     /**

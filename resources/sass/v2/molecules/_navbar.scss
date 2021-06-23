@@ -1,15 +1,15 @@
-$nav-color: $color-secondary;
-$nav-secondary-color: $color-primary;
+$navbar-bg-color: $color-secondary;
+$navbar-bg-secondary-color: $color-primary;
+$navbar-border-color: darken($navbar-bg-color, 10%);
+$navbar-border-secondary-color: lighten($navbar-bg-secondary-color, 45%);
 
-// Super hacky stuff in here. This will all be rewritten later...
+$collapse-dimension: 1024px;
 
 .navbar {
-    $border-color: darken($nav-color, 10%);
-
     width: 100%;
     position: fixed;
-    background: $nav-color;
-    border-bottom: 3px solid $border-color;
+    background: $navbar-bg-color;
+    border-bottom: 3px solid $navbar-border-color;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
     z-index: 1000;
 
@@ -19,98 +19,9 @@ $nav-secondary-color: $color-primary;
         padding: 0;
     }
 
-    // Collapse all menus by default
-    li > ul {
-        display: none;
-    }
-
     .container {
         display: flex;
         flex-direction: row;
-    }
-
-    .nav-links {
-        display: flex;
-        align-items: stretch;
-        flex-grow: 1;
-
-        & > li {
-            border-right: 1px solid $border-color;
-
-            &:not(.logo):first-child {
-                border-left: 1px solid $border-color;
-            }
-        }
-
-        a {
-            display: block;
-            font-size: 0.8em;
-            padding: 1em 1.5em;
-            text-decoration: none;
-            text-transform: uppercase;
-            color: #fff;
-
-            &:focus,
-            &:active {
-                background: darken($nav-color, 10%);
-            }
-            &:hover {
-                background-color: lighten($nav-color, 5%);
-            }
-        }
-
-        @media screen and (min-width: 1025px) {
-            & > li:hover {
-                & ul {
-                    display: inherit;
-                }
-                & ul.menu-sideway {
-                    display: flex;
-                }
-            }
-        }
-    }
-
-    // Drop-down menu
-    .container > ul > li > ul {
-        $border-color: lighten($nav-secondary-color, 45%);
-
-        background: #fff;
-        position: absolute;
-        border: 1px solid $border-color;
-        border-bottom-width: 3px;
-
-        .divider {
-            border-bottom: 1px solid $border-color;
-        }
-
-        a {
-            color: $nav-secondary-color;
-            padding: 1em 1.5em;
-
-            &:hover {
-                background-color: #f6f6f6;
-            }
-            &:focus,
-            &:active {
-                background-color: darken(#f6f6f6, 5%);
-            }
-        }
-
-        &.menu-sideway {
-            flex-direction: row;
-
-            & > li:not(:last-child) {
-                border-right: 1px solid $border-color;
-            }
-
-            h5 {
-                text-transform: uppercase;
-                padding: 1em 1.5em;
-                font-weight: 700;
-                margin: 0;
-            }
-        }
     }
 
     .spacer {
@@ -120,12 +31,10 @@ $nav-secondary-color: $color-primary;
 
     .logo {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
+        align-items: center;
 
         img {
-            // Subtract the padding baked into the image
-            margin-left: -11px;
+            margin-left: -11px; // Subtract the padding baked into the image
         }
     }
 
@@ -133,9 +42,10 @@ $nav-secondary-color: $color-primary;
         flex-direction: column;
         justify-content: center;
         cursor: pointer;
-        border-left: 1px solid darken($nav-color, 10%);
-        border-right: 1px solid darken($nav-color, 10%);
+        border-left: 1px solid $navbar-border-color;
+        border-right: 1px solid $navbar-border-color;
         padding: 0.5em;
+        display: flex; // Force bars to be vertically centered
 
         .bar {
             display: block;
@@ -146,73 +56,195 @@ $nav-secondary-color: $color-primary;
             background-color: #fff;
         }
 
-        &.active .bar:nth-child(2) {
-            opacity: 0;
-        }
-
-        &.active .bar:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-        }
-
-        &.active .bar:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
+        &.active .bar {
+            &:nth-child(2) { opacity: 0; }
+            &:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            &:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
         }
     }
 }
 
-@media screen and (max-width: 1200px) {
-    .navbar .container > ul a {
-        padding: 1em 1em;
-    }
-}
+// --- Regular Size ------------------------------------------------------------------
 
-@media screen and (min-width: 1025px) {
+@media screen and (min-width: $collapse-dimension + 1) {
     .navbar {
+        .nav-links {
+            display: flex;
+            flex-grow: 1;
+
+            & > li {
+                border-left: 1px solid $navbar-border-color;
+
+                &:last-child {
+                    border-right: 1px solid $navbar-border-color;
+                }
+            }
+
+            & > li > a {
+                display: block;
+                font-size: 0.8em;
+                padding: 1em 1.5em;
+                text-decoration: none;
+                text-transform: uppercase;
+                color: #fff;
+
+                &:focus,
+                &:active {
+                    background: darken($navbar-bg-color, 10%);
+                }
+                &:hover {
+                    background-color: lighten($navbar-bg-color, 5%);
+                }
+
+                // Squish to make some horizontal room
+                @media screen and (max-width: 1200px) {
+                    padding-left: 1em;
+                    padding-right: 1em;
+                }
+            }
+
+            & > li > ul {
+                display: none;
+            }
+            & > li:hover > ul {
+                display: inherit;
+
+                &.dropdown.multi {
+                    display: flex;
+                }
+            }
+        }
+
+        .dropdown {
+            background: #fff;
+            position: absolute;
+            border: 1px solid $navbar-border-secondary-color;
+            border-bottom-width: 3px;
+
+            a {
+                display: block;
+                color: $navbar-bg-secondary-color;
+                padding: 1em 1.5em;
+                font-size: 0.8em;
+                text-decoration: none;
+                text-transform: uppercase;
+
+                &:hover {
+                    background-color: #f6f6f6;
+                }
+                &:focus,
+                &:active {
+                    background-color: darken(#f6f6f6, 5%);
+                }
+            }
+
+            .divider {
+                border-bottom: 1px solid $navbar-border-secondary-color;
+            }
+        }
+
+        .dropdown.multi {
+            flex-direction: row;
+
+            & > li:not(:last-child) {
+                border-right: 1px solid $navbar-border-secondary-color;
+            }
+
+            h5 {
+                text-transform: uppercase;
+                padding: 1em 1.5em;
+                font-weight: 700;
+                margin: 0;
+            }
+        }
+
         .hamburger {
             display: none;
         }
     }
 }
-// Drawer for smaller devices
-@media screen and (max-width: 1024px) {
+
+// --- Compact Size ------------------------------------------------------------------
+
+@media screen and (max-width: $collapse-dimension) {
+    $navbar-height: 40px; // Match Regular Size's calculated height
+
     .navbar {
-        .hamburger {
-            display: flex;
-        }
         .container {
+            height: $navbar-height;
             justify-content: space-between;
         }
         .nav-links {
-            visibility: hidden;
-            position: fixed;
+            display: none;
+        }
+    }
+
+    .navbar .nav-links.active {
+        position: fixed;
+        left: 0;
+        top: $navbar-height + 3; // Offset by bottom border-size
+        width: 100%;
+        display: block;
+        box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.3);
+        border-bottom: 3px solid $navbar-border-color;
+
+        & > li {
+            background: darken($navbar-bg-color, 5%);
+            border-bottom: 1px solid $navbar-border-color;
+
+            &:hover {
+                background: darken($navbar-bg-color, 3%);
+            }
+        }
+
+        a {
+            font-size: 0.8em;
+            text-decoration: none;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        & > li > a {
             display: block;
-            left: 0;
-            top: 43px;
-            background: darken($nav-color, 5%);
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            text-align: center;
+            padding: 1em 1.5em;
+        }
 
-            & > li:not(:last-child) {
-                border-bottom: 1px solid darken($nav-color, 10%);
+        .dropdown {
+            background: darken($navbar-bg-color, 7%);
+            border-top: 3px solid darken($navbar-bg-color, 11%);
+            display: none;
+
+            &.active {
+                display: inherit;
             }
         }
-        .nav-links.active {
-            visibility: visible;
-            transform: translateY(0);
-        }
-        .nav-links > li > a:focus + ul {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
 
-            & > li > ul {
-                display: flex;
-                flex-direction: column;
+        .dropdown.single {
+            li a {
+                display: block;
+                padding: 1em 1em;
             }
-            &.menu-sideway {
+        }
+
+        .dropdown.multi {
+            flex-direction: row;
+            justify-content: flex-start;
+
+            &.active {
                 display: flex;
+            }
+
+            h5 {
+                color: #989898;
+                text-transform: uppercase;
+                padding: 1em 1.5em;
+                font-weight: 700;
+                margin: 0;
+            }
+
+            & > li > ul > li a {
+                display: block;
+                padding: 1em 1em;
             }
         }
     }
