@@ -2,8 +2,8 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\Component;
 use Auth;
+use Illuminate\View\Component;
 
 class NavBarComponent extends Component
 {
