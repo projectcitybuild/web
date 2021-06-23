@@ -12,6 +12,7 @@
     "devDependencies": {
         "axios": "^0.21.1",
         "babel-preset-react": "^6.24.1",
+        "bootstrap": "^5.0.1",
         "browser-sync": "^2.26.5",
         "browser-sync-webpack-plugin": "^2.2.2",
         "cross-env": "^5.1",
