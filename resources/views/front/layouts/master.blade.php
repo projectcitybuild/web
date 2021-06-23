@@ -242,7 +242,7 @@
                 </div>
             </div>
 
-            <div class="server-overview__server">
+            <div class="server-overview__server right">
                 <div class="server-text">
                     <h1>Arcade</h1>
 
@@ -260,6 +260,41 @@
                 <div class="server-image"></div>
             </div>
         </section>
+
+        <footer>
+            <div class="footer-sitemap">
+                <div class="container">
+                    <h1>Explore More</h1>
+
+                    <div class="footer-links">
+                        <div class="footer-links__category">
+                            <h2>Server</h2>
+                            <ul>
+                                <li><i class="fas fa-cube"></i> <a href="#">Rules & Guidelines</a></li>
+                                <li><i class="fas fa-cube"></i> <a href="#">Ranks</a></li>
+                                <li><i class="fas fa-cube"></i> <a href="#">Commands</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-links__category">
+                            <h2>Community</h2>
+                            <ul>
+                                <li><i class="fas fa-cube"></i> <a href="#">Community Wiki</a></li>
+                                <li><i class="fas fa-cube"></i> <a href="#">Vote For Our Server</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-links__category">
+                            <h2>Social Media</h2>
+                            <ul>
+                                <li><i class="fas fa-cube"></i> <a href="#">YouTube</a></li>
+                                <li><i class="fas fa-cube"></i> <a href="#">Instagram</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </main>
 </div>
 
