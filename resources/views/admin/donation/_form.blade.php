@@ -7,7 +7,11 @@
 <div class="row mb-3">
     <label for="account_id" class="col-sm-3 col-form-label text-end">Donator</label>
     <div class="col-sm-9">
-        <input type="text" id="account_id" name="account_id" class="form-control" value="{{ old('account_id', $donation->account_id) }}">
+        <select name="account_id" id="account_id" data-pcb-user-picker>
+            @isset($donation->account_id)
+                <option value="{{ $donation->account_id }}" selected data-data='@json($donation->account->toResource())'></option>
+            @endisset
+        </select>
     </div>
 </div>
 <div class="row mb-3">

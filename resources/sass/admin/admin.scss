@@ -1,5 +1,6 @@
 @import "variables";
 @import "~bootstrap/scss/bootstrap";
+@import "~selectize/dist/css/selectize.bootstrap4.css";
 
 body {
     font-size: .875rem;
@@ -141,4 +142,8 @@ dl.kv {
     :target {
         background-color: shift-color($warning, -80%);
     }
+}
+
+.selectize-control {
+    padding: 0;
 }
