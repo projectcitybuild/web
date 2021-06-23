@@ -12,12 +12,12 @@ use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
 use App\Http\Composers\MasterViewComposer;
 use App\Services\Queries\ServerQueryService;
 use App\View\Components\NavBarComponent;
+use Blade;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Schema;
-use Blade;
 
 final class AppServiceProvider extends ServiceProvider
 {
