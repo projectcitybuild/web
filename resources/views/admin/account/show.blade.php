@@ -152,7 +152,7 @@
         <div class="col-md-6">
             <form action="{{ route('front.panel.accounts.update-groups', $account) }}" method="post">
                 @csrf
-                <div class="card card-default">
+                <div class="card mt-2 mt-md-0 card-default">
                     <div class="card-header d-flex justify-content-between">
                         <span>Groups</span>
                         <button type="submit" class="btn btn-outline-primary btn-sm py-0">
@@ -178,40 +178,42 @@
         <div class="col">
             <div class="card h-100">
                 <div class="card-header">Donation Perks</div>
-                <table class="table mb-0">
-                    <thead>
-                    <tr>
-                        <th>Active</th>
-                        <th>Donation</th>
-                        <th>Starts at</th>
-                        <th>Ends at</th>
-                        <th>Lifetime?</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @forelse($account->donationPerks as $perk)
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
                         <tr>
-                            <td>{{ $perk->is_active ? 'Yes' : 'No' }}</td>
-                            <td>
-                                <a href="{{ route('front.panel.donations.show', $perk->donation_id) }}#perk-{{ $perk->donation_perks_id  }}">
-                                    #{{ $perk->donation_id }}
-                                </a>
-                            </td>
-                            <td>{{ $perk->created_at }}</td>
-                            <td>{{ $perk->expires_at }}</td>
-                            <td>{{ $perk->is_lifetime_perks ? 'Yes' : 'No' }}</td>
-                            <td><a href="{{ route('front.panel.donation-perks.edit', $perk) }}">Edit</a></td>
+                            <th>Active</th>
+                            <th>Donation</th>
+                            <th>Starts at</th>
+                            <th>Ends at</th>
+                            <th>Lifetime?</th>
+                            <th></th>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="text-muted text-center">
-                                No donations yet.
-                            </td>
-                        </tr>
-                    @endforelse
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        @forelse($account->donationPerks as $perk)
+                            <tr>
+                                <td>{{ $perk->is_active ? 'Yes' : 'No' }}</td>
+                                <td>
+                                    <a href="{{ route('front.panel.donations.show', $perk->donation_id) }}#perk-{{ $perk->donation_perks_id  }}">
+                                        #{{ $perk->donation_id }}
+                                    </a>
+                                </td>
+                                <td>{{ $perk->created_at }}</td>
+                                <td>{{ $perk->expires_at }}</td>
+                                <td>{{ $perk->is_lifetime_perks ? 'Yes' : 'No' }}</td>
+                                <td><a href="{{ route('front.panel.donation-perks.edit', $perk) }}">Edit</a></td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-muted text-center">
+                                    No donations yet.
+                                </td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -219,54 +221,56 @@
         <div class="col">
             <div class="card card-default">
                 <div class="card-header">Minecraft Accounts</div>
-                <table class="table mb-0">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Last Alias</th>
-                        <th>UUID</th>
-                        <th>Last Synced</th>
-                        <th>First Seen</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @forelse($account->minecraftAccount as $player)
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
                         <tr>
-                            <td><img src="https://minotar.net/avatar/{{ $player->uuid }}/16" alt=""></td>
-                            <td>
-                                @if($player->aliases()->count() == 0)
-                                    <span class="text-muted">Unknown</span>
-                                @else
-                                    {{ $player->aliases->last()->alias }}
-                                @endempty
-                            </td>
-                            <td>{{ $player->uuid }}</td>
-                            <td>
-                                @isset($mcAccount->last_synced_at)
-                                    {{ $mcAccount->last_synced_at->toFormattedDateString() }}
-                                @else
-                                    <span class="text-muted">Never</span>
-                                @endisset
-                            </td>
-                            <td>{{ $player->created_at }}</td>
-                            <td>
-                                <form
-                                    action="{{ route('front.panel.accounts.game-account.delete', [$account, $player]) }}"
-                                    method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-link btn-sm text-danger p-0">Unlink</button>
-                                </form>
-                            </td>
+                            <th></th>
+                            <th>Last Alias</th>
+                            <th>UUID</th>
+                            <th>Last Synced</th>
+                            <th>First Seen</th>
+                            <th>Actions</th>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="text-muted text-center">No linked accounts</td>
-                        </tr>
-                    @endforelse
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        @forelse($account->minecraftAccount as $player)
+                            <tr>
+                                <td><img src="https://minotar.net/avatar/{{ $player->uuid }}/16" alt=""></td>
+                                <td>
+                                    @if($player->aliases()->count() == 0)
+                                        <span class="text-muted">Unknown</span>
+                                    @else
+                                        {{ $player->aliases->last()->alias }}
+                                    @endempty
+                                </td>
+                                <td>{{ $player->uuid }}</td>
+                                <td>
+                                    @isset($mcAccount->last_synced_at)
+                                        {{ $mcAccount->last_synced_at->toFormattedDateString() }}
+                                    @else
+                                        <span class="text-muted">Never</span>
+                                    @endisset
+                                </td>
+                                <td>{{ $player->created_at }}</td>
+                                <td>
+                                    <form
+                                        action="{{ route('front.panel.accounts.game-account.delete', [$account, $player]) }}"
+                                        method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-link btn-sm text-danger p-0">Unlink</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-muted text-center">No linked accounts</td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -274,30 +278,36 @@
         <div class="col">
             <div class="card card-default">
                 <div class="card-header">Bans</div>
-                <table class="table mb-0">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Reason</th>
-                        <th>Banned By</th>
-                        <th>Banned At</th>
-                        <th>Expires At</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($account->gameBans() as $ban)
-                        <tr class="{{ $ban->is_active ? 'table-danger' : '' }}">
-                            <td data-bs-toggle="tooltip" data-bs-placement="left" title="{{ $ban->is_active ? 'Active' : 'Expired' }}">
-                                <i class="fas fa-{{ $ban->is_active ? 'check' : 'clock' }}"></i>
-                            </td>
-                            <td>{{ $ban->reason }}</td>
-                            <td>{{ $ban->getStaffName() }}</td>
-                            <td>{{ $ban->created_at }}</td>
-                            <td>{{ $ban->expires_at }}</td>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Reason</th>
+                            <th>Banned By</th>
+                            <th>Banned At</th>
+                            <th>Expires At</th>
                         </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        @forelse($account->gameBans() as $ban)
+                            <tr class="{{ $ban->is_active ? 'table-danger' : '' }}">
+                                <td data-bs-toggle="tooltip" data-bs-placement="left" title="{{ $ban->is_active ? 'Active' : 'Expired' }}">
+                                    <i class="fas fa-{{ $ban->is_active ? 'check' : 'clock' }}"></i>
+                                </td>
+                                <td>{{ $ban->reason }}</td>
+                                <td>{{ $ban->getStaffName() }}</td>
+                                <td>{{ $ban->created_at }}</td>
+                                <td>{{ $ban->expires_at }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-muted text-center">No bans</td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

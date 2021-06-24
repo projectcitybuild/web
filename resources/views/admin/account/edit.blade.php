@@ -11,13 +11,13 @@
                 @csrf
                 @method('PUT')
                 <div class="row mb-3">
-                    <label for="email" class="col-sm-2 col-form-label text-end">Email</label>
+                    <label for="email" class="col-sm-2 col-form-label horizontal-label">Email</label>
                     <div class="col-sm-10">
                         <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $account->email) }}">
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="username" class="col-sm-2 col-form-label text-end">Username</label>
+                    <label for="username" class="col-sm-2 col-form-label horizontal-label">Username</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="username" name="username" value="{{ old('username', $account->username) }}">
                     </div>

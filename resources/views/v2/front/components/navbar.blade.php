@@ -54,7 +54,7 @@
             @if($is_logged_in)
                 <li>
                     <a href="javascript:void(0)" class="nav-dropdown">Account <i class="fas fa-caret-down"></i></a>
-                    <ul>
+                    <ul class="dropdown single">
                         <li><a href="{{ route('front.account.settings') }}">Account Settings</a></li>
                         <li class="divider">
                             <a href="https://forums.projectcitybuild.com/my/preferences/account">

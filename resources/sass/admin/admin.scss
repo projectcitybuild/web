@@ -50,12 +50,6 @@ body {
     }
 }
 
-@media (max-width: 767.98px) {
-    .sidebar {
-        top: 5rem;
-    }
-}
-
 .sidebar-sticky {
     position: relative;
     top: 0;
@@ -134,7 +128,17 @@ dl.kv {
     }
 
     dd {
+        padding-left: 1rem;
+        padding-top: 0.5rem;
+
         margin-bottom: 0;
+
+        @include media-breakpoint-up(md) {
+            padding-left: 0;
+            padding-top: 0;
+
+            margin-bottom: 0.5rem;
+        }
     }
 }
 
@@ -146,4 +150,10 @@ dl.kv {
 
 .selectize-control {
     padding: 0;
+}
+
+.horizontal-label {
+    @include media-breakpoint-up(md) {
+        text-align: right;
+    }
 }
