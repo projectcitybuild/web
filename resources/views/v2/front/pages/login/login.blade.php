@@ -53,7 +53,7 @@
                         <a href="{{ route('front.password-reset.create') }}">Forgot your password?</a>
                     </div>
 
-                    <button class="button" type="submit">Login</button>
+                    <button class="button filled" type="submit">Login</button>
                 </form>
             </section>
 
@@ -64,7 +64,7 @@
                     Members gain access to personal player statistics, the forums, in-game rank synchronization and more.
                 </div>
 
-                <a href="#" class="button">Create an Account</a>
+                <a href="#" class="button outlined">Create an Account</a>
             </section>
         </div>
     </main>

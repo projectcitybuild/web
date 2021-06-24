@@ -23,7 +23,7 @@
 
     .login__sign-in,
     .login__register {
-        padding: 3em 2.5em;
+        padding: 3.5em 2.5em;
         box-shadow: inset 0 -4px 0 hsla(0, 0, 0, 25%);
     }
 
@@ -35,23 +35,6 @@
 
         h1 {
             color: #000;
-        }
-
-        .button {
-            display: block;
-            width: 100%;
-            border: 0px solid #FF842A;
-            border-radius: 5px;
-            color: #fff;
-            background-color: #FF842A;
-            padding: 0.4em 1.5em 0.3em 1.5em;
-            font-family: $font-header;
-            font-size: 2em;
-            text-transform: uppercase;
-            text-decoration: none;
-            box-shadow: 0 4px 10px hsla(0, 0, 0, 15%),
-                        inset 0 -4px 0 hsla(0, 0, 0, 25%);
-            text-shadow: none;
         }
 
         form {
@@ -105,22 +88,6 @@
             margin-bottom: 2em;
             flex-grow: 1;
             line-height: 2em;
-        }
-
-        .button {
-            display: block;
-            border: 2px solid #FF842A;
-            border-radius: 5px;
-            color: #FF842A;
-            padding: 0.4em 1.5em 0.3em 1.5em;
-            font-family: $font-header;
-            font-size: 2em;
-            text-transform: uppercase;
-            text-decoration: none;
-            text-align: center;
-            box-shadow: 0 4px 10px hsla(0, 0, 0, 15%),
-                        inset 0 4px 10px hsla(0, 0, 0, 15%); // Because button is see-through
-            text-shadow: none;
         }
     }
 

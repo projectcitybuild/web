@@ -15,7 +15,7 @@ One of the world's longest-running Minecraft servers; we're a community of creat
                     community of creative players and city builders
                 </div>
 
-                <a href="{{ route('front.register') }}" class="button outlined" data-aos="fade-left" data-aos-delay="350" data-aos-duration="750">
+                <a href="{{ route('front.register') }}" class="hero__cta-button" data-aos="fade-left" data-aos-delay="350" data-aos-duration="750">
                     <i class="fas fa-mouse-pointer"></i>
                     Join Now
                 </a>
