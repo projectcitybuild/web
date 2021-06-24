@@ -27,23 +27,22 @@
                         </div>
                     @endif
 
-                    <label for="email">
-                        <span>Email</span>
-                        <input
-                            class="textfield {{ $errors->any() ? 'error' : '' }}"
-                            name="email"
-                            type="email"
-                            value="{{ old('email') }}"
-                        />
-                    </label>
-                    <label for="password">
-                        <span>Password</span>
-                        <input
-                            class="textfield {{ $errors->any() ? 'error' : '' }}"
-                            name="password"
-                            type="password"
-                        />
-                    </label>
+                    <label for="email">Email</label>
+                    <input
+                        class="textfield {{ $errors->any() ? 'error' : '' }}"
+                        id="email"
+                        name="email"
+                        type="email"
+                        value="{{ old('email') }}"
+                    />
+
+                    <label for="password">Password</label>
+                    <input
+                        class="textfield {{ $errors->any() ? 'error' : '' }}"
+                        id="password"
+                        name="password"
+                        type="password"
+                    />
 
                     <div class="options">
                         <label for="remember_me">
