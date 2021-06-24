@@ -1,0 +1,22 @@
+.alert {
+    $alert-color-error: #f84637;
+
+    width: 100%;
+    border: 2px solid #000;
+    border-radius: 5px;
+    padding: 0.8em 1em;
+    margin-bottom: 1em;
+    border-left-width: 1em;
+
+    h2 {
+        margin-top: 0;
+        margin-bottom: 0.4em;
+        font-size: 1.2em;
+        text-transform: uppercase;
+    }
+
+    &--error {
+        border-color: $alert-color-error;
+        color: $alert-color-error;
+    }
+}

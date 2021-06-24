@@ -27,6 +27,35 @@
         margin-bottom: 6em;
     }
 
+    &__cta-button {
+        display: inline-block;
+        border: 5px solid $color-button-accent;
+        border-radius: 8px;
+        color: $color-button-accent;
+        padding: 0.3em 1.5em 0.2em 1.5em;
+        font-family: $font-header;
+        font-size: 2.3em;
+        text-transform: uppercase;
+        text-decoration: none;
+        box-shadow: 0 4px 4px hsla(0, 0, 0, 25%),
+                    inset 0 4px 4px hsla(0, 0, 0, 35%);
+        text-shadow: 0 4px 4px hsla(0, 0, 0, 35%);
+
+        .fa-mouse-pointer {
+            width: 0.45em;
+            margin-right: 0.1em;
+        }
+
+        &:hover {
+            color: darken($color-button-accent, 5%);
+            border-color: darken($color-button-accent, 5%);
+        }
+    }
+
+    a.hero__cta-button {
+        color: $color-button-accent;
+    }
+
     h1 {
         color: #fff;
         font-size: 6.5em;
