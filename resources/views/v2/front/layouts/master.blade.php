@@ -10,7 +10,7 @@
     <meta name="theme-color" content="#524641">
     <meta name="apple-mobile-web-app-title" content="PCB">
 
-    <meta property="og:url" content="https://www.projectcitybuild.com">
+    <meta property="og:url" content="https://projectcitybuild.com">
     <meta property="og:title" content="@yield('title', 'Project City Build')">
     <meta property="og:description" content="@yield('description')">
     <meta property="og:site_name" content="Project City Build">
@@ -37,8 +37,20 @@
     <script defer src="{{ mix('assets/js/app.js') }}"></script>
 
     @stack('head')
+
+    @if(config('app.env') != 'local')
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2747125-5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-2747125-5');
+    </script>
+    @endif
 </head>
-<body>
+<body>m
 
 <x-navbar />
 
