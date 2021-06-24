@@ -1,7 +1,7 @@
 <div class="row mb-3">
     <label for="donation_id" class="col-sm-3 col-form-label text-end">Donation ID</label>
     <div class="col-sm-9">
-        <input type="text" id="donation_id" name="donation_id" class="form-control" value="{{ old('donation_id', $perk->donation_id) }}">
+        <input type="text" id="donation_id" name="donation_id" class="form-control" value="{{ old('donation_id', $perk->donation_id ?? request()->query('donation_id')) }}">
     </div>
 </div>
 <div class="row mb-3">

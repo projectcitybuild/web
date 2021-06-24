@@ -58,7 +58,7 @@
             <div class="card card-default">
                 <div class="card-header d-flex justify-content-between">
                     <span>Assigned Perks</span>
-                    <a href="#" class="btn btn-outline-primary btn-sm py-0">
+                    <a href="{{ route('front.panel.donation-perks.create') }}?donation_id={{$donation->getKey()}}" class="btn btn-outline-primary btn-sm py-0">
                         <i class="fas fa-plus"></i> Add
                     </a>
                 </div>
