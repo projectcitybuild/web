@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Staff Panel - @yield('title')</title>
-
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="{{ mix('assets/admin/css/admin.css') }}">
