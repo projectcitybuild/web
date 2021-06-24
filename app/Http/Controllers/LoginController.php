@@ -55,7 +55,7 @@ final class LoginController extends WebController
 
     public function create()
     {
-        return view('front.pages.login.login');
+        return view('v2.front.pages.login.login');
     }
 
     public function store(LoginRequest $request)

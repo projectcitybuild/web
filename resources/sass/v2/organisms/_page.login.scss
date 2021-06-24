@@ -1,0 +1,137 @@
+.page.login {
+    width: 100%;
+    height: 100vh;
+    min-height: 100%;
+
+    background-image: url('/assets/images/login-bg.png');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+
+    display: flex;
+    justify-content: center;
+
+    .container {
+        display: flex;
+        flex-direction: row;
+        padding: 0;
+        border-radius: 5px;
+        box-shadow: 0 4px 15px hsla(0, 0, 0, 25%);
+        margin-left: 6em;
+        margin-right: 6em;
+    }
+
+    .login__sign-in,
+    .login__register {
+        padding: 3em 2.5em;
+        box-shadow: inset 0 -4px 0 hsla(0, 0, 0, 25%);
+    }
+
+    .login__sign-in {
+        min-width: 50%;
+        flex-grow: 1;
+        background: #fff;
+        border-radius: 5px 0 0 5px;
+
+        h1 {
+            color: #000;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            border: 0px solid #FF842A;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #FF842A;
+            padding: 0.4em 1.5em 0.3em 1.5em;
+            font-family: $font-header;
+            font-size: 2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            box-shadow: 0 4px 10px hsla(0, 0, 0, 15%),
+                        inset 0 -4px 0 hsla(0, 0, 0, 25%);
+            text-shadow: none;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label > span {
+            display: block;
+            color: #888888;
+            font-size: 0.9em;
+            margin-bottom: 0.5em;
+        }
+
+        .textfield {
+            min-width: 500px;
+            width: 100%;
+            background-color: #FBFBFB;
+            padding: 1em 0.8em;
+            border-radius: 5px;
+            border: 1px solid #DADADA;
+            box-shadow: inset 0 4px 0 hsla(0, 0, 0, 5%);
+        }
+
+        .options {
+            color: #888888;
+            margin-top: 1em;
+            margin-bottom: 3.5em;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+        }
+    }
+
+    .login__register {
+        max-width: 40%;
+        flex-shrink: 0;
+        background: #3D3F41;
+        border-radius: 0 5px 5px 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        h1 {
+            color: #fff;
+        }
+
+        .register-appeal {
+            color: #EAEAEA;
+            font-size: 0.9em;
+            margin-bottom: 2em;
+            flex-grow: 1;
+            line-height: 2em;
+        }
+
+        .button {
+            display: block;
+            border: 2px solid #FF842A;
+            border-radius: 5px;
+            color: #FF842A;
+            padding: 0.4em 1.5em 0.3em 1.5em;
+            font-family: $font-header;
+            font-size: 2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0 4px 10px hsla(0, 0, 0, 15%),
+                        inset 0 4px 10px hsla(0, 0, 0, 15%); // Because button is see-through
+            text-shadow: none;
+        }
+    }
+
+    h1 {
+        font-size: 3.8em;
+        font-family: $font-header;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-kerning: normal;
+        line-height: 0.95em;
+        margin: 0;
+        margin-bottom: 0.4em;
+    }
+}
