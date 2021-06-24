@@ -16,13 +16,13 @@
 
                     @if($errors->any())
                         <div class="alert alert--error">
-                            <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
+                            <h2><i class="fas fa-exclamation-circle"></i> Error</h2>
                             {{ $errors->first() }}
                         </div>
                     @endif
                     @if(Session::get('mfa_removed', false))
                         <div class="alert alert--success">
-                            <h3><i class="fas fa-check"></i> 2FA Reset</h3>
+                            <h2><i class="fas fa-check"></i> 2FA Reset</h2>
                             <p>2FA has been removed from your account, please sign in again.</p>
                         </div>
                     @endif
@@ -63,7 +63,7 @@
                     Members gain access to personal player statistics, the forums, in-game rank synchronization and more.
                 </div>
 
-                <a href="#" class="button outlined">Create an Account</a>
+                <a href="{{ route('front.register') }}" class="button outlined">Create an Account</a>
             </section>
         </div>
     </main>
