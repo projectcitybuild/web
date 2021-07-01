@@ -188,7 +188,7 @@ One of the world's longest-running Minecraft servers; we're a community of creat
                             <h2>Community</h2>
                             <ul>
                                 <li><i class="bullet fas fa-cube"></i> <a href="{{ route('wiki') }}">Community Wiki</a></li>
-                                <li><i class="bullet fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/vote-for-our-server/18na568">Vote For Our Server</a></li>
+                                <li><i class="bullet fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/vote-for-our-server/18568">Vote For Our Server</a></li>
                             </ul>
                         </div>
 
