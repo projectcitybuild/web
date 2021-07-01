@@ -1,11 +1,11 @@
 <div class="row mb-3">
-    <label for="donation_id" class="col-sm-3 col-form-label text-end">Donation ID</label>
+    <label for="donation_id" class="col-sm-3 col-form-label horizontal-label">Donation ID</label>
     <div class="col-sm-9">
-        <input type="text" id="donation_id" name="donation_id" class="form-control" value="{{ old('donation_id', $perk->donation_id) }}">
+        <input type="text" id="donation_id" name="donation_id" class="form-control" value="{{ old('donation_id', $perk->donation_id ?? request()->query('donation_id ')) }}">
     </div>
 </div>
 <div class="row mb-3">
-    <label for="account_id" class="col-sm-3 col-form-label text-end">Account ID</label>
+    <label for="account_id" class="col-sm-3 col-form-label horizontal-label">Account ID</label>
     <div class="col-sm-9">
         <select name="account_id" id="account_id" data-pcb-user-picker>
             @isset($perk->account_id)
@@ -15,13 +15,13 @@
     </div>
 </div>
 <div class="row mb-3">
-    <label for="created_at" class="col-sm-3 col-form-label text-end">Start Date</label>
+    <label for="created_at" class="col-sm-3 col-form-label horizontal-label">Start Date</label>
     <div class="col-sm-9">
         <input type="text" id="created_at" name="created_at" class="form-control" value="{{ old('created_at', $perk->created_at ?? now()) }}">
     </div>
 </div>
 <div class="row mb-3">
-    <label for="created_at" class="col-sm-3 col-form-label text-end">Expiry Date</label>
+    <label for="created_at" class="col-sm-3 col-form-label horizontal-label">Expiry Date</label>
     <div class="col-sm-9">
         <input type="text" id="created_at" name="created_at" aria-describedby="created_at_help" class="form-control" value="{{ old('expires_at', $perk->expires_at ?? now()->addMonth()) }}">
         <div id="created_at_help" class="form-text">Required unless lifetime.</div>

@@ -16,7 +16,7 @@
                             <li><a href="https://forums.projectcitybuild.com/t/pcb-community-rules/22928">Rules & Guidelines</a></li>
                             <li><a href="https://forums.projectcitybuild.com/t/pcb-ranks/32812">Ranks</a></li>
                             <li><a href="https://wiki.projectcitybuild.com/wiki/List_of_Staff_Members">Staff</a></li>
-                            <li><a href="http://pcbmc.co:8123/" target="_blank" rel="noopener noreferrer">Real-Time Map</a></li>
+                            <li><a href="{{ route('maps') }}" target="_blank" rel="noopener noreferrer">Real-Time Map</a></li>
                         </ul>
                     </li>
                     <li>

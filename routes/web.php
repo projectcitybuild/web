@@ -24,6 +24,7 @@ if (Environment::isProduction()) {
 Route::redirect('terms', 'https://forums.projectcitybuild.com/t/community-rules/22928')->name('terms');
 Route::redirect('privacy', 'https://forums.projectcitybuild.com/privacy')->name('privacy');
 Route::redirect('wiki', 'https://wiki.projectcitybuild.com')->name('wiki');
+Route::redirect('maps', 'https://maps.pcbmc.co')->name('maps');
 
 /**
  * Style guide.

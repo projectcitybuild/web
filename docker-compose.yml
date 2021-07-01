@@ -19,7 +19,6 @@ services:
             - '.:/var/www/html'
         networks:
             - sail
-            - takeout
         depends_on:
             - mysql
             - redis
@@ -67,15 +66,26 @@ services:
             - 8025:8025
         networks:
             - sail
+    minio:
+        image: 'minio/minio'
+        ports:
+            - 9000:9000
+        networks:
+            - sail
+        environment:
+          MINIO_ROOT_USER: 'minioadmin'
+          MINIO_ROOT_PASSWORD: 'minioadmin'
+        volumes:
+          - 'sailminio:/data'
+        command: 'server /data'
 networks:
     sail:
         driver: bridge
-    takeout:
-      external:
-        name: takeout
 
 volumes:
     sailmysql:
         driver: local
     sailredis:
+        driver: local
+    sailminio:
         driver: local
