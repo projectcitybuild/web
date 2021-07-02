@@ -10,7 +10,7 @@
         <form action="{{ route('front.panel.accounts.index') }}" method="get">
             <div class="input-group input-group-sm">
                 <input type="text" class="form-control" name="query" value="{{ $query }}" aria-describedby="button-search">
-                <button class="btn btn-outline-secondary" type="button" id="button-search"><i class="fas fa-search" aria-label="Search"></i></button>
+                <button class="btn btn-outline-secondary" type="submit" id="button-search"><i class="fas fa-search" aria-label="Search"></i></button>
             </div>
         </form>
     </div>
