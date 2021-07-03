@@ -250,6 +250,7 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
     Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);
     Route::resource('donations', 'DonationController');
     Route::resource('donation-perks', 'DonationPerksController')->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('minecraft-players', 'MinecraftPlayerController')->only(['index']);
 
     Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
         Route::get('accounts', [
