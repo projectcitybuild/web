@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Groups\Models\Group;
 use App\Entities\Players\Models\MinecraftPlayer;
-use Database\Factories\MinecraftPlayerAliasFactory;
 use Tests\TestCase;
 
 class PanelMinecraftPlayersListTest extends TestCase
@@ -25,7 +24,6 @@ class PanelMinecraftPlayersListTest extends TestCase
 
         $this->adminAccount->groups()->attach($adminGroup->group_id);
     }
-
 
     public function testMCPlayerWithoutAccountShownOnList()
     {

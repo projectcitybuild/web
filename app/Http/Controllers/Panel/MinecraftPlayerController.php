@@ -33,7 +33,6 @@ class MinecraftPlayerController extends WebController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -44,7 +43,6 @@ class MinecraftPlayerController extends WebController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Entities\Players\Models\MinecraftPlayer  $minecraftPlayer
      * @return \Illuminate\Http\Response
      */
     public function show(MinecraftPlayer $minecraftPlayer)
@@ -55,7 +53,6 @@ class MinecraftPlayerController extends WebController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Entities\Players\Models\MinecraftPlayer  $minecraftPlayer
      * @return \Illuminate\Http\Response
      */
     public function edit(MinecraftPlayer $minecraftPlayer)
@@ -66,8 +63,6 @@ class MinecraftPlayerController extends WebController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Players\Models\MinecraftPlayer  $minecraftPlayer
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, MinecraftPlayer $minecraftPlayer)
@@ -78,7 +73,6 @@ class MinecraftPlayerController extends WebController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Entities\Players\Models\MinecraftPlayer  $minecraftPlayer
      * @return \Illuminate\Http\Response
      */
     public function destroy(MinecraftPlayer $minecraftPlayer)
