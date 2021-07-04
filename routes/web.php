@@ -254,7 +254,7 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
 
     Route::post('minecraft-players/lookup', [
         'as' => 'minecraft-players.lookup',
-        'uses' => 'MinecraftPlayerLookupController'
+        'uses' => 'MinecraftPlayerLookupController',
     ]);
 
     Route::group(['prefix' => 'api', 'as' => 'api.'], function () {

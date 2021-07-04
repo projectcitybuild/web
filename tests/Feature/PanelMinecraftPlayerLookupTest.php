@@ -32,13 +32,12 @@ class PanelMinecraftPlayerLookupTest extends TestCase
         $this->withoutExceptionHandling();
     }
 
-
     public function testLookupPlayerByUnDashedUUID()
     {
         $mcPlayer = MinecraftPlayer::factory()->create();
         $this->actingAs($this->adminAccount)
             ->post(route('front.panel.minecraft-players.lookup'), [
-                'query' => $mcPlayer->uuid
+                'query' => $mcPlayer->uuid,
             ])
             ->assertRedirect(route('front.panel.minecraft-players.show', $mcPlayer));
     }
@@ -47,12 +46,12 @@ class PanelMinecraftPlayerLookupTest extends TestCase
     {
         $uuid = $this->faker->uuid;
         $mcPlayer = MinecraftPlayer::factory()->hasAliases(1)->create([
-            'uuid' => str_replace('-', '', $uuid)
+            'uuid' => str_replace('-', '', $uuid),
         ]);
 
         $this->actingAs($this->adminAccount)
             ->post(route('front.panel.minecraft-players.lookup'), [
-                'query' => $uuid
+                'query' => $uuid,
             ])
             ->assertRedirect(route('front.panel.minecraft-players.show', $mcPlayer));
     }
@@ -64,7 +63,7 @@ class PanelMinecraftPlayerLookupTest extends TestCase
 
         $this->actingAs($this->adminAccount)
             ->post(route('front.panel.minecraft-players.lookup'), [
-                'query' => $alias->alias
+                'query' => $alias->alias,
             ])
             ->assertRedirect(route('front.panel.minecraft-players.show', $mcPlayer));
     }
@@ -73,7 +72,7 @@ class PanelMinecraftPlayerLookupTest extends TestCase
     {
         $mcPlayer = MinecraftPlayer::factory()->hasAliases(1)->create();
 
-        $this->mock(MojangPlayerApi::class, function(MockInterface $mock) use ($mcPlayer) {
+        $this->mock(MojangPlayerApi::class, function (MockInterface $mock) use ($mcPlayer) {
             $mock->shouldReceive('getUuidOf')->once()->andReturn(
                 new MojangPlayer($mcPlayer->uuid, 'Herobrine')
             );
@@ -81,7 +80,7 @@ class PanelMinecraftPlayerLookupTest extends TestCase
 
         $this->actingAs($this->adminAccount)
             ->post(route('front.panel.minecraft-players.lookup'), [
-                'query' => 'Herobrine'
+                'query' => 'Herobrine',
             ])
             ->assertRedirect(route('front.panel.minecraft-players.show', $mcPlayer));
     }
@@ -90,7 +89,7 @@ class PanelMinecraftPlayerLookupTest extends TestCase
     {
         $this->actingAs($this->adminAccount)
             ->post(route('front.panel.minecraft-players.lookup'), [
-                'query' => 'Herobrine'
+                'query' => 'Herobrine',
             ])
             ->assertRedirect(route('front.panel.minecraft-players.index'));
     }
