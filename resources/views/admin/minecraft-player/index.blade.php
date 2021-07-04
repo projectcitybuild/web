@@ -18,7 +18,7 @@
                 @foreach($minecraftPlayers as $player)
                     <tr>
                         <td>{{ $player->player_minecraft_id }}</td>
-                        <td>{{ $player->getBanReadableName() }}</td>
+                        <td>{{ $player->getBanReadableName() ?: '-' }}</td>
                         <td class="font-monospace">{{ $player->uuid }}</td>
                         <td>
                             @if($player->account)
@@ -36,5 +36,7 @@
                 @endforeach
             </tbody>
         </table>
+
+        {{ $accounts->links('vendor.pagination.bootstrap-4') }}
     </div>
 @endsection
