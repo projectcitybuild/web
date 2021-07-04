@@ -2,6 +2,19 @@
 
 @section('title', 'Minecraft Players')
 
+@section('toolbar')
+    <div class="d-flex align-items-center">
+
+        <form action="{{ route('front.panel.minecraft-players.lookup') }}" method="post">
+            @csrf
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control" name="query" placeholder="Username/UUID" aria-label="Username or UUID search" aria-describedby="button-search">
+                <button class="btn btn-outline-secondary" type="submit" id="button-search"><i class="fas fa-search" aria-label="Search"></i></button>
+            </div>
+        </form>
+    </div>
+@endsection
+
 @section('body')
     <div class="table-responsive">
         <table class="table table-striped">
