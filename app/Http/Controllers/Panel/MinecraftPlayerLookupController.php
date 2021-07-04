@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\App;
 class MinecraftPlayerLookupController extends WebController
 {
     /**
-     * Lookup a minecraft player by their dashed or undashed UUID.
+     * Lookup a minecraft player by their dashed or un-dashed UUID.
      *
      * @param $uuid
-     * @return MinecraftPlayer
+     * @return MinecraftPlayer|null
      */
     private function lookupByUUID($uuid): ?MinecraftPlayer
     {
@@ -29,6 +29,12 @@ class MinecraftPlayerLookupController extends WebController
         return MinecraftPlayer::where('uuid', $uuid)->first();
     }
 
+    /**
+     * Lookup a minecraft player by their previously fetched alias.
+     *
+     * @param $alias
+     * @return MinecraftPlayer|null
+     */
     private function lookupByStoredAlias($alias): ?MinecraftPlayer
     {
         if (strlen($alias) < 3 || strlen($alias) > 16) {
@@ -44,6 +50,12 @@ class MinecraftPlayerLookupController extends WebController
         return $mcPlayerAlias->minecraftPlayer;
     }
 
+    /**
+     * Lookup a minecraft player by their UUID from the Mojang API.
+     *
+     * @param $alias
+     * @return MinecraftPlayer|null
+     */
     private function lookupByLiveAlias($alias): ?MinecraftPlayer
     {
         if (strlen($alias) < 3 || strlen($alias) > 16) {
