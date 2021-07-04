@@ -16,7 +16,6 @@ class MinecraftPlayerLookupController extends WebController
      * Lookup a minecraft player by their dashed or un-dashed UUID.
      *
      * @param $uuid
-     * @return MinecraftPlayer|null
      */
     private function lookupByUUID($uuid): ?MinecraftPlayer
     {
@@ -33,7 +32,6 @@ class MinecraftPlayerLookupController extends WebController
      * Lookup a minecraft player by their previously fetched alias.
      *
      * @param $alias
-     * @return MinecraftPlayer|null
      */
     private function lookupByStoredAlias($alias): ?MinecraftPlayer
     {
@@ -54,7 +52,6 @@ class MinecraftPlayerLookupController extends WebController
      * Lookup a minecraft player by their UUID from the Mojang API.
      *
      * @param $alias
-     * @return MinecraftPlayer|null
      */
     private function lookupByLiveAlias($alias): ?MinecraftPlayer
     {
