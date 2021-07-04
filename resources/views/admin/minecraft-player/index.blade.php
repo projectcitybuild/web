@@ -37,6 +37,6 @@
             </tbody>
         </table>
 
-        {{ $accounts->links('vendor.pagination.bootstrap-4') }}
+        {{ $minecraftPlayers->links('vendor.pagination.bootstrap-4') }}
     </div>
 @endsection
