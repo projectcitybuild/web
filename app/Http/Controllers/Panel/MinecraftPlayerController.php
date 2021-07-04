@@ -15,7 +15,7 @@ class MinecraftPlayerController extends WebController
      */
     public function index()
     {
-        $minecraftPlayers = MinecraftPlayer::all();
+        $minecraftPlayers = MinecraftPlayer::paginate(50);
 
         return view('admin.minecraft-player.index')->with(compact('minecraftPlayers'));
     }
