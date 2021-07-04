@@ -47,7 +47,7 @@ class MinecraftPlayerController extends WebController
      */
     public function show(MinecraftPlayer $minecraftPlayer)
     {
-        //
+        return view('admin.minecraft-player.show')->with(compact('minecraftPlayer'));
     }
 
     /**

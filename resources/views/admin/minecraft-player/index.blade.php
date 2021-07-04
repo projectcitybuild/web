@@ -43,7 +43,7 @@
                             @endif
                         </td>
                         <td>
-                            <a href="#">Edit</a>
+                            <a href="{{ route('front.panel.minecraft-players.show', $player) }}">Details</a>
                         </td>
                     </tr>
                 @endforeach
