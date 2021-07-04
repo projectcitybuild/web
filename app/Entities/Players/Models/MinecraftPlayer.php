@@ -50,7 +50,8 @@ final class MinecraftPlayer extends Model implements BannableModelInterface
     public function getDashedUuidAttribute()
     {
         $uuid = $this->uuid;
-        return substr($uuid, 0, 8) . '-' . substr($uuid, 8, 4) . '-' . substr($uuid, 12, 4) . '-' . substr($uuid, 16, 4) . '-' . substr($uuid, 20);
+
+        return substr($uuid, 0, 8).'-'.substr($uuid, 8, 4).'-'.substr($uuid, 12, 4).'-'.substr($uuid, 16, 4).'-'.substr($uuid, 20);
     }
 
     public function account(): BelongsTo
