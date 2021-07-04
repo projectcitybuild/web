@@ -7,19 +7,20 @@
 @section('toolbar')
         <div class="btn-group btn-group-sm" role="group">
             <a href="https://analytics.pcbmc.co/player/{{ $minecraftPlayer->dashedUuid }}" class="btn btn-outline-secondary"><i class="fas fa-external-link-square-alt"></i> Plan</a>
+            <a href="#" class="btn btn-outline-secondary"><i class="fas fa-sync"></i> Reload Name</a>
         </div>
 @endsection
 
 @section('body')
     <div class="row">
-        <div class="col-md-1">
+        <div class="col-md-1 col-3">
             <img src="https://minotar.net/avatar/{{ $minecraftPlayer->uuid }}" alt="Player Head" class="img-fluid">
         </div>
         <div class="col-md-5">
             <div class="card card-default">
                 <div class="card-header d-flex justify-content-between">
                     <span>Details</span>
-                    <a href="#" class="btn btn-outline-primary btn-sm py-0">
+                    <a href="{{ route('front.panel.minecraft-players.edit', $minecraftPlayer) }}" class="btn btn-outline-primary btn-sm py-0">
                         <i class="fas fa-pencil-alt"></i> Edit
                     </a>
                 </div>
@@ -44,7 +45,7 @@
                         <dt class="col-md-3">
                             Owner
                         </dt>
-                        <dd class="col-md-9">
+                        <dd class="col-md-9 d-md-flex">
                             @if($minecraftPlayer->account)
                                 <a href="{{ route('front.panel.accounts.show', $minecraftPlayer->account) }}">
                                     {{ $minecraftPlayer->account->username ?: '(Unset)' }}
