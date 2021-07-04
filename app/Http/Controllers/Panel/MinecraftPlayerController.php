@@ -68,11 +68,11 @@ class MinecraftPlayerController extends WebController
     public function update(Request $request, MinecraftPlayer $minecraftPlayer)
     {
         $request->validate([
-            'account_id' => 'nullable|exists:accounts'
+            'account_id' => 'nullable|exists:accounts',
         ]);
 
         $minecraftPlayer->update([
-            'account_id' => $request->account_id
+            'account_id' => $request->account_id,
         ]);
 
         return redirect(route('front.panel.minecraft-players.show', $minecraftPlayer));
