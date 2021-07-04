@@ -13,37 +13,48 @@ use Illuminate\Support\Facades\App;
 class MinecraftPlayerLookupController extends WebController
 {
     /**
-     * Lookup a minecraft player by their dashed or undashed UUID
+     * Lookup a minecraft player by their dashed or undashed UUID.
      *
      * @param $uuid
      * @return MinecraftPlayer
      */
     private function lookupByUUID($uuid): ?MinecraftPlayer
     {
-        if (strlen($uuid) != 32 && strlen($uuid) != 36) return null;
+        if (strlen($uuid) != 32 && strlen($uuid) != 36) {
+            return null;
+        }
 
         $uuid = str_replace('-', '', $uuid);
+
         return MinecraftPlayer::where('uuid', $uuid)->first();
     }
 
     private function lookupByStoredAlias($alias): ?MinecraftPlayer
     {
-        if (strlen($alias) < 3 || strlen($alias) > 16) return null;
+        if (strlen($alias) < 3 || strlen($alias) > 16) {
+            return null;
+        }
 
         $mcPlayerAlias = MinecraftPlayerAlias::where('alias', $alias)->first();
 
-        if ($mcPlayerAlias == null) return null;
+        if ($mcPlayerAlias == null) {
+            return null;
+        }
+
         return $mcPlayerAlias->minecraftPlayer;
     }
 
     private function lookupByLiveAlias($alias): ?MinecraftPlayer
     {
-        if (strlen($alias) < 3 || strlen($alias) > 16) return null;
+        if (strlen($alias) < 3 || strlen($alias) > 16) {
+            return null;
+        }
 
         $api = App::make(MojangPlayerApi::class);
 
         try {
             $mojangPlayer = $api->getUuidOf($alias);
+
             return $this->lookupByUUID($mojangPlayer->getUuid());
         } catch (TooManyRequestsException $e) {
             return null;
@@ -53,7 +64,6 @@ class MinecraftPlayerLookupController extends WebController
     /**
      * Handle the incoming request.
      *
-     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function __invoke(Request $request)
