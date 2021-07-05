@@ -14,10 +14,10 @@ class MinecraftPlayerReloadAliasController extends WebController
      * Handle the incoming request.
      *
      * @return \Illuminate\Http\Response
+     * @throws \App\Exceptions\Http\TooManyRequestsException
      */
-    public function __invoke(Request $request, MinecraftPlayer $minecraftPlayer)
+    public function __invoke(Request $request, MinecraftPlayer $minecraftPlayer, MojangPlayerApi $api)
     {
-        $api = App::make(MojangPlayerApi::class);
         $nameHistory = $api->getNameHistoryOf($minecraftPlayer->uuid)->getNameChanges();
         $currentAlias = array_pop($nameHistory)->getAlias();
         $minecraftPlayer->aliases()->firstOrCreate([
