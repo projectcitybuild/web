@@ -46,22 +46,4 @@ class PanelAccountTest extends TestCase
 
         $this->assertDatabaseHas('accounts', $newData);
     }
-
-    public function testBanWithNoAliases()
-    {
-        $banningStaffAccount = Account::factory()->has(MinecraftPlayer::factory(), 'minecraftAccount')->create();
-        $bannedPlayerAccount = Account::factory()
-            ->has(MinecraftPlayer::factory()->count(1)
-                ->has(GameBan::factory()->count(1)
-                    ->bannedBy($banningStaffAccount->minecraftAccount->first())
-                ), 'minecraftAccount')
-            ->create();
-
-        $this->withoutExceptionHandling();
-
-        $resp = $this->actingAs($this->adminAccount())
-            ->get(route('front.panel.accounts.show', $bannedPlayerAccount))
-            ->assertOk()
-            ->assertSee('No Alias');
-    }
 }
