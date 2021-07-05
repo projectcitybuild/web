@@ -7,14 +7,18 @@
 @section('toolbar')
         <div class="btn-group btn-group-sm" role="group">
             <a href="https://analytics.pcbmc.co/player/{{ $minecraftPlayer->dashedUuid }}" class="btn btn-outline-secondary"><i class="fas fa-external-link-square-alt"></i> Plan</a>
-            <a href="#" class="btn btn-outline-secondary"><i class="fas fa-sync"></i> Reload Name</a>
+            <form action="{{ route('front.panel.minecraft-players.reload-alias', $minecraftPlayer) }}" method="post">
+                @csrf
+                <button type="submit" class="btn btn-outline-secondary"><i class="fas fa-sync"></i> Reload Name</button>
+            </form>
         </div>
 @endsection
 
 @section('body')
     <div class="row">
         <div class="col-md-1 col-3">
-            <img src="https://minotar.net/avatar/{{ $minecraftPlayer->uuid }}" alt="Player Head" class="img-fluid">
+            <img src="https://minotar.net/armor/body/{{ $minecraftPlayer->uuid }}" alt="Player Head" class="img-fluid d-none d-md-block">
+            <img src="https://minotar.net/helm/{{ $minecraftPlayer->uuid }}" alt="Player Head" class="img-fluid d-md-none">
         </div>
         <div class="col-md-5">
             <div class="card card-default">

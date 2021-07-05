@@ -257,6 +257,11 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
         'uses' => 'MinecraftPlayerLookupController',
     ]);
 
+    Route::post('minecraft-players/{minecraft_player}/reload-alias', [
+        'as' => 'minecraft-players.reload-alias',
+        'uses' => 'MinecraftPlayerReloadAliasController',
+    ]);
+
     Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
         Route::get('accounts', [
             'as' => 'account-search',
