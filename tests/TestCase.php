@@ -35,12 +35,12 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Get a user in a group with admin rights
+     * Get a user in a group with admin rights.
      *
      * @param bool|null $fresh force the creation of a fresh user
-     * @return Account
      */
-    protected function adminAccount(?bool $fresh = false): Account {
+    protected function adminAccount(?bool $fresh = false): Account
+    {
         if ($fresh || $this->adminAccount == null) {
             $this->adminAccount = Account::factory()
                 ->has(Group::factory()->administrator())
