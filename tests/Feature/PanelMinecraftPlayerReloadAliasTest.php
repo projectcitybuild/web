@@ -12,24 +12,6 @@ use Tests\TestCase;
 
 class PanelMinecraftPlayerReloadAliasTest extends TestCase
 {
-    private $adminAccount;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->adminAccount = Account::factory()->create();
-
-        $adminGroup = Group::create([
-            'name' => 'Administrator',
-            'can_access_panel' => true,
-        ]);
-
-        $this->adminAccount->groups()->attach($adminGroup->group_id);
-
-        $this->withoutExceptionHandling();
-    }
-
     public function testReloadAlias()
     {
         $minecraftPlayer = MinecraftPlayer::factory()->hasAliases(1)->create();
@@ -44,7 +26,7 @@ class PanelMinecraftPlayerReloadAliasTest extends TestCase
             );
         });
 
-        $this->actingAs($this->adminAccount)
+        $this->actingAs($this->adminAccount())
             ->post(route('front.panel.minecraft-players.reload-alias', $minecraftPlayer));
 
         $this->assertDatabaseHas('players_minecraft_aliases', [
@@ -65,7 +47,7 @@ class PanelMinecraftPlayerReloadAliasTest extends TestCase
             );
         });
 
-        $this->actingAs($this->adminAccount)
+        $this->actingAs($this->adminAccount())
             ->post(route('front.panel.minecraft-players.reload-alias', $minecraftPlayer));
 
         $this->assertDatabaseCount('players_minecraft_aliases', 1);

@@ -61,4 +61,17 @@ class GroupFactory extends Factory
             ];
         });
     }
+
+    public function administrator()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'name' => 'Administrator',
+                'discourse_name' => 'administrator',
+                'is_staff' => true,
+                'is_admin' => true,
+                'can_access_panel' => true,
+            ];
+        });
+    }
 }

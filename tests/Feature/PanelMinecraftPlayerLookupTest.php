@@ -14,20 +14,10 @@ use Tests\TestCase;
 class PanelMinecraftPlayerLookupTest extends TestCase
 {
     use WithFaker;
-    private $adminAccount;
 
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->adminAccount = Account::factory()->create();
-
-        $adminGroup = Group::create([
-            'name' => 'Administrator',
-            'can_access_panel' => true,
-        ]);
-
-        $this->adminAccount->groups()->attach($adminGroup->group_id);
 
         $this->withoutExceptionHandling();
     }
@@ -35,7 +25,7 @@ class PanelMinecraftPlayerLookupTest extends TestCase
     public function testLookupPlayerByUnDashedUUID()
     {
         $mcPlayer = MinecraftPlayer::factory()->create();
-        $this->actingAs($this->adminAccount)
+        $this->actingAs($this->adminAccount())
             ->post(route('front.panel.minecraft-players.lookup'), [
                 'query' => $mcPlayer->uuid,
             ])
@@ -49,7 +39,7 @@ class PanelMinecraftPlayerLookupTest extends TestCase
             'uuid' => str_replace('-', '', $uuid),
         ]);
 
-        $this->actingAs($this->adminAccount)
+        $this->actingAs($this->adminAccount())
             ->post(route('front.panel.minecraft-players.lookup'), [
                 'query' => $uuid,
             ])
@@ -61,7 +51,7 @@ class PanelMinecraftPlayerLookupTest extends TestCase
         $mcPlayer = MinecraftPlayer::factory()->hasAliases(1)->create();
         $alias = $mcPlayer->aliases()->latest()->first();
 
-        $this->actingAs($this->adminAccount)
+        $this->actingAs($this->adminAccount())
             ->post(route('front.panel.minecraft-players.lookup'), [
                 'query' => $alias->alias,
             ])
@@ -78,7 +68,7 @@ class PanelMinecraftPlayerLookupTest extends TestCase
             );
         });
 
-        $this->actingAs($this->adminAccount)
+        $this->actingAs($this->adminAccount())
             ->post(route('front.panel.minecraft-players.lookup'), [
                 'query' => 'Herobrine',
             ])
@@ -87,7 +77,7 @@ class PanelMinecraftPlayerLookupTest extends TestCase
 
     public function testLookupOfNonExistentPlayer()
     {
-        $this->actingAs($this->adminAccount)
+        $this->actingAs($this->adminAccount())
             ->post(route('front.panel.minecraft-players.lookup'), [
                 'query' => 'Herobrine',
             ])
