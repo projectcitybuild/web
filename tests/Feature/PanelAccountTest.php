@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use App\Entities\Accounts\Models\Account;
-use App\Entities\Bans\Models\GameBan;
-use App\Entities\Players\Models\MinecraftPlayer;
 use App\Http\Actions\SyncUserToDiscourse;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
