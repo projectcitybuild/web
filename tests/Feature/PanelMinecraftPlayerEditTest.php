@@ -46,7 +46,7 @@ class PanelMinecraftPlayerEditTest extends TestCase
 
         $this->assertDatabaseHas('players_minecraft', [
             'player_minecraft_id' => $mcPlayer->player_minecraft_id,
-            'account_id' => $anotherAccount->account_id
+            'account_id' => $anotherAccount->account_id,
         ]);
     }
 

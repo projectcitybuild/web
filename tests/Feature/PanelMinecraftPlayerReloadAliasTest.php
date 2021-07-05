@@ -6,7 +6,6 @@ use App\Entities\Accounts\Models\Account;
 use App\Entities\Groups\Models\Group;
 use App\Entities\Players\Models\MinecraftPlayer;
 use App\Library\Mojang\Api\MojangPlayerApi;
-use App\Library\Mojang\Models\MojangPlayer;
 use App\Library\Mojang\Models\MojangPlayerNameHistory;
 use Mockery\MockInterface;
 use Tests\TestCase;
@@ -38,9 +37,9 @@ class PanelMinecraftPlayerReloadAliasTest extends TestCase
         $this->mock(MojangPlayerApi::class, function (MockInterface $mock) {
             $mock->shouldReceive('getNameHistoryOf')->once()->andReturn(
                 new MojangPlayerNameHistory([
-                    (object)['name' => 'Original'],
-                    (object)['name' => 'Second', 'changeToAt' => 1423063907000],
-                    (object)['name' => 'Third', 'changeToAt' => 1425714026000]
+                    (object) ['name' => 'Original'],
+                    (object) ['name' => 'Second', 'changeToAt' => 1423063907000],
+                    (object) ['name' => 'Third', 'changeToAt' => 1425714026000],
                 ])
             );
         });
@@ -61,7 +60,7 @@ class PanelMinecraftPlayerReloadAliasTest extends TestCase
         $this->mock(MojangPlayerApi::class, function (MockInterface $mock) {
             $mock->shouldReceive('getNameHistoryOf')->once()->andReturn(
                 new MojangPlayerNameHistory([
-                    (object)['name' => 'MyAlias'],
+                    (object) ['name' => 'MyAlias'],
                 ])
             );
         });

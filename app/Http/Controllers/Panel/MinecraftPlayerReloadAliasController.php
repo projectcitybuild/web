@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Entities\Players\Models\MinecraftPlayer;
-use App\Entities\Players\Models\MinecraftPlayerAlias;
 use App\Http\WebController;
 use App\Library\Mojang\Api\MojangPlayerApi;
 use Illuminate\Http\Request;
@@ -14,8 +13,6 @@ class MinecraftPlayerReloadAliasController extends WebController
     /**
      * Handle the incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param MinecraftPlayer $minecraftPlayer
      * @return \Illuminate\Http\Response
      */
     public function __invoke(Request $request, MinecraftPlayer $minecraftPlayer)
