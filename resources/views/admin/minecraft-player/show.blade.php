@@ -16,7 +16,7 @@
 
 @section('body')
     <div class="row">
-        <div class="col-md-1 col-3">
+        <div class="col-md-1 col-3 me-auto">
             <img src="https://minotar.net/armor/body/{{ $minecraftPlayer->uuid }}" alt="Player Head" class="img-fluid d-none d-md-block">
             <img src="https://minotar.net/helm/{{ $minecraftPlayer->uuid }}" alt="Player Head" class="img-fluid d-md-none">
         </div>
@@ -102,7 +102,49 @@
                     </table>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">Bans</div>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Reason</th>
+                            <th>Banned By</th>
+                            <th>Expires At</th>
+                            <th>Banned At</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @forelse($minecraftPlayer->gameBans as $ban)
+                            <tr class="{{ $ban->is_active ? 'table-warning' : '' }}">
+                                <td data-bs-toggle="tooltip" data-bs-placement="left" title="{{ $ban->is_active ? 'Active' : 'Inactive' }}">
+                                    <i class="fas fa-{{ $ban->is_active ? 'exclamation' : 'clock' }} fa-fw"></i>
+                                </td>
+                                <td>{{ $ban->reason }}</td>
+                                <td><a href="{{ route('front.panel.minecraft-players.show', $ban->staffPlayer) }}">{{ $ban->getStaffName() }}</a></td>
+                                <td>{{ $ban->expires_at }}</td>
+                                <td>{{ $ban->created_at }}</td>
 
+                                <td class="actions">
+{{--                                    <a href="#" class="text-danger">Unban</a>--}}
+{{--                                    <a href="#">Edit</a>--}}
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-muted text-center">No bans</td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
