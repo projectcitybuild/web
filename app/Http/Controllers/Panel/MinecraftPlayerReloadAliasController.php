@@ -6,7 +6,6 @@ use App\Entities\Players\Models\MinecraftPlayer;
 use App\Http\WebController;
 use App\Library\Mojang\Api\MojangPlayerApi;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 
 class MinecraftPlayerReloadAliasController extends WebController
 {
