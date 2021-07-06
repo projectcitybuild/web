@@ -4,7 +4,7 @@
 
 @section('toolbar')
     <div class="d-flex align-items-center">
-
+        <a href="{{ route('front.panel.minecraft-players.create') }}" class="btn btn-outline-secondary btn-sm me-2"><i class="fas fa-plus"></i> Create</a>
         <form action="{{ route('front.panel.minecraft-players.lookup') }}" method="post">
             @csrf
             <div class="input-group input-group-sm">

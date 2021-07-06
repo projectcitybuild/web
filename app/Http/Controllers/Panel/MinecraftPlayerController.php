@@ -29,7 +29,7 @@ class MinecraftPlayerController extends WebController
      */
     public function create()
     {
-        //
+        return view('admin.minecraft-player.create');
     }
 
     /**

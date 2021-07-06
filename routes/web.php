@@ -250,7 +250,7 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
     Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);
     Route::resource('donations', 'DonationController');
     Route::resource('donation-perks', 'DonationPerksController')->only(['create', 'store', 'edit', 'update', 'destroy']);
-    Route::resource('minecraft-players', 'MinecraftPlayerController')->only(['index', 'show', 'edit', 'update', 'store']);
+    Route::resource('minecraft-players', 'MinecraftPlayerController')->except(['destroy']);
 
     Route::post('minecraft-players/lookup', [
         'as' => 'minecraft-players.lookup',

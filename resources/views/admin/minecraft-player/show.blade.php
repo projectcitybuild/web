@@ -16,12 +16,12 @@
 
 @section('body')
     <div class="row">
-        <div class="col-md-1 col-3 me-auto">
-            <img src="https://minotar.net/armor/body/{{ $minecraftPlayer->uuid }}" alt="Player Head" class="img-fluid d-none d-md-block">
-            <img src="https://minotar.net/helm/{{ $minecraftPlayer->uuid }}" alt="Player Head" class="img-fluid d-md-none">
+        <div class="col-md-2 col">
+            <img src="https://minotar.net/armor/body/{{ $minecraftPlayer->uuid }}" alt="Player Head" class="img-fluid d-none d-md-block mx-auto">
+            <img src="https://minotar.net/helm/{{ $minecraftPlayer->uuid }}" alt="Player Head" class="img-fluid d-block d-md-none mx-auto mb-2">
         </div>
         <div class="col-md-5">
-            <div class="card card-default">
+            <div class="card h-100 card-default">
                 <div class="card-header d-flex justify-content-between">
                     <span>Details</span>
                     <a href="{{ route('front.panel.minecraft-players.edit', $minecraftPlayer) }}" class="btn btn-outline-primary btn-sm py-0">

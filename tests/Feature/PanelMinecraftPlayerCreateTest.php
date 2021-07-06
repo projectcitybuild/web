@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
-class PanelCreateMinecraftPlayerTest extends TestCase
+class PanelMinecraftPlayerCreateTest extends TestCase
 {
     use WithFaker;
 
@@ -26,7 +26,6 @@ class PanelCreateMinecraftPlayerTest extends TestCase
 
     public function testCanViewCreateForm()
     {
-        $this->markTestSkipped();
         $this->actingAs($this->adminAccount())
             ->get(route('front.panel.minecraft-players.create'))
             ->assertOk();
