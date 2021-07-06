@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Players\Models\MinecraftPlayer;
 use App\Library\Mojang\Api\MojangPlayerApi;
-use App\Library\Mojang\Models\MojangPlayer;
 use App\Library\Mojang\Models\MojangPlayerNameHistory;
 use Illuminate\Foundation\Testing\WithFaker;
 use Mockery\MockInterface;
@@ -20,7 +19,7 @@ class PanelCreateMinecraftPlayerTest extends TestCase
         $this->mock(MojangPlayerApi::class, function (MockInterface $mock) {
             // API will return null for name history if the player does not exist
             $mock->shouldReceive('getNameHistoryOf')->once()->andReturn(new MojangPlayerNameHistory([
-                (object)['name' => 'Herobrine'],
+                (object) ['name' => 'Herobrine'],
             ]));
         });
     }
@@ -43,13 +42,13 @@ class PanelCreateMinecraftPlayerTest extends TestCase
         $this->actingAs($this->adminAccount())
             ->post(route('front.panel.minecraft-players.store'), [
                 'uuid' => $mcPlayer->uuid,
-                'account_id' => $account->account_id
+                'account_id' => $account->account_id,
             ])
             ->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas('players_minecraft', [
             'uuid' => $mcPlayer->uuid,
-            'account_id' => $account->account_id
+            'account_id' => $account->account_id,
         ]);
     }
 
@@ -63,12 +62,12 @@ class PanelCreateMinecraftPlayerTest extends TestCase
         $this->actingAs($this->adminAccount())
             ->post(route('front.panel.minecraft-players.store'), [
                 'uuid' => $dashedUUID,
-                'account_id' => $account->account_id
+                'account_id' => $account->account_id,
             ]);
 
         $this->assertDatabaseHas('players_minecraft', [
             'uuid' => str_replace('-', '', $dashedUUID),
-            'account_id' => $account->account_id
+            'account_id' => $account->account_id,
         ]);
     }
 
@@ -83,14 +82,14 @@ class PanelCreateMinecraftPlayerTest extends TestCase
         $this->actingAs($this->adminAccount())
             ->post(route('front.panel.minecraft-players.store'), [
                 'uuid' => $mcPlayer->uuid,
-                'account_id' => $newAccount->account_id
+                'account_id' => $newAccount->account_id,
             ]);
 
-        $this->assertDatabaseCount('players_minecraft',1);
+        $this->assertDatabaseCount('players_minecraft', 1);
 
         $this->assertDatabaseHas('players_minecraft', [
             'uuid' => $mcPlayer->uuid,
-            'account_id' => $newAccount->account_id
+            'account_id' => $newAccount->account_id,
         ]);
     }
 
@@ -99,7 +98,7 @@ class PanelCreateMinecraftPlayerTest extends TestCase
         $account = Account::factory()->create();
         $mcPlayer = MinecraftPlayer::factory()->make();
 
-        $this->mock(MojangPlayerApi::class, function (MockInterface $mock) use ($mcPlayer) {
+        $this->mock(MojangPlayerApi::class, function (MockInterface $mock) {
             // API will return null for name history if the player does not exist
             $mock->shouldReceive('getNameHistoryOf')->once()->andReturn(null);
         });
@@ -107,12 +106,12 @@ class PanelCreateMinecraftPlayerTest extends TestCase
         $this->actingAs($this->adminAccount())
             ->post(route('front.panel.minecraft-players.store'), [
                 'uuid' => $mcPlayer->uuid,
-                'account_id' => $account->account_id
+                'account_id' => $account->account_id,
             ]);
 
         $this->assertDatabaseMissing('players_minecraft', [
             'uuid' => $mcPlayer->uuid,
-            'account_id' => $account->account_id
+            'account_id' => $account->account_id,
         ]);
     }
 }
