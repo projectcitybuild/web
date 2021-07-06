@@ -41,14 +41,14 @@ class MinecraftPlayerController extends WebController
     {
         $request->validate([
             'uuid' => 'required',
-            'account_id' => 'nullable|exists:accounts'
+            'account_id' => 'nullable|exists:accounts',
         ]);
 
         $uuid = str_replace('-', '', $request->uuid);
 
         if ($api->getNameHistoryOf($uuid) == null) {
             throw ValidationException::withMessages([
-                'uuid' => 'Not an active Minecraft UUID'
+                'uuid' => 'Not an active Minecraft UUID',
             ]);
         }
 
@@ -65,6 +65,7 @@ class MinecraftPlayerController extends WebController
     public function show(MinecraftPlayer $minecraftPlayer)
     {
         $minecraftPlayer->load(['account', 'aliases', 'gameBans', 'gameBans.bannedPlayer.aliases', 'gameBans.staffPlayer.aliases']);
+
         return view('admin.minecraft-player.show')->with(compact('minecraftPlayer'));
     }
 
