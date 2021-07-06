@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Panel;
 
 use App\Entities\Players\Models\MinecraftPlayer;
 use App\Http\WebController;
+use App\Library\Mojang\Api\MojangPlayerApi;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class MinecraftPlayerController extends WebController
 {
@@ -35,9 +37,24 @@ class MinecraftPlayerController extends WebController
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, MojangPlayerApi $api)
     {
-        //
+        $request->validate([
+            'uuid' => 'required',
+            'account_id' => 'nullable|exists:accounts'
+        ]);
+
+        $uuid = str_replace('-', '', $request->uuid);
+
+        if ($api->getNameHistoryOf($uuid) == null) {
+            throw ValidationException::withMessages([
+                'uuid' => 'Not an active Minecraft UUID'
+            ]);
+        }
+
+        $mcPlayer = MinecraftPlayer::updateOrCreate(['uuid' => $uuid], ['account_id' => $request->account_id]);
+
+        return redirect(route('front.panel.minecraft-players.show', $mcPlayer));
     }
 
     /**
