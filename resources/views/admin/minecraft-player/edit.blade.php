@@ -7,6 +7,8 @@
 @section('body')
     <div class="row">
         <div class="col-md-8">
+            @include('admin._errors')
+
             <form action="{{ route('front.panel.minecraft-players.update', $minecraftPlayer) }}" method="post">
             @csrf
             @method('PUT')
