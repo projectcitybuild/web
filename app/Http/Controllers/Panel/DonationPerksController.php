@@ -58,7 +58,7 @@ class DonationPerksController extends WebController
                 ->withInput();
         }
 
-        DonationPerk::create([
+        $perk = DonationPerk::create([
             'donation_id' => $request->get('donation_id'),
             'account_id' => $request->get('account_id'),
             'is_active' => $request->get('is_active'),
@@ -68,7 +68,7 @@ class DonationPerksController extends WebController
             'updated_at' => $request->get('created_at'),
         ]);
 
-        return redirect(route('front.panel.donation-perks.index'));
+        return redirect(route('front.panel.donations.show', $perk->donation));
     }
 
     /**

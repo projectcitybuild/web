@@ -1,7 +1,7 @@
 <div class="row mb-3">
     <label for="donation_id" class="col-sm-3 col-form-label horizontal-label">Donation ID</label>
     <div class="col-sm-9">
-        <input type="text" id="donation_id" name="donation_id" class="form-control" value="{{ old('donation_id', $perk->donation_id ?? request()->query('donation_id ')) }}">
+        <input type="text" id="donation_id" name="donation_id" class="form-control" value="{{ old('donation_id', $perk->donation_id ?? request()->query('donation_id')) }}">
     </div>
 </div>
 <div class="row mb-3">
@@ -23,8 +23,8 @@
 <div class="row mb-3">
     <label for="created_at" class="col-sm-3 col-form-label horizontal-label">Expiry Date</label>
     <div class="col-sm-9">
-        <input type="text" id="created_at" name="created_at" aria-describedby="created_at_help" class="form-control" value="{{ old('expires_at', $perk->expires_at ?? now()->addMonth()) }}">
-        <div id="created_at_help" class="form-text">Required unless lifetime.</div>
+        <input type="text" id="expires_at" name="expires_at" aria-describedby="expires_at_help" class="form-control" value="{{ old('expires_at', $perk->expires_at ?? now()->addMonth()) }}">
+        <div id="expires_at_help" class="form-text">Required unless lifetime.</div>
     </div>
 </div>
 <div class="row mb-3">
