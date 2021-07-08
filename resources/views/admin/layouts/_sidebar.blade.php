@@ -20,9 +20,9 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link {{ request()->is('panel/minecraft-players*') ? 'active' : '' }} " href="{{ route('front.panel.minecraft-players.index') }}">
                     <i class="fas fa-cube"></i>
-                    Minecraft Accounts
+                    Minecraft Players
                 </a>
             </li>
         </ul>

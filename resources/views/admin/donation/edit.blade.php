@@ -5,6 +5,7 @@
 @section('body')
     <div class="row">
         <div class="col-md-8">
+            @include('admin._errors')
             <form action="{{ route('front.panel.donations.update', $donation) }}" method="post">
                 @csrf
                 @method('PUT')

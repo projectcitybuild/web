@@ -25,6 +25,7 @@ Route::redirect('terms', 'https://forums.projectcitybuild.com/t/community-rules/
 Route::redirect('privacy', 'https://forums.projectcitybuild.com/privacy')->name('privacy');
 Route::redirect('wiki', 'https://wiki.projectcitybuild.com')->name('wiki');
 Route::redirect('maps', 'https://maps.pcbmc.co')->name('maps');
+Route::redirect('3d-maps', 'https://3d.pcbmc.co')->name('3d-maps');
 
 /**
  * Style guide.
@@ -250,6 +251,17 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
     Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);
     Route::resource('donations', 'DonationController');
     Route::resource('donation-perks', 'DonationPerksController')->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('minecraft-players', 'MinecraftPlayerController')->except(['destroy']);
+
+    Route::post('minecraft-players/lookup', [
+        'as' => 'minecraft-players.lookup',
+        'uses' => 'MinecraftPlayerLookupController',
+    ]);
+
+    Route::post('minecraft-players/{minecraft_player}/reload-alias', [
+        'as' => 'minecraft-players.reload-alias',
+        'uses' => 'MinecraftPlayerReloadAliasController',
+    ]);
 
     Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
         Route::get('accounts', [

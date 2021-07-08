@@ -235,8 +235,13 @@
                         </thead>
                         <tbody>
                         @forelse($account->minecraftAccount as $player)
-                            <tr>
-                                <td><img src="https://minotar.net/avatar/{{ $player->uuid }}/16" alt=""></td>
+                            <tr class="{{ $player->isBanned() ? 'table-warning' : '' }}">
+                                <td @if($player->isBanned()) data-bs-toggle="tooltip" data-bs-placement="left" title="Banned" @endif>
+                                    @if($player->isBanned())
+                                        <i class="fas fa-flag" ></i>
+                                    @endif
+                                    <img src="https://minotar.net/avatar/{{ $player->uuid }}/16" alt="">
+                                </td>
                                 <td>
                                     @if($player->aliases()->count() == 0)
                                         <span class="text-muted">Unknown</span>
@@ -244,7 +249,7 @@
                                         {{ $player->aliases->last()->alias }}
                                     @endempty
                                 </td>
-                                <td>{{ $player->uuid }}</td>
+                                <td class="font-monospace">{{ $player->uuid }}</td>
                                 <td>
                                     @isset($mcAccount->last_synced_at)
                                         {{ $mcAccount->last_synced_at->toFormattedDateString() }}
@@ -253,9 +258,11 @@
                                     @endisset
                                 </td>
                                 <td>{{ $player->created_at }}</td>
-                                <td>
+                                <td class="actions">
+                                    <a href="{{ route('front.panel.minecraft-players.show', $player) }}">View</a>
                                     <form
                                         action="{{ route('front.panel.accounts.game-account.delete', [$account, $player]) }}"
+                                        class="d-inline"
                                         method="post">
                                         @csrf
                                         @method('DELETE')
@@ -266,43 +273,6 @@
                         @empty
                             <tr>
                                 <td colspan="6" class="text-muted text-center">No linked accounts</td>
-                            </tr>
-                        @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row mt-3">
-        <div class="col">
-            <div class="card card-default">
-                <div class="card-header">Bans</div>
-                <div class="table-responsive">
-                    <table class="table mb-0">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>Reason</th>
-                            <th>Banned By</th>
-                            <th>Banned At</th>
-                            <th>Expires At</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @forelse($account->gameBans() as $ban)
-                            <tr class="{{ $ban->is_active ? 'table-danger' : '' }}">
-                                <td data-bs-toggle="tooltip" data-bs-placement="left" title="{{ $ban->is_active ? 'Active' : 'Expired' }}">
-                                    <i class="fas fa-{{ $ban->is_active ? 'check' : 'clock' }}"></i>
-                                </td>
-                                <td>{{ $ban->reason }}</td>
-                                <td>{{ $ban->getStaffName() }}</td>
-                                <td>{{ $ban->created_at }}</td>
-                                <td>{{ $ban->expires_at }}</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5" class="text-muted text-center">No bans</td>
                             </tr>
                         @endforelse
                         </tbody>

@@ -109,6 +109,10 @@ td.actions {
             margin-right: 0;
         }
     }
+
+    a {
+        vertical-align: middle;
+    }
 }
 
 dl.kv {
@@ -137,7 +141,7 @@ dl.kv {
             padding-left: 0;
             padding-top: 0;
 
-            margin-bottom: 0.5rem;
+            //margin-bottom: 0.5rem;
         }
     }
 }
