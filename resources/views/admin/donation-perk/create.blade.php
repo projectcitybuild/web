@@ -9,6 +9,8 @@
                 <i class="fas fa-info-circle me-2"></i> Users must be manually added to the Donator group once a perk has been created.
             </div>
 
+            @include('admin._errors')
+
             <form action="{{ route('front.panel.donation-perks.store') }}" method="post">
                 @csrf
 

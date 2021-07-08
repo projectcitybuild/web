@@ -4,6 +4,7 @@ import 'selectize/dist/js/selectize';
 const userSelectElements = [].slice.call(document.querySelectorAll('[data-pcb-user-picker]'));
 
 userSelectElements.map(function (userSelectEl: HTMLElement) {
+    console.info("Initialising user select " + userSelectEl);
     $(userSelectEl).selectize({
         valueField: "account_id",
         labelField: "username",

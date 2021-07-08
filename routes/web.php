@@ -251,6 +251,17 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
     Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);
     Route::resource('donations', 'DonationController');
     Route::resource('donation-perks', 'DonationPerksController')->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('minecraft-players', 'MinecraftPlayerController')->except(['destroy']);
+
+    Route::post('minecraft-players/lookup', [
+        'as' => 'minecraft-players.lookup',
+        'uses' => 'MinecraftPlayerLookupController',
+    ]);
+
+    Route::post('minecraft-players/{minecraft_player}/reload-alias', [
+        'as' => 'minecraft-players.reload-alias',
+        'uses' => 'MinecraftPlayerReloadAliasController',
+    ]);
 
     Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
         Route::get('accounts', [
