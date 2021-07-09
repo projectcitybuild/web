@@ -9,10 +9,12 @@ use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as IAuditable;
 
-final class MinecraftPlayer extends Model implements BannableModelInterface
+final class MinecraftPlayer extends Model implements BannableModelInterface, IAuditable
 {
-    use HasFactory;
+    use HasFactory, Auditable;
 
     protected $table = 'players_minecraft';
 

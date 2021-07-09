@@ -6,10 +6,12 @@ use App\Entities\Accounts\Models\Account;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as IAuditable;
 
-final class DonationPerk extends Model
+final class DonationPerk extends Model implements IAuditable
 {
-    use HasFactory;
+    use HasFactory, Auditable;
 
     /**
      * The table associated with the model.
@@ -66,6 +68,10 @@ final class DonationPerk extends Model
     protected $casts = [
         'is_active' => 'boolean',
         'is_lifetime_perks' => 'boolean',
+    ];
+
+    protected $auditExclude = [
+        'updated_at',
     ];
 
     public function account(): BelongsTo

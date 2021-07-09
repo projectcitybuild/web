@@ -7,10 +7,12 @@ use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as IAuditable;
 
-final class Donation extends Model
+final class Donation extends Model implements IAuditable
 {
-    use HasFactory;
+    use HasFactory, Auditable;
 
     /**
      * Amount that needs to be donated to be granted
@@ -54,6 +56,10 @@ final class Donation extends Model
 
     protected $dates = [
         'created_at',
+        'updated_at',
+    ];
+
+    protected $auditExclude = [
         'updated_at',
     ];
 

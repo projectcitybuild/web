@@ -12,10 +12,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
 use Laravel\Scout\Searchable;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as IAuditable;
+use OwenIt\Auditing\Redactors\LeftRedactor;
 
-final class Account extends Authenticatable
+final class Account extends Authenticatable implements IAuditable
 {
-    use Notifiable, Searchable, HasFactory;
+    use Notifiable, Searchable, HasFactory, Auditable;
 
     protected $table = 'accounts';
 
@@ -43,6 +46,19 @@ final class Account extends Authenticatable
 
     protected $casts = [
         'is_totp_enabled' => 'boolean',
+    ];
+
+    protected $auditExclude = [
+        'remember_token',
+        'last_login_at',
+        'created_at',
+        'updated_at',
+        'totp_last_used',
+    ];
+
+    protected $attributeModifiers = [
+        'totp_secret' => LeftRedactor::class,
+        'totp_backup_code' => LeftRedactor::class,
     ];
 
     public function toSearchableArray()
