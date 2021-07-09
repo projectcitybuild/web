@@ -11,12 +11,9 @@ use ServerStatusRepositoryContract;
 final class ServerQueryService
 {
     /**
-     * Queries the given server address for its current status
+     * Queries the given server address for its current status.
      *
-     * @param Server $server
-     * @param ServerStatusRepositoryContract $serverStatusRepository
      *
-     * @return ServerQueryResult
      *
      * @throws UnsupportedGameException
      */
@@ -41,7 +38,7 @@ final class ServerQueryService
             case GameType::Minecraft:
                 return new MinecraftQueryAdapter();
             default:
-                throw new UnsupportedGameException($gameType->name() . " cannot be queried");
+                throw new UnsupportedGameException($gameType->name().' cannot be queried');
         }
     }
 }

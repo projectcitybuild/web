@@ -30,12 +30,14 @@ final class ServerQueryCommand extends Command
     {
         if ($this->option('all')) {
             $this->queryAllServers();
+
             return;
         }
 
         $serverIds = $this->option('id');
         if (count($serverIds) === 0) {
             $this->error('You must specify either --id=* or --all');
+
             return;
         }
 
