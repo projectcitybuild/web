@@ -9,16 +9,18 @@ use Altek\Accountant\Exceptions\DecipherException;
 
 class FullRedact implements Cipher
 {
+    // This special token is unlikely to appear normally, use it to signal
+    // a field has been totally redacted, and this can then be checked for the UI
+    const REDACTION_TOKEN = "!!PCB-REDACTED!!";
 
     public static function isOneWay(): bool
     {
         return true;
     }
 
-    public static function cipher($value)
+    public static function cipher($value): string
     {
-        $length = mb_strlen($value);
-        return str_pad('', $length, '-');
+        return FullRedact::REDACTION_TOKEN;
     }
 
     public static function decipher($value)
