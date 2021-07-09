@@ -2,7 +2,6 @@
 
 namespace App\Entities\Accounts\Models;
 
-use Altek\Accountant\Ciphers\Bleach;
 use Altek\Accountant\Contracts\Recordable;
 use Altek\Eventually\Eventually;
 use App\Entities\Accounts\Resources\AccountResource;
@@ -66,7 +65,7 @@ final class Account extends Authenticatable implements Recordable
         'password' => FullRedact::class,
         'remember_token' => FullRedact::class,
         'totp_secret' => FullRedact::class,
-        'totp_backup_code' => FullRedact::class
+        'totp_backup_code' => FullRedact::class,
     ];
 
     public function toSearchableArray()
