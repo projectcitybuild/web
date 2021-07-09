@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "90e2dfcf3d77109a335a70a43e46ea5a",
+    "content-hash": "f4c2a6f2435d2de439f12a8265ed1452",
     "packages": [
         {
             "name": "altek/accountant",
@@ -86,6 +86,72 @@
                 "source": "https://gitlab.com/altek/accountant"
             },
             "time": "2021-02-14T17:50:20+00:00"
+        },
+        {
+            "name": "altek/eventually",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.com/altek/eventually.git",
+                "reference": "8a5134960d31f498e51985860f5c43a902a2e046"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/api/v4/projects/altek%2Feventually/repository/archive.zip?sha=8a5134960d31f498e51985860f5c43a902a2e046",
+                "reference": "8a5134960d31f498e51985860f5c43a902a2e046",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^8.0",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0",
+                "roave/security-advisories": "dev-master"
+            },
+            "type": "package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Altek\\Eventually\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Quetzy Garcia",
+                    "email": "quetzyg@altek.org"
+                }
+            ],
+            "description": "The missing many-to-many Eloquent events.",
+            "homepage": "https://altek.gitlab.io/eventually",
+            "keywords": [
+                "attach",
+                "detach",
+                "eloquent",
+                "events",
+                "eventually",
+                "laravel",
+                "lumen",
+                "many-to-many",
+                "pivot",
+                "relations",
+                "sync",
+                "toggle",
+                "update"
+            ],
+            "support": {
+                "issues": "https://gitlab.com/altek/eventually/issues",
+                "source": "https://gitlab.com/altek/eventually"
+            },
+            "time": "2020-12-01T22:08:32+00:00"
         },
         {
             "name": "aws/aws-sdk-php",

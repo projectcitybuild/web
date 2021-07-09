@@ -2,6 +2,7 @@
 
 namespace App\Entities\Players\Models;
 
+use Altek\Accountant\Contracts\Recordable;
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Bans\BannableModelInterface;
 use App\Entities\Bans\Models\GameBan;
@@ -10,9 +11,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-final class MinecraftPlayer extends Model implements BannableModelInterface
+final class MinecraftPlayer extends Model implements BannableModelInterface, Recordable
 {
     use HasFactory;
+    use \Altek\Accountant\Recordable;
 
     protected $table = 'players_minecraft';
 

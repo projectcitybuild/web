@@ -2,15 +2,17 @@
 
 namespace App\Entities\Donations\Models;
 
+use Altek\Accountant\Contracts\Recordable;
 use App\Entities\Accounts\Models\Account;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-final class Donation extends Model
+final class Donation extends Model implements Recordable
 {
     use HasFactory;
+    use \Altek\Accountant\Recordable;
 
     /**
      * Amount that needs to be donated to be granted

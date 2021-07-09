@@ -2,14 +2,16 @@
 
 namespace App\Entities\Donations\Models;
 
+use Altek\Accountant\Contracts\Recordable;
 use App\Entities\Accounts\Models\Account;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-final class DonationPerk extends Model
+final class DonationPerk extends Model implements Recordable
 {
     use HasFactory;
+    use \Altek\Accountant\Recordable;
 
     /**
      * The table associated with the model.
