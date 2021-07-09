@@ -34,7 +34,9 @@ $collapse-dimension: 1024px;
         align-items: center;
 
         img {
-            margin-left: -11px; // Subtract the padding baked into the image
+            margin-right: 11px;
+            width: 186px;
+            height: 23px;
         }
     }
 
@@ -173,6 +175,8 @@ $collapse-dimension: 1024px;
         .container {
             height: $navbar-height;
             justify-content: space-between;
+            padding-left: 1em;
+            padding-right: 1em;
         }
         .nav-links {
             display: none;
