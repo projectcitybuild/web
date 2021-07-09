@@ -18,14 +18,16 @@ class AuditController extends WebController
 
     private function resolveModel($model, $key): Recordable
     {
-        if (!in_array($model, array_keys($this->inspectableAudits))) abort(404);
+        if (! in_array($model, array_keys($this->inspectableAudits))) {
+            abort(404);
+        }
 
         return $this->inspectableAudits[$model]::findOrFail($key);
     }
 
     private function humanLabel($model, $key): string
     {
-        return class_basename(get_class($model)) . ' #' . $key;
+        return class_basename(get_class($model)).' #'.$key;
     }
 
     public function index(string $model, string $key)
