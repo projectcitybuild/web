@@ -2,13 +2,13 @@
 
 namespace App\Entities\Accounts\Models;
 
-use Altek\Accountant\Contracts\Recordable;
 use Altek\Eventually\Eventually;
 use App\Entities\Accounts\Resources\AccountResource;
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationPerk;
 use App\Entities\Groups\Models\Group;
 use App\Library\Auditing\FullRedact;
+use App\Library\Auditing\Contracts\Recordable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -195,5 +195,10 @@ final class Account extends Authenticatable implements Recordable
     public function toResource()
     {
         return AccountResource::make($this);
+    }
+
+    public function getPanelShowUrl(): string
+    {
+        return route('front.panel.accounts.show', $this);
     }
 }
