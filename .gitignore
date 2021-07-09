@@ -17,6 +17,7 @@ yarn-error.log
 /public/assets/css
 /public/assets/js
 /public/assets/admin
+/public/sitemap.xml
 mix-manifest.json
 
 # token buckets
