@@ -9,10 +9,8 @@ interface ServerQueryAdapterFactoryContract
 {
     /**
      * Instantiates an appropriate adapter to perform server
-     * status querying of the given game
+     * status querying of the given game.
      *
-     * @param GameType $gameType
-     * @return ServerQueryAdapter
      * @throws UnsupportedGameException
      */
     public function make(GameType $gameType): ServerQueryAdapter;

@@ -17,8 +17,9 @@ final class ServerQueryAdapterMock implements ServerQueryAdapter
     public function query(string $ip, $port = null): ServerQueryResult
     {
         if ($this->result == null) {
-            throw new \Exception("No result mocked");
+            throw new \Exception('No result mocked');
         }
+
         return $this->result;
     }
 }
