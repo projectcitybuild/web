@@ -259,6 +259,11 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
     ]);
 
     Route::group(['prefix' => 'audits', 'as' => 'audits.', 'namespace' => 'Audit'], function () {
+        Route::get('by/{account}', [
+            'as' => 'by-account',
+            'uses' => 'AccountAuditsController'
+        ]);
+
         Route::get('entry/{ledger}', [
             'as' => 'show',
             'uses' => 'AuditController@show',

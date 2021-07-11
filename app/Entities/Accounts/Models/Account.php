@@ -8,6 +8,7 @@ use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationPerk;
 use App\Entities\Groups\Models\Group;
 use App\Library\Auditing\Contracts\Recordable;
+use App\Library\Auditing\FilterableAccountable;
 use App\Library\Auditing\FullRedact;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +19,7 @@ use Laravel\Scout\Searchable;
 
 final class Account extends Authenticatable implements Recordable
 {
-    use Notifiable, Searchable, HasFactory, Eventually;
+    use Notifiable, Searchable, HasFactory, Eventually, FilterableAccountable;
     use \App\Library\Auditing\Recordable;
 
     protected $table = 'accounts';
@@ -200,5 +201,10 @@ final class Account extends Authenticatable implements Recordable
     public function getPanelShowUrl(): string
     {
         return route('front.panel.accounts.show', $this);
+    }
+
+    public function getHumanRecordName(): string
+    {
+        return "Account " . $this->username ?? $this->email;
     }
 }

@@ -73,4 +73,9 @@ final class Donation extends Model implements Recordable
     {
         return route('front.panel.donations.show', $this);
     }
+
+    public function getHumanRecordName(): string
+    {
+        return "Donation #" . $this->getKey();
+    }
 }

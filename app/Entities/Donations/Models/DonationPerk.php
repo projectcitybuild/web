@@ -84,4 +84,9 @@ final class DonationPerk extends Model implements Recordable
     {
         return route('front.panel.donations.show', $this->donation).'#perk-'.$this->getKey();
     }
+
+    public function getHumanRecordName(): string
+    {
+        return "Donation Perk #" . $this->getKey();
+    }
 }

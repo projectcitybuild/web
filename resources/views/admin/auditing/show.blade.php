@@ -70,13 +70,13 @@
                                 @else
                                     <span class="text-danger">Not recorded</span>
                                 @endif
-                            @elseif(class_basename($ledger->accountable_type) == "Account")
+                            @elseif($ledger->accountable_type == "account")
                                 <a href="{{ route('front.panel.accounts.show', $ledger->accountable) }}">
                                     {{ $ledger->accountable->username ?: '(Unset)' }}
                                 </a>
                             @else
                                 <div class="fw-bold text-danger">Unexpected accountable entity</div>
-                                {{ $ledger->accountable_type }} :: {{ $ledger->accountable_id }}
+                                {{ $ledger->accountable_type }}: {{ $ledger->accountable_id }}
                             @endif
                         </dd>
                     </div>

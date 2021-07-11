@@ -90,4 +90,9 @@ final class MinecraftPlayer extends Model implements BannableModelInterface, Rec
     {
         return route('front.panel.minecraft-players.show', $this);
     }
+
+    public function getHumanRecordName(): string
+    {
+        return "MC Player " . $this->uuid;
+    }
 }
