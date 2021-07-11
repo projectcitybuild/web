@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 final class MinecraftPlayer extends Model implements BannableModelInterface, Recordable
 {
     use HasFactory;
-    use \Altek\Accountant\Recordable;
+    use \App\Library\Auditing\Recordable;
 
     protected $table = 'players_minecraft';
 

@@ -50,7 +50,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td>No audited events have been recorded yet.</td>
+                    <td colspan="4">No audited events have been recorded yet.</td>
                 </tr>
             @endforelse
             </tbody>

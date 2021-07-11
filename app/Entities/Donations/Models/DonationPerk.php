@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 final class DonationPerk extends Model implements Recordable
 {
     use HasFactory;
-    use \Altek\Accountant\Recordable;
+    use \App\Library\Auditing\Recordable;
 
     /**
      * The table associated with the model.

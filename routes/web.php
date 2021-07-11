@@ -264,7 +264,7 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
             'uses' => 'AuditController@show',
         ]);
 
-        Route::get('{table}/{key}', [
+        Route::get('{label}/{key}', [
             'as' => 'index',
             'uses' => 'AuditController@index',
         ]);

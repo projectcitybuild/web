@@ -19,7 +19,7 @@ use Laravel\Scout\Searchable;
 final class Account extends Authenticatable implements Recordable
 {
     use Notifiable, Searchable, HasFactory, Eventually;
-    use \Altek\Accountant\Recordable;
+    use \App\Library\Auditing\Recordable;
 
     protected $table = 'accounts';
 

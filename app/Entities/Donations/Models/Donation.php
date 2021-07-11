@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 final class Donation extends Model implements Recordable
 {
     use HasFactory;
-    use \Altek\Accountant\Recordable;
+    use \App\Library\Auditing\Recordable;
 
     /**
      * Amount that needs to be donated to be granted
