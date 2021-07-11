@@ -4,6 +4,9 @@ namespace Tests\Unit\App\Library\Auditing;
 
 use App\Entities\Accounts\Models\Account;
 use App\Library\Auditing\AuditableClassResolver;
+use App\Library\Auditing\Contracts\Recordable;
+use App\Library\Auditing\Exceptions\UnresolvableRecordableClassException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tests\TestCase;
 
 class AuditableClassResolver_Test extends TestCase
@@ -21,5 +24,35 @@ class AuditableClassResolver_Test extends TestCase
         $account = Account::factory()->make();
         $label = $resolver->getAuditListLabel($account);
         $this->assertEquals('account', $label);
+    }
+
+    public function testResolvingNonexistentLabel()
+    {
+        $resolver = new AuditableClassResolver();
+        $this->expectException(NotFoundHttpException::class);
+        $resolver->resolveLabelToClass('foo');
+    }
+
+    public function testGetLabelForUnknownAuditableClass()
+    {
+        $resolver = new AuditableClassResolver();
+
+        $this->expectException(UnresolvableRecordableClassException::class);
+        $resolver->getAuditListLabel(new FakeAuditable());
+    }
+}
+
+class FakeAuditable implements Recordable
+{
+    use \App\Library\Auditing\Recordable;
+
+    public function getMorphClass()
+    {
+        return '';
+    }
+
+    public function getPanelShowUrl(): string
+    {
+        return '/';
     }
 }
