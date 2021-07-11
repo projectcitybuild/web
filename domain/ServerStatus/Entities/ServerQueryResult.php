@@ -16,7 +16,7 @@ final class ServerQueryResult
         ?array $onlinePlayerNames
     ) {
         $this->isOnline = $isOnline;
-        $this->numOfPlayers = $isOnline ? $numOfPlayers : -1;
+        $this->numOfPlayers = $numOfPlayers;
         $this->numOfSlots = $numOfSlots;
         $this->onlinePlayerNames = $onlinePlayerNames;
     }
@@ -42,5 +42,15 @@ final class ServerQueryResult
             null,
             null
         );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'is_online' => $this->isOnline,
+            'num_of_players' => $this->numOfPlayers,
+            'num_of_slots' => $this->numOfSlots,
+            'online_player_names' => $this->onlinePlayerNames,
+        ];
     }
 }

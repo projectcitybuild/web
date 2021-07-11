@@ -3,12 +3,14 @@
 namespace Domain\ServerStatus\Jobs;
 
 use App\Entities\Servers\Models\Server;
+use Domain\ServerStatus\Repositories\ServerStatusRepositoryContract;
 use Domain\ServerStatus\ServerQueryService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use App;
 
 final class ServerQueryJob implements ShouldQueue
 {
@@ -33,6 +35,9 @@ final class ServerQueryJob implements ShouldQueue
      */
     public function handle(ServerQueryService $queryService)
     {
-        $queryService->query($this->server);
+        $queryService->querySynchronously(
+            $this->server,
+            App::make(ServerStatusRepositoryContract::class)
+        );
     }
 }

@@ -2,8 +2,9 @@
 
 namespace Domain\ServerStatus;
 
+use Domain\ServerStatus\Repositories\ServerStatusRepository;
+use Domain\ServerStatus\Repositories\ServerStatusRepositoryContract;
 use Illuminate\Support\ServiceProvider;
-use ServerStatusRepositoryContract;
 
 class ServerStatusProvider extends ServiceProvider
 {
@@ -13,6 +14,6 @@ class ServerStatusProvider extends ServiceProvider
      * @var array
      */
     public array $bindings = [
-        ServerStatusRepositoryContract::class => ServerCategoryRepository::class,
+        ServerStatusRepositoryContract::class => ServerStatusRepository::class,
     ];
 }

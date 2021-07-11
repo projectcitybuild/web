@@ -1,7 +1,8 @@
 <?php
 
-namespace Domain\ServerStatus;
+namespace Domain\ServerStatus\Adapters;
 
+use Domain\ServerStatus\ServerQueryAdapter;
 use xPaw\MinecraftQuery;
 use xPaw\MinecraftQueryException;
 use Domain\ServerStatus\Entities\ServerQueryResult;
@@ -12,7 +13,7 @@ final class MinecraftQueryAdapter implements ServerQueryAdapter
 
     public function __construct()
     {
-        $this->queryService = MinecraftQuery();
+        $this->queryService = new MinecraftQuery();
     }
 
     public function query(string $ip, $port = 25565): ServerQueryResult
