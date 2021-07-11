@@ -10,7 +10,7 @@ interface Recordable extends \Altek\Accountant\Contracts\Recordable
     public function getPanelShowUrl(): string;
 
     /**
-     * Get the URL of the audit list for this model
+     * Get the URL of the audit list for this model.
      */
     public function getAuditListUrl(): string;
 }

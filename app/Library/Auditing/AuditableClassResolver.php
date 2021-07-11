@@ -1,14 +1,11 @@
 <?php
 
-
 namespace App\Library\Auditing;
-
 
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationPerk;
 use App\Entities\Players\Models\MinecraftPlayer;
-use App\Exceptions\Http\NotFoundException;
 use App\Library\Auditing\Contracts\Recordable;
 use App\Library\Auditing\Exceptions\UnresolvableRecordableClassException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -16,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class AuditableClassResolver
 {
     /**
-     * A mapping of URL strings to classes
+     * A mapping of URL strings to classes.
      *
      * @var array|string[]
      */
@@ -37,13 +34,12 @@ class AuditableClassResolver
         $this->reversedLabels = array_flip($this->inspectionLabels);
     }
 
-
     /**
-     * Resolve an audit class human label to its class
+     * Resolve an audit class human label to its class.
      */
     public function resolveLabelToClass(string $label): string
     {
-        if (!in_array($label, array_keys($this->inspectionLabels))) {
+        if (! in_array($label, array_keys($this->inspectionLabels))) {
             throw new NotFoundHttpException();
         }
 
@@ -59,7 +55,7 @@ class AuditableClassResolver
         if (array_key_exists($className, $this->reversedLabels)) {
             return $this->reversedLabels[$className];
         } else {
-            throw new UnresolvableRecordableClassException("Unable to resolve class ". $className);
+            throw new UnresolvableRecordableClassException('Unable to resolve class '.$className);
         }
     }
 }
