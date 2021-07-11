@@ -1,5 +1,5 @@
 <div>
-    <strong>Edited {{ Str::title($ledger->pivot["relation"]) }}:</strong>
+    <strong>Set {{ Str::title($ledger->pivot["relation"]) }}:</strong>
     @foreach($ledger->pivot["properties"] as $related)
         @foreach($related as $key => $id)
             @if($key != "account_id")

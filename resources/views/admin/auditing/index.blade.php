@@ -20,7 +20,7 @@
             </thead>
             <tbody>
             @forelse($ledgers as $ledger)
-                <tr>
+                <tr id="ledger-{{ $ledger->id }}">
                     <td>{{ $ledger->created_at }}</td>
                     <td>
                         @if(is_null($ledger->accountable))
@@ -45,7 +45,7 @@
                         </td>
                     @endif
                     <td>
-                        <a href="#">Details</a>
+                        <a href="{{ route('front.panel.audits.show', $ledger) }}">Metadata</a>
                     </td>
                 </tr>
             @empty

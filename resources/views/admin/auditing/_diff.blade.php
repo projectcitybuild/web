@@ -1,4 +1,4 @@
-<table class="table mb-0">
+<table class="table mb-0 {{ $extraClasses ?? '' }}">
     <tbody>
     @foreach($ledger->modified as $modifiedProp)
         <tr>
@@ -8,12 +8,12 @@
                 @if($prevLedger == null)
                     <span class="text-muted fst-italic">Unknown</span>
                 @else
-                    {{ $prevLedger['properties'][$modifiedProp] }}
+                    @include('admin.auditing._property', ['value' => $prevLedger['properties'][$modifiedProp]])
                 @endif
             </td>
             <td style="width:33%;" class="table-success">
                 <i class="fas fa-plus me-1"></i>
-                {{ $ledger['properties'][$modifiedProp] }}
+                @include('admin.auditing._property', ['value' => $ledger['properties'][$modifiedProp]])
             </td>
         </tr>
     @endforeach

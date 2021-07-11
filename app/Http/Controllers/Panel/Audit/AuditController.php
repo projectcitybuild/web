@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Panel\Audit;
 
+use Altek\Accountant\Models\Ledger;
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationPerk;
@@ -37,5 +38,11 @@ class AuditController extends WebController
         $humanLabel = $this->humanLabel($auditingModel, $key);
 
         return view('admin.auditing.index')->with(compact('ledgers', 'auditingModel', 'humanLabel'));
+    }
+
+    public function show(Ledger $ledger)
+    {
+        $ledger->load('user');
+        return view('admin.auditing.show')->with(compact('ledger'));
     }
 }
