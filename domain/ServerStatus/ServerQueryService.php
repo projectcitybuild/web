@@ -19,14 +19,11 @@ final class ServerQueryService
     }
 
     /**
-     * Queries the given server and returns its current status
+     * Queries the given server and returns its current status.
      *
      * This operation will block the current process until the query succeeds or fails
      *
-     * @param Server $server
-     * @param ServerStatusRepository $serverStatusRepository
      *
-     * @return ServerQueryResult
      *
      * @throws UnsupportedGameException
      */
@@ -52,12 +49,10 @@ final class ServerQueryService
     }
 
     /**
-     * Queries the given server for its current status
+     * Queries the given server for its current status.
      *
      * This operation is non-blocking, and queues a job to perform the operation
      * eventually in the future
-     *
-     * @param Server $server
      */
     public function query(Server $server)
     {

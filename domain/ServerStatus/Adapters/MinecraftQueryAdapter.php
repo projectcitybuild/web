@@ -2,10 +2,10 @@
 
 namespace Domain\ServerStatus\Adapters;
 
+use Domain\ServerStatus\Entities\ServerQueryResult;
 use Domain\ServerStatus\ServerQueryAdapter;
 use xPaw\MinecraftQuery;
 use xPaw\MinecraftQueryException;
-use Domain\ServerStatus\Entities\ServerQueryResult;
 
 final class MinecraftQueryAdapter implements ServerQueryAdapter
 {
