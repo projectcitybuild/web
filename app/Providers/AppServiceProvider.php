@@ -8,7 +8,6 @@ use App\Entities\Payments\AccountPaymentType;
 use App\Entities\Players\Models\MinecraftPlayer;
 use App\Entities\Servers\Repositories\ServerCategoryRepository;
 use App\Entities\Servers\Repositories\ServerCategoryRepositoryContract;
-use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
 use App\Http\Composers\MasterViewComposer;
 use App\Services\Queries\ServerQueryService;
 use App\View\Components\NavBarComponent;
@@ -30,11 +29,6 @@ final class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(ServerCategoryRepositoryContract::class, function ($app) {
             return new ServerCategoryRepository();
-        });
-        $this->app->singleton(ServerQueryService::class, function ($app) {
-            return new ServerQueryService(
-                $app->make(ServerStatusPlayerRepository::class)
-            );
         });
     }
 
