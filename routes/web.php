@@ -258,7 +258,7 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
         'uses' => 'MinecraftPlayerLookupController',
     ]);
 
-    Route::group(['prefix' => 'audits', 'as' => 'audits.', 'namespace' => 'Audit'], function() {
+    Route::group(['prefix' => 'audits', 'as' => 'audits.', 'namespace' => 'Audit'], function () {
         Route::get('entry/{ledger}', [
             'as' => 'show',
             'uses' => 'AuditController@show',

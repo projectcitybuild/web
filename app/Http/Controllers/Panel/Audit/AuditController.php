@@ -43,6 +43,7 @@ class AuditController extends WebController
     public function show(Ledger $ledger)
     {
         $ledger->load('user');
+
         return view('admin.auditing.show')->with(compact('ledger'));
     }
 }
