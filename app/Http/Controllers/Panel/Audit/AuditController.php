@@ -16,7 +16,7 @@ class AuditController extends WebController
         'account' => Account::class,
         'donation' => Donation::class,
         'donation_perk' => DonationPerk::class,
-        'minecraft_player' => MinecraftPlayer::class
+        'minecraft_player' => MinecraftPlayer::class,
     ];
 
     private function resolveModel($model, $key): Recordable
@@ -45,6 +45,7 @@ class AuditController extends WebController
     public function show(Ledger $ledger)
     {
         $ledger->load('user');
+
         return view('admin.auditing.show')->with(compact('ledger'));
     }
 }
