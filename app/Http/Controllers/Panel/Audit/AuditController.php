@@ -6,6 +6,7 @@ use Altek\Accountant\Models\Ledger;
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationPerk;
+use App\Entities\Players\Models\MinecraftPlayer;
 use App\Http\WebController;
 use App\Library\Auditing\Contracts\Recordable;
 
@@ -15,6 +16,7 @@ class AuditController extends WebController
         'account' => Account::class,
         'donation' => Donation::class,
         'donation_perk' => DonationPerk::class,
+        'minecraft_player' => MinecraftPlayer::class
     ];
 
     private function resolveModel($model, $key): Recordable

@@ -2,10 +2,10 @@
 
 namespace App\Entities\Players\Models;
 
-use Altek\Accountant\Contracts\Recordable;
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Bans\BannableModelInterface;
 use App\Entities\Bans\Models\GameBan;
+use App\Library\Auditing\Contracts\Recordable;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -84,5 +84,10 @@ final class MinecraftPlayer extends Model implements BannableModelInterface, Rec
         $this->last_synced_at = $this->freshTimestamp();
 
         return $this->save();
+    }
+
+    public function getPanelShowUrl(): string
+    {
+        return route('front.panel.minecraft-players.show', $this);
     }
 }

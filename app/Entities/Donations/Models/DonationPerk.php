@@ -2,8 +2,8 @@
 
 namespace App\Entities\Donations\Models;
 
-use Altek\Accountant\Contracts\Recordable;
 use App\Entities\Accounts\Models\Account;
+use App\Library\Auditing\Contracts\Recordable;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -78,5 +78,10 @@ final class DonationPerk extends Model implements Recordable
     public function donation(): BelongsTo
     {
         return $this->belongsTo(Donation::class, 'donation_id', 'donation_id');
+    }
+
+    public function getPanelShowUrl(): string
+    {
+        route('front.panel.donations.show', $this->donation) . '#perk-' . $this->getKey();
     }
 }
