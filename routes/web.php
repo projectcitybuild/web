@@ -23,6 +23,9 @@ if (Environment::isProduction()) {
  */
 Route::redirect('terms', 'https://forums.projectcitybuild.com/t/community-rules/22928')->name('terms');
 Route::redirect('privacy', 'https://forums.projectcitybuild.com/privacy')->name('privacy');
+Route::redirect('wiki', 'https://wiki.projectcitybuild.com')->name('wiki');
+Route::redirect('maps', 'https://maps.pcbmc.co')->name('maps');
+Route::redirect('3d-maps', 'https://3d.pcbmc.co')->name('3d-maps');
 
 /**
  * Style guide.
@@ -243,11 +246,29 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('bans', 'BanlistController@index')->name('front.banlist');
 
 Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel', 'middleware' => ['auth', 'panel']], function () {
-    Route::view('/', 'front.pages.panel');
+    Route::view('/', 'admin.index')->name('index');
 
     Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);
-    Route::resource('donations', 'DonationController')->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
-    Route::resource('donation-perks', 'DonationPerksController')->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('donations', 'DonationController');
+    Route::resource('donation-perks', 'DonationPerksController')->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('minecraft-players', 'MinecraftPlayerController')->except(['destroy']);
+
+    Route::post('minecraft-players/lookup', [
+        'as' => 'minecraft-players.lookup',
+        'uses' => 'MinecraftPlayerLookupController',
+    ]);
+
+    Route::post('minecraft-players/{minecraft_player}/reload-alias', [
+        'as' => 'minecraft-players.reload-alias',
+        'uses' => 'MinecraftPlayerReloadAliasController',
+    ]);
+
+    Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
+        Route::get('accounts', [
+            'as' => 'account-search',
+            'uses' => 'Api\\AccountSearchController',
+        ]);
+    });
 
     Route::group(['prefix' => 'accounts/{account}', 'as' => 'accounts.'], function () {
         Route::get('discourse-admin', [

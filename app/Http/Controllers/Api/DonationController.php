@@ -172,7 +172,7 @@ final class DonationController extends ApiController
         }
 
         // Add user to Donator group if they're logged in
-        if ($session->account !== null && $numberOfMonthsOfPerks > 0) {
+        if ($session->account !== null && ($numberOfMonthsOfPerks > 0 || $isLifetime)) {
             Log::debug('Adding donator perks to account');
 
             $donatorGroup = Group::where('name', 'donator')->first();
@@ -185,8 +185,6 @@ final class DonationController extends ApiController
             // Detach the user from the member group
             $memberGroup = Group::where('is_default', true)->first();
             $memberGroupId = $memberGroup->getKey();
-            $session->account->groups()->detach($memberGroup);
-
             $session->account->groups()->detach($memberGroupId);
         }
 

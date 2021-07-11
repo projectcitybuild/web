@@ -8,9 +8,9 @@ use App\Entities\Payments\AccountPaymentType;
 use App\Entities\Players\Models\MinecraftPlayer;
 use App\Entities\Servers\Repositories\ServerCategoryRepository;
 use App\Entities\Servers\Repositories\ServerCategoryRepositoryContract;
-use App\Entities\Servers\Repositories\ServerStatusPlayerRepository;
 use App\Http\Composers\MasterViewComposer;
-use App\Services\Queries\ServerQueryService;
+use App\View\Components\NavBarComponent;
+use Blade;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\View;
@@ -29,11 +29,6 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->bind(ServerCategoryRepositoryContract::class, function ($app) {
             return new ServerCategoryRepository();
         });
-        $this->app->singleton(ServerQueryService::class, function ($app) {
-            return new ServerQueryService(
-                $app->make(ServerStatusPlayerRepository::class)
-            );
-        });
     }
 
     /**
@@ -51,6 +46,8 @@ final class AppServiceProvider extends ServiceProvider
             AccountPaymentType::Donation => Donation::class,
             GamePlayerType::Minecraft => MinecraftPlayer::class,
         ]);
+
+        Blade::component('navbar', NavBarComponent::class);
 
         // Bind the master view composer to the master view template
         View::composer('front.layouts.master', MasterViewComposer::class);

@@ -1,0 +1,255 @@
+$navbar-bg-color: $color-secondary;
+$navbar-bg-secondary-color: $color-primary;
+$navbar-border-color: darken($navbar-bg-color, 10%);
+$navbar-border-secondary-color: lighten($navbar-bg-secondary-color, 45%);
+
+$collapse-dimension: 1024px;
+
+.navbar {
+    width: 100%;
+    position: fixed;
+    background: $navbar-bg-color;
+    border-bottom: 3px solid $navbar-border-color;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .spacer {
+        flex-grow: 1;
+        flex-shrink: 1;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+
+        img {
+            margin-right: 11px;
+            width: 186px;
+            height: 23px;
+        }
+    }
+
+    .hamburger {
+        flex-direction: column;
+        justify-content: center;
+        cursor: pointer;
+        border-left: 1px solid $navbar-border-color;
+        border-right: 1px solid $navbar-border-color;
+        padding: 0.5em;
+        display: flex; // Force bars to be vertically centered
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 4px;
+            margin: 2px auto;
+            transition: all 0.3s ease-in-out;
+            background-color: #fff;
+        }
+
+        &.active .bar {
+            &:nth-child(2) { opacity: 0; }
+            &:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            &:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        }
+    }
+}
+
+// --- Regular Size ------------------------------------------------------------------
+
+@media screen and (min-width: $collapse-dimension + 1) {
+    .navbar {
+        .nav-links {
+            display: flex;
+            flex-grow: 1;
+
+            & > li {
+                border-left: 1px solid $navbar-border-color;
+
+                &:last-child {
+                    border-right: 1px solid $navbar-border-color;
+                }
+            }
+
+            & > li > a {
+                display: block;
+                font-size: 0.8em;
+                padding: 1em 1.5em;
+                text-decoration: none;
+                text-transform: uppercase;
+                color: #fff;
+
+                &:focus,
+                &:active {
+                    background: darken($navbar-bg-color, 10%);
+                }
+                &:hover {
+                    background-color: lighten($navbar-bg-color, 5%);
+                }
+
+                // Squish to make some horizontal room
+                @media screen and (max-width: 1200px) {
+                    padding-left: 1em;
+                    padding-right: 1em;
+                }
+            }
+
+            & > li > ul {
+                display: none;
+            }
+            & > li:hover > ul {
+                display: inherit;
+
+                &.dropdown.multi {
+                    display: flex;
+                }
+            }
+        }
+
+        .dropdown {
+            background: #fff;
+            position: absolute;
+            border: 1px solid $navbar-border-secondary-color;
+            border-bottom-width: 3px;
+
+            a {
+                display: block;
+                color: $navbar-bg-secondary-color;
+                padding: 1em 1.5em;
+                font-size: 0.8em;
+                text-decoration: none;
+                text-transform: uppercase;
+
+                &:hover {
+                    background-color: #f6f6f6;
+                }
+                &:focus,
+                &:active {
+                    background-color: darken(#f6f6f6, 5%);
+                }
+            }
+
+            .divider {
+                border-bottom: 1px solid $navbar-border-secondary-color;
+            }
+        }
+
+        .dropdown.multi {
+            flex-direction: row;
+
+            & > li:not(:last-child) {
+                border-right: 1px solid $navbar-border-secondary-color;
+            }
+
+            h5 {
+                text-transform: uppercase;
+                padding: 1em 1.5em;
+                font-weight: 700;
+                margin: 0;
+            }
+        }
+
+        .hamburger {
+            display: none;
+        }
+    }
+}
+
+// --- Compact Size ------------------------------------------------------------------
+
+@media screen and (max-width: $collapse-dimension) {
+    $navbar-height: 40px; // Match Regular Size's calculated height
+
+    .navbar {
+        .container {
+            height: $navbar-height;
+            justify-content: space-between;
+            padding-left: 1em;
+            padding-right: 1em;
+        }
+        .nav-links {
+            display: none;
+        }
+    }
+
+    .navbar .nav-links.active {
+        position: fixed;
+        left: 0;
+        top: $navbar-height + 3; // Offset by bottom border-size
+        width: 100%;
+        display: block;
+        box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.3);
+        border-bottom: 3px solid $navbar-border-color;
+
+        & > li {
+            background: darken($navbar-bg-color, 5%);
+            border-bottom: 1px solid $navbar-border-color;
+
+            &:hover {
+                background: darken($navbar-bg-color, 3%);
+            }
+        }
+
+        a {
+            font-size: 0.8em;
+            text-decoration: none;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        & > li > a {
+            display: block;
+            padding: 1em 1.5em;
+        }
+
+        .dropdown {
+            background: darken($navbar-bg-color, 7%);
+            border-top: 3px solid darken($navbar-bg-color, 11%);
+            display: none;
+
+            &.active {
+                display: inherit;
+            }
+        }
+
+        .dropdown.single {
+            li a {
+                display: block;
+                padding: 1em 1em;
+            }
+        }
+
+        .dropdown.multi {
+            flex-direction: row;
+            justify-content: flex-start;
+
+            &.active {
+                display: flex;
+            }
+
+            h5 {
+                color: #989898;
+                text-transform: uppercase;
+                padding: 1em 1.5em;
+                font-weight: 700;
+                margin: 0;
+            }
+
+            & > li > ul > li a {
+                display: block;
+                padding: 1em 1em;
+            }
+        }
+    }
+}

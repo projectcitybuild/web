@@ -22,7 +22,7 @@ class MinecraftPlayerFactory extends Factory
     public function definition()
     {
         return [
-            'uuid' => $this->faker->uuid,
+            'uuid' => str_replace('-', '', $this->faker->uuid),
             'last_synced_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),
         ];
     }
