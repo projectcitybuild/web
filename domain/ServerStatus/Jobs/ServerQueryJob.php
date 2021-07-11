@@ -2,6 +2,7 @@
 
 namespace Domain\ServerStatus\Jobs;
 
+use App;
 use App\Entities\Servers\Models\Server;
 use Domain\ServerStatus\Repositories\ServerStatusRepository;
 use Domain\ServerStatus\ServerQueryService;
@@ -10,7 +11,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App;
 
 final class ServerQueryJob implements ShouldQueue
 {
@@ -29,7 +29,6 @@ final class ServerQueryJob implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param ServerQueryService $queryService
      * @return void
      * @throws \Domain\ServerStatus\Exceptions\UnsupportedGameException
      */
