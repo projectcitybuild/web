@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Entities\Servers\Models\Server;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
-use Domain\ServerStatus\Repositories\ServerStatusRepositoryContract;
+use Domain\ServerStatus\Repositories\ServerStatusRepository;
 use Domain\ServerStatus\ServerQueryService;
 use Illuminate\Console\Command;
 use App;
@@ -68,7 +68,7 @@ final class ServerQueryCommand extends Command
             return;
         }
         try {
-            $result = $queryService->querySynchronously($server, App::make(ServerStatusRepositoryContract::class));
+            $result = $queryService->querySynchronously($server, App::make(ServerStatusRepository::class));
             dump($result->toArray());
 
         } catch (UnsupportedGameException $e) {

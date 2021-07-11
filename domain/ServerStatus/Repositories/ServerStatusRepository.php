@@ -5,7 +5,7 @@ namespace Domain\ServerStatus\Repositories;
 use App\Entities\Servers\Models\ServerStatus;
 use Domain\ServerStatus\Entities\ServerQueryResult;
 
-final class ServerStatusRepository implements ServerStatusRepositoryContract
+final class ServerStatusRepository
 {
     public function store(int $serverId, ServerQueryResult $result, int $time): ServerStatus
     {
