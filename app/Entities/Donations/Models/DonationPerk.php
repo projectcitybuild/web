@@ -82,6 +82,6 @@ final class DonationPerk extends Model implements Recordable
 
     public function getPanelShowUrl(): string
     {
-        route('front.panel.donations.show', $this->donation).'#perk-'.$this->getKey();
+        return route('front.panel.donations.show', $this->donation).'#perk-'.$this->getKey();
     }
 }
