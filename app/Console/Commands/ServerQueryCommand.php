@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Entities\Servers\Models\Server;
+use Domain\ServerStatus\Exceptions\UnsupportedGameException;
 use Domain\ServerStatus\ServerQueryService;
 use Illuminate\Console\Command;
 use ServerStatusRepositoryContract;
@@ -21,7 +22,7 @@ final class ServerQueryCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Queries the status of the given server';
+    protected $description = 'Queries the a given server for its current status';
 
     /**
      * Execute the console command.
@@ -56,7 +57,18 @@ final class ServerQueryCommand extends Command
 
     private function queryServer(Server $server)
     {
+        Log::notice('Attempting server status query...', $server);
+
         $queryService = new ServerQueryService();
-        $queryService->query($server, $this->app->make(ServerStatusRepositoryContract::class));
+
+        try {
+            $start = microtime(true);
+            $result = $queryService->query($server, $this->app->make(ServerStatusRepositoryContract::class));
+            $end = microtime(true) - $start;
+            Log::notice('Fetch completed in '.($end / 1000).'ms', $result);
+
+        } catch (UnsupportedGameException $e) {
+            $this->error('Querying '.$server->gameType()->name().' game type is unsupported');
+        }
     }
 }
