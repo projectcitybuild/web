@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Entities\Servers\Models\Server;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
 use Domain\ServerStatus\Repositories\ServerStatusRepository;
+use Domain\ServerStatus\ServerQueryAdapterFactory;
 use Domain\ServerStatus\ServerQueryService;
 use Illuminate\Console\Command;
 use App;
@@ -60,7 +61,8 @@ final class ServerQueryCommand extends Command
 
     private function queryServer(Server $server, bool $shouldRunInBackground)
     {
-        $queryService = new ServerQueryService();
+        $adapterFactory = App::make(ServerQueryAdapterFactory::class);
+        $queryService = new ServerQueryService($adapterFactory);
 
         if ($shouldRunInBackground) {
             $this->info('Starting server query on background queue ['.$server->getAddress().']');
