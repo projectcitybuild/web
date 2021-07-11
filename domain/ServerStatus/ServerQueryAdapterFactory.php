@@ -14,7 +14,7 @@ final class ServerQueryAdapterFactory implements ServerQueryAdapterFactoryContra
             case GameType::Minecraft:
                 return new MinecraftQueryAdapter();
             default:
-                throw new UnsupportedGameException($gameType->name() . " cannot be queried");
+                throw new UnsupportedGameException($gameType->name().' cannot be queried');
         }
     }
 }

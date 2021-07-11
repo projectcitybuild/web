@@ -8,8 +8,8 @@ use Domain\ServerStatus\Jobs\ServerQueryJob;
 use Domain\ServerStatus\Repositories\ServerStatusRepository;
 use Domain\ServerStatus\ServerQueryService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Queue;
+use Tests\TestCase;
 
 class ServerQueryService_Test extends TestCase
 {
