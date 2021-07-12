@@ -9,7 +9,6 @@ use App\Entities\Players\Models\MinecraftPlayer;
 use App\Entities\Servers\Repositories\ServerCategoryRepository;
 use App\Entities\Servers\Repositories\ServerCategoryRepositoryContract;
 use App\Http\Composers\MasterViewComposer;
-use App\Services\Queries\ServerQueryService;
 use App\View\Components\NavBarComponent;
 use Blade;
 use Illuminate\Database\Eloquent\Factories\Factory;

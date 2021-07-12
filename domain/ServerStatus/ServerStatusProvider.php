@@ -2,7 +2,6 @@
 
 namespace Domain\ServerStatus;
 
-use Domain\ServerStatus\Events\ServerStatusFetched;
 use Illuminate\Support\ServiceProvider;
 
 class ServerStatusProvider extends ServiceProvider
