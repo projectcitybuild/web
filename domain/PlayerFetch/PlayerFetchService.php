@@ -2,10 +2,14 @@
 
 namespace Domain\PlayerFetch;
 
+use App;
 use App\Entities\GameType;
-use App\Library\Mojang\Api\MojangPlayerApi;
+use App\Entities\Players\Models\MinecraftPlayer;
 use Domain\PlayerFetch\Adapters\MojangUUIDFetchAdapter;
+use Domain\PlayerFetch\Jobs\PlayerFetchJob;
+use Domain\PlayerFetch\Repositories\PlayerFetchRepository;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
+use Log;
 
 final class PlayerFetchService
 {
@@ -16,8 +20,18 @@ final class PlayerFetchService
         $this->playerRepository = $playerRepository;
     }
 
-    public function fetchSynchronously(GameType $gameType, array $aliases, ?int $timestamp = null)
+    /**
+     * Fetches the UUID for every given alias
+     *
+     * This operation will block the current process until the query succeeds or fails.
+     *
+     * @return MinecraftPlayer[]
+     * @throws UnsupportedGameException
+     */
+    public function fetchSynchronously(GameType $gameType, array $aliases, ?int $timestamp = null): array
     {
+        // FIXME: this service only supports Minecraft
+
         $adapter = $this->getAdapter($gameType);
         $players = $adapter->fetch($aliases, $timestamp);
 
@@ -27,13 +41,28 @@ final class PlayerFetchService
                 $player->getUuid()
             );
         }
+
+        Log::debug('Player data fetch completed');
+
+        return $players;
+    }
+
+    /**
+     * Fetches the UUID for every given alias.
+     *
+     * This operation is non-blocking, and queues a job to perform the operation
+     * eventually in the future.
+     */
+    public function fetch(GameType $gameType, array $aliases, ?int $timestamp = null)
+    {
+        PlayerFetchJob::dispatch($gameType, $aliases, $timestamp);
     }
 
     private function getAdapter(GameType $gameType): PlayerFetchAdapter
     {
         switch ($gameType->valueOf()) {
             case GameType::Minecraft:
-                return new MojangUUIDFetchAdapter(new MojangPlayerApi());
+                return App::make(MojangUUIDFetchAdapter::class);
             default:
                 throw new UnsupportedGameException($gameType->name()." is not supported");
         }

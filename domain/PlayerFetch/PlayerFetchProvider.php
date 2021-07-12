@@ -2,18 +2,22 @@
 
 namespace Domain\PlayerFetch;
 
-use Domain\PlayerAliasFetch\Listeners\ServerStatusFetchedListener;
+use Domain\PlayerFetch\Listeners\ServerStatusFetchedListener;
 use Domain\ServerStatus\Events\ServerStatusFetched;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
 
 class PlayerFetchProvider extends ServiceProvider
 {
     /**
-     * The event listener mappings for the application.
+     * Register any other events for your application.
      *
-     * @var array
+     * @return void
      */
-    protected $listen = [
-        ServerStatusFetched::class => [ServerStatusFetchedListener::class],
-    ];
+    public function boot()
+    {
+        Event::listen(
+            ServerStatusFetched::class, [ServerStatusFetchedListener::class, 'handle']
+        );
+    }
 }

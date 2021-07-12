@@ -2,11 +2,12 @@
 
 namespace App\Library\Mojang\Api;
 
+use App\Entities\Players\Models\MinecraftPlayer;
 use App\Exceptions\Http\TooManyRequestsException;
 use App\Library\Mojang\Models\MojangPlayer;
 use App\Library\Mojang\Models\MojangPlayerNameHistory;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
+use Symfony\Component\HttpClient\Exception\ClientException;
 
 class MojangPlayerApi
 {
@@ -84,7 +85,7 @@ class MojangPlayerApi
      *
      * The API only allows a max of 10 names per lookup.
      *
-     * @return array
+     * @return MinecraftPlayer[]
      *
      * @throws TooManyRequestsException
      * @throws \Exception
@@ -99,9 +100,7 @@ class MojangPlayerApi
         $names = array_values($names);
 
         // Strip empty names from the batch or else the API will return an error
-        $names = array_filter($names, function ($name) {
-            return ! empty($name);
-        });
+        $names = array_filter($names, fn ($name) => !empty($name));
 
         $response = null;
         try {
@@ -126,7 +125,7 @@ class MojangPlayerApi
             })
             ->map(function ($player) {
                 return new MojangPlayer(
-                    $player->id,
+                    str_replace('-', '', $player->id),
                     $player->name,
                     isset($body->legacy),
                     isset($body->demo)

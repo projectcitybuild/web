@@ -3,6 +3,7 @@
 namespace Domain\PlayerFetch\Adapters;
 
 use App\Library\Mojang\Api\MojangPlayerApi;
+use App\Library\Mojang\Models\MojangPlayer;
 use Domain\PlayerFetch\PlayerFetchAdapter;
 
 final class MojangUUIDFetchAdapter implements PlayerFetchAdapter
@@ -23,15 +24,8 @@ final class MojangUUIDFetchAdapter implements PlayerFetchAdapter
         $players = [];
         foreach ($names as $nameChunk) {
             $response = $this->mojangPlayerApi->getUuidBatchOf($nameChunk->toArray());
-            $response = array_map(function (MojangPlayer $player) {
-                $uuid = $player->getUuid();
-
-                return str_replace('-', '', $uuid);
-            }, $response);
-
             $players = array_merge($players, $response);
         }
-
-       return $players;
+        return $players;
     }
 }

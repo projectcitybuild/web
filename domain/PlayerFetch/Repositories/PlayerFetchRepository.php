@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\PlayerFetch;
+namespace Domain\PlayerFetch\Repositories;
 
 use App\Entities\Players\Models\MinecraftPlayer;
 use App\Entities\Players\Models\MinecraftPlayerAlias;

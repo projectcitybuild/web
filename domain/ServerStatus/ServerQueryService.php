@@ -44,7 +44,7 @@ final class ServerQueryService
         $end = microtime(true) - $start;
         Log::notice('Fetch completed in '.($end / 1000).'ms', $status->toArray());
 
-        ServerStatusFetched::dispatch($status);
+        ServerStatusFetched::dispatch($status, $server->gameType(), $time);
 
         return $status;
     }
