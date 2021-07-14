@@ -8,12 +8,8 @@ use DB;
 
 final class PlayerFetchRepository
 {
-    public function createPlayerIfNotExist(string $alias, string $uuid)
+    public function createPlayerWithAlias(string $uuid, string $alias)
     {
-        if (MinecraftPlayer::where('uuid', $uuid)->first()) {
-            return;
-        }
-
         DB::beginTransaction();
         $player = MinecraftPlayer::create([
             'uuid' => $uuid,
@@ -26,5 +22,14 @@ final class PlayerFetchRepository
             'registered_at' => now(),
         ]);
         DB::commit();
+    }
+
+    public function addAliasForPlayer(int $playerId, string $newAlias)
+    {
+        MinecraftPlayerAlias::create([
+            'player_minecraft_id' => $playerId,
+            'alias' => $newAlias,
+            'registered_at' => now(),
+        ]);
     }
 }

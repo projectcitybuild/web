@@ -16,6 +16,10 @@ class PlayerFetchProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->app->bind(PlayerFetchAdapterFactoryContract::class, function ($app) {
+            return new PlayerFetchAdapterFactory();
+        });
+
         Event::listen(
             ServerStatusFetched::class, [ServerStatusFetchedListener::class, 'handle']
         );

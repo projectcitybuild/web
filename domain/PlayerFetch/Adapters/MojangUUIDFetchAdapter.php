@@ -3,10 +3,9 @@
 namespace Domain\PlayerFetch\Adapters;
 
 use App\Library\Mojang\Api\MojangPlayerApi;
-use App\Library\Mojang\Models\MojangPlayer;
 use Domain\PlayerFetch\PlayerFetchAdapter;
 
-final class MojangUUIDFetchAdapter implements PlayerFetchAdapter
+class MojangUUIDFetchAdapter implements PlayerFetchAdapter
 {
     private MojangPlayerApi $mojangPlayerApi;
 

@@ -17,6 +17,14 @@ class ServerQueryService_Test extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Event::fake();
+        Queue::fake();
+    }
+
     public function testReturnsOnlineServerStatus()
     {
         $expectedResult = ServerQueryResult::online(1, 5, ['name']);
@@ -85,8 +93,6 @@ class ServerQueryService_Test extends TestCase
 
     public function testAsyncQueryDispatchesJob()
     {
-        Queue::fake();
-
         $expectedResult = ServerQueryResult::online(1, 5, ['name']);
         $adapter = new ServerQueryAdapterMock($expectedResult);
         $adapterFactory = new ServerQueryAdapterFactoryMock($adapter);
@@ -100,8 +106,6 @@ class ServerQueryService_Test extends TestCase
 
     public function testFiresEventAfterFetchingStatus()
     {
-        Event::fake();
-
         $expectedResult = ServerQueryResult::offline();
 
         $adapter = new ServerQueryAdapterMock($expectedResult);
