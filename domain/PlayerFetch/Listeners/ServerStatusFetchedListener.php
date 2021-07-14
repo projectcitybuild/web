@@ -23,14 +23,13 @@ class ServerStatusFetchedListener
     /**
      * Handle the event.
      *
-     * @param ServerStatusFetched $event
      * @return void
      */
     public function handle(ServerStatusFetched $event)
     {
         Log::debug('Observed server status fetch');
 
-        if (!$event->result->isOnline || count($event->result->onlinePlayerNames) == 0) {
+        if (! $event->result->isOnline || count($event->result->onlinePlayerNames) == 0) {
             return;
         }
         Log::info('Performing player fetch for aliases: '.implode(',', $event->result->onlinePlayerNames));

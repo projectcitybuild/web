@@ -11,8 +11,8 @@ use Domain\PlayerFetch\Jobs\PlayerFetchJob;
 use Domain\PlayerFetch\PlayerFetchService;
 use Domain\PlayerFetch\Repositories\PlayerFetchRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Queue;
+use Tests\TestCase;
 
 class PlayerFetchService_Test extends TestCase
 {

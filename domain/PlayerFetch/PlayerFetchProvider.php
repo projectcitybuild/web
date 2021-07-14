@@ -4,8 +4,8 @@ namespace Domain\PlayerFetch;
 
 use Domain\PlayerFetch\Listeners\ServerStatusFetchedListener;
 use Domain\ServerStatus\Events\ServerStatusFetched;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\ServiceProvider;
 
 class PlayerFetchProvider extends ServiceProvider
 {
