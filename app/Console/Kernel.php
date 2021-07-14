@@ -42,7 +42,7 @@ class Kernel extends ConsoleKernel
             return;
         }
 
-        $schedule->command('query:status --all')
+        $schedule->command('server:query --all')
             ->everyFiveMinutes();
 
         $schedule->command('cleanup:password-resets')
