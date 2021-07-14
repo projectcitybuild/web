@@ -9,7 +9,7 @@ interface PlayerFetchAdapterFactoryContract
 {
     /**
      * Instantiates an appropriate adapter to perform player
-     * data fetching for the given game type
+     * data fetching for the given game type.
      *
      * @throws UnsupportedGameException
      */

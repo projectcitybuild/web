@@ -24,7 +24,7 @@ final class PlayerFetchService
     }
 
     /**
-     * Fetches the UUID for every given alias
+     * Fetches the UUID for every given alias.
      *
      * This operation will block the current process until the query succeeds or fails.
      *

@@ -25,6 +25,7 @@ class MojangUUIDFetchAdapter implements PlayerFetchAdapter
             $response = $this->mojangPlayerApi->getUuidBatchOf($nameChunk->toArray());
             $players = array_merge($players, $response);
         }
+
         return $players;
     }
 }

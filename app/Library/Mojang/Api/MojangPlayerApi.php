@@ -100,7 +100,7 @@ class MojangPlayerApi
         $names = array_values($names);
 
         // Strip empty names from the batch or else the API will return an error
-        $names = array_filter($names, fn ($name) => !empty($name));
+        $names = array_filter($names, fn ($name) => ! empty($name));
 
         $response = null;
         try {
