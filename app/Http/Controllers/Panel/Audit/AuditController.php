@@ -9,12 +9,11 @@ use App\Library\Auditing\AuditableClassResolver;
 class AuditController extends WebController
 {
     /**
-     * Show all of the audits for a model
+     * Show all of the audits for a model.
      * @see AuditableClassResolver for a list of labels and corresponding classes
      *
      * @param string $label the human-readable model label
      * @param string $key the primary key of the model
-     * @param AuditableClassResolver $resolver
      * @return \Illuminate\Http\Response
      */
     public function index(string $label, string $key, AuditableClassResolver $resolver)
@@ -29,7 +28,6 @@ class AuditController extends WebController
     /**
      * Show details of an audit log ledger entry.
      *
-     * @param Ledger $ledger
      * @return \Illuminate\Http\Response
      */
     public function show(Ledger $ledger)
