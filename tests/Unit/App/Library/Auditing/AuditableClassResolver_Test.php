@@ -55,4 +55,9 @@ class FakeAuditable implements Recordable
     {
         return '/';
     }
+
+    public function getHumanRecordName(): string
+    {
+        return "Fake Auditable";
+    }
 }
