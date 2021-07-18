@@ -5,6 +5,9 @@ namespace App\Library\Auditing;
 use Altek\Accountant\Contracts\Cipher;
 use Altek\Accountant\Exceptions\DecipherException;
 
+/**
+ * Encode a string to a special representation, fully redacting it.
+ */
 class FullRedact implements Cipher
 {
     // This special token is unlikely to appear normally, use it to signal

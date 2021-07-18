@@ -5,11 +5,15 @@ namespace App\Library\Auditing;
 use Altek\Accountant\Models\Ledger;
 
 /**
- * Trait FilterableAccountable
- * Apply to classes which are accountable to allow filtering.
+ * Trait that allows filtering audits by the account that made them
  */
 trait FilterableAccountable
 {
+    /**
+     * A model has created many auditable changes
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function authoredLedgerEntries()
     {
         return $this->morphMany(Ledger::class, 'accountable');

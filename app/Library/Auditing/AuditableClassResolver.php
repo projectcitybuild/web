@@ -47,7 +47,8 @@ class AuditableClassResolver
     }
 
     /**
-     * @throws UnresolvableRecordableClassException
+     * Resolve a class instance to its label.
+     * @throws UnresolvableRecordableClassException if the label is unknown
      */
     public function getAuditListLabel(Recordable $recordable): string
     {
