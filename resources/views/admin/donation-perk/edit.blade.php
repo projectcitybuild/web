@@ -3,7 +3,7 @@
 @section('title', 'Edit Donation Perk #' . $perk->donation_perks_id)
 
 @section('toolbar')
-    <a href="{{ $perk->getAuditListUrl() }}" class="btn btn-outline-secondary btn-sm me-2"><i class="fas fa-list"></i> Audit</a>
+    <a href="{{ $perk->getAuditListUrl() }}" class="btn btn-outline-secondary btn-sm me-2"><i class="fas fa-history"></i> Changes</a>
 @endsection
 
 @section('body')

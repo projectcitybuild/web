@@ -4,7 +4,7 @@
 
 @section('toolbar')
     <a href="{{ $auditingModel->getPanelShowUrl() }}" class="btn btn-outline-secondary btn-sm"><i
-            class="fas fa-arrow-left"></i> Back</a>
+            class="fas fa-eye"></i> View Model</a>
 @endsection
 
 @section('body')

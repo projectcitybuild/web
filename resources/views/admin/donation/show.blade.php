@@ -3,7 +3,7 @@
 @section('title', 'Donation #' . $donation->donation_id)
 
 @section('toolbar')
-    <a href="{{ $donation->getAuditListUrl() }}" class="btn btn-outline-secondary btn-sm me-2"><i class="fas fa-list"></i> Audit</a>
+    <a href="{{ $donation->getAuditListUrl() }}" class="btn btn-outline-secondary btn-sm me-2"><i class="fas fa-history"></i> Changes</a>
 @endsection
 
 @section('body')

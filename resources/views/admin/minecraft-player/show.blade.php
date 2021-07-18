@@ -6,7 +6,7 @@
 
 @section('toolbar')
     <div class="d-flex align-items-center">
-        <a href="{{ $minecraftPlayer->getAuditListUrl() }}" class="btn btn-outline-secondary btn-sm me-2"><i class="fas fa-list"></i> Audit</a>
+        <a href="{{ $minecraftPlayer->getAuditListUrl() }}" class="btn btn-outline-secondary btn-sm me-2"><i class="fas fa-history"></i> Changes</a>
         <form action="{{ route('front.panel.minecraft-players.reload-alias', $minecraftPlayer) }}" method="post">
             @csrf
             <div class="btn-group btn-group-sm" role="group">

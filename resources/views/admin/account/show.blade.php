@@ -6,7 +6,8 @@
 
 @section('toolbar')
     <div class="d-flex align-items-center">
-        <a href="{{ $account->getAuditListUrl() }}" class="btn btn-outline-secondary btn-sm me-2"><i class="fas fa-list"></i> Audit</a>
+        <a href="{{ route('front.panel.audits.by-account', $account) }}" class="btn btn-outline-secondary btn-sm me-2"><i class="fas fa-list"></i> Action Logs</a>
+        <a href="{{ $account->getAuditListUrl() }}" class="btn btn-outline-secondary btn-sm me-2"><i class="fas fa-history"></i> Changes</a>
         <form action="{{ route('front.panel.accounts.force-discourse-sync', $account) }}" method="post" class="d-inline">
             @csrf
             <div class="btn-group btn-group-sm" role="group">
