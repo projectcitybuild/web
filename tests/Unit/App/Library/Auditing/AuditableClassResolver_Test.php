@@ -58,6 +58,6 @@ class FakeAuditable implements Recordable
 
     public function getHumanRecordName(): string
     {
-        return "Fake Auditable";
+        return 'Fake Auditable';
     }
 }
