@@ -8,19 +8,13 @@ use App\Library\Auditing\AuditableClassResolver;
 
 class AuditController extends WebController
 {
-    private function humanLabel($model, $key): string
-    {
-        return class_basename(get_class($model)).' #'.$key;
-    }
-
     public function index(string $label, string $key, AuditableClassResolver $resolver)
     {
         $auditingClass = $resolver->resolveLabelToClass($label);
         $auditingModel = $auditingClass::findOrFail($key);
         $ledgers = $auditingModel->ledgers()->with('user')->latest()->get();
-        $humanLabel = $this->humanLabel($auditingModel, $key);
 
-        return view('admin.auditing.index')->with(compact('ledgers', 'auditingModel', 'humanLabel'));
+        return view('admin.auditing.index')->with(compact('ledgers', 'auditingModel'));
     }
 
     public function show(Ledger $ledger)

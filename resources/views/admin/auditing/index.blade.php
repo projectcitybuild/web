@@ -1,6 +1,6 @@
 @extends('admin.layouts.admin')
 
-@section('title', $humanLabel . ' Audit Logs')
+@section('title', $auditingModel->getHumanRecordName().' Audit')
 
 @section('toolbar')
     <a href="{{ $auditingModel->getPanelShowUrl() }}" class="btn btn-outline-secondary btn-sm"><i
