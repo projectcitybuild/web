@@ -26,7 +26,7 @@ class PanelMinecraftPlayerShowTest extends TestCase
     {
         $bannedPlayer = MinecraftPlayer::factory()
             ->hasAliases(1)
-            ->has(GameBan::factory()->nullBannedBy())
+            ->has(GameBan::factory()->bannedByConsole())
             ->create();
 
         $this->actingAs($this->adminAccount())

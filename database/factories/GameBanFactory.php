@@ -100,10 +100,11 @@ class GameBanFactory extends Factory
         });
     }
 
-    public function nullBannedBy(): GameBanFactory
+    public function bannedByConsole(): GameBanFactory
     {
         return $this->state(function (array $attributes) {
             return [
+                'staff_player_id' => null,
                 'staff_player_type' => 'minecraft_player',
             ];
         });
