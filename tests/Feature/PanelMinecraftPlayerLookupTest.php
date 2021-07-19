@@ -73,8 +73,28 @@ class PanelMinecraftPlayerLookupTest extends TestCase
             ->assertRedirect(route('front.panel.minecraft-players.show', $mcPlayer));
     }
 
-    public function testLookupOfNonExistentPlayer()
+    public function testLookupOfInvalidPlayer()
     {
+        // this is a player that does not exist in Mojang's database
+        $this->mock(MojangPlayerApi::class, function (MockInterface $mock) {
+            $mock->shouldReceive('getUuidOf')->once()->andReturn(null);
+        });
+
+        $this->actingAs($this->adminAccount())
+            ->post(route('front.panel.minecraft-players.lookup'), [
+                'query' => 'Herobrine',
+            ])
+            ->assertRedirect(route('front.panel.minecraft-players.index'));
+    }
+
+    public function testLookupOfUnknownPlayer()
+    {
+        $this->mock(MojangPlayerApi::class, function (MockInterface $mock) {
+            $mock->shouldReceive('getUuidOf')->once()->andReturn(
+                new MojangPlayer('f84c6a790a4e45e0879bcd49ebd4c4e2', 'Herobrine')
+            );
+        });
+
         $this->actingAs($this->adminAccount())
             ->post(route('front.panel.minecraft-players.lookup'), [
                 'query' => 'Herobrine',
