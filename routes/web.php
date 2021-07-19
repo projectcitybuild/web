@@ -245,7 +245,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('bans', 'BanlistController@index')->name('front.banlist');
 
-Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel', 'middleware' => ['auth', 'panel']], function () {
+Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel', 'middleware' => ['auth', 'panel', 'requires-mfa']], function () {
     Route::view('/', 'admin.index')->name('index');
 
     Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);

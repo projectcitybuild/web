@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'panel' => PanelAccess::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'active-mfa' => \App\Http\Middleware\ActiveMfaSession::class,
+        'requires-mfa' => \App\Http\Middleware\RequiresMfaEnabled::class,
     ];
 
     /**
