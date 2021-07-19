@@ -64,7 +64,9 @@ class MinecraftPlayerLookupController extends WebController
         try {
             $mojangPlayer = $api->getUuidOf($alias);
 
-            if ($mojangPlayer == null) return null;
+            if ($mojangPlayer == null) {
+                return null;
+            }
 
             return $this->lookupByUUID($mojangPlayer->getUuid());
         } catch (TooManyRequestsException $e) {
