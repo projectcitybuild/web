@@ -44,6 +44,7 @@ abstract class TestCase extends BaseTestCase
         if ($fresh || $this->adminAccount == null) {
             $this->adminAccount = Account::factory()
                 ->has(Group::factory()->administrator())
+                ->hasFinishedTotp()
                 ->create();
         }
 
