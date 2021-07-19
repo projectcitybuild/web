@@ -101,4 +101,22 @@ class PanelMinecraftPlayerLookupTest extends TestCase
             ])
             ->assertRedirect(route('front.panel.minecraft-players.index'));
     }
+
+    public function testEmptyLookupStringEntered()
+    {
+        $this->actingAs($this->adminAccount())
+            ->post(route('front.panel.minecraft-players.lookup'), [
+                'query' => '',
+            ])
+            ->assertRedirect(route('front.panel.minecraft-players.index'));
+    }
+
+    public function testNullLookupStringEntered()
+    {
+        $this->actingAs($this->adminAccount())
+            ->post(route('front.panel.minecraft-players.lookup'), [
+                'query' => null,
+            ])
+            ->assertRedirect(route('front.panel.minecraft-players.index'));
+    }
 }
