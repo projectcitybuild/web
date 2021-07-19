@@ -99,4 +99,13 @@ class GameBanFactory extends Factory
             ];
         });
     }
+
+    public function nullBannedBy(): GameBanFactory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'staff_player_type' => 'minecraft_player',
+            ];
+        });
+    }
 }
