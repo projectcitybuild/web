@@ -5,6 +5,14 @@
 
 @section('contents')
     <div class="contents__body">
+        @if(Session::get('mfa_setup_required', false))
+            <div class="alert alert--error contents__flash">
+                <h3><i class="fas fa-exclamation-circle"></i> 2FA Setup Required</h3>
+                <p>
+                    You need to set up 2FA to use {{ Session::get('mfa_setup_required_feature', 'this feature') }}.
+                </p>
+            </div>
+        @endif
         @if(Session::get('mfa_setup_finished', false))
             <div class="alert alert--success contents__flash">
                 <h3><i class="fas fa-check"></i> 2FA Enabled</h3>
