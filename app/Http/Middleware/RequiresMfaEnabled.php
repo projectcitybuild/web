@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 /**
  * This middleware prevents the user from accessing a route unless they have 2FA enabled on their account.
