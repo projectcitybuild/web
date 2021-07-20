@@ -3,16 +3,14 @@
 namespace App\Entities\Donations\Models;
 
 use App\Entities\Accounts\Models\Account;
-use App\Library\Auditing\Contracts\Recordable;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-final class Donation extends Model implements Recordable
+final class Donation extends Model
 {
     use HasFactory;
-    use \App\Library\Auditing\Recordable;
 
     /**
      * Amount that needs to be donated to be granted
@@ -67,15 +65,5 @@ final class Donation extends Model implements Recordable
     public function perks(): HasMany
     {
         return $this->hasMany(DonationPerk::class, 'donation_id', 'donation_id');
-    }
-
-    public function getPanelShowUrl(): string
-    {
-        return route('front.panel.donations.show', $this);
-    }
-
-    public function getHumanRecordName(): string
-    {
-        return 'Donation #'.$this->getKey();
     }
 }

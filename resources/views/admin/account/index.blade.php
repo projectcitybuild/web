@@ -44,8 +44,8 @@
             </tbody>
 
         </table>
-    </div>
 
-    {{ $accounts->links('vendor.pagination.bootstrap-4') }}
+        {{ $accounts->links('vendor.pagination.bootstrap-4') }}
+    </div>
 @endsection
 
