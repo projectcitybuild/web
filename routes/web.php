@@ -245,7 +245,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('bans', 'BanlistController@index')->name('front.banlist');
 
-Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel', 'middleware' => ['auth', 'panel']], function () {
+Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel', 'middleware' => ['auth', 'panel', 'requires-mfa']], function () {
     Route::view('/', 'admin.index')->name('index');
 
     Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);
@@ -257,6 +257,23 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
         'as' => 'minecraft-players.lookup',
         'uses' => 'MinecraftPlayerLookupController',
     ]);
+
+    Route::group(['prefix' => 'audits', 'as' => 'audits.', 'namespace' => 'Audit'], function () {
+        Route::get('by/{account}', [
+            'as' => 'by-account',
+            'uses' => 'AccountAuditsController',
+        ]);
+
+        Route::get('entry/{ledger}', [
+            'as' => 'show',
+            'uses' => 'AuditController@show',
+        ]);
+
+        Route::get('{label}/{key}', [
+            'as' => 'index',
+            'uses' => 'AuditController@index',
+        ]);
+    });
 
     Route::post('minecraft-players/{minecraft_player}/reload-alias', [
         'as' => 'minecraft-players.reload-alias',

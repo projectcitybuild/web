@@ -5,13 +5,16 @@
 @endsection
 
 @section('toolbar')
-    <form action="{{ route('front.panel.minecraft-players.reload-alias', $minecraftPlayer) }}" method="post">
-        @csrf
-        <div class="btn-group btn-group-sm" role="group">
-            <a href="https://analytics.pcbmc.co/player/{{ $minecraftPlayer->dashedUuid }}" class="btn btn-outline-secondary"><i class="fas fa-external-link-square-alt"></i> Plan</a>
-            <button type="submit" class="btn btn-outline-secondary"><i class="fas fa-sync"></i> Reload Name</button>
-        </div>
-    </form>
+    <div class="d-flex align-items-center">
+        <a href="{{ $minecraftPlayer->getAuditListUrl() }}" class="btn btn-outline-secondary btn-sm me-2"><i class="fas fa-history"></i> Changes</a>
+        <form action="{{ route('front.panel.minecraft-players.reload-alias', $minecraftPlayer) }}" method="post">
+            @csrf
+            <div class="btn-group btn-group-sm" role="group">
+                <a href="https://analytics.pcbmc.co/player/{{ $minecraftPlayer->dashedUuid }}" class="btn btn-outline-secondary"><i class="fas fa-external-link-square-alt"></i> Plan</a>
+                <button type="submit" class="btn btn-outline-secondary"><i class="fas fa-sync"></i> Reload Name</button>
+            </div>
+        </form>
+    </div>
 @endsection
 
 @section('body')
@@ -127,7 +130,15 @@
                                     <i class="fas fa-{{ $ban->is_active ? 'exclamation' : 'clock' }} fa-fw"></i>
                                 </td>
                                 <td>{{ $ban->reason }}</td>
-                                <td><a href="{{ route('front.panel.minecraft-players.show', $ban->staffPlayer) }}">{{ $ban->getStaffName() }}</a></td>
+                                <td>
+                                    @if($ban->staffPlayer == null)
+                                        <span class="badge bg-secondary">Null</span>
+                                    @else
+                                    <a href="{{ route('front.panel.minecraft-players.show', $ban->staffPlayer) }}">
+                                        {{ $ban->getStaffName() }}
+                                    </a>
+                                    @endif
+                                </td>
                                 <td>{{ $ban->expires_at }}</td>
                                 <td>{{ $ban->created_at }}</td>
 
