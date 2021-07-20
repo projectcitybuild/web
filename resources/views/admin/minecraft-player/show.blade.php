@@ -130,7 +130,15 @@
                                     <i class="fas fa-{{ $ban->is_active ? 'exclamation' : 'clock' }} fa-fw"></i>
                                 </td>
                                 <td>{{ $ban->reason }}</td>
-                                <td><a href="{{ route('front.panel.minecraft-players.show', $ban->staffPlayer) }}">{{ $ban->getStaffName() }}</a></td>
+                                <td>
+                                    @if($ban->staffPlayer == null)
+                                        <span class="badge bg-secondary">Null</span>
+                                    @else
+                                    <a href="{{ route('front.panel.minecraft-players.show', $ban->staffPlayer) }}">
+                                        {{ $ban->getStaffName() }}
+                                    </a>
+                                    @endif
+                                </td>
                                 <td>{{ $ban->expires_at }}</td>
                                 <td>{{ $ban->created_at }}</td>
 
