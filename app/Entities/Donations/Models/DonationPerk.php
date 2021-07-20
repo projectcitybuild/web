@@ -3,15 +3,13 @@
 namespace App\Entities\Donations\Models;
 
 use App\Entities\Accounts\Models\Account;
-use App\Library\Auditing\Contracts\Recordable;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-final class DonationPerk extends Model implements Recordable
+final class DonationPerk extends Model
 {
     use HasFactory;
-    use \App\Library\Auditing\Recordable;
 
     /**
      * The table associated with the model.
@@ -78,15 +76,5 @@ final class DonationPerk extends Model implements Recordable
     public function donation(): BelongsTo
     {
         return $this->belongsTo(Donation::class, 'donation_id', 'donation_id');
-    }
-
-    public function getPanelShowUrl(): string
-    {
-        return route('front.panel.donations.show', $this->donation).'#perk-'.$this->getKey();
-    }
-
-    public function getHumanRecordName(): string
-    {
-        return 'Donation Perk #'.$this->getKey();
     }
 }
