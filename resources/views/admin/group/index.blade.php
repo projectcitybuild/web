@@ -21,7 +21,9 @@
             @foreach($groups as $group)
                 <tr>
                     <td>{{ $group->name }}</td>
-                    <td>{{ number_format($group->accounts_count) }}</td>
+                    <td>
+                        <a href="{{ route('front.panel.groups.accounts', $group) }}">{{ number_format($group->accounts_count) }}</a>
+                    </td>
                     <td>{{ $group->alias }}</td>
                     <td>
                         @if ($group->discourse_name != "")

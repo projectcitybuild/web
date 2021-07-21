@@ -2,6 +2,7 @@
 
 namespace App\Entities\Groups\Models;
 
+use App\Entities\Accounts\Models\Account;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -48,6 +49,6 @@ final class Group extends Model
 
     public function accounts()
     {
-        return $this->belongsToMany(Group::class, 'groups_accounts', 'group_id', 'account_id');
+        return $this->belongsToMany(Account::class, 'groups_accounts', 'group_id', 'account_id');
     }
 }
