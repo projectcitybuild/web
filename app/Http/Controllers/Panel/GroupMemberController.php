@@ -15,7 +15,7 @@ class GroupMemberController extends WebController
             'accounts' => $accounts,
             'query' => '',
             'title' => 'Accounts in '.$group->name,
-            'showSearch' => false
+            'showSearch' => false,
         ]);
     }
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Panel;
 
 use App\Entities\Groups\Models\Group;
 use App\Http\WebController;
-use Illuminate\Http\Request;
 
 class GroupController extends WebController
 {
