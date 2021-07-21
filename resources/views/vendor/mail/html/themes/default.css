@@ -11,7 +11,7 @@ body *:not(html):not(style):not(br):not(tr):not(code) {
 body {
     -webkit-text-size-adjust: none;
     background-color: #ffffff;
-    color: #718096;
+    color: #262626;
     height: 100%;
     line-height: 1.4;
     margin: 0;
@@ -80,7 +80,7 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 100%;
-    background-color: #edf2f7;
+    background-color: #3d3f41;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -112,9 +112,7 @@ img {
 /* Logo */
 
 .logo {
-    height: 75px;
-    max-height: 75px;
-    width: 75px;
+    width: 250px;
 }
 
 /* Body */
@@ -123,9 +121,9 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 100%;
-    background-color: #edf2f7;
-    border-bottom: 1px solid #edf2f7;
-    border-top: 1px solid #edf2f7;
+    background-color: #3d3f41;
+    border-bottom: 1px solid #3d3f41;
+    border-top: 1px solid #3d3f41;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -136,10 +134,10 @@ img {
     -premailer-cellspacing: 0;
     -premailer-width: 570px;
     background-color: #ffffff;
-    border-color: #e8e5ef;
-    border-radius: 2px;
+    border-color: #fff;
+    border-radius: 5px;
     border-width: 1px;
-    box-shadow: 0 2px 0 rgba(0, 0, 150, 0.025), 2px 4px 0 rgba(0, 0, 150, 0.015);
+    box-shadow: inset 0 -4px 0 rgba(0,0,0,.25);
     margin: 0 auto;
     padding: 0;
     width: 570px;
@@ -228,15 +226,16 @@ img {
     display: inline-block;
     overflow: hidden;
     text-decoration: none;
+    font-weight: bold;
 }
 
 .button-blue,
 .button-primary {
-    background-color: #2d3748;
-    border-bottom: 8px solid #2d3748;
-    border-left: 18px solid #2d3748;
-    border-right: 18px solid #2d3748;
-    border-top: 8px solid #2d3748;
+    background-color: #3577f8;
+    border-bottom: 8px solid #3577f8;
+    border-left: 18px solid #3577f8;
+    border-right: 18px solid #3577f8;
+    border-top: 8px solid #3577f8;
 }
 
 .button-green,
