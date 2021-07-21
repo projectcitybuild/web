@@ -2,7 +2,6 @@
 
 namespace App\Entities\Groups\Models;
 
-use App\Entities\Accounts\Models\Account;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
