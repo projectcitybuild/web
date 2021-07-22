@@ -1,34 +1,43 @@
 .button {
-    display: block;
-    width: 100%;
     border-radius: 5px;
     border-color: #FF842A;
     border-style: solid;
-    padding: 0.4em 1.5em 0.3em 1.5em;
-    font-family: $font-header;
-    font-size: 2em;
-    text-transform: uppercase;
     text-decoration: none;
     text-shadow: none;
     text-align: center;
+    font-weight: bold;
+    padding: 0.6em 0.75em;
 }
 
-button.button:hover {
-    cursor: pointer;
+.button.button--display {
+    font-family: $font-header;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 2em;
+    padding: 0.4em 1.5em 0.3em 1.5em;
 }
 
-.button.filled {
+.button.button--block {
+    display: block;
+    width: 100%;
+}
+
+.button.button--filled {
     color: #fff;
     border-width: 0;
     background-color: #FF842A;
     box-shadow: 0 4px 10px hsla(0, 0, 0, 15%),
-                inset 0 -4px 0 hsla(0, 0, 0, 25%);
+    inset 0 -4px 0 hsla(0, 0, 0, 25%);
 }
 
-.button.outlined {
+.button.button--outlined {
     color: #FF842A;
     border-width: 2px;
     box-shadow: 0 4px 10px hsla(0, 0, 0, 15%),
-                inset 0 4px 10px hsla(0, 0, 0, 15%);
+    inset 0 4px 10px hsla(0, 0, 0, 15%);
     text-shadow: none;
+}
+
+button.button:hover {
+    cursor: pointer;
 }

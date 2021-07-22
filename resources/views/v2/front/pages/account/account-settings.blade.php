@@ -15,46 +15,22 @@
 
         <div class="settings__content">
 
-            <div class="settings__section">
-                <h2>Change Email Address</h2>
+            <div class="settings__section" id="change-email">
+                <h2 class="settings__section-heading">Change Email Address</h2>
 
                 <p class="settings__description">You'll need to confirm this change with both your old and new email addresses.<br>If you no longer have access to your old email, please speak to a member of staff.</p>
 
-                <form method="post" action="{{ route('front.account.settings.email') }}" id="form">
-                    @csrf
-
-                    @if(Session::has('success'))
-                        <div class="alert alert--success">
-                            <h3><i class="fas fa-exclamation-circle"></i> Success</h3>
-                            {{ Session::get('success') }}
-                        </div>
-                        <p>
-                    @endif
-                    @if($errors->email->any())
-                        <div class="alert alert--error">
-                            <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
-                            @foreach($errors->email->all() as $error)
-                                {{ $error }}<br>
-                            @endforeach
-                        </div>
-                    @endif
-
-                    <label for="email">Email</label>
-                    <input class="textfield {{ $errors->has('email') ? 'error' : '' }}" name="email" type="email" id="email"
-                           placeholder="New Email Address" value="{{ old('email', $user->email) }}"/>
-
-                    <div class="form-row">
-                        <button type="submit" class="g-recaptcha button button--large button--fill button--secondary">
-                            <i class="fas fa-envelope"></i> Send Verification Mail
-                        </button>
-                    </div>
-                </form>
+                @include('v2.front.pages.account.settings._email')
             </div>
-            <div class="settings__section">
-                <h2>Change Username</h2>
+            <div class="settings__section" id="change-username">
+                <h2 class="settings__section-heading">Change Username</h2>
+
+                @include('v2.front.pages.account.settings._username')
             </div>
-            <div class="settings__section">
-                <h2>Change Password</h2>
+            <div class="settings__section" id="change-password">
+                <h2 class="settings__section-heading">Change Password</h2>
+
+                @include('v2.front.pages.account.settings._password')
             </div>
         </div>
     </main>
