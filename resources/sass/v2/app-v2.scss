@@ -20,10 +20,13 @@
 @import "molecules/footer-legal";
 @import "molecules/footer-sitemap";
 @import "molecules/hero";
+@import "molecules/image-header";
+@import "molecules/introduction";
 @import "molecules/navbar";
 @import "molecules/news-bar";
 @import "molecules/server-feed";
 @import "molecules/server-overview";
-@import "molecules/introduction";
+@import "molecules/side-menu";
 
 @import "organisms/page.login";
+@import "organisms/page.settings";

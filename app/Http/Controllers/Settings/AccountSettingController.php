@@ -20,7 +20,7 @@ final class AccountSettingController extends WebController
     {
         $user = $request->user();
 
-        return view('front.pages.account.account-settings')->with(compact('user'));
+        return view('v2.front.pages.account.account-settings')->with(compact('user'));
     }
 
     public function sendVerificationEmail(AccountChangeEmailRequest $request, SendEmailForAccountEmailChange $sendEmailForAccountEmailChange)
