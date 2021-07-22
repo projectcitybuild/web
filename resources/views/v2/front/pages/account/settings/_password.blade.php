@@ -29,6 +29,6 @@
                    id="new_password_confirm" name="new_password_confirm" type="password" placeholder="New Password (Confirm)"/>
 
             <button type="submit" class="button button--filled">
-                <i class="fas fa-check"></i> Change Password
+                Change
             </button>
 </form>

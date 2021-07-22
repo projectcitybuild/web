@@ -1,15 +1,16 @@
+$menu-border: 1px solid #e6e6e6;
+
 .page.settings {
-    display: flex;
-    margin-top: 0.5rem;
+    max-width: 1600px;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    margin-bottom: 1rem;
+    margin: 0.5rem auto 1rem;
 
     .side-menu {
-        width: 15%;
         margin-top: 1rem;
         margin-bottom: 1rem;
         font-size: 1.2rem;
+
 
         a {
             text-decoration: none;
@@ -18,41 +19,42 @@
         li a {
             padding-top: 0.35rem;
             padding-bottom: 0.35rem;
-            border: 1px transparent solid;
             position: relative;
-            margin-bottom: 0.2rem;
-        }
 
-        li:hover {
-            a {
-                background-color: darken(white, 2%);
-                box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25);
-                border-radius: 5px 0 0 5px;
-                border: 1px solid #e6e6e6;
-                border-right: 0;
-                color: $color-text-link;
-            }
-        }
+            border: $menu-border;
+            border-bottom: 0;
 
-        li.side-menu--active a {
+            color: lighten($color-text-primary, 10%);
             background-color: white;
+
+        }
+
+        li:first-of-type a {
+            border-radius: 5px 5px 0 0;
+        }
+
+        li:last-of-type a {
+            border-bottom: $menu-border;
+            border-radius: 0 0 5px 5px;
             box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25);
-            border-radius: 5px 0 0 5px;
-            border: 1px solid #e6e6e6;
-            border-right: 0;
-            margin-right: -1px; // overlap border of content to appear connected
+        }
+
+        li.side-menu--active a,
+        li:hover a,
+        li:active a {
+            background-color: white;
+            color: $color-text-link
         }
     }
 
     .settings__content {
-        width: 85%;
         background-color: white;
         box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.25);
         border-radius: 5px;
         border: 1px solid #e6e6e6;
 
         .settings__section {
-            padding: 1.5em 2.5em;
+            padding: 1.5em 1.5em;
 
             &:not(:last-child) {
                 border-bottom: 1px solid #ccc;
@@ -67,25 +69,25 @@
         }
 
         .settings__description {
-            font-size: 1.1rem;
+            //font-size: 1.1rem;
             margin-top: 0.5rem;
             line-height: 1.5;
             color: $color-text-primary;
         }
 
         .settings__form {
-            width: 40%;
+            width: 100%;
 
             label:first-of-type {
                 margin-top: 2rem;
             }
 
-            label, .textfield {
-                display: block;
-            }
-
             .textfield {
                 width: 100%;
+            }
+
+            label, .textfield {
+                display: block;
             }
 
             .textfield:not(:last-child) {
@@ -94,10 +96,58 @@
         }
 
         button {
-            margin-top: 1rem;
+            margin-top: 0.5rem;
 
             svg {
                 margin-right: 0.2em;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: $screen-m) {
+    .page.settings {
+        display: flex;
+
+        .side-menu {
+            width: 15%;
+
+            ul {
+                box-shadow: none;
+            }
+
+            li:first-of-type a {
+                border-radius: 5px 0 0 5px;
+            }
+
+            li:last-of-type a {
+                border-radius: 5px 0 0 5px;
+            }
+
+            li a {
+                border-radius: 5px 0 0 5px;
+                margin-bottom: 0.2rem;
+                box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+                border: $menu-border;
+                border-right-width: 0;
+            }
+
+            li.side-menu--active a {
+                border-radius: 5px 0 0 5px;
+                border-right: 0;
+                margin-right: -1px; // overlap border of content to appear connected
+            }
+        }
+
+        .settings__content {
+            width: 85%;
+
+            .settings__section {
+                padding: 1.5em 2.5em;
+            }
+
+            .settings__form {
+                width: 40%;
             }
         }
     }
