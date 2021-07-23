@@ -97,9 +97,29 @@ $menu-border: 1px solid #e6e6e6;
 
         button {
             margin-top: 0.5rem;
+        }
 
-            svg {
-                margin-right: 0.2em;
+        .settings__security-twofa-status {
+            border-left: 4px solid #ccc;
+            padding: 1em;
+            margin-bottom: 1rem;
+
+            p {
+                margin: 0;
+            }
+
+            p.settings__security-twofa-status-enabled {
+                color: $color-success;
+                font-weight: bold;
+                margin-bottom: 0.5em;
+                font-size: 1.5em;
+            }
+
+            p.settings__security-twofa-status-not-enabled {
+                color: $color-error;
+                font-weight: bold;
+                margin-bottom: 0.5em;
+                font-size: 1.5em;
             }
         }
     }
