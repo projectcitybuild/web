@@ -12,6 +12,6 @@ final class AccountDonationController extends WebController
         $request->user()->load(['donationPerks', 'donationPerks.donation']);
         $donationPerks = $request->user()->donationPerks;
 
-        return view('front.pages.account.account-donations')->with(compact('donationPerks'));
+        return view('v2.front.pages.account.account-donations')->with(compact('donationPerks'));
     }
 }

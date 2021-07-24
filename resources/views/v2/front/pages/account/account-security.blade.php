@@ -1,6 +1,6 @@
 @extends('v2.front.templates.master')
 
-@section('title', 'Security - Account Settings - Project City Build')
+@section('title', 'Security - Your Account - Project City Build')
 @section('description', '')
 
 @section('body')

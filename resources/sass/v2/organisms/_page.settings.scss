@@ -122,6 +122,21 @@ $menu-border: 1px solid #e6e6e6;
                 font-size: 1.5em;
             }
         }
+
+        .settings__empty-placeholder {
+            text-align: center;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+
+            svg {
+                color: lighten($color-text-primary, 10%);
+                margin-bottom: 1rem;
+            }
+
+            p {
+                font-weight: bold;
+            }
+        }
     }
 }
 
