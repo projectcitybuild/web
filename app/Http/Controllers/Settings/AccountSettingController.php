@@ -82,7 +82,7 @@ throw new \Exception('Provided email address does not match the current or new e
         if (! $areBothAddressesVerified) {
             $changeRequest->save();
 
-            return view('front.pages.account.account-settings-email-confirm', [
+            return view('v2.front.pages.account.account-settings-email-confirm', [
                 'changeRequest' => $changeRequest,
             ]);
         }
@@ -92,7 +92,7 @@ throw new \Exception('Provided email address does not match the current or new e
             $changeRequest
         );
 
-        return view('front.pages.account.account-settings-email-complete');
+        return view('v2.front.pages.account.account-settings-email-complete');
     }
 
     public function changePassword(AccountChangePasswordRequest $request, UpdateAccountPassword $updatePassword)
