@@ -23,6 +23,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th></th>
                 <th>ID</th>
                 <th>Email</th>
                 <th>Username</th>
@@ -33,6 +34,13 @@
             <tbody>
             @foreach($accounts as $account)
                 <tr>
+                    <td data-bs-toggle="tooltip" data-bs-placement="left" title="{{ $account->is_totp_enabled ? '2FA Enabled' : '2FA Disabled' }}">
+                        @if($account->is_totp_enabled)
+                            <i class="fas fa-lock fa-fw text-success me-2"></i>
+                        @else
+                            <i class="fas fa-lock-open fa-fw text-muted me-2"></i>
+                        @endif
+                    </td>
                     <td>{{ $account->account_id }}</td>
                     <td>{{ $account->email }}</td>
                     <td>{{ $account->username }}</td>
