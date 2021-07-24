@@ -6,6 +6,10 @@ $menu-border: 1px solid #e6e6e6;
     padding-right: 0.5rem;
     margin: 0.5rem auto 1rem;
 
+    &.page--narrow {
+        max-width: 700px;
+    }
+
     .side-menu {
         margin-top: 1rem;
         margin-bottom: 1rem;
@@ -46,100 +50,100 @@ $menu-border: 1px solid #e6e6e6;
             color: $color-text-link
         }
     }
+}
 
-    .settings__content {
-        background-color: white;
-        box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.25);
-        border-radius: 5px;
-        border: 1px solid #e6e6e6;
+.settings__content {
+    background-color: white;
+    box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    border: 1px solid #e6e6e6;
 
-        .settings__section {
-            padding: 1.5em 1.5em;
+    .settings__section {
+        padding: 1.5em 1.5em;
 
-            &:not(:last-child) {
-                border-bottom: 1px solid #ccc;
-            }
+        &:not(:last-child) {
+            border-bottom: 1px solid #ccc;
+        }
+    }
+
+    .settings__section-heading {
+        font-family: $font-header;
+        text-transform: uppercase;
+        font-size: 2rem;
+        margin-top: 0;
+    }
+
+    .settings__description {
+        //font-size: 1.1rem;
+        margin-top: 0.5rem;
+        line-height: 1.5;
+        color: $color-text-primary;
+    }
+
+    .settings__form {
+        width: 100%;
+
+        label:first-of-type {
+            margin-top: 2rem;
         }
 
-        .settings__section-heading {
-            font-family: $font-header;
-            text-transform: uppercase;
-            font-size: 2rem;
-            margin-top: 0;
-        }
-
-        .settings__description {
-            //font-size: 1.1rem;
-            margin-top: 0.5rem;
-            line-height: 1.5;
-            color: $color-text-primary;
-        }
-
-        .settings__form {
+        .textfield {
             width: 100%;
-
-            label:first-of-type {
-                margin-top: 2rem;
-            }
-
-            .textfield {
-                width: 100%;
-            }
-
-            label, .textfield {
-                display: block;
-            }
-
-            .textfield:not(:last-child) {
-                margin-bottom: 1rem;
-            }
         }
 
-        button {
-            margin-top: 0.5rem;
+        label, .textfield {
+            display: block;
         }
 
-        .alert {
-            max-width: 650px;
-        }
-
-        .settings__security-twofa-status {
-            border-left: 4px solid #ccc;
-            padding: 1em;
+        .textfield:not(:last-child) {
             margin-bottom: 1rem;
+        }
+    }
 
-            p {
-                margin: 0;
-            }
+    button {
+        margin-top: 0.5rem;
+    }
 
-            p.settings__security-twofa-status-enabled {
-                color: $color-success;
-                font-weight: bold;
-                margin-bottom: 0.5em;
-                font-size: 1.5em;
-            }
+    .alert {
+        max-width: 650px;
+    }
 
-            p.settings__security-twofa-status-not-enabled {
-                color: $color-error;
-                font-weight: bold;
-                margin-bottom: 0.5em;
-                font-size: 1.5em;
-            }
+    .settings__security-twofa-status {
+        border-left: 4px solid #ccc;
+        padding: 1em;
+        margin-bottom: 1rem;
+
+        p {
+            margin: 0;
         }
 
-        .settings__empty-placeholder {
-            text-align: center;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
+        p.settings__security-twofa-status-enabled {
+            color: $color-success;
+            font-weight: bold;
+            margin-bottom: 0.5em;
+            font-size: 1.5em;
+        }
 
-            svg {
-                color: lighten($color-text-primary, 10%);
-                margin-bottom: 1rem;
-            }
+        p.settings__security-twofa-status-not-enabled {
+            color: $color-error;
+            font-weight: bold;
+            margin-bottom: 0.5em;
+            font-size: 1.5em;
+        }
+    }
 
-            p {
-                font-weight: bold;
-            }
+    .settings__empty-placeholder {
+        text-align: center;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+
+        svg {
+            color: lighten($color-text-primary, 10%);
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-weight: bold;
         }
     }
 }

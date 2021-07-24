@@ -31,6 +31,10 @@
     inset 0 -4px 0 hsla(0, 0, 0, 25%);
 }
 
+.button.button--secondary {
+    background-color: $color-secondary;
+}
+
 .button.button--outlined {
     color: #FF842A;
     border-width: 2px;

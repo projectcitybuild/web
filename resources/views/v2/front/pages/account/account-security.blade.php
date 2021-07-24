@@ -33,9 +33,7 @@
                 @if(Session::get('mfa_disabled', false))
                     <div class="alert alert--success">
                         <h2><i class="fas fa-check"></i> 2FA Disabled</h2>
-                        <p>
-                            2FA has successfully removed from your account
-                        </p>
+                        2FA has successfully been removed from your account
                     </div>
                 @endif
 
