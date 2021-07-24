@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Panel;
 use App\Entities\Groups\Models\Group;
 use App\Http\WebController;
 
-class GroupMemberController extends WebController
+class GroupAccountController extends WebController
 {
     public function index(Group $group)
     {
