@@ -21,6 +21,7 @@
 @import "molecules/footer-donations";
 @import "molecules/footer-legal";
 @import "molecules/footer-sitemap";
+@import "molecules/form-row";
 @import "molecules/hero";
 @import "molecules/image-header";
 @import "molecules/introduction";
@@ -32,4 +33,5 @@
 @import "molecules/toolbar";
 
 @import "organisms/page.login";
+@import "organisms/page.mfa";
 @import "organisms/page.settings";
