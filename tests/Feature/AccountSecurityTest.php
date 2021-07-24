@@ -129,7 +129,7 @@ class AccountSecurityTest extends TestCase
         $this->actingAs(Account::factory()->hasStartedTotp()->create());
         $this->disableReauthMiddleware();
         $this->get(route('front.account.security.disable'))
-            ->assertForbidden();
+            ->assertRedirect(route('front.account.security'));
     }
 
     public function testCanSeeDisableWhenConfirmed()
