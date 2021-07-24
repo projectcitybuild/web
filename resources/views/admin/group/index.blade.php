@@ -28,8 +28,10 @@
                     <td>
                         @if ($group->discourse_name != "")
                             <a href="https://forums.projectcitybuild.com/g/{{ $group->discourse_name }}" class="text-muted me-2" target="_blank"><i class="fab fa-discourse"></i></a>
+                            {{ $group->discourse_name }}
+                        @else
+                            <span class="text-muted fst-italic">Unset</span>
                         @endif
-                        {{ $group->discourse_name }}
                     </td>
                     <td><x-bs.fa-boolean :data="$group->is_default" false-class="text-muted" /></td>
                     <td><x-bs.fa-boolean :data="$group->is_staff" false-class="text-muted" /></td>
