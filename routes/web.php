@@ -131,17 +131,17 @@ Route::prefix('register')->group(function () {
     Route::get('activate', [
         'as' => 'front.register.activate',
         'uses' => 'RegisterController@activate',
-    ])->middleware('signed');
+    ])->middleware(['signed', 'guest']);
 });
 
 Route::get('logout/discourse', [
     'as' => 'front.logout.pcb',
     'uses' => 'LoginController@logoutFromDiscourse',
-]);
+])->middleware('auth');
 Route::get('logout', [
     'as' => 'front.logout',
     'uses' => 'LoginController@logout',
-]);
+])->middleware('auth');
 
 Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Settings'], function () {
     Route::prefix('settings')->group(function () {
