@@ -46,7 +46,11 @@
                                 <div class="game-account__game">
                                     Minecraft
                                      &middot;
-                                    <span>Seen {{ $mcAccount->last_synced_at->diffForHumans() }}</span>
+                                    @isset($mcAccount->last_synced_at)
+                                        <span>Seen {{ $mcAccount->last_synced_at->diffForHumans() }}</span>
+                                    @else
+                                        <span>Never seen</span>
+                                    @endif
                                 </div>
                                 <div class="game-account__alias">
                                     @if($mcAccount->aliases()->count() == 0)
