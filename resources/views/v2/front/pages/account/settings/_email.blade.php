@@ -17,9 +17,11 @@
 <form method="post" action="{{ route('front.account.settings.email') }}" class="settings__form">
     @csrf
 
-    <label for="email">Email</label>
-    <input class="textfield {{ $errors->has('email') ? 'error' : '' }}" name="email" type="email" id="email"
-           placeholder="New Email Address" value="{{ old('email', $user->email) }}"/>
+    <div class="form-row">
+        <label for="email">Email</label>
+        <input class="textfield {{ $errors->has('email') ? 'error' : '' }}" name="email" type="email" id="email"
+               placeholder="New Email Address" value="{{ old('email', $user->email) }}"/>
+    </div>
 
     <button type="submit" class="g-recaptcha button button--filled">
         Change

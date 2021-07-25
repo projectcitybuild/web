@@ -17,9 +17,13 @@
 
 <form method="post" action="{{ route('front.account.settings.username') }}" class="settings__form">
     @csrf
-    <label for="username">Username</label>
-    <input class="textfield {{ $errors->has('username') ? 'error' : '' }}" name="username" id="username" type="text"
-           placeholder="New Username" value="{{ old('username', $user->username) }}"/>
+
+    <div class="form-row">
+        <label for="username">Username</label>
+        <input class="textfield {{ $errors->has('username') ? 'error' : '' }}" name="username" id="username" type="text"
+               placeholder="New Username" value="{{ old('username', $user->username) }}"/>
+    </div>
+
     <button type="submit" class="g-recaptcha button button button--filled">
         Change
     </button>

@@ -144,7 +144,14 @@ Route::get('logout', [
 ])->middleware('auth');
 
 Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Settings'], function () {
-    Route::prefix('settings')->group(function () {
+    Route::redirect('settings', 'edit');
+
+    Route::get('/', [
+        'as' => 'front.account.profile',
+        'uses' => 'AccountProfileController@show',
+    ]);
+
+    Route::prefix('edit')->group(function () {
         Route::get('/', [
             'as' => 'front.account.settings',
             'uses' => 'AccountSettingController@showView',
