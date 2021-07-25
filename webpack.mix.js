@@ -16,7 +16,8 @@ mix.typeScript('resources/js/admin/admin.ts', 'public/assets/admin/js')
     .typeScript('resources/js/app.ts', 'public/assets/js')
     .sass('resources/sass/app.scss', 'public/assets/css')
     .sass('resources/sass/v2/app-v2.scss', 'public/assets/css')
-    .sass('resources/sass/admin/admin.scss', 'public/assets/admin/css')
+    .sass('resources/sass/admin/admin-dark.scss', 'public/assets/admin/css')
+    .sass('resources/sass/admin/admin-light.scss', 'public/assets/admin/css')
     .options({
         processCssUrls: false
     })

@@ -6,7 +6,8 @@
     <title>Staff Panel - @yield('title')</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="{{ mix('assets/admin/css/admin.css') }}">
+    <link rel="stylesheet" href="{{ mix('assets/admin/css/admin-light.css') }}" media="screen and (prefers-color-scheme: light)">
+    <link rel="stylesheet" href="{{ mix('assets/admin/css/admin-dark.css') }}" media="screen and (prefers-color-scheme: dark)">
 
     <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/brands.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/solid.js"></script>
