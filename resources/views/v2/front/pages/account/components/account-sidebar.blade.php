@@ -15,7 +15,7 @@
                         <i class="fas fa-square fa-stack-2x"></i>
                         <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
                     </span>
-                Edit Profile
+                Edit Details
             </a>
         </li>
         <li @if(\Route::currentRouteName() == 'front.account.security') class="side-menu--active" @endif>
