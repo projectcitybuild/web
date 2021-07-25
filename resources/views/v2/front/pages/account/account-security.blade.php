@@ -44,9 +44,9 @@
                     </div>
 
 
-                    <a href="{{ route('front.account.security.reset-backup') }}" class="button button--filled">Regenerate
+                    <a href="{{ route('front.account.security.reset-backup') }}" class="button button--secondary button--filled">Regenerate
                         Backup Code</a>
-                    <a href="{{ route('front.account.security.disable') }}" class="button button--filled">Disable
+                    <a href="{{ route('front.account.security.disable') }}" class="button button--secondary button--filled">Disable
                         2FA</a>
                 @else
                     <div class="settings__security-twofa-status">
