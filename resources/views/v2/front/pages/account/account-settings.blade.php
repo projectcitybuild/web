@@ -27,11 +27,6 @@
 
                 @include('v2.front.pages.account.settings._username')
             </div>
-            <div class="settings__section" id="change-password">
-                <h2 class="settings__section-heading">Change Password</h2>
-
-                @include('v2.front.pages.account.settings._password')
-            </div>
         </div>
     </main>
 @endsection

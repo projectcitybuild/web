@@ -13,9 +13,10 @@
     <main class="page settings">
         @include('v2.front.pages.account.components.account-sidebar')
         <div class="settings__content">
-            <div class="settings__section">
-                <h2 class="settings__section-heading">Password</h2>
-                <p class="settings__description">TODO: i wanna move the password stuff here</p>
+            <div class="settings__section" id="change-password">
+                <h2 class="settings__section-heading">Change Password</h2>
+
+                @include('v2.front.pages.account.settings._password')
             </div>
 
             <div class="settings__section">

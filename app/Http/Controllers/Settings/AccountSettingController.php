@@ -105,7 +105,7 @@ throw new \Exception('Provided email address does not match the current or new e
         );
 
         return redirect()
-            ->route('front.account.settings')
+            ->route('front.account.security')
             ->with(['success_password' => 'Password successfully updated']);
     }
 

@@ -1,6 +1,6 @@
 @if(Session::has('success_username'))
     <div class="alert alert--success">
-        <h2><i class="fas fa-exclamation-circle"></i> Success</h2>
+        <h2><i class="fas fa-check"></i> Success</h2>
         {{ Session::get('success_username') }}
     </div>
     <p>
