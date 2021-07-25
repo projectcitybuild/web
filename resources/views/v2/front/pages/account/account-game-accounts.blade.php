@@ -1,80 +1,79 @@
-@extends('front.layouts.master')
+@extends('v2.front.templates.master')
 
-@section('title', 'Game Accounts')
+@section('title', 'Game Accounts - Your Account - Project City Build')
 @section('description', '')
 
-@section('contents')
-    <div class="contents__body">
-        @if(Session::get('game_account_added', false))
-        <div class="alert alert--success contents__flash">
-            <h3><i class="fas fa-check"></i> Account Linked</h3>
-            <p>
-                Your Minecraft account has been successfully linked to your PCB account. <br />
-                Please run the <strong>/sync finish</strong> command in-game to finish the process.
-            </p>
+@section('body')
+    <header class="image-header">
+        <div class="container">
+            <h1>Your Account</h1>
         </div>
-        @endif
-        <div class="card card--divided">
-            <div class="card__body card__body--padded">
-                <h1>Game Accounts</h1>
+    </header>
 
-                <p class="header-description">The Minecraft accounts you've linked to your PCB account. Linked accounts will automatically receive your rank.</p>
-                <p class="header-description">To link a new account, run /sync in game and follow the instructions</p>
+    <main class="page settings">
+        @include('v2.front.pages.account.components.account-sidebar')
+        <div class="settings__content">
+            <div class="settings__section">
+                <h2 class="settings__section-heading">Game Accounts</h2>
+
+                @if(Session::get('game_account_added', false))
+                    <div class="alert alert--success contents__flash">
+                        <h2><i class="fas fa-check"></i> Account Linked</h2>
+                        Your Minecraft account has been successfully linked to your PCB account. <br/>
+                        Please run the <strong>/sync finish</strong> command in-game to finish the process.
+                    </div>
+                @endif
+
+
+                <p class="header-description">The game accounts you've linked to your PCB account.
+                    Linked
+                    accounts will automatically receive your rank.</p>
             </div>
+
             @if($mcAccounts->count() == 0)
-                <div class="card__body card__body--padded">
-                    <p>You don't have any linked accounts yet</p>
+                <div class="settings__empty-placeholder">
+                    <div><i class="fas fa-gamepad fa-2x"></i></div>
+                    <p>You don't have any game accounts.</p>
                 </div>
             @else
-                <div class="card__body card--no-padding">
-                    <table class="table table--striped table--first-col-padded">
-                        <thead>
-                        <tr>
-                            <th>UUID</th>
-                            <th>Current Alias</th>
-                            <th>Last Synced</th>
-                            <th>Linked</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($mcAccounts as $mcAccount)
-                            <tr>
-                                <td>
-                                    <img src="https://minotar.net/avatar/{{ $mcAccount->uuid }}/16" alt="">
-                                    {{ $mcAccount->uuid }}
-                                </td>
-                                <td>
+                <div class="settings__section game-account-grid">
+                    @foreach($mcAccounts as $mcAccount)
+                        <div class="game-account">
+                            <div class="game-account__avatar" >
+                                <img src="https://minotar.net/avatar/{{ $mcAccount->uuid }}/64"  alt="">
+                            </div>
+                            <div class="game-account__details">
+                                <div class="game-account__game">
+                                    Minecraft
+                                     &middot;
+                                    <span>Seen {{ $mcAccount->last_synced_at->diffForHumans() }}</span>
+                                </div>
+                                <div class="game-account__alias">
                                     @if($mcAccount->aliases()->count() == 0)
                                         <em>No alias</em>
                                     @else
                                         {{ $mcAccount->aliases->last()->alias }}
                                     @endempty
-                                </td>
-                                <td>
-                                    @isset($mcAccount->last_synced_at)
-                                    {{ $mcAccount->last_synced_at->format('j M Y g:ia') }}
-                                    @else
-                                    Never
-                                    @endisset
-                                </td>
-                                <td>{{ $mcAccount->created_at->format('j M Y') }}</td>
-                                <td>
+                                </div>
+                                <div class="game-account__id">{{ $mcAccount->uuid }}</div>
+                                <div class="game-account__actions">
                                     <form action="{{ route('front.account.games.delete', $mcAccount) }}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="button button--accent">Unlink</button>
+                                        <button class="button button--secondary button--filled button--is-small">Unlink</button>
                                     </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             @endif
+
+            <div class="settings__section">
+                <h2 class="settings__section-heading">Add new</h2>
+
+                <p class="settings__description">To add a new Minecraft account, <strong>run /sync</strong> in-game.</p>
+            </div>
         </div>
-    </div>
-    <div class="contents__sidebar">
-        @include('front.pages.account.components.account-sidebar')
-    </div>
+    </main>
 @endsection

@@ -43,6 +43,10 @@
     text-shadow: none;
 }
 
+.button.button--is-small {
+    font-size: 12px;
+}
+
 .button.button--has-icon-right {
     svg {
         margin-left: 0.25em;
