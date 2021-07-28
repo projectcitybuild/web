@@ -18,7 +18,7 @@ class DonationTest extends TestCase
             $mock->shouldReceive('createCheckoutSession')->once()->andReturn('abc123');
         });
 
-        $url = action('Api\DonationController@create', ['amount' => '3.00', 'account_id' => $account->getKey()]);
+        $url = action('Api\v1\DonationController@create', ['amount' => '3.00', 'account_id' => $account->getKey()]);
 
         $resp = $this->getJson($url)
             ->assertOk();
@@ -33,7 +33,7 @@ class DonationTest extends TestCase
 
     public function testDonationCreateUnauthenticated()
     {
-        $url = action('Api\DonationController@create', ['amount' => '3.00']);
+        $url = action('Api\v1\DonationController@create', ['amount' => '3.00']);
 
         $this->mock(StripeHandler::class, function (MockInterface $mock) {
             $mock->shouldReceive('createCheckoutSession')->once()->andReturn('abc123');
