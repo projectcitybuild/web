@@ -57,11 +57,12 @@ Route::prefix('login')->group(function () {
     Route::get('/', [
         'as' => 'front.login',
         'uses' => 'LoginController@create',
-    ]);
+    ])->middleware('guest');
+
     Route::post('/', [
         'as' => 'front.login.submit',
         'uses' => 'LoginController@store',
-    ]);
+    ])->middleware('guest');
 
     Route::get('/reauth', [
         'as' => 'password.confirm',
@@ -120,25 +121,27 @@ Route::prefix('register')->group(function () {
     Route::get('/', [
         'as' => 'front.register',
         'uses' => 'RegisterController@showRegisterView',
-    ]);
+    ])->middleware('guest');
+
     Route::post('/', [
         'as' => 'front.register.submit',
         'uses' => 'RegisterController@register',
-    ]);
+    ])->middleware('guest');
+
     Route::get('activate', [
         'as' => 'front.register.activate',
         'uses' => 'RegisterController@activate',
-    ])->middleware('signed');
+    ])->middleware(['signed', 'guest']);
 });
 
 Route::get('logout/discourse', [
     'as' => 'front.logout.pcb',
     'uses' => 'LoginController@logoutFromDiscourse',
-]);
+])->middleware('auth');
 Route::get('logout', [
     'as' => 'front.logout',
     'uses' => 'LoginController@logout',
-]);
+])->middleware('auth');
 
 Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Settings'], function () {
     Route::prefix('settings')->group(function () {
@@ -245,13 +248,15 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('bans', 'BanlistController@index')->name('front.banlist');
 
-Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel', 'middleware' => ['auth', 'panel']], function () {
+Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel', 'middleware' => ['auth', 'panel', 'requires-mfa']], function () {
     Route::view('/', 'admin.index')->name('index');
 
     Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);
     Route::resource('donations', 'DonationController');
     Route::resource('donation-perks', 'DonationPerksController')->only(['create', 'store', 'edit', 'update', 'destroy']);
     Route::resource('minecraft-players', 'MinecraftPlayerController')->except(['destroy']);
+    Route::get('groups/{group}/accounts', 'GroupAccountController@index')->name('groups.accounts');
+    Route::get('groups', 'GroupController@index')->name('groups.index');
 
     Route::post('minecraft-players/lookup', [
         'as' => 'minecraft-players.lookup',

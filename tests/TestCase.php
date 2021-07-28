@@ -5,6 +5,7 @@ namespace Tests;
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Groups\Models\Group;
 use App\Http\Middleware\MfaGate;
+use App\Library\Mojang\Api\MojangPlayerApi;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Session;
@@ -18,6 +19,9 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        // Mock this class everywhere to prevent it making real requests
+        $this->mock(MojangPlayerApi::class);
     }
 
     protected function disableReauthMiddleware(): TestCase
@@ -44,6 +48,7 @@ abstract class TestCase extends BaseTestCase
         if ($fresh || $this->adminAccount == null) {
             $this->adminAccount = Account::factory()
                 ->has(Group::factory()->administrator())
+                ->hasFinishedTotp()
                 ->create();
         }
 
