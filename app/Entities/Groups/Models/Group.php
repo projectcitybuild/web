@@ -37,6 +37,8 @@ final class Group extends Model
         'is_staff',
         'is_admin',
         'discourse_name',
+        'minecraft_name',
+        'discord_name',
         'can_access_panel',
     ];
 
