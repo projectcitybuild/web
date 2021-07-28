@@ -62,6 +62,7 @@
 
 <div id="app">
     @yield('body')
+    @include('v2.front.components.footer')
 </div>
 
 @stack('end')

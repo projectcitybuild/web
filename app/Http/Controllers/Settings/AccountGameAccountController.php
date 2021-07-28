@@ -12,7 +12,7 @@ class AccountGameAccountController extends WebController
     {
         $mcAccounts = $request->user()->minecraftAccount;
 
-        return view('front.pages.account.account-game-accounts')->with(compact('mcAccounts'));
+        return view('v2.front.pages.account.account-game-accounts')->with(compact('mcAccounts'));
     }
 
     public function destroy(MinecraftPlayer $minecraftPlayer, Request $request)

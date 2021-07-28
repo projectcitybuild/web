@@ -259,15 +259,6 @@ One of the world's longest-running Minecraft servers; we're a community of creat
                     </div>
                 </div>
             </section>
-
-            <section class="footer-legal">
-                <div class="container">
-                    <ul>
-                        <li><a href="{{ route('terms') }}">Terms of Service</a></li>
-                        <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
-                    </ul>
-                </div>
-            </section>
         </footer>
     </main>
 @endsection

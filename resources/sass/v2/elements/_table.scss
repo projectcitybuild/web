@@ -1,0 +1,28 @@
+table.table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+
+    td, th {
+        padding: 0.75em 0.5em;
+    }
+
+    thead {
+        border-bottom: 1px solid black;
+    }
+
+    &--first-col-padded {
+        tr th:first-child, tr td:first-child {
+            padding-left: 2em;
+        }
+    }
+
+    &--striped {
+        tbody tr:nth-child(even) {
+            background: #fff;
+        }
+        tbody tr:nth-child(odd) {
+            background: darken(#fff, 3%);
+        }
+    }
+}
