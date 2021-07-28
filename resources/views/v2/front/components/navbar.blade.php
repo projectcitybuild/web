@@ -1,9 +1,9 @@
 <nav class="navbar">
     <div class="container">
         <div class="logo">
-            <img srcset="assets/images/logo-1x.png,
-                         assets/images/logo-2x.png 2x"
-                 src="assets/images/logo-1x.png"
+            <img srcset="/assets/images/logo-1x.png,
+                         /assets/images/logo-2x.png 2x"
+                 src="/assets/images/logo-1x.png"
                  alt="Project City Build"
             />
         </div>
@@ -61,7 +61,7 @@
                 <li>
                     <a href="javascript:void(0)" class="nav-dropdown">Account <i class="fas fa-caret-down"></i></a>
                     <ul class="dropdown single">
-                        <li><a href="{{ route('front.account.settings') }}">Account Settings</a></li>
+                        <li><a href="{{ route('front.account.profile') }}">Account Settings</a></li>
                         <li class="divider">
                             <a href="https://forums.projectcitybuild.com/my/preferences/account">
                                 Forum Settings

@@ -8,6 +8,6 @@ class AccountSecurityController extends WebController
 {
     public function show()
     {
-        return view('front.pages.account.account-security');
+        return view('v2.front.pages.account.account-security');
     }
 }

@@ -12,5 +12,7 @@ body {
     background-color: hsl(0, 0%, 94%);
     font-family: $font-body;
     font-size: 16px;
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: auto;
     padding-top: $nav-height;
 }

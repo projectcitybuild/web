@@ -11,10 +11,10 @@ class DisableMfaController extends WebController
     public function show(Request $request)
     {
         if (! $request->user()->is_totp_enabled) {
-            abort(403);
+            return redirect(route('front.account.security'));
         }
 
-        return view('front.pages.account.security.2fa-disable');
+        return view('v2.front.pages.account.security.2fa-disable');
     }
 
     public function destroy(Request $request)
