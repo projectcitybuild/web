@@ -96,8 +96,8 @@
                 <a href="#" class="nav-dropdown">Community <i class="fas fa-caret-down"></i></a>
                 <ul>
                     <li><a href="https://forums.projectcitybuild.com/t/banned-read-me/12145">Appeal a Ban</a></li>
-                    <li><a href="https://forums.projectcitybuild.com/c/support/grief-player-reports">Report a Player</a>
-                    </li>
+                    <li><a href="https://forums.projectcitybuild.com/c/support/grief-player-reports">Report a Player</a></li>
+                    <li><a href="{{ route('rankup') }}">Apply for Building Rank</a></li>
                     <li class="divider"><a href="https://goo.gl/forms/UodUsKQBZJdCzNWk1">Apply for Staff</a></li>
                     <li class="divider"><a href="{{ route('front.donate') }}">Donate</a></li>
                     <li><a href="https://wiki.projectcitybuild.com/" target="_blank" rel="noopener">Community Wiki</a>
@@ -132,7 +132,7 @@
                 <li>
                     <a href="#" class="nav-dropdown">Account <i class="fas fa-caret-down"></i></a>
                     <ul>
-                        <li><a href="{{ route('front.account.settings') }}">Account Settings</a></li>
+                        <li><a href="{{ route('front.account.profile') }}">Account Settings</a></li>
                         <li class="divider"><a href="https://forums.projectcitybuild.com/my/preferences/account">Forum
                                 Settings</a></li>
                         <li>

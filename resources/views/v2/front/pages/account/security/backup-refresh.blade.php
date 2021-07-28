@@ -1,31 +1,32 @@
-@extends('front.layouts.master')
+@extends('v2.front.templates.master')
 
-@section('title', 'Refresh 2FA Backup')
+@section('title', 'Refresh 2FA Backup Code - Account Settings - Project City Build')
 @section('description', '')
 
-@section('contents')
-    <div class="contents__body twofa">
-        <div class="card card--divided card--medium card--centered">
-            <div class="card__body card__body--padded">
-                <h1>Refresh Backup Code</h1>
-            </div>
-            <div class="card__body card__body--padded">
-                <p>Are you sure you want to refresh your 2FA backup code?</p>
-                <p>The old backup code will stop working and you'll need to safely store the new one.</p>
+@section('body')
+    <header class="image-header">
+        <div class="container">
+            <h1>Your Account</h1>
+        </div>
+    </header>
 
-
-            </div>
-            <div class="card__footer">
-                <form action="{{ route('front.account.security.reset-backup') }}" method="post">
+    <main class="page page--narrow settings">
+        <div class="settings__content">
+            <div class="settings__section">
+                <h2 class="settings__section-heading">Refresh Backup Code</h2>
+                <p class="settings__description">Are you sure you want to refresh your 2FA backup code?</p>
+                <p class="settings__description">The old backup code will stop working and you'll need to safely store the
+                    new one.</p>
+                <form action="{{ route('front.account.security.reset-backup') }}" method="post" class="toolbar">
                     @csrf
-                    <div class="twofa__buttons">
-                        <a href="{{ route('front.account.security') }}" class="button button--large button--accent">Cancel</a>
-                        <button type="submit" class="button button--primary button--large">
-                            Confirm <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
+                    <a href="{{ route('front.account.security') }}"
+                       class="button button--filled button--secondary">Cancel</a>
+                    <button type="submit" class="button button--filled button--has-icon-right">
+                        Confirm <i class="fas fa-chevron-right"></i>
+                    </button>
                 </form>
             </div>
+
         </div>
-    </div>
+    </main>
 @endsection

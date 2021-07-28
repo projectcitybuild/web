@@ -26,6 +26,7 @@ Route::redirect('privacy', 'https://forums.projectcitybuild.com/privacy')->name(
 Route::redirect('wiki', 'https://wiki.projectcitybuild.com')->name('wiki');
 Route::redirect('maps', 'https://maps.pcbmc.co')->name('maps');
 Route::redirect('3d-maps', 'https://3d.pcbmc.co')->name('3d-maps');
+Route::redirect('rankup', 'https://forums.projectcitybuild.com/w/rank-up-application')->name('rankup');
 
 /**
  * Style guide.
@@ -144,7 +145,14 @@ Route::get('logout', [
 ])->middleware('auth');
 
 Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Settings'], function () {
-    Route::prefix('settings')->group(function () {
+    Route::redirect('settings', 'edit');
+
+    Route::get('/', [
+        'as' => 'front.account.profile',
+        'uses' => 'AccountProfileController@show',
+    ]);
+
+    Route::prefix('edit')->group(function () {
         Route::get('/', [
             'as' => 'front.account.settings',
             'uses' => 'AccountSettingController@showView',
