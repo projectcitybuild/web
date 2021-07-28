@@ -37,7 +37,6 @@
                     </td>
                     <td>
                         @if ($group->minecraft_name != "")
-                            <i class="fas fa-cube"></i>
                             {{ $group->minecraft_name }}
                         @else
                             <span class="text-muted fst-italic">Unset</span>
@@ -45,7 +44,6 @@
                     </td>
                     <td>
                         @if ($group->discord_name != "")
-                            <i class="fab fa-discord"></i>
                             {{ $group->discord_name }}
                         @else
                             <span class="text-muted fst-italic">Unset</span>
