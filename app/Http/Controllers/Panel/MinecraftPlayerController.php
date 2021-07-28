@@ -99,8 +99,6 @@ class MinecraftPlayerController extends WebController
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function destroy(MinecraftPlayer $minecraftPlayer)
     {
