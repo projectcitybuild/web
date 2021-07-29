@@ -22,6 +22,28 @@ final class PasswordResetService
     }
 
     /**
+     * Sends a password reset link to the given email address.
+     *
+     * A AccountPasswordReset is created to tie the email address to
+     * a token. The token is required later to perform the actual
+     * password request
+     *
+     * @param Account $account
+     * @param string $email
+     */
+    public function sendPasswordResetEmail(Account $account, string $email)
+    {
+        $passwordReset = AccountPasswordReset::updateOrCreate([
+            'email' => $email,
+        ], [
+            'token' => TokenHelpers::generateToken(),
+            'created_at' => Carbon::now(),
+        ]);
+
+        $account->notify(new AccountPasswordResetNotification($passwordReset));
+    }
+
+    /**
      * Resets the password for the account associated with a given
      * AccountPasswordReset token
      *
@@ -56,18 +78,9 @@ final class PasswordResetService
         $account->notify(new AccountPasswordResetCompleteNotification());
     }
 
-    public function sendPasswordResetEmail(Account $account, string $email)
-    {
-        $passwordReset = AccountPasswordReset::updateOrCreate([
-            'email' => $email,
-        ], [
-            'token' => TokenHelpers::generateToken(),
-            'created_at' => Carbon::now(),
-        ]);
-
-        $account->notify(new AccountPasswordResetNotification($passwordReset));
-    }
-
+    /**
+     * Deletes any password reset requests that are older than 14 days
+     */
     public function deleteExpiredRequests()
     {
         // FIXME: we should be storing this in a AccountPasswordReset column
