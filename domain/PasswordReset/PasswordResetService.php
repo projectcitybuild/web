@@ -46,10 +46,8 @@ final class PasswordResetService
 
     /**
      * Resets the password for the account associated with a given
-     * AccountPasswordReset token
+     * AccountPasswordReset token.
      *
-     * @param string $token
-     * @param string $newPassword
      * @throws NotFoundException
      */
     public function resetPassword(string $token, string $newPassword)
@@ -70,7 +68,6 @@ final class PasswordResetService
             $passwordReset->delete();
 
             DB::commit();
-
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
