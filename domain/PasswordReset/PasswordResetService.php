@@ -28,9 +28,6 @@ final class PasswordResetService
      * A AccountPasswordReset is created to tie the email address to
      * a token. The token is required later to perform the actual
      * password request
-     *
-     * @param Account $account
-     * @param string $email
      */
     public function sendPasswordResetEmail(Account $account, string $email)
     {
@@ -77,7 +74,7 @@ final class PasswordResetService
     }
 
     /**
-     * Deletes any password reset requests that are older than 14 days
+     * Deletes any password reset requests that are older than 14 days.
      */
     public function deleteExpiredRequests()
     {
