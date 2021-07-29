@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Entities\Accounts\Models\AccountPasswordReset;
 use App\Exceptions\Http\NotFoundException;
-use App\Http\Actions\AccountPasswordReset\ResetAccountPassword;
-use App\Http\Actions\AccountPasswordReset\SendPasswordResetEmail;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SendPasswordEmailRequest;
 use App\Http\WebController;
+use Domain\PasswordReset\PasswordResetService;
 use Illuminate\Http\Request;
 
 final class PasswordResetController extends WebController
@@ -24,12 +23,12 @@ final class PasswordResetController extends WebController
     /**
      * Creates a password reset request and sends a verification email to the user.
      */
-    public function store(SendPasswordEmailRequest $request, SendPasswordResetEmail $sendPasswordResetEmail)
+    public function store(SendPasswordEmailRequest $request, PasswordResetService $passwordResetService)
     {
         $input = $request->validated();
         $email = $input['email'];
 
-        $sendPasswordResetEmail->execute(
+        $passwordResetService->sendPasswordResetEmail(
             $request->getAccount(),
             $email
         );
@@ -65,12 +64,12 @@ final class PasswordResetController extends WebController
     /**
      * Saves the user's new password.
      */
-    public function update(ResetPasswordRequest $request, ResetAccountPassword $resetAccountPassword)
+    public function update(ResetPasswordRequest $request, PasswordResetService $passwordResetService)
     {
         $input = $request->validated();
 
         try {
-            $resetAccountPassword->execute(
+            $passwordResetService->resetPassword(
                 $input['password_token'],
                 $input['password']
             );

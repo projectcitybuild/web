@@ -5,7 +5,8 @@ namespace Tests\Feature;
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Accounts\Models\AccountPasswordReset;
 use App\Entities\Accounts\Notifications\AccountPasswordResetNotification;
-use App\Http\Actions\AccountPasswordReset\SendPasswordResetEmail;
+use App\Http\Actions\AccountSettings\UpdateAccountPassword;
+use Domain\PasswordReset\PasswordResetService;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
@@ -13,10 +14,7 @@ class PasswordResetTest extends TestCase
 {
     private $account;
 
-    /**
-     * @var SendPasswordResetEmail
-     */
-    private $sendPasswordResetEmail;
+    private PasswordResetService $passwordResetService;
 
     /**
      * @var AccountPasswordReset|\Illuminate\Database\Eloquent\Builder
@@ -27,9 +25,9 @@ class PasswordResetTest extends TestCase
     {
         parent::setUp();
         $this->account = Account::factory()->create();
-        $this->sendPasswordResetEmail = new SendPasswordResetEmail();
+        $this->passwordResetService = new PasswordResetService(new UpdateAccountPassword());
 
-        $this->sendPasswordResetEmail->execute($this->account, $this->account->email);
+        $this->passwordResetService->sendPasswordResetEmail($this->account, $this->account->email);
 
         $this->passwordReset = AccountPasswordReset::whereEmail($this->account->email);
     }
