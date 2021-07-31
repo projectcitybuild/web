@@ -49,6 +49,10 @@ class MigrateLifetimeDonors extends Migration
                     continue;
                 }
                 $account->groups()->attach($legacyDonatorRank->getKey());
+
+                $lifetimePerk->is_active = false;
+                $lifetimePerk->save();
+
                 array_push($resolvedAccountIds, $account->getKey());
             }
 

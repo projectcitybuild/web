@@ -1,5 +1,6 @@
 <?php
 
+use App\Entities\Donations\Models\DonationTier;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,6 +19,11 @@ class CreateDonationTiers extends Migration
             $table->string('name');
             $table->integer('min_donation_amount');
         });
+
+        Schema::table('donation_perks', function (Blueprint $table) {
+            $table->string('donation_tier_id')->after('donation_id')->nullable();
+            $table->foreign('donation_tier_id')->references('donation_tier_id')->on('donation_tiers');
+        });
     }
 
     /**
@@ -27,6 +33,10 @@ class CreateDonationTiers extends Migration
      */
     public function down()
     {
+        Schema::table('donation_perks', function (Blueprint $table) {
+            $table->dropColumn('donation_tier_id');
+        });
+
         Schema::dropIfExists('donation_tiers');
     }
 }
