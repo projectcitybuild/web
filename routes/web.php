@@ -43,6 +43,10 @@ Route::prefix('donate')->group(function () {
         'as' => 'front.donate',
         'uses' => 'DonationController@index',
     ]);
+    Route::post('checkout', [
+        'as' => 'front.donations.create',
+        'uses' => 'DonationController@store',
+    ]);
     Route::get('success', [
         'as' => 'front.donate.success',
         'uses' => 'DonationController@success',

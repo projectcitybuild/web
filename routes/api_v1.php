@@ -34,12 +34,12 @@ Route::prefix('auth')->group(function () {
     ]);
 });
 
-Route::prefix('donations')->group(function () {
-    Route::get('create', [
-        'as' => 'donations.create',
-        'uses' => 'DonationController@create',
-    ]);
-});
+//Route::prefix('donations')->group(function () {
+//    Route::get('create', [
+//        'as' => 'donations.create',
+//        'uses' => 'DonationController@create',
+//    ]);
+//});
 
 Route::prefix('groups')->group(function () {
     Route::get('/', 'GroupApiController@getAll');

@@ -30,30 +30,26 @@ class StripeHandler
      *                                  session. When Stripe notifies us via WebHook that the payment is processed,
      *                                  they will pass us back the UUID so we can fulfill the purchase.
      *
-     * @return string Stripe session ID
+     * @return Session Stripe session
      *
      * @throws \Stripe\Exception\ApiErrorException
      */
-    public function createCheckoutSession(string $uniqueSessionId, int $amountInCents): string
+    public function createCheckoutSession(string $uniqueSessionId, string $stripePriceId, int $quantity = 1): Session
     {
-        $session = Session::create([
+        return Session::create([
             'payment_method_types' => ['card'],
             'client_reference_id' => $uniqueSessionId,
             'line_items' => [
                 [
-                    'name' => 'PCB Contribution',
-                    'description' => 'One time payment',
-                    'images' => [],
-                    'amount' => $amountInCents,
-                    'currency' => $this->currency,
-                    'quantity' => 1,
+                    'price' => $stripePriceId,
+                    'quantity' => $quantity,
                 ],
             ],
+            // TODO: replace with Enum
+            'mode' => 'payment', // 'payment' or 'subscription'
             'success_url' => route('front.donate.success'),
             'cancel_url' => route('front.donate'),
         ]);
-
-        return $session->id;
     }
 
     /**
