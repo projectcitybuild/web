@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Payments;
+namespace Domain\Donations;
 
 use App\Entities\Payments\Models\AccountPaymentSession;
 use App\Library\Stripe\StripeWebhook;
@@ -12,12 +12,12 @@ final class DonationService
 {
     private PaymentAdapter $paymentAdapter;
 
-    public function __constructor(PaymentAdapter $paymentAdapter)
+    public function __construct(PaymentAdapter $paymentAdapter)
     {
         $this->paymentAdapter = $paymentAdapter;
     }
 
-    public function startCheckout(string $productId, ?int $accountId): string
+    public function startCheckoutSession(string $productId): string
     {
         $pcbSessionUUID = Str::uuid();
         $checkoutURL = $this->paymentAdapter->createCheckoutSession($pcbSessionUUID, $productId);

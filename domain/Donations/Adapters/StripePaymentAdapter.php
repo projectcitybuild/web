@@ -1,11 +1,11 @@
 <?php
 
-namespace Domain\Payments\Adapters;
+namespace Domain\Donations\Adapters;
 
 use App\Library\Stripe\Stripe;
 use App\Library\Stripe\StripePaymentMode;
 use App\Library\Stripe\StripePaymentType;
-use Domain\Payments\PaymentAdapter;
+use Domain\Donations\PaymentAdapter;
 
 final class StripePaymentAdapter implements PaymentAdapter
 {

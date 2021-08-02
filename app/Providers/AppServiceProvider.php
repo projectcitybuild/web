@@ -9,6 +9,7 @@ use App\Entities\Players\Models\MinecraftPlayer;
 use App\Entities\Servers\Repositories\ServerCategoryRepository;
 use App\Entities\Servers\Repositories\ServerCategoryRepositoryContract;
 use App\Http\Composers\MasterViewComposer;
+use App\Library\Stripe\Stripe;
 use App\View\Components\NavBarComponent;
 use Blade;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -28,6 +29,9 @@ final class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(ServerCategoryRepositoryContract::class, function ($app) {
             return new ServerCategoryRepository();
+        });
+        $this->app->bind(Stripe::class, function ($app) {
+            return new Stripe(config('services.stripe.secret'));
         });
     }
 

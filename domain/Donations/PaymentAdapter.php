@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Payments;
+namespace Domain\Donations;
 
 interface PaymentAdapter
 {
