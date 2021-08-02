@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\ApiController;
-use App\Library\Stripe\StripeHandler;
+use App\Library\Stripe\Stripe;
 use App\Library\Stripe\StripeWebhookEvent;
+use Domain\Payments\DonationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 final class WebhookController extends ApiController
 {
-    public function stripe(Request $request, StripeHandler $stripeHandler)
+    public function stripe(Request $request, Stripe $stripe, DonationService $donationService)
     {
-        $endpointSecret = config('services.stripe.webhook.secret');
         $payload = $request->getContent();
         $signature = $request->headers->get('Stripe-Signature');
 
@@ -21,25 +21,25 @@ final class WebhookController extends ApiController
             'signature' => $signature,
         ]);
 
-        $webhook = $stripeHandler->getWebhookEvent($payload, $signature, $endpointSecret);
+        $payload = $stripe->parseWebhookPayload($payload, $signature);
 
-        if ($webhook === null) {
-            Log::debug('No handler for webhook event');
-
-            return;
+        if ($payload === null) {
+            Log::debug('Unsupported or malformed Stripe webhook payload');
+            return response()->json(null, 204);
         }
 
-        switch ($webhook->getEvent()) {
+        switch ($payload->event) {
             case StripeWebhookEvent::CheckoutSessionCompleted:
-                Log::info('Webhook acknowledged');
-
-                $controller = new DonationController($stripeHandler);
-
-                return $controller->store($webhook);
+                Log::info('Webhook acknowledged ['.$payload->event.']');
+                $donationService->processDonation(
+                    $payload->sessionId,
+                    $payload->transactionId,
+                    $payload->amountPaidInCents,
+                );
+                return response()->json(null, 200);
 
             default:
-                Log::info('Webhook ignored');
-
+                Log::info('Webhook ignored ['.$payload->event.']');
                 return response()->json(null, 204);
         }
     }

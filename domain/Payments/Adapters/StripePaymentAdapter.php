@@ -2,40 +2,37 @@
 
 namespace Domain\Payments\Adapters;
 
+use App\Library\Stripe\Stripe;
+use App\Library\Stripe\StripePaymentMode;
+use App\Library\Stripe\StripePaymentType;
 use Domain\Payments\PaymentAdapter;
-use Stripe\Checkout\Session;
-use Stripe\Stripe;
-use Stripe\Webhook;
 
 final class StripePaymentAdapter implements PaymentAdapter
 {
-    private string $currency;
+    private Stripe $stripe;
 
-    public function __construct(string $stripeSecret, string $currency = 'usd')
+    public function __construct(Stripe $stripe)
     {
-        $this->currency = $currency;
-
-        if (empty($stripeSecret)) {
-            throw new \Exception('No Stripe API secret set');
-        }
-        Stripe::setApiKey($stripeSecret);
+        $this->stripe = $stripe;
     }
 
     public function createCheckoutSession(string $uniqueSessionId, string $productId, int $quantity = 1): string
     {
-        return Session::create([
-            'payment_method_types' => ['card'],
-            'client_reference_id' => $uniqueSessionId,
-            'line_items' => [
-                [
-                    'price' => $productId, // Stripe's "price id" for a product
-                    'quantity' => $quantity,
-                ],
+        $successRedirectURL = route('front.donate.success');
+        $cancelRedirectURL = route('front.donate');
+
+        $redirectURL = $this->stripe->createCheckoutSession(
+            $uniqueSessionId,
+            $productId,
+            1,
+            [
+                StripePaymentType::fromRawValue(StripePaymentType::CARD),
             ],
-            // TODO: replace with Enum
-            'mode' => 'payment', // 'payment' or 'subscription'
-            'success_url' => route('front.donate.success'),
-            'cancel_url' => route('front.donate'),
-        ]);
+            StripePaymentMode::fromRawValue(StripePaymentMode::ONE_TIME), // TODO
+            $successRedirectURL,
+            $cancelRedirectURL
+        );
+
+        return $redirectURL;
     }
 }

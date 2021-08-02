@@ -11,7 +11,6 @@
 |
 */
 
-// Webhook subscribers
 Route::prefix('webhooks')->group(function () {
     Route::post('stripe', 'WebhookController@stripe');
 });
@@ -33,13 +32,6 @@ Route::prefix('auth')->group(function () {
         'uses' => 'MinecraftAuthTokenController@show',
     ]);
 });
-
-//Route::prefix('donations')->group(function () {
-//    Route::get('create', [
-//        'as' => 'donations.create',
-//        'uses' => 'DonationController@create',
-//    ]);
-//});
 
 Route::prefix('groups')->group(function () {
     Route::get('/', 'GroupApiController@getAll');

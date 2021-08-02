@@ -32,9 +32,8 @@ final class DonationController extends WebController
         }
 
         $stripePriceId = $request->input('price_id');
-        $accountId = Auth::id();
 
-        $checkoutURL = $donationService->startCheckout($stripePriceId, $accountId);
+        $checkoutURL = $donationService->startCheckout($stripePriceId);
 
         // Redirect to Stripe Checkout page
         return redirect($checkoutURL);
