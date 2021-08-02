@@ -24,7 +24,7 @@ final class StripePaymentAdapter implements PaymentAdapter
         $redirectURL = $this->stripe->createCheckoutSession(
             $uniqueSessionId,
             $productId,
-            1,
+            1, // TODO
             [
                 StripePaymentType::fromRawValue(StripePaymentType::CARD),
             ],

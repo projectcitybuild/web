@@ -18,10 +18,12 @@ class CreateDonationTiers extends Migration
             $table->increments('donation_tier_id');
             $table->string('name');
             $table->integer('min_donation_amount');
+            $table->string('stripe_payment_price_id');
+            $table->string('stripe_subscription_price_id');
         });
 
         Schema::table('donation_perks', function (Blueprint $table) {
-            $table->string('donation_tier_id')->after('donation_id')->nullable();
+            $table->integer('donation_tier_id')->after('donation_id')->nullable()->unsigned();
             $table->foreign('donation_tier_id')->references('donation_tier_id')->on('donation_tiers');
         });
     }

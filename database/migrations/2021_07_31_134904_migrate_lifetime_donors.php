@@ -82,22 +82,32 @@ class MigrateLifetimeDonors extends Migration
         $copperTier = DonationTier::create([
             'name' => 'copper',
             'min_donation_amount' => 3,
+            'stripe_payment_price_id' => 'product_1_payment',
+            'stripe_subscription_price_id' => 'product_1_subscription',
         ]);
         DonationTier::create([
             'name' => 'iron',
             'min_donation_amount' => 5,
+            'stripe_payment_price_id' => 'product_2_payment',
+            'stripe_subscription_price_id' => 'product_2_subscription',
         ]);
         DonationTier::create([
             'name' => 'gold',
             'min_donation_amount' => 10,
+            'stripe_payment_price_id' => 'product_3_payment',
+            'stripe_subscription_price_id' => 'product_3_subscription',
         ]);
         DonationTier::create([
             'name' => 'diamond',
             'min_donation_amount' => 15,
+            'stripe_payment_price_id' => 'product_4_payment',
+            'stripe_subscription_price_id' => 'product_4_subscription',
         ]);
         DonationTier::create([
             'name' => 'netherite',
             'min_donation_amount' => 25,
+            'stripe_payment_price_id' => 'product_5_payment',
+            'stripe_subscription_price_id' => 'product_5_subscription',
         ]);
 
         $donationPerks = DonationPerk::where('is_active')->get();
