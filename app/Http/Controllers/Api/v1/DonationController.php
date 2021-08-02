@@ -28,30 +28,6 @@ final class DonationController extends ApiController
         $this->stripeHandler = $stripeHandler;
     }
 
-//    public function create(Request $request)
-//    {
-//        $accountId = $request->get('account_id');
-//        $amountInDollars = $request->get('amount', 3.00);
-//        $amountInCents = $amountInDollars * 100;
-//
-//        $pcbSessionUuid = Str::uuid();
-//        $stripeSessionId = $this->stripeHandler->createCheckoutSession($pcbSessionUuid, $amountInCents);
-//
-//        $session = AccountPaymentSession::create([
-//            'session_id' => $pcbSessionUuid->toString(),
-//            'account_id' => $accountId,
-//            'is_processed' => false,
-//        ]);
-//
-//        Log::debug('Generated payment session', ['session' => $session]);
-//
-//        return [
-//            'data' => [
-//                'session_id' => $stripeSessionId,
-//            ],
-//        ];
-//    }
-
     /**
      * Receives a Webhook from Stripe for payments.
      *

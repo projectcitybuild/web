@@ -8,50 +8,6 @@ use Stripe\Webhook;
 
 class StripeHandler
 {
-    private $currency = 'usd';
-
-    public function __construct()
-    {
-        $this->setApiKey();
-        $this->setCurrency($this->currency);
-    }
-
-    public function setCurrency(string $currency): StripeHandler
-    {
-        $this->currency = $currency;
-
-        return $this;
-    }
-
-    /**
-     * Creates a new session for using Stripe's Checkout flow.
-     *
-     * @param string $uniqueSessionId A unique UUID that will be sent to Stripe to be stored alongside the
-     *                                  session. When Stripe notifies us via WebHook that the payment is processed,
-     *                                  they will pass us back the UUID so we can fulfill the purchase.
-     *
-     * @return Session Stripe session
-     *
-     * @throws \Stripe\Exception\ApiErrorException
-     */
-    public function createCheckoutSession(string $uniqueSessionId, string $stripePriceId, int $quantity = 1): Session
-    {
-        return Session::create([
-            'payment_method_types' => ['card'],
-            'client_reference_id' => $uniqueSessionId,
-            'line_items' => [
-                [
-                    'price' => $stripePriceId,
-                    'quantity' => $quantity,
-                ],
-            ],
-            // TODO: replace with Enum
-            'mode' => 'payment', // 'payment' or 'subscription'
-            'success_url' => route('front.donate.success'),
-            'cancel_url' => route('front.donate'),
-        ]);
-    }
-
     /**
      * Receives a Webhook from Stripe and parses it into a generalized model.
      *
@@ -112,14 +68,5 @@ class StripeHandler
         $event = Webhook::constructEvent($payload, $signature, $secret);
 
         return StripeWebhook::fromJSON($event);
-    }
-
-    private function setApiKey()
-    {
-        $key = config('services.stripe.secret');
-        if (empty($key)) {
-            throw new \Exception('No Stripe API secret set');
-        }
-        Stripe::setApiKey($key);
     }
 }

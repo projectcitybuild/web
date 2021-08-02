@@ -1,6 +1,7 @@
 <?php
 
 use App\Entities\Donations\Models\DonationPerk;
+use App\Entities\Donations\Models\DonationTier;
 use App\Entities\Groups\Models\Group;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,6 +17,16 @@ class MigrateLifetimeDonors extends Migration
      * @return void
      */
     public function up()
+    {
+        $donationPerkCount = DonationPerk::count();
+
+        if ($donationPerkCount > 0) {
+            $this->migrateLifetimeDonorsToLegacyRank();
+            $this->migrateCurrentDonorsToTiers();
+        }
+    }
+
+    private function migrateLifetimeDonorsToLegacyRank()
     {
         DB::beginTransaction();
 
@@ -64,6 +75,39 @@ class MigrateLifetimeDonors extends Migration
         }
 
         DB::commit();
+    }
+
+    private function migrateCurrentDonorsToTiers()
+    {
+        $copperTier = DonationTier::create([
+            'name' => 'copper',
+            'min_donation_amount' => 3,
+        ]);
+        DonationTier::create([
+            'name' => 'iron',
+            'min_donation_amount' => 5,
+        ]);
+        DonationTier::create([
+            'name' => 'gold',
+            'min_donation_amount' => 10,
+        ]);
+        DonationTier::create([
+            'name' => 'diamond',
+            'min_donation_amount' => 15,
+        ]);
+        DonationTier::create([
+            'name' => 'netherite',
+            'min_donation_amount' => 25,
+        ]);
+
+        $donationPerks = DonationPerk::where('is_active')->get();
+
+        DB::transaction(function () use ($donationPerks, $copperTier) {
+            foreach ($donationPerks as $donationPerk) {
+                $donationPerk->donation_tier_id = $copperTier->getKey();
+                $donationPerk->save();
+            }
+        });
     }
 
     /**
