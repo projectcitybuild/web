@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\ApiController;
 use App\Library\Stripe\Stripe;
 use App\Library\Stripe\StripeWebhookEvent;
-use Domain\Payments\DonationService;
+use Domain\Donations\DonationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -16,11 +16,6 @@ final class WebhookController extends ApiController
         $payload = $request->getContent();
         $signature = $request->headers->get('Stripe-Signature');
 
-        Log::debug('Received Stripe webhook', [
-            'payload' => $payload,
-            'signature' => $signature,
-        ]);
-
         $payload = $stripe->parseWebhookPayload($payload, $signature);
 
         if ($payload === null) {
@@ -30,20 +25,24 @@ final class WebhookController extends ApiController
         }
 
         switch ($payload->event) {
-            case StripeWebhookEvent::CheckoutSessionCompleted:
+            case StripeWebhookEvent::CHECKOUT_SESSION_COMPLETED:
                 Log::info('Webhook acknowledged ['.$payload->event.']');
+
+                Log::debug('Received Stripe webhook', ['payload' => $payload]);
+
                 $donationService->processDonation(
                     $payload->sessionId,
                     $payload->transactionId,
                     $payload->amountPaidInCents,
                 );
-
-                return response()->json(null, 200);
+                break;
 
             default:
                 Log::info('Webhook ignored ['.$payload->event.']');
 
                 return response()->json(null, 204);
         }
+
+        return response()->json(null, 200);
     }
 }

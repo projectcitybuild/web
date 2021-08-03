@@ -3,7 +3,7 @@
 namespace App\Library\Stripe;
 
 use Stripe\Checkout\Session;
-use Stripe\Event;
+use Stripe\Webhook;
 use Stripe\Stripe as StripePackage;
 
 final class Stripe
@@ -20,7 +20,7 @@ final class Stripe
     {
         $secret = config('services.stripe.webhook.secret');
 
-        $payloadJSON = Event::constructFrom($payload, $signature, $secret);
+        $payloadJSON = Webhook::constructEvent($payload, $signature, $secret);
 
         // Only parse Webhook events we care about
         $event = null;
@@ -32,12 +32,7 @@ final class Stripe
 
         $transactionId = $payloadJSON->data->object->id;
         $sessionId = $payloadJSON->data->object->client_reference_id;
-
-        $amountPaidInCents = 0;
-        $items = $payloadJSON->data->object->display_items;
-        if ($items !== null && count($items) > 0) {
-            $amountPaidInCents = $payloadJSON->data->object->display_items[0]->amount;
-        }
+        $amountPaidInCents = $payloadJSON->data->object->amount_total;
 
         return new StripeWebhookPayload(
             $event,
