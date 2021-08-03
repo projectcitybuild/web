@@ -36,19 +36,25 @@ final class DonationService
     // FIXME!!!
     public function processDonation(string $sessionId, string $transactionId, int $amountPaidInCents)
     {
-//        // Sanity check
-//        if ($amountPaidInCents <= 0) {
-//            throw new \Exception('Received a zero amount donation from Stripe');
-//        }
-//
-//        $session = AccountPaymentSession::where('session_id', $sessionId)->first();
-//        if ($session === null) {
-//            throw new \Exception('Could not fulfill donation. Internal session id not found: '.$sessionId);
-//        }
-//        Log::debug('Found associated session', ['session' => $session]);
-//
-//        $accountId = $session->account !== null ? $session->account->getKey() : null;
-//        $amountInDollars = (float) ($amountPaidInCents / 100);
+        Log::info('Processing donation...', [
+            'session_id' => $sessionId,
+            'transaction_id' => $transactionId,
+        ]);
+
+        // Sanity check
+        if ($amountPaidInCents <= 0) {
+            // Something's gone seriously wrong if this happens
+            throw new \Exception('Received a zero amount donation from Stripe');
+        }
+
+        $session = AccountPaymentSession::where('session_id', $sessionId)->first();
+        if ($session === null) {
+            throw new \Exception('Could not fulfill donation. AccountPaymentSession id not found: '.$sessionId);
+        }
+        Log::debug('Found associated session', ['session' => $session]);
+
+        $accountId = $session->account !== null ? $session->account->getKey() : null;
+        $amountPaidInDollars = (float) ($amountPaidInCents / 100);
 //
 //        $numberOfMonthsOfPerks = 0;
 //        $donationExpiry = null;
