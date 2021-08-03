@@ -3,8 +3,6 @@
 namespace App\Entities\Donations\Models;
 
 use App\Entities\Accounts\Models\Account;
-use App\Entities\Donations\Models\DonationPerk;
-use App\Entities\Donations\Models\DonationTier;
 use App\Model;
 
 final class DonationPaymentSession extends Model
