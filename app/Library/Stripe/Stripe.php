@@ -2,8 +2,8 @@
 
 namespace App\Library\Stripe;
 
-use Stripe\Event;
 use Stripe\Checkout\Session;
+use Stripe\Event;
 use Stripe\Stripe as StripePackage;
 
 final class Stripe
@@ -55,10 +55,9 @@ final class Stripe
         StripePaymentMode $paymentMode,
         string $successRedirectURL,
         string $cancelRedirectURL
-    ): string
-    {
+    ): string {
         $session = Session::create([
-            'payment_method_types' => array_map(fn($it) => $it->valueof(), $supportedPaymentTypes),
+            'payment_method_types' => array_map(fn ($it) => $it->valueof(), $supportedPaymentTypes),
             'client_reference_id' => $uniqueSessionId,
             'line_items' => [
                 [

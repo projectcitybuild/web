@@ -25,6 +25,7 @@ final class WebhookController extends ApiController
 
         if ($payload === null) {
             Log::debug('Unsupported or malformed Stripe webhook payload');
+
             return response()->json(null, 204);
         }
 
@@ -36,10 +37,12 @@ final class WebhookController extends ApiController
                     $payload->transactionId,
                     $payload->amountPaidInCents,
                 );
+
                 return response()->json(null, 200);
 
             default:
                 Log::info('Webhook ignored ['.$payload->event.']');
+
                 return response()->json(null, 204);
         }
     }
