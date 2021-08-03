@@ -18,7 +18,8 @@ class CreateDonationPaymentSessions extends Migration
             $table->integer('account_id')->unsigned()->nullable();
             $table->integer('donation_tier_id')->unsigned();
             $table->bigInteger('donation_perks_id')->unsigned()->nullable();
-            $table->string('stripe_session_id');
+            $table->string('session_id');
+            $table->string('stripe_transaction_id')->nullable();
             $table->string('stripe_price_id');
             $table->integer('number_of_months')->unsigned()->comment('Purchase quantity');
             $table->boolean('is_processed')->default(false);

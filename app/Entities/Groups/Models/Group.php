@@ -10,6 +10,8 @@ final class Group extends Model
 {
     use HasFactory;
 
+    public const DONOR_GROUP_NAME = 'donator'; // Some day we'll get rid of this misspelling...
+
     /**
      * Indicates if the model should be timestamped.
      *

@@ -31,7 +31,10 @@ final class DonationController extends WebController
         }
 
         $productId = $request->input('price_id');
-        $checkoutURL = $donationService->startCheckoutSession($productId);
+        $numberOfMonthsToBuy = 1; // TODO
+        $isSubscription = false; // TODO
+
+        $checkoutURL = $donationService->startCheckoutSession($productId, $numberOfMonthsToBuy, $isSubscription);
 
         // Redirect to Stripe Checkout page
         return redirect($checkoutURL);
