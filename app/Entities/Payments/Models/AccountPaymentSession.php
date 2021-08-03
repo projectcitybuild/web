@@ -6,7 +6,7 @@ use App\Entities\Accounts\Models\Account;
 use App\Model;
 
 /**
- * @deprecated 
+ * @deprecated
  */
 final class AccountPaymentSession extends Model
 {
