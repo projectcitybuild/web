@@ -23,6 +23,7 @@ final class DonationController extends WebController
     {
         $validator = Validator::make($request->all(), [
             'price_id' => 'required|string',
+            'quantity' => 'required|int|between:1,999',
         ]);
         if ($validator->fails()) {
             // TODO
@@ -30,8 +31,13 @@ final class DonationController extends WebController
         }
 
         $productId = $request->input('price_id');
-        $numberOfMonthsToBuy = 1; // TODO
-        $isSubscription = false; // TODO
+        $numberOfMonthsToBuy = $request->input('quantity');
+        $isSubscription = boolval($request->input('is_subscription'));
+
+        if ($isSubscription) {
+            // Subscriptions will auto renew after a month
+            $numberOfMonthsToBuy = 1;
+        }
 
         $checkoutURL = $donationService->startCheckoutSession($productId, $numberOfMonthsToBuy, $isSubscription);
 

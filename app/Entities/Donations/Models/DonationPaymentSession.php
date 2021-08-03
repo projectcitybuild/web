@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities\Payments\Models;
+namespace App\Entities\Donations\Models;
 
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Donations\Models\DonationPerk;

@@ -3,10 +3,10 @@
 namespace Domain\Donations;
 
 use App\Entities\Donations\Models\Donation;
+use App\Entities\Donations\Models\DonationPaymentSession;
 use App\Entities\Donations\Models\DonationPerk;
 use App\Entities\Donations\Models\DonationTier;
 use App\Entities\Groups\Models\Group;
-use App\Entities\Payments\Models\DonationPaymentSession;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -24,7 +24,12 @@ final class DonationService
     public function startCheckoutSession(string $productId, int $numberOfMonthsToBuy, bool $isSubscription): string
     {
         $pcbSessionUUID = Str::uuid();
-        $checkoutURL = $this->paymentAdapter->createCheckoutSession($pcbSessionUUID, $productId);
+        $checkoutURL = $this->paymentAdapter->createCheckoutSession(
+            $pcbSessionUUID,
+            $productId,
+            $numberOfMonthsToBuy,
+            $isSubscription
+        );
 
         $donationTier = DonationTier::where('stripe_payment_price_id', $productId)
             ->orWhere('stripe_subscription_price_id', $productId)

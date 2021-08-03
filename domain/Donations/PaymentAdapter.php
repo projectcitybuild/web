@@ -13,8 +13,12 @@ interface PaymentAdapter
      *
      * @return string Redirect URL to perform the actual transaction (i.e. Stripe Checkout)
      *
-     * // FIXME: replace with platform agnostic exception
      * @throws \Stripe\Exception\ApiErrorException
      */
-    public function createCheckoutSession(string $uniqueSessionId, string $productId, int $quantity = 1): string;
+    public function createCheckoutSession(
+        string $uniqueSessionId,
+        string $productId,
+        int $quantity,
+        bool $isSubscription
+    ): string;
 }

@@ -59,12 +59,10 @@ final class Stripe
         $session = Session::create([
             'payment_method_types' => array_map(fn ($it) => $it->valueof(), $supportedPaymentTypes),
             'client_reference_id' => $uniqueSessionId,
-            'line_items' => [
-                [
-                    'price' => $productId, // Stripe's "price id" for a product
-                    'quantity' => $quantity,
-                ],
-            ],
+            'line_items' => [[
+                'price' => $productId, // Stripe's "price id" for a product
+                'quantity' => $quantity,
+            ]],
             'mode' => $paymentMode->valueOf(),
             'success_url' => $successRedirectURL,
             'cancel_url' => $cancelRedirectURL,
