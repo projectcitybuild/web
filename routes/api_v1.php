@@ -12,7 +12,7 @@
 */
 
 Route::prefix('webhooks')->group(function () {
-    Route::post('stripe', 'WebhookController@stripe');
+    Route::post('stripe', 'StripeWebhookController@handleWebhook')->name('cashier.webhook');
 });
 
 Route::prefix('bans')->group(function () {

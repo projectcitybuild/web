@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\Donations\Models\DonationTier;
 use App\Http\WebController;
 use Domain\Donations\DonationService;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ final class DonationController extends WebController
         return view('v2.front.pages.donate.donate-thanks');
     }
 
-    public function moveToCheckout(Request $request, DonationService $donationService)
+    public function checkout(Request $request, DonationService $donationService)
     {
         $validator = Validator::make($request->all(), [
             'price_id' => 'required|string',
@@ -32,16 +33,31 @@ final class DonationController extends WebController
 
         $productId = $request->input('price_id');
         $numberOfMonthsToBuy = $request->input('quantity');
-        $isSubscription = boolval($request->input('is_subscription'));
 
-        if ($isSubscription) {
-            // Subscriptions will auto renew after a month
-            $numberOfMonthsToBuy = 1;
+        $donationTier = DonationTier::where('stripe_payment_price_id', $productId)
+            ->orWhere('stripe_subscription_price_id', $productId)
+            ->first();
+
+        if ($donationTier === null) {
+            // TODO
+            return redirect()->back();
         }
 
-        $checkoutURL = $donationService->startCheckoutSession($productId, $numberOfMonthsToBuy, $isSubscription);
+        $isSubscription = $donationTier->stripe_subscription_price_id == $productId;
 
-        // Redirect to Stripe Checkout page
-        return redirect($checkoutURL);
+        if ($isSubscription) {
+            return $request->user()
+                ->newSubscription($donationTier->name, $productId)
+                ->checkout([
+                    'success_url' => route('front.donate.success'),
+                    'cancel_url' => route('front.donate'),
+                ]);
+        } else {
+            return $request->user()
+                ->checkout([$productId => $numberOfMonthsToBuy], [
+                    'success_url' => route('front.donate.success'),
+                    'cancel_url' => route('front.donate'),
+                ]);
+        }
     }
 }

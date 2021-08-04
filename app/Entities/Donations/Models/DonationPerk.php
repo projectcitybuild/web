@@ -77,4 +77,9 @@ final class DonationPerk extends Model
     {
         return $this->belongsTo(Donation::class, 'donation_id', 'donation_id');
     }
+
+    public function donationTier(): BelongsTo
+    {
+        return $this->belongsTo(DonationTier::class, 'donation_tier_id', 'donation_tier_id');
+    }
 }

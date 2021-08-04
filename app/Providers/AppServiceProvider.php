@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Entities\Accounts\Models\Account;
 use App\Entities\Donations\Models\Donation;
 use App\Entities\GamePlayerType;
 use App\Entities\Payments\AccountPaymentType;
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Cashier\Cashier;
 use Schema;
 
 final class AppServiceProvider extends ServiceProvider
@@ -33,6 +35,9 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->bind(Stripe::class, function ($app) {
             return new Stripe(config('services.stripe.secret'));
         });
+
+        // Prevent Cashier's vendor migrations running because we override them
+        Cashier::ignoreMigrations();
     }
 
     /**
@@ -43,6 +48,8 @@ final class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        Cashier::useCustomerModel(Account::class);
 
         // We don't want to store namespaces in the database so we'll map them
         // to unique keys instead

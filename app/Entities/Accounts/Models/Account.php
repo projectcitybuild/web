@@ -11,11 +11,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
+use Laravel\Cashier\Billable;
 use Laravel\Scout\Searchable;
 
 final class Account extends Authenticatable
 {
-    use Notifiable, Searchable, HasFactory;
+    use Notifiable, Searchable, HasFactory, Billable;
 
     protected $table = 'accounts';
 
