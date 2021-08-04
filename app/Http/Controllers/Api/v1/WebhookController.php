@@ -16,6 +16,12 @@ final class WebhookController extends ApiController
         $payload = $request->getContent();
         $signature = $request->headers->get('Stripe-Signature');
 
+        if ($signature === null) {
+            Log::debug('No Stripe-Signature header provided. Ignoring webhook request');
+
+            return response()->json(null, 204);
+        }
+
         $payload = $stripe->parseWebhookPayload($payload, $signature);
 
         if ($payload === null) {
