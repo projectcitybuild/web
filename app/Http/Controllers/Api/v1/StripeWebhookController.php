@@ -3,16 +3,14 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Entities\Payments\Models\Payment;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
 
 final class StripeWebhookController extends CashierController
 {
     /**
-     * Handle checkout complete events and fulfil the payment
+     * Handle checkout complete events and fulfil the payment.
      *
-     * @param  array  $payload
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handleCheckoutSessionCompleted(array $payload)

@@ -3,8 +3,8 @@
 namespace App\Library\Stripe;
 
 use Stripe\Checkout\Session;
-use Stripe\Webhook;
 use Stripe\Stripe as StripePackage;
+use Stripe\Webhook;
 
 final class Stripe
 {
