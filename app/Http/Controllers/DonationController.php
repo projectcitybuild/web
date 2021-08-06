@@ -43,6 +43,10 @@ final class DonationController extends WebController
             return redirect()->back();
         }
 
+        if ($request->user() === null) {
+            // TODO
+        }
+
         $isSubscription = $donationTier->stripe_subscription_price_id == $productId;
 
         if ($isSubscription) {
