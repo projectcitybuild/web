@@ -2,7 +2,6 @@
 
 namespace Domain\Donations;
 
-use Domain\Donations\Adapters\StripePaymentAdapter;
 use Illuminate\Support\ServiceProvider;
 use Stripe\StripeClient;
 
@@ -17,6 +16,7 @@ class DonationsProvider extends ServiceProvider
     {
         $this->app->bind(DonationService::class, function ($app) {
             $stripeClient = new StripeClient(config('services.stripe.secret'));
+
             return new DonationService($stripeClient);
         });
     }

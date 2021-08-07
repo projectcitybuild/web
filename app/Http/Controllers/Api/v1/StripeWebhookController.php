@@ -2,17 +2,9 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Entities\Donations\Models\Donation;
-use App\Entities\Donations\Models\DonationPerk;
-use App\Entities\Donations\Models\DonationTier;
-use App\Entities\Groups\Models\Group;
-use App\Entities\Payments\Models\Payment;
 use Domain\Donations\DonationService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
-use Stripe\StripeClient;
 
 final class StripeWebhookController extends CashierController
 {
@@ -24,9 +16,8 @@ final class StripeWebhookController extends CashierController
     }
 
     /**
-     * Handle Checkout complete events and fulfil payments
+     * Handle Checkout complete events and fulfil payments.
      *
-     * @param  array  $payload
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handleCheckoutSessionCompleted(array $payload)
@@ -38,6 +29,7 @@ final class StripeWebhookController extends CashierController
 
         if ($account === null) {
             Log::warning('Could not find user matching customer id: '.$customerId);
+
             return $this->successMethod();
         }
 
