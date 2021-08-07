@@ -27,6 +27,12 @@ class CreatePayments extends Migration
 
             $table->foreign('account_id')->references('account_id')->on('accounts');
         });
+
+        Schema::table('donation_tiers', function (Blueprint $table) {
+            $table->dropColumn('stripe_payment_price_id');
+            $table->dropColumn('stripe_subscription_price_id');
+            $table->string('stripe_product_id');
+        });
     }
 
     /**
@@ -36,6 +42,12 @@ class CreatePayments extends Migration
      */
     public function down()
     {
+        Schema::table('donation_tiers', function (Blueprint $table) {
+            $table->dropColumn('stripe_product_id');
+            $table->string('stripe_payment_price_id');
+            $table->string('stripe_subscription_price_id');
+        });
+
         Schema::dropIfExists('payments');
     }
 }

@@ -2,14 +2,27 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Entities\Donations\Models\Donation;
+use App\Entities\Donations\Models\DonationPerk;
+use App\Entities\Donations\Models\DonationTier;
+use App\Entities\Groups\Models\Group;
 use App\Entities\Payments\Models\Payment;
+use Domain\Donations\DonationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
 use Stripe\StripeClient;
 
 final class StripeWebhookController extends CashierController
 {
+    private DonationService $donationService;
+
+    public function __construct(DonationService $donationService)
+    {
+        $this->donationService = $donationService;
+    }
+
     /**
      * Handle Checkout complete events and fulfil payments
      *
@@ -20,25 +33,16 @@ final class StripeWebhookController extends CashierController
     {
         Log::info('[webhook] checkout.session_completed', ['payload' => $payload]);
 
-        $user = $this->getUserByStripeId($payload['data']['object']['customer']);
+        $customerId = $payload['data']['object']['customer'];
+        $account = $this->getUserByStripeId($customerId);
+
+        if ($account === null) {
+            Log::warning('Could not find user matching customer id: '.$customerId);
+            return $this->successMethod();
+        }
 
         $sessionId = $payload['data']['object']['id'];
-
-        $stripe = new StripeClient(config('services.stripe.secret'));
-        $lineItems = $stripe->checkout->sessions->allLineItems($sessionId, ['limit' => 1]);
-
-        Log::info('Retrieved line items', ['line_items' => $lineItems]);
-
-        $firstLine = $lineItems['data'][0];
-
-        Payment::create([
-            'account_id' => $user !== null ? $user->getKey() : null,
-            'stripe_price' => $firstLine['price']['id'],
-            'stripe_product' => $firstLine['price']['product'],
-            'amount_paid_in_cents' => $firstLine['amount_total'],
-            'quantity' => $firstLine['quantity'],
-            'is_subscription_payment' => $firstLine['price']['type'] === 'recurring',
-        ]);
+        $this->donationService->processPayment($account, $sessionId);
 
         return $this->successMethod();
     }

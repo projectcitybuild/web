@@ -7,6 +7,7 @@
     <form action="{{ route('front.donations.checkout') }}" method="POST">
         @csrf
         <input type="hidden" name="price_id" value="price_1JJL5mAtUyfM4v5IJNHp1Tk2" />
+        <input type="hidden" name="product_id" value="prod_JxFaAltmFPewxs" />
         <input type="hidden" name="quantity" value="1" />
         <input type="hidden" name="is_subscription" value="0" />
         <button type="submit">One Time</button>
@@ -14,6 +15,7 @@
     <form action="{{ route('front.donations.checkout') }}" method="POST">
         @csrf
         <input type="hidden" name="price_id" value="price_1JJL5mAtUyfM4v5ISwJrrVur" />
+        <input type="hidden" name="product_id" value="prod_JxFaAltmFPewxs" />
         <input type="hidden" name="quantity" value="1" />
         <input type="hidden" name="is_subscription" value="1" />
         <button type="submit">Subscription</button>

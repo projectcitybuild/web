@@ -24,6 +24,8 @@ final class DonationController extends WebController
     {
         $validator = Validator::make($request->all(), [
             'price_id' => 'required|string',
+            'product_id' => 'required|string',
+            'is_subscription' => 'required',
             'quantity' => 'required|int|between:1,999',
         ]);
         if ($validator->fails()) {
@@ -31,12 +33,12 @@ final class DonationController extends WebController
             return redirect()->back();
         }
 
-        $productId = $request->input('price_id');
+        $priceId = $request->input('price_id');
+        $productId = $request->input('product_id');
         $numberOfMonthsToBuy = $request->input('quantity');
+        $isSubscription = boolval($request->input('is_subscription'));
 
-        $donationTier = DonationTier::where('stripe_payment_price_id', $productId)
-            ->orWhere('stripe_subscription_price_id', $productId)
-            ->first();
+        $donationTier = DonationTier::where('stripe_product_id', $productId)->first();
 
         if ($donationTier === null) {
             // TODO
@@ -47,18 +49,16 @@ final class DonationController extends WebController
             // TODO
         }
 
-        $isSubscription = $donationTier->stripe_subscription_price_id == $productId;
-
         if ($isSubscription) {
             return $request->user()
-                ->newSubscription($donationTier->name, $productId)
+                ->newSubscription($donationTier->name, $priceId)
                 ->checkout([
                     'success_url' => route('front.donate.success'),
                     'cancel_url' => route('front.donate'),
                 ]);
         } else {
             return $request->user()
-                ->checkout([$productId => $numberOfMonthsToBuy], [
+                ->checkout([$priceId => $numberOfMonthsToBuy], [
                     'success_url' => route('front.donate.success'),
                     'cancel_url' => route('front.donate'),
                 ]);
