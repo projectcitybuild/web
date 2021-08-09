@@ -67,29 +67,26 @@ final class DonationService
                 'amount' => $amountPaidInDollars,
             ]);
 
-            if ($user !== null) {
+            if ($account !== null) {
                 DonationPerk::create([
                     'donation_id' => $donation->getKey(),
                     'donation_tier_id' => $donationTier->getKey(),
-                    'account_id' => $user->getKey(),
+                    'account_id' => $account->getKey(),
                     'is_active' => true,
                     'expires_at' => $perksExpiryDate,
                 ]);
-            }
 
-            // Add user to Donor group if possible
-            if ($user !== null) {
                 $donatorGroup = Group::where('name', Group::DONOR_GROUP_NAME)->first();
                 $donatorGroupId = $donatorGroup->getKey();
 
-                if (! $user->groups->contains($donatorGroupId)) {
-                    $user->groups()->attach($donatorGroupId);
+                if (! $account->groups->contains($donatorGroupId)) {
+                    $account->groups()->attach($donatorGroupId);
                 }
 
                 // Detach the user from the member group
                 $memberGroup = Group::where('is_default', true)->first();
                 $memberGroupId = $memberGroup->getKey();
-                $user->groups()->detach($memberGroupId);
+                $account->groups()->detach($memberGroupId);
             }
 
             DB::commit();

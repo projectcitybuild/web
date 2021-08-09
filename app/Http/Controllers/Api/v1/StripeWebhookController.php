@@ -16,13 +16,38 @@ final class StripeWebhookController extends CashierController
     }
 
     /**
-     * Handle Checkout complete events and fulfil payments.
+     * Handle Checkout complete events and fulfil one-time payments
+     * or the first payment of a subscription
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handleCheckoutSessionCompleted(array $payload)
     {
         Log::info('[webhook] checkout.session_completed', ['payload' => $payload]);
+
+        $customerId = $payload['data']['object']['customer'];
+        $account = $this->getUserByStripeId($customerId);
+
+        if ($account === null) {
+            Log::warning('Could not find user matching customer id: '.$customerId);
+
+            return $this->successMethod();
+        }
+
+        $sessionId = $payload['data']['object']['id'];
+        $this->donationService->processPayment($account, $sessionId);
+
+        return $this->successMethod();
+    }
+
+    /**
+     * Handle subsequent payments (after the first) for subscriptions
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function handleInvoicePaid(array $payload)
+    {
+        Log::info('[webhook] invoice.paid', ['payload' => $payload]);
 
         $customerId = $payload['data']['object']['customer'];
         $account = $this->getUserByStripeId($customerId);
