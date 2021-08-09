@@ -8,9 +8,7 @@ use App\Entities\Donations\Models\DonationTier;
 use App\Entities\Groups\Models\Group;
 use App\Entities\Payments\Models\Payment;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Billable;
-use Stripe\StripeClient;
 
 final class DonationService
 {
@@ -33,7 +31,7 @@ final class DonationService
 
         $donationTier = DonationTier::where('stripe_product_id', $productId)->first();
         if ($donationTier === null) {
-            throw new \Exception('No donation tier found for product id: ' . $productId);
+            throw new \Exception('No donation tier found for product id: '.$productId);
         }
 
         $existingPerk = DonationPerk::where('account_id', $account->getKey())
@@ -43,7 +41,7 @@ final class DonationService
 
         DB::beginTransaction();
         try {
-            $amountPaidInDollars = (float)($amountPaidInCents / 100);
+            $amountPaidInDollars = (float) ($amountPaidInCents / 100);
             $donation = Donation::create([
                 'account_id' => $account->getKey(),
                 'amount' => $amountPaidInDollars,
@@ -72,7 +70,7 @@ final class DonationService
             $donatorGroup = Group::where('name', Group::DONOR_GROUP_NAME)->first();
             $donatorGroupId = $donatorGroup->getKey();
 
-            if (!$account->groups->contains($donatorGroupId)) {
+            if (! $account->groups->contains($donatorGroupId)) {
                 $account->groups()->attach($donatorGroupId);
             }
 
