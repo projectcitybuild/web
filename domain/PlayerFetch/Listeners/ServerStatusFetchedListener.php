@@ -42,6 +42,7 @@ class ServerStatusFetchedListener
 
         if (array_values($lastKnownOnlinePlayers) == array_values(($event->result->onlinePlayerNames))) {
             Log::debug('No player changes. Skipping alias fetch');
+
             return;
         }
 
