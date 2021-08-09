@@ -26,10 +26,10 @@ class AccountDiscourseAdminRedirect extends WebController
     {
         try {
             $discourseUser = $this->discourseUserApi->fetchUserByPcbId($account->account_id);
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             return redirect()->back()->with([
                 'message_type' => 'danger',
-                'message' => 'User does not have a Discourse profile.'
+                'message' => 'User does not have a Discourse profile.',
             ]);
         }
 
