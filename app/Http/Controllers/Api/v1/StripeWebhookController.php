@@ -19,7 +19,7 @@ final class StripeWebhookController extends CashierController
 
     /**
      * Handle Checkout complete events and fulfil one-time payments
-     * or the first payment of a subscription
+     * or the first payment of a subscription.
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -73,7 +73,7 @@ final class StripeWebhookController extends CashierController
     }
 
     /**
-     * Handle subsequent subscription payments (after the first)
+     * Handle subsequent subscription payments (after the first).
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
