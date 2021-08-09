@@ -14,80 +14,72 @@ use Stripe\StripeClient;
 
 final class DonationService
 {
-    private StripeClient $stripeClient;
-
-    public function __construct(StripeClient $stripeClient)
-    {
-        $this->stripeClient = $stripeClient;
-    }
-
-    public function processPayment(Billable $account, string $sessionId)
-    {
-        $lineItems = $this->stripeClient->checkout->sessions
-            ->allLineItems($sessionId, ['limit' => 1]);
-
-        Log::info('Retrieved line items', ['line_items' => $lineItems]);
-
-        $firstLine = $lineItems['data'][0];
-        $price = $firstLine['price'];
-        $productId = $price['product'];
-        $amountPaidInCents = $firstLine['amount_total'];
-        $quantity = $firstLine['quantity'];
-        $isSubscriptionPayment = $price['type'] === 'recurring';
-
+    public function processPayment(
+        Billable $account,
+        string $productId,
+        string $priceId,
+        int $amountPaidInCents,
+        int $quantity,
+        bool $isSubscription
+    ) {
         Payment::create([
-            'account_id' => $account !== null ? $account->getKey() : null,
-            'stripe_price' => $price['id'],
+            'account_id' => $account->getKey(),
             'stripe_product' => $productId,
+            'stripe_price' => $priceId,
             'amount_paid_in_cents' => $amountPaidInCents,
             'quantity' => $quantity,
-            'is_subscription_payment' => $isSubscriptionPayment,
+            'is_subscription_payment' => $isSubscription,
         ]);
-
-        // Sanity check
-        if ($amountPaidInCents <= 0) {
-            throw new \Exception('Amount paid was zero');
-        }
-        if ($quantity <= 0) {
-            throw new \Exception('Quantity purchased was zero');
-        }
 
         $donationTier = DonationTier::where('stripe_product_id', $productId)->first();
         if ($donationTier === null) {
-            throw new \Exception('No donation tier found for product id: '.$productId);
+            throw new \Exception('No donation tier found for product id: ' . $productId);
         }
 
-        $amountPaidInDollars = (float) ($amountPaidInCents / 100);
-        $perksExpiryDate = now()->addMonths($quantity);
+        $existingPerk = DonationPerk::where('account_id', $account->getKey())
+            ->where('stripe_product_id', $productId)
+            ->where('is_active', true)
+            ->first();
 
         DB::beginTransaction();
         try {
+            $amountPaidInDollars = (float)($amountPaidInCents / 100);
             $donation = Donation::create([
                 'account_id' => $account->getKey(),
                 'amount' => $amountPaidInDollars,
             ]);
 
-            if ($account !== null) {
+            if ($existingPerk === null) {
                 DonationPerk::create([
                     'donation_id' => $donation->getKey(),
                     'donation_tier_id' => $donationTier->getKey(),
                     'account_id' => $account->getKey(),
                     'is_active' => true,
-                    'expires_at' => $perksExpiryDate,
+                    'expires_at' => now()->addMonths($quantity),
                 ]);
+            } else {
+                $extendedFromExpiry = $existingPerk->expires_at->addMonths($quantity);
+                $extendedFromNow = now()->addMonths($quantity);
 
-                $donatorGroup = Group::where('name', Group::DONOR_GROUP_NAME)->first();
-                $donatorGroupId = $donatorGroup->getKey();
+                // Just in case the payment was greatly delayed
+                $existingPerk->expires_at = ($extendedFromExpiry->gt($extendedFromNow))
+                    ? $extendedFromExpiry
+                    : $extendedFromNow;
 
-                if (! $account->groups->contains($donatorGroupId)) {
-                    $account->groups()->attach($donatorGroupId);
-                }
-
-                // Detach the user from the member group
-                $memberGroup = Group::where('is_default', true)->first();
-                $memberGroupId = $memberGroup->getKey();
-                $account->groups()->detach($memberGroupId);
+                $existingPerk->save();
             }
+
+            $donatorGroup = Group::where('name', Group::DONOR_GROUP_NAME)->first();
+            $donatorGroupId = $donatorGroup->getKey();
+
+            if (!$account->groups->contains($donatorGroupId)) {
+                $account->groups()->attach($donatorGroupId);
+            }
+
+            // Detach the user from the member group
+            $memberGroup = Group::where('is_default', true)->first();
+            $memberGroupId = $memberGroup->getKey();
+            $account->groups()->detach($memberGroupId);
 
             DB::commit();
         } catch (\Exception $e) {
