@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Panel;
 use App\Entities\Accounts\Models\Account;
 use App\Http\WebController;
 use App\Library\Discourse\Api\DiscourseUserApi;
+use GuzzleHttp\Exception\ClientException;
+use Illuminate\Http\Request;
 
 class AccountDiscourseAdminRedirect extends WebController
 {
@@ -21,9 +23,21 @@ class AccountDiscourseAdminRedirect extends WebController
         $this->discourseUserApi = $discourseUserApi;
     }
 
-    public function __invoke(Account $account)
+    public function __invoke(Account $account, Request $request)
     {
-        $discourseUser = $this->discourseUserApi->fetchUserByPcbId($account->account_id);
+        return redirect()->back()->with([
+            'message_type' => 'danger',
+            'message' => 'User does not have a Discourse profile.'
+        ]);
+        try {
+            $discourseUser = $this->discourseUserApi->fetchUserByPcbId($account->account_id);
+        } catch(ClientException $e) {
+            return redirect()->back()->with([
+                'message_type' => 'danger',
+                'message' => 'User does not have a Discourse profile.'
+            ]);
+        }
+
         $discourseId = $discourseUser['user']['id'];
         $discourseUsername = $discourseUser['user']['username'];
 
