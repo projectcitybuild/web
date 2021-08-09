@@ -21,9 +21,7 @@ final class DonationGroupSyncService
 
     /**
      * Adds the given account to the Donor group if they're
-     * not already in it
-     *
-     * @param Account $account
+     * not already in it.
      */
     public function addToDonorGroup(Account $account)
     {
@@ -50,9 +48,7 @@ final class DonationGroupSyncService
 
     /**
      * Removes the given account from the Donor group if they're
-     * currently in it
-     *
-     * @param Account $account
+     * currently in it.
      */
     public function removeFromDonorGroup(Account $account)
     {
