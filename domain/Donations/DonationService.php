@@ -5,13 +5,19 @@ namespace Domain\Donations;
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationPerk;
 use App\Entities\Donations\Models\DonationTier;
-use App\Entities\Groups\Models\Group;
 use App\Entities\Payments\Models\Payment;
 use Illuminate\Support\Facades\DB;
 use Laravel\Cashier\Billable;
 
 final class DonationService
 {
+    private DonationGroupSyncService $groupSyncService;
+
+    public function __construct(DonationGroupSyncService $groupSyncService)
+    {
+        $this->groupSyncService = $groupSyncService;
+    }
+
     public function processPayment(
         Billable $account,
         string $productId,
@@ -67,17 +73,7 @@ final class DonationService
                 $existingPerk->save();
             }
 
-            $donatorGroup = Group::where('name', Group::DONOR_GROUP_NAME)->first();
-            $donatorGroupId = $donatorGroup->getKey();
-
-            if (! $account->groups->contains($donatorGroupId)) {
-                $account->groups()->attach($donatorGroupId);
-            }
-
-            // Detach the user from the member group
-            $memberGroup = Group::where('is_default', true)->first();
-            $memberGroupId = $memberGroup->getKey();
-            $account->groups()->detach($memberGroupId);
+            $this->groupSyncService->addToDonorGroup($account);
 
             DB::commit();
         } catch (\Exception $e) {
