@@ -6,17 +6,32 @@ use App\Entities\Accounts\Models\Account;
 use App\Entities\Groups\Models\Group;
 use App\Http\Actions\SyncUserToDiscourse;
 
-final class DonationGroupSyncService
+class DonationGroupSyncService
 {
     private SyncUserToDiscourse $syncAction;
-    private Group $donorGroup;
-    private Group $memberGroup;
+    private ?Group $donorGroup;
+    private ?Group $memberGroup;
 
-    public function __construct(SyncUserToDiscourse $syncAction, Group $donorGroup, Group $memberGroup)
+    public function __construct(SyncUserToDiscourse $syncAction)
     {
         $this->syncAction = $syncAction;
-        $this->donorGroup = $donorGroup;
-        $this->memberGroup = $memberGroup;
+    }
+
+    private function getGroupsIfNeeded()
+    {
+        if ($this->donorGroup === null) {
+            $this->donorGroup = Group::where('name', Group::DONOR_GROUP_NAME)->first();
+        }
+        if ($this->memberGroup === null) {
+            $this->memberGroup = Group::where('is_default', true)->first();
+        }
+
+        if ($this->donorGroup === null) {
+            throw new \Exception('Donor group not found');
+        }
+        if ($this->memberGroup === null) {
+            throw new \Exception('Member group not found');
+        }
     }
 
     /**
@@ -27,6 +42,8 @@ final class DonationGroupSyncService
      */
     public function addToDonorGroup(Account $account)
     {
+        $this->getGroupsIfNeeded();
+
         $madeChange = false;
 
         $isInDonatorGroup = $account->groups->contains($this->donorGroup->getKey());
@@ -56,6 +73,8 @@ final class DonationGroupSyncService
      */
     public function removeFromDonorGroup(Account $account)
     {
+        $this->getGroupsIfNeeded();
+
         $madeChange = false;
 
         $isInDonatorGroup = $account->groups->contains($this->donorGroup->getKey());

@@ -24,9 +24,7 @@ class DonationsProvider extends ServiceProvider
 
         $this->app->bind(DonationGroupSyncService::class, function ($app) {
             return new DonationGroupSyncService(
-                $app->make(SyncUserToDiscourse::class),
-                Group::where('name', Group::DONOR_GROUP_NAME)->first(),
-                Group::where('is_default', true)->first()
+                $app->make(SyncUserToDiscourse::class)
             );
         });
 
