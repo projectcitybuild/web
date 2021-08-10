@@ -9,8 +9,8 @@ use App\Http\Actions\SyncUserToDiscourse;
 class DonationGroupSyncService
 {
     private SyncUserToDiscourse $syncAction;
-    private ?Group $donorGroup;
-    private ?Group $memberGroup;
+    private ?Group $donorGroup = null;
+    private ?Group $memberGroup = null;
 
     public function __construct(SyncUserToDiscourse $syncAction)
     {
@@ -49,6 +49,7 @@ class DonationGroupSyncService
         $isInDonatorGroup = $account->groups->contains($this->donorGroup->getKey());
         if (! $isInDonatorGroup) {
             $account->groups()->attach($this->donorGroup->getKey());
+            $account->load('groups');
             $madeChange = true;
         }
 
@@ -56,6 +57,7 @@ class DonationGroupSyncService
         $isInMemberGroup = $account->groups->contains($this->memberGroup->getKey());
         if ($isInMemberGroup) {
             $account->groups()->detach($this->memberGroup->getKey());
+            $account->load('groups');
             $madeChange = true;
         }
 
@@ -80,14 +82,14 @@ class DonationGroupSyncService
         $isInDonatorGroup = $account->groups->contains($this->donorGroup->getKey());
         if ($isInDonatorGroup) {
             $account->groups()->detach($this->donorGroup->getKey());
-//            $account->load('groups');
+            $account->load('groups');
             $madeChange = true;
         }
 
         // Attach to Member group if the user has no other groups
         if ($account->groups->count() === 0) {
             $account->groups()->attach($this->memberGroup->getKey());
-//            $account->load('groups');
+            $account->load('groups');
             $madeChange = true;
         }
 
