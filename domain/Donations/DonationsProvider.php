@@ -2,7 +2,6 @@
 
 namespace Domain\Donations;
 
-use App\Entities\Groups\Models\Group;
 use App\Http\Actions\SyncUserToDiscourse;
 use Illuminate\Support\ServiceProvider;
 use Stripe\StripeClient;

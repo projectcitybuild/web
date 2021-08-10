@@ -11,8 +11,6 @@ use Domain\Donations\DonationGroupSyncService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
-use Mockery;
-use Mockery\MockInterface;
 
 final class DeactivateExpiredDonorPerks_Test extends TestCase
 {

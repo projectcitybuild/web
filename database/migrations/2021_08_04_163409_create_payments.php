@@ -36,7 +36,7 @@ class CreatePayments extends Migration
             $table->dropColumn('stripe_subscription_price_id');
         });
         Schema::table('donation_tiers', function (Blueprint $table) {
-            $table->string('stripe_product_id')->default("TODO");
+            $table->string('stripe_product_id')->default('TODO');
         });
     }
 
@@ -51,8 +51,8 @@ class CreatePayments extends Migration
             $table->dropColumn('stripe_product_id');
         });
         Schema::table('donation_tiers', function (Blueprint $table) {
-            $table->string('stripe_payment_price_id')->default("MISSING"); // No going back
-            $table->string('stripe_subscription_price_id')->default("MISSING");
+            $table->string('stripe_payment_price_id')->default('MISSING'); // No going back
+            $table->string('stripe_subscription_price_id')->default('MISSING');
         });
 
         Schema::dropIfExists('payments');
