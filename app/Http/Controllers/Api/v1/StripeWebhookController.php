@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use Domain\Donations\DonationService;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
+use Stripe\StripeClient;
 
 final class StripeWebhookController extends CashierController
 {
