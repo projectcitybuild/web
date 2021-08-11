@@ -24,9 +24,10 @@
     }
 
     section.donate-tiers {
-        padding: 2em 0;
+        padding: 4em 0;
 
         h1 {
+            margin-top: 0;
             margin-bottom: 0.2em;
         }
 
@@ -84,7 +85,7 @@
     }
 
     .donation-tier__price {
-        margin-top: 1.5em;
+        margin-top: 1.7em;
         padding: 0 2em 2em 2em;
         border-bottom: 1px solid #E4E4E4;
     }
@@ -120,7 +121,7 @@
         display: flex;
         align-items: center;
 
-        .fa-box {
+        svg {
             margin-right: 1em;
         }
         *:nth-child(2) {
@@ -146,6 +147,15 @@
         li {
             margin-bottom: 1.5em;
             font-size: 0.9em;
+
+            strong {
+                font-size: 1.3em;
+                margin-right: 0.1em;
+            }
+
+            svg {
+                margin-right: 1em;
+            }
         }
     }
 
@@ -160,6 +170,17 @@
 
         .button {
             width: 100%;
+            font-family: $font-header;
+            font-size: 2em;
+            font-weight: 500;
         }
+    }
+
+    .donation-tier-fineprint {
+        margin-top: 2em;
+        text-align: right;
+        color: #7E7E7E;
+        line-height: 2em;
+        font-size: 0.8em;
     }
 }

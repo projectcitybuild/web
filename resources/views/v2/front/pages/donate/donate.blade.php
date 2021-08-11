@@ -76,9 +76,9 @@
                                 <div class="donation-tier__perks-title">Plus, you'll receive</div>
 
                                 <ul>
-                                    <li><i class="fas fa-home"></i> <strong>+3</strong> additional homes</li>
+                                    <li><i class="fas fa-home"></i> <strong>3</strong> additional homes</li>
                                     <li><i class="fas fa-check-circle"></i> Donor rank and in-game title</li>
-                                    <li><i class="fas fa-check-circle"></i> Custom nickname (/nick command)</li>
+                                    <li><i class="fas fa-check-circle"></i> Custom nickname (<span class="command">/nick</span> command)</li>
                                     <li><i class="fas fa-check-circle"></i> Flyspeed and Walkspeed commands</li>
                                 </ul>
                             </div>
@@ -94,7 +94,7 @@
                             <div class="donation-tier__bar donation-tier__bar--iron"></div>
 
                             <div class="donation-tier__header">
-                                <img src="{{ asset('assets/images/icon_copper_tier.png') }}" />
+                                <img src="{{ asset('assets/images/icon_iron_tier.png') }}" />
                                 <h2>Iron Tier</h2>
                             </div>
 
@@ -110,7 +110,7 @@
                                 <div class="donation-tier__boxes-reward">
                                     <i class="fas fa-box"></i>
                                     <strong>4</strong>
-                                    <span>Mystery Box (<a href="#">what's this?</a>)</span>
+                                    <span>Mystery Boxes (<a href="#">what's this?</a>)</span>
                                 </div>
                             </div>
 
@@ -118,12 +118,12 @@
                                 <div class="donation-tier__perks-title">Plus, you'll receive</div>
 
                                 <ul>
-                                    <li><i class="fas fa-home"></i> <strong>+8</strong> additional homes</li>
+                                    <li><i class="fas fa-home"></i> <strong>8</strong> additional homes</li>
                                     <li><i class="fas fa-check-circle"></i> Donor rank and in-game title</li>
-                                    <li><i class="fas fa-check-circle"></i> Custom nickname (/nick command)</li>
+                                    <li><i class="fas fa-check-circle"></i> Custom nickname (<span class="command">/nick</span> command)</li>
                                     <li><i class="fas fa-check-circle"></i> Flyspeed and Walkspeed commands</li>
-                                    <li><i class="fas fa-check-circle"></i> /tp and /tppos commands</li>
-                                    <li><i class="fas fa-check-circle"></i> /ascend and/thru commands</li>
+                                    <li><i class="fas fa-check-circle"></i> <span class="command">/tp</span> and <span class="command">/tppos</span> commands</li>
+                                    <li><i class="fas fa-check-circle"></i> <span class="command">/ascend</span> and <span class="command">/thru</span> commands</li>
                                     <li><i class="fas fa-check-circle"></i> Nickname colors</li>
                                 </ul>
                             </div>
@@ -139,7 +139,7 @@
                             <div class="donation-tier__bar donation-tier__bar--diamond"></div>
 
                             <div class="donation-tier__header">
-                                <img src="{{ asset('assets/images/icon_copper_tier.png') }}" />
+                                <img src="{{ asset('assets/images/icon_diamond_tier.png') }}" />
                                 <h2>Diamond Tier</h2>
                             </div>
 
@@ -155,7 +155,7 @@
                                 <div class="donation-tier__boxes-reward">
                                     <i class="fas fa-box"></i>
                                     <strong>10</strong>
-                                    <span>Mystery Box (<a href="#">what's this?</a>)</span>
+                                    <span>Mystery Boxes (<a href="#">what's this?</a>)</span>
                                 </div>
                             </div>
 
@@ -163,12 +163,12 @@
                                 <div class="donation-tier__perks-title">Plus, you'll receive</div>
 
                                 <ul>
-                                    <li><i class="fas fa-home"></i> <strong>+15</strong> additional homes</li>
+                                    <li><i class="fas fa-home"></i> <strong>15</strong> additional homes</li>
                                     <li><i class="fas fa-check-circle"></i> Donor rank and in-game title</li>
-                                    <li><i class="fas fa-check-circle"></i> Custom nickname (/nick command)</li>
+                                    <li><i class="fas fa-check-circle"></i> Custom nickname (<span class="command">/nick</span> command)</li>
                                     <li><i class="fas fa-check-circle"></i> Flyspeed and Walkspeed commands</li>
-                                    <li><i class="fas fa-check-circle"></i> /tp and /tppos commands</li>
-                                    <li><i class="fas fa-check-circle"></i> /ascend and/thru commands</li>
+                                    <li><i class="fas fa-check-circle"></i> <span class="command">/tp</span> and <span class="command">/tppos</span> commands</li>
+                                    <li><i class="fas fa-check-circle"></i> <span class="command">/ascend</span> and <span class="command">/thru</span> commands</li>
                                     <li><i class="fas fa-check-circle"></i> Nickname colors</li>
                                 </ul>
                             </div>
@@ -177,6 +177,11 @@
                                 <button class="button button--filled">Purchase</button>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="donation-tier-fineprint">
+                        Your payment details will be processed by <a href="https://stripe.com" target="_blank" rel="noopener noreferrer">Stripe</a>, and only a record of your donation will be stored by PCB.<br />
+                        In accordance with data retention laws, <strong>we do not store any credit card or bank account information</strong>.
                     </div>
                 </div>
             </section>
