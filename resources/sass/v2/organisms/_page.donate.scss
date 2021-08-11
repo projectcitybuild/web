@@ -1,0 +1,165 @@
+.page.donate {
+
+    .hero-header {
+        .container {
+            display: flex;
+        }
+
+        h1 {
+            margin-bottom: 0.3em;
+        }
+    }
+
+    .header-desc {
+        color: white;
+        line-height: 2em;
+
+        strong {
+            color: #FF842A;
+        }
+    }
+
+    main {
+        background: #fff;
+    }
+
+    section.donate-tiers {
+        padding: 2em 0;
+
+        h1 {
+            margin-bottom: 0.2em;
+        }
+
+        .donate-tiers__overview {
+            color: #7E7E7E;
+            line-height: 2em;
+            margin-bottom: 3em;
+        }
+    }
+
+    .donation-tier-container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .donation-tier {
+        flex-grow: 1;
+        background-color: #F9F9F9;
+        border-radius: 10px;
+        color: #343434;
+        box-shadow: inset 0 -4px 0 hsla(0, 0, 0, 5%);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .donation-tier__bar {
+        height: 5px;
+        border-radius: 10px 10px 0 0;
+
+        &--copper {
+            background-color: #ECD6D6;
+        }
+        &--iron {
+            background-color: #F2B0B0;
+        }
+        &--diamond {
+            background-color: #E95C5C;
+        }
+    }
+
+    .donation-tier__spacer {
+        // Forces a minimum space between flex items
+        flex: 1 0 10px;
+    }
+
+    .donation-tier__header {
+        padding: 2em 2em 0 2em;
+        display: flex;
+        align-items: center;
+
+        h2 {
+            margin: 0 0 0 0.35em;
+            font-size: 2.1em;
+        }
+    }
+
+    .donation-tier__price {
+        margin-top: 1.5em;
+        padding: 0 2em 2em 2em;
+        border-bottom: 1px solid #E4E4E4;
+    }
+
+    .donation-tier__price-amount {
+        color: #3577F8;
+        font-size: 2.7em;
+        font-weight: 800;
+        margin-bottom: 0.1em;
+    }
+
+    .donation-tier__price-unit {
+        color: #969696;
+        font-size: 0.9em;
+    }
+
+    .donation-tier__boxes {
+        padding: 1.5em 2em;
+        border-bottom: 1px solid #E4E4E4;
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    .donation-tier__boxes-title {
+        margin-bottom: 1.3em;
+    }
+
+    .donation-tier__boxes-reward {
+        display: flex;
+        align-items: center;
+
+        .fa-box {
+            margin-right: 1em;
+        }
+        *:nth-child(2) {
+            margin-right: 0.5em;
+            font-size: 1.8em;
+        }
+        *:nth-child(3) {
+            font-size: 0.8em;
+        }
+    }
+
+    .donation-tier__perks {
+        padding: 1.5em 2em;
+        border-bottom: 1px solid #E4E4E4;
+        flex-grow: 1;
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 1.5em;
+            font-size: 0.9em;
+        }
+    }
+
+    .donation-tier__perks-title {
+        color: #7E7E7E;
+        font-size: 1em;
+        margin-bottom: 1.75em;
+    }
+
+    .donation-tier__footer {
+        padding: 1.5em 2em;
+
+        .button {
+            width: 100%;
+        }
+    }
+}

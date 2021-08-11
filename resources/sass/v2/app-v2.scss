@@ -12,6 +12,7 @@
 @import "elements/button";
 @import "elements/bullet";
 @import "elements/container";
+@import "elements/h";
 @import "elements/input";
 @import "elements/table";
 
@@ -24,6 +25,7 @@
 @import "molecules/form-row";
 @import "molecules/game-account";
 @import "molecules/hero";
+@import "molecules/hero-header";
 @import "molecules/image-header";
 @import "molecules/introduction";
 @import "molecules/navbar";
@@ -34,6 +36,7 @@
 @import "molecules/side-menu";
 @import "molecules/toolbar";
 
+@import "organisms/page.donate";
 @import "organisms/page.login";
 @import "organisms/page.mfa";
 @import "organisms/page.settings";
