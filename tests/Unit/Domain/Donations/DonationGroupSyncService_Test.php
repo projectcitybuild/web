@@ -8,8 +8,6 @@ use App\Http\Actions\SyncUserToDiscourse;
 use Domain\Donations\DonationGroupSyncService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Mockery;
-use Mockery\MockInterface;
 
 final class DonationGroupSyncService_Test extends TestCase
 {
