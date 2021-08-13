@@ -19,20 +19,10 @@
                 </div>
 
                 <div class="hero-header__right">
-                    <div class="donation-bar">
-                        <div class="donation-bar__outer">
-                            <div class="donation-bar__inner" style="width: 25%; min-width: 75px">
-                                $100.00
-                            </div>
-                        </div>
-                        <ul class="donation-bar__indicators">
-                            <li>$0</li>
-                            <li>$250</li>
-                            <li>$500</li>
-                            <li>$750</li>
-                            <li>$1000</li>
-                        </ul>
-                    </div>
+                    @include('v2.front.components.donation-bar', [
+                        'current' => $donations['raised_this_year'],
+                        'percentage'=> $donations['percentage'],
+                    ])
 
                     Annual Goal: $1000
                 </div>

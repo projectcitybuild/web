@@ -2,17 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationTier;
 use App\Http\WebController;
 use Domain\Donations\DonationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Carbon;
 
 final class DonationController extends WebController
 {
     public function index()
     {
-        return view('v2.front.pages.donate.donate');
+        // TODO: combine with HomeController
+        $requiredAmount = 1000;
+
+        $now = Carbon::now();
+        $thisYear = $now->year;
+        $totalDonationsThisYear = Donation::whereYear('created_at', $thisYear)->sum('amount');
+        $percentage = round($totalDonationsThisYear / $requiredAmount * 100);
+
+        return view('v2.front.pages.donate.donate', [
+            'donations' => [
+                'raised_this_year' => $totalDonationsThisYear ?: 0,
+                'percentage' => max(1, $percentage) ?: 0,
+            ],
+        ]);
     }
 
     public function success()

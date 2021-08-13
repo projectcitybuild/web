@@ -191,20 +191,10 @@ One of the world's longest-running Minecraft servers; we're a community of creat
                     </div>
 
                     <div class="footer-donations__right">
-                        <div class="donation-bar">
-                            <div class="donation-bar__outer">
-                                <div class="donation-bar__inner" style="width: {{ $donations['percentage'] }}%; min-width: 75px">
-                                    ${{ number_format($donations['raised_this_year'], 2) }}
-                                </div>
-                            </div>
-                            <ul class="donation-bar__indicators">
-                                <li>$0</li>
-                                <li>$250</li>
-                                <li>$500</li>
-                                <li>$750</li>
-                                <li>$1000</li>
-                            </ul>
-                        </div>
+                        @include('v2.front.components.donation-bar', [
+                            'current' => $donations['raised_this_year'],
+                            'percentage'=> $donations['percentage'],
+                        ])
 
                         <div class="spacer"></div>
 
