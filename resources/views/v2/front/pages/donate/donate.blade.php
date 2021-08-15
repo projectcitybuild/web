@@ -233,9 +233,11 @@
                             <li>
                                 <h2>What if I Boost the Discord server?</h2>
 
-                                We really appreciate any server <a href="https://support.discord.com/hc/en-us/articles/360028038352-Server-Boosting-FAQ-" target="_blank" rel="noopener noreferrer">Boosts</a> too,
+                                We really appreciate <a href="https://support.discord.com/hc/en-us/articles/360028038352-Server-Boosting-FAQ-" target="_blank" rel="noopener noreferrer">Server Boosts</a> too,
                                 as it benefits everyone using our Discord server.
                                 Please reach out to staff on Discord or the forums and we can assign you the equivalent Donation Tier from above, for the duration that you continue to boost.
+                                <br /><br />
+                                However, should you choose to stop boosting, we ask that you please notify us as soon as possible.
                             </li>
                         </ul>
                     </div>
@@ -244,11 +246,15 @@
 
             <section class="donate-legal">
                 <div class="container">
-                    <h1>Legal Stuff</h1>
+                    <h1>Legal</h1>
                     <div class="donate-legal__contents">
                         <ul>
-                            <li>Please check for any applicable fees as Stripe/PayPal can change these at any time for any reason, beyond PCB’s control.</li>
-                            <li>Please remember that donating does not exempt you from obeying the server rules. You will get no pardons or privileges regardless of how much you have donated as a donation is just that, a donation. You are not paying for a service.</li>
+                            <li>Please check for any applicable fees as Stripe/PayPal can change these at any time for any reason, beyond our control.</li>
+                            <li>
+                                Please remember that donating does not exempt you from obeying the server rules.<br />
+                                Regardless of how much you donate, you will not receive special pardons or privileges for failure to comply.<br />
+                                You are not paying for a service.
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -323,7 +329,7 @@ d
                                     maxlength="3"
                                 />
                                 <span>
-                                    months of <strong id="tier-name">TODO</strong>
+                                    months of <strong id="tier-name">???</strong>
                                 </span>
                             </div>
 
