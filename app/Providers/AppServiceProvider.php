@@ -17,8 +17,8 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
-use Stripe\StripeClient;
 use Schema;
+use Stripe\StripeClient;
 
 final class AppServiceProvider extends ServiceProvider
 {
