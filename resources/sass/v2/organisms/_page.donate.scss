@@ -327,10 +327,6 @@
     }
 
     @media screen and (max-width: $screen-m) {
-        .hero-header {
-            padding: 3em 0;
-        }
-
         .hero-header .container {
             flex-direction: column;
         }
