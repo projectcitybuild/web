@@ -38,7 +38,6 @@ final class DonationController extends WebController
     public function checkout(Request $request, StripeClient $stripeClient)
     {
         $account = $request->user();
-
         if ($account === null) {
             return redirect()->back()->withErrors(['You must be logged-in to make a purchase']);
         }
@@ -60,7 +59,7 @@ final class DonationController extends WebController
         }
 
         if ($isSubscription) {
-            return $request->user()
+            return $account
                 ->newSubscription($donationTier->name, $priceId)
                 ->checkout([
                     'success_url' => route('front.donate.success'),
@@ -69,7 +68,7 @@ final class DonationController extends WebController
         } else {
             $numberOfMonthsToBuy = $request->input('quantity', 1);
 
-            return $request->user()
+            return $account
                 ->checkout([$priceId => $numberOfMonthsToBuy], [
                     'success_url' => route('front.donate.success'),
                     'cancel_url' => route('front.donate'),

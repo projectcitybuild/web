@@ -1,7 +1,6 @@
 @extends('v2.front.templates.master')
 
-@section('title', 'Donate')
-@section('description', "Help keep us online by donating")
+@section('title', 'Donate - Project City Build')
 
 @push('head')
     <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
@@ -16,7 +15,7 @@
 
                     <div class="header-desc">
                         PCB is only able to operate thanks to the continuous support of our community and volunteers.
-                        All proceeds go towards the high running expense of our servers and website - <strong>nothing goes into our pockets</strong>.
+                        All proceeds go towards the high running expense of our servers and websites - <strong>nothing goes into our pockets</strong>.
                         <br /><br />
                         Please consider donating to help keep us online for another year
                     </div>
@@ -28,7 +27,7 @@
                         'percentage'=> $donations['percentage'],
                     ])
 
-                    Annual Goal: $1000
+                    Annual Goal: <strong>$1000</strong>
                 </div>
             </div>
         </header>
@@ -229,7 +228,7 @@
 
                                 No, your perks will remain active until the original expiry date (i.e. a month from the last payment).
                                 <br />
-                                For example, if you started your subscription on August 1st and immediately cancel it, your perks will remain until the midnight of September 1st.
+                                For example, if you started your subscription on August 1st and immediately cancel it, your perks will remain until September 1st.
                             </li>
                             <li>
                                 <h2>What if I Boost the Discord server?</h2>
@@ -263,34 +262,29 @@
 @endsection
 
 @push('end')
-    <div class="modal micromodal-slide" id="modal-login" aria-hidden="true">
+    @guest
+    <div class="modal micromodal-slide" id="modal-payment" aria-hidden="true">
         <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-            <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+            <div class="modal__container" role="dialog" aria-modal="true">
                 <header class="modal__header">
-                    <h2>
-                        Login
-                    </h2>
+                    <h2><i class="fas fa-lock"></i> Please Log-in</h2>
                     <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
                 </header>
                 <main>
                     <section class="modal__section">
-                        <h1><i class="fas fa-history"></i> Subscription</h1>
-                        <div class="modal__section_description">
-                            You must be logged in to make a donation
-                        </div>
+                        You must be <a href="{{ route('front.login') }}">logged in</a> to make a donation.
                     </section>
                 </main>
             </div>
         </div>
     </div>
-
+    @endguest
+    @auth
     <div class="modal micromodal-slide" id="modal-payment" aria-hidden="true">
         <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-            <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+            <div class="modal__container" role="dialog" aria-modal="true">
                 <header class="modal__header">
-                    <h2>
-                        How do you wish to pay?
-                    </h2>
+                    <h2>How do you wish to pay?</h2>
                     <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
                 </header>
                 <main>
@@ -304,7 +298,7 @@
                             @csrf
                             <input type="hidden" id="subscription-price-id" name="price_id"b />
                             <button type="submit" class="button button--filled">
-                                <i class="fas fa-external-link-alt"></i> Proceed
+                                <i class="fas fa-external-link-alt"></i> Purchase
                             </button>
                         </form>
                     </section>
@@ -316,7 +310,7 @@
                         </div>
                         <form action="{{ route('front.donations.checkout') }}" method="POST">
                             @csrf
-
+d
                             <label for="quantity">I would like to purchase</label>
                             <div class="modal__donate_form">
                                 <input
@@ -325,6 +319,8 @@
                                     name="quantity"
                                     type="text"
                                     value="1"
+                                    placeholder="1"
+                                    maxlength="3"
                                 />
                                 <span>
                                     months of <strong id="tier-name">TODO</strong>
@@ -333,7 +329,7 @@
 
                             <input type="hidden" id="one-time-price-id" name="price_id" />
                             <button type="submit" class="button button--filled">
-                                <i class="fas fa-external-link-alt"></i> Proceed
+                                <i class="fas fa-external-link-alt"></i> Purchase
                             </button>
                         </form>
                     </section>
@@ -341,14 +337,17 @@
             </div>
         </div>
     </div>
+    @endauth
 
     <script>
         MicroModal.init();
 
         function openPaymentModal(tierName, subscriptionPriceId, oneTimePriceId) {
+            @auth
             document.getElementById('subscription-price-id').value = subscriptionPriceId
             document.getElementById('one-time-price-id').value = oneTimePriceId
             document.getElementById('tier-name').innerHTML = tierName
+            @endauth
 
             MicroModal.show('modal-payment')
         }
