@@ -29,19 +29,31 @@
                 <table class="table table--first-col-padded table--striped">
                     <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Amount</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($donationPerks as $perk)
+                    @foreach($subscriptions as $subscription)
                         <tr>
-                            @if($perk->donation != null)
-                                <td>{{ $perk->donation->created_at->toFormattedDateString() }}</td>
-                                <td>${{ number_format($perk->donation->amount, 2) }}</td>
-                            @else
-                                <td>Unable to find transaction</td>
-                            @endif
+                            <td>{{ $subscription->name }}</td>
+                            <td>{{ $subscription->stripe_status }}</td>
+                            <td>{{ $subscription->created_at->toFormattedDateString() }}</td>
+                            <td>
+                                @if ($subscription->ends_at === null)
+                                    -
+                                @else
+                                    {{ $subscription->created_at->toFormattedDateString() }}
+                                @endif
+                            </td>
+                            <td>
+                                @if ($subscription->stripe_status === 'active' && $subscription->ends_at === null)
+                                    <a href="#" class="button button--secondary button--filled button--is-small">Cancel</a>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
