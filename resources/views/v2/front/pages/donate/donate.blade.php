@@ -227,7 +227,10 @@
                 <div class="container">
                     <h1>Legal Stuff</h1>
                     <div class="donate-legal__contents">
-                        TODO
+                        <ul>
+                            <li>Please check for any applicable fees as Stripe/PayPal can change these at any time for any reason, beyond PCB’s control.</li>
+                            <li>Please remember that donating does not exempt you from obeying the server rules. You will get no pardons or privileges regardless of how much you have donated as a donation is just that, a donation. You are not paying for a service.</li>
+                        </ul>
                     </div>
                 </div>
             </section>
@@ -244,39 +247,61 @@
         <div class="modal__overlay" tabindex="-1" data-micromodal-close>
             <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
                 <header class="modal__header">
-                    <h2 class="modal__title" id="modal-1-title">
-                        How do you want to pay?
+                    <h2>
+                        How do you wish to pay?
                     </h2>
                     <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
                 </header>
-                <main class="modal__content" id="modal-1-content">
-                    <p>
-                        If you wish to pay once, up-front, please select the number of months of perks would you like.
-
+                <main>
+                    <section class="modal__section">
+                        <h1><i class="fas fa-history"></i> Subscription</h1>
+                        <div class="modal__section_description">
+                            A subscription allows you to automatically pay once a month (cancellable at anytime).
+                            We recommend this method of payment if you wish to continuously support us without your perks expiring
+                        </div>
                         <form action="{{ route('front.donations.checkout') }}" method="POST">
                             @csrf
-                            <input type="hidden" name="price_id" value="price_1JJL5mAtUyfM4v5IJNHp1Tk2" />
+                            <input type="hidden" name="price_id" value="price_1JJL5mAtUyfM4v5ISwJrrVur" />
                             <input type="hidden" name="product_id" value="prod_JxFaAltmFPewxs" />
                             <input type="hidden" name="quantity" value="1" />
-                            <input type="hidden" name="is_subscription" value="0" />
-                            <button type="submit" class="modal__btn modal__btn-primary">Buy</button>
+                            <input type="hidden" name="is_subscription" value="1" />
+                            <button type="submit" class="button button--filled">
+                                <i class="fas fa-external-link-alt"></i> Proceed
+                            </button>
                         </form>
-                    </p>
-                    <p>
-                        A subscription allows you to automatically pay once a month (cancellable at anytime). We recommend this
-                        method of payment if you wish to continuously support us
-                    </p>
+                    </section>
+                    <section class="modal__section">
+                        <h1><i class="fas fa-dollar-sign"></i> One-Time</h1>
+                        <div class="modal__section_description">
+                            If you wish to pay just once, up-front, please select the number of months of perks you would like.
+                            Your perks will expire after the given number of months have elapsed (can be extended at any time)
+                        </div>
+                        <form action="{{ route('front.donations.checkout') }}" method="POST">
+                            @csrf
+
+                            <label for="quantity">I would like to purchase</label>
+                            <div class="modal__donate_form">
+                                <input
+                                    class="textfield"
+                                    id="quantity"
+                                    name="quantity"
+                                    type="text"
+                                    value="1"
+                                />
+                                <span>
+                                    months of <strong>TODO</strong>
+                                </span>
+                            </div>
+
+                            <input type="hidden" name="price_id" value="price_1JJL5mAtUyfM4v5IJNHp1Tk2" />
+                            <input type="hidden" name="product_id" value="prod_JxFaAltmFPewxs" />
+                            <input type="hidden" name="is_subscription" value="0" />
+                            <button type="submit" class="button button--filled">
+                                <i class="fas fa-external-link-alt"></i> Proceed
+                            </button>
+                        </form>
+                    </section>
                 </main>
-                <footer class="modal__footer">
-                    <form action="{{ route('front.donations.checkout') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="price_id" value="price_1JJL5mAtUyfM4v5ISwJrrVur" />
-                        <input type="hidden" name="product_id" value="prod_JxFaAltmFPewxs" />
-                        <input type="hidden" name="quantity" value="1" />
-                        <input type="hidden" name="is_subscription" value="1" />
-                        <button type="submit" class="modal__btn modal__btn-primary">Buy Subscription</button>
-                    </form>
-                </footer>
             </div>
         </div>
     </div>
