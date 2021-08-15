@@ -3,6 +3,10 @@
 @section('title', 'Donate')
 @section('description', "Help keep us online by donating")
 
+@push('head')
+    <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+@endpush
+
 @section('body')
     <div class="page donate">
         <header class="hero-header">
@@ -76,7 +80,9 @@
                             </div>
 
                             <div class="donation-tier__footer">
-                                <button class="button button--filled">Purchase</button>
+                                <button class="button button--filled" onclick="openModal('modal-1')">
+                                    Purchase
+                                </button>
                             </div>
                         </div>
 
@@ -185,7 +191,7 @@
 
                     <div class="donate-mystery-box__title">
                         Each box contains either cool loot or currency. Some of the possible loot includes
-                        <strong>animated hats</strong>, <strong>particle effects</strong>, <strong>pets</strong>, <strong>fun gadgets</strong>, <strong>cloaks</strong>, <storng>emotes</storng> and <strong>mob morphs</strong>
+                        <strong>animated hats</strong>, <strong>particle effects</strong>, <strong>pets</strong>, <strong>fun gadgets</strong>, <strong>cloaks</strong>, <strong>emotes</strong> and <strong>mob morphs</strong>
                         from a rotation of items strictly limited to donors.
                         <br /><br />
                         Didn’t get the loot you wanted? Currency can be redeemed to directly buy what you want.
@@ -231,21 +237,55 @@
             @include('v2.front.components.sitemap')
         </footer>
     </div>
-
-{{--    <form action="{{ route('front.donations.checkout') }}" method="POST">--}}
-{{--        @csrf--}}
-{{--        <input type="hidden" name="price_id" value="price_1JJL5mAtUyfM4v5IJNHp1Tk2" />--}}
-{{--        <input type="hidden" name="product_id" value="prod_JxFaAltmFPewxs" />--}}
-{{--        <input type="hidden" name="quantity" value="1" />--}}
-{{--        <input type="hidden" name="is_subscription" value="0" />--}}
-{{--        <button type="submit">One Time</button>--}}
-{{--    </form>--}}
-{{--    <form action="{{ route('front.donations.checkout') }}" method="POST">--}}
-{{--        @csrf--}}
-{{--        <input type="hidden" name="price_id" value="price_1JJL5mAtUyfM4v5ISwJrrVur" />--}}
-{{--        <input type="hidden" name="product_id" value="prod_JxFaAltmFPewxs" />--}}
-{{--        <input type="hidden" name="quantity" value="1" />--}}
-{{--        <input type="hidden" name="is_subscription" value="1" />--}}
-{{--        <button type="submit">Subscription</button>--}}
-{{--    </form>--}}
 @endsection
+
+@push('end')
+    <div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
+        <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+            <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+                <header class="modal__header">
+                    <h2 class="modal__title" id="modal-1-title">
+                        How do you want to pay?
+                    </h2>
+                    <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+                </header>
+                <main class="modal__content" id="modal-1-content">
+                    <p>
+                        If you wish to pay once, up-front, please select the number of months of perks would you like.
+
+                        <form action="{{ route('front.donations.checkout') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="price_id" value="price_1JJL5mAtUyfM4v5IJNHp1Tk2" />
+                            <input type="hidden" name="product_id" value="prod_JxFaAltmFPewxs" />
+                            <input type="hidden" name="quantity" value="1" />
+                            <input type="hidden" name="is_subscription" value="0" />
+                            <button type="submit" class="modal__btn modal__btn-primary">Buy</button>
+                        </form>
+                    </p>
+                    <p>
+                        A subscription allows you to automatically pay once a month (cancellable at anytime). We recommend this
+                        method of payment if you wish to continuously support us
+                    </p>
+                </main>
+                <footer class="modal__footer">
+                    <form action="{{ route('front.donations.checkout') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="price_id" value="price_1JJL5mAtUyfM4v5ISwJrrVur" />
+                        <input type="hidden" name="product_id" value="prod_JxFaAltmFPewxs" />
+                        <input type="hidden" name="quantity" value="1" />
+                        <input type="hidden" name="is_subscription" value="1" />
+                        <button type="submit" class="modal__btn modal__btn-primary">Buy Subscription</button>
+                    </form>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        MicroModal.init();
+
+        function openModal(target) {
+            MicroModal.show(target)
+        }
+    </script>
+@endpush
