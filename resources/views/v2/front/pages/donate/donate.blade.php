@@ -303,8 +303,6 @@
                         <form action="{{ route('front.donations.checkout') }}" method="POST">
                             @csrf
                             <input type="hidden" id="subscription-price-id" name="price_id"b />
-                            <input type="hidden" name="quantity" value="1" />
-                            <input type="hidden" name="is_subscription" value="1" />
                             <button type="submit" class="button button--filled">
                                 <i class="fas fa-external-link-alt"></i> Proceed
                             </button>
@@ -334,7 +332,6 @@
                             </div>
 
                             <input type="hidden" id="one-time-price-id" name="price_id" />
-                            <input type="hidden" name="is_subscription" value="0" />
                             <button type="submit" class="button button--filled">
                                 <i class="fas fa-external-link-alt"></i> Proceed
                             </button>

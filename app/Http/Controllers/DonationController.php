@@ -45,12 +45,10 @@ final class DonationController extends WebController
 
         $request->validate([
             'price_id' => 'required|string',
-            'is_subscription' => 'required',
-            'quantity' => 'required|int|between:1,999',
+            'quantity' => 'int|between:1,999',
         ]);
 
         $priceId = $request->input('price_id');
-        $numberOfMonthsToBuy = $request->input('quantity');
 
         $price = $stripeClient->prices->retrieve($priceId);
         $productId = $price['product'];
@@ -69,6 +67,8 @@ final class DonationController extends WebController
                     'cancel_url' => route('front.donate'),
                 ]);
         } else {
+            $numberOfMonthsToBuy = $request->input('quantity', 1);
+
             return $request->user()
                 ->checkout([$priceId => $numberOfMonthsToBuy], [
                     'success_url' => route('front.donate.success'),
