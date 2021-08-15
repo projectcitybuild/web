@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationTier;
 use App\Http\WebController;
-use Domain\Donations\DonationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
+use Stripe\StripeClient;
 
 final class DonationController extends WebController
 {
@@ -35,33 +35,30 @@ final class DonationController extends WebController
         return view('v2.front.pages.donate.donate-thanks');
     }
 
-    public function checkout(Request $request, DonationService $donationService)
+    public function checkout(Request $request, StripeClient $stripeClient)
     {
-        $validator = Validator::make($request->all(), [
+        $account = $request->user();
+
+        if ($account === null) {
+            return redirect()->back()->withErrors(['You must be logged-in to make a purchase']);
+        }
+
+        $request->validate([
             'price_id' => 'required|string',
-            'product_id' => 'required|string',
             'is_subscription' => 'required',
             'quantity' => 'required|int|between:1,999',
         ]);
-        if ($validator->fails()) {
-            // TODO
-            return redirect()->back();
-        }
 
         $priceId = $request->input('price_id');
-        $productId = $request->input('product_id');
         $numberOfMonthsToBuy = $request->input('quantity');
-        $isSubscription = boolval($request->input('is_subscription'));
+
+        $price = $stripeClient->prices->retrieve($priceId);
+        $productId = $price['product'];
+        $isSubscription = $price['recurring'] !== null;
 
         $donationTier = DonationTier::where('stripe_product_id', $productId)->first();
-
         if ($donationTier === null) {
-            // TODO
-            return redirect()->back();
-        }
-
-        if ($request->user() === null) {
-            // TODO
+            return redirect()->back()->withErrors(['Could not find donation tier. Please contact a staff member if you think this is a mistake']);
         }
 
         if ($isSubscription) {

@@ -10,7 +10,6 @@ use App\Entities\Players\Models\MinecraftPlayer;
 use App\Entities\Servers\Repositories\ServerCategoryRepository;
 use App\Entities\Servers\Repositories\ServerCategoryRepositoryContract;
 use App\Http\Composers\MasterViewComposer;
-use App\Library\Stripe\Stripe;
 use App\View\Components\NavBarComponent;
 use Blade;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -18,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
+use Stripe\StripeClient;
 use Schema;
 
 final class AppServiceProvider extends ServiceProvider
@@ -32,8 +32,8 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->bind(ServerCategoryRepositoryContract::class, function ($app) {
             return new ServerCategoryRepository();
         });
-        $this->app->bind(Stripe::class, function ($app) {
-            return new Stripe(config('services.stripe.secret'));
+        $this->app->bind(StripeClient::class, function ($app) {
+            return new StripeClient(config('services.stripe.secret'));
         });
 
         // Prevent Cashier's vendor migrations running because we override them

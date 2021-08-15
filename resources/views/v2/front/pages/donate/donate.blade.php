@@ -38,6 +38,13 @@
                 <div class="container">
                     <h1>Donation Tiers</h1>
 
+                    @if($errors->any())
+                        <div class="alert alert--error">
+                            <h2><i class="fas fa-exclamation-circle"></i> Error</h2>
+                            {{ $errors->first() }}
+                        </div>
+                    @endif
+
                     <div class="donate-tiers__overview">
                         As a thank you for your support, you'll receive perks based on the amount you donate.<br />
                         Choose the amount that suits you.
@@ -80,7 +87,10 @@
                             </div>
 
                             <div class="donation-tier__footer">
-                                <button class="button button--filled" onclick="openModal('modal-1')">
+                                <button
+                                    class="button button--filled"
+                                    onclick="openPaymentModal('Copper Tier', 'price_1JJL5mAtUyfM4v5ISwJrrVur', 'price_1JJL5mAtUyfM4v5IJNHp1Tk2')"
+                                >
                                     Purchase
                                 </button>
                             </div>
@@ -127,7 +137,12 @@
                             </div>
 
                             <div class="donation-tier__footer">
-                                <button class="button button--filled">Purchase</button>
+                                <button
+                                    class="button button--filled"
+                                    onclick="openPaymentModal('Iron Tier', 'price_1JJL63AtUyfM4v5ILyrs2uxw', 'price_1JJL63AtUyfM4v5IoVomtPRZ')"
+                                >
+                                    Purchase
+                                </button>
                             </div>
                         </div>
 
@@ -172,7 +187,12 @@
                             </div>
 
                             <div class="donation-tier__footer">
-                                <button class="button button--filled">Purchase</button>
+                                <button
+                                    class="button button--filled"
+                                    onclick="openPaymentModal('Diamond Tier', 'price_1JJL6RAtUyfM4v5Ih3kg7UDM', 'price_1JJL6RAtUyfM4v5IP77eRPER')"
+                                >
+                                    Purchase
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -243,7 +263,28 @@
 @endsection
 
 @push('end')
-    <div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
+    <div class="modal micromodal-slide" id="modal-login" aria-hidden="true">
+        <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+            <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+                <header class="modal__header">
+                    <h2>
+                        Login
+                    </h2>
+                    <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+                </header>
+                <main>
+                    <section class="modal__section">
+                        <h1><i class="fas fa-history"></i> Subscription</h1>
+                        <div class="modal__section_description">
+                            You must be logged in to make a donation
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal micromodal-slide" id="modal-payment" aria-hidden="true">
         <div class="modal__overlay" tabindex="-1" data-micromodal-close>
             <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
                 <header class="modal__header">
@@ -261,8 +302,7 @@
                         </div>
                         <form action="{{ route('front.donations.checkout') }}" method="POST">
                             @csrf
-                            <input type="hidden" name="price_id" value="price_1JJL5mAtUyfM4v5ISwJrrVur" />
-                            <input type="hidden" name="product_id" value="prod_JxFaAltmFPewxs" />
+                            <input type="hidden" id="subscription-price-id" name="price_id"b />
                             <input type="hidden" name="quantity" value="1" />
                             <input type="hidden" name="is_subscription" value="1" />
                             <button type="submit" class="button button--filled">
@@ -289,12 +329,11 @@
                                     value="1"
                                 />
                                 <span>
-                                    months of <strong>TODO</strong>
+                                    months of <strong id="tier-name">TODO</strong>
                                 </span>
                             </div>
 
-                            <input type="hidden" name="price_id" value="price_1JJL5mAtUyfM4v5IJNHp1Tk2" />
-                            <input type="hidden" name="product_id" value="prod_JxFaAltmFPewxs" />
+                            <input type="hidden" id="one-time-price-id" name="price_id" />
                             <input type="hidden" name="is_subscription" value="0" />
                             <button type="submit" class="button button--filled">
                                 <i class="fas fa-external-link-alt"></i> Proceed
@@ -309,8 +348,12 @@
     <script>
         MicroModal.init();
 
-        function openModal(target) {
-            MicroModal.show(target)
+        function openPaymentModal(tierName, subscriptionPriceId, oneTimePriceId) {
+            document.getElementById('subscription-price-id').value = subscriptionPriceId
+            document.getElementById('one-time-price-id').value = oneTimePriceId
+            document.getElementById('tier-name').innerHTML = tierName
+
+            MicroModal.show('modal-payment')
         }
     </script>
 @endpush
