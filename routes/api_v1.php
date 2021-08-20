@@ -23,14 +23,14 @@ Route::prefix('bans')->group(function () {
 });
 
 Route::prefix('auth')->group(function () {
-    Route::post('minecraft', [
-        'as' => 'auth.minecraft.store',
-        'uses' => 'MinecraftAuthTokenController@store',
-    ]);
-    Route::get('minecraft/{minecraftUUID}', [
-        'as' => 'auth.minecraft.show',
-        'uses' => 'MinecraftAuthTokenController@show',
-    ]);
+    Route::post('minecraft', 'MinecraftAuthTokenController@store');
+    Route::get('minecraft/{minecraftUUID}', 'MinecraftAuthTokenController@show');
+});
+
+Route::prefix('minecraft')->group(function () {
+    Route::get('player/{minecraftUUID}/donation-tiers', 'MinecraftDonorController@showDonationTiers');
+    Route::get('player/{minecraftUUID}/boxes', 'MinecraftDonorController@showAvailableBoxes');
+    Route::post('player/{minecraftUUID}/boxes/redeem', 'MinecraftDonorController@redeemBoxes');
 });
 
 Route::prefix('groups')->group(function () {

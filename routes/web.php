@@ -207,10 +207,10 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Set
         ]);
     });
 
-    Route::prefix('subscriptions')->group(function () {
+    Route::prefix('billing')->group(function () {
         Route::get('/', [
-            'as' => 'front.account.subscriptions',
-            'uses' => 'AccountSubscriptionController@index',
+            'as' => 'front.account.billing',
+            'uses' => 'AccountBillingController@index',
         ]);
     });
 

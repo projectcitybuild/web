@@ -46,7 +46,7 @@
 
             <div class="settings__section">
                 <h2 class="settings__section-heading">Your Perks</h2>
-                <p class="settings__description">Note: Subscriptions will auto-renew their associated perk after the expiry date</p>
+                <p class="settings__description">Note: Subscriptions will auto-renew their associated perk prior to its expiry date</p>
             </div>
 
             @if($donationPerks->count() == 0)
@@ -58,7 +58,7 @@
                 <table class="table table--first-col-padded table--striped">
                     <thead>
                     <tr>
-                        <th>Donation Tier</th>
+                        <th>Perk</th>
                         <th>Status</th>
                         <th>Start Date</th>
                         <th>Expiry Date</th>
@@ -74,7 +74,7 @@
                                     -
                                 @endif
                             </td>
-                            <td>{{ $perk->is_active ? 'Active' : 'Expired' }}</td>
+                            <td>{{ $perk->isActive() ? 'Active' : 'Expired' }}</td>
                             <td>{{ $perk->donation->created_at->toFormattedDateString() }}</td>
                             <td>{{ $perk->expires_at->toFormattedDateString() }}</td>
                         </tr>

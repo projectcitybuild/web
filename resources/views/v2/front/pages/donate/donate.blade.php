@@ -213,7 +213,7 @@
                         <strong>animated hats</strong>, <strong>particle effects</strong>, <strong>pets</strong>, <strong>fun gadgets</strong>, <strong>cloaks</strong>, <strong>emotes</strong> and <strong>mob morphs</strong>
                         from a rotation of items strictly limited to donors.
                         <br /><br />
-                        Didn’t get the loot you wanted? Currency can be redeemed to directly buy what you want.
+                        Didn’t get the loot you wanted? Use the in-game currency to craft more boxes for another chance!
                     </div>
                 </div>
             </section>
