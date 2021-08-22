@@ -3,7 +3,6 @@
 namespace App\View\Components;
 
 use App\Entities\Donations\Models\Donation;
-use Auth;
 use Illuminate\View\Component;
 
 class DonationBarComponent extends Component
@@ -24,7 +23,7 @@ class DonationBarComponent extends Component
         return view('v2.front.components.donation-bar', [
             'current' => $totalDonationsThisYear,
             'percentage' => max(1, $percentage),
-            'indicators' => [0, 250, 500, 750, 1000]
+            'indicators' => [0, 250, 500, 750, 1000],
         ]);
     }
 }
