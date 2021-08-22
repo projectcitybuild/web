@@ -53,6 +53,17 @@ final class StripeWebhookController extends CashierController
         $priceId = $priceData['id'];
         $isSubscriptionPayment = $priceData['type'] === 'recurring';
 
+        if ($isSubscriptionPayment) {
+            // Subscription payments are handled by handleInvoicePaid
+            // (`invoice.paid` event)
+            return;
+        }
+
+        $donationTierId = $priceData['metadata']['donation_tier_id'];
+        if ($donationTierId === null) {
+            throw new \Exception('No donation_tier_id defined in Stripe metadata for this Price');
+        }
+
         // Sanity checks
         if ($amountPaidInCents <= 0) {
             throw new \Exception('Amount paid was zero');
@@ -60,8 +71,6 @@ final class StripeWebhookController extends CashierController
         if ($quantity <= 0) {
             throw new \Exception('Quantity purchased was zero');
         }
-
-        dd($payload);
 
         $this->donationService->processPayment(
             $account,
@@ -104,6 +113,11 @@ final class StripeWebhookController extends CashierController
         $priceId = $priceData['id'];
         $isSubscriptionPayment = $priceData['type'] === 'recurring';
 
+        $donationTierId = $priceData['metadata']['donation_tier_id'];
+        if ($donationTierId === null) {
+            throw new \Exception('No donation_tier_id defined in Stripe metadata for this Price');
+        }
+
         // Sanity checks
         if ($amountPaidInCents <= 0) {
             throw new \Exception('Amount paid was zero');
@@ -116,6 +130,7 @@ final class StripeWebhookController extends CashierController
             $account,
             $productId,
             $priceId,
+            $donationTierId,
             $amountPaidInCents,
             $quantity,
             $isSubscriptionPayment

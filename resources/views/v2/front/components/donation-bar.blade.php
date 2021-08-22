@@ -5,10 +5,8 @@
         </div>
     </div>
     <ul class="donation-bar__indicators">
-        <li>$0</li>
-        <li>$250</li>
-        <li>$500</li>
-        <li>$750</li>
-        <li>$1000</li>
+        @foreach ($indicators as $indicator)
+        <li>${{ $indicator }}</li>
+        @endforeach
     </ul>
 </div>

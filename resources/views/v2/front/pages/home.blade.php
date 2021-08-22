@@ -191,10 +191,7 @@ One of the world's longest-running Minecraft servers; we're a community of creat
                     </div>
 
                     <div class="footer-donations__right">
-                        @include('v2.front.components.donation-bar', [
-                            'current' => $donations['raised_this_year'],
-                            'percentage'=> $donations['percentage'],
-                        ])
+                        <x-donation-bar />
 
                         <div class="spacer"></div>
 

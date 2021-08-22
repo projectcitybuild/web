@@ -10,6 +10,7 @@ use App\Entities\Players\Models\MinecraftPlayer;
 use App\Entities\Servers\Repositories\ServerCategoryRepository;
 use App\Entities\Servers\Repositories\ServerCategoryRepositoryContract;
 use App\Http\Composers\MasterViewComposer;
+use App\View\Components\DonationBarComponent;
 use App\View\Components\NavBarComponent;
 use Blade;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -59,6 +60,7 @@ final class AppServiceProvider extends ServiceProvider
         ]);
 
         Blade::component('navbar', NavBarComponent::class);
+        Blade::component('donation-bar', DonationBarComponent::class);
 
         // Bind the master view composer to the master view template
         View::composer('front.layouts.master', MasterViewComposer::class);

@@ -22,12 +22,9 @@
                 </div>
 
                 <div class="hero-header__right">
-                    @include('v2.front.components.donation-bar', [
-                        'current' => $donations['raised_this_year'],
-                        'percentage'=> $donations['percentage'],
-                    ])
+                    <x-donation-bar />
 
-                    Annual Goal: <strong>$1000</strong>
+                    Annual Goal: <strong>${{ $target_funding }}</strong>
                 </div>
             </div>
         </header>
@@ -312,11 +309,11 @@
                         <h1><i class="fas fa-dollar-sign"></i> One-Time</h1>
                         <div class="modal__section_description">
                             If you wish to pay just once, up-front, please enter the number of months of perks you would like.
-                            Your perks will expire after the given number of months have elapsed (can be extended at any time)
+                            Your perks will expire after the given number of months have elapsed (can be extended after it expires)
                         </div>
                         <form action="{{ route('front.donations.checkout') }}" method="POST">
                             @csrf
-d
+
                             <label for="quantity">I would like to purchase</label>
                             <div class="modal__donate_form">
                                 <input

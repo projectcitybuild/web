@@ -2,12 +2,11 @@
 
 namespace Domain\Donations;
 
+use App\Entities\Accounts\Models\Account;
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationPerk;
-use App\Entities\Donations\Models\DonationTier;
 use App\Entities\Payments\Models\Payment;
 use Illuminate\Support\Facades\DB;
-use Laravel\Cashier\Billable;
 
 final class DonationService
 {
@@ -19,7 +18,7 @@ final class DonationService
     }
 
     public function processPayment(
-        Billable $account,
+        Account $account,
         string $productId,
         string $priceId,
         int $donationTierId,
@@ -37,7 +36,7 @@ final class DonationService
         ]);
 
         $existingPerk = DonationPerk::where('account_id', $account->getKey())
-            ->where('stripe_product_id', $productId)
+            ->where('donation_tier_id', $donationTierId)
             ->where('is_active', true)
             ->first();
 
@@ -49,25 +48,26 @@ final class DonationService
                 'amount' => $amountPaidInDollars,
             ]);
 
+            $expiryDate = null;
             if ($existingPerk === null) {
-                DonationPerk::create([
-                    'donation_id' => $donation->getKey(),
-                    'donation_tier_id' => $donationTierId,
-                    'account_id' => $account->getKey(),
-                    'is_active' => true,
-                    'expires_at' => now()->addMonths($quantity),
-                ]);
+                $expiryDate = now()->addMonths($quantity);
             } else {
+                // Just in case the payment was really delayed
                 $extendedFromExpiry = $existingPerk->expires_at->addMonths($quantity);
                 $extendedFromNow = now()->addMonths($quantity);
 
-                // Just in case the payment was greatly delayed
-                $existingPerk->expires_at = ($extendedFromExpiry->gt($extendedFromNow))
+                $expiryDate = ($extendedFromExpiry->gt($extendedFromNow))
                     ? $extendedFromExpiry
                     : $extendedFromNow;
-
-                $existingPerk->save();
             }
+
+            DonationPerk::create([
+                'donation_id' => $donation->getKey(),
+                'donation_tier_id' => $donationTierId,
+                'account_id' => $account->getKey(),
+                'is_active' => true,
+                'expires_at' => $expiryDate,
+            ]);
 
             $this->groupSyncService->addToDonorGroup($account);
 

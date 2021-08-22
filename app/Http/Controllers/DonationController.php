@@ -13,19 +13,8 @@ final class DonationController extends WebController
 {
     public function index()
     {
-        // TODO: combine with HomeController
-        $requiredAmount = 1000;
-
-        $now = Carbon::now();
-        $thisYear = $now->year;
-        $totalDonationsThisYear = Donation::whereYear('created_at', $thisYear)->sum('amount');
-        $percentage = round($totalDonationsThisYear / $requiredAmount * 100);
-
         return view('v2.front.pages.donate.donate', [
-            'donations' => [
-                'raised_this_year' => $totalDonationsThisYear ?: 0,
-                'percentage' => max(1, $percentage) ?: 0,
-            ],
+            'target_funding' => config('donations.target_funding'),
         ]);
     }
 
@@ -49,10 +38,9 @@ final class DonationController extends WebController
         $priceId = $request->input('price_id');
 
         $price = $stripeClient->prices->retrieve($priceId);
-        $productId = $price['product'];
         $isSubscription = $price['recurring'] !== null;
-        $donationTierId = $price['metadata']['donation_tier_id'];
 
+        $donationTierId = $price['metadata']['donation_tier_id'];
         if ($donationTierId === null) {
             throw new \Exception('No donation_tier_id defined in Stripe metadata for this Price');
         }
