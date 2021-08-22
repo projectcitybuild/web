@@ -38,6 +38,11 @@ $collapse-dimension: 1024px;
         display: flex;
         align-items: center;
 
+        a {
+            // Fixes image not being vertically-centered
+            line-height: 0;
+        }
+
         img {
             margin-right: 11px;
             width: 186px;
