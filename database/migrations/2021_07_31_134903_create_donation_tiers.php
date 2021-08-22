@@ -16,9 +16,6 @@ class CreateDonationTiers extends Migration
         Schema::create('donation_tiers', function (Blueprint $table) {
             $table->increments('donation_tier_id');
             $table->string('name');
-            $table->integer('min_donation_amount');
-            $table->string('stripe_payment_price_id');
-            $table->string('stripe_subscription_price_id');
         });
 
         Schema::table('donation_perks', function (Blueprint $table) {

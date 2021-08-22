@@ -22,6 +22,7 @@ final class DonationService
         Billable $account,
         string $productId,
         string $priceId,
+        int $donationTierId,
         int $amountPaidInCents,
         int $quantity,
         bool $isSubscription
@@ -34,11 +35,6 @@ final class DonationService
             'quantity' => $quantity,
             'is_subscription_payment' => $isSubscription,
         ]);
-
-        $donationTier = DonationTier::where('stripe_product_id', $productId)->first();
-        if ($donationTier === null) {
-            throw new \Exception('No donation tier found for product id: '.$productId);
-        }
 
         $existingPerk = DonationPerk::where('account_id', $account->getKey())
             ->where('stripe_product_id', $productId)
@@ -56,7 +52,7 @@ final class DonationService
             if ($existingPerk === null) {
                 DonationPerk::create([
                     'donation_id' => $donation->getKey(),
-                    'donation_tier_id' => $donationTier->getKey(),
+                    'donation_tier_id' => $donationTierId,
                     'account_id' => $account->getKey(),
                     'is_active' => true,
                     'expires_at' => now()->addMonths($quantity),

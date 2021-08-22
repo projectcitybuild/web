@@ -22,9 +22,6 @@ final class DonationTier extends Model
      */
     protected $fillable = [
         'name',
-        'min_donation_amount',
-        'stripe_payment_price_id',
-        'stripe_subscription_price_id',
     ];
 
     /**

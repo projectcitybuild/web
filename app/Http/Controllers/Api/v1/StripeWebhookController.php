@@ -61,10 +61,13 @@ final class StripeWebhookController extends CashierController
             throw new \Exception('Quantity purchased was zero');
         }
 
+        dd($payload);
+
         $this->donationService->processPayment(
             $account,
             $productId,
             $priceId,
+            $donationTierId,
             $amountPaidInCents,
             $quantity,
             $isSubscriptionPayment

@@ -51,10 +51,15 @@ final class DonationController extends WebController
         $price = $stripeClient->prices->retrieve($priceId);
         $productId = $price['product'];
         $isSubscription = $price['recurring'] !== null;
+        $donationTierId = $price['metadata']['donation_tier_id'];
 
-        $donationTier = DonationTier::where('stripe_product_id', $productId)->first();
+        if ($donationTierId === null) {
+            throw new \Exception('No donation_tier_id defined in Stripe metadata for this Price');
+        }
+
+        $donationTier = DonationTier::find($donationTierId);
         if ($donationTier === null) {
-            return redirect()->back()->withErrors(['Could not find donation tier. Please contact a staff member if you think this is a mistake']);
+            throw new \Exception('No Donation Tier found for given id');
         }
 
         if ($isSubscription) {
