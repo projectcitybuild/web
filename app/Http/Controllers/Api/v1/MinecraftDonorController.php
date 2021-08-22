@@ -8,7 +8,6 @@ use App\Http\ApiController;
 use App\Http\Controllers\Api\v1\Resources\DonationPerkResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
 
 /**
  * Low-quality code ahead. Sorry...
@@ -80,7 +79,7 @@ final class MinecraftDonorController extends ApiController
             ->toArray();
 
         $perksWithUnredeemedBoxes = $perks
-            ->filter(fn ($perk, $_) => !in_array($perk->donation_perks_id, $perksWithRedeemedBoxes));
+            ->filter(fn ($perk, $_) => ! in_array($perk->donation_perks_id, $perksWithRedeemedBoxes));
 
         if (count($perksWithUnredeemedBoxes) === 0) {
             return [
@@ -127,7 +126,7 @@ final class MinecraftDonorController extends ApiController
             ->toArray();
 
         $perksWithUnredeemedBoxes = $perks
-            ->filter(fn ($perk, $_) => !in_array($perk->donation_perks_id, $perksWithRedeemedBoxes));
+            ->filter(fn ($perk, $_) => ! in_array($perk->donation_perks_id, $perksWithRedeemedBoxes));
 
         foreach ($perksWithUnredeemedBoxes as $perk) {
             MinecraftRedeemedLootBox::create([

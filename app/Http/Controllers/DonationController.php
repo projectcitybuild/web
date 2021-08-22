@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationTier;
 use App\Http\WebController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Stripe\StripeClient;
 
 final class DonationController extends WebController
