@@ -4,7 +4,6 @@ namespace Domain\Donations;
 
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationPerk;
-use App\Entities\Donations\Models\DonationTier;
 use App\Entities\Payments\Models\Payment;
 use Illuminate\Support\Facades\DB;
 use Laravel\Cashier\Billable;
