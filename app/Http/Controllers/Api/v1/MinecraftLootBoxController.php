@@ -56,7 +56,7 @@ final class MinecraftLootBoxController extends ApiController
 
     public function showAvailable(Request $request, string $uuid)
     {
-        list($unredeemedBoxes, $_) = $this->getUnredeemedBoxesForUUID($uuid);
+        [$unredeemedBoxes, $_] = $this->getUnredeemedBoxesForUUID($uuid);
 
         if (count($unredeemedBoxes) === 0) {
             return [
@@ -65,12 +65,13 @@ final class MinecraftLootBoxController extends ApiController
                 ],
             ];
         }
+
         return MinecraftLootBoxResource::collection($unredeemedBoxes);
     }
 
     public function redeem(Request $request, $uuid)
     {
-        list($unredeemedBoxes, $account) = $this->getUnredeemedBoxesForUUID($uuid);
+        [$unredeemedBoxes, $account] = $this->getUnredeemedBoxesForUUID($uuid);
 
         foreach ($unredeemedBoxes as $box) {
             MinecraftRedeemedLootBox::create([
@@ -87,6 +88,7 @@ final class MinecraftLootBoxController extends ApiController
                 ],
             ];
         }
+
         return [
             'data' => [
                 'redeemed_boxes' => MinecraftLootBoxResource::collection($unredeemedBoxes),
