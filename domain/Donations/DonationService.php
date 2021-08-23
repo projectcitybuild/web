@@ -70,6 +70,7 @@ final class DonationService
             ]);
 
             if (! env('IS_E2E_TEST', false)) {
+                // Too hard to reliable call this in E2E testing with our current set up
                 $this->groupSyncService->addToDonorGroup($account);
             }
 

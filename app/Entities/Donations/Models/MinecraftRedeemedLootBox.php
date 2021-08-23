@@ -3,6 +3,7 @@
 namespace App\Entities\Donations\Models;
 
 use App\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class MinecraftRedeemedLootBox extends Model
 {
@@ -22,7 +23,7 @@ final class MinecraftRedeemedLootBox extends Model
      */
     protected $fillable = [
         'account_id',
-        'donation_perks_id',
+        'minecraft_loot_box_id',
         'created_at',
     ];
 
@@ -36,4 +37,9 @@ final class MinecraftRedeemedLootBox extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function lootBox(): BelongsTo
+    {
+        return $this->belongsTo(MinecraftLootBox::class, 'minecraft_loot_box_id', 'minecraft_loot_box_id');
+    }
 }
