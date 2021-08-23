@@ -71,7 +71,7 @@ jobs:
         env:
           DB_CONNECTION: mysql
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
-        run: php artisan test --testsuite=E2E --coverage-clover tests/coverage/clover.xml --parallel --recreate-databases
+        run: php artisan test --parallel --recreate-databases --coverage-clover tests/coverage/clover.xml --testsuite=E2E
 
       - name: Upload coverage
         run: curl -s https://codecov.io/bash | bash -f
