@@ -64,9 +64,6 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
         run: php artisan migrate
 
-      - name: Larastan
-        run: ./vendor/bin/phpstan analyse --memory-limit=1G
-
       - name: PHPUnit
         env:
           DB_CONNECTION: mysql
