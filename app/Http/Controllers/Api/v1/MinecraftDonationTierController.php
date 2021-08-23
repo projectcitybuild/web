@@ -8,9 +8,6 @@ use App\Http\ApiController;
 use App\Http\Controllers\Api\v1\Resources\DonationPerkResource;
 use Illuminate\Http\Request;
 
-/**
- * Low-quality code ahead. Sorry...
- */
 final class MinecraftDonationTierController extends ApiController
 {
     public function show(Request $request, string $uuid)
