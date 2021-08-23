@@ -36,8 +36,6 @@ final class MinecraftDonationTierController extends ApiController
             return ['data' => null]; // No donation perks for this account
         }
 
-        return [
-            'data' => DonationPerkResource::collection($perks),
-        ];
+        return DonationPerkResource::collection($perks);
     }
 }
