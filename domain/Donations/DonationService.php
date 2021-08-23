@@ -69,7 +69,9 @@ final class DonationService
                 'expires_at' => $expiryDate,
             ]);
 
-            $this->groupSyncService->addToDonorGroup($account);
+            if (! env('IS_E2E_TEST', false)) {
+                $this->groupSyncService->addToDonorGroup($account);
+            }
 
             DB::commit();
         } catch (\Exception $e) {

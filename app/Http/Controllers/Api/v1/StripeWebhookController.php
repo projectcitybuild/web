@@ -32,9 +32,7 @@ final class StripeWebhookController extends CashierController
         $account = $this->getUserByStripeId($customerId);
 
         if ($account === null) {
-            Log::warning('Could not find user matching customer id: '.$customerId);
-
-            return $this->successMethod();
+            throw new \Exception('Could not find user matching customer id: '.$customerId);
         }
 
         // `checkout_complete` events don't give us Line item data by default, so we need
@@ -98,9 +96,7 @@ final class StripeWebhookController extends CashierController
         $account = $this->getUserByStripeId($customerId);
 
         if ($account === null) {
-            Log::warning('Could not find user matching customer id: '.$customerId);
-
-            return $this->successMethod();
+            throw new \Exception('Could not find user matching customer id: '.$customerId);
         }
 
         $object = $payload['data']['object'];
