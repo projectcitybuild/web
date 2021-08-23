@@ -27,6 +27,7 @@ Route::redirect('wiki', 'https://wiki.projectcitybuild.com')->name('wiki');
 Route::redirect('maps', 'https://maps.pcbmc.co')->name('maps');
 Route::redirect('3d-maps', 'https://3d.pcbmc.co')->name('3d-maps');
 Route::redirect('rankup', 'https://forums.projectcitybuild.com/w/rank-up-application')->name('rankup');
+Route::redirect('report', 'https://forums.projectcitybuild.com/w/player-report')->name('report');
 
 /**
  * Style guide.

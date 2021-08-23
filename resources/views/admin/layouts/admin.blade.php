@@ -49,6 +49,11 @@
 
                     @yield("toolbar")
                 </div>
+                @if(Session::has('message'))
+                    <div class="alert alert-{{ Session::get('message_type', 'danger') }}">
+                        {{ Session::get('message') }}
+                    </div>
+                @endif
 
                 @yield("body")
             </main>
