@@ -3,6 +3,7 @@
 namespace App\Entities\Donations\Models;
 
 use App\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 final class DonationTier extends Model
 {
@@ -30,4 +31,9 @@ final class DonationTier extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function minecraftLootBoxes(): HasMany
+    {
+        return $this->hasMany(MinecraftLootBox::class, 'donation_tier_id', 'donation_tier_id');
+    }
 }

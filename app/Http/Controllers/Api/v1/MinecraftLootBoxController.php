@@ -4,107 +4,92 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Entities\Donations\Models\MinecraftRedeemedLootBox;
 use App\Entities\Players\Models\MinecraftPlayer;
+use App\Exceptions\Http\NotFoundException;
 use App\Http\ApiController;
-use App\Http\Controllers\Api\v1\Resources\DonationPerkResource;
+use App\Http\Controllers\Api\v1\Resources\MinecraftLootBoxResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
 final class MinecraftLootBoxController extends ApiController
 {
-    public function showAvailableBoxes(Request $request, string $uuid)
+    private function getUnredeemedBoxesForUUID(string $uuid): array
     {
         $uuid = str_replace('-', '', $uuid);
 
         $existingPlayer = MinecraftPlayer::where('uuid', $uuid)
-            ->with('account.donationPerks.donationTier')
+            ->with('account.donationPerks.donationTier.minecraftLootBoxes')
             ->first();
 
         if ($existingPlayer === null) {
-            return ['data' => null]; // Player has never been on our server or never synced
+            throw new NotFoundException('player_not_found', 'Minecraft player not found for given UUID');
         }
 
         $account = $existingPlayer->account;
         if ($account === null) {
-            return ['data' => null]; // No account linked to Minecraft player
+            throw new NotFoundException('player_not_linked', 'Minecraft player not linked to an account');
         }
 
-        $perks = $account->donationPerks
+        $lootBoxes = $account->donationPerks
             ->where('is_active', true)
             ->where('expires_at', '<', now())
-            ->unique('donation_tier_id');
+            ->unique('donation_tier_id')
+            ->filter(fn ($perk) => $perk->donationTier !== null)
+            ->flatMap(fn ($perk) => $perk->donationTier->minecraftLootBoxes)
+            ->filter(fn ($lootBox) => $lootBox->is_active);
 
-        if ($perks === null || count($perks) === 0) {
-            return ['data' => null]; // No donation perks for this account
+        if ($lootBoxes === null || count($lootBoxes) === 0) {
+            return ['data' => []];
         }
 
-        $perksWithRedeemedBoxes = MinecraftRedeemedLootBox::where('account_id', $account->getKey())
-            ->whereIn('donation_perks_id', $perks->pluck('donation_perks_id')->toArray())
+        $redeemedBoxes = MinecraftRedeemedLootBox::where('account_id', $account->getKey())
+            ->whereIn('minecraft_loot_box_id', $lootBoxes->pluck('minecraft_loot_box_id')->toArray())
             ->whereDate('created_at', Carbon::today())
             ->get()
-            ->pluck('donation_perks_id')
+            ->pluck('minecraft_loot_box_id')
             ->toArray();
 
-        $perksWithUnredeemedBoxes = $perks
-            ->filter(fn ($perk, $_) => ! in_array($perk->donation_perks_id, $perksWithRedeemedBoxes));
+        return [
+            $lootBoxes->filter(fn ($box) => ! in_array($box->getKey(), $redeemedBoxes)),
+            $account,
+        ];
+    }
 
-        if (count($perksWithUnredeemedBoxes) === 0) {
+    public function showAvailable(Request $request, string $uuid)
+    {
+        list($unredeemedBoxes, $_) = $this->getUnredeemedBoxesForUUID($uuid);
+
+        if (count($unredeemedBoxes) === 0) {
             return [
                 'data' => [
                     'seconds_until_redeemable' => Carbon::tomorrow()->diffInSeconds(),
                 ],
             ];
         }
-
-        return DonationPerkResource::collection($perksWithUnredeemedBoxes);
+        return MinecraftLootBoxResource::collection($unredeemedBoxes);
     }
 
-    public function redeemBoxes(Request $request, $uuid)
+    public function redeem(Request $request, $uuid)
     {
-        $uuid = str_replace('-', '', $uuid);
+        list($unredeemedBoxes, $account) = $this->getUnredeemedBoxesForUUID($uuid);
 
-        $existingPlayer = MinecraftPlayer::where('uuid', $uuid)
-            ->with('account.donationPerks.donationTier')
-            ->first();
-
-        if ($existingPlayer === null) {
-            return ['data' => null]; // Player has never been on our server or never synced
-        }
-
-        $account = $existingPlayer->account;
-        if ($account === null) {
-            return ['data' => null]; // No account linked to Minecraft player
-        }
-
-        $perks = $account->donationPerks
-            ->where('is_active', true)
-            ->where('expires_at', '<', now())
-            ->unique('donation_tier_id');
-
-        if ($perks === null || count($perks) === 0) {
-            return ['data' => null]; // No donation perks for this account
-        }
-
-        $perksWithRedeemedBoxes = MinecraftRedeemedLootBox::where('account_id', $account->getKey())
-            ->whereIn('donation_perks_id', $perks->pluck('donation_perks_id')->toArray())
-            ->whereDate('created_at', Carbon::today())
-            ->get()
-            ->pluck('donation_perks_id')
-            ->toArray();
-
-        $perksWithUnredeemedBoxes = $perks
-            ->filter(fn ($perk, $_) => ! in_array($perk->donation_perks_id, $perksWithRedeemedBoxes));
-
-        foreach ($perksWithUnredeemedBoxes as $perk) {
+        foreach ($unredeemedBoxes as $box) {
             MinecraftRedeemedLootBox::create([
                 'account_id' => $account->getKey(),
-                'donation_perks_id' => $perk->getKey(),
+                'minecraft_loot_box_id' => $box->getKey(),
                 'created_at' => now(),
             ]);
         }
 
+        if (count($unredeemedBoxes) === 0) {
+            return [
+                'data' => [
+                    'seconds_until_redeemable' => Carbon::tomorrow()->diffInSeconds(),
+                ],
+            ];
+        }
         return [
             'data' => [
-                'perks_redeemed' => count($perksWithUnredeemedBoxes),
+                'redeemed_boxes' => MinecraftLootBoxResource::collection($unredeemedBoxes),
             ],
         ];
     }

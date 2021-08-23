@@ -27,10 +27,11 @@ Route::prefix('auth')->group(function () {
     Route::get('minecraft/{minecraftUUID}', 'MinecraftAuthTokenController@show');
 });
 
-Route::prefix('minecraft')->group(function () {
-    Route::get('player/{minecraftUUID}/donation-tiers', 'MinecraftDonorController@showDonationTiers');
-    Route::get('player/{minecraftUUID}/boxes', 'MinecraftDonorController@showAvailableBoxes');
-    Route::post('player/{minecraftUUID}/boxes/redeem', 'MinecraftDonorController@redeemBoxes');
+Route::prefix('minecraft/{minecraftUUID}')->group(function () {
+    Route::get('donation-tiers', 'MinecraftDonationTierController@show');
+
+    Route::get('boxes', 'MinecraftLootBoxController@showAvailable');
+    Route::post('boxes/redeem', 'MinecraftLootBoxController@redeem');
 });
 
 Route::prefix('groups')->group(function () {
