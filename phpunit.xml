@@ -18,6 +18,10 @@
     <testsuite name="E2E">
         <directory suffix="Test.php">./tests/E2E</directory>
     </testsuite>
+    <testsuite name="UnitAndFeature">
+        <directory suffix="Test.php">./tests/Unit</directory>
+        <directory suffix="Test.php">./tests/Feature</directory>
+    </testsuite>
   </testsuites>
   <php>
     <server name="APP_ENV" value="testing"/>
