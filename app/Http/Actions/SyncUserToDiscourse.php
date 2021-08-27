@@ -3,6 +3,7 @@
 namespace App\Http\Actions;
 
 use App\Entities\Accounts\Models\Account;
+use App\Entities\Environment;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Library\Discourse\Entities\DiscoursePayload;
 

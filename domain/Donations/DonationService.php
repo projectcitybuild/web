@@ -5,6 +5,7 @@ namespace Domain\Donations;
 use App\Entities\Accounts\Models\Account;
 use App\Entities\Donations\Models\Donation;
 use App\Entities\Donations\Models\DonationPerk;
+use App\Entities\Donations\Notifications\DonationPerkStartedNotification;
 use App\Entities\Payments\Models\Payment;
 use Illuminate\Support\Facades\DB;
 
@@ -40,6 +41,8 @@ final class DonationService
             ->where('is_active', true)
             ->first();
 
+        $expiryDate = null;
+
         DB::beginTransaction();
         try {
             $amountPaidInDollars = (float) ($amountPaidInCents / 100);
@@ -48,7 +51,6 @@ final class DonationService
                 'amount' => $amountPaidInDollars,
             ]);
 
-            $expiryDate = null;
             if ($existingPerk === null) {
                 $expiryDate = now()->addMonths($quantity);
             } else {
@@ -79,5 +81,8 @@ final class DonationService
             DB::rollBack();
             throw $e;
         }
+
+        $notification = new DonationPerkStartedNotification($expiryDate);
+        $account->notify($notification);
     }
 }

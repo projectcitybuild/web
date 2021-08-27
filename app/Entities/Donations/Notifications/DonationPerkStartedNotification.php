@@ -5,18 +5,22 @@ namespace App\Entities\Donations\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Carbon;
 
-class DonationEndedNotification extends Notification
+class DonationPerkStartedNotification extends Notification
 {
     use Queueable;
+
+    private Carbon $expiryDate;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Carbon $expiryDate)
     {
+        $this->expiryDate = $expiryDate;
     }
 
     /**
@@ -39,10 +43,12 @@ class DonationEndedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject('Your Donation has Ended')
-            ->line('Your period of Donator has now ended and you\'ve been reset to your previous rank.')
-            ->line('Thank you for helping support PCB - contributions from our members are the only way we can continue running! If you would like to keep supporting us, you can extend your donation here')
-            ->action('Extend your donation', action('DonationController@index'))
+            ->subject('Thank you for donating!')
+            ->greeting('Thank you for donating!')
+            ->line('Your period of donor perks has now begun and will expire on '.$this->expiryDate->toFormattedDateString())
+            ->line('(If you paid via a subscription, your perks will be renewed prior to the above expiry date)')
+            ->action('View All Donations', action('AccountDonationController@index'))
+            ->action('Billing Portal', action('AccountBillingController@index'))
             ->line('If you have any questions, please ask a member of PCB staff on our forums or Discord');
     }
 
