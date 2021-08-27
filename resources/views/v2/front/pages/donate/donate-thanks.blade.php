@@ -47,7 +47,7 @@
                     <div class="donate-legal__contents">
                         <ul>
                             <li>
-                                <h2><i class="fas fa-box-open"></i> Loot Boxes</h2>
+                                <h2><i class="fas fa-box-open"></i> Mystery Boxes</h2>
                                 Each day you can redeem Mystery Boxes in-game by using the <span class="command">/box redeem</span> command.<br />
                                 Mystery Boxes can be opened via the Vault (<span class="command">/warp vault</span>).<br />
                                 Or craft more Mystery Boxes from currency at the Vault.
