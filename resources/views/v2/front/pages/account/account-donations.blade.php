@@ -76,7 +76,12 @@
                             </td>
                             <td>{{ $perk->isActive() ? 'Active' : 'Expired' }}</td>
                             <td>{{ $perk->donation->created_at->toFormattedDateString() }}</td>
-                            <td>{{ $perk->expires_at->toFormattedDateString() }}</td>
+                            <td>
+                                {{ $perk->expires_at->toFormattedDateString() }}
+                                @if ($perk->isActive() && $perk->expires_at !== null)
+                                    ({{ now()->diff($perk->expires_at)->days }} days remaining)
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

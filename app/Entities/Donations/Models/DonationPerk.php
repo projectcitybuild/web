@@ -70,7 +70,7 @@ final class DonationPerk extends Model
 
     public function isActive(): bool
     {
-        if ($this->expires_at !== null && now()->lte($this->expires_at)) {
+        if ($this->expires_at !== null && now()->gte($this->expires_at)) {
             return false;
         }
 

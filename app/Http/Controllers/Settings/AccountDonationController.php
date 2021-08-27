@@ -13,7 +13,7 @@ final class AccountDonationController extends WebController
         $user->load(['donations', 'donationPerks', 'donationPerks.donation', 'donationPerks.donationTier']);
 
         $donationPerks = $user->donationPerks;
-        $donations = $user->donations;
+        $donations = $user->donations->sortBy('created_at');
 
         return view('v2.front.pages.account.account-donations')
             ->with(compact('donations', 'donationPerks'));
