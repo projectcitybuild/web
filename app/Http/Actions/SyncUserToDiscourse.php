@@ -31,6 +31,8 @@ class SyncUserToDiscourse
 
     public function syncAll()
     {
+        if (!Environment::isProduction()) return;
+
         $payload = (new DiscoursePayload())
             ->setPcbId($this->account->getKey())
             ->setEmail($this->account->email)
