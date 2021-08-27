@@ -184,9 +184,9 @@
                         <tr>
                             <th>Active</th>
                             <th>Donation</th>
+                            <th>Donation Tier</th>
                             <th>Starts at</th>
                             <th>Ends at</th>
-                            <th>Lifetime?</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -199,9 +199,15 @@
                                         #{{ $perk->donation_id }}
                                     </a>
                                 </td>
+                                <td>
+                                    @if($perk->donation_tier_id !== null)
+                                        {{ $perk->donation_tier_id }} ({{ $perk->donationTier->name }})
+                                    @else
+                                        None (Legacy)
+                                    @endif
+                                </td>
                                 <td>{{ $perk->created_at }}</td>
                                 <td>{{ $perk->expires_at }}</td>
-                                <td>{{ $perk->is_lifetime_perks ? 'Yes' : 'No' }}</td>
                                 <td><a href="{{ route('front.panel.donation-perks.edit', $perk) }}">Edit</a></td>
                             </tr>
                         @empty
