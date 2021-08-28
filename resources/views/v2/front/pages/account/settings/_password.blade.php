@@ -14,7 +14,7 @@
     </div>
 @endif
 
-<form method="post" action="{{ route('front.account.settings.password') }}" class="settings__form">
+<form method="post" action="{{ route('front.account.settings.password') }}" class="form">
     @csrf
     <div class="form-row">
         <label for="old_password">Current Password</label>

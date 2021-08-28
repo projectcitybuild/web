@@ -8,7 +8,7 @@
 @section('body')
     <main class="page login">
         <div class="container">
-            <section class="login__sign-in">
+            <section class="login__dialog login__sign-in">
                 <h1>Sign In to PCB</h1>
 
                 <form method="post" action="{{ route('front.login.submit') }}">

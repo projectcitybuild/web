@@ -14,8 +14,8 @@
         <div class="settings__content">
             <div class="settings__section">
                 <h2 class="settings__section-heading">Refresh Backup Code</h2>
-                <p class="settings__description">Are you sure you want to refresh your 2FA backup code?</p>
-                <p class="settings__description">The old backup code will stop working and you'll need to safely store the
+                <p class="form__description">Are you sure you want to refresh your 2FA backup code?</p>
+                <p class="form__description">The old backup code will stop working and you'll need to safely store the
                     new one.</p>
                 <form action="{{ route('front.account.security.reset-backup') }}" method="post" class="toolbar">
                     @csrf

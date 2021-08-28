@@ -14,7 +14,7 @@
         <div class="settings__content">
             <div class="settings__section">
                 <h2 class="settings__section-heading">Confirm Email Change</h2>
-                <span class="settings__description">
+                <span class="form__description">
                     You have requested to change your email address.<br/>
                     Please click the link sent to both email addresses to complete the process.
                 </span>

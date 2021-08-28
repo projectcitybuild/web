@@ -14,8 +14,8 @@
         <div class="settings__content">
             <div class="settings__section">
                 <h2 class="settings__section-heading">Disable 2FA</h2>
-                <p class="settings__description">Are you sure you want to disable 2FA?</p>
-                <p class="settings__description">You will no longer need this device to authenticate. You can re-enable 2FA at any time, but
+                <p class="form__description">Are you sure you want to disable 2FA?</p>
+                <p class="form__description">You will no longer need this device to authenticate. You can re-enable 2FA at any time, but
                     you'll be given a different code and backup code.</p>
 
                 <form action="{{ route('front.account.security.disable') }}" method="post" class="toolbar">

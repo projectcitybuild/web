@@ -76,7 +76,7 @@
             <div class="settings__section">
                 <h2 class="settings__section-heading">Add new</h2>
 
-                <p class="settings__description">To add a new Minecraft account, <strong>run /sync</strong> in-game.</p>
+                <p class="form__description">To add a new Minecraft account, <strong>run /sync</strong> in-game.</p>
             </div>
         </div>
     </main>

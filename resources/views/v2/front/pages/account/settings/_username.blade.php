@@ -15,7 +15,7 @@
     </div>
 @endif
 
-<form method="post" action="{{ route('front.account.settings.username') }}" class="settings__form">
+<form method="post" action="{{ route('front.account.settings.username') }}" class="form">
     @csrf
 
     <div class="form-row">
