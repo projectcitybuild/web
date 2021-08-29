@@ -10,6 +10,16 @@
     .textfield--is-mfa {
         width: auto;
     }
+
+    input[type="checkbox"] {
+        display: inline;
+        margin-right: 0.5rem;
+    }
+
+    &--emphasise-checkbox {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
 }
 
 .form {
