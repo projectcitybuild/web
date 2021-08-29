@@ -44,6 +44,10 @@ Route::prefix('donate')->group(function () {
         'as' => 'front.donate',
         'uses' => 'DonationController@index',
     ]);
+    Route::post('checkout', [
+        'as' => 'front.donations.checkout',
+        'uses' => 'DonationController@checkout',
+    ]);
     Route::get('success', [
         'as' => 'front.donate.success',
         'uses' => 'DonationController@success',
@@ -201,7 +205,13 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Set
         Route::delete('/{minecraft_player}', [
             'as' => 'front.account.games.delete',
             'uses' => 'AccountGameAccountController@destroy',
+        ]);
+    });
 
+    Route::prefix('billing')->group(function () {
+        Route::get('/', [
+            'as' => 'front.account.billing',
+            'uses' => 'AccountBillingController@index',
         ]);
     });
 

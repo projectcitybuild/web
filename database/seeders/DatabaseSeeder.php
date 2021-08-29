@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(ServerSeeds::class);
         $this->call(GroupSeeds::class);
+        $this->call(AccountSeeder::class);
         $this->call(GameBanSeeder::class);
+        $this->call(DonationSeeds::class);
     }
 }

@@ -33,7 +33,7 @@ final class DonationPerk extends Model
     protected $fillable = [
         'donation_id',
         'account_id',
-        'is_lifetime_perks',
+        'donation_tier_id',
         'is_active',
         'expires_at',
         'created_at',
@@ -68,6 +68,15 @@ final class DonationPerk extends Model
         'is_lifetime_perks' => 'boolean',
     ];
 
+    public function isActive(): bool
+    {
+        if ($this->expires_at !== null && now()->gte($this->expires_at)) {
+            return false;
+        }
+
+        return $this->is_active;
+    }
+
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class, 'account_id', 'account_id');
@@ -76,5 +85,10 @@ final class DonationPerk extends Model
     public function donation(): BelongsTo
     {
         return $this->belongsTo(Donation::class, 'donation_id', 'donation_id');
+    }
+
+    public function donationTier(): BelongsTo
+    {
+        return $this->belongsTo(DonationTier::class, 'donation_tier_id', 'donation_tier_id');
     }
 }

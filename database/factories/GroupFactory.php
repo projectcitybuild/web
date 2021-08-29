@@ -50,9 +50,25 @@ class GroupFactory extends Factory
     /**
      * Sets the group as the donators group.
      *
+     * @deprecated Use donor() instead
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
     public function donator()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'name' => 'donator',
+                'discourse_name' => 'donator',
+            ];
+        });
+    }
+
+    /**
+     * Sets the group as the donators group.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function donor()
     {
         return $this->state(function (array $attributes) {
             return [

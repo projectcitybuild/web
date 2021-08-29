@@ -37,21 +37,4 @@ class AccountDonationTest extends TestCase
             ->assertOk()
             ->assertSee($expiryDate->toFormattedDateString());
     }
-
-    public function testShowsLifetimeDonation()
-    {
-        $account = Account::factory()->create();
-
-        DonationPerk::factory()
-            ->for($account)
-            ->for(Donation::factory()->for($account))
-            ->lifetime()
-            ->create();
-
-        $this->actingAs($account);
-
-        $this->get(route('front.account.donations'))
-            ->assertOk()
-            ->assertSee('Lifetime');
-    }
 }

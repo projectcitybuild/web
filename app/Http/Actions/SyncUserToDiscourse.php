@@ -3,6 +3,7 @@
 namespace App\Http\Actions;
 
 use App\Entities\Accounts\Models\Account;
+use App\Entities\Environment;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Library\Discourse\Entities\DiscoursePayload;
 
@@ -30,6 +31,10 @@ class SyncUserToDiscourse
 
     public function syncAll()
     {
+        if (! Environment::isProduction()) {
+            return;
+        }
+
         $payload = (new DiscoursePayload())
             ->setPcbId($this->account->getKey())
             ->setEmail($this->account->email)

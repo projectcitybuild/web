@@ -5,6 +5,9 @@ namespace App\Entities\Payments\Models;
 use App\Entities\Accounts\Models\Account;
 use App\Model;
 
+/**
+ * @deprecated
+ */
 final class AccountPaymentSession extends Model
 {
     /**

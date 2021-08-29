@@ -1,0 +1,27 @@
+.hero-header {
+    background-image: url('/assets/images/header-bg1.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    h1 {
+        color: white;
+        font-family: $font-header;
+        text-transform: uppercase;
+        font-weight: 500;
+        font-size: 3.8em;
+        margin: 0;
+    }
+}
+
+@media screen and (min-width: $screen-m) {
+    .hero-header {
+        padding: 6em 0;
+    }
+}
+
+@media screen and (max-width: $screen-m) {
+    .hero-header {
+        padding: 3em 0;
+    }
+}

@@ -11,9 +11,8 @@
 |
 */
 
-// Webhook subscribers
 Route::prefix('webhooks')->group(function () {
-    Route::post('stripe', 'WebhookController@stripe');
+    Route::post('stripe', 'StripeWebhookController@handleWebhook')->name('cashier.webhook');
 });
 
 Route::prefix('bans')->group(function () {
@@ -24,21 +23,15 @@ Route::prefix('bans')->group(function () {
 });
 
 Route::prefix('auth')->group(function () {
-    Route::post('minecraft', [
-        'as' => 'auth.minecraft.store',
-        'uses' => 'MinecraftAuthTokenController@store',
-    ]);
-    Route::get('minecraft/{minecraftUUID}', [
-        'as' => 'auth.minecraft.show',
-        'uses' => 'MinecraftAuthTokenController@show',
-    ]);
+    Route::post('minecraft', 'MinecraftAuthTokenController@store');
+    Route::get('minecraft/{minecraftUUID}', 'MinecraftAuthTokenController@show');
 });
 
-Route::prefix('donations')->group(function () {
-    Route::get('create', [
-        'as' => 'donations.create',
-        'uses' => 'DonationController@create',
-    ]);
+Route::prefix('minecraft/{minecraftUUID}')->group(function () {
+    Route::get('donation-tiers', 'MinecraftDonationTierController@show');
+
+    Route::get('boxes', 'MinecraftLootBoxController@showAvailable');
+    Route::post('boxes/redeem', 'MinecraftLootBoxController@redeem');
 });
 
 Route::prefix('groups')->group(function () {

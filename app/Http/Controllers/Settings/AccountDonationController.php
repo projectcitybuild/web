@@ -9,9 +9,13 @@ final class AccountDonationController extends WebController
 {
     public function index(Request $request)
     {
-        $request->user()->load(['donationPerks', 'donationPerks.donation']);
-        $donationPerks = $request->user()->donationPerks;
+        $user = $request->user();
+        $user->load(['donations', 'donationPerks', 'donationPerks.donation', 'donationPerks.donationTier']);
 
-        return view('v2.front.pages.account.account-donations')->with(compact('donationPerks'));
+        $donationPerks = $user->donationPerks;
+        $donations = $user->donations->sortBy('created_at');
+
+        return view('v2.front.pages.account.account-donations')
+            ->with(compact('donations', 'donationPerks'));
     }
 }
