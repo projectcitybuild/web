@@ -29,16 +29,19 @@ final class MinecraftLootBoxController extends ApiController
             throw new NotFoundException('player_not_linked', 'Minecraft player not linked to an account');
         }
 
+        if ($account->donationPerks === null || $account->donationPerks->count() === 0) {
+            throw new NotFoundException('no_donor_perks', 'Player does not have any donor perks');
+        }
+
         $lootBoxes = $account->donationPerks
-            ->where('is_active', true)
-            ->where('expires_at', '<', now())
+            ->filter(fn ($perk) => $perk->isActive())
             ->unique('donation_tier_id')
             ->filter(fn ($perk) => $perk->donationTier !== null)
             ->flatMap(fn ($perk) => $perk->donationTier->minecraftLootBoxes)
             ->filter(fn ($lootBox) => $lootBox->is_active);
 
-        if ($lootBoxes === null || count($lootBoxes) === 0) {
-            return ['data' => []];
+        if ($lootBoxes === null || $lootBoxes->count() === 0) {
+            throw new NotFoundException('no_redeemable_boxes', 'Player does not have any perks that allow redeeming boxes');
         }
 
         $redeemedBoxes = MinecraftRedeemedLootBox::where('account_id', $account->getKey())
@@ -58,7 +61,7 @@ final class MinecraftLootBoxController extends ApiController
     {
         [$unredeemedBoxes, $_] = $this->getUnredeemedBoxesForUUID($uuid);
 
-        if (count($unredeemedBoxes) === 0) {
+        if ($unredeemedBoxes->count() === 0) {
             return [
                 'data' => [
                     'seconds_until_redeemable' => Carbon::tomorrow()->diffInSeconds(),
@@ -66,7 +69,11 @@ final class MinecraftLootBoxController extends ApiController
             ];
         }
 
-        return MinecraftLootBoxResource::collection($unredeemedBoxes);
+        return [
+            'data' => [
+                'redeemable_boxes' => MinecraftLootBoxResource::collection($unredeemedBoxes),
+            ],
+        ];
     }
 
     public function redeem(Request $request, $uuid)
@@ -81,7 +88,7 @@ final class MinecraftLootBoxController extends ApiController
             ]);
         }
 
-        if (count($unredeemedBoxes) === 0) {
+        if ($unredeemedBoxes->count() === 0) {
             return [
                 'data' => [
                     'seconds_until_redeemable' => Carbon::tomorrow()->diffInSeconds(),

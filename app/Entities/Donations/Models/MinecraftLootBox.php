@@ -4,9 +4,12 @@ namespace App\Entities\Donations\Models;
 
 use App\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 final class MinecraftLootBox extends Model
 {
+    use HasFactory;
+
     /**
      * The table associated with the model.
      *
