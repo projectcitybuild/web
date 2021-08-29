@@ -24,6 +24,7 @@ class RegisterTest extends TestCase
         return array_merge($account->toArray(), [
             'password_confirm' => 'password',
             'g-recaptcha-response' => Str::random(),
+            'terms' => 1,
         ]);
     }
 
