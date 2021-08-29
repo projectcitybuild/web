@@ -6,6 +6,10 @@
     .textfield {
         width: 100%;
     }
+
+    .textfield--is-mfa {
+        width: auto;
+    }
 }
 
 .form {
@@ -19,6 +23,9 @@
         margin-bottom: 1rem;
     }
 
+    button {
+        margin-top: 0.5rem;
+    }
 
     &__description {
         //font-size: 1.1rem;
