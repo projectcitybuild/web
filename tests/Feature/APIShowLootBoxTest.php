@@ -86,7 +86,7 @@ class APIShowLootBoxTest extends TestCase
                             'quantity' => $lootBox->quantity,
                             'is_active' => true,
                         ],
-                    ]
+                    ],
                 ],
             ]);
     }

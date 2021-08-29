@@ -3,8 +3,8 @@
 namespace App\Entities\Donations\Models;
 
 use App\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class MinecraftLootBox extends Model
 {

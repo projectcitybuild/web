@@ -30,7 +30,7 @@ class MinecraftLootBoxFactory extends Factory
     }
 
     /**
-     * Indicates that the box cannot be redeemed anymore
+     * Indicates that the box cannot be redeemed anymore.
      */
     public function inactive(): Factory
     {
