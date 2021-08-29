@@ -14,12 +14,8 @@
                 <form method="post" action="{{ route('front.login.submit') }}">
                     @csrf
 
-                    @if($errors->any())
-                        <div class="alert alert--error">
-                            <h2><i class="fas fa-exclamation-circle"></i> Error</h2>
-                            {{ $errors->first() }}
-                        </div>
-                    @endif
+                    @include('v2.front.components.form-error')
+
                     @if(Session::get('mfa_removed', false))
                         <div class="alert alert--success">
                             <h2><i class="fas fa-check"></i> 2FA Reset</h2>
@@ -60,10 +56,12 @@
                 <h1>Register</h1>
 
                 <div class="register-appeal">
-                    Members gain access to personal player statistics, the forums, in-game rank synchronization and more.
+                    Members gain access to personal player statistics, the forums, in-game rank synchronization and
+                    more.
                 </div>
 
-                <a href="{{ route('front.register') }}" class="button button--outlined button--display button--block">Create an Account</a>
+                <a href="{{ route('front.register') }}" class="button button--outlined button--display button--block">Create
+                    an Account</a>
             </section>
         </div>
     </main>

@@ -7,14 +7,9 @@
     <main class="page login">
         <section class="login__dialog login__mfa">
             <h1>2FA Confirmation</h1>
-            @if($errors->any())
-                <div class="alert alert--error">
-                    <h2><i class="fas fa-exclamation-circle"></i> Error</h2>
-                    @foreach($errors->all() as $error)
-                        {{ $error }}<br>
-                    @endforeach
-                </div>
-            @endif
+
+            @include('v2.front.components.form-error')
+
             <p class="form__description">Enter your current 2FA code to continue</p>
             <form action="{{ route('front.login.mfa') }}" method="post" class="form">
                 @csrf

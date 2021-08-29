@@ -8,14 +8,7 @@
         <section class="login__dialog login__mfa-recover">
             <h1>Recover MFA</h1>
 
-            @if($errors->any())
-                <div class="alert alert--error">
-                    <h2><i class="fas fa-exclamation-circle"></i> Error</h2>
-                    @foreach($errors->all() as $error)
-                        {{ $error }}<br>
-                    @endforeach
-                </div>
-            @endif
+            @include('v2.front.components.form-error')
 
             <p class="form__description">
                 If you've lost access to your 2FA device, you can disable 2FA on your account by entering your backup code.

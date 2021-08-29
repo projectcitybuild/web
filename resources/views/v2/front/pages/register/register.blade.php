@@ -20,13 +20,7 @@
                 <form method="post" action="{{ route('front.register.submit') }}" id="form" class="form">
                     @csrf
 
-                    @if($errors->any())
-                        <div class="alert alert--error">
-                            <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
-                            {{ $errors->first() }}
-                        </div>
-                        <p>
-                    @endif
+                    @include('v2.front.components.form-error')
 
                     <div class="form-row">
                         <label for="email">Email Address</label>
