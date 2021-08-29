@@ -23,7 +23,7 @@
                     @if(Session::get('mfa_removed', false))
                         <div class="alert alert--success">
                             <h2><i class="fas fa-check"></i> 2FA Reset</h2>
-                            <p>2FA has been removed from your account, please sign in again.</p>
+                            2FA has been removed from your account, please sign in again.
                         </div>
                     @endif
 
