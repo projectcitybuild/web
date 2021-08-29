@@ -111,7 +111,7 @@ class APIRedeemLootBoxTest extends TestCase
                             'quantity' => $lootBox->quantity,
                             'is_active' => true,
                         ],
-                    ]
+                    ],
                 ],
             ]);
     }
@@ -177,7 +177,7 @@ class APIRedeemLootBoxTest extends TestCase
                             'quantity' => $lootBox->quantity,
                             'is_active' => true,
                         ],
-                    ]
+                    ],
                 ],
             ]);
 
