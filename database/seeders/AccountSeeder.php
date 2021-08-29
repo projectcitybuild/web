@@ -18,8 +18,8 @@ class AccountSeeder extends Seeder
     {
         $adminGroup = Group::where('name', 'administrator')->first();
         $adminAccount = Account::factory()->make();
-        $adminAccount->username = "Admin";
-        $adminAccount->email = "admin@pcbmc.co";
+        $adminAccount->username = 'Admin';
+        $adminAccount->email = 'admin@pcbmc.co';
         $adminAccount->password = Hash::make('admin');
         $adminAccount->is_totp_enabled = true;
         $adminAccount->save();
