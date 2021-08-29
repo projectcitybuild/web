@@ -5,14 +5,7 @@
     </div>
     <p>
 @endif
-@if($errors->email->any())
-    <div class="alert alert--error">
-        <h2><i class="fas fa-exclamation-circle"></i> Error</h2>
-        @foreach($errors->email->all() as $error)
-            {{ $error }}<br>
-        @endforeach
-    </div>
-@endif
+@include('v2.front.components.form-error', ['field' => 'email'])
 
 <form method="post" action="{{ route('front.account.settings.email') }}" class="form">
     @csrf

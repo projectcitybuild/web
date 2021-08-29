@@ -5,14 +5,8 @@
     </div>
     <p>
 @endif
-@if($errors->password->any())
-    <div class="alert alert--error">
-        <h2><i class="fas fa-exclamation-circle"></i> Error</h2>
-        @foreach($errors->password->all() as $error)
-            {{ $error }}<br>
-        @endforeach
-    </div>
-@endif
+
+@include('v2.front.components.form-error', ['field' => 'password'])
 
 <form method="post" action="{{ route('front.account.settings.password') }}" class="form">
     @csrf
