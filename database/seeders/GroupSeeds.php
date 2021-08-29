@@ -67,6 +67,7 @@ class GroupSeeds extends Seeder
             'is_staff' => true,
             'is_admin' => true,
             'discourse_name' => 'administrator',
+            'can_access_panel' => true,
         ]);
     }
 }

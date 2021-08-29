@@ -181,6 +181,7 @@ return [
         /*
          * Domain logic Service Providers...
          */
+        Domain\Donations\DonationsProvider::class,
         Domain\PlayerFetch\PlayerFetchProvider::class,
         Domain\ServerStatus\ServerStatusProvider::class,
     ],

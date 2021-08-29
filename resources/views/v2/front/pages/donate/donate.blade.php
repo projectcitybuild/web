@@ -1,157 +1,358 @@
-@extends('front.layouts.master')
+@extends('v2.front.templates.master')
 
-@section('title', 'Donate')
-@section('description', "Help keep us online by donating")
+@section('title', 'Donate - Project City Build')
 
 @push('head')
-    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+@endpush
+
+@section('body')
+    <div class="page donate">
+        <header class="hero-header">
+            <div class="container">
+                <div class="hero-header__left">
+                    <h1>Help Keep Us Online</h1>
+
+                    <div class="header-desc">
+                        PCB is only able to operate thanks to the continuous support of our community and volunteers.
+                        All proceeds go towards the high running expense of our servers and websites - <strong>nothing goes into our pockets</strong>.
+                        <br /><br />
+                        Please consider donating to help keep us online for another year
+                    </div>
+                </div>
+
+                <div class="hero-header__right">
+                    <x-donation-bar />
+
+                    Annual Goal: <strong>${{ $target_funding }}</strong>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="donate-tiers">
+                <div class="container">
+                    <h1>Donation Tiers</h1>
+
+                    @if($errors->any())
+                        <div class="alert alert--error">
+                            <h2><i class="fas fa-exclamation-circle"></i> Error</h2>
+                            {{ $errors->first() }}
+                        </div>
+                    @endif
+
+                    <div class="donate-tiers__overview">
+                        As a thank you for your support, you'll receive perks based on the amount you donate.<br />
+                        Choose the amount that suits you.
+                    </div>
+
+                    <div class="donation-tier-container">
+                        <div class="donation-tier">
+                            <div class="donation-tier__bar donation-tier__bar--copper"></div>
+
+                            <div class="donation-tier__header">
+                                <img src="{{ asset('assets/images/icon_copper_tier.png') }}" />
+                                <h2>Copper Tier</h2>
+                            </div>
+
+                            <div class="donation-tier__price">
+                                <div class="donation-tier__price-amount">$4</div>
+                                <div class="donation-tier__price-unit">for a month of perks</div>
+                            </div>
+
+                            <div class="donation-tier__boxes">
+                                <div class="donation-tier__boxes-title">
+                                    <strong>Each day</strong> you'll receive
+                                </div>
+                                <div class="donation-tier__boxes-reward">
+                                    <i class="fas fa-box"></i>
+                                    <strong>1</strong>
+                                    <span>Mystery Box (<a href="#mystery-box">what's this?</a>)</span>
+                                </div>
+                            </div>
+
+                            <div class="donation-tier__perks">
+                                <div class="donation-tier__perks-title">Plus, you'll receive</div>
+
+                                <ul>
+                                    <li><i class="fas fa-home"></i> <strong>3</strong> additional homes</li>
+                                    <li><i class="fas fa-check-circle"></i> Donor rank and in-game title</li>
+                                    <li><i class="fas fa-check-circle"></i> Custom nickname (<span class="command">/nick</span> command)</li>
+                                    <li><i class="fas fa-check-circle"></i> Flyspeed and Walkspeed commands</li>
+                                </ul>
+                            </div>
+
+                            <div class="donation-tier__footer">
+                                <button
+                                    class="button button--filled"
+                                    onclick="openPaymentModal('Copper Tier', 'price_1JJL5mAtUyfM4v5ISwJrrVur', 'price_1JJL5mAtUyfM4v5IJNHp1Tk2')"
+                                >
+                                    Purchase
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="donation-tier__spacer"></div>
+
+                        <div class="donation-tier">
+                            <div class="donation-tier__bar donation-tier__bar--iron"></div>
+
+                            <div class="donation-tier__header">
+                                <img src="{{ asset('assets/images/icon_iron_tier.png') }}" />
+                                <h2>Iron Tier</h2>
+                            </div>
+
+                            <div class="donation-tier__price">
+                                <div class="donation-tier__price-amount">$8</div>
+                                <div class="donation-tier__price-unit">for a month of perks</div>
+                            </div>
+
+                            <div class="donation-tier__boxes">
+                                <div class="donation-tier__boxes-title">
+                                    <strong>Each day</strong> you'll receive
+                                </div>
+                                <div class="donation-tier__boxes-reward">
+                                    <i class="fas fa-box"></i>
+                                    <strong>4</strong>
+                                    <span>Mystery Boxes (<a href="#mystery-box">what's this?</a>)</span>
+                                </div>
+                            </div>
+
+                            <div class="donation-tier__perks">
+                                <div class="donation-tier__perks-title">Plus, you'll receive</div>
+
+                                <ul>
+                                    <li><i class="fas fa-home"></i> <strong>8</strong> additional homes</li>
+                                    <li><i class="fas fa-check-circle"></i> Donor rank and in-game title</li>
+                                    <li><i class="fas fa-check-circle"></i> Custom nickname (<span class="command">/nick</span> command)</li>
+                                    <li><i class="fas fa-check-circle"></i> Flyspeed and Walkspeed commands</li>
+                                    <li><i class="fas fa-check-circle"></i> <span class="command">/tp</span> and <span class="command">/tppos</span> commands</li>
+                                    <li><i class="fas fa-check-circle"></i> <span class="command">/ascend</span> and <span class="command">/thru</span> commands</li>
+                                    <li><i class="fas fa-check-circle"></i> Nickname colors</li>
+                                </ul>
+                            </div>
+
+                            <div class="donation-tier__footer">
+                                <button
+                                    class="button button--filled"
+                                    onclick="openPaymentModal('Iron Tier', 'price_1JJL63AtUyfM4v5ILyrs2uxw', 'price_1JJL63AtUyfM4v5IoVomtPRZ')"
+                                >
+                                    Purchase
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="donation-tier__spacer"></div>
+
+                        <div class="donation-tier">
+                            <div class="donation-tier__bar donation-tier__bar--diamond"></div>
+
+                            <div class="donation-tier__header">
+                                <img src="{{ asset('assets/images/icon_diamond_tier.png') }}" />
+                                <h2>Diamond Tier</h2>
+                            </div>
+
+                            <div class="donation-tier__price">
+                                <div class="donation-tier__price-amount">$15</div>
+                                <div class="donation-tier__price-unit">for a month of perks</div>
+                            </div>
+
+                            <div class="donation-tier__boxes">
+                                <div class="donation-tier__boxes-title">
+                                    <strong>Each day</strong> you'll receive
+                                </div>
+                                <div class="donation-tier__boxes-reward">
+                                    <i class="fas fa-box"></i>
+                                    <strong>10</strong>
+                                    <span>Mystery Boxes (<a href="#mystery-box">what's this?</a>)</span>
+                                </div>
+                            </div>
+
+                            <div class="donation-tier__perks">
+                                <div class="donation-tier__perks-title">Plus, you'll receive</div>
+
+                                <ul>
+                                    <li><i class="fas fa-home"></i> <strong>15</strong> additional homes</li>
+                                    <li><i class="fas fa-check-circle"></i> Donor rank and in-game title</li>
+                                    <li><i class="fas fa-check-circle"></i> Custom nickname (<span class="command">/nick</span> command)</li>
+                                    <li><i class="fas fa-check-circle"></i> Flyspeed and Walkspeed commands</li>
+                                    <li><i class="fas fa-check-circle"></i> <span class="command">/tp</span> and <span class="command">/tppos</span> commands</li>
+                                    <li><i class="fas fa-check-circle"></i> <span class="command">/ascend</span> and <span class="command">/thru</span> commands</li>
+                                    <li><i class="fas fa-check-circle"></i> Nickname colors</li>
+                                </ul>
+                            </div>
+
+                            <div class="donation-tier__footer">
+                                <button
+                                    class="button button--filled"
+                                    onclick="openPaymentModal('Diamond Tier', 'price_1JJL6RAtUyfM4v5Ih3kg7UDM', 'price_1JJL6RAtUyfM4v5IP77eRPER')"
+                                >
+                                    Purchase
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="donation-tier-fineprint">
+                        Your payment details will be processed by <a href="https://stripe.com" target="_blank" rel="noopener noreferrer">Stripe</a>, and only a record of your donation will be stored by PCB.<br />
+                        In accordance with data retention laws, <strong>we do not store any credit card or bank account information</strong>.
+                    </div>
+                </div>
+            </section>
+
+            <a name="mystery-box"></a>
+            <section class="donate-mystery-box">
+                <div class="container">
+                    <img src="{{ asset('assets/images/mystery-box-title.png') }}" />
+
+                    <div class="donate-mystery-box__title">
+                        Each box contains either cool loot or currency. Some of the possible loot includes
+                        <strong>animated hats</strong>, <strong>particle effects</strong>, <strong>pets</strong>, <strong>fun gadgets</strong>, <strong>cloaks</strong>, <strong>emotes</strong> and <strong>mob morphs</strong>
+                        from a rotation of items strictly limited to donors.
+                        <br /><br />
+                        Didn’t get the loot you wanted? Use the in-game currency to craft more boxes for another chance!
+                    </div>
+                </div>
+            </section>
+
+            <section class="donate-faq">
+                <div class="container">
+                    <h1>FAQ</h1>
+                    <div class="donate-faq__contents">
+                        <ul>
+                            <li>
+                                <h2>If I cancel a subscription, do I immediately lose my perks?</h2>
+
+                                No, your perks will remain active until the original expiry date (i.e. a month from the last payment).
+                                <br />
+                                For example, if you started your subscription on August 1st and immediately cancel it, your perks will remain until September 1st.
+                            </li>
+                            <li>
+                                <h2>What if I Boost the Discord server?</h2>
+
+                                We really appreciate <a href="https://support.discord.com/hc/en-us/articles/360028038352-Server-Boosting-FAQ-" target="_blank" rel="noopener noreferrer">Server Boosts</a> too,
+                                as it benefits everyone using our Discord server.
+                                Please reach out to staff on Discord or the forums and we can assign you the equivalent Donation Tier from above, for the duration that you continue to boost.
+                                <br /><br />
+                                However, should you choose to stop boosting, we ask that you please notify us as soon as possible.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="donate-legal">
+                <div class="container">
+                    <h1>Legal</h1>
+                    <div class="donate-legal__contents">
+                        <ul>
+                            <li>Please check for any applicable fees as Stripe/PayPal can change these at any time for any reason, beyond our control.</li>
+                            <li>
+                                Please remember that donating does not exempt you from obeying the server rules.<br />
+                                Regardless of how much you donate, you will not receive special pardons or privileges for failure to comply.<br />
+                                You are not paying for a service.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            @include('v2.front.components.sitemap')
+        </footer>
+    </div>
+@endsection
+
+@push('end')
+    @guest
+    <div class="modal micromodal-slide" id="modal-payment" aria-hidden="true">
+        <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+            <div class="modal__container" role="dialog" aria-modal="true">
+                <header class="modal__header">
+                    <h2><i class="fas fa-lock"></i> Please Log-in</h2>
+                    <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+                </header>
+                <main>
+                    <section class="modal__section">
+                        You must be <a href="{{ route('front.login') }}">logged in</a> to make a donation.
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+    @endguest
+    @auth
+    <div class="modal micromodal-slide" id="modal-payment" aria-hidden="true">
+        <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+            <div class="modal__container" role="dialog" aria-modal="true">
+                <header class="modal__header">
+                    <h2>How do you wish to pay?</h2>
+                    <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+                </header>
+                <main>
+                    <section class="modal__section">
+                        <h1><i class="fas fa-history"></i> Subscription</h1>
+                        <div class="modal__section_description">
+                            A subscription allows you to automatically pay once a month (cancellable at anytime).
+                            We recommend this method of payment if you wish to continuously support us without your perks expiring
+                        </div>
+                        <form action="{{ route('front.donations.checkout') }}" method="POST">
+                            @csrf
+                            <input type="hidden" id="subscription-price-id" name="price_id"b />
+                            <button type="submit" class="button button--filled">
+                                <i class="fas fa-external-link-alt"></i> Purchase
+                            </button>
+                        </form>
+                    </section>
+                    <section class="modal__section">
+                        <h1><i class="fas fa-dollar-sign"></i> One-Time</h1>
+                        <div class="modal__section_description">
+                            If you wish to pay just once, up-front, please enter the number of months of perks you would like.
+                            Your perks will expire after the given number of months have elapsed (can be extended after it expires)
+                        </div>
+                        <form action="{{ route('front.donations.checkout') }}" method="POST">
+                            @csrf
+
+                            <label for="quantity">I would like to purchase</label>
+                            <div class="modal__donate_form">
+                                <input
+                                    class="textfield"
+                                    id="quantity"
+                                    name="quantity"
+                                    type="text"
+                                    value="1"
+                                    placeholder="1"
+                                    maxlength="3"
+                                />
+                                <span>
+                                    months of <strong id="tier-name">???</strong>
+                                </span>
+                            </div>
+
+                            <input type="hidden" id="one-time-price-id" name="price_id" />
+                            <button type="submit" class="button button--filled">
+                                <i class="fas fa-external-link-alt"></i> Purchase
+                            </button>
+                        </form>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+    @endauth
 
     <script>
-        const stripe = Stripe('{{ config('services.stripe.key') }}');
-        const sessionStartEndpoint = '{{ route('donations.create') }}';
+        MicroModal.init();
 
-        async function startCheckoutFlow() {
-            try {
-                const amountInDollars = document.getElementById('donation-amount').value;
-                @auth
-                const endpoint = `${sessionStartEndpoint}?amount=${amountInDollars}&account_id={{ Auth::user()->getKey() }}`
-                @else
-                const endpoint = `${sessionStartEndpoint}?amount=${amountInDollars}`
-                @endauth
+        function openPaymentModal(tierName, subscriptionPriceId, oneTimePriceId) {
+            @auth
+            document.getElementById('subscription-price-id').value = subscriptionPriceId
+            document.getElementById('one-time-price-id').value = oneTimePriceId
+            document.getElementById('tier-name').innerHTML = tierName
+            @endauth
 
-                const response = await fetch(endpoint, {
-                    method: 'GET',
-                    mode: 'same-origin',
-                    cache: 'no-cache',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-                const json = await response.json();
-
-                await redirectToCheckout(json.data.session_id)
-
-            } catch (error) {
-                console.error(error);
-            }
-        }
-
-        async function redirectToCheckout(sessionId) {
-            const {error} = await stripe.redirectToCheckout({
-                sessionId: sessionId,
-            })
-
-            if (error) {
-                console.error(error);
-
-                // If `redirectToCheckout` fails due to a browser or network
-                // error, display the localized error message to your customer
-                // using `error.message`.
-            }
-        }
-
-        window.onload = function() {
-            document.getElementById('stripe-donate-button').onclick = startCheckoutFlow;
+            MicroModal.show('modal-payment')
         }
     </script>
 @endpush
-
-@section('contents')
-
-    <div class="donate">
-        <div class="donate__left">
-
-            <div class="donate__section">
-                <h1>Help Keep Us Online</h1>
-                <h4 class="primary"><i class="fas fa-exclamation-circle"></i> Donations are the only way to keep our community running!</h4>
-
-                <span class="text">
-                    Thank you for considering a donation to PCB. All proceeds go towards the running expenses of our servers and website.
-                    <p />
-                    Whilst you can donate any amount you like, due to processing fees the minimum we would request you donate is $3 (USD).
-                
-                    <ul class="no-list">
-                        <li><i class="fas fa-long-arrow-alt-right"></i> Donating at least <strong>$3 (USD)</strong> will provide you with 1 month worth of Donator perks</li>
-                        <li><i class="fas fa-long-arrow-alt-right"></i> Donating at least <strong>$30 (USD)</strong> will provide you with Donator perks for life</li>
-                    </ul>
-
-                    Every $3 donated grants 1 month of Donator perks.
-                </span>
-            </div>
-            <div class="donate__section">
-                <h3>Donator perks</h3>
-
-                <div class="donate__perks">
-                    <div class="perks-table">
-                        <div class="perks-table__header">
-                            <i class="fas fa-handshake"></i> Gain Trusted Rank Perks
-                        </div>
-                        <div class="perks-table__body">
-                            <ul class="perks-table__inner">
-                                <li>Custom nicknames</li>
-                                <li>Teleporting</li>
-                                <li>Increased home limit</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="perks-table">
-                        <div class="perks-table__header">
-                        <i class="fas fa-money-check-alt"></i> Plus Donator-Only Perks
-                        </div>
-                        <div class="perks-table__body">
-                            <ul class="perks-table__inner">
-                                <li>Priority server slot</li>
-                                <li>In-game [$] (Donator) tag</li>
-                                <li>Coloured nickname</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="donate__section">
-            
-                <h3>Terms and Conditions</h3>
-                <ul>
-                    <li>Please check for any applicable fees as Stripe/PayPal can change these at any time for any reason, beyond PCB’s control.</li>
-                    <li>Please remember that donating does not exempt you from obeying the server rules. You will get no pardons or privileges regardless of how much you have donated as a donation is just that, a donation. <strong>You are not paying for a service</strong>.</li>
-                </ul>
-
-                <blockquote>
-                    <strong>Community Rules</strong><br>
-                    6. Nicknames - nicknames must be similar to your in-game name (IGN)<br>
-                    Nicknames cannot be excessive in visible length (staff discretion applies).<br><br>
-
-                    For Donators, or other players with coloured nickname permission, your nickname colour may not resemble that of a staff rank (colours that are associated with a staff rank) . If you are unsure then request approval from a staff member. You may use a mixture of staff and other colours<br><br>
-
-                    Exceptions may be made if a player is more commonly known by another name
-                </blockquote>
-            </div>
-        </div>
-        
-        <div class="donate__right">
-            <h1>Donate now</h1>
-
-            @guest
-                <div class="alert alert--warning">
-                    <strong>You are not currently logged in</strong>. If you do not login, you will not receive your donator perks!
-                </div>
-            @endguest
-
-            <div>
-                <input type="text" class="input-text" id="donation-amount" value="3.00" placeholder="3.00" />
-                <button class="button button--large button--fill button--primary" type="button" id="stripe-donate-button">
-                    <i class="fas fa-credit-card"></i> Donate via Card
-                </button>
-            </div>
-
-            <small>
-                Your payment details will be processed by <a href="https://stripe.com/" rel="noopener" target="_blank">Stripe</a>, and only a record of your donation will be stored by PCB.
-                In accordance with data retention laws, <strong>we do not store any credit card or bank account information</strong>.
-            </small>
-        </div>
-
-    </div>
-
-@endsection

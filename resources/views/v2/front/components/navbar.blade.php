@@ -1,11 +1,13 @@
 <nav class="navbar">
     <div class="container">
         <div class="logo">
-            <img srcset="/assets/images/logo-1x.png,
-                         /assets/images/logo-2x.png 2x"
-                 src="/assets/images/logo-1x.png"
-                 alt="Project City Build"
-            />
+            <a href="{{ route('front.home') }}">
+                <img srcset="/assets/images/logo-1x.png,
+                             /assets/images/logo-2x.png 2x"
+                     src="/assets/images/logo-1x.png"
+                     alt="Project City Build"
+                />
+            </a>
         </div>
 
         <ul class="nav-links">

@@ -15,6 +15,13 @@
     <testsuite name="Feature">
       <directory suffix="Test.php">./tests/Feature</directory>
     </testsuite>
+    <testsuite name="E2E">
+        <directory suffix="Test.php">./tests/E2E</directory>
+    </testsuite>
+    <testsuite name="UnitAndFeature">
+        <directory suffix="Test.php">./tests/Unit</directory>
+        <directory suffix="Test.php">./tests/Feature</directory>
+    </testsuite>
   </testsuites>
   <php>
     <server name="APP_ENV" value="testing"/>
@@ -26,6 +33,7 @@
     <server name="DB_CONNECTION" value="tests"/>
     <server name="RECAPTCHA_ENABLED" value="false"/>
     <server name="SCOUT_DRIVER" value="null" />
+    <env name="STRIPE_SECRET" value="sk_test_3dyAn3Pfa23JF6SlJb8qY5VR"/>
   </php>
   <logging/>
 </phpunit>

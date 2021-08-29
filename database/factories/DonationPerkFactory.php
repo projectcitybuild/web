@@ -23,23 +23,10 @@ class DonationPerkFactory extends Factory
     {
         return [
             'is_active' => true,
-            'is_lifetime_perks' => false,
             'expires_at' => $this->faker->dateTime(),
             'created_at' => $this->faker->dateTime(),
             'updated_at' => $this->faker->dateTime(),
         ];
-    }
-
-    /**
-     * Indicate that the donation will never expire.
-     */
-    public function lifetime(): Factory
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'is_lifetime_perks' => true,
-            ];
-        });
     }
 
     /**
@@ -49,7 +36,6 @@ class DonationPerkFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'is_lifetime_perks' => false,
                 'expires_at' => now()->subDay(),
             ];
         });
@@ -62,7 +48,6 @@ class DonationPerkFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'is_lifetime_perks' => false,
                 'expires_at' => now()->addDay(),
             ];
         });
