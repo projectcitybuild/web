@@ -12,11 +12,11 @@ use App\Entities\Players\Models\MinecraftPlayer;
 use Carbon\Carbon;
 use Tests\TestCase;
 
-class APIShowLootBoxTest extends TestCase
+class APIRedeemLootBoxTest extends TestCase
 {
     public function testReturnsErrorIfPlayerDoesntExist()
     {
-        $this->get('api/minecraft/xxxx-xxxx-xxxx/boxes')
+        $this->post('api/minecraft/xxxx-xxxx-xxxx/boxes/redeem')
             ->assertStatus(404);
     }
 
@@ -24,7 +24,7 @@ class APIShowLootBoxTest extends TestCase
     {
         $player = MinecraftPlayer::factory()->create();
 
-        $this->get('api/minecraft/'.$player->uuid.'/boxes')
+        $this->post('api/minecraft/'.$player->uuid.'/boxes/redeem')
             ->assertStatus(404);
     }
 
@@ -35,7 +35,7 @@ class APIShowLootBoxTest extends TestCase
             'account_id' => $account->getKey(),
         ]);
 
-        $this->get('api/minecraft/'.$player->uuid.'/boxes')
+        $this->post('api/minecraft/'.$player->uuid.'/boxes/redeem')
             ->assertStatus(404);
     }
 
@@ -54,8 +54,33 @@ class APIShowLootBoxTest extends TestCase
             'expires_at' => now()->addMonth(),
         ]);
 
-        $this->get('api/minecraft/'.$player->uuid.'/boxes')
+        $this->post('api/minecraft/'.$player->uuid.'/boxes/redeem')
             ->assertStatus(404);
+    }
+
+    public function testStoresRedemption()
+    {
+        $tier = DonationTier::factory()->create();
+        $account = Account::factory()->create();
+        $player = MinecraftPlayer::factory()->create(['account_id' => $account->getKey()]);
+        $donation = Donation::factory()->create(['account_id' => $account->getKey()]);
+        $lootBox = MinecraftLootBox::factory()->create(['donation_tier_id' => $tier->getKey()]);
+
+        DonationPerk::factory()->create([
+            'account_id' => $account->getKey(),
+            'donation_id' => $donation->getKey(),
+            'donation_tier_id' => $tier->getKey(),
+            'is_active' => true,
+            'expires_at' => now()->addMonth(),
+        ]);
+
+        $this->post('api/minecraft/'.$player->uuid.'/boxes/redeem')
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('minecraft_redeemed_loot_boxes', [
+            'account_id' => $account->getKey(),
+            'minecraft_loot_box_id' => $lootBox->getKey(),
+        ]);
     }
 
     public function testReturnsUnredeemedBoxes()
@@ -66,7 +91,7 @@ class APIShowLootBoxTest extends TestCase
         $donation = Donation::factory()->create(['account_id' => $account->getKey()]);
         $lootBox = MinecraftLootBox::factory()->create(['donation_tier_id' => $tier->getKey()]);
 
-        $perk = DonationPerk::factory()->create([
+        DonationPerk::factory()->create([
             'account_id' => $account->getKey(),
             'donation_id' => $donation->getKey(),
             'donation_tier_id' => $tier->getKey(),
@@ -74,11 +99,11 @@ class APIShowLootBoxTest extends TestCase
             'expires_at' => now()->addMonth(),
         ]);
 
-        $this->get('api/minecraft/'.$player->uuid.'/boxes')
+        $this->post('api/minecraft/'.$player->uuid.'/boxes/redeem')
             ->assertStatus(200)
             ->assertJson([
                 'data' => [
-                    'redeemable_boxes' => [
+                    'redeemed_boxes' => [
                         [
                             'minecraft_loot_box_id' => $lootBox->getKey(),
                             'donation_tier_id' => $tier->getKey(),
@@ -115,7 +140,50 @@ class APIShowLootBoxTest extends TestCase
 
         $secsUntilTomorrow = Carbon::tomorrow()->diffInSeconds();
 
-        $this->get('api/minecraft/'.$player->uuid.'/boxes')
+        $this->post('api/minecraft/'.$player->uuid.'/boxes/redeem')
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'seconds_until_redeemable' => $secsUntilTomorrow,
+                ],
+            ]);
+    }
+
+    public function testCannotRedeemTwiceImmediately()
+    {
+        $tier = DonationTier::factory()->create();
+        $account = Account::factory()->create();
+        $player = MinecraftPlayer::factory()->create(['account_id' => $account->getKey()]);
+        $donation = Donation::factory()->create(['account_id' => $account->getKey()]);
+        $lootBox = MinecraftLootBox::factory()->create(['donation_tier_id' => $tier->getKey()]);
+
+        DonationPerk::factory()->create([
+            'account_id' => $account->getKey(),
+            'donation_id' => $donation->getKey(),
+            'donation_tier_id' => $tier->getKey(),
+            'is_active' => true,
+            'expires_at' => now()->addMonth(),
+        ]);
+
+        $this->post('api/minecraft/'.$player->uuid.'/boxes/redeem')
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'redeemed_boxes' => [
+                        [
+                            'minecraft_loot_box_id' => $lootBox->getKey(),
+                            'donation_tier_id' => $tier->getKey(),
+                            'loot_box_name' => $lootBox->loot_box_name,
+                            'quantity' => $lootBox->quantity,
+                            'is_active' => true,
+                        ],
+                    ]
+                ],
+            ]);
+
+        $secsUntilTomorrow = Carbon::tomorrow()->diffInSeconds();
+
+        $this->post('api/minecraft/'.$player->uuid.'/boxes/redeem')
             ->assertStatus(200)
             ->assertJson([
                 'data' => [
