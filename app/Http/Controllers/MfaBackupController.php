@@ -30,7 +30,8 @@ class MfaBackupController extends WebController
         $request->user()->resetTotp();
         $request->user()->save();
         $request->user()->notify(new AccountMfaBackupCodeUsedNotification());
-        $request->session()->invalidate();
+        $logoutService->logoutOfPCB();
+        $request->session()->flush();
         $request->session()->regenerateToken();
         $request->session()->flash('mfa_removed', true);
 
