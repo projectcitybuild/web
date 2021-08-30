@@ -45,6 +45,8 @@ class MfaBackupTest extends TestCase
             ->assertSessionHas('mfa_removed')
             ->assertSessionMissing(MfaGate::NEEDS_MFA_KEY);
 
+        $this->assertGuest();
+
         Notification::assertSentTo($this->mfaAccount, AccountMfaBackupCodeUsedNotification::class);
 
         $account = $this->mfaAccount->refresh();
