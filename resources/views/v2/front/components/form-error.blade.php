@@ -1,6 +1,5 @@
 @php
     if(!isset($field)) {
-        dump("a");
         $bag = $errors;
     } else {
         $bag = $errors->getBag($field);
