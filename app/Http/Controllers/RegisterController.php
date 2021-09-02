@@ -22,7 +22,7 @@ final class RegisterController extends WebController
                 60);
         }
 
-        return view('front.pages.register.register');
+        return view('v2.front.pages.register.register');
     }
 
     public function register(RegisterRequest $request, AccountRepository $accountRepository)
@@ -37,7 +37,7 @@ final class RegisterController extends WebController
 
         $account->notify(new AccountActivationNotification($account));
 
-        return view('front.pages.register.register-success');
+        return view('v2.front.pages.register.register-success');
     }
 
     /**
@@ -54,7 +54,7 @@ final class RegisterController extends WebController
         $email = $request->get('email');
 
         if (empty($email)) {
-            return view('front.pages.register.register');
+            return redirect()->route('front.register');
         }
 
         $activateUnverifiedAccount->execute(
@@ -69,6 +69,6 @@ final class RegisterController extends WebController
             return redirect($intended);
         }
 
-        return view('front.pages.register.register-verify-complete');
+        return view('v2.front.pages.register.register-verify-complete');
     }
 }

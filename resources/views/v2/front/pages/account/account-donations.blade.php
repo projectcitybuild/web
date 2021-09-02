@@ -15,7 +15,7 @@
         <div class="settings__content">
             <div class="settings__section">
                 <h2 class="settings__section-heading">Your Donations</h2>
-                <p class="settings__description">A record of all your contributions to help keep PCB running.<br>If
+                <p class="form__description">A record of all your contributions to help keep PCB running.<br>If
                     you've donated, but it hasn't appeared here, please contact PCB staff via <a
                         href="https://forums.projectcitybuild.com/c/support/">our discussion forums</a> or Discord.</p>
             </div>

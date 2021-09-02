@@ -27,20 +27,14 @@
             @endif
 
             <p>
-                Please enter the email address you used to create your account. 
+                Please enter the email address you used to create your account.
                 If the account exists, an email will be sent with a link to change your password.
             </p>
 
             <form method="post" action="{{ route('front.password-reset.store') }}" id="form">
                 @csrf
-                
-                @if($errors->any())
-                    <div class="alert alert--error">
-                        <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
-                        {{ $errors->first() }}
-                    </div>
-                    <p>
-                @endif
+
+                @include('v2.front.components.form-error')
 
                 <div class="form-row">
                     <input class="input-text {{ $errors->any() ? 'input-text--error' : '' }}" name="email" type="email" placeholder="Email Address" value="{{ old('email') }}" />

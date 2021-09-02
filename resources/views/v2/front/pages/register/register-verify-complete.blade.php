@@ -1,23 +1,15 @@
-@extends('front.layouts.master')
+@extends('v2.front.templates.master')
 
-@section('title', 'Registration Complete')
+@section('title', 'Registration Verification')
 @section('description', "")
 
-@section('contents')
-
-    <div class="card">
-        <div class="card__body card__body--padded">
+@section('body')
+    <main class="page login">
+        <section class="login__dialog login__confirm">
             <h1>Registration Complete</h1>
-            <p>
-                Thank you for registering. Your account is now active.
-            </p>
+            <p>Thanks for confirming your email. Your account is now active.</p>
 
-            <a class="button button--large button--primary" href="https://forums.projectcitybuild.com/login">
-                <i class="fas fa-chevron-right"></i>
-                Go to Login Screen
-            </a>
-        </div>
-
-    </div>
-
+            <a href="{{ route('front.login') }}" class="button button--filled">Go to login</a>
+        </section>
+    </main>
 @endsection

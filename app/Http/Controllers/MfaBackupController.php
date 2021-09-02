@@ -12,7 +12,7 @@ class MfaBackupController extends WebController
 {
     public function show(Request $request)
     {
-        return view('front.pages.login.mfa-backup');
+        return view('v2.front.pages.login.mfa-backup');
     }
 
     public function destroy(Request $request, LogoutService $logoutService)
@@ -30,7 +30,8 @@ class MfaBackupController extends WebController
         $request->user()->resetTotp();
         $request->user()->save();
         $request->user()->notify(new AccountMfaBackupCodeUsedNotification());
-        $request->session()->invalidate();
+        $logoutService->logoutOfPCB();
+        $request->session()->flush();
         $request->session()->regenerateToken();
         $request->session()->flash('mfa_removed', true);
 

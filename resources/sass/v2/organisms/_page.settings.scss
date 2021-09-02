@@ -82,29 +82,6 @@ $menu-border: 1px solid #e6e6e6;
         margin-top: 0;
     }
 
-    .settings__description {
-        //font-size: 1.1rem;
-        margin-top: 0.5rem;
-        line-height: 1.5;
-        color: $color-text-primary;
-    }
-
-    .settings__form {
-        width: 100%;
-
-        .form-row:first-of-type label {
-            margin-top: 2rem;
-        }
-
-        .form-row:not(:last-child) {
-            margin-bottom: 1rem;
-        }
-    }
-
-    button {
-        margin-top: 0.5rem;
-    }
-
     .alert {
         max-width: 650px;
     }
@@ -198,7 +175,7 @@ $menu-border: 1px solid #e6e6e6;
             padding: 1.5em 2.5em;
         }
 
-        .settings__form {
+        .form {
             width: 40%;
         }
     }
