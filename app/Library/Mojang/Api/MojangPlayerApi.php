@@ -69,7 +69,6 @@ class MojangPlayerApi
      * the given name, regardless of who currently owns it now.
      *
      * @param $name
-     *
      * @return MojangPlayer
      *
      * @throws TooManyRequestsException
@@ -141,7 +140,6 @@ class MojangPlayerApi
      * The UUID must be given without hyphens.
      *
      * @param $uuid
-     *
      * @return array|null
      *
      * @throws TooManyRequestsException
@@ -175,7 +173,6 @@ class MojangPlayerApi
      * Performs two lookups as the original API can only be queried using an UUID.
      *
      * @param $name
-     *
      * @return array|null
      *
      * @throws TooManyRequestsException

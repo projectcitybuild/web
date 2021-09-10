@@ -29,6 +29,7 @@ final class PlayerFetchService
      * This operation will block the current process until the query succeeds or fails.
      *
      * @return App\Library\Mojang\Models\MojangPlayer[]
+     *
      * @throws UnsupportedGameException
      */
     public function fetchSynchronously(GameType $gameType, array $aliases, ?int $timestamp = null): array

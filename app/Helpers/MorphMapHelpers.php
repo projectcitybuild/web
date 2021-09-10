@@ -10,9 +10,6 @@ final class MorphMapHelpers
      * Returns the key that belongs to the given class resolution path.
      *
      * @see AppServiceProvider.php
-     *
-     *
-     *
      * @deprecated 1.10.1
      */
     public static function getMorphKeyOf(string $classResolvePath): string
