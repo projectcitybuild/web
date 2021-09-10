@@ -64,7 +64,7 @@ final class MinecraftLootBoxController extends ApiController
         if ($unredeemedBoxes->count() === 0) {
             return [
                 'data' => [
-                    'seconds_until_redeemable' => Carbon::tomorrow()->diffInSeconds(),
+                    'seconds_until_redeemable' => Carbon::now()->secondsUntilEndOfDay(),
                 ],
             ];
         }
@@ -91,7 +91,7 @@ final class MinecraftLootBoxController extends ApiController
         if ($unredeemedBoxes->count() === 0) {
             return [
                 'data' => [
-                    'seconds_until_redeemable' => Carbon::tomorrow()->diffInSeconds(),
+                    'seconds_until_redeemable' => Carbon::now()->secondsUntilEndOfDay(),
                 ],
             ];
         }
