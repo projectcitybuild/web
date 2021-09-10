@@ -51,6 +51,7 @@ class GroupFactory extends Factory
      * Sets the group as the donators group.
      *
      * @deprecated Use donor() instead
+     *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
     public function donator()

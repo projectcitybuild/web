@@ -41,7 +41,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Get a user in a group with admin rights.
      *
-     * @param bool|null $fresh force the creation of a fresh user
+     * @param  bool|null  $fresh  force the creation of a fresh user
      */
     protected function adminAccount(?bool $fresh = false): Account
     {

@@ -12,7 +12,6 @@ class DiscordWebhookNotifiable
      * Route notifications for the Discord channel.
      *
      * @param  \Illuminate\Notifications\Notification  $notification
-     *
      * @return string
      */
     public function routeNotificationForDiscord($notification)

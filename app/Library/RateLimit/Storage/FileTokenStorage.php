@@ -66,7 +66,6 @@ class FileTokenStorage implements TokenStorable
      * or a shared (read-only) lock for reading.
      *
      * @param $file
-     *
      * @return bool Whether lock succeeded
      */
     private function obtainLock($file, bool $forWriting = false): bool
@@ -78,8 +77,7 @@ class FileTokenStorage implements TokenStorable
      * Unlocks the given file to allow other
      * processes access to it.
      *
-     * @param resource $resource
-     *
+     * @param  resource  $resource
      * @return bool Whether unlock succeeded
      */
     private function unlock($resource): bool
