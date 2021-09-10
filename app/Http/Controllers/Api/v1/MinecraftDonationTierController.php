@@ -29,7 +29,7 @@ final class MinecraftDonationTierController extends ApiController
 
         $perks = $account->donationPerks
             ->where('is_active', true)
-            ->where('expires_at', '<', now())
+            ->where('expires_at', '>', now())
             ->unique('donation_tier_id');
 
         if ($perks === null || count($perks) === 0) {
