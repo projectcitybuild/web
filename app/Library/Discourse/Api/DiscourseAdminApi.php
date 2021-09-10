@@ -58,8 +58,7 @@ class DiscourseAdminApi extends DiscourseAPIRequest
      * given payload parameters. If the account exists, it will
      * be updated with the given parameters.
      *
-     * @param DiscoursePayload $payload
-     *
+     * @param  DiscoursePayload  $payload
      * @return array
      */
     public function requestSSOSync(array $payload)

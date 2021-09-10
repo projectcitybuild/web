@@ -30,6 +30,7 @@ final class ServerQueryJob implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     *
      * @throws \Domain\ServerStatus\Exceptions\UnsupportedGameException
      */
     public function handle(ServerQueryService $queryService)

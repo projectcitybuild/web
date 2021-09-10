@@ -18,8 +18,8 @@ final class GameBanRepository extends Repository
     /**
      * Stores a new GameBan.
      *
-     * @param string $bannedPlayerType
-     * @param string $staffPlayerType
+     * @param  string  $bannedPlayerType
+     * @param  string  $staffPlayerType
      */
     public function store(
         int $serverId,
@@ -51,8 +51,8 @@ final class GameBanRepository extends Repository
      * Gets the first active ban for the given game user id.
      * If a server id is not specified, searches only for global bans.
      *
-     * @param string $bannedPlayerType
-     * @param int $serverId
+     * @param  string  $bannedPlayerType
+     * @param  int  $serverId
      */
     public function getActiveBanByGameUserId(
         int $bannedPlayerId,
@@ -95,8 +95,7 @@ final class GameBanRepository extends Repository
     /**
      * Returns a collection of GameBans.
      *
-     * @param array $sort
-     *
+     * @param  array  $sort
      * @return void
      */
     public function getBans(int $take = 50, int $offset = 0, ?array $sort = null, array $filter = [])

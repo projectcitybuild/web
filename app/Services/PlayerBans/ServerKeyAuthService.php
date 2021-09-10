@@ -42,7 +42,7 @@ final class ServerKeyAuthService
     /**
      * Extracts a bearer token from an authorization request header.
      *
-     * @param string $authHeader    String in the format of 'Bearer <token>'
+     * @param  string  $authHeader  String in the format of 'Bearer <token>'
      *
      * @throws MalformedTokenException
      */
