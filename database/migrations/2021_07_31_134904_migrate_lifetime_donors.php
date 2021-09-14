@@ -32,17 +32,10 @@ class MigrateLifetimeDonors extends Migration
         try {
             // Give the 'Legacy Lifetime Donor' rank to any account that currently
             // has 'lifetime' donation perks
-            $legacyDonatorRank = Group::create([
-                'name' => 'legacy lifetime donor',
-                'alias' => null,
-                'is_default' => false,
-                'is_staff' => false,
-                'is_admin' => false,
-                'discourse_name' => null,
-                'minecraft_name' => 'legacy_donor',
-                'discord_name' => false,
-                'can_access_panel' => false,
-            ]);
+            $legacyDonorRank = Group::where('minecraft_name', 'legacy-donor')->first();
+            if ($legacyDonorRank === null) {
+                throw new \Exception('Could not find legacy donor rank');
+            }
 
             $lifetimePerks = DonationPerk::where('is_lifetime_perks', true)
                 ->where('is_active', true)
@@ -58,7 +51,7 @@ class MigrateLifetimeDonors extends Migration
                 if (in_array($account->getKey(), $resolvedAccountIds)) {
                     continue;
                 }
-                $account->groups()->attach($legacyDonatorRank->getKey());
+                $account->groups()->attach($legacyDonorRank->getKey());
 
                 $lifetimePerk->is_active = false;
                 $lifetimePerk->save();
@@ -85,13 +78,7 @@ class MigrateLifetimeDonors extends Migration
             'name' => 'iron',
         ]);
         DonationTier::create([
-            'name' => 'gold',
-        ]);
-        DonationTier::create([
             'name' => 'diamond',
-        ]);
-        DonationTier::create([
-            'name' => 'netherite',
         ]);
 
         $donationPerks = DonationPerk::where('is_active')->get();
