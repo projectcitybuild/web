@@ -41,6 +41,12 @@ class GroupSeeds extends Seeder
         ]);
 
         Group::create([
+            'name' => 'legacy donor',
+            'minecraft_name' => 'legacy-donor',
+            'discourse_name' => 'legacy-donor',
+        ]);
+
+        Group::create([
             'name' => 'moderator',
             'alias' => 'Mod',
             'is_staff' => true,
