@@ -34,7 +34,7 @@ class MigrateLifetimeDonors extends Migration
             // has 'lifetime' donation perks
             $legacyDonorRank = Group::where('minecraft_name', 'legacy-donor')->first();
             if ($legacyDonorRank === null) {
-                throw new \Exception("Could not find legacy donor rank");
+                throw new \Exception('Could not find legacy donor rank');
             }
 
             $lifetimePerks = DonationPerk::where('is_lifetime_perks', true)
