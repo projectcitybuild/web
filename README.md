@@ -41,6 +41,7 @@ You should read the [Laravel Sail](https://laravel.com/docs/8.x/sail) documentat
 
 1. Run `cp .env.example .env`, then edit the file as appropriate (see below)
 2. Run `make bootstrap`
+3. Run `alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'` to add the `sail` alias
 
 You'll then be able to access the website on `http://localhost`
 

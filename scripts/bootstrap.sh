@@ -33,14 +33,15 @@ fi
 
 # ------------------------------------------------------------------------------------------------
 
-echo "=> Adding sail alias..."
-
-if alias sail 2>/dev/null; then
-    alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
-    echo "Alias added"
-else
-    echo "Alias already exists. Skipping..."
-fi
+#echo "=> Adding sail alias..."
+#
+## Allow aliases created in here to be accessed by the outside
+#shopt -s expand_aliases
+#
+#unalias sail 2>/dev/null
+#
+#alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+#
 
 # ------------------------------------------------------------------------------------------------
 
