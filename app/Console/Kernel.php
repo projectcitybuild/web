@@ -9,7 +9,7 @@ use App\Console\Commands\RepairMissingGroupsCommand;
 use App\Console\Commands\ServerKeyCreateCommand;
 use App\Console\Commands\ServerQueryCommand;
 use App\Console\Commands\StripUUIDHyphensCommand;
-use App\Entities\Environment;
+use App\Entities\Models\Environment;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 

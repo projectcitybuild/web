@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Panel\Api;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Accounts\Resources\AccountResource;
+use App\Entities\Models\Eloquent\Account;
+use App\Entities\Resources\AccountResource;
 use Illuminate\Http\Request;
 
 class AccountSearchController

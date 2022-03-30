@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Domain\Donations;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Groups\Models\Group;
+use App\Entities\Models\Eloquent\Account;
+use App\Entities\Models\Eloquent\Group;
 use App\Http\Actions\SyncUserToDiscourse;
 use Domain\Donations\DonationGroupSyncService;
 use Illuminate\Foundation\Testing\RefreshDatabase;

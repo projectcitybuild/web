@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entities\Bans\Repositories;
+namespace App\Entities\Repositories;
 
-use App\Entities\Models\GameBanLog;
+use App\Entities\Models\Eloquent\GameBanLog;
 
 /**
  * @deprecated Use GameBanLog model facade instead

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Accounts\Models\Account;
+use App\Entities\Models\Eloquent\Account;
 use App\Http\Middleware\MfaGate;
 use Illuminate\Support\Facades\Crypt;
 use PragmaRX\Google2FA\Google2FA;

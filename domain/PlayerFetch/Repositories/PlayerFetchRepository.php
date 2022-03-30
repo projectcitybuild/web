@@ -2,8 +2,8 @@
 
 namespace Domain\PlayerFetch\Repositories;
 
-use App\Entities\Players\Models\MinecraftPlayer;
-use App\Entities\Players\Models\MinecraftPlayerAlias;
+use App\Entities\Models\Eloquent\MinecraftPlayer;
+use App\Entities\Models\Eloquent\MinecraftPlayerAlias;
 use DB;
 
 final class PlayerFetchRepository

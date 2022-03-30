@@ -2,7 +2,7 @@
 
 namespace App\Entities\Notifications;
 
-use App\Entities\Models\Account;
+use App\Entities\Models\Eloquent\Account;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;

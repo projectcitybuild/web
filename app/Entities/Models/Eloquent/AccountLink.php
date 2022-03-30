@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities\Accounts\Models;
+namespace App\Entities\Models\Eloquent;
 
 use App\Model;
 
@@ -27,6 +27,6 @@ final class AccountLink extends Model
 
     public function account()
     {
-        return $this->belongsTo('App\Entities\Accounts\Models\Account', 'account_id', 'account_id');
+        return $this->belongsTo('App\Entities\Models\Eloquent\Account', 'account_id', 'account_id');
     }
 }

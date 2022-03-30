@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entities\Bans\Repositories;
+namespace App\Entities\Repositories;
 
-use App\Entities\GamePlayerType;
-use App\Entities\Models\GameUnban;
+use App\Entities\Models\Eloquent\GameUnban;
+use App\Entities\Models\GamePlayerType;
 use App\Repository;
 
 /**

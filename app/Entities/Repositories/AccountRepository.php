@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entities\Accounts\Repositories;
+namespace App\Entities\Repositories;
 
-use App\Entities\Models\Account;
+use App\Entities\Models\Eloquent\Account;
 use App\Repository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;

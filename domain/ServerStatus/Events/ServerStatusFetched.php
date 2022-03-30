@@ -2,7 +2,7 @@
 
 namespace Domain\ServerStatus\Events;
 
-use App\Entities\GameType;
+use App\Entities\Models\GameType;
 use Domain\ServerStatus\Entities\ServerQueryResult;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;

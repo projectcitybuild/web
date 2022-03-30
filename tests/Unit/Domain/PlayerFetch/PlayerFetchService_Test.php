@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Domain\PlayerFetch;
 
-use App\Entities\GameType;
-use App\Entities\Players\Models\MinecraftPlayer;
-use App\Entities\Players\Models\MinecraftPlayerAlias;
+use App\Entities\Models\Eloquent\MinecraftPlayer;
+use App\Entities\Models\Eloquent\MinecraftPlayerAlias;
+use App\Entities\Models\GameType;
 use App\Library\Mojang\Models\MojangPlayer;
 use Domain\PlayerFetch\Adapters\MojangUUIDFetchAdapter;
 use Domain\PlayerFetch\Jobs\PlayerFetchJob;

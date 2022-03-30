@@ -2,7 +2,7 @@
 
 namespace Domain\ServerStatus;
 
-use App\Entities\GameType;
+use App\Entities\Models\GameType;
 use Domain\ServerStatus\Adapters\MinecraftQueryAdapter;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
 

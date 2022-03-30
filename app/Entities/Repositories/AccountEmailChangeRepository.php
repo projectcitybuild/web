@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entities\Accounts\Repositories;
+namespace App\Entities\Repositories;
 
-use App\Entities\Models\AccountEmailChange;
+use App\Entities\Models\Eloquent\AccountEmailChange;
 use App\Repository;
 
 /**

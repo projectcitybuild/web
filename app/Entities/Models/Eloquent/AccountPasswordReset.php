@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Entities\Accounts\Models;
+namespace App\Entities\Models\Eloquent;
 
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\URL;
+use function now;
 
 final class AccountPasswordReset extends Model
 {

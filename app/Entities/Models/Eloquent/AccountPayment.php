@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Entities\Payments\Models;
+namespace App\Entities\Models\Eloquent;
 
-use App\Entities\Models\Account;
 use App\Model;
 
 /**

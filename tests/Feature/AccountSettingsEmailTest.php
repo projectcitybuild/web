@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Accounts\Notifications\AccountEmailChangeVerifyNotification;
+use App\Entities\Models\Eloquent\Account;
+use App\Entities\Notifications\AccountEmailChangeVerifyNotification;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;

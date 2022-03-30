@@ -2,8 +2,8 @@
 
 namespace Tests\E2E;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Groups\Models\Group;
+use App\Entities\Models\Eloquent\Account;
+use App\Entities\Models\Eloquent\Group;
 use Tests\TestCase;
 
 class DonationWebhookTest extends TestCase

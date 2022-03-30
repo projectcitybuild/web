@@ -1,11 +1,8 @@
 <?php
 
-namespace App\Entities\Accounts\Models;
+namespace App\Entities\Models\Eloquent;
 
-use App\Entities\Accounts\Resources\AccountResource;
-use App\Entities\Donations\Models\Donation;
-use App\Entities\Donations\Models\DonationPerk;
-use App\Entities\Groups\Models\Group;
+use App\Entities\Resources\AccountResource;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -15,6 +12,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
 use Laravel\Cashier\Billable;
 use Laravel\Scout\Searchable;
+use function collect;
+use function now;
 
 final class Account extends Authenticatable
 {
@@ -59,12 +58,12 @@ final class Account extends Authenticatable
 
     public function minecraftAccount(): HasMany
     {
-        return $this->hasMany('App\Entities\Players\Models\MinecraftPlayer', 'account_id', 'account_id');
+        return $this->hasMany('App\Entities\Models\Eloquent\MinecraftPlayer', 'account_id', 'account_id');
     }
 
     public function linkedSocialAccounts(): HasMany
     {
-        return $this->hasMany('App\Entities\Accounts\Models\AccountLink', 'account_id', 'account_id');
+        return $this->hasMany('App\Entities\Models\Eloquent\AccountLink', 'account_id', 'account_id');
     }
 
     public function groups(): BelongsToMany

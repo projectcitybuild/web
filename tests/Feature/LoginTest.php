@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Accounts\Models\Account;
+use App\Entities\Models\Eloquent\Account;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use Tests\TestCase;
 

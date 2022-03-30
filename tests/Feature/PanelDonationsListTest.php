@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Donations\Models\Donation;
+use App\Entities\Models\Eloquent\Donation;
 use Tests\TestCase;
 
 class PanelDonationsListTest extends TestCase

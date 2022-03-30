@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Entities\Players\Models;
+namespace App\Entities\Models\Eloquent;
 
-use App\Entities\Bans\BannableModelInterface;
-use App\Entities\Models\Account;
-use App\Entities\Models\GameBan;
+use App\Entities\BannableModelInterface;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

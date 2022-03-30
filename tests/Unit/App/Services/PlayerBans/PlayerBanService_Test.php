@@ -2,9 +2,9 @@
 
 namespace Tests\Services;
 
-use App\Entities\Bans\Models\GameBan;
-use App\Entities\GamePlayerType;
-use App\Entities\ServerKeys\Models\ServerKey;
+use App\Entities\Models\Eloquent\GameBan;
+use App\Entities\Models\Eloquent\ServerKey;
+use App\Entities\Models\GamePlayerType;
 use App\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
 use App\Services\PlayerBans\Exceptions\UserNotBannedException;
 use App\Services\PlayerBans\PlayerBanService;

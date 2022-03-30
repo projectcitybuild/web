@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entities\Servers\Repositories;
+namespace App\Entities\Repositories;
 
-use App\Entities\Servers\Models\ServerStatusPlayer;
+use App\Entities\Models\Eloquent\ServerStatusPlayer;
 use App\Repository;
 
 /**

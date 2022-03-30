@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Entities\GameType;
-use App\Entities\Servers\Models\Server;
-use App\Entities\Servers\Models\ServerCategory;
+use App\Entities\Models\Eloquent\Server;
+use App\Entities\Models\Eloquent\ServerCategory;
+use App\Entities\Models\GameType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ServerFactory extends Factory

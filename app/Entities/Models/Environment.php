@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Entities;
+namespace App\Entities\Models;
+
+use function config;
 
 final class Environment
 {

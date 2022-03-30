@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entities\Bans\Repositories;
+namespace App\Entities\Repositories;
 
-use App\Entities\GamePlayerType;
-use App\Entities\Models\GameBan;
+use App\Entities\Models\Eloquent\GameBan;
+use App\Entities\Models\GamePlayerType;
 use App\Repository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;

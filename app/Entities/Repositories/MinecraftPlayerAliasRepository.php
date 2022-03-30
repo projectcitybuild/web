@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Entities\Players\Repositories;
+namespace App\Entities\Repositories;
 
-use App\Entities\Players\Models\MinecraftPlayerAlias;
+use App\Entities\Models\Eloquent\MinecraftPlayerAlias;
+use App\Entities\Players\Repositories\GameUser;
 use App\Repository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use function collect;
 
 /**
  * @deprecated Use MinecraftPlayerAlias model facade instead

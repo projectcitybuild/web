@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Entities\Accounts\Models;
+namespace App\Entities\Models\Eloquent;
 
 use App\Model;
 use Illuminate\Support\Facades\URL;
+use function now;
 
 final class AccountEmailChange extends Model
 {
@@ -27,7 +28,7 @@ final class AccountEmailChange extends Model
 
     public function account()
     {
-        return $this->belongsTo('App\Entities\Accounts\Models\Account', 'account_id', 'account_id');
+        return $this->belongsTo('App\Entities\Models\Eloquent\Account', 'account_id', 'account_id');
     }
 
     public function getCurrentEmailUrl(int $expiryInMins = 20)

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities\Bans;
+namespace App\Entities;
 
 interface BannableModelInterface
 {

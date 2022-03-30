@@ -2,8 +2,8 @@
 
 namespace App\Services\PlayerLookup;
 
-use App\Entities\GamePlayerType;
-use App\Entities\Players\Repositories\MinecraftPlayerRepository;
+use App\Entities\Models\GamePlayerType;
+use App\Entities\Repositories\MinecraftPlayerRepository;
 
 class PlayerLookupService
 {

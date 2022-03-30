@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entities\Servers\Repositories;
+namespace App\Entities\Repositories;
 
-use App\Entities\Servers\Models\Server;
+use App\Entities\Models\Eloquent\Server;
 
 /**
  * @deprecated Use Server model facade instead

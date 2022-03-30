@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entities\Servers\Repositories;
+namespace App\Entities\Repositories;
 
-use App\Entities\Servers\Models\ServerCategory;
+use App\Entities\Models\Eloquent\ServerCategory;
 use Illuminate\Database\Eloquent\Collection;
 
 final class ServerCategoryRepository implements ServerCategoryRepositoryContract

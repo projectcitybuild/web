@@ -2,7 +2,7 @@
 
 namespace App\Entities\Notifications;
 
-use App\Entities\Models\AccountPasswordReset;
+use App\Entities\Models\Eloquent\AccountPasswordReset;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;

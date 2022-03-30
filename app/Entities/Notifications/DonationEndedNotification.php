@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Entities\Donations\Notifications;
+namespace App\Entities\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use function action;
 
 class DonationEndedNotification extends Notification
 {

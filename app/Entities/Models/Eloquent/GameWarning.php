@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities\Warnings\Models;
+namespace App\Entities\Models\Eloquent;
 
 use App\Model;
 

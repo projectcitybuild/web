@@ -2,7 +2,7 @@
 
 namespace App\Entities\Repositories;
 
-use App\Entities\Models\AccountLink;
+use App\Entities\Models\Eloquent\AccountLink;
 use App\Repository;
 
 /**

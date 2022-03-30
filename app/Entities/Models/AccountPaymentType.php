@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities\Payments;
+namespace App\Entities\Models;
 
 use App\Enum;
 

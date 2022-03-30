@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Entities\Accounts\Models\Account;
+use App\Entities\Models\Eloquent\Account;
 use App\Http\WebController;
 use App\Library\Discourse\Api\DiscourseUserApi;
 use GuzzleHttp\Exception\ClientException;

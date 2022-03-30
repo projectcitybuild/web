@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entities\Players\Services;
+namespace App\Services;
 
-use App\Entities\Models\MinecraftPlayer;
+use App\Entities\Models\Eloquent\MinecraftPlayer;
 use App\Entities\Repositories\MinecraftPlayerAliasRepository;
 use App\Entities\Repositories\MinecraftPlayerRepository;
 use Illuminate\Database\Connection;

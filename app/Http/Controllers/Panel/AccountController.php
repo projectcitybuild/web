@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Groups\Models\Group;
+use App\Entities\Models\Eloquent\Account;
+use App\Entities\Models\Eloquent\Group;
 use App\Http\Actions\SyncUserToDiscourse;
 use App\Http\WebController;
 use Illuminate\Http\Request;

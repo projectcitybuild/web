@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entities\ServerKeys\Repositories;
+namespace App\Entities\Repositories;
 
-use App\Entities\ServerKeys\Models\ServerKey;
+use App\Entities\Models\Eloquent\ServerKey;
 use App\Repository;
 
 /**

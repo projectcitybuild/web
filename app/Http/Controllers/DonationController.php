@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Donations\Models\DonationTier;
+use App\Entities\Models\Eloquent\DonationTier;
 use App\Http\WebController;
 use Illuminate\Http\Request;
 use Stripe\StripeClient;

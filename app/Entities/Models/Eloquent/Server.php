@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entities\Servers\Models;
+namespace App\Entities\Models\Eloquent;
 
-use App\Entities\GameType;
+use App\Entities\Models\GameType;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

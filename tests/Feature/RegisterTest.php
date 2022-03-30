@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Accounts\Notifications\AccountActivationNotification;
-use App\Entities\Groups\Models\Group;
+use App\Entities\Models\Eloquent\Account;
+use App\Entities\Models\Eloquent\Group;
+use App\Entities\Notifications\AccountActivationNotification;
 use App\Library\Recaptcha\RecaptchaRule;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;

@@ -2,13 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Donations\Models\Donation;
-use App\Entities\Donations\Models\DonationPerk;
-use App\Entities\Donations\Models\DonationTier;
-use App\Entities\Donations\Models\MinecraftLootBox;
-use App\Entities\Donations\Models\MinecraftRedeemedLootBox;
-use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Models\Eloquent\Account;
+use App\Entities\Models\Eloquent\Donation;
+use App\Entities\Models\Eloquent\DonationPerk;
+use App\Entities\Models\Eloquent\DonationTier;
+use App\Entities\Models\Eloquent\MinecraftLootBox;
+use App\Entities\Models\Eloquent\MinecraftPlayer;
+use App\Entities\Models\Eloquent\MinecraftRedeemedLootBox;
 use Carbon\Carbon;
 use Tests\TestCase;
 

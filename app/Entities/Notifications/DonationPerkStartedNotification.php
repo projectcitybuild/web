@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Entities\Donations\Notifications;
+namespace App\Entities\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
+use function route;
 
 class DonationPerkStartedNotification extends Notification
 {

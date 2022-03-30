@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Entities\Accounts\Models\AccountPasswordReset;
+use App\Entities\Models\Eloquent\AccountPasswordReset;
 use App\Helpers\TokenHelpers;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

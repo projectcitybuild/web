@@ -2,7 +2,7 @@
 
 namespace App\Http\Actions\AccountRegistration;
 
-use App\Entities\Accounts\Repositories\AccountRepository;
+use App\Entities\Repositories\AccountRepository;
 
 final class ActivateUnverifiedAccount
 {

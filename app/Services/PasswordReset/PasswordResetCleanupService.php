@@ -2,7 +2,7 @@
 
 namespace App\Services\PasswordReset;
 
-use App\Entities\Accounts\Repositories\AccountPasswordResetRepository;
+use App\Entities\Repositories\AccountPasswordResetRepository;
 use Illuminate\Support\Facades\Log;
 
 class PasswordResetCleanupService

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Entities\Donations\Models\MinecraftRedeemedLootBox;
-use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Models\Eloquent\MinecraftPlayer;
+use App\Entities\Models\Eloquent\MinecraftRedeemedLootBox;
 use App\Exceptions\Http\NotFoundException;
 use App\Http\ApiController;
 use App\Http\Controllers\Api\v1\Resources\MinecraftLootBoxResource;

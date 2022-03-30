@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App;
-use App\Entities\Servers\Models\Server;
+use App\Entities\Models\Eloquent\Server;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
 use Domain\ServerStatus\Repositories\ServerStatusRepository;
 use Domain\ServerStatus\ServerQueryAdapterFactory;

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Entities\Bans\Models;
+namespace App\Entities\Models\Eloquent;
 
-use App\Entities\Servers\Models\Server;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

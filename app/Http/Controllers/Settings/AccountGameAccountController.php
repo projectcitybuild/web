@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Settings;
 
-use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Models\Eloquent\MinecraftPlayer;
 use App\Http\WebController;
 use Illuminate\Http\Request;
 
