@@ -5,22 +5,18 @@ namespace App\Library\Discourse\Api;
 use App\Library\Discourse\Authentication\DiscoursePayloadValidator;
 use App\Library\Discourse\Entities\DiscoursePayload;
 use App\Library\Discourse\Exceptions\UserNotFound;
+use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
 
-class DiscourseAdminApi extends DiscourseAPIRequest
+class DiscourseAdminApi
 {
-    /**
-     * @var DiscoursePayloadValidator
-     */
-    private $discoursePayloadValidator;
+    private Client $client;
 
     public function __construct(
-        DiscourseClient $client,
-        DiscoursePayloadValidator $discoursePayloadValidator
+        private DiscourseClientFactory $clientFactory,
+        private DiscoursePayloadValidator $discoursePayloadValidator
     ) {
-        parent::__construct($client);
-
-        $this->discoursePayloadValidator = $discoursePayloadValidator;
+        $this->client = $this->clientFactory->make();
     }
 
     /**

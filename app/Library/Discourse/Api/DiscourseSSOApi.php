@@ -3,9 +3,17 @@
 namespace App\Library\Discourse\Api;
 
 use App\Library\Discourse\Entities\DiscoursePackedNonce;
+use GuzzleHttp\Client;
 
-class DiscourseSSOApi extends DiscourseAPIRequest
+class DiscourseSSOApi
 {
+    private Client $client;
+
+    public function __construct(private DiscourseClientFactory $clientFactory)
+    {
+        $this->client = $this->clientFactory->make();
+    }
+
     /**
      * The normal way to get a nonce from Discourse is to redirect the user to
      * a specific Discourse (/session/sso) URL. Discourse will then redirect the

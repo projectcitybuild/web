@@ -2,8 +2,17 @@
 
 namespace App\Library\Discourse\Api;
 
-class DiscoursePrivateMessageApi extends DiscourseAPIRequest
+use GuzzleHttp\Client;
+
+class DiscoursePrivateMessageApi
 {
+    private Client $client;
+
+    public function __construct(private DiscourseClientFactory $clientFactory)
+    {
+        $this->client = $this->clientFactory->make();
+    }
+
     public function createPrivateMessage(string $title, string $message, array $recipients, ?int $createdAt = null): array
     {
         $response = $this->client->post('posts.json', [

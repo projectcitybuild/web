@@ -2,8 +2,17 @@
 
 namespace App\Library\Discourse\Api;
 
-class DiscourseGroupApi extends DiscourseAPIRequest
+use GuzzleHttp\Client;
+
+class DiscourseGroupApi
 {
+    private Client $client;
+
+    public function __construct(private DiscourseClientFactory $clientFactory)
+    {
+        $this->client = $this->clientFactory->make();
+    }
+
     /**
      * Finds a Discourse account that belongs to
      * the given PCB account id.
