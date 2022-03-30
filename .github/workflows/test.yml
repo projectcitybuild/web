@@ -5,9 +5,10 @@ on: push
 jobs:
   test:
     runs-on: ubuntu-latest
+
     services:
       mysql:
-        image: mariadb:10.3
+        image: mariadb:10.4
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: pcb
@@ -16,7 +17,7 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=5s --health-retries=3
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -27,7 +28,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: '15'
+          node-version: '16'
           cache: 'npm'
 
       - name: Copy environment
@@ -36,10 +37,11 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate
 
-      - name: Get Composer Cache Directory
+      - name: Get Composer cache Directory
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
+
       - uses: actions/cache@v1
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
@@ -48,20 +50,26 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Composer dependencies
-        run: composer install --no-interaction
+        run: composer install --no-interaction --no-scripts
 
-      - name: NPM Install
+      - name: NPM install
         run: npm ci
 
-      - name: NPM Build
+      - name: NPM build
         run: npm run prod
 
-      - name: Generate Key
+      - name: Generate key
         run: php artisan key:generate
 
-      - name: Prepare Database
+      - name: Set directory permissions
+        run: chmod -R 777 storage bootstrap/cache
+
+      - name: Prepare database
         env:
           DB_CONNECTION: mysql
+          DB_DATABASE: pcb
+          DB_USER: root
+          DB_PASS: root
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
         run: php artisan migrate
 
@@ -72,7 +80,7 @@ jobs:
         env:
           DB_CONNECTION: mysql
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
-        run: phpdbg -dmemory_limit=1G -qrr artisan test --parallel --recreate-databases --coverage-clover tests/coverage/clover.xml --testsuite=UnitAndFeature
+        run: php artisan test --parallel --recreate-databases --coverage-clover tests/coverage/clover.xml --testsuite=UnitAndFeature
 
       - name: Upload coverage
         run: curl -s https://codecov.io/bash | bash -f
