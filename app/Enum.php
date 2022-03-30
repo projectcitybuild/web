@@ -2,6 +2,9 @@
 
 namespace App;
 
+/**
+ * @deprecated Use PHP 8.1 enums
+ */
 abstract class Enum
 {
     protected $value;
