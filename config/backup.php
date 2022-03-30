@@ -115,6 +115,21 @@ return [
          * The directory where the temporary files will be stored.
          */
         'temporary_directory' => storage_path('app/backup-temp'),
+
+        /*
+         * The password to be used for archive encryption.
+         * Set to `null` to disable encryption.
+         */
+        'password' => null,
+
+        /*
+         * The encryption algorithm to be used for archive encryption.
+         * You can set it to `null` or `false` to disable encryption.
+         *
+         * When set to 'default', we'll use ZipArchive::EM_AES_256 if it is
+         * available on your system.
+         */
+        'encryption' => null,
     ],
 
     /*
