@@ -66,7 +66,7 @@ final class Server extends Model
         return $this->belongsTo(ServerCategory::class, 'server_category_id', 'server_category_id');
     }
 
-    public function status()
+    public function status(): BelongsTo
     {
         return $this->belongsTo(ServerStatus::class, 'server_id', 'server_id')
             ->take(1)

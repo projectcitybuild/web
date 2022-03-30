@@ -4,6 +4,7 @@ namespace App\Entities\Servers\Models;
 
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 final class ServerCategory extends Model
 {
@@ -27,7 +28,7 @@ final class ServerCategory extends Model
         'updated_at',
     ];
 
-    public function servers()
+    public function servers(): HasMany
     {
         return $this->hasMany('App\Entities\Servers\Models\Server', 'server_category_id', 'server_category_id');
     }

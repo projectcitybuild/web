@@ -8,6 +8,8 @@ use App\Entities\Donations\Models\DonationPerk;
 use App\Entities\Groups\Models\Group;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
@@ -55,32 +57,32 @@ final class Account extends Authenticatable
         ];
     }
 
-    public function minecraftAccount()
+    public function minecraftAccount(): HasMany
     {
         return $this->hasMany('App\Entities\Players\Models\MinecraftPlayer', 'account_id', 'account_id');
     }
 
-    public function linkedSocialAccounts()
+    public function linkedSocialAccounts(): HasMany
     {
         return $this->hasMany('App\Entities\Accounts\Models\AccountLink', 'account_id', 'account_id');
     }
 
-    public function groups()
+    public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'groups_accounts', 'account_id', 'group_id');
     }
 
-    public function donations()
+    public function donations(): HasMany
     {
         return $this->hasMany(Donation::class, 'account_id');
     }
 
-    public function donationPerks()
+    public function donationPerks(): HasMany
     {
         return $this->hasMany(DonationPerk::class, 'account_id', 'account_id');
     }
 
-    public function emailChangeRequests()
+    public function emailChangeRequests(): HasMany
     {
         return $this->hasMany(AccountEmailChange::class, 'account_id');
     }

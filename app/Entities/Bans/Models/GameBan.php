@@ -6,6 +6,7 @@ use App\Entities\Servers\Models\Server;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Laravel\Scout\Searchable;
 
 final class GameBan extends Model
@@ -39,17 +40,17 @@ final class GameBan extends Model
         'updated_at',
     ];
 
-    public function bannedPlayer()
+    public function bannedPlayer(): MorphTo
     {
         return $this->morphTo(null, 'banned_player_type', 'banned_player_id');
     }
 
-    public function staffPlayer()
+    public function staffPlayer(): MorphTo
     {
         return $this->morphTo(null, 'staff_player_type', 'staff_player_id');
     }
 
-    public function unban()
+    public function unban(): BelongsTo
     {
         return $this->belongsTo(GameUnban::class, 'game_ban_id', 'game_ban_id');
     }
