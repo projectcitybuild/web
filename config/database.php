@@ -33,7 +33,7 @@ return [
 
     'connections' => [
 
-        // in-memory sqlite database for integration tests
+        // In-memory sqlite database for integration tests
         'tests' => [
             'driver' => 'sqlite',
             'database' => ':memory:',
