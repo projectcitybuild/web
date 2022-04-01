@@ -5,16 +5,24 @@ on: push
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 32574
+      DB_DATABASE: pcb
+      DB_USER: root
+      DB_PASS: root
 
     services:
-      mysql:
+      mariadb:
         image: mariadb:10.4
         env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: pcb
         ports:
-          - 3306
-        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=5s --health-retries=3
+          - 32574:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - uses: actions/checkout@v3
@@ -31,23 +39,19 @@ jobs:
           node-version: '16'
           cache: 'npm'
 
-      - name: Copy environment
-        run:  cp .env.ci .env
-
       - name: Validate composer.json and composer.lock
         run: composer validate
 
       - name: Get Composer cache Directory
         id: composer-cache
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - uses: actions/cache@v1
+      - name: Cache Composer dependencies
+        uses: actions/cache@v1
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Composer dependencies
         run: composer install --no-interaction --no-scripts
@@ -58,26 +62,17 @@ jobs:
       - name: NPM build
         run: npm run prod
 
-      - name: Generate key
-        run: php artisan key:generate
-
-      - name: Set directory permissions
-        run: chmod -R 777 storage bootstrap/cache
+      - name: Prepare Laravel
+        run: |
+          cp .env.ci .env
+          php artisan key:generate
+          chmod -R 777 storage bootstrap/cache
 
       - name: Prepare database
-        env:
-          DB_CONNECTION: mysql
-          DB_DATABASE: pcb
-          DB_USER: root
-          DB_PASS: root
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
         run: php artisan migrate
 
       - name: Larastan
         run: ./vendor/bin/phpstan analyse --memory-limit=1G
 
       - name: PHPUnit
-        env:
-          DB_CONNECTION: mysql
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
-        run: php artisan test --parallel --recreate-databases --testsuite=UnitAndFeature
+        run: phpdbg -dmemory_limit=1G -qrr artisan test --parallel --recreate-databases --coverage-text --testsuite=UnitAndFeature
