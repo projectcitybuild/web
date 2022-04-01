@@ -2,8 +2,8 @@
 
 namespace App\Services\PlayerBans;
 
-use App\Entities\ServerKeys\Models\ServerKey;
-use App\Entities\ServerKeys\Repositories\ServerKeyRepository;
+use App\Entities\Models\Eloquent\ServerKey;
+use App\Entities\Repositories\ServerKeyRepository;
 use App\Exceptions\Http\ForbiddenException;
 use App\Services\PlayerBans\Exceptions\MalformedTokenException;
 use App\Services\PlayerBans\Exceptions\UnauthorisedTokenException;

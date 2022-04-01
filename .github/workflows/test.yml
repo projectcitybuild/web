@@ -3,76 +3,42 @@ name: PHP (Unit Tests)
 on: push
 
 jobs:
-  test:
+  unit-test:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mariadb:10.3
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: pcb
-        ports:
-          - 3306
-        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=5s --health-retries=3
-
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.4
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
-          coverage: none
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '15'
-          cache: 'npm'
-
-      - name: Copy environment
-        run:  cp .env.ci .env
-
-      - name: Validate composer.json and composer.lock
-        run: composer validate
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
+      - name: Install Composer dependencies
         run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+          docker run --rm \
+            -u "$(id -u):$(id -g)" \
+            -v $(pwd):/var/www/html \
+            -w /var/www/html \
+            laravelsail/php81-composer:latest \
+            composer validate && composer install --ignore-platform-reqs --no-interaction --no-scripts
 
-      - name: Composer dependencies
-        run: composer install --no-interaction
+      - name: Prepare .env file
+        run: cp .env.ci .env
 
-      - name: NPM Install
-        run: npm ci
+      - name: Build Docker containers
+        run: ./vendor/bin/sail up -d
 
-      - name: NPM Build
-        run: npm run prod
+      - name: Install npm dependencies
+        run: ./vendor/bin/sail npm ci
 
-      - name: Generate Key
-        run: php artisan key:generate
+      - name: Build front-end assets
+        run: ./vendor/bin/sail npm run prod
 
-      - name: Prepare Database
-        env:
-          DB_CONNECTION: mysql
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
-        run: php artisan migrate
+      - name: Prepare Laravel
+        run: |
+          ./vendor/bin/sail php artisan key:generate
+          chmod -R 777 storage bootstrap/cache
+
+      - name: Prepare database
+        run: ./vendor/bin/sail php artisan migrate
 
       - name: Larastan
-        run: ./vendor/bin/phpstan analyse --memory-limit=1G
+        run: ./vendor/bin/sail bin phpstan analyse --memory-limit=1G
 
       - name: PHPUnit
-        env:
-          DB_CONNECTION: mysql
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
-        run: phpdbg -dmemory_limit=1G -qrr artisan test --parallel --recreate-databases --coverage-clover tests/coverage/clover.xml --testsuite=UnitAndFeature
-
-      - name: Upload coverage
-        run: curl -s https://codecov.io/bash | bash -f
+        run: ./vendor/bin/sail test --testsuite=UnitAndFeature

@@ -2,7 +2,7 @@
 
 namespace Tests\Services;
 
-use App\Entities\ServerKeys\Models\ServerKey;
+use App\Entities\Models\Eloquent\ServerKey;
 use App\Exceptions\Http\ForbiddenException;
 use App\Exceptions\Http\UnauthorisedException;
 use App\Services\PlayerBans\Exceptions\MalformedTokenException;

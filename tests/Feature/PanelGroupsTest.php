@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Groups\Models\Group;
+use App\Entities\Models\Eloquent\Group;
 use Tests\TestCase;
 
 class PanelGroupsTest extends TestCase

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Models\Eloquent\MinecraftPlayer;
 use App\Library\Mojang\Api\MojangPlayerApi;
 use App\Library\Mojang\Models\MojangPlayer;
 use Illuminate\Foundation\Testing\WithFaker;

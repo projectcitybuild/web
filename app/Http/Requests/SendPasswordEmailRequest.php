@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Accounts\Repositories\AccountRepository;
+use App\Entities\Models\Eloquent\Account;
+use App\Entities\Repositories\AccountRepository;
 use Illuminate\Foundation\Http\FormRequest;
 
 final class SendPasswordEmailRequest extends FormRequest

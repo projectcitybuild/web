@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Accounts\Notifications\AccountMfaBackupCodeRegeneratedNotification;
-use App\Entities\Accounts\Notifications\AccountMfaDisabledNotification;
-use App\Entities\Accounts\Notifications\AccountMfaEnabledNotification;
+use App\Entities\Models\Eloquent\Account;
+use App\Entities\Notifications\AccountMfaBackupCodeRegeneratedNotification;
+use App\Entities\Notifications\AccountMfaDisabledNotification;
+use App\Entities\Notifications\AccountMfaEnabledNotification;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Notification;
 use PragmaRX\Google2FA\Google2FA;

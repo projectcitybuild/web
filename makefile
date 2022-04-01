@@ -7,9 +7,12 @@ help:
 	@echo ""
 	@echo "Available tasks:"
 	@echo "    bootstrap            Prepares your environment for first-time use"
-	@echo "    container            Creates a docker-compose container for local dev"
+	@echo "    watch                Boots up the container if necessary and auto-refreshes localhost:3000 when files change"
 	@echo ""
 
 .PHONY: bootstrap
 bootstrap:
 	@./scripts/bootstrap.sh
+
+watch:
+	@./scripts/watch.sh

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Entities\Donations\Models\MinecraftRedeemedLootBox;
-use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Models\Eloquent\MinecraftPlayer;
+use App\Entities\Models\Eloquent\MinecraftRedeemedLootBox;
 use App\Exceptions\Http\NotFoundException;
 use App\Http\ApiController;
 use App\Http\Controllers\Api\v1\Resources\MinecraftLootBoxResource;
@@ -44,7 +44,7 @@ final class MinecraftLootBoxController extends ApiController
             throw new NotFoundException('no_redeemable_boxes', 'Player does not have any perks that allow redeeming boxes');
         }
 
-        $redeemedBoxes = MinecraftRedeemedLootBox::where('account_id', $account->getKey())
+        $redeemedBoxes = MinecraftRedeemedLootBox::where('account_id', $account->getKey()) // @phpstan-ignore-line
             ->whereIn('minecraft_loot_box_id', $lootBoxes->pluck('minecraft_loot_box_id')->toArray())
             ->whereDate('created_at', Carbon::today())
             ->get()

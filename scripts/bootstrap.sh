@@ -22,28 +22,35 @@ fi
 
 echo "=> Downloading composer dependencies..."
 
-docker run --rm \
+if ! docker run --rm \
     -v $(pwd):/opt \
     -w /opt \
-    laravelsail/php74-composer:latest \
-    composer install
+    laravelsail/php81-composer:latest \
+    composer install --ignore-platform-reqs; then
+        echo "Error: Failed to download and install composer dependencies"
+        exit 1
+fi
 
 # ------------------------------------------------------------------------------------------------
 
-echo "=> Adding sail alias..."
-
-if alias sail 2>/dev/null; then
-    alias sail='bash vendor/bin/sail'
-    echo "Alias added"
-else
-    echo "Alias already exists. Skipping..."
-fi
+#echo "=> Adding sail alias..."
+#
+## Allow aliases created in here to be accessed by the outside
+#shopt -s expand_aliases
+#
+#unalias sail 2>/dev/null
+#
+#alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+#
 
 # ------------------------------------------------------------------------------------------------
 
 echo "=> Booting up container..."
 
-./vendor/bin/sail up -d
+if ! ./vendor/bin/sail up -d; then
+    echo "Error: Failed to start container"
+    exit 1
+fi
 
 # ------------------------------------------------------------------------------------------------
 

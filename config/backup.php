@@ -115,6 +115,21 @@ return [
          * The directory where the temporary files will be stored.
          */
         'temporary_directory' => storage_path('app/backup-temp'),
+
+        /*
+         * The password to be used for archive encryption.
+         * Set to `null` to disable encryption.
+         */
+        'password' => null,
+
+        /*
+         * The encryption algorithm to be used for archive encryption.
+         * You can set it to `null` or `false` to disable encryption.
+         *
+         * When set to 'default', we'll use ZipArchive::EM_AES_256 if it is
+         * available on your system.
+         */
+        'encryption' => null,
     ],
 
     /*
@@ -127,19 +142,27 @@ return [
     'notifications' => [
 
         'notifications' => [
-            \App\Library\Backup\BackupHasFailed::class => ['discord'],
-            \App\Library\Backup\UnhealthyBackupWasFound::class => ['discord'],
-            \App\Library\Backup\CleanupHasFailed::class => ['discord'],
-            \App\Library\Backup\BackupWasSuccessful::class => ['discord'],
-            \App\Library\Backup\HealthyBackupWasFound::class => ['discord'],
-            \App\Library\Backup\CleanupWasSuccessful::class => ['discord'],
+            \Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification::class => ['discord'],
+            \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification::class => ['discord'],
+            \Spatie\Backup\Notifications\Notifications\CleanupHasFailedNotification::class => ['discord'],
+            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessfulNotification::class => ['discord'],
+            \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFoundNotification::class => ['discord'],
+            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessfulNotification::class => ['discord'],
         ],
 
         /*
          * Here you can specify the notifiable to which the notifications should be sent. The default
          * notifiable will use the variables specified in this config file.
          */
-        'notifiable' => \App\Library\Discord\DiscordWebhookNotifiable::class,
+        'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
+
+        'discord' => [
+            'webhook_url' => env('DISCORD_BACKUP_WEBHOOK_URL'),
+
+            'username' => env('DISCORD_BACKUP_USERNAME', 'pcb-web'),
+
+            'avatar_url' => null,
+        ],
     ],
 
     /*

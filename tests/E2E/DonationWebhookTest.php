@@ -2,13 +2,20 @@
 
 namespace Tests\E2E;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Groups\Models\Group;
+use App\Entities\Models\Eloquent\Account;
+use App\Entities\Models\Eloquent\DonationTier;
+use App\Entities\Models\Eloquent\Group;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class DonationWebhookTest extends TestCase
 {
+    use RefreshDatabase;
+
     private Account $account;
+    private DonationTier $donationTier;
+    private Carbon $now;
 
     protected function setUp(): void
     {
@@ -19,6 +26,18 @@ class DonationWebhookTest extends TestCase
 
         Group::factory()->donor()->create();
         Group::factory()->member()->create();
+
+        $this->donationTier = DonationTier::factory()->create(['donation_tier_id' => 1]);
+
+        $this->now = Carbon::create(
+            year: 2022,
+            month: 4,
+            day: 1,
+            hour: 12,
+            minute: 15,
+            second: 30,
+        );
+        Carbon::setTestNow($this->now);
 
         // Prevent calls to Discourse
         putenv('IS_E2E_TEST=true');
@@ -49,7 +68,7 @@ class DonationWebhookTest extends TestCase
             'donation_id' => 1,
             'account_id' => $this->account->getKey(),
             'is_active' => true,
-            'expires_at' => now()->addMonth(),
+            'expires_at' => $this->now->addMonth(),
         ]);
 
         $this->assertDatabaseHas('payments', [
@@ -82,7 +101,7 @@ class DonationWebhookTest extends TestCase
             'donation_id' => 1,
             'account_id' => $this->account->getKey(),
             'is_active' => true,
-            'expires_at' => now()->addMonth(),
+            'expires_at' => $this->now->addMonth(),
         ]);
 
         $this->assertDatabaseHas('payments', [
@@ -115,7 +134,7 @@ class DonationWebhookTest extends TestCase
             'donation_id' => 1,
             'account_id' => $this->account->getKey(),
             'is_active' => true,
-            'expires_at' => now()->addMonths(2),
+            'expires_at' => $this->now->addMonths(2),
         ]);
 
         $this->assertDatabaseHas('payments', [

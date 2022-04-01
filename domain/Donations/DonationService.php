@@ -2,11 +2,11 @@
 
 namespace Domain\Donations;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Donations\Models\Donation;
-use App\Entities\Donations\Models\DonationPerk;
-use App\Entities\Donations\Notifications\DonationPerkStartedNotification;
-use App\Entities\Payments\Models\Payment;
+use App\Entities\Models\Eloquent\Account;
+use App\Entities\Models\Eloquent\Donation;
+use App\Entities\Models\Eloquent\DonationPerk;
+use App\Entities\Models\Eloquent\Payment;
+use App\Entities\Notifications\DonationPerkStartedNotification;
 use Illuminate\Support\Facades\DB;
 
 final class DonationService

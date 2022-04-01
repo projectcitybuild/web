@@ -2,8 +2,8 @@
 
 namespace Domain\Donations;
 
-use App\Entities\Donations\Models\DonationPerk;
-use App\Entities\Donations\Notifications\DonationEndedNotification;
+use App\Entities\Models\Eloquent\DonationPerk;
+use App\Entities\Notifications\DonationEndedNotification;
 use Illuminate\Support\Facades\Log;
 
 final class DeactivateExpiredDonorPerks

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Accounts\Notifications\AccountActivationNotification;
-use App\Entities\Accounts\Repositories\AccountRepository;
-use App\Entities\Groups\Models\Group;
+use App\Entities\Models\Eloquent\Group;
+use App\Entities\Notifications\AccountActivationNotification;
+use App\Entities\Repositories\AccountRepository;
 use App\Http\Actions\AccountRegistration\ActivateUnverifiedAccount;
 use App\Http\Requests\RegisterRequest;
 use App\Http\WebController;

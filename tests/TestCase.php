@@ -2,8 +2,8 @@
 
 namespace Tests;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Groups\Models\Group;
+use App\Entities\Models\Eloquent\Account;
+use App\Entities\Models\Eloquent\Group;
 use App\Http\Middleware\MfaGate;
 use App\Library\Mojang\Api\MojangPlayerApi;
 use Illuminate\Foundation\Testing\RefreshDatabase;

@@ -2,7 +2,7 @@
 
 namespace App\Library\Mojang\Api;
 
-use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Models\Eloquent\MinecraftPlayer;
 use App\Exceptions\Http\TooManyRequestsException;
 use App\Library\Mojang\Models\MojangPlayer;
 use App\Library\Mojang\Models\MojangPlayerNameHistory;

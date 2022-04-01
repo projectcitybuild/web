@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Settings\Mfa;
 
-use App\Entities\Accounts\Notifications\AccountMfaDisabledNotification;
+use App\Entities\Notifications\AccountMfaDisabledNotification;
 use App\Http\WebController;
 use Illuminate\Http\Request;
 

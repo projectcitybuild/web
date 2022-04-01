@@ -41,6 +41,7 @@ You should read the [Laravel Sail](https://laravel.com/docs/8.x/sail) documentat
 
 1. Run `cp .env.example .env`, then edit the file as appropriate (see below)
 2. Run `make bootstrap`
+3. Run `alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'` to add the `sail` alias
 
 You'll then be able to access the website on `http://localhost`
 
@@ -64,23 +65,13 @@ You can run the linter locally with `sail php artisan insights`
 If you want automatic fixing, you can run it with the `--fix` option
 
 ### Database
-* If the database schema has changed, remember to run `sail artisan migrate` from inside the workspace container to ensure you always have the latest schema.
+If the database schema has changed, remember to run `sail artisan migrate` from inside the workspace container to ensure you always have the latest schema.
 
 ### S3 Bucket
-Backups go to an S3 bucket specified in the `backup` disk. To run this functionality in development, you need to configure a valid bucket. To avoid having to use a real one:
+Backups go to an S3 bucket specified in the `backup` disk. To run this functionality in development, you need to configure a valid bucket.
 
-1. Go to `http://localhost:9000`, using the credentials minioadmin/minioadmin
+1. Go to `http://localhost:9000`, using the credentials `sail`/`password`
 2. Make a bucket called `pcb-backup`
-3. Put this in your `.env`:
-
-```dotenv
-AWS_ACCESS_KEY_ID=minioadmin
-AWS_SECRET_ACCESS_KEY=minioadmin
-AWS_DEFAULT_REGION=us-east-1
-AWS_BUCKET=pcb-backup
-AWS_ENDPOINT="http://minio:9000"
-AWS_URL="http://minio:9000"
-```
 
 ### Stripe Webhooks
 Use [stripe-cli](https://stripe.com/docs/stripe-cli) to receive payment webhooks locally.

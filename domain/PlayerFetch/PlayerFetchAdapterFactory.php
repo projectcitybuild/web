@@ -2,8 +2,7 @@
 
 namespace Domain\PlayerFetch;
 
-use App;
-use App\Entities\GameType;
+use App\Entities\Models\GameType;
 use Domain\PlayerFetch\Adapters\MojangUUIDFetchAdapter;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
 

@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Entities\Bans\Models\GameBan;
-use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Models\Eloquent\GameBan;
+use App\Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GameBanFactory extends Factory

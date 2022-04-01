@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-use App\Entities\Environment;
+use App\Entities\Models\Environment;
 use App\Exceptions\Http\BaseHttpException;
 use Illuminate\Foundation\Exceptions\Handler;
 use Throwable;

@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Groups\Models\Group;
+use App\Entities\Models\Eloquent\Account;
+use App\Entities\Models\Eloquent\Group;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 

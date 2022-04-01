@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Donations\Models\Donation;
-use App\Entities\Servers\Models\Server;
+use App\Entities\Models\Eloquent\Donation;
+use App\Entities\Models\Eloquent\Server;
 use App\Http\WebController;
 use Carbon\Carbon;
 

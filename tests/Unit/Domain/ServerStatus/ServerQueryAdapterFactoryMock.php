@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Domain\ServerStatus;
 
-use App\Entities\GameType;
+use App\Entities\Models\GameType;
 use Domain\ServerStatus\ServerQueryAdapter;
 use Domain\ServerStatus\ServerQueryAdapterFactoryContract;
 

@@ -3,8 +3,8 @@
 namespace Domain\PlayerFetch;
 
 use App;
-use App\Entities\GameType;
-use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Models\Eloquent\MinecraftPlayer;
+use App\Entities\Models\GameType;
 use Domain\PlayerFetch\Jobs\PlayerFetchJob;
 use Domain\PlayerFetch\Repositories\PlayerFetchRepository;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;

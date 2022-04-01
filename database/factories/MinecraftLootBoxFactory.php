@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Entities\Donations\Models\MinecraftLootBox;
+use App\Entities\Models\Eloquent\MinecraftLootBox;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Entities\Groups\Models\Group;
+use App\Entities\Models\Eloquent\Group;
 use App\Http\WebController;
 
 class GroupAccountController extends WebController

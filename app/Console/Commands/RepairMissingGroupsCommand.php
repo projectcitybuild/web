@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Groups\Models\Group;
+use App\Entities\Models\Eloquent\Account;
+use App\Entities\Models\Eloquent\Group;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 

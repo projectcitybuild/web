@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @deprecated
+ */
 abstract class Repository
 {
     /**

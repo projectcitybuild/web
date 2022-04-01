@@ -2,12 +2,12 @@
 
 namespace App\Services\PlayerBans;
 
-use App\Entities\Bans\Models\GameBan;
-use App\Entities\Bans\Models\GameUnban;
-use App\Entities\Bans\Repositories\GameBanRepository;
-use App\Entities\Bans\Repositories\GameUnbanRepository;
-use App\Entities\GamePlayerType;
-use App\Entities\ServerKeys\Models\ServerKey;
+use App\Entities\Models\Eloquent\GameBan;
+use App\Entities\Models\Eloquent\GameUnban;
+use App\Entities\Models\Eloquent\ServerKey;
+use App\Entities\Models\GamePlayerType;
+use App\Entities\Repositories\GameBanRepository;
+use App\Entities\Repositories\GameUnbanRepository;
 use App\Services\PlayerBans\Exceptions\UnauthorisedKeyActionException;
 use App\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
 use App\Services\PlayerBans\Exceptions\UserNotBannedException;

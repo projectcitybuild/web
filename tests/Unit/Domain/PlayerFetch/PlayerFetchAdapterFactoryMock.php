@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Domain\PlayerFetch;
 
-use App\Entities\GameType;
+use App\Entities\Models\GameType;
 use Domain\PlayerFetch\PlayerFetchAdapter;
 use Domain\PlayerFetch\PlayerFetchAdapterFactoryContract;
 

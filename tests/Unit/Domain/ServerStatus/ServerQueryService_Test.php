@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Domain\ServerStatus;
 
-use App\Entities\Servers\Models\Server;
+use App\Entities\Models\Eloquent\Server;
 use Domain\ServerStatus\Entities\ServerQueryResult;
 use Domain\ServerStatus\Events\ServerStatusFetched;
 use Domain\ServerStatus\Jobs\ServerQueryJob;

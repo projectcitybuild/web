@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Players\Models\MinecraftPlayer;
+use App\Entities\Models\Eloquent\Account;
+use App\Entities\Models\Eloquent\MinecraftPlayer;
 use App\Library\Mojang\Api\MojangPlayerApi;
 use App\Library\Mojang\Models\MojangPlayerNameHistory;
 use Illuminate\Foundation\Testing\WithFaker;

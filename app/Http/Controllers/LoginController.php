@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Accounts\Repositories\AccountRepository;
+use App\Entities\Repositories\AccountRepository;
 use App\Http\Middleware\MfaGate;
 use App\Http\Requests\LoginRequest;
 use App\Http\WebController;
