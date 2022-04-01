@@ -15,16 +15,13 @@ jobs:
             -v $(pwd):/var/www/html \
             -w /var/www/html \
             laravelsail/php81-composer:latest \
-            composer install --ignore-platform-reqs --no-interaction --no-scripts
+            composer validate && composer install --ignore-platform-reqs --no-interaction --no-scripts
 
       - name: Prepare .env file
         run: cp .env.ci .env
 
       - name: Build Docker containers
         run: ./vendor/bin/sail up -d
-
-      - name: Validate composer.json and composer.lock
-        run: ./vendor/bin/sail composer validate
 
       - name: Install npm dependencies
         run: ./vendor/bin/sail npm ci
