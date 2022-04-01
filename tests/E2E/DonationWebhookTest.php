@@ -5,11 +5,14 @@ namespace Tests\E2E;
 use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\DonationTier;
 use App\Entities\Models\Eloquent\Group;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class DonationWebhookTest extends TestCase
 {
+    use RefreshDatabase;
+    
     private Account $account;
     private DonationTier $donationTier;
     private Carbon $now;
