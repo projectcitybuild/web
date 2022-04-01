@@ -5,40 +5,77 @@ on: push
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 32574
+      DB_DATABASE: pcb
+      DB_USER: root
+      DB_PASS: root
+
+    services:
+      mariadb:
+        image: mariadb:10.4
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: pcb
+        ports:
+          - 32574:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set-up environment file
-        run:  cp .env.ci .env
-
-      - name: Build Docker containers
-        run:  docker-compose up -d
-
-      - name: Output logs
-        run: docker-compose logs
-
-      - name: Check containers are running
-        run:  docker ps -a
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+          coverage: none
 
       - name: Validate composer.json and composer.lock
-        run:  docker-compose exec -T laravel.test composer validate
-      - name: Composer dependencies
-        run:  docker-compose exec -T laravel.test composer install --no-interaction
+        run: composer validate
 
-      - name: NPM install
-        run:  docker-compose exec -T laravel.test npm ci
+      - name: Get Composer cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - name: NPM build
-        run:  docker-compose exec -T laravel.test npm run prod
+      - name: Cache Composer dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
 
-      - name: Generate key
-        run:  docker-compose exec -T laravel.test php artisan key:generate
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --no-scripts
+
+      - name: Build Docker containers
+        run: |
+          alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+          sail up -d
+
+      - name: Install Composer dependencies in Docker container
+        run: sail composer install --no-interaction --no-scripts
+
+      - name: Install npm dependencies
+        run: sail npm ci
+
+      - name: Build front-end assets
+        run: sail npm run prod
+
+      - name: Prepare Laravel
+        run: |
+          cp .env.ci .env
+          sail php artisan key:generate
+          chmod -R 777 storage bootstrap/cache
 
       - name: Prepare database
-        run:  docker-compose exec -T laravel.test php artisan migrate
+        run: sail php artisan migrate
 
       - name: Larastan
-        run:  docker-compose exec -T laravel.test ./vendor/bin/phpstan analyse --memory-limit=1G
+        run: sail ./vendor/bin/phpstan analyse --memory-limit=1G
 
       - name: PHPUnit
-        run:  docker-compose exec -T laravel.test ./vendor/bin/phpunit --coverage-text --testsuite=UnitAndFeature
+        run: sail test --testsuite=UnitAndFeature
