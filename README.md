@@ -1,12 +1,12 @@
 <p align="center">
-    <img src="https://projectcitybuild.com/assets/images/logo.png" alt="Project City Build"/>
+    <img src="https://projectcitybuild.com/assets/images/logo-2x.png" alt="Project City Build"/>
 </p>
 
 <p align="center">
     <a href="https://opensource.org/licenses/MPL-2.0"><img src="https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg" alt="License: MPL 2.0"></a>
-    <a href="https://github.com/projectcitybuild/web/actions?query=workflow%3A%22PHP+Test%22"><img src="https://github.com/projectcitybuild/web/workflows/PHP%20Test/badge.svg?branch=dev" alt="Build status"></a>
+    <a href="https://github.com/projectcitybuild/web/actions/workflows/test.yml"><img src="https://github.com/projectcitybuild/web/actions/workflows/test.yml/badge.svg" alt="Build status"></a>
+    <a href="https://github.com/projectcitybuild/web/actions/workflows/e2e-test.yml"><img src="https://github.com/projectcitybuild/web/actions/workflows/e2e-test.yml/badge.svg" alt="Build status"></a>
     <a href="https://codecov.io/gh/projectcitybuild/web/"><img src="https://codecov.io/gh/projectcitybuild/web/branch/master/graph/badge.svg" alt="codecov"></a>
-    <a href="https://dependabot.com"><img src="https://api.dependabot.com/badges/status?host=github&repo=projectcitybuild/web" alt="Dependabot Status"></a>
 </p>
 
 ---
