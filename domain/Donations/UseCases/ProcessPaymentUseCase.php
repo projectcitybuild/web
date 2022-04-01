@@ -72,6 +72,7 @@ final class ProcessPaymentUseCase
             throw $e;
         }
 
+        // TODO: move to separate use case
         if (! env(key: 'IS_E2E_TEST', default: false)) {
             // Too hard to reliable call this in E2E testing with our current set up
             $this->groupSyncService->addToDonorGroup($account);

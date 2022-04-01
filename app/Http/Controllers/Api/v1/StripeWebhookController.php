@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use Domain\Donations\DonationService;
+use Domain\Donations\Entities\Denomination;
+use Domain\Donations\Entities\DonationType;
+use Domain\Donations\Entities\PaidAmount;
+use Domain\Donations\UseCases\ProcessPaymentUseCase;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
 use Stripe\StripeClient;
 
 final class StripeWebhookController extends CashierController
 {
-    private DonationService $donationService;
-    private StripeClient $stripeClient;
-
-    public function __construct(DonationService $donationService, StripeClient $stripeClient)
-    {
-        $this->donationService = $donationService;
-        $this->stripeClient = $stripeClient;
-    }
+    public function __construct(
+        private ProcessPaymentUseCase $processPaymentUseCase,
+        private StripeClient $stripeClient
+    ) {}
 
     /**
      * Handle Checkout complete events and fulfil one-time payments
@@ -49,7 +48,7 @@ final class StripeWebhookController extends CashierController
         $priceData = $firstLine['price'];
         $productId = $priceData['product'];
         $priceId = $priceData['id'];
-        $isSubscriptionPayment = $priceData['type'] === 'recurring';
+        $isSubscriptionPayment = $priceData['type'] == 'recurring';
 
         if ($isSubscriptionPayment) {
             // Subscription payments are handled by handleInvoicePaid
@@ -70,14 +69,17 @@ final class StripeWebhookController extends CashierController
             throw new \Exception('Quantity purchased was zero');
         }
 
-        $this->donationService->processPayment(
-            $account,
-            $productId,
-            $priceId,
-            $donationTierId,
-            $amountPaidInCents,
-            $quantity,
-            $isSubscriptionPayment
+        $this->processPaymentUseCase->execute(
+            account: $account,
+            productId: $productId,
+            priceId: $priceId,
+            donationTierId: $donationTierId,
+            paidAmount: new PaidAmount(
+                amount: $amountPaidInCents,
+                denomination: Denomination::CENTS
+            ),
+            quantity: $quantity,
+            donationType: DonationType::ONE_OFF
         );
 
         return $this->successMethod();
@@ -122,14 +124,17 @@ final class StripeWebhookController extends CashierController
             throw new \Exception('Quantity purchased was zero');
         }
 
-        $this->donationService->processPayment(
-            $account,
-            $productId,
-            $priceId,
-            $donationTierId,
-            $amountPaidInCents,
-            $quantity,
-            $isSubscriptionPayment
+        $this->processPaymentUseCase->execute(
+            account: $account,
+            productId: $productId,
+            priceId: $priceId,
+            donationTierId: $donationTierId,
+            paidAmount: new PaidAmount(
+                amount: $amountPaidInCents,
+                denomination: Denomination::CENTS
+            ),
+            quantity: $quantity,
+            donationType: $isSubscriptionPayment ? DonationType::SUBSCRIPTION : DonationType::ONE_OFF
         );
 
         return $this->successMethod();
