@@ -3,6 +3,7 @@
 namespace Tests\Services;
 
 use App\Entities\Models\Eloquent\GameBan;
+use App\Entities\Models\Eloquent\Server;
 use App\Entities\Models\Eloquent\ServerKey;
 use App\Entities\Models\GamePlayerType;
 use App\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
@@ -29,22 +30,20 @@ class PlayerBanService_Test extends TestCase
 
     public function testCreatesBan()
     {
-        // given...
         $service = resolve(PlayerBanService::class);
 
-        $serverId = 1;
+        $server = Server::create();
         $bannedPlayerId = 1;
         $bannedPlayerType = GamePlayerType::Minecraft();
         $bannedPlayerAlias = 'test_player';
         $staffPlayerId = 2;
         $staffPlayerType = GamePlayerType::Minecraft();
         $reason = 'test_reason';
-        $serverKey = $this->makeServerKey($serverId);
+        $serverKey = $this->makeServerKey($server->getKey());
 
-        // when...
         $service->ban(
             $serverKey,
-            $serverId,
+            $server->getKey(),
             $bannedPlayerId,
             $bannedPlayerType,
             $bannedPlayerAlias,
@@ -53,9 +52,8 @@ class PlayerBanService_Test extends TestCase
             $reason
         );
 
-        // expect...
         $this->assertDatabaseHas('game_network_bans', [
-            'server_id' => $serverId,
+            'server_id' => $server->getKey(),
             'banned_player_id' => $bannedPlayerId,
             'banned_player_type' => $bannedPlayerType->valueOf(),
             'banned_alias_at_time' => $bannedPlayerAlias,
@@ -67,20 +65,19 @@ class PlayerBanService_Test extends TestCase
 
     public function testCannotCreateBanWhenAlreadyExists()
     {
-        // given...
         $service = resolve(PlayerBanService::class);
 
-        $serverId = 1;
+        $server = Server::create();
         $bannedPlayerId = 1;
         $bannedPlayerType = GamePlayerType::Minecraft();
         $bannedPlayerAlias = 'test_player';
         $staffPlayerId = 2;
         $staffPlayerType = GamePlayerType::Minecraft();
         $reason = 'test_reason';
-        $serverKey = $this->makeServerKey($serverId);
+        $serverKey = $this->makeServerKey($server->getKey());
 
         GameBan::create([
-            'server_id' => $serverId,
+            'server_id' => $server->getKey(),
             'banned_player_id' => $bannedPlayerId,
             'banned_player_type' => $bannedPlayerType->valueOf(),
             'banned_alias_at_time' => $bannedPlayerAlias,
@@ -91,13 +88,11 @@ class PlayerBanService_Test extends TestCase
             'is_global_ban' => true,
         ]);
 
-        // expect...
         $this->expectException(UserAlreadyBannedException::class);
 
-        // when...
         $service->ban(
             $serverKey,
-            $serverId,
+            $server->getKey(),
             $bannedPlayerId,
             $bannedPlayerType,
             $bannedPlayerAlias,
@@ -109,10 +104,10 @@ class PlayerBanService_Test extends TestCase
 
     public function testCreatesUnban()
     {
-        // given...
         $service = resolve(PlayerBanService::class);
+        $server = Server::create();
         $ban = GameBan::create([
-            'server_id' => 1,
+            'server_id' => $server->getKey(),
             'banned_player_id' => 1,
             'banned_player_type' => GamePlayerType::Minecraft,
             'banned_alias_at_time' => 'test_player',
@@ -123,10 +118,8 @@ class PlayerBanService_Test extends TestCase
             'is_global_ban' => true,
         ]);
 
-        // when...
         $service->unban(1, GamePlayerType::Minecraft(), 2, GamePlayerType::Minecraft());
 
-        // expect...
         $this->assertDatabaseHas('game_network_unbans', [
             'game_ban_id' => $ban->getKey(),
             'staff_player_id' => 2,
@@ -136,10 +129,10 @@ class PlayerBanService_Test extends TestCase
 
     public function testDeactivatesBan()
     {
-        // given...
         $service = resolve(PlayerBanService::class);
+        $server = Server::create();
         $existingBan = GameBan::create([
-            'server_id' => 1,
+            'server_id' => $server->getKey(),
             'banned_player_id' => 1,
             'banned_player_type' => GamePlayerType::Minecraft,
             'banned_alias_at_time' => 'test_player',
@@ -150,23 +143,18 @@ class PlayerBanService_Test extends TestCase
             'is_global_ban' => true,
         ]);
 
-        // when...
         $service->unban(1, GamePlayerType::Minecraft(), 2, GamePlayerType::Minecraft());
 
-        // expect...
         $ban = GameBan::find($existingBan->getKey());
         $this->assertEquals(0, $ban->is_active);
     }
 
     public function testCannotUnbanIfNotBanned()
     {
-        // given...
         $service = resolve(PlayerBanService::class);
 
-        // expect...
         $this->expectException(UserNotBannedException::class);
 
-        // when...
         $service->unban(1, GamePlayerType::Minecraft(), 2, GamePlayerType::Minecraft());
     }
 }
