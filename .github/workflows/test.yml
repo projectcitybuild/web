@@ -8,29 +8,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.1
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
-          coverage: none
-
-      - name: Validate composer.json and composer.lock
-        run: composer validate
-
-      - name: Get Composer cache Directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache Composer dependencies
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-
       - name: Install Composer dependencies
-        run: composer install --no-interaction --no-scripts
+        run: |
+          docker run --rm \
+            -u "$(id -u):$(id -g)" \
+            -v $(pwd):/var/www/html \
+            -w /var/www/html \
+            laravelsail/php81-composer:latest \
+            composer install --ignore-platform-reqs --no-interaction --no-scripts
 
       - name: Prepare .env file
         run: cp .env.ci .env
@@ -38,8 +23,8 @@ jobs:
       - name: Build Docker containers
         run: ./vendor/bin/sail up -d
 
-      - name: Install Composer dependencies in Docker container
-        run: ./vendor/bin/sail composer install --no-interaction --no-scripts
+      - name: Validate composer.json and composer.lock
+        run: ./vendor/bin/sail composer validate
 
       - name: Install npm dependencies
         run: ./vendor/bin/sail npm ci
@@ -56,7 +41,7 @@ jobs:
         run: ./vendor/bin/sail php artisan migrate
 
       - name: Larastan
-        run: ./vendor/bin/sail ./vendor/bin/phpstan analyse --memory-limit=1G
+        run: ./vendor/bin/sail bin phpstan analyse --memory-limit=1G
 
       - name: PHPUnit
         run: ./vendor/bin/sail test --testsuite=UnitAndFeature
