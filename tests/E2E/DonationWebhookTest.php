@@ -12,7 +12,7 @@ use Tests\TestCase;
 class DonationWebhookTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     private Account $account;
     private DonationTier $donationTier;
     private Carbon $now;
