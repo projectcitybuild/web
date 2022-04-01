@@ -81,4 +81,4 @@ jobs:
         run: ./vendor/bin/phpstan analyse --memory-limit=1G
 
       - name: PHPUnit
-        run: ./vendor/php/phpunit --coverage-text --testsuite=UnitAndFeature
+        run: ./vendor/bin/phpunit --coverage-text --testsuite=UnitAndFeature
