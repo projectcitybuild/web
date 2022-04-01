@@ -81,4 +81,4 @@ jobs:
         run: ./vendor/bin/phpstan analyse --memory-limit=1G
 
       - name: PHPUnit
-        run: phpdbg -dmemory_limit=1G -qrr artisan test --parallel --recreate-databases --coverage-text --testsuite=UnitAndFeature
+        run: ./vendor/php/phpunit --coverage-text --testsuite=UnitAndFeature
