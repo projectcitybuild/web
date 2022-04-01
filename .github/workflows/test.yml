@@ -53,6 +53,7 @@ jobs:
 
       - name: Build Docker containers
         run: |
+          shopt -s expand_aliases
           alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
           sail up -d
 
