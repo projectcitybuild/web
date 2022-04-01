@@ -53,13 +53,19 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Composer dependencies
+      - name: Install Composer dependencies
         run: composer install --no-interaction --no-scripts
 
-      - name: NPM install
+      - name: Cache npm dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: npm-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies
         run: npm ci
 
-      - name: NPM build
+      - name: Build front-end assets
         run: npm run prod
 
       - name: Prepare Laravel
