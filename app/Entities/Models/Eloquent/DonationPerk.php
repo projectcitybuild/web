@@ -5,8 +5,18 @@ namespace App\Entities\Models\Eloquent;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use function now;
 
+/**
+ * @property int $donation_id
+ * @property int $account_id
+ * @property ?int $donation_tier_id
+ * @property bool $is_active
+ * @property ?Carbon $expires_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ */
 final class DonationPerk extends Model
 {
     use HasFactory;
