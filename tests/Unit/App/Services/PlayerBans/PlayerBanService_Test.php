@@ -17,6 +17,15 @@ class PlayerBanService_Test extends TestCase
 {
     use RefreshDatabase;
 
+    private Server $server;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->server = Server::factory()->hasCategory()->create();
+    }
+
     private function makeServerKey(int $serverId): ServerKey
     {
         return ServerKey::create([
@@ -32,18 +41,17 @@ class PlayerBanService_Test extends TestCase
     {
         $service = resolve(PlayerBanService::class);
 
-        $server = Server::create();
         $bannedPlayerId = 1;
         $bannedPlayerType = GamePlayerType::Minecraft();
         $bannedPlayerAlias = 'test_player';
         $staffPlayerId = 2;
         $staffPlayerType = GamePlayerType::Minecraft();
         $reason = 'test_reason';
-        $serverKey = $this->makeServerKey($server->getKey());
+        $serverKey = $this->makeServerKey($this->server->getKey());
 
         $service->ban(
             $serverKey,
-            $server->getKey(),
+            $this->server->getKey(),
             $bannedPlayerId,
             $bannedPlayerType,
             $bannedPlayerAlias,
@@ -53,7 +61,7 @@ class PlayerBanService_Test extends TestCase
         );
 
         $this->assertDatabaseHas('game_network_bans', [
-            'server_id' => $server->getKey(),
+            'server_id' => $this->server->getKey(),
             'banned_player_id' => $bannedPlayerId,
             'banned_player_type' => $bannedPlayerType->valueOf(),
             'banned_alias_at_time' => $bannedPlayerAlias,
@@ -67,17 +75,16 @@ class PlayerBanService_Test extends TestCase
     {
         $service = resolve(PlayerBanService::class);
 
-        $server = Server::create();
         $bannedPlayerId = 1;
         $bannedPlayerType = GamePlayerType::Minecraft();
         $bannedPlayerAlias = 'test_player';
         $staffPlayerId = 2;
         $staffPlayerType = GamePlayerType::Minecraft();
         $reason = 'test_reason';
-        $serverKey = $this->makeServerKey($server->getKey());
+        $serverKey = $this->makeServerKey($this->server->getKey());
 
         GameBan::create([
-            'server_id' => $server->getKey(),
+            'server_id' => $this->server->getKey(),
             'banned_player_id' => $bannedPlayerId,
             'banned_player_type' => $bannedPlayerType->valueOf(),
             'banned_alias_at_time' => $bannedPlayerAlias,
@@ -92,7 +99,7 @@ class PlayerBanService_Test extends TestCase
 
         $service->ban(
             $serverKey,
-            $server->getKey(),
+            $this->server->getKey(),
             $bannedPlayerId,
             $bannedPlayerType,
             $bannedPlayerAlias,
@@ -105,9 +112,8 @@ class PlayerBanService_Test extends TestCase
     public function testCreatesUnban()
     {
         $service = resolve(PlayerBanService::class);
-        $server = Server::create();
         $ban = GameBan::create([
-            'server_id' => $server->getKey(),
+            'server_id' => $this->server->getKey(),
             'banned_player_id' => 1,
             'banned_player_type' => GamePlayerType::Minecraft,
             'banned_alias_at_time' => 'test_player',
@@ -130,9 +136,8 @@ class PlayerBanService_Test extends TestCase
     public function testDeactivatesBan()
     {
         $service = resolve(PlayerBanService::class);
-        $server = Server::create();
         $existingBan = GameBan::create([
-            'server_id' => $server->getKey(),
+            'server_id' => $this->server->getKey(),
             'banned_player_id' => 1,
             'banned_player_type' => GamePlayerType::Minecraft,
             'banned_alias_at_time' => 'test_player',
