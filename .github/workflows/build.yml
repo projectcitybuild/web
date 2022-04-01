@@ -1,7 +1,6 @@
-name: Build containeres
+name: Build containers
 
 on:
-  push:
   workflow_call:
 
 jobs:
