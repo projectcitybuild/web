@@ -89,8 +89,8 @@ final class ProcessPaymentUseCase
      * This is to ensure the user gets their full duration of perks even if
      * they donated before their previous perks had expired.
      *
-     * @param int $numberOfMonths
-     * @param DonationPerk|null $existingPerk
+     * @param int $numberOfMonths Number of months to add to the base date
+     * @param DonationPerk|null $existingPerk The user's latest DonationPerk
      * @return Carbon Expiry date
      */
     private function calculateExpiryDate(int $numberOfMonths, ?DonationPerk $existingPerk): Carbon
