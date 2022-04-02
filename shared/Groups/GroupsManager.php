@@ -6,7 +6,10 @@ use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\Group;
 use Shared\ExternalAccounts\ExternalAccountSync;
 
-final class GroupsManager
+/**
+ * @final
+ */
+class GroupsManager
 {
     public function __construct(
         private ExternalAccountSync $externalAccountSync,

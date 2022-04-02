@@ -7,13 +7,15 @@ use App\Entities\Models\Eloquent\Group;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use Shared\ExternalAccounts\Adapters\DiscourseAccountSync;
 use Tests\TestCase;
 
 class DiscourseAccountSyncTests extends TestCase
 {
+    use RefreshDatabase;
+
     private DiscourseAdminApi $discourseAdminApi;
     private DiscourseAccountSync $discourseAccountSync;
 

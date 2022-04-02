@@ -6,7 +6,10 @@ use App\Entities\Models\Eloquent\DonationPerk;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
-final class DonationPerkRepository
+/**
+ * @final
+ */
+class DonationPerkRepository
 {
     public function first(
         int $accountId,

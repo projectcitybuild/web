@@ -4,12 +4,15 @@ namespace Tests\Unit\Shared\Groups;
 
 use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\Group;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Shared\ExternalAccounts\Adapters\StubAccountSync;
 use Shared\Groups\GroupsManager;
 use Tests\TestCase;
 
 class GroupsManagerTests extends TestCase
 {
+    use RefreshDatabase;
+
     private GroupsManager $groupsManager;
     private Group $defaultGroup;
     private Account $account;
