@@ -41,4 +41,4 @@ jobs:
         run: ./vendor/bin/sail bin phpstan analyse --memory-limit=1G
 
       - name: PHPUnit
-        run: ./vendor/bin/sail test --testsuite=UnitAndFeature
+        run: ./vendor/bin/sail test
