@@ -8,7 +8,7 @@ final class ConsoleKernel_Test extends TestCase
 {
     use RefreshDatabase;
 
-    public function testCommand_QueryAllServers()
+    public function test_server_query_command()
     {
         $this->artisan('server:query --all')
             ->assertExitCode(0);
@@ -17,21 +17,21 @@ final class ConsoleKernel_Test extends TestCase
             ->assertExitCode(0);
     }
 
-    public function testCommand_CleanupPasswordReset()
+    public function test_cleanup_password_resets_command()
     {
         $this->artisan('cleanup:password-resets')
             ->assertExitCode(0);
     }
 
-    public function testCommand_CleanupUnactivatedAccounts()
+    public function test_cleanup_unactivated_accounts_command()
     {
         $this->artisan('cleanup:unactivated-accounts')
             ->assertExitCode(0);
     }
 
-    public function testCommand_DeactivateDonatorPerks()
+    public function test_expire_donor_perks_command()
     {
-        $this->artisan('donator-perks:expire')
+        $this->artisan('donor-perks:expire')
             ->assertExitCode(0);
     }
 }
