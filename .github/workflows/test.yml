@@ -57,7 +57,7 @@ jobs:
         run: ./vendor/bin/sail php artisan migrate
 
       - name: Larastan
-        run: ./vendor/bin/sail bin phpstan analyse --memory-limit=1G
+        run: ./vendor/bin/sail bin phpstan analyse
 
       - name: PHPUnit
         run: ./vendor/bin/sail test --parallel
