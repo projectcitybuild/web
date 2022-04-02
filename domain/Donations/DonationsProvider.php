@@ -3,6 +3,8 @@
 namespace Domain\Donations;
 
 use App\Http\Actions\SyncUserToDiscourse;
+use Domain\Donations\Repositories\DonationPerkRepository;
+use Domain\Donations\UseCases\DeactivateExpiredDonorPerksUseCase;
 use Illuminate\Support\ServiceProvider;
 
 class DonationsProvider extends ServiceProvider
@@ -14,15 +16,10 @@ class DonationsProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(DonationService::class, function ($app) {
-            return new DonationService(
-                $app->make(DonationGroupSyncService::class)
-            );
-        });
-
-        $this->app->bind(DeactivateExpiredDonorPerks::class, function ($app) {
-            return new DeactivateExpiredDonorPerks(
-                $app->make(DonationGroupSyncService::class)
+        $this->app->bind(DeactivateExpiredDonorPerksUseCase::class, function ($app) {
+            return new DeactivateExpiredDonorPerksUseCase(
+                groupSyncService: $app->make(DonationGroupSyncService::class),
+                donationPerkRepository: $app->make(DonationPerkRepository::class),
             );
         });
 

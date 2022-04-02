@@ -6,8 +6,8 @@ use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\Donation;
 use App\Entities\Models\Eloquent\DonationPerk;
 use App\Entities\Notifications\DonationEndedNotification;
-use Domain\Donations\DeactivateExpiredDonorPerks;
 use Domain\Donations\DonationGroupSyncService;
+use Domain\Donations\UseCases\DeactivateExpiredDonorPerksUseCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -40,7 +40,7 @@ final class DeactivateExpiredDonorPerks_Test extends TestCase
         $this->assertTrue(DonationPerk::find($expiredPerk->getKey())->is_active);
 
         $this->syncServiceMock->shouldIgnoreMissing();
-        $service = new DeactivateExpiredDonorPerks($this->syncServiceMock);
+        $service = new DeactivateExpiredDonorPerksUseCase($this->syncServiceMock);
         $service->execute();
 
         $this->assertFalse(DonationPerk::find($expiredPerk->getKey())->is_active);
@@ -59,7 +59,7 @@ final class DeactivateExpiredDonorPerks_Test extends TestCase
         $this->assertTrue(DonationPerk::find($expiredPerk->getKey())->is_active);
 
         $this->syncServiceMock->shouldIgnoreMissing();
-        $service = new DeactivateExpiredDonorPerks($this->syncServiceMock);
+        $service = new DeactivateExpiredDonorPerksUseCase($this->syncServiceMock);
         $service->execute();
 
         $this->assertTrue(DonationPerk::find($expiredPerk->getKey())->is_active);
@@ -76,7 +76,7 @@ final class DeactivateExpiredDonorPerks_Test extends TestCase
             ->create();
 
         $this->syncServiceMock->shouldIgnoreMissing();
-        $service = new DeactivateExpiredDonorPerks($this->syncServiceMock);
+        $service = new DeactivateExpiredDonorPerksUseCase($this->syncServiceMock);
         $service->execute();
 
         Notification::assertSentTo($account, DonationEndedNotification::class);
@@ -93,7 +93,7 @@ final class DeactivateExpiredDonorPerks_Test extends TestCase
             ->create();
 
         $syncService = $this->spy(DonationGroupSyncService::class);
-        $service = new DeactivateExpiredDonorPerks($syncService);
+        $service = new DeactivateExpiredDonorPerksUseCase($syncService);
         $service->execute();
 
         $syncService->shouldHaveReceived('removeFromDonorGroup');
@@ -116,7 +116,7 @@ final class DeactivateExpiredDonorPerks_Test extends TestCase
             ->create();
 
         $syncService = $this->spy(DonationGroupSyncService::class);
-        $service = new DeactivateExpiredDonorPerks($syncService);
+        $service = new DeactivateExpiredDonorPerksUseCase($syncService);
         $service->execute();
 
         $syncService->shouldNotHaveReceived('removeFromDonorGroup');
