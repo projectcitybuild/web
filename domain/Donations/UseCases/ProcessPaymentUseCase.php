@@ -5,7 +5,6 @@ namespace Domain\Donations\UseCases;
 use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\DonationPerk;
 use App\Entities\Notifications\DonationPerkStartedNotification;
-use Domain\Donations\DonationGroupSyncService;
 use Domain\Donations\Entities\PaymentType;
 use Domain\Donations\Entities\PaidAmount;
 use Domain\Donations\Repositories\DonationPerkRepository;
@@ -13,23 +12,24 @@ use Domain\Donations\Repositories\DonationRepository;
 use Domain\Donations\Repositories\PaymentRepository;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Shared\Groups\GroupsManager;
 
 final class ProcessPaymentUseCase
 {
     public function __construct(
-        private DonationGroupSyncService $groupSyncService,
+        private GroupsManager $groupsManager,
         private PaymentRepository $paymentRepository,
         private DonationPerkRepository $donationPerkRepository,
         private DonationRepository $donationRepository,
     ) {}
 
     public function execute(
-        Account     $account,
-        string      $productId,
-        string      $priceId,
-        int         $donationTierId,
-        PaidAmount  $paidAmount,
-        int         $quantity,
+        Account $account,
+        string $productId,
+        string $priceId,
+        int $donationTierId,
+        PaidAmount $paidAmount,
+        int $quantity,
         PaymentType $donationType,
     ) {
         $existingPerk = $this->donationPerkRepository->first(
@@ -72,11 +72,7 @@ final class ProcessPaymentUseCase
             throw $e;
         }
 
-        // TODO: move to separate use case
-        if (! env(key: 'IS_E2E_TEST', default: false)) {
-            // Too hard to reliable call this in E2E testing with our current set up
-            $this->groupSyncService->addToDonorGroup($account);
-        }
+        $this->groupsManager->addToDonorGroup($account);
 
         $notification = new DonationPerkStartedNotification($expiryDate);
         $account->notify($notification);

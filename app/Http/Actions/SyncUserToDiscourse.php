@@ -7,6 +7,9 @@ use App\Entities\Models\Environment;
 use App\Library\Discourse\Api\DiscourseAdminApi;
 use App\Library\Discourse\Entities\DiscoursePayload;
 
+/**
+ * @deprecated Use ExternalAccountSync interface instead
+ */
 class SyncUserToDiscourse
 {
     /**

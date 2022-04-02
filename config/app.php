@@ -179,7 +179,13 @@ return [
         App\Library\Recaptcha\RecaptchaServiceProvider::class,
 
         /*
-         * Domain logic Service Providers...
+         * Shared Service Providers...
+         */
+        Shared\ExternalAccounts\ExternalAccountsProvider::class,
+        Shared\Groups\GroupsProvider::class,
+
+        /*
+         * Domain Service Providers...
          */
         Domain\Donations\DonationsProvider::class,
         Domain\PlayerFetch\PlayerFetchProvider::class,

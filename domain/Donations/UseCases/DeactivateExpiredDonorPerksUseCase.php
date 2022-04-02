@@ -2,16 +2,18 @@
 
 namespace Domain\Donations\UseCases;
 
+use App\Entities\Models\Eloquent\Group;
 use App\Entities\Notifications\DonationEndedNotification;
-use Domain\Donations\DonationGroupSyncService;
 use Domain\Donations\Repositories\DonationPerkRepository;
 use Illuminate\Support\Facades\Log;
+use Shared\Groups\GroupsManager;
 
 final class DeactivateExpiredDonorPerksUseCase
 {
     public function __construct(
-        private DonationGroupSyncService $groupSyncService,
+        private GroupsManager $groupsManager,
         private DonationPerkRepository $donationPerkRepository,
+        private Group $donorGroup,
     ) {}
 
     public function execute()
@@ -30,9 +32,13 @@ final class DeactivateExpiredDonorPerksUseCase
             if ($account !== null) {
                 $activePerkCount = $this->donationPerkRepository->countActive(accountId: $account->getKey());
 
+                // TODO: we probably need a buffer in case payments are slightly delayed and
+                // the user didn't actually cancel...
                 if ($activePerkCount === 0) {
-                    $this->groupSyncService->removeFromDonorGroup($account);
-
+                    $this->groupsManager->removeMember(
+                        group: $this->donorGroup,
+                        account: $account,
+                    );
                     $account->notify(new DonationEndedNotification());
                 }
             }

@@ -15,6 +15,15 @@ use Laravel\Scout\Searchable;
 use function collect;
 use function now;
 
+/**
+ * @property int account_id
+ * @property string email
+ * @property string username
+ * @property string password
+ * @property string remember_token
+ * @property ?string last_login_ip
+ * @property ?Carbon last_login_at
+ */
 final class Account extends Authenticatable
 {
     use Notifiable, Searchable, HasFactory, Billable;

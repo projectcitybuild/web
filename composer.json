@@ -54,7 +54,8 @@
             "App\\": "app/",
             "Domain\\": "domain/",
             "Database\\Seeders\\": "database/seeders/",
-            "Database\\Factories\\": "database/factories/"
+            "Database\\Factories\\": "database/factories/",
+            "Shared\\": "shared/"
         },
         "classmap": []
     },
