@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use Domain\Donations\Entities\Denomination;
 use Domain\Donations\Entities\PaymentType;
 use Domain\Donations\Entities\Payloads\StripeCheckoutSessionCompleted;
 use Domain\Donations\Entities\Payloads\StripeInvoicePaid;
-use Domain\Donations\Entities\PaidAmount;
 use Domain\Donations\UseCases\ProcessPaymentUseCase;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
