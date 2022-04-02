@@ -8,14 +8,14 @@ use Domain\Donations\Entities\PaidAmount;
 final class StripeInvoicePaid
 {
     public function __construct(
-        public string      $customerId,
-        public string      $sessionId,
-        public PaidAmount  $paidAmount,
-        public int         $quantity,
-        public string      $productId,
-        public string      $priceId,
+        public string $customerId,
+        public string $sessionId,
+        public PaidAmount $paidAmount,
+        public int $quantity,
+        public string $productId,
+        public string $priceId,
         public PaymentType $paymentType,
-        public ?int        $donationTierId,
+        public ?int $donationTierId,
     ) {}
 
     public static function fromPayload(array $payload): StripeInvoicePaid
@@ -29,7 +29,7 @@ final class StripeInvoicePaid
         return new StripeInvoicePaid(
             customerId: $object['customer'],
             sessionId: $sessionId,
-            paidAmount: PaidAmount::fromCents($firstLine['amount_total']),
+            paidAmount: PaidAmount::fromCents($object['total']),
             quantity: $firstLine['quantity'],
             productId: $price['product'],
             priceId: $price['id'],

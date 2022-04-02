@@ -4,6 +4,7 @@ namespace Domain\Donations\UseCases;
 
 use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\DonationPerk;
+use App\Entities\Models\Eloquent\Group;
 use App\Entities\Notifications\DonationPerkStartedNotification;
 use Domain\Donations\Entities\PaymentType;
 use Domain\Donations\Entities\PaidAmount;
@@ -21,6 +22,7 @@ final class ProcessPaymentUseCase
         private PaymentRepository $paymentRepository,
         private DonationPerkRepository $donationPerkRepository,
         private DonationRepository $donationRepository,
+        private Group $donorGroup,
     ) {}
 
     public function execute(
@@ -72,7 +74,7 @@ final class ProcessPaymentUseCase
             throw $e;
         }
 
-        $this->groupsManager->addToDonorGroup($account);
+        $this->groupsManager->addMember(group: $this->donorGroup, account: $account);
 
         $notification = new DonationPerkStartedNotification($expiryDate);
         $account->notify($notification);
