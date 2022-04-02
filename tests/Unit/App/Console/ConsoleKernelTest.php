@@ -31,6 +31,9 @@ final class ConsoleKernelTest extends TestCase
 
     public function test_expire_donor_perks_command()
     {
+        // Test requires a Donor group
+        $this->artisan('db:seed');
+
         $this->artisan('donor-perks:expire')
             ->assertExitCode(0);
     }
