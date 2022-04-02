@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use Domain\Donations\Entities\Denomination;
-use Domain\Donations\Entities\DonationType;
+use Domain\Donations\Entities\PaymentType;
 use Domain\Donations\Entities\Payloads\StripeCheckoutSessionCompleted;
 use Domain\Donations\Entities\Payloads\StripeInvoicePaid;
 use Domain\Donations\Entities\PaidAmount;
@@ -57,7 +57,7 @@ final class StripeWebhookController extends CashierController
             donationTierId: $event->donationTierId,
             paidAmount: $event->paidAmount,
             quantity: $event->quantity,
-            donationType: DonationType::ONE_OFF,
+            donationType: PaymentType::ONE_OFF,
         );
 
         return $this->successMethod();
@@ -93,7 +93,7 @@ final class StripeWebhookController extends CashierController
             donationTierId: $event->donationTierId,
             paidAmount: $event->paidAmount,
             quantity: $event->quantity,
-            donationType: DonationType::SUBSCRIPTION,
+            donationType: PaymentType::SUBSCRIPTION,
         );
 
         return $this->successMethod();

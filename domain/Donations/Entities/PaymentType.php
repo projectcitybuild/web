@@ -2,13 +2,13 @@
 
 namespace Domain\Donations\Entities;
 
-enum DonationType
+enum PaymentType
 {
     case ONE_OFF;
     case SUBSCRIPTION;
 
     public function isSubscription(): bool
     {
-        return $this == DonationType::SUBSCRIPTION;
+        return $this == PaymentType::SUBSCRIPTION;
     }
 }

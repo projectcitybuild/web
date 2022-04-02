@@ -2,20 +2,20 @@
 
 namespace Domain\Donations\Entities\Payloads;
 
-use Domain\Donations\Entities\DonationType;
+use Domain\Donations\Entities\PaymentType;
 use Domain\Donations\Entities\PaidAmount;
 
 final class StripeInvoicePaid
 {
     public function __construct(
-        public string $customerId,
-        public string $sessionId,
-        public PaidAmount $paidAmount,
-        public int $quantity,
-        public string $productId,
-        public string $priceId,
-        public DonationType $paymentType,
-        public ?int $donationTierId,
+        public string      $customerId,
+        public string      $sessionId,
+        public PaidAmount  $paidAmount,
+        public int         $quantity,
+        public string      $productId,
+        public string      $priceId,
+        public PaymentType $paymentType,
+        public ?int        $donationTierId,
     ) {}
 
     public static function fromPayload(array $payload): StripeInvoicePaid
@@ -34,8 +34,8 @@ final class StripeInvoicePaid
             productId: $price['product'],
             priceId: $price['id'],
             paymentType: $price['type'] == 'recurring'
-                ? DonationType::SUBSCRIPTION
-                : DonationType::ONE_OFF,
+                ? PaymentType::SUBSCRIPTION
+                : PaymentType::ONE_OFF,
             donationTierId: $price['metadata']['donation_tier_id'],
         );
     }

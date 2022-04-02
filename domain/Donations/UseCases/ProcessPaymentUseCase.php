@@ -6,7 +6,7 @@ use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\DonationPerk;
 use App\Entities\Notifications\DonationPerkStartedNotification;
 use Domain\Donations\DonationGroupSyncService;
-use Domain\Donations\Entities\DonationType;
+use Domain\Donations\Entities\PaymentType;
 use Domain\Donations\Entities\PaidAmount;
 use Domain\Donations\Repositories\DonationPerkRepository;
 use Domain\Donations\Repositories\DonationRepository;
@@ -24,13 +24,13 @@ final class ProcessPaymentUseCase
     ) {}
 
     public function execute(
-        Account $account,
-        string $productId,
-        string $priceId,
-        int $donationTierId,
-        PaidAmount $paidAmount,
-        int $quantity,
-        DonationType $donationType,
+        Account     $account,
+        string      $productId,
+        string      $priceId,
+        int         $donationTierId,
+        PaidAmount  $paidAmount,
+        int         $quantity,
+        PaymentType $donationType,
     ) {
         $existingPerk = $this->donationPerkRepository->first(
             accountId: $account->getKey(),
@@ -50,7 +50,7 @@ final class ProcessPaymentUseCase
                 priceId: $priceId,
                 paidAmount: $paidAmount,
                 quantity: $quantity,
-                isSubscription: $donationType == DonationType::SUBSCRIPTION,
+                isSubscription: $donationType == PaymentType::SUBSCRIPTION,
             );
 
             $donation = $this->donationRepository->create(
