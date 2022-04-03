@@ -30,7 +30,7 @@ jobs:
             -v $(pwd):/var/www/html \
             -w /var/www/html \
             laravelsail/php81-composer:latest \
-            composer install --ignore-platform-reqs --no-interaction --no-scripts
+            composer install --ignore-platform-reqs --no-interaction
 
       - name: Prepare .env file
         run: cp .env.ci .env
@@ -60,9 +60,17 @@ jobs:
           tags: sail-8.1/app:latest
           context: ./docker/8.1/
           cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
           build-args:
             WWWGROUP=1000
+
+      - # Temp fix (cache keeps growing)
+        # https://github.com/docker/build-push-action/issues/252
+        # https://github.com/moby/buildkit/issues/1896
+        name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - name: Pull and boot-up Docker-Compose containers
         run: ./vendor/bin/sail up -d --no-build
