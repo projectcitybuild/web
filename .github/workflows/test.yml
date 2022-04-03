@@ -49,8 +49,8 @@ jobs:
           load: true
           builder: ${{ steps.buildx.outputs.name }}
           tags: pcb-web/sail:latest
-          file: ./docker/8.1/Dockerfile
-          context: .
+          file: ./Dockerfile
+          context: ./docker/8.1/
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
