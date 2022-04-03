@@ -34,7 +34,7 @@ final class ProcessPaymentUseCase
         int $quantity,
         PaymentType $donationType,
     ) {
-        $existingPerk = $this->donationPerkRepository->first(
+        $existingPerk = $this->donationPerkRepository->lastToExpire(
             accountId: $account->getKey(),
             donationTierId: $donationTierId,
         );
@@ -100,7 +100,7 @@ final class ProcessPaymentUseCase
             return $monthsFromNow;
         }
 
-        $monthsFromLastExpiry = $existingPerk->expires_at->addMonths($numberOfMonths);
+        $monthsFromLastExpiry = $existingPerk->expires_at->copy()->addMonths($numberOfMonths);
 
         return $monthsFromLastExpiry->gt($monthsFromNow)
             ? $monthsFromLastExpiry

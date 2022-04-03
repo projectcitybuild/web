@@ -11,13 +11,15 @@ use Illuminate\Support\Collection;
  */
 class DonationPerkRepository
 {
-    public function first(
+    public function lastToExpire(
         int $accountId,
         int $donationTierId,
     ): ?DonationPerk {
         return DonationPerk::where('account_id', $accountId)
             ->where('donation_tier_id', $donationTierId)
             ->where('is_active', true)
+            ->whereNotNull('expires_at')
+            ->orderBy('expires_at', 'desc')
             ->first();
     }
 

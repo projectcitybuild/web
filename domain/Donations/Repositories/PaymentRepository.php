@@ -5,7 +5,10 @@ namespace Domain\Donations\Repositories;
 use App\Entities\Models\Eloquent\Payment;
 use Domain\Donations\Entities\PaidAmount;
 
-final class PaymentRepository
+/**
+ * @final
+ */
+class PaymentRepository
 {
     public function create(
         int $accountId,
