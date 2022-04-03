@@ -16,7 +16,8 @@ jobs:
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
       - name: Install Composer dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
@@ -39,7 +40,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-step1-${{ github.sha }}
+          key: ${{ runner.os }}-buildx-sail-${{ github.sha }}
           restore-keys: ${{ runner.os }}-buildx-
 
       - name: Build and push images
@@ -49,7 +50,6 @@ jobs:
           load: true
           builder: ${{ steps.buildx.outputs.name }}
           tags: pcb-web/sail:latest
-          file: ./Dockerfile
           context: ./docker/8.1/
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
