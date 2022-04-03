@@ -27,7 +27,7 @@ jobs:
             -v $(pwd):/var/www/html \
             -w /var/www/html \
             laravelsail/php81-composer:latest \
-            composer validate && composer install --ignore-platform-reqs --no-interaction --no-scripts
+            composer install --ignore-platform-reqs --no-interaction --no-scripts
 
       - name: Prepare .env file
         run: cp .env.ci .env
@@ -54,7 +54,7 @@ jobs:
           push: false
           load: true
           builder: ${{ steps.buildx.outputs.name }}
-          tags: pcb-web/sail:latest
+          tags: sail-8.1/app:latest
           context: ./docker/8.1/
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
@@ -74,7 +74,7 @@ jobs:
 
       - name: Install npm dependencies
         if: steps.npm-cache.outputs.cache-hit != 'true'
-        run: ./vendor/bin/sail npm ci --ignore-scripts
+        run: ./vendor/bin/sail npm ci
 
       - name: Build front-end assets
         run: ./vendor/bin/sail npm run prod
