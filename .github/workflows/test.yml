@@ -12,7 +12,9 @@ jobs:
         id: get-composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v3
+
+      - name: Restore Composer cache
+        uses: actions/cache@v3
         id: composer-cache
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
