@@ -2,12 +2,10 @@
 
 namespace App\Entities\Models;
 
-use App\Enum;
-
 /**
  * @deprecated
  */
-class AccountPaymentType extends Enum
+enum AccountPaymentType: string
 {
-    const Donation = 'donation';
+    case DONATION = 'donation';
 }
