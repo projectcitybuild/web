@@ -10,8 +10,9 @@ jobs:
       mariadb:
         image: mariadb:10.3
         env:
-          MYSQL_ROOT_PASSWORD: default
-          MYSQL_DATABASE: default
+          MYSQL_DATABASE: pcb
+          MYSQL_USER: root
+          MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=5s --health-retries=3
@@ -47,7 +48,7 @@ jobs:
       - name: Prepare .env file
         run: cp .env.ci .env
 
-      - name: Get npm cache directory
+      - name: Restore npm cache
         id: npm-cache
         uses: actions/cache@v3
         with:
@@ -68,10 +69,18 @@ jobs:
           chmod -R 777 storage bootstrap/cache
 
       - name: Prepare database
+        env:
+          DB_HOST: 127.0.0.1
+          MYSQL_USER: root
+          MYSQL_ROOT_PASSWORD: root
         run: php artisan migrate
 
       - name: Larastan
         run: ./vendor/bin/phpstan analyse
 
       - name: PHPUnit
+        env:
+          DB_HOST: 127.0.0.1
+          MYSQL_USER: root
+          MYSQL_ROOT_PASSWORD: root
         run: php artisan test --parallel
