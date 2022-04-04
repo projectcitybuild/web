@@ -27,7 +27,7 @@ class GroupFactory extends Factory
             'is_default' => false,
             'is_staff' => false,
             'is_admin' => false,
-            'discourse_name' => $this->faker->name(),
+            'discourse_name' => $this->faker->randomLetter(),
         ];
     }
 

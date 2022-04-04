@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Domain\Donations\DeactivateExpiredDonorPerks;
+use Domain\Donations\UseCases\DeactivateExpiredDonorPerksUseCase;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -13,19 +13,19 @@ final class DeactivateDonatorPerksCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'donator-perks:expire';
+    protected $signature = 'donor-perks:expire';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Deactivates donator perks if they have expired. Also removes the Donor group from the user if necessary';
+    protected $description = 'Deactivates donor perks if they have expired. Also removes the Donor group from the user if necessary';
 
     /**
      * Execute the console command.
      */
-    public function handle(DeactivateExpiredDonorPerks $deactivateExpiredDonorPerks)
+    public function handle(DeactivateExpiredDonorPerksUseCase $deactivateExpiredDonorPerks)
     {
         Log::info('Checking for expired donation perks');
 
