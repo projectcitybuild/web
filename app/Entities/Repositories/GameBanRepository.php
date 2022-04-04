@@ -36,10 +36,10 @@ final class GameBanRepository extends Repository
         return $this->getModel()->create([
             'server_id' => $serverId,
             'banned_player_id' => $bannedPlayerId,
-            'banned_player_type' => $bannedPlayerType->valueOf(),
+            'banned_player_type' => $bannedPlayerType->value,
             'banned_alias_at_time' => $bannedAliasAtTime,
             'staff_player_id' => $staffPlayerId,
-            'staff_player_type' => $staffPlayerType->valueOf(),
+            'staff_player_type' => $staffPlayerType->value,
             'reason' => $reason,
             'is_active' => $isActive,
             'is_global_ban' => $isGlobalBan,
@@ -63,7 +63,7 @@ final class GameBanRepository extends Repository
         return $this->getModel()
             ->with($with)
             ->where('banned_player_id', $bannedPlayerId)
-            ->where('banned_player_type', $bannedPlayerType->valueOf())
+            ->where('banned_player_type', $bannedPlayerType->value)
             ->where('is_active', true)
             ->when(isset($serverId),
                 function ($q) use ($serverId) {

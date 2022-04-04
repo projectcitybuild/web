@@ -14,16 +14,13 @@ class PlayerLookupService_Test extends TestCase
 
     public function testCreatesNewPlayer()
     {
-        // given...
         $service = resolve(PlayerLookupService::class);
         $this->assertDatabaseMissing('players_minecraft', [
             'uuid' => 'test_uuid',
         ]);
 
-        // when...
-        $service->getOrCreatePlayer(GamePlayerType::Minecraft(), 'test_uuid');
+        $service->getOrCreatePlayer(GamePlayerType::MINECRAFT, 'test_uuid');
 
-        // expect...
         $this->assertDatabaseHas('players_minecraft', [
             'uuid' => 'test_uuid',
         ]);
@@ -31,16 +28,13 @@ class PlayerLookupService_Test extends TestCase
 
     public function testGetsExistingPlayer()
     {
-        // given...
         $service = resolve(PlayerLookupService::class);
         MinecraftPlayer::create([
             'uuid' => 'existing_uuid',
         ]);
 
-        // when...
-        $player = $service->getOrCreatePlayer(GamePlayerType::Minecraft(), 'existing_uuid');
+        $player = $service->getOrCreatePlayer(GamePlayerType::MINECRAFT, 'existing_uuid');
 
-        // expect...
         $this->assertNotNull($player);
         $this->assertEquals('existing_uuid', $player->uuid);
     }

@@ -8,11 +8,10 @@ final class GameIdentifierType extends Enum
 {
     const MinecraftUUID = 'minecraft_uuid';
 
-    public function playerType()
+    public function playerType(): GamePlayerType
     {
-        switch ($this->value) {
-            case self::MinecraftUUID:
-                return GamePlayerType::Minecraft();
-        }
+        return match ($this->value) {
+            self::MinecraftUUID => GamePlayerType::MINECRAFT,
+        };
     }
 }

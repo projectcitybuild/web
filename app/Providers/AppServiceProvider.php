@@ -56,7 +56,7 @@ final class AppServiceProvider extends ServiceProvider
         // to unique keys instead
         Relation::morphMap([
             AccountPaymentType::Donation => Donation::class,
-            GamePlayerType::Minecraft => MinecraftPlayer::class,
+            GamePlayerType::MINECRAFT->value => MinecraftPlayer::class,
         ]);
 
         Blade::component('navbar', NavBarComponent::class);
