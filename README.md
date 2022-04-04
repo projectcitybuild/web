@@ -81,8 +81,3 @@ After installing, run `stripe listen --forward-to localhost/api/webhooks/stripe`
 ## Testing
 * Run `sail test` to run all unit/integration tests
 * Enter the container with `sail shell` and run `phpstan -c phpstan.neon` to run PHP analysis
-
-## GitHub Actions
-
-To locally run the test action, use [act](https://github.com/nektos/act) and run:
-`act -P ubuntu-latest=shivammathur/node:latest -j unit-test`
