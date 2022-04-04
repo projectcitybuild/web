@@ -5,10 +5,10 @@ namespace Tests\Feature;
 use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\Group;
 use App\Entities\Notifications\AccountActivationNotification;
-use App\Library\Recaptcha\RecaptchaRule;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Library\Recaptcha\RecaptchaRule;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase

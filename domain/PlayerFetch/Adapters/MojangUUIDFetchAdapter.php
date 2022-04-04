@@ -2,8 +2,8 @@
 
 namespace Domain\PlayerFetch\Adapters;
 
-use App\Library\Mojang\Api\MojangPlayerApi;
 use Domain\PlayerFetch\PlayerFetchAdapter;
+use Library\Mojang\Api\MojangPlayerApi;
 
 class MojangUUIDFetchAdapter implements PlayerFetchAdapter
 {

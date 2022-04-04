@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\WebController;
-use App\Library\Discourse\Authentication\DiscourseLoginHandler;
-use App\Library\Discourse\Exceptions\BadSSOPayloadException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Library\Discourse\Authentication\DiscourseLoginHandler;
+use Library\Discourse\Exceptions\BadSSOPayloadException;
 
 final class DiscourseSSOController extends WebController
 {

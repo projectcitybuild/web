@@ -3,9 +3,9 @@
 namespace Shared\ExternalAccounts\Adapters;
 
 use App\Entities\Models\Eloquent\Account;
-use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Library\Discourse\Entities\DiscoursePayload;
 use GuzzleHttp\Exception\ServerException;
+use Library\Discourse\Api\DiscourseAdminApi;
+use Library\Discourse\Entities\DiscoursePayload;
 use Shared\ExternalAccounts\ExternalAccountSync;
 
 final class DiscourseAccountSync implements ExternalAccountSync

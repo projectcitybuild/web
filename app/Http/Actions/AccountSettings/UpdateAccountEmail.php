@@ -4,9 +4,9 @@ namespace App\Http\Actions\AccountSettings;
 
 use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\AccountEmailChange;
-use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Library\Discourse\Entities\DiscoursePayload;
 use Illuminate\Support\Facades\DB;
+use Library\Discourse\Api\DiscourseAdminApi;
+use Library\Discourse\Entities\DiscoursePayload;
 
 final class UpdateAccountEmail
 {

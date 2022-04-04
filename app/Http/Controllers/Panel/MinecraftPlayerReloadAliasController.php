@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Panel;
 
 use App\Entities\Models\Eloquent\MinecraftPlayer;
 use App\Http\WebController;
-use App\Library\Mojang\Api\MojangPlayerApi;
 use Illuminate\Http\Request;
+use Library\Mojang\Api\MojangPlayerApi;
 
 class MinecraftPlayerReloadAliasController extends WebController
 {

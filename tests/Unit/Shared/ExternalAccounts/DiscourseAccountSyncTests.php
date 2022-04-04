@@ -4,10 +4,10 @@ namespace Tests\Unit\Shared\ExternalAccounts;
 
 use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\Group;
-use App\Library\Discourse\Api\DiscourseAdminApi;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Library\Discourse\Api\DiscourseAdminApi;
 use Psr\Http\Message\RequestInterface;
 use Shared\ExternalAccounts\Adapters\DiscourseAccountSync;
 use Tests\TestCase;

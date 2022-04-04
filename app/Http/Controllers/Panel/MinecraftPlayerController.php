@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Panel;
 
 use App\Entities\Models\Eloquent\MinecraftPlayer;
 use App\Http\WebController;
-use App\Library\Mojang\Api\MojangPlayerApi;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Library\Mojang\Api\MojangPlayerApi;
 
 class MinecraftPlayerController extends WebController
 {
