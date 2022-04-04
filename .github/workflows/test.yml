@@ -60,7 +60,28 @@ jobs:
         if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm ci
 
+      - name: Calculate front-end asset hash
+        id: get-assets-cache
+        uses: theowenyoung/folder-hash@v2.0.1
+        with:
+          path: |
+            resources/js
+            resources/sass
+            public
+
+      - name: Restore front-end asset cache
+        id: assets-cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            resources/js
+            resources/sass
+            public
+          key: ${{ runner.os }}-assets-v1-${{ steps.get-assets-cache.outputs.hash }}
+          restore-keys: ${{ runner.os }}-assets-
+
       - name: Build front-end assets
+        if: steps.assets-cache.outputs.cache-hit != 'true'
         run: npm run prod
 
       - name: Prepare Laravel
@@ -75,12 +96,12 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         run: php artisan migrate
 
-      - name: Larastan
-        run: ./vendor/bin/phpstan analyse
-
-      - name: PHPUnit
-        env:
-          DB_HOST: 127.0.0.1
-          MYSQL_USER: root
-          MYSQL_ROOT_PASSWORD: root
-        run: php artisan test --parallel --coverage-text
+#      - name: Larastan
+#        run: ./vendor/bin/phpstan analyse
+#
+#      - name: PHPUnit
+#        env:
+#          DB_HOST: 127.0.0.1
+#          MYSQL_USER: root
+#          MYSQL_ROOT_PASSWORD: root
+#        run: php artisan test --parallel --coverage-text
