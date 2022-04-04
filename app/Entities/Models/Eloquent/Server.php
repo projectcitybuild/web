@@ -80,15 +80,6 @@ final class Server extends Model
 
     public function gameType(): GameType
     {
-        switch ($this->game_type) {
-            case GameType::Minecraft:
-                return new GameType(GameType::Minecraft);
-            case GameType::Terraria:
-                return new GameType(GameType::Terraria);
-            case GameType::Starbound:
-                return new GameType(GameType::Starbound);
-            default:
-                throw new \InvalidArgumentException();
-        }
+        return GameType::fromValue($this->game_type);
     }
 }

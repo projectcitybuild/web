@@ -10,11 +10,9 @@ final class PlayerFetchAdapterFactory implements PlayerFetchAdapterFactoryContra
 {
     public function make(GameType $gameType): PlayerFetchAdapter
     {
-        switch ($gameType->valueOf()) {
-            case GameType::Minecraft:
-                return App::make(MojangUUIDFetchAdapter::class);
-            default:
-                throw new UnsupportedGameException($gameType->name().' is not supported');
-        }
+        return match ($gameType) {
+            GameType::MINECRAFT => App::make(MojangUUIDFetchAdapter::class),
+            default => throw new UnsupportedGameException($gameType->name() . ' is not supported'),
+        };
     }
 }

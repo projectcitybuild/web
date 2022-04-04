@@ -10,11 +10,9 @@ final class ServerQueryAdapterFactory implements ServerQueryAdapterFactoryContra
 {
     public function make(GameType $gameType): ServerQueryAdapter
     {
-        switch ($gameType->valueOf()) {
-            case GameType::Minecraft:
-                return new MinecraftQueryAdapter();
-            default:
-                throw new UnsupportedGameException($gameType->name().' cannot be queried');
-        }
+        return match ($gameType) {
+            GameType::MINECRAFT => new MinecraftQueryAdapter(),
+            default => throw new UnsupportedGameException($gameType->name() . ' cannot be queried'),
+        };
     }
 }

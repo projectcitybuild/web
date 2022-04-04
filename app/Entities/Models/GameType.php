@@ -2,24 +2,39 @@
 
 namespace App\Entities\Models;
 
-use App\Enum;
-
 /**
  * List of games PCB supports.
  */
-final class GameType extends Enum
+enum GameType
 {
-    public const Minecraft = 1;
-    public const Terraria = 2;
-    public const Starbound = 3;
+    case MINECRAFT;
+    case TERRARIA;
+    case STARBOUND;
+
+    public static function fromValue(int $value): ?GameType
+    {
+        return match ($value) {
+            1 => self::MINECRAFT,
+            2 => self::TERRARIA,
+            3 => self::STARBOUND,
+            default => null,
+        };
+    }
+
+    public function value(): int
+    {
+        return match ($this) {
+            self::MINECRAFT => 1,
+            self::TERRARIA => 2,
+            self::STARBOUND => 3,
+        };
+    }
 
     public function name(): ?string
     {
-        switch ($this->value) {
-            case self::Minecraft:
-                return 'minecraft';
-            default:
-                return null;
-        }
+        return match ($this) {
+            self::MINECRAFT => 'minecraft',
+            default => null,
+        };
     }
 }
