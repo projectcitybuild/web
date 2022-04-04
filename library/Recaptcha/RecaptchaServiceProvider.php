@@ -19,7 +19,7 @@ class RecaptchaServiceProvider extends ServiceProvider
             return "<?php echo config('recaptcha.keys.site') ?>";
         });
 
-        Validator::extend('recaptcha', 'App\Library\Recaptcha\RecaptchaRule@passes');
+        Validator::extend('recaptcha', 'Library\Recaptcha\RecaptchaRule@passes');
     }
 
     /**
