@@ -5,10 +5,10 @@ namespace Tests;
 use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\Group;
 use App\Http\Middleware\MfaGate;
-use App\Library\Mojang\Api\MojangPlayerApi;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Session;
+use Library\Mojang\Api\MojangPlayerApi;
 
 abstract class TestCase extends BaseTestCase
 {

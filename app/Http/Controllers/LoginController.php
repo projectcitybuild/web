@@ -6,11 +6,6 @@ use App\Entities\Repositories\AccountRepository;
 use App\Http\Middleware\MfaGate;
 use App\Http\Requests\LoginRequest;
 use App\Http\WebController;
-use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Library\Discourse\Exceptions\UserNotFound;
-use App\Library\RateLimit\Storage\SessionTokenStorage;
-use App\Library\RateLimit\TokenBucket;
-use App\Library\RateLimit\TokenRate;
 use App\Services\Login\LogoutService;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Http\Request;
@@ -18,6 +13,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Library\Discourse\Api\DiscourseAdminApi;
+use Library\Discourse\Exceptions\UserNotFound;
+use Library\RateLimit\Storage\SessionTokenStorage;
+use Library\RateLimit\TokenBucket;
+use Library\RateLimit\TokenRate;
 
 final class LoginController extends WebController
 {

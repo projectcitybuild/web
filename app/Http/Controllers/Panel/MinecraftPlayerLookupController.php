@@ -6,9 +6,9 @@ use App\Entities\Models\Eloquent\MinecraftPlayer;
 use App\Entities\Models\Eloquent\MinecraftPlayerAlias;
 use App\Exceptions\Http\TooManyRequestsException;
 use App\Http\WebController;
-use App\Library\Mojang\Api\MojangPlayerApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Library\Mojang\Api\MojangPlayerApi;
 
 class MinecraftPlayerLookupController extends WebController
 {

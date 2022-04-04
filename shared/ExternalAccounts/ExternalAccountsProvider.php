@@ -3,8 +3,8 @@
 namespace Shared\ExternalAccounts;
 
 use App\Entities\Models\Environment;
-use App\Library\Discourse\Api\DiscourseAdminApi;
 use Illuminate\Support\ServiceProvider;
+use Library\Discourse\Api\DiscourseAdminApi;
 use Shared\ExternalAccounts\Adapters\DiscourseAccountSync;
 use Shared\ExternalAccounts\Adapters\StubAccountSync;
 

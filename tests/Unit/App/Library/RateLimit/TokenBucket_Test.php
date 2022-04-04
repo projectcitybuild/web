@@ -2,9 +2,9 @@
 
 namespace Tests\Library\RateLimit;
 
-use App\Library\RateLimit\Storage\MemoryTokenStorage;
-use App\Library\RateLimit\TokenBucket;
-use App\Library\RateLimit\TokenRate;
+use Library\RateLimit\Storage\MemoryTokenStorage;
+use Library\RateLimit\TokenBucket;
+use Library\RateLimit\TokenRate;
 use Tests\TestCase;
 
 class TokenBucket_Test extends TestCase

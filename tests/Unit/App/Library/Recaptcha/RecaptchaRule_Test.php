@@ -2,13 +2,13 @@
 
 namespace Tests\Library\Recaptcha;
 
-use App\Library\Recaptcha\RecaptchaRule;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Log\Logger;
+use Library\Recaptcha\RecaptchaRule;
 use Tests\TestCase;
 
 class RecaptchaRule_Test extends TestCase

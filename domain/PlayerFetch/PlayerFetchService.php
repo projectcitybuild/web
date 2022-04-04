@@ -2,7 +2,6 @@
 
 namespace Domain\PlayerFetch;
 
-use App;
 use App\Entities\Models\Eloquent\MinecraftPlayer;
 use App\Entities\Models\GameType;
 use Domain\PlayerFetch\Jobs\PlayerFetchJob;
@@ -28,7 +27,7 @@ final class PlayerFetchService
      *
      * This operation will block the current process until the query succeeds or fails.
      *
-     * @return App\Library\Mojang\Models\MojangPlayer[]
+     * @return \Library\Mojang\Models\MojangPlayer[]
      *
      * @throws UnsupportedGameException
      */

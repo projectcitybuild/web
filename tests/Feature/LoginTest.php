@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Entities\Models\Eloquent\Account;
-use App\Library\Discourse\Api\DiscourseAdminApi;
+use Library\Discourse\Api\DiscourseAdminApi;
 use Tests\TestCase;
 
 class LoginTest extends TestCase

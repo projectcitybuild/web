@@ -3,12 +3,12 @@
 namespace Tests\Services;
 
 use App\Entities\Models\Eloquent\Account;
-use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Library\Discourse\Api\DiscourseUserApi;
 use App\Services\Login\LogoutService;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Log\Logger;
+use Library\Discourse\Api\DiscourseAdminApi;
+use Library\Discourse\Api\DiscourseUserApi;
 use Tests\TestCase;
 
 class LogoutService_Test extends TestCase

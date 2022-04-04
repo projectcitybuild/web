@@ -55,6 +55,7 @@
             "Domain\\": "domain/",
             "Database\\Seeders\\": "database/seeders/",
             "Database\\Factories\\": "database/factories/",
+            "Library\\": "library/",
             "Shared\\": "shared/"
         },
         "classmap": []

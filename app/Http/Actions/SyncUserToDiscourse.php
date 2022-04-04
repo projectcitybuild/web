@@ -4,8 +4,8 @@ namespace App\Http\Actions;
 
 use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Environment;
-use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Library\Discourse\Entities\DiscoursePayload;
+use Library\Discourse\Api\DiscourseAdminApi;
+use Library\Discourse\Entities\DiscoursePayload;
 
 /**
  * @deprecated Use ExternalAccountSync interface instead

@@ -2,11 +2,11 @@
 
 namespace App\Services\Login;
 
-use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Library\Discourse\Api\DiscourseUserApi;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Support\Facades\Log;
+use Library\Discourse\Api\DiscourseAdminApi;
+use Library\Discourse\Api\DiscourseUserApi;
 
 class LogoutService
 {

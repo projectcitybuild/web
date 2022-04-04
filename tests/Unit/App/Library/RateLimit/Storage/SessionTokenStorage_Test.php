@@ -2,9 +2,9 @@
 
 namespace Tests\Library\RateLimit;
 
-use App\Library\RateLimit\Storage\SessionTokenStorage;
-use App\Library\RateLimit\TokenState;
 use Illuminate\Support\Facades\Session;
+use Library\RateLimit\Storage\SessionTokenStorage;
+use Library\RateLimit\TokenState;
 use Tests\TestCase;
 
 class SessionTokenStorage_Test extends TestCase

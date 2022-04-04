@@ -2,7 +2,7 @@
 
 namespace Tests\Library\Discourse\Authentication;
 
-use App\Library\Discourse\Authentication\DiscoursePayloadValidator;
+use Library\Discourse\Authentication\DiscoursePayloadValidator;
 use Tests\TestCase;
 
 class DiscoursePayloadValidator_Test extends TestCase
