@@ -42,7 +42,6 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Install Composer dependencies
-        if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install --prefer-dist --ignore-platform-reqs --no-interaction
 
       - name: Prepare .env file
