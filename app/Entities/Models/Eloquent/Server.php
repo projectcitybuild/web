@@ -80,6 +80,6 @@ final class Server extends Model
 
     public function gameType(): GameType
     {
-        return GameType::fromValue($this->game_type);
+        return GameType::tryFrom($this->game_type);
     }
 }

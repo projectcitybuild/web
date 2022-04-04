@@ -26,7 +26,7 @@ class ServerSeeds extends Seeder
         $minecraftServer = Server::factory()->create([
             'name'                  => 'Minecraft (Java)',
             'server_category_id'    => $categoryMinecraft->server_category_id,
-            'game_type'             => GameType::MINECRAFT->value(),
+            'game_type'             => GameType::MINECRAFT->value,
             'ip'                    => '158.69.120.168',
             'ip_alias'              => 'pcbmc.co',
             'port'                  => '25565',
@@ -36,7 +36,7 @@ class ServerSeeds extends Seeder
         Server::factory()->create([
             'name'                  => 'Feed the Beast',
             'server_category_id'    => $categoryMinecraft->server_category_id,
-            'game_type'             => GameType::MINECRAFT->value(),
+            'game_type'             => GameType::MINECRAFT->value,
             'is_querying'           => false,
             'display_order'         => 2,
         ]);

@@ -5,30 +5,11 @@ namespace App\Entities\Models;
 /**
  * List of games PCB supports.
  */
-enum GameType
+enum GameType: int
 {
-    case MINECRAFT;
-    case TERRARIA;
-    case STARBOUND;
-
-    public static function fromValue(int $value): ?GameType
-    {
-        return match ($value) {
-            1 => self::MINECRAFT,
-            2 => self::TERRARIA,
-            3 => self::STARBOUND,
-            default => null,
-        };
-    }
-
-    public function value(): int
-    {
-        return match ($this) {
-            self::MINECRAFT => 1,
-            self::TERRARIA => 2,
-            self::STARBOUND => 3,
-        };
-    }
+    case MINECRAFT = 1;
+    case TERRARIA = 2;
+    case STARBOUND = 3;
 
     public function name(): ?string
     {

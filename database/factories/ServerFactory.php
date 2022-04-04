@@ -28,7 +28,7 @@ class ServerFactory extends Factory
             'ip' => $this->faker->ipv4(),
             'port' => $this->faker->numberBetween(20, 8000),
             'display_order' => $this->faker->numberBetween(1, 15),
-            'game_type' => $this->faker->randomElement(GameType::cases())->value(),
+            'game_type' => $this->faker->randomElement(GameType::cases())->value,
             'is_port_visible' => true,
             'is_visible' => true,
             'is_querying' => true,
