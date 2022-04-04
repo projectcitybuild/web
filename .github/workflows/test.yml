@@ -5,8 +5,27 @@ on: push
 jobs:
   unit-test:
     runs-on: ubuntu-latest
+
+    services:
+      mariadb:
+        image: mariadb:10.3
+        env:
+          MYSQL_DATABASE: pcb
+          MYSQL_USER: root
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=5s --health-retries=3
+
     steps:
       - uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+          coverage: none
 
       - name: Get Composer cache directory
         id: get-composer-cache
@@ -18,88 +37,75 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ steps.get-composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-v3-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
 
       - name: Install Composer dependencies
-        if: steps.composer-cache.outputs.cache-hit != 'true'
-        run: |
-          docker run --rm \
-            -u "$(id -u):$(id -g)" \
-            -v $(pwd):/var/www/html \
-            -w /var/www/html \
-            laravelsail/php81-composer:latest \
-            composer install --ignore-platform-reqs --no-interaction
+        run: composer install --prefer-dist --ignore-platform-reqs --no-interaction
 
       - name: Prepare .env file
         run: cp .env.ci .env
 
-      - name: Export Sail variables (from Sail bash script)
-        run: |
-          export WWWUSER=${WWWUSER:-$UID}
-          export WWWGROUP=${WWWGROUP:-$(id -g)}
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-sail-${{ github.sha }}
-          restore-keys: ${{ runner.os }}-buildx-
-
-      - name: Build and push custom Docker images
-        uses: docker/build-push-action@v2
-        with:
-          push: false
-          load: true
-          builder: ${{ steps.buildx.outputs.name }}
-          tags: sail-8.1/app:latest
-          context: ./docker/8.1/
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-          build-args:
-            WWWGROUP=1000
-
-      - # Temp fix (cache keeps growing)
-        # https://github.com/docker/build-push-action/issues/252
-        # https://github.com/moby/buildkit/issues/1896
-        name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
-      - name: Pull and boot-up Docker-Compose containers
-        run: ./vendor/bin/sail up -d --no-build
-
       - name: Get npm cache directory
+        id: get-npm-cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+
+      - name: Restore npm cache
         id: npm-cache
         uses: actions/cache@v3
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node-
+          path: ${{ steps.get-npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-v3-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install npm dependencies
-        if: steps.npm-cache.outputs.cache-hit != 'true'
-        run: ./vendor/bin/sail npm ci
+        run: npm ci
+
+      - name: Calculate front-end asset hash
+        id: get-assets-cache
+        uses: theowenyoung/folder-hash@v2.0.1
+        with:
+          path: |
+            resources/js
+            resources/sass
+            public
+
+      - name: Restore front-end asset cache
+        id: assets-cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            resources/js
+            resources/sass
+            public
+          key: ${{ runner.os }}-assets-v1-${{ steps.get-assets-cache.outputs.hash }}
+          restore-keys: ${{ runner.os }}-assets-
 
       - name: Build front-end assets
-        run: ./vendor/bin/sail npm run prod
+        if: steps.assets-cache.outputs.cache-hit != 'true'
+        run: npm run prod
 
       - name: Prepare Laravel
         run: |
-          ./vendor/bin/sail php artisan key:generate
+          php artisan key:generate
           chmod -R 777 storage bootstrap/cache
 
       - name: Prepare database
-        run: ./vendor/bin/sail php artisan migrate
+        env:
+          DB_HOST: 127.0.0.1
+          MYSQL_USER: root
+          MYSQL_ROOT_PASSWORD: root
+        run: php artisan migrate
 
       - name: Larastan
-        run: ./vendor/bin/sail bin phpstan analyse
+        run: ./vendor/bin/phpstan analyse
 
       - name: PHPUnit
-        run: ./vendor/bin/sail test --parallel
+        env:
+          DB_HOST: 127.0.0.1
+          MYSQL_USER: root
+          MYSQL_ROOT_PASSWORD: root
+        run: phpdbg -qrr artisan test --parallel --recreate-databases --coverage-clover tests/coverage/clover.xml
