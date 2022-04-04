@@ -31,15 +31,6 @@ final class GameBanController extends ApiController
      */
     private $serverKeyAuthService;
 
-    /**
-     * Maps game identifier types (eg. MINECRAFT_UUID) to game player type (eg. MINECRAFT).
-     *
-     * @var array
-     */
-    private $identifierMapping = [
-        GameIdentifierType::MinecraftUUID => MinecraftPlayer::class,
-    ];
-
     public function __construct(
         PlayerBanService $playerBanService,
         PlayerBanLookupService $playerBanLookupService,
@@ -80,8 +71,8 @@ final class GameBanController extends ApiController
         $expiresAt = $request->get('expires_at');
         $isGlobalBan = $request->get('is_global_ban', false);
 
-        $bannedPlayerType = GameIdentifierType::fromRawValue($request->get('player_id_type'));
-        $staffPlayerType = GameIdentifierType::fromRawValue($request->get('staff_id_type'));
+        $bannedPlayerType = GameIdentifierType::tryFrom($request->get('player_id_type'));
+        $staffPlayerType = GameIdentifierType::tryFrom($request->get('staff_id_type'));
 
         $ban = $this->playerBanService->ban(
             $serverKey,
@@ -146,7 +137,7 @@ final class GameBanController extends ApiController
         ]);
 
         $bannedPlayerId = $request->get('player_id');
-        $bannedPlayerType = GameIdentifierType::fromRawValue($request->get('player_id_type'));
+        $bannedPlayerType = GameIdentifierType::tryFrom($request->get('player_id_type'));
 
         $activeBan = $this->playerBanLookupService->getStatus($bannedPlayerType->playerType(), $bannedPlayerId);
 
@@ -168,6 +159,8 @@ final class GameBanController extends ApiController
 
     private function getIdTypeWhitelist(): string
     {
-        return implode(',', array_keys($this->identifierMapping));
+        return implode(',', [
+            GameIdentifierType::MINECRAFT_UUID->value,
+        ]);
     }
 }
