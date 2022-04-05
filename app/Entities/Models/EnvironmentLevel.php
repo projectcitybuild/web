@@ -2,12 +2,10 @@
 
 namespace App\Entities\Models;
 
-use App\Enum;
-
-final class EnvironmentLevel extends Enum
+enum EnvironmentLevel: string
 {
-    const ENV_PRODUCTION = 'production';    // live
-    const ENV_STAGING = 'staging';          // live staging
-    const ENV_TESTING = 'testing';          // CI/CD stage
-    const ENV_DEVELOPMENT = 'local';        // local development
+    case ENV_PRODUCTION = 'production';    // live
+    case ENV_STAGING = 'staging';          // live staging
+    case ENV_TESTING = 'testing';          // CI/CD stage
+    case ENV_DEVELOPMENT = 'local';        // local development
 }

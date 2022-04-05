@@ -59,11 +59,11 @@ final class PlayerBanService
             throw new UnauthorisedKeyActionException('limited_key', 'This server key does not have permission to create global bans');
         }
 
-        if ($bannedPlayerType->valueOf() === GamePlayerType::Minecraft) {
+        if ($bannedPlayerType === GamePlayerType::MINECRAFT) {
             // Strip hyphens from Minecraft UUIDs
             $bannedPlayerId = str_replace('-', '', $bannedPlayerId);
         }
-        if ($staffPlayerType->valueOf() === GamePlayerType::Minecraft) {
+        if ($staffPlayerType === GamePlayerType::MINECRAFT) {
             // Strip hyphens from Minecraft UUIDs
             $staffPlayerId = str_replace('-', '', $staffPlayerId);
         }
@@ -97,11 +97,11 @@ final class PlayerBanService
         string $staffPlayerId,
         GamePlayerType $staffPlayerType
     ): GameUnban {
-        if ($bannedPlayerType->valueOf() === GamePlayerType::Minecraft) {
+        if ($bannedPlayerType === GamePlayerType::MINECRAFT) {
             // Strip hyphens from Minecraft UUIDs
             $bannedPlayerId = str_replace('-', '', $bannedPlayerId);
         }
-        if ($staffPlayerType->valueOf() === GamePlayerType::Minecraft) {
+        if ($staffPlayerType === GamePlayerType::MINECRAFT) {
             // Strip hyphens from Minecraft UUIDs
             $staffPlayerId = str_replace('-', '', $staffPlayerId);
         }

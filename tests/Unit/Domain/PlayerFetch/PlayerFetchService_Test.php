@@ -41,7 +41,7 @@ class PlayerFetchService_Test extends TestCase
         $expectedUUID = 'uuid';
 
         $service = $this->makeService($expectedAlias, $expectedUUID);
-        $result = $service->fetchSynchronously(new GameType(GameType::Minecraft), [$expectedAlias]);
+        $result = $service->fetchSynchronously(GameType::MINECRAFT, [$expectedAlias]);
 
         $this->assertEquals(1, count($result));
         $this->assertEquals($expectedAlias, $result[0]->getAlias());
@@ -61,7 +61,7 @@ class PlayerFetchService_Test extends TestCase
         ]);
 
         $service = $this->makeService($expectedAlias, $expectedUUID);
-        $service->fetchSynchronously(new GameType(GameType::Minecraft), [$expectedAlias]);
+        $service->fetchSynchronously(GameType::MINECRAFT, [$expectedAlias]);
 
         $this->assertDatabaseHas('players_minecraft', [
             'uuid' => $expectedUUID,
@@ -94,7 +94,7 @@ class PlayerFetchService_Test extends TestCase
         ]);
 
         $service = $this->makeService($expectedAlias, $expectedUUID);
-        $service->fetchSynchronously(new GameType(GameType::Minecraft), [$expectedAlias]);
+        $service->fetchSynchronously(GameType::MINECRAFT, [$expectedAlias]);
 
         $players = MinecraftPlayer::where('uuid', $expectedUUID)->get();
         $this->assertEquals(1, count($players));
@@ -124,7 +124,7 @@ class PlayerFetchService_Test extends TestCase
         ]);
 
         $service = $this->makeService($newAlias, $expectedUUID);
-        $service->fetchSynchronously(new GameType(GameType::Minecraft), [$newAlias]);
+        $service->fetchSynchronously(GameType::MINECRAFT, [$newAlias]);
 
         $player = MinecraftPlayer::where('uuid', $expectedUUID)->first();
         $aliases = $player->aliases;
@@ -141,7 +141,7 @@ class PlayerFetchService_Test extends TestCase
         Queue::fake();
 
         $service = $this->makeService('alias', 'uuid');
-        $service->fetch(new GameType(GameType::Minecraft), ['alias']);
+        $service->fetch(GameType::MINECRAFT, ['alias']);
 
         Queue::assertPushed(PlayerFetchJob::class, 1);
     }

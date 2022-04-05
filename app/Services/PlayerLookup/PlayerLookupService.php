@@ -20,7 +20,7 @@ class PlayerLookupService
     public function getOrCreatePlayer(GamePlayerType $playerType, string $identifier)
     {
         switch ($playerType) {
-            case GamePlayerType::Minecraft:
+            case GamePlayerType::MINECRAFT:
                 return $this->minecraftPlayerRepository->getByUuid($identifier)
                     ?: $this->minecraftPlayerRepository->store($identifier);
         }

@@ -2,9 +2,7 @@
 
 namespace App\Entities\Models;
 
-use App\Enum;
-
-final class GamePlayerType extends Enum
+enum GamePlayerType: string
 {
-    const Minecraft = 'minecraft_player';
+    case MINECRAFT = 'minecraft_player';
 }

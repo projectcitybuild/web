@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\App\Entities\Accounts\Models;
+namespace Tests\Unit\Entities\Models\Eloquent;
 
 use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\Group;

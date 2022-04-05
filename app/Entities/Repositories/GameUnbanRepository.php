@@ -21,7 +21,7 @@ final class GameUnbanRepository extends Repository
         return $this->getModel()->create([
             'game_ban_id' => $banId,
             'staff_player_id' => $staffPlayerId,
-            'staff_player_type' => $staffPlayerType->valueOf(),
+            'staff_player_type' => $staffPlayerType->value,
         ]);
     }
 }

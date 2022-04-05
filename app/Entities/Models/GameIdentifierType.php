@@ -2,17 +2,14 @@
 
 namespace App\Entities\Models;
 
-use App\Enum;
-
-final class GameIdentifierType extends Enum
+enum GameIdentifierType: string
 {
-    const MinecraftUUID = 'minecraft_uuid';
+    case MINECRAFT_UUID = 'minecraft_uuid';
 
-    public function playerType()
+    public function playerType(): GamePlayerType
     {
-        switch ($this->value) {
-            case self::MinecraftUUID:
-                return GamePlayerType::Minecraft();
-        }
+        return match ($this) {
+            self::MINECRAFT_UUID => GamePlayerType::MINECRAFT,
+        };
     }
 }
