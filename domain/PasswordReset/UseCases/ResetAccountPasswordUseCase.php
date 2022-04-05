@@ -33,12 +33,13 @@ final class ResetAccountPasswordUseCase
         DB::beginTransaction();
         try {
             $this->updateAccountPassword->execute(
-                $account,
-                $newPassword
+                account: $account,
+                newPassword: $newPassword,
             );
             $passwordReset->delete();
 
             DB::commit();
+
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;

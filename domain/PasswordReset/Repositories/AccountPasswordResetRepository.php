@@ -27,12 +27,6 @@ class AccountPasswordResetRepository
         );
     }
 
-    public function firstByEmail(string $email): ?AccountPasswordReset
-    {
-        return AccountPasswordReset::where('email', $email)
-            ->first();
-    }
-
     public function firstByToken(string $token): ?AccountPasswordReset
     {
         return AccountPasswordReset::where('token', $token)
