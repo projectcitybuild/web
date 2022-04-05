@@ -5,8 +5,6 @@ namespace App\Entities\Models\Eloquent;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\URL;
-use function now;
 
 /**
  * @property string email
@@ -29,9 +27,6 @@ final class AccountPasswordReset extends Model
         'email',
         'token',
         'created_at',
-    ];
-
-    protected $hidden = [
     ];
 
     protected $dates = [

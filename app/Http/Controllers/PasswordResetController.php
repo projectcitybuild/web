@@ -67,8 +67,10 @@ final class PasswordResetController extends WebController
     /**
      * Saves the user's new password.
      */
-    public function update(ResetPasswordRequest $request, ResetAccountPasswordUseCase $resetAccountPassword)
-    {
+    public function update(
+        ResetPasswordRequest $request,
+        ResetAccountPasswordUseCase $resetAccountPassword,
+    ) {
         $input = $request->validated();
 
         try {

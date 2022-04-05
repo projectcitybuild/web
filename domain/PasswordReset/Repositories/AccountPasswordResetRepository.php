@@ -12,7 +12,7 @@ class AccountPasswordResetRepository
 {
     /**
      * Updates an AccountPasswordReset matching the given email. If not
-     * found, creates a new AccountPasswordReset for the given email
+     * found, creates a new one for the given email
      */
     public function updateByEmailOrCreate(string $email, string $token): AccountPasswordReset
     {
@@ -23,7 +23,7 @@ class AccountPasswordResetRepository
             values: [
                 'token' => $token,
                 'created_at' => Carbon::now(),
-            ]
+            ],
         );
     }
 

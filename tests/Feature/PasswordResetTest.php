@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\AccountPasswordReset;
 use App\Entities\Notifications\AccountPasswordResetNotification;
+use Domain\PasswordReset\PasswordResetURLGenerator;
 use Domain\PasswordReset\Repositories\AccountPasswordResetRepository;
 use Domain\PasswordReset\UseCases\SendPasswordResetEmailUseCase;
 use Illuminate\Support\Facades\Notification;
@@ -17,7 +18,6 @@ class PasswordResetTest extends TestCase
     private Account $account;
     private AccountPasswordResetRepository $passwordResetRepository;
     private SendPasswordResetEmailUseCase $useCase;
-    private TokenGenerator $tokenGenerator;
 
     protected function setUp(): void
     {
@@ -25,14 +25,12 @@ class PasswordResetTest extends TestCase
 
         $this->account = Account::factory()->create();
         $this->passwordResetRepository = \Mockery::mock(AccountPasswordResetRepository::class)->makePartial();
-        $this->tokenGenerator = new StubTokenGenerator('token');
 
         $this->useCase = new SendPasswordResetEmailUseCase(
             passwordResetRepository: $this->passwordResetRepository,
-            tokenGenerator: $this->tokenGenerator,
+            tokenGenerator: new StubTokenGenerator('token'),
+            passwordResetURLGenerator: new PasswordResetURLGenerator(),
         );
-
-        $this->useCase->execute($this->account, $this->account->email);
 
         Notification::fake();
     }
@@ -51,17 +49,33 @@ class PasswordResetTest extends TestCase
 
     public function test_user_can_view_password_reset()
     {
-        $reset = AccountPasswordReset::factory()->create();
+        $token = 'test';
+        AccountPasswordReset::factory()->create(['token' => $token]);
+        $url = (new PasswordResetURLGenerator())->make($token);
 
-        $this->get($reset->getPasswordResetUrl())
-            ->assertSuccessful();
+        $this->get($url)->assertSuccessful();
     }
 
     public function test_user_can_change_password()
     {
-        $reset = AccountPasswordReset::factory()->create();
+        $reset = AccountPasswordReset::factory()->create([
+            'email' => $this->account->email,
+        ]);
 
-        $this->get($reset->getPasswordResetUrl())
-            ->assertSuccessful();
+        $originalPassword = $this->account->password;
+
+        $this->patch(
+            uri: route(name: 'front.password-reset.update'),
+            data: [
+                'password_token' => $reset->token,
+                'password' => 'new_password',
+                'password_confirm' => 'new_password',
+            ],
+        )->assertSessionHasNoErrors();
+
+        $this->assertNotEquals(
+            $originalPassword,
+            Account::find($this->account->getKey())->password,
+        );
     }
 }
