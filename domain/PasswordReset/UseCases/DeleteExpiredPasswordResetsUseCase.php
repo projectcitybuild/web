@@ -7,7 +7,7 @@ use function now;
 
 class DeleteExpiredPasswordResetsUseCase
 {
-    const DAY_THRESHOLD = 14;
+    const DAY_THRESHOLD = 1;
 
     public function __construct(
         private AccountPasswordResetRepository $passwordResetRepository
