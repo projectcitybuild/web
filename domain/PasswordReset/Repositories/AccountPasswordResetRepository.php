@@ -10,14 +10,21 @@ use Carbon\Carbon;
  */
 class AccountPasswordResetRepository
 {
-    public function updateOrCreateByEmail(string $email, string $token): AccountPasswordReset
+    /**
+     * Updates a AccountPasswordReset matching the given email. If not
+     * found, creates a new AccountPasswordReset for the given email
+     */
+    public function updateByEmailOrCreate(string $email, string $token): AccountPasswordReset
     {
-        return AccountPasswordReset::updateOrCreate([
-            'email' => $email,
-        ], [
-            'token' => $token,
-            'created_at' => Carbon::now(),
-        ]);
+        return AccountPasswordReset::updateOrCreate(
+            attributes: [
+                'email' => $email,
+            ],
+            values: [
+                'token' => $token,
+                'created_at' => Carbon::now(),
+            ]
+        );
     }
 
     public function getByEmail(string $email): ?AccountPasswordReset

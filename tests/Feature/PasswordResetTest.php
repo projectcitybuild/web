@@ -5,58 +5,59 @@ namespace Tests\Feature;
 use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\AccountPasswordReset;
 use App\Entities\Notifications\AccountPasswordResetNotification;
-use Domain\PasswordReset\UseCases\SendPasswordResetEmail;
+use Domain\PasswordReset\Repositories\AccountPasswordResetRepository;
+use Domain\PasswordReset\UseCases\SendPasswordResetEmailUseCase;
 use Illuminate\Support\Facades\Notification;
+use Library\Tokens\Adapters\StubTokenGenerator;
+use Library\Tokens\TokenGenerator;
 use Tests\TestCase;
 
 class PasswordResetTest extends TestCase
 {
-    private $account;
-
-    /**
-     * @var SendPasswordResetEmail
-     */
-    private $sendPasswordResetEmail;
-
-    /**
-     * @var AccountPasswordReset|\Illuminate\Database\Eloquent\Builder
-     */
-    private $passwordReset;
+    private Account $account;
+    private AccountPasswordResetRepository $passwordResetRepository;
+    private SendPasswordResetEmailUseCase $useCase;
+    private TokenGenerator $tokenGenerator;
 
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->account = Account::factory()->create();
-        $this->sendPasswordResetEmail = new SendPasswordResetEmail();
+        $this->passwordResetRepository = \Mockery::mock(AccountPasswordResetRepository::class)->makePartial();
+        $this->tokenGenerator = new StubTokenGenerator('token');
 
-        $this->sendPasswordResetEmail->execute($this->account, $this->account->email);
+        $this->useCase = new SendPasswordResetEmailUseCase(
+            passwordResetRepository: $this->passwordResetRepository,
+            tokenGenerator: $this->tokenGenerator,
+        );
 
-        $this->passwordReset = AccountPasswordReset::whereEmail($this->account->email);
+        $this->useCase->execute($this->account, $this->account->email);
+
+        Notification::fake();
     }
 
-    public function testUserCanRequestPasswordResetEmail()
+    public function test_user_can_request_password_reset_email()
     {
-        Notification::fake();
         Notification::assertNothingSent();
 
-        $this->post(route('front.password-reset.store'), [
-            'email' => $this->account->email,
-        ])->assertSessionHasNoErrors();
+        $this->post(
+            uri: route(name: 'front.password-reset.store'),
+            data: ['email' => $this->account->email]
+        )->assertSessionHasNoErrors();
 
-        Notification::assertSentTo(
-            [$this->account], AccountPasswordResetNotification::class
-        );
+        Notification::assertSentTo($this->account, AccountPasswordResetNotification::class);
     }
 
-    public function testUserCanViewPasswordReset()
+    public function test_user_can_view_password_reset()
     {
         $reset = AccountPasswordReset::factory()->create();
 
         $this->get($reset->getPasswordResetUrl())
-        ->assertSuccessful();
+            ->assertSuccessful();
     }
 
-    public function testUserCanChangePassword()
+    public function test_user_can_change_password()
     {
         $reset = AccountPasswordReset::factory()->create();
 

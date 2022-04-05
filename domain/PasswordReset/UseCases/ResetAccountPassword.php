@@ -11,15 +11,9 @@ use Illuminate\Support\Facades\DB;
 
 final class ResetAccountPassword
 {
-    /**
-     * @var UpdateAccountPassword
-     */
-    private $updateAccountPassword;
-
-    public function __construct(UpdateAccountPassword $updateAccountPassword)
-    {
-        $this->updateAccountPassword = $updateAccountPassword;
-    }
+    public function __construct(
+        private UpdateAccountPassword $updateAccountPassword,
+    ) {}
 
     public function execute(string $token, string $newPassword)
     {

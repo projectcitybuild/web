@@ -14,9 +14,9 @@ use Shared\Groups\GroupsManager;
 class DonationsProvider extends ServiceProvider
 {
     /**
-     * Register any other events for your application.
+     * Register any application services.
      */
-    public function boot(): void
+    public function register(): void
     {
         $this->app->bind(DeactivateExpiredDonorPerksUseCase::class, function ($app) {
             return new DeactivateExpiredDonorPerksUseCase(

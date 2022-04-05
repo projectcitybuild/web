@@ -8,7 +8,7 @@ use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SendPasswordEmailRequest;
 use App\Http\WebController;
 use Domain\PasswordReset\UseCases\ResetAccountPassword;
-use Domain\PasswordReset\UseCases\SendPasswordResetEmail;
+use Domain\PasswordReset\UseCases\SendPasswordResetEmailUseCase;
 use Illuminate\Http\Request;
 
 final class PasswordResetController extends WebController
@@ -24,7 +24,7 @@ final class PasswordResetController extends WebController
     /**
      * Creates a password reset request and sends a verification email to the user.
      */
-    public function store(SendPasswordEmailRequest $request, SendPasswordResetEmail $sendPasswordResetEmail)
+    public function store(SendPasswordEmailRequest $request, SendPasswordResetEmailUseCase $sendPasswordResetEmail)
     {
         $input = $request->validated();
         $email = $input['email'];
