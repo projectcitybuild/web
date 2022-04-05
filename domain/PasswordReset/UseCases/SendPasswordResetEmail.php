@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Actions\AccountPasswordReset;
+namespace Domain\PasswordReset\UseCases;
 
 use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\AccountPasswordReset;

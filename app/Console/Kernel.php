@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\CleanupUnactivatedAccountsCommand;
 use App\Console\Commands\DeactivateDonatorPerksCommand;
+use App\Console\Commands\DeleteExpiredPasswordResetsCommand;
 use App\Console\Commands\GenerateSitemapCommand;
 use App\Console\Commands\RepairMissingGroupsCommand;
 use App\Console\Commands\ServerKeyCreateCommand;
@@ -21,13 +22,14 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        ServerQueryCommand::class,
-        ServerKeyCreateCommand::class,
-        StripUUIDHyphensCommand::class,
-        RepairMissingGroupsCommand::class,
         CleanupUnactivatedAccountsCommand::class,
         DeactivateDonatorPerksCommand::class,
+        DeleteExpiredPasswordResetsCommand::class,
         GenerateSitemapCommand::class,
+        ServerKeyCreateCommand::class,
+        ServerQueryCommand::class,
+        StripUUIDHyphensCommand::class,
+        RepairMissingGroupsCommand::class,
     ];
 
     /**
@@ -46,7 +48,7 @@ class Kernel extends ConsoleKernel
             ->everyFiveMinutes();
 
         $schedule->command('cleanup:password-resets')
-            ->weekly();
+            ->daily();
 
         $schedule->command('cleanup:unactivated-accounts')
             ->weekly();
