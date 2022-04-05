@@ -11,7 +11,7 @@ use Carbon\Carbon;
 class AccountPasswordResetRepository
 {
     /**
-     * Updates a AccountPasswordReset matching the given email. If not
+     * Updates an AccountPasswordReset matching the given email. If not
      * found, creates a new AccountPasswordReset for the given email
      */
     public function updateByEmailOrCreate(string $email, string $token): AccountPasswordReset
@@ -27,13 +27,13 @@ class AccountPasswordResetRepository
         );
     }
 
-    public function getByEmail(string $email): ?AccountPasswordReset
+    public function firstByEmail(string $email): ?AccountPasswordReset
     {
         return AccountPasswordReset::where('email', $email)
             ->first();
     }
 
-    public function getByToken(string $token): ?AccountPasswordReset
+    public function firstByToken(string $token): ?AccountPasswordReset
     {
         return AccountPasswordReset::where('token', $token)
             ->first();

@@ -3,24 +3,18 @@
 namespace App\Entities\Repositories;
 
 use App\Entities\Models\Eloquent\Account;
-use App\Repository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
-/**
- * @deprecated Use Account model facade instead
- */
-final class AccountRepository extends Repository
+final class AccountRepository
 {
-    protected $model = Account::class;
-
     public function create(
         string $email,
         string $username,
         string $password,
         ?string $ip
     ): Account {
-        return $this->getModel()->create([
+        return Account::create([
             'email' => $email,
             'username' => $username,
             'password' => Hash::make($password),
@@ -32,8 +26,7 @@ final class AccountRepository extends Repository
 
     public function getByEmail(string $email): ?Account
     {
-        return $this->getModel()
-            ->where('email', $email)
+        return Account::where('email', $email)
             ->first();
     }
 }
