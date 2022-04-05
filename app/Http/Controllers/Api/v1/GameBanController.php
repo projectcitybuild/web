@@ -112,8 +112,8 @@ final class GameBanController extends ApiController
         $bannedPlayerId = $request->get('player_id');
         $staffPlayerId = $request->get('staff_id');
 
-        $bannedPlayerType = GameIdentifierType::fromRawValue($request->get('player_id_type'));
-        $staffPlayerType = GameIdentifierType::fromRawValue($request->get('staff_id_type'));
+        $bannedPlayerType = GameIdentifierType::tryFrom($request->get('player_id_type'));
+        $staffPlayerType = GameIdentifierType::tryFrom($request->get('staff_id_type'));
 
         $unban = $this->playerBanService->unban(
             $bannedPlayerId,
