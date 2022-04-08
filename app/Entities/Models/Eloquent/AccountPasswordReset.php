@@ -4,9 +4,13 @@ namespace App\Entities\Models\Eloquent;
 
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\URL;
-use function now;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property string email
+ * @property string token
+ * @property Carbon created_at
+ */
 final class AccountPasswordReset extends Model
 {
     use HasFactory;
@@ -25,17 +29,7 @@ final class AccountPasswordReset extends Model
         'created_at',
     ];
 
-    protected $hidden = [
-    ];
-
     protected $dates = [
         'created_at',
     ];
-
-    public function getPasswordResetUrl()
-    {
-        return URL::temporarySignedRoute('front.password-reset.edit', now()->addMinutes(20), [
-            'token' => $this->token,
-        ]);
-    }
 }

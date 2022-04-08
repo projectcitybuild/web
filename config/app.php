@@ -175,8 +175,12 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        \Library\Discourse\DiscourseServiceProvider::class,
-        \Library\Recaptcha\RecaptchaServiceProvider::class,
+        /**
+         * Library Service Providers...
+         */
+        Library\Discourse\DiscourseServiceProvider::class,
+        Library\Recaptcha\RecaptchaServiceProvider::class,
+        Library\Tokens\TokensProvider::class,
 
         /*
          * Shared Service Providers...
