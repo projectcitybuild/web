@@ -2,8 +2,6 @@
 
 namespace Domain\PasswordReset\UseCases;
 
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Models\Eloquent\AccountPasswordReset;
 use App\Entities\Notifications\AccountPasswordResetCompleteNotification;
 use App\Entities\Repositories\AccountRepository;
 use App\Exceptions\Http\NotFoundException;
@@ -36,7 +34,7 @@ final class ResetAccountPasswordUseCase
                 account: $account,
                 newPassword: $newPassword,
             );
-            $passwordReset->delete();
+            $this->passwordResetRepository->delete($passwordReset);
 
             DB::commit();
 

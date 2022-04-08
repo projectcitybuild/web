@@ -33,9 +33,14 @@ class AccountPasswordResetRepository
             ->first();
     }
 
-    public function deleteOlderThan(Carbon $date)
+    public function deleteOlderThanOrEqualTo(Carbon $date)
     {
-        return AccountPasswordReset::whereDate('created_at', '<', $date)
+        return AccountPasswordReset::whereDate('created_at', '<=', $date)
             ->delete();
+    }
+
+    public function delete(AccountPasswordReset $passwordReset)
+    {
+        $passwordReset->delete();
     }
 }

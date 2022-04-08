@@ -6,7 +6,10 @@ use App\Entities\Models\Eloquent\Account;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
-final class AccountRepository
+/**
+ * @final
+ */
+class AccountRepository
 {
     public function create(
         string $email,

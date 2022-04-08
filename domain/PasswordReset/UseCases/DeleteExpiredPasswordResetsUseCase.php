@@ -20,6 +20,6 @@ class DeleteExpiredPasswordResetsUseCase
          * as this currently relies on the job queue never breaking
          */
         $thresholdDate = now()->subDays(self::DAY_THRESHOLD);
-        $this->passwordResetRepository->deleteOlderThan($thresholdDate);
+        $this->passwordResetRepository->deleteOlderThanOrEqualTo($thresholdDate);
     }
 }

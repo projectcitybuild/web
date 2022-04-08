@@ -5,7 +5,10 @@ namespace App\Http\Actions\AccountSettings;
 use App\Entities\Models\Eloquent\Account;
 use Illuminate\Support\Facades\Hash;
 
-final class UpdateAccountPassword
+/**
+ * @final
+ */
+class UpdateAccountPassword
 {
     public function execute(Account $account, string $newPassword)
     {

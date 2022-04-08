@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Domain\PasswordReset\UseCases;
 
 use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\AccountPasswordReset;
