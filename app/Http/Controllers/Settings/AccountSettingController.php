@@ -23,8 +23,10 @@ final class AccountSettingController extends WebController
         return view('v2.front.pages.account.account-settings')->with(compact('user'));
     }
 
-    public function sendVerificationEmail(AccountChangeEmailRequest $request, SendEmailForAccountEmailChange $sendEmailForAccountEmailChange)
-    {
+    public function sendVerificationEmail(
+        AccountChangeEmailRequest $request,
+        SendEmailForAccountEmailChange $sendEmailForAccountEmailChange
+    ) {
         $input = $request->validated();
 
         $sendEmailForAccountEmailChange->execute(
@@ -45,8 +47,11 @@ final class AccountSettingController extends WebController
      *
      * @return View
      */
-    public function showConfirmForm(Request $request, AccountEmailChangeRepository $emailChangeRepository, UpdateAccountEmail $updateAccountEmail)
-    {
+    public function showConfirmForm(
+        Request $request,
+        AccountEmailChangeRepository $emailChangeRepository,
+        UpdateAccountEmail $updateAccountEmail
+    ) {
         $token = $request->get('token');
         $email = $request->get('email');
 
@@ -65,16 +70,16 @@ final class AccountSettingController extends WebController
         switch ($email) {
         case $changeRequest->email_previous:
             $changeRequest->is_previous_confirmed = true;
-break;
+            break;
 
         case $changeRequest->email_new:
             $changeRequest->is_new_confirmed = true;
-break;
+            break;
 
         default:
             // If the supplied email matches neither the old nor the new email address in
             // the stored email change request, the request cannot be performed
-throw new \Exception('Provided email address does not match the current or new email address');
+            throw new \Exception('Provided email address does not match the current or new email address');
         }
 
         $areBothAddressesVerified = $changeRequest->is_previous_confirmed && $changeRequest->is_new_confirmed;
@@ -95,8 +100,10 @@ throw new \Exception('Provided email address does not match the current or new e
         return view('v2.front.pages.account.account-settings-email-complete');
     }
 
-    public function changePassword(AccountChangePasswordRequest $request, UpdateAccountPassword $updatePassword)
-    {
+    public function changePassword(
+        AccountChangePasswordRequest $request,
+        UpdateAccountPassword $updatePassword
+    ) {
         $input = $request->validated();
 
         $updatePassword->execute(
@@ -109,8 +116,10 @@ throw new \Exception('Provided email address does not match the current or new e
             ->with(['success_password' => 'Password successfully updated']);
     }
 
-    public function changeUsername(AccountChangeUsernameRequest $request, UpdateAccountUsername $updateUsername)
-    {
+    public function changeUsername(
+        AccountChangeUsernameRequest $request,
+        UpdateAccountUsername $updateUsername
+    ) {
         $input = $request->validated();
 
         $updateUsername->execute(

@@ -2,14 +2,10 @@
 
 namespace Tests\Unit\Domain\PasswordReset\UseCases;
 
-use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\AccountPasswordReset;
-use App\Entities\Notifications\AccountPasswordResetCompleteNotification;
-use App\Exceptions\Http\NotFoundException;
 use Domain\PasswordReset\Repositories\AccountPasswordResetRepository;
 use Domain\PasswordReset\UseCases\DeleteExpiredPasswordResetsUseCase;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class DeleteExpiredPasswordResetsUseCaseTests extends TestCase
