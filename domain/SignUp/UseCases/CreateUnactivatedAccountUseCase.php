@@ -29,7 +29,7 @@ class CreateUnactivatedAccountUseCase
             ip: $ip,
         );
 
-        $this->groupsManager->addToDefaultGroup();
+        $this->groupsManager->addToDefaultGroup($account);
 
         $account->notify(new AccountActivationNotification($account));
     }
