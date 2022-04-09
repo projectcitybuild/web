@@ -19,13 +19,13 @@ class CreateUnactivatedAccountUseCase
     public function execute(
         string $email,
         string $username,
-        string $passord,
+        string $password,
         string $ip,
     ) {
         $account = $this->accountRepository->create(
             email: $email,
             username: $username,
-            password: $passord,
+            password: $password,
             ip: $ip,
         );
 

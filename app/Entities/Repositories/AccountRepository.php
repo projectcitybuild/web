@@ -29,7 +29,12 @@ class AccountRepository
 
     public function getByEmail(string $email): ?Account
     {
-        return Account::where('email', $email)
-            ->first();
+        return Account::where('email', $email)->first();
+    }
+
+    public function activate(Account $account)
+    {
+        $account->activated = true;
+        $account->save();
     }
 }
