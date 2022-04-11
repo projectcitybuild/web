@@ -8,10 +8,7 @@ use Domain\Login\Entities\LoginCredentials;
 use Domain\Login\Exceptions\AccountNotActivatedException;
 use Domain\Login\Exceptions\InvalidLoginCredentialsException;
 use Domain\Login\UseCases\LoginUseCase;
-use Domain\Login\UseCases\LogoutUseCase;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Library\RateLimit\Storage\SessionTokenStorage;
 use Library\RateLimit\TokenBucket;
@@ -19,16 +16,12 @@ use Library\RateLimit\TokenRate;
 
 final class LoginController extends WebController
 {
-    public function __construct(
-        private LogoutUseCase $logoutUseCase,
-    ) {}
-
-    public function create(): View
+    public function show(): View
     {
         return view('v2.front.pages.login.login');
     }
 
-    public function store(LoginRequest $request, LoginUseCase $loginUseCase)
+    public function loginFromPCB(LoginRequest $request, LoginUseCase $loginUseCase)
     {
         $input = $request->validated();
 
@@ -78,36 +71,5 @@ final class LoginController extends WebController
 
         // SSO login needs to be in separate route due to reuse by Discourse
         return redirect()->intended(route('front.sso.discourse'));
-    }
-
-    /**
-     * Logs out the current PCB account.
-     * (called from Discourse)
-     */
-    public function logoutFromDiscourse(Request $request): RedirectResponse
-    {
-        $this->logoutUseCase->logoutOfPCB();
-
-        // Prevent session fixation
-        // https://laravel.com/docs/9.x/authentication#logging-out
-        $request->session()->regenerateToken();
-
-        return redirect()->route('front.home');
-    }
-
-    /**
-     * Logs out the current PCB account and its associated Discourse account.
-     *
-     * (called from this site)
-     */
-    public function logout(Request $request): RedirectResponse
-    {
-        $this->logoutUseCase->logoutOfDiscourseAndPCB();
-
-        // Prevent session fixation
-        // https://laravel.com/docs/9.x/authentication#logging-out
-        $request->session()->regenerateToken();
-
-        return redirect()->route('front.home');
     }
 }
