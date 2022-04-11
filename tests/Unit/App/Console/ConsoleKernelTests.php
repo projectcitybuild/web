@@ -4,7 +4,7 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-final class ConsoleKernelTest extends TestCase
+final class ConsoleKernelTests extends TestCase
 {
     use RefreshDatabase;
 
