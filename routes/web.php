@@ -56,7 +56,7 @@ Route::prefix('donate')->group(function () {
 
 Route::get('sso/discourse', [
     'as' => 'front.sso.discourse',
-    'uses' => 'DiscourseSSOController@create',
+    'uses' => 'LoginController@loginFromDiscourse',
 ])->middleware('auth');
 
 Route::prefix('login')->group(function () {

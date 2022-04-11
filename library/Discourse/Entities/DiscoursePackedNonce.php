@@ -2,31 +2,23 @@
 
 namespace Library\Discourse\Entities;
 
+use Illuminate\Http\Request;
+
 final class DiscoursePackedNonce
 {
-    /**
-     * @var string
-     */
-    private $sso;
+    public function __construct(
+        public string $sso,
+        public string $signature
+    ) {}
 
-    /**
-     * @var string
-     */
-    private $signature;
-
-    public function __construct(string $sso, string $signature)
+    public static function fromRequest(Request $request): ?DiscoursePackedNonce
     {
-        $this->sso = $sso;
-        $this->signature = $signature;
-    }
+        $sso = $request->get('sso');
+        $sig = $request->get('sig');
 
-    public function getSSO(): string
-    {
-        return $this->sso;
-    }
-
-    public function getSignature(): string
-    {
-        return $this->signature;
+        if (empty($sso) || empty($sig)) {
+            return null;
+        }
+        return new DiscoursePackedNonce(sso: $sso, signature: $sig);
     }
 }
