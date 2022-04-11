@@ -29,9 +29,6 @@ Route::prefix('auth')->group(function () {
 
 Route::prefix('minecraft/{minecraftUUID}')->group(function () {
     Route::get('donation-tiers', 'MinecraftDonationTierController@show');
-
-    Route::get('boxes', 'MinecraftLootBoxController@showAvailable');
-    Route::post('boxes/redeem', 'MinecraftLootBoxController@redeem');
 });
 
 Route::prefix('groups')->group(function () {

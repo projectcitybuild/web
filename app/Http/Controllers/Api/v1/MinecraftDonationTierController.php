@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Entities\Models\Eloquent\MinecraftPlayer;
+use App\Entities\Resources\DonationPerkResource;
 use App\Exceptions\Http\NotFoundException;
 use App\Http\ApiController;
-use App\Http\Controllers\Api\v1\Resources\DonationPerkResource;
 use Illuminate\Http\Request;
 
 final class MinecraftDonationTierController extends ApiController
