@@ -54,7 +54,7 @@ final class LoginController extends WebController
         );
 
         try {
-            $externalServiceLoginURL = $loginUseCase->execute(
+            $loginUseCase->execute(
                 credentials: $credentials,
                 shouldRemember: $request->filled('remember_me'),
                 ip: $request->ip(),
@@ -76,8 +76,8 @@ final class LoginController extends WebController
         // https://laravel.com/docs/9.x/authentication#authenticating-users
         $request->session()->regenerate();
 
-        // Login to Discourse by redirecting to Discourse's SSO endpoint
-        return redirect()->intended($externalServiceLoginURL);
+        // SSO login needs to be in separate route due to reuse by Discourse
+        return redirect()->intended(route('front.sso.discourse'));
     }
 
     /**

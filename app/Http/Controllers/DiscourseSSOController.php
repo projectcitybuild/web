@@ -29,6 +29,8 @@ final class DiscourseSSOController extends WebController
     {
         $account = $request->user();
 
+        // If the user clicks 'Login' on the Discourse side (as opposed to the PCB side),
+        // we don't need to fetch anything because the payload is given to us
         if (! $request->has('sso') || ! $request->has('sig')) {
             return redirect(config('discourse.base_url').self::DISCOURSE_SSO_ENDPOINT);
         }

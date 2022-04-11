@@ -9,6 +9,7 @@ use Domain\Login\Exceptions\AccountNotActivatedException;
 use Domain\Login\Exceptions\InvalidLoginCredentialsException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Shared\ExternalAccounts\Session\ExternalAccountsSession;
 use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 
 /**
@@ -18,18 +19,18 @@ class LoginUseCase
 {
     public function __construct(
         private ExternalAccountSync $externalAccountSync,
+        private ExternalAccountsSession $externalAccountsSession,
     ) {}
 
     /**
      * @throws InvalidLoginCredentialsException if email or password is incorrect
      * @throws AccountNotActivatedException if account not verified
-     * @return string SSO login URL of external service
      */
     public function execute(
         LoginCredentials $credentials,
         bool $shouldRemember,
         string $ip
-    ): string {
+    ) {
         if (! Auth::attempt(
             credentials: $credentials->toArray(),
             remember: $shouldRemember,
@@ -57,7 +58,5 @@ class LoginUseCase
         if ($account->is_totp_enabled) {
             Session::put(MfaGate::NEEDS_MFA_KEY, 'true');
         }
-
-        return true;
     }
 }

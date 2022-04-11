@@ -18,11 +18,6 @@ class DiscourseAccountSession implements ExternalAccountsSession
         private DiscourseAdminApi $discourseAdminApi,
     ) {}
 
-    public function getLoginEndpoint(): string
-    {
-        return route('front.sso.discourse');
-    }
-
     public function logout(int $pcbAccountId): void
     {
         $user = $this->getDiscourseUser($pcbAccountId);
