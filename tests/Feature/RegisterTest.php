@@ -37,6 +37,8 @@ class RegisterTest extends TestCase
 
     public function testUserCanRegister()
     {
+        Group::factory()->create(['is_default' => true]);
+
         $unactivatedAccount = Account::factory()
             ->passwordUnhashed()
             ->unactivated()
@@ -143,6 +145,8 @@ class RegisterTest extends TestCase
     public function testUserIsSentVerificationMail()
     {
         Notification::fake();
+
+        Group::factory()->create(['is_default' => true]);
 
         $unactivatedAccount = Account::factory()
             ->passwordUnhashed()

@@ -42,6 +42,15 @@ class GroupsManagerTests extends TestCase
         );
     }
 
+    public function test_add_to_default_group()
+    {
+        $this->assertAccountHasGroups([]);
+
+        $this->groupsManager->addToDefaultGroup($this->account);
+
+        $this->assertAccountHasGroups([$this->defaultGroup]);
+    }
+
     public function test_adds_group_to_account()
     {
         $existingGroup = Group::factory()->create();
@@ -77,6 +86,19 @@ class GroupsManagerTests extends TestCase
         $this->groupsManager->addMember(group: $newGroup, account: $this->account);
 
         $this->assertAccountHasGroups([$newGroup]);
+    }
+
+    public function test_add_group_can_add_default_group()
+    {
+        $this->assertAccountHasGroups([]);
+
+        $this->groupsManager->addMember(group: $this->defaultGroup, account: $this->account);
+
+        $this->assertAccountHasGroups([$this->defaultGroup]);
+
+        $this->groupsManager->addMember(group: $this->defaultGroup, account: $this->account);
+
+        $this->assertAccountHasGroups([$this->defaultGroup]);
     }
 
     public function test_removes_group_from_account()

@@ -11,9 +11,9 @@ use Shared\ExternalAccounts\Adapters\StubAccountSync;
 class ExternalAccountsProvider extends ServiceProvider
 {
     /**
-     * Register any other events for your application.
+     * Register any application services.
      */
-    public function boot(): void
+    public function register(): void
     {
         $isE2ETest = env(key: 'IS_E2E_TEST', default: false);
 
