@@ -3,7 +3,7 @@
 namespace Tests\Services;
 
 use App\Entities\Models\Eloquent\Account;
-use App\Services\Login\LogoutService;
+use Domain\Login\UseCases\LogoutUseCase;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Log\Logger;
@@ -54,7 +54,7 @@ class LogoutService_Test extends TestCase
     {
         // given...
         $auth = resolve(Auth::class);
-        $service = new LogoutService($this->discourseUserApiMock, $this->discourseAdminApiMock, $auth, $this->loggerStub);
+        $service = new LogoutUseCase($this->discourseUserApiMock, $this->discourseAdminApiMock, $auth, $this->loggerStub);
         $this->loginAsUser($auth);
 
         // when...
@@ -68,7 +68,7 @@ class LogoutService_Test extends TestCase
     {
         // given...
         $auth = resolve(Auth::class);
-        $service = new LogoutService($this->discourseUserApiMock, $this->discourseAdminApiMock, $auth, $this->loggerStub);
+        $service = new LogoutUseCase($this->discourseUserApiMock, $this->discourseAdminApiMock, $auth, $this->loggerStub);
 
         $this->assertFalse($auth->check());
 
@@ -93,7 +93,7 @@ class LogoutService_Test extends TestCase
             ]);
 
         $auth = resolve(Auth::class);
-        $service = new LogoutService($this->discourseUserApiMock, $this->discourseAdminApiMock, $auth, $this->loggerStub);
+        $service = new LogoutUseCase($this->discourseUserApiMock, $this->discourseAdminApiMock, $auth, $this->loggerStub);
         $this->loginAsUser($auth);
 
         // when...
@@ -119,7 +119,7 @@ class LogoutService_Test extends TestCase
             ]);
 
         $auth = resolve(Auth::class);
-        $service = new LogoutService($this->discourseUserApiMock, $this->discourseAdminApiMock, $auth, $this->loggerStub);
+        $service = new LogoutUseCase($this->discourseUserApiMock, $this->discourseAdminApiMock, $auth, $this->loggerStub);
         $this->loginAsUser($auth);
 
         // expect...

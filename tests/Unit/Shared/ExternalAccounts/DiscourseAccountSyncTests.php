@@ -9,7 +9,7 @@ use GuzzleHttp\Psr7\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Library\Discourse\Api\DiscourseAdminApi;
 use Psr\Http\Message\RequestInterface;
-use Shared\ExternalAccounts\Adapters\DiscourseAccountSync;
+use Shared\ExternalAccounts\Sync\Adapters\DiscourseAccountSync;
 use Tests\TestCase;
 
 class DiscourseAccountSyncTests extends TestCase

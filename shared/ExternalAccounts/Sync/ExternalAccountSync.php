@@ -1,6 +1,6 @@
 <?php
 
-namespace Shared\ExternalAccounts;
+namespace Shared\ExternalAccounts\Sync;
 
 use App\Entities\Models\Eloquent\Account;
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace Shared\ExternalAccounts\Adapters;
+namespace Shared\ExternalAccounts\Sync\Adapters;
 
 use App\Entities\Models\Eloquent\Account;
 use GuzzleHttp\Exception\ServerException;
 use Library\Discourse\Api\DiscourseAdminApi;
 use Library\Discourse\Entities\DiscoursePayload;
-use Shared\ExternalAccounts\ExternalAccountSync;
+use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 
 final class DiscourseAccountSync implements ExternalAccountSync
 {

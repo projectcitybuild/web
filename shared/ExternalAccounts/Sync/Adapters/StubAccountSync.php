@@ -1,9 +1,9 @@
 <?php
 
-namespace Shared\ExternalAccounts\Adapters;
+namespace Shared\ExternalAccounts\Sync\Adapters;
 
 use App\Entities\Models\Eloquent\Account;
-use Shared\ExternalAccounts\ExternalAccountSync;
+use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 
 final class StubAccountSync implements ExternalAccountSync
 {

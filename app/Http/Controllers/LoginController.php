@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Repositories\AccountRepository;
 use App\Http\Middleware\MfaGate;
 use App\Http\Requests\LoginRequest;
 use App\Http\WebController;
-use App\Services\Login\LogoutService;
+use Domain\Login\UseCases\LogoutUseCase;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -21,39 +22,13 @@ use Library\RateLimit\TokenRate;
 
 final class LoginController extends WebController
 {
-    /**
-     * @var DiscourseAdminApi
-     */
-    private $discourseAdminApi;
-
-    /**
-     * @var AccountRepository
-     */
-    private $accountRepository;
-
-    /**
-     * @var LogoutService
-     */
-    private $logoutService;
-
-    /**
-     * @var AuthGuard
-     */
-    private $auth;
-
     public function __construct(
-        DiscourseAdminApi $discourseAdminApi,
-        AccountRepository $accountRepository,
-        LogoutService $logoutService,
-        AuthGuard $auth
-    ) {
-        $this->discourseAdminApi = $discourseAdminApi;
-        $this->accountRepository = $accountRepository;
-        $this->logoutService = $logoutService;
-        $this->auth = $auth;
-    }
+        private DiscourseAdminApi $discourseAdminApi,
+        private LogoutUseCase $logoutUseCase,
+        private AuthGuard $auth,
+    ) {}
 
-    public function create()
+    public function create(): View
     {
         return view('v2.front.pages.login.login');
     }
@@ -114,31 +89,23 @@ final class LoginController extends WebController
 
     /**
      * Logs out the current PCB account.
-     *
      * (called from Discourse)
-     *
-     *
-     * @return void
      */
-    public function logoutFromDiscourse(Request $request)
+    public function logoutFromDiscourse(Request $request): RedirectResponse
     {
-        $this->logoutService->logoutOfPCB();
+        $this->logoutUseCase->logoutOfPCB();
 
         return redirect()->route('front.home');
     }
 
     /**
-     * Logs out the current PCB account and
-     * its associated Discourse account.
+     * Logs out the current PCB account and its associated Discourse account.
      *
      * (called from this site)
-     *
-     *
-     * @return void
      */
-    public function logout(Request $request)
+    public function logout(Request $request): RedirectResponse
     {
-        $this->logoutService->logoutOfDiscourseAndPCB();
+        $this->logoutUseCase->logoutOfDiscourseAndPCB();
 
         return redirect()->route('front.home');
     }

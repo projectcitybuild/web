@@ -4,7 +4,7 @@ namespace Shared\Groups;
 
 use App\Entities\Models\Eloquent\Group;
 use Illuminate\Support\ServiceProvider;
-use Shared\ExternalAccounts\ExternalAccountSync;
+use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 use Shared\Groups\UseCases\RemoveGroupMemberUseCase;
 
 class GroupsProvider extends ServiceProvider

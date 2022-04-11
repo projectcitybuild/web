@@ -21,6 +21,6 @@ class DiscourseUserApi
     {
         $response = $this->client->get('users/by-external/'.$pcbId.'.json');
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody(), associative: true);
     }
 }
