@@ -4,8 +4,10 @@ namespace Shared\ExternalAccounts\Sync\Adapters;
 
 use App\Entities\Models\Eloquent\Account;
 use GuzzleHttp\Exception\ServerException;
+use Illuminate\Support\Str;
 use Library\Discourse\Api\DiscourseAdminApi;
 use Library\Discourse\Entities\DiscoursePayload;
+use Library\Discourse\Exceptions\UserNotFound;
 use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 
 final class DiscourseAccountSync implements ExternalAccountSync
@@ -30,6 +32,18 @@ final class DiscourseAccountSync implements ExternalAccountSync
             // this time
             $payload->requiresActivation(false);
             $this->discourseAdminApi->requestSSOSync($payload->build());
+        }
+    }
+
+    public function matchExternalUsername(Account $account): void
+    {
+        try {
+            $discourseUser = $this->discourseAdminApi->fetchUserByEmail($account->email);
+            $account->username = $discourseUser['username'];
+        } catch (UserNotFound) {
+            $account->username = Str::random(10);
+        } finally {
+            $account->save();
         }
     }
 }

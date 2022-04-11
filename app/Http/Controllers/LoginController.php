@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\MfaGate;
 use App\Http\Requests\LoginRequest;
 use App\Http\WebController;
+use Domain\Login\Entities\LoginCredentials;
+use Domain\Login\Exceptions\AccountNotActivatedException;
+use Domain\Login\Exceptions\InvalidLoginCredentialsException;
+use Domain\Login\UseCases\LoginUseCase;
 use Domain\Login\UseCases\LogoutUseCase;
-use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use Library\Discourse\Api\DiscourseAdminApi;
-use Library\Discourse\Exceptions\UserNotFound;
 use Library\RateLimit\Storage\SessionTokenStorage;
 use Library\RateLimit\TokenBucket;
 use Library\RateLimit\TokenRate;
@@ -23,9 +20,7 @@ use Library\RateLimit\TokenRate;
 final class LoginController extends WebController
 {
     public function __construct(
-        private DiscourseAdminApi $discourseAdminApi,
         private LogoutUseCase $logoutUseCase,
-        private AuthGuard $auth,
     ) {}
 
     public function create(): View
@@ -33,58 +28,56 @@ final class LoginController extends WebController
         return view('v2.front.pages.login.login');
     }
 
-    public function store(LoginRequest $request)
+    public function store(LoginRequest $request, LoginUseCase $loginUseCase)
     {
-        $refillRate = TokenRate::refill(3)->every(2, TokenRate::MINUTES);
-        $sessionStorage = new SessionTokenStorage('login.rate', 5);
-        $rateLimit = new TokenBucket(6, $refillRate, $sessionStorage);
+        $input = $request->validated();
 
-        if ($rateLimit->consume(1) === false) {
+        $rateLimit = new TokenBucket(
+            capacity: 6,
+            refillRate: TokenRate::refill(3)
+                ->every(2, TokenRate::MINUTES),
+            storage: new SessionTokenStorage(
+                sessionName: 'login.rate',
+                initialTokens: 5
+            ),
+        );
+
+        if (! $rateLimit->consume(1)) {
             throw ValidationException::withMessages([
                 'error' => ['Too many login attempts. Please try again in a few minutes'],
             ]);
         }
 
-        if (! Auth::attempt($request->validated(), $request->filled('remember_me'))) {
-            $triesLeft = floor($rateLimit->getAvailableTokens());
+        $credentials = new LoginCredentials(
+            email: $input['email'],
+            password: $input['password'],
+        );
 
+        try {
+            $externalServiceLoginURL = $loginUseCase->execute(
+                credentials: $credentials,
+                shouldRemember: $request->filled('remember_me'),
+                ip: $request->ip(),
+            );
+        }
+        catch (InvalidLoginCredentialsException) {
+            $triesLeft = floor($rateLimit->getAvailableTokens());
             throw ValidationException::withMessages([
-                'error' => ['Email or password is incorrect: '.$triesLeft.' attempts remaining'],
+                'error' => ['Email or password is incorrect: ' . $triesLeft . ' attempts remaining'],
             ]);
         }
-
-        if (! $this->auth->user()->activated) {
-            Auth::logout();
-
+        catch (AccountNotActivatedException) {
             throw ValidationException::withMessages([
                 'error' => ['Your email has not been confirmed. If you didn\'t receive it, check your spam. If you need help, ask PCB staff.'],
             ]);
         }
 
-        $account = $this->auth->user();
+        // Prevent session fixation
+        // https://laravel.com/docs/9.x/authentication#authenticating-users
+        $request->session()->regenerate();
 
-        $account->updateLastLogin($request->ip());
-
-        // Set the user's nickname from Discourse if it isn't already
-        if ($account->username === null) {
-            try {
-                $discourseUser = $this->discourseAdminApi->fetchUserByEmail($account->email);
-                $account->username = $discourseUser['username'];
-            } catch (UserNotFound $e) {
-                $account->username = Str::random(10);
-            } finally {
-                $account->save();
-            }
-        }
-
-        // Check if the user needs to complete 2FA
-        if ($account->is_totp_enabled) {
-            Session::put(MfaGate::NEEDS_MFA_KEY, 'true');
-        }
-
-        // Redirect back to the intended page
-        // If the user is just logging in, perform discourse SSO
-        return redirect()->intended(route('front.sso.discourse'));
+        // Login to Discourse by redirecting to Discourse's SSO endpoint
+        return redirect()->intended($externalServiceLoginURL);
     }
 
     /**
@@ -94,6 +87,10 @@ final class LoginController extends WebController
     public function logoutFromDiscourse(Request $request): RedirectResponse
     {
         $this->logoutUseCase->logoutOfPCB();
+
+        // Prevent session fixation
+        // https://laravel.com/docs/9.x/authentication#logging-out
+        $request->session()->regenerateToken();
 
         return redirect()->route('front.home');
     }
@@ -106,6 +103,10 @@ final class LoginController extends WebController
     public function logout(Request $request): RedirectResponse
     {
         $this->logoutUseCase->logoutOfDiscourseAndPCB();
+
+        // Prevent session fixation
+        // https://laravel.com/docs/9.x/authentication#logging-out
+        $request->session()->regenerateToken();
 
         return redirect()->route('front.home');
     }

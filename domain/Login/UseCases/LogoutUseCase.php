@@ -2,14 +2,13 @@
 
 namespace Domain\Login\UseCases;
 
-use Illuminate\Contracts\Auth\Guard as Auth;
 use Shared\ExternalAccounts\Session\ExternalAccountsSession;
+use Illuminate\Support\Facades\Auth;
 
 class LogoutUseCase
 {
     public function __construct(
         private ExternalAccountsSession $externalAccountsSession,
-        private Auth $auth
     ) {}
 
     /**
@@ -20,10 +19,10 @@ class LogoutUseCase
      */
     public function logoutOfPCB(): bool
     {
-        if (! $this->auth->check()) {
+        if (! Auth::check()) {
             return false;
         }
-        $this->auth->logout();
+        Auth::logout();
 
         return true;
     }
@@ -40,7 +39,7 @@ class LogoutUseCase
             return false;
         }
         $this->externalAccountsSession->logout(
-            pcbAccountId: $this->auth->id(),
+            pcbAccountId: Auth::id(),
         );
         return true;
     }

@@ -3,7 +3,6 @@
 namespace Shared\ExternalAccounts\Session\Adapters;
 
 use GuzzleHttp\Exception\ClientException;
-use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Support\Facades\Log;
 use Library\Discourse\Api\DiscourseAdminApi;
 use Library\Discourse\Api\DiscourseUserApi;
@@ -19,9 +18,9 @@ class DiscourseAccountSession implements ExternalAccountsSession
         private DiscourseAdminApi $discourseAdminApi,
     ) {}
 
-    public function login(): void
+    public function getLoginEndpoint(): string
     {
-
+        return route('front.sso.discourse');
     }
 
     public function logout(int $pcbAccountId): void
