@@ -22,6 +22,7 @@ use function now;
  * @property string password
  * @property string remember_token
  * @property bool activated
+ * @property bool is_totp_enabled
  * @property ?string last_login_ip
  * @property ?Carbon last_login_at
  */

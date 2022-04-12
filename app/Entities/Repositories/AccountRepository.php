@@ -3,7 +3,7 @@
 namespace App\Entities\Repositories;
 
 use App\Entities\Models\Eloquent\Account;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -35,6 +35,13 @@ class AccountRepository
     public function activate(Account $account)
     {
         $account->activated = true;
+        $account->save();
+    }
+
+    public function touchLastLogin(Account $account, string $ip)
+    {
+        $account->last_login_ip = $ip;
+        $account->last_login_at = Carbon::now();
         $account->save();
     }
 }

@@ -3,13 +3,14 @@
 namespace Domain\Login\UseCases;
 
 use App\Entities\Models\Eloquent\Account;
+use App\Entities\Repositories\AccountRepository;
 use App\Http\Middleware\MfaGate;
 use Domain\Login\Entities\LoginCredentials;
 use Domain\Login\Exceptions\AccountNotActivatedException;
 use Domain\Login\Exceptions\InvalidLoginCredentialsException;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Shared\ExternalAccounts\Session\ExternalAccountsSession;
 use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 
 /**
@@ -19,7 +20,7 @@ class LoginUseCase
 {
     public function __construct(
         private ExternalAccountSync $externalAccountSync,
-        private ExternalAccountsSession $externalAccountsSession,
+        private AccountRepository $accountRepository,
     ) {}
 
     /**
@@ -31,22 +32,22 @@ class LoginUseCase
         bool $shouldRemember,
         string $ip
     ) {
-        if (! Auth::attempt(
-            credentials: $credentials->toArray(),
-            remember: $shouldRemember,
-        )) {
+        if (! Auth::validate(credentials: $credentials->toArray())) {
             throw new InvalidLoginCredentialsException();
         }
 
-        /** @var Account $account */
-        $account = Auth::user();
+        $account = $this->accountRepository->getByEmail($credentials->email);
 
         if (! $account->activated) {
-            Auth::logout();
             throw new AccountNotActivatedException();
         }
 
-        $account->updateLastLogin($ip);
+        Auth::loginUsingId(
+            id: $account->getKey(),
+            remember: $shouldRemember,
+        );
+
+        $this->accountRepository->touchLastLogin($account, $ip);
 
         // Set the account's username to their external service account's
         // if it isn't already set

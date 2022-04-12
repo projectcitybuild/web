@@ -5,7 +5,7 @@ namespace Domain\Login\Entities;
 class LoginCredentials
 {
     public function __construct(
-        private string $email,
+        public string $email,
         private string $password,
     ) {}
 

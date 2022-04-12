@@ -35,11 +35,13 @@ class LogoutUseCase
      */
     public function logoutOfDiscourseAndPCB(): bool
     {
+        $accountId = Auth::id();
+
         if ($this->logoutOfPCB() === false) {
             return false;
         }
         $this->externalAccountsSession->logout(
-            pcbAccountId: Auth::id(),
+            pcbAccountId: $accountId,
         );
         return true;
     }
