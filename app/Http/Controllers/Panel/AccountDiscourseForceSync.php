@@ -3,25 +3,14 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Entities\Models\Eloquent\Account;
-use App\Http\Actions\SyncUserToDiscourse;
 use App\Http\WebController;
+use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 
 class AccountDiscourseForceSync extends WebController
 {
-    /**
-     * @var SyncUserToDiscourse
-     */
-    private $syncUserToDiscourse;
-
-    public function __construct(SyncUserToDiscourse $syncUserToDiscourse)
+    public function __invoke(Account $account, ExternalAccountSync $externalAccountSync)
     {
-        $this->syncUserToDiscourse = $syncUserToDiscourse;
-    }
-
-    public function __invoke(Account $account)
-    {
-        $this->syncUserToDiscourse->setUser($account);
-        $this->syncUserToDiscourse->syncAll();
+        $externalAccountSync->sync($account);
 
         return redirect()->back();
     }
