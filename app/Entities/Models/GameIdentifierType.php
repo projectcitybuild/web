@@ -12,4 +12,11 @@ enum GameIdentifierType: string
             self::MINECRAFT_UUID => GamePlayerType::MINECRAFT,
         };
     }
+
+    public static function joined(): string
+    {
+        return collect(self::cases())
+            ->map(fn ($c) => $c->value)
+            ->join(glue: ',');
+    }
 }

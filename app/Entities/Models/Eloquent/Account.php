@@ -25,6 +25,7 @@ use function now;
  * @property bool is_totp_enabled
  * @property ?string last_login_ip
  * @property ?Carbon last_login_at
+ * @property int balance
  */
 final class Account extends Authenticatable
 {
