@@ -2,13 +2,12 @@
 
 namespace App\Entities\Models\Eloquent;
 
-use App\Entities\BannableModelInterface;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-final class MinecraftPlayer extends Model implements BannableModelInterface
+final class MinecraftPlayer extends Model
 {
     use HasFactory;
 
