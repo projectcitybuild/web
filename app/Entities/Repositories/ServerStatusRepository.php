@@ -3,29 +3,21 @@
 namespace App\Entities\Repositories;
 
 use App\Entities\Models\Eloquent\ServerStatus;
-use App\Repository;
 use Carbon\Carbon;
 
-/**
- * @deprecated Use ServerStatus model facade instead
- */
-class ServerStatusRepository extends Repository
+class ServerStatusRepository
 {
-    protected $model = ServerStatus::class;
-
     /**
-     * Creates a new server status.
-     *
-     *
-     * @return void
+     * Creates a new server status
      */
-    public function create(int $serverId,
-                           bool $isOnline,
-                           int $numOfPlayers,
-                           int $numOfSlots,
-                           int $createdAt)
-    {
-        return $this->getModel()->create([
+    public function create(
+        int $serverId,
+        bool $isOnline,
+        int $numOfPlayers,
+        int $numOfSlots,
+        int $createdAt,
+    ) {
+        return ServerStatus::create([
             'server_id' => $serverId,
             'is_online' => $isOnline,
             'num_of_players' => $numOfPlayers,

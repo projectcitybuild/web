@@ -3,22 +3,16 @@
 namespace App\Entities\Repositories;
 
 use App\Entities\Models\Eloquent\AccountEmailChange;
-use App\Repository;
 
-/**
- * @deprecated Use AccountEmailChange model facade instead
- */
-final class AccountEmailChangeRepository extends Repository
+final class AccountEmailChangeRepository
 {
-    protected $model = AccountEmailChange::class;
-
     public function create(
         int $accountId,
         string $token,
         string $previousEmail,
         string $newEmail
     ): AccountEmailChange {
-        return $this->getModel()->create([
+        return AccountEmailChange::create([
             'account_id' => $accountId,
             'token' => $token,
             'email_previous' => $previousEmail,
@@ -30,8 +24,6 @@ final class AccountEmailChangeRepository extends Repository
 
     public function getByToken(string $token): ?AccountEmailChange
     {
-        return $this->getModel()
-            ->where('token', $token)
-            ->first();
+        return AccountEmailChange::where('token', $token)->first();
     }
 }
