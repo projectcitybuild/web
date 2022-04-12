@@ -2,15 +2,16 @@
 
 namespace Library\Discourse\Authentication;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Library\Discourse\Api\DiscourseSSOApi;
 use Library\Discourse\Entities\DecodedDiscourseNonce;
 use Library\Discourse\Entities\DiscoursePackedNonce;
 use Library\Discourse\Entities\DiscoursePayload;
 use Library\Discourse\Exceptions\BadSSOPayloadException;
 
-final class DiscourseLoginHandler
+/**
+ * @final
+ */
+class DiscourseLoginHandler
 {
     public function __construct(
         private DiscoursePayloadValidator $payloadValidator

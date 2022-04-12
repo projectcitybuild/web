@@ -21,8 +21,8 @@ class DiscourseAccountSession implements ExternalAccountsSession
     private const DISCOURSE_SSO_ENDPOINT = 'session/sso';
 
     public function __construct(
-        private DiscourseUserApi $discourseUserApi,
-        private DiscourseAdminApi $discourseAdminApi,
+        private DiscourseUserApi $discourseUserAPI,
+        private DiscourseAdminApi $discourseAdminAPI,
         private DiscourseLoginHandler $discourseLoginHandler,
     ) {}
 
@@ -58,12 +58,13 @@ class DiscourseAccountSession implements ExternalAccountsSession
         Log::info('Logging out user', ['account_id' => $pcbAccountId]);
 
         try {
-            $this->discourseAdminApi->requestLogout($user['id']);
+            $this->discourseAdminAPI->requestLogout($user['id']);
         } catch (ClientException $error) {
             // Discourse will throw a 404 error if the user attempts to logout but isn't
             // currently logged-in. If that happens, we'll just fail silently
-            if ($error->getCode() !== 404) {
+            if ($error->getCode() === 404) {
                 Log::notice('Caught a 404 error logging out of Discourse');
+            } else {
                 throw $error;
             }
         }
@@ -76,7 +77,7 @@ class DiscourseAccountSession implements ExternalAccountsSession
      */
     private function getDiscourseUser(int $pcbId): array
     {
-        $result = $this->discourseUserApi->fetchUserByPcbId($pcbId);
+        $result = $this->discourseUserAPI->fetchUserByPcbId($pcbId);
 
         $user = $result['user']
             ?? throw new \Exception('Discourse logout api response did not have a `user` key');

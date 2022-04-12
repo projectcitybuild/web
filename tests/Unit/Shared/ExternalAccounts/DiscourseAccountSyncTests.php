@@ -7,7 +7,6 @@ use App\Entities\Models\Eloquent\Group;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Str;
 use Library\Discourse\Api\DiscourseAdminApi;
 use Library\Discourse\Exceptions\UserNotFound;
 use Library\Random\Adapters\RandomStringMock;
@@ -74,7 +73,7 @@ class DiscourseAccountSyncTests extends TestCase
             ->with(array_merge($expectedPayload, ['require_activation' => true]))
             ->andThrow(
                 new ServerException(
-                    message: "message",
+                    message: 'message',
                     request: \Mockery::mock(RequestInterface::class),
                     response: new Response(status: 500),
                 )
