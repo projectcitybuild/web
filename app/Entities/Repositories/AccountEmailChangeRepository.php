@@ -4,7 +4,10 @@ namespace App\Entities\Repositories;
 
 use App\Entities\Models\Eloquent\AccountEmailChange;
 
-final class AccountEmailChangeRepository
+/**
+ * @final
+ */
+class AccountEmailChangeRepository
 {
     public function create(
         int $accountId,

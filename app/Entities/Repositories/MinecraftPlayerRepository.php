@@ -4,11 +4,11 @@ namespace App\Entities\Repositories;
 
 use App\Entities\Models\Eloquent\MinecraftPlayer;
 
+/**
+ * @final
+ */
 class MinecraftPlayerRepository
 {
-    /**
-     * Creates a new MinecraftPlayer.
-     */
     public function store(
         string $uuid,
         ?int $accountId = null,

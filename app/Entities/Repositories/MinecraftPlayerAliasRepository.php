@@ -7,6 +7,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use function collect;
 
+/**
+ * @final
+ */
 class MinecraftPlayerAliasRepository
 {
     /**

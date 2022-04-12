@@ -5,18 +5,18 @@ namespace App\Entities\Repositories;
 use App\Entities\Models\Eloquent\ServerStatus;
 use Carbon\Carbon;
 
+/**
+ * @final
+ */
 class ServerStatusRepository
 {
-    /**
-     * Creates a new server status
-     */
     public function create(
         int $serverId,
         bool $isOnline,
         int $numOfPlayers,
         int $numOfSlots,
         int $createdAt,
-    ) {
+    ): ServerStatus {
         return ServerStatus::create([
             'server_id' => $serverId,
             'is_online' => $isOnline,

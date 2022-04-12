@@ -5,11 +5,11 @@ namespace App\Entities\Repositories;
 use App\Entities\Models\Eloquent\GameUnban;
 use App\Entities\Models\GamePlayerType;
 
-final class GameUnbanRepository
+/**
+ * @final
+ */
+class GameUnbanRepository
 {
-    /**
-     * Stores a new GameUnban.
-     */
     public function store(
         int $banId,
         int $staffPlayerId,
