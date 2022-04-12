@@ -6,14 +6,11 @@ use App\Entities\Models\Eloquent\GameBan;
 use App\Entities\Models\GamePlayerType;
 use Carbon\Carbon;
 
-final class GameBanRepository
+/**
+ * @final
+ */
+class GameBanRepository
 {
-    /**
-     * Stores a new GameBan.
-     *
-     * @param string $bannedPlayerType
-     * @param string $staffPlayerType
-     */
     public function store(
         int $serverId,
         int $bannedPlayerId,
@@ -43,9 +40,6 @@ final class GameBanRepository
     /**
      * Gets the first active ban for the given game user id.
      * If a server id is not specified, searches only for global bans.
-     *
-     * @param string $bannedPlayerType
-     * @param int $serverId
      */
     public function getActiveBanByGameUserId(
         int $bannedPlayerId,
@@ -69,21 +63,14 @@ final class GameBanRepository
             ->first();
     }
 
-    /**
-     * Sets the given ban as inactive.
-     */
     public function deactivateBan(int $banId)
     {
         return GameBan::where('game_ban_id', $banId)
-            ->update([
-                'is_active' => false,
-            ]);
+            ->update(['is_active' => false]);
     }
 
     /**
      * Returns a collection of GameBans.
-     *
-     * @param array $sort
      */
     public function getBans(
         int $take = 50,

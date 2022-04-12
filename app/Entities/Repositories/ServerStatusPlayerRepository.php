@@ -4,6 +4,9 @@ namespace App\Entities\Repositories;
 
 use App\Entities\Models\Eloquent\ServerStatusPlayer;
 
+/**
+ * @final
+ */
 class ServerStatusPlayerRepository
 {
     public function store(

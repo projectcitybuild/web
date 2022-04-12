@@ -7,8 +7,6 @@ use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\Donation;
 use App\Entities\Models\Eloquent\MinecraftPlayer;
 use App\Entities\Models\GamePlayerType;
-use App\Entities\Repositories\ServerCategoryRepository;
-use App\Entities\Repositories\ServerCategoryRepositoryContract;
 use App\Http\Composers\MasterViewComposer;
 use App\View\Components\DonationBarComponent;
 use App\View\Components\NavBarComponent;
@@ -30,9 +28,6 @@ final class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(ServerCategoryRepositoryContract::class, function ($app) {
-            return new ServerCategoryRepository();
-        });
         $this->app->bind(StripeClient::class, function ($app) {
             return new StripeClient(config('services.stripe.secret'));
         });

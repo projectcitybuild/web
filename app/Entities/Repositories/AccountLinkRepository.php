@@ -4,7 +4,10 @@ namespace App\Entities\Repositories;
 
 use App\Entities\Models\Eloquent\AccountLink;
 
-final class AccountLinkRepository
+/**
+ * @final
+ */
+class AccountLinkRepository
 {
     public function create(
         int $accountId,
