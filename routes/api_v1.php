@@ -34,5 +34,3 @@ Route::prefix('minecraft/{minecraftUUID}')->group(function () {
 Route::prefix('groups')->group(function () {
     Route::get('/', 'GroupApiController@getAll');
 });
-
-Route::post('discord/sync', 'DiscordSyncController@getRank');

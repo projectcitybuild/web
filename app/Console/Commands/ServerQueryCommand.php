@@ -2,13 +2,13 @@
 
 namespace App\Console\Commands;
 
-use App;
 use App\Entities\Models\Eloquent\Server;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
 use Domain\ServerStatus\Repositories\ServerStatusRepository;
 use Domain\ServerStatus\ServerQueryAdapterFactory;
 use Domain\ServerStatus\ServerQueryService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\App;
 
 final class ServerQueryCommand extends Command
 {
@@ -35,14 +35,12 @@ final class ServerQueryCommand extends Command
 
         if ($this->option('all')) {
             $this->queryAllServers($shouldRunInBackground);
-
             return;
         }
 
         $serverIds = $this->option('id');
         if (count($serverIds) === 0) {
             $this->error('You must specify either --id=* or --all');
-
             return;
         }
 
@@ -69,7 +67,6 @@ final class ServerQueryCommand extends Command
         if ($shouldRunInBackground) {
             $this->info('Starting server query on background queue ['.$server->getAddress().']');
             $queryService->query($server);
-
             return;
         }
         try {

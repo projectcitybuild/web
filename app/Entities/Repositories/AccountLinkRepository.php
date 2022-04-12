@@ -3,22 +3,16 @@
 namespace App\Entities\Repositories;
 
 use App\Entities\Models\Eloquent\AccountLink;
-use App\Repository;
 
-/**
- * @deprecated Use AccountLink model facade instead
- */
-final class AccountLinkRepository extends Repository
+final class AccountLinkRepository
 {
-    protected $model = AccountLink::class;
-
     public function create(
         int $accountId,
         string $providerName,
         string $providerId,
         string $providerEmail
     ): AccountLink {
-        return $this->getModel()->create([
+        return AccountLink::create([
             'provider_name' => $providerName,
             'provider_id' => $providerId,
             'provider_email' => $providerEmail,
@@ -32,28 +26,11 @@ final class AccountLinkRepository extends Repository
         string $providerId,
         string $providerEmail
     ): int {
-        return $this->getModel()
-            ->where('account_id', $accountId)
+        return AccountLink::where('account_id', $accountId)
             ->update([
                 'provider_name' => $providerName,
                 'provider_id' => $providerId,
                 'provider_email' => $providerEmail,
             ]);
-    }
-
-    public function getByUserAndProvider(string $accountId, string $providerName): ?AccountLink
-    {
-        return $this->getModel()
-            ->where('provider_name', $providerName)
-            ->where('account_id', $accountId)
-            ->first();
-    }
-
-    public function getByProviderAccount(string $providerName, string $providerId): ?AccountLink
-    {
-        return $this->getModel()
-            ->where('provider_name', $providerName)
-            ->where('provider_id', $providerId)
-            ->first();
     }
 }

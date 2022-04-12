@@ -4,22 +4,15 @@ namespace App\Entities\Repositories;
 
 use App\Entities\Models\Eloquent\GameBan;
 use App\Entities\Models\GamePlayerType;
-use App\Repository;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 
-/**
- * @deprecated Use GameBan model facade instead
- */
-final class GameBanRepository extends Repository
+final class GameBanRepository
 {
-    protected $model = GameBan::class;
-
     /**
      * Stores a new GameBan.
      *
-     * @param  string  $bannedPlayerType
-     * @param  string  $staffPlayerType
+     * @param string $bannedPlayerType
+     * @param string $staffPlayerType
      */
     public function store(
         int $serverId,
@@ -31,9 +24,9 @@ final class GameBanRepository extends Repository
         ?string $reason = null,
         bool $isActive = true,
         bool $isGlobalBan = false,
-        ?int $expiresAt = null): GameBan
-    {
-        return $this->getModel()->create([
+        ?int $expiresAt = null,
+    ): GameBan {
+        return GameBan::create([
             'server_id' => $serverId,
             'banned_player_id' => $bannedPlayerId,
             'banned_player_type' => $bannedPlayerType->value,
@@ -51,17 +44,16 @@ final class GameBanRepository extends Repository
      * Gets the first active ban for the given game user id.
      * If a server id is not specified, searches only for global bans.
      *
-     * @param  string  $bannedPlayerType
-     * @param  int  $serverId
+     * @param string $bannedPlayerType
+     * @param int $serverId
      */
     public function getActiveBanByGameUserId(
         int $bannedPlayerId,
         GamePlayerType $bannedPlayerType,
         ?int $serverId = null,
-        array $with = []): ?GameBan
-    {
-        return $this->getModel()
-            ->with($with)
+        array $with = [],
+    ): ?GameBan {
+        return GameBan::with($with)
             ->where('banned_player_id', $bannedPlayerId)
             ->where('banned_player_type', $bannedPlayerType->value)
             ->where('is_active', true)
@@ -79,14 +71,10 @@ final class GameBanRepository extends Repository
 
     /**
      * Sets the given ban as inactive.
-     *
-     *
-     * @return void
      */
     public function deactivateBan(int $banId)
     {
-        return $this->getModel()
-            ->where('game_ban_id', $banId)
+        return GameBan::where('game_ban_id', $banId)
             ->update([
                 'is_active' => false,
             ]);
@@ -95,13 +83,15 @@ final class GameBanRepository extends Repository
     /**
      * Returns a collection of GameBans.
      *
-     * @param  array  $sort
-     * @return void
+     * @param array $sort
      */
-    public function getBans(int $take = 50, int $offset = 0, ?array $sort = null, array $filter = [])
-    {
-        return $this->getModel()
-            ->when(count($filter) > 0, function ($q) use ($filter) {
+    public function getBans(
+        int $take = 50,
+        int $offset = 0,
+        ?array $sort = null,
+        array $filter = [],
+    ) {
+        return GameBan::when(count($filter) > 0, function ($q) use ($filter) {
                 if (array_key_exists('player_alias_at_ban', $filter)) {
                     $q->where('player_alias_at_ban', 'LIKE', $filter['player_alias_at_ban'].'%');
                 }
@@ -127,25 +117,15 @@ final class GameBanRepository extends Repository
             ->get();
     }
 
-    public function getBanCount()
+    public function getBanCount(): int
     {
-        return $this->getModel()->count();
+        return GameBan::count();
     }
 
     public function getActiveExpiredBans()
     {
-        return $this->getModel()
-            ->where('is_active', true)
+        return GameBan::where('is_active', true)
             ->whereDate(Carbon::now(), '>=', 'expires_at')
-            ->get();
-    }
-
-    public function getBansByPlayer(int $bannedPlayerId, string $bannedPlayerType, array $with = []): ?Collection
-    {
-        return $this->getModel()
-            ->with($with)
-            ->where('banned_player_id', $bannedPlayerId)
-            ->where('banned_player_type', $bannedPlayerType)
             ->get();
     }
 }

@@ -7,8 +7,11 @@ use Domain\ServerStatus\Entities\ServerQueryResult;
 
 final class ServerStatusRepository
 {
-    public function store(int $serverId, ServerQueryResult $result, int $time): ServerStatus
-    {
+    public function store(
+        int $serverId,
+        ServerQueryResult $result,
+        int $time
+    ): ServerStatus {
         return ServerStatus::create([
             'server_id' => $serverId,
             'is_online' => $result->isOnline,
