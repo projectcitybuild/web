@@ -31,8 +31,7 @@ final class LoginController extends WebController
     public function loginFromPCB(
         LoginRequest $request,
         LoginUseCase $loginUseCase,
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         $input = $request->validated();
 
         $rateLimit = new TokenBucket(

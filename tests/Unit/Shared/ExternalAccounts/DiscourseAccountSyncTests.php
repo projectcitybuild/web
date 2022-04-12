@@ -7,7 +7,10 @@ use App\Entities\Models\Eloquent\Group;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Library\Discourse\Api\DiscourseAdminApi;
+use Library\Discourse\Exceptions\UserNotFound;
+use Library\Random\Adapters\RandomStringMock;
 use Psr\Http\Message\RequestInterface;
 use Shared\ExternalAccounts\Sync\Adapters\DiscourseAccountSync;
 use Tests\TestCase;
@@ -15,6 +18,8 @@ use Tests\TestCase;
 class DiscourseAccountSyncTests extends TestCase
 {
     use RefreshDatabase;
+
+    private const RANDOM_STRING = 'string';
 
     private DiscourseAdminApi $discourseAdminApi;
     private DiscourseAccountSync $discourseAccountSync;
@@ -26,6 +31,7 @@ class DiscourseAccountSyncTests extends TestCase
         $this->discourseAdminApi = \Mockery::mock(DiscourseAdminApi::class);
         $this->discourseAccountSync = new DiscourseAccountSync(
             discourseAdminApi: $this->discourseAdminApi,
+            randomStringGenerator: new RandomStringMock(output: self::RANDOM_STRING),
         );
     }
 
@@ -80,5 +86,37 @@ class DiscourseAccountSyncTests extends TestCase
             ->with(array_merge($expectedPayload, ['require_activation' => false]));
 
         $this->discourseAccountSync->sync($account);
+    }
+
+    public function test_sets_username_to_discourse_username()
+    {
+        $account = Account::factory()->create(['username' => 'before']);
+
+        $this->assertEquals(expected: 'before', actual: $account->username);
+
+        $this->discourseAdminApi
+            ->shouldReceive('fetchUserByEmail')
+            ->with($account->email)
+            ->andReturn(['username' => 'after']);
+
+        $this->discourseAccountSync->matchExternalUsername($account);
+
+        $this->assertEquals(expected: 'after', actual: $account->username);
+    }
+
+    public function test_sets_username_to_random_string_if_no_discourse_account()
+    {
+        $account = Account::factory()->create(['username' => 'before']);
+
+        $this->assertEquals(expected: 'before', actual: $account->username);
+
+        $this->discourseAdminApi
+            ->shouldReceive('fetchUserByEmail')
+            ->with($account->email)
+            ->andThrow(UserNotFound::class);
+
+        $this->discourseAccountSync->matchExternalUsername($account);
+
+        $this->assertEquals(expected: self::RANDOM_STRING, actual: $account->username);
     }
 }

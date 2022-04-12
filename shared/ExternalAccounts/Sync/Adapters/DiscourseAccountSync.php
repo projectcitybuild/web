@@ -8,12 +8,14 @@ use Illuminate\Support\Str;
 use Library\Discourse\Api\DiscourseAdminApi;
 use Library\Discourse\Entities\DiscoursePayload;
 use Library\Discourse\Exceptions\UserNotFound;
+use Library\Random\RandomStringGenerator;
 use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 
 final class DiscourseAccountSync implements ExternalAccountSync
 {
     public function __construct(
         private DiscourseAdminApi $discourseAdminApi,
+        private RandomStringGenerator $randomStringGenerator,
     ) {}
 
     public function sync(Account $account): void
@@ -41,7 +43,7 @@ final class DiscourseAccountSync implements ExternalAccountSync
             $discourseUser = $this->discourseAdminApi->fetchUserByEmail($account->email);
             $account->username = $discourseUser['username'];
         } catch (UserNotFound) {
-            $account->username = Str::random(10);
+            $account->username = $this->randomStringGenerator->generate(length: 10);
         } finally {
             $account->save();
         }
