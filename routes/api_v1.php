@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,6 +31,7 @@ Route::prefix('auth')->group(function () {
 
 Route::prefix('minecraft/{minecraftUUID}')->group(function () {
     Route::get('donation-tiers', 'MinecraftDonationTierController@show');
+    Route::get('balance', 'MinecraftBalanceController@show');
 });
 
 Route::prefix('groups')->group(function () {
