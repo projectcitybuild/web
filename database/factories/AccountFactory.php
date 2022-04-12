@@ -11,6 +11,8 @@ use PragmaRX\Google2FA\Google2FA;
 
 class AccountFactory extends Factory
 {
+    public const UNHASHED_PASSWORD = 'secret';
+
     /**
      * The name of the factory's corresponding model.
      *
@@ -28,7 +30,7 @@ class AccountFactory extends Factory
         return [
             'email' => $this->faker->email,
             'username' => $this->faker->userName,
-            'password' => Hash::make('secret'),
+            'password' => Hash::make(self::UNHASHED_PASSWORD),
             'activated' => true,
             'last_login_ip' => $this->faker->ipv4,
             'last_login_at' => $this->faker->dateTimeBetween('-180days', '-1hours'),

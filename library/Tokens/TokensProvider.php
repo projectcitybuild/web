@@ -14,6 +14,6 @@ class TokensProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(TokenGenerator::class, fn () => new HashedTokenGenerator());
+        $this->app->bind(TokenGenerator::class, HashedTokenGenerator::class);
     }
 }

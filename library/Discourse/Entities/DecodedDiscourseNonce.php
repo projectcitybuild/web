@@ -2,7 +2,7 @@
 
 namespace Library\Discourse\Entities;
 
-final class DiscourseNonce
+final class DecodedDiscourseNonce
 {
     /**
      * @var string

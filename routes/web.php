@@ -56,18 +56,18 @@ Route::prefix('donate')->group(function () {
 
 Route::get('sso/discourse', [
     'as' => 'front.sso.discourse',
-    'uses' => 'DiscourseSSOController@create',
+    'uses' => 'LoginController@loginFromDiscourse',
 ])->middleware('auth');
 
 Route::prefix('login')->group(function () {
     Route::get('/', [
         'as' => 'front.login',
-        'uses' => 'LoginController@create',
+        'uses' => 'LoginController@show',
     ])->middleware('guest');
 
     Route::post('/', [
         'as' => 'front.login.submit',
-        'uses' => 'LoginController@store',
+        'uses' => 'LoginController@loginFromPCB',
     ])->middleware('guest');
 
     Route::get('/reauth', [
@@ -142,11 +142,11 @@ Route::prefix('register')->group(function () {
 
 Route::get('logout/discourse', [
     'as' => 'front.logout.pcb',
-    'uses' => 'LoginController@logoutFromDiscourse',
+    'uses' => 'LogoutController@logoutFromDiscourse',
 ])->middleware('auth');
 Route::get('logout', [
     'as' => 'front.logout',
-    'uses' => 'LoginController@logout',
+    'uses' => 'LogoutController@logout',
 ])->middleware('auth');
 
 Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Settings'], function () {

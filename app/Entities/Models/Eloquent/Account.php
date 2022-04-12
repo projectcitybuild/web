@@ -21,6 +21,8 @@ use function now;
  * @property string username
  * @property string password
  * @property string remember_token
+ * @property bool activated
+ * @property bool is_totp_enabled
  * @property ?string last_login_ip
  * @property ?Carbon last_login_at
  */
@@ -165,7 +167,7 @@ final class Account extends Authenticatable
         ]);
     }
 
-    public function updateLastLogin($ip)
+    public function updateLastLogin(string $ip)
     {
         $this->last_login_ip = $ip;
         $this->last_login_at = Carbon::now();

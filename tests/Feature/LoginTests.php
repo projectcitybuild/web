@@ -6,13 +6,14 @@ use App\Entities\Models\Eloquent\Account;
 use Library\Discourse\Api\DiscourseAdminApi;
 use Tests\TestCase;
 
-class LoginTest extends TestCase
+class LoginTests extends TestCase
 {
-    private $account;
+    private Account $account;
 
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->account = Account::factory()->create();
     }
 
@@ -28,8 +29,7 @@ class LoginTest extends TestCase
         $this->post(route('front.login.submit'), [
             'email' => $this->account->email,
             'password' => 'secret',
-        ])
-            ->assertRedirect('/sso/discourse');
+        ])->assertRedirect('/sso/discourse');
     }
 
     public function testUserCannotLogInWithUnactivatedAccount()
@@ -70,20 +70,6 @@ class LoginTest extends TestCase
         ]);
 
         $this->assertGuest();
-    }
-
-    public function testUserWithNullUsernameFetchesFromDiscourse()
-    {
-        $user = Account::factory()->create(['username' => null]);
-
-        $this->mock(DiscourseAdminApi::class, function ($mock) use ($user) {
-            $mock->shouldReceive('fetchUserByEmail')->with($user->email)->once();
-        });
-
-        $this->post(route('front.login.submit'), [
-            'email' => $user->email,
-            'password' => 'secret',
-        ]);
     }
 
     public function testRedirectBackToIntendedPage()

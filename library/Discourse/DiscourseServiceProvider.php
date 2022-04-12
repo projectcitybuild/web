@@ -9,15 +9,6 @@ use function config;
 class DiscourseServiceProvider extends ServiceProvider
 {
     /**
-     * Perform post-registration booting of services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-    }
-
-    /**
      * Register bindings in the container.
      *
      * @return void
