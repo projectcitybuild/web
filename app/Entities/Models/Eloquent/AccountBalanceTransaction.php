@@ -4,7 +4,17 @@ namespace App\Entities\Models\Eloquent;
 
 use App\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int account_id
+ * @property int balance_before
+ * @property int balance_after
+ * @property int transaction_amount
+ * @property string reason
+ * @property Carbon created_at
+ * @property ?Account account
+ */
 final class AccountBalanceTransaction extends Model
 {
     protected $table = 'account_balance_transactions';
@@ -16,13 +26,11 @@ final class AccountBalanceTransaction extends Model
         'balance_before',
         'balance_after',
         'transaction_amount',
-        'transaction_type',
         'reason',
     ];
 
     protected $dates = [
         'created_at',
-        'updated_at',
     ];
 
     public function account(): BelongsTo

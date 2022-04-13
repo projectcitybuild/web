@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('balance_after')->unsigned();
             $table->integer('transaction_amount');
             $table->string('reason');
-            $table->timestamps();
+            $table->timestamp('created_at');
 
             $table->foreign('account_id')->references('account_id')->on('accounts');
         });

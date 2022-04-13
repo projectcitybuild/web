@@ -15,13 +15,14 @@ class BalanceHistoryRepository
         int $balanceAfter,
         int $transactionAmount,
         string $reason,
-    ): AccountBalanceTransaction {
-        return AccountBalanceTransaction::create([
+    ) {
+        AccountBalanceTransaction::create([
             'account_id' => $accountId,
             'balance_before' => $balanceBefore,
             'balance_after' => $balanceAfter,
             'transaction_amount' => $transactionAmount,
             'reason' => $reason,
+            'created_at' => now(),
         ]);
     }
 }
