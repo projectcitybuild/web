@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\v1\MinecraftBalanceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,7 +32,8 @@ Route::prefix('auth')->group(function () {
 
 Route::prefix('minecraft/{minecraftUUID}')->group(function () {
     Route::get('donation-tiers', 'MinecraftDonationTierController@show');
-    Route::get('balance', 'MinecraftBalanceController@show');
+    Route::get('balance', [MinecraftBalanceController::class, 'show']);
+    Route::post('balance/deduct', [MinecraftBalanceController::class, 'deduct']);
 });
 
 Route::prefix('groups')->group(function () {

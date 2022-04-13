@@ -4,7 +4,6 @@ namespace Tests\Unit\Shared\AccountLookup;
 
 use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\MinecraftPlayer;
-use App\Entities\Models\GameIdentifierType;
 use App\Entities\Repositories\MinecraftPlayerRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Shared\AccountLookup\AccountLookup;
@@ -42,11 +41,9 @@ class AccountLookupTests extends TestCase
 
         $this->expectException(PlayerNotFoundException::class);
 
-        $identifier = new PlayerIdentifier(
-            key: $uuid,
-            gameIdentifierType: GameIdentifierType::MINECRAFT_UUID,
+        $this->accountLookup->find(
+            identifier: PlayerIdentifier::minecraftUUID($uuid),
         );
-        $this->accountLookup->find(identifier: $identifier);
     }
 
     public function test_throws_exception_if_no_linked_account()
@@ -61,11 +58,9 @@ class AccountLookupTests extends TestCase
 
         $this->expectException(NoLinkedAccountException::class);
 
-        $identifier = new PlayerIdentifier(
-            key: $uuid,
-            gameIdentifierType: GameIdentifierType::MINECRAFT_UUID,
+        $this->accountLookup->find(
+            identifier: PlayerIdentifier::minecraftUUID($uuid),
         );
-        $this->accountLookup->find(identifier: $identifier);
     }
 
     public function test_strips_hyphens_from_minecraft_uuid()
@@ -78,11 +73,9 @@ class AccountLookupTests extends TestCase
             ->with('uuid')
             ->andReturn($player);
 
-        $identifier = new PlayerIdentifier(
-            key: 'u-u-i-d',
-            gameIdentifierType: GameIdentifierType::MINECRAFT_UUID,
+        $this->accountLookup->find(
+            identifier: PlayerIdentifier::minecraftUUID('u-u-i-d'),
         );
-        $this->accountLookup->find(identifier: $identifier);
     }
 
     public function test_gets_account_for_minecraft_player()
@@ -96,11 +89,9 @@ class AccountLookupTests extends TestCase
             ->with($uuid)
             ->andReturn($player);
 
-        $identifier = new PlayerIdentifier(
-            key: $uuid,
-            gameIdentifierType: GameIdentifierType::MINECRAFT_UUID,
+        $actual = $this->accountLookup->find(
+            identifier: PlayerIdentifier::minecraftUUID($uuid),
         );
-        $actual = $this->accountLookup->find(identifier: $identifier);
 
         $this->assertEquals(
             expected: $account->getKey(),

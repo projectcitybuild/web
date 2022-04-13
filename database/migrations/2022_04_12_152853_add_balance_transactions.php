@@ -18,8 +18,7 @@ return new class extends Migration
             $table->integer('account_id')->unsigned();
             $table->integer('balance_before')->unsigned();
             $table->integer('balance_after')->unsigned();
-            $table->string('transaction_type');
-            $table->integer('transaction_amount')->unsigned();
+            $table->integer('transaction_amount');
             $table->string('reason');
             $table->timestamps();
 
