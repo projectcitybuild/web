@@ -5,6 +5,7 @@ namespace Shared\AccountLookup;
 use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\GameIdentifierType;
 use App\Entities\Repositories\MinecraftPlayerRepository;
+use Shared\AccountLookup\Entities\PlayerIdentifier;
 use Shared\AccountLookup\Exceptions\NoLinkedAccountException;
 use Shared\AccountLookup\Exceptions\PlayerNotFoundException;
 
@@ -21,12 +22,14 @@ class AccountLookup
      * @throws PlayerNotFoundException if identifier does not match any player
      * @throws NoLinkedAccountException if player is not linked to a PCB account
      */
-    public function find(string $identifier, GameIdentifierType $identifierType): ?Account
+    public function find(PlayerIdentifier $identifier): ?Account
     {
-        $player = match ($identifierType) {
-            GameIdentifierType::MINECRAFT_UUID => $this->minecraftPlayerRepository
-                ->getByUuid($identifier),
-        };
+        switch ($identifier->gameIdentifierType) {
+            case GameIdentifierType::MINECRAFT_UUID:
+                $uuid = str_replace(search: '-', replace: '', subject: $identifier->key);
+                $player = $this->minecraftPlayerRepository->getByUuid($uuid);
+                break;
+        }
 
         if ($player === null) {
             throw new PlayerNotFoundException();

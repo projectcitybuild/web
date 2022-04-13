@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Entities\Models\GameIdentifierType;
 use App\Http\ApiController;
 use Domain\Balances\UseCases\GetBalanceUseCase;
 use Illuminate\Http\Request;
@@ -13,16 +14,23 @@ final class MinecraftBalanceController extends ApiController
         string $uuid,
         GetBalanceUseCase $getBalanceUseCase,
     ) {
+        $balance = $getBalanceUseCase->execute(
+            identifier: $uuid,
+            identifierType: GameIdentifierType::MINECRAFT_UUID,
+        );
         return [
-            'balance' => $getBalanceUseCase->execute(uuid: $uuid),
+            'balance' => $balance,
         ];
     }
 
     public function deduct(Request $request)
     {
         $this->validateRequest(
-            requestData: [],
-            rules: [],
+            requestData: $request->all(),
+            rules: [
+                'amount' => 'required|int',
+                'reason' => 'required|string',
+            ],
             messages: [],
         );
     }
