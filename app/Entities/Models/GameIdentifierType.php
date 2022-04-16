@@ -2,8 +2,12 @@
 
 namespace App\Entities\Models;
 
+use Helpers\ValueJoinable;
+
 enum GameIdentifierType: string
 {
+    use ValueJoinable;
+
     case MINECRAFT_UUID = 'minecraft_uuid';
 
     public function playerType(): GamePlayerType
@@ -11,12 +15,5 @@ enum GameIdentifierType: string
         return match ($this) {
             self::MINECRAFT_UUID => GamePlayerType::MINECRAFT,
         };
-    }
-
-    public static function joined(): string
-    {
-        return collect(self::cases())
-            ->map(fn ($c) => $c->value)
-            ->join(glue: ',');
     }
 }

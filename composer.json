@@ -57,6 +57,7 @@
             "Database\\Seeders\\": "database/seeders/",
             "Database\\Factories\\": "database/factories/",
             "Library\\": "library/",
+            "Helpers\\": "helpers/",
             "Shared\\": "shared/"
         },
         "classmap": []

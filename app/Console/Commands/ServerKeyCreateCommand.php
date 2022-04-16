@@ -7,6 +7,9 @@ use App\Entities\Models\Eloquent\ServerKey;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
+/**
+ * @deprecated Use Laravel Sanctum to issue API tokens
+ */
 final class ServerKeyCreateCommand extends Command
 {
     /**

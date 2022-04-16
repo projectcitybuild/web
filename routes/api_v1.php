@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\v1\MinecraftBalanceController;
 use App\Http\Controllers\Api\v1\MinecraftDonationTierController;
 use App\Http\Controllers\Api\v1\StripeWebhookController;
 use Illuminate\Support\Facades\Route;
+use Library\APITokens\APITokenScope;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +38,14 @@ Route::prefix('auth')->group(function () {
 
 Route::prefix('minecraft/{minecraftUUID}')->group(function () {
     Route::get('donation-tiers', [MinecraftDonationTierController::class, 'show']);
-    Route::get('balance', [MinecraftBalanceController::class, 'show']);
+
+    Route::middleware([
+        'auth:sanctum',
+        APITokenScope::ACCOUNT_BALANCE_SHOW->value,
+    ])->group(function () {
+        Route::get('balance', [MinecraftBalanceController::class, 'show']);
+    });
+
     Route::post('balance/deduct', [MinecraftBalanceController::class, 'deduct']);
 });
 

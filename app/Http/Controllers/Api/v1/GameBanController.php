@@ -52,16 +52,16 @@ final class GameBanController extends ApiController
         $serverKey = $this->getServerKeyFromHeader($request);
 
         $this->validateRequest($request->all(), [
-            'player_id_type' => ['required', Rule::in(GameIdentifierType::joined())],
+            'player_id_type' => ['required', Rule::in(GameIdentifierType::allJoined())],
             'player_id' => 'required|max:60',
             'player_alias' => 'required',
-            'staff_id_type' => ['required', Rule::in(GameIdentifierType::joined())],
+            'staff_id_type' => ['required', Rule::in(GameIdentifierType::allJoined())],
             'staff_id' => 'required|max:60',
             'reason' => 'string',
             'expires_at' => 'integer',
             'is_global_ban' => 'required|boolean',
         ], [
-            'in' => 'Invalid :attribute given. Must be ['.GameIdentifierType::joined().']',
+            'in' => 'Invalid :attribute given. Must be ['.GameIdentifierType::allJoined().']',
         ]);
 
         $bannedPlayerId = $request->get('player_id');
@@ -101,12 +101,12 @@ final class GameBanController extends ApiController
         $serverKey = $this->getServerKeyFromHeader($request);
 
         $this->validateRequest($request->all(), [
-            'player_id_type' => ['required', Rule::in(GameIdentifierType::joined())],
+            'player_id_type' => ['required', Rule::in(GameIdentifierType::allJoined())],
             'player_id' => 'required',
-            'staff_id_type' => ['required', Rule::in(GameIdentifierType::joined())],
+            'staff_id_type' => ['required', Rule::in(GameIdentifierType::allJoined())],
             'staff_id' => 'required',
         ], [
-            'in' => 'Invalid :attribute given. Must be ['.GameIdentifierType::joined().']',
+            'in' => 'Invalid :attribute given. Must be ['.GameIdentifierType::allJoined().']',
         ]);
 
         $bannedPlayerId = $request->get('player_id');
@@ -130,10 +130,10 @@ final class GameBanController extends ApiController
         $serverKey = $this->getServerKeyFromHeader($request);
 
         $this->validateRequest($request->all(), [
-            'player_id_type' => ['required', Rule::in(GameIdentifierType::joined())],
+            'player_id_type' => ['required', Rule::in(GameIdentifierType::allJoined())],
             'player_id' => 'required',
         ], [
-            'in' => 'Invalid :attribute given. Must be ['.GameIdentifierType::joined().']',
+            'in' => 'Invalid :attribute given. Must be ['.GameIdentifierType::allJoined().']',
         ]);
 
         $bannedPlayerId = $request->get('player_id');

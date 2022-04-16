@@ -6,6 +6,7 @@ use App\Console\Commands\CleanupUnactivatedAccountsCommand;
 use App\Console\Commands\DeactivateDonatorPerksCommand;
 use App\Console\Commands\DeleteExpiredPasswordResetsCommand;
 use App\Console\Commands\GenerateSitemapCommand;
+use App\Console\Commands\IssueAPIToken;
 use App\Console\Commands\RepairMissingGroupsCommand;
 use App\Console\Commands\ServerKeyCreateCommand;
 use App\Console\Commands\ServerQueryCommand;
@@ -26,6 +27,7 @@ class Kernel extends ConsoleKernel
         DeactivateDonatorPerksCommand::class,
         DeleteExpiredPasswordResetsCommand::class,
         GenerateSitemapCommand::class,
+        IssueAPIToken::class,
         ServerKeyCreateCommand::class,
         ServerQueryCommand::class,
         StripUUIDHyphensCommand::class,
