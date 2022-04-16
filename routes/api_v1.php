@@ -41,12 +41,17 @@ Route::prefix('minecraft/{minecraftUUID}')->group(function () {
 
     Route::middleware([
         'auth:sanctum',
-        APITokenScope::ACCOUNT_BALANCE_SHOW->value,
+        'abilities:'.APITokenScope::ACCOUNT_BALANCE_SHOW->value,
     ])->group(function () {
         Route::get('balance', [MinecraftBalanceController::class, 'show']);
     });
 
-    Route::post('balance/deduct', [MinecraftBalanceController::class, 'deduct']);
+    Route::middleware([
+        'auth:sanctum',
+        'abilities:'.APITokenScope::ACCOUNT_BALANCE_DEDUCT->value,
+    ])->group(function () {
+        Route::post('balance/deduct', [MinecraftBalanceController::class, 'deduct']);
+    });
 });
 
 Route::prefix('groups')->group(function () {

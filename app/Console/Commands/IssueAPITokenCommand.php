@@ -6,7 +6,7 @@ use App\Entities\Models\Eloquent\Account;
 use Illuminate\Console\Command;
 use Library\APITokens\APITokenScope;
 
-class IssueAPIToken extends Command
+class IssueAPITokenCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -31,14 +31,17 @@ class IssueAPIToken extends Command
     {
         $tokenName = $this->ask('Token name?');
 
-        $accountId = $this->ask('Which account id should this token be issued to?');
+        while (true) {
+            $accountId = $this->ask('Which account id should this token be issued to?');
 
-        /** @var Account $account */
-        $account = Account::find($accountId)
-            ?? throw new \Exception('Account not found');
-
-        if (! $this->confirm('Issue API token for '.$account->email.'?')) {
-            return 0;
+            /** @var Account $account */
+            $account = Account::find($accountId);
+            if ($account === null) {
+                $this->error('Account not found');
+            }
+            elseif ($this->confirm('Issue API token for '.$account->email.'?')) {
+                break;
+            }
         }
 
         $scopes = $this->choice(

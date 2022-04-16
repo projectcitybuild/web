@@ -6,8 +6,9 @@ use App\Console\Commands\CleanupUnactivatedAccountsCommand;
 use App\Console\Commands\DeactivateDonatorPerksCommand;
 use App\Console\Commands\DeleteExpiredPasswordResetsCommand;
 use App\Console\Commands\GenerateSitemapCommand;
-use App\Console\Commands\IssueAPIToken;
+use App\Console\Commands\IssueAPITokenCommand;
 use App\Console\Commands\RepairMissingGroupsCommand;
+use App\Console\Commands\RevokeAPITokenCommand;
 use App\Console\Commands\ServerKeyCreateCommand;
 use App\Console\Commands\ServerQueryCommand;
 use App\Console\Commands\StripUUIDHyphensCommand;
@@ -27,11 +28,12 @@ class Kernel extends ConsoleKernel
         DeactivateDonatorPerksCommand::class,
         DeleteExpiredPasswordResetsCommand::class,
         GenerateSitemapCommand::class,
-        IssueAPIToken::class,
+        IssueAPITokenCommand::class,
+        RepairMissingGroupsCommand::class,
+        RevokeAPITokenCommand::class,
         ServerKeyCreateCommand::class,
         ServerQueryCommand::class,
         StripUUIDHyphensCommand::class,
-        RepairMissingGroupsCommand::class,
     ];
 
     /**
