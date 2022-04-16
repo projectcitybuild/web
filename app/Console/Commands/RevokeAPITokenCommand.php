@@ -55,12 +55,15 @@ class RevokeAPITokenCommand extends Command
             multiple: true,
         );
 
+        // Choices return the exact string displayed to the user, not the
+        // selected indices. So as a workaround we'll need to extract it from
+        // the string (the # until the first whitespace)
         $selectedTokens = collect($choices)
-            ->map(function ($c) {
+            ->map(function ($c) use ($tokens) {
                 $endPos = strpos(haystack: $c, needle: ' ') - 1;
-                return substr(string: $c, offset: 1, length: $endPos);
-            })
-            ->map(fn ($index) => $tokens[$index]);
+                $index = substr(string: $c, offset: 1, length: $endPos);
+                return $tokens[$index];
+            });
 
         foreach ($selectedTokens as $token) {
             $token->delete();
