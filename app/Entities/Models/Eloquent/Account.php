@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
 use Laravel\Cashier\Billable;
+use Laravel\Sanctum\HasApiTokens;
 use Laravel\Scout\Searchable;
 use function collect;
 use function now;
@@ -29,7 +30,11 @@ use function now;
  */
 final class Account extends Authenticatable
 {
-    use Notifiable, Searchable, HasFactory, Billable;
+    use Notifiable;
+    use Searchable;
+    use HasFactory;
+    use Billable;
+    use HasApiTokens;
 
     protected $table = 'accounts';
 

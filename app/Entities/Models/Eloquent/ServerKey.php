@@ -4,6 +4,9 @@ namespace App\Entities\Models\Eloquent;
 
 use App\Model;
 
+/**
+ * @deprecated Use Laravel Sanctum to issue API tokens instead
+ */
 final class ServerKey extends Model
 {
     /**
