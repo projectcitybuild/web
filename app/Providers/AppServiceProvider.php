@@ -10,13 +10,13 @@ use App\Entities\Models\GamePlayerType;
 use App\Http\Composers\MasterViewComposer;
 use App\View\Components\DonationBarComponent;
 use App\View\Components\NavBarComponent;
-use Blade;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
-use Schema;
 use Stripe\StripeClient;
 
 final class AppServiceProvider extends ServiceProvider
@@ -47,11 +47,20 @@ final class AppServiceProvider extends ServiceProvider
 
         Cashier::useCustomerModel(Account::class);
 
-        // We don't want to store namespaces in the database so we'll map them
-        // to unique keys instead
-        Relation::morphMap([
+        /**
+         * Enforce that models are mapped to a key.
+         *
+         * Without mapping, Laravel attempts to store the full namespace
+         * path to a model in the database, which is easy to break if we
+         * rename namespaces, move files, etc. Instead we'll store a 'key'
+         * mapped to the model.
+         *
+         * @see https://github.com/laravel/framework/pull/38656
+         */
+        Relation::requireMorphMap([
             AccountPaymentType::DONATION->value => Donation::class,
             GamePlayerType::MINECRAFT->value => MinecraftPlayer::class,
+            'account' => Account::class,
         ]);
 
         Blade::component('navbar', NavBarComponent::class);
