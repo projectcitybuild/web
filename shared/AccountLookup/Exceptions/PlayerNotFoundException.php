@@ -2,4 +2,13 @@
 
 namespace Shared\AccountLookup\Exceptions;
 
-final class PlayerNotFoundException extends \Exception {}
+use App\Exceptions\Http\PredefinedHttpException;
+
+final class PlayerNotFoundException extends PredefinedHttpException
+{
+    protected string $id = 'player_not_found';
+
+    protected string $errorMessage = 'Cannot find this player';
+
+    protected int $status = 404;
+}

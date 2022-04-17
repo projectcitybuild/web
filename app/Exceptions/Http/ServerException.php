@@ -8,5 +8,5 @@ namespace App\Exceptions\Http;
  */
 class ServerException extends BaseHttpException
 {
-    protected $status = 500;
+    protected int $status = 500;
 }

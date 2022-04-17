@@ -4,15 +4,8 @@ namespace App\Exceptions\Http;
 
 abstract class BaseHttpException extends \Exception
 {
-    /**
-     * @var string
-     */
-    protected $id;
-
-    /**
-     * @var int
-     */
-    protected $status;
+    protected string $id;
+    protected int $status;
 
     public function __construct($id, $message)
     {
