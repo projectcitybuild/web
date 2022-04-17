@@ -14,70 +14,18 @@
 The official repository for [Project City Build](https://projectcitybuild.com)'s homepage and related web services.
 
 ### Stack
-* Frameworks: Laravel 8, ReactJS 16
+* Frameworks: Laravel 9, ReactJS 16
 * Environment: Dockerised with Laravel Sail
-* CI/CD: Github Actions, Codecov
+* CI/CD: Github Actions
 
 All branches, commits and pull-requests are continuously tested
 
 ### Requirements
-* Docker
 
-We use Laravel Sail to create a dockerised development environment. You can also run it as a traditional application, you'll need:
+The only requirement is [Docker](https://docs.docker.com/get-docker/), as we use Laravel Sail to boot up a development environment.
 
-* PHP 7.4
-* MySQL/MariaDB
-* Composer
-* NPM
+## Can I contribute?
 
-### Can I contribute?
 Absolutely. Feel free to fork and send pull requests any time. We'd be thrilled to have some help.
 
-# Contributing
-
-You should read the [Laravel Sail](https://laravel.com/docs/8.x/sail) documentation first. If you're using Windows you have to run it through WSL2.
-
-## First time setup
-
-1. Run `cp .env.example .env`, then edit the file as appropriate (see below)
-2. Run `make bootstrap`
-3. Run `alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'` to add the `sail` alias
-
-You'll then be able to access the website on `http://localhost`
-
-## Development
-Once *First time setup* is complete, you only need to run one command to boot up the environment:
-
-`sail up -d` to start Sail
-
-For front-end development, you'll want to run:
-
-`sail npm watch` to start NPM build. This also starts BrowserSync on `http://localhost:3000`
-
-You can enter the container at any time with `sail shell`
-
-### Linter
-
-We automatically run [PHP Insights](https://phpinsights.com/) on CI for linting.
-
-You can run the linter locally with `sail php artisan insights`
-
-If you want automatic fixing, you can run it with the `--fix` option
-
-### Database
-If the database schema has changed, remember to run `sail artisan migrate` from inside the workspace container to ensure you always have the latest schema.
-
-### S3 Bucket
-Backups go to an S3 bucket specified in the `backup` disk. To run this functionality in development, you need to configure a valid bucket.
-
-1. Go to `http://localhost:9000`, using the credentials `sail`/`password`
-2. Make a bucket called `pcb-backup`
-
-### Stripe Webhooks
-Use [stripe-cli](https://stripe.com/docs/stripe-cli) to receive payment webhooks locally.
-
-After installing, run `stripe listen --forward-to localhost/api/webhooks/stripe` to forward webhook events to the correct endpoint. Copy the code you're given into the `STRIPE_WEBHOOK_SECRET` env value.
-
-## Testing
-* Run `sail test` to run all unit/integration tests
-* Enter the container with `sail shell` and run `phpstan -c phpstan.neon` to run PHP analysis
+Check out our [wiki page](https://github.com/projectcitybuild/web/wiki/Contributing) on how to prepare and boot up a dev environment.
