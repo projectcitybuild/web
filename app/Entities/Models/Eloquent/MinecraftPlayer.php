@@ -6,8 +6,16 @@ use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
+use Shared\AccountLookup\Contracts\AccountLinkable;
 
-final class MinecraftPlayer extends Model
+/**
+ * @property string uuid
+ * @property int account_id
+ * @property ?Account account
+ * @property ?Carbon last_synced_at
+ */
+final class MinecraftPlayer extends Model implements AccountLinkable
 {
     use HasFactory;
 
@@ -79,5 +87,10 @@ final class MinecraftPlayer extends Model
         $this->last_synced_at = $this->freshTimestamp();
 
         return $this->save();
+    }
+
+    public function getLinkedAccount(): ?Account
+    {
+        return $this->account;
     }
 }

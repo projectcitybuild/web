@@ -7,5 +7,5 @@ namespace App\Exceptions\Http;
  */
 class TooManyRequestsException extends BaseHttpException
 {
-    protected $status = 429;
+    protected int $status = 429;
 }

@@ -5,6 +5,9 @@ namespace App\Exceptions;
 use App\Entities\Models\Environment;
 use App\Exceptions\Http\BaseHttpException;
 use Illuminate\Foundation\Exceptions\Handler;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Throwable;
 
 class ExceptionHandler extends Handler
@@ -43,9 +46,7 @@ class ExceptionHandler extends Handler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     *
      * @return void
-     *
      * @throws Throwable
      */
     public function report(Throwable $exception)
@@ -62,26 +63,28 @@ class ExceptionHandler extends Handler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param Throwable $e
+     * @return Response|JsonResponse|RedirectResponse
+     * @throws Throwable
      */
-    public function render($request, Throwable $exception)
+    public function render($request, Throwable $e): Response|JsonResponse|RedirectResponse
     {
-        // output exceptions in our API as JSON
-        if ($request->is('api/*') && $exception instanceof BaseHttpException) {
-            $reflection = new \ReflectionClass($exception);
-
-            return response()->json([
-                'error' => [
-                    'id' => $exception->getId(),
-                    'title' => $reflection->getShortName(),
-                    'detail' => $exception->getMessage(),
-                    'status' => $exception->getStatusCode(),
+        // Convert all exceptions to a consistent JSON format
+        if ($request->is(patterns: 'api/*') && $e instanceof BaseHttpException) {
+            return response()->json(
+                data: [
+                    'error' => [
+                        'id' => $e->getId(),
+                        'title' => '',  /** @deprecated */
+                        'detail' => $e->getMessage(),
+                        'status' => $e->getStatusCode(),
+                    ],
                 ],
-            ], $exception->getStatusCode());
+                status: $e->getStatusCode(),
+            );
         }
 
-        return parent::render($request, $exception);
+        return parent::render($request, $e);
     }
 }
