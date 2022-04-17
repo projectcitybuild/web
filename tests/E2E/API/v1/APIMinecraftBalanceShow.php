@@ -9,20 +9,11 @@ use Laravel\Sanctum\Sanctum;
 use Library\APITokens\APITokenScope;
 use Tests\TestCase;
 
-class APIMinecraftBalanceV1 extends TestCase
+class APIMinecraftBalanceShow extends TestCase
 {
     use RefreshDatabase;
 
-    private Account $tokenAccount;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->tokenAccount = Account::factory()->create();
-    }
-
-    private function balanceEndpoint(?MinecraftPlayer $player): string
+    private function endpoint(?MinecraftPlayer $player): string
     {
         $uuid = $player?->uuid ?? 'invalid';
 
@@ -32,30 +23,30 @@ class APIMinecraftBalanceV1 extends TestCase
     private function authorise(APITokenScope ...$scope)
     {
         Sanctum::actingAs(
-            user: $this->tokenAccount,
+            user: Account::factory()->create(),
             abilities: collect($scope)
                 ->map(fn ($s) => $s->value)
                 ->toArray(),
         );
     }
 
-    public function test_show_requires_scope()
+    public function test_requires_scope()
     {
         $account = Account::factory()->create();
         $player = MinecraftPlayer::factory()
             ->for($account)
             ->create();
 
-        $this->getJson($this->balanceEndpoint($player))
+        $this->getJson($this->endpoint($player))
             ->assertUnauthorized();
 
         $this->authorise(scope: APITokenScope::ACCOUNT_BALANCE_SHOW);
 
-        $this->getJson($this->balanceEndpoint($player))
+        $this->getJson($this->endpoint($player))
             ->assertOk();
     }
 
-    public function test_show_with_balance()
+    public function test_shows_balance()
     {
         $account = Account::factory()->create(['balance' => 150]);
         $player = MinecraftPlayer::factory()
@@ -64,17 +55,17 @@ class APIMinecraftBalanceV1 extends TestCase
 
         $this->authorise(scope: APITokenScope::ACCOUNT_BALANCE_SHOW);
 
-        $this->getJson($this->balanceEndpoint($player))
+        $this->getJson($this->endpoint($player))
             ->assertJson([
                 'balance' => 150,
             ]);
     }
 
-    public function test_show_without_player()
+    public function test_shows_error_without_player()
     {
         $this->authorise(scope: APITokenScope::ACCOUNT_BALANCE_SHOW);
 
-        $this->getJson($this->balanceEndpoint(null))
+        $this->getJson($this->endpoint(null))
             ->assertJson([
                 'error' => [
                     'id' => 'player_not_found',
@@ -84,13 +75,13 @@ class APIMinecraftBalanceV1 extends TestCase
             ]);
     }
 
-    public function test_show_without_linked_account()
+    public function test_shows_error_without_linked_account()
     {
         $player = MinecraftPlayer::factory()->create();
 
         $this->authorise(scope: APITokenScope::ACCOUNT_BALANCE_SHOW);
 
-        $this->getJson($this->balanceEndpoint($player))
+        $this->getJson($this->endpoint($player))
             ->assertJson([
                 'error' => [
                     'id' => 'no_linked_account',

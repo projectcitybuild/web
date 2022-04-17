@@ -33,6 +33,12 @@ final class AccountBalanceTransaction extends Model
         'created_at',
     ];
 
+    public $timestamps = [
+        'created_at',
+    ];
+
+    const UPDATED_AT = null;
+
     public function account(): BelongsTo
     {
         return $this->belongsTo(
