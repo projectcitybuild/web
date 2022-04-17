@@ -8,15 +8,14 @@ use App\Entities\Notifications\AccountEmailChangeVerifyNotification;
 use App\Entities\Repositories\AccountEmailChangeRepository;
 use App\Helpers\TokenHelpers;
 use Illuminate\Support\Facades\Notification;
+use Library\Tokens\TokenGenerator;
 
 final class SendEmailForAccountEmailChange
 {
-    private $emailChangeRepository;
-
-    public function __construct(AccountEmailChangeRepository $emailChangeRepository)
-    {
-        $this->emailChangeRepository = $emailChangeRepository;
-    }
+    public function __construct(
+        private AccountEmailChangeRepository $emailChangeRepository,
+        private TokenGenerator $tokenGenerator,
+    ) {}
 
     /**
      * Sends an email to both the current and new email address, containing a signed
@@ -24,7 +23,7 @@ final class SendEmailForAccountEmailChange
      */
     public function execute(Account $account, string $newEmailAddress): AccountEmailChange
     {
-        $token = TokenHelpers::generateToken();
+        $token = $this->tokenGenerator->make();
 
         $changeRequest = $this->emailChangeRepository->create(
             $account->getKey(),
