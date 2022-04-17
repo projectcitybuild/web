@@ -59,5 +59,7 @@ class IssueAPITokenCommand extends Command
 
         $this->info('Token generated: '.$token->plainTextToken);
         $this->info('Scopes granted: '.implode(separator: ', ', array: $scopes));
+
+        return 0;
     }
 }

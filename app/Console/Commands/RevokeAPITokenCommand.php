@@ -69,5 +69,7 @@ class RevokeAPITokenCommand extends Command
             $token->delete();
             $this->info('Revoked token: '.$token->name);
         }
+
+        return 0;
     }
 }
