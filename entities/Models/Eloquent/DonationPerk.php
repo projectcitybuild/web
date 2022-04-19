@@ -9,13 +9,16 @@ use Illuminate\Support\Carbon;
 use function now;
 
 /**
- * @property int $donation_id
- * @property int $account_id
- * @property ?int $donation_tier_id
- * @property bool $is_active
- * @property ?Carbon $expires_at
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property int donation_id
+ * @property ?int account_id
+ * @property ?int donation_tier_id
+ * @property bool is_active
+ * @property ?Carbon expires_at
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ * @property ?Carbon last_currency_reward_at
+ * @property ?Account account
+ * @property ?DonationTier donationTier
  */
 final class DonationPerk extends Model
 {
@@ -48,6 +51,7 @@ final class DonationPerk extends Model
         'expires_at',
         'created_at',
         'updated_at',
+        'last_currency_reward_at',
     ];
 
     /**
@@ -66,6 +70,7 @@ final class DonationPerk extends Model
         'expires_at',
         'created_at',
         'updated_at',
+        'last_currency_reward_at',
     ];
 
     /**

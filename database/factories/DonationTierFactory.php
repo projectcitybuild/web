@@ -24,6 +24,7 @@ class DonationTierFactory extends Factory
     {
         return [
             'name' => Str::random(10),
+            'currency_reward' => $this->faker->randomNumber(3),
         ];
     }
 }

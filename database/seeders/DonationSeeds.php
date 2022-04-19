@@ -16,12 +16,15 @@ class DonationSeeds extends Seeder
     {
         DonationTier::create([
             'name' => 'copper',
+            'currency_reward' => 10,
         ]);
         DonationTier::create([
             'name' => 'iron',
+            'currency_reward' => 25,
         ]);
         DonationTier::create([
             'name' => 'diamond',
+            'currency_reward' => 50,
         ]);
     }
 }

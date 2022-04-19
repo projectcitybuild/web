@@ -5,6 +5,10 @@ namespace Entities\Models\Eloquent;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property string name
+ * @property int currency_reward
+ */
 final class DonationTier extends Model
 {
     use HasFactory;
@@ -25,6 +29,7 @@ final class DonationTier extends Model
      */
     protected $fillable = [
         'name',
+        'currency_reward',
     ];
 
     /**
