@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities\Repositories;
+namespace Domain\Bans\Repositories;
 
 use App\Entities\Models\Eloquent\GameUnban;
 use App\Entities\Models\GamePlayerType;
@@ -10,7 +10,7 @@ use App\Entities\Models\GamePlayerType;
  */
 class GameUnbanRepository
 {
-    public function store(
+    public function create(
         int $banId,
         int $staffPlayerId,
         GamePlayerType $staffPlayerType,

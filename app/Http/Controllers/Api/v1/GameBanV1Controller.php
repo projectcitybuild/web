@@ -14,7 +14,10 @@ use App\Services\PlayerBans\ServerKeyAuthService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-final class GameBanController extends ApiController
+/**
+ * @deprecated
+ */
+final class GameBanV1Controller extends ApiController
 {
     /**
      * @var PlayerBanService

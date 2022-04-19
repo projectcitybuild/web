@@ -8,9 +8,9 @@ use Domain\Balances\Exceptions\InsufficientBalanceException;
 use Domain\Balances\UseCases\DeductBalanceUseCase;
 use Domain\Balances\UseCases\GetBalanceUseCase;
 use Illuminate\Http\Request;
-use Shared\AccountLookup\Entities\PlayerIdentifier;
-use Shared\AccountLookup\Exceptions\NoLinkedAccountException;
-use Shared\AccountLookup\Exceptions\PlayerNotFoundException;
+use Shared\PlayerLookup\Entities\PlayerIdentifier;
+use Shared\PlayerLookup\Exceptions\NoLinkedAccountException;
+use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 
 final class MinecraftBalanceController extends ApiController
 {

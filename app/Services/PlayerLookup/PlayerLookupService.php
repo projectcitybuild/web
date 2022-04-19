@@ -5,6 +5,9 @@ namespace App\Services\PlayerLookup;
 use App\Entities\Models\GamePlayerType;
 use App\Entities\Repositories\MinecraftPlayerRepository;
 
+/**
+ * @deprecated
+ */
 class PlayerLookupService
 {
     /**
@@ -21,7 +24,7 @@ class PlayerLookupService
     {
         switch ($playerType) {
             case GamePlayerType::MINECRAFT:
-                return $this->minecraftPlayerRepository->getByUuid($identifier)
+                return $this->minecraftPlayerRepository->getByUUID($identifier)
                     ?: $this->minecraftPlayerRepository->store($identifier);
         }
     }

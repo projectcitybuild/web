@@ -1,6 +1,6 @@
 <?php
 
-namespace Shared\AccountLookup\Exceptions;
+namespace Shared\PlayerLookup\Exceptions;
 
 use App\Exceptions\Http\PredefinedHttpException;
 

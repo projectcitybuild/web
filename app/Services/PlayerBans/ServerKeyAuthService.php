@@ -8,6 +8,9 @@ use App\Exceptions\Http\ForbiddenException;
 use App\Services\PlayerBans\Exceptions\MalformedTokenException;
 use App\Services\PlayerBans\Exceptions\UnauthorisedTokenException;
 
+/**
+ * @deprecated Use Laravel Sanctum to check API token scopes
+ */
 final class ServerKeyAuthService
 {
     /**

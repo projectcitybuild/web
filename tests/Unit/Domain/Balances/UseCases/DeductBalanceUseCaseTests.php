@@ -5,8 +5,8 @@ namespace Domain\Balances\UseCases;
 use App\Entities\Models\Eloquent\Account;
 use Domain\Balances\Exceptions\InsufficientBalanceException;
 use Domain\Balances\Repositories\BalanceHistoryRepository;
-use Shared\AccountLookup\AccountLookup;
-use Shared\AccountLookup\Entities\PlayerIdentifier;
+use Shared\PlayerLookup\AccountLookup;
+use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Tests\TestCase;
 
 class DeductBalanceUseCaseTests extends TestCase

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Library\APITokens\APITokenScope;
 use Tests\TestCase;
+use function collect;
 
 class APIMinecraftBalanceShow extends TestCase
 {

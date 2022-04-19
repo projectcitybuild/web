@@ -40,7 +40,7 @@ class MinecraftPlayerLookupService
 
     public function getByUuid(string $uuid): ?MinecraftPlayer
     {
-        return $this->playerRepository->getByUuid($uuid);
+        return $this->playerRepository->getByUUID($uuid);
     }
 
     public function getByAlias(string $alias): ?MinecraftPlayer

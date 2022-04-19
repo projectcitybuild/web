@@ -6,6 +6,9 @@ use App\Entities\Models\GamePlayerType;
 use App\Entities\Repositories\GameBanRepository;
 use App\Services\PlayerLookup\PlayerLookupService;
 
+/**
+ * @deprecated Use GetBanUseCase
+ */
 final class PlayerBanLookupService
 {
     /**

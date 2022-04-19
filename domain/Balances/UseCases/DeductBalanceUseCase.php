@@ -6,10 +6,10 @@ use Domain\Balances\Exceptions\InsufficientBalanceException;
 use Domain\Balances\Repositories\BalanceHistoryRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Shared\AccountLookup\AccountLookup;
-use Shared\AccountLookup\Entities\PlayerIdentifier;
-use Shared\AccountLookup\Exceptions\NoLinkedAccountException;
-use Shared\AccountLookup\Exceptions\PlayerNotFoundException;
+use Shared\PlayerLookup\Entities\PlayerIdentifier;
+use Shared\PlayerLookup\Exceptions\NoLinkedAccountException;
+use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
+use Shared\PlayerLookup\PlayerLookup;
 
 /**
  * @final
@@ -17,7 +17,7 @@ use Shared\AccountLookup\Exceptions\PlayerNotFoundException;
 class DeductBalanceUseCase
 {
     public function __construct(
-        private AccountLookup $accountLookup,
+        private PlayerLookup $playerLookup,
         private BalanceHistoryRepository $balanceHistoryRepository,
     ) {}
 
@@ -36,7 +36,12 @@ class DeductBalanceUseCase
             throw new Exception('Deduction amount must be greater than 0');
         }
 
-        $account = $this->accountLookup->find($identifier);
+        $player = $this->playerLookup->find($identifier)
+            ?? throw new PlayerNotFoundException();
+
+        $account = $player->getLinkedAccount()
+            ?? throw new NoLinkedAccountException();
+
         $balance = $account->balance;
         $newBalance = $balance - $amount;
 

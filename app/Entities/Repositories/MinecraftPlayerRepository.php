@@ -6,6 +6,7 @@ use App\Entities\Models\Eloquent\MinecraftPlayer;
 
 /**
  * @final
+ * @deprecated
  */
 class MinecraftPlayerRepository
 {
@@ -19,7 +20,7 @@ class MinecraftPlayerRepository
         ]);
     }
 
-    public function getByUuid(string $uuid): ?MinecraftPlayer
+    public function getByUUID(string $uuid): ?MinecraftPlayer
     {
         return MinecraftPlayer::where('uuid', $uuid)->first();
     }

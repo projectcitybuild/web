@@ -7,14 +7,17 @@ use App\Entities\Models\Eloquent\GameUnban;
 use App\Entities\Models\Eloquent\ServerKey;
 use App\Entities\Models\GamePlayerType;
 use App\Entities\Repositories\GameBanRepository;
-use App\Entities\Repositories\GameUnbanRepository;
 use App\Services\PlayerBans\Exceptions\UnauthorisedKeyActionException;
 use App\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
 use App\Services\PlayerBans\Exceptions\UserNotBannedException;
 use App\Services\PlayerLookup\PlayerLookupService;
 use Carbon\Carbon;
+use Domain\Bans\Repositories\GameUnbanRepository;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @deprecated Use CreateBanUseCase and CreateUnbanUseCase
+ */
 final class PlayerBanService
 {
     /**
@@ -119,7 +122,7 @@ final class PlayerBanService
             $activeBan->is_active = false;
             $activeBan->save();
 
-            $unban = $this->gameUnbanRepository->store(
+            $unban = $this->gameUnbanRepository->create(
                 $activeBan->getKey(),
                 $staffPlayer->getKey(),
                 $staffPlayerType

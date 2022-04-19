@@ -1,6 +1,6 @@
 <?php
 
-namespace Shared\AccountLookup\Entities;
+namespace Shared\PlayerLookup\Entities;
 
 use App\Entities\Models\GameIdentifierType;
 
