@@ -9,6 +9,7 @@ use App\Console\Commands\GenerateSitemapCommand;
 use App\Console\Commands\IssueAPITokenCommand;
 use App\Console\Commands\RepairMissingGroupsCommand;
 use App\Console\Commands\RevokeAPITokenCommand;
+use App\Console\Commands\RewardCurrencyToDonorsCommand;
 use App\Console\Commands\ServerKeyCreateCommand;
 use App\Console\Commands\ServerQueryCommand;
 use App\Console\Commands\StripUUIDHyphensCommand;
@@ -31,6 +32,7 @@ class Kernel extends ConsoleKernel
         IssueAPITokenCommand::class,
         RepairMissingGroupsCommand::class,
         RevokeAPITokenCommand::class,
+        RewardCurrencyToDonorsCommand::class,
         ServerKeyCreateCommand::class,
         ServerQueryCommand::class,
         StripUUIDHyphensCommand::class,
@@ -38,7 +40,6 @@ class Kernel extends ConsoleKernel
 
     /**
      * Define the application's command schedule.
-     *
      *
      * @return void
      */
@@ -58,6 +59,9 @@ class Kernel extends ConsoleKernel
             ->weekly();
 
         $schedule->command('donor-perks:expire')
+            ->hourly();
+
+        $schedule->command('donor-perks:reward-currency')
             ->hourly();
 
         $schedule->command('backup:clean')

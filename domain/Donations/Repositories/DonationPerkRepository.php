@@ -38,13 +38,27 @@ class DonationPerkRepository
         ]);
     }
 
-    /**
-     * @return Collection|DonationPerk[]
-     */
     public function getExpired(): Collection
     {
         return DonationPerk::where('is_active', true)
             ->whereDate('expires_at', '<=', now())
+            ->get() ?? collect();
+    }
+
+    public function getUnrewarded(Carbon $since): Collection
+    {
+        return DonationPerk::with('donationTier', 'account')
+            ->where(function ($q) use ($since) {
+                $q->whereDate('last_currency_reward_at', '<=', $since)
+                  ->orWhere('last_currency_reward_at', null);
+            })
+            ->where(function ($q) use ($since) {
+                $q->whereDate('expires_at', '<=', now())
+                    ->orWhere('expires_at', null);
+            })
+            ->whereNotNull('donation_tier_id')
+            ->whereNotNull('account_id')
+            ->where('is_active', true)
             ->get() ?? collect();
     }
 

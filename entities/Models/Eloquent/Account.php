@@ -47,6 +47,7 @@ final class Account extends Authenticatable
         'remember_token',
         'last_login_ip',
         'last_login_at',
+        'balance',
     ];
 
     protected $hidden = [
@@ -186,10 +187,5 @@ final class Account extends Authenticatable
         $this->totp_backup_code = null;
         $this->totp_last_used = null;
         $this->is_totp_enabled = false;
-    }
-
-    public function toResource()
-    {
-        return AccountResource::make($this);
     }
 }
