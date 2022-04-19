@@ -36,6 +36,7 @@
         "beyondcode/laravel-dump-server": "^1.0",
         "brianium/paratest": "^6.4.4",
         "fakerphp/faker": "^1.19",
+        "laravel/envoy": "^2.8",
         "laravel/sail": "^1.13.",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^6.1",
