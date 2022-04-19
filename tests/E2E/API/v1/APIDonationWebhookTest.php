@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\E2E;
+namespace Tests\E2E\API\v1;
 
 use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\DonationTier;
@@ -8,8 +8,9 @@ use App\Entities\Models\Eloquent\Group;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
+use function storage_path;
 
-class DonationWebhookTest extends TestCase
+class APIDonationWebhookTest extends TestCase
 {
     use RefreshDatabase;
 

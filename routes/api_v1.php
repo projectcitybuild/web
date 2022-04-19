@@ -3,11 +3,8 @@
 use App\Http\Controllers\Api\v1\GameBanV1Controller;
 use App\Http\Controllers\Api\v1\GroupApiController;
 use App\Http\Controllers\Api\v1\MinecraftAuthTokenController;
-use App\Http\Controllers\Api\v1\MinecraftBalanceController;
-use App\Http\Controllers\Api\v1\MinecraftDonationTierController;
 use App\Http\Controllers\Api\v1\StripeWebhookController;
 use Illuminate\Support\Facades\Route;
-use Library\APITokens\APITokenScope;
 
 /*
 |--------------------------------------------------------------------------

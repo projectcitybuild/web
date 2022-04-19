@@ -5,9 +5,9 @@ namespace Shared\PlayerLookup;
 use App\Entities\MinecraftUUID;
 use App\Entities\Models\GameIdentifierType;
 use App\Entities\Repositories\MinecraftPlayerAliasRepository;
-use App\Entities\Repositories\MinecraftPlayerRepository;
 use Shared\PlayerLookup\Contracts\Player;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
+use Shared\PlayerLookup\Repositories\MinecraftPlayerRepository;
 
 /**
  * @final
@@ -26,7 +26,7 @@ class PlayerLookup
         switch ($identifier->gameIdentifierType) {
             case GameIdentifierType::MINECRAFT_UUID:
                 $uuid = new MinecraftUUID($identifier->key);
-                $player = $this->minecraftPlayerRepository->getByUuid($uuid);
+                $player = $this->minecraftPlayerRepository->getByUUID($uuid);
                 break;
         }
 
@@ -37,18 +37,29 @@ class PlayerLookup
         PlayerIdentifier $identifier,
         ?string $playerAlias = null,
     ): Player {
-        $player = $this->find($identifier);
+        return $this->find($identifier)
+            ?? $this->create(identifier: $identifier, playerAlias: $playerAlias);
+    }
 
-        if ($player === null) {
-            $player = $this->minecraftPlayerRepository->store($identifier->key);
+    private function create(
+        PlayerIdentifier $identifier,
+        ?string $playerAlias = null,
+    ): Player {
+        $player = null;
 
-            if (! empty($playerAlias)) {
-                $this->minecraftPlayerAliasRepository->store(
-                    minecraftPlayerId: $player->getKey(),
-                    alias: $playerAlias,
-                    registeredAt: now(),
-                );
-            }
+        switch ($identifier->gameIdentifierType) {
+            case GameIdentifierType::MINECRAFT_UUID:
+                $uuid = new MinecraftUUID($identifier->key);
+                $player = $this->minecraftPlayerRepository->store($uuid);
+
+                if (! empty($playerAlias)) {
+                    $this->minecraftPlayerAliasRepository->store(
+                        minecraftPlayerId: $player->getKey(),
+                        alias: $playerAlias,
+                        registeredAt: now(),
+                    );
+                }
+                break;
         }
 
         return $player;

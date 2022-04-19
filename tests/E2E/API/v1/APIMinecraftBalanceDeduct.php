@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 use Laravel\Sanctum\Sanctum;
 use Library\APITokens\APITokenScope;
 use Tests\TestCase;
+use function collect;
 
 class APIMinecraftBalanceDeduct extends TestCase
 {
