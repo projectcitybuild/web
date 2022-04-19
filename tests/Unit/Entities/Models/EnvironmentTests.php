@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Entities\Models;
 
-use App\Entities\Models\Environment;
-use App\Entities\Models\EnvironmentLevel;
+use Library\Environment\Environment;
+use Library\Environment\EnvironmentLevel;
 use Tests\TestCase;
 
 class EnvironmentTests extends TestCase

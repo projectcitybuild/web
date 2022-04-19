@@ -2,10 +2,10 @@
 
 namespace Domain\PasswordReset\UseCases;
 
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Notifications\AccountPasswordResetNotification;
 use Domain\PasswordReset\PasswordResetURLGenerator;
 use Domain\PasswordReset\Repositories\AccountPasswordResetRepository;
+use Entities\Models\Eloquent\Account;
+use Entities\Notifications\AccountPasswordResetNotification;
 use Library\Tokens\TokenGenerator;
 
 final class SendPasswordResetEmailUseCase

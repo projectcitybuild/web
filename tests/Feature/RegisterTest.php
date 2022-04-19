@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Models\Eloquent\Group;
-use App\Entities\Notifications\AccountActivationNotification;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Group;
+use Entities\Notifications\AccountActivationNotification;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;

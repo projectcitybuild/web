@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Entities\Models\Eloquent\Server;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
 use Domain\ServerStatus\Repositories\ServerStatusRepository;
 use Domain\ServerStatus\ServerQueryAdapterFactory;
 use Domain\ServerStatus\ServerQueryService;
+use Entities\Models\Eloquent\Server;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 

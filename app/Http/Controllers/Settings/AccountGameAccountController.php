@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Settings;
 
-use App\Entities\Models\Eloquent\MinecraftPlayer;
 use App\Http\WebController;
+use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Http\Request;
 
 class AccountGameAccountController extends WebController

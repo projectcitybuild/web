@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Models\Eloquent\Donation;
-use App\Entities\Models\Eloquent\Server;
 use App\Http\WebController;
 use Carbon\Carbon;
+use Entities\Models\Eloquent\Donation;
+use Entities\Models\Eloquent\Server;
 
 final class HomeController extends WebController
 {

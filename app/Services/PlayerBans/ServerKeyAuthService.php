@@ -2,11 +2,11 @@
 
 namespace App\Services\PlayerBans;
 
-use App\Entities\Models\Eloquent\ServerKey;
-use App\Entities\Repositories\ServerKeyRepository;
 use App\Exceptions\Http\ForbiddenException;
 use App\Services\PlayerBans\Exceptions\MalformedTokenException;
 use App\Services\PlayerBans\Exceptions\UnauthorisedTokenException;
+use Entities\Models\Eloquent\ServerKey;
+use Entities\Repositories\ServerKeyRepository;
 
 /**
  * @deprecated Use Laravel Sanctum to check API token scopes

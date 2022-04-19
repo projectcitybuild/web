@@ -2,9 +2,8 @@
 
 namespace Shared\ExternalAccounts\Sync\Adapters;
 
-use App\Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Account;
 use GuzzleHttp\Exception\ServerException;
-use Illuminate\Support\Str;
 use Library\Discourse\Api\DiscourseAdminApi;
 use Library\Discourse\Entities\DiscoursePayload;
 use Library\Discourse\Exceptions\UserNotFound;

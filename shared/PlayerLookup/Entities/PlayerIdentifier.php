@@ -2,7 +2,7 @@
 
 namespace Shared\PlayerLookup\Entities;
 
-use App\Entities\Models\GameIdentifierType;
+use Entities\Models\GameIdentifierType;
 
 final class PlayerIdentifier
 {

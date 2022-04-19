@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Settings\Mfa;
 
-use App\Entities\Notifications\AccountMfaBackupCodeRegeneratedNotification;
 use App\Http\WebController;
+use Entities\Notifications\AccountMfaBackupCodeRegeneratedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;

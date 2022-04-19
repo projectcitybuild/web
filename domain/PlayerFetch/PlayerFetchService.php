@@ -2,11 +2,11 @@
 
 namespace Domain\PlayerFetch;
 
-use App\Entities\Models\Eloquent\MinecraftPlayer;
-use App\Entities\Models\GameType;
 use Domain\PlayerFetch\Jobs\PlayerFetchJob;
 use Domain\PlayerFetch\Repositories\PlayerFetchRepository;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
+use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\GameType;
 use Log;
 
 final class PlayerFetchService

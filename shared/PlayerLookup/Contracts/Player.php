@@ -2,7 +2,7 @@
 
 namespace Shared\PlayerLookup\Contracts;
 
-use App\Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Account;
 
 interface Player
 {

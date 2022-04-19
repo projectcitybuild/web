@@ -2,8 +2,8 @@
 
 namespace App\Services\PlayerLookup;
 
-use App\Entities\Models\GamePlayerType;
-use App\Entities\Repositories\MinecraftPlayerRepository;
+use Entities\Models\GamePlayerType;
+use Entities\Repositories\MinecraftPlayerRepository;
 
 /**
  * @deprecated

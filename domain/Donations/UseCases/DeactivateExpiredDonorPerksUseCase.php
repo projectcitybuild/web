@@ -2,9 +2,9 @@
 
 namespace Domain\Donations\UseCases;
 
-use App\Entities\Models\Eloquent\Group;
-use App\Entities\Notifications\DonationEndedNotification;
 use Domain\Donations\Repositories\DonationPerkRepository;
+use Entities\Models\Eloquent\Group;
+use Entities\Notifications\DonationEndedNotification;
 use Illuminate\Support\Facades\Log;
 use Shared\Groups\GroupsManager;
 

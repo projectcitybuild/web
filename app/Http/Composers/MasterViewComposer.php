@@ -2,7 +2,7 @@
 
 namespace App\Http\Composers;
 
-use App\Entities\Repositories\ServerCategoryRepository;
+use Entities\Repositories\ServerCategoryRepository;
 use Illuminate\View\View;
 
 /**

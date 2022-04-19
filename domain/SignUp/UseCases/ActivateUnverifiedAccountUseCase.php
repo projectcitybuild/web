@@ -2,9 +2,9 @@
 
 namespace Domain\SignUp\UseCases;
 
-use App\Entities\Repositories\AccountRepository;
 use App\Exceptions\Http\BadRequestException;
 use Domain\SignUp\Exceptions\AccountAlreadyActivatedException;
+use Entities\Repositories\AccountRepository;
 
 final class ActivateUnverifiedAccountUseCase
 {

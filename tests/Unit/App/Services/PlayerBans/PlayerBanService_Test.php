@@ -2,14 +2,12 @@
 
 namespace Tests\Services;
 
-use App\Entities\Models\Eloquent\GameBan;
-use App\Entities\Models\Eloquent\MinecraftPlayer;
-use App\Entities\Models\Eloquent\Server;
-use App\Entities\Models\Eloquent\ServerKey;
-use App\Entities\Models\GamePlayerType;
-use App\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
 use App\Services\PlayerBans\Exceptions\UserNotBannedException;
 use App\Services\PlayerBans\PlayerBanService;
+use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\Server;
+use Entities\Models\Eloquent\ServerKey;
+use Entities\Models\GamePlayerType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;

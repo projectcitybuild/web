@@ -2,11 +2,6 @@
 
 namespace Tests\Unit\Domain\Donations\UseCases;
 
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Models\Eloquent\Donation;
-use App\Entities\Models\Eloquent\DonationPerk;
-use App\Entities\Models\Eloquent\DonationTier;
-use App\Entities\Models\Eloquent\Group;
 use Carbon\Carbon;
 use Domain\Donations\Entities\PaidAmount;
 use Domain\Donations\Entities\PaymentType;
@@ -14,6 +9,11 @@ use Domain\Donations\Repositories\DonationPerkRepository;
 use Domain\Donations\Repositories\DonationRepository;
 use Domain\Donations\Repositories\PaymentRepository;
 use Domain\Donations\UseCases\ProcessPaymentUseCase;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Donation;
+use Entities\Models\Eloquent\DonationPerk;
+use Entities\Models\Eloquent\DonationTier;
+use Entities\Models\Eloquent\Group;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Shared\Groups\GroupsManager;

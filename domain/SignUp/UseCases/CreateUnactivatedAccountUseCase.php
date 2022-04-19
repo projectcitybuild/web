@@ -2,8 +2,8 @@
 
 namespace Domain\SignUp\UseCases;
 
-use App\Entities\Notifications\AccountActivationNotification;
-use App\Entities\Repositories\AccountRepository;
+use Entities\Notifications\AccountActivationNotification;
+use Entities\Repositories\AccountRepository;
 use Shared\Groups\GroupsManager;
 
 /**

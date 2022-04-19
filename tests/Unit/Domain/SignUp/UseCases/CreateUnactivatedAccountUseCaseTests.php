@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Domain\SignUp\UseCases;
 
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Notifications\AccountActivationNotification;
-use App\Entities\Repositories\AccountRepository;
 use Domain\SignUp\UseCases\CreateUnactivatedAccountUseCase;
+use Entities\Models\Eloquent\Account;
+use Entities\Notifications\AccountActivationNotification;
+use Entities\Repositories\AccountRepository;
 use Illuminate\Support\Facades\Notification;
 use Shared\Groups\GroupsManager;
 use Tests\TestCase;

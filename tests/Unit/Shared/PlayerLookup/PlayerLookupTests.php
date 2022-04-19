@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Shared\PlayerLookup;
 
-use App\Entities\MinecraftUUID;
-use App\Entities\Models\Eloquent\MinecraftPlayer;
-use App\Entities\Repositories\MinecraftPlayerAliasRepository;
-use App\Entities\Repositories\MinecraftPlayerRepository;
+use Entities\MinecraftUUID;
+use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Repositories\MinecraftPlayerAliasRepository;
+use Entities\Repositories\MinecraftPlayerRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;

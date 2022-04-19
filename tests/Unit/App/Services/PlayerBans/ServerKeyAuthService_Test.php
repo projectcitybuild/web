@@ -2,11 +2,11 @@
 
 namespace Tests\Services;
 
-use App\Entities\Models\Eloquent\ServerKey;
 use App\Exceptions\Http\ForbiddenException;
 use App\Exceptions\Http\UnauthorisedException;
 use App\Services\PlayerBans\Exceptions\MalformedTokenException;
 use App\Services\PlayerBans\ServerKeyAuthService;
+use Entities\Models\Eloquent\ServerKey;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

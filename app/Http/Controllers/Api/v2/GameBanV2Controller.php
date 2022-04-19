@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers\Api\v2;
 
-use App\Entities\Models\Eloquent\ServerKey;
-use App\Entities\Models\GameIdentifierType;
-use App\Entities\Resources\GameBanResource;
-use App\Entities\Resources\GameUnbanResource;
 use App\Exceptions\Http\BadRequestException;
 use App\Http\ApiController;
 use Domain\Bans\Exceptions\PlayerAlreadyBannedException;
@@ -13,6 +9,9 @@ use Domain\Bans\Exceptions\PlayerNotBannedException;
 use Domain\Bans\UseCases\CreateBanUseCase;
 use Domain\Bans\UseCases\CreateUnbanUseCase;
 use Domain\Bans\UseCases\GetBanUseCase;
+use Entities\Models\GameIdentifierType;
+use Entities\Resources\GameBanResource;
+use Entities\Resources\GameUnbanResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;

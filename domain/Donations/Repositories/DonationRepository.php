@@ -2,8 +2,8 @@
 
 namespace Domain\Donations\Repositories;
 
-use App\Entities\Models\Eloquent\Donation;
 use Domain\Donations\Entities\PaidAmount;
+use Entities\Models\Eloquent\Donation;
 
 /**
  * @final

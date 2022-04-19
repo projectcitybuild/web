@@ -2,15 +2,14 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Models\Eloquent\AccountPasswordReset;
-use App\Entities\Notifications\AccountPasswordResetNotification;
 use Domain\PasswordReset\PasswordResetURLGenerator;
 use Domain\PasswordReset\Repositories\AccountPasswordResetRepository;
 use Domain\PasswordReset\UseCases\SendPasswordResetEmailUseCase;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\AccountPasswordReset;
+use Entities\Notifications\AccountPasswordResetNotification;
 use Illuminate\Support\Facades\Notification;
 use Library\Tokens\Adapters\StubTokenGenerator;
-use Library\Tokens\TokenGenerator;
 use Tests\TestCase;
 
 class PasswordResetTest extends TestCase

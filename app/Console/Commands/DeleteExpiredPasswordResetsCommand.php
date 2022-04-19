@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Entities\Models\Eloquent\Account;
 use Domain\PasswordReset\UseCases\DeleteExpiredPasswordResetsUseCase;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;

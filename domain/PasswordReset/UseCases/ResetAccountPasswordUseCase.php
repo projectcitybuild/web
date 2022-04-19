@@ -2,11 +2,11 @@
 
 namespace Domain\PasswordReset\UseCases;
 
-use App\Entities\Notifications\AccountPasswordResetCompleteNotification;
-use App\Entities\Repositories\AccountRepository;
 use App\Exceptions\Http\NotFoundException;
 use App\Http\Actions\AccountSettings\UpdateAccountPassword;
 use Domain\PasswordReset\Repositories\AccountPasswordResetRepository;
+use Entities\Notifications\AccountPasswordResetCompleteNotification;
+use Entities\Repositories\AccountRepository;
 use Illuminate\Support\Facades\DB;
 
 final class ResetAccountPasswordUseCase

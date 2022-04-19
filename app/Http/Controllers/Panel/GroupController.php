@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Entities\Models\Eloquent\Group;
 use App\Http\WebController;
+use Entities\Models\Eloquent\Group;
 
 class GroupController extends WebController
 {

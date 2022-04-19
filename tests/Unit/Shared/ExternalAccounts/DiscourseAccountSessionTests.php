@@ -2,11 +2,10 @@
 
 namespace Tests\Unit\Shared\ExternalAccounts;
 
-use App\Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Account;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\RedirectResponse;
 use Library\Discourse\Api\DiscourseAdminApi;
 use Library\Discourse\Api\DiscourseUserApi;
 use Library\Discourse\Authentication\DiscourseLoginHandler;

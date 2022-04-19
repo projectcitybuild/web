@@ -2,8 +2,8 @@
 
 namespace Domain\Bans\UseCases;
 
-use App\Entities\Models\Eloquent\GameBan;
 use Domain\Bans\Repositories\GameBanRepository;
+use Entities\Models\Eloquent\GameBan;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 
 final class GetBanUseCase

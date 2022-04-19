@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Account;
 use Illuminate\Foundation\Testing\WithFaker;
 use Library\Discourse\Api\DiscourseAdminApi;
 use Tests\TestCase;

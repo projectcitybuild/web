@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\Eloquent\MinecraftPlayer;
 use Library\Mojang\Api\MojangPlayerApi;
 use Library\Mojang\Models\MojangPlayerNameHistory;
 use Mockery\MockInterface;

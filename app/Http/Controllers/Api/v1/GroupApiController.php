@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Entities\Models\Eloquent\Group;
-use App\Entities\Resources\GroupResource;
 use App\Http\ApiController;
+use Entities\Models\Eloquent\Group;
+use Entities\Resources\GroupResource;
 
 final class GroupApiController extends ApiController
 {

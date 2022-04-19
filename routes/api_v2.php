@@ -1,11 +1,11 @@
 <?php
 
-use App\Entities\Models\Environment;
 use App\Http\Controllers\Api\v1\MinecraftBalanceController;
 use App\Http\Controllers\Api\v1\MinecraftDonationTierController;
 use App\Http\Controllers\Api\v2\GameBanV2Controller;
 use Illuminate\Support\Facades\Route;
 use Library\APITokens\APITokenScope;
+use Library\Environment\Environment;
 
 /*
 |--------------------------------------------------------------------------

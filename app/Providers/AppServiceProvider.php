@@ -2,14 +2,14 @@
 
 namespace App\Providers;
 
-use App\Entities\Models\AccountPaymentType;
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Models\Eloquent\Donation;
-use App\Entities\Models\Eloquent\MinecraftPlayer;
-use App\Entities\Models\GamePlayerType;
 use App\Http\Composers\MasterViewComposer;
 use App\View\Components\DonationBarComponent;
 use App\View\Components\NavBarComponent;
+use Entities\Models\AccountPaymentType;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Donation;
+use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\GamePlayerType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Blade;

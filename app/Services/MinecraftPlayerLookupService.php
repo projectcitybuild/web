@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Entities\Models\Eloquent\MinecraftPlayer;
-use App\Entities\Repositories\MinecraftPlayerAliasRepository;
-use App\Entities\Repositories\MinecraftPlayerRepository;
+use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Repositories\MinecraftPlayerAliasRepository;
+use Entities\Repositories\MinecraftPlayerRepository;
 use Illuminate\Database\Connection;
 
 /**

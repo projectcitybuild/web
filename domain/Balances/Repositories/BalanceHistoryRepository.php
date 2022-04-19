@@ -2,7 +2,7 @@
 
 namespace Domain\Balances\Repositories;
 
-use App\Entities\Models\Eloquent\AccountBalanceTransaction;
+use Entities\Models\Eloquent\AccountBalanceTransaction;
 
 /**
  * @final

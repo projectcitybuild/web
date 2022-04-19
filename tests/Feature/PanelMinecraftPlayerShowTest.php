@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Models\Eloquent\GameBan;
-use App\Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\MinecraftPlayer;
 use Tests\TestCase;
 
 class PanelMinecraftPlayerShowTest extends TestCase

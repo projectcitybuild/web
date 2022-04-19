@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Entities\Models\Eloquent\DonationTier;
+use Entities\Models\Eloquent\DonationTier;
 use Illuminate\Database\Seeder;
 
 class DonationSeeds extends Seeder

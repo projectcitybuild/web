@@ -2,12 +2,12 @@
 
 namespace Tests\Unit\Domain\ServerStatus;
 
-use App\Entities\Models\Eloquent\Server;
 use Domain\ServerStatus\Entities\ServerQueryResult;
 use Domain\ServerStatus\Events\ServerStatusFetched;
 use Domain\ServerStatus\Jobs\ServerQueryJob;
 use Domain\ServerStatus\Repositories\ServerStatusRepository;
 use Domain\ServerStatus\ServerQueryService;
+use Entities\Models\Eloquent\Server;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Queue;

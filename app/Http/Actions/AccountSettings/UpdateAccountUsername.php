@@ -2,7 +2,7 @@
 
 namespace App\Http\Actions\AccountSettings;
 
-use App\Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Account;
 use Library\Discourse\Api\DiscourseAdminApi;
 use Library\Discourse\Entities\DiscoursePayload;
 
