@@ -2,10 +2,11 @@
 
 namespace Domain\Balances\UseCases;
 
-use Shared\AccountLookup\AccountLookup;
-use Shared\AccountLookup\Entities\PlayerIdentifier;
-use Shared\AccountLookup\Exceptions\NoLinkedAccountException;
-use Shared\AccountLookup\Exceptions\PlayerNotFoundException;
+use Shared\PlayerLookup\AccountLookup;
+use Shared\PlayerLookup\Entities\PlayerIdentifier;
+use Shared\PlayerLookup\Exceptions\NoLinkedAccountException;
+use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
+use Shared\PlayerLookup\PlayerLookup;
 
 /**
  * @final
@@ -13,7 +14,7 @@ use Shared\AccountLookup\Exceptions\PlayerNotFoundException;
 class GetBalanceUseCase
 {
     public function __construct(
-        private AccountLookup $accountLookup,
+        private PlayerLookup $playerLookup,
     ) {}
 
     /**
@@ -22,7 +23,12 @@ class GetBalanceUseCase
      */
     public function execute(PlayerIdentifier $identifier): int
     {
-        $account = $this->accountLookup->find($identifier);
+        $player = $this->playerLookup->find($identifier)
+            ?? throw new PlayerNotFoundException();
+
+        $account = $player->getLinkedAccount()
+            ?? throw new NoLinkedAccountException();
+
         return $account->balance;
     }
 }

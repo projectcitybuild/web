@@ -8,6 +8,7 @@ use Carbon\Carbon;
 
 /**
  * @final
+ * @deprecated
  */
 class GameBanRepository
 {

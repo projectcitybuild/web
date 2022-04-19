@@ -2,6 +2,7 @@
 
 namespace App\Entities\Repositories;
 
+use App\Entities\MinecraftUUID;
 use App\Entities\Models\Eloquent\MinecraftPlayer;
 
 /**
@@ -19,9 +20,9 @@ class MinecraftPlayerRepository
         ]);
     }
 
-    public function getByUuid(string $uuid): ?MinecraftPlayer
+    public function getByUuid(MinecraftUUID $uuid): ?MinecraftPlayer
     {
-        return MinecraftPlayer::where('uuid', $uuid)->first();
+        return MinecraftPlayer::where('uuid', $uuid->rawValue())->first();
     }
 
     public function getByAccountId(int $accountId): ?MinecraftPlayer

@@ -6,10 +6,10 @@ use App\Entities\Models\Eloquent\Account;
 use App\Entities\Models\Eloquent\MinecraftPlayer;
 use App\Entities\Repositories\MinecraftPlayerRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Shared\AccountLookup\AccountLookup;
-use Shared\AccountLookup\Entities\PlayerIdentifier;
-use Shared\AccountLookup\Exceptions\NoLinkedAccountException;
-use Shared\AccountLookup\Exceptions\PlayerNotFoundException;
+use Shared\PlayerLookup\AccountLookup;
+use Shared\PlayerLookup\Entities\PlayerIdentifier;
+use Shared\PlayerLookup\Exceptions\NoLinkedAccountException;
+use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 use Tests\TestCase;
 
 class AccountLookupTests extends TestCase

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
-use Shared\AccountLookup\Contracts\AccountLinkable;
+use Shared\PlayerLookup\Contracts\Player;
 
 /**
  * @property string uuid
@@ -15,7 +15,7 @@ use Shared\AccountLookup\Contracts\AccountLinkable;
  * @property ?Account account
  * @property ?Carbon last_synced_at
  */
-final class MinecraftPlayer extends Model implements AccountLinkable
+final class MinecraftPlayer extends Model implements Player
 {
     use HasFactory;
 
@@ -37,11 +37,6 @@ final class MinecraftPlayer extends Model implements AccountLinkable
         'last_synced_at',
     ];
 
-    public function getBanIdentifier(): string
-    {
-        return $this->uuid;
-    }
-
     public function getBanReadableName(): ?string
     {
         $aliases = $this->aliases;
@@ -50,13 +45,6 @@ final class MinecraftPlayer extends Model implements AccountLinkable
         }
 
         return $this->aliases->last()->alias;
-    }
-
-    public function getDashedUuidAttribute()
-    {
-        $uuid = $this->uuid;
-
-        return substr($uuid, 0, 8).'-'.substr($uuid, 8, 4).'-'.substr($uuid, 12, 4).'-'.substr($uuid, 16, 4).'-'.substr($uuid, 20);
     }
 
     public function account(): BelongsTo
@@ -87,6 +75,17 @@ final class MinecraftPlayer extends Model implements AccountLinkable
         $this->last_synced_at = $this->freshTimestamp();
 
         return $this->save();
+    }
+
+    /** ************************************************
+     *
+     * GamePlayable
+     *
+     ***************************************************/
+
+    public function getRawModel(): static
+    {
+        return $this;
     }
 
     public function getLinkedAccount(): ?Account
