@@ -36,24 +36,6 @@ Route::prefix('auth')->group(function () {
     Route::get('minecraft/{minecraftUUID}', [MinecraftAuthTokenController::class, 'show']);
 });
 
-Route::prefix('minecraft/{minecraftUUID}')->group(function () {
-    Route::get('donation-tiers', [MinecraftDonationTierController::class, 'show']);
-
-    Route::middleware([
-        'auth:sanctum',
-        'abilities:'.APITokenScope::ACCOUNT_BALANCE_SHOW->value,
-    ])->group(function () {
-        Route::get('balance', [MinecraftBalanceController::class, 'show']);
-    });
-
-    Route::middleware([
-        'auth:sanctum',
-        'abilities:'.APITokenScope::ACCOUNT_BALANCE_DEDUCT->value,
-    ])->group(function () {
-        Route::post('balance/deduct', [MinecraftBalanceController::class, 'deduct']);
-    });
-});
-
 Route::prefix('groups')->group(function () {
     Route::get('/', [GroupApiController::class, 'getAll']);
 });
