@@ -19,6 +19,6 @@ final class GetBanUseCase
     public function execute(
         PlayerIdentifier $playerIdentifier,
     ): ?GameBan {
-        return $this->gameBanRepository->firstActiveBan(identifier: $playerIdentifier)
+        return $this->gameBanRepository->firstActiveBan(identifier: $playerIdentifier);
     }
 }
