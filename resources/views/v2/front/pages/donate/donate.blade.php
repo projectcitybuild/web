@@ -62,12 +62,12 @@
 
                             <div class="donation-tier__boxes">
                                 <div class="donation-tier__boxes-title">
-                                    <strong>Each day</strong> you'll receive
+                                    <strong>Each week</strong> you'll receive
                                 </div>
                                 <div class="donation-tier__boxes-reward">
-                                    <i class="fas fa-box"></i>
-                                    <strong>1</strong>
-                                    <span>Mystery Box (<a href="#mystery-box">what's this?</a>)</span>
+                                    <i class="fas fa-cube"></i>
+                                    <strong>10</strong>
+                                    <span>Pixels (<a href="#pixels">what's this?</a>)</span>
                                 </div>
                             </div>
 
@@ -109,12 +109,12 @@
 
                             <div class="donation-tier__boxes">
                                 <div class="donation-tier__boxes-title">
-                                    <strong>Each day</strong> you'll receive
+                                    <strong>Each week</strong> you'll receive
                                 </div>
                                 <div class="donation-tier__boxes-reward">
-                                    <i class="fas fa-box"></i>
-                                    <strong>4</strong>
-                                    <span>Mystery Boxes (<a href="#mystery-box">what's this?</a>)</span>
+                                    <i class="fas fa-cube"></i>
+                                    <strong>25</strong>
+                                    <span>Pixels (<a href="#pixels">what's this?</a>)</span>
                                 </div>
                             </div>
 
@@ -159,12 +159,12 @@
 
                             <div class="donation-tier__boxes">
                                 <div class="donation-tier__boxes-title">
-                                    <strong>Each day</strong> you'll receive
+                                    <strong>Each week</strong> you'll receive
                                 </div>
                                 <div class="donation-tier__boxes-reward">
-                                    <i class="fas fa-box"></i>
-                                    <strong>10</strong>
-                                    <span>Mystery Boxes (<a href="#mystery-box">what's this?</a>)</span>
+                                    <i class="fas fa-cube"></i>
+                                    <strong>50</strong>
+                                    <span>Pixels (<a href="#pixels">what's this?</a>)</span>
                                 </div>
                             </div>
 
@@ -200,7 +200,7 @@
                 </div>
             </section>
 
-            <a name="mystery-box"></a>
+            <a id="pixels"></a>
             <section class="donate-mystery-box">
                 <div class="container">
                     <img src="{{ asset('assets/images/mystery-box-title.png') }}" />
