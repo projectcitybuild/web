@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Models\Eloquent\Group;
 use App\Http\Actions\SyncUserToDiscourse;
 use App\Http\WebController;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Group;
 use Illuminate\Http\Request;
 use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 

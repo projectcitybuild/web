@@ -2,13 +2,13 @@
 
 namespace Tests\Unit\Domain\PlayerFetch;
 
-use App\Entities\Models\Eloquent\MinecraftPlayer;
-use App\Entities\Models\Eloquent\MinecraftPlayerAlias;
-use App\Entities\Models\GameType;
 use Domain\PlayerFetch\Adapters\MojangUUIDFetchAdapter;
 use Domain\PlayerFetch\Jobs\PlayerFetchJob;
 use Domain\PlayerFetch\PlayerFetchService;
 use Domain\PlayerFetch\Repositories\PlayerFetchRepository;
+use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\Eloquent\MinecraftPlayerAlias;
+use Entities\Models\GameType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Library\Mojang\Models\MojangPlayer;
 use Queue;

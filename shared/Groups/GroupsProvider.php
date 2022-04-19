@@ -2,7 +2,7 @@
 
 namespace Shared\Groups;
 
-use App\Entities\Models\Eloquent\Group;
+use Entities\Models\Eloquent\Group;
 use Illuminate\Support\ServiceProvider;
 use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 use Shared\Groups\UseCases\RemoveGroupMemberUseCase;

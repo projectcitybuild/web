@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Models\Eloquent\Account;
 use App\Http\Actions\SyncUserToDiscourse;
+use Entities\Models\Eloquent\Account;
 use Illuminate\Foundation\Testing\WithFaker;
 use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 use Tests\TestCase;

@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Entities\Models\Eloquent\GameBan;
-use App\Entities\Models\Eloquent\GameUnban;
-use App\Entities\Models\Eloquent\MinecraftPlayer;
-use App\Entities\Models\Eloquent\MinecraftPlayerAlias;
+use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GameUnban;
+use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\Eloquent\MinecraftPlayerAlias;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 

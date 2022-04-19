@@ -2,19 +2,17 @@
 
 namespace Tests\Services;
 
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Repositories\AccountRepository;
 use App\Http\Middleware\MfaGate;
 use Database\Factories\AccountFactory;
 use Domain\Login\Entities\LoginCredentials;
 use Domain\Login\Exceptions\AccountNotActivatedException;
 use Domain\Login\Exceptions\InvalidLoginCredentialsException;
 use Domain\Login\UseCases\LoginUseCase;
-use Domain\Login\UseCases\LogoutUseCase;
+use Entities\Models\Eloquent\Account;
+use Entities\Repositories\AccountRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Shared\ExternalAccounts\Session\ExternalAccountsSession;
 use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 use Tests\TestCase;
 

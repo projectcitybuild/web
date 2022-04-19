@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Settings;
 
-use App\Entities\Repositories\AccountEmailChangeRepository;
 use App\Http\Actions\AccountSettings\SendEmailForAccountEmailChange;
 use App\Http\Actions\AccountSettings\UpdateAccountEmail;
 use App\Http\Actions\AccountSettings\UpdateAccountPassword;
@@ -11,6 +10,7 @@ use App\Http\Requests\AccountChangeEmailRequest;
 use App\Http\Requests\AccountChangePasswordRequest;
 use App\Http\Requests\AccountChangeUsernameRequest;
 use App\Http\WebController;
+use Entities\Repositories\AccountEmailChangeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 

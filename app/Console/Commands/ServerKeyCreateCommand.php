@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Entities\Models\Eloquent\Server;
-use App\Entities\Models\Eloquent\ServerKey;
+use Entities\Models\Eloquent\Server;
+use Entities\Models\Eloquent\ServerKey;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 

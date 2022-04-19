@@ -2,9 +2,9 @@
 
 namespace App\Services\PlayerBans;
 
-use App\Entities\Models\GamePlayerType;
-use App\Entities\Repositories\GameBanRepository;
 use App\Services\PlayerLookup\PlayerLookupService;
+use Entities\Models\GamePlayerType;
+use Entities\Repositories\GameBanRepository;
 
 /**
  * @deprecated Use GetBanUseCase

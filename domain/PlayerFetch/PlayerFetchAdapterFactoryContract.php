@@ -2,8 +2,8 @@
 
 namespace Domain\PlayerFetch;
 
-use App\Entities\Models\GameType;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
+use Entities\Models\GameType;
 
 interface PlayerFetchAdapterFactoryContract
 {

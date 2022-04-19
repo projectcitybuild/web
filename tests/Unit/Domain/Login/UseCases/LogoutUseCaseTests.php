@@ -2,8 +2,8 @@
 
 namespace Tests\Services;
 
-use App\Entities\Models\Eloquent\Account;
 use Domain\Login\UseCases\LogoutUseCase;
+use Entities\Models\Eloquent\Account;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Shared\ExternalAccounts\Session\ExternalAccountsSession;

@@ -2,9 +2,9 @@
 
 namespace Domain\Bans\UseCases;
 
-use App\Entities\Models\Eloquent\GameBan;
 use Domain\Bans\Exceptions\PlayerAlreadyBannedException;
 use Domain\Bans\Repositories\GameBanRepository;
+use Entities\Models\Eloquent\GameBan;
 use Illuminate\Support\Carbon;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\PlayerLookup;

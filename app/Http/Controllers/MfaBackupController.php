@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Notifications\AccountMfaBackupCodeUsedNotification;
 use App\Http\WebController;
 use Domain\Login\UseCases\LogoutUseCase;
+use Entities\Notifications\AccountMfaBackupCodeUsedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 

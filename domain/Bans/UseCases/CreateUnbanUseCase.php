@@ -2,10 +2,10 @@
 
 namespace Domain\Bans\UseCases;
 
-use App\Entities\Models\Eloquent\GameUnban;
 use Domain\Bans\Exceptions\PlayerNotBannedException;
 use Domain\Bans\Repositories\GameBanRepository;
 use Domain\Bans\Repositories\GameUnbanRepository;
+use Entities\Models\Eloquent\GameUnban;
 use Illuminate\Support\Facades\DB;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\PlayerLookup;

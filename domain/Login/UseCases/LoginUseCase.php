@@ -2,13 +2,11 @@
 
 namespace Domain\Login\UseCases;
 
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Repositories\AccountRepository;
 use App\Http\Middleware\MfaGate;
 use Domain\Login\Entities\LoginCredentials;
 use Domain\Login\Exceptions\AccountNotActivatedException;
 use Domain\Login\Exceptions\InvalidLoginCredentialsException;
-use Illuminate\Support\Carbon;
+use Entities\Repositories\AccountRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Shared\ExternalAccounts\Sync\ExternalAccountSync;

@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Shared\Groups;
 
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Models\Eloquent\Group;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Group;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Shared\ExternalAccounts\Sync\Adapters\StubAccountSync;
 use Shared\Groups\GroupsManager;

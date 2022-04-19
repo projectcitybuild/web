@@ -2,14 +2,14 @@
 
 namespace Tests\Unit\Domain\PasswordReset\UseCases;
 
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Models\Eloquent\AccountPasswordReset;
-use App\Entities\Notifications\AccountPasswordResetCompleteNotification;
-use App\Entities\Repositories\AccountRepository;
 use App\Exceptions\Http\NotFoundException;
 use App\Http\Actions\AccountSettings\UpdateAccountPassword;
 use Domain\PasswordReset\Repositories\AccountPasswordResetRepository;
 use Domain\PasswordReset\UseCases\ResetAccountPasswordUseCase;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\AccountPasswordReset;
+use Entities\Notifications\AccountPasswordResetCompleteNotification;
+use Entities\Repositories\AccountRepository;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 

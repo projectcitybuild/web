@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Models\Eloquent\Donation;
-use App\Entities\Models\Eloquent\DonationPerk;
 use Carbon\Carbon;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Donation;
+use Entities\Models\Eloquent\DonationPerk;
 use Tests\TestCase;
 
 class AccountDonationTest extends TestCase

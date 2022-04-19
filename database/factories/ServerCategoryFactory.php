@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Entities\Models\Eloquent\ServerCategory;
+use Entities\Models\Eloquent\ServerCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ServerCategoryFactory extends Factory

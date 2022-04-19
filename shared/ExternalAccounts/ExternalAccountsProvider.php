@@ -2,9 +2,8 @@
 
 namespace Shared\ExternalAccounts;
 
-use App\Entities\Models\Environment;
 use Illuminate\Support\ServiceProvider;
-use Library\Discourse\Api\DiscourseAdminApi;
+use Library\Environment\Environment;
 use Shared\ExternalAccounts\Session\Adapters\DiscourseAccountSession;
 use Shared\ExternalAccounts\Session\ExternalAccountsSession;
 use Shared\ExternalAccounts\Sync\Adapters\DiscourseAccountSync;

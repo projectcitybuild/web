@@ -2,7 +2,7 @@
 
 namespace Domain\Donations\Repositories;
 
-use App\Entities\Models\Eloquent\DonationPerk;
+use Entities\Models\Eloquent\DonationPerk;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 

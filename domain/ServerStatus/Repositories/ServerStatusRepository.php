@@ -2,8 +2,8 @@
 
 namespace Domain\ServerStatus\Repositories;
 
-use App\Entities\Models\Eloquent\ServerStatus;
 use Domain\ServerStatus\Entities\ServerQueryResult;
+use Entities\Models\Eloquent\ServerStatus;
 
 final class ServerStatusRepository
 {

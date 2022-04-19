@@ -2,7 +2,7 @@
 
 namespace Shared\ExternalAccounts\Session;
 
-use App\Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Account;
 use Illuminate\Http\RedirectResponse;
 use Library\Discourse\Entities\DiscoursePackedNonce;
 

@@ -1,8 +1,8 @@
 <?php
 
-use App\Entities\Models\Eloquent\DonationPerk;
-use App\Entities\Models\Eloquent\DonationTier;
-use App\Entities\Models\Eloquent\Group;
+use Entities\Models\Eloquent\DonationPerk;
+use Entities\Models\Eloquent\DonationTier;
+use Entities\Models\Eloquent\Group;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;

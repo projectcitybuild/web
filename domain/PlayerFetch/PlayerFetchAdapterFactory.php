@@ -2,9 +2,9 @@
 
 namespace Domain\PlayerFetch;
 
-use App\Entities\Models\GameType;
 use Domain\PlayerFetch\Adapters\MojangUUIDFetchAdapter;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
+use Entities\Models\GameType;
 
 final class PlayerFetchAdapterFactory implements PlayerFetchAdapterFactoryContract
 {

@@ -2,12 +2,12 @@
 
 namespace App\Exceptions;
 
-use App\Entities\Models\Environment;
 use App\Exceptions\Http\BaseHttpException;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Library\Environment\Environment;
 use Throwable;
 
 class ExceptionHandler extends Handler

@@ -2,8 +2,8 @@
 
 namespace Library\Mojang\Api;
 
-use App\Entities\Models\Eloquent\MinecraftPlayer;
 use App\Exceptions\Http\TooManyRequestsException;
+use Entities\Models\Eloquent\MinecraftPlayer;
 use GuzzleHttp\Client;
 use Library\Mojang\Models\MojangPlayer;
 use Library\Mojang\Models\MojangPlayerNameHistory;

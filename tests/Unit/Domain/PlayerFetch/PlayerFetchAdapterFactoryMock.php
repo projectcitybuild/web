@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Domain\PlayerFetch;
 
-use App\Entities\Models\GameType;
 use Domain\PlayerFetch\PlayerFetchAdapter;
 use Domain\PlayerFetch\PlayerFetchAdapterFactoryContract;
+use Entities\Models\GameType;
 
 final class PlayerFetchAdapterFactoryMock implements PlayerFetchAdapterFactoryContract
 {

@@ -2,9 +2,9 @@
 
 namespace Tests\E2E\API\v1;
 
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Models\Eloquent\DonationTier;
-use App\Entities\Models\Eloquent\Group;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\DonationTier;
+use Entities\Models\Eloquent\Group;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;

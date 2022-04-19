@@ -2,8 +2,8 @@
 
 namespace Domain\PlayerFetch\Jobs;
 
-use App\Entities\Models\GameType;
 use Domain\PlayerFetch\PlayerFetchService;
+use Entities\Models\GameType;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

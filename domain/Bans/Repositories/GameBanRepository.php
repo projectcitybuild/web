@@ -2,8 +2,8 @@
 
 namespace Domain\Bans\Repositories;
 
-use App\Entities\Models\Eloquent\GameBan;
-use App\Entities\Models\GamePlayerType;
+use Entities\Models\Eloquent\GameBan;
+use Entities\Models\GamePlayerType;
 use Illuminate\Support\Carbon;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 

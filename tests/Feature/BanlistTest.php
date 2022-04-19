@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Models\Eloquent\GameBan;
-use App\Entities\Models\Eloquent\MinecraftPlayer;
-use App\Entities\Models\Eloquent\Server;
-use App\Entities\Models\Eloquent\ServerCategory;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\Eloquent\Server;
+use Entities\Models\Eloquent\ServerCategory;
 use Tests\TestCase;
 
 class BanlistTest extends TestCase

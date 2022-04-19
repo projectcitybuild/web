@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Entities\Models\Eloquent\Account;
 use App\Http\Actions\SyncUserToDiscourse;
+use Entities\Models\Eloquent\Account;
 use Illuminate\Http\Request;
 use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 

@@ -2,8 +2,8 @@
 
 namespace Tests\E2E\API\v1;
 
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Library\APITokens\APITokenScope;

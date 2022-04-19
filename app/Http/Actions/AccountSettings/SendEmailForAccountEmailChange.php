@@ -2,11 +2,11 @@
 
 namespace App\Http\Actions\AccountSettings;
 
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Models\Eloquent\AccountEmailChange;
-use App\Entities\Notifications\AccountEmailChangeVerifyNotification;
-use App\Entities\Repositories\AccountEmailChangeRepository;
 use App\Helpers\TokenHelpers;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\AccountEmailChange;
+use Entities\Notifications\AccountEmailChangeVerifyNotification;
+use Entities\Repositories\AccountEmailChangeRepository;
 use Illuminate\Support\Facades\Notification;
 use Library\Tokens\TokenGenerator;
 

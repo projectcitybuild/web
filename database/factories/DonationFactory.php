@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Entities\Models\Eloquent\Donation;
+use Entities\Models\Eloquent\Donation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DonationFactory extends Factory

@@ -2,7 +2,7 @@
 
 namespace Shared\ExternalAccounts\Session\Adapters;
 
-use App\Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Account;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;

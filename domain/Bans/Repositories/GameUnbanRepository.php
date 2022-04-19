@@ -2,8 +2,8 @@
 
 namespace Domain\Bans\Repositories;
 
-use App\Entities\Models\Eloquent\GameUnban;
-use App\Entities\Models\GamePlayerType;
+use Entities\Models\Eloquent\GameUnban;
+use Entities\Models\GamePlayerType;
 
 /**
  * @final

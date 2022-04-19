@@ -2,7 +2,7 @@
 
 namespace Shared\ExternalAccounts\Sync\Adapters;
 
-use App\Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Account;
 use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 
 /**

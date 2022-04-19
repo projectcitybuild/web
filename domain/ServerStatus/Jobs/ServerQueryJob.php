@@ -2,9 +2,9 @@
 
 namespace Domain\ServerStatus\Jobs;
 
-use App\Entities\Models\Eloquent\Server;
 use Domain\ServerStatus\Repositories\ServerStatusRepository;
 use Domain\ServerStatus\ServerQueryService;
+use Entities\Models\Eloquent\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

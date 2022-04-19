@@ -2,8 +2,8 @@
 
 namespace Shared\Groups;
 
-use App\Entities\Models\Eloquent\Account;
-use App\Entities\Models\Eloquent\Group;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Group;
 use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 
 /**

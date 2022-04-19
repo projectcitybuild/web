@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Entities\Models\Eloquent\Group;
+use Entities\Models\Eloquent\Group;
 use Illuminate\Database\Seeder;
 
 class GroupSeeds extends Seeder
