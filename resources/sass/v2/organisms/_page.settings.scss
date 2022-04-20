@@ -125,8 +125,14 @@ $menu-border: 1px solid #e6e6e6;
         }
     }
 
-    .settings__groups {
+    .settings__balance {
         margin-top: 1rem;
+        text-align: center;
+        font-size: 0.8rem;
+    }
+
+    .settings__groups {
+        margin-top: 0.5rem;
         text-align: center;
     }
 }
