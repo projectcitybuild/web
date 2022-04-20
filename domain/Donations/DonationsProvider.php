@@ -5,6 +5,7 @@ namespace Domain\Donations;
 use Domain\Donations\Repositories\DonationPerkRepository;
 use Domain\Donations\Repositories\DonationRepository;
 use Domain\Donations\Repositories\PaymentRepository;
+use Domain\Donations\Repositories\StripeProductRepository;
 use Domain\Donations\UseCases\DeactivateExpiredDonorPerksUseCase;
 use Domain\Donations\UseCases\ProcessPaymentUseCase;
 use Entities\Models\Eloquent\Group;
@@ -33,6 +34,7 @@ class DonationsProvider extends ServiceProvider
                 paymentRepository: $app->make(PaymentRepository::class),
                 donationPerkRepository: $app->make(DonationPerkRepository::class),
                 donationRepository: $app->make(DonationRepository::class),
+                stripeProductRepository: $app->make(StripeProductRepository::class),
                 donorGroup: Group::where('name', Group::DONOR_GROUP_NAME)->first()
                     ?? throw new \Exception("Could not find donor group"),
             );

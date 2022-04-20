@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Exceptions\Http\BadRequestException;
 use Domain\Donations\Entities\PaymentType;
 use Domain\Donations\Entities\Payloads\StripeCheckoutSessionCompleted;
 use Domain\Donations\Entities\Payloads\StripeInvoicePaid;
+use Domain\Donations\Exceptions\StripeProductNotFoundException;
 use Domain\Donations\UseCases\ProcessPaymentUseCase;
+use Entities\Models\Eloquent\Account;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
 use Stripe\StripeClient;
@@ -15,12 +19,18 @@ final class StripeWebhookController extends CashierController
 {
     public function __construct(
         private ProcessPaymentUseCase $processPaymentUseCase,
-        private StripeClient $stripeClient
-    ) {}
+        private StripeClient $stripeClient,
+    ) {
+        parent::__construct();
+    }
 
     /**
      * Handle Checkout complete events and fulfil one-time payments
      * or the first payment of a subscription.
+     *
+     * @throws StripeProductNotFoundException if productId does not exist in the StripeProducts table
+     * @throws BadRequestException if amount or paidQuantity is invalid
+     * @throws Exception if user cannot be found
      */
     public function handleCheckoutSessionCompleted(array $payload): Response
     {
@@ -28,31 +38,20 @@ final class StripeWebhookController extends CashierController
 
         $event = StripeCheckoutSessionCompleted::fromPayload($payload, stripeClient: $this->stripeClient);
 
+        /** @var Account $account */
         $account = $this->getUserByStripeId($event->customerId)
-            ?? throw new \Exception('Could not find user matching customer id: '.$event->customerId);
+            ?? throw new Exception('Could not find user matching customer id: '.$event->customerId);
 
-        // Subscription payments are handled by handleInvoicePaid (`invoice.paid` event)
+        // Subscription payments are handled by `handleInvoicePaid` (`invoice.paid` event)
+        // which is also sent at the same time
         if ($event->paymentType->isSubscription()) {
-            // Must return success or Stripe will think we failed to receive the payload
-            return $this->successMethod();
-        }
-
-        // Sanity checks
-        if ($event->donationTierId == null) {
-            throw new \Exception('No `donation_tier_id` defined in Stripe metadata for this Price model');
-        }
-        if ($event->paidAmount->toCents() <= 0) {
-            throw new \Exception('Amount paid was zero');
-        }
-        if ($event->quantity <= 0) {
-            throw new \Exception('Quantity purchased was zero');
+            return $this->successMethod();  // Must return success or Stripe will think we failed to receive the payload
         }
 
         $this->processPaymentUseCase->execute(
             account: $account,
             productId: $event->productId,
             priceId: $event->priceId,
-            donationTierId: $event->donationTierId,
             paidAmount: $event->paidAmount,
             quantity: $event->quantity,
             donationType: PaymentType::ONE_OFF,
@@ -63,6 +62,10 @@ final class StripeWebhookController extends CashierController
 
     /**
      * Handle subsequent subscription payments (after the first).
+     *
+     * @throws StripeProductNotFoundException if productId does not exist in the StripeProducts table
+     * @throws BadRequestException if amount or paidQuantity is invalid
+     * @throws Exception if user cannot be found
      */
     public function handleInvoicePaid(array $payload): Response
     {
@@ -70,25 +73,14 @@ final class StripeWebhookController extends CashierController
 
         $event = StripeInvoicePaid::fromPayload($payload);
 
+        /** @var Account $account */
         $account = $this->getUserByStripeId($event->customerId)
-            ?? throw new \Exception('Could not find user matching customer id: '.$event->customerId);
-
-        // Sanity checks
-        if ($event->donationTierId == null) {
-            throw new \Exception('No donation_tier_id defined in Stripe metadata for this Price');
-        }
-        if ($event->paidAmount->toCents() <= 0) {
-            throw new \Exception('Amount paid was zero');
-        }
-        if ($event->quantity <= 0) {
-            throw new \Exception('Quantity purchased was zero');
-        }
+            ?? throw new Exception('Could not find user matching customer id: '.$event->customerId);
 
         $this->processPaymentUseCase->execute(
             account: $account,
             productId: $event->productId,
             priceId: $event->priceId,
-            donationTierId: $event->donationTierId,
             paidAmount: $event->paidAmount,
             quantity: $event->quantity,
             donationType: PaymentType::SUBSCRIPTION,

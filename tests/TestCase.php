@@ -7,6 +7,7 @@ use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\Group;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 use Library\Mojang\Api\MojangPlayerApi;
 
@@ -53,5 +54,13 @@ abstract class TestCase extends BaseTestCase
         }
 
         return $this->adminAccount;
+    }
+
+    protected function setTestNow(): Carbon
+    {
+        return tap(
+            Carbon::create(year: 2022, month: 12, day: 11, hour: 10, minute: 9, second: 8),
+            fn ($now) => Carbon::setTestNow($now)
+        );
     }
 }

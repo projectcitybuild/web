@@ -80,9 +80,6 @@
                             "interval": "month",
                             "interval_count": 1,
                             "livemode": false,
-                            "metadata": {
-                                "donation_tier_id": "1"
-                            },
                             "nickname": null,
                             "product": "prod_JxFaAltmFPewxs",
                             "tiers_mode": null,
@@ -99,9 +96,6 @@
                             "currency": "aud",
                             "livemode": false,
                             "lookup_key": null,
-                            "metadata": {
-                                "donation_tier_id": "1"
-                            },
                             "nickname": null,
                             "product": "prod_JxFaAltmFPewxs",
                             "recurring": {

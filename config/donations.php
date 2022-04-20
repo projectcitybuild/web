@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'target_funding' => 1000,
+    'target_funding' => 1350,
 ];
