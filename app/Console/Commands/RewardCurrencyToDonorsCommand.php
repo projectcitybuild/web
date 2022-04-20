@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Domain\Donations\UseCases\RewardCurrencyUseCase;
+use Domain\CurrencyRewarder\UseCases\RewardCurrencyUseCase;
 use Illuminate\Console\Command;
 
 class RewardCurrencyToDonorsCommand extends Command
