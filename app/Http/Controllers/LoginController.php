@@ -11,15 +11,12 @@ use Domain\Login\UseCases\LoginUseCase;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
-use Library\Discourse\Authentication\DiscourseLoginHandler;
 use Library\Discourse\Entities\DiscoursePackedNonce;
-use Library\Discourse\Exceptions\BadSSOPayloadException;
 use Library\RateLimit\Storage\SessionTokenStorage;
 use Library\RateLimit\TokenBucket;
 use Library\RateLimit\TokenRate;
-use Shared\ExternalAccounts\Session\Adapters\DiscourseAccountSession;
+use Shared\ExternalAccounts\Session\ExternalAccountsSession;
 
 final class LoginController extends WebController
 {
@@ -84,9 +81,9 @@ final class LoginController extends WebController
 
     public function loginFromDiscourse(
         Request $request,
-        DiscourseAccountSession $discourseAccountSession,
+        ExternalAccountsSession $externalAccountsSession,
     ): RedirectResponse {
-        return $discourseAccountSession->login(
+        return $externalAccountsSession->login(
             account: $request->user(),
             nonce: DiscoursePackedNonce::fromRequest($request)
         );
