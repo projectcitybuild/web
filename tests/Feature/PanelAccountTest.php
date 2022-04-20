@@ -2,9 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Accounts\Models\Account;
 use App\Http\Actions\SyncUserToDiscourse;
+use Entities\Models\Eloquent\Account;
 use Illuminate\Foundation\Testing\WithFaker;
+use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 use Tests\TestCase;
 
 class PanelAccountTest extends TestCase
@@ -32,9 +33,8 @@ class PanelAccountTest extends TestCase
             'username' => $this->faker->userName,
         ];
 
-        $this->mock(SyncUserToDiscourse::class, function ($mock) {
-            $mock->shouldReceive('setUser')->once();
-            $mock->shouldReceive('syncAll')->once();
+        $this->mock(ExternalAccountSync::class, function ($mock) {
+            $mock->shouldReceive('sync')->once();
         });
 
         $this->actingAs($this->adminAccount())

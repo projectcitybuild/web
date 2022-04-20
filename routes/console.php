@@ -1,6 +1,6 @@
 <?php
 
-use App\Services\PasswordReset\PasswordResetCleanupService;
+use Domain\PasswordReset\UseCases\DeleteExpiredPasswordResetsUseCase;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -14,7 +14,3 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
-Artisan::command('cleanup:password-resets', function () {
-    $cleanupService = resolve(PasswordResetCleanupService::class);
-    $cleanupService->cleanup();
-})->describe('Delete old password reset requests');

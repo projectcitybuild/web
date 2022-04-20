@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Players\Models\MinecraftPlayer;
-use App\Library\Mojang\Api\MojangPlayerApi;
-use App\Library\Mojang\Models\MojangPlayerNameHistory;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Foundation\Testing\WithFaker;
+use Library\Mojang\Api\MojangPlayerApi;
+use Library\Mojang\Models\MojangPlayerNameHistory;
 use Mockery\MockInterface;
 use Tests\TestCase;
 

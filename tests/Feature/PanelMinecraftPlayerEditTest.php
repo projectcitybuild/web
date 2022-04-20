@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Players\Models\MinecraftPlayer;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\MinecraftPlayer;
 use Tests\TestCase;
 
 class PanelMinecraftPlayerEditTest extends TestCase

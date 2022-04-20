@@ -6,4 +6,40 @@
     .textfield {
         width: 100%;
     }
+
+    .textfield--is-mfa {
+        width: auto;
+    }
+
+    input[type="checkbox"] {
+        display: inline;
+        margin-right: 0.5rem;
+    }
+
+    &--emphasise-checkbox {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+}
+
+.form {
+    width: 100%;
+
+    .form-row:first-of-type label {
+        margin-top: 2rem;
+    }
+
+    .form-row:not(:last-child) {
+        margin-bottom: 1rem;
+    }
+
+    button {
+        margin-top: 0.5rem;
+    }
+
+    &__description {
+        margin-top: 0.5rem;
+        line-height: 1.5;
+        color: $color-text-primary;
+    }
 }

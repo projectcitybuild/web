@@ -18,6 +18,7 @@ final class RegisterRequest extends FormRequest
             'password' => 'required|min:8',    // discourse min is 8 or greater
             'password_confirm' => 'required_with:password|same:password',
             'g-recaptcha-response' => 'required|recaptcha',
+            'terms' => 'accepted',
         ];
     }
 

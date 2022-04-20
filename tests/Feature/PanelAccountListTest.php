@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Accounts\Models\Account;
+use Entities\Models\Eloquent\Account;
 use Tests\TestCase;
 
 class PanelAccountListTest extends TestCase

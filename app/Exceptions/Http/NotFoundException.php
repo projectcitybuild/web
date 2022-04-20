@@ -7,5 +7,5 @@ namespace App\Exceptions\Http;
  */
 class NotFoundException extends BaseHttpException
 {
-    protected $status = 404;
+    protected int $status = 404;
 }

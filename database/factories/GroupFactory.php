@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Entities\Groups\Models\Group;
+use Entities\Models\Eloquent\Group;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GroupFactory extends Factory
@@ -16,10 +16,8 @@ class GroupFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
-     * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => $this->faker->name(),
@@ -27,16 +25,14 @@ class GroupFactory extends Factory
             'is_default' => false,
             'is_staff' => false,
             'is_admin' => false,
-            'discourse_name' => $this->faker->name(),
+            'discourse_name' => $this->faker->randomLetter(),
         ];
     }
 
     /**
-     * Sets the group as the default group assigned to members who don't yet have one.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * Sets the group as the default group assigned to members who don't have any other group
      */
-    public function member()
+    public function member(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
@@ -48,11 +44,9 @@ class GroupFactory extends Factory
     }
 
     /**
-     * Sets the group as the donators group.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * Sets the group as the Donor group
      */
-    public function donator()
+    public function donor(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
@@ -62,7 +56,10 @@ class GroupFactory extends Factory
         });
     }
 
-    public function administrator()
+    /**
+     * Sets the group as the Admin group
+     */
+    public function administrator(): Factory
     {
         return $this->state(function (array $attributes) {
             return [

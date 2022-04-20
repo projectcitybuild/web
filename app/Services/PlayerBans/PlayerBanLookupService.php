@@ -2,10 +2,13 @@
 
 namespace App\Services\PlayerBans;
 
-use App\Entities\Bans\Repositories\GameBanRepository;
-use App\Entities\GamePlayerType;
 use App\Services\PlayerLookup\PlayerLookupService;
+use Entities\Models\GamePlayerType;
+use Entities\Repositories\GameBanRepository;
 
+/**
+ * @deprecated Use GetBanUseCase
+ */
 final class PlayerBanLookupService
 {
     /**
@@ -28,7 +31,7 @@ final class PlayerBanLookupService
 
     public function getStatus(GamePlayerType $playerType, string $identifier)
     {
-        if ($playerType->valueOf() === GamePlayerType::Minecraft) {
+        if ($playerType === GamePlayerType::MINECRAFT) {
             // Strip hyphens from Minecraft UUIDs
             $identifier = str_replace('-', '', $identifier);
         }

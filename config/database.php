@@ -33,7 +33,7 @@ return [
 
     'connections' => [
 
-        // in-memory sqlite database for integration tests
+        // In-memory sqlite database for integration tests
         'tests' => [
             'driver' => 'sqlite',
             'database' => ':memory:',
@@ -57,6 +57,11 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+
+            // https://serverfault.com/questions/912162/mysqldump-throws-unknown-table-column-statistics-in-information-schema-1109
+            'dump' => [
+                'add_extra_option' => '--skip-column-statistics',
+            ],
         ],
 
     ],

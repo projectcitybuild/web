@@ -15,10 +15,15 @@
         <div class="settings__content">
             <div class="settings__section settings__section--is-hero">
                 <h1 class="settings__section-heading">Hi {{ $account->username ?? $account->email }}</h1>
+
                 <div class="settings__groups">
                     @foreach($account->groups as $group)
                         <span class="pill pill--is-rank-{{ $group->name }}">{{ $group->alias ?? Str::title($group->name) }}</span>
                     @endforeach
+                </div>
+
+                <div class="settings__balance">
+                    <i class="fas fa-cube"></i> Pixels: {{ $account->balance }} (<a href="{{ route('front.donate') }}#pixels">what's this?</a>)
                 </div>
             </div>
         </div>

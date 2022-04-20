@@ -2,9 +2,9 @@
 
 namespace App\Http\Actions\AccountSettings;
 
-use App\Entities\Accounts\Models\Account;
-use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Library\Discourse\Entities\DiscoursePayload;
+use Entities\Models\Eloquent\Account;
+use Library\Discourse\Api\DiscourseAdminApi;
+use Library\Discourse\Entities\DiscoursePayload;
 
 final class UpdateAccountUsername
 {

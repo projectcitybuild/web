@@ -10,11 +10,9 @@ use Illuminate\Support\ServiceProvider;
 class PlayerFetchProvider extends ServiceProvider
 {
     /**
-     * Register any other events for your application.
-     *
-     * @return void
+     * Register any application services.
      */
-    public function boot()
+    public function register(): void
     {
         $this->app->bind(PlayerFetchAdapterFactoryContract::class, function ($app) {
             return new PlayerFetchAdapterFactory();

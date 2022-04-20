@@ -8,5 +8,5 @@ namespace App\Exceptions\Http;
  */
 class ForbiddenException extends BaseHttpException
 {
-    protected $status = 403;
+    protected int $status = 403;
 }

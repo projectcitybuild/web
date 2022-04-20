@@ -45,5 +45,14 @@
                 Game Accounts
             </a>
         </li>
+        <li @if(\Route::currentRouteName() == 'front.account.billing') class="side-menu--active" @endif>
+            <a href="{{ route('front.account.billing') }}">
+                    <span class="fa-stack">
+                        <i class="fas fa-square fa-stack-2x"></i>
+                        <i class="fas fa-credit-card fa-stack-1x fa-inverse"></i>
+                    </span>
+                Billing
+            </a>
+        </li>
     </ul>
 </nav>

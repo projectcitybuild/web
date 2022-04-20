@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Entities\Accounts\Models\Account;
 use App\Http\WebController;
+use Entities\Models\Eloquent\Account;
 
 class AccountActivate extends WebController
 {

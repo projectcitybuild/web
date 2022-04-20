@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Entities\Players\Models\MinecraftPlayer;
 use App\Http\WebController;
-use App\Library\Mojang\Api\MojangPlayerApi;
+use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Http\Request;
+use Library\Mojang\Api\MojangPlayerApi;
 
 class MinecraftPlayerReloadAliasController extends WebController
 {
@@ -13,6 +13,7 @@ class MinecraftPlayerReloadAliasController extends WebController
      * Handle the incoming request.
      *
      * @return \Illuminate\Http\Response
+     *
      * @throws \App\Exceptions\Http\TooManyRequestsException
      */
     public function __invoke(Request $request, MinecraftPlayer $minecraftPlayer, MojangPlayerApi $api)

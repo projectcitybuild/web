@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Bans\Models\GameBan;
-use App\Entities\Players\Models\MinecraftPlayer;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Database\Seeder;
 
 class GameBanSeeder extends Seeder

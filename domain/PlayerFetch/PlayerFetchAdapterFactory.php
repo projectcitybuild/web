@@ -2,20 +2,17 @@
 
 namespace Domain\PlayerFetch;
 
-use App;
-use App\Entities\GameType;
 use Domain\PlayerFetch\Adapters\MojangUUIDFetchAdapter;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
+use Entities\Models\GameType;
 
 final class PlayerFetchAdapterFactory implements PlayerFetchAdapterFactoryContract
 {
     public function make(GameType $gameType): PlayerFetchAdapter
     {
-        switch ($gameType->valueOf()) {
-            case GameType::Minecraft:
-                return App::make(MojangUUIDFetchAdapter::class);
-            default:
-                throw new UnsupportedGameException($gameType->name().' is not supported');
-        }
+        return match ($gameType) {
+            GameType::MINECRAFT => App::make(MojangUUIDFetchAdapter::class),
+            default => throw new UnsupportedGameException($gameType->name() . ' is not supported'),
+        };
     }
 }

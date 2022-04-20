@@ -2,8 +2,8 @@
 
 namespace Domain\ServerStatus;
 
-use App\Entities\GameType;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
+use Entities\Models\GameType;
 
 interface ServerQueryAdapterFactoryContract
 {

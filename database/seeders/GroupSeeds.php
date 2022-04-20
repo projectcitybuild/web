@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Entities\Groups\Models\Group;
+use Entities\Models\Eloquent\Group;
 use Illuminate\Database\Seeder;
 
 class GroupSeeds extends Seeder
@@ -41,6 +41,12 @@ class GroupSeeds extends Seeder
         ]);
 
         Group::create([
+            'name' => 'legacy donor',
+            'minecraft_name' => 'legacy-donor',
+            'discourse_name' => 'legacy-donor',
+        ]);
+
+        Group::create([
             'name' => 'moderator',
             'alias' => 'Mod',
             'is_staff' => true,
@@ -67,6 +73,7 @@ class GroupSeeds extends Seeder
             'is_staff' => true,
             'is_admin' => true,
             'discourse_name' => 'administrator',
+            'can_access_panel' => true,
         ]);
     }
 }

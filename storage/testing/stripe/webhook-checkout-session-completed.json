@@ -1,0 +1,59 @@
+{
+    "id": "evt_1JRbMJAtUyfM4v5IdkZ8kF9J",
+    "object": "event",
+    "api_version": "2020-08-27",
+    "created": 1629718231,
+    "data": {
+        "object": {
+            "id": "cs_test_a1FFUz3j8Eep2bi6g2odAIKLQiNJ2h9FbuOxapbOb27jARgyy8meahOrlS",
+            "object": "checkout.session",
+            "allow_promotion_codes": null,
+            "amount_subtotal": 300,
+            "amount_total": 300,
+            "automatic_tax": {
+                "enabled": false,
+                "status": null
+            },
+            "billing_address_collection": null,
+            "cancel_url": "http://laravel.test/donate",
+            "client_reference_id": null,
+            "currency": "aud",
+            "customer": "cus_JyjQ8xLdu1UmFs",
+            "customer_details": {
+                "email": "rcole@powlowski.com",
+                "tax_exempt": "none",
+                "tax_ids": []
+            },
+            "customer_email": null,
+            "livemode": false,
+            "locale": null,
+            "metadata": {},
+            "mode": "payment",
+            "payment_intent": "pi_3JRbMEAtUyfM4v5I1LX6uYzl",
+            "payment_method_options": {},
+            "payment_method_types": [
+                "card"
+            ],
+            "payment_status": "paid",
+            "setup_intent": null,
+            "shipping": null,
+            "shipping_address_collection": null,
+            "submit_type": null,
+            "subscription": null,
+            "success_url": "http://laravel.test/donate/success",
+            "total_details": {
+                "amount_discount": 0,
+                "amount_shipping": 0,
+                "amount_tax": 0
+            },
+            "url": null
+        }
+    },
+    "livemode": false,
+    "pending_webhooks": 3,
+    "request": {
+        "id": null,
+        "idempotency_key": null
+    },
+    "type": "checkout.session.completed"
+}

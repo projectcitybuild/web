@@ -2,19 +2,22 @@
 
 namespace App\Services\PlayerBans;
 
-use App\Entities\Bans\Models\GameBan;
-use App\Entities\Bans\Models\GameUnban;
-use App\Entities\Bans\Repositories\GameBanRepository;
-use App\Entities\Bans\Repositories\GameUnbanRepository;
-use App\Entities\GamePlayerType;
-use App\Entities\ServerKeys\Models\ServerKey;
 use App\Services\PlayerBans\Exceptions\UnauthorisedKeyActionException;
 use App\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
 use App\Services\PlayerBans\Exceptions\UserNotBannedException;
 use App\Services\PlayerLookup\PlayerLookupService;
 use Carbon\Carbon;
+use Domain\Bans\Repositories\GameUnbanRepository;
+use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GameUnban;
+use Entities\Models\Eloquent\ServerKey;
+use Entities\Models\GamePlayerType;
+use Entities\Repositories\GameBanRepository;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @deprecated Use CreateBanUseCase and CreateUnbanUseCase
+ */
 final class PlayerBanService
 {
     /**
@@ -59,11 +62,11 @@ final class PlayerBanService
             throw new UnauthorisedKeyActionException('limited_key', 'This server key does not have permission to create global bans');
         }
 
-        if ($bannedPlayerType->valueOf() === GamePlayerType::Minecraft) {
+        if ($bannedPlayerType === GamePlayerType::MINECRAFT) {
             // Strip hyphens from Minecraft UUIDs
             $bannedPlayerId = str_replace('-', '', $bannedPlayerId);
         }
-        if ($staffPlayerType->valueOf() === GamePlayerType::Minecraft) {
+        if ($staffPlayerType === GamePlayerType::MINECRAFT) {
             // Strip hyphens from Minecraft UUIDs
             $staffPlayerId = str_replace('-', '', $staffPlayerId);
         }
@@ -97,11 +100,11 @@ final class PlayerBanService
         string $staffPlayerId,
         GamePlayerType $staffPlayerType
     ): GameUnban {
-        if ($bannedPlayerType->valueOf() === GamePlayerType::Minecraft) {
+        if ($bannedPlayerType === GamePlayerType::MINECRAFT) {
             // Strip hyphens from Minecraft UUIDs
             $bannedPlayerId = str_replace('-', '', $bannedPlayerId);
         }
-        if ($staffPlayerType->valueOf() === GamePlayerType::Minecraft) {
+        if ($staffPlayerType === GamePlayerType::MINECRAFT) {
             // Strip hyphens from Minecraft UUIDs
             $staffPlayerId = str_replace('-', '', $staffPlayerId);
         }
@@ -119,7 +122,7 @@ final class PlayerBanService
             $activeBan->is_active = false;
             $activeBan->save();
 
-            $unban = $this->gameUnbanRepository->store(
+            $unban = $this->gameUnbanRepository->create(
                 $activeBan->getKey(),
                 $staffPlayer->getKey(),
                 $staffPlayerType

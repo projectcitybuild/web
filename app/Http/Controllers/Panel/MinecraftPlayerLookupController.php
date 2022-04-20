@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Entities\Players\Models\MinecraftPlayer;
-use App\Entities\Players\Models\MinecraftPlayerAlias;
 use App\Exceptions\Http\TooManyRequestsException;
 use App\Http\WebController;
-use App\Library\Mojang\Api\MojangPlayerApi;
+use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\Eloquent\MinecraftPlayerAlias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Library\Mojang\Api\MojangPlayerApi;
 
 class MinecraftPlayerLookupController extends WebController
 {

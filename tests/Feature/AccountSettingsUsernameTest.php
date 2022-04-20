@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Accounts\Models\Account;
-use App\Library\Discourse\Api\DiscourseAdminApi;
+use Entities\Models\Eloquent\Account;
 use Illuminate\Foundation\Testing\WithFaker;
+use Library\Discourse\Api\DiscourseAdminApi;
 use Tests\TestCase;
 
 class AccountSettingsUsernameTest extends TestCase

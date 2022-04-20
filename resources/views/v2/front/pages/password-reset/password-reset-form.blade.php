@@ -13,14 +13,8 @@
             <form method="post" action="{{ route('front.password-reset.update') }}">
                 @method('PATCH')
                 @csrf
-                
-                @if($errors->any())
-                    <div class="alert alert--error">
-                        <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
-                        {{ $errors->first() }}
-                    </div>
-                    <p>
-                @endif
+
+                @include('v2.front.components.form-error')
 
                 <input type="hidden" name="password_token" value="{{ $passwordToken }}" />
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Entities\Donations\Models\Donation;
 use App\Http\WebController;
+use Entities\Models\Eloquent\Donation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

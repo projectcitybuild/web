@@ -2,65 +2,79 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Accounts\Models\AccountPasswordReset;
-use App\Entities\Accounts\Notifications\AccountPasswordResetNotification;
-use App\Http\Actions\AccountPasswordReset\SendPasswordResetEmail;
+use Domain\PasswordReset\PasswordResetURLGenerator;
+use Domain\PasswordReset\Repositories\AccountPasswordResetRepository;
+use Domain\PasswordReset\UseCases\SendPasswordResetEmailUseCase;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\AccountPasswordReset;
+use Entities\Notifications\AccountPasswordResetNotification;
 use Illuminate\Support\Facades\Notification;
+use Library\Tokens\Adapters\StubTokenGenerator;
 use Tests\TestCase;
 
 class PasswordResetTest extends TestCase
 {
-    private $account;
-
-    /**
-     * @var SendPasswordResetEmail
-     */
-    private $sendPasswordResetEmail;
-
-    /**
-     * @var AccountPasswordReset|\Illuminate\Database\Eloquent\Builder
-     */
-    private $passwordReset;
+    private Account $account;
+    private AccountPasswordResetRepository $passwordResetRepository;
+    private SendPasswordResetEmailUseCase $useCase;
 
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->account = Account::factory()->create();
-        $this->sendPasswordResetEmail = new SendPasswordResetEmail();
+        $this->passwordResetRepository = \Mockery::mock(AccountPasswordResetRepository::class)->makePartial();
 
-        $this->sendPasswordResetEmail->execute($this->account, $this->account->email);
+        $this->useCase = new SendPasswordResetEmailUseCase(
+            passwordResetRepository: $this->passwordResetRepository,
+            tokenGenerator: new StubTokenGenerator('token'),
+            passwordResetURLGenerator: new PasswordResetURLGenerator(),
+        );
 
-        $this->passwordReset = AccountPasswordReset::whereEmail($this->account->email);
+        Notification::fake();
     }
 
-    public function testUserCanRequestPasswordResetEmail()
+    public function test_user_can_request_password_reset_email()
     {
-        Notification::fake();
         Notification::assertNothingSent();
 
-        $this->post(route('front.password-reset.store'), [
+        $this->post(
+            uri: route(name: 'front.password-reset.store'),
+            data: ['email' => $this->account->email]
+        )->assertSessionHasNoErrors();
+
+        Notification::assertSentTo($this->account, AccountPasswordResetNotification::class);
+    }
+
+    public function test_user_can_view_password_reset()
+    {
+        $token = 'test';
+        AccountPasswordReset::factory()->create(['token' => $token]);
+        $url = (new PasswordResetURLGenerator())->make($token);
+
+        $this->get($url)->assertSuccessful();
+    }
+
+    public function test_user_can_change_password()
+    {
+        $reset = AccountPasswordReset::factory()->create([
             'email' => $this->account->email,
-        ])->assertSessionHasNoErrors();
+        ]);
 
-        Notification::assertSentTo(
-            [$this->account], AccountPasswordResetNotification::class
+        $originalPassword = $this->account->password;
+
+        $this->patch(
+            uri: route(name: 'front.password-reset.update'),
+            data: [
+                'password_token' => $reset->token,
+                'password' => 'new_password',
+                'password_confirm' => 'new_password',
+            ],
+        )->assertSessionHasNoErrors();
+
+        $this->assertNotEquals(
+            $originalPassword,
+            Account::find($this->account->getKey())->password,
         );
-    }
-
-    public function testUserCanViewPasswordReset()
-    {
-        $reset = AccountPasswordReset::factory()->create();
-
-        $this->get($reset->getPasswordResetUrl())
-        ->assertSuccessful();
-    }
-
-    public function testUserCanChangePassword()
-    {
-        $reset = AccountPasswordReset::factory()->create();
-
-        $this->get($reset->getPasswordResetUrl())
-            ->assertSuccessful();
     }
 }

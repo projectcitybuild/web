@@ -1,77 +1,111 @@
-name: PHP Test
+name: PHP (Unit Tests)
 
 on: push
 
 jobs:
-  test:
+  unit-test:
     runs-on: ubuntu-latest
+
     services:
-      mysql:
+      mariadb:
         image: mariadb:10.3
         env:
-          MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: pcb
+          MYSQL_USER: root
+          MYSQL_ROOT_PASSWORD: root
         ports:
-          - 3306
+          - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=5s --health-retries=3
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+          php-version: 8.1
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           coverage: none
 
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '15'
-
-      - name: Copy environment
-        run:  cp .env.ci .env
-
-      - name: Validate composer.json and composer.lock
-        run: composer validate
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
+      - name: Get Composer cache directory
+        id: get-composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v1
+
+      - name: Restore Composer cache
+        id: composer-cache
+        uses: actions/cache@v3
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          path: ${{ steps.get-composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-v3-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - name: Composer dependencies
-        run: composer install --no-interaction
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --ignore-platform-reqs --no-interaction
 
-      - name: NPM Install
+      - name: Prepare .env file
+        run: cp .env.ci .env
+
+      - name: Get npm cache directory
+        id: get-npm-cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+
+      - name: Restore npm cache
+        id: npm-cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.get-npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-v3-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install npm dependencies
         run: npm ci
 
-      - name: NPM Build
+      - name: Calculate front-end asset hash
+        id: get-assets-cache
+        uses: theowenyoung/folder-hash@v2.0.1
+        with:
+          path: |
+            resources/js
+            resources/sass
+            public
+
+      - name: Restore front-end asset cache
+        id: assets-cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            resources/js
+            resources/sass
+            public
+          key: ${{ runner.os }}-assets-v1-${{ steps.get-assets-cache.outputs.hash }}
+          restore-keys: ${{ runner.os }}-assets-
+
+      - name: Build front-end assets
+        if: steps.assets-cache.outputs.cache-hit != 'true'
         run: npm run prod
 
-      - name: Generate Key
-        run: php artisan key:generate
+      - name: Prepare Laravel
+        run: |
+          php artisan key:generate
+          chmod -R 777 storage bootstrap/cache
 
-      - name: Prepare Database
+      - name: Prepare database
         env:
-          DB_CONNECTION: mysql
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+          DB_HOST: 127.0.0.1
+          MYSQL_USER: root
+          MYSQL_ROOT_PASSWORD: root
         run: php artisan migrate
 
       - name: Larastan
-        run: ./vendor/bin/phpstan analyse --memory-limit=1G
+        run: ./vendor/bin/phpstan analyse
 
       - name: PHPUnit
         env:
-          DB_CONNECTION: mysql
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
-        run: phpdbg -dmemory_limit=1G -qrr vendor/bin/phpunit --coverage-clover tests/coverage/clover.xml
-
-      - name: Upload coverage
-        run: curl -s https://codecov.io/bash | bash -f
+          DB_HOST: 127.0.0.1
+          MYSQL_USER: root
+          MYSQL_ROOT_PASSWORD: root
+        run: phpdbg -dmemory_limit=1G -qrr artisan test --coverage-clover tests/coverage/clover.xml

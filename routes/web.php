@@ -1,6 +1,6 @@
 <?php
 
-use App\Entities\Environment;
+use Library\Environment\Environment;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +44,10 @@ Route::prefix('donate')->group(function () {
         'as' => 'front.donate',
         'uses' => 'DonationController@index',
     ]);
+    Route::post('checkout', [
+        'as' => 'front.donations.checkout',
+        'uses' => 'DonationController@checkout',
+    ]);
     Route::get('success', [
         'as' => 'front.donate.success',
         'uses' => 'DonationController@success',
@@ -52,18 +56,18 @@ Route::prefix('donate')->group(function () {
 
 Route::get('sso/discourse', [
     'as' => 'front.sso.discourse',
-    'uses' => 'DiscourseSSOController@create',
+    'uses' => 'LoginController@loginFromDiscourse',
 ])->middleware('auth');
 
 Route::prefix('login')->group(function () {
     Route::get('/', [
         'as' => 'front.login',
-        'uses' => 'LoginController@create',
+        'uses' => 'LoginController@show',
     ])->middleware('guest');
 
     Route::post('/', [
         'as' => 'front.login.submit',
-        'uses' => 'LoginController@store',
+        'uses' => 'LoginController@loginFromPCB',
     ])->middleware('guest');
 
     Route::get('/reauth', [
@@ -138,11 +142,11 @@ Route::prefix('register')->group(function () {
 
 Route::get('logout/discourse', [
     'as' => 'front.logout.pcb',
-    'uses' => 'LoginController@logoutFromDiscourse',
+    'uses' => 'LogoutController@logoutFromDiscourse',
 ])->middleware('auth');
 Route::get('logout', [
     'as' => 'front.logout',
-    'uses' => 'LoginController@logout',
+    'uses' => 'LogoutController@logout',
 ])->middleware('auth');
 
 Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Settings'], function () {
@@ -201,7 +205,13 @@ Route::group(['prefix' => 'account', 'middleware' => 'auth', 'namespace' => 'Set
         Route::delete('/{minecraft_player}', [
             'as' => 'front.account.games.delete',
             'uses' => 'AccountGameAccountController@destroy',
+        ]);
+    });
 
+    Route::prefix('billing')->group(function () {
+        Route::get('/', [
+            'as' => 'front.account.billing',
+            'uses' => 'AccountBillingController@index',
         ]);
     });
 

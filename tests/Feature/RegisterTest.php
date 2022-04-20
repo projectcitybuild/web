@@ -2,13 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Accounts\Notifications\AccountActivationNotification;
-use App\Entities\Groups\Models\Group;
-use App\Library\Recaptcha\RecaptchaRule;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Group;
+use Entities\Notifications\AccountActivationNotification;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Library\Recaptcha\RecaptchaRule;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
@@ -24,6 +24,7 @@ class RegisterTest extends TestCase
         return array_merge($account->toArray(), [
             'password_confirm' => 'password',
             'g-recaptcha-response' => Str::random(),
+            'terms' => 1,
         ]);
     }
 
@@ -36,6 +37,8 @@ class RegisterTest extends TestCase
 
     public function testUserCanRegister()
     {
+        Group::factory()->create(['is_default' => true]);
+
         $unactivatedAccount = Account::factory()
             ->passwordUnhashed()
             ->unactivated()
@@ -142,6 +145,8 @@ class RegisterTest extends TestCase
     public function testUserIsSentVerificationMail()
     {
         Notification::fake();
+
+        Group::factory()->create(['is_default' => true]);
 
         $unactivatedAccount = Account::factory()
             ->passwordUnhashed()

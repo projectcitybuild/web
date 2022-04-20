@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Entities\Players\Models\MinecraftPlayer;
+use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class MinecraftPlayerFactory extends Factory

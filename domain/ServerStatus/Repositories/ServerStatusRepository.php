@@ -2,13 +2,16 @@
 
 namespace Domain\ServerStatus\Repositories;
 
-use App\Entities\Servers\Models\ServerStatus;
 use Domain\ServerStatus\Entities\ServerQueryResult;
+use Entities\Models\Eloquent\ServerStatus;
 
 final class ServerStatusRepository
 {
-    public function store(int $serverId, ServerQueryResult $result, int $time): ServerStatus
-    {
+    public function store(
+        int $serverId,
+        ServerQueryResult $result,
+        int $time
+    ): ServerStatus {
         return ServerStatus::create([
             'server_id' => $serverId,
             'is_online' => $result->isOnline,

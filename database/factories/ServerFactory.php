@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Entities\GameType;
-use App\Entities\Servers\Models\Server;
-use App\Entities\Servers\Models\ServerCategory;
+use Entities\Models\Eloquent\Server;
+use Entities\Models\Eloquent\ServerCategory;
+use Entities\Models\GameType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ServerFactory extends Factory
@@ -28,7 +28,7 @@ class ServerFactory extends Factory
             'ip' => $this->faker->ipv4(),
             'port' => $this->faker->numberBetween(20, 8000),
             'display_order' => $this->faker->numberBetween(1, 15),
-            'game_type' => $this->faker->randomElement(GameType::values()),
+            'game_type' => $this->faker->randomElement(GameType::cases())->value,
             'is_port_visible' => true,
             'is_visible' => true,
             'is_querying' => true,

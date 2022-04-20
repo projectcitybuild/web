@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Entities\Accounts\Models\Account;
 use App\Http\WebController;
-use App\Library\Discourse\Api\DiscourseUserApi;
+use Entities\Models\Eloquent\Account;
 use GuzzleHttp\Exception\ClientException;
+use Library\Discourse\Api\DiscourseUserApi;
 
 class AccountDiscourseAdminRedirect extends WebController
 {

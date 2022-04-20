@@ -4,6 +4,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Integration
+    |--------------------------------------------------------------------------
+    |
+    | If false, all integration with Discourse will be disabled (no API hits,
+    | no Discourse login, etc)
+    |
+    */
+    'enabled' => env(key: 'DISCOURSE_INTEGRATION_ENABLED', default: false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Payload signing
     |--------------------------------------------------------------------------
     |
@@ -11,7 +22,7 @@ return [
     | nonce and payload in the URL
     |
     */
-    'signing_enabled'   => env('DISCOURSE_ENABLE_PAYLOAD_SIGNING', true),
+    'signing_enabled' => env('DISCOURSE_ENABLE_PAYLOAD_SIGNING', true),
 
     /*
     |--------------------------------------------------------------------------

@@ -4,14 +4,18 @@ namespace App\Console;
 
 use App\Console\Commands\CleanupUnactivatedAccountsCommand;
 use App\Console\Commands\DeactivateDonatorPerksCommand;
+use App\Console\Commands\DeleteExpiredPasswordResetsCommand;
 use App\Console\Commands\GenerateSitemapCommand;
+use App\Console\Commands\IssueAPITokenCommand;
 use App\Console\Commands\RepairMissingGroupsCommand;
+use App\Console\Commands\RevokeAPITokenCommand;
+use App\Console\Commands\RewardCurrencyToDonorsCommand;
 use App\Console\Commands\ServerKeyCreateCommand;
 use App\Console\Commands\ServerQueryCommand;
 use App\Console\Commands\StripUUIDHyphensCommand;
-use App\Entities\Environment;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Library\Environment\Environment;
 
 class Kernel extends ConsoleKernel
 {
@@ -21,18 +25,21 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        ServerQueryCommand::class,
-        ServerKeyCreateCommand::class,
-        StripUUIDHyphensCommand::class,
-        RepairMissingGroupsCommand::class,
         CleanupUnactivatedAccountsCommand::class,
         DeactivateDonatorPerksCommand::class,
+        DeleteExpiredPasswordResetsCommand::class,
         GenerateSitemapCommand::class,
+        IssueAPITokenCommand::class,
+        RepairMissingGroupsCommand::class,
+        RevokeAPITokenCommand::class,
+        RewardCurrencyToDonorsCommand::class,
+        ServerKeyCreateCommand::class,
+        ServerQueryCommand::class,
+        StripUUIDHyphensCommand::class,
     ];
 
     /**
      * Define the application's command schedule.
-     *
      *
      * @return void
      */
@@ -46,12 +53,15 @@ class Kernel extends ConsoleKernel
             ->everyFiveMinutes();
 
         $schedule->command('cleanup:password-resets')
-            ->weekly();
+            ->daily();
 
         $schedule->command('cleanup:unactivated-accounts')
             ->weekly();
 
-        $schedule->command('donator-perks:expire')
+        $schedule->command('donor-perks:expire')
+            ->hourly();
+
+        $schedule->command('donor-perks:reward-currency')
             ->hourly();
 
         $schedule->command('backup:clean')

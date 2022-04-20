@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Players\Models\MinecraftPlayer;
-use App\Library\Mojang\Api\MojangPlayerApi;
-use App\Library\Mojang\Models\MojangPlayer;
+use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Foundation\Testing\WithFaker;
+use Library\Mojang\Api\MojangPlayerApi;
+use Library\Mojang\Models\MojangPlayer;
 use Mockery\MockInterface;
 use Tests\TestCase;
 

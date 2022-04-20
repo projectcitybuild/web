@@ -2,12 +2,11 @@
 
 namespace Domain\PlayerFetch;
 
-use App;
-use App\Entities\GameType;
-use App\Entities\Players\Models\MinecraftPlayer;
 use Domain\PlayerFetch\Jobs\PlayerFetchJob;
 use Domain\PlayerFetch\Repositories\PlayerFetchRepository;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
+use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\GameType;
 use Log;
 
 final class PlayerFetchService
@@ -28,7 +27,8 @@ final class PlayerFetchService
      *
      * This operation will block the current process until the query succeeds or fails.
      *
-     * @return App\Library\Mojang\Models\MojangPlayer[]
+     * @return \Library\Mojang\Models\MojangPlayer[]
+     *
      * @throws UnsupportedGameException
      */
     public function fetchSynchronously(GameType $gameType, array $aliases, ?int $timestamp = null): array

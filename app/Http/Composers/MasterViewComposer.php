@@ -2,7 +2,7 @@
 
 namespace App\Http\Composers;
 
-use App\Entities\Servers\Repositories\ServerCategoryRepositoryContract;
+use Entities\Repositories\ServerCategoryRepository;
 use Illuminate\View\View;
 
 /**
@@ -10,12 +10,9 @@ use Illuminate\View\View;
  */
 final class MasterViewComposer
 {
-    private ServerCategoryRepositoryContract $serverCategoryRepository;
-
-    public function __construct(ServerCategoryRepositoryContract $serverCategoryRepository)
-    {
-        $this->serverCategoryRepository = $serverCategoryRepository;
-    }
+    public function __construct(
+        private ServerCategoryRepository $serverCategoryRepository
+    ) {}
 
     /**
      * Bind data to the view.

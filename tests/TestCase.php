@@ -2,13 +2,14 @@
 
 namespace Tests;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Groups\Models\Group;
 use App\Http\Middleware\MfaGate;
-use App\Library\Mojang\Api\MojangPlayerApi;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Group;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
+use Library\Mojang\Api\MojangPlayerApi;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -41,7 +42,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Get a user in a group with admin rights.
      *
-     * @param bool|null $fresh force the creation of a fresh user
+     * @param  bool|null  $fresh  force the creation of a fresh user
      */
     protected function adminAccount(?bool $fresh = false): Account
     {
@@ -53,5 +54,13 @@ abstract class TestCase extends BaseTestCase
         }
 
         return $this->adminAccount;
+    }
+
+    protected function setTestNow(): Carbon
+    {
+        return tap(
+            Carbon::create(year: 2022, month: 12, day: 11, hour: 10, minute: 9, second: 8),
+            fn ($now) => Carbon::setTestNow($now)
+        );
     }
 }

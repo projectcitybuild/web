@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Bans\Models\GameBan;
 use App\Http\WebController;
+use Entities\Models\Eloquent\GameBan;
 use Illuminate\Http\Request;
 
 final class BanlistController extends WebController

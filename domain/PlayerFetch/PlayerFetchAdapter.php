@@ -2,7 +2,7 @@
 
 namespace Domain\PlayerFetch;
 
-use App\Library\Mojang\Models\MojangPlayer;
+use Library\Mojang\Models\MojangPlayer;
 
 interface PlayerFetchAdapter
 {

@@ -175,12 +175,25 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        App\Library\Discourse\DiscourseServiceProvider::class,
-        App\Library\Recaptcha\RecaptchaServiceProvider::class,
+        /*
+         * Library Service Providers...
+         */
+        Library\Discourse\DiscourseServiceProvider::class,
+        Library\Recaptcha\RecaptchaServiceProvider::class,
+        Library\Random\RandomProvider::class,
+        Library\Tokens\TokensProvider::class,
 
         /*
-         * Domain logic Service Providers...
+         * Shared Service Providers...
          */
+        Shared\ExternalAccounts\ExternalAccountsProvider::class,
+        Shared\Groups\GroupsProvider::class,
+
+        /*
+         * Domain Service Providers...
+         */
+        Domain\CurrencyRewarder\CurrencyRewarderProvider::class,
+        Domain\Donations\DonationsProvider::class,
         Domain\PlayerFetch\PlayerFetchProvider::class,
         Domain\ServerStatus\ServerStatusProvider::class,
     ],

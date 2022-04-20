@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\v1\GameBanV1Controller;
+use App\Http\Controllers\Api\v1\GroupApiController;
+use App\Http\Controllers\Api\v1\MinecraftAuthTokenController;
+use App\Http\Controllers\Api\v1\StripeWebhookController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -11,38 +17,22 @@
 |
 */
 
-// Webhook subscribers
 Route::prefix('webhooks')->group(function () {
-    Route::post('stripe', 'WebhookController@stripe');
+    Route::post('stripe', [StripeWebhookController::class, 'handleWebhook'])->name('cashier.webhook');
 });
 
 Route::prefix('bans')->group(function () {
-    Route::post('list', 'GameBanController@getBanList');
-    Route::post('store/ban', 'GameBanController@storeBan');
-    Route::post('store/unban', 'GameBanController@storeUnban');
-    Route::post('status', 'GameBanController@getPlayerStatus');
+    Route::post('list', [GameBanV1Controller::class, 'getBanList']);
+    Route::post('store/ban', [GameBanV1Controller::class, 'storeBan']);
+    Route::post('store/unban', [GameBanV1Controller::class, 'storeUnban']);
+    Route::post('status', [GameBanV1Controller::class, 'getPlayerStatus']);
 });
 
 Route::prefix('auth')->group(function () {
-    Route::post('minecraft', [
-        'as' => 'auth.minecraft.store',
-        'uses' => 'MinecraftAuthTokenController@store',
-    ]);
-    Route::get('minecraft/{minecraftUUID}', [
-        'as' => 'auth.minecraft.show',
-        'uses' => 'MinecraftAuthTokenController@show',
-    ]);
-});
-
-Route::prefix('donations')->group(function () {
-    Route::get('create', [
-        'as' => 'donations.create',
-        'uses' => 'DonationController@create',
-    ]);
+    Route::post('minecraft', [MinecraftAuthTokenController::class, 'store']);
+    Route::get('minecraft/{minecraftUUID}', [MinecraftAuthTokenController::class, 'show']);
 });
 
 Route::prefix('groups')->group(function () {
-    Route::get('/', 'GroupApiController@getAll');
+    Route::get('/', [GroupApiController::class, 'getAll']);
 });
-
-Route::post('discord/sync', 'DiscordSyncController@getRank');

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Entities\Players\Models\MinecraftPlayer;
 use App\Http\WebController;
-use App\Library\Mojang\Api\MojangPlayerApi;
+use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Library\Mojang\Api\MojangPlayerApi;
 
 class MinecraftPlayerController extends WebController
 {
