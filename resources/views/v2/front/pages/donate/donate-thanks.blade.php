@@ -47,14 +47,13 @@
                     <div class="donate-legal__contents">
                         <ul>
                             <li>
-                                <h2><i class="fas fa-box-open"></i> Mystery Boxes</h2>
-                                Each day you can redeem Mystery Boxes in-game by using the <span class="command">/box redeem</span> command.<br />
-                                Mystery Boxes can be opened via the Vault (<span class="command">/warp vault</span>).<br />
-                                Or craft more Mystery Boxes from currency at the Vault.
+                                <h2><i class="fas fa-ticket"></i> Tickets</h2>
+                                Your account has been credited with tickets (or will be, if your payment is still processing).<br />
+                                Each week you will automatically receive additional tickets.
                             </li>
                             <li>
                                 <h2><i class="fas fa-user-astronaut"></i> Cosmetics</h2>
-                                You can access your cosmetics at any time via the <span class="command">/menu</span> command.
+                                You can access your cosmetics and purchase more at any time via the <span class="command">/menu</span> command.
                             </li>
                             <li>
                                 <h2><i class="fas fa-home"></i> More Homes</h2>
