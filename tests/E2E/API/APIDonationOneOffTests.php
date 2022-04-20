@@ -29,8 +29,14 @@ class APIDonationOneOffTests extends E2ETestCase
 
         $this->webhookPayload = $this->loadJsonFromFile('stripe/webhook-checkout-session-completed.json');
 
-        $this->account = Account::factory()->create(['stripe_id' => 'cus_JyjQ8xLdu1UmFs']);
-        $this->donationTier = DonationTier::factory()->create(['donation_tier_id' => 1]);
+        $this->account = Account::factory()->create([
+            'stripe_id' => 'cus_JyjQ8xLdu1UmFs',
+            'balance' => 100,
+        ]);
+        $this->donationTier = DonationTier::factory()->create([
+            'donation_tier_id' => 1,
+            'currency_reward' => 50,
+        ]);
 
         $this->donorGroup = Group::factory()->donor()->create();
         Group::factory()->member()->create();
@@ -102,10 +108,14 @@ class APIDonationOneOffTests extends E2ETestCase
             'account_id' => $this->account->getKey(),
             'is_active' => true,
             'expires_at' => $this->now->copy()->addMonth(),
-            'last_currency_reward_at' => null,
         ]);
 
         $this->assertTrue($this->account->groups->contains($this->donorGroup));
+
+        $this->assertEquals(
+            expected: 150,
+            actual: Account::find($this->account->getKey())->balance,
+        );
 
         Notification::assertSentTo($this->account, DonationPerkStartedNotification::class);
     }
@@ -142,10 +152,14 @@ class APIDonationOneOffTests extends E2ETestCase
             'account_id' => $this->account->getKey(),
             'is_active' => true,
             'expires_at' => $this->now->copy()->addMonths($quantityPurchased),
-            'last_currency_reward_at' => null,
         ]);
 
         $this->assertTrue($this->account->groups->contains($this->donorGroup));
+
+        $this->assertEquals(
+            expected: 150,
+            actual: Account::find($this->account->getKey())->balance,
+        );
 
         Notification::assertSentTo($this->account, DonationPerkStartedNotification::class);
     }

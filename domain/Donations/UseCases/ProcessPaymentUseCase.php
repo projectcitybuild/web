@@ -5,6 +5,7 @@ namespace Domain\Donations\UseCases;
 use App\Exceptions\Http\BadRequestException;
 use Domain\Donations\Entities\PaidAmount;
 use Domain\Donations\Entities\PaymentType;
+use Domain\Donations\Events\DonationPerkCreated;
 use Domain\Donations\Exceptions\StripeProductNotFoundException;
 use Domain\Donations\Repositories\DonationPerkRepository;
 use Domain\Donations\Repositories\DonationRepository;
@@ -77,7 +78,7 @@ final class ProcessPaymentUseCase
                 existingPerk: $existingPerk,
             );
 
-            $this->donationPerkRepository->create(
+            $newPerk = $this->donationPerkRepository->create(
                 donationId: $donation->getKey(),
                 donationTierId: $donationTier?->getKey(),
                 accountId: $account->getKey(),
@@ -88,6 +89,8 @@ final class ProcessPaymentUseCase
 
             $notification = new DonationPerkStartedNotification($expiryDate);
             $account->notify($notification);
+
+            DonationPerkCreated::dispatch($newPerk);
         }
     }
 
