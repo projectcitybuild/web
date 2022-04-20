@@ -19,7 +19,7 @@ final class CurrencyRewarder
         if ($perk->last_currency_reward_at === null) {
             return false;
         }
-        $thresholdDate = now()->addWeek(-1);
+        $thresholdDate = now()->addWeeks(-1);
         return $perk->last_currency_reward_at->gt($thresholdDate);
     }
 
