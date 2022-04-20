@@ -16,10 +16,8 @@ class GroupFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
-     * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => $this->faker->name(),
@@ -32,11 +30,9 @@ class GroupFactory extends Factory
     }
 
     /**
-     * Sets the group as the default group assigned to members who don't yet have one.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * Sets the group as the default group assigned to members who don't have any other group
      */
-    public function member()
+    public function member(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
@@ -48,13 +44,9 @@ class GroupFactory extends Factory
     }
 
     /**
-     * Sets the group as the donators group.
-     *
-     * @deprecated Use donor() instead
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * Sets the group as the Donor group
      */
-    public function donator()
+    public function donor(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
@@ -65,21 +57,9 @@ class GroupFactory extends Factory
     }
 
     /**
-     * Sets the group as the donators group.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * Sets the group as the Admin group
      */
-    public function donor()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'name' => 'donator',
-                'discourse_name' => 'donator',
-            ];
-        });
-    }
-
-    public function administrator()
+    public function administrator(): Factory
     {
         return $this->state(function (array $attributes) {
             return [

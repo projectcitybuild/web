@@ -1,19 +1,16 @@
 <?php
 
-namespace Tests\E2E\API\v1;
+namespace Tests\E2E\API;
 
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Library\APITokens\APITokenScope;
 use Tests\TestCase;
 use function collect;
 
-class APIMinecraftBalanceShow extends TestCase
+class APIMinecraftBalanceShowTests extends TestCase
 {
-    use RefreshDatabase;
-
     private function endpoint(?MinecraftPlayer $player): string
     {
         $uuid = $player?->uuid ?? 'invalid';

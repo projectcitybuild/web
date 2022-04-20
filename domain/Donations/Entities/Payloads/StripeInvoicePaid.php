@@ -15,7 +15,6 @@ final class StripeInvoicePaid
         public string $productId,
         public string $priceId,
         public PaymentType $paymentType,
-        public ?int $donationTierId,
     ) {}
 
     public static function fromPayload(array $payload): StripeInvoicePaid
@@ -36,7 +35,6 @@ final class StripeInvoicePaid
             paymentType: $price['type'] == 'recurring'
                 ? PaymentType::SUBSCRIPTION
                 : PaymentType::ONE_OFF,
-            donationTierId: $price['metadata']['donation_tier_id'],
         );
     }
 }

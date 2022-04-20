@@ -3,8 +3,8 @@
 namespace Shared\ExternalAccounts;
 
 use Illuminate\Support\ServiceProvider;
-use Library\Environment\Environment;
 use Shared\ExternalAccounts\Session\Adapters\DiscourseAccountSession;
+use Shared\ExternalAccounts\Session\Adapters\StubAccountSession;
 use Shared\ExternalAccounts\Session\ExternalAccountsSession;
 use Shared\ExternalAccounts\Sync\Adapters\DiscourseAccountSync;
 use Shared\ExternalAccounts\Sync\Adapters\StubAccountSync;
@@ -17,14 +17,14 @@ class ExternalAccountsProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $isE2ETest = env(key: 'IS_E2E_TEST', default: false);
+        $isEnabled = config('discourse.enabled');
 
-        if (Environment::isProduction() && !$isE2ETest) {
+        if ($isEnabled) {
             $this->app->bind(ExternalAccountSync::class, DiscourseAccountSync::class);
+            $this->app->bind(ExternalAccountsSession::class, DiscourseAccountSession::class);
         } else {
             $this->app->bind(ExternalAccountSync::class, StubAccountSync::class);
+            $this->app->bind(ExternalAccountsSession::class, StubAccountSession::class);
         }
-
-        $this->app->bind(ExternalAccountsSession::class, DiscourseAccountSession::class);
     }
 }
