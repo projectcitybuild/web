@@ -62,12 +62,12 @@
 
                             <div class="donation-tier__boxes">
                                 <div class="donation-tier__boxes-title">
-                                    <strong>Each day</strong> you'll receive
+                                    <strong>Each week</strong> you'll receive
                                 </div>
                                 <div class="donation-tier__boxes-reward">
-                                    <i class="fas fa-box"></i>
-                                    <strong>1</strong>
-                                    <span>Mystery Box (<a href="#mystery-box">what's this?</a>)</span>
+                                    <i class="fas fa-ticket"></i>
+                                    <strong>10</strong>
+                                    <span>Tickets (<a href="#tickets">what's this?</a>)</span>
                                 </div>
                             </div>
 
@@ -85,7 +85,11 @@
                             <div class="donation-tier__footer">
                                 <button
                                     class="button button--filled"
-                                    onclick="openPaymentModal('Copper Tier', 'price_1JJL5mAtUyfM4v5ISwJrrVur', 'price_1JJL5mAtUyfM4v5IJNHp1Tk2')"
+                                    onclick="openPaymentModal(
+                                        'Copper Tier',
+                                        '{{ config('donations.price_ids.copper.one_off') }}',
+                                        '{{ config('donations.price_ids.copper.subscription') }}'
+                                    )"
                                 >
                                     Purchase
                                 </button>
@@ -109,12 +113,12 @@
 
                             <div class="donation-tier__boxes">
                                 <div class="donation-tier__boxes-title">
-                                    <strong>Each day</strong> you'll receive
+                                    <strong>Each week</strong> you'll receive
                                 </div>
                                 <div class="donation-tier__boxes-reward">
-                                    <i class="fas fa-box"></i>
-                                    <strong>4</strong>
-                                    <span>Mystery Boxes (<a href="#mystery-box">what's this?</a>)</span>
+                                    <i class="fas fa-ticket"></i>
+                                    <strong>25</strong>
+                                    <span>Tickets (<a href="#tickets">what's this?</a>)</span>
                                 </div>
                             </div>
 
@@ -135,7 +139,11 @@
                             <div class="donation-tier__footer">
                                 <button
                                     class="button button--filled"
-                                    onclick="openPaymentModal('Iron Tier', 'price_1JJL63AtUyfM4v5ILyrs2uxw', 'price_1JJL63AtUyfM4v5IoVomtPRZ')"
+                                    onclick="openPaymentModal(
+                                        'Iron Tier',
+                                        '{{ config('donations.price_ids.iron.one_off') }}',
+                                        '{{ config('donations.price_ids.iron.subscription') }}'
+                                    )"
                                 >
                                     Purchase
                                 </button>
@@ -159,12 +167,12 @@
 
                             <div class="donation-tier__boxes">
                                 <div class="donation-tier__boxes-title">
-                                    <strong>Each day</strong> you'll receive
+                                    <strong>Each week</strong> you'll receive
                                 </div>
                                 <div class="donation-tier__boxes-reward">
-                                    <i class="fas fa-box"></i>
-                                    <strong>10</strong>
-                                    <span>Mystery Boxes (<a href="#mystery-box">what's this?</a>)</span>
+                                    <i class="fas fa-ticket"></i>
+                                    <strong>50</strong>
+                                    <span>Tickets (<a href="#ticketes">what's this?</a>)</span>
                                 </div>
                             </div>
 
@@ -185,7 +193,11 @@
                             <div class="donation-tier__footer">
                                 <button
                                     class="button button--filled"
-                                    onclick="openPaymentModal('Diamond Tier', 'price_1JJL6RAtUyfM4v5Ih3kg7UDM', 'price_1JJL6RAtUyfM4v5IP77eRPER')"
+                                    onclick="openPaymentModal(
+                                        'Diamond Tier',
+                                        '{{ config('donations.price_ids.diamond.one_off') }}',
+                                        '{{ config('donations.price_ids.diamond.subscription') }}'
+                                    )"
                                 >
                                     Purchase
                                 </button>
@@ -200,17 +212,23 @@
                 </div>
             </section>
 
-            <a name="mystery-box"></a>
-            <section class="donate-mystery-box">
+            <a id="tickets"></a>
+            <section class="donate-tickets">
                 <div class="container">
-                    <img src="{{ asset('assets/images/mystery-box-title.png') }}" />
+                    <div class="donate-tickets__title">
+                        <h2>Tickets</h2>
+                    </div>
 
-                    <div class="donate-mystery-box__title">
-                        Each box contains either cool loot or currency. Some of the possible loot includes
-                        <strong>animated hats</strong>, <strong>particle effects</strong>, <strong>pets</strong>, <strong>fun gadgets</strong>, <strong>cloaks</strong>, <strong>emotes</strong> and <strong>mob morphs</strong>
+                    <div class="donate-tickets__description">
+                        Tickets can be exchanged in-game at any time for some cool cosmetics and loot, including
+                        <strong>animated hats</strong>, <strong>particle effects</strong>, <strong>pets</strong>,
+                        <strong>fun gadgets</strong>, <strong>cloaks</strong>, <strong>emotes</strong>, <strong>mob morphs</strong> and more
                         from a rotation of items strictly limited to donors.
+
+                        Every week, tickets are automatically credited to your account based on your donation tier.
                         <br /><br />
-                        Didn’t get the loot you wanted? Use the in-game currency to craft more boxes for another chance!
+                        Tickets are separate from the regular Survival in-game currency, do not expire and are exclusively for cosmetics.
+                        They cannot be purchased or exchanged for with regular currency.
                     </div>
                 </div>
             </section>
@@ -226,6 +244,16 @@
                                 No, your perks will remain active until the original expiry date (i.e. a month from the last payment).
                                 <br />
                                 For example, if you started your subscription on August 1st and immediately cancel it, your perks will remain until September 1st.
+                            </li>
+                            <li>
+                                <h2>What perks will I lose after my duration ends?</h2>
+
+                                All cosmetics purchased with tickets are yours to keep forever.
+                                <br /><br />
+                                Donor commands (navigation, etc) will not be usable and home limits will be decreased.<br />
+                                However, <strong>you will not lose access to your homes</strong> even if you are over the limit - instead you will be unable to use <span class="command">/sethome</span> until you delete the required amount.
+                                <br /><br />
+                                Subscribers will not lose their perks, provided that their payment isn't declined.
                             </li>
                             <li>
                                 <h2>What if I Boost the Discord server?</h2>
@@ -299,7 +327,7 @@
                         </div>
                         <form action="{{ route('front.donations.checkout') }}" method="POST">
                             @csrf
-                            <input type="hidden" id="subscription-price-id" name="price_id"b />
+                            <input type="hidden" id="subscription-price-id" name="price_id" />
                             <button type="submit" class="button button--filled">
                                 <i class="fas fa-external-link-alt"></i> Purchase
                             </button>
