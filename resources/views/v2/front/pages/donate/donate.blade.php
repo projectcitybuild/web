@@ -85,7 +85,11 @@
                             <div class="donation-tier__footer">
                                 <button
                                     class="button button--filled"
-                                    onclick="openPaymentModal('Copper Tier', 'price_1JJL5mAtUyfM4v5ISwJrrVur', 'price_1JJL5mAtUyfM4v5IJNHp1Tk2')"
+                                    onclick="openPaymentModal(
+                                        'Copper Tier',
+                                        '{{ config('donations.price_ids.copper.one_off') }}',
+                                        '{{ config('donations.price_ids.copper.subscription') }}'
+                                    )"
                                 >
                                     Purchase
                                 </button>
@@ -135,7 +139,11 @@
                             <div class="donation-tier__footer">
                                 <button
                                     class="button button--filled"
-                                    onclick="openPaymentModal('Iron Tier', 'price_1JJL63AtUyfM4v5ILyrs2uxw', 'price_1JJL63AtUyfM4v5IoVomtPRZ')"
+                                    onclick="openPaymentModal(
+                                        'Iron Tier',
+                                        '{{ config('donations.price_ids.iron.one_off') }}',
+                                        '{{ config('donations.price_ids.iron.subscription') }}'
+                                    )"
                                 >
                                     Purchase
                                 </button>
@@ -185,7 +193,11 @@
                             <div class="donation-tier__footer">
                                 <button
                                     class="button button--filled"
-                                    onclick="openPaymentModal('Diamond Tier', 'price_1JJL6RAtUyfM4v5Ih3kg7UDM', 'price_1JJL6RAtUyfM4v5IP77eRPER')"
+                                    onclick="openPaymentModal(
+                                        'Diamond Tier',
+                                        '{{ config('donations.price_ids.diamond.one_off') }}',
+                                        '{{ config('donations.price_ids.diamond.subscription') }}'
+                                    )"
                                 >
                                     Purchase
                                 </button>
@@ -299,7 +311,7 @@
                         </div>
                         <form action="{{ route('front.donations.checkout') }}" method="POST">
                             @csrf
-                            <input type="hidden" id="subscription-price-id" name="price_id"b />
+                            <input type="hidden" id="subscription-price-id" name="price_id" />
                             <button type="submit" class="button button--filled">
                                 <i class="fas fa-external-link-alt"></i> Purchase
                             </button>
