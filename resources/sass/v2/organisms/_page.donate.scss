@@ -116,10 +116,8 @@
             display: flex;
             align-items: center;
 
-            svg {
-                margin-right: 1em;
-            }
             *:nth-child(2) {
+                margin-left: 0.25em;
                 margin-right: 0.5em;
                 font-size: 1.8em;
             }
@@ -185,7 +183,7 @@
         font-size: 0.8em;
     }
 
-    section.donate-mystery-box {
+    section.donate-tickets {
         background-image: url('/assets/images/mystery-box-bg.jpg');
         background-size: cover;
         background-position: center center;
@@ -195,9 +193,18 @@
             display: flex;
         }
 
-        .donate-mystery-box__title {
+        .donate-tickets__title {
+            color: white;
+            font-size: 3em;
+        }
+
+        .donate-tickets__description {
             color: white;
             line-height: 2em;
+
+            strong {
+                color: $color-text-accent;
+            }
         }
     }
 
@@ -273,14 +280,14 @@
             padding: 4em 0;
         }
 
-        section.donate-mystery-box {
+        section.donate-tickets {
              padding: 6em 0;
 
              .container {
                  align-items: center;
              }
 
-             .donate-mystery-box__title {
+             .donate-tickets__description {
                  margin-left: 5em;
              }
          }
@@ -343,7 +350,7 @@
             padding: 2.5em 0;
         }
 
-        section.donate-mystery-box {
+        section.donate-tickets {
             padding: 2em 0;
 
             img {

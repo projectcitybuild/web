@@ -34,9 +34,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/g1OfIGT.png"/>
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
-    <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/brands.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/solid.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/fontawesome.js"></script>
+    <script src="https://kit.fontawesome.com/a0425475c4.js" crossorigin="anonymous"></script>
 
     <script defer src="{{ mix('assets/js/manifest.js') }}"></script>
     <script defer src="{{ mix('assets/js/vendor.js') }}"></script>
