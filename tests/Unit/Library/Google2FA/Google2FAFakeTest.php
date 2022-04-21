@@ -9,11 +9,6 @@ use Tests\TestCase;
 
 class Google2FAFakeTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-    }
-
     public function testVerifyKeyNewerFailsIfNotDebug()
     {
         Config::shouldReceive('get')

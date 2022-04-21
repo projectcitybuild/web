@@ -35,9 +35,7 @@ class AuthServiceProvider extends ServiceProvider
     public function register()
     {
         if (config('auth.totp.bypass')) {
-            $this->app->bind(Google2FA::class, function ($app) {
-                return new Google2FAFake();
-            });
+            $this->app->bind(abstract: Google2FA::class, concrete: Google2FAFake::class);
         }
     }
 }
