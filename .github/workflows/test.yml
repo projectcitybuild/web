@@ -108,4 +108,4 @@ jobs:
           DB_HOST: 127.0.0.1
           MYSQL_USER: root
           MYSQL_ROOT_PASSWORD: root
-        run: phpdbg -dmemory_limit=1G -qrr artisan test --coverage-clover tests/coverage/clover.xml
+        run: php artisan test
