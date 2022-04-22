@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-final class AccountOldEmailChangeVerifyNotification extends Notification
+final class VeryOldEmailAddressNotification extends Notification
 {
     use Queueable;
 

@@ -2,8 +2,8 @@
 
 namespace Domain\EmailChange\UseCases;
 
-use Domain\EmailChange\Notifications\AccountNewEmailChangeVerifyNotification;
-use Domain\EmailChange\Notifications\AccountOldEmailChangeVerifyNotification;
+use Domain\EmailChange\Notifications\VeryNewEmailAddressNotification;
+use Domain\EmailChange\Notifications\VeryOldEmailAddressNotification;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\AccountEmailChange;
 use Entities\Repositories\AccountEmailChangeRepository;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Notification;
 use Library\SignedURL\SignedURLGenerator;
 use Library\Tokens\TokenGenerator;
 
-final class SendEmailForAccountEmailChangeUseCase
+final class SendVerificationEmailUseCase
 {
     private const LINK_EXPIRY_TIME_IN_MINS = 20;
 
@@ -33,10 +33,10 @@ final class SendEmailForAccountEmailChangeUseCase
         int $accountId,
         string $oldEmailAddress,
         string $newEmailAddress,
-    ): AccountEmailChange {
+    ) {
         $token = $this->tokenGenerator->make();
 
-        $changeRequest = $this->emailChangeRepository->create(
+        $this->emailChangeRepository->create(
             accountId: $accountId,
             token: $token,
             previousEmail: $oldEmailAddress,
@@ -45,7 +45,7 @@ final class SendEmailForAccountEmailChangeUseCase
 
         // Send email with link to verify that the user owns the current email address
         Notification::route(channel: 'mail', route: $oldEmailAddress)->notify(
-            new AccountOldEmailChangeVerifyNotification(
+            new VeryOldEmailAddressNotification(
                 confirmLink: $this->signedURLGenerator->makeTemporary(
                     routeName: 'front.account.settings.email.confirm',
                     expiresAt: now()->addMinutes(self::LINK_EXPIRY_TIME_IN_MINS),
@@ -60,7 +60,7 @@ final class SendEmailForAccountEmailChangeUseCase
 
         // Send email with link to verify that the user owns the new email address
         Notification::route(channel: 'mail', route: $newEmailAddress)->notify(
-            new AccountNewEmailChangeVerifyNotification(
+            new VeryNewEmailAddressNotification(
                 confirmLink: $this->signedURLGenerator->makeTemporary(
                     routeName: 'front.account.settings.email.confirm',
                     expiresAt: now()->addMinutes(self::LINK_EXPIRY_TIME_IN_MINS),
@@ -72,7 +72,5 @@ final class SendEmailForAccountEmailChangeUseCase
                 expiryTimeInMins: self::LINK_EXPIRY_TIME_IN_MINS,
             )
         );
-
-        return $changeRequest;
     }
 }

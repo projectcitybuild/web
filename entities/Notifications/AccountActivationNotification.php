@@ -30,8 +30,6 @@ final class AccountActivationNotification extends Notification
     {
         return (new MailMessage())
             ->subject('Activate Your PCB Account')
-            ->from('no-reply@projectcitybuild.com')
-
             ->greeting('Just One More Step')
             ->line('Click the button below to activate your Project City Build account.')
             ->action('Activate Account', $this->activationURL)
