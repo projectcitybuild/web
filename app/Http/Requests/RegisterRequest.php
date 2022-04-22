@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\DiscourseUsernameRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Library\Recaptcha\Rules\RecaptchaRule;
 
 final class RegisterRequest extends FormRequest
 {

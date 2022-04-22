@@ -8,7 +8,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Log\Logger;
-use Library\Recaptcha\RecaptchaRule;
+use Library\Recaptcha\Rules\RecaptchaRule;
 use Tests\TestCase;
 
 class RecaptchaRule_Test extends TestCase

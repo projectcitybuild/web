@@ -179,7 +179,7 @@ return [
          * Library Service Providers...
          */
         Library\Discourse\DiscourseServiceProvider::class,
-        Library\Recaptcha\RecaptchaServiceProvider::class,
+        Library\Recaptcha\RecaptchaProvider::class,
         Library\Random\RandomProvider::class,
         Library\SignedURL\SignedURLProvider::class,
         Library\Tokens\TokensProvider::class,
