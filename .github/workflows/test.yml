@@ -1,4 +1,4 @@
-name: PHP (Unit Tests)
+name: Unit Tests
 
 on: push
 

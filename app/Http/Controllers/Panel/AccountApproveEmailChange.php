@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Http\Actions\AccountSettings\UpdateAccountEmail;
 use App\Http\WebController;
+use Domain\EmailChange\UpdateAccountEmail;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\AccountEmailChange;
 

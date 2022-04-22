@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Actions\AccountSettings;
+namespace Domain\EmailChange;
 
 use App\Helpers\TokenHelpers;
 use Entities\Models\Eloquent\Account;

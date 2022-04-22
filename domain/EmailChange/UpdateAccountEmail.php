@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Actions\AccountSettings;
+namespace Domain\EmailChange;
 
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\AccountEmailChange;
