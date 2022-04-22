@@ -8,6 +8,15 @@ docker help > /dev/null || \
 
 # ------------------------------------------------------------------------------------------------
 
+echo "=> Checking for .env file..."
+
+if [ ! -f ".env" ]; then
+    (echo ".env file not found. Please run 'cp .env.example .env' first" && \
+     exit 1)
+fi
+
+# ------------------------------------------------------------------------------------------------
+
 echo "=> Checking for running containers..."
 
 SERVICE_NAME="laravel.test"
@@ -51,6 +60,13 @@ if ! ./vendor/bin/sail up -d; then
     echo "Error: Failed to start container"
     exit 1
 fi
+
+# ------------------------------------------------------------------------------------------------
+
+echo "=> Generate app key..."
+
+./vendor/bin/sail artisan key:generate
+
 
 # ------------------------------------------------------------------------------------------------
 
