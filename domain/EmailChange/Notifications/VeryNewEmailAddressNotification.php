@@ -31,9 +31,9 @@ final class VeryNewEmailAddressNotification extends Notification
         return (new MailMessage())
             ->subject('Email Address Change was Requested')
             ->greeting('Email Change Request')
-            ->line('You or somebody else has requested to change their email address to this address. Use the below link if you wish to proceed.')
+            ->line('You or somebody else has requested to change their account\'s email address to this address. Use the below link if you wish to proceed.')
             ->action('Yes, use this email address', $this->confirmLink)
-            ->line('If you did not request this please ignore this email.')
+            ->line('If you did not request this, please ignore this email.')
             ->line('The above link will expire in '.$this->expiryTimeInMins.' minutes.');
     }
 

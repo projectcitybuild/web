@@ -43,8 +43,8 @@ final class AccountSettingController extends WebController
 
         return redirect()->back()->with([
             'success' => '
-                A verification email has been sent to both your new and current email address.
-                Please click the link in both to complete the process
+                A verification email has been sent to your new and current email address.
+                Please click the link in both emails to complete the process
             ',
         ]);
     }
