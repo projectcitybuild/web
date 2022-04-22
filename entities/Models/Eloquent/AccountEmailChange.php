@@ -3,6 +3,7 @@
 namespace Entities\Models\Eloquent;
 
 use App\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -16,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 final class AccountEmailChange extends Model
 {
+    use HasFactory;
+
     protected $table = 'account_email_changes';
 
     protected $primaryKey = 'account_email_change_id';
