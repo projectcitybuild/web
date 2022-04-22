@@ -4,6 +4,7 @@ namespace Domain\SignUp\UseCases;
 
 use Entities\Notifications\AccountActivationNotification;
 use Entities\Repositories\AccountRepository;
+use Library\SignedURL\SignedURLGenerator;
 use Shared\Groups\GroupsManager;
 
 /**
@@ -14,6 +15,7 @@ class CreateUnactivatedAccountUseCase
     public function __construct(
         private AccountRepository $accountRepository,
         private GroupsManager $groupsManager,
+        private SignedURLGenerator $signedURLGenerator,
     ) {}
 
     public function execute(
@@ -31,6 +33,13 @@ class CreateUnactivatedAccountUseCase
 
         $this->groupsManager->addToDefaultGroup($account);
 
-        $account->notify(new AccountActivationNotification($account));
+        $activationURL = $this->signedURLGenerator->makeTemporary(
+            routeName: 'front.register.activate',
+            expiresAt: now()->addDay(),
+            parameters: ['email' => $account->email],
+        );
+        $account->notify(
+            new AccountActivationNotification(activationURL: $activationURL)
+        );
     }
 }

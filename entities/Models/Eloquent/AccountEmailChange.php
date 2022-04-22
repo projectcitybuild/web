@@ -3,11 +3,22 @@
 namespace Entities\Models\Eloquent;
 
 use App\Model;
-use Illuminate\Support\Facades\URL;
-use function now;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int account_id
+ * @property string token
+ * @property string email_previous
+ * @property string email_new
+ * @property boolean is_previous_confirmed
+ * @property boolean is_new_confirmed
+ * @property Account account
+ */
 final class AccountEmailChange extends Model
 {
+    use HasFactory;
+
     protected $table = 'account_email_changes';
 
     protected $primaryKey = 'account_email_change_id';
@@ -26,24 +37,12 @@ final class AccountEmailChange extends Model
         'updated_at',
     ];
 
-    public function account()
+    public function account(): BelongsTo
     {
-        return $this->belongsTo('Entities\Models\Eloquent\Account', 'account_id', 'account_id');
-    }
-
-    public function getCurrentEmailUrl(int $expiryInMins = 20)
-    {
-        return URL::temporarySignedRoute('front.account.settings.email.confirm', now()->addMinutes($expiryInMins), [
-            'token' => $this->token,
-            'email' => $this->email_previous,
-        ]);
-    }
-
-    public function getNewEmailUrl(int $expiryInMins = 20)
-    {
-        return URL::temporarySignedRoute('front.account.settings.email.confirm', now()->addMinutes($expiryInMins), [
-            'token' => $this->token,
-            'email' => $this->email_new,
-        ]);
+        return $this->belongsTo(
+            related: Account::class,
+            foreignKey: 'account_id',
+            ownerKey: 'account_id',
+        );
     }
 }

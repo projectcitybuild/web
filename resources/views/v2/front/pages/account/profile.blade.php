@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="settings__balance">
-                    <i class="fas fa-cube"></i> Pixels: {{ $account->balance }} (<a href="{{ route('front.donate') }}#pixels">what's this?</a>)
+                    <i class="fas fa-ticket"></i> Tickets: {{ $account->balance }} (<a href="{{ route('front.donate') }}#tickets">what's this?</a>)
                 </div>
             </div>
         </div>

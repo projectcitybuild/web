@@ -166,6 +166,8 @@ final class Account extends Authenticatable
     /**
      * Gets an URL to the activation route with a
      * signed signature to prevent tampering.
+     *
+     * @deprecated Use SignedURLGenerator
      */
     public function getActivationUrl(): string
     {

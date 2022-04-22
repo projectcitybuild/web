@@ -8,15 +8,16 @@ use Entities\Notifications\AccountActivationNotification;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use Library\Recaptcha\RecaptchaRule;
+use Library\Recaptcha\Validator\Adapters\GoogleRecaptchaValidator;
+use Library\Recaptcha\Validator\RecaptchaValidator;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
 {
-    protected function setUp(): void
+    private function withRealRecaptcha(): self
     {
-        parent::setUp();
-        RecaptchaRule::enable(false);
+        $this->app->bind(RecaptchaValidator::class, GoogleRecaptchaValidator::class);
+        return $this;
     }
 
     private function withRequiredFormFields(Account $account): array
@@ -56,27 +57,25 @@ class RegisterTest extends TestCase
 
     public function testRecaptchaFieldIsRequired()
     {
-        RecaptchaRule::enable(true);
-
         $unactivatedAccount = Account::factory()
             ->passwordUnhashed()
             ->unactivated()
             ->make();
 
-        $this->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
+        $this->withRealRecaptcha()
+            ->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
             ->assertSessionHasErrors('g-recaptcha-response');
     }
 
     public function testRecaptchaFieldIsValidated()
     {
-        RecaptchaRule::enable(true);
-
         $unactivatedAccount = Account::factory()
             ->passwordUnhashed()
             ->unactivated()
             ->make();
 
-        $this->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
+        $this->withRealRecaptcha()
+            ->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
             ->assertSessionHasErrors('g-recaptcha-response');
     }
 

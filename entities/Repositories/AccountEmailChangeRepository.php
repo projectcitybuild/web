@@ -25,7 +25,7 @@ class AccountEmailChangeRepository
         ]);
     }
 
-    public function getByToken(string $token): ?AccountEmailChange
+    public function firstByToken(string $token): ?AccountEmailChange
     {
         return AccountEmailChange::where('token', $token)->first();
     }
