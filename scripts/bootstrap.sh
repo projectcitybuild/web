@@ -63,7 +63,7 @@ fi
 
 # ------------------------------------------------------------------------------------------------
 
-echo "=> Generate app key..."
+echo "=> Generating app key..."
 
 ./vendor/bin/sail artisan key:generate
 
@@ -72,7 +72,7 @@ echo "=> Generate app key..."
 
 echo "=> Preparing database..."
 
-./vendor/bin/sail artisan migrate --seed
+./vendor/bin/sail artisan migrate:fresh --seed
 
 # ------------------------------------------------------------------------------------------------
 
