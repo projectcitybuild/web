@@ -8,14 +8,16 @@ use Entities\Notifications\AccountActivationNotification;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use Library\Recaptcha\Rules\RecaptchaRule;
+use Library\Recaptcha\Validator\Adapters\GoogleRecaptchaValidator;
+use Library\Recaptcha\Validator\RecaptchaValidator;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
 {
-    protected function setUp(): void
+    private function withRealRecaptcha(): self
     {
-        parent::setUp();
+        $this->app->bind(RecaptchaValidator::class, GoogleRecaptchaValidator::class);
+        return $this;
     }
 
     private function withRequiredFormFields(Account $account): array
@@ -29,8 +31,6 @@ class RegisterTest extends TestCase
 
     public function testCannotSeeRegisterSignedIn()
     {
-        RecaptchaRule::disable();
-
         $this->actingAs(Account::factory()->create())
             ->get(route('front.register'))
             ->assertRedirect(route('front.account.settings'));
@@ -38,8 +38,6 @@ class RegisterTest extends TestCase
 
     public function testUserCanRegister()
     {
-        RecaptchaRule::disable();
-
         Group::factory()->create(['is_default' => true]);
 
         $unactivatedAccount = Account::factory()
@@ -64,7 +62,8 @@ class RegisterTest extends TestCase
             ->unactivated()
             ->make();
 
-        $this->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
+        $this->withRealRecaptcha()
+            ->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
             ->assertSessionHasErrors('g-recaptcha-response');
     }
 
@@ -75,14 +74,13 @@ class RegisterTest extends TestCase
             ->unactivated()
             ->make();
 
-        $this->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
+        $this->withRealRecaptcha()
+            ->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
             ->assertSessionHasErrors('g-recaptcha-response');
     }
 
     public function testUserCannotRegisterWithSameEmailAsOtherAccount()
     {
-        RecaptchaRule::disable();
-
         $existingAccount = Account::factory()->create();
 
         $newAccount = Account::factory()
@@ -95,8 +93,6 @@ class RegisterTest extends TestCase
 
     public function testUserCannotRegisterWithSameUsernameAsOtherAccount()
     {
-        RecaptchaRule::disable();
-
         $existingAccount = Account::factory()->create();
 
         $newAccount = Account::factory()
@@ -109,8 +105,6 @@ class RegisterTest extends TestCase
 
     public function testAssertPasswordIsHashed()
     {
-        RecaptchaRule::disable();
-
         $unactivatedAccount = Account::factory()
             ->passwordUnhashed()
             ->make();
@@ -126,8 +120,6 @@ class RegisterTest extends TestCase
 
     public function testNewMemberIsPutInDefaultGroup()
     {
-        RecaptchaRule::disable();
-
         $memberGroup = Group::create([
             'name' => 'member',
             'is_default' => 1,
@@ -152,7 +144,6 @@ class RegisterTest extends TestCase
     public function testUserIsSentVerificationMail()
     {
         Notification::fake();
-        RecaptchaRule::disable();
 
         Group::factory()->create(['is_default' => true]);
 
@@ -170,8 +161,6 @@ class RegisterTest extends TestCase
 
     public function testUserCanVerifyEmail()
     {
-        RecaptchaRule::disable();
-
         $unactivatedAccount = Account::factory()->unactivated()->create();
 
         $this->get($unactivatedAccount->getActivationUrl())
@@ -182,8 +171,6 @@ class RegisterTest extends TestCase
 
     public function testUserIsRedirectedToIntentAfterVerification()
     {
-        RecaptchaRule::disable();
-
         Session::put('url.intended', '/my/path');
 
         $unactivatedAccount = Account::factory()->unactivated()->create();

@@ -16,7 +16,7 @@ class RecaptchaProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $isEnabled = config('recaptcha.enabled', false);
+        $isEnabled = config('recaptcha.enabled', default: false);
 
         if ($isEnabled) {
             $this->app->bind(abstract: RecaptchaValidator::class, concrete: GoogleRecaptchaValidator::class);
