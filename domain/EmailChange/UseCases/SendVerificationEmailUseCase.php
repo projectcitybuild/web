@@ -2,8 +2,8 @@
 
 namespace Domain\EmailChange\UseCases;
 
-use Domain\EmailChange\Notifications\VeryNewEmailAddressNotification;
-use Domain\EmailChange\Notifications\VeryOldEmailAddressNotification;
+use Domain\EmailChange\Notifications\VerifyNewEmailAddressNotification;
+use Domain\EmailChange\Notifications\VerifyOldEmailAddressNotification;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\AccountEmailChange;
 use Entities\Repositories\AccountEmailChangeRepository;
@@ -45,7 +45,7 @@ final class SendVerificationEmailUseCase
 
         // Send email with link to verify that the user owns the current email address
         Notification::route(channel: 'mail', route: $oldEmailAddress)->notify(
-            new VeryOldEmailAddressNotification(
+            new VerifyOldEmailAddressNotification(
                 confirmLink: $this->signedURLGenerator->makeTemporary(
                     routeName: 'front.account.settings.email.confirm',
                     expiresAt: now()->addMinutes(self::LINK_EXPIRY_TIME_IN_MINS),
@@ -60,7 +60,7 @@ final class SendVerificationEmailUseCase
 
         // Send email with link to verify that the user owns the new email address
         Notification::route(channel: 'mail', route: $newEmailAddress)->notify(
-            new VeryNewEmailAddressNotification(
+            new VerifyNewEmailAddressNotification(
                 confirmLink: $this->signedURLGenerator->makeTemporary(
                     routeName: 'front.account.settings.email.confirm',
                     expiresAt: now()->addMinutes(self::LINK_EXPIRY_TIME_IN_MINS),
