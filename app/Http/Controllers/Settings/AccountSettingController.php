@@ -24,7 +24,8 @@ final class AccountSettingController extends WebController
     {
         $user = $request->user();
 
-        return view('v2.front.pages.account.account-settings')->with(compact('user'));
+        return view('v2.front.pages.account.account-settings')
+            ->with(compact('user'));
     }
 
     public function sendVerificationEmail(
@@ -41,7 +42,10 @@ final class AccountSettingController extends WebController
         );
 
         return redirect()->back()->with([
-            'success' => 'A verification email has been sent to both your new and current email address. Please click the link in both to complete the process',
+            'success' => '
+                A verification email has been sent to both your new and current email address.
+                Please click the link in both to complete the process
+            ',
         ]);
     }
 

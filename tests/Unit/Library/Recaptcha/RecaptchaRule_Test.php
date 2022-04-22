@@ -23,7 +23,7 @@ class RecaptchaRule_Test extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        RecaptchaRule::enable();
+        RecaptchaRule::disable();
     }
 
     private function getClientWithResponses(array $responses)

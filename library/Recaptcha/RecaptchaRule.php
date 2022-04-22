@@ -4,40 +4,23 @@ namespace Library\Recaptcha;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
-use Illuminate\Log\Logger;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use function config;
 
 class RecaptchaRule extends Rule
 {
-    /**
-     * @var Client
-     */
-    private $client;
-
-    /**
-     * @var Request
-     */
-    private $request;
-
-    /**
-     * @var Logger
-     */
-    private $log;
-
-    public function __construct(Client $client, Request $request, Logger $logger)
-    {
-        $this->client = $client;
-        $this->request = $request;
-        $this->log = $logger;
-    }
+    public function __construct(
+        private Client $client,
+        private Request $request,
+    ) {}
 
     /**
      * Disables Recaptcha for the current request.
      */
-    public static function enable(bool $enabled = true)
+    public static function disable()
     {
-        config(['recaptcha.enabled' => $enabled]);
+        config(['recaptcha.enabled' => false]);
     }
 
     /**
@@ -53,7 +36,7 @@ class RecaptchaRule extends Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
+     * @param string $attribute
      * @return bool
      */
     public function passes($attribute, $value)
@@ -69,15 +52,17 @@ class RecaptchaRule extends Rule
                 'remoteip' => $this->request->ip(),
             ],
         ]);
-        $result = json_decode($response->getBody(), true);
 
-        $this->log->debug('Recaptcha response', ['response' => $result]);
+        $result = json_decode($response->getBody(), associative: true);
+
+        Log::debug('Recaptcha response', ['response' => $result]);
 
         $success = $result['success'];
-        if ($success === null || $success === false) {
+
+        if ($success === null) {
+            Log::warning('Recaptcha response success was null', ['response' => $result]);
             return false;
         }
-
-        return true;
+        return $success;
     }
 }

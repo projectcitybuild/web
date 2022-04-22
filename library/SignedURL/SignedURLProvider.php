@@ -3,8 +3,7 @@
 namespace Library\SignedURL;
 
 use Illuminate\Support\ServiceProvider;
-use Library\SignedURLs\Adapters\LaravelSignedURLGenerator;
-use Library\SignedURLs\SignedURLGenerator;
+use Library\SignedURL\Adapters\LaravelSignedURLGenerator;
 
 class SignedURLProvider extends ServiceProvider
 {

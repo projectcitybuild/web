@@ -16,7 +16,7 @@ class RegisterTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        RecaptchaRule::enable(false);
+        RecaptchaRule::disable();
     }
 
     private function withRequiredFormFields(Account $account): array
@@ -56,7 +56,7 @@ class RegisterTest extends TestCase
 
     public function testRecaptchaFieldIsRequired()
     {
-        RecaptchaRule::enable(true);
+        RecaptchaRule::disable();
 
         $unactivatedAccount = Account::factory()
             ->passwordUnhashed()
@@ -69,7 +69,7 @@ class RegisterTest extends TestCase
 
     public function testRecaptchaFieldIsValidated()
     {
-        RecaptchaRule::enable(true);
+        RecaptchaRule::disable();
 
         $unactivatedAccount = Account::factory()
             ->passwordUnhashed()
