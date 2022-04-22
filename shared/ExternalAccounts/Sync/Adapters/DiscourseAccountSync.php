@@ -17,7 +17,7 @@ final class DiscourseAccountSync implements ExternalAccountSync
         private RandomStringGenerator $randomStringGenerator,
     ) {}
 
-    public function sync(Account $account): void
+    public function sync(Account $account, array $scope = []): void
     {
         $payload = (new DiscoursePayload())
             ->setPcbId($account->getKey())

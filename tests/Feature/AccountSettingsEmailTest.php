@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Entities\Models\Eloquent\Account;
-use Entities\Notifications\AccountEmailChangeVerifyNotification;
+use Entities\Notifications\AccountNewEmailChangeVerifyNotification;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -46,9 +46,9 @@ class AccountSettingsEmailTest extends TestCase
         ]);
 
         // Test notification to old email
-        Notification::assertSentTo($this->account, AccountEmailChangeVerifyNotification::class);
+        Notification::assertSentTo($this->account, AccountNewEmailChangeVerifyNotification::class);
         // Test notification to new email
-        Notification::assertSentTo(Notification::route('mail', $newEmail), AccountEmailChangeVerifyNotification::class);
+        Notification::assertSentTo(Notification::route('mail', $newEmail), AccountNewEmailChangeVerifyNotification::class);
     }
 
     public function testCantChangeEmailToExistingEmail()

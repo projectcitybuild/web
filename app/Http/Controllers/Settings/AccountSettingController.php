@@ -8,8 +8,8 @@ use App\Http\Requests\AccountChangeEmailRequest;
 use App\Http\Requests\AccountChangePasswordRequest;
 use App\Http\Requests\AccountChangeUsernameRequest;
 use App\Http\WebController;
-use Domain\EmailChange\SendEmailForAccountEmailChange;
-use Domain\EmailChange\UpdateAccountEmail;
+use Domain\EmailChange\UseCases\SendEmailForAccountEmailChangeUseCase;
+use Domain\EmailChange\UseCases\UpdateAccountEmailUseCase;
 use Entities\Repositories\AccountEmailChangeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
@@ -25,7 +25,7 @@ final class AccountSettingController extends WebController
 
     public function sendVerificationEmail(
         AccountChangeEmailRequest $request,
-        SendEmailForAccountEmailChange $sendEmailForAccountEmailChange
+        SendEmailForAccountEmailChangeUseCase $sendEmailForAccountEmailChange
     ) {
         $input = $request->validated();
 
@@ -50,7 +50,7 @@ final class AccountSettingController extends WebController
     public function showConfirmForm(
         Request $request,
         AccountEmailChangeRepository $emailChangeRepository,
-        UpdateAccountEmail $updateAccountEmail
+        UpdateAccountEmailUseCase $updateAccountEmail
     ) {
         $token = $request->get('token');
         $email = $request->get('email');
