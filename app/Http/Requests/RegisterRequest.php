@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\DiscourseUsernameRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Library\Recaptcha\Rules\RecaptchaRule;
 
 final class RegisterRequest extends FormRequest
 {
@@ -17,7 +18,7 @@ final class RegisterRequest extends FormRequest
             'username' => ['required', 'unique:accounts,username', new DiscourseUsernameRule()],
             'password' => 'required|min:8',    // discourse min is 8 or greater
             'password_confirm' => 'required_with:password|same:password',
-            'g-recaptcha-response' => 'required|recaptcha',
+            'g-recaptcha-response' => 'recaptcha',
             'terms' => 'accepted',
         ];
     }

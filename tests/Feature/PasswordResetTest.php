@@ -9,6 +9,7 @@ use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\AccountPasswordReset;
 use Entities\Notifications\AccountPasswordResetNotification;
 use Illuminate\Support\Facades\Notification;
+use Library\SignedURL\Adapters\StubSignedURLGenerator;
 use Library\Tokens\Adapters\StubTokenGenerator;
 use Tests\TestCase;
 
@@ -28,7 +29,7 @@ class PasswordResetTest extends TestCase
         $this->useCase = new SendPasswordResetEmailUseCase(
             passwordResetRepository: $this->passwordResetRepository,
             tokenGenerator: new StubTokenGenerator('token'),
-            passwordResetURLGenerator: new PasswordResetURLGenerator(),
+            signedURLGenerator: new StubSignedURLGenerator(outputURL: 'url'),
         );
 
         Notification::fake();
@@ -44,15 +45,6 @@ class PasswordResetTest extends TestCase
         )->assertSessionHasNoErrors();
 
         Notification::assertSentTo($this->account, AccountPasswordResetNotification::class);
-    }
-
-    public function test_user_can_view_password_reset()
-    {
-        $token = 'test';
-        AccountPasswordReset::factory()->create(['token' => $token]);
-        $url = (new PasswordResetURLGenerator())->make($token);
-
-        $this->get($url)->assertSuccessful();
     }
 
     public function test_user_can_change_password()

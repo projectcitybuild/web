@@ -20,11 +20,11 @@ class ExternalAccountsProvider extends ServiceProvider
         $isEnabled = config('discourse.enabled');
 
         if ($isEnabled) {
-            $this->app->bind(ExternalAccountSync::class, DiscourseAccountSync::class);
-            $this->app->bind(ExternalAccountsSession::class, DiscourseAccountSession::class);
+            $this->app->bind(abstract: ExternalAccountSync::class, concrete: DiscourseAccountSync::class);
+            $this->app->bind(abstract: ExternalAccountsSession::class, concrete: DiscourseAccountSession::class);
         } else {
-            $this->app->bind(ExternalAccountSync::class, StubAccountSync::class);
-            $this->app->bind(ExternalAccountsSession::class, StubAccountSession::class);
+            $this->app->bind(abstract: ExternalAccountSync::class, concrete: StubAccountSync::class);
+            $this->app->bind(abstract: ExternalAccountsSession::class, concrete: StubAccountSession::class);
         }
     }
 }

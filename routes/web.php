@@ -331,3 +331,9 @@ Route::group(['prefix' => 'panel', 'as' => 'front.panel.', 'namespace' => 'Panel
         ]);
     });
 });
+
+if (! Environment::isProduction()) {
+    Route::get('signed', fn () => 'test')
+        ->name('test-signed')
+        ->middleware('signed');
+}

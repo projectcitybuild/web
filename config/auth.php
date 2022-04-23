@@ -112,6 +112,7 @@ return [
 
     'totp' => [
         'backup_code_length' => 32,
+        'bypass' => env('TOTP_BYPASS', false)
     ],
 
 ];

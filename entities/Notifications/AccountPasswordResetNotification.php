@@ -29,8 +29,6 @@ final class AccountPasswordResetNotification extends Notification
     {
         return (new MailMessage())
             ->subject('Password Reset Confirmation')
-            ->from('no-reply@projectcitybuild.com')
-
             ->greeting('Password Recovery')
             ->line('You or somebody else has requested for your password to be reset. Use the below link if you wish to proceed.')
             ->action('Reset Your Password', $this->passwordResetURL)
