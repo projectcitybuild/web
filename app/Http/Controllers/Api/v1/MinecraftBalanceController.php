@@ -27,7 +27,9 @@ final class MinecraftBalanceController extends ApiController
             identifier: PlayerIdentifier::minecraftUUID($uuid),
         );
         return [
-            'balance' => $balance,
+            'data' => [
+                'balance' => $balance,
+            ],
         ];
     }
 
