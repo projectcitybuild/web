@@ -66,7 +66,10 @@ Route::get('logout', [LogoutController::class, 'logout'])
     ->middleware('auth');
 
 Route::prefix('donate')->group(function () {
-    Route::get('/', [DonationController::class, 'index'])
+//    Route::get('/', [DonationController::class, 'index'])
+//        ->name('front.donate');
+
+    Route::get('/', function() { abort(503); })
         ->name('front.donate');
 
     Route::post('checkout', [DonationController::class, 'checkout'])
