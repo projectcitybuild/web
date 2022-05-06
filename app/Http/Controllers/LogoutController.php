@@ -13,29 +13,9 @@ final class LogoutController extends WebController
         private LogoutUseCase $logoutUseCase,
     ) {}
 
-    /**
-     * Logs out the current PCB account.
-     * (called from Discourse)
-     */
-    public function logoutFromDiscourse(Request $request): RedirectResponse
-    {
-        $this->logoutUseCase->logoutOfPCB();
-
-        // Prevent session fixation
-        // https://laravel.com/docs/9.x/authentication#logging-out
-        $request->session()->regenerateToken();
-
-        return redirect()->route('front.home');
-    }
-
-    /**
-     * Logs out the current PCB account and its associated Discourse account.
-     *
-     * (called from this site)
-     */
     public function logout(Request $request): RedirectResponse
     {
-        $this->logoutUseCase->logoutOfDiscourseAndPCB();
+        $this->logoutUseCase->logoutOfPCB();
 
         // Prevent session fixation
         // https://laravel.com/docs/9.x/authentication#logging-out

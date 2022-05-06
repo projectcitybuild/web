@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\View;
 
 final class AccountSettingController extends WebController
 {
-    public function showView(Request $request)
+    public function show(Request $request)
     {
         $user = $request->user();
 

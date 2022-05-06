@@ -25,7 +25,7 @@ final class LoginController extends WebController
         return view('v2.front.pages.login.login');
     }
 
-    public function loginFromPCB(
+    public function login(
         LoginRequest $request,
         LoginUseCase $loginUseCase,
     ): RedirectResponse {
@@ -75,17 +75,6 @@ final class LoginController extends WebController
         // https://laravel.com/docs/9.x/authentication#authenticating-users
         $request->session()->regenerate();
 
-        // SSO login needs to be in separate route due to reuse by Discourse
-        return redirect()->intended(route('front.sso.discourse'));
-    }
-
-    public function loginFromDiscourse(
-        Request $request,
-        ExternalAccountsSession $externalAccountsSession,
-    ): RedirectResponse {
-        return $externalAccountsSession->login(
-            account: $request->user(),
-            nonce: DiscoursePackedNonce::fromRequest($request)
-        );
+        return redirect()->intended();
     }
 }
