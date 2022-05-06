@@ -10,7 +10,7 @@ final class StubRecaptchaValidator implements RecaptchaValidator
         private bool $passed,
     ) {}
 
-    public function passed(string $token, string $ip): bool
+    public function passed(?string $token, string $ip): bool
     {
         return $this->passed;
     }

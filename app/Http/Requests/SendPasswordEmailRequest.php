@@ -34,7 +34,7 @@ final class SendPasswordEmailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'email|required',
+            'email' => 'required|email',
             'g-recaptcha-response' => 'recaptcha',
         ];
     }
@@ -55,6 +55,9 @@ final class SendPasswordEmailRequest extends FormRequest
             $input = $validator->getData();
             $email = $input['email'];
 
+            if (empty($email)) {
+                return;
+            }
             $account = $this->accountRepository->getByEmail($email);
 
             if ($account === null) {

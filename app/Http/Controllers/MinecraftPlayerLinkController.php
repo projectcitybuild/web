@@ -15,7 +15,7 @@ final class MinecraftPlayerLinkController extends WebController
         $authCode = MinecraftAuthCode::where('token', $token)->first();
 
         if ($authCode === null) {
-            return view('front.pages.minecraft-auth.error', [
+            return view('v2.front.pages.minecraft-auth.error', [
                 'message' => 'Invalid or expired token. Please restart the authentication process from in-game',
             ]);
         }
