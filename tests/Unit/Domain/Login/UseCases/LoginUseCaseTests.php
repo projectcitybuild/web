@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Services;
+namespace Tests\Unit\Domain\Login\UseCases;
 
 use App\Http\Middleware\MfaGate;
 use Database\Factories\AccountFactory;
@@ -20,7 +20,6 @@ class LoginUseCaseTests extends TestCase
 {
     use RefreshDatabase;
 
-    private ExternalAccountSync $externalAccountSync;
     private AccountRepository $accountRepository;
     private LoginUseCase $useCase;
 
@@ -28,11 +27,9 @@ class LoginUseCaseTests extends TestCase
     {
         parent::setUp();
 
-        $this->externalAccountSync = \Mockery::mock(ExternalAccountSync::class);
         $this->accountRepository = \Mockery::mock(AccountRepository::class);
 
         $this->useCase = new LoginUseCase(
-            externalAccountSync: $this->externalAccountSync,
             accountRepository: $this->accountRepository,
         );
     }
@@ -96,31 +93,6 @@ class LoginUseCaseTests extends TestCase
         );
 
         $this->assertTrue(Auth::check());
-    }
-
-    public function test_syncs_username_with_external_service()
-    {
-        $account = Account::factory()->create(['username' => null]);
-
-        $this->accountRepository
-            ->shouldReceive('getByEmail')
-            ->andReturn($account);
-
-        $this->accountRepository
-            ->shouldReceive('touchLastLogin');
-
-        $this->externalAccountSync
-            ->shouldReceive('matchExternalUsername')
-            ->with($account);
-
-        $this->useCase->execute(
-            credentials: new LoginCredentials(
-                email: $account->email,
-                password: AccountFactory::UNHASHED_PASSWORD,
-            ),
-            shouldRemember: false,
-            ip: 'ip',
-        );
     }
 
     public function test_puts_session_if_2fa_enabled()

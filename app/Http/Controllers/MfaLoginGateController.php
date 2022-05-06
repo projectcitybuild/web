@@ -49,6 +49,6 @@ class MfaLoginGateController extends WebController
 
         Session::forget(MfaGate::NEEDS_MFA_KEY);
 
-        return redirect()->intended(route('front.sso.discourse'));
+        return redirect()->intended();
     }
 }

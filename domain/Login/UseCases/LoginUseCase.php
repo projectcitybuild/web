@@ -9,7 +9,6 @@ use Domain\Login\Exceptions\InvalidLoginCredentialsException;
 use Entities\Repositories\AccountRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 
 /**
  * @final
@@ -17,7 +16,6 @@ use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 class LoginUseCase
 {
     public function __construct(
-        private ExternalAccountSync $externalAccountSync,
         private AccountRepository $accountRepository,
     ) {}
 
@@ -46,12 +44,6 @@ class LoginUseCase
         );
 
         $this->accountRepository->touchLastLogin($account, $ip);
-
-        // Set the account's username to their external service account's
-        // if it isn't already set
-        if ($account->username === null) {
-            $this->externalAccountSync->matchExternalUsername($account);
-        }
 
         // Check if the user needs to complete 2FA
         if ($account->is_totp_enabled) {

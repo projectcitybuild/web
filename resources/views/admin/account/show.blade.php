@@ -4,16 +4,6 @@
     {{ $account->username ?? $account->email }}'s Account
 @endsection
 
-@section('toolbar')
-    <form action="{{ route('front.panel.accounts.force-discourse-sync', $account) }}" method="post" class="d-inline">
-        @csrf
-        <div class="btn-group btn-group-sm" role="group">
-            <button type="submit" class="btn btn-sm btn-outline-secondary"><i class="fas fa-sync"></i> SSO Sync</button>
-            <a href="{{ route('front.panel.accounts.discourse-admin-redirect', $account) }}" class="btn btn-outline-secondary"><i class="fas fa-external-link-square-alt"></i> Forum Admin</a>
-        </div>
-    </form>
-@endsection
-
 @section('body')
     <div class="row">
         <div class="col-md-6">

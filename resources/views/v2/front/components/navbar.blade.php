@@ -63,12 +63,7 @@
                 <li>
                     <a href="javascript:void(0)" class="nav-dropdown">Account <i class="fas fa-caret-down"></i></a>
                     <ul class="dropdown single">
-                        <li><a href="{{ route('front.account.profile') }}">Account Settings</a></li>
-                        <li class="divider">
-                            <a href="https://forums.projectcitybuild.com/my/preferences/account">
-                                Forum Settings
-                            </a>
-                        </li>
+                        <li class="divider"><a href="{{ route('front.account.profile') }}">Account Settings</a></li>
                         <li>
                             <a href="{{ route('front.logout') }}">
                                 <i class="fas fa-sign-out-alt"></i> Logout

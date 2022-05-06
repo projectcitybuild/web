@@ -15,7 +15,7 @@ use Illuminate\View\View;
 
 final class RegisterController extends WebController
 {
-    public function showRegisterView(Request $request): View|Response
+    public function show(Request $request): View|Response
     {
         if ($request->session()->has('url.intended')) {
             return response()
