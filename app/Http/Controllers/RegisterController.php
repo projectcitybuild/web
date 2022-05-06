@@ -19,7 +19,7 @@ final class RegisterController extends WebController
     {
         if ($request->session()->has('url.intended')) {
             return response()
-                ->view('front.pages.register.register')
+                ->view('v2.front.pages.register.register')
                 ->cookie('intended', $request->session()->get('url.intended'), 60);
         }
 
