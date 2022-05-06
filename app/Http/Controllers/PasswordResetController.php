@@ -18,20 +18,22 @@ final class PasswordResetController extends WebController
      */
     public function create()
     {
-        return view('front.pages.password-reset.password-reset');
+        return view('v2.front.pages.password-reset.password-reset');
     }
 
     /**
      * Creates a password reset request and sends a verification email to the user.
      */
-    public function store(SendPasswordEmailRequest $request, SendPasswordResetEmailUseCase $sendPasswordResetEmail)
-    {
+    public function store(
+        SendPasswordEmailRequest $request,
+        SendPasswordResetEmailUseCase $sendPasswordResetEmail,
+    ) {
         $input = $request->validated();
         $email = $input['email'];
 
         $sendPasswordResetEmail->execute(
-            $request->getAccount(),
-            $email
+            account: $request->getAccount(),
+            email: $email,
         );
 
         return redirect()->back()->with(['success' => $email]);
@@ -59,7 +61,7 @@ final class PasswordResetController extends WebController
                 ->withErrors('error', 'URL is invalid or has expired. Please try again');
         }
 
-        return view('front.pages.password-reset.password-reset-form', [
+        return view('v2.front.pages.password-reset.password-reset-form', [
             'passwordToken' => $token,
         ]);
     }
@@ -84,6 +86,6 @@ final class PasswordResetController extends WebController
                 ->withErrors('error', $e->getMessage());
         }
 
-        return view('front.pages.password-reset.password-reset-success');
+        return view('v2.front.pages.password-reset.password-reset-success');
     }
 }

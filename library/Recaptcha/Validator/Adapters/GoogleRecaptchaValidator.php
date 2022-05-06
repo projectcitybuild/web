@@ -8,8 +8,11 @@ use Library\Recaptcha\Validator\RecaptchaValidator;
 
 final class GoogleRecaptchaValidator implements RecaptchaValidator
 {
-    public function passed(string $token, string $ip): bool
+    public function passed(?string $token, string $ip): bool
     {
+        if (empty($token)) {
+            return false;
+        }
         $response = Http::asForm()->post(
             url: 'https://www.google.com/recaptcha/api/siteverify',
             data: [
