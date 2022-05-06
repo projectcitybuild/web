@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Entities\Models\Eloquent\Account;
 use Illuminate\Foundation\Testing\WithFaker;
-use Library\Discourse\Api\DiscourseAdminApi;
 use Tests\TestCase;
 
 class AccountSettingsUsernameTest extends TestCase
@@ -29,10 +28,6 @@ class AccountSettingsUsernameTest extends TestCase
     public function testChangeUsername()
     {
         $this->withoutExceptionHandling();
-
-        $this->mock(DiscourseAdminApi::class, function ($mock) {
-            $mock->shouldReceive('requestSSOSync')->once();
-        });
 
         $newUsername = $this->faker->userName;
         $this->submitUsernameChange($newUsername)

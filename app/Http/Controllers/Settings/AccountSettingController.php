@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\View;
 
 final class AccountSettingController extends WebController
 {
-    public function showView(Request $request)
+    public function show(Request $request)
     {
         $user = $request->user();
 
@@ -104,8 +104,8 @@ final class AccountSettingController extends WebController
         $input = $request->validated();
 
         $updateUsername->execute(
-            $request->user(),
-            $input['username']
+            account: $request->user(),
+            newUsername: $input['username'],
         );
 
         return redirect()

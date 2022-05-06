@@ -10,13 +10,10 @@ use Domain\Login\Exceptions\InvalidLoginCredentialsException;
 use Domain\Login\UseCases\LoginUseCase;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Library\Discourse\Entities\DiscoursePackedNonce;
 use Library\RateLimit\Storage\SessionTokenStorage;
 use Library\RateLimit\TokenBucket;
 use Library\RateLimit\TokenRate;
-use Shared\ExternalAccounts\Session\ExternalAccountsSession;
 
 final class LoginController extends WebController
 {
@@ -25,7 +22,7 @@ final class LoginController extends WebController
         return view('v2.front.pages.login.login');
     }
 
-    public function loginFromPCB(
+    public function login(
         LoginRequest $request,
         LoginUseCase $loginUseCase,
     ): RedirectResponse {
@@ -75,17 +72,6 @@ final class LoginController extends WebController
         // https://laravel.com/docs/9.x/authentication#authenticating-users
         $request->session()->regenerate();
 
-        // SSO login needs to be in separate route due to reuse by Discourse
-        return redirect()->intended(route('front.sso.discourse'));
-    }
-
-    public function loginFromDiscourse(
-        Request $request,
-        ExternalAccountsSession $externalAccountsSession,
-    ): RedirectResponse {
-        return $externalAccountsSession->login(
-            account: $request->user(),
-            nonce: DiscoursePackedNonce::fromRequest($request)
-        );
+        return redirect()->intended();
     }
 }

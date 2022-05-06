@@ -178,7 +178,6 @@ return [
         /*
          * Library Service Providers...
          */
-        Library\Discourse\DiscourseServiceProvider::class,
         Library\Recaptcha\RecaptchaProvider::class,
         Library\Random\RandomProvider::class,
         Library\SignedURL\SignedURLProvider::class,
@@ -187,7 +186,6 @@ return [
         /*
          * Shared Service Providers...
          */
-        Shared\ExternalAccounts\ExternalAccountsProvider::class,
         Shared\Groups\GroupsProvider::class,
 
         /*

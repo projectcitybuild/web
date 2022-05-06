@@ -12,7 +12,6 @@ use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 class GroupsManager
 {
     public function __construct(
-        private ExternalAccountSync $externalAccountSync,
         private Group $defaultGroup,  // a.k.a. the Member group
     ) {}
 
@@ -43,8 +42,6 @@ class GroupsManager
             $account->groups()->detach($this->defaultGroup->getKey());
             $account->load('groups');
         }
-
-        $this->externalAccountSync->sync($account);
     }
 
     public function removeMember(Group $group, Account $account): void
@@ -60,7 +57,5 @@ class GroupsManager
             $account->groups()->attach($this->defaultGroup->getKey());
             $account->load('groups');
         }
-
-        $this->externalAccountSync->sync($account);
     }
 }
