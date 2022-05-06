@@ -51,11 +51,11 @@ class ExceptionHandler extends Handler
      */
     public function report(Throwable $exception)
     {
-        if (Environment::isStaging() || Environment::isProduction()) {
-            if (app()->bound('sentry') && $this->shouldReport($exception)) {
-                app('sentry')->captureException($exception);
+        $this->reportable(function (Throwable $e) {
+            if (app()->bound('sentry') && $this->shouldReport($e)) {
+                app('sentry')->captureException($e);
             }
-        }
+        });
 
         parent::report($exception);
     }
