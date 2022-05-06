@@ -10,12 +10,12 @@ nav.pagination {
     }
 
     li {
-        background: $colour-basic;
+        background: $color-basic;
         box-shadow: 0 2px 5px 1px hsla(0, 0%, 0%, 0.05);
-        border-bottom: 3px solid darken($colour-basic, 10%);
+        border-bottom: 3px solid darken($color-basic, 10%);
         transition: all 0.3s ease;
         user-select: none;
-        
+
         &:first-child {
             border-radius: 5px 0 0 5px;
         }
@@ -23,31 +23,31 @@ nav.pagination {
             border-radius: 0 5px 5px 0;
         }
         &:not(:last-child) {
-            border-right: 1px solid darken($colour-basic, 10%);
+            border-right: 1px solid darken($color-basic, 10%);
         }
         &:hover {
-            background: lighten($colour-basic, 5%);
-            border-bottom-color: darken($colour-basic, 5%);
+            background: lighten($color-basic, 5%);
+            border-bottom-color: darken($color-basic, 5%);
         }
         &:focus,
         &:active {
             border-bottom-width: 1px;
-            background: darken($colour-basic, 5%);
-            border-bottom-color: darken($colour-basic, 10%);
+            background: darken($color-basic, 5%);
+            border-bottom-color: darken($color-basic, 10%);
         }
     }
-    
+
     li.active {
-        background: $colour-secondary;
-        border-bottom-color: darken($colour-secondary, 15%);
+        background: $color-secondary;
+        border-bottom-color: darken($color-secondary, 15%);
 
         &:hover {
-            background: lighten($colour-secondary, 5%);
-            border-bottom-color: darken($colour-secondary, 5%);
+            background: lighten($color-secondary, 5%);
+            border-bottom-color: darken($color-secondary, 5%);
         }
         &:focus,
         &:active {
-            background: darken($colour-secondary, 5%);
+            background: darken($color-secondary, 5%);
         }
 
         a {
@@ -59,19 +59,19 @@ nav.pagination {
         justify-content: center;
         align-items: center;
         padding: 0.575em 0.5em;
-        background: darken($colour-basic, 10%);
-        color: darken($colour-basic, 25%);
+        background: darken($color-basic, 10%);
+        color: darken($color-basic, 25%);
     }
     li.disabled {
-        background: lighten($colour-basic, 5%);
-        border-bottom-color: $colour-basic;
+        background: lighten($color-basic, 5%);
+        border-bottom-color: $color-basic;
 
         &:not(:last-child) {
-            border-right-color: $colour-basic;
+            border-right-color: $color-basic;
         }
 
         a {
-            color: darken($colour-basic, 20%);
+            color: darken($color-basic, 20%);
         }
     }
 
@@ -79,7 +79,6 @@ nav.pagination {
         display: block;
         padding: 0.65em 0.8em;
         text-decoration: none;
-        color: $colour-secondary;
+        color: $color-secondary;
     }
-
 }

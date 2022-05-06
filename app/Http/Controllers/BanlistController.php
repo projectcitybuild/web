@@ -19,8 +19,8 @@ final class BanlistController extends WebController
             $query = '';
         }
 
-        $bans = $bans->paginate(50);
+        $bans = $bans->paginate(5);
 
-        return view('front.pages.banlist')->with(compact('bans', 'query'));
+        return view('v2.front.pages.banlist')->with(compact('bans', 'query'));
     }
 }
