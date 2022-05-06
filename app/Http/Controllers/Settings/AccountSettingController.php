@@ -104,8 +104,8 @@ final class AccountSettingController extends WebController
         $input = $request->validated();
 
         $updateUsername->execute(
-            $request->user(),
-            $input['username']
+            account: $request->user(),
+            newUsername: $input['username'],
         );
 
         return redirect()

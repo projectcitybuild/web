@@ -15,7 +15,7 @@ final class LogoutController extends WebController
 
     public function logout(Request $request): RedirectResponse
     {
-        $this->logoutUseCase->logoutOfPCB();
+        $this->logoutUseCase->execute();
 
         // Prevent session fixation
         // https://laravel.com/docs/9.x/authentication#logging-out

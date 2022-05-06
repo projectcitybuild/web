@@ -249,16 +249,6 @@ Route::group([
     });
 
     Route::group(['prefix' => 'accounts/{account}', 'as' => 'accounts.'], function () {
-        Route::get('discourse-admin', [
-            'as' => 'discourse-admin-redirect',
-            'uses' => 'AccountDiscourseAdminRedirect',
-        ]);
-
-        Route::post('force-sync', [
-            'as' => 'force-discourse-sync',
-            'uses' => 'AccountDiscourseForceSync',
-        ]);
-
         Route::post('activate', [
             'as' => 'activate',
             'uses' => 'AccountActivate',

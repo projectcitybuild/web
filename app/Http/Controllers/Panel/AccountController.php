@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Http\Actions\SyncUserToDiscourse;
 use App\Http\WebController;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\Group;
 use Illuminate\Http\Request;
-use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 
 class AccountController extends WebController
 {
@@ -59,15 +57,12 @@ class AccountController extends WebController
     public function update(
         Request $request,
         Account $account,
-        ExternalAccountSync $externalAccountSync,
     ) {
         // TODO: Validate this
         $account->update($request->all());
         $account->save();
 
         $account->emailChangeRequests()->delete();
-
-        $externalAccountSync->sync($account);
 
         return redirect(route('front.panel.accounts.show', $account));
     }

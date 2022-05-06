@@ -2,10 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Http\Actions\SyncUserToDiscourse;
 use Entities\Models\Eloquent\Account;
 use Illuminate\Foundation\Testing\WithFaker;
-use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 use Tests\TestCase;
 
 class PanelAccountTest extends TestCase
@@ -32,10 +30,6 @@ class PanelAccountTest extends TestCase
             'email' => $this->faker->email,
             'username' => $this->faker->userName,
         ];
-
-        $this->mock(ExternalAccountSync::class, function ($mock) {
-            $mock->shouldReceive('sync')->once();
-        });
 
         $this->actingAs($this->adminAccount())
             ->withoutExceptionHandling()

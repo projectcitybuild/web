@@ -1,36 +1,29 @@
 <?php
 
-namespace Tests\Services;
+namespace Tests\Unit\Domain\Login\UseCases;
 
 use Domain\Login\UseCases\LogoutUseCase;
 use Entities\Models\Eloquent\Account;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
-use Shared\ExternalAccounts\Session\ExternalAccountsSession;
 use Tests\TestCase;
 
 class LogoutUseCaseTests extends TestCase
 {
     use RefreshDatabase;
 
-    private ExternalAccountsSession $externalAccountsSession;
     private LogoutUseCase $useCase;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->externalAccountsSession = \Mockery::mock(ExternalAccountsSession::class);
-
-        $this->useCase = new LogoutUseCase(
-            externalAccountsSession: $this->externalAccountsSession,
-        );
+        $this->useCase = new LogoutUseCase();
     }
 
     public function test_returns_false_if_not_logged_in()
     {
-        $this->assertFalse($this->useCase->logoutOfPCB());
-        $this->assertFalse($this->useCase->logoutOfDiscourseAndPCB());
+        $this->assertFalse($this->useCase->execute());
     }
 
     public function test_logs_out_of_pcb()
@@ -39,21 +32,7 @@ class LogoutUseCaseTests extends TestCase
         Auth::setUser($account);
 
         $this->assertTrue(Auth::check());
-        $this->assertTrue($this->useCase->logoutOfPCB());
-        $this->assertFalse(Auth::check());
-    }
-
-    public function test_logs_out_of_pcb_and_discourse()
-    {
-        $account = Account::factory()->create();
-        Auth::setUser($account);
-
-        $this->externalAccountsSession
-            ->shouldReceive('logout')
-            ->with($account->getKey());
-
-        $this->assertTrue(Auth::check());
-        $this->assertTrue($this->useCase->logoutOfDiscourseAndPCB());
+        $this->assertTrue($this->useCase->execute());
         $this->assertFalse(Auth::check());
     }
 }

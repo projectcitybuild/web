@@ -10,13 +10,10 @@ use Domain\Login\Exceptions\InvalidLoginCredentialsException;
 use Domain\Login\UseCases\LoginUseCase;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Library\Discourse\Entities\DiscoursePackedNonce;
 use Library\RateLimit\Storage\SessionTokenStorage;
 use Library\RateLimit\TokenBucket;
 use Library\RateLimit\TokenRate;
-use Shared\ExternalAccounts\Session\ExternalAccountsSession;
 
 final class LoginController extends WebController
 {

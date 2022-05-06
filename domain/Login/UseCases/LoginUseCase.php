@@ -9,7 +9,6 @@ use Domain\Login\Exceptions\InvalidLoginCredentialsException;
 use Entities\Repositories\AccountRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 
 /**
  * @final

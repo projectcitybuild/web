@@ -11,7 +11,7 @@ class LogoutUseCase
      *
      * @return bool Whether logout was successful
      */
-    public function logoutOfPCB(): bool
+    public function execute(): bool
     {
         if (! Auth::check()) {
             return false;

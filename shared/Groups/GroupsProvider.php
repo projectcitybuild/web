@@ -16,7 +16,6 @@ class GroupsProvider extends ServiceProvider
     {
         $this->app->bind(GroupsManager::class, function ($app) {
             return new GroupsManager(
-                externalAccountSync: $app->make(ExternalAccountSync::class),
                 defaultGroup: Group::where('is_default', true)->first()
                     ?? throw new \Exception("Could not find default group. Is there a group with `is_default=true`?")
             );
