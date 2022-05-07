@@ -38,6 +38,7 @@ class CreateUnactivatedAccountUseCase
             expiresAt: now()->addDay(),
             parameters: ['email' => $account->email],
         );
+
         $account->notify(
             new AccountActivationNotification(activationURL: $activationURL)
         );
