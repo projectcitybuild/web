@@ -29,6 +29,10 @@
         background-image: linear-gradient(to right, hsla(0, 0, 0, 0.25) 20%, hsla(0, 21%, 7%, 90%)),
                           url('/assets/images/hero-bg6.png');
     }
+    &.bg-5 {
+        background-image: linear-gradient(to right, hsla(0, 0, 0, 0) 40%, hsla(0, 21%, 7%, 79%)),
+                          url('/assets/images/hero-bg7.png');
+    }
 
     &__dim {
         position: absolute;

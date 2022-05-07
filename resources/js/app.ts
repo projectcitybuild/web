@@ -58,6 +58,7 @@ if (heroElement) {
         "bg-1",
         "bg-3",
         "bg-4",
+        "bg-5",
     ]
     const roll = Math.floor(Math.random() * (choices.length))
     heroElement.classList.add(choices[roll])
