@@ -26,7 +26,6 @@ mix.typeScript('resources/js/admin/admin.ts', 'public/assets/admin/js')
 
 if(mix.config.production) {
     mix.version();
-
 } else {
     mix.browserSync({
         open: false,
