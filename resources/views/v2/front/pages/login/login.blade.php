@@ -23,6 +23,13 @@
                         </div>
                     @endif
 
+                    @if(session()->has('success'))
+                        <div class="alert alert--success">
+                            <h2><i class="fas fa-check"></i> Success</h2>
+                            {{ session()->get('success') }}
+                        </div>
+                    @endif
+
                     <label for="email">Email</label>
                     <input
                         class="textfield {{ $errors->any() ? 'error' : '' }}"
