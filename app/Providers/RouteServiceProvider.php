@@ -76,14 +76,17 @@ class RouteServiceProvider extends ServiceProvider
         // For backwards compatibility, fallback to v1 if no version specified
         Route::prefix('api')
             ->middleware(['api'])
+            ->name('v0.')
             ->group(base_path('routes/api_v1.php'));
 
         Route::prefix('api/v1')
             ->middleware(['api'])
+            ->name('v1.')
             ->group(base_path('routes/api_v1.php'));
 
         Route::prefix('api/v2')
             ->middleware(['api'])
+            ->name('v1.')
             ->group(base_path('routes/api_v2.php'));
     }
 }

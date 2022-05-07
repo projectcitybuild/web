@@ -135,7 +135,7 @@ Route::prefix('login')->group(function () {
         ->middleware('auth');
 
     Route::post('/reauth', [ReauthController::class, 'process'])
-        ->name('password.confirm')
+        ->name('password.confirm.submit')
         ->middleware(['auth', 'throttle:6,1']);
 
     Route::get('/mfa', [MfaLoginGateController::class, 'create'])
@@ -143,7 +143,7 @@ Route::prefix('login')->group(function () {
         ->middleware(['auth', 'active-mfa']);
 
     Route::post('/mfa', [MfaLoginGateController::class, 'store'])
-        ->name('front.login.mfa')
+        ->name('front.login.mfa.submit')
         ->middleware(['auth', 'active-mfa', 'throttle:6,1']);
 
     Route::get('/mfa/recover', [MfaBackupController::class, 'show'])
@@ -151,7 +151,7 @@ Route::prefix('login')->group(function () {
         ->middleware(['auth', 'active-mfa']);
 
     Route::delete('/mfa/recover', [MfaBackupController::class, 'destroy'])
-        ->name('front.login.mfa-recover')
+        ->name('front.login.mfa-recover.submit')
         ->middleware(['auth', 'active-mfa', 'throttle:6,1']);
 });
 
@@ -243,7 +243,7 @@ Route::group([
             ->middleware('password.confirm');
 
         Route::delete('/mfa/disable', [DisableMfaController::class, 'destroy'])
-            ->name('front.account.security.disable')
+            ->name('front.account.security.disable.confirm')
             ->middleware('password.confirm');
 
         Route::get('/mfa/backup', [ResetBackupController::class, 'show'])
@@ -251,7 +251,7 @@ Route::group([
             ->middleware('password.confirm');
 
         Route::post('/mfa/backup', [ResetBackupController::class, 'update'])
-            ->name('front.account.security.reset-backup')
+            ->name('front.account.security.reset-backup.confirm')
             ->middleware('password.confirm');
     });
 });

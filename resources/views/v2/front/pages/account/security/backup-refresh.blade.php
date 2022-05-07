@@ -17,7 +17,7 @@
                 <p class="form__description">Are you sure you want to refresh your 2FA backup code?</p>
                 <p class="form__description">The old backup code will stop working and you'll need to safely store the
                     new one.</p>
-                <form action="{{ route('front.account.security.reset-backup') }}" method="post" class="toolbar">
+                <form action="{{ route('front.account.security.reset-backup.confirm') }}" method="post" class="toolbar">
                     @csrf
                     <a href="{{ route('front.account.security') }}"
                        class="button button--filled button--secondary">Cancel</a>
