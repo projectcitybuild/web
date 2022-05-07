@@ -1,7 +1,5 @@
 .hero {
     width: 100%;
-    background-image: linear-gradient(to right, hsla(0, 0, 0, 0) 40%, hsla(0, 21%, 7%, 79%)),
-                      url('/assets/images/hero-bg1.png');
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
@@ -12,6 +10,35 @@
         grid-template-columns: 35% auto;
         grid-template-rows: auto;
         column-gap: 4em;
+    }
+
+    &.bg-1 {
+        background-image: linear-gradient(to right, hsla(0, 0, 0, 0) 40%, hsla(0, 21%, 7%, 79%)),
+                          url('/assets/images/hero-bg1.png');
+    }
+    &.bg-2 {
+        background-image: linear-gradient(to right, hsla(0, 0, 0, 0.2) 20%, hsla(0, 21%, 7%, 85%)),
+                          linear-gradient(hsla(0, 0, 0, 0.2), hsla(0, 0, 0, 0.2)),
+                          url('/assets/images/hero-bg4.png');
+    }
+    &.bg-3 {
+        background-image: linear-gradient(to right, hsla(0, 0, 0, 0) 40%, hsla(0, 21%, 7%, 79%)),
+                          url('/assets/images/hero-bg5.png');
+    }
+    &.bg-4 {
+        background-image: linear-gradient(to right, hsla(0, 0, 0, 0.25) 20%, hsla(0, 21%, 7%, 90%)),
+                          url('/assets/images/hero-bg6.png');
+    }
+    &.bg-5 {
+        background-image: linear-gradient(to right, hsla(0, 0, 0, 0) 40%, hsla(0, 21%, 7%, 79%)),
+                          url('/assets/images/hero-bg7.png');
+    }
+
+    &__dim {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(to right, hsla(0, 0, 0, 0) 40%, hsla(0, 21%, 7%, 79%));
     }
 
     &__server-feed {
