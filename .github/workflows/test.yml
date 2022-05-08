@@ -72,7 +72,6 @@ jobs:
             resources/js
             resources/sass
             public
-            package-lock.json
 
       - name: Restore front-end asset cache
         id: assets-cache
@@ -82,7 +81,7 @@ jobs:
             resources/js
             resources/sass
             public
-          key: ${{ runner.os }}-assets-v1-${{ steps.get-assets-cache.outputs.hash }}
+          key: ${{ runner.os }}-assets-v1-${{ steps.get-assets-cache.outputs.hash }}-${{ hashFiles('package-lock.json') }}
           restore-keys: ${{ runner.os }}-assets-
 
       - name: Build front-end assets
