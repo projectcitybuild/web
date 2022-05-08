@@ -34,6 +34,8 @@ mix.webpackConfig({
 if(mix.inProduction()) {
     mix.version();
 } else {
+    mix.sourceMaps();
+
     mix.browserSync({
         open: false,
         proxy: 'laravel.test',
