@@ -26,3 +26,15 @@
     php artisan queue:restart
     php artisan up
 @endtask
+
+@error
+    @discord(env('DEPLOY_DISCORD_WEBHOOK_URL'), 'Deployment failed')
+@enderror
+
+@success
+    @discord(env('DEPLOY_DISCORD_WEBHOOK_URL'), 'Deployment succeeded')
+@endsuccess
+
+@finished
+    @discord(env('DEPLOY_DISCORD_WEBHOOK_URL'), 'Deployment task ended')
+@endfinished
