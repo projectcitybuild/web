@@ -108,3 +108,11 @@ jobs:
           MYSQL_USER: root
           MYSQL_ROOT_PASSWORD: root
         run: php artisan test
+
+      - name: Deploy (Staging)
+        if: github.ref == 'refs/heads/master'
+        run: curl ${{ secrets.DEPLOY_STAGING_URL }}?secret=${{ secrets.DEPLOY_STAGING_SECRET }}&sha=${{ github.sha }}
+
+      - name: Deploy (Production)
+        if: github.ref == 'refs/heads/release'
+        run: curl ${{ secrets.DEPLOY_PRODUCTION_URL }}?secret=${{ secrets.DEPLOY_PRODUCTION_SECRET }}&sha=${{ github.sha }}
