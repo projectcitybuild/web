@@ -72,6 +72,7 @@ jobs:
             resources/js
             resources/sass
             public
+            package-lock.json
 
       - name: Restore front-end asset cache
         id: assets-cache
