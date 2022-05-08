@@ -14,7 +14,7 @@
     echo "=> Pulling from ".$branch;
     git pull origin {{ $branch }}
 
-    composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
+    composer install --no-interaction --prefer-dist --optimize-autoloader
 
     npm install --no-audit --no-fund --no-optional
     npm run production

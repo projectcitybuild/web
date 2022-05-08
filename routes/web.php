@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BanlistController;
+use App\Http\Controllers\DeployController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
@@ -55,6 +56,8 @@ Route::permanentRedirect('report', 'https://forums.projectcitybuild.com/w/player
 | All available routes for the front-end
 |
 */
+Route::get('deploy', DeployController::class);
+
 Route::get('/', [HomeController::class, 'index'])
     ->name('front.home');
 
