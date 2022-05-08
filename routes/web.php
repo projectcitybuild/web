@@ -86,6 +86,10 @@ Route::prefix('login')->group(function () {
         ->name('front.login.submit')
         ->middleware('guest');
 
+    Route::get('/reactivate', [LoginController::class, 'resendActivationEmail'])
+        ->name('front.login.reactivate')
+        ->middleware(['guest', 'throttle:3,1']);
+
     Route::get('/reauth', [ReauthController::class, 'show'])
         ->name('password.confirm')
         ->middleware('auth');

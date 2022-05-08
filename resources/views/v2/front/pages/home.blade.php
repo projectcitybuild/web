@@ -6,7 +6,7 @@
 One of the world's longest-running Minecraft servers; we're a community of creative players and city builders @endsection
 
 @section('body')
-    <header class="hero">
+    <header class="hero" id="hero">
         <div class="container">
             <div class="hero__cta">
                 <h1 data-aos="fade-up" data-aos-duration="750">We Build Stuff.<br />Come Join Us!</h1>

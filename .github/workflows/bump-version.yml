@@ -14,28 +14,20 @@ jobs:
           fetch-depth: '0'
 
       - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@1.26.0
-        id: Tag
+        uses: anothrNick/github-tag-action@1.36.0
+        id: tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
-          INITIAL_VERSION: 2.0.0
+          INITIAL_VERSION: 3.13.3
           RELEASE_BRANCHES: release
-
-      - name: Generate changelog
-        uses: mikepenz/release-changelog-builder-action@v1.2.3
-        with:
-          configuration: "changelog-config.json"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.Tag.outputs.new_tag }}
+          tag_name: ${{ steps.tag.outputs.new_tag }}
           draft: false
           prerelease: false
-          body: |
-            ${{ steps.Changelog.outputs.changelog }}
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
