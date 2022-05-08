@@ -11,19 +11,25 @@
 @task('deploy')
     php artisan down
 
-    git pull --force origin {{ $branch }}
+    echo "=> Pulling from ".$branch;
+    git pull origin {{ $branch }}
 
-    composer install --no-interaction --quiet --no-dev --prefer-dist --optimize-autoloader
-    php artisan migrate --force
+    composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
 
     npm install --no-audit --no-fund --no-optional
     npm run production
+
+    php artisan migrate --force
 
     php artisan cache:clear
     php artisan config:clear
     php artisan view:clear
 
+{{--    php artisan config:cache--}}
+{{--    php artisan route:cache--}}
+
     php artisan queue:restart
+
     php artisan up
 @endtask
 
@@ -31,10 +37,10 @@
     @discord(env('DEPLOY_DISCORD_WEBHOOK_URL'), 'Deployment failed')
 @enderror
 
+@before
+    @discord(env('DEPLOY_DISCORD_WEBHOOK_URL'), 'Deployment starting...')
+@endbefore
+
 @success
     @discord(env('DEPLOY_DISCORD_WEBHOOK_URL'), 'Deployment succeeded')
 @endsuccess
-
-@finished
-    @discord(env('DEPLOY_DISCORD_WEBHOOK_URL'), 'Deployment task ended')
-@endfinished
