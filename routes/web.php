@@ -8,6 +8,7 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\MfaBackupController;
 use App\Http\Controllers\MfaLoginGateController;
 use App\Http\Controllers\MinecraftPlayerLinkController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ReauthController;
 use App\Http\Controllers\RegisterController;
@@ -64,6 +65,9 @@ Route::get('bans', [BanlistController::class, 'index'])
 Route::get('logout', [LogoutController::class, 'logout'])
     ->name('front.logout')
     ->middleware('auth');
+
+Route::get('p/{name}', [PageController::class, 'index'])
+    ->name('front.page');
 
 Route::prefix('donate')->group(function () {
     Route::get('/', function () { abort(503); })
@@ -235,6 +239,7 @@ Route::group([
     Route::resource('minecraft-players', 'MinecraftPlayerController')->except(['destroy']);
     Route::get('groups/{group}/accounts', 'GroupAccountController@index')->name('groups.accounts');
     Route::get('groups', 'GroupController@index')->name('groups.index');
+    Route::resource('pages', 'PageController');
 
     Route::post('minecraft-players/lookup', [
         'as' => 'minecraft-players.lookup',
