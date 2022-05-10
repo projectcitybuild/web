@@ -11,15 +11,9 @@ use PragmaRX\Google2FA\Google2FA;
 
 class MfaLoginGateController extends WebController
 {
-    private Google2FA $google2FA;
-
-    /**
-     * MfaLoginGateController constructor.
-     */
-    public function __construct(Google2FA $google2FA)
-    {
-        $this->google2FA = $google2FA;
-    }
+    public function __construct(
+        private Google2FA $google2FA
+    ) {}
 
     public function create()
     {
