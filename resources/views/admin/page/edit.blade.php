@@ -1,11 +1,20 @@
 @extends('admin.layouts.admin')
 
-@section('title', 'Edit Page #' . $page->page_id)
+@section('title', 'Edit Page: ' . $page->title)
 
 @section('toolbar')
-    <div class="btn-group btn-group-sm" role="group">
-        <a href="{{ route('front.page', $page->url) }}" class="btn btn-outline-primary" target="_blank"><i class="fas fa-eye"></i> Preview</a>
-        <a href="{{ route('front.panel.pages.create') }}" class="btn btn-outline-danger" target="_blank"><i class="fas fa-trash"></i> Delete</a>
+    <div class="btn-toolbar">
+        <div class="btn-group me-2" role="group">
+            <a href="{{ route('front.page', $page->url) }}" class="btn btn-outline-primary" target="_blank"><i class="fas fa-eye"></i> Preview</a>
+        </div>
+
+        <div class="btn-group me-2" role="group">
+            <form method="post" action="{{ route('front.panel.pages.destroy', $page) }}">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash"></i> Delete</button>
+            </form>
+        </div>
     </div>
 @endsection
 

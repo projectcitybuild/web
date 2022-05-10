@@ -35,7 +35,7 @@
             class="form-control"
             placeholder="A short description about the page shown to the user. This appears below the title..."
             rows="3"
-        >@isset($page) {{ $page->description }} @endisset</textarea>
+        >{{ old('contents', $page?->description) }}</textarea>
     </div>
 </div>
 
@@ -61,7 +61,7 @@
             class="form-control"
             placeholder="Put content here..."
             rows="20"
-        >@isset($page) {{ $page->contents }} @endisset</textarea>
+        >{{ old('contents', $page?->contents) }}</textarea>
     </div>
     <div class="col">
         <div class="card" style="width: 100%">
