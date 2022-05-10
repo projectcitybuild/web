@@ -45,9 +45,11 @@ class PageController extends WebController
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|unique:pages,name',
+            'title' => 'required|string',
+            'url' => 'required|alpha_dash|unique:pages,url',
+            'description' => 'required',
             'contents' => 'required',
-            'is_draft' => 'required|integer',
+            'is_draft' => 'integer',
         ]);
 
         if ($validator->fails()) {
@@ -57,9 +59,11 @@ class PageController extends WebController
         }
 
         Page::create([
-            'name' => $request->get('name'),
+            'title' => $request->get('title'),
+            'url' => $request->get('url'),
+            'description' => $request->get('description'),
             'contents' => $request->get('contents'),
-            'is_draft' => $request->get('is_draft'),
+            'is_draft' => $request->get('is_draft') ?? 0,
         ]);
 
         return redirect(route('front.panel.pages.index'));
@@ -83,9 +87,11 @@ class PageController extends WebController
     public function update(Request $request, Page $page)
     {
         $validator = Validator::make($request->all(), [
-            'name' => ['required', 'string', Rule::unique('pages', 'name')->ignore($page->getKey(), 'page_id')],
+            'title' => 'required|string',
+            'url' => ['required', 'alpha_dash', Rule::unique('pages', 'title')->ignore($page->getKey(), 'page_id')],
+            'description' => 'required',
             'contents' => 'required',
-            'is_draft' => 'required|integer',
+            'is_draft' => 'integer',
         ]);
 
         if ($validator->fails()) {
@@ -94,7 +100,12 @@ class PageController extends WebController
                 ->withInput();
         }
 
-        $page->update($request->all());
+        $attributes = $request->all();
+        if (! $request->has('is_draft')) {
+            $attributes['is_draft'] = false;
+        }
+
+        $page->update($attributes);
         $page->save();
 
         return redirect(route('front.panel.pages.edit', $page))

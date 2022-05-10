@@ -24,8 +24,10 @@ final class Page extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
+        'url',
+        'title',
         'contents',
+        'description',
         'is_draft',
     ];
 

@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 
 final class PageController extends WebController
 {
-    public function index(Request $request, string $name)
+    public function index(Request $request, string $url)
     {
-        $page = Page::where('name', $name)->first();
+        $page = Page::where('url', $url)->first();
 
-        if ($page === null) {
+        if ($page === null || $page->is_draft) {
             abort(404);
         }
 

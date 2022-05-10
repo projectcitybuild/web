@@ -23,11 +23,11 @@
             <tbody>
             @foreach($pages as $page)
                 <tr>
-                    <td>{{ $page->name }}</td>
+                    <td>{{ $page->title }}</td>
                     <td><x-bs.fa-boolean :data="$page->is_draft" false-class="text-muted" /></td>
                     <td>{{ $page->created_at }}</td>
                     <td>{{ $page->updated_at }}</td>
-                    <td><a href="{{ route('front.panel.pages.edit', $page->page_id) }}">Manage</a> | <a href="{{ route('front.page', $page->name) }}">Preview</a></td>
+                    <td><a href="{{ route('front.panel.pages.edit', $page->page_id) }}">Manage</a> | <a href="{{ route('front.page', $page->url) }}">Preview</a></td>
                 </tr>
             @endforeach
             </tbody>

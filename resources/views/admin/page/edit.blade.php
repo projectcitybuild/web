@@ -4,7 +4,7 @@
 
 @section('toolbar')
     <div class="btn-group btn-group-sm" role="group">
-        <a href="{{ route('front.page', $page->name) }}" class="btn btn-outline-primary" target="_blank"><i class="fas fa-eye"></i> Preview</a>
+        <a href="{{ route('front.page', $page->url) }}" class="btn btn-outline-primary" target="_blank"><i class="fas fa-eye"></i> Preview</a>
         <a href="{{ route('front.panel.pages.create') }}" class="btn btn-outline-danger" target="_blank"><i class="fas fa-trash"></i> Delete</a>
     </div>
 @endsection

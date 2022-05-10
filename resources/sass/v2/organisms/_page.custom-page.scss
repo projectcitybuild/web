@@ -1,0 +1,39 @@
+header.custom-page {
+    background-color: #545454;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    padding: 3em 0;
+
+    h1 {
+        color: white;
+        font-family: $font-header;
+        text-transform: uppercase;
+        font-weight: 500;
+        font-size: 3.8em;
+        margin: 0;
+    }
+
+    .description {
+        color: #C9C9C9;
+    }
+}
+
+.page.custom-page {
+    padding: 3em 0;
+    line-height: 1.8em;
+
+    blockquote {
+        border-left: 5px solid #d7d7d7;
+        padding: 0.5em 0 0.5em 1em;
+        margin-left: 0;
+        background-color: #ececec;
+    }
+
+    h1 {
+        border-bottom: 1px solid #cbcbcb;
+        padding-bottom: 0.3em;
+        margin-top: 1em;
+        margin-bottom: 0.5em;
+    }
+}
