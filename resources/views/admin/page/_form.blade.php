@@ -35,7 +35,7 @@
             class="form-control"
             placeholder="A short description about the page shown to the user. This appears below the title..."
             rows="3"
-        >{{ old('contents', $page?->description) }}</textarea>
+        >{{ old('description', $page?->description) }}</textarea>
     </div>
 </div>
 
@@ -55,19 +55,19 @@
 </div>
 
 <div class="row mb-3">
-    <div class="col">
-        <textarea
-            name="contents"
-            class="form-control"
-            placeholder="Put content here..."
-            rows="20"
-        >{{ old('contents', $page?->contents) }}</textarea>
-    </div>
-    <div class="col">
-        <div class="card" style="width: 100%">
-            <div class="card-body">
-                Test
-            </div>
+    <div class="markdown-preview">
+        <div class="input">
+            <textarea
+                name="contents"
+                id="contents"
+                class="form-control"
+                placeholder="Put content here..."
+                rows="20"
+                oninput="parseMarkdown()"
+            >{{ old('contents', $page?->contents) }}</textarea>
+        </div>
+        <div class="preview">
+            <div id="markdown"></div>
         </div>
     </div>
 </div>
@@ -77,3 +77,16 @@
         <button type="submit" class="btn btn-primary">{{ $buttonText }}</button>
     </div>
 </div>
+
+<script>
+    const markdown = document.getElementById('markdown')
+    const contents = document.getElementById('contents')
+
+    function parseMarkdown() {
+        markdown.innerHTML = marked.parse(
+            DOMPurify.sanitize(contents.value)
+        )
+    }
+
+    document.addEventListener('DOMContentLoaded', parseMarkdown)
+</script>

@@ -16,6 +16,8 @@
     <script defer src="{{ mix('assets/js/manifest.js') }}"></script>
     <script defer src="{{ mix('assets/admin/js/admin-vendor.js') }}"></script>
     <script defer src="{{ mix('assets/admin/js/admin.js') }}"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.6/purify.min.js"></script>
 </head>
 <body>
 <div id="app">

@@ -1,6 +1,6 @@
 @extends('v2.front.templates.master')
 
-@section('title', 'Page')
+@section('title', $page->title . ' - Project City Build')
 @section('description', 'Players listed on this page are currently banned on one or more servers on our game network')
 
 @section('body')
