@@ -12,7 +12,7 @@
 The official repository for [Project City Build](https://projectcitybuild.com)'s homepage and related web services.
 
 ### Stack
-* Frameworks: Laravel 9, ReactJS 16
+* Frameworks: Laravel 9, Vue 2
 * Environment: Dockerised with Laravel Sail
 * CI/CD: Github Actions
 

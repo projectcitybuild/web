@@ -1,7 +1,10 @@
 import Vue from 'vue';
+// import NewsBar from "./components/news-bar/NewsBar.vue"
+// import Spinner from "./components/spinner/Spinner.vue"
 
 // Register Vue Components
-import './components/register'
+Vue.component('news-bar', require('./components/news-bar/NewsBar.vue').default);
+Vue.component('spinner', require('./components/spinner/Spinner.vue').default);
 
 // Initialise base app
 const app = new Vue({

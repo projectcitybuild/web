@@ -1,0 +1,19 @@
+.markdown-preview {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-flow: column;
+    grid-auto-rows: 1fr;
+    grid-column-gap: 1em;
+
+    .input {
+        textarea {
+            height: 100%;
+        }
+    }
+
+    .preview {
+        padding: 2em;
+        overflow: scroll;
+        border: 1px solid #ccc;
+    }
+}

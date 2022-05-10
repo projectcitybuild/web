@@ -14,6 +14,7 @@ const mix = require('laravel-mix');
 mix.typeScript('resources/js/admin/admin.ts', 'public/assets/admin/js')
     .extract(['bootstrap', 'jquery', 'selectize', '@popperjs/core', 'sifter', 'microplugin'], 'assets/admin/js/admin-vendor.js')
     .typeScript('resources/js/app.ts', 'public/assets/js')
+    .vue()
     .sass('resources/sass/v2/app-v2.scss', 'public/assets/css')
     .sass('resources/sass/admin/admin-dark.scss', 'public/assets/admin/css')
     .sass('resources/sass/admin/admin-light.scss', 'public/assets/admin/css')
@@ -21,12 +22,20 @@ mix.typeScript('resources/js/admin/admin.ts', 'public/assets/admin/js')
         processCssUrls: false
     })
    .extract([
-        'vue'
+        'vue',
     ]);
 
-if(mix.config.production) {
+mix.webpackConfig({
+    externals: {
+        sifter: 'sifter',
+    }
+})
+
+if(mix.inProduction()) {
     mix.version();
 } else {
+    mix.sourceMaps();
+
     mix.browserSync({
         open: false,
         proxy: 'laravel.test',

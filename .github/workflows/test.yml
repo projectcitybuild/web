@@ -81,8 +81,7 @@ jobs:
             resources/js
             resources/sass
             public
-          key: ${{ runner.os }}-assets-v1-${{ steps.get-assets-cache.outputs.hash }}
-          restore-keys: ${{ runner.os }}-assets-
+          key: ${{ runner.os }}-assets-v1-${{ steps.get-assets-cache.outputs.hash }}-${{ hashFiles('package-lock.json') }}
 
       - name: Build front-end assets
         if: steps.assets-cache.outputs.cache-hit != 'true'

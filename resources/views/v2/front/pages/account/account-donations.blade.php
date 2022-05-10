@@ -36,7 +36,7 @@
                     <tbody>
                     @foreach($donations as $donation)
                         <tr>
-                            <td>{{ $donation->created_at->toFormattedDateString() }}</td>
+                            <td>{{ $donation->created_at?->toFormattedDateString() ?? "Unknown" }}</td>
                             <td>${{ number_format($donation->amount, 2) }}</td>
                         </tr>
                     @endforeach
@@ -75,7 +75,7 @@
                                 @endif
                             </td>
                             <td>{{ $perk->isActive() ? 'Active' : 'Expired' }}</td>
-                            <td>{{ $perk->donation->created_at->toFormattedDateString() }}</td>
+                            <td>{{ $perk->donation->created_at?->toFormattedDateString() ?? "Unknown" }}</td>
                             <td>
                                 {{ $perk->expires_at->toFormattedDateString() }}
                                 @if ($perk->isActive() && $perk->expires_at !== null)

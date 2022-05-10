@@ -36,7 +36,7 @@
 <script lang="ts">
 import Vue from "vue";
 import * as Api from "./api";
-import * as dateFns from "date-fns";
+import { format, parseISO } from "date-fns";
 
 const ViewState = Object.freeze({
     Loading: 1,
@@ -84,7 +84,8 @@ export default Vue.extend({
 
     computed: {
         date(): string {
-            return dateFns.format(this.announcement.created_at, 'ddd, MMM Do, YYYY')
+            const date = parseISO(this.announcement.created_at)
+            return format(date, 'EEE, MMM do, yyyy')
         },
         isLoading(): boolean {
             return this.state == ViewState.Loading

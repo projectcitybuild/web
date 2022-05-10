@@ -4,6 +4,7 @@
 @import "~selectize/dist/css/selectize.bootstrap4.css";
 
 @import "components/kv";
+@import "components/markdown-preview";
 @import "components/navbar";
 @import "components/_sidebar.scss";
 
@@ -46,3 +47,4 @@ td.actions {
         text-align: right;
     }
 }
+
