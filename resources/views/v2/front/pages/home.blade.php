@@ -23,10 +23,10 @@ One of the world's longest-running Minecraft servers; we're a community of creat
 
             <div class="hero__server-feed">
                 @foreach($servers as $server)
-                    <div class="server-feed__server {{ $server->isOnline() ? 'online' : 'offline' }}">
+                    <div class="server-feed__server {{ $server->is_online ? 'online' : 'offline' }}">
                         <span class="server-feed__title">{{ $server->name }}</span>
-                        @if($server->isOnline())
-                            <span class="server-feed__player-count"><i class="fas fa-user"></i> {{ $server->status->num_of_players . '/' . $server->status->num_of_slots }}</span>
+                        @if($server->is_online)
+                            <span class="server-feed__player-count"><i class="fas fa-user"></i> {{ $server->num_of_players . '/' . $server->num_of_slots }}</span>
                         @endif
                         <span class="server-feed__address">
                             <a href="javascript:void(0)" data-server-address="{{ $server->address() }}">

@@ -4,35 +4,27 @@ namespace Domain\ServerStatus\Adapters;
 
 use Domain\ServerStatus\Entities\ServerQueryResult;
 use Domain\ServerStatus\ServerQueryAdapter;
+use xPaw\MinecraftPing;
+use xPaw\MinecraftPingException;
 use xPaw\MinecraftQuery;
 use xPaw\MinecraftQueryException;
 
 final class MinecraftQueryAdapter implements ServerQueryAdapter
 {
-    private MinecraftQuery $queryService;
-
-    public function __construct()
-    {
-        $this->queryService = new MinecraftQuery();
-    }
-
     public function query(string $ip, $port = 25565): ServerQueryResult
     {
         try {
-            $this->queryService->Connect($ip, $port);
+            $ping = new MinecraftPing($ip, $port);
+            $response = $ping->Query();
 
-            $status = $this->queryService->GetInfo() ?: [];
-            $onlinePlayerNames = $this->queryService->GetPlayers() ?: [];
-
-            $numPlayers = $status['Players'];
-            $numSlots = $status['MaxPlayers'];
+            $players = $response['players'];
 
             return ServerQueryResult::online(
-                $numPlayers,
-                $numSlots,
-                $onlinePlayerNames
+                numOfPlayers: $players['online'],
+                numOfSlots: $players['max'],
+                onlinePlayerNames: [], // TODO: restore this later
             );
-        } catch (MinecraftQueryException $e) {
+        } catch (MinecraftPingException $e) {
             return ServerQueryResult::offline();
         }
     }

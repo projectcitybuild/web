@@ -8,16 +8,14 @@ use Domain\ServerStatus\Exceptions\UnsupportedGameException;
 use Domain\ServerStatus\Jobs\ServerQueryJob;
 use Domain\ServerStatus\Repositories\ServerStatusRepository;
 use Entities\Models\Eloquent\Server;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 final class ServerQueryService
 {
-    private ServerQueryAdapterFactoryContract $adapterFactory;
-
-    public function __construct(ServerQueryAdapterFactoryContract $adapterFactory)
-    {
-        $this->adapterFactory = $adapterFactory;
-    }
+    public function __construct(
+        private ServerQueryAdapterFactory $queryAdapterFactory,
+        private ServerStatusRepository $serverStatusRepository,
+    ) {}
 
     /**
      * Queries the given server and returns its current status.
@@ -26,37 +24,28 @@ final class ServerQueryService
      *
      * @throws UnsupportedGameException
      */
-    public function querySynchronously(Server $server, ServerStatusRepository $serverStatusRepository): ServerQueryResult
+    public function query(Server $server): ServerQueryResult
     {
         Log::notice('Attempting server status query...', $server->toArray());
 
         $start = microtime(true);
-        $time = time();
+        $now = now();
 
-        $adapter = $this->adapterFactory->make($server->gameType());
+        $adapter = $this->queryAdapterFactory->make($server->gameType());
         $status = $adapter->query(
-            $server->ip,
-            $server->port
+            ip: $server->ip,
+            port: $server->port
         );
 
-        $serverStatusRepository->store($server->getKey(), $status, $time);
+        $this->serverStatusRepository->update(
+            server: $server,
+            status: $status,
+            queriedAt: $now,
+        );
 
         $end = microtime(true) - $start;
         Log::notice('Fetch completed in '.($end / 1000).'ms', $status->toArray());
 
-        ServerStatusFetched::dispatch($status, $server->gameType(), $time);
-
         return $status;
-    }
-
-    /**
-     * Queries the given server for its current status.
-     *
-     * This operation is non-blocking, and queues a job to perform the operation
-     * eventually in the future
-     */
-    public function query(Server $server)
-    {
-        ServerQueryJob::dispatch($server);
     }
 }

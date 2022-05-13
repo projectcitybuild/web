@@ -5,8 +5,9 @@ namespace Domain\ServerStatus;
 use Domain\ServerStatus\Adapters\MinecraftQueryAdapter;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
 use Entities\Models\GameType;
+use Illuminate\Support\Facades\App;
 
-final class ServerQueryAdapterFactory implements ServerQueryAdapterFactoryContract
+final class ServerQueryAdapterFactory
 {
     public function make(GameType $gameType): ServerQueryAdapter
     {

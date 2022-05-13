@@ -2,7 +2,7 @@
 
 namespace Domain\ServerStatus\Jobs;
 
-use Domain\ServerStatus\Repositories\ServerStatusRepository;
+use Domain\ServerStatus\Exceptions\UnsupportedGameException;
 use Domain\ServerStatus\ServerQueryService;
 use Entities\Models\Eloquent\Server;
 use Illuminate\Bus\Queueable;
@@ -15,28 +15,20 @@ final class ServerQueryJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private Server $server;
-
     /**
      * Create a new job instance.
      */
-    public function __construct(Server $server)
-    {
-        $this->server = $server;
-    }
+    public function __construct(
+        private Server $server
+    ) {}
 
     /**
      * Execute the job.
      *
-     * @return void
-     *
-     * @throws \Domain\ServerStatus\Exceptions\UnsupportedGameException
+     * @throws UnsupportedGameException
      */
     public function handle(ServerQueryService $queryService)
     {
-        $queryService->querySynchronously(
-            $this->server,
-            App::make(ServerStatusRepository::class)
-        );
+        $queryService->query(server: $this->server);
     }
 }
