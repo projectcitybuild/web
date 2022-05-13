@@ -70,4 +70,9 @@ final class Server extends Model
     {
         return GameType::tryFrom($this->game_type);
     }
+
+    public function serverCategory(): BelongsTo
+    {
+        return $this->belongsTo(ServerCategory::class, 'server_category_id', 'server_category_id');
+    }
 }
