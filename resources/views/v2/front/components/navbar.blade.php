@@ -12,33 +12,24 @@
 
         <ul class="nav-links">
             <li><a href="{{ route('front.home') }}">Home</a></li>
-            <li><a href="https://forums.projectcitybuild.com/">Forums</a></li>
             <li>
-                <a href="javascript:void(0)" class="nav-dropdown">Servers <i class="fas fa-caret-down"></i></a>
+                <a href="javascript:void(0)" class="nav-dropdown">Server <i class="fas fa-caret-down"></i></a>
                 <ul class="dropdown multi">
                     <li>
-                        <h5>Minecraft</h5>
+                        <h5>Information</h5>
                         <ul>
                             <li><a href="https://forums.projectcitybuild.com/t/pcb-community-rules/22928">Rules & Guidelines</a></li>
                             <li><a href="https://forums.projectcitybuild.com/t/pcb-ranks/32812">Ranks</a></li>
                             <li><a href="https://wiki.projectcitybuild.com/wiki/List_of_Staff_Members">Staff</a></li>
-                            <li><a href="{{ route('maps') }}" target="_blank" rel="noopener noreferrer">Real-Time Maps</a></li>
-                            <li><a href="{{ route('3d-maps') }}" target="_blank" rel="noopener noreferrer">3D Maps</a></li>
+                            <li><a href="https://forums.projectcitybuild.com/t/vote-for-our-server/18568">Vote For Us</a></li>
+                            <li><a href="https://forums.projectcitybuild.com/t/map-archive/32793">Map Archive</a></li>
                         </ul>
                     </li>
                     <li>
-                        <h5>Feed the Beast</h5>
+                        <h5>Maps</h5>
                         <ul>
-                            <li>
-                                <a href="https://forums.projectcitybuild.com/t/modded-is-back-with-our-custom-false-hope-pack/34989/3">
-                                    Rules & Guidelines
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://forums.projectcitybuild.com/t/modded-is-back-with-our-custom-false-hope-pack/34989/2">
-                                    Installation Guide
-                                </a>
-                            </li>
+                            <li><a href="{{ route('maps') }}" target="_blank" rel="noopener noreferrer">Real-Time Maps</a></li>
+                            <li><a href="{{ route('3d-maps') }}" target="_blank" rel="noopener noreferrer">3D Maps</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -50,6 +41,7 @@
                     <li><a href="{{ route('report') }}">Report a Player</a></li>
                     <li><a href="{{ route('rankup') }}">Apply for Building Rank</a></li>
                     <li class="divider"><a href="https://goo.gl/forms/UodUsKQBZJdCzNWk1">Apply for Staff</a></li>
+                    <li><a href="https://forums.projectcitybuild.com/" target="_blank" rel="noopener">Forums (archived)</a></li>
                     <li class="divider"><a href="https://wiki.projectcitybuild.com/" target="_blank" rel="noopener">Community Wiki</a></li>
                     <li><a href="{{ route('front.banlist') }}">Ban List</a></li>
                 </ul>
