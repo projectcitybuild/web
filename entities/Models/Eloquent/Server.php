@@ -26,6 +26,10 @@ final class Server extends Model
         'is_visible',
         'display_order',
         'game_type',
+        'is_online',
+        'num_of_players',
+        'num_of_slots',
+        'last_queried_at',
     ];
 
     protected $hidden = [];
@@ -33,6 +37,7 @@ final class Server extends Model
     protected $dates = [
         'created_at',
         'updated_at',
+        'last_queried_at',
     ];
 
     public function address(): string
@@ -61,25 +66,13 @@ final class Server extends Model
         return $this->ip.$port;
     }
 
-    public function serverCategory(): BelongsTo
-    {
-        return $this->belongsTo(ServerCategory::class, 'server_category_id', 'server_category_id');
-    }
-
-    public function status(): BelongsTo
-    {
-        return $this->belongsTo(ServerStatus::class, 'server_id', 'server_id')
-            ->take(1)
-            ->latest();
-    }
-
-    public function isOnline()
-    {
-        return $this->status && $this->status->is_online;
-    }
-
     public function gameType(): GameType
     {
         return GameType::tryFrom($this->game_type);
+    }
+
+    public function serverCategory(): BelongsTo
+    {
+        return $this->belongsTo(ServerCategory::class, 'server_category_id', 'server_category_id');
     }
 }

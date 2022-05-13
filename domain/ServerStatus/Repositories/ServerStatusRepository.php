@@ -3,20 +3,23 @@
 namespace Domain\ServerStatus\Repositories;
 
 use Domain\ServerStatus\Entities\ServerQueryResult;
+use Entities\Models\Eloquent\Server;
 use Entities\Models\Eloquent\ServerStatus;
+use Illuminate\Support\Carbon;
 
 final class ServerStatusRepository
 {
-    public function store(
-        int $serverId,
-        ServerQueryResult $result,
-        int $time
-    ): ServerStatus {
-        return ServerStatus::create([
-            'server_id' => $serverId,
-            'is_online' => $result->isOnline,
-            'num_of_players' => $result->numOfPlayers ?? 0,
-            'num_of_slots' => $result->numOfSlots ?? 0,
-        ]);
+    public function update(Server $server, ServerQueryResult $status, Carbon $queriedAt)
+    {
+        if ($status->isOnline) {
+            $server->num_of_players = $status->numOfPlayers;
+            $server->num_of_slots = $status->numOfSlots;
+        } else {
+            $server->num_of_players = 0;
+            $server->num_of_slots = 0;
+        }
+        $server->is_online = $status->isOnline;
+        $server->last_queried_at = $queriedAt;
+        $server->save();
     }
 }

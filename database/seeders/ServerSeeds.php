@@ -31,6 +31,9 @@ class ServerSeeds extends Seeder
             'ip_alias'              => 'pcbmc.co',
             'port'                  => '25565',
             'display_order'         => 1,
+            'is_online' => true,
+            'num_of_players' => 45,
+            'num_of_slots' => 100,
         ]);
 
         Server::factory()->create([
@@ -47,13 +50,6 @@ class ServerSeeds extends Seeder
             'can_local_ban' => true,
             'can_global_ban' => true,
             'can_warn' => true,
-        ]);
-
-        ServerStatus::create([
-            'server_id' => $minecraftServer->getKey(),
-            'is_online' => true,
-            'num_of_players' => 45,
-            'num_of_slots' => 100,
         ]);
     }
 }
