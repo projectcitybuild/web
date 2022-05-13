@@ -24,7 +24,7 @@ final class HomeController extends WebController
         $totalDonationsLastYear = Donation::whereYear('created_at', $lastYear)->sum('amount');
 
         return view('v2.front.pages.home', [
-            'servers' => Server::where('is_visible', true)->with('status')->get(),
+            'servers' => Server::where('is_visible', true)->get(),
             'donations' => [
                 'raised_last_year' => $totalDonationsLastYear ?: 0,
                 'remaining_days' => $remainingDaysThisYear,

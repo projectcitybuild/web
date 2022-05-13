@@ -194,7 +194,6 @@ return [
         Domain\CurrencyRewarder\CurrencyRewarderProvider::class,
         Domain\Donations\DonationsProvider::class,
         Domain\PlayerFetch\PlayerFetchProvider::class,
-        Domain\ServerStatus\ServerStatusProvider::class,
     ],
 
     /*

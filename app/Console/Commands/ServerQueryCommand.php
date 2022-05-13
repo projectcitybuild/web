@@ -3,15 +3,19 @@
 namespace App\Console\Commands;
 
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
-use Domain\ServerStatus\Repositories\ServerStatusRepository;
-use Domain\ServerStatus\ServerQueryAdapterFactory;
+use Domain\ServerStatus\Jobs\ServerQueryJob;
 use Domain\ServerStatus\ServerQueryService;
 use Entities\Models\Eloquent\Server;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\App;
 
 final class ServerQueryCommand extends Command
 {
+    public function __construct(
+        private ServerQueryService $serverQueryService,
+    ) {
+        parent::__construct();
+    }
+
     /**
      * The name and signature of the console command.
      *
@@ -31,10 +35,10 @@ final class ServerQueryCommand extends Command
      */
     public function handle()
     {
-        $shouldRunInBackground = $this->option('background') ? true : false;
+        $shouldRunAsJob = $this->option('background') ? true : false;
 
         if ($this->option('all')) {
-            $this->queryAllServers($shouldRunInBackground);
+            $this->queryAllServers($shouldRunAsJob);
             return;
         }
 
@@ -46,7 +50,7 @@ final class ServerQueryCommand extends Command
 
         $servers = Server::whereIn('server_id', $serverIds)->get();
         foreach ($servers as $server) {
-            $this->queryServer($server, $shouldRunInBackground);
+            $this->queryServer($server, $shouldRunAsJob);
         }
     }
 
@@ -61,18 +65,15 @@ final class ServerQueryCommand extends Command
 
     private function queryServer(Server $server, bool $shouldRunInBackground)
     {
-        $adapterFactory = App::make(ServerQueryAdapterFactory::class);
-        $queryService = new ServerQueryService($adapterFactory);
-
         if ($shouldRunInBackground) {
-            $this->info('Starting server query on background queue ['.$server->getAddress().']');
-            $queryService->query($server);
+            $this->info('Starting server query on background queue ['.$server->address().']');
+            ServerQueryJob::dispatch($server);
             return;
         }
         try {
-            $result = $queryService->querySynchronously($server, App::make(ServerStatusRepository::class));
+            $result = $this->serverQueryService->query($server);
             dump($result->toArray());
-        } catch (UnsupportedGameException $e) {
+        } catch (UnsupportedGameException) {
             $this->error('Querying '.$server->gameType()->name().' game type is unsupported');
         }
     }
