@@ -4,12 +4,9 @@ namespace App\Console\Commands;
 
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
 use Domain\ServerStatus\Jobs\ServerQueryJob;
-use Domain\ServerStatus\Repositories\ServerStatusRepository;
-use Domain\ServerStatus\ServerQueryAdapterFactory;
 use Domain\ServerStatus\ServerQueryService;
 use Entities\Models\Eloquent\Server;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\App;
 
 final class ServerQueryCommand extends Command
 {

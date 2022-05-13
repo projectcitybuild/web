@@ -6,8 +6,6 @@ use Domain\ServerStatus\Entities\ServerQueryResult;
 use Domain\ServerStatus\ServerQueryAdapter;
 use xPaw\MinecraftPing;
 use xPaw\MinecraftPingException;
-use xPaw\MinecraftQuery;
-use xPaw\MinecraftQueryException;
 
 final class MinecraftQueryAdapter implements ServerQueryAdapter
 {

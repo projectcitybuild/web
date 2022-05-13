@@ -3,9 +3,7 @@
 namespace Domain\ServerStatus;
 
 use Domain\ServerStatus\Entities\ServerQueryResult;
-use Domain\ServerStatus\Events\ServerStatusFetched;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
-use Domain\ServerStatus\Jobs\ServerQueryJob;
 use Domain\ServerStatus\Repositories\ServerStatusRepository;
 use Entities\Models\Eloquent\Server;
 use Illuminate\Support\Facades\Log;
