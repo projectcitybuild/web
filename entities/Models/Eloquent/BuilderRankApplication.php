@@ -3,6 +3,7 @@
 namespace Entities\Models\Eloquent;
 
 use App\Model;
+use Domain\BuilderRankApplications\Entities\ApplicationStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -51,5 +52,11 @@ final class BuilderRankApplication extends Model
             foreignKey: 'account_id',
             ownerKey: 'account_id',
         );
+    }
+
+    public function isReviewed(): bool
+    {
+        return $this->status == ApplicationStatus::DENIED->value
+            || $this->status == ApplicationStatus::APPROVED->value;
     }
 }

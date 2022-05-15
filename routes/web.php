@@ -252,6 +252,11 @@ Route::group([
     Route::get('groups', 'GroupController@index')->name('groups.index');
     Route::resource('pages', 'PageController');
 
+    Route::group(['prefix' => 'builder-ranks'], function () {
+        Route::get('/', 'BuilderRanksController@index')
+            ->name('builder-ranks.index');
+    });
+
     Route::post('minecraft-players/lookup', [
         'as' => 'minecraft-players.lookup',
         'uses' => 'MinecraftPlayerLookupController',

@@ -37,7 +37,7 @@ final class BuilderRankApplicationController extends WebController
             'closed_at' => null,
         ]);
 
-        return view('v2.front.pages.builder-rank.builder-rank-success')->with('application', $application);
+        return view('v2.front.pages.builder-rank.builder-rank-success')->with(compact('application'));
     }
 
     public function show(Request $request, int $applicationId)
@@ -50,6 +50,6 @@ final class BuilderRankApplicationController extends WebController
             abort(403);
         }
 
-        return view('v2.front.pages.builder-rank.builder-rank-status')->with('application', $application);
+        return view('v2.front.pages.builder-rank.builder-rank-status')->with(compact('application'));
     }
 }
