@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Domain\BuilderRankApplications\BuilderRank;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 final class BuilderRankApplicationRequest extends FormRequest
 {
@@ -11,10 +13,12 @@ final class BuilderRankApplicationRequest extends FormRequest
      */
     public function rules(): array
     {
+        $ranks = array_map(fn ($rank) => $rank->value, BuilderRank::cases());
+
         return [
             'minecraft_username' => 'required',
-            'current_builder_rank' => 'required',
-            'build_location' => 'required',    // discourse min is 8 or greater
+            'current_builder_rank' => ['required', Rule::in($ranks)],
+            'build_location' => 'required',
             'build_description' => 'required',
             'g-recaptcha-response' => 'recaptcha',
         ];

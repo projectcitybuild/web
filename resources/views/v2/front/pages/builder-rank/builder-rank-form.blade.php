@@ -53,10 +53,9 @@
                         <div class="form-row">
                             <label for="current_builder_rank">Current builder rank</label>
                             <select name="current_builder_rank" class="textfield {{ $errors->any() ? 'error' : '' }}">
-                                <option value="0">I don't have a builder rank yet</option>
-                                <option value="1">Intern</option>
-                                <option value="2">Builder</option>
-                                <option value="3">Planner</option>
+                                @foreach (\Domain\BuilderRankApplications\BuilderRank::cases() as $rank)
+                                    <option value="{{ $rank->value }}">{{ $rank->humanReadable() }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-row">

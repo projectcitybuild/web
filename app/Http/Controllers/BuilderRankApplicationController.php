@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BuilderRankApplicationRequest;
 use App\Http\WebController;
 use Domain\BuilderRankApplications\ApplicationStatus;
+use Domain\BuilderRankApplications\BuilderRank;
 use Entities\Models\Eloquent\BuilderRankApplication;
 
 final class BuilderRankApplicationController extends WebController
@@ -24,18 +25,10 @@ final class BuilderRankApplicationController extends WebController
                 ->withErrors('You must be logged-in to submit a Builder Rank application');
         }
 
-        $currentRank = match ($input['current_builder_rank']) {
-            0 => "I don't have a builder rank yet",
-            1 => "Intern",
-            2 => "Builder",
-            3 => "Planner",
-            default => "Unknown",
-        };
-
         $rankApplication = BuilderRankApplication::create([
             'account_id' => $request->user()->getKey(),
             'minecraft_alias' => $input['minecraft_username'],
-            'current_builder_rank' => $currentRank,
+            'current_builder_rank' => BuilderRank::from($input['current_builder_rank']),
             'build_location' => $input['build_location'],
             'build_description' => $input['build_description'],
             'additional_notes' => $request->get('additional_notes'),
