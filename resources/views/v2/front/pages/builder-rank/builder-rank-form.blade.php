@@ -18,7 +18,7 @@
                 <h1>Builder Rank Application</h1>
 
                 Use the below form to apply for a builder rank, or the next higher builder rank.
-                <br /><br />
+                <br/><br/>
 
                 Application Process
 
@@ -30,7 +30,8 @@
                 </ol>
 
                 <strong>
-                    PLEASE NOTE: If you have previously submitted an application within 21 days your application will automatically be denied.<br />
+                    PLEASE NOTE: If you have previously submitted an application within 21 days your application will
+                    automatically be denied.<br/>
                     You must wait 21 days between applications
                 </strong>
 
@@ -53,7 +54,7 @@
                         <div class="form-row">
                             <label for="current_builder_rank">Current builder rank</label>
                             <select name="current_builder_rank" class="textfield {{ $errors->any() ? 'error' : '' }}">
-                                @foreach (\Domain\BuilderRankApplications\BuilderRank::cases() as $rank)
+                                @foreach (\Domain\BuilderRankApplications\Entities\BuilderRank::cases() as $rank)
                                     <option value="{{ $rank->value }}">{{ $rank->humanReadable() }}</option>
                                 @endforeach
                             </select>
@@ -100,10 +101,11 @@
                         </button>
                     </form>
                 @elseauth
-                    <p />
+                    <p/>
                     <div class="alert alert--error">
                         <h2><i class="fas fa-exclamation-circle"></i> Error</h2>
-                        You must be <a href="{{ route('front.login') }}">logged-in</a> to submit a builder rank application
+                        You must be <a href="{{ route('front.login') }}">logged-in</a> to submit a builder rank
+                        application
                     </div>
                 @endauth
             </div>

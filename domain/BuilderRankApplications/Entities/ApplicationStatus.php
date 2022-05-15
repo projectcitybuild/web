@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\BuilderRankApplications;
+namespace Domain\BuilderRankApplications\Entities;
 
 enum ApplicationStatus: int
 {

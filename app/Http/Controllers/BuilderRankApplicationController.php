@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BuilderRankApplicationRequest;
 use App\Http\WebController;
-use Domain\BuilderRankApplications\ApplicationStatus;
-use Domain\BuilderRankApplications\BuilderRank;
+use Domain\BuilderRankApplications\Entities\ApplicationStatus;
+use Domain\BuilderRankApplications\Entities\BuilderRank;
 use Entities\Models\Eloquent\BuilderRankApplication;
+use Illuminate\Http\Request;
 
 final class BuilderRankApplicationController extends WebController
 {
@@ -25,7 +26,7 @@ final class BuilderRankApplicationController extends WebController
                 ->withErrors('You must be logged-in to submit a Builder Rank application');
         }
 
-        $rankApplication = BuilderRankApplication::create([
+        $application = BuilderRankApplication::create([
             'account_id' => $request->user()->getKey(),
             'minecraft_alias' => $input['minecraft_username'],
             'current_builder_rank' => BuilderRank::from($input['current_builder_rank']),
@@ -36,6 +37,19 @@ final class BuilderRankApplicationController extends WebController
             'closed_at' => null,
         ]);
 
-        return view('v2.front.pages.builder-rank.builder-rank-success')->with('application', $rankApplication);
+        return view('v2.front.pages.builder-rank.builder-rank-success')->with('application', $application);
+    }
+
+    public function show(Request $request, int $applicationId)
+    {
+        $application = BuilderRankApplication::find($applicationId);
+        if ($application === null) {
+            abort(404);
+        }
+        if ($request->user()->getKey() !== $application->account_id) {
+            abort(403);
+        }
+
+        return view('v2.front.pages.builder-rank.builder-rank-status')->with('application', $application);
     }
 }

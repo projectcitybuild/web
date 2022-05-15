@@ -87,6 +87,9 @@ Route::prefix('rank-up')->group(function () {
 
     Route::post('/', [BuilderRankApplicationController::class, 'store'])
         ->name('front.rank-up.submit');
+
+    Route::get('{id}', [BuilderRankApplicationController::class, 'show'])
+        ->name('front.rank-up.status');
 });
 
 Route::prefix('login')->group(function () {
