@@ -15,5 +15,4 @@
             </p>
         </section>
     </main>
-
 @endsection
