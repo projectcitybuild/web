@@ -10,6 +10,7 @@
                 <th>Reviewed?</th>
                 <th>Account</th>
                 <th>Minecraft Username</th>
+                <th>Current Rank</th>
                 <th>Created At</th>
                 <th>Reviewed At</th>
                 <th></th>
@@ -27,9 +28,14 @@
                         </a>
                     </td>
                     <td>{{ $application->minecraft_alias }}</td>
+                    <td>{{ $application->current_builder_rank }}</td>
                     <td>{{ $application->created_at }}</td>
                     <td>{{ $application->closed_at ?: '(Not Reviewed)' }}</td>
-                    <td><a href="{{ route('front.panel.pages.edit', $application->getKey()) }}">Review</a></td>
+                    <td>
+                        <a href="{{ route('front.panel.builder-ranks.show', $application->getKey()) }}">
+                            {{ $application->isReviewed() ? 'View' : 'Review' }}
+                        </a>
+                    </td>
                 </tr>
             @endforeach
             </tbody>

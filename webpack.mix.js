@@ -40,11 +40,12 @@ if(mix.inProduction()) {
         open: false,
         proxy: 'laravel.test',
         files: [
-            'resources/**/*.php',
-            'resources/**/*.css',
-            'resources/**/*.js',
-            'resources/**/*.ts',
-            'public/**/*',
+            'resources/views/**/*',
+            'resources/sass/**/*.css',
+            'resources/js/**/*.js',
+            'resources/js/**/*.ts',
+            'public/assets/fonts/**/*',
+            'public/assets/images/**/*',
         ]
     });
 }

@@ -20,60 +20,20 @@ class BuilderRanksController extends WebController
         return view('admin.builder-rank.index')->with(compact('applications'));
     }
 
-    public function show(Donation $donation)
+    public function show(int $applicationId)
     {
-        $donation->load('perks', 'perks.account');
+        $application = BuilderRankApplication::find($applicationId);
 
-        return view('admin.donation.show')->with(compact('donation'));
+        return view('admin.builder-rank.show')->with(compact('application'));
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Donation $donation)
+    public function approve(Request $request, int $applicationId)
     {
-        return view('admin.donation.edit')->with(compact('donation'));
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Donation $donation)
+    public function deny(Request $request, int $applicationId)
     {
-        $validator = Validator::make($request->all(), [
-            'amount' => 'required|numeric|gt:0',
-            'account_id' => 'nullable|numeric|exists:accounts,account_id',
-            'created_at' => 'required|date',
-        ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $donation->update($request->all());
-        $donation->save();
-
-        return redirect(route('front.panel.donations.show', $donation->donation_id));
-    }
-
-    /**
-     * Delete the specified resource in storage.
-     *
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, Donation $donation)
-    {
-        $donation->delete();
-
-        return redirect(route('front.panel.donations.index'));
     }
 }

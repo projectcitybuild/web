@@ -59,7 +59,9 @@
                 <a class="nav-link {{ request()->is('panel/builder-ranks*') ? 'active' : '' }}" href="{{ route('front.panel.builder-ranks.index') }}">
                     <i class="fas fa-hammer fa-fw"></i>
                     Builder Rank Applications
-                    <span class="badge bg-danger">5</span>
+                    @if ($outgoing_rank_apps > 0)
+                        <span class="badge bg-danger">{{ $outgoing_rank_apps }}</span>
+                    @endif
                 </a>
             </li>
         </ul>

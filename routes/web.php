@@ -255,6 +255,15 @@ Route::group([
     Route::group(['prefix' => 'builder-ranks'], function () {
         Route::get('/', 'BuilderRanksController@index')
             ->name('builder-ranks.index');
+
+        Route::get('{id}', 'BuilderRanksController@show')
+            ->name('builder-ranks.show');
+
+        Route::post('{id}/approve', 'BuilderRanksController@approve')
+            ->name('builder-ranks.approve');
+
+        Route::post('{id}/deny', 'BuilderRanksController@deny')
+            ->name('builder-ranks.deny');
     });
 
     Route::post('minecraft-players/lookup', [
