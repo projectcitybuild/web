@@ -168,30 +168,32 @@
         </div>
     </div>
 
-    <div class="modal fade" id="approveModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Continue?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you wish to approve and close this application?<br/>
-                    The user will be ranked up automatically upon approval.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 
-                    <form action="{{ route('front.panel.builder-ranks.approve', $application->getKey()) }}"
-                          method="post">
-                        @csrf
+    <form action="{{ route('front.panel.builder-ranks.approve', $application->getKey()) }}" method="post">
+        @csrf
+        <div class="modal fade" id="approveModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Approve Application</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Promote this user to:
+                        <select class="form-select" name="promote_group">
+                            @foreach ($buildGroups as $group)
+                            <option value="{{ $group->getKey() }}">{{ ucfirst($group->name) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary">Approve and Close</button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
+    </form>
 
     <form action="{{ route('front.panel.builder-ranks.deny', $application->getKey()) }}" method="post">
         @csrf
@@ -199,7 +201,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Continue?</h5>
+                        <h5 class="modal-title">Deny Application</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -207,18 +209,21 @@
                             <span>Please enter a denial reason. <strong>This will be publicly visible to the applicant!</strong></span>
 
                             <div class="mb-3">
-                                <textarea class="form-control" name="deny_reason" rows="5"
-                                          placeholder="We don't accept dirt huts...">{{ old('deny_reason') }}</textarea>
+                                <textarea
+                                    class="form-control"
+                                    name="deny_reason"
+                                    rows="5"
+                                    placeholder="We don't accept dirt huts..."
+                                >{{ old('deny_reason') }}</textarea>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-
                         <button type="submit" class="btn btn-primary">Deny and Close</button>
                     </div>
                 </div>
             </div>
+        </div>
     </form>
-    </div>
 @endsection

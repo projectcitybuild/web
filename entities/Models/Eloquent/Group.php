@@ -34,6 +34,7 @@ final class Group extends Model
     protected $fillable = [
         'name',
         'alias',
+        'is_build',
         'is_default',
         'is_staff',
         'is_admin',

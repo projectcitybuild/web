@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Panel;
 use App\Http\WebController;
 use Domain\BuilderRankApplications\Entities\ApplicationStatus;
 use Entities\Models\Eloquent\BuilderRankApplication;
+use Entities\Models\Eloquent\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Shared\Groups\GroupsManager;
 
 class BuilderRanksController extends WebController
 {
@@ -16,29 +19,53 @@ class BuilderRanksController extends WebController
             ->orderBy('created_at', 'desc')
             ->paginate(100);
 
-        return view('admin.builder-rank.index')->with(compact('applications'));
+        return view('admin.builder-rank.index')
+            ->with(compact('applications'));
     }
 
     public function show(Request $request, int $applicationId)
     {
         $application = BuilderRankApplication::find($applicationId);
+        $buildGroups = Group::where('is_build', true)->get();
 
-        return view('admin.builder-rank.show')->with(compact('application'));
+        return view('admin.builder-rank.show')
+            ->with(compact('application', 'buildGroups'));
     }
 
-    public function approve(Request $request, int $applicationId)
-    {
+    public function approve(
+        Request $request,
+        int $applicationId,
+        GroupsManager $groupsManager,
+    ) {
+        $allowedGroups = Group::where('is_build', true)->get()
+            ->map(fn ($group) => $group->getKey())
+            ->toArray();
+
+        $validator = Validator::make($request->all(), [
+            'promote_group' => ['required', Rule::in($allowedGroups)],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $nextGroup = Group::find($request->get('promote_group'));
+
         $application = BuilderRankApplication::find($applicationId);
 
         $application->status = ApplicationStatus::APPROVED->value;
         $application->closed_at = now();
         $application->save();
 
-        return redirect()->action([BuilderRanksController::class, 'show'], $application->getKey());
+        $groupsManager->addMember(group: $nextGroup, account: $application->account);
+
+        return redirect()
+            ->action([BuilderRanksController::class, 'show'], $application->getKey());
     }
 
-    public function deny(Request $request, int $applicationId)
-    {
+    public function deny(Request $request, int $applicationId) {
         $validator = Validator::make($request->all(), [
             'deny_reason' => 'required',
         ]);
@@ -56,6 +83,7 @@ class BuilderRanksController extends WebController
         $application->closed_at = now();
         $application->save();
 
-        return redirect()->action([BuilderRanksController::class, 'show'], $application->getKey());
+        return redirect()
+            ->action([BuilderRanksController::class, 'show'], $application->getKey());
     }
 }

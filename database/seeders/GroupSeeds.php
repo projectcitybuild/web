@@ -36,6 +36,31 @@ class GroupSeeds extends Seeder
         ]);
 
         Group::create([
+            'name' => 'intern',
+            'is_build' => true,
+        ]);
+
+        Group::create([
+            'name' => 'builder',
+            'is_build' => true,
+        ]);
+
+        Group::create([
+            'name' => 'planner',
+            'is_build' => true,
+        ]);
+
+        Group::create([
+            'name' => 'engineer',
+            'is_build' => true,
+        ]);
+
+        Group::create([
+            'name' => 'architect',
+            'is_build' => true,
+        ]);
+
+        Group::create([
             'name' => 'donator',
             'discourse_name' => 'donator',
         ]);
@@ -54,25 +79,10 @@ class GroupSeeds extends Seeder
         ]);
 
         Group::create([
-            'name' => 'operator',
-            'alias' => 'OP',
-            'is_staff' => true,
-            'discourse_name' => 'operator',
-        ]);
-
-        Group::create([
-            'name' => 'senior operator',
-            'alias' => 'SOP',
-            'is_staff' => true,
-            'discourse_name' => 'senior-operator',
-        ]);
-
-        Group::create([
-            'name' => 'administrator',
-            'alias' => 'Admin',
+            'name' => 'developer',
+            'alias' => 'Dev',
             'is_staff' => true,
             'is_admin' => true,
-            'discourse_name' => 'administrator',
             'can_access_panel' => true,
         ]);
     }
