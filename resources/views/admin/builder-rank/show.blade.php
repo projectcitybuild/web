@@ -5,6 +5,8 @@
 @section('body')
     <div class="row">
         <div class="col-md-6">
+            @include('admin._errors')
+
             @if ($application->status == \Domain\BuilderRankApplications\Entities\ApplicationStatus::IN_PROGRESS->value)
                 <div class="card border-warning mb-3">
                     <div class="card-header">
@@ -24,7 +26,7 @@
                 </div>
             @endif
             @if ($application->status == \Domain\BuilderRankApplications\Entities\ApplicationStatus::DENIED->value)
-                <div class="card mb-3">
+                <div class="card border-danger mb-3">
                     <div class="card-header">
                         Application Status
                     </div>
@@ -32,7 +34,8 @@
                     <div class="card-body">
                         <h5 class="card-title"><i class="fas fa-clock"></i> Application Denied</h5>
                         <p class="card-text">
-                            This application was denied: {{ $application->deny_reason }}
+                            This application was denied for the following reason:<br />
+                            <strong>{{ $application->denied_reason }}</strong>
                             <br/><br/>
                             Closed <strong>{{ $application->closed_at }}</strong>
                         </p>
@@ -40,7 +43,7 @@
                 </div>
             @endif
             @if ($application->status == \Domain\BuilderRankApplications\Entities\ApplicationStatus::APPROVED->value)
-                <div class="card mb-3">
+                <div class="card border-success mb-3">
                     <div class="card-header">
                         Application Status
                     </div>
@@ -152,7 +155,9 @@
                         </li>
                     </ul>
                 @else
-                    No further action can be taken
+                    <div class="card-body">
+                        No further action can be taken
+                    </div>
                 @endif
 
                 <div class="card-footer">
@@ -203,7 +208,7 @@
 
                             <div class="mb-3">
                                 <textarea class="form-control" name="deny_reason" rows="5"
-                                          placeholder="We don't accept dirt huts..."></textarea>
+                                          placeholder="We don't accept dirt huts...">{{ old('deny_reason') }}</textarea>
                             </div>
                         </div>
                     </div>

@@ -4,10 +4,10 @@
 
 @section('body')
     <div class="table-responsive">
-        <table class="table">
+        <table class="table align-middle">
             <thead>
             <tr>
-                <th>Reviewed?</th>
+                <th>Status</th>
                 <th>Account</th>
                 <th>Minecraft Username</th>
                 <th>Current Rank</th>
@@ -19,9 +19,7 @@
             <tbody>
             @foreach($applications as $application)
                 <tr class="{{ !$application->isReviewed()  ? 'table-warning' : '' }}">
-                    <td>
-                        <x-bs.fa-boolean :data="$application->isReviewed()" false-class="text-muted" />
-                    </td>
+                    <td>{{ \Domain\BuilderRankApplications\Entities\ApplicationStatus::from($application->status)->humanReadable() }}</td>
                     <td>
                         <a href="{{ route('front.panel.accounts.show', $application->account->getKey()) }}">
                             {{ $application->account->username ?: 'Undefined' }}
@@ -32,9 +30,16 @@
                     <td>{{ $application->created_at }}</td>
                     <td>{{ $application->closed_at ?: '(Not Reviewed)' }}</td>
                     <td>
-                        <a href="{{ route('front.panel.builder-ranks.show', $application->getKey()) }}">
-                            {{ $application->isReviewed() ? 'View' : 'Review' }}
-                        </a>
+                        @if ($application->isReviewed())
+                            <a href="{{ route('front.panel.builder-ranks.show', $application->getKey()) }}">
+                                View
+                            </a>
+                        @else
+                            <a href="{{ route('front.panel.builder-ranks.show', $application->getKey()) }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-eye"></i> Review
+                            </a>
+                        @endif
+
                     </td>
                 </tr>
             @endforeach
