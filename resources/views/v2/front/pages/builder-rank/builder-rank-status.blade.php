@@ -8,16 +8,7 @@
             <div class="login__dialog login__register-form">
                 <h1>Builder Rank Application</h1>
 
-                Status:
-                @php
-                $status = \Domain\BuilderRankApplications\Entities\ApplicationStatus::tryFrom($application->status);
-                echo match ($status) {
-                    \Domain\BuilderRankApplications\Entities\ApplicationStatus::IN_PROGRESS => 'In progress',
-                    \Domain\BuilderRankApplications\Entities\ApplicationStatus::DENIED => 'Denied',
-                    \Domain\BuilderRankApplications\Entities\ApplicationStatus::APPROVED => 'Approved',
-                    null => 'Unknown',
-                };
-                @endphp
+                Status: {{ \Domain\BuilderRankApplications\Entities\ApplicationStatus::tryFrom($application->status)->humanReadable() }}
                 <br/><br/>
 
                 <hr />

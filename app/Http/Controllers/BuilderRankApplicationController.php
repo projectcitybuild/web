@@ -18,9 +18,13 @@ final class BuilderRankApplicationController extends WebController
             ?->aliases?->first()
             ?->alias;
 
-        return view('v2.front.pages.builder-rank.builder-rank-form', [
-            'minecraft_username' => $minecraftUsername,
-        ]);
+        $applicationInProgress = BuilderRankApplication::where('status', ApplicationStatus::IN_PROGRESS->value)
+            ->where('account_id', $request->user()->getKey())
+            ->orderBy('created_at', 'DESC')
+            ->first();
+
+        return view('v2.front.pages.builder-rank.builder-rank-form')
+            ->with(compact('minecraftUsername', 'applicationInProgress'));
     }
 
     public function store(BuilderRankApplicationRequest $request)
@@ -31,6 +35,16 @@ final class BuilderRankApplicationController extends WebController
             return redirect()
                 ->back()
                 ->withErrors('You must be logged-in to submit a Builder Rank application');
+        }
+
+        $existingApplication = BuilderRankApplication::where('status', ApplicationStatus::IN_PROGRESS->value)
+            ->where('account_id', $request->user()->getKey())
+            ->count();
+
+        if ($existingApplication > 0) {
+            return redirect()
+                ->back()
+                ->withErrors('You cannot submit another application while you have another application under review');
         }
 
         $application = BuilderRankApplication::create([
