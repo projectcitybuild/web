@@ -9,7 +9,7 @@
                 Your builder application has been submitted and will be reviewed shortly.
             </p>
             <p>
-                You can track the progress of your application at any time here.
+                You can track the progress of your application at any time <a href="{{ route('front.rank-up.status', $application->getKey()) }}">here</a>.
             </p>
         </section>
     </main>

@@ -48,7 +48,7 @@
                                 name="minecraft_username"
                                 id="minecraft_username"
                                 type="text"
-                                value="{{ old('minecraft_username') }}"
+                                value="{{ old('minecraft_username', $minecraft_username ?? '') }}"
                             />
                         </div>
                         <div class="form-row">
@@ -67,28 +67,28 @@
                                 name="build_location"
                                 id="build_location"
                                 type="text"
-                                placeholder="150, -10, 300 in Creative"
+                                placeholder="x: 150, y: -10, z: 300 in Creative"
                                 value="{{ old('build_location') }}"
                             />
                         </div>
                         <div class="form-row">
                             <label for="build_description">Description</label>
-                            E.g. A huge pirate ship battle, 2 pirate factions meet to engage in a war.
                             <textarea
                                 class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
                                 name="build_description"
                                 id="build_description"
                                 rows="5"
+                                placeholder="e.g. A huge pirate ship battle, 2 pirate factions meet to engage in a war."
                             >{{ old('build_description') }}</textarea>
                         </div>
                         <div class="form-row">
                             <label for="additional_notes">Additional notes (optional)</label>
-                            E.g. The pirate ships also have interiors, so please be sure to check them too
                             <textarea
                                 class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
                                 name="additional_notes"
                                 id="additional_notes"
                                 rows="5"
+                                placeholder="e.g. The pirate ships also have interiors, so please be sure to check them too"
                             >{{ old('additional_notes') }}</textarea>
                         </div>
 

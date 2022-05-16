@@ -13,7 +13,9 @@ final class BuilderRankApplicationRequest extends FormRequest
      */
     public function rules(): array
     {
-        $ranks = array_map(fn ($rank) => $rank->value, BuilderRank::cases());
+        $ranks = collect(BuilderRank::cases())
+            ->map(fn ($rank) => $rank->value)
+            ->toArray();
 
         return [
             'minecraft_username' => 'required',

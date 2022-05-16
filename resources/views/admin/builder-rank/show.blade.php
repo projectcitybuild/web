@@ -32,7 +32,7 @@
                     </div>
 
                     <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-clock"></i> Application Denied</h5>
+                        <h5 class="card-title"><i class="fas fa-times"></i> Application Denied</h5>
                         <p class="card-text">
                             This application was denied for the following reason:<br />
                             <strong>{{ $application->denied_reason }}</strong>
@@ -49,7 +49,7 @@
                     </div>
 
                     <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-clock"></i> Application Approved</h5>
+                        <h5 class="card-title"><i class="fas fa-check"></i> Application Approved</h5>
                         <p class="card-text">
                             This application was approved
                             <br/><br/>

@@ -11,9 +11,16 @@ use Illuminate\Http\Request;
 
 final class BuilderRankApplicationController extends WebController
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('v2.front.pages.builder-rank.builder-rank-form');
+        $minecraftUsername = $request->user()
+            ->minecraftAccount->first()
+            ?->aliases?->first()
+            ?->alias;
+
+        return view('v2.front.pages.builder-rank.builder-rank-form', [
+            'minecraft_username' => $minecraftUsername,
+        ]);
     }
 
     public function store(BuilderRankApplicationRequest $request)
@@ -29,7 +36,7 @@ final class BuilderRankApplicationController extends WebController
         $application = BuilderRankApplication::create([
             'account_id' => $request->user()->getKey(),
             'minecraft_alias' => $input['minecraft_username'],
-            'current_builder_rank' => BuilderRank::from($input['current_builder_rank']),
+            'current_builder_rank' => BuilderRank::from($input['current_builder_rank'])->humanReadable(),
             'build_location' => $input['build_location'],
             'build_description' => $input['build_description'],
             'additional_notes' => $request->get('additional_notes'),
@@ -37,7 +44,8 @@ final class BuilderRankApplicationController extends WebController
             'closed_at' => null,
         ]);
 
-        return view('v2.front.pages.builder-rank.builder-rank-success')->with(compact('application'));
+        return view('v2.front.pages.builder-rank.builder-rank-success')
+            ->with(compact('application'));
     }
 
     public function show(Request $request, int $applicationId)
@@ -50,6 +58,7 @@ final class BuilderRankApplicationController extends WebController
             abort(403);
         }
 
-        return view('v2.front.pages.builder-rank.builder-rank-status')->with(compact('application'));
+        return view('v2.front.pages.builder-rank.builder-rank-status')
+            ->with(compact('application'));
     }
 }
