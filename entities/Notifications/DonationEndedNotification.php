@@ -43,7 +43,7 @@ class DonationEndedNotification extends Notification
             ->subject('Your Donation has Ended')
             ->line('Your period of Donator has now ended and you\'ve been reset to your previous rank.')
             ->line('Thank you for helping support PCB - contributions from our members are the only way we can continue running! If you would like to keep supporting us, you can extend your donation here')
-            ->action('Extend your donation', action('DonationController@index'))
+            ->action('Extend your donation', route('front.donate'))
             ->line('If you have any questions, please ask a member of PCB staff on our forums or Discord');
     }
 
