@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Library\Recaptcha\Validator\Adapters\GoogleRecaptchaValidator;
 use Library\Recaptcha\Validator\RecaptchaValidator;
+use Library\SignedURL\Adapters\LaravelSignedURLGenerator;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
@@ -163,7 +164,15 @@ class RegisterTest extends TestCase
     {
         $unactivatedAccount = Account::factory()->unactivated()->create();
 
-        $this->get($unactivatedAccount->getActivationUrl())
+        // TODO: find way to do this without manually creating the URL here
+        $signedURLGenerator = new LaravelSignedURLGenerator();
+        $activationURL = $signedURLGenerator->makeTemporary(
+            routeName: 'front.register.activate',
+            expiresAt: now()->addDay(),
+            parameters: ['email' => $unactivatedAccount->email],
+        );
+
+        $this->get($activationURL)
             ->assertSuccessful();
 
         $this->assertEquals(true, Account::first()->activated);
@@ -175,7 +184,15 @@ class RegisterTest extends TestCase
 
         $unactivatedAccount = Account::factory()->unactivated()->create();
 
-        $this->get($unactivatedAccount->getActivationUrl())
+        // TODO: find way to do this without manually creating the URL here
+        $signedURLGenerator = new LaravelSignedURLGenerator();
+        $activationURL = $signedURLGenerator->makeTemporary(
+            routeName: 'front.register.activate',
+            expiresAt: now()->addDay(),
+            parameters: ['email' => $unactivatedAccount->email],
+        );
+
+        $this->get($activationURL)
             ->assertRedirect('/my/path');
     }
 }

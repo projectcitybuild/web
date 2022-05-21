@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BanlistController;
+use App\Http\Controllers\BuilderRankApplicationController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
@@ -45,7 +46,6 @@ Route::permanentRedirect('privacy', 'https://forums.projectcitybuild.com/privacy
 Route::permanentRedirect('wiki', 'https://wiki.projectcitybuild.com')->name('wiki');
 Route::permanentRedirect('maps', 'https://maps.pcbmc.co')->name('maps');
 Route::permanentRedirect('3d-maps', 'https://3d.pcbmc.co')->name('3d-maps');
-Route::permanentRedirect('rankup', 'https://forums.projectcitybuild.com/w/rank-up-application')->name('rankup');
 Route::permanentRedirect('report', 'https://forums.projectcitybuild.com/w/player-report')->name('report');
 
 /*
@@ -79,6 +79,17 @@ Route::prefix('donate')->group(function () {
 
     Route::get('success', [DonationController::class, 'success'])
         ->name('front.donate.success');
+});
+
+Route::prefix('rank-up')->group(function () {
+    Route::get('/', [BuilderRankApplicationController::class, 'index'])
+        ->name('front.rank-up');
+
+    Route::post('/', [BuilderRankApplicationController::class, 'store'])
+        ->name('front.rank-up.submit');
+
+    Route::get('{id}', [BuilderRankApplicationController::class, 'show'])
+        ->name('front.rank-up.status');
 });
 
 Route::prefix('login')->group(function () {
@@ -240,6 +251,20 @@ Route::group([
     Route::get('groups/{group}/accounts', 'GroupAccountController@index')->name('groups.accounts');
     Route::get('groups', 'GroupController@index')->name('groups.index');
     Route::resource('pages', 'PageController');
+
+    Route::group(['prefix' => 'builder-ranks'], function () {
+        Route::get('/', 'BuilderRanksController@index')
+            ->name('builder-ranks.index');
+
+        Route::get('{id}', 'BuilderRanksController@show')
+            ->name('builder-ranks.show');
+
+        Route::post('{id}/approve', 'BuilderRanksController@approve')
+            ->name('builder-ranks.approve');
+
+        Route::post('{id}/deny', 'BuilderRanksController@deny')
+            ->name('builder-ranks.deny');
+    });
 
     Route::post('minecraft-players/lookup', [
         'as' => 'minecraft-players.lookup',

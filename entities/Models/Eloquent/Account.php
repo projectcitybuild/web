@@ -76,32 +76,55 @@ final class Account extends Authenticatable
 
     public function minecraftAccount(): HasMany
     {
-        return $this->hasMany('Entities\Models\Eloquent\MinecraftPlayer', 'account_id', 'account_id');
+        return $this->hasMany(
+            related: MinecraftPlayer::class,
+            foreignKey: 'account_id',
+            localKey: 'account_id',
+        );
     }
 
     public function linkedSocialAccounts(): HasMany
     {
-        return $this->hasMany('Entities\Models\Eloquent\AccountLink', 'account_id', 'account_id');
+        return $this->hasMany(
+            related: AccountLink::class,
+            foreignKey: 'account_id',
+            localKey: 'account_id',
+        );
     }
 
     public function groups(): BelongsToMany
     {
-        return $this->belongsToMany(Group::class, 'groups_accounts', 'account_id', 'group_id');
+        return $this->belongsToMany(
+            related: Group::class,
+            table: 'groups_accounts',
+            foreignPivotKey: 'account_id',
+            relatedPivotKey: 'group_id',
+        );
     }
 
     public function donations(): HasMany
     {
-        return $this->hasMany(Donation::class, 'account_id');
+        return $this->hasMany(
+            related: Donation::class,
+            foreignKey: 'account_id',
+        );
     }
 
     public function donationPerks(): HasMany
     {
-        return $this->hasMany(DonationPerk::class, 'account_id', 'account_id');
+        return $this->hasMany(
+            related: DonationPerk::class,
+            foreignKey: 'account_id',
+            localKey: 'account_id',
+        );
     }
 
     public function emailChangeRequests(): HasMany
     {
-        return $this->hasMany(AccountEmailChange::class, 'account_id');
+        return $this->hasMany(
+            related: AccountEmailChange::class,
+            foreignKey: 'account_id',
+        );
     }
 
     public function gameBans()
@@ -148,32 +171,6 @@ final class Account extends Authenticatable
         $groups = $this->groups->pluck('discourse_name');
 
         return implode(',', array_filter($groups->toArray()));
-    }
-
-    /**
-     * Gets an URL to the 'email change verification'
-     * route with a signed signature to prevent
-     * tampering.
-     */
-    public function getEmailChangeVerificationUrl(string $newEmail): string
-    {
-        return URL::temporarySignedRoute('front.account.settings.email.confirm', now()->addMinutes(15), [
-            'old_email' => $this->email,
-            'new_email' => $newEmail,
-        ]);
-    }
-
-    /**
-     * Gets an URL to the activation route with a
-     * signed signature to prevent tampering.
-     *
-     * @deprecated Use SignedURLGenerator
-     */
-    public function getActivationUrl(): string
-    {
-        return URL::temporarySignedRoute('front.register.activate', now()->addDay(), [
-            'email' => $this->email,
-        ]);
     }
 
     public function updateLastLogin(string $ip)
