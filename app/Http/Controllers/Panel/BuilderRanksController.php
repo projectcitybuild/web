@@ -6,6 +6,8 @@ use App\Http\WebController;
 use Domain\BuilderRankApplications\Entities\ApplicationStatus;
 use Entities\Models\Eloquent\BuilderRankApplication;
 use Entities\Models\Eloquent\Group;
+use Entities\Notifications\BuilderRankAppApprovedNotification;
+use Entities\Notifications\BuilderRankAppDeclinedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -61,6 +63,13 @@ class BuilderRanksController extends WebController
 
         $groupsManager->addMember(group: $nextGroup, account: $application->account);
 
+        $request->user()->notify(
+            new BuilderRankAppApprovedNotification(
+                builderRankApplication: $application,
+                groupPromotedTo: $nextGroup,
+            )
+        );
+
         return redirect()
             ->action([BuilderRanksController::class, 'show'], $application->getKey());
     }
@@ -82,6 +91,8 @@ class BuilderRanksController extends WebController
         $application->denied_reason = $request->get('deny_reason');
         $application->closed_at = now();
         $application->save();
+
+        $request->user()->notify(new BuilderRankAppDeclinedNotification($application));
 
         return redirect()
             ->action([BuilderRanksController::class, 'show'], $application->getKey());

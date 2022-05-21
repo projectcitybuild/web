@@ -6,7 +6,9 @@ use App\Http\Requests\BuilderRankApplicationRequest;
 use App\Http\WebController;
 use Domain\BuilderRankApplications\Entities\ApplicationStatus;
 use Domain\BuilderRankApplications\Entities\BuilderRank;
+use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BuilderRankApplication;
+use Entities\Notifications\BuilderRankAppSubmittedNotification;
 use Illuminate\Http\Request;
 
 final class BuilderRankApplicationController extends WebController
@@ -31,14 +33,17 @@ final class BuilderRankApplicationController extends WebController
     {
         $input = $request->validated();
 
-        if ($request->user() === null) {
+        /** @var Account $account */
+        $account = $request->user();
+
+        if ($account === null) {
             return redirect()
                 ->back()
                 ->withErrors('You must be logged-in to submit a Builder Rank application');
         }
 
         $existingApplication = BuilderRankApplication::where('status', ApplicationStatus::IN_PROGRESS->value)
-            ->where('account_id', $request->user()->getKey())
+            ->where('account_id', $account->getKey())
             ->count();
 
         if ($existingApplication > 0) {
@@ -48,7 +53,7 @@ final class BuilderRankApplicationController extends WebController
         }
 
         $application = BuilderRankApplication::create([
-            'account_id' => $request->user()->getKey(),
+            'account_id' => $account->getKey(),
             'minecraft_alias' => $input['minecraft_username'],
             'current_builder_rank' => BuilderRank::from($input['current_builder_rank'])->humanReadable(),
             'build_location' => $input['build_location'],
@@ -57,6 +62,8 @@ final class BuilderRankApplicationController extends WebController
             'status' => ApplicationStatus::IN_PROGRESS->value,
             'closed_at' => null,
         ]);
+
+        $account->notify(new BuilderRankAppSubmittedNotification($application));
 
         return view('v2.front.pages.builder-rank.builder-rank-success')
             ->with(compact('application'));
