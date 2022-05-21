@@ -51,11 +51,14 @@
 
             <li class="spacer"></li>
 
-            @if($is_logged_in)
+            @if($isLoggedIn)
                 <li>
                     <a href="javascript:void(0)" class="nav-dropdown">Account <i class="fas fa-caret-down"></i></a>
                     <ul class="dropdown single">
                         <li class="divider"><a href="{{ route('front.account.profile') }}">Account Settings</a></li>
+                        @if($canAccessPanel)
+                            <li class="divider"><a href="{{ route('front.panel.index') }}">Staff Panel</a></li>
+                        @endif
                         <li>
                             <a href="{{ route('front.logout') }}">
                                 <i class="fas fa-sign-out-alt"></i> Logout
