@@ -1,6 +1,6 @@
 @extends('v2.front.templates.master')
 
-@section('title', 'Builder Rank Application')
+@section('title', 'Apply for Build Rank')
 @section('description', 'Use the below form to apply for the next higher builder rank')
 
 @push('head')
@@ -13,35 +13,41 @@
 @endpush
 
 @section('body')
-    <main class="page login">
-        <div class="container">
-            <div class="login__dialog login__register-form">
-                <h1>Builder Rank Application</h1>
+    <main class="page form">
+        <section class="overview">
+            <h1>Apply For Build Rank</h1>
 
-                Use the below form to apply for the next higher builder rank, or a build rank if you don't have one.
-                <br/><br/>
+            <div class="overview__description">
+                <p>
+                    Use the form to apply for the next-higher builder rank, or a build rank if you don't have one.
+                </p>
+                <p>
+                    For more information about our build ranks,
+                    <a class="alternative" href="https://forums.projectcitybuild.com/t/introducing-the-architect-council/35984" target="_blank">
+                        read here <i class="fas fa-external-link"></i>
+                    </a>
+                </p>
+                <blockquote>
+                    <h3><i class="fas fa-warning"></i> WARNING</h3>
+                    If you have previously submitted an application within <strong>21 days</strong> your application will
+                    automatically be denied.<br/>
+                    You must wait 21 days between applications
+                </blockquote>
+            </div>
+        </section>
 
-                Application Process
-
+        <section class="contents">
+            <div class="contents__section">
+                <h2>Application Process</h2>
                 <ol>
                     <li>Submit an Application using the below form</li>
                     <li>Applications are examined by the Architects Council</li>
                     <li>If your application is successful, you will receive a rank up and be notified</li>
                     <li>Should your application be unsuccessful, you may request feedback on the build</li>
                 </ol>
-                <p>
-                    <strong>
-                        <i class="fas fa-warning"></i> WARNING: If you have previously submitted an application within 21 days your application will
-                        automatically be denied.<br/>
-                        You must wait 21 days between applications
-                    </strong>
-                </p>
-                <p>
-                    For more information about our build ranks,
-                    <a href="https://forums.projectcitybuild.com/t/introducing-the-architect-council/35984" target="_blank">
-                        read here <i class="fas fa-external-link"></i>
-                    </a>
-                </p>
+            </div>
+            <div class="contents__section">
+                <h2>Application Form</h2>
 
                 @if ($applicationInProgress)
                     <div class="alert alert--error">
@@ -73,14 +79,13 @@
                                 </select>
                             </div>
                             <div class="form-row">
-                                <label for="username">Build location</label>
-                                XYZ co-ordinates and world
+                                <label for="build_location">Build location (XYZ co-ordinates and world)</label>
                                 <input
                                     class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
                                     name="build_location"
                                     id="build_location"
                                     type="text"
-                                    placeholder="x: 150, y: -10, z: 300 in Creative"
+                                    placeholder="eg. x: 150, y: -10, z: 300 in Creative"
                                     value="{{ old('build_location') }}"
                                 />
                             </div>
@@ -123,6 +128,6 @@
                     @endauth
                 @endif
             </div>
-        </div>
+        </section>
     </main>
 @endsection
