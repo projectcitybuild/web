@@ -29,9 +29,9 @@
                 </p>
                 <blockquote>
                     <h3><i class="fas fa-warning"></i> WARNING</h3>
-                    If you have previously submitted an application within <strong>21 days</strong> your application will
-                    automatically be denied.<br/>
-                    You must wait 21 days between applications
+                    If you have previously submitted an application within <strong>21 days</strong>, your application will
+                    be denied.<br/><br />
+                    You must wait at least 21 days between applications
                 </blockquote>
             </div>
         </section>
