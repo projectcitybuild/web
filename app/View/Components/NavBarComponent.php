@@ -14,13 +14,9 @@ class NavBarComponent extends Component
      */
     public function render()
     {
-        $canAccessPanel = false;
         $account = Auth::user();
-        if ($account !== null) {
-            $canAccessPanel = $account->canAccessPanel();
-        }
-
-        $isLoggedIn = Auth::check();
+        $isLoggedIn = $account !== null;
+        $canAccessPanel = $account?->canAccessPanel() ?? false;
 
         return view('v2.front.components.navbar')
             ->with(compact(['canAccessPanel', 'isLoggedIn']));
