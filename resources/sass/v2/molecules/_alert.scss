@@ -16,6 +16,11 @@
         text-transform: uppercase;
     }
 
+    &--info {
+        border-color: #585454;
+        color: #585454;
+    }
+
     &--error {
         border-color: $alert-color-error;
         color: $alert-color-error;

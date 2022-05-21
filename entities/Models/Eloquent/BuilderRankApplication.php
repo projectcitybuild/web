@@ -59,4 +59,9 @@ final class BuilderRankApplication extends Model
         return $this->status == ApplicationStatus::DENIED->value
             || $this->status == ApplicationStatus::APPROVED->value;
     }
+
+    public function status(): ApplicationStatus
+    {
+        return ApplicationStatus::tryFrom($this->status);
+    }
 }
