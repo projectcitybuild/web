@@ -39,7 +39,7 @@
                 <ul class="dropdown single">
                     <li><a href="https://forums.projectcitybuild.com/t/banned-read-me/12145">Appeal a Ban</a></li>
                     <li><a href="{{ route('report') }}">Report a Player</a></li>
-                    <li><a href="{{ route('front.rank-up') }}">Apply for Building Rank</a></li>
+                    <li><a href="{{ route('front.rank-up') }}">Apply for Build Rank</a></li>
                     <li class="divider"><a href="https://goo.gl/forms/UodUsKQBZJdCzNWk1">Apply for Staff</a></li>
                     <li><a href="https://forums.projectcitybuild.com/" target="_blank" rel="noopener">Forums (archived)</a></li>
                     <li class="divider"><a href="https://wiki.projectcitybuild.com/" target="_blank" rel="noopener">Community Wiki</a></li>

@@ -10,7 +10,7 @@ return [
     | The total annual cost of all our services
     |
     */
-    'target_funding' => 1350,
+    'target_funding' => 1000,
 
     /*
     |--------------------------------------------------------------------------

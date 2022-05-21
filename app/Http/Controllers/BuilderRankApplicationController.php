@@ -10,6 +10,8 @@ use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BuilderRankApplication;
 use Entities\Notifications\BuilderRankAppSubmittedNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Notification;
 
 final class BuilderRankApplicationController extends WebController
 {
@@ -64,6 +66,42 @@ final class BuilderRankApplicationController extends WebController
         ]);
 
         $account->notify(new BuilderRankAppSubmittedNotification($application));
+
+        // TODO: do this properly later...
+        $webhook = config('discord.webhook_architect_channel');
+        if (! empty($webhook)) {
+            Http::post($webhook, [
+                'content' => "A build rank application has arrived",
+                'embeds' => [
+                    [
+                        "title" => "Build Rank Application",
+                        "url" => route('front.panel.builder-ranks.show', $application->getKey()),
+                        "color" => "7506394",
+                        "fields" => [
+                            [
+                                "name" => "Current build rank",
+                                "value" => $application->current_builder_rank,
+                            ],
+                            [
+                                "name" => "Build location",
+                                "value" => $application->build_location,
+                            ],
+                            [
+                                "name" => "Build description",
+                                "value" => $application->build_description,
+                            ],
+                            [
+                                "name" => "Additional notes",
+                                "value" => $application->additional_notes ?? "-",
+                            ],
+                        ],
+                        "author" => [
+                            "name" => $application->minecraft_alias,
+                        ]
+                    ]
+                ],
+            ]);
+        }
 
         return view('v2.front.pages.builder-rank.builder-rank-success')
             ->with(compact('application'));
