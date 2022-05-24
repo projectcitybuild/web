@@ -9,6 +9,7 @@ use Domain\BanAppeals\UseCases\CreateBanAppealUseCase;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
@@ -70,9 +71,16 @@ class BanAppealController extends WebController
      * Display the specified resource.
      *
      * @param BanAppeal $banAppeal
+     * @param Request $request
+     * @return Response
+     * @throws AuthorizationException
      */
-    public function show(BanAppeal $banAppeal)
+    public function show(BanAppeal $banAppeal, Request $request)
     {
+        if (!$request->hasValidSignature()) {
+            $this->authorize('view', $banAppeal);
+        }
+
         return view('v2.front.pages.ban-appeal.show')->with([
             'banAppeal' => $banAppeal
         ]);
