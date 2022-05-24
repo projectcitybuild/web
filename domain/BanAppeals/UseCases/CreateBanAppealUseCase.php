@@ -19,10 +19,10 @@ final class CreateBanAppealUseCase
      * Returns whether an account owns the player associated with a ban
      *
      * @param GameBan $ban
-     * @param Account $account
+     * @param Account|null $account
      * @return bool
      */
-    public function isAccountVerified(GameBan $ban, Account $account): bool {
+    public function isAccountVerified(GameBan $ban, ?Account $account): bool {
         return ($account?->is($ban->bannedPlayer?->account)) ?? false;
     }
 
