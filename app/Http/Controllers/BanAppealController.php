@@ -17,8 +17,6 @@ class BanAppealController extends WebController
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return Response
      */
     public function index()
     {
@@ -52,7 +50,9 @@ class BanAppealController extends WebController
     /**
      * Store a newly created resource in storage.
      *
+     * @param GameBan $ban
      * @param StoreBanAppealRequest $request
+     * @param CreateBanAppealUseCase $useCase
      * @return Response
      */
     public function store(GameBan $ban, StoreBanAppealRequest $request, CreateBanAppealUseCase $useCase)
@@ -70,7 +70,6 @@ class BanAppealController extends WebController
      * Display the specified resource.
      *
      * @param BanAppeal $banAppeal
-     * @return Response
      */
     public function show(BanAppeal $banAppeal)
     {
@@ -80,8 +79,7 @@ class BanAppealController extends WebController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\BanAppeal  $banAppeal
-     * @return Response
+     * @param BanAppeal  $banAppeal
      */
     public function destroy(BanAppeal $banAppeal)
     {
