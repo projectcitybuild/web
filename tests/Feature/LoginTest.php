@@ -23,14 +23,6 @@ class LoginTest extends TestCase
             ->assertRedirect(route('front.account.settings'));
     }
 
-    public function testUserIsRedirectedToDiscourseSSOWhenLoggingInWithCorrectCredentials()
-    {
-        $this->post(route('front.login.submit'), [
-            'email' => $this->account->email,
-            'password' => 'secret',
-        ])->assertRedirect('/sso/discourse');
-    }
-
     public function testUserCannotLogInWithUnactivatedAccount()
     {
         $account = Account::factory()->unactivated()->create();
