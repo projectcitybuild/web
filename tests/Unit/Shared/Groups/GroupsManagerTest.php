@@ -5,7 +5,6 @@ namespace Tests\Unit\Shared\Groups;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\Group;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Shared\ExternalAccounts\Sync\Adapters\StubAccountSync;
 use Shared\Groups\GroupsManager;
 use Tests\TestCase;
 
@@ -25,7 +24,6 @@ class GroupsManagerTest extends TestCase
         $this->account = Account::factory()->create();
 
         $this->groupsManager = new GroupsManager(
-            externalAccountSync:  new StubAccountSync(),
             defaultGroup: $this->defaultGroup,
         );
     }
