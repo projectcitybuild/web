@@ -1,6 +1,7 @@
 .alert {
     $alert-color-error: #f84637;
     $alert-color-success: #00aa00;
+    $alert-color-warning: #665c00;
 
     width: 100%;
     border: 2px solid #000;
@@ -19,6 +20,11 @@
     &--info {
         border-color: #585454;
         color: #585454;
+    }
+
+    &--warning {
+        border-color: $alert-color-warning;
+        color: $alert-color-warning;
     }
 
     &--error {

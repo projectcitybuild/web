@@ -75,5 +75,10 @@ final class AppServiceProvider extends ServiceProvider
         Factory::guessFactoryNamesUsing(function (string $modelName) {
             return 'Database\Factories\\'.class_basename($modelName).'Factory';
         });
+
+        // Set a default date format for displaying Carbon instances in views
+        Blade::stringable(function(\Illuminate\Support\Carbon $dateTime) {
+            return $dateTime->format('j M Y H:i');
+        });
     }
 }

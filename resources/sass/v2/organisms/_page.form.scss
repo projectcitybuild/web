@@ -73,5 +73,15 @@
             color: #000;
             font-weight: bold;
         }
+
+        blockquote {
+            border: 2px solid darken($color-lightest-grey, 20%);
+            padding: 1rem;
+            margin: 0;
+            border-radius: 5px;
+            p {
+                margin: 0;
+            }
+        }
     }
 }

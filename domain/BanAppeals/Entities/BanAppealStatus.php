@@ -8,4 +8,9 @@ enum BanAppealStatus: int
     case ACCEPTED_UNBAN = 1;
     case ACCEPTED_TEMPBAN = 2;
     case DENIED = 3;
+
+    public function isDecided(): bool
+    {
+        return $this != BanAppealStatus::PENDING;
+    }
 }

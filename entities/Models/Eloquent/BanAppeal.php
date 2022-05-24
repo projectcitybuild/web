@@ -17,7 +17,7 @@ class BanAppeal extends Model
 
     protected $casts = [
         'status' => BanAppealStatus::class,
-        'decided_at' => 'timestamp'
+        'decided_at' => 'datetime'
     ];
 
     protected $fillable = [

@@ -1,4 +1,4 @@
-@extends('v2.front.pages.ban-appeal._layout')
+@extends('v2.front.pages.ban-appeal._layout-form')
 
 @section('col-2')
     <div class="contents__section">

@@ -1,4 +1,4 @@
-@extends('v2.front.pages.ban-appeal._layout')
+@extends('v2.front.pages.ban-appeal._layout-form')
 
 @section('col-2')
     <div class="contents__section">
@@ -24,18 +24,19 @@
             @csrf
             @include('v2.front.components.form-error')
             @unless($accountVerified)
-            <div class="form-row">
-                <label for="email">Email Address</label>
-                <input type="text"
-                       class="textfield"
-                       name="email"
-                       id="email"
-                       placeholder="steve@minecraft.net"
-                       value="{{ old('email') }}"
-                       aria-describedby="emailHelp"
-                >
-                <p class="help-text" id="emailHelp">Please check this carefully, updates to your appeal will be sent to this address.</p>
-            </div>
+                <div class="form-row">
+                    <label for="email">Email Address</label>
+                    <input type="text"
+                           class="textfield"
+                           name="email"
+                           id="email"
+                           placeholder="steve@minecraft.net"
+                           value="{{ old('email') }}"
+                           aria-describedby="emailHelp"
+                    >
+                    <p class="help-text" id="emailHelp">Please check this carefully, updates to your appeal will be sent
+                        to this address.</p>
+                </div>
             @endunless
             <div class="form-row">
                 <label for="explanation">Reason to be Unbanned</label>
