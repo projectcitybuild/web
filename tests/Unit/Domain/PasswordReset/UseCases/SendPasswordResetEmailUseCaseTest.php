@@ -2,13 +2,13 @@
 
 namespace Domain\PasswordReset\UseCases;
 
-use Domain\PasswordReset\PasswordResetURLGenerator;
 use Domain\PasswordReset\Repositories\AccountPasswordResetRepository;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\AccountPasswordReset;
 use Entities\Notifications\AccountPasswordResetNotification;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
+use Library\SignedURL\Adapters\LaravelSignedURLGenerator;
 use Library\Tokens\Adapters\StubTokenGenerator;
 use Tests\TestCase;
 
@@ -29,7 +29,7 @@ class SendPasswordResetEmailUseCaseTest extends TestCase
         $this->useCase = new SendPasswordResetEmailUseCase(
             passwordResetRepository: $this->passwordResetRepository,
             tokenGenerator: new StubTokenGenerator('token'),
-            passwordResetURLGenerator: new PasswordResetURLGenerator(),
+            signedURLGenerator: new LaravelSignedURLGenerator()
         );
 
         $this->now = Carbon::create(year: 2022, month: 4, day: 6, hour: 10, minute: 9, second: 8);
