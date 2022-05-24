@@ -18,7 +18,7 @@ use Library\Tokens\TokenGenerator;
 use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 use Tests\TestCase;
 
-class UpdateAccountEmailUseCaseTests extends TestCase
+class UpdateAccountEmailUseCaseTest extends TestCase
 {
     use RefreshDatabase;
 

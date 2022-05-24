@@ -9,7 +9,7 @@ use Library\APITokens\APITokenScope;
 use Tests\TestCase;
 use function collect;
 
-class APIMinecraftBalanceShowTests extends TestCase
+class APIMinecraftBalanceShowTest extends TestCase
 {
     private function endpoint(?MinecraftPlayer $player): string
     {

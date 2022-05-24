@@ -16,7 +16,7 @@ use Library\Tokens\Adapters\StubTokenGenerator;
 use Library\Tokens\TokenGenerator;
 use Tests\TestCase;
 
-class SendVerificationEmailUseCaseTests extends TestCase
+class SendVerificationEmailUseCaseTest extends TestCase
 {
     use RefreshDatabase;
 

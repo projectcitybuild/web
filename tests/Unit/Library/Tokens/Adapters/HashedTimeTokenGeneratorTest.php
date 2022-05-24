@@ -5,7 +5,7 @@ namespace Tests\Unit\Library\Tokens\Adapters;
 use Library\Tokens\Adapters\HashedTokenGenerator;
 use Tests\TestCase;
 
-final class HashedTimeTokenGeneratorTests extends TestCase
+final class HashedTimeTokenGeneratorTest extends TestCase
 {
     public function test_generates_token()
     {

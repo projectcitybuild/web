@@ -12,7 +12,7 @@ use Library\SignedURL\SignedURLGenerator;
 use Shared\Groups\GroupsManager;
 use Tests\TestCase;
 
-class CreateUnactivatedAccountUseCaseTests extends TestCase
+class CreateUnactivatedAccountUseCaseTest extends TestCase
 {
     private AccountRepository $accountRepository;
     private GroupsManager $groupsManager;

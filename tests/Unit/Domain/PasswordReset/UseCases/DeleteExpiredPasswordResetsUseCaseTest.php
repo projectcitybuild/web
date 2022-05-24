@@ -8,7 +8,7 @@ use Entities\Models\Eloquent\AccountPasswordReset;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
-class DeleteExpiredPasswordResetsUseCaseTests extends TestCase
+class DeleteExpiredPasswordResetsUseCaseTest extends TestCase
 {
     private DeleteExpiredPasswordResetsUseCase $useCase;
 

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Session;
 use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 use Tests\TestCase;
 
-class LoginUseCaseTests extends TestCase
+class LoginUseCaseTest extends TestCase
 {
     use RefreshDatabase;
 

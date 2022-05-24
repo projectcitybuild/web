@@ -20,7 +20,7 @@ use Library\Tokens\TokenGenerator;
 use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 use Tests\TestCase;
 
-class VerifyEmailUseCaseTests extends TestCase
+class VerifyEmailUseCaseTest extends TestCase
 {
     use RefreshDatabase;
 

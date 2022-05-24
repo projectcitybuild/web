@@ -10,7 +10,7 @@ use Entities\Notifications\DonationPerkStartedNotification;
 use Illuminate\Support\Facades\Notification;
 use Tests\E2ETestCase;
 
-class DonationCheckoutTests extends E2ETestCase
+class DonationCheckoutTest extends E2ETestCase
 {
     private const ENDPOINT = 'donate/checkout';
 

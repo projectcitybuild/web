@@ -13,7 +13,7 @@ use Entities\Repositories\AccountRepository;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
-class ResetAccountPasswordUseCaseTests extends TestCase
+class ResetAccountPasswordUseCaseTest extends TestCase
 {
     private UpdateAccountPassword $updateAccountPassword;
     private AccountRepository $accountRepository;

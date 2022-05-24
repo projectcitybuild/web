@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Entities\Models\Eloquent\Account;
 use Tests\TestCase;
 
-class LoginTests extends TestCase
+class LoginTest extends TestCase
 {
     private Account $account;
 

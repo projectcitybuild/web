@@ -8,7 +8,7 @@ use Library\Recaptcha\Rules\RecaptchaRule;
 use Library\Recaptcha\Validator\Adapters\StubRecaptchaValidator;
 use Tests\TestCase;
 
-class RecaptchaRuleTests extends TestCase
+class RecaptchaRuleTest extends TestCase
 {
     public function test_passes()
     {

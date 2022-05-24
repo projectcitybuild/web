@@ -10,7 +10,7 @@ use Entities\Notifications\DonationPerkStartedNotification;
 use Illuminate\Support\Facades\Notification;
 use Tests\E2ETestCase;
 
-class APIDonationOneOffTests extends E2ETestCase
+class APIDonationOneOffTest extends E2ETestCase
 {
     private Account $account;
     private DonationTier $donationTier;

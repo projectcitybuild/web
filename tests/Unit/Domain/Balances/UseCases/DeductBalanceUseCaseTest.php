@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Balances\UseCases;
+namespace Unit\Domain\Balances\UseCases;
 
 use Domain\Balances\Exceptions\InsufficientBalanceException;
 use Domain\Balances\Repositories\BalanceHistoryRepository;
@@ -9,7 +9,7 @@ use Shared\PlayerLookup\AccountLookup;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Tests\TestCase;
 
-class DeductBalanceUseCaseTests extends TestCase
+class DeductBalanceUseCaseTest extends TestCase
 {
     private AccountLookup $accountLookup;
     private BalanceHistoryRepository $balanceHistoryRepository;

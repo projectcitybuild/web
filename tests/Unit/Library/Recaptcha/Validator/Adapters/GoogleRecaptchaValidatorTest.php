@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Http;
 use Library\Recaptcha\Validator\Adapters\GoogleRecaptchaValidator;
 use Tests\TestCase;
 
-class GoogleRecaptchaValidatorTests extends TestCase
+class GoogleRecaptchaValidatorTest extends TestCase
 {
     public function test_passes()
     {

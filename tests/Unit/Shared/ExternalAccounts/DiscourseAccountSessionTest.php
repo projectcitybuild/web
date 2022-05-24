@@ -14,7 +14,7 @@ use Psr\Http\Message\RequestInterface;
 use Shared\ExternalAccounts\Session\Adapters\DiscourseAccountSession;
 use Tests\TestCase;
 
-class DiscourseAccountSessionTests extends TestCase
+class DiscourseAccountSessionTest extends TestCase
 {
     use RefreshDatabase;
 

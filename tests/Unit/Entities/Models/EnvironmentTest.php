@@ -6,7 +6,7 @@ use Library\Environment\Environment;
 use Library\Environment\EnvironmentLevel;
 use Tests\TestCase;
 
-class EnvironmentTests extends TestCase
+class EnvironmentTest extends TestCase
 {
     private string $originalEnv;
 

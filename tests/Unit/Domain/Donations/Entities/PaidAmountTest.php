@@ -6,7 +6,7 @@ use Domain\Donations\Entities\Denomination;
 use Domain\Donations\Entities\PaidAmount;
 use Tests\TestCase;
 
-final class PaidAmountTests extends TestCase
+final class PaidAmountTest extends TestCase
 {
     public function test_denominations()
     {

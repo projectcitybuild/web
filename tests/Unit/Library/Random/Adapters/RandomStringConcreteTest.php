@@ -5,7 +5,7 @@ namespace Tests\Unit\Library\Random\Adapters;
 use Library\Random\Adapters\RandomStringConcrete;
 use Tests\TestCase;
 
-final class RandomStringConcreteTests extends TestCase
+final class RandomStringConcreteTest extends TestCase
 {
     public function test_outputs_correct_length()
     {

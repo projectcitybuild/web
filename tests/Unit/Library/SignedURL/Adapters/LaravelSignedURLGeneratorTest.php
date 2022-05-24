@@ -5,7 +5,7 @@ namespace Tests\Unit\Library\SignedURL\Adapters;
 use Library\SignedURL\Adapters\LaravelSignedURLGenerator;
 use Tests\TestCase;
 
-class LaravelSignedURLGeneratorTests extends TestCase
+class LaravelSignedURLGeneratorTest extends TestCase
 {
     private const ROUTE_NAME = 'test-signed';
 

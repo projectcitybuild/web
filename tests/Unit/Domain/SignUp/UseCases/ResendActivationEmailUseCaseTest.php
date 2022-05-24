@@ -12,7 +12,7 @@ use Library\SignedURL\Adapters\StubSignedURLGenerator;
 use Library\SignedURL\SignedURLGenerator;
 use Tests\TestCase;
 
-class ResendActivationEmailUseCaseTests extends TestCase
+class ResendActivationEmailUseCaseTest extends TestCase
 {
     private AccountRepository $accountRepository;
     private SignedURLGenerator $signedURLGenerator;

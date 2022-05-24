@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
-class RewardCurrencyCommandTests extends TestCase
+class RewardCurrencyCommandTest extends TestCase
 {
     use RefreshDatabase;
 

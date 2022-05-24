@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Notification;
 use Library\Tokens\Adapters\StubTokenGenerator;
 use Tests\TestCase;
 
-class SendPasswordResetEmailUseCaseTests extends TestCase
+class SendPasswordResetEmailUseCaseTest extends TestCase
 {
     private Carbon $now;
     private Account $account;

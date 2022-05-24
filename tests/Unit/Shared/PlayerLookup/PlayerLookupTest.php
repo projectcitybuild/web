@@ -12,7 +12,7 @@ use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\PlayerLookup;
 use Tests\TestCase;
 
-class PlayerLookupTests extends TestCase
+class PlayerLookupTest extends TestCase
 {
     use RefreshDatabase;
 

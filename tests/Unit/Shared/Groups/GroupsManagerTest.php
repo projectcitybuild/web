@@ -9,7 +9,7 @@ use Shared\ExternalAccounts\Sync\Adapters\StubAccountSync;
 use Shared\Groups\GroupsManager;
 use Tests\TestCase;
 
-class GroupsManagerTests extends TestCase
+class GroupsManagerTest extends TestCase
 {
     use RefreshDatabase;
 

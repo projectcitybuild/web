@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Notification;
 use Shared\Groups\GroupsManager;
 use Tests\TestCase;
 
-final class DeactivateExpiredDonorPerksUseCaseTests extends TestCase
+final class DeactivateExpiredDonorPerksUseCaseTest extends TestCase
 {
     use RefreshDatabase;
 
