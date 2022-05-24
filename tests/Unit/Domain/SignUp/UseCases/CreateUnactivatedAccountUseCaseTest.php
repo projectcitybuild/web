@@ -45,7 +45,8 @@ class CreateUnactivatedAccountUseCaseTest extends TestCase
 
         $this->accountRepository
             ->shouldReceive('create')
-            ->with($email, $username, $password, $ip);
+            ->with($email, $username, $password, $ip)
+            ->andReturn(new Account());
 
         $this->groupsManager
             ->shouldReceive('addToDefaultGroup');
