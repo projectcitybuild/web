@@ -4,6 +4,12 @@
     padding: 5px;
     border-radius: 5px;
 
+    &--filled {
+        background-color: white;
+        box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+        padding: 7px;
+    }
+
     &__avatar {
         margin-right: 0.6rem;
     }
@@ -28,10 +34,22 @@
     }
 
     &__actions {
-        margin-top: 5px;
+        margin-top: 10px;
 
         button {
             margin-top: 0;
+        }
+    }
+
+    &__status {
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        &--is-ok {
+            color: $color-success;
+        }
+        &--is-bad {
+            color: $color-error;
         }
     }
 }

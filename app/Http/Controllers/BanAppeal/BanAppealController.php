@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\BanAppeal;
 
 use App\Http\Requests\StoreBanAppealRequest;
 use App\Http\WebController;
+use Domain\BanAppeals\Entities\BanAppealStatus;
 use Domain\BanAppeals\Exceptions\EmailRequiredException;
 use Domain\BanAppeals\UseCases\CreateBanAppealUseCase;
 use Entities\Models\Eloquent\BanAppeal;
@@ -19,9 +20,13 @@ class BanAppealController extends WebController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // TODO: refactor this to use scope once model method is optimised
+        $minecraftAccounts = $request->user()->minecraftAccount;
+        return view('v2.front.pages.ban-appeal.index')->with([
+            'minecraftAccounts' => $minecraftAccounts
+        ]);
     }
 
     /**

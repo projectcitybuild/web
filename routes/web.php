@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\BanAppealController;
+use App\Http\Controllers\BanAppeal\BanAppealController;
+use App\Http\Controllers\BanAppeal\BanAuthenticationController;
 use App\Http\Controllers\BanlistController;
 use App\Http\Controllers\BuilderRankApplicationController;
 use App\Http\Controllers\DonationController;
@@ -93,6 +94,10 @@ Route::prefix('rank-up')->group(function () {
 Route::prefix('appeal')->group(function() {
     Route::get('/', [BanAppealController::class, 'index'])
         ->name('front.appeal');
+
+    Route::redirect('/auth', '/appeal')
+        ->name('front.appeal.auth')
+        ->middleware('auth');
 
     Route::get('/{banAppeal}', [BanAppealController::class, 'show'])
         ->name('front.appeal.show');
