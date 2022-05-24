@@ -42,7 +42,7 @@ class GameBanRepository
     ): ?GameBan {
         return GameBan::where('banned_player_id', $identifier->key)
             ->where('banned_player_type', $identifier->gameIdentifierType->value)
-            ->where('is_active', true)
+            ->active()
             ->first();
     }
 }

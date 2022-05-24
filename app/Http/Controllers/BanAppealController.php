@@ -1,0 +1,90 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreBanAppealRequest;
+use App\Http\WebController;
+use Domain\BanAppeals\Exceptions\EmailRequiredException;
+use Domain\BanAppeals\UseCases\CreateBanAppealUseCase;
+use Entities\Models\Eloquent\BanAppeal;
+use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\MinecraftPlayer;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
+
+class BanAppealController extends WebController
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create(GameBan $ban, Request $request, CreateBanAppealUseCase $useCase)
+    {
+        if (!$ban->is_active) {
+            return abort(404);
+        }
+
+        $existingAppeal = $ban->banAppeals()->pending()->first();
+        if ($existingAppeal) {
+            return view('v2.front.pages.ban-appeal.error-pending')->with([
+                'existingAppeal' => $existingAppeal
+            ]);
+        }
+
+        $bannedPlayer = $ban->bannedPlayer;
+        return view('v2.front.pages.ban-appeal.create')->with([
+            'player' => $bannedPlayer,
+            'playerBans' => $bannedPlayer->gameBans()->latest()->get(),
+            'accountVerified' => $useCase->isAccountVerified($ban, $request->user())
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param StoreBanAppealRequest $request
+     * @return Response
+     */
+    public function store(GameBan $ban, StoreBanAppealRequest $request, CreateBanAppealUseCase $useCase)
+    {
+        try {
+            $banAppeal = $useCase->execute($ban, $request->get('explanation'), $request->user(), $request->get('email'));
+        } catch (EmailRequiredException $e) {
+            $e->throwAsValidationException();
+        }
+
+        return redirect($banAppeal->showLink());
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param BanAppeal $banAppeal
+     * @return Response
+     */
+    public function show(BanAppeal $banAppeal)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\BanAppeal  $banAppeal
+     * @return Response
+     */
+    public function destroy(BanAppeal $banAppeal)
+    {
+        //
+    }
+}

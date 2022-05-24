@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BanAppealController;
 use App\Http\Controllers\BanlistController;
 use App\Http\Controllers\BuilderRankApplicationController;
 use App\Http\Controllers\DonationController;
@@ -59,9 +60,6 @@ Route::permanentRedirect('report', 'https://forums.projectcitybuild.com/w/player
 Route::get('/', [HomeController::class, 'index'])
     ->name('front.home');
 
-Route::get('bans', [BanlistController::class, 'index'])
-    ->name('front.banlist');
-
 Route::get('logout', [LogoutController::class, 'logout'])
     ->name('front.logout')
     ->middleware('auth');
@@ -90,6 +88,25 @@ Route::prefix('rank-up')->group(function () {
 
     Route::get('{id}', [BuilderRankApplicationController::class, 'show'])
         ->name('front.rank-up.status');
+});
+
+Route::prefix('appeal')->group(function() {
+    Route::get('/', [BanAppealController::class, 'index'])
+        ->name('front.appeal');
+
+    Route::get('/{banAppeal}', [BanAppealController::class, 'show'])
+        ->name('front.appeal.show');
+});
+
+Route::prefix('bans')->group(function() {
+    Route::get('/', [BanlistController::class, 'index'])
+        ->name('front.banlist');
+
+    Route::get('{ban}/appeal', [BanAppealController::class, 'create'])
+        ->name('front.appeal.create');
+
+    Route::post('{ban}/appeal', [BanAppealController::class, 'store'])
+        ->name('front.appeal.submit');
 });
 
 Route::prefix('login')->group(function () {

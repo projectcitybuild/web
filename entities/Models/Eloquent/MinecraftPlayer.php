@@ -64,7 +64,14 @@ final class MinecraftPlayer extends Model implements Player
 
     public function isBanned()
     {
-        return $this->gameBans()->where('is_active', true)->count() > 0;
+        return $this->gameBans()->active()->exists();
+    }
+
+    public function banAppeals()
+    {
+        // We have to do this because game bans are a polymorphic relationship, but this is just what
+        // HasManyThrough does internally anyway..
+        return BanAppeal::whereIn('game_ban_id', $this->gameBans()->pluck('game_ban_id'));
     }
 
     /**
