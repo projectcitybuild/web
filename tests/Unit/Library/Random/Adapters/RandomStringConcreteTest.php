@@ -15,7 +15,7 @@ final class RandomStringConcreteTest extends TestCase
 
         $this->assertEquals(
             expected: $count,
-            actual: count($output),
+            actual: strlen($output),
         );
     }
 }
