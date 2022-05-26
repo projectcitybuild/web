@@ -4,12 +4,13 @@ namespace Tests\Unit\Shared\PlayerLookup;
 
 use Entities\MinecraftUUID;
 use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\Eloquent\MinecraftPlayerAlias;
 use Entities\Repositories\MinecraftPlayerAliasRepository;
-use Entities\Repositories\MinecraftPlayerRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\PlayerLookup;
+use Shared\PlayerLookup\Repositories\MinecraftPlayerRepository;
 use Tests\TestCase;
 
 class PlayerLookupTest extends TestCase
@@ -35,15 +36,12 @@ class PlayerLookupTest extends TestCase
 
     public function test_find_returns_null_if_no_player()
     {
-        $uuid = new MinecraftUUID('uuid');
-
         $this->minecraftPlayerRepository
             ->shouldReceive('getByUUID')
-            ->with($uuid)
             ->andReturnNull();
 
         $player = $this->playerLookup->find(
-            identifier: PlayerIdentifier::minecraftUUID($uuid),
+            identifier: PlayerIdentifier::minecraftUUID('uuid'),
         );
 
         $this->assertNull($player);
@@ -51,16 +49,14 @@ class PlayerLookupTest extends TestCase
 
     public function test_find_returns_minecraft_player()
     {
-        $uuid = new MinecraftUUID('uuid');
         $player = MinecraftPlayer::factory()->create();
 
         $this->minecraftPlayerRepository
             ->shouldReceive('getByUUID')
-            ->with($uuid)
             ->andReturn($player);
 
         $actual = $this->playerLookup->find(
-            identifier: PlayerIdentifier::minecraftUUID($uuid),
+            identifier: PlayerIdentifier::minecraftUUID('uuid'),
         );
 
         $this->assertEquals(
@@ -71,16 +67,14 @@ class PlayerLookupTest extends TestCase
 
     public function test_findOrCreate_returns_existing_player()
     {
-        $uuid = new MinecraftUUID('uuid');
         $player = MinecraftPlayer::factory()->create();
 
         $this->minecraftPlayerRepository
             ->shouldReceive('getByUUID')
-            ->with($uuid)
             ->andReturn($player);
 
         $actual = $this->playerLookup->findOrCreate(
-            identifier: PlayerIdentifier::minecraftUUID($uuid),
+            identifier: PlayerIdentifier::minecraftUUID('uuid'),
         );
 
         $this->assertEquals(
@@ -91,12 +85,10 @@ class PlayerLookupTest extends TestCase
 
     public function test_findOrCreate_creates_new_player()
     {
-        $uuid = new MinecraftUUID('uuid');
         $newPlayer = MinecraftPlayer::factory()->make();
 
         $this->minecraftPlayerRepository
             ->shouldReceive('getByUUID')
-            ->with($uuid)
             ->andReturnNull();
 
         $this->minecraftPlayerRepository
@@ -104,7 +96,7 @@ class PlayerLookupTest extends TestCase
             ->andReturn($newPlayer);
 
         $player = $this->playerLookup->findOrCreate(
-            identifier: PlayerIdentifier::minecraftUUID($uuid),
+            identifier: PlayerIdentifier::minecraftUUID('uuid'),
         );
 
         $this->assertEquals(
@@ -118,13 +110,11 @@ class PlayerLookupTest extends TestCase
         $now = Carbon::create(year: 2022, month: 4, day: 19, hour: 10, minute: 9, second: 8);
         Carbon::setTestNow($now);
 
-        $uuid = new MinecraftUUID('uuid');
-        $newPlayer = MinecraftPlayer::factory()->make();
+        $newPlayer = MinecraftPlayer::factory()->create();
         $alias = 'alias';
 
         $this->minecraftPlayerRepository
             ->shouldReceive('getByUUID')
-            ->with($uuid)
             ->andReturnNull();
 
         $this->minecraftPlayerRepository
@@ -133,10 +123,10 @@ class PlayerLookupTest extends TestCase
 
         $this->minecraftPlayerAliasRepository
             ->shouldReceive('store')
-            ->with($newPlayer->getKey(), $alias, $now);
+            ->andReturn(MinecraftPlayerAlias::factory()->make());
 
         $player = $this->playerLookup->findOrCreate(
-            identifier: PlayerIdentifier::minecraftUUID($uuid),
+            identifier: PlayerIdentifier::minecraftUUID('uuid'),
             playerAlias: $alias,
         );
 
