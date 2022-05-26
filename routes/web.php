@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\BanAppeal\BanAppealController;
-use App\Http\Controllers\BanAppeal\BanAuthenticationController;
+use App\Http\Controllers\BanAppeal\BanLookupController;
 use App\Http\Controllers\BanlistController;
 use App\Http\Controllers\BuilderRankApplicationController;
 use App\Http\Controllers\DonationController;
@@ -106,6 +106,9 @@ Route::prefix('appeal')->group(function() {
 Route::prefix('bans')->group(function() {
     Route::get('/', [BanlistController::class, 'index'])
         ->name('front.banlist');
+
+    Route::post('/', BanLookupController::class)
+        ->name('front.bans.lookup');
 
     Route::get('{ban}/appeal', [BanAppealController::class, 'create'])
         ->name('front.appeal.create');

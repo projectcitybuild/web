@@ -1,4 +1,4 @@
-<form action="" id="form" class="form">
+<form action="{{ route('front.bans.lookup') }}" method="post" id="form" class="form">
     @csrf
     @include('v2.front.components.form-error')
 

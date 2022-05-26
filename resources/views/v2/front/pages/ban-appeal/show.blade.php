@@ -15,6 +15,7 @@
 
 @section('col-2')
     <div class="contents__section">
+        @include('v2.front.components.form-error')
         @switch($banAppeal->status)
             @case(\Domain\BanAppeals\Entities\BanAppealStatus::PENDING)
                 <div class="alert alert--info">

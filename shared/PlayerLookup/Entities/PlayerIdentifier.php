@@ -4,6 +4,9 @@ namespace Shared\PlayerLookup\Entities;
 
 use Entities\Models\GameIdentifierType;
 
+/**
+ * TODO: this class is given both database IDs and MC UUIDs as the same type, they should be split.
+ */
 final class PlayerIdentifier
 {
     /**

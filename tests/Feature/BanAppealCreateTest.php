@@ -67,7 +67,7 @@ class BanAppealCreateTest extends TestCase
             ->assertSee('My Expired Ban');
     }
 
-    public function testPendingAppealShowsErrorForAppealWithAccount()
+    public function testPendingAppealRedirectsToAppealWithAccount()
     {
         $ban = $this->createBanWithAccount();
         BanAppeal::factory()->for($ban)->create();
@@ -80,7 +80,7 @@ class BanAppealCreateTest extends TestCase
         $ban = $this->createBan();
         BanAppeal::factory()->for($ban)->create();
         $this->get(route('front.appeal.create', $ban))
-            ->assertSee('Click the link in the appeal confirmation email to check progress.');
+            ->assertSee('Click the link in the appeal confirmation email');
     }
 
     private function submitAppealForBan(GameBan $ban, bool $withEmail = false): TestResponse
