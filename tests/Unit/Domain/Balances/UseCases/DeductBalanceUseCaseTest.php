@@ -4,14 +4,16 @@ namespace Unit\Domain\Balances\UseCases;
 
 use Domain\Balances\Exceptions\InsufficientBalanceException;
 use Domain\Balances\Repositories\BalanceHistoryRepository;
+use Domain\Balances\UseCases\DeductBalanceUseCase;
 use Entities\Models\Eloquent\Account;
-use Shared\PlayerLookup\AccountLookup;
+use Entities\Models\Eloquent\MinecraftPlayer;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
+use Shared\PlayerLookup\PlayerLookup;
 use Tests\TestCase;
 
 class DeductBalanceUseCaseTest extends TestCase
 {
-    private AccountLookup $accountLookup;
+    private PlayerLookup $playerLookup;
     private BalanceHistoryRepository $balanceHistoryRepository;
     private DeductBalanceUseCase $useCase;
 
@@ -19,11 +21,11 @@ class DeductBalanceUseCaseTest extends TestCase
     {
         parent::setUp();
 
-        $this->accountLookup = \Mockery::mock(AccountLookup::class);
+        $this->playerLookup = \Mockery::mock(PlayerLookup::class);
         $this->balanceHistoryRepository = \Mockery::mock(BalanceHistoryRepository::class);
 
         $this->useCase = new DeductBalanceUseCase(
-            accountLookup: $this->accountLookup,
+            playerLookup: $this->playerLookup,
             balanceHistoryRepository: $this->balanceHistoryRepository,
         );
     }
@@ -54,12 +56,13 @@ class DeductBalanceUseCaseTest extends TestCase
     {
         $balance = 10;
         $account = Account::factory()->create(['balance' => $balance]);
+        $player = MinecraftPlayer::factory()->for($account)->create();
         $identifier = PlayerIdentifier::minecraftUUID('uuid');
 
-        $this->accountLookup
+        $this->playerLookup
             ->shouldReceive('find')
             ->with($identifier)
-            ->andReturn($account);
+            ->andReturn($player);
 
         $this->expectException(InsufficientBalanceException::class);
 
@@ -73,12 +76,13 @@ class DeductBalanceUseCaseTest extends TestCase
     public function test_deducts_from_balance()
     {
         $account = Account::factory()->create(['balance' => 10]);
+        $player = MinecraftPlayer::factory()->for($account)->create();
         $identifier = PlayerIdentifier::minecraftUUID('uuid');
 
-        $this->accountLookup
+        $this->playerLookup
             ->shouldReceive('find')
             ->with($identifier)
-            ->andReturn($account);
+            ->andReturn($player);
 
         $this->balanceHistoryRepository
             ->shouldReceive('create')
@@ -92,7 +96,7 @@ class DeductBalanceUseCaseTest extends TestCase
 
         $this->assertEquals(
             expected: 7,
-            actual: $account->balance,
+            actual: Account::find($account->getKey())->balance,
         );
     }
 }

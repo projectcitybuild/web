@@ -55,7 +55,9 @@ class APIMinecraftBalanceShowTest extends TestCase
 
         $this->getJson($this->endpoint($player))
             ->assertJson([
-                'balance' => 150,
+                'data' => [
+                    'balance' => 150,
+                ],
             ]);
     }
 
