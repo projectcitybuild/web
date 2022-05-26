@@ -102,7 +102,6 @@ class APIDonationSubscriptionTest extends E2ETestCase
             'account_id' => $this->account->getKey(),
             'is_active' => true,
             'expires_at' => $this->now->addMonth(),
-            'last_currency_reward_at' => null,
         ]);
 
         $this->assertTrue($this->account->groups->contains($this->donorGroup));
