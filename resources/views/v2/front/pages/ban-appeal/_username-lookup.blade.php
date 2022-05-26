@@ -7,7 +7,8 @@
         <input type="text"
                class="textfield"
                name="username"
-               placeholder="Steve">
+               placeholder="Steve"
+               value="{{ old('username') }}">
     </div>
 
     <button

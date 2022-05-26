@@ -3,6 +3,8 @@
 namespace Feature;
 
 use App\Exceptions\Http\TooManyRequestsException;
+use Domain\Bans\Exceptions\PlayerNotBannedException;
+use Domain\Bans\UseCases\LookupBanUseCase;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
@@ -10,20 +12,27 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Library\Mojang\Api\MojangPlayerApi;
 use Library\Mojang\Models\MojangPlayer;
 use Mockery\MockInterface;
+use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 use Tests\TestCase;
 
 class BanLookupTest extends TestCase
 {
     use WithFaker;
-
-    private function mockMojangToReturn($username, $uuid)
+    
+    private function mockUseCaseToReturnBan(String $username, GameBan $ban)
     {
-        $this->mock(MojangPlayerApi::class, function (MockInterface $mock) use ($uuid, $username) {
-            $mock->shouldReceive('getUuidOf')
+        $this->mock(LookupBanUseCase::class, function(MockInterface $mock) use ($username, $ban) {
+            $mock->shouldReceive('execute')
                 ->with($username)
-                ->once()->andReturn(
-                new MojangPlayer($uuid, $username)
-            );
+                ->andReturn($ban);
+        });
+    }
+
+    private function mockUseCaseToThrow(string $exception)
+    {
+        $this->mock(LookupBanUseCase::class, function(MockInterface $mock) use ($exception) {
+            $mock->shouldReceive('execute')
+                ->andThrow($exception);
         });
     }
 
@@ -32,7 +41,7 @@ class BanLookupTest extends TestCase
         $mcPlayer = MinecraftPlayer::factory()->create();
         $ban = GameBan::factory()->active()->for($mcPlayer, 'bannedPlayer')->create();
 
-        $this->mockMojangToReturn('Herobrine', $mcPlayer->uuid);
+        $this->mockUseCaseToReturnBan('Herobrine', $ban);
 
         $this->post(route('front.bans.lookup'), ['username' => 'Herobrine'])
             ->assertSessionHasNoErrors()
@@ -45,20 +54,16 @@ class BanLookupTest extends TestCase
         $mcPlayer = MinecraftPlayer::factory()->create();
         $ban = GameBan::factory()->active()->for($mcPlayer, 'bannedPlayer')->create();
 
-        $this->mockMojangToReturn('Herobrine', $mcPlayer->uuid);
+        $this->mockUseCaseToReturnBan('Herobrine', $ban);
 
         $this->post(route('front.bans.lookup'), ['username' => 'Herobrine'])
             ->assertSessionHasNoErrors()
             ->assertRedirect(route('front.appeal.create', $ban));
     }
 
-    public function test_errors_if_mojang_rate_limits()
+    public function test_errors_if_throws_rate_limit()
     {
-        $this->mock(MojangPlayerApi::class, function (MockInterface $mock) {
-            $mock->shouldReceive('getUuidOf')
-                ->andThrow(new TooManyRequestsException('rate_limited', 'Too many requests sent to the Mojang API'));
-        });
-
+        $this->mockUseCaseToThrow(TooManyRequestsException::class);
         $this->post(route('front.bans.lookup'), ['username' => 'Herobrine'])
             ->assertSessionHasErrors();
     }
@@ -67,7 +72,7 @@ class BanLookupTest extends TestCase
     {
         $mcPlayer = MinecraftPlayer::factory()->create();
         $ban = GameBan::factory()->inactive()->for($mcPlayer, 'bannedPlayer')->create();
-        $this->mockMojangToReturn('Herobrine', $mcPlayer->uuid);
+        $this->mockUseCaseToThrow(PlayerNotBannedException::class);
         $this->post(route('front.bans.lookup'), ['username' => 'Herobrine'])
             ->assertSessionHasErrors();
     }
@@ -75,7 +80,7 @@ class BanLookupTest extends TestCase
     public function test_errors_if_no_bans()
     {
         $mcPlayer = MinecraftPlayer::factory()->create();
-        $this->mockMojangToReturn('Herobrine', $mcPlayer->uuid);
+        $this->mockUseCaseToThrow(PlayerNotBannedException::class);
         $this->post(route('front.bans.lookup'), ['username' => 'Herobrine'])
             ->assertSessionHasErrors();
     }
@@ -83,18 +88,14 @@ class BanLookupTest extends TestCase
     public function test_errors_if_not_valid_username()
     {
         $mcPlayer = MinecraftPlayer::factory()->create();
-        $this->mock(MojangPlayerApi::class, function (MockInterface $mock) {
-            $mock->shouldReceive('getUuidOf')
-                ->with('Herobrine')
-                ->once()->andReturn(null);
-        });
+        $this->mockUseCaseToThrow(PlayerNotFoundException::class);
         $this->post(route('front.bans.lookup'), ['username' => 'Herobrine'])
             ->assertSessionHasErrors();
     }
 
     public function test_errors_if_player_not_known()
     {
-        $this->mockMojangToReturn('Herobrine', $this->faker->uuid);
+        $this->mockUseCaseToThrow(PlayerNotFoundException::class);
         $this->post(route('front.bans.lookup'), ['username' => 'Herobrine'])
             ->assertSessionHasErrors();
     }
