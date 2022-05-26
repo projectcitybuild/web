@@ -6,6 +6,7 @@ use App\Exceptions\Http\TooManyRequestsException;
 use Domain\Bans\Exceptions\PlayerNotBannedException;
 use Domain\Bans\Repositories\GameBanRepository;
 use Entities\MinecraftUUID;
+use Entities\Models\Eloquent\GameBan;
 use Library\Mojang\Api\MojangPlayerApi;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
@@ -24,7 +25,7 @@ class LookupBanUseCase
      * @throws PlayerNotBannedException
      * @throws PlayerNotFoundException
      */
-    public function execute(string $username)
+    public function execute(string $username): GameBan
     {
         $player = $this->mojangPlayerApi->getUuidOf($username);
 

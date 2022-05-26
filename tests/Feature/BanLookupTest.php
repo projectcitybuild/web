@@ -18,7 +18,7 @@ use Tests\TestCase;
 class BanLookupTest extends TestCase
 {
     use WithFaker;
-    
+
     private function mockUseCaseToReturnBan(String $username, GameBan $ban)
     {
         $this->mock(LookupBanUseCase::class, function(MockInterface $mock) use ($username, $ban) {
