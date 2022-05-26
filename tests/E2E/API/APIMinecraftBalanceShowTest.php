@@ -15,7 +15,7 @@ class APIMinecraftBalanceShowTest extends TestCase
     {
         $uuid = $player?->uuid ?? 'invalid';
 
-        return 'api/v1/minecraft/'.$uuid.'/balance';
+        return 'api/v2/minecraft/'.$uuid.'/balance';
     }
 
     private function authorise(APITokenScope ...$scope)

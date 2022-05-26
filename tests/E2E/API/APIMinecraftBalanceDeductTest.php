@@ -16,7 +16,7 @@ class APIMinecraftBalanceDeductTest extends TestCase
     {
         $uuid = $player?->uuid ?? 'invalid';
 
-        return 'api/v1/minecraft/'.$uuid.'/balance/deduct';
+        return 'api/v2/minecraft/'.$uuid.'/balance/deduct';
     }
 
     private function authorise(APITokenScope ...$scope)
