@@ -8,7 +8,7 @@ use Entities\Models\Eloquent\BanAppeal;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\BanAppeal>
+ * @extends Factory<BanAppeal>
  */
 class BanAppealFactory extends Factory
 {

@@ -26,6 +26,7 @@ class GameBanFactory extends Factory
             'banned_player_type' => 'minecraft_player',
             'banned_alias_at_time' => $this->faker->name,
             'staff_player_type' => 'minecraft_player',
+            'staff_player_id' => MinecraftPlayer::factory(),
             'reason' => $this->faker->sentence,
             'is_active' => $this->faker->boolean,
             'is_global_ban' => $this->faker->boolean,

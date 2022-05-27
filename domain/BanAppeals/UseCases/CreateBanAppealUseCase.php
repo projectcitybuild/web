@@ -23,7 +23,7 @@ final class CreateBanAppealUseCase
      * @return bool
      */
     public function isAccountVerified(GameBan $ban, ?Account $account): bool {
-        return ($account?->is($ban->bannedPlayer?->account)) ?? false;
+        return ($account?->is($ban->bannedPlayer->account)) ?? false;
     }
 
     /**

@@ -21,7 +21,7 @@
                                 (was {{ $banAppeal->gameBan->banned_alias_at_time }})
                             @endif
                             <br>
-                            @forelse($banAppeal->gameBan->bannedPlayer?->account->groups as $group)
+                            @forelse($banAppeal->gameBan->bannedPlayer->account?->groups ?? [] as $group)
                                 <span class="badge bg-secondary">
                                     {{ $group->alias ?? Str::title($group->name) }}
                                 </span>
