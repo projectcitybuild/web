@@ -4,6 +4,7 @@ namespace Entities\Models\Eloquent;
 
 
 use App\Model;
+use Carbon\CarbonInterface;
 use Domain\BanAppeals\Entities\BanAppealStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -43,9 +44,25 @@ class BanAppeal extends Model
         return $query->where('status', BanAppealStatus::PENDING);
     }
 
+    public function scopeResolved(Builder $query): Builder
+    {
+        return $query->whereNot('status', BanAppealStatus::PENDING);
+    }
+
+    public function isPending()
+    {
+        return $this->status == BanAppealStatus::PENDING;
+    }
+
     public function routeNotificationForMail($notification)
     {
-        return $this->bannedPlayer->account?->email ?? $this->email;
+        return $this->gameBan->bannedPlayer->account?->email ?? $this->email;
+    }
+
+    public function getBannedPlayerName()
+    {
+        return $this->gameBan->bannedPlayer->getBanReadableName() ??
+            $this->gameBan->banned_alias_at_time;
     }
 
     public function showLink(): string
@@ -53,5 +70,11 @@ class BanAppeal extends Model
         return $this->is_account_verified ?
             route('front.appeal.show', $this) :
             URL::signedRoute('front.appeal.show', ['banAppeal' => $this]);
+    }
+
+    public function getDecisionTempbanDuration()
+    {
+        if ($this->status != BanAppealStatus::ACCEPTED_TEMPBAN) { return null; }
+        return $this->gameBan->expires_at->diffForHumans($this->decided_at, CarbonInterface::DIFF_ABSOLUTE);
     }
 }

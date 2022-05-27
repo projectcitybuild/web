@@ -19,7 +19,7 @@
         @switch($banAppeal->status)
             @case(\Domain\BanAppeals\Entities\BanAppealStatus::PENDING)
                 <div class="alert alert--info">
-                    <h2><i class="fas fa-clock"></i> Appeal Pending</h2>
+                    <h2><i class="fas fa-hourglass"></i> Appeal Pending</h2>
                     Please wait whilst your appeal is reviewed by staff. This usually happens within 48 hours, but may take
                     longer in some cases.
                 </div>

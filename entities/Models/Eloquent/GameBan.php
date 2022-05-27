@@ -79,6 +79,11 @@ final class GameBan extends Model
         return $this->staffPlayer->getBanReadableName() ?? 'No Alias';
     }
 
+    public function hasNameChangedSinceBan(): bool
+    {
+        return $this->banned_alias_at_time !== $this->bannedPlayer->getBanReadableName();
+    }
+
     /**
      * Get the indexable data array for the model.
      *

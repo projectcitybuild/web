@@ -23,7 +23,7 @@
         @if($mcAccount->gameBans()->active()->exists())
             @if($mcAccount->banAppeals()->exists())
                 <div class="game-account__status game-account__status--is-bad">
-                    <i class="fas fa-clock"></i> Appealing
+                    <i class="fas fa-hourglass-half"></i> Appealing
                 </div>
                 <div class="game-account__actions">
                     <a class="button button--filled button--is-small"

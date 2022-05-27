@@ -291,6 +291,8 @@ Route::group([
             ->name('builder-ranks.deny');
     });
 
+    Route::resource('ban-appeals', 'BanAppealController')->only('index', 'show');
+
     Route::post('minecraft-players/lookup', [
         'as' => 'minecraft-players.lookup',
         'uses' => 'MinecraftPlayerLookupController',
