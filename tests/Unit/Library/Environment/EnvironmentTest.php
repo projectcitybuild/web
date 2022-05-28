@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Entities\Models;
+namespace Tests\Unit\Library\Environment;
 
 use Illuminate\Support\Facades\Config;
 use Library\Environment\Environment;
