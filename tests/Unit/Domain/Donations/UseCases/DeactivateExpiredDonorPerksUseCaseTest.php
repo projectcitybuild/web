@@ -29,6 +29,7 @@ final class DeactivateExpiredDonorPerksUseCaseTest extends TestCase
         parent::setUp();
 
         $this->groupsManager = \Mockery::mock(GroupsManager::class);
+
         $this->donationPerkRepository = \Mockery::mock(DonationPerkRepository::class);
         $this->donorGroup = Group::factory()->create();
         $this->account = Account::factory()->create();
@@ -57,7 +58,14 @@ final class DeactivateExpiredDonorPerksUseCaseTest extends TestCase
 
         $this->donationPerkRepository
             ->shouldReceive('getExpired')
-            ->andReturn(collect($expiredPerk));
+            ->andReturn(collect([$expiredPerk]));
+
+        $this->donationPerkRepository
+            ->shouldReceive('countActive')
+            ->andReturn(0);
+
+        $this->groupsManager
+            ->shouldReceive('removeMember');
 
         $this->assertTrue($this->find($expiredPerk)->is_active);
 
@@ -74,6 +82,10 @@ final class DeactivateExpiredDonorPerksUseCaseTest extends TestCase
             ->notExpired()
             ->create();
 
+        $this->donationPerkRepository
+            ->shouldReceive('getExpired')
+            ->andReturn(collect([]));
+
         $this->assertTrue($this->find($expiredPerk)->is_active);
 
         $this->useCase->execute();
@@ -83,11 +95,22 @@ final class DeactivateExpiredDonorPerksUseCaseTest extends TestCase
 
     public function test_sends_notification_when_perk_expires()
     {
-        DonationPerk::factory()
+        $expiredPerk = DonationPerk::factory()
             ->for($this->account)
             ->for(Donation::factory()->for($this->account))
             ->expired()
             ->create();
+
+        $this->donationPerkRepository
+            ->shouldReceive('getExpired')
+            ->andReturn(collect([$expiredPerk]));
+
+        $this->donationPerkRepository
+            ->shouldReceive('countActive')
+            ->andReturn(0);
+
+        $this->groupsManager
+            ->shouldReceive('removeMember');
 
         $this->useCase->execute();
 
@@ -96,53 +119,77 @@ final class DeactivateExpiredDonorPerksUseCaseTest extends TestCase
 
     public function test_doesnt_send_notification_if_has_other_active_perk_after_perk_expires()
     {
-        DonationPerk::factory()
+        $expiredPerk1 = DonationPerk::factory()
             ->for($this->account)
             ->for(Donation::factory()->for($this->account))
             ->expired()
             ->create();
 
-        DonationPerk::factory()
+        $expiredPerk2 = DonationPerk::factory()
             ->for($this->account)
             ->for(Donation::factory()->for($this->account))
             ->notExpired()
             ->create();
+
+        $this->donationPerkRepository
+            ->shouldReceive('getExpired')
+            ->andReturn(collect([$expiredPerk1, $expiredPerk2]));
+
+        $this->donationPerkRepository
+            ->shouldReceive('countActive')
+            ->andReturn(1);
 
         $this->useCase->execute();
 
         Notification::assertNothingSentTo($this->account);
     }
 
-    public function test_requests_donor_group_removal_if_perks_expired()
+    public function test_removes_donor_group_if_perks_expired()
     {
-        DonationPerk::factory()
+        $expiredPerk = DonationPerk::factory()
             ->for($this->account)
             ->for(Donation::factory()->for($this->account))
             ->expired()
             ->create();
 
+        $this->donationPerkRepository
+            ->shouldReceive('getExpired')
+            ->andReturn(collect([$expiredPerk]));
+
+        $this->donationPerkRepository
+            ->shouldReceive('countActive')
+            ->andReturn(0);
+
         $this->groupsManager
-            ->shouldReceive('removeMember')
-            ->with([$this->donorGroup->getKey(), $this->account->getKey()]);
+            ->shouldReceive('removeMember');
 
         $this->useCase->execute();
     }
 
-    public function test_doesnt_request_donor_group_removal_if_other_active_perks()
+    public function test_doesnt_remove_donor_group_if_other_active_perks()
     {
-        DonationPerk::factory()
+        $expiredPerk1 = DonationPerk::factory()
             ->for($this->account)
             ->for(Donation::factory()->for($this->account))
             ->expired()
             ->create();
 
-        DonationPerk::factory()
+        $expiredPerk2 = DonationPerk::factory()
             ->for($this->account)
             ->for(Donation::factory()->for($this->account))
             ->notExpired()
             ->create();
 
-        $this->groupsManager->shouldNotHaveBeenCalled(['removeMember']);
+        $this->donationPerkRepository
+            ->shouldReceive('getExpired')
+            ->andReturn(collect([$expiredPerk1, $expiredPerk2]));
+
+        $this->donationPerkRepository
+            ->shouldReceive('countActive')
+            ->andReturn(1);
+
+        $this->groupsManager
+            ->shouldNotHaveBeenCalled(['removeMember']);
 
         $this->useCase->execute();
     }
