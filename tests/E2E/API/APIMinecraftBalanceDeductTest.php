@@ -2,11 +2,11 @@
 
 namespace Tests\E2E\API;
 
+use Domain\ServerTokens\ScopeKey;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Support\Carbon;
 use Laravel\Sanctum\Sanctum;
-use Library\APITokens\APITokenScope;
 use Tests\TestCase;
 use function collect;
 
@@ -19,7 +19,7 @@ class APIMinecraftBalanceDeductTest extends TestCase
         return 'api/v2/minecraft/'.$uuid.'/balance/deduct';
     }
 
-    private function authorise(APITokenScope ...$scope)
+    private function authorise(ScopeKey ...$scope)
     {
         Sanctum::actingAs(
             user: Account::factory()->create(),
@@ -39,7 +39,7 @@ class APIMinecraftBalanceDeductTest extends TestCase
         $this->postJson($this->endpoint($player))
             ->assertUnauthorized();
 
-        $this->authorise(scope: APITokenScope::ACCOUNT_BALANCE_DEDUCT);
+        $this->authorise(scope: ScopeKey::ACCOUNT_BALANCE_DEDUCT);
 
         $this->postJson(
             uri: $this->endpoint($player),
@@ -57,7 +57,7 @@ class APIMinecraftBalanceDeductTest extends TestCase
             ->for($account)
             ->create();
 
-        $this->authorise(scope: APITokenScope::ACCOUNT_BALANCE_DEDUCT);
+        $this->authorise(scope: ScopeKey::ACCOUNT_BALANCE_DEDUCT);
 
         $this->postJson($this->endpoint($player))
             ->assertJson([
@@ -77,7 +77,7 @@ class APIMinecraftBalanceDeductTest extends TestCase
             ->for($account)
             ->create();
 
-        $this->authorise(scope: APITokenScope::ACCOUNT_BALANCE_DEDUCT);
+        $this->authorise(scope: ScopeKey::ACCOUNT_BALANCE_DEDUCT);
 
         $this->postJson(
             uri: $this->endpoint($player),
@@ -105,7 +105,7 @@ class APIMinecraftBalanceDeductTest extends TestCase
             ->for($account)
             ->create();
 
-        $this->authorise(scope: APITokenScope::ACCOUNT_BALANCE_DEDUCT);
+        $this->authorise(scope: ScopeKey::ACCOUNT_BALANCE_DEDUCT);
 
         $this->postJson(
             uri: $this->endpoint($player),

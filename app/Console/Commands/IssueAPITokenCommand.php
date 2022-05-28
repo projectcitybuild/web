@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
+use Domain\ServerTokens\ScopeKey;
 use Entities\Models\Eloquent\Account;
 use Illuminate\Console\Command;
-use Library\APITokens\APITokenScope;
 
 class IssueAPITokenCommand extends Command
 {
@@ -46,7 +46,7 @@ class IssueAPITokenCommand extends Command
 
         $scopes = $this->choice(
             question: 'What scopes should this token be granted?',
-            choices: collect(APITokenScope::cases())
+            choices: collect(ScopeKey::cases())
                 ->map(fn ($s) => $s->value)
                 ->toArray(),
             multiple: true,

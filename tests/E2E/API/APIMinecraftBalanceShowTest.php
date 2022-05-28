@@ -2,10 +2,10 @@
 
 namespace Tests\E2E\API;
 
+use Domain\ServerTokens\ScopeKey;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Laravel\Sanctum\Sanctum;
-use Library\APITokens\APITokenScope;
 use Tests\TestCase;
 use function collect;
 
@@ -18,7 +18,7 @@ class APIMinecraftBalanceShowTest extends TestCase
         return 'api/v2/minecraft/'.$uuid.'/balance';
     }
 
-    private function authorise(APITokenScope ...$scope)
+    private function authorise(ScopeKey ...$scope)
     {
         Sanctum::actingAs(
             user: Account::factory()->create(),
@@ -38,7 +38,7 @@ class APIMinecraftBalanceShowTest extends TestCase
         $this->getJson($this->endpoint($player))
             ->assertUnauthorized();
 
-        $this->authorise(scope: APITokenScope::ACCOUNT_BALANCE_SHOW);
+        $this->authorise(scope: ScopeKey::ACCOUNT_BALANCE_SHOW);
 
         $this->getJson($this->endpoint($player))
             ->assertOk();
@@ -51,7 +51,7 @@ class APIMinecraftBalanceShowTest extends TestCase
             ->for($account)
             ->create();
 
-        $this->authorise(scope: APITokenScope::ACCOUNT_BALANCE_SHOW);
+        $this->authorise(scope: ScopeKey::ACCOUNT_BALANCE_SHOW);
 
         $this->getJson($this->endpoint($player))
             ->assertJson([
@@ -63,7 +63,7 @@ class APIMinecraftBalanceShowTest extends TestCase
 
     public function test_shows_error_without_player()
     {
-        $this->authorise(scope: APITokenScope::ACCOUNT_BALANCE_SHOW);
+        $this->authorise(scope: ScopeKey::ACCOUNT_BALANCE_SHOW);
 
         $this->getJson($this->endpoint(null))
             ->assertJson([
@@ -79,7 +79,7 @@ class APIMinecraftBalanceShowTest extends TestCase
     {
         $player = MinecraftPlayer::factory()->create();
 
-        $this->authorise(scope: APITokenScope::ACCOUNT_BALANCE_SHOW);
+        $this->authorise(scope: ScopeKey::ACCOUNT_BALANCE_SHOW);
 
         $this->getJson($this->endpoint($player))
             ->assertJson([

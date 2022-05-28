@@ -3,8 +3,8 @@
 use App\Http\Controllers\Api\v1\MinecraftBalanceController;
 use App\Http\Controllers\Api\v1\MinecraftDonationTierController;
 use App\Http\Controllers\Api\v2\GameBanV2Controller;
+use Domain\ServerTokens\ScopeKey;
 use Illuminate\Support\Facades\Route;
-use Library\APITokens\APITokenScope;
 use Library\Environment\Environment;
 
 /*
@@ -24,7 +24,7 @@ if ($isBanV2Enabled) {
     Route::prefix('bans')->group(function () {
         Route::middleware([
             'auth:sanctum',
-            'abilities:'.APITokenScope::BAN_UPDATE->value,
+            'abilities:'.ScopeKey::BAN_UPDATE->value,
         ])->group(function () {
             Route::post('ban', [GameBanV2Controller::class, 'ban']);
             Route::post('unban', [GameBanV2Controller::class, 'unban']);
@@ -32,7 +32,7 @@ if ($isBanV2Enabled) {
 
         Route::middleware([
             'auth:sanctum',
-            'abilities:'.APITokenScope::BAN_LOOKUP->value,
+            'abilities:'.ScopeKey::BAN_LOOKUP->value,
         ])->group(function () {
             Route::post('status', [GameBanV2Controller::class, 'status']);
         });
@@ -44,14 +44,14 @@ Route::prefix('minecraft/{minecraftUUID}')->group(function () {
 
     Route::middleware([
         'auth:sanctum',
-        'abilities:'.APITokenScope::ACCOUNT_BALANCE_SHOW->value,
+        'abilities:'.ScopeKey::ACCOUNT_BALANCE_SHOW->value,
     ])->group(function () {
         Route::get('balance', [MinecraftBalanceController::class, 'show']);
     });
 
     Route::middleware([
         'auth:sanctum',
-        'abilities:'.APITokenScope::ACCOUNT_BALANCE_DEDUCT->value,
+        'abilities:'.ScopeKey::ACCOUNT_BALANCE_DEDUCT->value,
     ])->group(function () {
         Route::post('balance/deduct', [MinecraftBalanceController::class, 'deduct']);
     });
