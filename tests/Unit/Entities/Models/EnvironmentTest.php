@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Entities\Models;
 
+use Illuminate\Support\Facades\Config;
 use Library\Environment\Environment;
 use Library\Environment\EnvironmentLevel;
 use Tests\TestCase;
@@ -15,53 +16,72 @@ class EnvironmentTest extends TestCase
         parent::setUp();
 
         $this->originalEnv = config('app.env');
-        Environment::resetLevel();
     }
 
     protected function tearDown(): void
     {
-        config()->set('app.env', $this->originalEnv);
-
         parent::tearDown();
+
+        Config::set('app.env', $this->originalEnv);
     }
 
     public function test_can_get_level()
     {
-        collect(EnvironmentLevel::cases())->each(function ($environment) {
-            config()->set('app.env', $environment);
+        collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
+            Config::set('app.env', $environmentLevel->value);
 
             $this->assertEquals(
-                expected: $environment,
+                expected: $environmentLevel,
                 actual: Environment::getLevel()
             );
         });
     }
 
-    public function test_can_override_level()
+    public function test_is_production_level()
     {
-        collect(EnvironmentLevel::cases())->each(function ($environment) {
-            config()->set('app.env', $environment);
-
-            Environment::overrideLevel(EnvironmentLevel::ENV_STAGING);
+        collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
+            Config::set('app.env', $environmentLevel->value);
 
             $this->assertEquals(
-                expected: EnvironmentLevel::ENV_STAGING,
-                actual: Environment::getLevel()
+                expected: $environmentLevel == EnvironmentLevel::PRODUCTION,
+                actual: Environment::isProduction(),
             );
         });
     }
 
-    public function test_is_production_when_production()
+    public function test_is_staging_level()
     {
-        config()->set('app.env', EnvironmentLevel::ENV_PRODUCTION->value);
+        collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
+            Config::set('app.env', $environmentLevel->value);
 
-        $this->assertTrue(Environment::isProduction());
+            $this->assertEquals(
+                expected: $environmentLevel == EnvironmentLevel::STAGING,
+                actual: Environment::isStaging(),
+            );
+        });
     }
 
-    public function test_not_production_when_staging()
+    public function test_is_testing_level()
     {
-        config()->set('app.env', EnvironmentLevel::ENV_STAGING->value);
+        collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
+            Config::set('app.env', $environmentLevel->value);
 
-        $this->assertFalse(Environment::isProduction());
+            $this->assertEquals(
+                expected: $environmentLevel == EnvironmentLevel::TESTING,
+                actual: Environment::isTest(),
+            );
+        });
+    }
+
+    public function test_is_local_dev_level()
+    {
+        collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
+            Config::set('app.env', $environmentLevel->value);
+
+            $this->assertEquals(
+                expected: $environmentLevel == EnvironmentLevel::DEVELOPMENT,
+                actual: Environment::isLocalDev(),
+            );
+        });
     }
 }

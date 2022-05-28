@@ -28,8 +28,8 @@ final class DeactivateExpiredDonorPerksUseCaseTest extends TestCase
     {
         parent::setUp();
 
-        $this->groupsManager = \Mockery::mock(GroupsManager::class)->makePartial();
-        $this->donationPerkRepository = \Mockery::mock(DonationPerkRepository::class)->makePartial();
+        $this->groupsManager = \Mockery::mock(GroupsManager::class);
+        $this->donationPerkRepository = \Mockery::mock(DonationPerkRepository::class);
         $this->donorGroup = Group::factory()->create();
         $this->account = Account::factory()->create();
 
@@ -54,6 +54,10 @@ final class DeactivateExpiredDonorPerksUseCaseTest extends TestCase
             ->for(Donation::factory()->for($this->account))
             ->expired()
             ->create();
+
+        $this->donationPerkRepository
+            ->shouldReceive('getExpired')
+            ->andReturn(collect($expiredPerk));
 
         $this->assertTrue($this->find($expiredPerk)->is_active);
 
