@@ -2,62 +2,36 @@
 
 namespace Library\Environment;
 
-use function config;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 
 final class Environment
 {
-    private static ?EnvironmentLevel $overriddenLevel = null;
-    private static ?EnvironmentLevel $level = null;
-
     private function __construct() {}
 
     public static function getLevel(): EnvironmentLevel
     {
-        if (self::$overriddenLevel !== null) {
-            return self::$overriddenLevel;
-        }
-
-        if (self::$level !== null) {
-            return self::$level;
-        }
-
         $rawValue = config('app.env');
-        self::$level = EnvironmentLevel::tryFrom($rawValue);
-
-        return self::$level;
+        return EnvironmentLevel::tryFrom($rawValue);
     }
 
-    /**
-     * Overrides the Environment level for the current request.
-     */
-    public static function overrideLevel(EnvironmentLevel $level)
+    public static function isLocalDev(): bool
     {
-        self::$overriddenLevel = $level;
-    }
-
-    public static function resetLevel()
-    {
-        self::$overriddenLevel = null;
-        self::$level = null;
-    }
-
-    public static function isDev(): bool
-    {
-        return self::getLevel()->value == EnvironmentLevel::ENV_DEVELOPMENT;
+        return self::getLevel() == EnvironmentLevel::DEVELOPMENT;
     }
 
     public static function isTest(): bool
     {
-        return self::getLevel()->value == EnvironmentLevel::ENV_TESTING;
+        return self::getLevel() == EnvironmentLevel::TESTING;
     }
 
     public static function isStaging(): bool
     {
-        return self::getLevel()->value == EnvironmentLevel::ENV_STAGING;
+        return self::getLevel() == EnvironmentLevel::STAGING;
     }
 
     public static function isProduction(): bool
     {
-        return self::getLevel()->value == EnvironmentLevel::ENV_PRODUCTION;
+        return self::getLevel() == EnvironmentLevel::PRODUCTION;
     }
 }

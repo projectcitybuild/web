@@ -45,7 +45,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        if (Environment::isDev()) {
+        if (Environment::isLocalDev()) {
             return;
         }
 

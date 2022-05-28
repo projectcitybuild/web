@@ -51,7 +51,14 @@
                 You already have an <a href="{{ route('front.rank-up.status', $applicationInProgress) }}">application in progress</a>.
             </div>
         @else
-            @auth
+            @guest
+                <p/>
+                <div class="alert alert--error">
+                    <h2><i class="fas fa-exclamation-circle"></i> Error</h2>
+                    You must be <a href="{{ route('front.login') }}">logged-in</a> to submit a builder rank
+                    application
+                </div>
+            @elseguest
                 <form method="post" action="{{ route('front.rank-up.submit') }}" id="form" class="form">
                     @csrf
                     @include('v2.front.components.form-error')
@@ -114,14 +121,7 @@
                         <i class="fas fa-check"></i> Submit
                     </button>
                 </form>
-            @elseauth
-                <p/>
-                <div class="alert alert--error">
-                    <h2><i class="fas fa-exclamation-circle"></i> Error</h2>
-                    You must be <a href="{{ route('front.login') }}">logged-in</a> to submit a builder rank
-                    application
-                </div>
-            @endauth
+            @endguest
         @endif
     </div>
 @endsection

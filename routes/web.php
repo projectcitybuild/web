@@ -311,7 +311,7 @@ Route::group([
     });
 });
 
-if (Environment::isDev()) {
+if (Environment::isLocalDev()) {
     Route::view('ui', 'stylesheet');
 }
 

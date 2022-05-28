@@ -18,14 +18,17 @@ final class BuilderRankApplicationController extends WebController
     public function index(Request $request)
     {
         $minecraftUsername = $request->user()
-            ->minecraftAccount->first()
+            ?->minecraftAccount?->first()
             ?->aliases?->first()
             ?->alias;
 
-        $applicationInProgress = BuilderRankApplication::where('status', ApplicationStatus::IN_PROGRESS->value)
-            ->where('account_id', $request->user()->getKey())
-            ->orderBy('created_at', 'DESC')
-            ->first();
+        $applicationInProgress = null;
+        if ($request->user() !== null) {
+            $applicationInProgress = BuilderRankApplication::where('status', ApplicationStatus::IN_PROGRESS->value)
+                ->where('account_id', $request->user()->getKey())
+                ->orderBy('created_at', 'DESC')
+                ->first();
+        }
 
         return view('v2.front.pages.builder-rank.builder-rank-form')
             ->with(compact('minecraftUsername', 'applicationInProgress'));
