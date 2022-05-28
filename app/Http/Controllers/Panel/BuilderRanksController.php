@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\WebController;
 use Domain\BuilderRankApplications\Entities\ApplicationStatus;
+use Domain\BuilderRankApplications\UseCases\ApproveBuildRankApplicationUseCase;
+use Domain\BuilderRankApplications\UseCases\DenyBuildRankApplicationUseCase;
 use Entities\Models\Eloquent\BuilderRankApplication;
 use Entities\Models\Eloquent\Group;
 use Entities\Notifications\BuilderRankAppApprovedNotification;
 use Entities\Notifications\BuilderRankAppDeclinedNotification;
+use Entities\Repositories\BuilderRankApplicationRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -15,19 +18,22 @@ use Shared\Groups\GroupsManager;
 
 class BuilderRanksController extends WebController
 {
-    public function index(Request $request)
-    {
-        $applications = BuilderRankApplication::orderbyRaw("FIELD(status, ".ApplicationStatus::IN_PROGRESS->value.") DESC")
-            ->orderBy('created_at', 'desc')
-            ->paginate(100);
+    public function index(
+        Request $request,
+        BuilderRankApplicationRepository $applicationRepository,
+    ) {
+        $applications = $applicationRepository->allWithPriority(perPage: 100);
 
         return view('admin.builder-rank.index')
             ->with(compact('applications'));
     }
 
-    public function show(Request $request, int $applicationId)
-    {
-        $application = BuilderRankApplication::find($applicationId);
+    public function show(
+        Request $request,
+        int $applicationId,
+        BuilderRankApplicationRepository $applicationRepository,
+    ) {
+        $application = $applicationRepository->first(applicationId: $applicationId);
         $buildGroups = Group::where('is_build', true)->get();
 
         return view('admin.builder-rank.show')
@@ -37,7 +43,7 @@ class BuilderRanksController extends WebController
     public function approve(
         Request $request,
         int $applicationId,
-        GroupsManager $groupsManager,
+        ApproveBuildRankApplicationUseCase $approveBuildRankApplication,
     ) {
         $allowedGroups = Group::where('is_build', true)->get()
             ->map(fn ($group) => $group->getKey())
@@ -53,28 +59,22 @@ class BuilderRanksController extends WebController
                 ->withInput();
         }
 
-        $nextGroup = Group::find($request->get('promote_group'));
-
-        $application = BuilderRankApplication::find($applicationId);
-
-        $application->status = ApplicationStatus::APPROVED->value;
-        $application->closed_at = now();
-        $application->save();
-
-        $groupsManager->addMember(group: $nextGroup, account: $application->account);
-
-        $request->user()->notify(
-            new BuilderRankAppApprovedNotification(
-                builderRankApplication: $application,
-                groupPromotedTo: $nextGroup,
-            )
+        $application = $approveBuildRankApplication->execute(
+            applicationId: $applicationId,
+            promoteGroup: $request->get('promote_group'),
         );
 
-        return redirect()
-            ->action([BuilderRanksController::class, 'show'], $application->getKey());
+        return redirect()->action(
+            action: [BuilderRanksController::class, 'show'],
+            parameters: $application->getKey(),
+        );
     }
 
-    public function deny(Request $request, int $applicationId) {
+    public function deny(
+        Request $request,
+        int $applicationId,
+        DenyBuildRankApplicationUseCase $denyBuildRankApplication,
+    ) {
         $validator = Validator::make($request->all(), [
             'deny_reason' => 'required',
         ]);
@@ -85,16 +85,14 @@ class BuilderRanksController extends WebController
                 ->withInput();
         }
 
-        $application = BuilderRankApplication::find($applicationId);
+        $application = $denyBuildRankApplication->execute(
+            applicationId: $applicationId,
+            denyReason: $request->get('deny_reason'),
+        );
 
-        $application->status = ApplicationStatus::DENIED->value;
-        $application->denied_reason = $request->get('deny_reason');
-        $application->closed_at = now();
-        $application->save();
-
-        $request->user()->notify(new BuilderRankAppDeclinedNotification($application));
-
-        return redirect()
-            ->action([BuilderRanksController::class, 'show'], $application->getKey());
+        return redirect()->action(
+            action: [BuilderRanksController::class, 'show'],
+            parameters: $application->getKey(),
+        );
     }
 }
