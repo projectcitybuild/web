@@ -58,7 +58,8 @@
                     You must be <a href="{{ route('front.login') }}">logged-in</a> to submit a builder rank
                     application
                 </div>
-            @elseguest
+            @endguest
+            @auth
                 <form method="post" action="{{ route('front.rank-up.submit') }}" id="form" class="form">
                     @csrf
                     @include('v2.front.components.form-error')
@@ -121,7 +122,7 @@
                         <i class="fas fa-check"></i> Submit
                     </button>
                 </form>
-            @endguest
+            @endauth
         @endif
     </div>
 @endsection
