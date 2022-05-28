@@ -24,5 +24,5 @@ final class ServerTokenScope extends Model
         'scope',
     ];
 
-    public $timestamps = false
+    public $timestamps = false;
 }
