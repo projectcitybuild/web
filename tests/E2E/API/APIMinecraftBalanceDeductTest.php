@@ -5,13 +5,29 @@ namespace Tests\E2E\API;
 use Domain\ServerTokens\ScopeKey;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\Eloquent\Server;
+use Entities\Models\Eloquent\ServerCategory;
+use Entities\Models\Eloquent\ServerToken;
+use Entities\Models\Eloquent\ServerTokenScope;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
-use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
-use function collect;
 
 class APIMinecraftBalanceDeductTest extends TestCase
 {
+    use RefreshDatabase;
+
+    private ServerToken $token;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $serverCategory = ServerCategory::create(['name' => '_' ,'display_order' => 0]);
+        $server = Server::factory()->create(['server_category_id' => $serverCategory->getKey()]);
+        $this->token = ServerToken::factory()->create(['server_id' => $server->getKey()]);
+    }
+
     private function endpoint(?MinecraftPlayer $player): string
     {
         $uuid = $player?->uuid ?? 'invalid';
@@ -19,14 +35,12 @@ class APIMinecraftBalanceDeductTest extends TestCase
         return 'api/v2/minecraft/'.$uuid.'/balance/deduct';
     }
 
-    private function authorise(ScopeKey ...$scope)
+    private function authorise(ScopeKey ...$scopes)
     {
-        Sanctum::actingAs(
-            user: Account::factory()->create(),
-            abilities: collect($scope)
-                ->map(fn ($s) => $s->value)
-                ->toArray(),
-        );
+        foreach ($scopes as $scope) {
+            $tokenScope = ServerTokenScope::create(['scope' => $scope->value]);
+            $this->token->scopes()->attach($tokenScope->getKey());
+        }
     }
 
     public function test_requires_scope()
@@ -36,12 +50,14 @@ class APIMinecraftBalanceDeductTest extends TestCase
             ->for($account)
             ->create();
 
-        $this->postJson($this->endpoint($player))
+        $this->withHeader('Authorization', 'Bearer '.$this->token->token)
+            ->postJson($this->endpoint($player))
             ->assertUnauthorized();
 
         $this->authorise(scope: ScopeKey::ACCOUNT_BALANCE_DEDUCT);
 
-        $this->postJson(
+        $this->withHeader('Authorization', 'Bearer '.$this->token->token)
+            ->postJson(
             uri: $this->endpoint($player),
             data: [
                 'amount' => 1,
@@ -59,7 +75,8 @@ class APIMinecraftBalanceDeductTest extends TestCase
 
         $this->authorise(scope: ScopeKey::ACCOUNT_BALANCE_DEDUCT);
 
-        $this->postJson($this->endpoint($player))
+        $this->withHeader('Authorization', 'Bearer '.$this->token->token)
+            ->postJson($this->endpoint($player))
             ->assertJson([
                 'error' => [
                     'id' => 'bad_input',
@@ -79,7 +96,8 @@ class APIMinecraftBalanceDeductTest extends TestCase
 
         $this->authorise(scope: ScopeKey::ACCOUNT_BALANCE_DEDUCT);
 
-        $this->postJson(
+        $this->withHeader('Authorization', 'Bearer '.$this->token->token)
+            ->postJson(
             uri: $this->endpoint($player),
             data: [
                 'amount' => 200,
@@ -107,7 +125,8 @@ class APIMinecraftBalanceDeductTest extends TestCase
 
         $this->authorise(scope: ScopeKey::ACCOUNT_BALANCE_DEDUCT);
 
-        $this->postJson(
+        $this->withHeader('Authorization', 'Bearer '.$this->token->token)
+            ->postJson(
             uri: $this->endpoint($player),
             data: [
                 'amount' => 25,

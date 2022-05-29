@@ -20,10 +20,10 @@ class RequiresServerTokenScope
     {
         $authorization = $request->header('Authorization');
         if ($authorization === null) {
-            abort(403);
+            abort(401);
         }
         if (! preg_match(pattern: '/Bearer\s(\S+)/', subject: $authorization, matches: $matches)) {
-            abort(403);
+            abort(401);
         }
         $rawToken = $matches[1];
 
@@ -32,12 +32,12 @@ class RequiresServerTokenScope
             ->first();
 
         if ($token === null) {
-            abort(403);
+            abort(401);
         }
 
         $hasScope = $token->scopes->contains(fn ($s) => $s->scope === $scope);
         if (! $hasScope) {
-            abort(403);
+            abort(401);
         }
 
         $request->token = $token;
