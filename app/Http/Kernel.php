@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\PanelAccess;
+use App\Http\Middleware\RequiresServerTokenScope;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -53,8 +54,6 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'abilities' => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
-        'ability' => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -65,6 +64,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'panel' => PanelAccess::class,
+        'server-token' => RequiresServerTokenScope::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'active-mfa' => \App\Http\Middleware\ActiveMfaSession::class,
         'requires-mfa' => \App\Http\Middleware\RequiresMfaEnabled::class,

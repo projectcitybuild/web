@@ -1,10 +1,10 @@
 <?php
 
-namespace Library\APITokens;
+namespace Domain\ServerTokens;
 
 use Helpers\ValueJoinable;
 
-enum APITokenScope: string
+enum ScopeKey: string
 {
     use ValueJoinable;
 

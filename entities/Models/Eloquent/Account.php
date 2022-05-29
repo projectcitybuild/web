@@ -3,18 +3,14 @@
 namespace Entities\Models\Eloquent;
 
 use Carbon\Carbon;
-use Entities\Resources\AccountResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\URL;
 use Laravel\Cashier\Billable;
-use Laravel\Sanctum\HasApiTokens;
 use Laravel\Scout\Searchable;
 use function collect;
-use function now;
 
 /**
  * @property int account_id
@@ -34,7 +30,6 @@ final class Account extends Authenticatable
     use Searchable;
     use HasFactory;
     use Billable;
-    use HasApiTokens;
 
     protected $table = 'accounts';
 
