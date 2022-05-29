@@ -50,7 +50,7 @@
         </h6>
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/servers*') ? 'active' : '' }} " href="{{ route('front.panel.pages.index') }}">
+                <a class="nav-link {{ request()->is('panel/servers*') ? 'active' : '' }} " href="{{ route('front.panel.servers.index') }}">
                     <i class="fas fa-server"></i>
                     Servers
                 </a>

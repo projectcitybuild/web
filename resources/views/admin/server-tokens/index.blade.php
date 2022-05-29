@@ -25,7 +25,7 @@
                 <tr>
                     <td>{{ $token->getKey() }}</td>
                     <td>
-                        <a href="{{ route('front.panel.servers.show', $token->server->getKey()) }}">
+                        <a href="{{ route('front.panel.servers.edit', $token->server->getKey()) }}">
                             {{ $token->server->name ?? '(Unset)' }}
                         </a>
                     </td>
