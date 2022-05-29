@@ -4,7 +4,6 @@ namespace Entities\Models\Eloquent;
 
 use App\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class ServerToken extends Model
@@ -48,8 +47,9 @@ final class ServerToken extends Model
         return $this->belongsToMany(
             related: ServerTokenScope::class,
             table: 'server_token_scopes_pivot',
-            foreignPivotKey: 'id',
-            relatedPivotKey: 'token_id',
+            foreignPivotKey: 'token_id',
+            relatedPivotKey: 'scope_id',
+            parentKey: 'id',
         );
     }
 }

@@ -40,6 +40,8 @@ class RequiresServerTokenScope
             abort(403);
         }
 
+        $request->token = $token;
+
         return $next($request);
     }
 }
