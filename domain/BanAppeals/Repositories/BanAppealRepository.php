@@ -29,4 +29,14 @@ class BanAppealRepository
             'status' => BanAppealStatus::PENDING
         ]);
     }
+
+    public function updateDecision(BanAppeal $banAppeal, string $decisionNote, BanAppealStatus $status): BanAppeal
+    {
+        $banAppeal->decision_note = $decisionNote;
+        $banAppeal->status = $status;
+        $banAppeal->decided_at = now();
+        $banAppeal->save();
+
+        return $banAppeal;
+    }
 }

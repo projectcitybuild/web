@@ -112,4 +112,9 @@ class GameBanFactory extends Factory
             ];
         });
     }
+
+    public function bannedPlayer(MinecraftPlayer|Factory $player): GameBanFactory
+    {
+        return $this->for($player, 'bannedPlayer');
+    }
 }

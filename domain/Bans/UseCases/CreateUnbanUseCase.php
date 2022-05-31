@@ -5,12 +5,13 @@ namespace Domain\Bans\UseCases;
 use Domain\Bans\Exceptions\PlayerNotBannedException;
 use Domain\Bans\Repositories\GameBanRepository;
 use Domain\Bans\Repositories\GameUnbanRepository;
+use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\GameUnban;
 use Illuminate\Support\Facades\DB;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\PlayerLookup;
 
-final class CreateUnbanUseCase
+class CreateUnbanUseCase
 {
     public function __construct(
         private GameBanRepository $gameBanRepository,

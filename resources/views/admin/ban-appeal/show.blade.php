@@ -5,7 +5,7 @@
 @section('body')
     <div class="row">
         <div class="col-md-6">
-            <div class="card card-default">
+            <div class="card">
                 <div class="card-header">
                     Appeal Details
                 </div>
@@ -106,8 +106,53 @@
         </div>
         <div class="col-md-6">
             @include('admin.ban-appeal.status._' . $banAppeal->status->slug())
+
+            <div class="card mt-2">
+                <div class="card-header">
+                    Decide Appeal
+                </div>
+                <div class="card-body border-bottom">
+                    <i class="fas fa-exclamation-triangle text-danger"></i> The player <strong>will be notified of this decision immediately</strong>.
+                </div>
+                <div class="card-body">
+                    <form action="">
+                        @csrf
+                        @include('admin._errors')
+                        @method('PUT')
+                        <div class="mb-3">
+                            <div class="mb-3">
+                                <label for="decision_note" class="form-label">Decision Message</label>
+                                <textarea
+                                    class="form-control"
+                                    name="decision_note"
+                                    id="decision_note"
+                                    rows="5"
+                                >{{ old('deny_reason', $banAppeal->decision_note) }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="mb-1">Appeal Decision</label>
+                                @foreach(\Domain\BanAppeals\Entities\BanAppealStatus::decisionCases() as $status)
+                                    <div class="form-check ">
+                                        <input
+                                            class="form-check-input"
+                                            type="radio" name="status"
+                                            name="status"
+                                            value="{{ $status->value }}"
+                                            id="status{{ $status->value }}"
+                                            @checked(old('status', $banAppeal->status) == $status)>
+                                        <label class="form-check-label" for="status{{ $status->value }}">
+                                            {{ $status->humanReadableAction() }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div>
+                                <button class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="row">
     </div>
 @endsection

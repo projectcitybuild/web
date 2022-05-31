@@ -1,8 +1,7 @@
 <?php
 
-namespace Tests\Feature;
+namespace Feature;
 
-use Database\Factories\GameBanFactory;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;

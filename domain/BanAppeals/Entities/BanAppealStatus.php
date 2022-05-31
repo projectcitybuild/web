@@ -2,6 +2,7 @@
 
 namespace Domain\BanAppeals\Entities;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 enum BanAppealStatus: int
@@ -24,6 +25,21 @@ enum BanAppealStatus: int
             self::ACCEPTED_TEMPBAN => 'Tempbanned',
             self::DENIED => 'Denied',
         };
+    }
+
+    public function humanReadableAction()
+    {
+        return match ($this) {
+            self::PENDING => 'Pending Decision',
+            self::ACCEPTED_UNBAN => 'Unban',
+            self::ACCEPTED_TEMPBAN => 'Convert to tempban',
+            self::DENIED => 'Deny and keep banned',
+        };
+    }
+
+    public static function decisionCases()
+    {
+        return [self::ACCEPTED_UNBAN, self::DENIED];
     }
 
     public function slug()
