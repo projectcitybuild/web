@@ -115,7 +115,7 @@
                     <i class="fas fa-exclamation-triangle text-danger"></i> The player <strong>will be notified of this decision immediately</strong>.
                 </div>
                 <div class="card-body">
-                    <form action="">
+                    <form action="{{ route('front.panel.ban-appeals.update', $banAppeal) }}" method="post">
                         @csrf
                         @include('admin._errors')
                         @method('PUT')
