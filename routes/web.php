@@ -273,6 +273,8 @@ Route::group([
     Route::resource('donations', 'DonationController');
     Route::resource('donation-perks', 'DonationPerksController')->only(['create', 'store', 'edit', 'update', 'destroy']);
     Route::resource('minecraft-players', 'MinecraftPlayerController')->except(['destroy']);
+    Route::resource('servers', 'ServerController')->except(['show']);
+    Route::resource('server-tokens', 'ServerTokenController')->except(['show']);
     Route::get('groups/{group}/accounts', 'GroupAccountController@index')->name('groups.accounts');
     Route::get('groups', 'GroupController@index')->name('groups.index');
     Route::resource('pages', 'PageController');
@@ -338,7 +340,7 @@ Route::group([
     });
 });
 
-if (Environment::isDev()) {
+if (Environment::isLocalDev()) {
     Route::view('ui', 'stylesheet');
 }
 

@@ -31,10 +31,34 @@
                     Groups
                 </a>
             </li>
+        </ul>
+
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Content</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/pages*') ? 'active' : '' }} " href="{{ route('front.panel.pages.index') }}">
                     <i class="fas fa-book"></i>
                     Pages
+                </a>
+            </li>
+        </ul>
+
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Servers</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('panel/servers*') ? 'active' : '' }} " href="{{ route('front.panel.servers.index') }}">
+                    <i class="fas fa-server"></i>
+                    Servers
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('panel/server-tokens*') ? 'active' : '' }} " href="{{ route('front.panel.server-tokens.index') }}">
+                    <i class="fas fa-key"></i>
+                    Server Tokens
                 </a>
             </li>
         </ul>

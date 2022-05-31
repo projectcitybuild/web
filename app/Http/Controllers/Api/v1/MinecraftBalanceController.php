@@ -57,7 +57,7 @@ final class MinecraftBalanceController extends ApiController
             reason: $request->get('reason'),
         );
         return [
-            'data' => ['success' => true],  
+            'data' => ['success' => true],
         ];
     }
 }
