@@ -38,5 +38,7 @@ class BanAppealController
         );
 
         $banAppeal->notify(new BanAppealUpdatedNotification($banAppeal->showLink()));
+
+        return redirect()->route('front.panel.ban-appeals.show', $banAppeal);
     }
 }

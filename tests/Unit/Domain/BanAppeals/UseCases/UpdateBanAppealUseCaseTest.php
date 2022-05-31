@@ -63,7 +63,7 @@ class UpdateBanAppealUseCaseTest extends TestCase
             ->once()
             ->with(
                 \Mockery::on(function ($arg) {
-                    return $arg->key == $this->bannedPlayer->uuid;
+                    return $arg->key == $this->bannedPlayer->getkey();
                 }),
                 \Mockery::on(function ($arg) {
                     return $arg->key == $this->decidingPlayer->uuid;

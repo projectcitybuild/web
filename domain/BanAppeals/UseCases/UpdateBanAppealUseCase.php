@@ -6,9 +6,9 @@ use App\Exceptions\Http\NotImplementedException;
 use Domain\BanAppeals\Entities\BanAppealStatus;
 use Domain\BanAppeals\Repositories\BanAppealRepository;
 use Domain\Bans\UseCases\CreateUnbanUseCase;
-use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\GameIdentifierType;
 use Illuminate\Support\Facades\DB;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 
@@ -41,7 +41,8 @@ class UpdateBanAppealUseCase
 
             if ($status == BanAppealStatus::ACCEPTED_UNBAN) {
                 $bannedPlayer = $banAppeal->gameBan->bannedPlayer;
-                $bannedPlayerIdentifier = PlayerIdentifier::minecraftUUID($bannedPlayer->uuid);
+                // TODO: sort out the fact we're passing db ids here not uuids
+                $bannedPlayerIdentifier = new PlayerIdentifier($bannedPlayer->getKey(), GameIdentifierType::MINECRAFT_UUID);
                 $staffPlayerIdentifier = PlayerIdentifier::minecraftUUID($decidingPlayer->uuid);
                 $this->unbanUseCase->execute($bannedPlayerIdentifier, $staffPlayerIdentifier);
             }
