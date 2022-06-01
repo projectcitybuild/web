@@ -60,11 +60,11 @@
             justify-content: space-between;
             font-size: 0.9em;
         }
-    }
 
-    .login__reauth, .login__mfa, .login__mfa-recover, .login__confirm {
-        width: 650px;
-        margin-top: 3rem;
+        &--is-narrow {
+            width: 650px;
+            margin-top: 3rem;
+        }
     }
 
     .login__mfa {

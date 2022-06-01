@@ -5,16 +5,15 @@
 
 @section('body')
     <main class="page login">
-        <div class="container">
-            <div class="login__dialog login__register-form">
-                <h1>Password Updated</h1>
-                <p>Your password has successfully been reset. Please proceed to the login screen to complete the process.</p>
+        <div class="login__dialog login__dialog--is-narrow">
+            <h1>Password Updated</h1>
+            <p>Your password has successfully been reset. Please proceed to the login screen to complete the
+                process.</p>
 
-                <a class="button button--filled button--block" href="{{ route('front.login') }}">
-                    <i class="fas fa-chevron-right"></i>
-                    Go to Login Screen
-                </a>
-            </div>
+            <a class="button button--filled button--block" href="{{ route('front.login') }}">
+                <i class="fas fa-chevron-right"></i>
+                Go to Login Screen
+            </a>
         </div>
     </main>
 @endsection

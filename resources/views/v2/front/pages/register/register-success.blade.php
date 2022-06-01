@@ -5,7 +5,7 @@
 
 @section('body')
     <main class="page login">
-        <section class="login__dialog login__confirm">
+        <section class="login__dialog login__confirm login__dialog--is-narrow">
             <h1>Verify your email</h1>
             <p>
                 To finish registering, please confirm your email address. If it doesn't arrive in a few minutes, try checking spam.

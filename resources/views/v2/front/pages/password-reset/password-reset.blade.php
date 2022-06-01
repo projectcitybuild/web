@@ -15,42 +15,41 @@
 @section('body')
 
     <main class="page login">
-        <div class="container">
-            <div class="login__dialog login__register-form">
-                <h1>Forgot Your Password?</h1>
+        <div class="login__dialog login__dialog--is-narrow">
+            <h1>Forgot Your Password?</h1>
 
-                @if(Session::has('success'))
-                    <div class="alert alert--success">
-                        <h3><i class="fas fa-exclamation-circle"></i> Success</h3>
-                        An email has been sent to {{ Session::get('success') }} with password reset instructions.
-                    </div>
-                    <p>
-                @endif
-
+            @if(Session::has('success'))
+                <div class="alert alert--success">
+                    <h3><i class="fas fa-exclamation-circle"></i> Success</h3>
+                    An email has been sent to {{ Session::get('success') }} with password reset instructions.
+                </div>
                 <p>
-                    Please enter the email address you used to create your account.
-                    If the account exists, an email will be sent with a link to change your password.
-                </p>
+            @endif
 
-                @include('v2.front.components.form-error')
+            <p>
+                Please enter the email address you used to create your account.
+                If the account exists, an email will be sent with a link to change your password.
+            </p>
 
-                <form method="post" action="{{ route('front.password-reset.store') }}" id="form" class="form">
-                    @csrf
+            @include('v2.front.components.form-error')
 
-                    <div class="form-row">
-                        <label for="email">Email Address</label>
-                        <input class="textfield {{ $errors->any() ? 'input-text--error' : '' }}" name="email" type="email" placeholder="you@pcbmc.co" value="{{ old('email') }}" />
-                    </div>
+            <form method="post" action="{{ route('front.password-reset.store') }}" id="form" class="form">
+                @csrf
 
-                    <button
-                        class="g-recaptcha button button--filled button--block"
-                        data-sitekey="@recaptcha_key"
-                        data-callback="submitForm"
-                    >
-                        <i class="fas fa-envelope"></i> Send Reset Link
-                    </button>
-                </form>
-            </div>
+                <div class="form-row">
+                    <label for="email">Email Address</label>
+                    <input class="textfield {{ $errors->any() ? 'input-text--error' : '' }}" name="email" type="email"
+                           placeholder="you@pcbmc.co" value="{{ old('email') }}"/>
+                </div>
+
+                <button
+                    class="g-recaptcha button button--filled button--block"
+                    data-sitekey="@recaptcha_key"
+                    data-callback="submitForm"
+                >
+                    <i class="fas fa-envelope"></i> Send Reset Link
+                </button>
+            </form>
         </div>
     </main>
 @endsection

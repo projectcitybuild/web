@@ -5,7 +5,7 @@
 
 @section('body')
     <main class="page login">
-        <section class="login__dialog login__mfa">
+        <section class="login__dialog login__mfa login__dialog--is-narrow">
             <h1>2FA Confirmation</h1>
 
             @include('v2.front.components.form-error')
