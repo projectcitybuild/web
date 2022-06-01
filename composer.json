@@ -32,7 +32,6 @@
         "xpaw/php-minecraft-query": "^4.0"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.2",
         "beyondcode/laravel-dump-server": "^1.0",
         "brianium/paratest": "^6.4.4",
         "fakerphp/faker": "^1.19",
