@@ -17,11 +17,8 @@ final class MinecraftAuthTokenController extends ApiController
 {
     /**
      * Requests an URL that the user can click to link their PCB account.
-     *
-     *
-     * @return void
      */
-    public function store(Request $request)
+    public function store(Request $request): array
     {
         $this->validateRequest($request->all(), [
             'minecraft_uuid' => 'bail|required|string', // TODO: override UUID rule to allow UUIDs without hyphens
@@ -66,11 +63,8 @@ final class MinecraftAuthTokenController extends ApiController
 
     /**
      * Returns the PCB groups that the given UUID belongs to.
-     *
-     *
-     * @return void
      */
-    public function show(Request $request, string $minecraftUUID)
+    public function show(Request $request, string $minecraftUUID): array
     {
         $uuid = str_replace('-', '', $minecraftUUID);
 
