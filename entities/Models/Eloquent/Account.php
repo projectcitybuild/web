@@ -3,6 +3,7 @@
 namespace Entities\Models\Eloquent;
 
 use Carbon\Carbon;
+use Entities\Resources\AccountResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -172,5 +173,10 @@ final class Account extends Authenticatable
         $this->totp_backup_code = null;
         $this->totp_last_used = null;
         $this->is_totp_enabled = false;
+    }
+
+    public function toResource()
+    {
+        return new AccountResource($this);
     }
 }
