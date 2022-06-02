@@ -9,7 +9,7 @@
     </tr>
     </thead>
     <tbody>
-        @foreach($playerBans as $ban)
+        @foreach($banHistory as $ban)
             <tr class="{{ $ban->is_active ? 'warning' : '' }}">
                 <td>{{ $ban->is_active ? 'Active' : 'Removed' }}</td>
                 <td>{{ $ban->reason ?? 'No Reason Given' }}</td>

@@ -20,7 +20,7 @@
     <div class="contents__section">
         <h2>Appeal Form</h2>
 
-        <form method="post" action="{{ route('front.appeal.submit', $player->uuid) }}" id="form" class="form">
+        <form method="post" action="{{ route('front.appeal.submit', $activeGameBan) }}" id="form" class="form">
             @csrf
             @include('v2.front.components.form-error')
             @unless($accountVerified)

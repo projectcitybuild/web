@@ -48,7 +48,8 @@ class BanAppealController extends WebController
         $bannedPlayer = $ban->bannedPlayer;
         return view('v2.front.pages.ban-appeal.create')->with([
             'player' => $bannedPlayer,
-            'playerBans' => $bannedPlayer->gameBans()->latest()->get(),
+            'activeGameBan' => $ban,
+            'banHistory' => $bannedPlayer->gameBans()->latest()->get(),
             'accountVerified' => $useCase->isAccountVerified($ban, $request->user())
         ]);
     }
