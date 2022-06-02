@@ -18,6 +18,17 @@ class PanelMinecraftPlayerEditTest extends TestCase
             ->assertSee('Edit');
     }
 
+    /**
+     * @ticket 596
+     */
+    public function test_can_view_edit_form_with_active_account()
+    {
+        $mcPlayer = MinecraftPlayer::factory()->for(Account::factory())->create();
+        $this->actingAs($this->adminAccount())
+            ->get(route('front.panel.minecraft-players.edit', $mcPlayer))
+            ->assertOk();
+    }
+
     public function testCanChangeAssignedUser()
     {
         $mcPlayer = MinecraftPlayer::factory()->for(Account::factory()->create())->create();

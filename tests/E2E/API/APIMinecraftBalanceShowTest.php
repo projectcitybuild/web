@@ -5,27 +5,18 @@ namespace Tests\E2E\API;
 use Domain\ServerTokens\ScopeKey;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\Server;
-use Entities\Models\Eloquent\ServerCategory;
-use Entities\Models\Eloquent\ServerToken;
-use Entities\Models\Eloquent\ServerTokenScope;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use function collect;
+use Tests\E2ETestCase;
 
-class APIMinecraftBalanceShowTest extends TestCase
+class APIMinecraftBalanceShowTest extends E2ETestCase
 {
     use RefreshDatabase;
-
-    private ServerToken $token;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $serverCategory = ServerCategory::create(['name' => '_' ,'display_order' => 0]);
-        $server = Server::factory()->create(['server_category_id' => $serverCategory->getKey()]);
-        $this->token = ServerToken::factory()->create(['server_id' => $server->getKey()]);
+        $this->createServerToken();
     }
 
     private function endpoint(?MinecraftPlayer $player): string
@@ -35,14 +26,6 @@ class APIMinecraftBalanceShowTest extends TestCase
         return 'api/v2/minecraft/'.$uuid.'/balance';
     }
 
-    private function authorise(ScopeKey ...$scopes)
-    {
-        foreach ($scopes as $scope) {
-            $tokenScope = ServerTokenScope::create(['scope' => $scope->value]);
-            $this->token->scopes()->attach($tokenScope->getKey());
-        }
-    }
-
     public function test_requires_scope()
     {
         $account = Account::factory()->create();
@@ -50,13 +33,13 @@ class APIMinecraftBalanceShowTest extends TestCase
             ->for($account)
             ->create();
 
-        $this->withHeader('Authorization', 'Bearer '.$this->token->token)
+        $this->withAuthorizationServerToken()
             ->getJson($this->endpoint($player))
             ->assertUnauthorized();
 
-        $this->authorise(scope: ScopeKey::ACCOUNT_BALANCE_SHOW);
+        $this->authoriseTokenFor(ScopeKey::ACCOUNT_BALANCE_SHOW);
 
-        $this->withHeader('Authorization', 'Bearer '.$this->token->token)
+        $this->withAuthorizationServerToken()
             ->getJson($this->endpoint($player))
             ->assertOk();
     }
@@ -68,9 +51,9 @@ class APIMinecraftBalanceShowTest extends TestCase
             ->for($account)
             ->create();
 
-        $this->authorise(scope: ScopeKey::ACCOUNT_BALANCE_SHOW);
+        $this->authoriseTokenFor(ScopeKey::ACCOUNT_BALANCE_SHOW);
 
-        $this->withHeader('Authorization', 'Bearer '.$this->token->token)
+        $this->withAuthorizationServerToken()
             ->getJson($this->endpoint($player))
             ->assertJson([
                 'data' => [
@@ -81,9 +64,9 @@ class APIMinecraftBalanceShowTest extends TestCase
 
     public function test_shows_error_without_player()
     {
-        $this->authorise(scope: ScopeKey::ACCOUNT_BALANCE_SHOW);
+        $this->authoriseTokenFor(ScopeKey::ACCOUNT_BALANCE_SHOW);
 
-        $this->withHeader('Authorization', 'Bearer '.$this->token->token)
+        $this->withAuthorizationServerToken()
             ->getJson($this->endpoint(null))
             ->assertJson([
                 'error' => [
@@ -98,9 +81,9 @@ class APIMinecraftBalanceShowTest extends TestCase
     {
         $player = MinecraftPlayer::factory()->create();
 
-        $this->authorise(scope: ScopeKey::ACCOUNT_BALANCE_SHOW);
+        $this->authoriseTokenFor(ScopeKey::ACCOUNT_BALANCE_SHOW);
 
-        $this->withHeader('Authorization', 'Bearer '.$this->token->token)
+        $this->withAuthorizationServerToken()
             ->getJson($this->endpoint($player))
             ->assertJson([
                 'error' => [

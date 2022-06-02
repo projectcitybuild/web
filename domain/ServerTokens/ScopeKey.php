@@ -13,4 +13,6 @@ enum ScopeKey: string
 
     case ACCOUNT_BALANCE_SHOW = 'balance:show';
     case ACCOUNT_BALANCE_DEDUCT = 'balance:deduct';
+
+    case TELEMETRY = 'telemetry:all';
 }
