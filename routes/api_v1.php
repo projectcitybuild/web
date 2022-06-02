@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\v1\GameBanV1Controller;
 use App\Http\Controllers\Api\v1\GroupApiController;
 use App\Http\Controllers\Api\v1\MinecraftAuthTokenController;
-use App\Http\Controllers\Api\v1\MinecraftTelemetryController;
 use App\Http\Controllers\Api\v1\StripeWebhookController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,10 +35,4 @@ Route::prefix('auth')->group(function () {
 
 Route::prefix('groups')->group(function () {
     Route::get('/', [GroupApiController::class, 'getAll']);
-});
-
-Route::prefix('minecraft')->group(function () {
-    Route::prefix('telemetry')->group(function () {
-        Route::get('seen', [MinecraftTelemetryController::class, 'playerSeen']);
-    });
 });
