@@ -20,6 +20,7 @@ class Model extends EloquentModel
      */
     public static function getTableName(): string
     {
+        /** @phpstan-ignore-next-line */
         return with(new static())->getTable();
     }
 }
