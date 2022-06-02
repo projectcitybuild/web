@@ -2,13 +2,14 @@
 
 namespace Domain\BanAppeals\Exceptions;
 
-use Nette\Schema\ValidationException;
+
+use Illuminate\Validation\ValidationException;
 
 class EmailRequiredException extends \Exception
 {
     public function throwAsValidationException()
     {
-        throw \Illuminate\Validation\ValidationException::withMessages(
+        throw ValidationException::withMessages(
             ['email' => __('validation.required', ['attribute' => 'email'])]
         );
 }

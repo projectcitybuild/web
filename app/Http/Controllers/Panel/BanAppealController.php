@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Exceptions\Http\NotImplementedException;
 use App\Http\Requests\BanAppealUpdateRequest;
 use Domain\BanAppeals\Entities\BanAppealStatus;
+use Domain\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use Domain\BanAppeals\Repositories\BanAppealRepository;
 use Domain\BanAppeals\UseCases\UpdateBanAppealUseCase;
+use Domain\Bans\Exceptions\PlayerNotBannedException;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Notifications\BanAppealUpdatedNotification;
+use Illuminate\Validation\ValidationException;
 
 class BanAppealController
 {
@@ -29,12 +33,27 @@ class BanAppealController
 
     public function update(UpdateBanAppealUseCase $useCase, BanAppealUpdateRequest $request, BanAppeal $banAppeal)
     {
-        $useCase->execute(
-            banAppeal: $banAppeal,
-            decidingPlayer: $request->user()->minecraftAccount()->first(),
-            decisionNote: $request->get('decision_note'),
-            status: BanAppealStatus::from($request->get('status'))
-        );
+        try {
+            $useCase->execute(
+                banAppeal: $banAppeal,
+                decidingPlayer: $request->user()->minecraftAccount()->first(),
+                decisionNote: $request->get('decision_note'),
+                status: BanAppealStatus::from($request->get('status'))
+            );
+        } catch (NotImplementedException $e) {
+            throw ValidationException::withMessages([
+                'error' => ['This unban decision is not supported currently. Please contact an admin.']
+            ]);
+        } catch (PlayerNotBannedException $e) {
+            throw ValidationException::withMessages([
+                'error' => ['Unable to unban player, they are not currently banned.']
+            ]);
+        } catch (AppealAlreadyDecidedException $e) {
+            throw ValidationException::withMessages([
+                'error' => ['This appeal has already been decided.']
+            ]);
+        }
+
 
         $banAppeal->notify(new BanAppealUpdatedNotification($banAppeal->showLink()));
 

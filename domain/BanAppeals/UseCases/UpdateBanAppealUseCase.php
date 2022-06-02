@@ -4,7 +4,9 @@ namespace Domain\BanAppeals\UseCases;
 
 use App\Exceptions\Http\NotImplementedException;
 use Domain\BanAppeals\Entities\BanAppealStatus;
+use Domain\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use Domain\BanAppeals\Repositories\BanAppealRepository;
+use Domain\Bans\Exceptions\PlayerNotBannedException;
 use Domain\Bans\UseCases\CreateUnbanUseCase;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\MinecraftPlayer;
@@ -27,10 +29,16 @@ class UpdateBanAppealUseCase
      * @param string $decisionNote The message to be shown to the appealing player
      * @param BanAppealStatus $status The new status of the appeal
      * @return void
-     * @throws NotImplementedException
+     * @throws NotImplementedException if an unimplemented ban decision is used
+     * @throws PlayerNotBannedException if the player is not currently banned
+     * @throws AppealAlreadyDecidedException if the appeal has already been decided
      */
     public function execute(BanAppeal $banAppeal, MinecraftPlayer $decidingPlayer, string $decisionNote, BanAppealStatus $status): void
     {
+        if ($banAppeal->status != BanAppealStatus::PENDING) {
+            throw new AppealAlreadyDecidedException();
+        }
+
         if ($status == BanAppealStatus::ACCEPTED_TEMPBAN) {
             // TODO: create unban with tempban implementation when tempbans are sorted
             throw new NotImplementedException();

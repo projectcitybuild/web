@@ -75,4 +75,38 @@ class PanelBanAppealDecisionTest extends TestCase
         ]);
         Notification::assertSentTo($this->appeal, BanAppealUpdatedNotification::class);
     }
+
+    /*
+     * The ban was made inactive, but not via the appeal.
+     * E.g. the player was unbanned in game
+     */
+    public function test_validation_error_if_ban_has_become_inactive()
+    {
+        $this->gameBan->is_active = false;
+        $this->gameBan->save();
+
+        $this->actingAs($this->account)
+            ->put(route('front.panel.ban-appeals.update', $this->appeal), [
+                'decision_note' => 'Some Note',
+                'status' => BanAppealStatus::ACCEPTED_UNBAN->value
+            ])
+            ->assertSessionHasErrors();
+    }
+
+    /**
+     * The appeal was already decided.
+     * E.g. someone else decided it whilst the user was looking at the appeal
+     */
+    public function test_validation_error_if_appeal_already_decided()
+    {
+        $this->appeal->status = BanAppealStatus::DENIED->value;
+        $this->appeal->save();
+
+        $this->actingAs($this->account)
+            ->put(route('front.panel.ban-appeals.update', $this->appeal), [
+                'decision_note' => 'Some Note',
+                'status' => BanAppealStatus::ACCEPTED_UNBAN->value
+            ])
+            ->assertSessionHasErrors();
+    }
 }
