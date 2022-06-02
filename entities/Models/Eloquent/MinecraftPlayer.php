@@ -3,6 +3,7 @@
 namespace Entities\Models\Eloquent;
 
 use App\Model;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,6 +15,7 @@ use Shared\PlayerLookup\Contracts\Player;
  * @property int account_id
  * @property ?Account account
  * @property ?Carbon last_synced_at
+ * @property Collection aliases
  */
 final class MinecraftPlayer extends Model implements Player
 {
@@ -82,6 +84,13 @@ final class MinecraftPlayer extends Model implements Player
         $this->last_synced_at = $this->freshTimestamp();
 
         return $this->save();
+    }
+
+    public function hasAlias(string $alias): bool
+    {
+        return $this->aliases
+            ->where('alias', $alias)
+            ->isNotEmpty();
     }
 
     /** ************************************************

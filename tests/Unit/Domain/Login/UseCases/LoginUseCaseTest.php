@@ -13,7 +13,6 @@ use Entities\Repositories\AccountRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 use Tests\TestCase;
 
 class LoginUseCaseTest extends TestCase
