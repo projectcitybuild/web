@@ -40,18 +40,6 @@
             margin-top: 0;
         }
     }
-
-    &__status {
-        font-weight: bold;
-        margin-top: 10px;
-        margin-bottom: 5px;
-        &--is-ok {
-            color: $color-success;
-        }
-        &--is-bad {
-            color: $color-error;
-        }
-    }
 }
 
 

@@ -1,8 +1,9 @@
-.alert {
-    $alert-color-error: #f84637;
-    $alert-color-success: #00aa00;
-    $alert-color-warning: #665c00;
+$alert-color-error: #f84637;
+$alert-color-success: #00aa00;
+$alert-color-warning: #665c00;
+$alert-color-info: #585454;
 
+.alert {
     width: 100%;
     border: 2px solid #000;
     border-radius: 5px;
@@ -18,8 +19,8 @@
     }
 
     &--info {
-        border-color: #585454;
-        color: #585454;
+        border-color: $alert-color-info;
+        color: $alert-color-info;
     }
 
     &--warning {

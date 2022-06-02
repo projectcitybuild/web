@@ -124,26 +124,17 @@ final class Account extends Authenticatable
 
     public function gameBans()
     {
-        // TODO: there's probably a way to optimise this just using the DB
-        $bans = collect();
-
-        foreach ($this->minecraftAccount as $minecraftAccount) {
-            $bans = $bans->concat($minecraftAccount->gameBans);
-        }
-
-        return $bans;
+        return GameBan::whereIn('banned_player_id', $this->minecraftAccount()->pluck('player_minecraft_id'));
     }
 
     public function isBanned()
     {
-        // TODO: there's probably a way to optimise this just using the DB
-        foreach ($this->minecraftAccount as $account) {
-            if ($account->isBanned()) {
-                return true;
-            }
-        }
+        return $this->gameBans()->active()->exists();
+    }
 
-        return false;
+    public function banAppeals()
+    {
+        return BanAppeal::whereIn('game_ban_id', $this->gameBans()->pluck('game_ban_id'));
     }
 
     public function inGroup(Group $group)

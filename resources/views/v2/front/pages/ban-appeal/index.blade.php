@@ -4,8 +4,8 @@
     @auth
         <div class="contents__section">
             <h2>Current Bans</h2>
-            <div class="game-account-grid">
-                @each('v2.front.pages.ban-appeal._game-account-listing', $minecraftAccounts, 'mcAccount')
+            <div class="game-ban-column">
+                @each('v2.front.pages.ban-appeal._game-ban-listing', $bans, 'ban')
             </div>
         </div>
         <div class="contents__section">

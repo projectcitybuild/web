@@ -23,10 +23,10 @@ class BanAppealController extends WebController
      */
     public function index(Request $request)
     {
-        // TODO: refactor this to use scope once model method is optimised
-        $minecraftAccounts = $request->user()?->minecraftAccount ?? collect();
+        $bans = $request->user()?->gameBans()->latest()->get() ?? collect();
+
         return view('v2.front.pages.ban-appeal.index')->with([
-            'minecraftAccounts' => $minecraftAccounts
+            'bans' => $bans,
         ]);
     }
 
