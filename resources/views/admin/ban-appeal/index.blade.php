@@ -42,5 +42,7 @@
             @endforeach
             </tbody>
         </table>
+
+        {{ $banAppeals->links('vendor.pagination.bootstrap-4') }}
     </div>
 @endsection
