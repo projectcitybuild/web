@@ -11,6 +11,7 @@ use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
@@ -46,10 +47,18 @@ class BanAppealController extends WebController
         }
 
         $bannedPlayer = $ban->bannedPlayer;
+        $banHistory = $bannedPlayer->gameBans()
+            ->with(['staffPlayer.aliases', 'bannedPlayer' => function (MorphTo $morphTo) {
+                $morphTo->morphWith([
+                    MinecraftPlayer::class => ['aliases']
+                ]);
+            }])
+            ->latest()->get();
+
         return view('v2.front.pages.ban-appeal.create')->with([
             'player' => $bannedPlayer,
             'activeGameBan' => $ban,
-            'banHistory' => $bannedPlayer->gameBans()->latest()->get(),
+            'banHistory' => $banHistory,
             'accountVerified' => $useCase->isAccountVerified($ban, $request->user())
         ]);
     }
