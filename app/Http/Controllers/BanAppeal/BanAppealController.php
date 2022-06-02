@@ -90,14 +90,4 @@ class BanAppealController extends WebController
             'banAppeal' => $banAppeal
         ]);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param BanAppeal  $banAppeal
-     */
-    public function destroy(BanAppeal $banAppeal)
-    {
-        //
-    }
 }
