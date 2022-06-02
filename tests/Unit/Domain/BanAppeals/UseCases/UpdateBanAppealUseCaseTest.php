@@ -57,7 +57,7 @@ class UpdateBanAppealUseCaseTest extends TestCase
     {
         $this->banAppealRepository->expects('updateDecision')
             ->once()
-            ->with($this->banAppeal, $this->decisionNote, BanAppealStatus::ACCEPTED_UNBAN);
+            ->with($this->banAppeal, $this->decisionNote, $this->decidingPlayer->getKey(), BanAppealStatus::ACCEPTED_UNBAN);
 
         $this->unbanUseCase->expects('execute')
             ->once()
@@ -82,7 +82,7 @@ class UpdateBanAppealUseCaseTest extends TestCase
     {
         $this->banAppealRepository->expects('updateDecision')
             ->once()
-            ->with($this->banAppeal, $this->decisionNote, BanAppealStatus::DENIED);
+            ->with($this->banAppeal, $this->decisionNote, $this->decidingPlayer->getKey(), BanAppealStatus::DENIED);
 
         $this->unbanUseCase->expects('execute')->never();
 

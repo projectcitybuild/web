@@ -2,6 +2,7 @@
 
 namespace Feature;
 
+use Domain\BanAppeals\Entities\BanAppealStatus;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
@@ -25,26 +26,35 @@ class BanAppealListTest extends TestCase
         return $player;
     }
 
-    public function test_shows_users_minecraft_accounts()
+
+    public function test_shows_ban()
     {
         $player = $this->createPlayerWithAccountAndLogin();
+        $ban = GameBan::factory()->for($player, 'bannedPlayer')->active()->create();
         $this->get(route('front.appeal'))
-            ->assertSee($player->uuid);
+            ->assertSee($ban->reason);
     }
 
-    public function test_shows_if_account_is_banned()
-    {
-        $player = $this->createPlayerWithAccountAndLogin();
-        GameBan::factory()->for($player, 'bannedPlayer')->active()->create();
-        $this->get(route('front.appeal'))
-            ->assertSeeTextInOrder([$player->uuid, 'Banned', 'Appeal']);
-    }
-
-    public function test_shows_if_appeal_open()
+    public function test_shows_appeal()
     {
         $player = $this->createPlayerWithAccountAndLogin();
         GameBan::factory()->for($player, 'bannedPlayer')->hasBanAppeals(1)->active()->create();
         $this->get(route('front.appeal'))
-            ->assertSeeTextInOrder([$player->uuid, 'Appealing', 'View']);
+            ->assertSee('Appeal #1');
+    }
+
+    public function test_shows_appeal_again()
+    {
+        $player = $this->createPlayerWithAccountAndLogin();
+        GameBan::factory()->for($player, 'bannedPlayer')->hasBanAppeals(1, ['status' => BanAppealStatus::DENIED])->active()->create();
+        $this->get(route('front.appeal'))
+            ->assertSeeIgnoringWhitespace('Appeal Again');
+    }
+
+    public function test_shows_no_bans_message()
+    {
+        $this->createPlayerWithAccountAndLogin();
+        $this->get(route('front.appeal'))
+            ->assertSee('No Bans Found');
     }
 }

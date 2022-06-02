@@ -5,7 +5,7 @@
         <div class="contents__section">
             <h2>Current Bans</h2>
             <div class="game-ban-column">
-                @each('v2.front.pages.ban-appeal._game-ban-listing', $bans, 'ban')
+                @each('v2.front.pages.ban-appeal._game-ban-listing', $bans, 'ban', 'v2.front.pages.ban-appeal._game-ban-empty')
             </div>
         </div>
         <div class="contents__section">

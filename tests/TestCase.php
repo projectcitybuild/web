@@ -10,16 +10,19 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 use Library\Mojang\Api\MojangPlayerApi;
+use Tests\Support\TestResponseMacros;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, RefreshDatabase;
+    use CreatesApplication, RefreshDatabase, TestResponseMacros;
 
     private ?Account $adminAccount = null;
 
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->registerTestResponseMacros();
 
         // Mock this class everywhere to prevent it making real requests
         $this->mock(MojangPlayerApi::class);

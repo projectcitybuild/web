@@ -102,3 +102,16 @@
         margin-bottom: 1rem;
     }
 }
+
+.game-ban-empty {
+    text-align: center;
+
+    i {
+        margin-bottom: 1rem;
+        display: block;
+        color: lighten($color-text-primary, 20%);
+    }
+    div {
+        font-weight: bold;
+    }
+}
