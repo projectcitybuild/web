@@ -4,17 +4,16 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\Requests\BanAppealUpdateRequest;
 use Domain\BanAppeals\Entities\BanAppealStatus;
+use Domain\BanAppeals\Repositories\BanAppealRepository;
 use Domain\BanAppeals\UseCases\UpdateBanAppealUseCase;
-use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Notifications\BanAppealUpdatedNotification;
-use Illuminate\Validation\ValidationException;
 
 class BanAppealController
 {
-    public function index()
+    public function index(BanAppealRepository $banAppealRepository)
     {
-        $banAppeals = BanAppeal::paginate(50);
+        $banAppeals = $banAppealRepository->allWithPriority(50);
 
         return view('admin.ban-appeal.index')->with([
             'banAppeals' => $banAppeals

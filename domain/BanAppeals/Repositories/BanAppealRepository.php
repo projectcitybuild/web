@@ -39,4 +39,18 @@ class BanAppealRepository
 
         return $banAppeal;
     }
+
+    /**
+     * Return all ban appeals paginated in the order:
+     * Pending appeal (newest first), then all other appeals (newest first)
+     *
+     * @param int $perPage number per page
+     * @return mixed
+     */
+    public function allWithPriority(int $perPage)
+    {
+        return BanAppeal::orderByRaw("FIELD(status, " . BanAppealStatus::PENDING->value . ") DESC")
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage);
+    }
 }
