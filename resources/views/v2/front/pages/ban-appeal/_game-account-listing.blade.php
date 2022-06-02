@@ -23,23 +23,7 @@
         @if($mcAccount->gameBans()->active()->exists())
             @if($mcAccount->banAppeals()->exists())
                 <div class="game-account__status game-account__status--is-bad">
-                    @switch($mcAccount->banAppeals()->first()->status)
-                        @case(\Domain\BanAppeals\Entities\BanAppealStatus::PENDING)
-                            <i class="fas fa-hourglass-half"></i> Appealing
-                            @break
-
-                        @case(\Domain\BanAppeals\Entities\BanAppealStatus::DENIED)
-                            <i class="fas fa-times"></i> Appeal Denied
-                            @break
-
-                        @case(\Domain\BanAppeals\Entities\BanAppealStatus::ACCEPTED_UNBAN)
-                            <i class="fas fa-check"></i> Appeal Success
-                            @break
-
-                        @case(\Domain\BanAppeals\Entities\BanAppealStatus::ACCEPTED_TEMPBAN)
-                            <i class="fas fa-clock"></i> Appeal Success (changed to temporary ban)
-                            @break
-                    @endswitch
+                    <i class="fas fa-hourglass-half"></i> Appealing
                 </div>
                 <div class="game-account__actions">
                     <a class="button button--filled button--is-small"
