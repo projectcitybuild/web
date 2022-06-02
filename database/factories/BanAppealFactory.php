@@ -55,7 +55,7 @@ class BanAppealFactory extends Factory
         });
     }
 
-    public function tempbanned(): Factory
+    public function tempBanned(): Factory
     {
         return $this->withResponse()->state(function (array $attributes) {
             return [
