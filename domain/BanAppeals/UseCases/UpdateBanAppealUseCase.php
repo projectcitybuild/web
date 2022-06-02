@@ -19,9 +19,7 @@ class UpdateBanAppealUseCase
     public function __construct(
         private BanAppealRepository $banAppealRepository,
         private CreateUnbanUseCase  $unbanUseCase
-    )
-    {
-    }
+    ) {}
 
     /**
      * @param BanAppeal $banAppeal The ban appeal to update
@@ -45,7 +43,12 @@ class UpdateBanAppealUseCase
         }
 
         DB::transaction(function () use ($decidingPlayer, $status, $decisionNote, $banAppeal) {
-            $this->banAppealRepository->updateDecision($banAppeal, $decisionNote, $status);
+            $this->banAppealRepository->updateDecision(
+                banAppeal: $banAppeal,
+                decisionNote: $decisionNote,
+                deciderAccountId: $decidingPlayer->getKey(),
+                status: $status,
+            );
 
             if ($status == BanAppealStatus::ACCEPTED_UNBAN) {
                 $bannedPlayer = $banAppeal->gameBan->bannedPlayer;

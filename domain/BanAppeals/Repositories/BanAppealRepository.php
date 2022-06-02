@@ -3,6 +3,7 @@
 namespace Domain\BanAppeals\Repositories;
 
 use Domain\BanAppeals\Entities\BanAppealStatus;
+use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
 
 class BanAppealRepository
@@ -30,9 +31,14 @@ class BanAppealRepository
         ]);
     }
 
-    public function updateDecision(BanAppeal $banAppeal, string $decisionNote, BanAppealStatus $status): BanAppeal
-    {
+    public function updateDecision(
+        BanAppeal $banAppeal,
+        string $decisionNote,
+        int $deciderAccountId,
+        BanAppealStatus $status,
+    ): BanAppeal {
         $banAppeal->decision_note = $decisionNote;
+        $banAppeal->decider_account_id = $deciderAccountId;
         $banAppeal->status = $status;
         $banAppeal->decided_at = now();
         $banAppeal->save();
