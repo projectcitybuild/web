@@ -91,6 +91,8 @@ class PanelBanAppealDecisionTest extends TestCase
                 'status' => BanAppealStatus::ACCEPTED_UNBAN->value
             ])
             ->assertSessionHasErrors();
+
+        Notification::assertNothingSent();
     }
 
     /**
@@ -108,5 +110,7 @@ class PanelBanAppealDecisionTest extends TestCase
                 'status' => BanAppealStatus::ACCEPTED_UNBAN->value
             ])
             ->assertSessionHasErrors();
+
+        Notification::assertNothingSent();
     }
 }
