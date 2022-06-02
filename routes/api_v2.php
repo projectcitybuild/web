@@ -54,6 +54,6 @@ Route::middleware(
     'server-token:'.ScopeKey::TELEMETRY->value
 )->group(function () {
     Route::prefix('minecraft/telemetry')->group(function () {
-        Route::get('seen', [MinecraftTelemetryController::class, 'playerSeen']);
+        Route::post('seen', [MinecraftTelemetryController::class, 'playerSeen']);
     });
 });

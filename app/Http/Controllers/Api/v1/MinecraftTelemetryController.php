@@ -14,7 +14,7 @@ final class MinecraftTelemetryController extends ApiController
     ) {
         $this->validateRequest($request->all(), [
             'uuid' => 'required|string',
-            'alias' => 'required|string'
+            'alias' => 'required|string',
         ]);
         $updateSeenMinecraftPlayer->execute(
             uuid: $request->get('uuid'),
