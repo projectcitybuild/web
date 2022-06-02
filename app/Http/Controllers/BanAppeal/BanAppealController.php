@@ -23,7 +23,12 @@ class BanAppealController extends WebController
      */
     public function index(Request $request)
     {
-        $bans = $request->user()?->gameBans()->latest()->get() ?? collect();
+        $bans = $request->user()?->gameBans()
+                ->with(['banAppeals', 'staffPlayer.aliases', 'bannedPlayer' => function (MorphTo $morphTo) {
+                    $morphTo->morphWith([
+                        MinecraftPlayer::class => ['aliases']
+                    ]);
+                }])->latest()->get() ?? collect();
 
         return view('v2.front.pages.ban-appeal.index')->with([
             'bans' => $bans,

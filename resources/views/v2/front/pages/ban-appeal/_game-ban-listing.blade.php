@@ -5,12 +5,9 @@
         </div>
         <div>
             <div class="game-ban__meta">
-                @if($ban->bannedPlayer->aliases()->count() == 0)
-                    <em>No alias</em>
-                    @else
-                        {{ $ban->bannedPlayer->aliases->last()->alias }}
-                    @endempty
-                    &middot; Banned {{ $ban->created_at }}
+                {{ $ban->bannedPlayer->getBanReadableName() ?? 'No Alias' }}
+                &middot; Banned {{ $ban->created_at }} BY
+                {{ $ban->staffPlayer->getBanReadableName() ?? 'No Alias' }}
             </div>
             <div class="game-ban__reason">
                 "{{ $ban->reason }}"
