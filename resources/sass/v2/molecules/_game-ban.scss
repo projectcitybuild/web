@@ -1,0 +1,117 @@
+.game-ban {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+
+    &__info {
+        display: flex;
+        align-items: center;
+        padding: 7px;
+        border-bottom: 1px solid $color-lightest;
+    }
+
+    &__avatar {
+        margin-right: 0.6rem;
+    }
+
+    &__meta {
+        text-transform: uppercase;
+        color: lighten($color-text-primary, 10%);
+        letter-spacing: $tracking-wide;
+        font-size: 0.8em;
+        margin-bottom: 3px;
+    }
+
+    &__reason {
+        font-size: 1.1em;
+        font-style: italic;
+    }
+
+    &__appeal-history {
+        border-bottom: 1px solid $color-lightest;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        a {
+            position: relative;
+            display: block;
+            padding-top: 3px;
+            padding-bottom: 3px;
+            padding-left: 10px;
+
+            color: unset;
+            text-decoration: none;
+            background-color: $color-lightest-grey;
+
+            &:hover {
+                background-color: darken($color-lightest-grey, 3%);
+            }
+        }
+
+        a::after {
+            position: absolute;
+            right: 10px;
+            top: 25%;
+            font-size: 1.5rem;
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            content: "\f054";
+        }
+
+    }
+
+
+    &__status {
+        font-weight: bold;
+        font-size: 1.1rem;
+
+        &--is-ban {
+            margin-top: 5px;
+        }
+    }
+
+    &__actions {
+        padding: 7px;
+
+        button {
+            margin-top: 0;
+        }
+    }
+
+    .is-unbanned {
+        color: $alert-color-success;
+    }
+
+    .is-pending {
+        color: $alert-color-info;
+    }
+
+    .is-tempbanned {
+        color: $alert-color-warning;
+    }
+
+    .is-denied {
+        color: $alert-color-error;
+    }
+}
+
+.game-ban-column {
+    .game-ban {
+        margin-bottom: 1rem;
+    }
+}
+
+.game-ban-empty {
+    text-align: center;
+
+    i {
+        margin-bottom: 1rem;
+        display: block;
+        color: lighten($color-text-primary, 20%);
+    }
+    div {
+        font-weight: bold;
+    }
+}
