@@ -68,9 +68,6 @@ final class AppServiceProvider extends ServiceProvider
         Blade::component('donation-bar', DonationBarComponent::class);
         Blade::component('panel-side-bar', PanelSideBarComponent::class);
 
-        // Bind the master view composer to the master view template
-        View::composer('front.layouts.master', MasterViewComposer::class);
-
         // Fix the factory() function always searching for factory files with a relative namespace
         Factory::guessFactoryNamesUsing(function (string $modelName) {
             return 'Database\Factories\\'.class_basename($modelName).'Factory';
