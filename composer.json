@@ -17,6 +17,7 @@
         "laravel/cashier": "^13.8.0",
         "laravel/framework": "^9.0",
         "laravel/scout": "^9.4.5",
+        "laravel/telescope": "^4.9",
         "laravel/tinker": "^2.0",
         "league/commonmark": "^2.3",
         "league/flysystem-aws-s3-v3": "^3.0",
