@@ -5,7 +5,7 @@
 
 @section('body')
     <main class="page login">
-        <section class="login__dialog login__mfa-recover">
+        <section class="login__dialog login__mfa-recover login__dialog--is-narrow">
             <h1>Recover MFA</h1>
 
             @include('v2.front.components.form-error')
