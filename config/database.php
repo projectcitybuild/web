@@ -60,7 +60,7 @@ return [
 
             // https://serverfault.com/questions/912162/mysqldump-throws-unknown-table-column-statistics-in-information-schema-1109
             'dump' => [
-                'add_extra_option' => '--skip-column-statistics',
+                'add_extra_option' => '--column_statistics=0',
             ],
         ],
 
