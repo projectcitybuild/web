@@ -87,9 +87,6 @@ jobs:
         if: steps.assets-cache.outputs.cache-hit != 'true'
         run: npm run prod
 
-      - name: Publish Vendor Assets
-        run:  php artisan vendor:publish --tag=telescope-assets
-
       - name: Prepare Laravel
         run: |
           php artisan key:generate
