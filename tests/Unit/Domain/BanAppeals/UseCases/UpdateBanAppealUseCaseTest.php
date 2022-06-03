@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Domain\BanAppeals\UseCases;
+namespace Tests\Unit\Domain\BanAppeals\UseCases;
 
 use App\Exceptions\Http\NotImplementedException;
 use Domain\BanAppeals\Entities\BanAppealStatus;

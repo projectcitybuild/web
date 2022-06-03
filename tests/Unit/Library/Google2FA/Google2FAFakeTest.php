@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Library\Discourse\Authentication;
+namespace Tests\Unit\Library\Google2FA;
 
 
 use Illuminate\Support\Facades\Config;

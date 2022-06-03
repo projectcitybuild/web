@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\E2E\API;
+namespace Tests\E2E\Web;
 
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\DonationTier;

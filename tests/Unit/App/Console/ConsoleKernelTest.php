@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests;
+namespace Tests\Unit\App\Console;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 final class ConsoleKernelTest extends TestCase
 {
