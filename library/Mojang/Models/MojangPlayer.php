@@ -6,6 +6,7 @@ class MojangPlayer
 {
     /**
      * Player's unique Mojang identifier (UUID).
+     * TODO: this should use Entities\MinecraftUUID
      *
      * @var string
      */

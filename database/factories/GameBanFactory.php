@@ -26,11 +26,12 @@ class GameBanFactory extends Factory
             'banned_player_type' => 'minecraft_player',
             'banned_alias_at_time' => $this->faker->name,
             'staff_player_type' => 'minecraft_player',
+            'staff_player_id' => MinecraftPlayer::factory(),
             'reason' => $this->faker->sentence,
             'is_active' => $this->faker->boolean,
             'is_global_ban' => $this->faker->boolean,
-            'expires_at' => $this->faker->dateTimeBetween('-5 years', 'now'),
             'created_at' => $this->faker->dateTimeBetween('-5 years', 'now'),
+            'expires_at' => null
         ];
     }
 
@@ -63,6 +64,21 @@ class GameBanFactory extends Factory
     }
 
     /**
+     * Marks the ban as temporary
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function temporary()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'expires_at' => $this->faker->dateTimeBetween('+1 days', '+1 year'),
+
+            ];
+        });
+    }
+
+    /**
      * Indicates that this ban has already expired.
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
@@ -71,21 +87,8 @@ class GameBanFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
+                'is_active' => false,
                 'expires_at' => now()->subDay(),
-            ];
-        });
-    }
-
-    /**
-     * Indicates that this ban will never expire.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function permanent()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'expires_at' => null,
             ];
         });
     }
@@ -108,5 +111,10 @@ class GameBanFactory extends Factory
                 'staff_player_type' => 'minecraft_player',
             ];
         });
+    }
+
+    public function bannedPlayer(MinecraftPlayer|Factory $player): GameBanFactory
+    {
+        return $this->for($player, 'bannedPlayer');
     }
 }

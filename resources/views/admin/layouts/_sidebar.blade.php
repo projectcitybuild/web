@@ -88,6 +88,15 @@
                     @endif
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('panel/ban-appeals*') ? 'active' : '' }}" href="{{ route('front.panel.ban-appeals.index') }}">
+                    <i class="fas fa-gavel fa-fw"></i>
+                    Ban Appeals
+                    @if ($outstanding_ban_appeals > 0)
+                        <span class="badge bg-danger">{{ $outstanding_ban_appeals }}</span>
+                    @endif
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

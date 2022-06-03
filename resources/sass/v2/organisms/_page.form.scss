@@ -44,7 +44,10 @@
     }
     section.contents {
         padding: 4em 6em 4em 3em;
-        line-height: 2em;
+
+        p, h2, label, li {
+            line-height: 2em;
+        }
 
         @media screen and (max-width: $screen-m) {
             padding: 3em 2em;
@@ -72,6 +75,16 @@
         .form label {
             color: #000;
             font-weight: bold;
+        }
+
+        blockquote {
+            border: 2px solid darken($color-lightest-grey, 20%);
+            padding: 1rem;
+            margin: 0;
+            border-radius: 5px;
+            p {
+                margin: 0;
+            }
         }
     }
 }

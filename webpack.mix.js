@@ -25,12 +25,6 @@ mix.typeScript('resources/js/admin/admin.ts', 'public/assets/admin/js')
         'vue',
     ]);
 
-mix.webpackConfig({
-    externals: {
-        sifter: 'sifter',
-    }
-})
-
 if(mix.inProduction()) {
     mix.version();
 } else {
