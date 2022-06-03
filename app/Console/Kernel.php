@@ -41,6 +41,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('telescope:prune')
+            ->daily();
+
         if (Environment::isLocalDev()) {
             return;
         }
@@ -68,9 +71,6 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('backup:monitor')
             ->dailyAt('02:00');
-
-        $schedule->command('telescope:prune')
-            ->daily();
     }
 
     /**
