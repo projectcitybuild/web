@@ -32,6 +32,11 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
                    $entry->isScheduledTask() ||
                    $entry->hasMonitoredTag();
         });
+
+        Telescope::auth(function ($request) {
+            return Environment::isLocalDev() ||
+                Gate::check('viewTelescope', [$request->user()]);
+        });
     }
 
     /**
