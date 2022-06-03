@@ -37,7 +37,7 @@
             <li>
                 <a href="javascript:void(0)" class="nav-dropdown">Community <i class="fas fa-caret-down"></i></a>
                 <ul class="dropdown single">
-                    <li><a href="https://forums.projectcitybuild.com/t/banned-read-me/12145">Appeal a Ban</a></li>
+                    <li><a href="{{ route('front.appeal') }}">Appeal a Ban</a></li>
                     <li><a href="{{ route('report') }}">Report a Player</a></li>
                     <li><a href="{{ route('front.rank-up') }}">Apply for Build Rank</a></li>
                     <li class="divider"><a href="https://goo.gl/forms/UodUsKQBZJdCzNWk1">Apply for Staff</a></li>

@@ -6,6 +6,7 @@
     <title>Staff Panel - @yield('title')</title>
 
     <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{{ mix('assets/admin/js/admin-vendor.css') }}">
     <link rel="stylesheet" href="{{ mix('assets/admin/css/admin-light.css') }}" media="screen and (prefers-color-scheme: light)">
     <link rel="stylesheet" href="{{ mix('assets/admin/css/admin-dark.css') }}" media="screen and (prefers-color-scheme: dark)">
 

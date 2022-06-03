@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Policies\BanAppealPolicy;
+use Entities\Models\Eloquent\BanAppeal;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Library\Google2FA\Google2FAFake;
 use PragmaRX\Google2FA\Google2FA;
@@ -14,7 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+        BanAppeal::class => BanAppealPolicy::class,
     ];
 
     /**

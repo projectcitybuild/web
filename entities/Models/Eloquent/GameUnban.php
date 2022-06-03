@@ -3,9 +3,12 @@
 namespace Entities\Models\Eloquent;
 
 use App\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 final class GameUnban extends Model
 {
+    use HasFactory;
+
     protected $table = 'game_network_unbans';
 
     protected $primaryKey = 'game_unban_id';
@@ -27,7 +30,7 @@ final class GameUnban extends Model
 
     public function ban()
     {
-        return $this->hasOne('Entities\Models\Eloquent\GameBan', 'game_ban_id', 'game_ban_id');
+        return $this->belongsTo(GameBan::class, 'game_ban_id', 'game_ban_id');
     }
 
     public function staffPlayer()
