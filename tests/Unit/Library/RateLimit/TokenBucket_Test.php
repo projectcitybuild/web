@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Library\RateLimit;
+namespace Tests\Unit\Library\RateLimit;
 
 use Library\RateLimit\Storage\MemoryTokenStorage;
 use Library\RateLimit\TokenBucket;

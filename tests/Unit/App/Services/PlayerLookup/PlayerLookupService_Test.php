@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Services;
+namespace Tests\Unit\App\Services\PlayerLookup;
 
 use App\Services\PlayerLookup\PlayerLookupService;
 use Entities\Models\Eloquent\MinecraftPlayer;

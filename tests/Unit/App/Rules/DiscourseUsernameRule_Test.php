@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Rules;
+namespace Tests\Unit\App\Rules;
 
 use App\Rules\DiscourseUsernameRule;
 use Tests\TestCase;
