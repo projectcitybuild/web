@@ -38,57 +38,11 @@ Route::group([
         ->except(['destroy', 'create'])
         ->middleware(PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware());
 
-    Route::resource('donations', DonationController::class);
-
-    Route::resource('donation-perks', DonationPerksController::class)
-        ->except(['index', 'show']);
-
-    Route::resource('minecraft-players', MinecraftPlayerController::class)
-        ->except(['destroy']);
-
-    Route::resource('servers', ServerController::class)
-        ->except(['show']);
-
-    Route::resource('server-tokens', ServerTokenController::class)
-        ->except(['show']);
-
-    Route::get('groups/{group}/accounts', [GroupAccountController::class, 'index'])
-        ->name('groups.accounts');
-
-    Route::get('groups', [GroupController::class, 'index'])
-        ->name('groups.index');
-
-    Route::resource('pages', PageController::class);
-
-    Route::group(['prefix' => 'builder-ranks'], function () {
-        Route::get('/', [BuilderRanksController::class, 'index'])
-            ->name('builder-ranks.index');
-
-        Route::get('{id}', [BuilderRanksController::class, 'show'])
-            ->name('builder-ranks.show');
-
-        Route::post('{id}/approve', [BuilderRanksController::class, 'approve'])
-            ->name('builder-ranks.approve');
-
-        Route::post('{id}/deny', [BuilderRanksController::class, 'deny'])
-            ->name('builder-ranks.deny');
-    });
-
-    Route::resource('ban-appeals', BanAppealController::class)
-        ->only('index', 'show', 'update');
-
-    Route::post('minecraft-players/lookup', MinecraftPlayerLookupController::class)
-        ->name('minecraft-players.lookup');
-
-    Route::post('minecraft-players/{minecraft_player}/reload-alias', MinecraftPlayerReloadAliasController::class)
-        ->name('minecraft-players.reload-alias');
-
-    Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
-        Route::get('accounts', AccountSearchController::class)
-            ->name('account-search');
-    });
-
-    Route::group(['prefix' => 'accounts/{account}', 'as' => 'accounts.'], function () {
+    Route::group([
+        'prefix' => 'accounts/{account}',
+        'as' => 'accounts.',
+        'middleware' => PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware(),
+    ], function () {
         Route::post('activate', AccountActivate::class)
             ->name('activate');
 
@@ -104,4 +58,73 @@ Route::group([
         Route::post('update-groups', AccountUpdateGroups::class)
             ->name('update-groups');
     });
+
+    Route::resource('minecraft-players', MinecraftPlayerController::class)
+        ->except(['destroy'])
+        ->middleware(PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware());
+
+    Route::post('minecraft-players/lookup', MinecraftPlayerLookupController::class)
+        ->name('minecraft-players.lookup')
+        ->middleware(PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware());
+
+    Route::post('minecraft-players/{minecraft_player}/reload-alias', MinecraftPlayerReloadAliasController::class)
+        ->name('minecraft-players.reload-alias')
+        ->middleware(PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware());
+
+    Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
+        Route::get('accounts', AccountSearchController::class)
+            ->name('account-search');
+    });
+
+    Route::resource('donations', DonationController::class)
+        ->middleware(PanelGroupScope::MANAGE_DONATIONS->toMiddleware());
+
+    Route::resource('donation-perks', DonationPerksController::class)
+        ->except(['index', 'show'])
+        ->middleware(PanelGroupScope::MANAGE_DONATIONS->toMiddleware());
+
+    Route::resource('servers', ServerController::class)
+        ->except(['show'])
+        ->middleware(PanelGroupScope::MANAGE_SERVERS->toMiddleware());
+
+    Route::resource('server-tokens', ServerTokenController::class)
+        ->except(['show'])
+        ->middleware(PanelGroupScope::MANAGE_SERVERS->toMiddleware());
+
+    Route::group([
+        'prefix' => 'groups',
+        'as' => 'groups.',
+        'middleware' => PanelGroupScope::MANAGE_GROUPS->toMiddleware(),
+    ], function () {
+        Route::get('/', [GroupController::class, 'index'])
+            ->name('index');
+
+        Route::get('{group}/accounts', [GroupAccountController::class, 'index'])
+            ->name('accounts');
+    });
+
+    Route::resource('pages', PageController::class)
+        ->middleware(PanelGroupScope::MANAGE_GROUPS->toMiddleware());
+
+    Route::group([
+        'prefix' => 'builder-ranks',
+        'as' => 'builder-ranks.',
+        'middleware' => PanelGroupScope::REVIEW_BUILD_RANK_APPS->toMiddleware(),
+    ], function () {
+        Route::get('/', [BuilderRanksController::class, 'index'])
+            ->name('index');
+
+        Route::get('{id}', [BuilderRanksController::class, 'show'])
+            ->name('show');
+
+        Route::post('{id}/approve', [BuilderRanksController::class, 'approve'])
+            ->name('approve');
+
+        Route::post('{id}/deny', [BuilderRanksController::class, 'deny'])
+            ->name('deny');
+    });
+
+    Route::resource('ban-appeals', BanAppealController::class)
+        ->only('index', 'show', 'update')
+        ->middleware(PanelGroupScope::REVIEW_APPEALS->toMiddleware());
 });
