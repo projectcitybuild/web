@@ -160,6 +160,13 @@ final class Account extends Authenticatable
         return implode(',', array_filter($groups->toArray()));
     }
 
+    public function hasAbility(string $to): bool
+    {
+        $test = $this->groups()->with('groupScopes')->get();
+
+        dd($test);
+    }
+
     public function updateLastLogin(string $ip)
     {
         $this->last_login_ip = $ip;

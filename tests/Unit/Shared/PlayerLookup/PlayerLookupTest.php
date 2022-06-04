@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Shared\PlayerLookup;
 
-use Entities\MinecraftUUID;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\MinecraftPlayerAlias;
 use Entities\Repositories\MinecraftPlayerAliasRepository;

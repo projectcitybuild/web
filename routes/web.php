@@ -269,7 +269,10 @@ Route::group([
 ], function () {
     Route::view('/', 'admin.index')->name('index');
 
-    Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);
+    Route::resource('accounts', 'AccountController')
+        ->only(['index', 'show', 'edit', 'update'])
+        ->middleware('can:panel-manage-accounts');
+
     Route::resource('donations', 'DonationController');
     Route::resource('donation-perks', 'DonationPerksController')->only(['create', 'store', 'edit', 'update', 'destroy']);
     Route::resource('minecraft-players', 'MinecraftPlayerController')->except(['destroy']);
