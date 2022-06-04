@@ -170,10 +170,11 @@ final class Account extends Authenticatable
             $this->cachedGroupScopes = $this->groups()
                 ->with('groupScopes')
                 ->get()
-                ->flatMap(fn($group) => $group->groupScopes->map(fn ($scope) => $scope->scope))
+                ->flatMap(fn($group) => $group->groupScopes->pluck('scope'))
+                ->mapWithKeys(fn($scope) => [$scope => true])  // Map to dictionary for faster lookup
                 ?? collect();
         }
-        return $this->cachedGroupScopes->contains($to);
+        return $this->cachedGroupScopes->has(key: $to);
     }
 
     public function updateLastLogin(string $ip)
