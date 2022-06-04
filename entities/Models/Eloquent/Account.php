@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Cashier\Billable;
 use Laravel\Scout\Searchable;
 use function collect;
@@ -60,6 +61,8 @@ final class Account extends Authenticatable
     protected $casts = [
         'is_totp_enabled' => 'boolean',
     ];
+
+    private ?Collection $cachedGroupScopes = null;
 
     public function toSearchableArray()
     {
@@ -162,9 +165,14 @@ final class Account extends Authenticatable
 
     public function hasAbility(string $to): bool
     {
-        $test = $this->groups()->with('groupScopes')->get();
-
-        dd($test);
+        if ($this->cachedGroupScopes === null) {
+            $this->cachedGroupScopes = $this->groups()
+                ->with('groupScopes')
+                ->get()
+                ->flatMap(fn($group) => $group->groupScopes->map(fn ($scope) => $scope->scope))
+                ?? collect();
+        }
+        return $this->cachedGroupScopes->contains($to);
     }
 
     public function updateLastLogin(string $ip)

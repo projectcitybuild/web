@@ -64,7 +64,8 @@ final class Group extends Model
             table: 'group_scopes_pivot',
             foreignPivotKey: 'group_id',
             relatedPivotKey: 'scope_id',
-            parentKey: 'id',
+            parentKey: 'group_id',
+            relatedKey: 'id',
         );
     }
 }
