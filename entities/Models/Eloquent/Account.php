@@ -3,6 +3,7 @@
 namespace Entities\Models\Eloquent;
 
 use Carbon\Carbon;
+use Entities\Models\PanelGroupScope;
 use Entities\Resources\AccountResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -153,7 +154,7 @@ final class Account extends Authenticatable
 
     public function canAccessPanel()
     {
-        return $this->groups()->where('can_access_panel', true)->count() > 0;
+        return $this->hasAbility(PanelGroupScope::ACCESS_PANEL->value);
     }
 
     public function discourseGroupString()

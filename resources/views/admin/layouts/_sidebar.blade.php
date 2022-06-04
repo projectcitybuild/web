@@ -13,67 +13,77 @@
             <span>Users</span>
         </h6>
         <ul class="nav flex-column mb-2">
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/accounts*') ? 'active' : '' }}" href="{{ route('front.panel.accounts.index') }}">
-                    <i class="fas fa-users fa-fw"></i>
-                    Accounts
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/minecraft-players*') ? 'active' : '' }} " href="{{ route('front.panel.minecraft-players.index') }}">
-                    <i class="fas fa-cube"></i>
-                    Minecraft Players
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/groups*') ? 'active' : '' }} " href="{{ route('front.panel.groups.index') }}">
-                    <i class="fas fa-users"></i>
-                    Groups
-                </a>
-            </li>
+            @scope(Entities\Models\PanelGroupScope::MANAGE_ACCOUNTS)
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('panel/accounts*') ? 'active' : '' }}" href="{{ route('front.panel.accounts.index') }}">
+                        <i class="fas fa-users fa-fw"></i>
+                        Accounts
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('panel/minecraft-players*') ? 'active' : '' }} " href="{{ route('front.panel.minecraft-players.index') }}">
+                        <i class="fas fa-cube"></i>
+                        Minecraft Players
+                    </a>
+                </li>
+            @endscope
+            @scope(Entities\Models\PanelGroupScope::MANAGE_GROUPS)
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('panel/groups*') ? 'active' : '' }} " href="{{ route('front.panel.groups.index') }}">
+                        <i class="fas fa-users"></i>
+                        Groups
+                    </a>
+                </li>
+            @endscope
         </ul>
 
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Content</span>
-        </h6>
-        <ul class="nav flex-column mb-2">
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/pages*') ? 'active' : '' }} " href="{{ route('front.panel.pages.index') }}">
-                    <i class="fas fa-book"></i>
-                    Pages
-                </a>
-            </li>
-        </ul>
+        @scope(Entities\Models\PanelGroupScope::MANAGE_PAGES)
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Content</span>
+            </h6>
+            <ul class="nav flex-column mb-2">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('panel/pages*') ? 'active' : '' }} " href="{{ route('front.panel.pages.index') }}">
+                        <i class="fas fa-book"></i>
+                        Pages
+                    </a>
+                </li>
+            </ul>
+        @endscope
 
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Servers</span>
-        </h6>
-        <ul class="nav flex-column mb-2">
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/servers*') ? 'active' : '' }} " href="{{ route('front.panel.servers.index') }}">
-                    <i class="fas fa-server"></i>
-                    Servers
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/server-tokens*') ? 'active' : '' }} " href="{{ route('front.panel.server-tokens.index') }}">
-                    <i class="fas fa-key"></i>
-                    Server Tokens
-                </a>
-            </li>
-        </ul>
+        @scope(Entities\Models\PanelGroupScope::MANAGE_SERVERS)
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Servers</span>
+            </h6>
+            <ul class="nav flex-column mb-2">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('panel/servers*') ? 'active' : '' }} " href="{{ route('front.panel.servers.index') }}">
+                        <i class="fas fa-server"></i>
+                        Servers
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('panel/server-tokens*') ? 'active' : '' }} " href="{{ route('front.panel.server-tokens.index') }}">
+                        <i class="fas fa-key"></i>
+                        Server Tokens
+                    </a>
+                </li>
+            </ul>
+        @endscope
 
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Transactions</span>
-        </h6>
-        <ul class="nav flex-column mb-2">
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/donations*') ? 'active' : '' }}" href="{{ route('front.panel.donations.index') }}">
-                    <i class="fas fa-credit-card fa-fw"></i>
-                    Donations
-                </a>
-            </li>
-        </ul>
+        @scope(Entities\Models\PanelGroupScope::MANAGE_DONATIONS)
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Transactions</span>
+            </h6>
+            <ul class="nav flex-column mb-2">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('panel/donations*') ? 'active' : '' }}" href="{{ route('front.panel.donations.index') }}">
+                        <i class="fas fa-credit-card fa-fw"></i>
+                        Donations
+                    </a>
+                </li>
+            </ul>
+        @endscope
 
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Review</span>

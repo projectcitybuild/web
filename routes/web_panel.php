@@ -25,7 +25,11 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'prefix' => 'panel',
     'as' => 'front.panel.',
-    'middleware' => ['auth', 'panel', 'requires-mfa']
+    'middleware' => [
+        'auth',
+        PanelGroupScope::ACCESS_PANEL->toMiddleware(),
+        'requires-mfa',
+    ],
 ], function () {
     Route::view('/', 'admin.index')
         ->name('index');
