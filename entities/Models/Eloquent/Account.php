@@ -157,13 +157,6 @@ final class Account extends Authenticatable
         return $this->hasAbility(PanelGroupScope::ACCESS_PANEL->value);
     }
 
-    public function discourseGroupString()
-    {
-        $groups = $this->groups->pluck('discourse_name');
-
-        return implode(',', array_filter($groups->toArray()));
-    }
-
     public function hasAbility(string $to): bool
     {
         if ($this->cachedGroupScopes === null) {

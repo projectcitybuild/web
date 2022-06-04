@@ -3,9 +3,12 @@
 namespace Entities\Models\Eloquent;
 
 use App\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 final class GroupScope extends Model
 {
+    use HasFactory;
+
     /**
      * The table associated with the model.
      *
