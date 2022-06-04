@@ -2,13 +2,27 @@
 
 namespace Feature;
 
+use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
-use Tests\TestCase;
+use Entities\Models\PanelGroupScope;
+use Tests\E2ETestCase;
 
-class PanelBanAppealViewTest extends TestCase
+class PanelBanAppealViewTest extends E2ETestCase
 {
+    private Account $admin;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->admin = $this->adminAccount(scopes: [
+            PanelGroupScope::ACCESS_PANEL,
+            PanelGroupScope::REVIEW_APPEALS,
+        ]);
+    }
+
     public function test_can_view_pending_appeal()
     {
         $appeal = BanAppeal::factory()
@@ -16,7 +30,7 @@ class PanelBanAppealViewTest extends TestCase
                 GameBan::factory()->active()->for(MinecraftPlayer::factory(), 'bannedPlayer')
             )->create(['explanation' => 'My Explanation']);
 
-        $this->actingAs($this->adminAccount())
+        $this->actingAs($this->admin)
             ->get(route('front.panel.ban-appeals.show', $appeal))
             ->assertOk()
             ->assertSee('My Explanation')
@@ -31,7 +45,7 @@ class PanelBanAppealViewTest extends TestCase
                 GameBan::factory()->inactive()->for(MinecraftPlayer::factory(), 'bannedPlayer')
             )->create(['decision_note' => 'Some Decision Reason']);
 
-        $this->actingAs($this->adminAccount())
+        $this->actingAs($this->admin)
             ->get(route('front.panel.ban-appeals.show', $appeal))
             ->assertOk()
             ->assertSee('Some Decision Reason')
@@ -46,7 +60,7 @@ class PanelBanAppealViewTest extends TestCase
                 GameBan::factory()->temporary()->active()->for(MinecraftPlayer::factory(), 'bannedPlayer')
             )->create(['decision_note' => 'Some Decision Reason']);
 
-        $this->actingAs($this->adminAccount())
+        $this->actingAs($this->admin)
             ->get(route('front.panel.ban-appeals.show', $appeal))
             ->assertOk()
             ->assertSee('Some Decision Reason')
@@ -61,10 +75,40 @@ class PanelBanAppealViewTest extends TestCase
                 GameBan::factory()->temporary()->active()->for(MinecraftPlayer::factory(), 'bannedPlayer')
             )->create(['decision_note' => 'Some Decision Reason']);
 
-        $this->actingAs($this->adminAccount())
+        $this->actingAs($this->admin)
             ->get(route('front.panel.ban-appeals.show', $appeal))
             ->assertOk()
             ->assertSee('Some Decision Reason')
             ->assertSee('Denied');
+    }
+
+    public function test_forbidden_without_scope()
+    {
+        $appeal = BanAppeal::factory()
+            ->for(GameBan::factory()->active()->for(MinecraftPlayer::factory(), 'bannedPlayer'))
+            ->create(['explanation' => 'My Explanation']);
+
+        $admin = $this->adminAccount(scopes: [
+            PanelGroupScope::ACCESS_PANEL,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('front.panel.ban-appeals.show', $appeal))
+            ->assertForbidden();
+    }
+
+    public function test_forbidden_without_panel_access()
+    {
+        $appeal = BanAppeal::factory()
+            ->for(GameBan::factory()->active()->for(MinecraftPlayer::factory(), 'bannedPlayer'))
+            ->create(['explanation' => 'My Explanation']);
+
+        $admin = $this->adminAccount(scopes: [
+            PanelGroupScope::MANAGE_ACCOUNTS,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('front.panel.ban-appeals.show', $appeal))
+            ->assertForbidden();
     }
 }
