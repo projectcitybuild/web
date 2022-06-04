@@ -6,7 +6,6 @@ use App\Http\Composers\MasterViewComposer;
 use App\View\Components\DonationBarComponent;
 use App\View\Components\NavBarComponent;
 use App\View\Components\PanelSideBarComponent;
-use Entities\Models\AccountPaymentType;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\Donation;
 use Entities\Models\Eloquent\MinecraftPlayer;
@@ -59,7 +58,6 @@ final class AppServiceProvider extends ServiceProvider
          * @see https://github.com/laravel/framework/pull/38656
          */
         Relation::enforceMorphMap([
-            AccountPaymentType::DONATION->value => Donation::class,
             GamePlayerType::MINECRAFT->value => MinecraftPlayer::class,
             'account' => Account::class,
         ]);
