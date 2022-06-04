@@ -19,6 +19,7 @@ use App\Http\Controllers\Panel\MinecraftPlayerReloadAliasController;
 use App\Http\Controllers\Panel\PageController;
 use App\Http\Controllers\Panel\ServerController;
 use App\Http\Controllers\Panel\ServerTokenController;
+use Entities\Models\PanelGroupScope;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -31,7 +32,7 @@ Route::group([
 
     Route::resource('accounts', AccountController::class)
         ->except(['destroy', 'create'])
-        ->middleware('can:panel-manage-accounts');
+        ->middleware(PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware());
 
     Route::resource('donations', DonationController::class);
 

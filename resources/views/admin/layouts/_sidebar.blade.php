@@ -79,24 +79,28 @@
             <span>Review</span>
         </h6>
         <ul class="nav flex-column mb-2">
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/builder-ranks*') ? 'active' : '' }}" href="{{ route('front.panel.builder-ranks.index') }}">
-                    <i class="fas fa-hammer fa-fw"></i>
-                    Builder Rank Applications
-                    @if ($outgoing_rank_apps > 0)
-                        <span class="badge bg-danger">{{ $outgoing_rank_apps }}</span>
-                    @endif
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/ban-appeals*') ? 'active' : '' }}" href="{{ route('front.panel.ban-appeals.index') }}">
-                    <i class="fas fa-gavel fa-fw"></i>
-                    Ban Appeals
-                    @if ($outstanding_ban_appeals > 0)
-                        <span class="badge bg-danger">{{ $outstanding_ban_appeals }}</span>
-                    @endif
-                </a>
-            </li>
+            @scope(Entities\Models\PanelGroupScope::REVIEW_BUILD_RANK_APPS)
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('panel/builder-ranks*') ? 'active' : '' }}" href="{{ route('front.panel.builder-ranks.index') }}">
+                        <i class="fas fa-hammer fa-fw"></i>
+                        Builder Rank Applications
+                        @if ($outgoing_rank_apps > 0)
+                            <span class="badge bg-danger">{{ $outgoing_rank_apps }}</span>
+                        @endif
+                    </a>
+                </li>
+            @endscope
+            @scope(Entities\Models\PanelGroupScope::REVIEW_APPEALS)
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('panel/ban-appeals*') ? 'active' : '' }}" href="{{ route('front.panel.ban-appeals.index') }}">
+                        <i class="fas fa-gavel fa-fw"></i>
+                        Ban Appeals
+                        @if ($outstanding_ban_appeals > 0)
+                            <span class="badge bg-danger">{{ $outstanding_ban_appeals }}</span>
+                        @endif
+                    </a>
+                </li>
+            @endscope
         </ul>
     </div>
 </nav>
