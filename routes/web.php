@@ -12,6 +12,7 @@ use App\Http\Controllers\MfaBackupController;
 use App\Http\Controllers\MfaLoginGateController;
 use App\Http\Controllers\MinecraftPlayerLinkController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\Panel\ActivityController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ReauthController;
 use App\Http\Controllers\RegisterController;
@@ -338,6 +339,8 @@ Route::group([
             'uses' => 'AccountUpdateGroups',
         ]);
     });
+
+    Route::resource('activity', ActivityController::class)->only(['index', 'show']);
 });
 
 if (Environment::isLocalDev()) {

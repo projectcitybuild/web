@@ -11,7 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
 use Laravel\Scout\Searchable;
-use function collect;
+use Library\Auditing\Traits\CausesActivity;
 
 /**
  * @property int account_id
@@ -31,6 +31,7 @@ final class Account extends Authenticatable
     use Searchable;
     use HasFactory;
     use Billable;
+    use CausesActivity;
 
     protected $table = 'accounts';
 
@@ -179,4 +180,16 @@ final class Account extends Authenticatable
     {
         return new AccountResource($this);
     }
+
+    public function getActivitySubjectLink(): ?string
+    {
+        return route('front.panel.accounts.show', $this);
+    }
+
+    public function getActivitySubjectName(): ?string
+    {
+        return $this->username;
+    }
+
+
 }
