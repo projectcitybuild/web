@@ -14,13 +14,13 @@
         </ul>
     </div>
     <div class="tab-content">
-        <div id="{{ $attribute }}-old" class="tab-pane p-1">
+        <div id="{{ $attribute }}-old" class="tab-pane p-1 font-monospace">
             {!! nl2br(e($old))  !!}
         </div>
-        <div id="{{ $attribute }}-diff" class="tab-pane active">
+        <div id="{{ $attribute }}-diff" class="tab-pane active font-monospace">
             {{ $diff }}
         </div>
-        <div id="{{ $attribute }}-new" class="tab-pane p-1">
+        <div id="{{ $attribute }}-new" class="tab-pane p-1 font-monospace">
             {!! nl2br(e($new)) !!}
         </div>
     </div>
