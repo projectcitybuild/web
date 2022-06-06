@@ -4,14 +4,13 @@ namespace Tests\Unit\Entities\Models\Eloquent;
 
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\Group;
+use Entities\Models\Eloquent\GroupScope;
 use Tests\TestCase;
 
 class AccountTest extends TestCase
 {
     private $adminGroup;
-    private $staffGroup;
     private $normalGroup;
-    private $memberGroup;
 
     protected function setUp(): void
     {
@@ -25,25 +24,13 @@ class AccountTest extends TestCase
             'discourse_name' => 'administrator',
         ]);
 
-        $this->staffGroup = Group::create([
-            'name' => 'operator',
-            'alias' => 'OP',
-            'is_staff' => true,
-            'discourse_name' => 'operator',
-        ]);
-
         $this->normalGroup = Group::create([
             'name' => 'trusted',
             'discourse_name' => 'trusted',
         ]);
-
-        $this->memberGroup = Group::create([
-            'name' => 'member',
-            'discourse_name' => '',
-        ]);
     }
 
-    public function testIsAdminForAdmin()
+    public function test_admin_is_admin()
     {
         $account = Account::factory()->create();
         $account->groups()->attach($this->adminGroup->group_id);
@@ -51,7 +38,7 @@ class AccountTest extends TestCase
         $this->assertTrue($account->isAdmin());
     }
 
-    public function testIsAdminForNonAdmin()
+    public function test_non_admin_is_not_admin()
     {
         $account = Account::factory()->create();
         $account->groups()->attach($this->normalGroup->group_id);
@@ -59,27 +46,25 @@ class AccountTest extends TestCase
         $this->assertFalse($account->isAdmin());
     }
 
-    public function testDiscourseGroupString()
+    public function test_group_scopes()
     {
+        $scope1 = GroupScope::factory()->create();
+        $scope2 = GroupScope::factory()->create();
+        $scope3 = GroupScope::factory()->create();
+        $scope4 = GroupScope::factory()->create();
+
+        $group1 = Group::factory()->create();
+        $group1->groupScopes()->attach([$scope1->getKey(), $scope2->getKey()]);
+
+        $group2 = Group::factory()->create();
+        $group2->groupScopes()->attach($scope3->getKey());
+
         $account = Account::factory()->create();
+        $account->groups()->attach([$group1->getKey(), $group2->getKey()]);
 
-        $account->groups()->attach($this->normalGroup->group_id);
-
-        $this->assertEquals('trusted', $account->discourseGroupString());
-
-        $account->groups()->attach($this->staffGroup->group_id);
-        $account->refresh();
-
-        $this->assertEquals('trusted,operator', $account->discourseGroupString());
-    }
-
-    public function testDiscourseGroupStringForNullGroup()
-    {
-        $account = Account::factory()->create();
-
-        $account->groups()->attach($this->memberGroup->group_id);
-        $account->groups()->attach($this->normalGroup->group_id);
-
-        $this->assertEquals('trusted', $account->discourseGroupString());
+        $this->assertTrue($account->hasAbility($scope1->scope));
+        $this->assertTrue($account->hasAbility($scope2->scope));
+        $this->assertTrue($account->hasAbility($scope3->scope));
+        $this->assertFalse($account->hasAbility($scope4->scope));
     }
 }

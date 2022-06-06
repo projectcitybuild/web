@@ -25,7 +25,7 @@ class AccountSettingsUsernameTest extends TestCase
         ]);
     }
 
-    public function testChangeUsername()
+    public function test_change_username()
     {
         $this->withoutExceptionHandling();
 
@@ -39,7 +39,7 @@ class AccountSettingsUsernameTest extends TestCase
         ]);
     }
 
-    public function testCantChangeToExistingUsername()
+    public function test_cant_change_to_existing_username()
     {
         $otherAccount = Account::factory()->create();
 
@@ -47,13 +47,13 @@ class AccountSettingsUsernameTest extends TestCase
             ->assertSessionHasErrors();
     }
 
-    public function testCantSubmitEmptyUsername()
+    public function test_cant_submit_empty_username()
     {
         $this->submitUsernameChange('')
             ->assertSessionHasErrors();
     }
 
-    public function testCantSubmitSameUsername()
+    public function test_cant_submit_same_username()
     {
         $this->submitUsernameChange($this->account->username)
             ->assertSessionHasErrors();

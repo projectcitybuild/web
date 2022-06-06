@@ -21,7 +21,7 @@ class MfaBackupTest extends TestCase
         $this->mfaAccount = Account::factory()->hasFinishedTotp()->create();
     }
 
-    public function testCanViewBackupFormWhen2FAing()
+    public function test_can_view_backup_form_when2_f_aing()
     {
         $this->actingAs($this->mfaAccount)
             ->flagNeedsMfa();
@@ -30,7 +30,7 @@ class MfaBackupTest extends TestCase
             ->assertOk();
     }
 
-    public function testCanSubmitBackupForm()
+    public function test_can_submit_backup_form()
     {
         Notification::fake();
 
@@ -57,7 +57,7 @@ class MfaBackupTest extends TestCase
         $this->assertFalse($account->is_totp_enabled);
     }
 
-    public function testWrongBackupCodeDoesntWork()
+    public function test_wrong_backup_code_doesnt_work()
     {
         $this->actingAs($this->mfaAccount)
             ->flagNeedsMfa();

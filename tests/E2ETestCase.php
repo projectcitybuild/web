@@ -3,10 +3,14 @@
 namespace Tests;
 
 use Domain\ServerTokens\ScopeKey;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Group;
+use Entities\Models\Eloquent\GroupScope;
 use Entities\Models\Eloquent\Server;
 use Entities\Models\Eloquent\ServerCategory;
 use Entities\Models\Eloquent\ServerToken;
 use Entities\Models\Eloquent\ServerTokenScope;
+use Entities\Models\PanelGroupScope;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 
@@ -61,5 +65,27 @@ abstract class E2ETestCase extends TestCase
             $tokenScope = ServerTokenScope::create(['scope' => $scope->value]);
             $this->token->scopes()->attach($tokenScope->getKey());
         }
+    }
+
+    /**
+     * Get a user in a group with admin rights.
+     *
+     * @param  PanelGroupScope[] $scopes abilities to give to the user's group
+     */
+    protected function adminAccount(array $scopes = []): Account
+    {
+        $group = Group::factory()->administrator()->create();
+        $group->groupScopes()->attach(
+            collect($scopes)
+                ->map(fn($case) => GroupScope::factory()->create(['scope' => $case->value]))
+                ->map(fn($model) => $model->getKey())
+        );
+        $account = Account::factory()
+            ->hasFinishedTotp()
+            ->create();
+
+        $account->groups()->attach($group->getKey());
+
+        return $account;
     }
 }
