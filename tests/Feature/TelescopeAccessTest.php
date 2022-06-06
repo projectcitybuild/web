@@ -2,6 +2,7 @@
 
 namespace Test\Feature;
 
+use Entities\Models\PanelGroupScope;
 use Illuminate\Support\Facades\Config;
 use Tests\E2ETestCase;
 use Tests\TestCase;
@@ -33,7 +34,7 @@ class TelescopeAccessTest extends E2ETestCase
 
     public function test_telescope_admin_allowed()
     {
-        $this->actingAs($this->adminAccount())
+        $this->actingAs($this->adminAccount(scopes: [PanelGroupScope::ACCESS_PANEL]))
             ->get('/telescope')
             ->assertOk();
     }
