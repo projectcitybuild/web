@@ -25,10 +25,12 @@
 @import "molecules/footer-sitemap";
 @import "molecules/form-row";
 @import "molecules/game-account";
+@import "molecules/game-ban";
 @import "molecules/hero";
 @import "molecules/hero-header";
 @import "molecules/image-header";
 @import "molecules/introduction";
+@import "molecules/message";
 @import "molecules/modal";
 @import "molecules/navbar";
 @import "molecules/news-bar";
@@ -41,6 +43,7 @@
 
 @import "organisms/page.custom-page";
 @import "organisms/page.donate";
+@import "organisms/page.form";
 @import "organisms/page.login";
 @import "organisms/page.mfa";
 @import "organisms/page.settings";

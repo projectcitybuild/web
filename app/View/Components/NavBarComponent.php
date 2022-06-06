@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class NavBarComponent extends Component
@@ -14,8 +14,11 @@ class NavBarComponent extends Component
      */
     public function render()
     {
-        return view('v2.front.components.navbar', [
-            'is_logged_in' => Auth::check(),
-        ]);
+        $account = Auth::user();
+        $isLoggedIn = $account !== null;
+        $canAccessPanel = $account?->canAccessPanel() ?? false;
+
+        return view('v2.front.components.navbar')
+            ->with(compact(['canAccessPanel', 'isLoggedIn']));
     }
 }

@@ -6,6 +6,7 @@
     <title>Staff Panel - @yield('title')</title>
 
     <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{{ mix('assets/admin/js/admin-vendor.css') }}">
     <link rel="stylesheet" href="{{ mix('assets/admin/css/admin-light.css') }}" media="screen and (prefers-color-scheme: light)">
     <link rel="stylesheet" href="{{ mix('assets/admin/css/admin-dark.css') }}" media="screen and (prefers-color-scheme: dark)">
 
@@ -41,7 +42,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            @include('admin.layouts._sidebar')
+            <x-panel-side-bar />
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div

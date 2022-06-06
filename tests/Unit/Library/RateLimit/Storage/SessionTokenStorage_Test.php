@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Library\RateLimit;
+namespace Tests\Unit\Library\RateLimit\Storage;
 
 use Illuminate\Support\Facades\Session;
 use Library\RateLimit\Storage\SessionTokenStorage;

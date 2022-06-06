@@ -24,7 +24,7 @@ class AccountSeeder extends Seeder
      */
     public function run()
     {
-        $adminGroup = Group::where('name', 'administrator')->first();
+        $adminGroup = Group::where('name', 'developer')->first();
         $adminAccount = Account::factory()->make();
         $adminAccount->username = 'Admin';
         $adminAccount->email = 'admin@pcbmc.co';

@@ -2,8 +2,8 @@
 
 namespace Shared\PlayerLookup\Repositories;
 
-use Entities\MinecraftUUID;
 use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\MinecraftUUID;
 
 /**
  * @final

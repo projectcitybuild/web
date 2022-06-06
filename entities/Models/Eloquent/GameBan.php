@@ -3,6 +3,7 @@
 namespace Entities\Models\Eloquent;
 
 use App\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -39,6 +40,11 @@ final class GameBan extends Model
         'updated_at',
     ];
 
+    public function scopeActive(Builder $query)
+    {
+        $query->where('is_active', true);
+    }
+
     public function bannedPlayer(): MorphTo
     {
         return $this->morphTo(null, 'banned_player_type', 'banned_player_id');
@@ -59,6 +65,11 @@ final class GameBan extends Model
         return $this->belongsTo(Server::class, 'server_id', 'server_id');
     }
 
+    public function banAppeals()
+    {
+        return $this->hasMany(BanAppeal::class, 'game_ban_id', 'game_ban_id');
+    }
+
     public function getStaffName()
     {
         if (is_null($this->staffPlayer)) {
@@ -66,6 +77,11 @@ final class GameBan extends Model
         }
 
         return $this->staffPlayer->getBanReadableName() ?? 'No Alias';
+    }
+
+    public function hasNameChangedSinceBan(): bool
+    {
+        return $this->banned_alias_at_time !== $this->bannedPlayer->getBanReadableName();
     }
 
     /**

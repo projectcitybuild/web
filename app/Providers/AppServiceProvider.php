@@ -2,10 +2,9 @@
 
 namespace App\Providers;
 
-use App\Http\Composers\MasterViewComposer;
 use App\View\Components\DonationBarComponent;
 use App\View\Components\NavBarComponent;
-use Entities\Models\AccountPaymentType;
+use App\View\Components\PanelSideBarComponent;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\Donation;
 use Entities\Models\Eloquent\MinecraftPlayer;
@@ -14,7 +13,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
 use Stripe\StripeClient;
@@ -58,20 +56,22 @@ final class AppServiceProvider extends ServiceProvider
          * @see https://github.com/laravel/framework/pull/38656
          */
         Relation::enforceMorphMap([
-            AccountPaymentType::DONATION->value => Donation::class,
             GamePlayerType::MINECRAFT->value => MinecraftPlayer::class,
             'account' => Account::class,
         ]);
 
         Blade::component('navbar', NavBarComponent::class);
         Blade::component('donation-bar', DonationBarComponent::class);
-
-        // Bind the master view composer to the master view template
-        View::composer('front.layouts.master', MasterViewComposer::class);
+        Blade::component('panel-side-bar', PanelSideBarComponent::class);
 
         // Fix the factory() function always searching for factory files with a relative namespace
         Factory::guessFactoryNamesUsing(function (string $modelName) {
             return 'Database\Factories\\'.class_basename($modelName).'Factory';
+        });
+
+        // Set a default date format for displaying Carbon instances in views
+        Blade::stringable(function(\Illuminate\Support\Carbon $dateTime) {
+            return $dateTime->format('j M Y H:i');
         });
     }
 }

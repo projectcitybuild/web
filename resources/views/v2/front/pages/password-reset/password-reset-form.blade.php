@@ -5,35 +5,35 @@
 
 @section('body')
     <main class="page login">
-        <div class="container">
-            <div class="login__dialog login__register-form">
-                <h1>Set Your Password</h1>
-                <p>Please enter a new password for your account.</p>
+        <div class="login__dialog login__dialog--is-narrow">
+            <h1>Set Your Password</h1>
+            <p>Please enter a new password for your account.</p>
 
-                <form method="post" action="{{ route('front.password-reset.update') }}" class="form">
-                    @method('PATCH')
-                    @csrf
+            <form method="post" action="{{ route('front.password-reset.update') }}" class="form">
+                @method('PATCH')
+                @csrf
 
-                    @include('v2.front.components.form-error')
+                @include('v2.front.components.form-error')
 
-                    <input type="hidden" name="password_token" value="{{ $passwordToken }}" />
+                <input type="hidden" name="password_token" value="{{ $passwordToken }}"/>
 
-                    <div class="form-row">
-                        <label for="password">Password</label>
-                        <input class="textfield {{ $errors->any() ? 'input-text--error' : '' }}" name="password" type="password" placeholder="Password" />
-                    </div>
+                <div class="form-row">
+                    <label for="password">Password</label>
+                    <input class="textfield {{ $errors->any() ? 'input-text--error' : '' }}" name="password"
+                           type="password" placeholder="Password"/>
+                </div>
 
-                    <div class="form-row">
-                        <label for="password_confirm">Password Confirm</label>
-                        <input class="textfield {{ $errors->any() ? 'input-text--error' : '' }}" name="password_confirm" type="password" placeholder="Password" />
-                    </div>
+                <div class="form-row">
+                    <label for="password_confirm">Password Confirm</label>
+                    <input class="textfield {{ $errors->any() ? 'input-text--error' : '' }}" name="password_confirm"
+                           type="password" placeholder="Password"/>
+                </div>
 
-                    <button class="button button--filled button--block" type="submit">
-                        <i class="fas fa-check"></i> Reset Password
-                    </button>
+                <button class="button button--filled button--block" type="submit">
+                    <i class="fas fa-check"></i> Reset Password
+                </button>
 
-                </form>
-            </div>
+            </form>
         </div>
     </main>
 @endsection

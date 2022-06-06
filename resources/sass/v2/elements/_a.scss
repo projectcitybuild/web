@@ -5,3 +5,10 @@ a:link, a:visited {
 a:hover {
     color: $color-text-primary;
 }
+
+a:link.alternative {
+    color: $color-text-accent;
+}
+a:hover.alternative {
+    color: darken($color-text-accent, 15%);
+}

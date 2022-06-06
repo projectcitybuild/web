@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\BanAppeal\BanAppealController;
+use App\Http\Controllers\BanAppeal\BanLookupController;
 use App\Http\Controllers\BanlistController;
+use App\Http\Controllers\BuilderRankApplicationController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
@@ -45,7 +48,6 @@ Route::permanentRedirect('privacy', 'https://forums.projectcitybuild.com/privacy
 Route::permanentRedirect('wiki', 'https://wiki.projectcitybuild.com')->name('wiki');
 Route::permanentRedirect('maps', 'https://maps.pcbmc.co')->name('maps');
 Route::permanentRedirect('3d-maps', 'https://3d.pcbmc.co')->name('3d-maps');
-Route::permanentRedirect('rankup', 'https://forums.projectcitybuild.com/w/rank-up-application')->name('rankup');
 Route::permanentRedirect('report', 'https://forums.projectcitybuild.com/w/player-report')->name('report');
 
 /*
@@ -58,9 +60,6 @@ Route::permanentRedirect('report', 'https://forums.projectcitybuild.com/w/player
 */
 Route::get('/', [HomeController::class, 'index'])
     ->name('front.home');
-
-Route::get('bans', [BanlistController::class, 'index'])
-    ->name('front.banlist');
 
 Route::get('logout', [LogoutController::class, 'logout'])
     ->name('front.logout')
@@ -79,6 +78,43 @@ Route::prefix('donate')->group(function () {
 
     Route::get('success', [DonationController::class, 'success'])
         ->name('front.donate.success');
+});
+
+Route::prefix('rank-up')->group(function () {
+    Route::get('/', [BuilderRankApplicationController::class, 'index'])
+        ->name('front.rank-up');
+
+    Route::post('/', [BuilderRankApplicationController::class, 'store'])
+        ->name('front.rank-up.submit');
+
+    Route::get('{id}', [BuilderRankApplicationController::class, 'show'])
+        ->name('front.rank-up.status');
+});
+
+Route::prefix('appeal')->group(function() {
+    Route::get('/', [BanAppealController::class, 'index'])
+        ->name('front.appeal');
+
+    Route::redirect('/auth', '/appeal')
+        ->name('front.appeal.auth')
+        ->middleware('auth');
+
+    Route::get('/{banAppeal}', [BanAppealController::class, 'show'])
+        ->name('front.appeal.show');
+});
+
+Route::prefix('bans')->group(function() {
+    Route::get('/', [BanlistController::class, 'index'])
+        ->name('front.banlist');
+
+    Route::post('/', BanLookupController::class)
+        ->name('front.bans.lookup');
+
+    Route::get('{ban}/appeal', [BanAppealController::class, 'create'])
+        ->name('front.appeal.create');
+
+    Route::post('{ban}/appeal', [BanAppealController::class, 'store'])
+        ->name('front.appeal.submit');
 });
 
 Route::prefix('login')->group(function () {
@@ -224,74 +260,3 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('auth/minecraft/{token}', [MinecraftPlayerLinkController::class, 'index'])
         ->name('front.auth.minecraft.token');
 });
-
-Route::group([
-    'prefix' => 'panel',
-    'as' => 'front.panel.',
-    'namespace' => 'Panel',
-    'middleware' => ['auth', 'panel', 'requires-mfa']
-], function () {
-    Route::view('/', 'admin.index')->name('index');
-
-    Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);
-    Route::resource('donations', 'DonationController');
-    Route::resource('donation-perks', 'DonationPerksController')->only(['create', 'store', 'edit', 'update', 'destroy']);
-    Route::resource('minecraft-players', 'MinecraftPlayerController')->except(['destroy']);
-    Route::get('groups/{group}/accounts', 'GroupAccountController@index')->name('groups.accounts');
-    Route::get('groups', 'GroupController@index')->name('groups.index');
-    Route::resource('pages', 'PageController');
-
-    Route::post('minecraft-players/lookup', [
-        'as' => 'minecraft-players.lookup',
-        'uses' => 'MinecraftPlayerLookupController',
-    ]);
-
-    Route::post('minecraft-players/{minecraft_player}/reload-alias', [
-        'as' => 'minecraft-players.reload-alias',
-        'uses' => 'MinecraftPlayerReloadAliasController',
-    ]);
-
-    Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
-        Route::get('accounts', [
-            'as' => 'account-search',
-            'uses' => 'Api\\AccountSearchController',
-        ]);
-    });
-
-    Route::group(['prefix' => 'accounts/{account}', 'as' => 'accounts.'], function () {
-        Route::post('activate', [
-            'as' => 'activate',
-            'uses' => 'AccountActivate',
-        ]);
-
-        Route::post('resend-activation', [
-            'as' => 'resend-activation',
-            'uses' => 'AccountResendActivation',
-        ]);
-
-        Route::post('email-change/{accountEmailChange}/approve', [
-            'as' => 'email-change.approve',
-            'uses' => 'AccountApproveEmailChange',
-        ]);
-
-        Route::delete('game-account/{minecraftPlayer}', [
-            'as' => 'game-account.delete',
-            'uses' => 'AccountGameAccount@delete',
-        ]);
-
-        Route::post('update-groups', [
-            'as' => 'update-groups',
-            'uses' => 'AccountUpdateGroups',
-        ]);
-    });
-});
-
-if (Environment::isDev()) {
-    Route::view('ui', 'stylesheet');
-}
-
-if (! Environment::isProduction()) {
-    Route::get('signed', fn () => 'test')
-        ->name('test-signed')
-        ->middleware('signed');
-}

@@ -1,6 +1,6 @@
 .page.login {
     width: 100%;
-    min-height: calc(100vh - #{$nav-height});
+    min-height: calc(100vh - #{$nav-height} - #{$footer-height});
 
     background-image: url('/assets/images/login-bg.png');
     background-size: cover;
@@ -60,11 +60,12 @@
             justify-content: space-between;
             font-size: 0.9em;
         }
-    }
 
-    .login__reauth, .login__mfa, .login__mfa-recover, .login__confirm {
-        width: 650px;
-        margin-top: 3rem;
+        &--is-narrow {
+            width: 650px;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
     }
 
     .login__mfa {

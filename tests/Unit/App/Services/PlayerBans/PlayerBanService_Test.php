@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Services;
+namespace Tests\Unit\App\Services\PlayerBans;
 
 use App\Services\PlayerBans\Exceptions\UserNotBannedException;
 use App\Services\PlayerBans\PlayerBanService;

@@ -5,7 +5,7 @@
 
 @section('body')
     <main class="page login">
-        <section class="login__dialog login__reauth">
+        <section class="login__dialog login__reauth login__dialog--is-narrow">
             <h1>Reauthenticate</h1>
 
             @include('v2.front.components.form-error')

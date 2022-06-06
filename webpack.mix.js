@@ -25,12 +25,6 @@ mix.typeScript('resources/js/admin/admin.ts', 'public/assets/admin/js')
         'vue',
     ]);
 
-mix.webpackConfig({
-    externals: {
-        sifter: 'sifter',
-    }
-})
-
 if(mix.inProduction()) {
     mix.version();
 } else {
@@ -40,11 +34,12 @@ if(mix.inProduction()) {
         open: false,
         proxy: 'laravel.test',
         files: [
-            'resources/**/*.php',
-            'resources/**/*.css',
-            'resources/**/*.js',
-            'resources/**/*.ts',
-            'public/**/*',
+            'resources/views/**/*',
+            'resources/sass/**/*.css',
+            'resources/js/**/*.js',
+            'resources/js/**/*.ts',
+            'public/assets/fonts/**/*',
+            'public/assets/images/**/*',
         ]
     });
 }

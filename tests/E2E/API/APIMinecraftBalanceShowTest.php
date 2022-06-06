@@ -1,0 +1,96 @@
+<?php
+
+namespace Tests\E2E\API;
+
+use Domain\ServerTokens\ScopeKey;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\MinecraftPlayer;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\E2ETestCase;
+
+class APIMinecraftBalanceShowTest extends E2ETestCase
+{
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->createServerToken();
+    }
+
+    private function endpoint(?MinecraftPlayer $player): string
+    {
+        $uuid = $player?->uuid ?? 'invalid';
+
+        return 'api/v2/minecraft/'.$uuid.'/balance';
+    }
+
+    public function test_requires_scope()
+    {
+        $account = Account::factory()->create();
+        $player = MinecraftPlayer::factory()
+            ->for($account)
+            ->create();
+
+        $this->withAuthorizationServerToken()
+            ->getJson($this->endpoint($player))
+            ->assertUnauthorized();
+
+        $this->authoriseTokenFor(ScopeKey::ACCOUNT_BALANCE_SHOW);
+
+        $this->withAuthorizationServerToken()
+            ->getJson($this->endpoint($player))
+            ->assertOk();
+    }
+
+    public function test_shows_balance()
+    {
+        $account = Account::factory()->create(['balance' => 150]);
+        $player = MinecraftPlayer::factory()
+            ->for($account)
+            ->create();
+
+        $this->authoriseTokenFor(ScopeKey::ACCOUNT_BALANCE_SHOW);
+
+        $this->withAuthorizationServerToken()
+            ->getJson($this->endpoint($player))
+            ->assertJson([
+                'data' => [
+                    'balance' => 150,
+                ],
+            ]);
+    }
+
+    public function test_shows_error_without_player()
+    {
+        $this->authoriseTokenFor(ScopeKey::ACCOUNT_BALANCE_SHOW);
+
+        $this->withAuthorizationServerToken()
+            ->getJson($this->endpoint(null))
+            ->assertJson([
+                'error' => [
+                    'id' => 'player_not_found',
+                    'detail' => 'Cannot find this player',
+                    'status' => 404,
+                ],
+            ]);
+    }
+
+    public function test_shows_error_without_linked_account()
+    {
+        $player = MinecraftPlayer::factory()->create();
+
+        $this->authoriseTokenFor(ScopeKey::ACCOUNT_BALANCE_SHOW);
+
+        $this->withAuthorizationServerToken()
+            ->getJson($this->endpoint($player))
+            ->assertJson([
+                'error' => [
+                    'id' => 'no_linked_account',
+                    'detail' => 'Player is not linked to a PCB account',
+                    'status' => 404,
+                ],
+            ]);
+    }
+}

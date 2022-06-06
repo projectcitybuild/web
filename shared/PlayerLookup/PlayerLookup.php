@@ -2,8 +2,8 @@
 
 namespace Shared\PlayerLookup;
 
-use Entities\MinecraftUUID;
 use Entities\Models\GameIdentifierType;
+use Entities\Models\MinecraftUUID;
 use Entities\Repositories\MinecraftPlayerAliasRepository;
 use Shared\PlayerLookup\Contracts\Player;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;

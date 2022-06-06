@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Entities\Models\Eloquent\Group;
+use Entities\Models\Eloquent\GroupScope;
+use Entities\Models\PanelGroupScope;
 use Illuminate\Database\Seeder;
 
 class GroupSeeds extends Seeder
@@ -14,66 +16,90 @@ class GroupSeeds extends Seeder
      */
     public function run()
     {
+        $scopes = collect();
+
+        collect(PanelGroupScope::cases())->each(function ($scope) use(&$scopes) {
+            $model = GroupScope::create([
+                'scope' => $scope->value,
+            ]);
+            $scopes->put(key: $scope->value, value: $model->getKey());
+        });
+
         Group::create([
             'name' => 'retired',
-            'discourse_name' => 'retired',
         ]);
 
         Group::create([
             'name' => 'member',
             'is_default' => true,
-            'discourse_name' => null,
         ]);
 
         Group::create([
             'name' => 'trusted',
-            'discourse_name' => 'trusted',
         ]);
 
         Group::create([
             'name' => 'trusted+',
-            'discourse_name' => 'trusted-plus',
+        ]);
+
+        Group::create([
+            'name' => 'intern',
+            'is_build' => true,
+        ]);
+
+        Group::create([
+            'name' => 'builder',
+            'is_build' => true,
+        ]);
+
+        Group::create([
+            'name' => 'planner',
+            'is_build' => true,
+        ]);
+
+        Group::create([
+            'name' => 'engineer',
+            'is_build' => true,
+        ]);
+
+        $architect = Group::create([
+            'name' => 'architect',
+            'is_build' => true,
+        ]);
+        $architect->groupScopes()->attach([
+            $scopes[PanelGroupScope::ACCESS_PANEL->value],
+            $scopes[PanelGroupScope::REVIEW_BUILD_RANK_APPS->value],
         ]);
 
         Group::create([
             'name' => 'donator',
-            'discourse_name' => 'donator',
         ]);
 
         Group::create([
             'name' => 'legacy donor',
             'minecraft_name' => 'legacy-donor',
-            'discourse_name' => 'legacy-donor',
         ]);
 
-        Group::create([
+        $mod = Group::create([
             'name' => 'moderator',
             'alias' => 'Mod',
             'is_staff' => true,
-            'discourse_name' => 'moderator',
+        ]);
+        $mod->groupScopes()->attach([
+            $scopes[PanelGroupScope::ACCESS_PANEL->value],
+            $scopes[PanelGroupScope::REVIEW_APPEALS->value],
+            $scopes[PanelGroupScope::REVIEW_BUILD_RANK_APPS->value],
         ]);
 
-        Group::create([
-            'name' => 'operator',
-            'alias' => 'OP',
-            'is_staff' => true,
-            'discourse_name' => 'operator',
-        ]);
-
-        Group::create([
-            'name' => 'senior operator',
-            'alias' => 'SOP',
-            'is_staff' => true,
-            'discourse_name' => 'senior-operator',
-        ]);
-
-        Group::create([
-            'name' => 'administrator',
-            'alias' => 'Admin',
+        $dev = Group::create([
+            'name' => 'developer',
+            'alias' => 'Dev',
             'is_staff' => true,
             'is_admin' => true,
-            'discourse_name' => 'administrator',
             'can_access_panel' => true,
         ]);
+        $dev->groupScopes()->attach(
+            collect($scopes)->values()->toArray(),
+        );
     }
 }

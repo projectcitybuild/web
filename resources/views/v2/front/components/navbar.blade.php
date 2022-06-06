@@ -37,9 +37,9 @@
             <li>
                 <a href="javascript:void(0)" class="nav-dropdown">Community <i class="fas fa-caret-down"></i></a>
                 <ul class="dropdown single">
-                    <li><a href="https://forums.projectcitybuild.com/t/banned-read-me/12145">Appeal a Ban</a></li>
+                    <li><a href="{{ route('front.appeal') }}">Appeal a Ban</a></li>
                     <li><a href="{{ route('report') }}">Report a Player</a></li>
-                    <li><a href="{{ route('rankup') }}">Apply for Building Rank</a></li>
+                    <li><a href="{{ route('front.rank-up') }}">Apply for Build Rank</a></li>
                     <li class="divider"><a href="https://goo.gl/forms/UodUsKQBZJdCzNWk1">Apply for Staff</a></li>
                     <li><a href="https://forums.projectcitybuild.com/" target="_blank" rel="noopener">Forums (archived)</a></li>
                     <li class="divider"><a href="https://wiki.projectcitybuild.com/" target="_blank" rel="noopener">Community Wiki</a></li>
@@ -51,11 +51,14 @@
 
             <li class="spacer"></li>
 
-            @if($is_logged_in)
+            @if($isLoggedIn)
                 <li>
                     <a href="javascript:void(0)" class="nav-dropdown">Account <i class="fas fa-caret-down"></i></a>
                     <ul class="dropdown single">
                         <li class="divider"><a href="{{ route('front.account.profile') }}">Account Settings</a></li>
+                        @if($canAccessPanel)
+                            <li class="divider"><a href="{{ route('front.panel.index') }}">Staff Panel</a></li>
+                        @endif
                         <li>
                             <a href="{{ route('front.logout') }}">
                                 <i class="fas fa-sign-out-alt"></i> Logout

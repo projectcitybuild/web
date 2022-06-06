@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Library\Recaptcha\Validator\Adapters\GoogleRecaptchaValidator;
 use Library\Recaptcha\Validator\RecaptchaValidator;
+use Library\SignedURL\Adapters\LaravelSignedURLGenerator;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
@@ -29,14 +30,14 @@ class RegisterTest extends TestCase
         ]);
     }
 
-    public function testCannotSeeRegisterSignedIn()
+    public function test_cannot_see_register_signed_in()
     {
         $this->actingAs(Account::factory()->create())
             ->get(route('front.register'))
             ->assertRedirect(route('front.account.settings'));
     }
 
-    public function testUserCanRegister()
+    public function test_user_can_register()
     {
         Group::factory()->create(['is_default' => true]);
 
@@ -55,7 +56,7 @@ class RegisterTest extends TestCase
         ]);
     }
 
-    public function testRecaptchaFieldIsRequired()
+    public function test_recaptcha_field_is_required()
     {
         $unactivatedAccount = Account::factory()
             ->passwordUnhashed()
@@ -67,7 +68,7 @@ class RegisterTest extends TestCase
             ->assertSessionHasErrors('g-recaptcha-response');
     }
 
-    public function testRecaptchaFieldIsValidated()
+    public function test_recaptcha_field_is_validated()
     {
         $unactivatedAccount = Account::factory()
             ->passwordUnhashed()
@@ -79,7 +80,7 @@ class RegisterTest extends TestCase
             ->assertSessionHasErrors('g-recaptcha-response');
     }
 
-    public function testUserCannotRegisterWithSameEmailAsOtherAccount()
+    public function test_user_cannot_register_with_same_email_as_other_account()
     {
         $existingAccount = Account::factory()->create();
 
@@ -91,7 +92,7 @@ class RegisterTest extends TestCase
             ->assertSessionHasErrors();
     }
 
-    public function testUserCannotRegisterWithSameUsernameAsOtherAccount()
+    public function test_user_cannot_register_with_same_username_as_other_account()
     {
         $existingAccount = Account::factory()->create();
 
@@ -103,7 +104,7 @@ class RegisterTest extends TestCase
             ->assertSessionHasErrors();
     }
 
-    public function testAssertPasswordIsHashed()
+    public function test_assert_password_is_hashed()
     {
         $unactivatedAccount = Account::factory()
             ->passwordUnhashed()
@@ -118,7 +119,7 @@ class RegisterTest extends TestCase
         ]);
     }
 
-    public function testNewMemberIsPutInDefaultGroup()
+    public function test_new_member_is_put_in_default_group()
     {
         $memberGroup = Group::create([
             'name' => 'member',
@@ -141,7 +142,7 @@ class RegisterTest extends TestCase
         ]);
     }
 
-    public function testUserIsSentVerificationMail()
+    public function test_user_is_sent_verification_mail()
     {
         Notification::fake();
 
@@ -159,23 +160,39 @@ class RegisterTest extends TestCase
         Notification::assertSentTo(Account::first(), AccountActivationNotification::class);
     }
 
-    public function testUserCanVerifyEmail()
+    public function test_user_can_verify_email()
     {
         $unactivatedAccount = Account::factory()->unactivated()->create();
 
-        $this->get($unactivatedAccount->getActivationUrl())
+        // TODO: find way to do this without manually creating the URL here
+        $signedURLGenerator = new LaravelSignedURLGenerator();
+        $activationURL = $signedURLGenerator->makeTemporary(
+            routeName: 'front.register.activate',
+            expiresAt: now()->addDay(),
+            parameters: ['email' => $unactivatedAccount->email],
+        );
+
+        $this->get($activationURL)
             ->assertSuccessful();
 
         $this->assertEquals(true, Account::first()->activated);
     }
 
-    public function testUserIsRedirectedToIntentAfterVerification()
+    public function test_user_is_redirected_to_intent_after_verification()
     {
         Session::put('url.intended', '/my/path');
 
         $unactivatedAccount = Account::factory()->unactivated()->create();
 
-        $this->get($unactivatedAccount->getActivationUrl())
+        // TODO: find way to do this without manually creating the URL here
+        $signedURLGenerator = new LaravelSignedURLGenerator();
+        $activationURL = $signedURLGenerator->makeTemporary(
+            routeName: 'front.register.activate',
+            expiresAt: now()->addDay(),
+            parameters: ['email' => $unactivatedAccount->email],
+        );
+
+        $this->get($activationURL)
             ->assertRedirect('/my/path');
     }
 }
