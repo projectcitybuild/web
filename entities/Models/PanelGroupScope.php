@@ -17,6 +17,6 @@ enum PanelGroupScope: string
 
     public function toMiddleware(): string
     {
-        return 'can:'.$this->value;
+        return 'scope:'.$this->value;
     }
 }

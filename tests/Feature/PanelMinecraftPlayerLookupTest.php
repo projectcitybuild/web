@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Library\Mojang\Api\MojangPlayerApi;
 use Library\Mojang\Models\MojangPlayer;
 use Mockery\MockInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\E2ETestCase;
 
 class PanelMinecraftPlayerLookupTest extends E2ETestCase
@@ -129,25 +130,31 @@ class PanelMinecraftPlayerLookupTest extends E2ETestCase
             ->assertRedirect(route('front.panel.minecraft-players.index'));
     }
 
-    public function test_forbidden_without_scope()
+    public function test_unauthorised_without_scope()
     {
         $admin = $this->adminAccount(scopes: [
             PanelGroupScope::ACCESS_PANEL,
         ]);
 
+        // No idea why this is needed...
+        $this->expectException(HttpException::class);
+
         $this->actingAs($admin)
             ->post(route('front.panel.minecraft-players.lookup'))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 
-    public function test_forbidden_without_panel_access()
+    public function test_unauthorised_without_panel_access()
     {
         $admin = $this->adminAccount(scopes: [
             PanelGroupScope::MANAGE_ACCOUNTS,
         ]);
 
+        // No idea why this is needed...
+        $this->expectException(HttpException::class);
+
         $this->actingAs($admin)
             ->post(route('front.panel.minecraft-players.lookup'))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 }

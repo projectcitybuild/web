@@ -74,7 +74,7 @@ class PanelMinecraftPlayerEditTest extends E2ETestCase
             ->assertSessionHasErrors();
     }
 
-    public function test_forbidden_without_scope()
+    public function test_unauthorised_without_scope()
     {
         $admin = $this->adminAccount(scopes: [
             PanelGroupScope::ACCESS_PANEL,
@@ -84,10 +84,10 @@ class PanelMinecraftPlayerEditTest extends E2ETestCase
 
         $this->actingAs($admin)
             ->put(route('front.panel.minecraft-players.update', $mcPlayer))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 
-    public function test_forbidden_without_panel_access()
+    public function test_unauthorised_without_panel_access()
     {
         $admin = $this->adminAccount(scopes: [
             PanelGroupScope::MANAGE_ACCOUNTS,
@@ -97,6 +97,6 @@ class PanelMinecraftPlayerEditTest extends E2ETestCase
 
         $this->actingAs($admin)
             ->put(route('front.panel.minecraft-players.update', $mcPlayer))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 }

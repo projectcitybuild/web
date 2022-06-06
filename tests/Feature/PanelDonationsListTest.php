@@ -22,29 +22,25 @@ class PanelDonationsListTest extends E2ETestCase
             ->assertSee($donation->donation_id);
     }
 
-    public function test_forbidden_without_scope()
+    public function test_unauthorised_without_scope()
     {
         $admin = $this->adminAccount(scopes: [
             PanelGroupScope::ACCESS_PANEL,
         ]);
 
-        $donation = Donation::factory()->create();
-
         $this->actingAs($admin)
             ->get(route('front.panel.donations.index'))
-            ->assertSee($donation->donation_id);
+            ->assertUnauthorized();
     }
 
-    public function test_forbidden_without_panel_access()
+    public function test_unauthorised_without_panel_access()
     {
         $admin = $this->adminAccount(scopes: [
             PanelGroupScope::MANAGE_DONATIONS,
         ]);
 
-        $donation = Donation::factory()->create();
-
         $this->actingAs($admin)
             ->get(route('front.panel.donations.index'))
-            ->assertSee($donation->donation_id);
+            ->assertUnauthorized();
     }
 }

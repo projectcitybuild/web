@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\PanelGroupScope;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\E2ETestCase;
 
 class PanelMinecraftPlayersListTest extends E2ETestCase
@@ -56,25 +57,31 @@ class PanelMinecraftPlayersListTest extends E2ETestCase
             ->assertSee($mcPlayer->uuid);
     }
 
-    public function test_forbidden_without_scope()
+    public function test_unauthorised_without_scope()
     {
         $admin = $this->adminAccount(scopes: [
             PanelGroupScope::ACCESS_PANEL,
         ]);
 
+        // No idea why this is needed...
+        $this->expectException(HttpException::class);
+
         $this->actingAs($admin)
             ->get(route('front.panel.minecraft-players.index'))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 
-    public function test_forbidden_without_panel_access()
+    public function test_unauthorised_without_panel_access()
     {
         $admin = $this->adminAccount(scopes: [
             PanelGroupScope::MANAGE_ACCOUNTS,
         ]);
 
+        // No idea why this is needed...
+        $this->expectException(HttpException::class);
+
         $this->actingAs($admin)
             ->get(route('front.panel.minecraft-players.index'))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 }

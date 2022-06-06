@@ -31,7 +31,7 @@ class PanelGroupMemberTest extends E2ETestCase
             ->assertDontSee($accountB->username);
     }
 
-    public function test_forbidden_without_scope()
+    public function test_unauthorised_without_scope()
     {
         $admin = $this->adminAccount(scopes: [
             PanelGroupScope::ACCESS_PANEL,
@@ -43,10 +43,10 @@ class PanelGroupMemberTest extends E2ETestCase
 
         $this->actingAs($admin)
             ->get(route('front.panel.groups.accounts', $group))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 
-    public function test_forbidden_without_panel_access()
+    public function test_unauthorised_without_panel_access()
     {
         $admin = $this->adminAccount(scopes: [
             PanelGroupScope::MANAGE_GROUPS,
@@ -58,6 +58,6 @@ class PanelGroupMemberTest extends E2ETestCase
 
         $this->actingAs($admin)
             ->get(route('front.panel.groups.accounts', $group))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 }

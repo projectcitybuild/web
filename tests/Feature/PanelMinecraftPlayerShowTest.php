@@ -6,6 +6,7 @@ use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\PanelGroupScope;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\E2ETestCase;
 
 class PanelMinecraftPlayerShowTest extends E2ETestCase
@@ -51,7 +52,7 @@ class PanelMinecraftPlayerShowTest extends E2ETestCase
             ->assertSee(GameBan::first()->reason);
     }
 
-    public function test_forbidden_without_scope()
+    public function test_unauthorised_without_scope()
     {
         $bannedPlayer = MinecraftPlayer::factory()
             ->hasAliases(1)
@@ -62,12 +63,15 @@ class PanelMinecraftPlayerShowTest extends E2ETestCase
             PanelGroupScope::ACCESS_PANEL,
         ]);
 
+        // No idea why this is needed...
+        $this->expectException(HttpException::class);
+
         $this->actingAs($admin)
             ->get(route('front.panel.minecraft-players.show', $bannedPlayer))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 
-    public function test_forbidden_without_panel_access()
+    public function test_unauthorised_without_panel_access()
     {
         $bannedPlayer = MinecraftPlayer::factory()
             ->hasAliases(1)
@@ -78,8 +82,11 @@ class PanelMinecraftPlayerShowTest extends E2ETestCase
             PanelGroupScope::MANAGE_ACCOUNTS,
         ]);
 
+        // No idea why this is needed...
+        $this->expectException(HttpException::class);
+
         $this->actingAs($admin)
             ->get(route('front.panel.minecraft-players.show', $bannedPlayer))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 }

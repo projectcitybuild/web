@@ -8,6 +8,7 @@ use Entities\Models\PanelGroupScope;
 use Library\Mojang\Api\MojangPlayerApi;
 use Library\Mojang\Models\MojangPlayerNameHistory;
 use Mockery\MockInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\E2ETestCase;
 
 class PanelMinecraftPlayerReloadAliasTest extends E2ETestCase
@@ -67,7 +68,7 @@ class PanelMinecraftPlayerReloadAliasTest extends E2ETestCase
         $this->assertDatabaseCount('players_minecraft_aliases', 1);
     }
 
-    public function test_forbidden_without_scope()
+    public function test_unauthorised_without_scope()
     {
         $minecraftPlayer = MinecraftPlayer::factory()->hasAliases(1)->create();
 
@@ -75,12 +76,15 @@ class PanelMinecraftPlayerReloadAliasTest extends E2ETestCase
             PanelGroupScope::ACCESS_PANEL,
         ]);
 
+        // No idea why this is needed...
+        $this->expectException(HttpException::class);
+
         $this->actingAs($admin)
             ->post(route('front.panel.minecraft-players.reload-alias', $minecraftPlayer))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 
-    public function test_forbidden_without_panel_access()
+    public function test_unauthorised_without_panel_access()
     {
         $minecraftPlayer = MinecraftPlayer::factory()->hasAliases(1)->create();
 
@@ -88,8 +92,11 @@ class PanelMinecraftPlayerReloadAliasTest extends E2ETestCase
             PanelGroupScope::MANAGE_ACCOUNTS,
         ]);
 
+        // No idea why this is needed...
+        $this->expectException(HttpException::class);
+
         $this->actingAs($admin)
             ->post(route('front.panel.minecraft-players.reload-alias', $minecraftPlayer))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 }

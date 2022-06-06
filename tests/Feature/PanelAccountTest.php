@@ -52,7 +52,7 @@ class PanelAccountTest extends E2ETestCase
         $this->assertDatabaseHas('accounts', $newData);
     }
 
-    public function test_forbidden_without_scope()
+    public function test_unauthorised_without_scope()
     {
         $account = Account::factory()->create();
 
@@ -62,10 +62,10 @@ class PanelAccountTest extends E2ETestCase
 
         $this->actingAs($admin)
             ->get(route('front.panel.accounts.update', $account))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 
-    public function test_forbidden_without_panel_access()
+    public function test_unauthorised_without_panel_access()
     {
         $admin = $this->adminAccount(scopes: [
             PanelGroupScope::MANAGE_ACCOUNTS,
@@ -73,6 +73,6 @@ class PanelAccountTest extends E2ETestCase
 
         $this->actingAs($admin)
             ->get(route('front.panel.accounts.index'))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 }

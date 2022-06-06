@@ -82,7 +82,7 @@ class PanelBanAppealViewTest extends E2ETestCase
             ->assertSee('Denied');
     }
 
-    public function test_forbidden_without_scope()
+    public function test_unauthorised_without_scope()
     {
         $appeal = BanAppeal::factory()
             ->for(GameBan::factory()->active()->for(MinecraftPlayer::factory(), 'bannedPlayer'))
@@ -94,10 +94,10 @@ class PanelBanAppealViewTest extends E2ETestCase
 
         $this->actingAs($admin)
             ->get(route('front.panel.ban-appeals.show', $appeal))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 
-    public function test_forbidden_without_panel_access()
+    public function test_unauthorised_without_panel_access()
     {
         $appeal = BanAppeal::factory()
             ->for(GameBan::factory()->active()->for(MinecraftPlayer::factory(), 'bannedPlayer'))
@@ -109,6 +109,6 @@ class PanelBanAppealViewTest extends E2ETestCase
 
         $this->actingAs($admin)
             ->get(route('front.panel.ban-appeals.show', $appeal))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 }

@@ -124,7 +124,7 @@ class PanelBanAppealDecisionTest extends E2ETestCase
         Notification::assertNothingSent();
     }
 
-    public function test_forbidden_without_scope()
+    public function test_unauthorised_without_scope()
     {
         $admin = $this->adminAccount(scopes: [
             PanelGroupScope::ACCESS_PANEL,
@@ -132,10 +132,10 @@ class PanelBanAppealDecisionTest extends E2ETestCase
 
         $this->actingAs($admin)
             ->put(route('front.panel.ban-appeals.update', $this->appeal))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 
-    public function test_forbidden_without_panel_access()
+    public function test_unauthorised_without_panel_access()
     {
         $admin = $this->adminAccount(scopes: [
             PanelGroupScope::REVIEW_APPEALS,
@@ -143,6 +143,6 @@ class PanelBanAppealDecisionTest extends E2ETestCase
 
         $this->actingAs($admin)
             ->put(route('front.panel.ban-appeals.update', $this->appeal))
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 }
