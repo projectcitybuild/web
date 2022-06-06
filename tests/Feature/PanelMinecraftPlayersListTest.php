@@ -4,37 +4,77 @@ namespace Tests\Feature;
 
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
-use Tests\TestCase;
+use Entities\Models\PanelGroupScope;
+use Tests\E2ETestCase;
 
-class PanelMinecraftPlayersListTest extends TestCase
+class PanelMinecraftPlayersListTest extends E2ETestCase
 {
-    public function testMCPlayerWithoutAccountShownOnList()
+    private Account $admin;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutExceptionHandling();
+
+        $this->admin = $this->adminAccount(scopes: [
+            PanelGroupScope::ACCESS_PANEL,
+            PanelGroupScope::MANAGE_ACCOUNTS,
+        ]);
+    }
+
+    public function test_mc_player_without_account_shown_on_list()
     {
         $mcPlayer = MinecraftPlayer::factory()->hasAliases(1)->create();
         $alias = $mcPlayer->aliases()->latest()->first();
-        $this->actingAs($this->adminAccount())
+
+        $this->actingAs($this->admin)
             ->get(route('front.panel.minecraft-players.index'))
             ->assertOk()
             ->assertSee($mcPlayer->uuid)
             ->assertSee($alias->alias);
     }
 
-    public function testMCPlayerWithAccountShownOnList()
+    public function test_mc_player_with_account_shown_on_list()
     {
         $account = Account::factory()->create();
         $mcPlayer = MinecraftPlayer::factory()->for($account)->hasAliases(1)->create();
-        $this->actingAs($this->adminAccount())
+
+        $this->actingAs($this->admin)
             ->get(route('front.panel.minecraft-players.index'))
             ->assertOk()
             ->assertSee($account->username);
     }
 
-    public function testMCPlayerWithNoAlias()
+    public function test_mc_player_with_no_alias()
     {
         $mcPlayer = MinecraftPlayer::factory()->create();
-        $this->actingAs($this->adminAccount())
+
+        $this->actingAs($this->admin)
             ->get(route('front.panel.minecraft-players.index'))
             ->assertOk()
             ->assertSee($mcPlayer->uuid);
+    }
+
+    public function test_forbidden_without_scope()
+    {
+        $admin = $this->adminAccount(scopes: [
+            PanelGroupScope::ACCESS_PANEL,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('front.panel.minecraft-players.index'))
+            ->assertForbidden();
+    }
+
+    public function test_forbidden_without_panel_access()
+    {
+        $admin = $this->adminAccount(scopes: [
+            PanelGroupScope::MANAGE_ACCOUNTS,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('front.panel.minecraft-players.index'))
+            ->assertForbidden();
     }
 }

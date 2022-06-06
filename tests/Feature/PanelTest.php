@@ -8,13 +8,13 @@ use Tests\TestCase;
 
 class PanelTest extends TestCase
 {
-    public function testGuestCannotSeePanel()
+    public function test_guest_cannot_see_panel()
     {
         $this->get(route('front.panel.index'))
             ->assertRedirect(route('front.login'));
     }
 
-    public function testNonMfaUserCannotSeePanel()
+    public function test_non_mfa_user_cannot_see_panel()
     {
         $nonMfaAdmin = Account::factory()
             ->has(Group::factory()->administrator())
@@ -26,7 +26,7 @@ class PanelTest extends TestCase
             ->assertSessionHas('mfa_setup_required', true);
     }
 
-    public function testMfaUserCanSeePanel()
+    public function test_mfa_user_can_see_panel()
     {
         $this->withoutExceptionHandling();
 
