@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Entities\Models\PanelGroupScope;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Library\Environment\Environment;
@@ -52,7 +53,9 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->group(base_path('routes/web.php'));
 
-        Route::middleware('web')
+        Route::middleware(['web', 'auth', PanelGroupScope::ACCESS_PANEL->toMiddleware(), 'requires-mfa'])
+            ->prefix('panel')
+            ->name('front.panel.')
             ->group(base_path('routes/web_panel.php'));
 
         if (Environment::isTest()) {

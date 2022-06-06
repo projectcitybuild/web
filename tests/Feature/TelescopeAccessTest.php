@@ -3,9 +3,10 @@
 namespace Test\Feature;
 
 use Illuminate\Support\Facades\Config;
+use Tests\E2ETestCase;
 use Tests\TestCase;
 
-class TelescopeAccessTest extends TestCase
+class TelescopeAccessTest extends E2ETestCase
 {
     protected string $originalEnv;
 
