@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class AccountDonationTest extends TestCase
 {
-    public function testShowsNoDonations()
+    public function test_shows_no_donations()
     {
         $this->actingAs(Account::factory()->create());
 
@@ -19,7 +19,7 @@ class AccountDonationTest extends TestCase
             ->assertSee('You have not made any donations.');
     }
 
-    public function testShowsTemporaryDonation()
+    public function test_shows_temporary_donation()
     {
         $expiryDate = Carbon::now()->addDay();
 

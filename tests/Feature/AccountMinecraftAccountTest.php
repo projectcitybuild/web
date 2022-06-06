@@ -28,7 +28,7 @@ class AccountMinecraftAccountTest extends TestCase
             ->create();
     }
 
-    public function testMinecraftAccountShownInList()
+    public function test_minecraft_account_shown_in_list()
     {
         $this->actingAs($this->account);
 
@@ -38,7 +38,7 @@ class AccountMinecraftAccountTest extends TestCase
             ->assertSee($this->mcPlayerAlias->alias);
     }
 
-    public function testMinecraftAccountWithoutAlias()
+    public function test_minecraft_account_without_alias()
     {
         $this->actingAs($this->account);
 
@@ -52,7 +52,7 @@ class AccountMinecraftAccountTest extends TestCase
     }
 
     // This shouldn't ever happen, but test just in case
-    public function testMinecraftAccountNeverSynced()
+    public function test_minecraft_account_never_synced()
     {
         $this->actingAs($this->account);
 
@@ -67,7 +67,7 @@ class AccountMinecraftAccountTest extends TestCase
             ->assertSee('Never');
     }
 
-    public function testCanUnlinkOwnAccount()
+    public function test_can_unlink_own_account()
     {
         $this->actingAs($this->account);
 
@@ -80,7 +80,7 @@ class AccountMinecraftAccountTest extends TestCase
         ]);
     }
 
-    public function testCannotUnlinkOthersAccount()
+    public function test_cannot_unlink_others_account()
     {
         $this->actingAs(Account::factory()->create());
 

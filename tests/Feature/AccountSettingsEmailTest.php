@@ -33,7 +33,7 @@ class AccountSettingsEmailTest extends TestCase
             );
     }
 
-    public function testChangeEmailAddress()
+    public function test_change_email_address()
     {
         Notification::fake();
         Notification::assertNothingSent();
@@ -54,7 +54,7 @@ class AccountSettingsEmailTest extends TestCase
         Notification::assertSentTo(Notification::route('mail', $newEmail), VerifyNewEmailAddressNotification::class);
     }
 
-    public function testCantChangeEmailToExistingEmail()
+    public function test_cant_change_ema_il_to_existing_email()
     {
         $otherAccount = Account::factory()->create();
 
@@ -62,19 +62,19 @@ class AccountSettingsEmailTest extends TestCase
             ->assertSessionHasErrors();
     }
 
-    public function testCantSubmitEmptyEmail()
+    public function test_cant_submit_empty_email()
     {
         $this->submitEmailChange('')
             ->assertSessionHasErrors();
     }
 
-    public function testCantSubmitInvalidEmail()
+    public function test_cant_submit_invalid_email()
     {
         $this->submitEmailChange('test')
             ->assertSessionHasErrors();
     }
 
-    public function testCantSubmitSameEmail()
+    public function test_cant_submit_same_email()
     {
         $this->submitEmailChange($this->account->email)
             ->assertSessionHasErrors();

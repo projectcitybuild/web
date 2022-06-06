@@ -18,7 +18,7 @@ class BanlistTest extends TestCase
             ->create();
     }
 
-    public function testActiveBanIsShownOnList()
+    public function test_active_ban_is_shown_on_list()
     {
         $ban = GameBan::factory()
             ->for(Server::factory()->for(ServerCategory::factory()))
@@ -31,7 +31,7 @@ class BanlistTest extends TestCase
             ->assertSee($ban->reason);
     }
 
-    public function testInactiveBanIsNotShownOnList()
+    public function test_inactive_ban_is_not_shown_on_list()
     {
         $ban = GameBan::factory()
             ->for(Server::factory()->for(ServerCategory::factory()))

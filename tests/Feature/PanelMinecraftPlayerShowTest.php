@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class PanelMinecraftPlayerShowTest extends TestCase
 {
-    public function testBanShown()
+    public function test_ban_shown()
     {
         $banningStaff = MinecraftPlayer::factory()->hasAliases(1)->create();
         $bannedPlayer = MinecraftPlayer::factory()
@@ -22,7 +22,7 @@ class PanelMinecraftPlayerShowTest extends TestCase
             ->assertSee(GameBan::first()->reason);
     }
 
-    public function testBanWithNullStaffShown()
+    public function test_ban_with_null_staff_shown()
     {
         $bannedPlayer = MinecraftPlayer::factory()
             ->hasAliases(1)
