@@ -21,14 +21,20 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/minecraft-players*') ? 'active' : '' }} " href="{{ route('front.panel.minecraft-players.index') }}">
-                    <i class="fas fa-cube"></i>
+                    <i class="fas fa-cube fa-fw"></i>
                     Minecraft Players
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/groups*') ? 'active' : '' }} " href="{{ route('front.panel.groups.index') }}">
-                    <i class="fas fa-users"></i>
+                    <i class="fas fa-users fa-fw"></i>
                     Groups
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('panel/activity*') ? 'active' : '' }}" href="{{ route('front.panel.activity.index') }}">
+                    <i class="fas fa-binoculars fa-fw"></i>
+                    Activity
                 </a>
             </li>
         </ul>
@@ -39,7 +45,7 @@
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/pages*') ? 'active' : '' }} " href="{{ route('front.panel.pages.index') }}">
-                    <i class="fas fa-book"></i>
+                    <i class="fas fa-book fa-fw"></i>
                     Pages
                 </a>
             </li>
@@ -51,13 +57,13 @@
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/servers*') ? 'active' : '' }} " href="{{ route('front.panel.servers.index') }}">
-                    <i class="fas fa-server"></i>
+                    <i class="fas fa-server fa-fw"></i>
                     Servers
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/server-tokens*') ? 'active' : '' }} " href="{{ route('front.panel.server-tokens.index') }}">
-                    <i class="fas fa-key"></i>
+                    <i class="fas fa-key fa-fw"></i>
                     Server Tokens
                 </a>
             </li>
