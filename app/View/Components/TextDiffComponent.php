@@ -3,13 +3,12 @@
 namespace App\View\Components;
 
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Jfcherng\Diff\DiffHelper;
 
 class TextDiffComponent extends Component
 {
-    private string $renderer = 'Combined';
-
     private array $diffOptions = [
         'context' => 1,
         'ignoreCase' => false,
@@ -17,9 +16,9 @@ class TextDiffComponent extends Component
     ];
 
     private array $rendererOptions = [
-        'detailLevel' => 'word',
-        'language' => 'eng',
-        'showHeader' => false
+        'detailLevel' => 'line',
+        'showHeader' => false,
+        'lineNumbers' => false
     ];
 
     public function __construct(
@@ -28,11 +27,20 @@ class TextDiffComponent extends Component
         private string $new,
     ) {}
 
+    private function getRenderer()
+    {
+        if (Str::contains($this->new, "\n")) {
+            return 'Combined';
+        } else {
+            return 'SideBySide';
+        }
+    }
+
     public function getDiffHtml()
     {
         return new HtmlString(DiffHelper::calculate(
             $this->old, $this->new,
-            $this->renderer,
+            $this->getRenderer(),
             $this->diffOptions,
             $this->rendererOptions
         ));

@@ -19,7 +19,7 @@ $diff-bg-color-rep: mix($diff-bg-color-rep-base, $diff-bg-color, $diff-op-normal
 
 $diff-table-head-color: mix($diff-bg-color, $diff-text-color, 65%) !default;
 $diff-table-sidebar-color: mix($diff-bg-color, $diff-text-color, 80%) !default;
-$diff-border-color: $border-color !default;
+$diff-border-color: $gray-400 !default;
 
 // color for the nonexistent block
 // for example, there are a deleted line that has no corresponding one
@@ -38,7 +38,6 @@ $diff-bg-color-none-block-alternative: mix($diff-bg-color, $diff-table-sidebar-c
     border-spacing: 0;
     empty-cells: show;
     font-family: $font-family-monospace;
-    font-size: 13px;
     width: 100%;
     word-break: break-all;
 
@@ -54,7 +53,7 @@ $diff-bg-color-none-block-alternative: mix($diff-bg-color, $diff-table-sidebar-c
     th {
         border-collapse: separate;
         border: none;
-        padding: 1px 5px;
+        padding: 0.25rem;
         background: $diff-bg-color;
 
         // make empty cell has height

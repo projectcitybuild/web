@@ -21,11 +21,17 @@ mix.typeScript('resources/js/admin/admin.ts', 'public/assets/admin/js')
     .options({
         processCssUrls: false
     })
-   .extract([
+    .extract([
         'vue',
     ]);
 
-if(mix.inProduction()) {
+mix.webpackConfig({
+    stats: {
+        children: true
+    }
+});
+
+if (mix.inProduction()) {
     mix.version();
 } else {
     mix.sourceMaps();
