@@ -12,7 +12,7 @@
                     <x-activity::attribute-list :changes="$activity->changes['attributes']" />
                     @break
                 @case('updated')
-                    @forelse($activity->only_changed_attributes as $attribute => $values)
+                    @forelse($activity->changes_zipped as $attribute => $values)
                         <x-text-diff :attribute="$attribute" :old="$values['old']" :new="$values['new']"/>
                     @empty
                         <div class="text-center text-muted">
@@ -21,7 +21,9 @@
                     @endforelse
                     @break
                 @default
-                    <p>Can't display event <i>{{ $activity->event }}</i></p>
+                    <div class="text-center text-muted">
+                        <p>No additional data to show for event <em>{{ $activity->event }}</em></p>
+                    </div>
             @endswitch
 
 

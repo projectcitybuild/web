@@ -16,9 +16,9 @@ class TextDiffComponent extends Component
     ];
 
     private array $rendererOptions = [
-        'detailLevel' => 'line',
         'showHeader' => false,
-        'lineNumbers' => false
+        'lineNumbers' => false,
+        'separateBlock' => true,
     ];
 
     public function __construct(

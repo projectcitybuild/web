@@ -4,7 +4,7 @@ namespace Entities\Models\Eloquent;
 
 class Activity extends \Spatie\Activitylog\Models\Activity
 {
-    public function getOnlyChangedAttributesAttribute()
+    public function getChangesZippedAttribute()
     {
         $changes = $this->changes();
         if (!$changes->has('old')) {
@@ -13,9 +13,6 @@ class Activity extends \Spatie\Activitylog\Models\Activity
         $onlyChanges = [];
         foreach ($changes['attributes'] as $attribute => $newValue) {
             $oldValue = $changes['old'][$attribute];
-            if ($oldValue == $newValue) {
-                continue;
-            }
             $onlyChanges[$attribute] = [
                 'new' => $newValue,
                 'old' => $oldValue

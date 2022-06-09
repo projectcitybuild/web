@@ -2,6 +2,7 @@
 
 namespace Entities\Models\Eloquent;
 
+use Altek\Eventually\Eventually;
 use Carbon\Carbon;
 use Entities\Resources\AccountResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +13,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
 use Laravel\Scout\Searchable;
 use Library\Auditing\Traits\CausesActivity;
+use Library\Auditing\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 /**
  * @property int account_id
@@ -32,6 +35,8 @@ final class Account extends Authenticatable
     use HasFactory;
     use Billable;
     use CausesActivity;
+    use LogsActivity;
+    use Eventually;
 
     protected $table = 'accounts';
 
@@ -50,6 +55,24 @@ final class Account extends Authenticatable
     protected $hidden = [
         'totp_secret',
         'totp_backup_code',
+    ];
+
+    protected static $recordEvents = [
+        'created',
+        'updated',
+        'deleted',
+        'synced'
+    ];
+
+    protected static $syncRecordFields = [
+        'groups' => 'name'
+    ];
+
+    protected $logged = [
+        'email',
+        'username',
+        'activated',
+        'groups',
     ];
 
     protected $dates = [
@@ -192,4 +215,11 @@ final class Account extends Authenticatable
     }
 
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->dontSubmitEmptyLogs()
+            ->logOnly($this->logged)
+            ->logOnlyDirty();
+    }
 }

@@ -46,6 +46,8 @@ final class Page extends Model
     {
         return LogOptions::defaults()
             ->logAll()
+            ->dontSubmitEmptyLogs()
+            ->logOnlyDirty()
             ->logExcept(['page_id', 'created_at', 'updated_at']);
     }
 

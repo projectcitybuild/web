@@ -10,7 +10,9 @@ class AccountActivate extends WebController
     public function __invoke(Account $account)
     {
         $account->activated = true;
-        $account->save();
+        $account->disableLogging()->save();
+        activity()->on($account)
+            ->log('manually activated');
 
         return redirect()->back();
     }
