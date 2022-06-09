@@ -14,6 +14,7 @@ const choices = new Choices(element, {
 
                 clearTimeout(task);
                 task = window.setTimeout(() => {
+                    choices.clearChoices();
                     choices.setChoices(async () => {
                         try {
                             // TODO: grab URL from .env file since
