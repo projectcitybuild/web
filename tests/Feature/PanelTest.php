@@ -36,7 +36,7 @@ class PanelTest extends TestCase
 
         $this->actingAs($nonMfaAccount)
             ->get(route('front.panel.index'))
-            ->assertRedirect(route('front.account.security'))
+            ->assertRedirectContains(route('front.account.security'))
             ->assertSessionHas('mfa_setup_required', true);
     }
 
