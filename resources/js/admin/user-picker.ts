@@ -1,5 +1,8 @@
 import Choices from 'choices.js';
 
+// TODO: this will break when using `npm run watch` because the :3000 port is missing
+const baseURL = process.env.MIX_APP_URL;
+
 const element = document.querySelector('[data-pcb-user-picker]') as HTMLSelectElement;
 if (element !== null) {
     const choices = new Choices(element, {
@@ -18,8 +21,7 @@ if (element !== null) {
                         choices.clearChoices();
                         choices.setChoices(async () => {
                             try {
-                                // TODO: grab URL from .env file since
-                                const accounts = await fetch('../api/accounts?query=' + query);
+                                const accounts = await fetch(baseURL + '/panel/api/accounts?query=' + query);
                                 const json = await accounts.json()
 
                                 // @ts-expect-error
