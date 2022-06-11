@@ -10,7 +10,7 @@ use Entities\Models\Eloquent\Server;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
-use Repositories\ServerStatusRepository;
+use Repositories\ServerRepository;
 use Tests\TestCase;
 
 class ServerQueryService_Test extends TestCase
@@ -51,7 +51,7 @@ class ServerQueryService_Test extends TestCase
 
         $service = new ServerQueryService(
             queryAdapterFactory: $this->serverQueryAdapterFactory,
-            serverStatusRepository: new ServerStatusRepository(),
+            serverRepository: new ServerRepository(),
         );
 
         $result = $service->query(server: $server);
@@ -76,7 +76,7 @@ class ServerQueryService_Test extends TestCase
 
         $service = new ServerQueryService(
             queryAdapterFactory: $this->serverQueryAdapterFactory,
-            serverStatusRepository: new ServerStatusRepository(),
+            serverRepository: new ServerRepository(),
         );
 
         $result = $service->query(server: $server);
