@@ -16,6 +16,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Cashier\Billable;
 use Laravel\Scout\Searchable;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Library\Auditing\Traits\CausesActivity;
 use Library\Auditing\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
@@ -41,6 +44,7 @@ final class Account extends Authenticatable
     use CausesActivity;
     use LogsActivity;
     use Eventually;
+    use InteractsWithMedia;
 
     protected $table = 'accounts';
     protected $primaryKey = 'account_id';
@@ -224,5 +228,13 @@ final class Account extends Authenticatable
             ->dontSubmitEmptyLogs()
             ->logOnly($this->logged)
             ->logOnlyDirty();
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this
+            ->addMediaConversion('preview')
+            ->fit(Manipulations::FIT_CROP, 300, 300)
+            ->nonQueued();
     }
 }
