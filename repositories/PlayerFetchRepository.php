@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\PlayerFetch\Repositories;
+namespace Repositories;
 
 use DB;
 use Entities\Models\Eloquent\MinecraftPlayer;

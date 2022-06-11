@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Entities\Repositories\AccountRepository;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Hash;
+use Repositories\AccountRepository;
 
 class AccountSaveNewEmailRequest extends FormRequest
 {

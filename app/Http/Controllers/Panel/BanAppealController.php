@@ -6,12 +6,12 @@ use App\Exceptions\Http\NotImplementedException;
 use App\Http\Requests\BanAppealUpdateRequest;
 use Domain\BanAppeals\Entities\BanAppealStatus;
 use Domain\BanAppeals\Exceptions\AppealAlreadyDecidedException;
-use Domain\BanAppeals\Repositories\BanAppealRepository;
 use Domain\BanAppeals\UseCases\UpdateBanAppealUseCase;
 use Domain\Bans\Exceptions\PlayerNotBannedException;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Notifications\BanAppealUpdatedNotification;
 use Illuminate\Validation\ValidationException;
+use Repositories\BanAppealRepository;
 
 class BanAppealController
 {

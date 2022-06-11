@@ -3,11 +3,11 @@
 namespace Domain\BanAppeals\UseCases;
 
 use Domain\BanAppeals\Exceptions\EmailRequiredException;
-use Domain\BanAppeals\Repositories\BanAppealRepository;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Notifications\BanAppealConfirmationNotification;
+use Repositories\BanAppealRepository;
 
 final class CreateBanAppealUseCase
 {

@@ -3,8 +3,8 @@
 namespace Domain\SignUp\UseCases;
 
 use Entities\Notifications\AccountActivationNotification;
-use Entities\Repositories\AccountRepository;
 use Library\SignedURL\SignedURLGenerator;
+use Repositories\AccountRepository;
 use Shared\Groups\GroupsManager;
 
 /**

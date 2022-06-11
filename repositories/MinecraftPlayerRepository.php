@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Repositories;
+namespace Repositories;
 
 use Entities\Models\Eloquent\MinecraftPlayer;
 
@@ -23,10 +23,5 @@ class MinecraftPlayerRepository
     public function getByUUID(string $uuid): ?MinecraftPlayer
     {
         return MinecraftPlayer::where('uuid', $uuid)->first();
-    }
-
-    public function getByAccountId(int $accountId): ?MinecraftPlayer
-    {
-        return MinecraftPlayer::where('account_id', $accountId)->first();
     }
 }

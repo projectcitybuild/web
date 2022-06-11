@@ -9,10 +9,10 @@ use Domain\Login\Exceptions\AccountNotActivatedException;
 use Domain\Login\Exceptions\InvalidLoginCredentialsException;
 use Domain\Login\UseCases\LoginUseCase;
 use Entities\Models\Eloquent\Account;
-use Entities\Repositories\AccountRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Repositories\AccountRepository;
 use Tests\TestCase;
 
 class LoginUseCaseTest extends TestCase

@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Donations\Repositories;
+namespace Repositories;
 
 use Domain\Donations\Entities\PaidAmount;
 use Entities\Models\Eloquent\Payment;

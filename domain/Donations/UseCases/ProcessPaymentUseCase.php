@@ -7,15 +7,15 @@ use Domain\Donations\Entities\PaidAmount;
 use Domain\Donations\Entities\PaymentType;
 use Domain\Donations\Events\DonationPerkCreated;
 use Domain\Donations\Exceptions\StripeProductNotFoundException;
-use Domain\Donations\Repositories\DonationPerkRepository;
-use Domain\Donations\Repositories\DonationRepository;
-use Domain\Donations\Repositories\PaymentRepository;
-use Domain\Donations\Repositories\StripeProductRepository;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\DonationPerk;
 use Entities\Models\Eloquent\Group;
 use Entities\Notifications\DonationPerkStartedNotification;
 use Illuminate\Support\Carbon;
+use Repositories\DonationPerkRepository;
+use Repositories\DonationRepository;
+use Repositories\PaymentRepository;
+use Repositories\StripeProductRepository;
 use Shared\Groups\GroupsManager;
 
 final class ProcessPaymentUseCase

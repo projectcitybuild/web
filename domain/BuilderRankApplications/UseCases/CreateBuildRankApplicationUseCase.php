@@ -8,8 +8,8 @@ use Domain\BuilderRankApplications\Exceptions\ApplicationAlreadyInProgressExcept
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BuilderRankApplication;
 use Entities\Notifications\BuilderRankAppSubmittedNotification;
-use Entities\Repositories\BuilderRankApplicationRepository;
 use Illuminate\Support\Facades\Http;
+use Repositories\BuilderRankApplicationRepository;
 
 class CreateBuildRankApplicationUseCase
 {

@@ -3,11 +3,11 @@
 namespace Domain\PlayerFetch;
 
 use Domain\PlayerFetch\Jobs\PlayerFetchJob;
-use Domain\PlayerFetch\Repositories\PlayerFetchRepository;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\GameType;
 use Log;
+use Repositories\PlayerFetchRepository;
 
 final class PlayerFetchService
 {

@@ -3,9 +3,9 @@
 namespace Domain\Donations\UseCases;
 
 use Domain\Donations\Exceptions\StripeProductNotFoundException;
-use Domain\Donations\Repositories\StripeProductRepository;
 use Entities\Models\Eloquent\Account;
 use Laravel\Cashier\Checkout;
+use Repositories\StripeProductRepository;
 use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
 

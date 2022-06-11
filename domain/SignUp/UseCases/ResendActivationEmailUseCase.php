@@ -4,8 +4,8 @@ namespace Domain\SignUp\UseCases;
 
 use Domain\SignUp\Exceptions\AccountAlreadyActivatedException;
 use Entities\Notifications\AccountActivationNotification;
-use Entities\Repositories\AccountRepository;
 use Library\SignedURL\SignedURLGenerator;
+use Repositories\AccountRepository;
 
 /**
  * @final

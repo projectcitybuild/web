@@ -6,7 +6,7 @@ use App\Exceptions\Http\BadRequestException;
 use Domain\SignUp\Exceptions\AccountAlreadyActivatedException;
 use Domain\SignUp\UseCases\ActivateUnverifiedAccountUseCase;
 use Entities\Models\Eloquent\Account;
-use Entities\Repositories\AccountRepository;
+use Repositories\AccountRepository;
 use Tests\TestCase;
 
 class ActivateUnverifiedAccountUseCaseTest extends TestCase

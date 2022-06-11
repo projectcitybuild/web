@@ -61,6 +61,7 @@
             "Database\\Seeders\\": "database/seeders/",
             "Database\\Factories\\": "database/factories/",
             "Library\\": "library/",
+            "Repositories\\": "repositories/",
             "Helpers\\": "helpers/",
             "Shared\\": "shared/"
         },

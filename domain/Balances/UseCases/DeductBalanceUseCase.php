@@ -3,9 +3,9 @@
 namespace Domain\Balances\UseCases;
 
 use Domain\Balances\Exceptions\InsufficientBalanceException;
-use Domain\Balances\Repositories\BalanceHistoryRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Repositories\BalanceHistoryRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Exceptions\NoLinkedAccountException;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;

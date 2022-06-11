@@ -1,15 +1,22 @@
 <?php
 
-namespace Domain\ServerStatus\Repositories;
+namespace Repositories;
 
 use Domain\ServerStatus\Entities\ServerQueryResult;
 use Entities\Models\Eloquent\Server;
-use Entities\Models\Eloquent\ServerStatus;
 use Illuminate\Support\Carbon;
 
-final class ServerStatusRepository
+/**
+ * @final
+ */
+class ServerRepository
 {
-    public function update(Server $server, ServerQueryResult $status, Carbon $queriedAt)
+    public function getById(int $serverId): ?Server
+    {
+        return Server::find($serverId);
+    }
+
+    public function updateStatus(Server $server, ServerQueryResult $status, Carbon $queriedAt)
     {
         if ($status->isOnline) {
             $server->num_of_players = $status->numOfPlayers;
