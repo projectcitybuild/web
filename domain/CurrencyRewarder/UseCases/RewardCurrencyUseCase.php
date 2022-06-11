@@ -3,7 +3,7 @@
 namespace Domain\CurrencyRewarder\UseCases;
 
 use Domain\CurrencyRewarder\Jobs\RewardCurrencyJob;
-use Domain\Donations\Repositories\DonationPerkRepository;
+use Repositories\DonationPerkRepository;
 use function now;
 
 final class RewardCurrencyUseCase

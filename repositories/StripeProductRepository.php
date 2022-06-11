@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Donations\Repositories;
+namespace Repositories;
 
 use Entities\Models\Eloquent\StripeProduct;
 

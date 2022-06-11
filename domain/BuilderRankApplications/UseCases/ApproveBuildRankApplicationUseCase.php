@@ -2,12 +2,10 @@
 
 namespace Domain\BuilderRankApplications\UseCases;
 
-use Domain\BuilderRankApplications\Entities\ApplicationStatus;
-use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BuilderRankApplication;
 use Entities\Models\Eloquent\Group;
 use Entities\Notifications\BuilderRankAppApprovedNotification;
-use Entities\Repositories\BuilderRankApplicationRepository;
+use Repositories\BuilderRankApplicationRepository;
 use Shared\Groups\GroupsManager;
 
 class ApproveBuildRankApplicationUseCase

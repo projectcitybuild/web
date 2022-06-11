@@ -3,7 +3,7 @@
 namespace App\Services\PlayerLookup;
 
 use Entities\Models\GamePlayerType;
-use Entities\Repositories\MinecraftPlayerRepository;
+use Repositories\MinecraftPlayerRepository;
 
 /**
  * @deprecated

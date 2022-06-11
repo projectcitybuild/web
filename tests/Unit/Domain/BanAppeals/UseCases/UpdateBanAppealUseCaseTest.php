@@ -4,7 +4,6 @@ namespace Tests\Unit\Domain\BanAppeals\UseCases;
 
 use App\Exceptions\Http\NotImplementedException;
 use Domain\BanAppeals\Entities\BanAppealStatus;
-use Domain\BanAppeals\Repositories\BanAppealRepository;
 use Domain\BanAppeals\UseCases\UpdateBanAppealUseCase;
 use Domain\Bans\UseCases\CreateUnbanUseCase;
 use Entities\Models\Eloquent\Account;
@@ -12,8 +11,7 @@ use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\GameUnban;
 use Entities\Models\Eloquent\MinecraftPlayer;
-use Illuminate\Support\Facades\Notification;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
+use Repositories\BanAppealRepository;
 use Tests\TestCase;
 
 class UpdateBanAppealUseCaseTest extends TestCase

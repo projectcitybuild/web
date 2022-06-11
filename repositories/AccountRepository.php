@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Repositories;
+namespace Repositories;
 
 use Entities\Models\Eloquent\Account;
 use Illuminate\Support\Carbon;

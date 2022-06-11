@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Repositories\MinecraftPlayerAliasRepository;
-use Entities\Repositories\MinecraftPlayerRepository;
 use Illuminate\Database\Connection;
+use Repositories\MinecraftPlayerAliasRepository;
+use Repositories\MinecraftPlayerRepository;
 
 /**
  * @deprecated Use PlayerLookupService instead

@@ -4,7 +4,7 @@ namespace App\Services\PlayerBans;
 
 use App\Services\PlayerLookup\PlayerLookupService;
 use Entities\Models\GamePlayerType;
-use Entities\Repositories\GameBanRepository;
+use Repositories\GameBanV1Repository;
 
 /**
  * @deprecated Use GetBanUseCase
@@ -12,7 +12,7 @@ use Entities\Repositories\GameBanRepository;
 final class PlayerBanLookupService
 {
     /**
-     * @var GameBanRepository
+     * @var GameBanV1Repository
      */
     private $gameBanRepository;
 
@@ -22,7 +22,7 @@ final class PlayerBanLookupService
     private $playerLookupService;
 
     public function __construct(
-        GameBanRepository $gameBanRepository,
+        GameBanV1Repository $gameBanRepository,
         PlayerLookupService $playerLookupService
     ) {
         $this->gameBanRepository = $gameBanRepository;

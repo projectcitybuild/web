@@ -3,14 +3,12 @@
 namespace Unit\Domain\Bans\UseCases;
 
 use Domain\Bans\Exceptions\PlayerNotBannedException;
-use Domain\Bans\Repositories\GameBanRepository;
 use Domain\Bans\UseCases\LookupBanUseCase;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Library\Mojang\Api\MojangPlayerApi;
 use Library\Mojang\Models\MojangPlayer;
-use Mockery\Mock;
-use Mockery\MockInterface;
+use Repositories\GameBanRepository;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 use Shared\PlayerLookup\Repositories\MinecraftPlayerRepository;
 use Tests\TestCase;

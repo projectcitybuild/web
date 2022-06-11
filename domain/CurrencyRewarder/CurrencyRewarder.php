@@ -2,10 +2,10 @@
 
 namespace Domain\CurrencyRewarder;
 
-use Domain\Balances\Repositories\BalanceHistoryRepository;
 use Entities\Models\Eloquent\DonationPerk;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Repositories\BalanceHistoryRepository;
 use function now;
 
 final class CurrencyRewarder

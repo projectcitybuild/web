@@ -6,10 +6,10 @@ use App\Exceptions\Http\NotFoundException;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SendPasswordEmailRequest;
 use App\Http\WebController;
-use Domain\PasswordReset\Repositories\AccountPasswordResetRepository;
 use Domain\PasswordReset\UseCases\ResetAccountPasswordUseCase;
 use Domain\PasswordReset\UseCases\SendPasswordResetEmailUseCase;
 use Illuminate\Http\Request;
+use Repositories\AccountPasswordResetRepository;
 
 final class PasswordResetController extends WebController
 {

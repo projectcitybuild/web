@@ -4,9 +4,9 @@ namespace Tests\Unit\Shared\PlayerLookup;
 
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\MinecraftPlayerAlias;
-use Entities\Repositories\MinecraftPlayerAliasRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
+use Repositories\MinecraftPlayerAliasRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\PlayerLookup;
 use Shared\PlayerLookup\Repositories\MinecraftPlayerRepository;

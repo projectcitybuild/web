@@ -6,7 +6,7 @@ use App\Exceptions\Http\ForbiddenException;
 use App\Services\PlayerBans\Exceptions\MalformedTokenException;
 use App\Services\PlayerBans\Exceptions\UnauthorisedTokenException;
 use Entities\Models\Eloquent\ServerKey;
-use Entities\Repositories\ServerKeyRepository;
+use Repositories\ServerKeyRepository;
 
 /**
  * @deprecated Use Laravel Sanctum to check API token scopes

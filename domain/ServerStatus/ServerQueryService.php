@@ -4,9 +4,9 @@ namespace Domain\ServerStatus;
 
 use Domain\ServerStatus\Entities\ServerQueryResult;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
-use Domain\ServerStatus\Repositories\ServerStatusRepository;
 use Entities\Models\Eloquent\Server;
 use Illuminate\Support\Facades\Log;
+use Repositories\ServerStatusRepository;
 
 final class ServerQueryService
 {

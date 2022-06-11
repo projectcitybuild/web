@@ -4,7 +4,7 @@ namespace Shared\PlayerLookup;
 
 use Entities\Models\GameIdentifierType;
 use Entities\Models\MinecraftUUID;
-use Entities\Repositories\MinecraftPlayerAliasRepository;
+use Repositories\MinecraftPlayerAliasRepository;
 use Shared\PlayerLookup\Contracts\Player;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Repositories\MinecraftPlayerRepository;

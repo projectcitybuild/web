@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\ServerStatus\Repositories;
+namespace Repositories;
 
 use Domain\ServerStatus\Entities\ServerQueryResult;
 use Entities\Models\Eloquent\Server;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Repositories;
+namespace Repositories;
 
 use Carbon\Carbon;
 use Entities\Models\Eloquent\MinecraftPlayerAlias;

@@ -13,10 +13,8 @@ use Domain\EmailChange\UseCases\SendVerificationEmailUseCase;
 use Domain\EmailChange\UseCases\UpdateAccountEmailUseCase;
 use Domain\EmailChange\UseCases\VerifyEmailUseCase;
 use Entities\Models\Eloquent\AccountEmailChange;
-use Entities\Repositories\AccountEmailChangeRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View;
 
 final class AccountSettingController extends WebController
 {

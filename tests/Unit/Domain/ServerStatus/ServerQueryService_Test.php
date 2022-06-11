@@ -3,7 +3,6 @@
 namespace Tests\Unit\Domain\ServerStatus;
 
 use Domain\ServerStatus\Entities\ServerQueryResult;
-use Domain\ServerStatus\Repositories\ServerStatusRepository;
 use Domain\ServerStatus\ServerQueryAdapter;
 use Domain\ServerStatus\ServerQueryAdapterFactory;
 use Domain\ServerStatus\ServerQueryService;
@@ -11,6 +10,7 @@ use Entities\Models\Eloquent\Server;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
+use Repositories\ServerStatusRepository;
 use Tests\TestCase;
 
 class ServerQueryService_Test extends TestCase
