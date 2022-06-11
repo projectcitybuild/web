@@ -11,7 +11,7 @@
             @include('v2.front.components.form-error')
 
             <p class="form__description">Please re-enter your password to continue</p>
-            <form action="{{ route('password.confirm') }}" method="post" class="form">
+            <form action="{{ route('password.confirm.submit') }}" method="post" class="form">
                 @csrf
                 <div class="form-row">
                     <label for="password">Enter Password</label>

@@ -18,7 +18,9 @@ class MfaGate
      */
     private array $exclude = [
         'front.login.mfa',
+        'front.login.mfa.submit',
         'front.login.mfa-recover',
+        'front.login.mfa-recover.submit',
     ];
 
     private ResponseFactory $responseFactory;
