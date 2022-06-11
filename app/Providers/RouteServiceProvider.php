@@ -51,7 +51,11 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware('web')
             ->namespace($this->namespace)
+            ->name('front.')
             ->group(base_path('routes/web.php'));
+
+        Route::middleware('web')
+            ->group(base_path('routes/web_redirects.php'));
 
         Route::middleware(['web', 'auth', PanelGroupScope::ACCESS_PANEL->toMiddleware(), 'requires-mfa'])
             ->prefix('panel')
