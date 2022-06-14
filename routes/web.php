@@ -39,8 +39,7 @@ Route::get('p/{name}', [PageController::class, 'index'])
     ->name('page');
 
 Route::prefix('donate')->group(function () {
-    Route::get('/', function () { abort(503); })
-//    Route::get('/', [DonationController::class, 'index'])
+    Route::get('/', [DonationController::class, 'index'])
         ->name('donate');
 
     Route::post('checkout', [DonationController::class, 'checkout'])
