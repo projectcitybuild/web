@@ -4,12 +4,10 @@ namespace Domain\EmailChange\UseCases;
 
 use Domain\EmailChange\Notifications\VerifyNewEmailAddressNotification;
 use Domain\EmailChange\Notifications\VerifyOldEmailAddressNotification;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountEmailChange;
-use Entities\Repositories\AccountEmailChangeRepository;
 use Illuminate\Support\Facades\Notification;
 use Library\SignedURL\SignedURLGenerator;
 use Library\Tokens\TokenGenerator;
+use Repositories\AccountEmailChangeRepository;
 
 final class SendVerificationEmailUseCase
 {

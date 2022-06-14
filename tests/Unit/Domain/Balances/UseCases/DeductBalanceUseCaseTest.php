@@ -3,10 +3,10 @@
 namespace Unit\Domain\Balances\UseCases;
 
 use Domain\Balances\Exceptions\InsufficientBalanceException;
-use Domain\Balances\Repositories\BalanceHistoryRepository;
 use Domain\Balances\UseCases\DeductBalanceUseCase;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
+use Repositories\BalanceHistoryRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\PlayerLookup;
 use Tests\TestCase;

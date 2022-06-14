@@ -1,9 +1,8 @@
 <?php
 
-namespace Domain\BanAppeals\Repositories;
+namespace Repositories;
 
 use Domain\BanAppeals\Entities\BanAppealStatus;
-use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
 
 class BanAppealRepository

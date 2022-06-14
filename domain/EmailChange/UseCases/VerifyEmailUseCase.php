@@ -3,7 +3,7 @@
 namespace Domain\EmailChange\UseCases;
 
 use Domain\EmailChange\Exceptions\TokenNotFoundException;
-use Entities\Repositories\AccountEmailChangeRepository;
+use Repositories\AccountEmailChangeRepository;
 
 final class VerifyEmailUseCase
 {

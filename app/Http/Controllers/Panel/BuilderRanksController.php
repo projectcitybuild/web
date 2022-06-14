@@ -3,18 +3,13 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\WebController;
-use Domain\BuilderRankApplications\Entities\ApplicationStatus;
 use Domain\BuilderRankApplications\UseCases\ApproveBuildRankApplicationUseCase;
 use Domain\BuilderRankApplications\UseCases\DenyBuildRankApplicationUseCase;
-use Entities\Models\Eloquent\BuilderRankApplication;
 use Entities\Models\Eloquent\Group;
-use Entities\Notifications\BuilderRankAppApprovedNotification;
-use Entities\Notifications\BuilderRankAppDeclinedNotification;
-use Entities\Repositories\BuilderRankApplicationRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Shared\Groups\GroupsManager;
+use Repositories\BuilderRankApplicationRepository;
 
 class BuilderRanksController extends WebController
 {

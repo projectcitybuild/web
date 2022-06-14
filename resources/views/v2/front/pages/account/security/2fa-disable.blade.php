@@ -18,7 +18,7 @@
                 <p class="form__description">You will no longer need this device to authenticate. You can re-enable 2FA at any time, but
                     you'll be given a different code and backup code.</p>
 
-                <form action="{{ route('front.account.security.disable') }}" method="post" class="toolbar">
+                <form action="{{ route('front.account.security.disable.confirm') }}" method="post" class="toolbar">
                     @csrf
                     @method('DELETE')
                     <a href="{{ route('front.account.security') }}" class="button button--filled button--secondary">Cancel</a>

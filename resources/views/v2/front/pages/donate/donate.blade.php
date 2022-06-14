@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="donation-tier__boxes-reward">
                                     <i class="fas fa-ticket"></i>
-                                    <strong>10</strong>
+                                    <strong>12</strong>
                                     <span>Tickets (<a href="#tickets">what's this?</a>)</span>
                                 </div>
                             </div>

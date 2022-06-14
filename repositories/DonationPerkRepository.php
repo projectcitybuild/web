@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Donations\Repositories;
+namespace Repositories;
 
 use Entities\Models\Eloquent\DonationPerk;
 use Illuminate\Support\Carbon;

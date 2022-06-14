@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Balances\Repositories;
+namespace Repositories;
 
 use Entities\Models\Eloquent\AccountBalanceTransaction;
 

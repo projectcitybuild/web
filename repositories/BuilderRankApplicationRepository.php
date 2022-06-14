@@ -1,12 +1,11 @@
 <?php
 
-namespace Entities\Repositories;
+namespace Repositories;
 
 use Domain\BuilderRankApplications\Entities\ApplicationStatus;
 use Domain\BuilderRankApplications\Entities\BuilderRank;
 use Entities\Models\Eloquent\BuilderRankApplication;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 
 /**
  * @final

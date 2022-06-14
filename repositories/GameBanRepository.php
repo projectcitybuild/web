@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Bans\Repositories;
+namespace Repositories;
 
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\GamePlayerType;

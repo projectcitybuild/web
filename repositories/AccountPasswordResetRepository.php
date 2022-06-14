@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\PasswordReset\Repositories;
+namespace Repositories;
 
 use Carbon\Carbon;
 use Entities\Models\Eloquent\AccountPasswordReset;

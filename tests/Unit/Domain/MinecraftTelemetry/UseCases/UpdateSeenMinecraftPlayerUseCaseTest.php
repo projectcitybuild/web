@@ -5,8 +5,8 @@ namespace Tests\Unit\Domain\MinecraftTelemetry\UseCases;
 use Domain\MinecraftTelemetry\UseCases\UpdateSeenMinecraftPlayerUseCase;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\MinecraftPlayerAlias;
-use Entities\Repositories\MinecraftPlayerAliasRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Repositories\MinecraftPlayerAliasRepository;
 use Shared\PlayerLookup\PlayerLookup;
 use Tests\TestCase;
 

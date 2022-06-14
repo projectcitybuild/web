@@ -5,10 +5,10 @@ namespace Tests\Unit\Domain\SignUp\UseCases;
 use Domain\SignUp\UseCases\CreateUnactivatedAccountUseCase;
 use Entities\Models\Eloquent\Account;
 use Entities\Notifications\AccountActivationNotification;
-use Entities\Repositories\AccountRepository;
 use Illuminate\Support\Facades\Notification;
 use Library\SignedURL\Adapters\StubSignedURLGenerator;
 use Library\SignedURL\SignedURLGenerator;
+use Repositories\AccountRepository;
 use Shared\Groups\GroupsManager;
 use Tests\TestCase;
 

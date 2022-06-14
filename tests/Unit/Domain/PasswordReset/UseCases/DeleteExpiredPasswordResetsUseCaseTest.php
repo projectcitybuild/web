@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Domain\PasswordReset\UseCases;
 
-use Domain\PasswordReset\Repositories\AccountPasswordResetRepository;
 use Domain\PasswordReset\UseCases\DeleteExpiredPasswordResetsUseCase;
 use Entities\Models\Eloquent\AccountPasswordReset;
 use Illuminate\Support\Carbon;
+use Repositories\AccountPasswordResetRepository;
 use Tests\TestCase;
 
 class DeleteExpiredPasswordResetsUseCaseTest extends TestCase

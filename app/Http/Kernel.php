@@ -2,8 +2,6 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\PanelAccess;
-use App\Http\Middleware\RequiresServerTokenScope;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -64,8 +62,8 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'server-token' => RequiresServerTokenScope::class,
-        'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
+        'server-token' => \App\Http\Middleware\RequiresServerTokenScope::class,
+        'password.confirm' => \App\Http\Middleware\RequirePassword::class,
         'active-mfa' => \App\Http\Middleware\ActiveMfaSession::class,
         'requires-mfa' => \App\Http\Middleware\RequiresMfaEnabled::class,
     ];

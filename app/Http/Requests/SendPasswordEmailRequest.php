@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use Entities\Models\Eloquent\Account;
-use Entities\Repositories\AccountRepository;
 use Illuminate\Foundation\Http\FormRequest;
+use Repositories\AccountRepository;
 
 final class SendPasswordEmailRequest extends FormRequest
 {

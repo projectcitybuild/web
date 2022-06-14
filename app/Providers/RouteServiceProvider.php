@@ -51,7 +51,11 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware('web')
             ->namespace($this->namespace)
+            ->name('front.')
             ->group(base_path('routes/web.php'));
+
+        Route::middleware('web')
+            ->group(base_path('routes/web_redirects.php'));
 
         Route::middleware(['web', 'auth', PanelGroupScope::ACCESS_PANEL->toMiddleware(), 'requires-mfa'])
             ->prefix('panel')
@@ -76,14 +80,17 @@ class RouteServiceProvider extends ServiceProvider
         // For backwards compatibility, fallback to v1 if no version specified
         Route::prefix('api')
             ->middleware(['api'])
+            ->name('v0.')
             ->group(base_path('routes/api_v1.php'));
 
         Route::prefix('api/v1')
             ->middleware(['api'])
+            ->name('v1.')
             ->group(base_path('routes/api_v1.php'));
 
         Route::prefix('api/v2')
             ->middleware(['api'])
+            ->name('v2.')
             ->group(base_path('routes/api_v2.php'));
     }
 }

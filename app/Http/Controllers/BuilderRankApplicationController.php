@@ -8,8 +8,8 @@ use Domain\BuilderRankApplications\Entities\BuilderRank;
 use Domain\BuilderRankApplications\Exceptions\ApplicationAlreadyInProgressException;
 use Domain\BuilderRankApplications\UseCases\CreateBuildRankApplicationUseCase;
 use Entities\Models\Eloquent\Account;
-use Entities\Repositories\BuilderRankApplicationRepository;
 use Illuminate\Http\Request;
+use Repositories\BuilderRankApplicationRepository;
 
 final class BuilderRankApplicationController extends WebController
 {

@@ -3,20 +3,11 @@
 namespace Unit\Domain\EmailChange\UseCases;
 
 use Domain\EmailChange\Exceptions\TokenNotFoundException;
-use Domain\EmailChange\Notifications\VerifyNewEmailAddressNotification;
-use Domain\EmailChange\Notifications\VerifyOldEmailAddressNotification;
-use Domain\EmailChange\UseCases\SendVerificationEmailUseCase;
-use Domain\EmailChange\UseCases\UpdateAccountEmailUseCase;
 use Domain\EmailChange\UseCases\VerifyEmailUseCase;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\AccountEmailChange;
-use Entities\Repositories\AccountEmailChangeRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Notification;
-use Library\SignedURL\Adapters\StubSignedURLGenerator;
-use Library\SignedURL\SignedURLGenerator;
-use Library\Tokens\Adapters\StubTokenGenerator;
-use Library\Tokens\TokenGenerator;
+use Repositories\AccountEmailChangeRepository;
 use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 use Tests\TestCase;
 

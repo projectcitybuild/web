@@ -3,11 +3,11 @@
 namespace Domain\PasswordReset\UseCases;
 
 use Domain\PasswordReset\PasswordResetURLGenerator;
-use Domain\PasswordReset\Repositories\AccountPasswordResetRepository;
 use Entities\Models\Eloquent\Account;
 use Entities\Notifications\AccountPasswordResetNotification;
 use Library\SignedURL\SignedURLGenerator;
 use Library\Tokens\TokenGenerator;
+use Repositories\AccountPasswordResetRepository;
 
 final class SendPasswordResetEmailUseCase
 {

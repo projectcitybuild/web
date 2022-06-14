@@ -121,7 +121,7 @@ class AccountSecurityTest extends TestCase
         $this->actingAs(Account::factory()->hasFinishedTotp()->create());
 
         $this->get(route('front.account.security.disable'))
-            ->assertRedirect(route('password.confirm'));
+            ->assertRedirect(route('front.password.confirm'));
     }
 
     public function test_cant_disable_if_not_enabled()
@@ -181,7 +181,7 @@ class AccountSecurityTest extends TestCase
         $this->actingAs(Account::factory()->hasFinishedTotp()->create());
 
         $this->get(route('front.account.security.reset-backup'))
-            ->assertRedirect(route('password.confirm'));
+            ->assertRedirect(route('front.password.confirm'));
     }
 
     public function test_can_see_new_backup_code_after_confirming()

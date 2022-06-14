@@ -14,7 +14,7 @@
                 If you've lost access to your 2FA device, you can disable 2FA on your account by entering your backup code.
             </p>
 
-            <form action="{{ route('front.login.mfa-recover') }}" class="form" method="post">
+            <form action="{{ route('front.login.mfa-recover.submit') }}" class="form" method="post">
                 @csrf
                 @method('DELETE')
 

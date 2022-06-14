@@ -2,10 +2,10 @@
 
 namespace Domain\Donations\UseCases;
 
-use Domain\Donations\Repositories\DonationPerkRepository;
 use Entities\Models\Eloquent\Group;
 use Entities\Notifications\DonationEndedNotification;
 use Illuminate\Support\Facades\Log;
+use Repositories\DonationPerkRepository;
 use Shared\Groups\GroupsManager;
 
 final class DeactivateExpiredDonorPerksUseCase
