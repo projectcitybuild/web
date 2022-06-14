@@ -15,6 +15,7 @@ use Shared\PlayerLookup\Contracts\Player;
  * @property int account_id
  * @property ?Account account
  * @property ?Carbon last_synced_at
+ * @property ?Carbon last_seen_at
  * @property Collection aliases
  */
 final class MinecraftPlayer extends Model implements Player
@@ -29,6 +30,7 @@ final class MinecraftPlayer extends Model implements Player
         'uuid',
         'account_id',
         'last_synced_at',
+        'last_seen_at',
     ];
 
     protected $hidden = [];
