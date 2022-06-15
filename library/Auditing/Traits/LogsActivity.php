@@ -45,6 +45,7 @@ trait LogsActivity
                     ->useLog($model->getLogNameToUse())
                     ->performedOn($model)
                     ->withProperties($attrs)
+                    ->event('synced')
                     ->log($model->getDescriptionForEvent("{$relation} update"));
             });
         }

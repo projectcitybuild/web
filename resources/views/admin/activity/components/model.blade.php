@@ -1,10 +1,10 @@
 @props(['model', 'link' => true])
 
-@if($model->getActivitySubjectLink() && $link)
+@if($model?->getActivitySubjectLink() && $link)
     <a href="{{ $model->getActivitySubjectLink() }}">
 @endif
-    {{ $model->getActivitySubjectName() ?? $model->getKey() }}
-@if($model->getActivitySubjectLink() && $link)
+    {{ $model?->getActivitySubjectName() ?? $model?->getKey() ?? 'Unknown' }}
+@if($model?->getActivitySubjectLink() && $link)
     </a>
 @endif
 

@@ -11,7 +11,11 @@
                     {{ $attribute }}
                 </dt>
                 <dd class="col-md-9">
-                    {{ $value }}
+                    @if(gettype($value) == 'array')
+                        {{ implode(', ', $value) }}
+                    @else
+                        {{ $value }}
+                    @endif
                 </dd>
             </div>
         @endforeach

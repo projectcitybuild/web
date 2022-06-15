@@ -20,6 +20,20 @@
                         </div>
                     @endforelse
                     @break
+                @case('synced')
+                    @forelse($activity->changes_zipped as $attribute => $values)
+                        <x-text-diff
+                            :attribute="$attribute"
+                            :old="implode(PHP_EOL, $values['old'])"
+                            :new="implode(PHP_EOL, $values['new'])"
+                            :full-context="true"
+                        />
+                    @empty
+                        <div class="text-center text-muted">
+                            <em>No changes recorded</em>
+                        </div>
+                    @endforelse
+                    @break
                 @default
                     <div class="text-center text-muted">
                         <p>No additional data to show for event <em>{{ $activity->event }}</em></p>

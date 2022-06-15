@@ -5,6 +5,7 @@ namespace App\View\Components;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
+use Jfcherng\Diff\Differ;
 use Jfcherng\Diff\DiffHelper;
 
 class TextDiffComponent extends Component
@@ -25,7 +26,12 @@ class TextDiffComponent extends Component
         private string $attribute,
         private string $old,
         private string $new,
-    ) {}
+        bool $fullContext = false
+    ) {
+        if ($fullContext) {
+            $this->diffOptions['context'] = Differ::CONTEXT_ALL;
+        }
+    }
 
     private function getRenderer()
     {

@@ -21,8 +21,8 @@
                 </td>
                 <td>
                     <strong>
-                        {{ $activity->description }}
                         {{ $activity->subject_type }}
+                        {{ $activity->description }}
                     </strong>
                     @if($activity->only_changed_attributes)
                         <br>
