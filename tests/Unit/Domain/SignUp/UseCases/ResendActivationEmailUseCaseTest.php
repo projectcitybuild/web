@@ -6,10 +6,10 @@ use Domain\SignUp\Exceptions\AccountAlreadyActivatedException;
 use Domain\SignUp\UseCases\ResendActivationEmailUseCase;
 use Entities\Models\Eloquent\Account;
 use Entities\Notifications\AccountActivationNotification;
-use Entities\Repositories\AccountRepository;
 use Illuminate\Support\Facades\Notification;
 use Library\SignedURL\Adapters\StubSignedURLGenerator;
 use Library\SignedURL\SignedURLGenerator;
+use Repositories\AccountRepository;
 use Tests\TestCase;
 
 class ResendActivationEmailUseCaseTest extends TestCase

@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Domain\PasswordReset\PasswordResetURLGenerator;
-use Domain\PasswordReset\Repositories\AccountPasswordResetRepository;
 use Domain\PasswordReset\UseCases\SendPasswordResetEmailUseCase;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\AccountPasswordReset;
@@ -11,6 +10,7 @@ use Entities\Notifications\AccountPasswordResetNotification;
 use Illuminate\Support\Facades\Notification;
 use Library\SignedURL\Adapters\StubSignedURLGenerator;
 use Library\Tokens\Adapters\StubTokenGenerator;
+use Repositories\AccountPasswordResetRepository;
 use Tests\TestCase;
 
 class PasswordResetTest extends TestCase

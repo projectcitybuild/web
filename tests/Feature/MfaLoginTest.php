@@ -21,7 +21,7 @@ class MfaLoginTest extends TestCase
         $this->google2fa = $this->app->make(Google2FA::class);
     }
 
-    public function testMfaFlagIsSetOnLogin()
+    public function test_mfa_flag_is_set_on_login()
     {
         $this->post(route('front.login.submit'), [
             'email' => $this->mfaAccount->email,
@@ -29,7 +29,7 @@ class MfaLoginTest extends TestCase
         ])->assertSessionHas(MfaGate::NEEDS_MFA_KEY);
     }
 
-    public function testMfaFlagCausesRedirect()
+    public function test_mfa_flag_causes_redirect()
     {
         $this->actingAs($this->mfaAccount)
             ->flagNeedsMfa();
@@ -38,43 +38,42 @@ class MfaLoginTest extends TestCase
             ->assertRedirect(route('front.login.mfa'));
     }
 
-    public function testSubmitMfaCodeRemovesFlag()
+    public function test_submit_mfa_code_removes_flag()
     {
         $this->actingAs($this->mfaAccount)
             ->flagNeedsMfa();
 
         $validCode = $this->google2fa->getCurrentOtp(Crypt::decryptString($this->mfaAccount->totp_secret));
 
-        $this->post(route('front.login.mfa'), [
-            'code' => $validCode,
-        ])->assertSessionHasNoErrors()->assertRedirect();
+        $this->post(route('front.login.mfa.submit'), ['code' => $validCode])
+            ->assertSessionHasNoErrors()
+            ->assertRedirect();
     }
 
-    public function testCantSubmitWrongMfaCode()
+    public function test_cant_submit_wrong_mfa_code()
     {
         $this->actingAs($this->mfaAccount)
             ->flagNeedsMfa();
 
-        $this->post(route('front.login.mfa'), [
-            'code' => '000000',
-        ])->assertSessionHasErrors(['code']);
-    }
-
-    public function testCantSubmitNoMfaCode()
-    {
-        $this->actingAs($this->mfaAccount)
-            ->flagNeedsMfa();
-
-        $this->post(route('front.login.mfa'), [])
+        $this->post(route('front.login.mfa.submit'), ['code' => '000000'])
             ->assertSessionHasErrors(['code']);
     }
 
-    public function testCantSubmitMalformedMfaCode()
+    public function test_cant_submit_no_mfa_code()
     {
         $this->actingAs($this->mfaAccount)
             ->flagNeedsMfa();
 
-        $this->post(route('front.login.mfa'), ['backup_code' => 'abcdefg'])
+        $this->post(route('front.login.mfa.submit'), [])
+            ->assertSessionHasErrors(['code']);
+    }
+
+    public function test_cant_submit_malformed_mfa_code()
+    {
+        $this->actingAs($this->mfaAccount)
+            ->flagNeedsMfa();
+
+        $this->post(route('front.login.mfa.submit'), ['backup_code' => 'abcdefg'])
             ->assertSessionHasErrors(['code']);
     }
 }

@@ -8,15 +8,16 @@ use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\GameIdentifierType;
+use Entities\Models\PanelGroupScope;
 use Entities\Notifications\BanAppealUpdatedNotification;
 use Illuminate\Support\Facades\Notification;
-use Tests\TestCase;
+use Tests\E2ETestCase;
 
-class PanelBanAppealDecisionTest extends TestCase
+class PanelBanAppealDecisionTest extends E2ETestCase
 {
     private BanAppeal $appeal;
-    private Account $account;
     private GameBan $gameBan;
+    private Account $admin;
 
     protected function setUp(): void
     {
@@ -25,13 +26,22 @@ class PanelBanAppealDecisionTest extends TestCase
         $this->gameBan = GameBan::factory()->active()->for(MinecraftPlayer::factory(), 'bannedPlayer')->create();
         $this->appeal = BanAppeal::factory()->for($this->gameBan)->create(['explanation' => 'My Explanation']);
 
-        $this->account = $this->adminAccount();
-        $staffMcPlayer = MinecraftPlayer::factory()->for($this->account, 'account')->create();
+        $this->admin = $this->adminAccount(scopes: [
+            PanelGroupScope::ACCESS_PANEL,
+            PanelGroupScope::REVIEW_APPEALS,
+        ]);
+
+        MinecraftPlayer::factory()->for($this->admin, 'account')->create();
     }
 
     public function test_error_if_account_has_no_players()
     {
-        $this->actingAs($this->adminAccount(true))
+        $admin = $this->adminAccount(scopes: [
+            PanelGroupScope::ACCESS_PANEL,
+            PanelGroupScope::REVIEW_APPEALS,
+        ]);
+
+        $this->actingAs($admin)
             ->put(route('front.panel.ban-appeals.update', $this->appeal), [
                 'decision_note' => 'Some Note',
                 'status' => BanAppealStatus::ACCEPTED_UNBAN->value
@@ -42,7 +52,7 @@ class PanelBanAppealDecisionTest extends TestCase
 
     public function test_can_unban_player()
     {
-        $this->actingAs($this->account)
+        $this->actingAs($this->admin)
             ->put(route('front.panel.ban-appeals.update', $this->appeal), [
                 'decision_note' => 'Some Note',
                 'status' => BanAppealStatus::ACCEPTED_UNBAN->value
@@ -53,7 +63,7 @@ class PanelBanAppealDecisionTest extends TestCase
         $this->assertEquals(false, $this->appeal->gameBan->refresh()->is_active);
         $this->assertDatabaseHas('game_network_unbans', [
             'game_ban_id' => $this->gameBan->getKey(),
-            'staff_player_id' => $this->account->minecraftAccount()->first()->getKey(),
+            'staff_player_id' => $this->admin->minecraftAccount()->first()->getKey(),
             'staff_player_type' => GameIdentifierType::MINECRAFT_UUID->playerType()->value
         ]);
         Notification::assertSentTo($this->appeal, BanAppealUpdatedNotification::class);
@@ -61,7 +71,7 @@ class PanelBanAppealDecisionTest extends TestCase
 
     public function test_can_deny_appeal()
     {
-        $this->actingAs($this->account)
+        $this->actingAs($this->admin)
             ->put(route('front.panel.ban-appeals.update', $this->appeal), [
                 'decision_note' => 'Some Note',
                 'status' => BanAppealStatus::DENIED->value
@@ -85,7 +95,7 @@ class PanelBanAppealDecisionTest extends TestCase
         $this->gameBan->is_active = false;
         $this->gameBan->save();
 
-        $this->actingAs($this->account)
+        $this->actingAs($this->admin)
             ->put(route('front.panel.ban-appeals.update', $this->appeal), [
                 'decision_note' => 'Some Note',
                 'status' => BanAppealStatus::ACCEPTED_UNBAN->value
@@ -104,7 +114,7 @@ class PanelBanAppealDecisionTest extends TestCase
         $this->appeal->status = BanAppealStatus::DENIED->value;
         $this->appeal->save();
 
-        $this->actingAs($this->account)
+        $this->actingAs($this->admin)
             ->put(route('front.panel.ban-appeals.update', $this->appeal), [
                 'decision_note' => 'Some Note',
                 'status' => BanAppealStatus::ACCEPTED_UNBAN->value
@@ -112,5 +122,27 @@ class PanelBanAppealDecisionTest extends TestCase
             ->assertSessionHasErrors();
 
         Notification::assertNothingSent();
+    }
+
+    public function test_unauthorised_without_scope()
+    {
+        $admin = $this->adminAccount(scopes: [
+            PanelGroupScope::ACCESS_PANEL,
+        ]);
+
+        $this->actingAs($admin)
+            ->put(route('front.panel.ban-appeals.update', $this->appeal))
+            ->assertUnauthorized();
+    }
+
+    public function test_unauthorised_without_panel_access()
+    {
+        $admin = $this->adminAccount(scopes: [
+            PanelGroupScope::REVIEW_APPEALS,
+        ]);
+
+        $this->actingAs($admin)
+            ->put(route('front.panel.ban-appeals.update', $this->appeal))
+            ->assertUnauthorized();
     }
 }

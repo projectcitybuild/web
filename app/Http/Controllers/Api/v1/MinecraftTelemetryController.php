@@ -16,9 +16,12 @@ final class MinecraftTelemetryController extends ApiController
             'uuid' => 'required|string',
             'alias' => 'required|string',
         ]);
+
         $updateSeenMinecraftPlayer->execute(
             uuid: $request->get('uuid'),
             alias: $request->get('alias'),
         );
+
+        return response()->json(null);
     }
 }

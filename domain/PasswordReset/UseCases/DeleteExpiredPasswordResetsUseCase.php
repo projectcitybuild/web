@@ -2,7 +2,7 @@
 
 namespace Domain\PasswordReset\UseCases;
 
-use Domain\PasswordReset\Repositories\AccountPasswordResetRepository;
+use Repositories\AccountPasswordResetRepository;
 use function now;
 
 class DeleteExpiredPasswordResetsUseCase

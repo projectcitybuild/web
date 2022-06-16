@@ -7,13 +7,13 @@ use App\Services\PlayerBans\Exceptions\UserAlreadyBannedException;
 use App\Services\PlayerBans\Exceptions\UserNotBannedException;
 use App\Services\PlayerLookup\PlayerLookupService;
 use Carbon\Carbon;
-use Domain\Bans\Repositories\GameUnbanRepository;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\GameUnban;
 use Entities\Models\Eloquent\ServerKey;
 use Entities\Models\GamePlayerType;
-use Entities\Repositories\GameBanRepository;
 use Illuminate\Support\Facades\DB;
+use Repositories\GameBanV1Repository;
+use Repositories\GameUnbanRepository;
 
 /**
  * @deprecated Use CreateBanUseCase and CreateUnbanUseCase
@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\DB;
 final class PlayerBanService
 {
     /**
-     * @var GameBanRepository
+     * @var GameBanV1Repository
      */
     private $gameBanRepository;
 
@@ -36,7 +36,7 @@ final class PlayerBanService
     private $playerLookupService;
 
     public function __construct(
-        GameBanRepository $gameBanRepository,
+        GameBanV1Repository $gameBanRepository,
         GameUnbanRepository $gameUnbanRepository,
         PlayerLookupService $playerLookupService
     ) {

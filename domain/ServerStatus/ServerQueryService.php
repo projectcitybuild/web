@@ -4,15 +4,15 @@ namespace Domain\ServerStatus;
 
 use Domain\ServerStatus\Entities\ServerQueryResult;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
-use Domain\ServerStatus\Repositories\ServerStatusRepository;
 use Entities\Models\Eloquent\Server;
 use Illuminate\Support\Facades\Log;
+use Repositories\ServerRepository;
 
 final class ServerQueryService
 {
     public function __construct(
         private ServerQueryAdapterFactory $queryAdapterFactory,
-        private ServerStatusRepository $serverStatusRepository,
+        private ServerRepository $serverRepository,
     ) {}
 
     /**
@@ -35,7 +35,7 @@ final class ServerQueryService
             port: $server->port
         );
 
-        $this->serverStatusRepository->update(
+        $this->serverRepository->updateStatus(
             server: $server,
             status: $status,
             queriedAt: $now,

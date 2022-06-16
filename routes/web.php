@@ -12,7 +12,6 @@ use App\Http\Controllers\MfaBackupController;
 use App\Http\Controllers\MfaLoginGateController;
 use App\Http\Controllers\MinecraftPlayerLinkController;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\Panel\ActivityController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ReauthController;
 use App\Http\Controllers\RegisterController;
@@ -28,160 +27,129 @@ use App\Http\Controllers\Settings\Mfa\ResetBackupController;
 use App\Http\Controllers\Settings\Mfa\SetupMfaController;
 use App\Http\Controllers\Settings\Mfa\StartMfaController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\URL;
-use Library\Environment\Environment;
 
-// Force all web routes to load over https
-if (Environment::isProduction()) {
-    URL::forceScheme('https');
-}
-
-/*
-|--------------------------------------------------------------------------
-| Redirects
-|--------------------------------------------------------------------------
-|
-| Permanent URL redirects
-|
-*/
-Route::permanentRedirect('terms', 'https://forums.projectcitybuild.com/t/community-rules/22928')->name('terms');
-Route::permanentRedirect('privacy', 'https://forums.projectcitybuild.com/privacy')->name('privacy');
-Route::permanentRedirect('wiki', 'https://wiki.projectcitybuild.com')->name('wiki');
-Route::permanentRedirect('maps', 'https://maps.pcbmc.co')->name('maps');
-Route::permanentRedirect('3d-maps', 'https://3d.pcbmc.co')->name('3d-maps');
-Route::permanentRedirect('report', 'https://forums.projectcitybuild.com/w/player-report')->name('report');
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| All available routes for the front-end
-|
-*/
 Route::get('/', [HomeController::class, 'index'])
-    ->name('front.home');
+    ->name('home');
 
 Route::get('logout', [LogoutController::class, 'logout'])
-    ->name('front.logout')
+    ->name('logout')
     ->middleware('auth');
 
 Route::get('p/{name}', [PageController::class, 'index'])
-    ->name('front.page');
+    ->name('page');
 
 Route::prefix('donate')->group(function () {
-    Route::get('/', function () { abort(503); })
-//    Route::get('/', [DonationController::class, 'index'])
-        ->name('front.donate');
+    Route::get('/', [DonationController::class, 'index'])
+        ->name('donate');
 
     Route::post('checkout', [DonationController::class, 'checkout'])
-        ->name('front.donations.checkout');
+        ->name('donations.checkout');
 
     Route::get('success', [DonationController::class, 'success'])
-        ->name('front.donate.success');
+        ->name('donate.success');
 });
 
 Route::prefix('rank-up')->group(function () {
     Route::get('/', [BuilderRankApplicationController::class, 'index'])
-        ->name('front.rank-up');
+        ->name('rank-up');
 
     Route::post('/', [BuilderRankApplicationController::class, 'store'])
-        ->name('front.rank-up.submit');
+        ->name('rank-up.submit');
 
     Route::get('{id}', [BuilderRankApplicationController::class, 'show'])
-        ->name('front.rank-up.status');
+        ->name('rank-up.status');
 });
 
 Route::prefix('appeal')->group(function() {
     Route::get('/', [BanAppealController::class, 'index'])
-        ->name('front.appeal');
+        ->name('appeal');
 
-    Route::redirect('/auth', '/appeal')
-        ->name('front.appeal.auth')
+    Route::redirect('auth', '/appeal')
+        ->name('appeal.auth')
         ->middleware('auth');
 
-    Route::get('/{banAppeal}', [BanAppealController::class, 'show'])
-        ->name('front.appeal.show');
+    Route::get('{banAppeal}', [BanAppealController::class, 'show'])
+        ->name('appeal.show');
 });
 
 Route::prefix('bans')->group(function() {
     Route::get('/', [BanlistController::class, 'index'])
-        ->name('front.banlist');
+        ->name('banlist');
 
     Route::post('/', BanLookupController::class)
-        ->name('front.bans.lookup');
+        ->name('bans.lookup');
 
     Route::get('{ban}/appeal', [BanAppealController::class, 'create'])
-        ->name('front.appeal.create');
+        ->name('appeal.create');
 
     Route::post('{ban}/appeal', [BanAppealController::class, 'store'])
-        ->name('front.appeal.submit');
+        ->name('appeal.submit');
 });
 
 Route::prefix('login')->group(function () {
     Route::get('/', [LoginController::class, 'show'])
-        ->name('front.login')
+        ->name('login')
         ->middleware('guest');
 
     Route::post('/', [LoginController::class, 'login'])
-        ->name('front.login.submit')
+        ->name('login.submit')
         ->middleware('guest');
 
-    Route::get('/reactivate', [LoginController::class, 'resendActivationEmail'])
-        ->name('front.login.reactivate')
+    Route::get('reactivate', [LoginController::class, 'resendActivationEmail'])
+        ->name('login.reactivate')
         ->middleware(['guest', 'throttle:3,1']);
 
-    Route::get('/reauth', [ReauthController::class, 'show'])
+    Route::get('reauth', [ReauthController::class, 'show'])
         ->name('password.confirm')
         ->middleware('auth');
 
-    Route::post('/reauth', [ReauthController::class, 'process'])
-        ->name('password.confirm')
+    Route::post('reauth', [ReauthController::class, 'process'])
+        ->name('password.confirm.submit')
         ->middleware(['auth', 'throttle:6,1']);
 
-    Route::get('/mfa', [MfaLoginGateController::class, 'create'])
-        ->name('front.login.mfa')
+    Route::get('mfa', [MfaLoginGateController::class, 'create'])
+        ->name('login.mfa')
         ->middleware(['auth', 'active-mfa']);
 
-    Route::post('/mfa', [MfaLoginGateController::class, 'store'])
-        ->name('front.login.mfa')
+    Route::post('mfa', [MfaLoginGateController::class, 'store'])
+        ->name('login.mfa.submit')
         ->middleware(['auth', 'active-mfa', 'throttle:6,1']);
 
-    Route::get('/mfa/recover', [MfaBackupController::class, 'show'])
-        ->name('front.login.mfa-recover')
+    Route::get('mfa/recover', [MfaBackupController::class, 'show'])
+        ->name('login.mfa-recover')
         ->middleware(['auth', 'active-mfa']);
 
-    Route::delete('/mfa/recover', [MfaBackupController::class, 'destroy'])
-        ->name('front.login.mfa-recover')
+    Route::delete('mfa/recover', [MfaBackupController::class, 'destroy'])
+        ->name('login.mfa-recover.submit')
         ->middleware(['auth', 'active-mfa', 'throttle:6,1']);
 });
 
 Route::prefix('password-reset')->group(function () {
     Route::get('/', [PasswordResetController::class, 'create'])
-        ->name('front.password-reset.create');
+        ->name('password-reset.create');
 
     Route::post('/', [PasswordResetController::class, 'store'])
-        ->name('front.password-reset.store');
+        ->name('password-reset.store');
 
     Route::get('edit', [PasswordResetController::class, 'edit'])
-        ->name('front.password-reset.edit')
+        ->name('password-reset.edit')
         ->middleware('signed');
 
     Route::patch('edit', [PasswordResetController::class, 'update'])
-        ->name('front.password-reset.update');
+        ->name('password-reset.update');
 });
 
 Route::prefix('register')->group(function () {
     Route::get('/', [RegisterController::class, 'show'])
-        ->name('front.register')
+        ->name('register')
         ->middleware('guest');
 
     Route::post('/', [RegisterController::class, 'register'])
-        ->name('front.register.submit')
+        ->name('register.submit')
         ->middleware('guest');
 
     Route::get('activate', [RegisterController::class, 'activate'])
-        ->name('front.register.activate')
+        ->name('register.activate')
         ->middleware(['signed', 'guest']);
 });
 
@@ -192,163 +160,72 @@ Route::group([
     Route::redirect(uri: 'settings', destination: 'edit');
 
     Route::get('/', [AccountProfileController::class, 'show'])
-        ->name('front.account.profile');
+        ->name('account.profile');
 
     Route::get('donations', [AccountDonationController::class, 'index'])
-        ->name('front.account.donations');
+        ->name('account.donations');
 
     Route::get('billing', [AccountBillingController::class, 'index'])
-        ->name('front.account.billing');
+        ->name('account.billing');
 
     Route::prefix('edit')->group(function () {
         Route::get('/', [AccountSettingController::class, 'show'])
-            ->name('front.account.settings');
+            ->name('account.settings');
 
         Route::post('email/verify', [AccountSettingController::class, 'sendVerificationEmail'])
-            ->name('front.account.settings.email');
+            ->name('account.settings.email');
 
         Route::get('email/confirm', [AccountSettingController::class, 'showConfirmForm'])
-            ->name('front.account.settings.email.confirm')
+            ->name('account.settings.email.confirm')
             ->middleware('signed');
 
         Route::post('password', [AccountSettingController::class, 'changePassword'])
-            ->name('front.account.settings.password');
+            ->name('account.settings.password');
 
         Route::post('username', [AccountSettingController::class, 'changeUsername'])
-            ->name('front.account.settings.username');
+            ->name('account.settings.username');
     });
 
     Route::prefix('games')->group(function () {
         Route::get('/', [AccountGameAccountController::class, 'index'])
-            ->name('front.account.games');
+            ->name('account.games');
 
         Route::delete('/{minecraft_player}', [AccountGameAccountController::class, 'destroy'])
-            ->name('front.account.games.delete');
+            ->name('account.games.delete');
     });
 
     Route::prefix('security')->group(function () {
         Route::get('/', [AccountSecurityController::class, 'show'])
-            ->name('front.account.security');
+            ->name('account.security');
 
-        Route::post('/mfa', StartMfaController::class)
-            ->name('front.account.security.start');
+        Route::post('mfa', StartMfaController::class)
+            ->name('account.security.start');
 
-        Route::get('/mfa/setup', SetupMfaController::class)
-            ->name('front.account.security.setup');
+        Route::get('mfa/setup', SetupMfaController::class)
+            ->name('account.security.setup');
 
-        Route::post('/mfa/finish', FinishMfaController::class)
-            ->name('front.account.security.finish');
+        Route::post('mfa/finish', FinishMfaController::class)
+            ->name('account.security.finish');
 
-        Route::get('/mfa/disable', [DisableMfaController::class, 'show'])
-            ->name('front.account.security.disable')
+        Route::get('mfa/disable', [DisableMfaController::class, 'show'])
+            ->name('account.security.disable')
             ->middleware('password.confirm');
 
-        Route::delete('/mfa/disable', [DisableMfaController::class, 'destroy'])
-            ->name('front.account.security.disable')
+        Route::delete('mfa/disable', [DisableMfaController::class, 'destroy'])
+            ->name('account.security.disable.confirm')
             ->middleware('password.confirm');
 
-        Route::get('/mfa/backup', [ResetBackupController::class, 'show'])
-            ->name('front.account.security.reset-backup')
+        Route::get('mfa/backup', [ResetBackupController::class, 'show'])
+            ->name('account.security.reset-backup')
             ->middleware('password.confirm');
 
-        Route::post('/mfa/backup', [ResetBackupController::class, 'update'])
-            ->name('front.account.security.reset-backup')
+        Route::post('mfa/backup', [ResetBackupController::class, 'update'])
+            ->name('account.security.reset-backup.confirm')
             ->middleware('password.confirm');
     });
 });
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('auth/minecraft/{token}', [MinecraftPlayerLinkController::class, 'index'])
-        ->name('front.auth.minecraft.token');
+        ->name('auth.minecraft.token');
 });
-
-Route::group([
-    'prefix' => 'panel',
-    'as' => 'front.panel.',
-    'namespace' => 'Panel',
-    'middleware' => ['auth', 'panel', 'requires-mfa']
-], function () {
-    Route::view('/', 'admin.index')->name('index');
-
-    Route::resource('accounts', 'AccountController')->only(['index', 'show', 'edit', 'update']);
-    Route::resource('donations', 'DonationController');
-    Route::resource('donation-perks', 'DonationPerksController')->only(['create', 'store', 'edit', 'update', 'destroy']);
-    Route::resource('minecraft-players', 'MinecraftPlayerController')->except(['destroy']);
-    Route::resource('servers', 'ServerController')->except(['show']);
-    Route::resource('server-tokens', 'ServerTokenController')->except(['show']);
-    Route::get('groups/{group}/accounts', 'GroupAccountController@index')->name('groups.accounts');
-    Route::get('groups', 'GroupController@index')->name('groups.index');
-    Route::resource('pages', 'PageController');
-
-    Route::group(['prefix' => 'builder-ranks'], function () {
-        Route::get('/', 'BuilderRanksController@index')
-            ->name('builder-ranks.index');
-
-        Route::get('{id}', 'BuilderRanksController@show')
-            ->name('builder-ranks.show');
-
-        Route::post('{id}/approve', 'BuilderRanksController@approve')
-            ->name('builder-ranks.approve');
-
-        Route::post('{id}/deny', 'BuilderRanksController@deny')
-            ->name('builder-ranks.deny');
-    });
-
-    Route::resource('ban-appeals', 'BanAppealController')->only('index', 'show', 'update');
-
-    Route::post('minecraft-players/lookup', [
-        'as' => 'minecraft-players.lookup',
-        'uses' => 'MinecraftPlayerLookupController',
-    ]);
-
-    Route::post('minecraft-players/{minecraft_player}/reload-alias', [
-        'as' => 'minecraft-players.reload-alias',
-        'uses' => 'MinecraftPlayerReloadAliasController',
-    ]);
-
-    Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
-        Route::get('accounts', [
-            'as' => 'account-search',
-            'uses' => 'Api\\AccountSearchController',
-        ]);
-    });
-
-    Route::group(['prefix' => 'accounts/{account}', 'as' => 'accounts.'], function () {
-        Route::post('activate', [
-            'as' => 'activate',
-            'uses' => 'AccountActivate',
-        ]);
-
-        Route::post('resend-activation', [
-            'as' => 'resend-activation',
-            'uses' => 'AccountResendActivation',
-        ]);
-
-        Route::post('email-change/{accountEmailChange}/approve', [
-            'as' => 'email-change.approve',
-            'uses' => 'AccountApproveEmailChange',
-        ]);
-
-        Route::delete('game-account/{minecraftPlayer}', [
-            'as' => 'game-account.delete',
-            'uses' => 'AccountGameAccount@delete',
-        ]);
-
-        Route::post('update-groups', [
-            'as' => 'update-groups',
-            'uses' => 'AccountUpdateGroups',
-        ]);
-    });
-
-    Route::resource('activity', ActivityController::class)->only(['index', 'show']);
-});
-
-if (Environment::isLocalDev()) {
-    Route::view('ui', 'stylesheet');
-}
-
-if (! Environment::isProduction()) {
-    Route::get('signed', fn () => 'test')
-        ->name('test-signed')
-        ->middleware('signed');
-}

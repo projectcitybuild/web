@@ -21,7 +21,7 @@ class AccountSecurityTest extends TestCase
         $this->g2fa = new Google2FA();
     }
 
-    public function testCanViewSecurityPage()
+    public function test_can_view_security_page()
     {
         $this->actingAs(Account::factory()->create());
         $this->get(route('front.account.security'))
@@ -29,7 +29,7 @@ class AccountSecurityTest extends TestCase
             ->assertOk();
     }
 
-    public function testStartingSetupSetsSecret()
+    public function test_starting_setup_sets_secret()
     {
         $account = Account::factory()->create();
         $this->actingAs($account);
@@ -47,7 +47,7 @@ class AccountSecurityTest extends TestCase
             ->assertSee(Crypt::decryptString($account->totp_secret));
     }
 
-    public function testSecretIsEncrypted()
+    public function test_secret_is_encrypted()
     {
         $account = Account::factory()->create();
         $this->actingAs($account);
@@ -60,7 +60,7 @@ class AccountSecurityTest extends TestCase
         $this->assertEquals(16, strlen($decryptedSecret));
     }
 
-    public function testCanFinishSetup()
+    public function test_can_finish_setup()
     {
         $account = Account::factory()->hasStartedTotp()->create();
 
@@ -80,7 +80,7 @@ class AccountSecurityTest extends TestCase
         ]);
     }
 
-    public function testSetupSendsNotification()
+    public function test_setup_sends_notification()
     {
         Notification::fake();
         $account = Account::factory()->hasStartedTotp()->create();
@@ -93,21 +93,21 @@ class AccountSecurityTest extends TestCase
         Notification::assertSentTo($account, AccountMfaEnabledNotification::class);
     }
 
-    public function testCantReStartIfSetUp()
+    public function test_cant_re_start_if_set_up()
     {
         $this->actingAs(Account::factory()->hasFinishedTotp()->create());
         $this->post(route('front.account.security.start'))
             ->assertForbidden();
     }
 
-    public function testCantReSetupIfSetUp()
+    public function test_cant_re_setup_if_set_up()
     {
         $this->actingAs(Account::factory()->hasFinishedTotp()->create());
         $this->get(route('front.account.security.setup'))
             ->assertForbidden();
     }
 
-    public function testCantReFinishIfSetUp()
+    public function test_cant_re_finish_if_set_up()
     {
         $this->actingAs(Account::factory()->hasFinishedTotp()->create());
         $this->post(route('front.account.security.finish'), [
@@ -116,15 +116,15 @@ class AccountSecurityTest extends TestCase
         ])->assertForbidden();
     }
 
-    public function testAskedToConfirmPasswordToDisable()
+    public function test_asked_to_confirm_password_to_disable()
     {
         $this->actingAs(Account::factory()->hasFinishedTotp()->create());
 
         $this->get(route('front.account.security.disable'))
-            ->assertRedirect(route('password.confirm'));
+            ->assertRedirect(route('front.password.confirm'));
     }
 
-    public function testCantDisableIfNotEnabled()
+    public function test_cant_disable_if_not_enabled()
     {
         $this->actingAs(Account::factory()->hasStartedTotp()->create());
         $this->disableReauthMiddleware();
@@ -132,7 +132,7 @@ class AccountSecurityTest extends TestCase
             ->assertRedirect(route('front.account.security'));
     }
 
-    public function testCanSeeDisableWhenConfirmed()
+    public function test_can_see_disable_when_confirmed()
     {
         $this->actingAs(Account::factory()->hasFinishedTotp()->create());
         $this->disableReauthMiddleware();
@@ -140,7 +140,7 @@ class AccountSecurityTest extends TestCase
             ->assertOk();
     }
 
-    public function testCanDisableTotp()
+    public function test_can_disable_totp()
     {
         $account = Account::factory()->hasFinishedTotp()->create();
         $this->actingAs($account);
@@ -157,7 +157,7 @@ class AccountSecurityTest extends TestCase
         ]);
     }
 
-    public function testDisablingSendsNotification()
+    public function test_disabling_sends_notification()
     {
         Notification::fake();
         $account = Account::factory()->hasFinishedTotp()->create();
@@ -168,7 +168,7 @@ class AccountSecurityTest extends TestCase
         Notification::assertSentTo($account, AccountMfaDisabledNotification::class);
     }
 
-    public function testCantRefreshBackupIfNotEnabled()
+    public function test_cant_refresh_backup_if_not_enabled()
     {
         $this->actingAs(Account::factory()->hasStartedTotp()->create());
         $this->disableReauthMiddleware();
@@ -176,15 +176,15 @@ class AccountSecurityTest extends TestCase
             ->assertForbidden();
     }
 
-    public function testAskedToConfirmPasswordToRefreshBackup()
+    public function test_asked_to_confirm_pass_word_to_refresh_backup()
     {
         $this->actingAs(Account::factory()->hasFinishedTotp()->create());
 
         $this->get(route('front.account.security.reset-backup'))
-            ->assertRedirect(route('password.confirm'));
+            ->assertRedirect(route('front.password.confirm'));
     }
 
-    public function testCanSeeNewBackupCodeAfterConfirming()
+    public function test_can_see_new_backup_code_after_confirming()
     {
         $account = Account::factory()->hasFinishedTotp()->create();
         $originalCode = $account->totp_backup_code;
@@ -203,7 +203,7 @@ class AccountSecurityTest extends TestCase
         $resp->assertSee(Crypt::decryptString($newCode));
     }
 
-    public function testRegeneratingBackupCodeSendsNotification()
+    public function test_regenerating_backup_code_sends_notification()
     {
         Notification::fake();
         $account = Account::factory()->hasFinishedTotp()->create();

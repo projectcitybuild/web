@@ -5,6 +5,8 @@ namespace Tests;
 use App\Http\Middleware\MfaGate;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\Group;
+use Entities\Models\Eloquent\GroupScope;
+use Entities\Models\PanelGroupScope;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Carbon;
@@ -15,8 +17,6 @@ use Tests\Support\TestResponseMacros;
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication, RefreshDatabase, TestResponseMacros;
-
-    private ?Account $adminAccount = null;
 
     protected function setUp(): void
     {
@@ -40,23 +40,6 @@ abstract class TestCase extends BaseTestCase
         Session::put(MfaGate::NEEDS_MFA_KEY, 'true');
 
         return $this;
-    }
-
-    /**
-     * Get a user in a group with admin rights.
-     *
-     * @param  bool|null  $fresh  force the creation of a fresh user
-     */
-    protected function adminAccount(?bool $fresh = false): Account
-    {
-        if ($fresh || $this->adminAccount == null) {
-            $this->adminAccount = Account::factory()
-                ->has(Group::factory()->administrator())
-                ->hasFinishedTotp()
-                ->create();
-        }
-
-        return $this->adminAccount;
     }
 
     protected function setTestNow(): Carbon

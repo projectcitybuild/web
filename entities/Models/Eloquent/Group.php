@@ -4,6 +4,7 @@ namespace Entities\Models\Eloquent;
 
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 final class Group extends Model
 {
@@ -54,5 +55,17 @@ final class Group extends Model
     public function accounts()
     {
         return $this->belongsToMany(Account::class, 'groups_accounts', 'group_id', 'account_id');
+    }
+
+    public function groupScopes(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            related: GroupScope::class,
+            table: 'group_scopes_pivot',
+            foreignPivotKey: 'group_id',
+            relatedPivotKey: 'scope_id',
+            parentKey: 'group_id',
+            relatedKey: 'id',
+        );
     }
 }

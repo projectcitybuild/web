@@ -4,12 +4,14 @@ namespace Entities\Models\Eloquent;
 
 use Altek\Eventually\Eventually;
 use Carbon\Carbon;
+use Entities\Models\PanelGroupScope;
 use Entities\Resources\AccountResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Cashier\Billable;
 use Laravel\Scout\Searchable;
 use Library\Auditing\Traits\CausesActivity;
@@ -84,6 +86,8 @@ final class Account extends Authenticatable
     protected $casts = [
         'is_totp_enabled' => 'boolean',
     ];
+
+    private ?Collection $cachedGroupScopes = null;
 
     public function toSearchableArray()
     {
@@ -174,14 +178,20 @@ final class Account extends Authenticatable
 
     public function canAccessPanel()
     {
-        return $this->groups()->where('can_access_panel', true)->count() > 0;
+        return $this->hasAbility(PanelGroupScope::ACCESS_PANEL->value);
     }
 
-    public function discourseGroupString()
+    public function hasAbility(string $to): bool
     {
-        $groups = $this->groups->pluck('discourse_name');
-
-        return implode(',', array_filter($groups->toArray()));
+        if ($this->cachedGroupScopes === null) {
+            $this->cachedGroupScopes = $this->groups()
+                ->with('groupScopes')
+                ->get()
+                ->flatMap(fn($group) => $group->groupScopes->pluck('scope'))
+                ->mapWithKeys(fn($scope) => [$scope => true])  // Map to dictionary for faster lookup
+                ?? collect();
+        }
+        return $this->cachedGroupScopes->has(key: $to);
     }
 
     public function updateLastLogin(string $ip)

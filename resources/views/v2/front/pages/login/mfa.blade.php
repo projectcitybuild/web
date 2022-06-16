@@ -11,7 +11,7 @@
             @include('v2.front.components.form-error')
 
             <p class="form__description">Enter your current 2FA code to continue</p>
-            <form action="{{ route('front.login.mfa') }}" method="post" class="form">
+            <form action="{{ route('front.login.mfa.submit') }}" method="post" class="form">
                 @csrf
                 <div class="form-row form-row--fluid">
                     <label for="code">Enter Code</label>

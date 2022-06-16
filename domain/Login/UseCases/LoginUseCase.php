@@ -6,9 +6,9 @@ use App\Http\Middleware\MfaGate;
 use Domain\Login\Entities\LoginCredentials;
 use Domain\Login\Exceptions\AccountNotActivatedException;
 use Domain\Login\Exceptions\InvalidLoginCredentialsException;
-use Entities\Repositories\AccountRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Repositories\AccountRepository;
 
 /**
  * @final

@@ -3,7 +3,6 @@
 namespace Tests\Unit\Domain\BanAppeals\UseCases;
 
 use Domain\BanAppeals\Exceptions\EmailRequiredException;
-use Domain\BanAppeals\Repositories\BanAppealRepository;
 use Domain\BanAppeals\UseCases\CreateBanAppealUseCase;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
@@ -11,6 +10,7 @@ use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Notifications\BanAppealConfirmationNotification;
 use Illuminate\Support\Facades\Notification;
+use Repositories\BanAppealRepository;
 use Tests\TestCase;
 
 class CreateBanAppealUseCaseTest extends TestCase

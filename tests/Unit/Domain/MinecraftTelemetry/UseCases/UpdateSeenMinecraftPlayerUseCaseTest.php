@@ -5,8 +5,8 @@ namespace Tests\Unit\Domain\MinecraftTelemetry\UseCases;
 use Domain\MinecraftTelemetry\UseCases\UpdateSeenMinecraftPlayerUseCase;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\MinecraftPlayerAlias;
-use Entities\Repositories\MinecraftPlayerAliasRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Repositories\MinecraftPlayerAliasRepository;
 use Shared\PlayerLookup\PlayerLookup;
 use Tests\TestCase;
 
@@ -38,7 +38,7 @@ class UpdateSeenMinecraftPlayerUseCaseTest extends TestCase
 
         $player = MinecraftPlayer::factory()->create([
             'uuid' => 'uuid',
-            'last_synced_at' => $before,
+            'last_seen_at' => $before,
         ]);
         MinecraftPlayerAlias::factory()->for($player)->create([
             'alias' => 'alias',
@@ -50,14 +50,14 @@ class UpdateSeenMinecraftPlayerUseCaseTest extends TestCase
 
         $this->assertEquals(
             expected: $before,
-            actual: $player->last_synced_at,
+            actual: $player->last_seen_at,
         );
 
         $this->useCase->execute(uuid: 'uuid', alias: 'alias');
 
         $this->assertEquals(
             expected: $now,
-            actual: $player->last_synced_at,
+            actual: $player->last_seen_at,
         );
     }
 

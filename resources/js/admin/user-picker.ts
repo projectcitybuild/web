@@ -1,31 +1,52 @@
-import $ from 'jquery';
-import 'selectize/dist/js/selectize';
+import Choices from 'choices.js';
 
-const userSelectElements = [].slice.call(document.querySelectorAll('[data-pcb-user-picker]'));
+// TODO: this will break when using `npm run watch` because the :3000 port is missing
+const baseURL = process.env.MIX_APP_URL;
 
-userSelectElements.map(function (userSelectEl: HTMLElement) {
-    console.info("Initialising user select " + userSelectEl);
-    $(userSelectEl).selectize({
-        valueField: "account_id",
-        labelField: "username",
-        searchField: ["username", "email", "id"],
-        create: false,
-        closeAfterSelect: true,
-        placeholder: "Start typing...",
-        // openOnFocus: true,
-        render: {
-            option: function (item, escape) {
-                return (
-                    `<div class="option">#${escape(item.account_id)}: ${escape(item.username)} <span class="text-muted">(${escape(item.email)})</span></div>`
-                );
-            },
-        },
-        load: function (query: string, callback: Function) {
-            if (!query.length) return callback();
-            $.get('/panel/api/accounts?query=' + query)
-                .then((res) => {
-                    callback(res.data);
-                })
-        },
+const element = document.querySelector('[data-pcb-user-picker]') as HTMLSelectElement;
+if (element !== null) {
+    const choices = new Choices(element, {
+        allowHTML: false,
+        callbackOnInit: () => {
+            let task: number | null = null
+
+            element.addEventListener(
+                'search',
+                (event) => {
+                    // @ts-expect-error
+                    const query = event.detail.value;
+
+                    clearTimeout(task);
+                    task = window.setTimeout(() => {
+                        choices.clearChoices();
+                        choices.setChoices(async () => {
+                            try {
+                                const accounts = await fetch(baseURL + '/panel/api/accounts?query=' + query);
+                                const json = await accounts.json()
+
+                                // @ts-expect-error
+                                return json.data.map((account) => {
+                                    return { value: account.account_id, label: `${account.username} (${account.email})` }
+                                });
+                            } catch (err) {
+                                console.log(err);
+                            }
+                        });
+                    }, 350);
+                },
+                false,
+            );
+        }
     });
-});
+
+    const preselectedId = element.dataset.accountId;
+
+    if (preselectedId !== null) {
+        const preselectedUsername = element.dataset.accountUsername;
+        const preselectedEmail = element.dataset.accountEmail;
+
+        choices.setChoices([
+            { value: preselectedId, label: `${preselectedUsername} (${preselectedEmail})`, selected: true }
+        ])
+    }
+}

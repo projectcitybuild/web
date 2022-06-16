@@ -16,14 +16,14 @@ class LoginTest extends TestCase
         $this->account = Account::factory()->create();
     }
 
-    public function testCannotSeeLoginSignedIn()
+    public function test_cannot_see_login_signed_in()
     {
         $this->actingAs($this->account)
             ->get(route('front.login'))
             ->assertRedirect(route('front.account.settings'));
     }
 
-    public function testUserCannotLogInWithUnactivatedAccount()
+    public function test_user_cannot_log_in_with_unactivated_account()
     {
         $account = Account::factory()->unactivated()->create();
 
@@ -33,7 +33,7 @@ class LoginTest extends TestCase
         ])->assertSessionHasErrors();
     }
 
-    public function testUserIsShownErrorWithWrongCredentials()
+    public function test_user_is_shown_error_with_wrong_credentials()
     {
         $this->post(route('front.login.submit'), [
             'email' => $this->account->email,
@@ -43,7 +43,7 @@ class LoginTest extends TestCase
         $this->assertGuest();
     }
 
-    public function testIfUserDoesNotEnterEmail()
+    public function test_if_user_does_not_enter_email()
     {
         $this->post(route('front.login.submit'), [
             'email' => '',
@@ -53,7 +53,7 @@ class LoginTest extends TestCase
         $this->assertGuest();
     }
 
-    public function testIfUserDoesNotEnterPassword()
+    public function test_if_user_does_not_enter_password()
     {
         $this->post(route('front.login.submit'), [
             'email' => $this->account->email,
@@ -63,7 +63,7 @@ class LoginTest extends TestCase
         $this->assertGuest();
     }
 
-    public function testRedirectBackToIntendedPage()
+    public function test_redirect_back_to_intended_page()
     {
         $this->get(route('front.account.settings'))
             ->assertRedirect(route('front.login'));
@@ -77,7 +77,7 @@ class LoginTest extends TestCase
             ->assertRedirect(route('front.account.settings'));
     }
 
-    public function testLastLoginDetailsUpdated()
+    public function test_last_login_details_updated()
     {
         $oldLoginTime = $this->account->last_login_at;
         $oldLoginIp = $this->account->last_login_ip;

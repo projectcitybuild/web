@@ -14,7 +14,7 @@ class LaravelSignedURLGeneratorTest extends TestCase
         $generator = new LaravelSignedURLGenerator();
         $url = $generator->make(
             routeName: self::ROUTE_NAME,
-            parameters: ['key' => 'value']
+            parameters: ['key' => 'value'],
         );
 
         $this->assertTrue(str_contains(haystack: $url, needle: 'key=value'));
@@ -29,7 +29,7 @@ class LaravelSignedURLGeneratorTest extends TestCase
         $url = $generator->makeTemporary(
             routeName: self::ROUTE_NAME,
             expiresAt: $now->addDay(),
-            parameters: ['key' => 'value']
+            parameters: ['key' => 'value'],
         );
 
         $this->assertTrue(str_contains(haystack: $url, needle: 'key=value'));
@@ -42,8 +42,9 @@ class LaravelSignedURLGeneratorTest extends TestCase
         $url = $generator->makeTemporary(
             routeName: self::ROUTE_NAME,
             expiresAt: now()->addDays(-1),
-            parameters: ['key' => 'value']
+            parameters: ['key' => 'value'],
         );
+
         $this->get($url)->assertStatus(403);
     }
 }

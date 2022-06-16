@@ -2,14 +2,14 @@
 
 namespace Domain\Donations;
 
-use Domain\Donations\Repositories\DonationPerkRepository;
-use Domain\Donations\Repositories\DonationRepository;
-use Domain\Donations\Repositories\PaymentRepository;
-use Domain\Donations\Repositories\StripeProductRepository;
 use Domain\Donations\UseCases\DeactivateExpiredDonorPerksUseCase;
 use Domain\Donations\UseCases\ProcessPaymentUseCase;
 use Entities\Models\Eloquent\Group;
 use Illuminate\Support\ServiceProvider;
+use Repositories\DonationPerkRepository;
+use Repositories\DonationRepository;
+use Repositories\PaymentRepository;
+use Repositories\StripeProductRepository;
 use Shared\Groups\GroupsManager;
 
 class DonationsProvider extends ServiceProvider

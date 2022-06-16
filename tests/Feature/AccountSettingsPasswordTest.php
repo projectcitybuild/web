@@ -29,7 +29,7 @@ class AccountSettingsPasswordTest extends TestCase
         ]);
     }
 
-    public function testPasswordChange()
+    public function test_password_change()
     {
         $newPassword = $this->faker->password(8);
 
@@ -42,25 +42,25 @@ class AccountSettingsPasswordTest extends TestCase
         ]));
     }
 
-    public function testIncorrectCurrentPassword()
+    public function test_incorrect_current_password()
     {
         $this->submitPasswordChange('wrong', 'password', 'password')
             ->assertSessionHasErrors();
     }
 
-    public function testMismatchingPasswordConfirmation()
+    public function test_mismatching_password_confirmation()
     {
         $this->submitPasswordChange('secret', 'password', 'different')
             ->assertSessionHasErrors();
     }
 
-    public function testEmptyCurrentPassword()
+    public function test_empty_current_password()
     {
         $this->submitPasswordChange('', 'new', 'new')
             ->assertSessionHasErrors();
     }
 
-    public function testEmptyNewPassword()
+    public function test_empty_new_password()
     {
         $this->submitPasswordChange('secret', '', '')
             ->assertSessionHasErrors();

@@ -3,7 +3,7 @@
 namespace Domain\MinecraftTelemetry\UseCases;
 
 use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Repositories\MinecraftPlayerAliasRepository;
+use Repositories\MinecraftPlayerAliasRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\PlayerLookup;
 
@@ -25,7 +25,7 @@ final class UpdateSeenMinecraftPlayerUseCase
 
         $now = now();
 
-        $minecraftPlayer->last_synced_at = $now;
+        $minecraftPlayer->last_seen_at = $now;
         $minecraftPlayer->save();
 
         if (! $minecraftPlayer->hasAlias($alias)) {

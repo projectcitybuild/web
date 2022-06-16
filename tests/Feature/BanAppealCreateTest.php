@@ -12,11 +12,6 @@ use Tests\TestCase;
 
 class BanAppealCreateTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-    }
-
     private function createBan()
     {
         return GameBan::factory()
@@ -40,49 +35,6 @@ class BanAppealCreateTest extends TestCase
         return $ban;
     }
 
-    public function testCreatePageNotFoundForInactiveBans()
-    {
-        $ban = GameBan::factory()->inactive()->for(MinecraftPlayer::factory(), 'bannedPlayer')->create();
-        $this->get(route('front.appeal.create', $ban))
-            ->assertNotFound();
-    }
-
-    public function testCreatePageShowsForPlayerWithBans()
-    {
-        $this->get(route('front.appeal.create', $this->createBan()))
-            ->assertSee('Appeal Form');
-    }
-
-    public function testCreatePageShowsActiveBanDetails()
-    {
-        $this->get(route('front.appeal.create', $this->createBan()))
-            ->assertSee('Some Ban Reason');
-    }
-
-    public function testCreatePageShowsPastBanDetails()
-    {
-        $ban = $this->createBan();
-        GameBan::factory()->inactive()->for($ban->bannedPlayer, 'bannedPlayer')->create(['reason' => 'My Expired Ban']);
-        $this->get(route('front.appeal.create', $ban))
-            ->assertSee('My Expired Ban');
-    }
-
-    public function testPendingAppealRedirectsToAppealWithAccount()
-    {
-        $ban = $this->createBanWithAccount();
-        BanAppeal::factory()->for($ban)->create();
-        $this->get(route('front.appeal.create', $ban))
-            ->assertSee('appeal in progress');
-    }
-
-    public function testPendingAppealShowsNoticeForAppealWithoutAccount()
-    {
-        $ban = $this->createBan();
-        BanAppeal::factory()->for($ban)->create();
-        $this->get(route('front.appeal.create', $ban))
-            ->assertSee('Click the link in the appeal confirmation email');
-    }
-
     private function submitAppealForBan(GameBan $ban, bool $withEmail = false): TestResponse
     {
         $data = [
@@ -96,7 +48,50 @@ class BanAppealCreateTest extends TestCase
         return $this->post(route('front.appeal.submit', $ban), $data);
     }
 
-    public function testCanSubmitAppeal()
+    public function test_create_page_not_found_for_inactive_bans()
+    {
+        $ban = GameBan::factory()->inactive()->for(MinecraftPlayer::factory(), 'bannedPlayer')->create();
+        $this->get(route('front.appeal.create', $ban))
+            ->assertNotFound();
+    }
+
+    public function test_create_page_shows_for_player_with_bans()
+    {
+        $this->get(route('front.appeal.create', $this->createBan()))
+            ->assertSee('Appeal Form');
+    }
+
+    public function test_create_page_shows_active_ban_details()
+    {
+        $this->get(route('front.appeal.create', $this->createBan()))
+            ->assertSee('Some Ban Reason');
+    }
+
+    public function test_create_page_shows_past_ban_details()
+    {
+        $ban = $this->createBan();
+        GameBan::factory()->inactive()->for($ban->bannedPlayer, 'bannedPlayer')->create(['reason' => 'My Expired Ban']);
+        $this->get(route('front.appeal.create', $ban))
+            ->assertSee('My Expired Ban');
+    }
+
+    public function test_pending_appeal_redirects_to_appeal_with_account()
+    {
+        $ban = $this->createBanWithAccount();
+        BanAppeal::factory()->for($ban)->create();
+        $this->get(route('front.appeal.create', $ban))
+            ->assertSee('appeal in progress');
+    }
+
+    public function test_pending_appeal_shows_notice_for_appeal_without_account()
+    {
+        $ban = $this->createBan();
+        BanAppeal::factory()->for($ban)->create();
+        $this->get(route('front.appeal.create', $ban))
+            ->assertSee('Click the link in the appeal confirmation email');
+    }
+
+    public function test_can_submit_appeal()
     {
         $ban = $this->createBanWithAccount(true);
 
@@ -105,7 +100,7 @@ class BanAppealCreateTest extends TestCase
             ->assertRedirect();
     }
 
-    public function testRedirectsToUnsignedUrlIfAccountMatchesPlayerOwner()
+    public function test_redirects_to_unsigned_url_if_account_matches_player_owner()
     {
         $ban = $this->createBanWithAccount(true);
         $this->submitAppealForBan($ban)
@@ -113,7 +108,7 @@ class BanAppealCreateTest extends TestCase
             ->assertRedirect(route('front.appeal.show', BanAppeal::first()));
     }
 
-    public function testRedirectsToSignedUrlIfUserNotSignedIn()
+    public function test_redirects_to_signed_url_if_user_not_signed_in()
     {
         $ban = $this->createBanWithAccount();
         $this->submitAppealForBan($ban, true)
@@ -121,7 +116,7 @@ class BanAppealCreateTest extends TestCase
             ->assertRedirectToSignedRoute('front.appeal.show', BanAppeal::first());
     }
 
-    public function testRedirectsToSignedUrlIfSignedInUserDifferent()
+    public function test_redirects_to_signed_url_if_signed_in_user_different()
     {
         $ban = $this->createBanWithAccount();
         $this->actingAs(Account::factory()->create());
