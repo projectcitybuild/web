@@ -55,12 +55,12 @@ class LookupBanUseCaseTest extends TestCase
             ->andReturn($player);
     }
 
-    public function mockGameBanRepositoryToReturn($id, $bans)
+    public function mockGameBanRepositoryToReturn($playerId, $bans)
     {
         $this->gameBanRepository->shouldReceive('firstActiveBan')
             ->once()
-            ->with(\Mockery::on(function ($arg) use ($id) {
-                return $arg->key == $id;
+            ->with(\Mockery::on(function ($arg) use ($playerId) {
+                return $arg->getKey() == $playerId;
             }))
             ->andReturn($bans);
     }
@@ -87,9 +87,10 @@ class LookupBanUseCaseTest extends TestCase
 
     public function test_throws_exception_if_no_active_bans()
     {
+        $mcPlayer = MinecraftPlayer::factory()->create(['uuid' => 'abc123']);
         $this->mockMojangApiToReturn('Herobrine', 'abc123');
-        $this->mockPlayerRepositoryToReturn('abc123', MinecraftPlayer::factory()->create(['uuid' => 'abc123']));
-        $this->mockGameBanRepositoryToReturn(1, null);
+        $this->mockPlayerRepositoryToReturn('abc123', $mcPlayer);
+        $this->mockGameBanRepositoryToReturn($mcPlayer->getKey(), null);
 
         $this->expectException(PlayerNotBannedException::class);
 
@@ -98,10 +99,11 @@ class LookupBanUseCaseTest extends TestCase
 
     public function test_returns_active_ban_if_exists()
     {
+        $mcPlayer = MinecraftPlayer::factory()->create(['uuid' => 'abc123']);
         $this->mockMojangApiToReturn('Herobrine', 'abc123');
-        $this->mockPlayerRepositoryToReturn('abc123', MinecraftPlayer::factory()->create(['uuid' => 'abc123']));
+        $this->mockPlayerRepositoryToReturn('abc123', $mcPlayer);
         $gameBanInst = GameBan::factory()->make();
-        $this->mockGameBanRepositoryToReturn(1, $gameBanInst);
+        $this->mockGameBanRepositoryToReturn($mcPlayer->getKey(), $gameBanInst);
 
         $this->assertEquals(
             $gameBanInst,

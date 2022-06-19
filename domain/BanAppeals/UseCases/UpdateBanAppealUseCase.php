@@ -53,10 +53,8 @@ class UpdateBanAppealUseCase
             );
 
             if ($status == BanAppealStatus::ACCEPTED_UNBAN) {
-                $bannedPlayer = $banAppeal->gameBan->bannedPlayer;
-                // TODO: sort out the fact we're passing db ids here not uuids
-                $bannedPlayerIdentifier = new PlayerIdentifier($bannedPlayer->getKey(), GameIdentifierType::MINECRAFT_UUID);
-                $staffPlayerIdentifier = PlayerIdentifier::minecraftUUID($decidingPlayer->uuid);
+                $bannedPlayerIdentifier = PlayerIdentifier::pcbAccountId($banAppeal->gameBan->bannedPlayer->getKey());
+                $staffPlayerIdentifier = PlayerIdentifier::pcbAccountId($decidingPlayer->getKey());
                 $this->unbanUseCase->execute($bannedPlayerIdentifier, $staffPlayerIdentifier);
             }
         });

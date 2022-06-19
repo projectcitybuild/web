@@ -40,15 +40,16 @@ final class CreateBanUseCase
         ?string $banReason,
         ?Carbon $expiresAt,
     ): GameBan {
-        $existingBan = $this->gameBanRepository->firstActiveBan(identifier: $bannedPlayerIdentifier);
-        if ($existingBan !== null) {
-            throw new PlayerAlreadyBannedException();
-        }
-
         $bannedPlayer = $this->playerLookup->findOrCreate(
             identifier: $bannedPlayerIdentifier,
             playerAlias: $bannedPlayerAlias,
         );
+
+        $existingBan = $this->gameBanRepository->firstActiveBan($bannedPlayer);
+        if ($existingBan !== null) {
+            throw new PlayerAlreadyBannedException();
+        }
+
         $bannerPlayer = $this->playerLookup->findOrCreate(
             identifier: $bannerPlayerIdentifier,
             playerAlias: $bannerPlayerAlias,

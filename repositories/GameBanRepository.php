@@ -3,6 +3,8 @@
 namespace Repositories;
 
 use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\GameIdentifierType;
 use Entities\Models\GamePlayerType;
 use Illuminate\Support\Carbon;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
@@ -34,9 +36,9 @@ class GameBanRepository
     }
 
     public function firstActiveBan(
-        PlayerIdentifier $identifier,
+        MinecraftPlayer $player,
     ): ?GameBan {
-        return GameBan::where('banned_player_id', $identifier->key)
+        return GameBan::where('banned_player_id', $player->getKey())
             ->active()
             ->first();
     }

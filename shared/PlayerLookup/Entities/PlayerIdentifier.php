@@ -5,9 +5,6 @@ namespace Shared\PlayerLookup\Entities;
 use Entities\Models\GameIdentifierType;
 use Shared\PlayerLookup\Exceptions\InvalidMinecraftUUIDException;
 
-/**
- * TODO: this class is given both database IDs and MC UUIDs as the same type, they should be split.
- */
 final class PlayerIdentifier
 {
     /**
@@ -16,7 +13,6 @@ final class PlayerIdentifier
      */
     public function __construct(
         public string $key,
-        // TODO: change type to mean UUID or db id
         public GameIdentifierType $gameIdentifierType,
     ) {
     }
@@ -33,6 +29,14 @@ final class PlayerIdentifier
         return new PlayerIdentifier(
             key: $uuid,
             gameIdentifierType: GameIdentifierType::MINECRAFT_UUID,
+        );
+    }
+
+    public static function pcbAccountId(int $id): PlayerIdentifier
+    {
+        return new PlayerIdentifier(
+            key: $id,
+            gameIdentifierType: GameIdentifierType::PCB_PLAYER_ID,
         );
     }
 }
