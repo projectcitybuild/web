@@ -35,6 +35,7 @@ final class MinecraftPlayer extends Model implements Player
         'created_at',
         'updated_at',
         'last_synced_at',
+        'last_seen_at'
     ];
 
     public function getBanReadableName(): ?string
