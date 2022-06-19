@@ -73,17 +73,12 @@ final class GameBanV1Controller extends ApiController
         $expiresAt = $request->get('expires_at');
         $isGlobalBan = $request->get('is_global_ban', false);
 
-        $bannedPlayerType = GameIdentifierType::tryFrom($request->get('player_id_type'));
-        $staffPlayerType = GameIdentifierType::tryFrom($request->get('staff_id_type'));
-
         $ban = $this->playerBanService->ban(
             $serverKey,
             $serverKey->server_id,
             $bannedPlayerId,
-            $bannedPlayerType->playerType(),
             $bannedPlayerAlias,
             $staffPlayerId,
-            $staffPlayerType->playerType(),
             $reason,
             $expiresAt,
             $isGlobalBan
@@ -114,14 +109,9 @@ final class GameBanV1Controller extends ApiController
         $bannedPlayerId = $request->get('player_id');
         $staffPlayerId = $request->get('staff_id');
 
-        $bannedPlayerType = GameIdentifierType::tryFrom($request->get('player_id_type'));
-        $staffPlayerType = GameIdentifierType::tryFrom($request->get('staff_id_type'));
-
         $unban = $this->playerBanService->unban(
             $bannedPlayerId,
-            $bannedPlayerType->playerType(),
             $staffPlayerId,
-            $staffPlayerType->playerType()
         );
 
         return new GameUnbanResource($unban);
@@ -139,9 +129,8 @@ final class GameBanV1Controller extends ApiController
         ]);
 
         $bannedPlayerId = $request->get('player_id');
-        $bannedPlayerType = GameIdentifierType::tryFrom($request->get('player_id_type'));
 
-        $activeBan = $this->playerBanLookupService->getStatus($bannedPlayerType->playerType(), $bannedPlayerId);
+        $activeBan = $this->playerBanLookupService->getStatus($bannedPlayerId);
 
         if ($activeBan === null) {
             return [

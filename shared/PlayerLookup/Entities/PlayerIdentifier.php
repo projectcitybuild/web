@@ -16,6 +16,7 @@ final class PlayerIdentifier
      */
     public function __construct(
         public string $key,
+        // TODO: change type to mean UUID or db id
         public GameIdentifierType $gameIdentifierType,
     ) {
     }

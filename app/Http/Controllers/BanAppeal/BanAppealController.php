@@ -8,9 +8,7 @@ use Domain\BanAppeals\Exceptions\EmailRequiredException;
 use Domain\BanAppeals\UseCases\CreateBanAppealUseCase;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\GameBan;
-use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -22,11 +20,8 @@ class BanAppealController extends WebController
     public function index(Request $request)
     {
         $bans = $request->user()?->gameBans()
-                ->with(['banAppeals', 'staffPlayer.aliases', 'bannedPlayer' => function (MorphTo $morphTo) {
-                    $morphTo->morphWith([
-                        MinecraftPlayer::class => ['aliases'],
-                    ]);
-                }])->latest()->get() ?? collect();
+                ->with(['banAppeals', 'staffPlayer.aliases', 'bannedPlayer.aliases'])
+                ->latest()->get() ?? collect();
 
         return view('v2.front.pages.ban-appeal.index')->with([
             'bans' => $bans,
@@ -51,11 +46,7 @@ class BanAppealController extends WebController
 
         $bannedPlayer = $ban->bannedPlayer;
         $banHistory = $bannedPlayer->gameBans()
-            ->with(['staffPlayer.aliases', 'bannedPlayer' => function (MorphTo $morphTo) {
-                $morphTo->morphWith([
-                    MinecraftPlayer::class => ['aliases'],
-                ]);
-            }])
+            ->with(['staffPlayer.aliases', 'bannedPlayer.aliases'])
             ->latest()->get();
 
         return view('v2.front.pages.ban-appeal.create')->with([

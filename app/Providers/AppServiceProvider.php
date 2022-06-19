@@ -55,7 +55,6 @@ final class AppServiceProvider extends ServiceProvider
          * @see https://github.com/laravel/framework/pull/38656
          */
         Relation::enforceMorphMap([
-            GamePlayerType::MINECRAFT->value => MinecraftPlayer::class,
             'account' => Account::class,
         ]);
 

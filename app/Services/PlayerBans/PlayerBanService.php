@@ -49,10 +49,8 @@ final class PlayerBanService
         ServerKey $serverKey,
         int $serverId,
         string $bannedPlayerId,
-        GamePlayerType $bannedPlayerType,
         string $bannedPlayerAlias,
         string $staffPlayerId,
-        GamePlayerType $staffPlayerType,
         ?string $banReason,
         ?int $banExpiresAt = null,
         bool $isGlobalBan = false
@@ -62,19 +60,10 @@ final class PlayerBanService
             throw new UnauthorisedKeyActionException('limited_key', 'This server key does not have permission to create global bans');
         }
 
-        if ($bannedPlayerType === GamePlayerType::MINECRAFT) {
-            // Strip hyphens from Minecraft UUIDs
-            $bannedPlayerId = str_replace('-', '', $bannedPlayerId);
-        }
-        if ($staffPlayerType === GamePlayerType::MINECRAFT) {
-            // Strip hyphens from Minecraft UUIDs
-            $staffPlayerId = str_replace('-', '', $staffPlayerId);
-        }
+        $bannedPlayer = $this->playerLookupService->getOrCreatePlayer($bannedPlayerId);
+        $staffPlayer = $this->playerLookupService->getOrCreatePlayer($staffPlayerId);
 
-        $bannedPlayer = $this->playerLookupService->getOrCreatePlayer($bannedPlayerType, $bannedPlayerId);
-        $staffPlayer = $this->playerLookupService->getOrCreatePlayer($staffPlayerType, $staffPlayerId);
-
-        $activeBan = $this->gameBanRepository->getActiveBanByGameUserId($bannedPlayer->getKey(), $bannedPlayerType);
+        $activeBan = $this->gameBanRepository->getActiveBanByGameUserId($bannedPlayer->getKey());
 
         if ($activeBan !== null) {
             throw new UserAlreadyBannedException('player_already_banned', 'Player is already banned');
@@ -83,10 +72,8 @@ final class PlayerBanService
         return $this->gameBanRepository->store(
             $serverId,
             $bannedPlayer->getKey(),
-            $bannedPlayerType,
             $bannedPlayerAlias,
             $staffPlayer->getKey(),
-            $staffPlayerType,
             $banReason,
             true,
             $isGlobalBan,
@@ -96,23 +83,12 @@ final class PlayerBanService
 
     public function unban(
         string $bannedPlayerId,
-        GamePlayerType $bannedPlayerType,
         string $staffPlayerId,
-        GamePlayerType $staffPlayerType
     ): GameUnban {
-        if ($bannedPlayerType === GamePlayerType::MINECRAFT) {
-            // Strip hyphens from Minecraft UUIDs
-            $bannedPlayerId = str_replace('-', '', $bannedPlayerId);
-        }
-        if ($staffPlayerType === GamePlayerType::MINECRAFT) {
-            // Strip hyphens from Minecraft UUIDs
-            $staffPlayerId = str_replace('-', '', $staffPlayerId);
-        }
+        $bannedPlayer = $this->playerLookupService->getOrCreatePlayer($bannedPlayerId);
+        $staffPlayer = $this->playerLookupService->getOrCreatePlayer($staffPlayerId);
 
-        $bannedPlayer = $this->playerLookupService->getOrCreatePlayer($bannedPlayerType, $bannedPlayerId);
-        $staffPlayer = $this->playerLookupService->getOrCreatePlayer($staffPlayerType, $staffPlayerId);
-
-        $activeBan = $this->gameBanRepository->getActiveBanByGameUserId($bannedPlayer->getKey(), $bannedPlayerType);
+        $activeBan = $this->gameBanRepository->getActiveBanByGameUserId($bannedPlayer->getKey());
         if ($activeBan === null) {
             throw new UserNotBannedException('player_not_banned', 'This player is not currently banned');
         }
@@ -125,7 +101,6 @@ final class PlayerBanService
             $unban = $this->gameUnbanRepository->create(
                 $activeBan->getKey(),
                 $staffPlayer->getKey(),
-                $staffPlayerType
             );
             DB::commit();
         } catch (\Exception $e) {

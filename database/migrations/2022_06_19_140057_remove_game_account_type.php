@@ -14,8 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('game_network_bans', function (Blueprint $table) {
-            $table->dropColumn('banned_player_type');
-            $table->dropColumn('staff_player_type');
+            $table->dropColumn(['banned_player_type', 'staff_player_type']);
         });
 
         Schema::table('game_network_unbans', function (Blueprint $table) {
@@ -23,13 +22,7 @@ return new class extends Migration
         });
 
         Schema::table('game_network_warnings', function (Blueprint $table) {
-            $table->dropColumn('warned_player_type');
-            $table->dropColumn('staff_player_type');
-
-        });
-
-        Schema::table('game_network_warnings', function (Blueprint $table) {
-            $table->dropColumn('warned_player_type');
+            $table->dropColumn(['warned_player_type', 'staff_player_type']);
         });
     }
 };

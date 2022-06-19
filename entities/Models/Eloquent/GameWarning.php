@@ -14,9 +14,7 @@ final class GameWarning extends Model
     protected $fillable = [
         'server_id',
         'warned_player_id',
-        'warned_player_type',
         'staff_player_id',
-        'staff_player_type',
         'reason',
         'weight',
         'is_active',
@@ -31,11 +29,11 @@ final class GameWarning extends Model
 
     public function warnedPlayer()
     {
-        return $this->morphTo(null, 'warned_player_type', 'warned_player_type');
+        return $this->belongsTo(MinecraftPlayer::class, 'warned_player_id', 'player_minecraft_id');
     }
 
     public function staffPlayer()
     {
-        return $this->morphTo(null, 'staff_player_type', 'staff_player_id');
+        return $this->belongsTo(MinecraftPlayer::class, 'staff_player_id', 'player_minecraft_id');
     }
 }

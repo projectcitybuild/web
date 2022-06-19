@@ -64,7 +64,6 @@ class PanelBanAppealDecisionTest extends E2ETestCase
         $this->assertDatabaseHas('game_network_unbans', [
             'game_ban_id' => $this->gameBan->getKey(),
             'staff_player_id' => $this->admin->minecraftAccount()->first()->getKey(),
-            'staff_player_type' => GameIdentifierType::MINECRAFT_UUID->playerType()->value,
         ]);
         Notification::assertSentTo($this->appeal, BanAppealUpdatedNotification::class);
     }

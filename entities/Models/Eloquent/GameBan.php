@@ -6,7 +6,6 @@ use App\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Laravel\Scout\Searchable;
 
 final class GameBan extends Model
@@ -18,10 +17,8 @@ final class GameBan extends Model
     protected $fillable = [
         'server_id',
         'banned_player_id',
-        'banned_player_type',
         'banned_alias_at_time',
         'staff_player_id',
-        'staff_player_type',
         'reason',
         'is_active',
         'is_global_ban',
@@ -41,14 +38,14 @@ final class GameBan extends Model
         $query->where('is_active', true);
     }
 
-    public function bannedPlayer(): MorphTo
+    public function bannedPlayer(): BelongsTo
     {
-        return $this->morphTo(null, 'banned_player_type', 'banned_player_id');
+        return $this->belongsTo(MinecraftPlayer::class, 'banned_player_id', 'player_minecraft_id');
     }
 
-    public function staffPlayer(): MorphTo
+    public function staffPlayer(): BelongsTo
     {
-        return $this->morphTo(null, 'staff_player_type', 'staff_player_id');
+        return $this->belongsTo(MinecraftPlayer::class, 'staff_player_id', 'player_minecraft_id');
     }
 
     public function unban(): BelongsTo

@@ -57,10 +57,8 @@ final class CreateBanUseCase
         return $this->gameBanRepository->create(
             serverId: $serverId,
             bannedPlayerId: $bannedPlayer->getKey(),
-            bannedPlayerType: $bannedPlayerIdentifier->gameIdentifierType->playerType(),
             bannedPlayerAlias: $bannedPlayerAlias,
             bannerPlayerId: $bannerPlayer->getKey(),
-            bannerPlayerType: $bannerPlayerIdentifier->gameIdentifierType->playerType(),
             isGlobalBan: $isGlobalBan,
             reason: $banReason,
             expiresAt: $expiresAt,

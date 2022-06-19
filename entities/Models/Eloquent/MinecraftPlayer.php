@@ -57,9 +57,9 @@ final class MinecraftPlayer extends Model implements Player
         return $this->hasMany(MinecraftPlayerAlias::class, 'player_minecraft_id', 'player_minecraft_id');
     }
 
-    public function gameBans()
+    public function gameBans(): HasMany
     {
-        return $this->morphMany(GameBan::class, 'banned_player');
+        return $this->hasMany(GameBan::class, 'banned_player_id', 'player_minecraft_id');
     }
 
     public function isBanned()

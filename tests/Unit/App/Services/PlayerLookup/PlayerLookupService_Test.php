@@ -19,7 +19,7 @@ class PlayerLookupService_Test extends TestCase
             'uuid' => 'test_uuid',
         ]);
 
-        $service->getOrCreatePlayer(GamePlayerType::MINECRAFT, 'test_uuid');
+        $service->getOrCreatePlayer( 'test_uuid');
 
         $this->assertDatabaseHas('players_minecraft', [
             'uuid' => 'test_uuid',
@@ -33,7 +33,7 @@ class PlayerLookupService_Test extends TestCase
             'uuid' => 'existing_uuid',
         ]);
 
-        $player = $service->getOrCreatePlayer(GamePlayerType::MINECRAFT, 'existing_uuid');
+        $player = $service->getOrCreatePlayer('existing_uuid');
 
         $this->assertNotNull($player);
         $this->assertEquals('existing_uuid', $player->uuid);

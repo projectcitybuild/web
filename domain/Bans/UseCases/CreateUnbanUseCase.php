@@ -43,7 +43,6 @@ class CreateUnbanUseCase
             $unban = $this->gameUnbanRepository->create(
                 banId: $existingBan->getKey(),
                 staffPlayerId: $unbannerPlayer->getKey(),
-                staffPlayerType: $unbannerPlayerIdentifier->gameIdentifierType->playerType(),
             );
             DB::commit();
         } catch (\Exception $e) {

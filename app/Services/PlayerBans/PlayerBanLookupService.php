@@ -29,19 +29,14 @@ final class PlayerBanLookupService
         $this->playerLookupService = $playerLookupService;
     }
 
-    public function getStatus(GamePlayerType $playerType, string $identifier)
+    public function getStatus(string $identifier)
     {
-        if ($playerType === GamePlayerType::MINECRAFT) {
-            // Strip hyphens from Minecraft UUIDs
-            $identifier = str_replace('-', '', $identifier);
-        }
+        $player = $this->playerLookupService->getOrCreatePlayer($identifier);
 
-        $player = $this->playerLookupService->getOrCreatePlayer($playerType, $identifier);
-
-        return $this->gameBanRepository->getActiveBanByGameUserId($player->getKey(), $playerType);
+        return $this->gameBanRepository->getActiveBanByGameUserId($player->getKey());
     }
 
-    public function getHistory(GamePlayerType $playerType, string $identifier)
+    public function getHistory(string $identifier)
     {
     }
 }
