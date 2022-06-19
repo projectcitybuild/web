@@ -57,7 +57,7 @@ class AccountMinecraftAccountTest extends TestCase
         $this->actingAs($this->account);
 
         $neverSyncedMcPlayer = MinecraftPlayer::factory()
-            ->neverSynced()
+            ->neverSeen()
             ->for($this->account)
             ->create();
 

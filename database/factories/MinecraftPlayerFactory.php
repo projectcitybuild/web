@@ -33,11 +33,11 @@ class MinecraftPlayerFactory extends Factory
      *
      * @return MinecraftPlayerFactory
      */
-    public function neverSynced()
+    public function neverSeen()
     {
         return $this->state(function (array $attributes) {
             return [
-                'last_synced_at' => null,
+                'last_seen_at' => null,
             ];
         });
     }
