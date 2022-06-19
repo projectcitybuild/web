@@ -9,6 +9,7 @@ use Entities\Resources\AccountResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
@@ -112,9 +113,16 @@ final class Account extends Authenticatable
         );
     }
 
-    public function gameBans()
+    public function gameBans(): HasManyThrough
     {
-        return GameBan::whereIn('banned_player_id', $this->minecraftAccount()->pluck('player_minecraft_id'));
+        return $this->hasManyThrough(
+            related: GameBan::class,
+            through: MinecraftPlayer::class,
+            firstKey: 'account_id',
+            secondKey: 'banned_player_id',
+            localKey: 'account_id',
+            secondLocalKey: 'player_minecraft_id'
+        );
     }
 
     public function isBanned()
