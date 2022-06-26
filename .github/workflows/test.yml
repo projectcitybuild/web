@@ -99,6 +99,10 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         run: php artisan migrate
 
+      - name: Lint
+        run: ./vendor/bin/pint --test
+        continue-on-error: true
+
       - name: Larastan
         run: ./vendor/bin/phpstan analyse
 
