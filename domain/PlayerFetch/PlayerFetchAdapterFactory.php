@@ -5,6 +5,7 @@ namespace Domain\PlayerFetch;
 use Domain\PlayerFetch\Adapters\MojangUUIDFetchAdapter;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
 use Entities\Models\GameType;
+use Illuminate\Support\Facades\App;
 
 final class PlayerFetchAdapterFactory implements PlayerFetchAdapterFactoryContract
 {

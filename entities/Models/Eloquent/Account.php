@@ -83,15 +83,6 @@ final class Account extends Authenticatable
         );
     }
 
-    public function linkedSocialAccounts(): HasMany
-    {
-        return $this->hasMany(
-            related: AccountLink::class,
-            foreignKey: 'account_id',
-            localKey: 'account_id',
-        );
-    }
-
     public function groups(): BelongsToMany
     {
         return $this->belongsToMany(
