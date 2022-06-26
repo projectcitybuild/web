@@ -29,7 +29,6 @@ class RewardCurrencyToDonorsCommand extends Command
     public function handle(RewardCurrencyUseCase $rewardCurrencyUseCase)
     {
         $rewardCurrencyUseCase->execute();
-
         return 0;
     }
 }
