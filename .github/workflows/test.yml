@@ -103,7 +103,7 @@ jobs:
         run: ./vendor/bin/pint --test
 
       - name: Larastan
-        if: succeeded() || failed()
+        if: success() || failure()
         run: ./vendor/bin/phpstan analyse
 
       - name: PHPUnit
