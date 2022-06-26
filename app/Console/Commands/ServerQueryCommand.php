@@ -39,12 +39,14 @@ final class ServerQueryCommand extends Command
 
         if ($this->option('all')) {
             $this->queryAllServers($shouldRunAsJob);
+
             return;
         }
 
         $serverIds = $this->option('id');
         if (count($serverIds) === 0) {
             $this->error('You must specify either --id=* or --all');
+
             return;
         }
 
@@ -68,6 +70,7 @@ final class ServerQueryCommand extends Command
         if ($shouldRunInBackground) {
             $this->info('Starting server query on background queue ['.$server->address().']');
             ServerQueryJob::dispatch($server);
+
             return;
         }
         try {

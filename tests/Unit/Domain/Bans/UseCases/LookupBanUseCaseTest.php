@@ -16,8 +16,11 @@ use Tests\TestCase;
 class LookupBanUseCaseTest extends TestCase
 {
     private MojangPlayerApi $mojangPlayerApi;
+
     private GameBanRepository $gameBanRepository;
+
     private MinecraftPlayerRepository $minecraftPlayerRepository;
+
     private LookupBanUseCase $useCase;
 
     protected function setUp(): void
@@ -50,7 +53,7 @@ class LookupBanUseCaseTest extends TestCase
         $this->minecraftPlayerRepository->shouldReceive('getByUUID')
             ->once()
             ->with(\Mockery::on(function ($arg) use ($uuid) {
-               return $arg->rawValue() == $uuid;
+                return $arg->rawValue() == $uuid;
             }))
             ->andReturn($player);
     }

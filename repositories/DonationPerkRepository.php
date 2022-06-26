@@ -52,7 +52,7 @@ class DonationPerkRepository
                 $q->whereDate('last_currency_reward_at', '<=', $since)
                   ->orWhere('last_currency_reward_at', null);
             })
-            ->where(function ($q) use ($since) {
+            ->where(function ($q) {
                 $q->whereDate('expires_at', '<=', now())
                     ->orWhere('expires_at', null);
             })

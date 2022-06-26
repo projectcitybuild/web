@@ -16,8 +16,11 @@ use Tests\TestCase;
 class CreateBanAppealUseCaseTest extends TestCase
 {
     private BanAppealRepository $banAppealRepository;
+
     private CreateBanAppealUseCase $useCase;
+
     private GameBan $gameBan;
+
     private BanAppeal $banAppeal;
 
     protected function setUp(): void
@@ -34,7 +37,7 @@ class CreateBanAppealUseCaseTest extends TestCase
         $this->banAppeal = \Mockery::mock(BanAppeal::class);
         $this->banAppeal->makePartial()
             ->allows([
-                'showLink' => 'https://example.org'
+                'showLink' => 'https://example.org',
             ]);
     }
 
@@ -59,7 +62,6 @@ class CreateBanAppealUseCaseTest extends TestCase
         $this->expectException(EmailRequiredException::class);
         $this->gameBan->bannedPlayer->account()->associate(Account::factory()->create());
         $this->useCase->execute($this->gameBan, 'Explanation', loggedInAccount: Account::factory()->create(), email: null);
-
     }
 
     public function test_email_not_required_if_account_matches()

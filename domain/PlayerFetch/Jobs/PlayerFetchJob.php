@@ -15,7 +15,9 @@ final class PlayerFetchJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private GameType $gameType;
+
     private array $aliases;
+
     private ?int $timestamp;
 
     /**

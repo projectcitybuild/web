@@ -18,7 +18,7 @@ class GroupSeeds extends Seeder
     {
         $scopes = collect();
 
-        collect(PanelGroupScope::cases())->each(function ($scope) use(&$scopes) {
+        collect(PanelGroupScope::cases())->each(function ($scope) use (&$scopes) {
             $model = GroupScope::create([
                 'scope' => $scope->value,
             ]);

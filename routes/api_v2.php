@@ -6,7 +6,6 @@ use App\Http\Controllers\Api\v1\MinecraftTelemetryController;
 use App\Http\Controllers\Api\v2\GameBanV2Controller;
 use Domain\ServerTokens\ScopeKey;
 use Illuminate\Support\Facades\Route;
-use Library\Environment\Environment;
 
 /*
 |--------------------------------------------------------------------------

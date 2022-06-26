@@ -14,7 +14,9 @@ use Tests\TestCase;
 class DeductBalanceUseCaseTest extends TestCase
 {
     private PlayerLookup $playerLookup;
+
     private BalanceHistoryRepository $balanceHistoryRepository;
+
     private DeductBalanceUseCase $useCase;
 
     public function setUp(): void

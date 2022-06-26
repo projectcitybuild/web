@@ -17,7 +17,9 @@ class PlayerLookupTest extends TestCase
     use RefreshDatabase;
 
     private MinecraftPlayerRepository $minecraftPlayerRepository;
+
     private MinecraftPlayerAliasRepository $minecraftPlayerAliasRepository;
+
     private PlayerLookup $playerLookup;
 
     public function setUp(): void

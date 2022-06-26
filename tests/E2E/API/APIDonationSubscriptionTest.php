@@ -13,14 +13,21 @@ use Tests\E2ETestCase;
 class APIDonationSubscriptionTest extends E2ETestCase
 {
     private Account $account;
+
     private DonationTier $donationTier;
+
     private Group $donorGroup;
+
     private array $webhookPayload;
 
     private const ENDPOINT = '/api/webhooks/stripe';
+
     private const PRICE_ID = 'price_1JJL5mAtUyfM4v5ISwJrrVur';
+
     private const PRODUCT_ID = 'prod_JxFaAltmFPewxs';
+
     private const QUANTITY = 1;
+
     private const AMOUNT_PAID = 300;
 
     protected function setUp(): void

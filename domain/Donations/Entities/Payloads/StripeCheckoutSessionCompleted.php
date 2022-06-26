@@ -2,8 +2,8 @@
 
 namespace Domain\Donations\Entities\Payloads;
 
-use Domain\Donations\Entities\PaymentType;
 use Domain\Donations\Entities\PaidAmount;
+use Domain\Donations\Entities\PaymentType;
 use Stripe\StripeClient;
 
 final class StripeCheckoutSessionCompleted
@@ -16,7 +16,8 @@ final class StripeCheckoutSessionCompleted
         public string $productId,
         public string $priceId,
         public PaymentType $paymentType,
-    ) {}
+    ) {
+    }
 
     public static function fromPayload(array $payload, StripeClient $stripeClient): StripeCheckoutSessionCompleted
     {

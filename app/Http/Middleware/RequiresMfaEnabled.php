@@ -16,7 +16,7 @@ class RequiresMfaEnabled
             return $next($request);
         }
 
-        return redirect(route('front.account.security') . '#settings-2fa')
+        return redirect(route('front.account.security').'#settings-2fa')
             ->with('mfa_setup_required', true)
             ->with('mfa_setup_required_feature', 'the staff panel');
     }

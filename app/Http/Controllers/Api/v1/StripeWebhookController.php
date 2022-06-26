@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Exceptions\Http\BadRequestException;
-use Domain\Donations\Entities\PaymentType;
 use Domain\Donations\Entities\Payloads\StripeCheckoutSessionCompleted;
 use Domain\Donations\Entities\Payloads\StripeInvoicePaid;
+use Domain\Donations\Entities\PaymentType;
 use Domain\Donations\Exceptions\StripeProductNotFoundException;
 use Domain\Donations\UseCases\ProcessPaymentUseCase;
 use Entities\Models\Eloquent\Account;

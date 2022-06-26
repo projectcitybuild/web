@@ -11,6 +11,7 @@ use Tests\TestCase;
 class MfaLoginTest extends TestCase
 {
     private Account $mfaAccount;
+
     private Google2FA $google2fa;
 
     protected function setUp(): void

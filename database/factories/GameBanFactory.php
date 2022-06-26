@@ -31,7 +31,7 @@ class GameBanFactory extends Factory
             'is_active' => $this->faker->boolean,
             'is_global_ban' => $this->faker->boolean,
             'created_at' => $this->faker->dateTimeBetween('-5 years', 'now'),
-            'expires_at' => null
+            'expires_at' => null,
         ];
     }
 

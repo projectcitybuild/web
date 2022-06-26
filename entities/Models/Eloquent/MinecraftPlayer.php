@@ -100,7 +100,6 @@ final class MinecraftPlayer extends Model implements Player
      * GamePlayable
      *
      ***************************************************/
-
     public function getRawModel(): static
     {
         return $this;

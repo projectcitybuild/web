@@ -21,8 +21,11 @@ class SendVerificationEmailUseCaseTest extends TestCase
     use RefreshDatabase;
 
     private AccountEmailChangeRepository $emailChangeRepository;
+
     private TokenGenerator $tokenGenerator;
+
     private SignedURLGenerator $signedURLGenerator;
+
     private SendVerificationEmailUseCase $useCase;
 
     protected function setUp(): void
@@ -60,14 +63,12 @@ class SendVerificationEmailUseCaseTest extends TestCase
 
         Notification::assertSentOnDemand(
             notification: VerifyOldEmailAddressNotification::class,
-            callback: fn ($notification, $channels, $notifiable)
-                => $notifiable->routes['mail'] === $account->email
+            callback: fn ($notification, $channels, $notifiable) => $notifiable->routes['mail'] === $account->email
         );
 
         Notification::assertSentOnDemand(
             notification: VerifyNewEmailAddressNotification::class,
-            callback: fn ($notification, $channels, $notifiable)
-            => $notifiable->routes['mail'] === $newEmail
+            callback: fn ($notification, $channels, $notifiable) => $notifiable->routes['mail'] === $newEmail
         );
     }
 }

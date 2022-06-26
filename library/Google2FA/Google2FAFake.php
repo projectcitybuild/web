@@ -2,7 +2,6 @@
 
 namespace Library\Google2FA;
 
-
 use Exception;
 use Library\Google2FA\Exceptions\Dangerous2FABypassException;
 use PragmaRX\Google2FA\Google2FA;

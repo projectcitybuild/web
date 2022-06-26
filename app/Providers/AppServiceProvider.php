@@ -6,7 +6,6 @@ use App\View\Components\DonationBarComponent;
 use App\View\Components\NavBarComponent;
 use App\View\Components\PanelSideBarComponent;
 use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\Donation;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\GamePlayerType;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -70,7 +69,7 @@ final class AppServiceProvider extends ServiceProvider
         });
 
         // Set a default date format for displaying Carbon instances in views
-        Blade::stringable(function(\Illuminate\Support\Carbon $dateTime) {
+        Blade::stringable(function (\Illuminate\Support\Carbon $dateTime) {
             return $dateTime->format('j M Y H:i');
         });
     }

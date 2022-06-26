@@ -17,6 +17,7 @@ class PlayerBanService_Test extends TestCase
     use RefreshDatabase;
 
     private PlayerBanService $service;
+
     private Server $server;
 
     public function setUp(): void

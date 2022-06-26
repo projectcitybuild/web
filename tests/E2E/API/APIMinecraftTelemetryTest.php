@@ -55,7 +55,7 @@ class APIMinecraftTelemetryTest extends E2ETestCase
     {
         $player = MinecraftPlayer::factory()->create([
             'uuid' => 'uuid',
-            'last_seen_at' => $this->now->copy()->subWeek()
+            'last_seen_at' => $this->now->copy()->subWeek(),
         ]);
 
         $this->authoriseTokenFor(ScopeKey::TELEMETRY);

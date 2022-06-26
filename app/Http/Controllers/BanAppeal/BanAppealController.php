@@ -4,7 +4,6 @@ namespace App\Http\Controllers\BanAppeal;
 
 use App\Http\Requests\StoreBanAppealRequest;
 use App\Http\WebController;
-use Domain\BanAppeals\Entities\BanAppealStatus;
 use Domain\BanAppeals\Exceptions\EmailRequiredException;
 use Domain\BanAppeals\UseCases\CreateBanAppealUseCase;
 use Entities\Models\Eloquent\BanAppeal;
@@ -14,7 +13,6 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Validation\ValidationException;
 
 class BanAppealController extends WebController
 {
@@ -26,7 +24,7 @@ class BanAppealController extends WebController
         $bans = $request->user()?->gameBans()
                 ->with(['banAppeals', 'staffPlayer.aliases', 'bannedPlayer' => function (MorphTo $morphTo) {
                     $morphTo->morphWith([
-                        MinecraftPlayer::class => ['aliases']
+                        MinecraftPlayer::class => ['aliases'],
                     ]);
                 }])->latest()->get() ?? collect();
 
@@ -40,14 +38,14 @@ class BanAppealController extends WebController
      */
     public function create(GameBan $ban, Request $request, CreateBanAppealUseCase $useCase)
     {
-        if (!$ban->is_active) {
+        if (! $ban->is_active) {
             return abort(404);
         }
 
         $existingAppeal = $ban->banAppeals()->pending()->first();
         if ($existingAppeal) {
             return view('v2.front.pages.ban-appeal.error-pending')->with([
-                'existingAppeal' => $existingAppeal
+                'existingAppeal' => $existingAppeal,
             ]);
         }
 
@@ -55,7 +53,7 @@ class BanAppealController extends WebController
         $banHistory = $bannedPlayer->gameBans()
             ->with(['staffPlayer.aliases', 'bannedPlayer' => function (MorphTo $morphTo) {
                 $morphTo->morphWith([
-                    MinecraftPlayer::class => ['aliases']
+                    MinecraftPlayer::class => ['aliases'],
                 ]);
             }])
             ->latest()->get();
@@ -64,16 +62,16 @@ class BanAppealController extends WebController
             'player' => $bannedPlayer,
             'activeGameBan' => $ban,
             'banHistory' => $banHistory,
-            'accountVerified' => $useCase->isAccountVerified($ban, $request->user())
+            'accountVerified' => $useCase->isAccountVerified($ban, $request->user()),
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param GameBan $ban
-     * @param StoreBanAppealRequest $request
-     * @param CreateBanAppealUseCase $useCase
+     * @param  GameBan  $ban
+     * @param  StoreBanAppealRequest  $request
+     * @param  CreateBanAppealUseCase  $useCase
      * @return Response
      */
     public function store(GameBan $ban, StoreBanAppealRequest $request, CreateBanAppealUseCase $useCase)
@@ -90,19 +88,20 @@ class BanAppealController extends WebController
     /**
      * Display the specified resource.
      *
-     * @param BanAppeal $banAppeal
-     * @param Request $request
+     * @param  BanAppeal  $banAppeal
+     * @param  Request  $request
      * @return Response
+     *
      * @throws AuthorizationException
      */
     public function show(BanAppeal $banAppeal, Request $request)
     {
-        if (!$request->hasValidSignature()) {
+        if (! $request->hasValidSignature()) {
             $this->authorize('view', $banAppeal);
         }
 
         return view('v2.front.pages.ban-appeal.show')->with([
-            'banAppeal' => $banAppeal
+            'banAppeal' => $banAppeal,
         ]);
     }
 }

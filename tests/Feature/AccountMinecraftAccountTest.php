@@ -10,7 +10,9 @@ use Tests\TestCase;
 class AccountMinecraftAccountTest extends TestCase
 {
     private Account $account;
+
     private MinecraftPlayer $mcPlayer;
+
     private MinecraftPlayerAlias $mcPlayerAlias;
 
     protected function setUp(): void

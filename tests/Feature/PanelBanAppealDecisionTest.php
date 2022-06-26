@@ -16,7 +16,9 @@ use Tests\E2ETestCase;
 class PanelBanAppealDecisionTest extends E2ETestCase
 {
     private BanAppeal $appeal;
+
     private GameBan $gameBan;
+
     private Account $admin;
 
     protected function setUp(): void
@@ -44,7 +46,7 @@ class PanelBanAppealDecisionTest extends E2ETestCase
         $this->actingAs($admin)
             ->put(route('front.panel.ban-appeals.update', $this->appeal), [
                 'decision_note' => 'Some Note',
-                'status' => BanAppealStatus::ACCEPTED_UNBAN->value
+                'status' => BanAppealStatus::ACCEPTED_UNBAN->value,
             ])
             ->assertSessionHasErrors();
         Notification::assertNothingSent();
@@ -55,7 +57,7 @@ class PanelBanAppealDecisionTest extends E2ETestCase
         $this->actingAs($this->admin)
             ->put(route('front.panel.ban-appeals.update', $this->appeal), [
                 'decision_note' => 'Some Note',
-                'status' => BanAppealStatus::ACCEPTED_UNBAN->value
+                'status' => BanAppealStatus::ACCEPTED_UNBAN->value,
             ])
             ->assertSessionHasNoErrors()
             ->assertRedirect(route('front.panel.ban-appeals.show', $this->appeal));
@@ -64,7 +66,7 @@ class PanelBanAppealDecisionTest extends E2ETestCase
         $this->assertDatabaseHas('game_network_unbans', [
             'game_ban_id' => $this->gameBan->getKey(),
             'staff_player_id' => $this->admin->minecraftAccount()->first()->getKey(),
-            'staff_player_type' => GameIdentifierType::MINECRAFT_UUID->playerType()->value
+            'staff_player_type' => GameIdentifierType::MINECRAFT_UUID->playerType()->value,
         ]);
         Notification::assertSentTo($this->appeal, BanAppealUpdatedNotification::class);
     }
@@ -74,14 +76,14 @@ class PanelBanAppealDecisionTest extends E2ETestCase
         $this->actingAs($this->admin)
             ->put(route('front.panel.ban-appeals.update', $this->appeal), [
                 'decision_note' => 'Some Note',
-                'status' => BanAppealStatus::DENIED->value
+                'status' => BanAppealStatus::DENIED->value,
             ])
             ->assertSessionHasNoErrors()
             ->assertRedirect(route('front.panel.ban-appeals.show', $this->appeal));
         $this->assertEquals(BanAppealStatus::DENIED, $this->appeal->refresh()->status);
         $this->assertEquals(true, $this->appeal->gameBan->refresh()->is_active);
         $this->assertDatabaseMissing('game_network_unbans', [
-            'game_ban_id' => $this->gameBan->getKey()
+            'game_ban_id' => $this->gameBan->getKey(),
         ]);
         Notification::assertSentTo($this->appeal, BanAppealUpdatedNotification::class);
     }
@@ -98,7 +100,7 @@ class PanelBanAppealDecisionTest extends E2ETestCase
         $this->actingAs($this->admin)
             ->put(route('front.panel.ban-appeals.update', $this->appeal), [
                 'decision_note' => 'Some Note',
-                'status' => BanAppealStatus::ACCEPTED_UNBAN->value
+                'status' => BanAppealStatus::ACCEPTED_UNBAN->value,
             ])
             ->assertSessionHasErrors();
 
@@ -117,7 +119,7 @@ class PanelBanAppealDecisionTest extends E2ETestCase
         $this->actingAs($this->admin)
             ->put(route('front.panel.ban-appeals.update', $this->appeal), [
                 'decision_note' => 'Some Note',
-                'status' => BanAppealStatus::ACCEPTED_UNBAN->value
+                'status' => BanAppealStatus::ACCEPTED_UNBAN->value,
             ])
             ->assertSessionHasErrors();
 

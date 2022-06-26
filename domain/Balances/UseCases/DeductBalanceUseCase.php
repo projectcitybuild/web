@@ -19,7 +19,8 @@ class DeductBalanceUseCase
     public function __construct(
         private PlayerLookup $playerLookup,
         private BalanceHistoryRepository $balanceHistoryRepository,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws PlayerNotFoundException if identifier does not match any player

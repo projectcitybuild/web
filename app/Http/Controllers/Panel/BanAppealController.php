@@ -20,14 +20,14 @@ class BanAppealController
         $banAppeals = $banAppealRepository->allWithPriority(50);
 
         return view('admin.ban-appeal.index')->with([
-            'banAppeals' => $banAppeals
+            'banAppeals' => $banAppeals,
         ]);
     }
 
     public function show(BanAppeal $banAppeal)
     {
         return view('admin.ban-appeal.show')->with([
-            'banAppeal' => $banAppeal
+            'banAppeal' => $banAppeal,
         ]);
     }
 
@@ -42,18 +42,17 @@ class BanAppealController
             );
         } catch (NotImplementedException $e) {
             throw ValidationException::withMessages([
-                'error' => ['This unban decision is not supported currently. Please contact an admin.']
+                'error' => ['This unban decision is not supported currently. Please contact an admin.'],
             ]);
         } catch (PlayerNotBannedException $e) {
             throw ValidationException::withMessages([
-                'error' => ['Unable to unban player, they are not currently banned.']
+                'error' => ['Unable to unban player, they are not currently banned.'],
             ]);
         } catch (AppealAlreadyDecidedException $e) {
             throw ValidationException::withMessages([
-                'error' => ['This appeal has already been decided.']
+                'error' => ['This appeal has already been decided.'],
             ]);
         }
-
 
         $banAppeal->notify(new BanAppealUpdatedNotification($banAppeal->showLink()));
 

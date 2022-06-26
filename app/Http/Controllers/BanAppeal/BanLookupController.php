@@ -25,18 +25,19 @@ class BanLookupController extends WebController
 
         try {
             $ban = $useCase->execute($request->get('username'));
+
             return redirect()->route('front.appeal.create', $ban);
         } catch (TooManyRequestsException) {
             throw ValidationException::withMessages([
-                'error' => ['The Mojang API is too busy currently. Please try again later']
+                'error' => ['The Mojang API is too busy currently. Please try again later'],
             ]);
         } catch (PlayerNotBannedException) {
             throw ValidationException::withMessages([
-                'error' => ['This player has no active bans.']
+                'error' => ['This player has no active bans.'],
             ]);
         } catch (PlayerNotFoundException) {
             throw ValidationException::withMessages([
-                'error' => ['This username does not belong to a Minecraft player. Check you have entered it correctly.']
+                'error' => ['This username does not belong to a Minecraft player. Check you have entered it correctly.'],
             ]);
         }
     }

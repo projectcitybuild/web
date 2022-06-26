@@ -2,7 +2,6 @@
 
 namespace Entities\Notifications;
 
-use Entities\Models\Eloquent\Account;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -13,7 +12,8 @@ final class AccountActivationNotification extends Notification
 
     public function __construct(
         private string $activationURL
-    ) {}
+    ) {
+    }
 
     /**
      * Get the notification's delivery channels.

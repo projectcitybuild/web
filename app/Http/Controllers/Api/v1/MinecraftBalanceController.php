@@ -26,6 +26,7 @@ final class MinecraftBalanceController extends ApiController
         $balance = $getBalanceUseCase->execute(
             identifier: PlayerIdentifier::minecraftUUID($uuid),
         );
+
         return [
             'data' => [
                 'balance' => $balance,
@@ -56,6 +57,7 @@ final class MinecraftBalanceController extends ApiController
             amount: $request->get('amount'),
             reason: $request->get('reason'),
         );
+
         return [
             'data' => ['success' => true],
         ];

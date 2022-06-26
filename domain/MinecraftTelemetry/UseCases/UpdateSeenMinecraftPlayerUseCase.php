@@ -12,7 +12,8 @@ final class UpdateSeenMinecraftPlayerUseCase
     public function __construct(
         private readonly PlayerLookup $playerLookup,
         private readonly MinecraftPlayerAliasRepository $aliasRepository,
-    ) {}
+    ) {
+    }
 
     public function execute(string $uuid, string $alias): void
     {

@@ -19,7 +19,8 @@ class BuilderRankAppSubmittedNotification extends Notification
      */
     public function __construct(
         private BuilderRankApplication $builderRankApplication,
-    ) {}
+    ) {
+    }
 
     /**
      * Get the notification's delivery channels.

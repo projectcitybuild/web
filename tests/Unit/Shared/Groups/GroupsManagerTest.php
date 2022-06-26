@@ -13,7 +13,9 @@ class GroupsManagerTest extends TestCase
     use RefreshDatabase;
 
     private GroupsManager $groupsManager;
+
     private Group $defaultGroup;
+
     private Account $account;
 
     public function setUp(): void

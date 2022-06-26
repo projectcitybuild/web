@@ -5,10 +5,15 @@ namespace Library\RateLimit;
 class TokenRate
 {
     public const MICROSECOND = 0.000001;
+
     public const MILLISECONDS = 0.001;
+
     public const SECONDS = 1.0;
+
     public const MINUTES = 60.0;
+
     public const HOURS = 3600.0;
+
     public const DAYS = 86400.0;
 
     /**

@@ -25,7 +25,7 @@ class StoreBanAppealRequest extends FormRequest
     {
         return [
             'explanation' => 'required',
-            'email' => 'nullable|email'
+            'email' => 'nullable|email',
         ];
     }
 }

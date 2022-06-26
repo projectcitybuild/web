@@ -2,7 +2,6 @@
 
 namespace Entities\Models\Eloquent;
 
-
 use App\Model;
 use Carbon\CarbonInterface;
 use Domain\BanAppeals\Entities\BanAppealStatus;
@@ -18,7 +17,7 @@ class BanAppeal extends Model
 
     protected $casts = [
         'status' => BanAppealStatus::class,
-        'decided_at' => 'datetime'
+        'decided_at' => 'datetime',
     ];
 
     protected $fillable = [
@@ -26,7 +25,7 @@ class BanAppeal extends Model
         'is_account_verified',
         'explanation',
         'email',
-        'status'
+        'status',
     ];
 
     public function gameBan(): BelongsTo
@@ -74,7 +73,10 @@ class BanAppeal extends Model
 
     public function getDecisionTempbanDuration()
     {
-        if ($this->status != BanAppealStatus::ACCEPTED_TEMPBAN) { return null; }
+        if ($this->status != BanAppealStatus::ACCEPTED_TEMPBAN) {
+            return null;
+        }
+
         return $this->gameBan->expires_at->diffForHumans($this->decided_at, CarbonInterface::DIFF_ABSOLUTE);
     }
 }

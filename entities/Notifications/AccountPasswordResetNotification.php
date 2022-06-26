@@ -12,7 +12,8 @@ final class AccountPasswordResetNotification extends Notification
 
     public function __construct(
         private string $passwordResetURL
-    ) {}
+    ) {
+    }
 
     /**
      * Get the notification's delivery channels.

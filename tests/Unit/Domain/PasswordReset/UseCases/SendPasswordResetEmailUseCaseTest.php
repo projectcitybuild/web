@@ -15,8 +15,11 @@ use Tests\TestCase;
 class SendPasswordResetEmailUseCaseTest extends TestCase
 {
     private Carbon $now;
+
     private Account $account;
+
     private AccountPasswordResetRepository $passwordResetRepository;
+
     private SendPasswordResetEmailUseCase $useCase;
 
     protected function setUp(): void

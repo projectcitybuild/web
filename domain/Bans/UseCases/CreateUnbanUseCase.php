@@ -16,12 +16,14 @@ class CreateUnbanUseCase
         private GameBanRepository $gameBanRepository,
         private GameUnbanRepository $gameUnbanRepository,
         private PlayerLookup $playerLookup,
-    ) {}
+    ) {
+    }
 
     /**
-     * @param PlayerIdentifier $bannedPlayerIdentifier Player currently banned
-     * @param PlayerIdentifier $unbannerPlayerIdentifier Player unbanning the banned player
+     * @param  PlayerIdentifier  $bannedPlayerIdentifier Player currently banned
+     * @param  PlayerIdentifier  $unbannerPlayerIdentifier Player unbanning the banned player
      * @return GameUnban
+     *
      * @throws PlayerNotBannedException if the banned player is not actually banned
      */
     public function execute(
@@ -44,7 +46,6 @@ class CreateUnbanUseCase
                 staffPlayerType: $unbannerPlayerIdentifier->gameIdentifierType->playerType(),
             );
             DB::commit();
-
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;

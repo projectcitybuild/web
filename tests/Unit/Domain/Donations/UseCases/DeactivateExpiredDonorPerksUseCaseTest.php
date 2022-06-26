@@ -19,9 +19,13 @@ final class DeactivateExpiredDonorPerksUseCaseTest extends TestCase
     use RefreshDatabase;
 
     private GroupsManager $groupsManager;
+
     private DonationPerkRepository $donationPerkRepository;
+
     private Group $donorGroup;
+
     private Account $account;
+
     private DeactivateExpiredDonorPerksUseCase $useCase;
 
     protected function setUp(): void

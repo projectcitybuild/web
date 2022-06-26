@@ -20,6 +20,7 @@ class LoginUseCaseTest extends TestCase
     use RefreshDatabase;
 
     private AccountRepository $accountRepository;
+
     private LoginUseCase $useCase;
 
     protected function setUp(): void

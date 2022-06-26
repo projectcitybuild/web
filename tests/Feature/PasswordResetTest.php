@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Domain\PasswordReset\PasswordResetURLGenerator;
 use Domain\PasswordReset\UseCases\SendPasswordResetEmailUseCase;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\AccountPasswordReset;
@@ -16,7 +15,9 @@ use Tests\TestCase;
 class PasswordResetTest extends TestCase
 {
     private Account $account;
+
     private AccountPasswordResetRepository $passwordResetRepository;
+
     private SendPasswordResetEmailUseCase $useCase;
 
     protected function setUp(): void

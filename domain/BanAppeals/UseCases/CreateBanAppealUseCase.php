@@ -14,16 +14,18 @@ final class CreateBanAppealUseCase
 {
     public function __construct(
         private BanAppealRepository $banAppealRepository
-    ) {}
+    ) {
+    }
 
     /**
      * Returns whether an account owns the player associated with a ban
      *
-     * @param GameBan $ban
-     * @param Account|null $account
+     * @param  GameBan  $ban
+     * @param  Account|null  $account
      * @return bool
      */
-    public function isAccountVerified(GameBan $ban, ?Account $account): bool {
+    public function isAccountVerified(GameBan $ban, ?Account $account): bool
+    {
         return ($account?->is($ban->bannedPlayer->account)) ?? false;
     }
 
@@ -35,10 +37,9 @@ final class CreateBanAppealUseCase
         string $explanation,
         ?Account $loggedInAccount,
         ?string $email
-    ): BanAppeal
-    {
+    ): BanAppeal {
         $isAccountVerified = $this->isAccountVerified($ban, $loggedInAccount);
-        if (!$isAccountVerified && $email === null) {
+        if (! $isAccountVerified && $email === null) {
             throw new EmailRequiredException();
         }
 
@@ -55,7 +56,6 @@ final class CreateBanAppealUseCase
         return $banAppeal;
     }
 
-
     /**
      * TODO: convert to actual notifications along with builder applications
      */
@@ -64,30 +64,30 @@ final class CreateBanAppealUseCase
         $webhook = config('discord.webhook_ban_appeal_channel');
         if (! empty($webhook)) {
             Http::post($webhook, [
-                'content' => "A new ban appeal has been submitted",
+                'content' => 'A new ban appeal has been submitted',
                 'embeds' => [
                     [
-                        "title" => "Ban Appeal",
-                        "url" => route('front.panel.ban-appeals.show', $banAppeal->getKey()),
-                        "color" => "7506394",
-                        "fields" => [
+                        'title' => 'Ban Appeal',
+                        'url' => route('front.panel.ban-appeals.show', $banAppeal->getKey()),
+                        'color' => '7506394',
+                        'fields' => [
                             [
-                                "name" => "Banning Staff",
-                                "value" => $banAppeal->additional_notes ?? "-",
+                                'name' => 'Banning Staff',
+                                'value' => $banAppeal->additional_notes ?? '-',
                             ],
                             [
-                                "name" => "Ban Reason",
-                                "value" => $banAppeal->gameBan->reason
+                                'name' => 'Ban Reason',
+                                'value' => $banAppeal->gameBan->reason,
                             ],
                             [
-                                "name" => "Appeal Reason",
-                                "value" => $banAppeal->explanation
-                            ]
+                                'name' => 'Appeal Reason',
+                                'value' => $banAppeal->explanation,
+                            ],
                         ],
-                        "author" => [
-                            "name" => $banAppeal->gameBan->bannedPlayer->getBanReadableName() ?? 'No Alias',
-                        ]
-                    ]
+                        'author' => [
+                            'name' => $banAppeal->gameBan->bannedPlayer->getBanReadableName() ?? 'No Alias',
+                        ],
+                    ],
                 ],
             ]);
         }

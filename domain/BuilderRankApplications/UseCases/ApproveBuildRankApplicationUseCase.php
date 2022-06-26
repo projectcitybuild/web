@@ -13,7 +13,8 @@ class ApproveBuildRankApplicationUseCase
     public function __construct(
         private GroupsManager $groupsManager,
         private BuilderRankApplicationRepository $applicationRepository,
-    ) {}
+    ) {
+    }
 
     public function execute(
         int $applicationId,

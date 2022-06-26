@@ -15,6 +15,7 @@ class AccountChangePasswordRequest extends FormRequest
      * @var string
      */
     protected $errorBag = 'password';
+
     /**
      * @var AccountRepository
      */

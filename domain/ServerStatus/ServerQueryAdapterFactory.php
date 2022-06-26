@@ -15,7 +15,7 @@ class ServerQueryAdapterFactory
     {
         return match ($gameType) {
             GameType::MINECRAFT => new MinecraftQueryAdapter(),
-            default => throw new UnsupportedGameException($gameType->name() . ' cannot be queried'),
+            default => throw new UnsupportedGameException($gameType->name().' cannot be queried'),
         };
     }
 }

@@ -121,6 +121,7 @@ final class GameBanV2Controller extends ApiController
         if ($ban === null) {
             return ['data' => null];
         }
+
         return new GameBanResource($ban);
     }
 }

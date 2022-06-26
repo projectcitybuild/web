@@ -2,4 +2,6 @@
 
 namespace Domain\SignUp\Exceptions;
 
-final class AccountAlreadyActivatedException extends \Exception {}
+final class AccountAlreadyActivatedException extends \Exception
+{
+}

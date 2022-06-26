@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string token
  * @property string email_previous
  * @property string email_new
- * @property boolean is_previous_confirmed
- * @property boolean is_new_confirmed
+ * @property bool is_previous_confirmed
+ * @property bool is_new_confirmed
  * @property Account account
  */
 final class AccountEmailChange extends Model

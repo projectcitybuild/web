@@ -2,8 +2,8 @@
 
 namespace Domain\PasswordReset\UseCases;
 
-use Repositories\AccountPasswordResetRepository;
 use function now;
+use Repositories\AccountPasswordResetRepository;
 
 class DeleteExpiredPasswordResetsUseCase
 {
@@ -11,7 +11,8 @@ class DeleteExpiredPasswordResetsUseCase
 
     public function __construct(
         private AccountPasswordResetRepository $passwordResetRepository
-    ) {}
+    ) {
+    }
 
     public function execute()
     {

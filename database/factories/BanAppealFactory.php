@@ -19,7 +19,6 @@ class BanAppealFactory extends Factory
      */
     protected $model = BanAppeal::class;
 
-
     /**
      * Define the model's default state.
      *
@@ -31,7 +30,7 @@ class BanAppealFactory extends Factory
             'explanation' => $this->faker->paragraph,
             'status' => BanAppealStatus::PENDING,
             'is_account_verified' => false,
-            'email' => $this->faker->email
+            'email' => $this->faker->email,
         ];
     }
 
@@ -41,7 +40,7 @@ class BanAppealFactory extends Factory
             return [
                 'decision_note' => $this->faker->paragraph,
                 'decided_at' => now(),
-                'decider_account_id' => Account::factory()
+                'decider_account_id' => Account::factory(),
             ];
         });
     }
@@ -50,7 +49,7 @@ class BanAppealFactory extends Factory
     {
         return $this->withResponse()->state(function (array $attributes) {
             return [
-                'status' => BanAppealStatus::ACCEPTED_UNBAN
+                'status' => BanAppealStatus::ACCEPTED_UNBAN,
             ];
         });
     }
@@ -59,7 +58,7 @@ class BanAppealFactory extends Factory
     {
         return $this->withResponse()->state(function (array $attributes) {
             return [
-                'status' => BanAppealStatus::ACCEPTED_TEMPBAN
+                'status' => BanAppealStatus::ACCEPTED_TEMPBAN,
             ];
         });
     }
@@ -68,7 +67,7 @@ class BanAppealFactory extends Factory
     {
         return $this->withResponse()->state(function (array $attributes) {
             return [
-                'status' => BanAppealStatus::DENIED
+                'status' => BanAppealStatus::DENIED,
             ];
         });
     }
@@ -78,7 +77,7 @@ class BanAppealFactory extends Factory
         return $this->withResponse()->state(function (array $attributes) {
             return [
                 'is_account_verified' => true,
-                'email' => null
+                'email' => null,
             ];
         });
     }

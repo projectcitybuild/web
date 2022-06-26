@@ -55,7 +55,7 @@ class BuilderRankApplicationRepository
 
     public function allWithPriority(int $perPage): LengthAwarePaginator
     {
-        return BuilderRankApplication::orderbyRaw("FIELD(status, ".ApplicationStatus::IN_PROGRESS->value.") DESC")
+        return BuilderRankApplication::orderbyRaw('FIELD(status, '.ApplicationStatus::IN_PROGRESS->value.') DESC')
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
     }
