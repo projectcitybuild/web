@@ -101,9 +101,9 @@ jobs:
 
       - name: Lint
         run: ./vendor/bin/pint --test
-        continue-on-error: true
 
       - name: Larastan
+        if: succeeded() || failed()
         run: ./vendor/bin/phpstan analyse
 
       - name: PHPUnit
