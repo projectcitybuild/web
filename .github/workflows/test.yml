@@ -99,11 +99,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         run: php artisan migrate
 
-      - name: Lint
-        run: ./vendor/bin/pint --test
-
       - name: Larastan
-        if: success() || failure()
         run: ./vendor/bin/phpstan analyse
 
       - name: PHPUnit
