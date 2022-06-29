@@ -12,7 +12,6 @@ use Repositories\PlayerFetchRepository;
 final class PlayerFetchService
 {
     private PlayerFetchRepository $playerRepository;
-
     private PlayerFetchAdapterFactoryContract $adapterFactory;
 
     public function __construct(

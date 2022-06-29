@@ -15,11 +15,8 @@ use Tests\TestCase;
 class CreateUnactivatedAccountUseCaseTest extends TestCase
 {
     private AccountRepository $accountRepository;
-
     private GroupsManager $groupsManager;
-
     private SignedURLGenerator $signedURLGenerator;
-
     private CreateUnactivatedAccountUseCase $useCase;
 
     protected function setUp(): void

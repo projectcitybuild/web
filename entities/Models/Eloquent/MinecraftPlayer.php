@@ -23,18 +23,14 @@ final class MinecraftPlayer extends Model implements Player
     use HasFactory;
 
     protected $table = 'players_minecraft';
-
     protected $primaryKey = 'player_minecraft_id';
-
     protected $fillable = [
         'uuid',
         'account_id',
         'last_synced_at',
         'last_seen_at',
     ];
-
     protected $hidden = [];
-
     protected $dates = [
         'created_at',
         'updated_at',

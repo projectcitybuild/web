@@ -35,9 +35,7 @@ final class Account extends Authenticatable
     use Billable;
 
     protected $table = 'accounts';
-
     protected $primaryKey = 'account_id';
-
     protected $fillable = [
         'email',
         'username',
@@ -47,22 +45,18 @@ final class Account extends Authenticatable
         'last_login_at',
         'balance',
     ];
-
     protected $hidden = [
         'totp_secret',
         'totp_backup_code',
     ];
-
     protected $dates = [
         'created_at',
         'updated_at',
         'last_login_at',
     ];
-
     protected $casts = [
         'is_totp_enabled' => 'boolean',
     ];
-
     private ?Collection $cachedGroupScopes = null;
 
     public function toSearchableArray()

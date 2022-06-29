@@ -12,7 +12,6 @@ use Tests\TestCase;
 class ActivateUnverifiedAccountUseCaseTest extends TestCase
 {
     private AccountRepository $accountRepository;
-
     private ActivateUnverifiedAccountUseCase $useCase;
 
     protected function setUp(): void

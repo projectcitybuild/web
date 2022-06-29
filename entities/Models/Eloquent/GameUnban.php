@@ -10,19 +10,15 @@ final class GameUnban extends Model
     use HasFactory;
 
     protected $table = 'game_network_unbans';
-
     protected $primaryKey = 'game_unban_id';
-
     protected $fillable = [
         'game_ban_id',
         'staff_player_id',
         'staff_player_type',
     ];
-
     protected $hidden = [
 
     ];
-
     protected $dates = [
         'created_at',
         'updated_at',

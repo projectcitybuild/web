@@ -16,11 +16,8 @@ use Tests\TestCase;
 class ResetAccountPasswordUseCaseTest extends TestCase
 {
     private UpdateAccountPassword $updateAccountPassword;
-
     private AccountRepository $accountRepository;
-
     private AccountPasswordResetRepository $passwordResetRepository;
-
     private ResetAccountPasswordUseCase $useCase;
 
     protected function setUp(): void

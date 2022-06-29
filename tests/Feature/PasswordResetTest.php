@@ -15,9 +15,7 @@ use Tests\TestCase;
 class PasswordResetTest extends TestCase
 {
     private Account $account;
-
     private AccountPasswordResetRepository $passwordResetRepository;
-
     private SendPasswordResetEmailUseCase $useCase;
 
     protected function setUp(): void

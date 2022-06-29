@@ -19,7 +19,6 @@ class BanAppeal extends Model
         'status' => BanAppealStatus::class,
         'decided_at' => 'datetime',
     ];
-
     protected $fillable = [
         'game_ban_id',
         'is_account_verified',

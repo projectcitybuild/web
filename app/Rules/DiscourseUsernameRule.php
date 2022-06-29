@@ -21,11 +21,9 @@ class DiscourseUsernameRule implements Rule
 
     // underscores, dashes and dots can't be repeated consecutively
     private const REPEATING_CONFUSING_CHARACTERS = '/[-_.]{2,}/';
-
     private const CONFUSING_EXTENSIONS = "/\.(js|json|css|htm|html|xml|jpg|jpeg|png|gif|bmp|ico|tif|tiff|woff)$/i";
 
     private $value;
-
     private $errors = [];
 
     /**

@@ -18,7 +18,6 @@ class ServerQueryService_Test extends TestCase
     use RefreshDatabase;
 
     private ServerQueryAdapter $serverQueryAdapter;
-
     private ServerQueryAdapterFactory $serverQueryAdapterFactory;
 
     protected function setUp(): void

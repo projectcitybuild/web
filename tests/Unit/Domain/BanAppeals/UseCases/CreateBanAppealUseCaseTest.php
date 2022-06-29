@@ -16,11 +16,8 @@ use Tests\TestCase;
 class CreateBanAppealUseCaseTest extends TestCase
 {
     private BanAppealRepository $banAppealRepository;
-
     private CreateBanAppealUseCase $useCase;
-
     private GameBan $gameBan;
-
     private BanAppeal $banAppeal;
 
     protected function setUp(): void

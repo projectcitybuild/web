@@ -16,11 +16,8 @@ use Tests\TestCase;
 class LookupBanUseCaseTest extends TestCase
 {
     private MojangPlayerApi $mojangPlayerApi;
-
     private GameBanRepository $gameBanRepository;
-
     private MinecraftPlayerRepository $minecraftPlayerRepository;
-
     private LookupBanUseCase $useCase;
 
     protected function setUp(): void

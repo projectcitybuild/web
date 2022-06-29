@@ -14,9 +14,7 @@ final class GameBan extends Model
     use Searchable, HasFactory;
 
     protected $table = 'game_network_bans';
-
     protected $primaryKey = 'game_ban_id';
-
     protected $fillable = [
         'server_id',
         'banned_player_id',
@@ -31,9 +29,7 @@ final class GameBan extends Model
         'created_at',
         'updated_at',
     ];
-
     protected $hidden = [];
-
     protected $dates = [
         'expires_at',
         'created_at',

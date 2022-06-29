@@ -9,9 +9,7 @@ namespace App\Exceptions\Http;
 abstract class PredefinedHttpException extends BaseHttpException
 {
     protected string $id;
-
     protected int $status;
-
     protected string $errorMessage;
 
     public function __construct()

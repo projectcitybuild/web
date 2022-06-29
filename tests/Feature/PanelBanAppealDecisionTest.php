@@ -16,9 +16,7 @@ use Tests\E2ETestCase;
 class PanelBanAppealDecisionTest extends E2ETestCase
 {
     private BanAppeal $appeal;
-
     private GameBan $gameBan;
-
     private Account $admin;
 
     protected function setUp(): void

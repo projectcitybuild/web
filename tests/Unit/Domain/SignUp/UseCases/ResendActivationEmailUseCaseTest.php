@@ -15,9 +15,7 @@ use Tests\TestCase;
 class ResendActivationEmailUseCaseTest extends TestCase
 {
     private AccountRepository $accountRepository;
-
     private SignedURLGenerator $signedURLGenerator;
-
     private ResendActivationEmailUseCase $useCase;
 
     protected function setUp(): void

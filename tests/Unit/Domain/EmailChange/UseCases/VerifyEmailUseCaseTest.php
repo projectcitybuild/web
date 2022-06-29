@@ -15,7 +15,6 @@ class VerifyEmailUseCaseTest extends TestCase
     use RefreshDatabase;
 
     private AccountEmailChangeRepository $emailChangeRepository;
-
     private VerifyEmailUseCase $useCase;
 
     protected function setUp(): void

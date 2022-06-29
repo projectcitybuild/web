@@ -10,7 +10,6 @@ use Tests\TestCase;
 class AccountTest extends TestCase
 {
     private $adminGroup;
-
     private $normalGroup;
 
     protected function setUp(): void

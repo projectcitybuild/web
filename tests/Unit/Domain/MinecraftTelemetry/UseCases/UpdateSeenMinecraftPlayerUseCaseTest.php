@@ -15,9 +15,7 @@ class UpdateSeenMinecraftPlayerUseCaseTest extends TestCase
     use RefreshDatabase;
 
     private PlayerLookup $playerLookup;
-
     private MinecraftPlayerAliasRepository $aliasRepository;
-
     private UpdateSeenMinecraftPlayerUseCase $useCase;
 
     protected function setUp(): void

@@ -12,9 +12,7 @@ class ServerStatusFetched
     use Dispatchable, SerializesModels;
 
     public ServerQueryResult $result;
-
     public GameType $gameType;
-
     public int $fetchTimestamp;
 
     public function __construct(

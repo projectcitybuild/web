@@ -21,11 +21,8 @@ class SendVerificationEmailUseCaseTest extends TestCase
     use RefreshDatabase;
 
     private AccountEmailChangeRepository $emailChangeRepository;
-
     private TokenGenerator $tokenGenerator;
-
     private SignedURLGenerator $signedURLGenerator;
-
     private SendVerificationEmailUseCase $useCase;
 
     protected function setUp(): void

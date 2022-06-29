@@ -19,7 +19,6 @@ abstract class E2ETestCase extends TestCase
     use RefreshDatabase;
 
     protected Carbon $now;
-
     protected ?ServerToken $token = null;
 
     protected function setUp(): void
