@@ -3,11 +3,9 @@
 namespace Entities\Notifications;
 
 use Entities\Models\Eloquent\BuilderRankApplication;
-use Entities\Models\Eloquent\Group;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use function route;
 
 class BuilderRankAppDeclinedNotification extends Notification
 {
@@ -20,7 +18,8 @@ class BuilderRankAppDeclinedNotification extends Notification
      */
     public function __construct(
         private BuilderRankApplication $builderRankApplication,
-    ) {}
+    ) {
+    }
 
     /**
      * Get the notification's delivery channels.

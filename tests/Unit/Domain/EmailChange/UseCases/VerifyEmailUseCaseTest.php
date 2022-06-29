@@ -8,7 +8,6 @@ use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\AccountEmailChange;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Repositories\AccountEmailChangeRepository;
-use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 use Tests\TestCase;
 
 class VerifyEmailUseCaseTest extends TestCase

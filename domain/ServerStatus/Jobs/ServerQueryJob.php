@@ -20,7 +20,8 @@ final class ServerQueryJob implements ShouldQueue
      */
     public function __construct(
         private Server $server
-    ) {}
+    ) {
+    }
 
     /**
      * Execute the job.

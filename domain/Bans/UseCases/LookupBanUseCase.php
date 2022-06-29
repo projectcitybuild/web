@@ -18,7 +18,8 @@ class LookupBanUseCase
         private MojangPlayerApi $mojangPlayerApi,
         private GameBanRepository $gameBanRepository,
         private MinecraftPlayerRepository $minecraftPlayerRepository
-    ) {}
+    ) {
+    }
 
     /**
      * @throws TooManyRequestsException

@@ -32,6 +32,7 @@ final class MinecraftUUID
             substr(string: $this->uuid, offset: 16, length: 4),
             substr(string: $this->uuid, offset: 20),
         ];
+
         return collect($parts)->join(glue: '-');
     }
 }

@@ -50,7 +50,7 @@ class LookupBanUseCaseTest extends TestCase
         $this->minecraftPlayerRepository->shouldReceive('getByUUID')
             ->once()
             ->with(\Mockery::on(function ($arg) use ($uuid) {
-               return $arg->rawValue() == $uuid;
+                return $arg->rawValue() == $uuid;
             }))
             ->andReturn($player);
     }

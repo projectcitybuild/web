@@ -18,15 +18,17 @@ class UpdateBanAppealUseCase
 {
     public function __construct(
         private BanAppealRepository $banAppealRepository,
-        private CreateUnbanUseCase  $unbanUseCase
-    ) {}
+        private CreateUnbanUseCase $unbanUseCase
+    ) {
+    }
 
     /**
-     * @param BanAppeal $banAppeal The ban appeal to update
-     * @param MinecraftPlayer $decidingPlayer The player editing the appeal status
-     * @param string $decisionNote The message to be shown to the appealing player
-     * @param BanAppealStatus $status The new status of the appeal
+     * @param  BanAppeal  $banAppeal The ban appeal to update
+     * @param  MinecraftPlayer  $decidingPlayer The player editing the appeal status
+     * @param  string  $decisionNote The message to be shown to the appealing player
+     * @param  BanAppealStatus  $status The new status of the appeal
      * @return void
+     *
      * @throws NotImplementedException if an unimplemented ban decision is used
      * @throws PlayerNotBannedException if the player is not currently banned
      * @throws AppealAlreadyDecidedException if the appeal has already been decided

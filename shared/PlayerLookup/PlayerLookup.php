@@ -17,7 +17,8 @@ class PlayerLookup
     public function __construct(
         private MinecraftPlayerRepository $minecraftPlayerRepository,
         private MinecraftPlayerAliasRepository $minecraftPlayerAliasRepository,
-    ) {}
+    ) {
+    }
 
     public function find(PlayerIdentifier $identifier): ?Player
     {

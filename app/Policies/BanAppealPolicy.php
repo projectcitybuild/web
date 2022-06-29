@@ -11,10 +11,10 @@ class BanAppealPolicy
 {
     use HandlesAuthorization;
 
-
     public function __construct(
         private CreateBanAppealUseCase $createUseCase
-    ) {}
+    ) {
+    }
 
     public function view(?Account $account, BanAppeal $banAppeal): bool
     {

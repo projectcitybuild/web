@@ -1,0 +1,11 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "class_attributes_separation": {
+            "elements": {
+                "const": "none",
+                "property": "none"
+            }
+        }
+    }
+}

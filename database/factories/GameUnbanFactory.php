@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\GameUnban;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Database\Eloquent\Factories\Factory;

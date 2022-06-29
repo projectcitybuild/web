@@ -30,7 +30,7 @@ class BanAppealViewTest extends TestCase
 
     public function test_cant_view_ban_appeal_with_wrong_signature()
     {
-        $this->get(route('front.appeal.show', ['banAppeal' => $this->banAppeal, 'signature' => 'foo'] ))
+        $this->get(route('front.appeal.show', ['banAppeal' => $this->banAppeal, 'signature' => 'foo']))
             ->assertForbidden();
     }
 

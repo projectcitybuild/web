@@ -9,7 +9,8 @@ final class ServerQueryResult
         public ?int $numOfPlayers,
         public ?int $numOfSlots,
         public array $onlinePlayerNames,
-    ) {}
+    ) {
+    }
 
     public static function online(
         int $numOfPlayers,

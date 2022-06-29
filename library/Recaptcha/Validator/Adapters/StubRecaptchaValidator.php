@@ -8,7 +8,8 @@ final class StubRecaptchaValidator implements RecaptchaValidator
 {
     public function __construct(
         private bool $passed,
-    ) {}
+    ) {
+    }
 
     public function passed(?string $token, string $ip): bool
     {

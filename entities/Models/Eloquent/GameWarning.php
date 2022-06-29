@@ -10,9 +10,7 @@ use App\Model;
 final class GameWarning extends Model
 {
     protected $table = 'game_network_warnings';
-
     protected $primaryKey = 'game_warning_id';
-
     protected $fillable = [
         'server_id',
         'warned_player_id',
@@ -25,9 +23,7 @@ final class GameWarning extends Model
         'created_at',
         'updated_at',
     ];
-
     protected $hidden = [];
-
     protected $dates = [
         'created_at',
         'updated_at',

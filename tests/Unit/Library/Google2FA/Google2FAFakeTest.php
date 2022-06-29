@@ -1,6 +1,6 @@
 <?php
-namespace Tests\Unit\Library\Google2FA;
 
+namespace Tests\Unit\Library\Google2FA;
 
 use Illuminate\Support\Facades\Config;
 use Library\Google2FA\Exceptions\Dangerous2FABypassException;

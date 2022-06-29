@@ -9,13 +9,15 @@ final class VerifyEmailUseCase
 {
     public function __construct(
         private AccountEmailChangeRepository $emailChangeRepository,
-    ) {}
+    ) {
+    }
 
     /**
-     * @param string $token Email change token
-     * @param string $email New email address
-     * @param callable $onHalfComplete Action to invoke if one of the two emails are now verified
-     * @param callable $onBothComplete Action to invoke it both emails are now verified
+     * @param  string  $token Email change token
+     * @param  string  $email New email address
+     * @param  callable  $onHalfComplete Action to invoke if one of the two emails are now verified
+     * @param  callable  $onBothComplete Action to invoke it both emails are now verified
+     *
      * @throws TokenNotFoundException if provided token and email combination not found
      * @throws \Exception if email does not match the expected old or new email address
      */

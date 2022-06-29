@@ -17,7 +17,8 @@ class BanAppealUpdatedNotification extends Notification
      */
     public function __construct(
         private string $banAppealLink
-    ){}
+    ) {
+    }
 
     /**
      * Get the notification's delivery channels.

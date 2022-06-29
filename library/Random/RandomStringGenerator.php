@@ -4,5 +4,5 @@ namespace Library\Random;
 
 interface RandomStringGenerator
 {
-    function generate(int $length): string;
+    public function generate(int $length): string;
 }

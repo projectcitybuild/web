@@ -10,7 +10,8 @@ final class ActivateUnverifiedAccountUseCase
 {
     public function __construct(
         private AccountRepository $accountRepository
-    ) {}
+    ) {
+    }
 
     public function execute(string $email)
     {

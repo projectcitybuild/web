@@ -14,6 +14,7 @@ final class AccountBillingController extends WebController
         if ($user->stripe_id === null) {
             $user->createAsStripeCustomer();
         }
+
         return $user->redirectToBillingPortal(route('front.account.settings'));
     }
 }

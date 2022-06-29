@@ -6,6 +6,7 @@ use Entities\Models\Eloquent\ServerKey;
 
 /**
  * @final
+ *
  * @deprecated
  */
 class ServerKeyRepository

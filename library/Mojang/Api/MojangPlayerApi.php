@@ -3,12 +3,12 @@
 namespace Library\Mojang\Api;
 
 use App\Exceptions\Http\TooManyRequestsException;
+use function collect;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use GuzzleHttp\Client;
 use Library\Mojang\Models\MojangPlayer;
 use Library\Mojang\Models\MojangPlayerNameHistory;
 use Symfony\Component\HttpClient\Exception\ClientException;
-use function collect;
 
 class MojangPlayerApi
 {

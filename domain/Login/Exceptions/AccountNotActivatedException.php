@@ -2,4 +2,6 @@
 
 namespace Domain\Login\Exceptions;
 
-final class AccountNotActivatedException extends \Exception {}
+final class AccountNotActivatedException extends \Exception
+{
+}

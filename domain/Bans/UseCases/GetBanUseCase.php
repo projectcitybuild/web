@@ -10,10 +10,11 @@ final class GetBanUseCase
 {
     public function __construct(
         private GameBanRepository $gameBanRepository,
-    ) {}
+    ) {
+    }
 
     /**
-     * @param PlayerIdentifier $playerIdentifier
+     * @param  PlayerIdentifier  $playerIdentifier
      * @return ?GameBan
      */
     public function execute(

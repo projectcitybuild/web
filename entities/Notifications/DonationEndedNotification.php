@@ -5,7 +5,6 @@ namespace Entities\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use function action;
 
 class DonationEndedNotification extends Notification
 {

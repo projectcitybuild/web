@@ -8,6 +8,7 @@ use Entities\Models\GamePlayerType;
 
 /**
  * @final
+ *
  * @deprecated
  */
 class GameBanV1Repository
@@ -80,15 +81,15 @@ class GameBanV1Repository
         array $filter = [],
     ) {
         return GameBan::when(count($filter) > 0, function ($q) use ($filter) {
-                if (array_key_exists('player_alias_at_ban', $filter)) {
-                    $q->where('player_alias_at_ban', 'LIKE', $filter['player_alias_at_ban'].'%');
-                }
-                if (array_key_exists('is_active', $filter)) {
-                    $q->where('is_active', $filter['is_active']);
-                }
+            if (array_key_exists('player_alias_at_ban', $filter)) {
+                $q->where('player_alias_at_ban', 'LIKE', $filter['player_alias_at_ban'].'%');
+            }
+            if (array_key_exists('is_active', $filter)) {
+                $q->where('is_active', $filter['is_active']);
+            }
 
-                return $q;
-            })
+            return $q;
+        })
             ->when(array_key_exists('banned_alias', $filter), function ($q) use ($filter) {
                 return $q->whereHas('bannedAlias', function ($sq) use ($filter) {
                     $sq->where('alias', $filter['banned_alias']);

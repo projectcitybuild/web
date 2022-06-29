@@ -3,6 +3,7 @@
 namespace Entities\Models\Eloquent;
 
 use Carbon\Carbon;
+use function collect;
 use Entities\Models\PanelGroupScope;
 use Entities\Resources\AccountResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Cashier\Billable;
 use Laravel\Scout\Searchable;
-use function collect;
 
 /**
  * @property int account_id
@@ -35,9 +35,7 @@ final class Account extends Authenticatable
     use Billable;
 
     protected $table = 'accounts';
-
     protected $primaryKey = 'account_id';
-
     protected $fillable = [
         'email',
         'username',
@@ -47,22 +45,18 @@ final class Account extends Authenticatable
         'last_login_at',
         'balance',
     ];
-
     protected $hidden = [
         'totp_secret',
         'totp_backup_code',
     ];
-
     protected $dates = [
         'created_at',
         'updated_at',
         'last_login_at',
     ];
-
     protected $casts = [
         'is_totp_enabled' => 'boolean',
     ];
-
     private ?Collection $cachedGroupScopes = null;
 
     public function toSearchableArray()
@@ -78,15 +72,6 @@ final class Account extends Authenticatable
     {
         return $this->hasMany(
             related: MinecraftPlayer::class,
-            foreignKey: 'account_id',
-            localKey: 'account_id',
-        );
-    }
-
-    public function linkedSocialAccounts(): HasMany
-    {
-        return $this->hasMany(
-            related: AccountLink::class,
             foreignKey: 'account_id',
             localKey: 'account_id',
         );
@@ -163,10 +148,11 @@ final class Account extends Authenticatable
             $this->cachedGroupScopes = $this->groups()
                 ->with('groupScopes')
                 ->get()
-                ->flatMap(fn($group) => $group->groupScopes->pluck('scope'))
-                ->mapWithKeys(fn($scope) => [$scope => true])  // Map to dictionary for faster lookup
+                ->flatMap(fn ($group) => $group->groupScopes->pluck('scope'))
+                ->mapWithKeys(fn ($scope) => [$scope => true])  // Map to dictionary for faster lookup
                 ?? collect();
         }
+
         return $this->cachedGroupScopes->has(key: $to);
     }
 

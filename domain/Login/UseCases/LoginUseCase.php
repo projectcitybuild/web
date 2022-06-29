@@ -17,7 +17,8 @@ class LoginUseCase
 {
     public function __construct(
         private AccountRepository $accountRepository,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws InvalidLoginCredentialsException if email or password is incorrect

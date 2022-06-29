@@ -17,7 +17,8 @@ final class SendVerificationEmailUseCase
         private AccountEmailChangeRepository $emailChangeRepository,
         private TokenGenerator $tokenGenerator,
         private SignedURLGenerator $signedURLGenerator,
-    ) {}
+    ) {
+    }
 
     /**
      * Sends a verification email to both the old and new email address.

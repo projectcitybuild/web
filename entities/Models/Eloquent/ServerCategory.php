@@ -11,18 +11,14 @@ final class ServerCategory extends Model
     use HasFactory;
 
     protected $table = 'server_categories';
-
     protected $primaryKey = 'server_category_id';
-
     protected $fillable = [
         'name',
         'display_order',
     ];
-
     protected $hidden = [
 
     ];
-
     protected $dates = [
         'created_at',
         'updated_at',

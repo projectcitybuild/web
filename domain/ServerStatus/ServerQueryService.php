@@ -13,7 +13,8 @@ final class ServerQueryService
     public function __construct(
         private ServerQueryAdapterFactory $queryAdapterFactory,
         private ServerRepository $serverRepository,
-    ) {}
+    ) {
+    }
 
     /**
      * Queries the given server and returns its current status.

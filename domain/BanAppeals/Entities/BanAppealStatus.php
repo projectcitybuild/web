@@ -2,7 +2,6 @@
 
 namespace Domain\BanAppeals\Entities;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 enum BanAppealStatus: int

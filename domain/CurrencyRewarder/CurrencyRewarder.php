@@ -5,14 +5,15 @@ namespace Domain\CurrencyRewarder;
 use Entities\Models\Eloquent\DonationPerk;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Repositories\BalanceHistoryRepository;
 use function now;
+use Repositories\BalanceHistoryRepository;
 
 final class CurrencyRewarder
 {
     public function __construct(
         private BalanceHistoryRepository $balanceHistoryRepository,
-    ) {}
+    ) {
+    }
 
     private function isAlreadyRewarded(DonationPerk $perk): bool
     {
@@ -20,6 +21,7 @@ final class CurrencyRewarder
             return false;
         }
         $thresholdDate = now()->addWeeks(-1);
+
         return $perk->last_currency_reward_at->gt($thresholdDate);
     }
 
@@ -30,6 +32,7 @@ final class CurrencyRewarder
     {
         if ($this->isAlreadyRewarded($perk)) {
             Log::info('Currency already rewarded. Skipping...', ['donation_perk_id' => $perk->getKey()]);
+
             return;
         }
 
@@ -60,7 +63,6 @@ final class CurrencyRewarder
             $perk->save();
 
             DB::commit();
-
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;

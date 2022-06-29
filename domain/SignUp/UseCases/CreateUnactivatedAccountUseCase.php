@@ -16,7 +16,8 @@ class CreateUnactivatedAccountUseCase
         private AccountRepository $accountRepository,
         private GroupsManager $groupsManager,
         private SignedURLGenerator $signedURLGenerator,
-    ) {}
+    ) {
+    }
 
     public function execute(
         string $email,

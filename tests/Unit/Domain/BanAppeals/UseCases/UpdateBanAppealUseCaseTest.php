@@ -19,13 +19,11 @@ class UpdateBanAppealUseCaseTest extends TestCase
     private UpdateBanAppealUseCase $useCase;
     private BanAppealRepository $banAppealRepository;
     private CreateUnbanUseCase $unbanUseCase;
-
     private MinecraftPlayer $banningPlayer;
     private MinecraftPlayer $decidingPlayer;
     private MinecraftPlayer $bannedPlayer;
     private GameBan $gameBan;
     private BanAppeal $banAppeal;
-
     private string $decisionNote = 'Some decision note';
 
     protected function setUp(): void
@@ -91,7 +89,6 @@ class UpdateBanAppealUseCaseTest extends TestCase
             status: BanAppealStatus::DENIED
         );
     }
-
 
     /**
      * TODO: implement once tempbans are sorted
