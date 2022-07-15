@@ -4,7 +4,7 @@ namespace Entities\Models;
 
 use Helpers\ValueJoinable;
 
-enum GameIdentifierType: string
+enum PlayerIdentifierType: string
 {
     use ValueJoinable;
 

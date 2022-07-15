@@ -2,18 +2,18 @@
 
 namespace Shared\PlayerLookup\Entities;
 
-use Entities\Models\GameIdentifierType;
+use Entities\Models\PlayerIdentifierType;
 use Shared\PlayerLookup\Exceptions\InvalidMinecraftUUIDException;
 
 final class PlayerIdentifier
 {
     /**
      * @param  string  $key Identifier for the identifier type (eg. for Minecraft this will be a UUID)
-     * @param  GameIdentifierType  $gameIdentifierType Identifier type for a supported game
+     * @param  PlayerIdentifierType  $gameIdentifierType Identifier type for a supported game
      */
     public function __construct(
-        public string $key,
-        public GameIdentifierType $gameIdentifierType,
+        public string               $key,
+        public PlayerIdentifierType $gameIdentifierType,
     ) {
     }
 
@@ -28,7 +28,7 @@ final class PlayerIdentifier
 
         return new PlayerIdentifier(
             key: $uuid,
-            gameIdentifierType: GameIdentifierType::MINECRAFT_UUID,
+            gameIdentifierType: PlayerIdentifierType::MINECRAFT_UUID,
         );
     }
 
@@ -36,7 +36,7 @@ final class PlayerIdentifier
     {
         return new PlayerIdentifier(
             key: $id,
-            gameIdentifierType: GameIdentifierType::PCB_PLAYER_ID,
+            gameIdentifierType: PlayerIdentifierType::PCB_PLAYER_ID,
         );
     }
 }
