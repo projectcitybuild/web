@@ -12,7 +12,7 @@ final class PlayerIdentifier
      * @param  PlayerIdentifierType  $gameIdentifierType Identifier type for a supported game
      */
     public function __construct(
-        public string               $key,
+        public string $key,
         public PlayerIdentifierType $gameIdentifierType,
     ) {
     }
