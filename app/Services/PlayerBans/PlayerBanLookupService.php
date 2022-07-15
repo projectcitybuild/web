@@ -3,7 +3,6 @@
 namespace App\Services\PlayerBans;
 
 use App\Services\PlayerLookup\PlayerLookupService;
-use Entities\Models\GamePlayerType;
 use Repositories\GameBanV1Repository;
 
 /**

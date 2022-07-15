@@ -4,10 +4,7 @@ namespace Repositories;
 
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\GameIdentifierType;
-use Entities\Models\GamePlayerType;
 use Illuminate\Support\Carbon;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
 
 /**
  * @final

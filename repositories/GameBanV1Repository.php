@@ -4,7 +4,6 @@ namespace Repositories;
 
 use Carbon\Carbon;
 use Entities\Models\Eloquent\GameBan;
-use Entities\Models\GamePlayerType;
 
 /**
  * @final

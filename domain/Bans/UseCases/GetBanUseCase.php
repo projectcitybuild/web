@@ -23,6 +23,7 @@ final class GetBanUseCase
         PlayerIdentifier $playerIdentifier,
     ): ?GameBan {
         $mcPlayer = $this->playerLookup->findOrCreate($playerIdentifier);
+
         return $this->gameBanRepository->firstActiveBan($mcPlayer);
     }
 }

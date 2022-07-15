@@ -4,7 +4,6 @@ namespace Tests\Unit\App\Services\PlayerLookup;
 
 use App\Services\PlayerLookup\PlayerLookupService;
 use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\GamePlayerType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -19,7 +18,7 @@ class PlayerLookupService_Test extends TestCase
             'uuid' => 'test_uuid',
         ]);
 
-        $service->getOrCreatePlayer( 'test_uuid');
+        $service->getOrCreatePlayer('test_uuid');
 
         $this->assertDatabaseHas('players_minecraft', [
             'uuid' => 'test_uuid',

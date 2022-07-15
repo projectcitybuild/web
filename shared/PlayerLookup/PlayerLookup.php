@@ -2,7 +2,6 @@
 
 namespace Shared\PlayerLookup;
 
-use App\Exceptions\Http\NotImplementedException;
 use Entities\Models\GameIdentifierType;
 use Entities\Models\MinecraftUUID;
 use Repositories\MinecraftPlayerAliasRepository;

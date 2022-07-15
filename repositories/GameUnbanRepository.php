@@ -3,7 +3,6 @@
 namespace Repositories;
 
 use Entities\Models\Eloquent\GameUnban;
-use Entities\Models\GamePlayerType;
 
 /**
  * @final

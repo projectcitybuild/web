@@ -8,7 +8,6 @@ use Entities\Models\Eloquent\GameBan;
 use Entities\Models\MinecraftUUID;
 use Library\Mojang\Api\MojangPlayerApi;
 use Repositories\GameBanRepository;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 use Shared\PlayerLookup\Repositories\MinecraftPlayerRepository;
 

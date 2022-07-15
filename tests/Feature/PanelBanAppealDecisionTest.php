@@ -7,7 +7,6 @@ use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\GameIdentifierType;
 use Entities\Models\PanelGroupScope;
 use Entities\Notifications\BanAppealUpdatedNotification;
 use Illuminate\Support\Facades\Notification;

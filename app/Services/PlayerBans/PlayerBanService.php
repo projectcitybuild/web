@@ -10,7 +10,6 @@ use Carbon\Carbon;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\GameUnban;
 use Entities\Models\Eloquent\ServerKey;
-use Entities\Models\GamePlayerType;
 use Illuminate\Support\Facades\DB;
 use Repositories\GameBanV1Repository;
 use Repositories\GameUnbanRepository;

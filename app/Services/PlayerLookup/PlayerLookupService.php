@@ -2,7 +2,6 @@
 
 namespace App\Services\PlayerLookup;
 
-use Entities\Models\GamePlayerType;
 use Repositories\MinecraftPlayerRepository;
 
 /**
@@ -23,6 +22,7 @@ class PlayerLookupService
     public function getOrCreatePlayer(string $identifier)
     {
         $identifier = str_replace('-', '', $identifier);
+
         return $this->minecraftPlayerRepository->getByUUID($identifier)
             ?: $this->minecraftPlayerRepository->store($identifier);
     }

@@ -9,7 +9,6 @@ use Domain\Bans\Exceptions\PlayerNotBannedException;
 use Domain\Bans\UseCases\CreateUnbanUseCase;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\GameIdentifierType;
 use Illuminate\Support\Facades\DB;
 use Repositories\BanAppealRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
