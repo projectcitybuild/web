@@ -2,11 +2,12 @@
 
 namespace Shared\PlayerLookup;
 
-use Entities\Models\GameIdentifierType;
 use Entities\Models\MinecraftUUID;
+use Entities\Models\PlayerIdentifierType;
 use Repositories\MinecraftPlayerAliasRepository;
 use Shared\PlayerLookup\Contracts\Player;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
+use Shared\PlayerLookup\Exceptions\NonCreatableIdentifierException;
 use Shared\PlayerLookup\Repositories\MinecraftPlayerRepository;
 
 /**
@@ -25,9 +26,12 @@ class PlayerLookup
         $player = null;
 
         switch ($identifier->gameIdentifierType) {
-            case GameIdentifierType::MINECRAFT_UUID:
+            case PlayerIdentifierType::MINECRAFT_UUID:
                 $uuid = new MinecraftUUID($identifier->key);
                 $player = $this->minecraftPlayerRepository->getByUUID($uuid);
+                break;
+            case PlayerIdentifierType::PCB_PLAYER_ID:
+                $player = $this->minecraftPlayerRepository->getById($identifier->key);
                 break;
         }
 
@@ -49,7 +53,7 @@ class PlayerLookup
         $player = null;
 
         switch ($identifier->gameIdentifierType) {
-            case GameIdentifierType::MINECRAFT_UUID:
+            case PlayerIdentifierType::MINECRAFT_UUID:
                 $uuid = new MinecraftUUID($identifier->key);
                 $player = $this->minecraftPlayerRepository->store($uuid);
 
@@ -61,6 +65,8 @@ class PlayerLookup
                     );
                 }
                 break;
+            case PlayerIdentifierType::PCB_PLAYER_ID:
+                throw new NonCreatableIdentifierException();
         }
 
         return $player;

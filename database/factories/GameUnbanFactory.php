@@ -15,7 +15,6 @@ class GameUnbanFactory extends Factory
         return [
             'game_ban_id' => null,
             'staff_player_id' => null,
-            'staff_player_type' => null,
         ];
     }
 

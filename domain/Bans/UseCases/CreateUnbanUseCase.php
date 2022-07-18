@@ -30,7 +30,8 @@ class CreateUnbanUseCase
         PlayerIdentifier $bannedPlayerIdentifier,
         PlayerIdentifier $unbannerPlayerIdentifier,
     ): GameUnban {
-        $existingBan = $this->gameBanRepository->firstActiveBan(identifier: $bannedPlayerIdentifier)
+        $bannedPlayer = $this->playerLookup->findOrCreate($bannedPlayerIdentifier);
+        $existingBan = $this->gameBanRepository->firstActiveBan($bannedPlayer)
             ?? throw new PlayerNotBannedException();
 
         $unbannerPlayer = $this->playerLookup->findOrCreate(identifier: $unbannerPlayerIdentifier);
@@ -43,7 +44,6 @@ class CreateUnbanUseCase
             $unban = $this->gameUnbanRepository->create(
                 banId: $existingBan->getKey(),
                 staffPlayerId: $unbannerPlayer->getKey(),
-                staffPlayerType: $unbannerPlayerIdentifier->gameIdentifierType->playerType(),
             );
             DB::commit();
         } catch (\Exception $e) {

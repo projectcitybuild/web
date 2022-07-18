@@ -46,8 +46,8 @@
                                 <div class="game-account__game">
                                     Minecraft
                                      &middot;
-                                    @isset($mcAccount->last_synced_at)
-                                        <span>Seen {{ $mcAccount->last_synced_at->diffForHumans() }}</span>
+                                    @isset($mcAccount->last_seen_at)
+                                        <span>Seen {{ $mcAccount->last_seen_at->diffForHumans() }}</span>
                                     @else
                                         <span>Never seen</span>
                                     @endif

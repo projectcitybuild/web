@@ -8,7 +8,6 @@ use Entities\Models\Eloquent\GameBan;
 use Entities\Models\MinecraftUUID;
 use Library\Mojang\Api\MojangPlayerApi;
 use Repositories\GameBanRepository;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 use Shared\PlayerLookup\Repositories\MinecraftPlayerRepository;
 
@@ -28,19 +27,18 @@ class LookupBanUseCase
      */
     public function execute(string $username): GameBan
     {
-        $player = $this->mojangPlayerApi->getUuidOf($username);
+        $mojangPlayer = $this->mojangPlayerApi->getUuidOf($username);
 
-        if ($player === null) {
+        if ($mojangPlayer === null) {
             throw new PlayerNotFoundException();
         }
 
-        $mcPlayer = $this->minecraftPlayerRepository->getByUUID(new MinecraftUUID($player->getUuid()));
+        $mcPlayer = $this->minecraftPlayerRepository->getByUUID(new MinecraftUUID($mojangPlayer->getUuid()));
         if ($mcPlayer === null) {
             throw new PlayerNotBannedException();
         }
 
-        $playerIdentifier = PlayerIdentifier::minecraftUUID($mcPlayer->getKey());
-        $gameBan = $this->gameBanRepository->firstActiveBan($playerIdentifier);
+        $gameBan = $this->gameBanRepository->firstActiveBan($mcPlayer);
 
         if ($gameBan === null) {
             throw new PlayerNotBannedException();

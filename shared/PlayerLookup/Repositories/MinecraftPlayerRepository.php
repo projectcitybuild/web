@@ -24,4 +24,9 @@ class MinecraftPlayerRepository
     {
         return MinecraftPlayer::where('uuid', $uuid->rawValue())->first();
     }
+
+    public function getById(int $id): ?MinecraftPlayer
+    {
+        return MinecraftPlayer::where('player_minecraft_id', $id)->first();
+    }
 }

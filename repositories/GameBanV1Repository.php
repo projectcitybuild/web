@@ -4,7 +4,6 @@ namespace Repositories;
 
 use Carbon\Carbon;
 use Entities\Models\Eloquent\GameBan;
-use Entities\Models\GamePlayerType;
 
 /**
  * @final
@@ -16,10 +15,8 @@ class GameBanV1Repository
     public function store(
         int $serverId,
         int $bannedPlayerId,
-        GamePlayerType $bannedPlayerType,
         string $bannedAliasAtTime,
         int $staffPlayerId,
-        GamePlayerType $staffPlayerType,
         ?string $reason = null,
         bool $isActive = true,
         bool $isGlobalBan = false,
@@ -28,10 +25,8 @@ class GameBanV1Repository
         return GameBan::create([
             'server_id' => $serverId,
             'banned_player_id' => $bannedPlayerId,
-            'banned_player_type' => $bannedPlayerType->value,
             'banned_alias_at_time' => $bannedAliasAtTime,
             'staff_player_id' => $staffPlayerId,
-            'staff_player_type' => $staffPlayerType->value,
             'reason' => $reason,
             'is_active' => $isActive,
             'is_global_ban' => $isGlobalBan,
@@ -45,13 +40,11 @@ class GameBanV1Repository
      */
     public function getActiveBanByGameUserId(
         int $bannedPlayerId,
-        GamePlayerType $bannedPlayerType,
         ?int $serverId = null,
         array $with = [],
     ): ?GameBan {
         return GameBan::with($with)
             ->where('banned_player_id', $bannedPlayerId)
-            ->where('banned_player_type', $bannedPlayerType->value)
             ->where('is_active', true)
             ->when(isset($serverId),
                 function ($q) use ($serverId) {

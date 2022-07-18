@@ -2,7 +2,6 @@
 
 namespace App\Services\PlayerLookup;
 
-use Entities\Models\GamePlayerType;
 use Repositories\MinecraftPlayerRepository;
 
 /**
@@ -20,12 +19,11 @@ class PlayerLookupService
         $this->minecraftPlayerRepository = $minecraftPlayerRepository;
     }
 
-    public function getOrCreatePlayer(GamePlayerType $playerType, string $identifier)
+    public function getOrCreatePlayer(string $identifier)
     {
-        switch ($playerType) {
-            case GamePlayerType::MINECRAFT:
-                return $this->minecraftPlayerRepository->getByUUID($identifier)
-                    ?: $this->minecraftPlayerRepository->store($identifier);
-        }
+        $identifier = str_replace('-', '', $identifier);
+
+        return $this->minecraftPlayerRepository->getByUUID($identifier)
+            ?: $this->minecraftPlayerRepository->store($identifier);
     }
 }
