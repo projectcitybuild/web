@@ -22,7 +22,7 @@ class ServerCategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name'  => $this->faker->word(),
+            'name' => $this->faker->word(),
             'display_order' => $this->faker->randomNumber(),
         ];
     }

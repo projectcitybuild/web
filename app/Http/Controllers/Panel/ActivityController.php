@@ -14,14 +14,14 @@ class ActivityController extends WebController
             ->paginate(100);
 
         return view('admin.activity.index')->with([
-            'activities' => $activities
+            'activities' => $activities,
         ]);
     }
 
     public function show(Activity $activity)
     {
         return view('admin.activity.show')->with([
-            'activity' => $activity
+            'activity' => $activity,
         ]);
     }
 }

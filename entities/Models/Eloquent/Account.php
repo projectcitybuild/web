@@ -43,9 +43,7 @@ final class Account extends Authenticatable
     use Eventually;
 
     protected $table = 'accounts';
-
     protected $primaryKey = 'account_id';
-
     protected $fillable = [
         'email',
         'username',
@@ -55,40 +53,33 @@ final class Account extends Authenticatable
         'last_login_at',
         'balance',
     ];
-
     protected $hidden = [
         'totp_secret',
         'totp_backup_code',
     ];
-
     protected static $recordEvents = [
         'created',
         'updated',
         'deleted',
-        'synced'
+        'synced',
     ];
-
     protected static $syncRecordFields = [
-        'groups' => 'name'
+        'groups' => 'name',
     ];
-
     protected $logged = [
         'email',
         'username',
         'activated',
         'groups',
     ];
-
     protected $dates = [
         'created_at',
         'updated_at',
         'last_login_at',
     ];
-
     protected $casts = [
         'is_totp_enabled' => 'boolean',
     ];
-
     private ?Collection $cachedGroupScopes = null;
 
     public function toSearchableArray()
@@ -224,7 +215,6 @@ final class Account extends Authenticatable
     {
         return $this->username;
     }
-
 
     public function getActivitylogOptions(): LogOptions
     {

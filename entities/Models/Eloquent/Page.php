@@ -41,7 +41,6 @@ final class Page extends Model
      */
     protected $hidden = [];
 
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

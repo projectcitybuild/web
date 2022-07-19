@@ -58,10 +58,10 @@ class ServerQueryService_Test extends TestCase
 
         $this->assertEquals($result, $expectedResult);
         $this->assertDatabaseHas('servers', [
-            'server_id'      => $server->getKey(),
-            'is_online'      => true,
+            'server_id' => $server->getKey(),
+            'is_online' => true,
             'num_of_players' => 1,
-            'num_of_slots'   => 5,
+            'num_of_slots' => 5,
         ]);
     }
 
@@ -83,10 +83,10 @@ class ServerQueryService_Test extends TestCase
 
         $this->assertEquals($result, $expectedResult);
         $this->assertDatabaseHas('servers', [
-            'server_id'      => $server->getKey(),
-            'is_online'      => false,
+            'server_id' => $server->getKey(),
+            'is_online' => false,
             'num_of_players' => 0,
-            'num_of_slots'   => 0,
+            'num_of_slots' => 0,
         ]);
     }
 }

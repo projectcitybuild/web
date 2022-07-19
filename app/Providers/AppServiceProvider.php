@@ -56,7 +56,7 @@ final class AppServiceProvider extends ServiceProvider
          */
         Relation::enforceMorphMap([
             'account' => Account::class,
-            'page' => Page::class
+            'page' => Page::class,
         ]);
 
         Blade::component('navbar', NavBarComponent::class);

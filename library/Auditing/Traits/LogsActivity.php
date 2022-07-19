@@ -27,14 +27,14 @@ trait LogsActivity
                 // If no loggable changes have been made, and this model is not configured
                 // to submit empty logs, then skip
                 $attrs = $model->attributeValuesToBeLogged('updated');
-                if ($model->isLogEmpty($attrs) && !$model->activitylogOptions->submitEmptyLogs) {
+                if ($model->isLogEmpty($attrs) && ! $model->activitylogOptions->submitEmptyLogs) {
                     return;
                 }
 
                 // For each attribute, if it's a collection, get the model attribute specified
                 $attrs = collect($attrs)
-                    ->map(fn(array $element) => collect($element)
-                        ->map(fn($attribute) => ($attribute instanceof Collection) ?
+                    ->map(fn (array $element) => collect($element)
+                        ->map(fn ($attribute) => ($attribute instanceof Collection) ?
                             $attribute->pluck(static::getRelationshipField($relation)) : $attribute
                         ))
                     ->toArray();
@@ -67,7 +67,7 @@ trait LogsActivity
     /**
      * Set old attributes for this event
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return void
      */
     private static function addOldAttributes(Model $model): void
@@ -84,9 +84,10 @@ trait LogsActivity
      */
     private static function getRelationshipField(string $relationship): mixed
     {
-        if (!isset(static::$syncRecordFields)) {
+        if (! isset(static::$syncRecordFields)) {
             return 'id';
         }
+
         return collect(static::$syncRecordFields)->get($relationship, 'id');
     }
 }

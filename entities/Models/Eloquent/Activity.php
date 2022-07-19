@@ -7,7 +7,7 @@ class Activity extends \Spatie\Activitylog\Models\Activity
     public function getChangesZippedAttribute()
     {
         $changes = $this->changes();
-        if (!$changes->has('old')) {
+        if (! $changes->has('old')) {
             return [];
         }
         $onlyChanges = [];
@@ -15,9 +15,10 @@ class Activity extends \Spatie\Activitylog\Models\Activity
             $oldValue = $changes['old'][$attribute];
             $onlyChanges[$attribute] = [
                 'new' => $newValue,
-                'old' => $oldValue
+                'old' => $oldValue,
             ];
         }
+
         return $onlyChanges;
     }
 }

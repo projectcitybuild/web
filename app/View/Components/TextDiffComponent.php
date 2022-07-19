@@ -15,7 +15,6 @@ class TextDiffComponent extends Component
         'ignoreCase' => false,
         'ignoreWhitespace' => false,
     ];
-
     private array $rendererOptions = [
         'showHeader' => false,
         'lineNumbers' => false,
@@ -58,7 +57,7 @@ class TextDiffComponent extends Component
             'attribute' => $this->attribute,
             'diff' => $this->getDiffHtml(),
             'old' => $this->old,
-            'new' => $this->new
+            'new' => $this->new,
         ]);
     }
 }
