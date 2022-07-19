@@ -19,13 +19,11 @@ class UpdateBanAppealUseCaseTest extends TestCase
     private UpdateBanAppealUseCase $useCase;
     private BanAppealRepository $banAppealRepository;
     private CreateUnbanUseCase $unbanUseCase;
-
     private MinecraftPlayer $banningPlayer;
     private MinecraftPlayer $decidingPlayer;
     private MinecraftPlayer $bannedPlayer;
     private GameBan $gameBan;
     private BanAppeal $banAppeal;
-
     private string $decisionNote = 'Some decision note';
 
     protected function setUp(): void
@@ -64,7 +62,7 @@ class UpdateBanAppealUseCaseTest extends TestCase
                     return $arg->key == $this->bannedPlayer->getkey();
                 }),
                 \Mockery::on(function ($arg) {
-                    return $arg->key == $this->decidingPlayer->uuid;
+                    return $arg->key == $this->decidingPlayer->getKey();
                 })
             )->andReturn($this->createUnban());
 
@@ -91,7 +89,6 @@ class UpdateBanAppealUseCaseTest extends TestCase
             status: BanAppealStatus::DENIED
         );
     }
-
 
     /**
      * TODO: implement once tempbans are sorted

@@ -24,6 +24,7 @@ class MinecraftPlayerFactory extends Factory
         return [
             'uuid' => str_replace('-', '', $this->faker->uuid),
             'last_synced_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),
+            'last_seen_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),
         ];
     }
 
@@ -32,11 +33,11 @@ class MinecraftPlayerFactory extends Factory
      *
      * @return MinecraftPlayerFactory
      */
-    public function neverSynced()
+    public function neverSeen()
     {
         return $this->state(function (array $attributes) {
             return [
-                'last_synced_at' => null,
+                'last_seen_at' => null,
             ];
         });
     }

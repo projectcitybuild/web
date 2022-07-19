@@ -71,7 +71,6 @@ class ServerTokenController extends WebController
             ]);
             $token->scopes()->attach($scopes);
             DB::commit();
-
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
@@ -124,12 +123,10 @@ class ServerTokenController extends WebController
             $token->scopes()->sync($scopes);
 
             DB::commit();
-
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
-
 
         return redirect(route('front.panel.server-tokens.index'));
     }

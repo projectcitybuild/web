@@ -7,7 +7,8 @@ class LoginCredentials
     public function __construct(
         public string $email,
         private string $password,
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

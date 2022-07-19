@@ -10,5 +10,5 @@ interface TokenGenerator
      * Implementors of this interface are not guaranteed to be
      * collision free
      */
-    function make(): string;
+    public function make(): string;
 }

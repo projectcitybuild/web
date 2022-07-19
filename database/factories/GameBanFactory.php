@@ -23,15 +23,13 @@ class GameBanFactory extends Factory
     public function definition()
     {
         return [
-            'banned_player_type' => 'minecraft_player',
             'banned_alias_at_time' => $this->faker->name,
-            'staff_player_type' => 'minecraft_player',
             'staff_player_id' => MinecraftPlayer::factory(),
             'reason' => $this->faker->sentence,
             'is_active' => $this->faker->boolean,
             'is_global_ban' => $this->faker->boolean,
             'created_at' => $this->faker->dateTimeBetween('-5 years', 'now'),
-            'expires_at' => null
+            'expires_at' => null,
         ];
     }
 
@@ -98,7 +96,6 @@ class GameBanFactory extends Factory
         return $this->state(function (array $attributes) use ($minecraftPlayer) {
             return [
                 'staff_player_id' => $minecraftPlayer->getKey(),
-                'staff_player_type' => 'minecraft_player',
             ];
         });
     }
@@ -108,7 +105,6 @@ class GameBanFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'staff_player_id' => null,
-                'staff_player_type' => 'minecraft_player',
             ];
         });
     }

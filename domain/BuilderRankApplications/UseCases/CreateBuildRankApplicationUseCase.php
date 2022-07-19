@@ -15,7 +15,8 @@ class CreateBuildRankApplicationUseCase
 {
     public function __construct(
         private BuilderRankApplicationRepository $applicationRepository,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws ApplicationAlreadyInProgressException if the account already has an application in progress
@@ -52,34 +53,34 @@ class CreateBuildRankApplicationUseCase
         $webhook = config('discord.webhook_architect_channel');
         if (! empty($webhook)) {
             Http::post($webhook, [
-                'content' => "A build rank application has arrived",
+                'content' => 'A build rank application has arrived',
                 'embeds' => [
                     [
-                        "title" => "Build Rank Application",
-                        "url" => route('front.panel.builder-ranks.show', $application->getKey()),
-                        "color" => "7506394",
-                        "fields" => [
+                        'title' => 'Build Rank Application',
+                        'url' => route('front.panel.builder-ranks.show', $application->getKey()),
+                        'color' => '7506394',
+                        'fields' => [
                             [
-                                "name" => "Current build rank",
-                                "value" => $application->current_builder_rank,
+                                'name' => 'Current build rank',
+                                'value' => $application->current_builder_rank,
                             ],
                             [
-                                "name" => "Build location",
-                                "value" => $application->build_location,
+                                'name' => 'Build location',
+                                'value' => $application->build_location,
                             ],
                             [
-                                "name" => "Build description",
-                                "value" => $application->build_description,
+                                'name' => 'Build description',
+                                'value' => $application->build_description,
                             ],
                             [
-                                "name" => "Additional notes",
-                                "value" => $application->additional_notes ?? "-",
+                                'name' => 'Additional notes',
+                                'value' => $application->additional_notes ?? '-',
                             ],
                         ],
-                        "author" => [
-                            "name" => $application->minecraft_alias,
-                        ]
-                    ]
+                        'author' => [
+                            'name' => $application->minecraft_alias,
+                        ],
+                    ],
                 ],
             ]);
         }

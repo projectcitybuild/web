@@ -2,7 +2,6 @@
 
 namespace Domain\Balances\UseCases;
 
-use Shared\PlayerLookup\AccountLookup;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Exceptions\NoLinkedAccountException;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
@@ -15,7 +14,8 @@ class GetBalanceUseCase
 {
     public function __construct(
         private PlayerLookup $playerLookup,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws PlayerNotFoundException if identifier does not match any player

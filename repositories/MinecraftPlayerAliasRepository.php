@@ -4,8 +4,6 @@ namespace Repositories;
 
 use Carbon\Carbon;
 use Entities\Models\Eloquent\MinecraftPlayerAlias;
-use Illuminate\Database\Eloquent\Collection;
-use function collect;
 
 /**
  * @final
@@ -31,11 +29,5 @@ class MinecraftPlayerAliasRepository
     public function getByAlias(string $alias): ?MinecraftPlayerAlias
     {
         return MinecraftPlayerAlias::where('alias', $alias)->first();
-    }
-
-    public function getAllByAlias(string $alias): Collection
-    {
-        return MinecraftPlayerAlias::where('alias', $alias)->get()
-            ?? collect();
     }
 }

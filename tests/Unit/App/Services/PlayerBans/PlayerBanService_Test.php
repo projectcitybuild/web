@@ -41,10 +41,8 @@ class PlayerBanService_Test extends TestCase
     public function testCreatesBan()
     {
         $bannedPlayerId = 1;
-        $bannedPlayerType = GamePlayerType::MINECRAFT;
         $bannedPlayerAlias = 'test_player';
         $staffPlayerId = 2;
-        $staffPlayerType = GamePlayerType::MINECRAFT;
         $reason = 'test_reason';
         $serverKey = $this->makeServerKey($this->server->getKey());
 
@@ -52,20 +50,16 @@ class PlayerBanService_Test extends TestCase
             $serverKey,
             $this->server->getKey(),
             $bannedPlayerId,
-            $bannedPlayerType,
             $bannedPlayerAlias,
             $staffPlayerId,
-            $staffPlayerType,
             $reason
         );
 
         $this->assertDatabaseHas('game_network_bans', [
             'server_id' => $this->server->getKey(),
             'banned_player_id' => $bannedPlayerId,
-            'banned_player_type' => $bannedPlayerType->value,
             'banned_alias_at_time' => $bannedPlayerAlias,
             'staff_player_id' => $staffPlayerId,
-            'staff_player_type' => $staffPlayerType->value,
             'reason' => $reason,
         ]);
     }
@@ -111,21 +105,18 @@ class PlayerBanService_Test extends TestCase
         $ban = GameBan::create([
             'server_id' => $this->server->getKey(),
             'banned_player_id' => 1,
-            'banned_player_type' => GamePlayerType::MINECRAFT->value,
             'banned_alias_at_time' => 'test_player',
             'staff_player_id' => 2,
-            'staff_player_type' => GamePlayerType::MINECRAFT->value,
             'reason' => 'test_reason',
             'is_active' => true,
             'is_global_ban' => true,
         ]);
 
-        $this->service->unban(1, GamePlayerType::MINECRAFT, 2, GamePlayerType::MINECRAFT);
+        $this->service->unban(1, 2);
 
         $this->assertDatabaseHas('game_network_unbans', [
             'game_ban_id' => $ban->getKey(),
             'staff_player_id' => 2,
-            'staff_player_type' => GamePlayerType::MINECRAFT->value,
         ]);
     }
 
@@ -134,16 +125,14 @@ class PlayerBanService_Test extends TestCase
         $existingBan = GameBan::create([
             'server_id' => $this->server->getKey(),
             'banned_player_id' => 1,
-            'banned_player_type' => GamePlayerType::MINECRAFT->value,
             'banned_alias_at_time' => 'test_player',
             'staff_player_id' => 2,
-            'staff_player_type' => GamePlayerType::MINECRAFT->value,
             'reason' => 'test_reason',
             'is_active' => true,
             'is_global_ban' => true,
         ]);
 
-        $this->service->unban(1, GamePlayerType::MINECRAFT, 2, GamePlayerType::MINECRAFT);
+        $this->service->unban(1, 2);
 
         $ban = GameBan::find($existingBan->getKey());
         $this->assertEquals(0, $ban->is_active);
@@ -153,6 +142,6 @@ class PlayerBanService_Test extends TestCase
     {
         $this->expectException(UserNotBannedException::class);
 
-        $this->service->unban(1, GamePlayerType::MINECRAFT, 2, GamePlayerType::MINECRAFT);
+        $this->service->unban(1, 2);
     }
 }

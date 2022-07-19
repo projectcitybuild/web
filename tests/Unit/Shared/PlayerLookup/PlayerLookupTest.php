@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Repositories\MinecraftPlayerAliasRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
+use Shared\PlayerLookup\Exceptions\NonCreatableIdentifierException;
 use Shared\PlayerLookup\PlayerLookup;
 use Shared\PlayerLookup\Repositories\MinecraftPlayerRepository;
 use Tests\TestCase;
@@ -46,7 +47,7 @@ class PlayerLookupTest extends TestCase
         $this->assertNull($player);
     }
 
-    public function test_find_returns_minecraft_player()
+    public function test_find_returns_minecraft_player_by_uuid()
     {
         $player = MinecraftPlayer::factory()->create();
 
@@ -64,7 +65,25 @@ class PlayerLookupTest extends TestCase
         );
     }
 
-    public function test_findOrCreate_returns_existing_player()
+    public function test_find_returns_minecraft_player_by_id()
+    {
+        $player = MinecraftPlayer::factory()->create();
+
+        $this->minecraftPlayerRepository
+            ->shouldReceive('getById')
+            ->andReturn($player);
+
+        $actual = $this->playerLookup->find(
+            identifier: PlayerIdentifier::pcbAccountId(1),
+        );
+
+        $this->assertEquals(
+            expected: $player->getKey(),
+            actual: $actual->getKey(),
+        );
+    }
+
+    public function test_findOrCreate_returns_existing_player_by_uuid()
     {
         $player = MinecraftPlayer::factory()->create();
 
@@ -79,6 +98,37 @@ class PlayerLookupTest extends TestCase
         $this->assertEquals(
             expected: $player->getKey(),
             actual: $actual->getKey(),
+        );
+    }
+
+    public function test_findOrCreate_returns_existing_player_by_id()
+    {
+        $player = MinecraftPlayer::factory()->create();
+
+        $this->minecraftPlayerRepository
+            ->shouldReceive('getById')
+            ->andReturn($player);
+
+        $actual = $this->playerLookup->findOrCreate(
+            identifier: PlayerIdentifier::pcbAccountId(1),
+        );
+
+        $this->assertEquals(
+            expected: $player->getKey(),
+            actual: $actual->getKey(),
+        );
+    }
+
+    public function test_findOrCreate_exception_if_looking_up_nonexistent_id()
+    {
+        $this->minecraftPlayerRepository
+            ->shouldReceive('getById')
+            ->andReturnNull();
+
+        $this->expectException(NonCreatableIdentifierException::class);
+
+        $player = $this->playerLookup->findOrCreate(
+            identifier: PlayerIdentifier::pcbAccountId(34),
         );
     }
 

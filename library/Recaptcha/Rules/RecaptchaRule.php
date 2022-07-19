@@ -2,8 +2,8 @@
 
 namespace Library\Recaptcha\Rules;
 
-use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Http\Request;
 use Library\Recaptcha\Validator\RecaptchaValidator;
 
 class RecaptchaRule implements Rule
@@ -11,7 +11,8 @@ class RecaptchaRule implements Rule
     public function __construct(
         private Request $request,
         private RecaptchaValidator $recaptchaValidator,
-    ) {}
+    ) {
+    }
 
     /**
      * Get the validation error message.

@@ -5,7 +5,6 @@ namespace Test\Feature;
 use Entities\Models\PanelGroupScope;
 use Illuminate\Support\Facades\Config;
 use Tests\E2ETestCase;
-use Tests\TestCase;
 
 class TelescopeAccessTest extends E2ETestCase
 {
@@ -24,7 +23,6 @@ class TelescopeAccessTest extends E2ETestCase
         parent::tearDown();
         Config::set('app.env', $this->originalEnv);
     }
-
 
     public function test_telescope_access_forbidden()
     {

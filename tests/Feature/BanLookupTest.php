@@ -9,8 +9,6 @@ use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Foundation\Testing\WithFaker;
-use Library\Mojang\Api\MojangPlayerApi;
-use Library\Mojang\Models\MojangPlayer;
 use Mockery\MockInterface;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 use Tests\TestCase;
@@ -19,9 +17,9 @@ class BanLookupTest extends TestCase
 {
     use WithFaker;
 
-    private function mockUseCaseToReturnBan(String $username, GameBan $ban)
+    private function mockUseCaseToReturnBan(string $username, GameBan $ban)
     {
-        $this->mock(LookupBanUseCase::class, function(MockInterface $mock) use ($username, $ban) {
+        $this->mock(LookupBanUseCase::class, function (MockInterface $mock) use ($username, $ban) {
             $mock->shouldReceive('execute')
                 ->with($username)
                 ->andReturn($ban);
@@ -30,7 +28,7 @@ class BanLookupTest extends TestCase
 
     private function mockUseCaseToThrow(string $exception)
     {
-        $this->mock(LookupBanUseCase::class, function(MockInterface $mock) use ($exception) {
+        $this->mock(LookupBanUseCase::class, function (MockInterface $mock) use ($exception) {
             $mock->shouldReceive('execute')
                 ->andThrow($exception);
         });

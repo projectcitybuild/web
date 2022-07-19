@@ -6,6 +6,7 @@ use Entities\Models\Eloquent\MinecraftPlayer;
 
 /**
  * @final
+ *
  * @deprecated
  */
 class MinecraftPlayerRepository

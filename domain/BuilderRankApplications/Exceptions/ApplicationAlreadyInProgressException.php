@@ -2,4 +2,6 @@
 
 namespace Domain\BuilderRankApplications\Exceptions;
 
-final class ApplicationAlreadyInProgressException extends \Exception {}
+final class ApplicationAlreadyInProgressException extends \Exception
+{
+}

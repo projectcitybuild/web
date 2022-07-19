@@ -2,8 +2,8 @@
 
 namespace Domain\Donations\Entities\Payloads;
 
-use Domain\Donations\Entities\PaymentType;
 use Domain\Donations\Entities\PaidAmount;
+use Domain\Donations\Entities\PaymentType;
 
 final class StripeInvoicePaid
 {
@@ -15,7 +15,8 @@ final class StripeInvoicePaid
         public string $productId,
         public string $priceId,
         public PaymentType $paymentType,
-    ) {}
+    ) {
+    }
 
     public static function fromPayload(array $payload): StripeInvoicePaid
     {

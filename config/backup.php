@@ -157,7 +157,7 @@ return [
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'discord' => [
-            'webhook_url' => env('DISCORD_BACKUP_WEBHOOK_URL'),
+            'webhook_url' => env('DISCORD_WEBHOOK_BACKUP'),
 
             'username' => env('DISCORD_BACKUP_USERNAME', 'pcb-web'),
 

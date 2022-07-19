@@ -13,7 +13,8 @@ final class VerifyNewEmailAddressNotification extends Notification
     public function __construct(
         private string $confirmLink,
         private int $expiryTimeInMins,
-    ) {}
+    ) {
+    }
 
     /**
      * Get the notification's delivery channels.

@@ -11,7 +11,8 @@ final class LogoutController extends WebController
 {
     public function __construct(
         private LogoutUseCase $logoutUseCase,
-    ) {}
+    ) {
+    }
 
     public function logout(Request $request): RedirectResponse
     {

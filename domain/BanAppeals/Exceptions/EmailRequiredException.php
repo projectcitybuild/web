@@ -2,7 +2,6 @@
 
 namespace Domain\BanAppeals\Exceptions;
 
-
 use Illuminate\Validation\ValidationException;
 
 class EmailRequiredException extends \Exception
@@ -12,5 +11,5 @@ class EmailRequiredException extends \Exception
         throw ValidationException::withMessages(
             ['email' => __('validation.required', ['attribute' => 'email'])]
         );
-}
+    }
 }

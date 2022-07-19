@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\GameBan;
@@ -18,7 +17,7 @@ class BanAppealCreateTest extends TestCase
             ->active()
             ->for(MinecraftPlayer::factory(), 'bannedPlayer')
             ->create([
-                'reason' => 'Some Ban Reason'
+                'reason' => 'Some Ban Reason',
             ]);
     }
 
@@ -38,7 +37,7 @@ class BanAppealCreateTest extends TestCase
     private function submitAppealForBan(GameBan $ban, bool $withEmail = false): TestResponse
     {
         $data = [
-            "explanation" => "My Ban Appeal"
+            'explanation' => 'My Ban Appeal',
         ];
 
         if ($withEmail) {

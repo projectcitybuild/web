@@ -2,16 +2,16 @@
 
 namespace Library\Environment;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Config;
-
 final class Environment
 {
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 
     public static function getLevel(): EnvironmentLevel
     {
         $rawValue = config('app.env');
+
         return EnvironmentLevel::tryFrom($rawValue);
     }
 

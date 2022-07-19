@@ -11,5 +11,7 @@ class DonationPerkCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public DonationPerk $donationPerk) {}
+    public function __construct(public DonationPerk $donationPerk)
+    {
+    }
 }

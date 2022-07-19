@@ -4,10 +4,13 @@ namespace Entities\Models\Eloquent;
 
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Library\Auditing\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 final class Page extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     /**
      * The table associated with the model.
@@ -37,4 +40,23 @@ final class Page extends Model
      * @var array
      */
     protected $hidden = [];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()
+            ->dontSubmitEmptyLogs()
+            ->logOnlyDirty()
+            ->logExcept(['page_id', 'created_at', 'updated_at']);
+    }
+
+    public function getActivitySubjectLink(): ?string
+    {
+        return route('front.panel.pages.edit', $this);
+    }
+
+    public function getActivitySubjectName(): ?string
+    {
+        return $this->title;
+    }
 }

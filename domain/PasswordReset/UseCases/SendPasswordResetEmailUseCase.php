@@ -2,7 +2,6 @@
 
 namespace Domain\PasswordReset\UseCases;
 
-use Domain\PasswordReset\PasswordResetURLGenerator;
 use Entities\Models\Eloquent\Account;
 use Entities\Notifications\AccountPasswordResetNotification;
 use Library\SignedURL\SignedURLGenerator;
@@ -15,7 +14,8 @@ final class SendPasswordResetEmailUseCase
         private AccountPasswordResetRepository $passwordResetRepository,
         private TokenGenerator $tokenGenerator,
         private SignedURLGenerator $signedURLGenerator,
-    ) {}
+    ) {
+    }
 
     public function execute(Account $account, string $email): void
     {

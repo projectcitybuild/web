@@ -3,14 +3,15 @@
 namespace Domain\CurrencyRewarder\UseCases;
 
 use Domain\CurrencyRewarder\Jobs\RewardCurrencyJob;
-use Repositories\DonationPerkRepository;
 use function now;
+use Repositories\DonationPerkRepository;
 
 final class RewardCurrencyUseCase
 {
     public function __construct(
         private DonationPerkRepository $donationPerkRepository,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws \Exception if donation tier reward amount is >= 0

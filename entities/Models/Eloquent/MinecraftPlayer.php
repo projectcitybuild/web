@@ -15,6 +15,7 @@ use Shared\PlayerLookup\Contracts\Player;
  * @property int account_id
  * @property ?Account account
  * @property ?Carbon last_synced_at
+ * @property ?Carbon last_seen_at
  * @property Collection aliases
  */
 final class MinecraftPlayer extends Model implements Player
@@ -22,21 +23,19 @@ final class MinecraftPlayer extends Model implements Player
     use HasFactory;
 
     protected $table = 'players_minecraft';
-
     protected $primaryKey = 'player_minecraft_id';
-
     protected $fillable = [
         'uuid',
         'account_id',
         'last_synced_at',
+        'last_seen_at',
     ];
-
     protected $hidden = [];
-
     protected $dates = [
         'created_at',
         'updated_at',
         'last_synced_at',
+        'last_seen_at',
     ];
 
     public function getBanReadableName(): ?string
@@ -59,9 +58,9 @@ final class MinecraftPlayer extends Model implements Player
         return $this->hasMany(MinecraftPlayerAlias::class, 'player_minecraft_id', 'player_minecraft_id');
     }
 
-    public function gameBans()
+    public function gameBans(): HasMany
     {
-        return $this->morphMany(GameBan::class, 'banned_player');
+        return $this->hasMany(GameBan::class, 'banned_player_id', 'player_minecraft_id');
     }
 
     public function isBanned()
@@ -98,7 +97,6 @@ final class MinecraftPlayer extends Model implements Player
      * GamePlayable
      *
      ***************************************************/
-
     public function getRawModel(): static
     {
         return $this;

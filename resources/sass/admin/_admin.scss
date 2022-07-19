@@ -3,10 +3,11 @@
 @import "~bootstrap/scss/bootstrap";
 @import "~choices.js/src/styles/choices";
 
+@import "components/diff";
 @import "components/kv";
 @import "components/markdown-preview";
 @import "components/navbar";
-@import "components/_sidebar.scss";
+@import "components/sidebar";
 
 body {
     font-size: .875rem;

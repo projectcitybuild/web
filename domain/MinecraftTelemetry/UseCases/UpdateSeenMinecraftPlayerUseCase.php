@@ -12,7 +12,8 @@ final class UpdateSeenMinecraftPlayerUseCase
     public function __construct(
         private readonly PlayerLookup $playerLookup,
         private readonly MinecraftPlayerAliasRepository $aliasRepository,
-    ) {}
+    ) {
+    }
 
     public function execute(string $uuid, string $alias): void
     {
@@ -25,7 +26,7 @@ final class UpdateSeenMinecraftPlayerUseCase
 
         $now = now();
 
-        $minecraftPlayer->last_synced_at = $now;
+        $minecraftPlayer->last_seen_at = $now;
         $minecraftPlayer->save();
 
         if (! $minecraftPlayer->hasAlias($alias)) {

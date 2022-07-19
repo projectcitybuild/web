@@ -2,18 +2,23 @@
 
 namespace Entities\Models\Eloquent;
 
+use Altek\Eventually\Eventually;
 use Carbon\Carbon;
+use function collect;
 use Entities\Models\PanelGroupScope;
 use Entities\Resources\AccountResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Cashier\Billable;
 use Laravel\Scout\Searchable;
-use function collect;
+use Library\Auditing\Traits\CausesActivity;
+use Library\Auditing\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 /**
  * @property int account_id
@@ -33,11 +38,12 @@ final class Account extends Authenticatable
     use Searchable;
     use HasFactory;
     use Billable;
+    use CausesActivity;
+    use LogsActivity;
+    use Eventually;
 
     protected $table = 'accounts';
-
     protected $primaryKey = 'account_id';
-
     protected $fillable = [
         'email',
         'username',
@@ -47,22 +53,33 @@ final class Account extends Authenticatable
         'last_login_at',
         'balance',
     ];
-
     protected $hidden = [
         'totp_secret',
         'totp_backup_code',
     ];
-
+    protected static $recordEvents = [
+        'created',
+        'updated',
+        'deleted',
+        'synced',
+    ];
+    protected static $syncRecordFields = [
+        'groups' => 'name',
+    ];
+    protected $logged = [
+        'email',
+        'username',
+        'activated',
+        'groups',
+    ];
     protected $dates = [
         'created_at',
         'updated_at',
         'last_login_at',
     ];
-
     protected $casts = [
         'is_totp_enabled' => 'boolean',
     ];
-
     private ?Collection $cachedGroupScopes = null;
 
     public function toSearchableArray()
@@ -78,15 +95,6 @@ final class Account extends Authenticatable
     {
         return $this->hasMany(
             related: MinecraftPlayer::class,
-            foreignKey: 'account_id',
-            localKey: 'account_id',
-        );
-    }
-
-    public function linkedSocialAccounts(): HasMany
-    {
-        return $this->hasMany(
-            related: AccountLink::class,
             foreignKey: 'account_id',
             localKey: 'account_id',
         );
@@ -127,9 +135,16 @@ final class Account extends Authenticatable
         );
     }
 
-    public function gameBans()
+    public function gameBans(): HasManyThrough
     {
-        return GameBan::whereIn('banned_player_id', $this->minecraftAccount()->pluck('player_minecraft_id'));
+        return $this->hasManyThrough(
+            related: GameBan::class,
+            through: MinecraftPlayer::class,
+            firstKey: 'account_id',
+            secondKey: 'banned_player_id',
+            localKey: 'account_id',
+            secondLocalKey: 'player_minecraft_id'
+        );
     }
 
     public function isBanned()
@@ -163,10 +178,11 @@ final class Account extends Authenticatable
             $this->cachedGroupScopes = $this->groups()
                 ->with('groupScopes')
                 ->get()
-                ->flatMap(fn($group) => $group->groupScopes->pluck('scope'))
-                ->mapWithKeys(fn($scope) => [$scope => true])  // Map to dictionary for faster lookup
+                ->flatMap(fn ($group) => $group->groupScopes->pluck('scope'))
+                ->mapWithKeys(fn ($scope) => [$scope => true])  // Map to dictionary for faster lookup
                 ?? collect();
         }
+
         return $this->cachedGroupScopes->has(key: $to);
     }
 
@@ -188,5 +204,23 @@ final class Account extends Authenticatable
     public function toResource()
     {
         return new AccountResource($this);
+    }
+
+    public function getActivitySubjectLink(): ?string
+    {
+        return route('front.panel.accounts.show', $this);
+    }
+
+    public function getActivitySubjectName(): ?string
+    {
+        return $this->username;
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->dontSubmitEmptyLogs()
+            ->logOnly($this->logged)
+            ->logOnlyDirty();
     }
 }

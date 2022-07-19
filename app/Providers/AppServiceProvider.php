@@ -5,10 +5,9 @@ namespace App\Providers;
 use App\View\Components\DonationBarComponent;
 use App\View\Components\NavBarComponent;
 use App\View\Components\PanelSideBarComponent;
+use App\View\Components\TextDiffComponent;
 use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\Donation;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\GamePlayerType;
+use Entities\Models\Eloquent\Page;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Blade;
@@ -56,13 +55,15 @@ final class AppServiceProvider extends ServiceProvider
          * @see https://github.com/laravel/framework/pull/38656
          */
         Relation::enforceMorphMap([
-            GamePlayerType::MINECRAFT->value => MinecraftPlayer::class,
             'account' => Account::class,
+            'page' => Page::class,
         ]);
 
         Blade::component('navbar', NavBarComponent::class);
         Blade::component('donation-bar', DonationBarComponent::class);
         Blade::component('panel-side-bar', PanelSideBarComponent::class);
+        Blade::component('text-diff', TextDiffComponent::class);
+        Blade::anonymousComponentNamespace('admin.activity.components', 'activity');
 
         // Fix the factory() function always searching for factory files with a relative namespace
         Factory::guessFactoryNamesUsing(function (string $modelName) {
@@ -70,7 +71,7 @@ final class AppServiceProvider extends ServiceProvider
         });
 
         // Set a default date format for displaying Carbon instances in views
-        Blade::stringable(function(\Illuminate\Support\Carbon $dateTime) {
+        Blade::stringable(function (\Illuminate\Support\Carbon $dateTime) {
             return $dateTime->format('j M Y H:i');
         });
     }

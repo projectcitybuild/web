@@ -15,12 +15,15 @@ class ResendActivationEmailUseCase
     public function __construct(
         private AccountRepository $accountRepository,
         private SignedURLGenerator $signedURLGenerator,
-    ) {}
+    ) {
+    }
 
     public function execute(string $email)
     {
         $account = $this->accountRepository->getByEmail($email);
-        if ($account === null) return;
+        if ($account === null) {
+            return;
+        }
 
         if ($account->activated) {
             throw new AccountAlreadyActivatedException();

@@ -14,7 +14,8 @@ final class DeactivateExpiredDonorPerksUseCase
         private GroupsManager $groupsManager,
         private DonationPerkRepository $donationPerkRepository,
         private Group $donorGroup,
-    ) {}
+    ) {
+    }
 
     public function execute()
     {
@@ -22,6 +23,7 @@ final class DeactivateExpiredDonorPerksUseCase
 
         if ($expiredPerks->count() === 0) {
             Log::info('No expired DonationPerks found');
+
             return;
         }
 

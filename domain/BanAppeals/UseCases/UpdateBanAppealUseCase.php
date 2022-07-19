@@ -9,7 +9,6 @@ use Domain\Bans\Exceptions\PlayerNotBannedException;
 use Domain\Bans\UseCases\CreateUnbanUseCase;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\GameIdentifierType;
 use Illuminate\Support\Facades\DB;
 use Repositories\BanAppealRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
@@ -18,15 +17,17 @@ class UpdateBanAppealUseCase
 {
     public function __construct(
         private BanAppealRepository $banAppealRepository,
-        private CreateUnbanUseCase  $unbanUseCase
-    ) {}
+        private CreateUnbanUseCase $unbanUseCase
+    ) {
+    }
 
     /**
-     * @param BanAppeal $banAppeal The ban appeal to update
-     * @param MinecraftPlayer $decidingPlayer The player editing the appeal status
-     * @param string $decisionNote The message to be shown to the appealing player
-     * @param BanAppealStatus $status The new status of the appeal
+     * @param  BanAppeal  $banAppeal The ban appeal to update
+     * @param  MinecraftPlayer  $decidingPlayer The player editing the appeal status
+     * @param  string  $decisionNote The message to be shown to the appealing player
+     * @param  BanAppealStatus  $status The new status of the appeal
      * @return void
+     *
      * @throws NotImplementedException if an unimplemented ban decision is used
      * @throws PlayerNotBannedException if the player is not currently banned
      * @throws AppealAlreadyDecidedException if the appeal has already been decided
@@ -51,10 +52,8 @@ class UpdateBanAppealUseCase
             );
 
             if ($status == BanAppealStatus::ACCEPTED_UNBAN) {
-                $bannedPlayer = $banAppeal->gameBan->bannedPlayer;
-                // TODO: sort out the fact we're passing db ids here not uuids
-                $bannedPlayerIdentifier = new PlayerIdentifier($bannedPlayer->getKey(), GameIdentifierType::MINECRAFT_UUID);
-                $staffPlayerIdentifier = PlayerIdentifier::minecraftUUID($decidingPlayer->uuid);
+                $bannedPlayerIdentifier = PlayerIdentifier::pcbAccountId($banAppeal->gameBan->bannedPlayer->getKey());
+                $staffPlayerIdentifier = PlayerIdentifier::pcbAccountId($decidingPlayer->getKey());
                 $this->unbanUseCase->execute($bannedPlayerIdentifier, $staffPlayerIdentifier);
             }
         });

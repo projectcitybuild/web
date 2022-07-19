@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Closure;
 use Entities\Models\Eloquent\ServerToken;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 class RequiresServerTokenScope
 {

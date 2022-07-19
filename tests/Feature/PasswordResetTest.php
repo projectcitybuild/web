@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Domain\PasswordReset\PasswordResetURLGenerator;
 use Domain\PasswordReset\UseCases\SendPasswordResetEmailUseCase;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\AccountPasswordReset;
