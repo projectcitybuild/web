@@ -18,9 +18,7 @@ use Illuminate\Support\Carbon;
 final class AccountBalanceTransaction extends Model
 {
     protected $table = 'account_balance_transactions';
-
     protected $primaryKey = 'balance_transaction_id';
-
     protected $fillable = [
         'account_id',
         'balance_before',
@@ -28,11 +26,9 @@ final class AccountBalanceTransaction extends Model
         'transaction_amount',
         'reason',
     ];
-
     protected $dates = [
         'created_at',
     ];
-
     public $timestamps = [
         'created_at',
     ];

@@ -16,10 +16,12 @@ class RewardCurrencyJob implements ShouldQueue
 
     public function __construct(
         protected DonationPerk $perk
-    ) {}
+    ) {
+    }
 
     /**
      * Execute the job.
+     *
      * @throws \Exception
      */
     public function handle(CurrencyRewarder $currencyRewarder): void

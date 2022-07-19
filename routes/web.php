@@ -60,7 +60,7 @@ Route::prefix('rank-up')->group(function () {
         ->name('rank-up.status');
 });
 
-Route::prefix('appeal')->group(function() {
+Route::prefix('appeal')->group(function () {
     Route::get('/', [BanAppealController::class, 'index'])
         ->name('appeal');
 
@@ -72,7 +72,7 @@ Route::prefix('appeal')->group(function() {
         ->name('appeal.show');
 });
 
-Route::prefix('bans')->group(function() {
+Route::prefix('bans')->group(function () {
     Route::get('/', [BanlistController::class, 'index'])
         ->name('banlist');
 

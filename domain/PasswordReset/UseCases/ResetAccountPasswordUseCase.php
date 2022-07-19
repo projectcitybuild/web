@@ -15,7 +15,8 @@ final class ResetAccountPasswordUseCase
         private UpdateAccountPassword $updateAccountPassword,
         private AccountPasswordResetRepository $passwordResetRepository,
         private AccountRepository $accountRepository,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws NotFoundException if password reset request or account not found
@@ -37,7 +38,6 @@ final class ResetAccountPasswordUseCase
             $this->passwordResetRepository->delete($passwordReset);
 
             DB::commit();
-
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;

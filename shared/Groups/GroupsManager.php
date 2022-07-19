@@ -4,7 +4,6 @@ namespace Shared\Groups;
 
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\Group;
-use Shared\ExternalAccounts\Sync\ExternalAccountSync;
 
 /**
  * @final
@@ -13,7 +12,8 @@ class GroupsManager
 {
     public function __construct(
         private Group $defaultGroup,  // a.k.a. the Member group
-    ) {}
+    ) {
+    }
 
     /**
      * Adds the given account to the Member group if they have

@@ -19,7 +19,7 @@ class PanelSideBarComponent extends Component
 
         return view('admin.layouts._sidebar', [
             'outgoing_rank_apps' => $outgoingRankApplications,
-            'outstanding_ban_appeals' => $outstandingBanAppeals
+            'outstanding_ban_appeals' => $outstandingBanAppeals,
         ]);
     }
 }

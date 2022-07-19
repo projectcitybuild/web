@@ -3,10 +3,6 @@
 namespace Tests;
 
 use App\Http\Middleware\MfaGate;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\Group;
-use Entities\Models\Eloquent\GroupScope;
-use Entities\Models\PanelGroupScope;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Carbon;

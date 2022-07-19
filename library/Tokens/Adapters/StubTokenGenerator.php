@@ -8,7 +8,8 @@ final class StubTokenGenerator implements TokenGenerator
 {
     public function __construct(
         private string $token,
-    ) {}
+    ) {
+    }
 
     public function make(?string $with = null): string
     {

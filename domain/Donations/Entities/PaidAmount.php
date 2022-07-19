@@ -2,8 +2,6 @@
 
 namespace Domain\Donations\Entities;
 
-use JetBrains\PhpStorm\Pure;
-
 final class PaidAmount
 {
     private int $amountInCents;
@@ -18,7 +16,6 @@ final class PaidAmount
         };
     }
 
-    #[Pure]
     public static function fromCents(int $cents): PaidAmount
     {
         return new PaidAmount(amount: $cents, denomination: Denomination::CENTS);

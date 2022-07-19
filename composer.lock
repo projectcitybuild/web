@@ -4,74 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9cd1672fa9b0426ea630ab7ffe2fe00b",
+    "content-hash": "165426b9bcdd7b2cef30b528645dfcf3",
     "packages": [
-        {
-            "name": "altek/eventually",
-            "version": "v2.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://gitlab.com/altek/eventually.git",
-                "reference": "3069de0dd1786b80ed7daed5f15bf05a0437581f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/altek%2Feventually/repository/archive.zip?sha=3069de0dd1786b80ed7daed5f15bf05a0437581f",
-                "reference": "3069de0dd1786b80ed7daed5f15bf05a0437581f",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/database": "^8.0|^9.0",
-                "php": "^7.3|^8.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^6.0|^7.0",
-                "roave/security-advisories": "dev-latest"
-            },
-            "type": "package",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Altek\\Eventually\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Quetzy Garcia",
-                    "email": "quetzyg@altek.org"
-                }
-            ],
-            "description": "The missing many-to-many Eloquent events.",
-            "homepage": "https://altek.gitlab.io/eventually",
-            "keywords": [
-                "attach",
-                "detach",
-                "eloquent",
-                "events",
-                "eventually",
-                "laravel",
-                "lumen",
-                "many-to-many",
-                "pivot",
-                "relations",
-                "sync",
-                "toggle",
-                "update"
-            ],
-            "support": {
-                "issues": "https://gitlab.com/altek/eventually/issues",
-                "source": "https://gitlab.com/altek/eventually"
-            },
-            "time": "2022-02-12T18:34:06+00:00"
-        },
         {
             "name": "aws/aws-crt-php",
             "version": "v1.0.2",
@@ -1419,22 +1353,22 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.4.4",
+            "version": "7.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "e3ff079b22820c2029d4c2a87796b6a0b8716ad8"
+                "reference": "1dd98b0564cb3f6bd16ce683cb755f94c10fbd82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/e3ff079b22820c2029d4c2a87796b6a0b8716ad8",
-                "reference": "e3ff079b22820c2029d4c2a87796b6a0b8716ad8",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/1dd98b0564cb3f6bd16ce683cb755f94c10fbd82",
+                "reference": "1dd98b0564cb3f6bd16ce683cb755f94c10fbd82",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "guzzlehttp/promises": "^1.5",
-                "guzzlehttp/psr7": "^1.8.3 || ^2.1",
+                "guzzlehttp/psr7": "^1.9 || ^2.4",
                 "php": "^7.2.5 || ^8.0",
                 "psr/http-client": "^1.0",
                 "symfony/deprecation-contracts": "^2.2 || ^3.0"
@@ -1523,7 +1457,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.4.4"
+                "source": "https://github.com/guzzle/guzzle/tree/7.4.5"
             },
             "funding": [
                 {
@@ -1539,7 +1473,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-09T21:39:15+00:00"
+            "time": "2022-06-20T22:16:13+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -1627,16 +1561,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.3.0",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "83260bb50b8fc753c72d14dc1621a2dac31877ee"
+                "reference": "13388f00956b1503577598873fffb5ae994b5737"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/83260bb50b8fc753c72d14dc1621a2dac31877ee",
-                "reference": "83260bb50b8fc753c72d14dc1621a2dac31877ee",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/13388f00956b1503577598873fffb5ae994b5737",
+                "reference": "13388f00956b1503577598873fffb5ae994b5737",
                 "shasum": ""
             },
             "require": {
@@ -1660,7 +1594,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -1722,7 +1656,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.3.0"
+                "source": "https://github.com/guzzle/psr7/tree/2.4.0"
             },
             "funding": [
                 {
@@ -1738,7 +1672,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-09T08:26:02+00:00"
+            "time": "2022-06-20T21:43:11+00:00"
         },
         {
             "name": "http-interop/http-factory-guzzle",
@@ -1940,240 +1874,6 @@
                 "source": "https://github.com/Jean85/pretty-package-versions/tree/2.0.5"
             },
             "time": "2021-10-08T21:21:46+00:00"
-        },
-        {
-            "name": "jfcherng/php-color-output",
-            "version": "3.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jfcherng/php-color-output.git",
-                "reference": "6c7bf16686cc6a291647fcb87491640a2d5edd20"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jfcherng/php-color-output/zipball/6c7bf16686cc6a291647fcb87491640a2d5edd20",
-                "reference": "6c7bf16686cc6a291647fcb87491640a2d5edd20",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.3"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.19",
-                "liip/rmt": "^1.6",
-                "phan/phan": "^2 || ^3 || ^4",
-                "phpunit/phpunit": ">=7 <10",
-                "squizlabs/php_codesniffer": "^3.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Jfcherng\\Utility\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jack Cherng",
-                    "email": "jfcherng@gmail.com"
-                }
-            ],
-            "description": "Make your PHP command-line application colorful.",
-            "keywords": [
-                "ansi-colors",
-                "color",
-                "command-line",
-                "str-color"
-            ],
-            "support": {
-                "issues": "https://github.com/jfcherng/php-color-output/issues",
-                "source": "https://github.com/jfcherng/php-color-output/tree/3.0.0"
-            },
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/jfcherng/5usd",
-                    "type": "custom"
-                }
-            ],
-            "time": "2021-05-27T02:45:54+00:00"
-        },
-        {
-            "name": "jfcherng/php-diff",
-            "version": "6.11.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jfcherng/php-diff.git",
-                "reference": "35cb452d74f00247e4440b0824b100242edd99c1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jfcherng/php-diff/zipball/35cb452d74f00247e4440b0824b100242edd99c1",
-                "reference": "35cb452d74f00247e4440b0824b100242edd99c1",
-                "shasum": ""
-            },
-            "require": {
-                "jfcherng/php-color-output": "^3",
-                "jfcherng/php-mb-string": "^1.4.6",
-                "jfcherng/php-sequence-matcher": "^3.2.8",
-                "php": ">=7.4"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.8",
-                "liip/rmt": "^1.6",
-                "phan/phan": "^5",
-                "phpunit/phpunit": "^9",
-                "squizlabs/php_codesniffer": "^3.6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Jfcherng\\Diff\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Jack Cherng",
-                    "email": "jfcherng@gmail.com"
-                },
-                {
-                    "name": "Chris Boulton",
-                    "email": "chris.boulton@interspire.com"
-                }
-            ],
-            "description": "A comprehensive library for generating differences between two strings in multiple formats (unified, side by side HTML etc).",
-            "keywords": [
-                "diff",
-                "udiff",
-                "unidiff",
-                "unified diff"
-            ],
-            "support": {
-                "issues": "https://github.com/jfcherng/php-diff/issues",
-                "source": "https://github.com/jfcherng/php-diff/tree/6.11.5"
-            },
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/jfcherng/5usd",
-                    "type": "custom"
-                }
-            ],
-            "time": "2022-04-02T16:35:25+00:00"
-        },
-        {
-            "name": "jfcherng/php-mb-string",
-            "version": "1.4.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jfcherng/php-mb-string.git",
-                "reference": "f5b438d348e030961e0b86a04ef2319c31ae8146"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jfcherng/php-mb-string/zipball/f5b438d348e030961e0b86a04ef2319c31ae8146",
-                "reference": "f5b438d348e030961e0b86a04ef2319c31ae8146",
-                "shasum": ""
-            },
-            "require": {
-                "ext-iconv": "*",
-                "php": ">=7.1.3"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.18",
-                "phan/phan": "^2 || ^3 || ^4",
-                "phpunit/phpunit": "^7.2 || ^8 || ^9"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Jfcherng\\Utility\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jack Cherng",
-                    "email": "jfcherng@gmail.com"
-                }
-            ],
-            "description": "A high performance multibytes sting implementation for frequently reading/writing operations.",
-            "support": {
-                "issues": "https://github.com/jfcherng/php-mb-string/issues",
-                "source": "https://github.com/jfcherng/php-mb-string/tree/1.4.6"
-            },
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/jfcherng/5usd",
-                    "type": "custom"
-                }
-            ],
-            "time": "2022-04-02T16:32:41+00:00"
-        },
-        {
-            "name": "jfcherng/php-sequence-matcher",
-            "version": "3.2.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jfcherng/php-sequence-matcher.git",
-                "reference": "410519ca07cd7989f450d6e2aa40975dbd1be048"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jfcherng/php-sequence-matcher/zipball/410519ca07cd7989f450d6e2aa40975dbd1be048",
-                "reference": "410519ca07cd7989f450d6e2aa40975dbd1be048",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.3"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.19",
-                "liip/rmt": "^1.6",
-                "phan/phan": "^2.5 || ^3 || ^4 || ^5",
-                "phpunit/phpunit": ">=7 <10",
-                "squizlabs/php_codesniffer": "^3.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Jfcherng\\Diff\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Jack Cherng",
-                    "email": "jfcherng@gmail.com"
-                },
-                {
-                    "name": "Chris Boulton",
-                    "email": "chris.boulton@interspire.com"
-                }
-            ],
-            "description": "A longest sequence matcher. The logic is primarily based on the Python difflib package.",
-            "support": {
-                "issues": "https://github.com/jfcherng/php-sequence-matcher/issues",
-                "source": "https://github.com/jfcherng/php-sequence-matcher/tree/3.2.8"
-            },
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/jfcherng/5usd",
-                    "type": "custom"
-                }
-            ],
-            "time": "2021-09-02T04:02:02+00:00"
         },
         {
             "name": "laravel/cashier",
@@ -5906,97 +5606,6 @@
                 "source": "https://github.com/spatie/image-optimizer/tree/1.6.2"
             },
             "time": "2021-12-21T10:08:05+00:00"
-        },
-        {
-            "name": "spatie/laravel-activitylog",
-            "version": "4.5.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/laravel-activitylog.git",
-                "reference": "feb1a37d649b03711e546807688fbea53469dfc3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/feb1a37d649b03711e546807688fbea53469dfc3",
-                "reference": "feb1a37d649b03711e546807688fbea53469dfc3",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/config": "^8.0 || ^9.0",
-                "illuminate/database": "^8.53 || ^9.0",
-                "illuminate/support": "^8.0 || ^9.0",
-                "php": "^8.0",
-                "spatie/laravel-package-tools": "^1.6.3"
-            },
-            "require-dev": {
-                "ext-json": "*",
-                "orchestra/testbench": "^6.23 || ^7.0",
-                "pestphp/pest": "^1.20"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Spatie\\Activitylog\\ActivitylogServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/helpers.php"
-                ],
-                "psr-4": {
-                    "Spatie\\Activitylog\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Freek Van der Herten",
-                    "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Sebastian De Deyne",
-                    "email": "sebastian@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Tom Witkowski",
-                    "email": "dev.gummibeer@gmail.com",
-                    "homepage": "https://gummibeer.de",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A very simple activity logger to monitor the users of your website or application",
-            "homepage": "https://github.com/spatie/activitylog",
-            "keywords": [
-                "activity",
-                "laravel",
-                "log",
-                "spatie",
-                "user"
-            ],
-            "support": {
-                "issues": "https://github.com/spatie/laravel-activitylog/issues",
-                "source": "https://github.com/spatie/laravel-activitylog/tree/4.5.3"
-            },
-            "funding": [
-                {
-                    "url": "https://spatie.be/open-source/support-us",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/spatie",
-                    "type": "github"
-                }
-            ],
-            "time": "2022-05-31T10:01:05+00:00"
         },
         {
             "name": "spatie/laravel-backup",
@@ -10261,6 +9870,72 @@
                 "source": "https://github.com/hamcrest/hamcrest-php/tree/v2.0.1"
             },
             "time": "2020-07-09T08:09:16+00:00"
+        },
+        {
+            "name": "laravel/pint",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/pint.git",
+                "reference": "84bfbf3c10e65ac55cea001d0032a9458b17db9d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/84bfbf3c10e65ac55cea001d0032a9458b17db9d",
+                "reference": "84bfbf3c10e65ac55cea001d0032a9458b17db9d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-tokenizer": "*",
+                "ext-xml": "*",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.8.0",
+                "illuminate/view": "^9.17.0",
+                "laravel-zero/framework": "^9.1.1",
+                "mockery/mockery": "^1.5.0",
+                "nunomaduro/larastan": "^2.1.11",
+                "nunomaduro/termwind": "^1.10.1",
+                "pestphp/pest": "^1.21.3"
+            },
+            "bin": [
+                "builds/pint"
+            ],
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "App\\": "app/",
+                    "Database\\Seeders\\": "database/seeders/",
+                    "Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nuno Maduro",
+                    "email": "enunomaduro@gmail.com"
+                }
+            ],
+            "description": "An opinionated code formatter for PHP.",
+            "homepage": "https://laravel.com",
+            "keywords": [
+                "format",
+                "formatter",
+                "lint",
+                "linter",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/pint/issues",
+                "source": "https://github.com/laravel/pint"
+            },
+            "time": "2022-06-24T19:40:14+00:00"
         },
         {
             "name": "laravel/sail",

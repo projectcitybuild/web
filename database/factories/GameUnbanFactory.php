@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\GameUnban;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -16,7 +15,6 @@ class GameUnbanFactory extends Factory
         return [
             'game_ban_id' => null,
             'staff_player_id' => null,
-            'staff_player_type' => null,
         ];
     }
 

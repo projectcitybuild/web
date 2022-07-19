@@ -16,19 +16,22 @@ class CreateUnbanUseCase
         private GameBanRepository $gameBanRepository,
         private GameUnbanRepository $gameUnbanRepository,
         private PlayerLookup $playerLookup,
-    ) {}
+    ) {
+    }
 
     /**
-     * @param PlayerIdentifier $bannedPlayerIdentifier Player currently banned
-     * @param PlayerIdentifier $unbannerPlayerIdentifier Player unbanning the banned player
+     * @param  PlayerIdentifier  $bannedPlayerIdentifier Player currently banned
+     * @param  PlayerIdentifier  $unbannerPlayerIdentifier Player unbanning the banned player
      * @return GameUnban
+     *
      * @throws PlayerNotBannedException if the banned player is not actually banned
      */
     public function execute(
         PlayerIdentifier $bannedPlayerIdentifier,
         PlayerIdentifier $unbannerPlayerIdentifier,
     ): GameUnban {
-        $existingBan = $this->gameBanRepository->firstActiveBan(identifier: $bannedPlayerIdentifier)
+        $bannedPlayer = $this->playerLookup->findOrCreate($bannedPlayerIdentifier);
+        $existingBan = $this->gameBanRepository->firstActiveBan($bannedPlayer)
             ?? throw new PlayerNotBannedException();
 
         $unbannerPlayer = $this->playerLookup->findOrCreate(identifier: $unbannerPlayerIdentifier);
@@ -41,10 +44,8 @@ class CreateUnbanUseCase
             $unban = $this->gameUnbanRepository->create(
                 banId: $existingBan->getKey(),
                 staffPlayerId: $unbannerPlayer->getKey(),
-                staffPlayerType: $unbannerPlayerIdentifier->gameIdentifierType->playerType(),
             );
             DB::commit();
-
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;

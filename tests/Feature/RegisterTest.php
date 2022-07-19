@@ -18,6 +18,7 @@ class RegisterTest extends TestCase
     private function withRealRecaptcha(): self
     {
         $this->app->bind(RecaptchaValidator::class, GoogleRecaptchaValidator::class);
+
         return $this;
     }
 

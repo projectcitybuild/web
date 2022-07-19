@@ -14,6 +14,7 @@ final class AccountChangeEmailRequest extends FormRequest
      * @var string
      */
     protected $errorBag = 'email';
+
     /**
      * @var AccountRepository
      */

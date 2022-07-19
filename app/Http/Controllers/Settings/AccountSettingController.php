@@ -70,6 +70,7 @@ final class AccountSettingController extends WebController
                         account: $changeRequest->account,
                         emailChangeRequest: $changeRequest,
                     );
+
                     return view('v2.front.pages.account.account-settings-email-complete');
                 },
             );

@@ -7,7 +7,6 @@ use Entities\Models\Eloquent\Group;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use function route;
 
 class BuilderRankAppApprovedNotification extends Notification
 {
@@ -21,7 +20,8 @@ class BuilderRankAppApprovedNotification extends Notification
     public function __construct(
         private BuilderRankApplication $builderRankApplication,
         private Group $groupPromotedTo,
-    ) {}
+    ) {
+    }
 
     /**
      * Get the notification's delivery channels.

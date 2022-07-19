@@ -14,7 +14,8 @@ final class BeginCheckoutUseCase
     public function __construct(
         private StripeClient $stripeClient,
         private StripeProductRepository $stripeProductRepository,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws ApiErrorException

@@ -4,10 +4,10 @@ namespace Repositories;
 
 use Carbon\Carbon;
 use Entities\Models\Eloquent\GameBan;
-use Entities\Models\GamePlayerType;
 
 /**
  * @final
+ *
  * @deprecated
  */
 class GameBanV1Repository
@@ -15,10 +15,8 @@ class GameBanV1Repository
     public function store(
         int $serverId,
         int $bannedPlayerId,
-        GamePlayerType $bannedPlayerType,
         string $bannedAliasAtTime,
         int $staffPlayerId,
-        GamePlayerType $staffPlayerType,
         ?string $reason = null,
         bool $isActive = true,
         bool $isGlobalBan = false,
@@ -27,10 +25,8 @@ class GameBanV1Repository
         return GameBan::create([
             'server_id' => $serverId,
             'banned_player_id' => $bannedPlayerId,
-            'banned_player_type' => $bannedPlayerType->value,
             'banned_alias_at_time' => $bannedAliasAtTime,
             'staff_player_id' => $staffPlayerId,
-            'staff_player_type' => $staffPlayerType->value,
             'reason' => $reason,
             'is_active' => $isActive,
             'is_global_ban' => $isGlobalBan,
@@ -44,13 +40,11 @@ class GameBanV1Repository
      */
     public function getActiveBanByGameUserId(
         int $bannedPlayerId,
-        GamePlayerType $bannedPlayerType,
         ?int $serverId = null,
         array $with = [],
     ): ?GameBan {
         return GameBan::with($with)
             ->where('banned_player_id', $bannedPlayerId)
-            ->where('banned_player_type', $bannedPlayerType->value)
             ->where('is_active', true)
             ->when(isset($serverId),
                 function ($q) use ($serverId) {
@@ -80,15 +74,15 @@ class GameBanV1Repository
         array $filter = [],
     ) {
         return GameBan::when(count($filter) > 0, function ($q) use ($filter) {
-                if (array_key_exists('player_alias_at_ban', $filter)) {
-                    $q->where('player_alias_at_ban', 'LIKE', $filter['player_alias_at_ban'].'%');
-                }
-                if (array_key_exists('is_active', $filter)) {
-                    $q->where('is_active', $filter['is_active']);
-                }
+            if (array_key_exists('player_alias_at_ban', $filter)) {
+                $q->where('player_alias_at_ban', 'LIKE', $filter['player_alias_at_ban'].'%');
+            }
+            if (array_key_exists('is_active', $filter)) {
+                $q->where('is_active', $filter['is_active']);
+            }
 
-                return $q;
-            })
+            return $q;
+        })
             ->when(array_key_exists('banned_alias', $filter), function ($q) use ($filter) {
                 return $q->whereHas('bannedAlias', function ($sq) use ($filter) {
                     $sq->where('alias', $filter['banned_alias']);

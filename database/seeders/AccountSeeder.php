@@ -14,8 +14,8 @@ class AccountSeeder extends Seeder
 {
     public function __construct(
         private Google2FA $google2FA,
-    ) {}
-
+    ) {
+    }
 
     /**
      * Run the database seeds.

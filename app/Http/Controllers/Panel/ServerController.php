@@ -5,14 +5,11 @@ namespace App\Http\Controllers\Panel;
 use App\Http\WebController;
 use Entities\Models\Eloquent\Server;
 use Entities\Models\Eloquent\ServerCategory;
-use Entities\Models\Eloquent\ServerToken;
-use Entities\Models\Eloquent\ServerTokenScope;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ServerController extends WebController

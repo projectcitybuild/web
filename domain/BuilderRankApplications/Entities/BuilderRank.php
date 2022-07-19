@@ -13,9 +13,9 @@ enum BuilderRank: int
     {
         return match ($this) {
             self::NONE => "I don't have a builder rank yet",
-            self::INTERN => "Intern",
-            self::BUILDER => "Builder",
-            self::PLANNER => "Planner",
+            self::INTERN => 'Intern',
+            self::BUILDER => 'Builder',
+            self::PLANNER => 'Planner',
         };
     }
 }

@@ -9,7 +9,7 @@ use Domain\Bans\Exceptions\PlayerNotBannedException;
 use Domain\Bans\UseCases\CreateBanUseCase;
 use Domain\Bans\UseCases\CreateUnbanUseCase;
 use Domain\Bans\UseCases\GetBanUseCase;
-use Entities\Models\GameIdentifierType;
+use Entities\Models\PlayerIdentifierType;
 use Entities\Resources\GameBanResource;
 use Entities\Resources\GameUnbanResource;
 use Illuminate\Http\Request;
@@ -30,15 +30,15 @@ final class GameBanV2Controller extends ApiController
         $this->validateRequest($request->all(), [
             'server_id' => 'required|integer',
             'banned_player_id' => 'required|max:60',
-            'banned_player_type' => ['required', Rule::in(GameIdentifierType::allJoined())],
+            'banned_player_type' => ['required', Rule::in(PlayerIdentifierType::allJoined())],
             'banned_player_alias' => 'required',
             'banner_player_id' => 'required|max:60',
-            'banner_player_type' => ['required', Rule::in(GameIdentifierType::allJoined())],
+            'banner_player_type' => ['required', Rule::in(PlayerIdentifierType::allJoined())],
             'reason' => 'string',
             'expires_at' => 'integer',
             'is_global_ban' => 'required|boolean',
         ], [
-            'in' => 'Invalid :attribute given. Must be ['.GameIdentifierType::allJoined().']',
+            'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
         ]);
 
         $expiresAt = $request->get('expires_at');
@@ -50,12 +50,12 @@ final class GameBanV2Controller extends ApiController
             serverId: $request->token->server_id,
             bannedPlayerIdentifier: new PlayerIdentifier(
                 key: $request->get('banned_player_id'),
-                gameIdentifierType: GameIdentifierType::tryFrom($request->get('banned_player_type')),
+                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('banned_player_type')),
             ),
             bannedPlayerAlias: $request->get('banned_player_alias'),
             bannerPlayerIdentifier: new PlayerIdentifier(
                 key: $request->get('banner_player_id'),
-                gameIdentifierType: GameIdentifierType::tryFrom($request->get('banner_player_type')),
+                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('banner_player_type')),
             ),
             bannerPlayerAlias: $request->get('banner_player_alias'),
             isGlobalBan: $request->get('is_global_ban', true),
@@ -76,21 +76,21 @@ final class GameBanV2Controller extends ApiController
     ): GameUnbanResource {
         $this->validateRequest($request->all(), [
             'banned_player_id' => 'required|max:60',
-            'banned_player_type' => ['required', Rule::in(GameIdentifierType::allJoined())],
+            'banned_player_type' => ['required', Rule::in(PlayerIdentifierType::allJoined())],
             'banner_player_id' => 'required|max:60',
-            'banner_player_type' => ['required', Rule::in(GameIdentifierType::allJoined())],
+            'banner_player_type' => ['required', Rule::in(PlayerIdentifierType::allJoined())],
         ], [
-            'in' => 'Invalid :attribute given. Must be ['.GameIdentifierType::allJoined().']',
+            'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
         ]);
 
         $unban = $createUnbanUseCase->execute(
             bannedPlayerIdentifier: new PlayerIdentifier(
                 key: $request->get('banned_player_id'),
-                gameIdentifierType: GameIdentifierType::tryFrom($request->Get('banned_player_type')),
+                gameIdentifierType: PlayerIdentifierType::tryFrom($request->Get('banned_player_type')),
             ),
             unbannerPlayerIdentifier: new PlayerIdentifier(
                 key: $request->get('banner_player_id'),
-                gameIdentifierType: GameIdentifierType::tryFrom($request->Get('banner_player_type')),
+                gameIdentifierType: PlayerIdentifierType::tryFrom($request->Get('banner_player_type')),
             ),
         );
 
@@ -106,21 +106,22 @@ final class GameBanV2Controller extends ApiController
     ): GameBanResource|array {
         $this->validateRequest($request->all(), [
             'player_id' => 'required|max:60',
-            'player_type' => ['required', Rule::in(GameIdentifierType::allJoined())],
+            'player_type' => ['required', Rule::in(PlayerIdentifierType::allJoined())],
         ], [
-            'in' => 'Invalid :attribute given. Must be ['.GameIdentifierType::allJoined().']',
+            'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
         ]);
 
         $ban = $getBanUseCase->execute(
             playerIdentifier: new PlayerIdentifier(
                 key: $request->get('player_id'),
-                gameIdentifierType: GameIdentifierType::tryFrom($request->get('player_id_type')),
+                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('player_id_type')),
             ),
         );
 
         if ($ban === null) {
             return ['data' => null];
         }
+
         return new GameBanResource($ban);
     }
 }

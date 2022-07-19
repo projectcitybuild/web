@@ -3,11 +3,7 @@
 namespace Tests\E2E\Web;
 
 use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\DonationTier;
-use Entities\Models\Eloquent\Group;
 use Entities\Models\Eloquent\StripeProduct;
-use Entities\Notifications\DonationPerkStartedNotification;
-use Illuminate\Support\Facades\Notification;
 use Tests\E2ETestCase;
 
 class DonationCheckoutTest extends E2ETestCase

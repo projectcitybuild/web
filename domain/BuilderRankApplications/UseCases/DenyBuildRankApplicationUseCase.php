@@ -10,7 +10,8 @@ class DenyBuildRankApplicationUseCase
 {
     public function __construct(
         private BuilderRankApplicationRepository $applicationRepository,
-    ) {}
+    ) {
+    }
 
     public function execute(
         int $applicationId,

@@ -23,9 +23,9 @@ class BanAppealListTest extends TestCase
         $account = Account::factory()->create();
         $player = MinecraftPlayer::factory()->for($account)->create();
         $this->actingAs($account);
+
         return $player;
     }
-
 
     public function test_shows_ban()
     {

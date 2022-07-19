@@ -13,7 +13,8 @@ class MfaLoginGateController extends WebController
 {
     public function __construct(
         private Google2FA $google2FA
-    ) {}
+    ) {
+    }
 
     public function create()
     {

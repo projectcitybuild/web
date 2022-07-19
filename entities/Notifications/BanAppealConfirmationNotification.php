@@ -2,9 +2,7 @@
 
 namespace Entities\Notifications;
 
-use Entities\Models\Eloquent\BanAppeal;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -19,7 +17,8 @@ class BanAppealConfirmationNotification extends Notification
      */
     public function __construct(
         private string $banAppealLink
-    ){}
+    ) {
+    }
 
     /**
      * Get the notification's delivery channels.

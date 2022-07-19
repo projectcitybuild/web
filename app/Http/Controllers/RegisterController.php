@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\Http\BadRequestException;
 use App\Http\Requests\RegisterRequest;
 use App\Http\WebController;
 use Domain\SignUp\Exceptions\AccountAlreadyActivatedException;

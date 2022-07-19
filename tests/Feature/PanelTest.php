@@ -15,9 +15,10 @@ class PanelTest extends TestCase
         $group = Group::factory()->administrator()->create();
         $group->groupScopes()->attach(
             collect([PanelGroupScope::ACCESS_PANEL])
-                ->map(fn($case) => GroupScope::factory()->create(['scope' => $case->value]))
-                ->map(fn($model) => $model->getKey())
+                ->map(fn ($case) => GroupScope::factory()->create(['scope' => $case->value]))
+                ->map(fn ($model) => $model->getKey())
         );
+
         return $group;
     }
 
