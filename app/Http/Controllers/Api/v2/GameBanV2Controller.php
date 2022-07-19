@@ -30,10 +30,10 @@ final class GameBanV2Controller extends ApiController
         $this->validateRequest($request->all(), [
             'server_id' => 'required|integer',
             'banned_player_id' => 'required|max:60',
-            'banned_player_type' => ['required', Rule::in(PlayerIdentifierType::allJoined())],
+            'banned_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
             'banned_player_alias' => 'required',
             'banner_player_id' => 'required|max:60',
-            'banner_player_type' => ['required', Rule::in(PlayerIdentifierType::allJoined())],
+            'banner_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
             'reason' => 'string',
             'expires_at' => 'integer',
             'is_global_ban' => 'required|boolean',
@@ -76,9 +76,9 @@ final class GameBanV2Controller extends ApiController
     ): GameUnbanResource {
         $this->validateRequest($request->all(), [
             'banned_player_id' => 'required|max:60',
-            'banned_player_type' => ['required', Rule::in(PlayerIdentifierType::allJoined())],
+            'banned_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
             'banner_player_id' => 'required|max:60',
-            'banner_player_type' => ['required', Rule::in(PlayerIdentifierType::allJoined())],
+            'banner_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
         ], [
             'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
         ]);
@@ -106,7 +106,7 @@ final class GameBanV2Controller extends ApiController
     ): GameBanResource|array {
         $this->validateRequest($request->all(), [
             'player_id' => 'required|max:60',
-            'player_type' => ['required', Rule::in(PlayerIdentifierType::allJoined())],
+            'player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
         ], [
             'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
         ]);

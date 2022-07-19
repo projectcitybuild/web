@@ -54,10 +54,10 @@ final class GameBanV1Controller extends ApiController
         $serverKey = $this->getServerKeyFromHeader($request);
 
         $this->validateRequest($request->all(), [
-            'player_id_type' => ['required', Rule::in(PlayerIdentifierType::allJoined())],
+            'player_id_type' => ['required', Rule::in(PlayerIdentifierType::values())],
             'player_id' => 'required|max:60',
             'player_alias' => 'required',
-            'staff_id_type' => ['required', Rule::in(PlayerIdentifierType::allJoined())],
+            'staff_id_type' => ['required', Rule::in(PlayerIdentifierType::values())],
             'staff_id' => 'required|max:60',
             'reason' => 'string',
             'expires_at' => 'integer',
@@ -98,9 +98,9 @@ final class GameBanV1Controller extends ApiController
         $serverKey = $this->getServerKeyFromHeader($request);
 
         $this->validateRequest($request->all(), [
-            'player_id_type' => ['required', Rule::in(PlayerIdentifierType::allJoined())],
+            'player_id_type' => ['required', Rule::in(PlayerIdentifierType::values())],
             'player_id' => 'required',
-            'staff_id_type' => ['required', Rule::in(PlayerIdentifierType::allJoined())],
+            'staff_id_type' => ['required', Rule::in(PlayerIdentifierType::values())],
             'staff_id' => 'required',
         ], [
             'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
@@ -122,7 +122,7 @@ final class GameBanV1Controller extends ApiController
         $serverKey = $this->getServerKeyFromHeader($request);
 
         $this->validateRequest($request->all(), [
-            'player_id_type' => ['required', Rule::in(PlayerIdentifierType::allJoined())],
+            'player_id_type' => ['required', Rule::in(PlayerIdentifierType::values())],
             'player_id' => 'required',
         ], [
             'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
