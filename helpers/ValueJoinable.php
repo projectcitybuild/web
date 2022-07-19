@@ -27,4 +27,11 @@ trait ValueJoinable
             ->map(fn ($c) => $c->value)
             ->join(glue: ',');
     }
+
+    public static function values(): array
+    {
+        return collect(self::cases())
+            ->map(fn ($c) => $c->value)
+            ->toArray();
+    }
 }

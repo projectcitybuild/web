@@ -120,4 +120,6 @@ Route::resource('ban-appeals', BanAppealController::class)
     ->only('index', 'show', 'update')
     ->middleware(PanelGroupScope::REVIEW_APPEALS->toMiddleware());
 
-Route::resource('activity', ActivityController::class)->only(['index', 'show']);
+Route::resource('activity', ActivityController::class)
+    ->only(['index', 'show'])
+    ->middleware(PanelGroupScope::VIEW_ACTIVITY->toMiddleware());
