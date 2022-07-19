@@ -6,6 +6,7 @@ use App\Http\Controllers\Panel\AccountController;
 use App\Http\Controllers\Panel\AccountGameAccount;
 use App\Http\Controllers\Panel\AccountResendActivation;
 use App\Http\Controllers\Panel\AccountUpdateGroups;
+use App\Http\Controllers\Panel\ActivityController;
 use App\Http\Controllers\Panel\Api\AccountSearchController;
 use App\Http\Controllers\Panel\BanAppealController;
 use App\Http\Controllers\Panel\BuilderRanksController;
@@ -118,3 +119,5 @@ Route::group([
 Route::resource('ban-appeals', BanAppealController::class)
     ->only('index', 'show', 'update')
     ->middleware(PanelGroupScope::REVIEW_APPEALS->toMiddleware());
+
+Route::resource('activity', ActivityController::class)->only(['index', 'show']);

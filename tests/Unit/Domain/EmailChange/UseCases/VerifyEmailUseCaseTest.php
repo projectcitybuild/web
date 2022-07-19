@@ -39,8 +39,10 @@ class VerifyEmailUseCaseTest extends TestCase
         $this->useCase->execute(
             token: 'token',
             email: 'email',
-            onHalfComplete: function () {},
-            onBothComplete: function () {},
+            onHalfComplete: function () {
+            },
+            onBothComplete: function () {
+            },
         );
     }
 

@@ -12,6 +12,8 @@ enum PanelGroupScope: string
     case MANAGE_SERVERS = 'panel-manage-servers';
     case MANAGE_DONATIONS = 'panel-manage-donations';
 
+    case VIEW_ACTIVITY = 'panel-view-activity';
+
     case REVIEW_APPEALS = 'panel-review-appeals';
     case REVIEW_BUILD_RANK_APPS = 'panel-review-build-rank-app';
 

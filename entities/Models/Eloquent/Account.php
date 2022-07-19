@@ -2,6 +2,7 @@
 
 namespace Entities\Models\Eloquent;
 
+use Altek\Eventually\Eventually;
 use Carbon\Carbon;
 use function collect;
 use Entities\Models\PanelGroupScope;
@@ -15,6 +16,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Cashier\Billable;
 use Laravel\Scout\Searchable;
+use Library\Auditing\Traits\CausesActivity;
+use Library\Auditing\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 /**
  * @property int account_id
@@ -34,6 +38,9 @@ final class Account extends Authenticatable
     use Searchable;
     use HasFactory;
     use Billable;
+    use CausesActivity;
+    use LogsActivity;
+    use Eventually;
 
     protected $table = 'accounts';
     protected $primaryKey = 'account_id';
@@ -49,6 +56,21 @@ final class Account extends Authenticatable
     protected $hidden = [
         'totp_secret',
         'totp_backup_code',
+    ];
+    protected static $recordEvents = [
+        'created',
+        'updated',
+        'deleted',
+        'synced',
+    ];
+    protected static $syncRecordFields = [
+        'groups' => 'name',
+    ];
+    protected $logged = [
+        'email',
+        'username',
+        'activated',
+        'groups',
     ];
     protected $dates = [
         'created_at',
@@ -182,5 +204,23 @@ final class Account extends Authenticatable
     public function toResource()
     {
         return new AccountResource($this);
+    }
+
+    public function getActivitySubjectLink(): ?string
+    {
+        return route('front.panel.accounts.show', $this);
+    }
+
+    public function getActivitySubjectName(): ?string
+    {
+        return $this->username;
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->dontSubmitEmptyLogs()
+            ->logOnly($this->logged)
+            ->logOnlyDirty();
     }
 }
