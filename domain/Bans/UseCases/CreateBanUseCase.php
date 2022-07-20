@@ -23,7 +23,6 @@ final class CreateBanUseCase
      * @param  string  $bannedPlayerAlias Name of the player at the time of ban
      * @param  PlayerIdentifier  $bannerPlayerIdentifier Player that created the ban
      * @param  string  $bannerPlayerAlias Name of the player that created the ban at the time
-     * @param  bool  $isGlobalBan Whether the player will be banned from all servers, or just the server they were banned on
      * @param  string|null  $banReason Reason the player was banned
      * @param  Carbon|null  $expiresAt Date the ban will expire. If null, ban is permanent
      * @return GameBan
@@ -36,7 +35,6 @@ final class CreateBanUseCase
         string $bannedPlayerAlias,
         PlayerIdentifier $bannerPlayerIdentifier,
         string $bannerPlayerAlias,
-        bool $isGlobalBan,
         ?string $banReason,
         ?Carbon $expiresAt,
     ): GameBan {
@@ -60,7 +58,6 @@ final class CreateBanUseCase
             bannedPlayerId: $bannedPlayer->getKey(),
             bannedPlayerAlias: $bannedPlayerAlias,
             bannerPlayerId: $bannerPlayer->getKey(),
-            isGlobalBan: $isGlobalBan,
             reason: $banReason,
             expiresAt: $expiresAt,
         );

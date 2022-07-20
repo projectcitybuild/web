@@ -36,7 +36,7 @@ class RequiresServerTokenScope
 
         $hasScope = $token->scopes->contains(fn ($s) => $s->scope === $scope);
         if (! $hasScope) {
-            abort(401);
+            abort(403);
         }
 
         $request->token = $token;

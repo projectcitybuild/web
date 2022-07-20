@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\Domain\Bans\UseCases;
+namespace Tests\Unit\Domain\Bans\UseCases;
 
 use Domain\Bans\Exceptions\PlayerNotBannedException;
 use Domain\Bans\UseCases\LookupBanUseCase;

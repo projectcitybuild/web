@@ -16,7 +16,6 @@ class GameBanRepository
         int $bannedPlayerId,
         string $bannedPlayerAlias,
         int $bannerPlayerId,
-        bool $isGlobalBan,
         ?string $reason,
         ?Carbon $expiresAt,
     ): GameBan {
@@ -27,7 +26,7 @@ class GameBanRepository
             'staff_player_id' => $bannerPlayerId,
             'reason' => $reason,
             'is_active' => true,
-            'is_global_ban' => $isGlobalBan,
+            'is_global_ban' => true,
             'expires_at' => $expiresAt,
         ]);
     }
