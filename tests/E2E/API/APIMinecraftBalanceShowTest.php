@@ -62,22 +62,20 @@ class APIMinecraftBalanceShowTest extends E2ETestCase
             ]);
     }
 
-    public function test_shows_error_without_player()
+    public function test_missing_player_returns_zero_balance()
     {
         $this->authoriseTokenFor(ScopeKey::ACCOUNT_BALANCE_SHOW);
 
         $this->withAuthorizationServerToken()
             ->getJson($this->endpoint(null))
             ->assertJson([
-                'error' => [
-                    'id' => 'player_not_found',
-                    'detail' => 'Cannot find this player',
-                    'status' => 404,
+                'data' => [
+                    'balance' => 0,
                 ],
             ]);
     }
 
-    public function test_shows_error_without_linked_account()
+    public function test_unlinked_account_returns_zero_balance()
     {
         $player = MinecraftPlayer::factory()->create();
 
@@ -86,10 +84,8 @@ class APIMinecraftBalanceShowTest extends E2ETestCase
         $this->withAuthorizationServerToken()
             ->getJson($this->endpoint($player))
             ->assertJson([
-                'error' => [
-                    'id' => 'no_linked_account',
-                    'detail' => 'Player is not linked to a PCB account',
-                    'status' => 404,
+                'data' => [
+                    'balance' => 0,
                 ],
             ]);
     }
