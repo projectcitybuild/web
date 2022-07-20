@@ -24,10 +24,10 @@ final class MinecraftBalanceController extends ApiController
             $balance = $getBalance->execute(
                 identifier: PlayerIdentifier::minecraftUUID($uuid),
             );
+
             return [
                 'data' => ['balance' => $balance],
             ];
-
         } catch (NoLinkedAccountException | PlayerNotFoundException) {
             return [
                 'data' => ['balance' => 0],
