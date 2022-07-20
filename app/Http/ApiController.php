@@ -13,6 +13,9 @@ class ApiController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    /**
+     * @throws BadRequestException
+     */
     protected function validateRequest(array $requestData, array $rules, array $messages = [])
     {
         $validator = Validator::make($requestData, $rules, $messages);
