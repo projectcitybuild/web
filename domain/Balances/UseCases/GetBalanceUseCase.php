@@ -13,7 +13,7 @@ use Shared\PlayerLookup\PlayerLookup;
 class GetBalanceUseCase
 {
     public function __construct(
-        private PlayerLookup $playerLookup,
+        private readonly PlayerLookup $playerLookup,
     ) {
     }
 

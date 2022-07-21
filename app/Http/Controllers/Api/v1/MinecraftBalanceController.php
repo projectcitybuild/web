@@ -9,41 +9,42 @@ use Domain\Balances\UseCases\DeductBalanceUseCase;
 use Domain\Balances\UseCases\GetBalanceUseCase;
 use Illuminate\Http\Request;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
+use Shared\PlayerLookup\Exceptions\InvalidMinecraftUUIDException;
 use Shared\PlayerLookup\Exceptions\NoLinkedAccountException;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 
 final class MinecraftBalanceController extends ApiController
 {
-    /**
-     * @throws NoLinkedAccountException
-     * @throws PlayerNotFoundException
-     */
     public function show(
         Request $request,
         string $uuid,
-        GetBalanceUseCase $getBalanceUseCase,
+        GetBalanceUseCase $getBalance,
     ) {
-        $balance = $getBalanceUseCase->execute(
-            identifier: PlayerIdentifier::minecraftUUID($uuid),
-        );
+        try {
+            $balance = $getBalance->execute(
+                identifier: PlayerIdentifier::minecraftUUID($uuid),
+            );
 
-        return [
-            'data' => [
-                'balance' => $balance,
-            ],
-        ];
+            return [
+                'data' => ['balance' => $balance],
+            ];
+        } catch (NoLinkedAccountException | PlayerNotFoundException) {
+            return [
+                'data' => ['balance' => 0],
+            ];
+        }
     }
 
     /**
      * @throws NoLinkedAccountException
      * @throws BadRequestException
      * @throws PlayerNotFoundException
-     * @throws InsufficientBalanceException
+     * @throws InsufficientBalanceException|InvalidMinecraftUUIDException
      */
     public function deduct(
         Request $request,
         string $uuid,
-        DeductBalanceUseCase $deductBalanceUseCase,
+        DeductBalanceUseCase $deductBalance,
     ) {
         $this->validateRequest(
             requestData: $request->all(),
@@ -52,7 +53,7 @@ final class MinecraftBalanceController extends ApiController
                 'reason' => 'required|string',
             ],
         );
-        $deductBalanceUseCase->execute(
+        $deductBalance->execute(
             identifier: PlayerIdentifier::minecraftUUID($uuid),
             amount: $request->get('amount'),
             reason: $request->get('reason'),
