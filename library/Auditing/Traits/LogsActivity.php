@@ -67,7 +67,6 @@ trait LogsActivity
     {
         $oldValues = (new static())->setRawAttributes($model->getRawOriginal());
         $model->oldAttributes = static::logChanges($oldValues);
-        dump($model->oldAttributes);
     }
 
     /**
