@@ -107,7 +107,7 @@ final class Account extends Authenticatable
         );
     }
 
-    public function getGroupNamesAttribute()
+    public function getGroupNamesAttribute(): Collection
     {
         return $this->groups()->pluck('name');
     }
