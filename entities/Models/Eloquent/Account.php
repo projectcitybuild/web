@@ -63,14 +63,11 @@ final class Account extends Authenticatable
         'deleted',
         'synced',
     ];
-    protected static $syncRecordFields = [
-        'groups' => 'name',
-    ];
     protected $logged = [
         'email',
         'username',
         'activated',
-        'groups',
+        'group_names',
     ];
     protected $dates = [
         'created_at',
@@ -108,6 +105,11 @@ final class Account extends Authenticatable
             foreignPivotKey: 'account_id',
             relatedPivotKey: 'group_id',
         );
+    }
+
+    public function getGroupNamesAttribute()
+    {
+        return $this->groups()->pluck('name');
     }
 
     public function donations(): HasMany
