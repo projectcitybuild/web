@@ -78,6 +78,8 @@ trait LogsActivity
      */
     private static function forgetRecordEvent($event): void
     {
-        static::$recordEvents = static::eventsToBeRecorded()->reject($event)->toArray();
+        if (isset(static::$recordEvents)) {
+            static::$recordEvents = static::eventsToBeRecorded()->reject($event)->toArray();
+        }
     }
 }
