@@ -18,6 +18,9 @@ trait LogsActivity
     {
         // If this model should record the synced event
         if (static::eventsToBeRecorded()->contains('synced')) {
+            // Remove the event from the to be recorded list to prevent it being handled normally
+            static::forgetRecordEvent('synced');
+
             // On the syncing event (i.e. before the sync is done), store the old value
             static::syncing(function (Model $model) {
                 static::addOldAttributes($model);
@@ -89,5 +92,16 @@ trait LogsActivity
         }
 
         return collect(static::$syncRecordFields)->get($relationship, 'id');
+    }
+
+    /**
+     * Remove an event from the to be recorded list
+     *
+     * @param $event
+     * @return void
+     */
+    private static function forgetRecordEvent($event): void
+    {
+        static::$recordEvents = static::eventsToBeRecorded()->reject($event)->toArray();
     }
 }
