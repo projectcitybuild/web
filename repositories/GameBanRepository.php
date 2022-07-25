@@ -33,9 +33,20 @@ class GameBanRepository
 
     public function firstActiveBan(
         MinecraftPlayer $player,
+        bool $skipTempBans,
     ): ?GameBan {
         return GameBan::where('banned_player_id', $player->getKey())
             ->active()
+            ->when($skipTempBans, function ($q) {
+                $q->whereNull('expires_at');
+            })
             ->first();
+    }
+
+    public function deactivateAllTemporaryBans(MinecraftPlayer $player) {
+        GameBan::where('banned_player_id', $player->getKey())
+            ->active()
+            ->whereNotNull('expires_at')
+            ->update(['is_active' => false]);
     }
 }

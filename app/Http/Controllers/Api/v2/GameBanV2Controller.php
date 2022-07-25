@@ -33,6 +33,7 @@ final class GameBanV2Controller extends ApiController
             'banned_player_alias' => 'required',
             'banner_player_id' => 'required|max:60',
             'banner_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
+            'banner_player_alias' => 'required',
             'reason' => 'string',
             'expires_at' => 'integer',
         ], [

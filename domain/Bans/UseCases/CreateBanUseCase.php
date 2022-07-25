@@ -5,6 +5,7 @@ namespace Domain\Bans\UseCases;
 use Domain\Bans\Exceptions\PlayerAlreadyBannedException;
 use Entities\Models\Eloquent\GameBan;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Repositories\GameBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\PlayerLookup;
@@ -43,7 +44,11 @@ final class CreateBanUseCase
             playerAlias: $bannedPlayerAlias,
         );
 
-        $existingBan = $this->gameBanRepository->firstActiveBan($bannedPlayer);
+        $isPermanentBan = $expiresAt === null;
+        $existingBan = $this->gameBanRepository->firstActiveBan(
+            player: $bannedPlayer,
+            skipTempBans: $isPermanentBan, // Permanent bans can override temporary bans
+        );
         if ($existingBan !== null) {
             throw new PlayerAlreadyBannedException();
         }
@@ -53,13 +58,25 @@ final class CreateBanUseCase
             playerAlias: $bannerPlayerAlias,
         );
 
-        return $this->gameBanRepository->create(
-            serverId: $serverId,
-            bannedPlayerId: $bannedPlayer->getKey(),
-            bannedPlayerAlias: $bannedPlayerAlias,
-            bannerPlayerId: $bannerPlayer->getKey(),
-            reason: $banReason,
-            expiresAt: $expiresAt,
-        );
+        DB::beginTransaction();
+        try {
+            if ($isPermanentBan) {
+                $this->gameBanRepository->deactivateAllTemporaryBans(player: $bannedPlayer);
+            }
+            $ban = $this->gameBanRepository->create(
+                serverId: $serverId,
+                bannedPlayerId: $bannedPlayer->getKey(),
+                bannedPlayerAlias: $bannedPlayerAlias,
+                bannerPlayerId: $bannerPlayer->getKey(),
+                reason: $banReason,
+                expiresAt: $expiresAt,
+            );
+            DB::commit();
+            return $ban;
+        }
+        catch(\Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }
