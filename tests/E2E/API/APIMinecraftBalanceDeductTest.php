@@ -36,7 +36,7 @@ class APIMinecraftBalanceDeductTest extends E2ETestCase
 
         $this->withAuthorizationServerToken()
             ->postJson($this->endpoint($player))
-            ->assertUnauthorized();
+            ->assertForbidden();
 
         $this->authoriseTokenFor(ScopeKey::ACCOUNT_BALANCE_DEDUCT);
 

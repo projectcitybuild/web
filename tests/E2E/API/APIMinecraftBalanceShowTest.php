@@ -35,7 +35,7 @@ class APIMinecraftBalanceShowTest extends E2ETestCase
 
         $this->withAuthorizationServerToken()
             ->getJson($this->endpoint($player))
-            ->assertUnauthorized();
+            ->assertForbidden();
 
         $this->authoriseTokenFor(ScopeKey::ACCOUNT_BALANCE_SHOW);
 
