@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Domain\ServerTokens\ScopeKey;
 use Entities\Models\Eloquent\ServerToken;
 use Illuminate\Http\Request;
 
@@ -42,5 +43,9 @@ class RequiresServerTokenScope
         $request->token = $token;
 
         return $next($request);
+    }
+
+    public static function middleware(ScopeKey $scopeKey): string {
+        return 'server-token:'.$scopeKey->value;
     }
 }
