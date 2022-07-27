@@ -4,7 +4,6 @@ namespace Library\Auditing\Traits;
 
 use Altek\Eventually\Eventually;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Spatie\Activitylog\ActivityLogger;
 use Spatie\Activitylog\Traits\LogsActivity as ParentLogsActivity;
 
@@ -12,41 +11,6 @@ trait LogsActivity
 {
     use ParentLogsActivity {
         ParentLogsActivity::bootLogsActivity as parentBootLogsActivity;
-    }
-
-    private static function registerEventuallyLogging(): void
-    {
-        // If this model should record the synced event
-        if (static::eventsToBeRecorded()->contains('synced')) {
-            // On the syncing event (i.e. before the sync is done), store the old value
-            static::syncing(function (Model $model) {
-                static::addOldAttributes($model);
-            });
-
-            static::synced(function (Model $model, string $relation) {
-                // If no loggable changes have been made, and this model is not configured
-                // to submit empty logs, then skip
-                $attrs = $model->attributeValuesToBeLogged('updated');
-                if ($model->isLogEmpty($attrs) && ! $model->activitylogOptions->submitEmptyLogs) {
-                    return;
-                }
-
-                // For each attribute, if it's a collection, get the model attribute specified
-                $attrs = collect($attrs)
-                    ->map(fn (array $element) => collect($element)
-                        ->map(fn ($attribute) => ($attribute instanceof Collection) ?
-                            $attribute->pluck(static::getRelationshipField($relation)) : $attribute
-                        ))
-                    ->toArray();
-
-                app(ActivityLogger::class)
-                    ->useLog($model->getLogNameToUse())
-                    ->performedOn($model)
-                    ->withProperties($attrs)
-                    ->event('synced')
-                    ->log($model->getDescriptionForEvent("{$relation} update"));
-            });
-        }
     }
 
     /**
@@ -64,6 +28,35 @@ trait LogsActivity
         self::parentBootLogsActivity();
     }
 
+    private static function registerEventuallyLogging(): void
+    {
+        if (static::eventsToBeRecorded()->contains('synced')) {
+            // On the syncing event (i.e. before the sync is done), store the old value
+            static::syncing(function (Model $model) {
+                static::addOldAttributes($model);
+            });
+
+            // Remove the event from the to be recorded list to prevent it being handled normally
+            static::forgetRecordEvent('synced');
+
+            static::synced(function (Model $model, string $relation) {
+                // If no loggable changes have been made, and this model is not configured
+                // to submit empty logs, then skip
+                $attrs = $model->attributeValuesToBeLogged('updated');
+                if ($model->isLogEmpty($attrs) && ! $model->activitylogOptions->submitEmptyLogs) {
+                    return;
+                }
+
+                app(ActivityLogger::class)
+                    ->useLog($model->getLogNameToUse())
+                    ->performedOn($model)
+                    ->withProperties($attrs)
+                    ->event('synced')
+                    ->log($model->getDescriptionForEvent("{$relation} update"));
+            });
+        }
+    }
+
     /**
      * Set old attributes for this event
      *
@@ -77,17 +70,15 @@ trait LogsActivity
     }
 
     /**
-     * Get the desired attribute to log for a relationship
+     * Remove an event from the to be recorded list
      *
-     * @param $relationship string the relationship method
-     * @return mixed
+     * @param $event
+     * @return void
      */
-    private static function getRelationshipField(string $relationship): mixed
+    private static function forgetRecordEvent($event): void
     {
-        if (! isset(static::$syncRecordFields)) {
-            return 'id';
+        if (isset(static::$recordEvents)) {
+            static::$recordEvents = static::eventsToBeRecorded()->reject($event)->toArray();
         }
-
-        return collect(static::$syncRecordFields)->get($relationship, 'id');
     }
 }
