@@ -46,7 +46,7 @@
                     <li><a href="{{ route('front.banlist') }}">Ban List</a></li>
                 </ul>
             </li>
-            <li><a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer">Media</a></li>
+            <li><a href="{{ route('front.gallery') }}">Gallery</a></li>
             <li><a href="{{ route('front.donate') }}">Donate</a></li>
 
             <li class="spacer"></li>

@@ -5,6 +5,7 @@ use App\Http\Controllers\BanAppeal\BanLookupController;
 use App\Http\Controllers\BanlistController;
 use App\Http\Controllers\BuilderRankApplicationController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\Gallery\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
@@ -47,6 +48,11 @@ Route::prefix('donate')->group(function () {
 
     Route::get('success', [DonationController::class, 'success'])
         ->name('donate.success');
+});
+
+Route::prefix('gallery')->group(function () {
+    Route::get('/', [GalleryController::class, 'index'])
+        ->name('gallery');
 });
 
 Route::prefix('rank-up')->group(function () {
