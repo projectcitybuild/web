@@ -37,7 +37,8 @@ class LookupBanUseCaseTest extends TestCase
 
     private function mockMojangApiToReturn($username, $uuid)
     {
-        $this->mojangPlayerApi->shouldReceive('getUuidOf')
+        $this->mojangPlayerApi
+            ->shouldReceive('getUuidOf')
             ->once()
             ->with($username)
             ->once()->andReturn(
@@ -47,7 +48,8 @@ class LookupBanUseCaseTest extends TestCase
 
     private function mockPlayerRepositoryToReturn($uuid, $player)
     {
-        $this->minecraftPlayerRepository->shouldReceive('getByUUID')
+        $this->minecraftPlayerRepository
+            ->shouldReceive('getByUUID')
             ->once()
             ->with(\Mockery::on(function ($arg) use ($uuid) {
                 return $arg->rawValue() == $uuid;
@@ -57,11 +59,15 @@ class LookupBanUseCaseTest extends TestCase
 
     public function mockGameBanRepositoryToReturn($playerId, $bans)
     {
-        $this->gameBanRepository->shouldReceive('firstActiveBan')
+        $this->gameBanRepository
+            ->shouldReceive('firstActiveBan')
             ->once()
-            ->with(\Mockery::on(function ($arg) use ($playerId) {
-                return $arg->getKey() == $playerId;
-            }))
+            ->with(
+                \Mockery::on(function ($arg) use ($playerId) {
+                    return $arg->getKey() == $playerId;
+                }),
+                \Mockery::on(fn () => true),
+            )
             ->andReturn($bans);
     }
 

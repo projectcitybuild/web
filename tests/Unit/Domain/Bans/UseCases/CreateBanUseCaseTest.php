@@ -75,6 +75,9 @@ class CreateBanUseCaseTest extends TestCase
             ->shouldReceive('create')
             ->andReturn($ban);
 
+        $this->gameBanRepository
+            ->shouldReceive('deactivateAllTemporaryBans');
+
         $returnedBan = $this->useCase->execute(
             serverId: 1,
             bannedPlayerIdentifier: PlayerIdentifier::minecraftUUID('uuid1'),
