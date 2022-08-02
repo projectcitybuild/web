@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Feature;
+namespace Tests\Feature;
 
 use Entities\Models\PanelGroupScope;
 use Illuminate\Support\Facades\Config;

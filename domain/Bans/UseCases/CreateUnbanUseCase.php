@@ -13,9 +13,9 @@ use Shared\PlayerLookup\PlayerLookup;
 class CreateUnbanUseCase
 {
     public function __construct(
-        private GameBanRepository $gameBanRepository,
-        private GameUnbanRepository $gameUnbanRepository,
-        private PlayerLookup $playerLookup,
+        private readonly GameBanRepository $gameBanRepository,
+        private readonly GameUnbanRepository $gameUnbanRepository,
+        private readonly PlayerLookup $playerLookup,
     ) {
     }
 
@@ -31,7 +31,7 @@ class CreateUnbanUseCase
         PlayerIdentifier $unbannerPlayerIdentifier,
     ): GameUnban {
         $bannedPlayer = $this->playerLookup->findOrCreate($bannedPlayerIdentifier);
-        $existingBan = $this->gameBanRepository->firstActiveBan($bannedPlayer)
+        $existingBan = $this->gameBanRepository->firstActiveBan(player: $bannedPlayer, skipTempBans: false)
             ?? throw new PlayerNotBannedException();
 
         $unbannerPlayer = $this->playerLookup->findOrCreate(identifier: $unbannerPlayerIdentifier);

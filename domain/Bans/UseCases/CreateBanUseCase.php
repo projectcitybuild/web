@@ -5,6 +5,7 @@ namespace Domain\Bans\UseCases;
 use Domain\Bans\Exceptions\PlayerAlreadyBannedException;
 use Entities\Models\Eloquent\GameBan;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Repositories\GameBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\PlayerLookup;
@@ -23,7 +24,6 @@ final class CreateBanUseCase
      * @param  string  $bannedPlayerAlias Name of the player at the time of ban
      * @param  PlayerIdentifier  $bannerPlayerIdentifier Player that created the ban
      * @param  string  $bannerPlayerAlias Name of the player that created the ban at the time
-     * @param  bool  $isGlobalBan Whether the player will be banned from all servers, or just the server they were banned on
      * @param  string|null  $banReason Reason the player was banned
      * @param  Carbon|null  $expiresAt Date the ban will expire. If null, ban is permanent
      * @return GameBan
@@ -36,7 +36,6 @@ final class CreateBanUseCase
         string $bannedPlayerAlias,
         PlayerIdentifier $bannerPlayerIdentifier,
         string $bannerPlayerAlias,
-        bool $isGlobalBan,
         ?string $banReason,
         ?Carbon $expiresAt,
     ): GameBan {
@@ -45,7 +44,11 @@ final class CreateBanUseCase
             playerAlias: $bannedPlayerAlias,
         );
 
-        $existingBan = $this->gameBanRepository->firstActiveBan($bannedPlayer);
+        $isPermanentBan = $expiresAt === null;
+        $existingBan = $this->gameBanRepository->firstActiveBan(
+            player: $bannedPlayer,
+            skipTempBans: $isPermanentBan, // Permanent bans can override temporary bans
+        );
         if ($existingBan !== null) {
             throw new PlayerAlreadyBannedException();
         }
@@ -55,14 +58,25 @@ final class CreateBanUseCase
             playerAlias: $bannerPlayerAlias,
         );
 
-        return $this->gameBanRepository->create(
-            serverId: $serverId,
-            bannedPlayerId: $bannedPlayer->getKey(),
-            bannedPlayerAlias: $bannedPlayerAlias,
-            bannerPlayerId: $bannerPlayer->getKey(),
-            isGlobalBan: $isGlobalBan,
-            reason: $banReason,
-            expiresAt: $expiresAt,
-        );
+        DB::beginTransaction();
+        try {
+            if ($isPermanentBan) {
+                $this->gameBanRepository->deactivateAllTemporaryBans(player: $bannedPlayer);
+            }
+            $ban = $this->gameBanRepository->create(
+                serverId: $serverId,
+                bannedPlayerId: $bannedPlayer->getKey(),
+                bannedPlayerAlias: $bannedPlayerAlias,
+                bannerPlayerId: $bannerPlayer->getKey(),
+                reason: $banReason,
+                expiresAt: $expiresAt,
+            );
+            DB::commit();
+
+            return $ban;
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }

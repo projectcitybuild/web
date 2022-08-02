@@ -25,7 +25,7 @@ class APIMinecraftTelemetryTest extends E2ETestCase
     {
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: ['uuid' => 'uuid', 'alias' => 'alias'])
-            ->assertUnauthorized();
+            ->assertForbidden();
 
         $this->authoriseTokenFor(ScopeKey::TELEMETRY);
 
