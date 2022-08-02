@@ -2,7 +2,6 @@
 
 namespace Tests\E2E\API;
 
-use Carbon\Carbon;
 use Domain\ServerTokens\ScopeKey;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\GameUnban;

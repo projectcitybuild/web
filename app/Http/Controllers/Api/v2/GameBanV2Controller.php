@@ -112,7 +112,7 @@ final class GameBanV2Controller extends ApiController
         $ban = $getBan->execute(
             playerIdentifier: new PlayerIdentifier(
                 key: $request->get('player_id'),
-                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('player_id_type')),
+                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('player_type')),
             ),
         );
 

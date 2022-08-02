@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\Eloquent\Server;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GameBanFactory extends Factory
@@ -112,5 +113,10 @@ class GameBanFactory extends Factory
     public function bannedPlayer(MinecraftPlayer|Factory $player): GameBanFactory
     {
         return $this->for($player, 'bannedPlayer');
+    }
+
+    public function server(Server|Factory $server): GameBanFactory
+    {
+        return $this->for($server, 'server');
     }
 }
