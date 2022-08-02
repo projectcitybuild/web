@@ -43,7 +43,8 @@ class GameBanRepository
             ->first();
     }
 
-    public function deactivateAllTemporaryBans(MinecraftPlayer $player) {
+    public function deactivateAllTemporaryBans(MinecraftPlayer $player)
+    {
         GameBan::where('banned_player_id', $player->getKey())
             ->active()
             ->whereNotNull('expires_at')

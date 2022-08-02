@@ -72,9 +72,9 @@ final class CreateBanUseCase
                 expiresAt: $expiresAt,
             );
             DB::commit();
+
             return $ban;
-        }
-        catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             DB::rollBack();
             throw $e;
         }

@@ -16,11 +16,12 @@ class RequiresServerTokenScopeTest extends E2ETestCase
             $middleware = new RequiresServerTokenScope();
             $middleware->handle(
                 request: Request::create(uri: 'test'),
-                next: function() {},
+                next: function () {
+                },
                 scope: ScopeKey::BAN_LOOKUP->value,
             );
+        } catch (HttpException $e) {
         }
-        catch (HttpException $e) {}
 
         $this->assertEquals(
             expected: new HttpException(401),
@@ -40,11 +41,12 @@ class RequiresServerTokenScopeTest extends E2ETestCase
                 $middleware = new RequiresServerTokenScope();
                 $middleware->handle(
                     request: $request,
-                    next: function() {},
+                    next: function () {
+                    },
                     scope: ScopeKey::BAN_LOOKUP->value,
                 );
+            } catch (HttpException $e) {
             }
-            catch (HttpException $e) {}
 
             $this->assertEquals(
                 expected: new HttpException(401),
@@ -66,11 +68,12 @@ class RequiresServerTokenScopeTest extends E2ETestCase
             $middleware = new RequiresServerTokenScope();
             $middleware->handle(
                 request: $request,
-                next: function () {},
+                next: function () {
+                },
                 scope: ScopeKey::BAN_LOOKUP->value,
             );
+        } catch (HttpException $e) {
         }
-        catch (HttpException $e) {}
 
         $this->assertEquals(
             expected: new HttpException(401),
@@ -93,7 +96,8 @@ class RequiresServerTokenScopeTest extends E2ETestCase
             $middleware = new RequiresServerTokenScope();
             $middleware->handle(
                 request: $request,
-                next: function () {},
+                next: function () {
+                },
                 scope: ScopeKey::BAN_LOOKUP->value,
             );
         } catch (HttpException $e) {

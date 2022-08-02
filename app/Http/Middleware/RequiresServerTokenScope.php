@@ -45,7 +45,8 @@ class RequiresServerTokenScope
         return $next($request);
     }
 
-    public static function middleware(ScopeKey $scopeKey): string {
+    public static function middleware(ScopeKey $scopeKey): string
+    {
         return 'server-token:'.$scopeKey->value;
     }
 }

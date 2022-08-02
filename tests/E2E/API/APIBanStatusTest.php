@@ -23,7 +23,8 @@ class APIBanStatusTest extends E2ETestCase
         $this->createServerToken();
     }
 
-    private function validData(): array {
+    private function validData(): array
+    {
         return [
             'player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
             'player_id' => 'uuid1',
