@@ -6,6 +6,7 @@ use App\Http\Controllers\BanlistController;
 use App\Http\Controllers\BuilderRankApplicationController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\Gallery\GalleryController;
+use App\Http\Controllers\Gallery\GalleryFormController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
@@ -53,6 +54,12 @@ Route::prefix('donate')->group(function () {
 Route::prefix('gallery')->group(function () {
     Route::get('/', [GalleryController::class, 'index'])
         ->name('gallery');
+
+    Route::get('upload', [GalleryFormController::class, 'index'])
+        ->name('gallery.form');
+
+    Route::post('upload', [GalleryFormController::class, 'store'])
+        ->name('gallery.form.submit');
 });
 
 Route::prefix('rank-up')->group(function () {

@@ -7,9 +7,8 @@ use Illuminate\Http\Request;
 
 final class GalleryController extends WebController
 {
-    public function index(
-        Request $request,
-    ) {
+    public function index(Request $request)
+    {
         return view('v2.front.pages.gallery.gallery-front');
     }
 }
