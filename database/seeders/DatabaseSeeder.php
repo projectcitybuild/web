@@ -13,10 +13,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(ServerSeeds::class);
-        $this->call(GroupSeeds::class);
+        $this->call(ServerSeeder::class);
+        $this->call(GroupSeeder::class);
         $this->call(AccountSeeder::class);
         $this->call(GameBanSeeder::class);
-        $this->call(DonationSeeds::class);
+        $this->call(DonationSeeder::class);
+        $this->call(BadgeSeeder::class);
     }
 }

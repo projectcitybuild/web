@@ -10,8 +10,8 @@ use Shared\PlayerLookup\PlayerLookup;
 final class GetBanUseCase
 {
     public function __construct(
-        private GameBanRepository $gameBanRepository,
-        private PlayerLookup $playerLookup,
+        private readonly GameBanRepository $gameBanRepository,
+        private readonly PlayerLookup $playerLookup,
     ) {
     }
 
@@ -24,6 +24,6 @@ final class GetBanUseCase
     ): ?GameBan {
         $mcPlayer = $this->playerLookup->findOrCreate($playerIdentifier);
 
-        return $this->gameBanRepository->firstActiveBan($mcPlayer);
+        return $this->gameBanRepository->firstActiveBan(player: $mcPlayer, skipTempBans: false);
     }
 }

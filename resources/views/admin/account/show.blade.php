@@ -138,6 +138,29 @@
                     @endforelse
                 </ul>
             </div>
+
+            <form action="{{ route('front.panel.accounts.update-badges', $account) }}" method="post">
+                @csrf
+                <div class="card card-default mt-2">
+                    <div class="card-header d-flex justify-content-between">
+                        <span>Badges</span>
+                        <button type="submit" class="btn btn-outline-primary btn-sm py-0">
+                            <i class="fas fa-save"></i> Update
+                        </button>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @foreach($badges as $badge)
+                            <li class="list-group-item">
+                                <div class="form-check mb-0">
+                                    <input type="checkbox" class="form-check-input" name="badges[]" value="{{ $badge->id }}" id="badge-{{ $badge->id }}" {{ $account->hasBadge($badge) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="badge-{{ $badge->id }}">{{ $badge->display_name }}</label>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </form>
+
         </div>
         <div class="col-md-6">
             <form action="{{ route('front.panel.accounts.update-groups', $account) }}" method="post">
@@ -161,7 +184,6 @@
                     </ul>
                 </div>
             </form>
-
         </div>
     </div>
     <div class="row row-cols-1 g-4 mt-3">

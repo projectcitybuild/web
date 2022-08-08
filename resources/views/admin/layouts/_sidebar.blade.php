@@ -39,6 +39,15 @@
                 </a>
             </li>
             @endscope
+            @scope(Entities\Models\PanelGroupScope::MANAGE_BADGES)
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('panel/badges*') ? 'active' : '' }}"
+                   href="{{ route('front.panel.badges.index') }}">
+                    <i class="fas fa-certificate fa-fw"></i>
+                    Badges
+                </a>
+            </li>
+            @endscope
             @scope(Entities\Models\PanelGroupScope::VIEW_ACTIVITY)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/activity*') ? 'active' : '' }}"

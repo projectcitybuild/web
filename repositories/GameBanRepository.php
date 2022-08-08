@@ -16,7 +16,6 @@ class GameBanRepository
         int $bannedPlayerId,
         string $bannedPlayerAlias,
         int $bannerPlayerId,
-        bool $isGlobalBan,
         ?string $reason,
         ?Carbon $expiresAt,
     ): GameBan {
@@ -27,16 +26,28 @@ class GameBanRepository
             'staff_player_id' => $bannerPlayerId,
             'reason' => $reason,
             'is_active' => true,
-            'is_global_ban' => $isGlobalBan,
+            'is_global_ban' => true,
             'expires_at' => $expiresAt,
         ]);
     }
 
     public function firstActiveBan(
         MinecraftPlayer $player,
+        bool $skipTempBans,
     ): ?GameBan {
         return GameBan::where('banned_player_id', $player->getKey())
             ->active()
+            ->when($skipTempBans, function ($q) {
+                $q->whereNull('expires_at');
+            })
             ->first();
+    }
+
+    public function deactivateAllTemporaryBans(MinecraftPlayer $player)
+    {
+        GameBan::where('banned_player_id', $player->getKey())
+            ->active()
+            ->whereNotNull('expires_at')
+            ->update(['is_active' => false]);
     }
 }
