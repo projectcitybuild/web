@@ -5,9 +5,11 @@ use App\Http\Controllers\Panel\AccountApproveEmailChange;
 use App\Http\Controllers\Panel\AccountController;
 use App\Http\Controllers\Panel\AccountGameAccount;
 use App\Http\Controllers\Panel\AccountResendActivation;
+use App\Http\Controllers\Panel\AccountUpdateBadges;
 use App\Http\Controllers\Panel\AccountUpdateGroups;
 use App\Http\Controllers\Panel\ActivityController;
 use App\Http\Controllers\Panel\Api\AccountSearchController;
+use App\Http\Controllers\Panel\BadgeController;
 use App\Http\Controllers\Panel\BanAppealController;
 use App\Http\Controllers\Panel\BuilderRanksController;
 use App\Http\Controllers\Panel\DonationController;
@@ -49,6 +51,9 @@ Route::group([
 
     Route::post('update-groups', AccountUpdateGroups::class)
         ->name('update-groups');
+
+    Route::post('update-badges', AccountUpdateBadges::class)
+        ->name('update-badges');
 });
 
 Route::resource('minecraft-players', MinecraftPlayerController::class)
@@ -67,6 +72,9 @@ Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
     Route::get('accounts', AccountSearchController::class)
         ->name('account-search');
 });
+
+Route::resource('badges', BadgeController::class)
+    ->middleware(PanelGroupScope::MANAGE_BADGES->toMiddleware());
 
 Route::resource('donations', DonationController::class)
     ->middleware(PanelGroupScope::MANAGE_DONATIONS->toMiddleware());

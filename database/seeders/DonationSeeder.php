@@ -6,7 +6,7 @@ use Entities\Models\Eloquent\DonationTier;
 use Entities\Models\Eloquent\StripeProduct;
 use Illuminate\Database\Seeder;
 
-class DonationSeeds extends Seeder
+class DonationSeeder extends Seeder
 {
     /**
      * Run the database seeds.

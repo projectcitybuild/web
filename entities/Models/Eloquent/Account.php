@@ -112,6 +112,16 @@ final class Account extends Authenticatable
         return $this->groups()->pluck('name');
     }
 
+    public function badges(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            related: Badge::class,
+            table: 'badges_pivot',
+            foreignPivotKey: 'account_id',
+            relatedPivotKey: 'badge_id',
+        );
+    }
+
     public function donations(): HasMany
     {
         return $this->hasMany(
@@ -162,6 +172,11 @@ final class Account extends Authenticatable
     public function inGroup(Group $group)
     {
         return $this->groups->contains($group);
+    }
+
+    public function hasBadge(Badge $badge)
+    {
+        return $this->badges->contains($badge);
     }
 
     public function isAdmin()

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\WebController;
 use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Badge;
 use Entities\Models\Eloquent\Group;
 use Illuminate\Http\Request;
 
@@ -35,8 +36,9 @@ class AccountController extends WebController
     public function show(Account $account)
     {
         $groups = Group::all();
+        $badges = Badge::all();
 
-        return view('admin.account.show')->with(compact('account', 'groups'));
+        return view('admin.account.show')->with(compact('account', 'groups', 'badges'));
     }
 
     /**

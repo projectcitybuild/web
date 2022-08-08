@@ -8,7 +8,7 @@ use Entities\Models\Eloquent\ServerKey;
 use Entities\Models\GameType;
 use Illuminate\Database\Seeder;
 
-class ServerSeeds extends Seeder
+class ServerSeeder extends Seeder
 {
     /**
      * Run the database seeds.
