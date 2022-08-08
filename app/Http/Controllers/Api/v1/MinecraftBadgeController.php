@@ -27,10 +27,10 @@ final class MinecraftBadgeController extends ApiController
         $accountAgeInYears = $account->created_at->diffInYears(now());
 
         if ($accountAgeInYears >= 3) {
-            $badges->add(Badge::make([
-                'display_name' => $accountAgeInYears . ' years on PCB',
-                'unicode_icon' => '⌚',
-            ]));
+            $badge = new Badge();
+            $badge->display_name = $accountAgeInYears.' years on PCB';
+            $badge->unicode_icon = '⌚';
+            $badges->add($badge);
         }
 
         return [

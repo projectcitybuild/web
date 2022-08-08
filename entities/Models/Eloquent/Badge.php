@@ -18,11 +18,9 @@ class Badge extends Model
     protected $table = 'badges';
 
     protected $primaryKey = 'id';
-
     protected $fillable = [
         'display_name',
         'unicode_icon',
     ];
-
     public $timestamps = false;
 }
