@@ -5,6 +5,7 @@ use App\Http\Controllers\Panel\AccountApproveEmailChange;
 use App\Http\Controllers\Panel\AccountController;
 use App\Http\Controllers\Panel\AccountGameAccount;
 use App\Http\Controllers\Panel\AccountResendActivation;
+use App\Http\Controllers\Panel\AccountUpdateBadges;
 use App\Http\Controllers\Panel\AccountUpdateGroups;
 use App\Http\Controllers\Panel\ActivityController;
 use App\Http\Controllers\Panel\Api\AccountSearchController;
@@ -50,6 +51,9 @@ Route::group([
 
     Route::post('update-groups', AccountUpdateGroups::class)
         ->name('update-groups');
+
+    Route::post('update-badges', AccountUpdateBadges::class)
+        ->name('update-badges');
 });
 
 Route::resource('minecraft-players', MinecraftPlayerController::class)

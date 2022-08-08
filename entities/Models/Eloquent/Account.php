@@ -174,6 +174,11 @@ final class Account extends Authenticatable
         return $this->groups->contains($group);
     }
 
+    public function hasBadge(Badge $badge)
+    {
+        return $this->badges->contains($badge);
+    }
+
     public function isAdmin()
     {
         return $this->groups()->where('is_admin', true)->count() > 0;
