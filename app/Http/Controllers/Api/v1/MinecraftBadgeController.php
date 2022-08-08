@@ -17,6 +17,7 @@ final class MinecraftBadgeController extends ApiController
         $badges = $getBadges->execute(
             identifier: PlayerIdentifier::minecraftUUID($uuid)
         );
+
         return [
             'data' => $badges,
         ];

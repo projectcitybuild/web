@@ -10,7 +10,8 @@ final class GetBadgesUseCase
 {
     public function __construct(
         private readonly PlayerLookup $playerLookup,
-    ) {}
+    ) {
+    }
 
     public function execute(PlayerIdentifier $identifier): array
     {

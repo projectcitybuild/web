@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Exceptions\Http\BadRequestException;
 use App\Exceptions\Http\NotFoundException;
-use App\Exceptions\Http\UnauthorisedException;
 use App\Http\ApiController;
 use Domain\Badges\UseCases\GetBadgesUseCase;
 use Domain\Bans\UseCases\GetBanUseCase;
 use Domain\Donations\UseCases\GetDonationTiersUseCase;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\PlayerIdentifierType;
 use Entities\Resources\AccountResource;
 use Entities\Resources\DonationPerkResource;
 use Entities\Resources\GameBanResource;

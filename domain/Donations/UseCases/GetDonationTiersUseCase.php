@@ -33,6 +33,7 @@ final class GetDonationTiersUseCase
         if ($perks === null || count($perks) === 0) {
             return []; // No donation perks for this account
         }
+
         return $perks->toArray();
     }
 }

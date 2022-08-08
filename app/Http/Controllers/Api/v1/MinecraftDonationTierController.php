@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 final class MinecraftDonationTierController extends ApiController
 {
     public function show(
-        Request                 $request,
-        string                  $uuid,
+        Request $request,
+        string $uuid,
         GetDonationTiersUseCase $getDonationTier,
     ) {
         $uuid = str_replace(search: '-', replace: '', subject: $uuid);
