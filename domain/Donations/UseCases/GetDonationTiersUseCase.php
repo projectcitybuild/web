@@ -4,13 +4,14 @@ namespace Domain\Donations\UseCases;
 
 use App\Exceptions\Http\NotFoundException;
 use Entities\Models\Eloquent\MinecraftPlayer;
+use Illuminate\Support\Collection;
 
 final class GetDonationTiersUseCase
 {
     /**
      * @throws NotFoundException if player not found or not linked to an account
      */
-    public function execute(string $uuid): array
+    public function execute(string $uuid): Collection
     {
         $existingPlayer = MinecraftPlayer::where('uuid', $uuid)
             ->with('account.donationPerks.donationTier')
@@ -31,9 +32,9 @@ final class GetDonationTiersUseCase
             ->unique('donation_tier_id');
 
         if ($perks === null || count($perks) === 0) {
-            return []; // No donation perks for this account
+            return collect(); // No donation perks for this account
         }
 
-        return $perks->toArray();
+        return $perks;
     }
 }
