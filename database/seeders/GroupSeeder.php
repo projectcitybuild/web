@@ -7,7 +7,7 @@ use Entities\Models\Eloquent\GroupScope;
 use Entities\Models\PanelGroupScope;
 use Illuminate\Database\Seeder;
 
-class GroupSeeds extends Seeder
+class GroupSeeder extends Seeder
 {
     /**
      * Run the database seeds.
