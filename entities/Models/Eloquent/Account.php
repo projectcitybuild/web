@@ -4,7 +4,6 @@ namespace Entities\Models\Eloquent;
 
 use Altek\Eventually\Eventually;
 use Carbon\Carbon;
-use Laravel\Passport\HasApiTokens;
 use function collect;
 use Entities\Models\PanelGroupScope;
 use Entities\Resources\AccountResource;
@@ -16,6 +15,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Cashier\Billable;
+use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
 use Library\Auditing\Traits\CausesActivity;
 use Library\Auditing\Traits\LogsActivity;
