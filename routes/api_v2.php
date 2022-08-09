@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\v1\MinecraftAggregateController;
 use App\Http\Controllers\Api\v1\MinecraftBadgeController;
 use App\Http\Controllers\Api\v1\MinecraftBalanceController;
 use App\Http\Controllers\Api\v1\MinecraftDonationTierController;
@@ -38,6 +39,7 @@ Route::prefix('bans')->group(function () {
 Route::prefix('minecraft/{minecraftUUID}')->group(function () {
     Route::get('donation-tiers', [MinecraftDonationTierController::class, 'show']);
     Route::get('badges', [MinecraftBadgeController::class, 'show']);
+    Route::get('aggregate', [MinecraftAggregateController::class, 'show']);
 
     Route::middleware(
         RequiresServerTokenScope::middleware(ScopeKey::ACCOUNT_BALANCE_SHOW),
