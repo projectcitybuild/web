@@ -4,6 +4,7 @@ namespace Entities\Models\Eloquent;
 
 use Altek\Eventually\Eventually;
 use Carbon\Carbon;
+use Laravel\Passport\HasApiTokens;
 use function collect;
 use Entities\Models\PanelGroupScope;
 use Entities\Resources\AccountResource;
@@ -36,6 +37,7 @@ final class Account extends Authenticatable
 {
     use Notifiable;
     use Searchable;
+    use HasApiTokens;
     use HasFactory;
     use Billable;
     use CausesActivity;

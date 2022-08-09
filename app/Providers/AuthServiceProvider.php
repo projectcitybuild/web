@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Policies\BanAppealPolicy;
 use Entities\Models\Eloquent\BanAppeal;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Laravel\Passport\Passport;
 use Library\Google2FA\Google2FAFake;
 use PragmaRX\Google2FA\Google2FA;
 
@@ -27,6 +28,10 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+        if (! $this->app->routesAreCached()) {
+            Passport::routes();
+        }
     }
 
     /**
