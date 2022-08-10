@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\Api\v1\OAuthController;
 use App\Policies\BanAppealPolicy;
 use Entities\Models\Eloquent\BanAppeal;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 use Laravel\Passport\Passport;
 use Library\Google2FA\Google2FAFake;
 use PragmaRX\Google2FA\Google2FA;
@@ -31,6 +33,9 @@ class AuthServiceProvider extends ServiceProvider
 
         if (! $this->app->routesAreCached()) {
             Passport::routes();
+
+            Route::get('oauth/me', [OAuthController::class, 'show'])
+                ->middleware('auth:api');
         }
     }
 
