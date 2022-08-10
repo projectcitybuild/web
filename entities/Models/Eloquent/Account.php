@@ -15,6 +15,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Cashier\Billable;
+use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
 use Library\Auditing\Traits\CausesActivity;
 use Library\Auditing\Traits\LogsActivity;
@@ -36,6 +37,7 @@ final class Account extends Authenticatable
 {
     use Notifiable;
     use Searchable;
+    use HasApiTokens;
     use HasFactory;
     use Billable;
     use CausesActivity;

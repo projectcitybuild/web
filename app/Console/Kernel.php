@@ -71,6 +71,9 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('backup:monitor')
             ->dailyAt('02:00');
+
+        $schedule->command('passport:purge')
+            ->hourly();
     }
 
     /**
