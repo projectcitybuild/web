@@ -41,7 +41,7 @@ class AccountCreatedAtImport extends Command
             $user = Account::find($entry['external_id']);
 
             if ($user == null) {
-                $this->info("Skipping #{$entry["external_id"]}");
+                $this->info("Skipping #{$entry['external_id']}");
             } else {
                 $user->created_at = Carbon::parse($entry['created_at']);
                 $user->disableLogging()->save();
