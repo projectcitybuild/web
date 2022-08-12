@@ -38,9 +38,14 @@ class AccountCreatedAtImport extends Command
     {
         $entries = $this->getDataFileContents();
         $this->withProgressBar($entries, function ($entry) {
-            $user = Account::findOrFail($entry['external_id']);
-            $user->created_at = Carbon::parse($entry['created_at']);
-            $user->disableLogging()->save();
+            $user = Account::find($entry['external_id']);
+
+            if ($user == null) {
+                $this->info("Skipping #{$entry["external_id"]}");
+            } else {
+                $user->created_at = Carbon::parse($entry['created_at']);
+                $user->disableLogging()->save();
+            }
         });
 
         return 0;
