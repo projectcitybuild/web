@@ -6,10 +6,12 @@ use App\Model;
 use Domain\BuilderRankApplications\Entities\ApplicationStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Notifications\Notifiable;
 
 final class BuilderRankApplication extends Model
 {
     use HasFactory;
+    use Notifiable;
 
     /**
      * The table associated with the model.
@@ -44,6 +46,11 @@ final class BuilderRankApplication extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function routeNotificationForDiscord(): string
+    {
+        return config('discord.webhook_ban_appeal_channel');
+    }
 
     public function account(): BelongsTo
     {

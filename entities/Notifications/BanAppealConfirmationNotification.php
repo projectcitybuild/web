@@ -2,6 +2,7 @@
 
 namespace Entities\Notifications;
 
+use Entities\Models\Eloquent\BanAppeal;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -16,7 +17,7 @@ class BanAppealConfirmationNotification extends Notification
      * @return void
      */
     public function __construct(
-        private string $banAppealLink
+        private BanAppeal $banAppeal
     ) {
     }
 
@@ -28,7 +29,7 @@ class BanAppealConfirmationNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'discordHook'];
     }
 
     /**
@@ -37,13 +38,13 @@ class BanAppealConfirmationNotification extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail($notifiable): MailMessage
     {
         return (new MailMessage)
                     ->subject('Ban Appeal Submitted')
                     ->greeting('Your ban appeal has been received')
                     ->line('You will be sent another email when your appeal has been decided on.')
                     ->line('You can check your appeal at any time:')
-                    ->action('Check Appeal', $this->banAppealLink);
+                    ->action('Check Appeal', $this->banAppeal->showLink());
     }
 }
