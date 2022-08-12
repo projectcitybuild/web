@@ -42,5 +42,7 @@ class AccountCreatedAtImport extends Command
             $user->created_at = Carbon::parse($entry['created_at']);
             $user->disableLogging()->save();
         });
+
+        return 0;
     }
 }
