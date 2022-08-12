@@ -11,6 +11,12 @@ use Tests\TestCase;
 
 class BanAppealCreateTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Notification::fake();
+    }
+
     private function createBan()
     {
         return GameBan::factory()
