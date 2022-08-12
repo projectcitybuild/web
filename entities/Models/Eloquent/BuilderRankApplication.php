@@ -47,6 +47,11 @@ final class BuilderRankApplication extends Model
         'updated_at',
     ];
 
+    public function routeNotificationForMail($notification)
+    {
+        return $this->account->email;
+    }
+
     public function routeNotificationForDiscord(): string
     {
         return config('discord.webhook_ban_appeal_channel');

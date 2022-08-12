@@ -8,7 +8,6 @@ use Domain\BuilderRankApplications\Exceptions\ApplicationAlreadyInProgressExcept
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BuilderRankApplication;
 use Entities\Notifications\BuilderRankAppSubmittedNotification;
-use Entities\Notifications\BuilderRankCouncilNotification;
 use Repositories\BuilderRankApplicationRepository;
 
 class CreateBuildRankApplicationUseCase
@@ -47,8 +46,7 @@ class CreateBuildRankApplicationUseCase
             status: ApplicationStatus::IN_PROGRESS,
         );
 
-        $account->notify(new BuilderRankAppSubmittedNotification($application));
-        $application->notify(new BuilderRankCouncilNotification($application));
+        $application->notify(new BuilderRankAppSubmittedNotification($application));
 
         return $application;
     }
