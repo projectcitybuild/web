@@ -20,7 +20,7 @@
                             Once a decision has been reached, click the approve or deny button to complete this
                             application.
                             <br/><br/>
-                            Opened <strong>{{ $application->created_at->diffForHumans(now()) }}</strong>
+                            Opened <strong>{{ $application->created_at->diffForHumans() }}</strong>
                         </p>
                     </div>
                 </div>
