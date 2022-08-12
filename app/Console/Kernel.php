@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\AccountCreatedAtImport;
 use App\Console\Commands\CleanupUnactivatedAccountsCommand;
 use App\Console\Commands\DeactivateDonatorPerksCommand;
 use App\Console\Commands\DeleteExpiredPasswordResetsCommand;
@@ -32,6 +33,7 @@ class Kernel extends ConsoleKernel
         ServerKeyCreateCommand::class,
         ServerQueryCommand::class,
         StripUUIDHyphensCommand::class,
+        AccountCreatedAtImport::class,
     ];
 
     /**
