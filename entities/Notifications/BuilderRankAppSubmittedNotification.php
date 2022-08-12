@@ -8,6 +8,7 @@ use Entities\Models\Eloquent\BuilderRankApplication;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Str;
 use function route;
 
 class BuilderRankAppSubmittedNotification extends Notification
@@ -63,7 +64,7 @@ class BuilderRankAppSubmittedNotification extends Notification
                 $embed->title('Builder Rank Application', route('front.panel.builder-ranks.show', $this->builderRankApplication))
                     ->field('Current build rank', $this->builderRankApplication->current_builder_rank)
                     ->field('Build location', $this->builderRankApplication->build_location)
-                    ->field('Build description', $this->builderRankApplication->build_description)
+                    ->field('Build description', Str::limit($this->builderRankApplication->build_description, 500))
                     ->author($this->builderRankApplication->minecraft_alias);
             });
     }
