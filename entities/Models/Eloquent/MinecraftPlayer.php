@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
+use Library\Auditing\Traits\Linkable;
+use Library\Auditing\Traits\LogsActivity;
 use Shared\PlayerLookup\Contracts\Player;
+use Spatie\Activitylog\LogOptions;
 
 /**
  * @property string uuid
@@ -21,6 +25,7 @@ use Shared\PlayerLookup\Contracts\Player;
 final class MinecraftPlayer extends Model implements Player
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $table = 'players_minecraft';
     protected $primaryKey = 'player_minecraft_id';
@@ -36,6 +41,9 @@ final class MinecraftPlayer extends Model implements Player
         'updated_at',
         'last_synced_at',
         'last_seen_at',
+    ];
+    protected $logged = [
+        'account_id',
     ];
 
     public function getBanReadableName(): ?string
@@ -105,5 +113,23 @@ final class MinecraftPlayer extends Model implements Player
     public function getLinkedAccount(): ?Account
     {
         return $this->account;
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->dontSubmitEmptyLogs()
+            ->logOnly($this->logged)
+            ->logOnlyDirty();
+    }
+
+    public function getActivitySubjectLink(): ?string
+    {
+        return route('front.panel.minecraft-players.show', $this);
+    }
+
+    public function getActivitySubjectName(): ?string
+    {
+        return $this->getBanReadableName() ?? Str::limit($this->uuid, 10);
     }
 }

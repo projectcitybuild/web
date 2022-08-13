@@ -7,6 +7,7 @@ use App\View\Components\NavBarComponent;
 use App\View\Components\PanelSideBarComponent;
 use App\View\Components\TextDiffComponent;
 use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\Page;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -57,6 +58,7 @@ final class AppServiceProvider extends ServiceProvider
         Relation::enforceMorphMap([
             'account' => Account::class,
             'page' => Page::class,
+            'minecraft_player' => MinecraftPlayer::class,
         ]);
 
         Blade::component('navbar', NavBarComponent::class);

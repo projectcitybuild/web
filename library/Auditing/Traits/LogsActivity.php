@@ -9,6 +9,8 @@ use Spatie\Activitylog\Traits\LogsActivity as ParentLogsActivity;
 
 trait LogsActivity
 {
+    use Linkable;
+
     use ParentLogsActivity {
         ParentLogsActivity::bootLogsActivity as parentBootLogsActivity;
     }
