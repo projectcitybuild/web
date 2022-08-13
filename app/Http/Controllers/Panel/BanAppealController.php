@@ -8,6 +8,7 @@ use Domain\BanAppeals\Entities\BanAppealStatus;
 use Domain\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use Domain\BanAppeals\UseCases\UpdateBanAppealUseCase;
 use Domain\Bans\Exceptions\PlayerNotBannedException;
+use Domain\Panel\Exceptions\NoPlayerForActionException;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Notifications\BanAppealUpdatedNotification;
 use Illuminate\Validation\ValidationException;
@@ -36,7 +37,7 @@ class BanAppealController
         try {
             $useCase->execute(
                 banAppeal: $banAppeal,
-                decidingPlayer: $request->user()->minecraftAccount()->first(),
+                decidingAccount: $request->user(),
                 decisionNote: $request->get('decision_note'),
                 status: BanAppealStatus::from($request->get('status'))
             );
@@ -51,6 +52,10 @@ class BanAppealController
         } catch (AppealAlreadyDecidedException $e) {
             throw ValidationException::withMessages([
                 'error' => ['This appeal has already been decided.'],
+            ]);
+        } catch (NoPlayerForActionException $e) {
+            throw ValidationException::withMessages([
+                'error' => ['Please link a Minecraft account before deciding ban appeals.'],
             ]);
         }
 

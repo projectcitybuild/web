@@ -32,11 +32,11 @@ class BanAppealRepository
     public function updateDecision(
         BanAppeal $banAppeal,
         string $decisionNote,
-        int $deciderAccountId,
+        int $deciderPlayerMinecraftId,
         BanAppealStatus $status,
     ): BanAppeal {
         $banAppeal->decision_note = $decisionNote;
-        $banAppeal->decider_account_id = $deciderAccountId;
+        $banAppeal->decider_player_minecraft_id = $deciderPlayerMinecraftId;
         $banAppeal->status = $status;
         $banAppeal->decided_at = now();
         $banAppeal->save();
