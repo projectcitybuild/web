@@ -32,14 +32,17 @@ class ServerFactory extends Factory
             'is_port_visible' => true,
             'is_visible' => true,
             'is_querying' => true,
+            'server_category_id' => ServerCategory::factory()->create()->getKey(),
         ];
     }
 
+    /**
+     * @deprecated since a category is required, this is now default
+     */
     public function hasCategory()
     {
         return $this->state(function (array $attributes) {
             return [
-                'server_category_id' => ServerCategory::factory()->create()->getKey(),
             ];
         });
     }

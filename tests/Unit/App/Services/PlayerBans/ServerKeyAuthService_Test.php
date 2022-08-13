@@ -6,6 +6,7 @@ use App\Exceptions\Http\ForbiddenException;
 use App\Exceptions\Http\UnauthorisedException;
 use App\Services\PlayerBans\Exceptions\MalformedTokenException;
 use App\Services\PlayerBans\ServerKeyAuthService;
+use Entities\Models\Eloquent\Server;
 use Entities\Models\Eloquent\ServerKey;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -44,9 +45,10 @@ class ServerKeyAuthService_Test extends TestCase
 
     public function testRegisteredKey()
     {
+        $server = Server::factory()->create();
         // given...
         ServerKey::create([
-            'server_id' => 1,
+            'server_id' => $server->getKey(),
             'token' => 'valid_key',
             'can_local_ban' => true,
             'can_global_ban' => true,
