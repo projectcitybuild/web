@@ -35,15 +35,4 @@ class ServerFactory extends Factory
             'server_category_id' => ServerCategory::factory()->create()->getKey(),
         ];
     }
-
-    /**
-     * @deprecated since a category is required, this is now default
-     */
-    public function hasCategory()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-            ];
-        });
-    }
 }

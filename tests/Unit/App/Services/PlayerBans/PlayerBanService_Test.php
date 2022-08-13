@@ -25,7 +25,7 @@ class PlayerBanService_Test extends TestCase
         parent::setUp();
 
         $this->service = resolve(PlayerBanService::class);
-        $this->server = Server::factory()->hasCategory()->create();
+        $this->server = Server::factory()->create();
     }
 
     private function makeServerKey(int $serverId): ServerKey
