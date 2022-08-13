@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Library\Auditing\Traits\Linkable;
 use Library\Auditing\Traits\LogsActivity;
 use Shared\PlayerLookup\Contracts\Player;
 use Spatie\Activitylog\LogOptions;
