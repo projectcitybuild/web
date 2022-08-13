@@ -6,7 +6,6 @@ use App\Services\PlayerBans\Exceptions\UserNotBannedException;
 use App\Services\PlayerBans\PlayerBanService;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\MinecraftPlayerAlias;
 use Entities\Models\Eloquent\Server;
 use Entities\Models\Eloquent\ServerKey;
 use Entities\Models\GamePlayerType;
@@ -136,7 +135,7 @@ class PlayerBanService_Test extends TestCase
             'reason' => 'test_reason',
             'is_active' => true,
             'is_global_ban' => true,
-            'expires_at' => null
+            'expires_at' => null,
         ]);
 
         $this->service->unban($bannedPlayer->uuid, $staffPlayer->uuid);
