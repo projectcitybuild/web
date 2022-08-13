@@ -2,8 +2,8 @@
 
 namespace Tests\Support;
 
-use Exception;
 use Illuminate\Support\Collection;
+use RuntimeException;
 
 /**
  * Modify application config and reset on teardown
@@ -18,12 +18,12 @@ trait TemporaryConfig
      *
      * @return void
      *
-     * @throws Exception if temporary values were not properly restored last time
+     * @throws RuntimeException if temporary values were not properly restored last time
      */
     public function setUpTemporaryConfig(): void
     {
         if (isset($this->originalValues) && $this->originalValues->isNotEmpty()) {
-            throw new Exception('Attempted to setup whilst temporary config array still had content');
+            throw new RuntimeException('Attempted to setup whilst temporary config array still had content');
         }
 
         $this->originalValues = collect();
@@ -57,7 +57,11 @@ trait TemporaryConfig
     public function setTemporaryConfig(string $key, mixed $value): void
     {
         if (! config()->has($key)) {
-            throw new \RuntimeException("Config item `$key` could not be set as it does not exist");
+            throw new RuntimeException("Config item `$key` could not be set as it does not exist");
+        }
+
+        if (! isset($this->originalValues)) {
+            throw new RuntimeException('Attempted to set temporary config value, but trait was not initialised.');
         }
 
         if ($this->hasNotBeenModified($key)) {
