@@ -2,27 +2,25 @@
 
 namespace Tests\Unit\Library\Google2FA;
 
-use Illuminate\Support\Facades\Config;
 use Library\Google2FA\Exceptions\Dangerous2FABypassException;
 use Library\Google2FA\Google2FAFake;
+use Tests\Support\TemporaryConfig;
 use Tests\TestCase;
 
 class Google2FAFakeTest extends TestCase
 {
+    use TemporaryConfig;
+
     private function mockAuthBypassConf($toBe)
     {
-        Config::shouldReceive('get')
-            ->with('auth.totp.bypass', null)
-            ->andReturn($toBe);
+        $this->setTemporaryConfig('auth.totp.bypass', $toBe);
 
         return $this;
     }
 
     private function mockAppDebug($toBe)
     {
-        Config::shouldReceive('get')
-            ->with('app.debug', null)
-            ->andReturn($toBe);
+        $this->setTemporaryConfig('app.debug', $toBe);
 
         return $this;
     }
