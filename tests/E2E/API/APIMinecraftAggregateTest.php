@@ -35,7 +35,7 @@ class APIMinecraftAggregateTest extends E2ETestCase
         $group = Group::factory()->create();
         $account->groups()->attach($group);
 
-        $server = Server::factory()->hasCategory()->create();
+        $server = Server::factory()->create();
         $staffPlayer = MinecraftPlayer::factory()->create();
         $ban = GameBan::factory()
             ->active()
@@ -168,7 +168,7 @@ class APIMinecraftAggregateTest extends E2ETestCase
     {
         $player = MinecraftPlayer::factory()->create();
 
-        $server = Server::factory()->hasCategory()->create();
+        $server = Server::factory()->create();
         $staffPlayer = MinecraftPlayer::factory()->create();
         $ban = GameBan::factory()
             ->active()
