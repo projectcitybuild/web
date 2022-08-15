@@ -57,6 +57,11 @@ class BanAppeal extends Model
         return $this->gameBan->bannedPlayer->account?->email ?? $this->email;
     }
 
+    public function routeNotificationForDiscord(): string
+    {
+        return config('discord.webhook_ban_appeal_channel');
+    }
+
     public function getBannedPlayerName()
     {
         return $this->gameBan->bannedPlayer->getBanReadableName() ??
