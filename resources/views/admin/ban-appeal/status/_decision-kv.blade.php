@@ -12,8 +12,8 @@
             Decided By
         </dt>
         <dd class="col-md-9">
-            <a href="{{ route('front.panel.accounts.show', $banAppeal->deciderAccount) }}">
-                {{ $banAppeal->deciderAccount->username }}
+            <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->deciderPlayer) }}">
+                {{ $banAppeal->deciderPlayer->getBanReadableName() ?? 'No Alias' }}
             </a>
         </dd>
     </div>

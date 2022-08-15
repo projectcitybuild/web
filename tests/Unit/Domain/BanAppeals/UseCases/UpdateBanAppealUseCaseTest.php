@@ -4,8 +4,11 @@ namespace Tests\Unit\Domain\BanAppeals\UseCases;
 
 use App\Exceptions\Http\NotImplementedException;
 use Domain\BanAppeals\Entities\BanAppealStatus;
+use Domain\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use Domain\BanAppeals\UseCases\UpdateBanAppealUseCase;
+use Domain\Bans\Exceptions\PlayerNotBannedException;
 use Domain\Bans\UseCases\CreateUnbanUseCase;
+use Domain\Panel\Exceptions\NoPlayerForActionException;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\GameBan;
@@ -19,6 +22,7 @@ class UpdateBanAppealUseCaseTest extends TestCase
     private UpdateBanAppealUseCase $useCase;
     private BanAppealRepository $banAppealRepository;
     private CreateUnbanUseCase $unbanUseCase;
+    private Account $decidingAccount;
     private MinecraftPlayer $banningPlayer;
     private MinecraftPlayer $decidingPlayer;
     private MinecraftPlayer $bannedPlayer;
@@ -37,8 +41,9 @@ class UpdateBanAppealUseCaseTest extends TestCase
             unbanUseCase: $this->unbanUseCase
         );
 
+        $this->decidingAccount = Account::factory()->create();
         $this->banningPlayer = MinecraftPlayer::factory()->for(Account::factory())->create();
-        $this->decidingPlayer = MinecraftPlayer::factory()->for(Account::factory())->create();
+        $this->decidingPlayer = MinecraftPlayer::factory()->for($this->decidingAccount)->create();
         $this->bannedPlayer = MinecraftPlayer::factory()->create();
         $this->gameBan = GameBan::factory()->bannedPlayer($this->bannedPlayer)->active()->create();
         $this->banAppeal = BanAppeal::factory()->for($this->gameBan)->create();
@@ -68,7 +73,7 @@ class UpdateBanAppealUseCaseTest extends TestCase
 
         $this->useCase->execute(
             banAppeal: $this->banAppeal,
-            decidingPlayer: $this->decidingPlayer,
+            decidingAccount: $this->decidingAccount,
             decisionNote: $this->decisionNote,
             status: BanAppealStatus::ACCEPTED_UNBAN
         );
@@ -84,7 +89,7 @@ class UpdateBanAppealUseCaseTest extends TestCase
 
         $this->useCase->execute(
             banAppeal: $this->banAppeal,
-            decidingPlayer: $this->decidingPlayer,
+            decidingAccount: $this->decidingAccount,
             decisionNote: $this->decisionNote,
             status: BanAppealStatus::DENIED
         );
@@ -98,9 +103,51 @@ class UpdateBanAppealUseCaseTest extends TestCase
         $this->expectException(NotImplementedException::class);
         $this->useCase->execute(
             banAppeal: $this->banAppeal,
-            decidingPlayer: $this->decidingPlayer,
+            decidingAccount: $this->decidingAccount,
             decisionNote: $this->decisionNote,
             status: BanAppealStatus::ACCEPTED_TEMPBAN
+        );
+    }
+
+    public function test_throws_exception_if_appeal_decided()
+    {
+        $decidedAppeal = BanAppeal::factory()->unbanned()->for($this->gameBan)->create();
+        $this->expectException(AppealAlreadyDecidedException::class);
+        $this->useCase->execute(
+            banAppeal: $decidedAppeal,
+            decidingAccount: $this->decidingAccount,
+            decisionNote: $this->decisionNote,
+            status: BanAppealStatus::ACCEPTED_UNBAN,
+        );
+    }
+
+    public function test_throws_exception_if_no_player_for_action()
+    {
+        $accountWithNoPlayer = Account::factory()->create();
+        $this->expectException(NoPlayerForActionException::class);
+        $this->useCase->execute(
+            banAppeal: $this->banAppeal,
+            decidingAccount: $accountWithNoPlayer,
+            decisionNote: $this->decisionNote,
+            status: BanAppealStatus::ACCEPTED_UNBAN,
+        );
+    }
+
+    public function test_throws_exception_if_unbanned_manually()
+    {
+        $this->banAppealRepository->expects('updateDecision')
+            ->once();
+
+        $this->unbanUseCase->expects('execute')
+            ->once()
+            ->andThrows(PlayerNotBannedException::class);
+
+        $this->expectException(PlayerNotBannedException::class);
+        $this->useCase->execute(
+            banAppeal: $this->banAppeal,
+            decidingAccount: $this->decidingAccount,
+            decisionNote: $this->decisionNote,
+            status: BanAppealStatus::ACCEPTED_UNBAN,
         );
     }
 }

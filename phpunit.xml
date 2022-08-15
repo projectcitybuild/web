@@ -34,7 +34,9 @@
     <env name="MAIL_MAILER" value="array"/>
     <env name="QUEUE_CONNECTION" value="sync"/>
     <env name="SESSION_DRIVER" value="array"/>
-    <env name="DB_CONNECTION" value="tests"/>
+    <env name="DB_CONNECTION" value="mysql"/>
+    <env name="DB_HOST" value="mariadb_test"/>
+    <env name="DB_DATABASE" value="default_test"/>
     <env name="RECAPTCHA_ENABLED" value="false"/>
     <env name="SCOUT_DRIVER" value="null" />
     <env name="STRIPE_SECRET" value="sk_test_3dyAn3Pfa23JF6SlJb8qY5VR"/>

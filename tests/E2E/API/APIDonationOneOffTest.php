@@ -3,6 +3,7 @@
 namespace Tests\E2E\API;
 
 use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Donation;
 use Entities\Models\Eloquent\DonationTier;
 use Entities\Models\Eloquent\Group;
 use Entities\Models\Eloquent\StripeProduct;
@@ -93,6 +94,8 @@ class APIDonationOneOffTest extends E2ETestCase
             'amount' => 3.00,
         ]);
 
+        $donationId = Donation::first()->getKey();
+
         $this->assertDatabaseHas('payments', [
             'account_id' => $this->account->getKey(),
             'stripe_price' => self::PRICE_ID,
@@ -104,7 +107,7 @@ class APIDonationOneOffTest extends E2ETestCase
 
         $this->assertDatabaseHas('donation_perks', [
             'donation_tier_id' => $this->donationTier->getKey(),
-            'donation_id' => 1,
+            'donation_id' => $donationId,
             'account_id' => $this->account->getKey(),
             'is_active' => true,
             'expires_at' => $this->now->copy()->addMonth(),
@@ -137,6 +140,8 @@ class APIDonationOneOffTest extends E2ETestCase
             'amount' => $amountPaid / 100,
         ]);
 
+        $donationId = Donation::first()->getKey();
+
         $this->assertDatabaseHas('payments', [
             'account_id' => $this->account->getKey(),
             'stripe_price' => self::PRICE_ID,
@@ -148,7 +153,7 @@ class APIDonationOneOffTest extends E2ETestCase
 
         $this->assertDatabaseHas('donation_perks', [
             'donation_tier_id' => $this->donationTier->getKey(),
-            'donation_id' => 1,
+            'donation_id' => $donationId,
             'account_id' => $this->account->getKey(),
             'is_active' => true,
             'expires_at' => $this->now->copy()->addMonths($quantityPurchased),

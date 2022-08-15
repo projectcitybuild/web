@@ -3,25 +3,18 @@
 namespace Tests\Feature;
 
 use Entities\Models\PanelGroupScope;
-use Illuminate\Support\Facades\Config;
 use Tests\E2ETestCase;
+use Tests\Support\TemporaryConfig;
 
 class TelescopeAccessTest extends E2ETestCase
 {
-    protected string $originalEnv;
+    use TemporaryConfig;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->originalEnv = config('app.env');
-        Config::set('app.env', 'production');
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        Config::set('app.env', $this->originalEnv);
+        $this->setTemporaryConfig('app.env', 'production');
     }
 
     public function test_telescope_access_forbidden()
