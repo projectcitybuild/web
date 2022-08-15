@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\v1\MinecraftAggregateController;
 use App\Http\Controllers\Api\v1\MinecraftBadgeController;
 use App\Http\Controllers\Api\v1\MinecraftBalanceController;
 use App\Http\Controllers\Api\v1\MinecraftDonationTierController;
+use App\Http\Controllers\Api\v1\MinecraftShowcaseWarpController;
 use App\Http\Controllers\Api\v1\MinecraftTelemetryController;
 use App\Http\Controllers\Api\v2\GameBanV2Controller;
 use App\Http\Middleware\RequiresServerTokenScope;
@@ -36,28 +37,24 @@ Route::prefix('bans')->group(function () {
     });
 });
 
-Route::prefix('minecraft/{minecraftUUID}')->group(function () {
-    Route::get('donation-tiers', [MinecraftDonationTierController::class, 'show']);
-    Route::get('badges', [MinecraftBadgeController::class, 'show']);
-    Route::get('aggregate', [MinecraftAggregateController::class, 'show']);
+Route::prefix('minecraft')->group(function () {
+    Route::prefix('{minecraftUUID}')->group(function () {
+        Route::get('donation-tiers', [MinecraftDonationTierController::class, 'show']);
+        Route::get('badges', [MinecraftBadgeController::class, 'show']);
+        Route::get('aggregate', [MinecraftAggregateController::class, 'show']);
 
-    Route::middleware(
-        RequiresServerTokenScope::middleware(ScopeKey::ACCOUNT_BALANCE_SHOW),
-    )->group(function () {
-        Route::get('balance', [MinecraftBalanceController::class, 'show']);
+        Route::prefix('balance')->group(function () {
+            Route::get('/', [MinecraftBalanceController::class, 'show'])
+                ->middleware(RequiresServerTokenScope::middleware(ScopeKey::ACCOUNT_BALANCE_SHOW));
+
+            Route::post('deduct', [MinecraftBalanceController::class, 'deduct'])
+                ->middleware(RequiresServerTokenScope::middleware(ScopeKey::ACCOUNT_BALANCE_DEDUCT));
+        });
     });
 
-    Route::middleware(
-        RequiresServerTokenScope::middleware(ScopeKey::ACCOUNT_BALANCE_DEDUCT),
-    )->group(function () {
-        Route::post('balance/deduct', [MinecraftBalanceController::class, 'deduct']);
-    });
-});
+    Route::get('showcase-warps', [MinecraftShowcaseWarpController::class, 'index'])
+        ->middleware(RequiresServerTokenScope::middleware(ScopeKey::SHOWCASE_WARPS_SHOW));
 
-Route::middleware(
-    RequiresServerTokenScope::middleware(ScopeKey::TELEMETRY),
-)->group(function () {
-    Route::prefix('minecraft/telemetry')->group(function () {
-        Route::post('seen', [MinecraftTelemetryController::class, 'playerSeen']);
-    });
+    Route::post('telemetry/seen', [MinecraftTelemetryController::class, 'playerSeen'])
+        ->middleware(RequiresServerTokenScope::middleware(ScopeKey::TELEMETRY));
 });
