@@ -37,7 +37,7 @@ class ServerQueryService_Test extends TestCase
 
     public function test_persists_online_server_status()
     {
-        $server = Server::factory()->hasCategory()->create();
+        $server = Server::factory()->create();
 
         $expectedResult = ServerQueryResult::online(
             numOfPlayers: 1,
@@ -67,7 +67,7 @@ class ServerQueryService_Test extends TestCase
 
     public function test_persists_offline_server_status()
     {
-        $server = Server::factory()->hasCategory()->create();
+        $server = Server::factory()->create();
         $expectedResult = ServerQueryResult::offline();
 
         $this->serverQueryAdapter

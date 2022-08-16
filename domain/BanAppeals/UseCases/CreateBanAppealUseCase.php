@@ -7,7 +7,6 @@ use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Notifications\BanAppealConfirmationNotification;
-use Illuminate\Support\Facades\Http;
 use Repositories\BanAppealRepository;
 
 final class CreateBanAppealUseCase
@@ -50,46 +49,8 @@ final class CreateBanAppealUseCase
             email: $email
         );
 
-        $banAppeal->notify(new BanAppealConfirmationNotification($banAppeal->showLink()));
-        $this->sendDiscordNotification($banAppeal);
+        $banAppeal->notify(new BanAppealConfirmationNotification($banAppeal));
 
         return $banAppeal;
-    }
-
-    /**
-     * TODO: convert to actual notifications along with builder applications
-     */
-    private function sendDiscordNotification(BanAppeal $banAppeal): void
-    {
-        $webhook = config('discord.webhook_ban_appeal_channel');
-        if (! empty($webhook)) {
-            Http::post($webhook, [
-                'content' => 'A new ban appeal has been submitted',
-                'embeds' => [
-                    [
-                        'title' => 'Ban Appeal',
-                        'url' => route('front.panel.ban-appeals.show', $banAppeal->getKey()),
-                        'color' => '7506394',
-                        'fields' => [
-                            [
-                                'name' => 'Banning Staff',
-                                'value' => $banAppeal->additional_notes ?? '-',
-                            ],
-                            [
-                                'name' => 'Ban Reason',
-                                'value' => $banAppeal->gameBan->reason,
-                            ],
-                            [
-                                'name' => 'Appeal Reason',
-                                'value' => $banAppeal->explanation,
-                            ],
-                        ],
-                        'author' => [
-                            'name' => $banAppeal->gameBan->bannedPlayer->getBanReadableName() ?? 'No Alias',
-                        ],
-                    ],
-                ],
-            ]);
-        }
     }
 }

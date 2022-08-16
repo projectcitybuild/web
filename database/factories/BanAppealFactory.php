@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use Domain\BanAppeals\Entities\BanAppealStatus;
-use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
+use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -40,7 +40,7 @@ class BanAppealFactory extends Factory
             return [
                 'decision_note' => $this->faker->paragraph,
                 'decided_at' => now(),
-                'decider_account_id' => Account::factory(),
+                'decider_player_minecraft_id' => MinecraftPlayer::factory(),
             ];
         });
     }

@@ -32,9 +32,9 @@ class BanAppeal extends Model
         return $this->belongsTo(GameBan::class, 'game_ban_id', 'game_ban_id');
     }
 
-    public function deciderAccount(): BelongsTo
+    public function deciderPlayer(): BelongsTo
     {
-        return $this->belongsTo(Account::class, 'decider_account_id', 'account_id');
+        return $this->belongsTo(MinecraftPlayer::class, 'decider_player_minecraft_id', 'player_minecraft_id');
     }
 
     public function scopePending(Builder $query): Builder
@@ -55,6 +55,11 @@ class BanAppeal extends Model
     public function routeNotificationForMail($notification)
     {
         return $this->gameBan->bannedPlayer->account?->email ?? $this->email;
+    }
+
+    public function routeNotificationForDiscord(): string
+    {
+        return config('discord.webhook_ban_appeal_channel');
     }
 
     public function getBannedPlayerName()

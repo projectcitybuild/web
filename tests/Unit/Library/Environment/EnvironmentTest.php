@@ -2,33 +2,19 @@
 
 namespace Tests\Unit\Library\Environment;
 
-use Illuminate\Support\Facades\Config;
 use Library\Environment\Environment;
 use Library\Environment\EnvironmentLevel;
+use Tests\Support\TemporaryConfig;
 use Tests\TestCase;
 
 class EnvironmentTest extends TestCase
 {
-    private string $originalEnv;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->originalEnv = config('app.env');
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-
-        Config::set('app.env', $this->originalEnv);
-    }
+    use TemporaryConfig;
 
     public function test_can_get_level()
     {
         collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
-            Config::set('app.env', $environmentLevel->value);
+            $this->setTemporaryConfig('app.env', $environmentLevel->value);
 
             $this->assertEquals(
                 expected: $environmentLevel,
@@ -40,7 +26,7 @@ class EnvironmentTest extends TestCase
     public function test_is_production_level()
     {
         collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
-            Config::set('app.env', $environmentLevel->value);
+            $this->setTemporaryConfig('app.env', $environmentLevel->value);
 
             $this->assertEquals(
                 expected: $environmentLevel == EnvironmentLevel::PRODUCTION,
@@ -52,7 +38,7 @@ class EnvironmentTest extends TestCase
     public function test_is_staging_level()
     {
         collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
-            Config::set('app.env', $environmentLevel->value);
+            $this->setTemporaryConfig('app.env', $environmentLevel->value);
 
             $this->assertEquals(
                 expected: $environmentLevel == EnvironmentLevel::STAGING,
@@ -64,7 +50,7 @@ class EnvironmentTest extends TestCase
     public function test_is_testing_level()
     {
         collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
-            Config::set('app.env', $environmentLevel->value);
+            $this->setTemporaryConfig('app.env', $environmentLevel->value);
 
             $this->assertEquals(
                 expected: $environmentLevel == EnvironmentLevel::TESTING,
@@ -76,7 +62,7 @@ class EnvironmentTest extends TestCase
     public function test_is_local_dev_level()
     {
         collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
-            Config::set('app.env', $environmentLevel->value);
+            $this->setTemporaryConfig('app.env', $environmentLevel->value);
 
             $this->assertEquals(
                 expected: $environmentLevel == EnvironmentLevel::DEVELOPMENT,

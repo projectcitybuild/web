@@ -5,6 +5,7 @@ namespace Tests\Unit\App\Services\PlayerBans;
 use App\Services\PlayerBans\Exceptions\UserNotBannedException;
 use App\Services\PlayerBans\PlayerBanService;
 use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\Server;
 use Entities\Models\Eloquent\ServerKey;
 use Entities\Models\GamePlayerType;
@@ -24,7 +25,7 @@ class PlayerBanService_Test extends TestCase
         parent::setUp();
 
         $this->service = resolve(PlayerBanService::class);
-        $this->server = Server::factory()->hasCategory()->create();
+        $this->server = Server::factory()->create();
     }
 
     private function makeServerKey(int $serverId): ServerKey
@@ -40,26 +41,26 @@ class PlayerBanService_Test extends TestCase
 
     public function testCreatesBan()
     {
-        $bannedPlayerId = 1;
         $bannedPlayerAlias = 'test_player';
-        $staffPlayerId = 2;
+        $bannedPlayer = MinecraftPlayer::factory()->create();
+        $staffPlayer = MinecraftPlayer::factory()->create();
         $reason = 'test_reason';
         $serverKey = $this->makeServerKey($this->server->getKey());
 
         $this->service->ban(
             $serverKey,
             $this->server->getKey(),
-            $bannedPlayerId,
+            $bannedPlayer->uuid,
             $bannedPlayerAlias,
-            $staffPlayerId,
+            $staffPlayer->uuid,
             $reason
         );
 
         $this->assertDatabaseHas('game_network_bans', [
             'server_id' => $this->server->getKey(),
-            'banned_player_id' => $bannedPlayerId,
+            'banned_player_id' => $bannedPlayer->getKey(),
             'banned_alias_at_time' => $bannedPlayerAlias,
-            'staff_player_id' => $staffPlayerId,
+            'staff_player_id' => $staffPlayer->getKey(),
             'reason' => $reason,
         ]);
     }
@@ -102,40 +103,50 @@ class PlayerBanService_Test extends TestCase
 
     public function testCreatesUnban()
     {
+        $bannedPlayer = MinecraftPlayer::factory()->create();
+        $staffPlayer = MinecraftPlayer::factory()->create();
         $ban = GameBan::create([
             'server_id' => $this->server->getKey(),
-            'banned_player_id' => 1,
+            'banned_player_id' => $bannedPlayer->getKey(),
             'banned_alias_at_time' => 'test_player',
-            'staff_player_id' => 2,
+            'staff_player_id' => $staffPlayer->getKey(),
             'reason' => 'test_reason',
             'is_active' => true,
             'is_global_ban' => true,
         ]);
 
-        $this->service->unban(1, 2);
+        $this->service->unban($bannedPlayer->uuid, $staffPlayer->uuid);
 
         $this->assertDatabaseHas('game_network_unbans', [
             'game_ban_id' => $ban->getKey(),
-            'staff_player_id' => 2,
+            'staff_player_id' => $staffPlayer->getKey(),
         ]);
     }
 
     public function testDeactivatesBan()
     {
+        $bannedPlayer = MinecraftPlayer::factory()->create();
+        $staffPlayer = MinecraftPlayer::factory()->create();
         $existingBan = GameBan::create([
             'server_id' => $this->server->getKey(),
-            'banned_player_id' => 1,
+            'banned_player_id' => $bannedPlayer->getKey(),
             'banned_alias_at_time' => 'test_player',
-            'staff_player_id' => 2,
+            'staff_player_id' => $staffPlayer->getKey(),
             'reason' => 'test_reason',
             'is_active' => true,
             'is_global_ban' => true,
+            'expires_at' => null,
         ]);
 
-        $this->service->unban(1, 2);
+        $this->service->unban($bannedPlayer->uuid, $staffPlayer->uuid);
 
         $ban = GameBan::find($existingBan->getKey());
         $this->assertEquals(0, $ban->is_active);
+
+        $this->assertDatabaseHas('game_network_bans', [
+            'game_ban_id' => $ban->getKey(),
+            'is_active' => false,
+        ]);
     }
 
     public function testCannotUnbanIfNotBanned()

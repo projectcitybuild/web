@@ -55,7 +55,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "awssat/discord-notification-channel"
+            ]
         }
     },
     "autoload": {

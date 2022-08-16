@@ -2,10 +2,13 @@
 
 namespace Entities\Notifications;
 
+use Awssat\Notifications\Messages\DiscordEmbed;
+use Awssat\Notifications\Messages\DiscordMessage;
 use Entities\Models\Eloquent\BuilderRankApplication;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Str;
 use function route;
 
 class BuilderRankAppSubmittedNotification extends Notification
@@ -30,7 +33,7 @@ class BuilderRankAppSubmittedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'discordHook'];
     }
 
     /**
@@ -53,14 +56,16 @@ class BuilderRankAppSubmittedNotification extends Notification
             ->line('If you have any questions, please feel free to reach out to staff at any time.');
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     *
-     * @return array
-     */
-    public function toArray($notifiable)
+    public function toDiscord()
     {
-        return [];
+        return (new DiscordMessage)
+            ->content('A new builder rank application has arrived.')
+            ->embed(function (DiscordEmbed $embed) {
+                $embed->title('Builder Rank Application', route('front.panel.builder-ranks.show', $this->builderRankApplication))
+                    ->field('Current build rank', $this->builderRankApplication->current_builder_rank)
+                    ->field('Build location', $this->builderRankApplication->build_location)
+                    ->field('Build description', Str::limit($this->builderRankApplication->build_description, 500))
+                    ->author($this->builderRankApplication->minecraft_alias);
+            });
     }
 }

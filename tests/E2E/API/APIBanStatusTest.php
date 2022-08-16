@@ -50,7 +50,7 @@ class APIBanStatusTest extends E2ETestCase
 
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
-        $server = Server::factory()->hasCategory()->create();
+        $server = Server::factory()->create();
 
         $ban = GameBan::factory()
             ->active()
@@ -83,7 +83,7 @@ class APIBanStatusTest extends E2ETestCase
 
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
-        $server = Server::factory()->hasCategory()->create();
+        $server = Server::factory()->create();
 
         $ban = GameBan::factory()
             ->active()
