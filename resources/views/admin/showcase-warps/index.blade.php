@@ -17,6 +17,7 @@
                 <th>Warp Name</th>
                 <th>Title</th>
                 <th>Creators</th>
+                <th>Created At</th>
                 <th></th>
             </tr>
             </thead>
@@ -27,6 +28,7 @@
                     <td>{{ $warp->name }}</td>
                     <td>{{ $warp->title }}</td>
                     <td>{{ $warp->creators }}</td>
+                    <td>{{ $warp->created_at }}</td>
                     <td><a href="{{ route('front.panel.showcase-warps.edit', $warp->getKey()) }}">Edit</a></td>
                 </tr>
             @endforeach
