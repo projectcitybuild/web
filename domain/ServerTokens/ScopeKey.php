@@ -15,6 +15,7 @@ enum ScopeKey: string
     case ACCOUNT_BALANCE_DEDUCT = 'balance:deduct';
 
     case SHOWCASE_WARPS_SHOW = 'showcase-warps:show';
+    case SHOWCASE_WARPS_UPDATE = 'showcase-warps:update';
 
     case TELEMETRY = 'telemetry:all';
 }

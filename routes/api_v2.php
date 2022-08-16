@@ -52,8 +52,13 @@ Route::prefix('minecraft')->group(function () {
         });
     });
 
-    Route::get('showcase-warps', [MinecraftShowcaseWarpController::class, 'index'])
-        ->middleware(RequiresServerTokenScope::middleware(ScopeKey::SHOWCASE_WARPS_SHOW));
+    Route::prefix('showcase-warps')->group(function () {
+        Route::get('/', [MinecraftShowcaseWarpController::class, 'index'])
+            ->middleware(RequiresServerTokenScope::middleware(ScopeKey::SHOWCASE_WARPS_SHOW));
+
+        Route::post('/', [MinecraftShowcaseWarpController::class, 'store'])
+            ->middleware(RequiresServerTokenScope::middleware(ScopeKey::SHOWCASE_WARPS_UPDATE));
+    });
 
     Route::post('telemetry/seen', [MinecraftTelemetryController::class, 'playerSeen'])
         ->middleware(RequiresServerTokenScope::middleware(ScopeKey::TELEMETRY));

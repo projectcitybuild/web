@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('showcase_warps', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('title');
-            $table->text('description');
-            $table->string('creators');
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
+            $table->string('creators')->nullable();
             $table->string('location_world');
             $table->double('location_x');
             $table->double('location_y');
