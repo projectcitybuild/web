@@ -22,6 +22,7 @@ use App\Http\Controllers\Panel\MinecraftPlayerReloadAliasController;
 use App\Http\Controllers\Panel\PageController;
 use App\Http\Controllers\Panel\ServerController;
 use App\Http\Controllers\Panel\ServerTokenController;
+use App\Http\Controllers\Panel\ShowcaseWarpsController;
 use Entities\Models\PanelGroupScope;
 use Illuminate\Support\Facades\Route;
 
@@ -72,6 +73,9 @@ Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
     Route::get('accounts', AccountSearchController::class)
         ->name('account-search');
 });
+
+Route::resource('showcase-warps', ShowcaseWarpsController::class)
+    ->middleware(PanelGroupScope::MANAGE_SHOWCASE_WARPS->toMiddleware());
 
 Route::resource('badges', BadgeController::class)
     ->middleware(PanelGroupScope::MANAGE_BADGES->toMiddleware());
