@@ -54,7 +54,7 @@ final class BuilderRankApplication extends Model
 
     public function routeNotificationForDiscord(): string
     {
-        return config('discord.webhook_ban_appeal_channel');
+        return config('discord.webhook_architect_channel');
     }
 
     public function account(): BelongsTo
