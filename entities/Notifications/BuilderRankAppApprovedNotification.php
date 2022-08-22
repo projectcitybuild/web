@@ -5,10 +5,11 @@ namespace Entities\Notifications;
 use Entities\Models\Eloquent\BuilderRankApplication;
 use Entities\Models\Eloquent\Group;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class BuilderRankAppApprovedNotification extends Notification
+class BuilderRankAppApprovedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 

@@ -3,12 +3,13 @@
 namespace Entities\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
 use function route;
 
-class DonationPerkStartedNotification extends Notification
+class DonationPerkStartedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 

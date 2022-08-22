@@ -3,10 +3,11 @@
 namespace Entities\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AccountMfaDisabledNotification extends Notification
+class AccountMfaDisabledNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 

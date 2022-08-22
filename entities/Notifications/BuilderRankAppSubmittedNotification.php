@@ -6,12 +6,13 @@ use Awssat\Notifications\Messages\DiscordEmbed;
 use Awssat\Notifications\Messages\DiscordMessage;
 use Entities\Models\Eloquent\BuilderRankApplication;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
 use function route;
 
-class BuilderRankAppSubmittedNotification extends Notification
+class BuilderRankAppSubmittedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 

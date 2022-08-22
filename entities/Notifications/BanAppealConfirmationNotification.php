@@ -6,11 +6,12 @@ use Awssat\Notifications\Messages\DiscordEmbed;
 use Awssat\Notifications\Messages\DiscordMessage;
 use Entities\Models\Eloquent\BanAppeal;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
 
-class BanAppealConfirmationNotification extends Notification
+class BanAppealConfirmationNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
