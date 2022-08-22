@@ -167,7 +167,12 @@ return [
     'defaults' => [
         'supervisor-1' => [
             'connection' => 'redis',
-            'queue' => ['default'],
+            'queue' => [
+                'default',
+                'mail',
+                'discord-message',
+                'server-status',
+            ],
             'balance' => 'auto',
             'maxProcesses' => 1,
             'maxTime' => 0,
