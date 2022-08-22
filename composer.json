@@ -97,7 +97,8 @@
             "@php artisan vendor:publish --tag=telescope-assets --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan telescope:publish --ansi"
+            "@php artisan telescope:publish --ansi",
+            "@php artisan horizon:publish --ansi"
         ]
     }
 }
