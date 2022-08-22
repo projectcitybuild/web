@@ -65,7 +65,7 @@ class Kernel extends ConsoleKernel
             ->hourly();
 
         if (! Environment::isLocalDev()) {
-            $schedule->command('server:query --all')
+            $schedule->command('server:query --all --background')
                 ->everyFiveMinutes();
 
             $schedule->command('backup:clean')
