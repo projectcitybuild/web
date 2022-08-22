@@ -37,6 +37,17 @@ class BanAppealConfirmationNotification extends Notification implements ShouldQu
     }
 
     /**
+     * Determine which queues should be used for each notification channel.
+     */
+    public function viaQueues(): array
+    {
+        return [
+            'mail' => 'mail-queue',
+            'discordHook' => 'discord-queue',
+        ];
+    }
+
+    /**
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable

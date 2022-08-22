@@ -32,6 +32,16 @@ class AccountMfaBackupCodeRegeneratedNotification extends Notification implement
     }
 
     /**
+     * Determine which queues should be used for each notification channel.
+     */
+    public function viaQueues(): array
+    {
+        return [
+            'mail' => 'mail-queue',
+        ];
+    }
+
+    /**
      * Get the mail representation of the notification.
      *
      *
