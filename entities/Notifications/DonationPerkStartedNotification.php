@@ -3,12 +3,13 @@
 namespace Entities\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
 use function route;
 
-class DonationPerkStartedNotification extends Notification
+class DonationPerkStartedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -33,6 +34,16 @@ class DonationPerkStartedNotification extends Notification
     public function via($notifiable)
     {
         return ['mail'];
+    }
+
+    /**
+     * Determine which queues should be used for each notification channel.
+     */
+    public function viaQueues(): array
+    {
+        return [
+            'mail' => 'mail',
+        ];
     }
 
     /**

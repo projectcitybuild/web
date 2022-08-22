@@ -3,10 +3,11 @@
 namespace Entities\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-final class AccountPasswordResetNotification extends Notification
+final class AccountPasswordResetNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -21,6 +22,16 @@ final class AccountPasswordResetNotification extends Notification
     public function via($notifiable): array
     {
         return ['mail'];
+    }
+
+    /**
+     * Determine which queues should be used for each notification channel.
+     */
+    public function viaQueues(): array
+    {
+        return [
+            'mail' => 'mail',
+        ];
     }
 
     /**
