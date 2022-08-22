@@ -46,12 +46,11 @@ class Kernel extends ConsoleKernel
         $schedule->command('telescope:prune')
             ->daily();
 
-        if (Environment::isLocalDev()) {
-            return;
-        }
-
-        $schedule->command('server:query --all')
+        $schedule->command('horizon:snapshot')
             ->everyFiveMinutes();
+
+        $schedule->command('passport:purge')
+            ->hourly();
 
         $schedule->command('cleanup:password-resets')
             ->daily();
@@ -65,17 +64,19 @@ class Kernel extends ConsoleKernel
         $schedule->command('donor-perks:reward-currency')
             ->hourly();
 
-        $schedule->command('backup:clean')
-            ->dailyAt('00:00');
+        if (! Environment::isLocalDev()) {
+            $schedule->command('server:query --all')
+                ->everyFiveMinutes();
 
-        $schedule->command('backup:run')
-            ->dailyAt('01:00');
+            $schedule->command('backup:clean')
+                ->dailyAt('00:00');
 
-        $schedule->command('backup:monitor')
-            ->dailyAt('02:00');
+            $schedule->command('backup:run')
+                ->dailyAt('01:00');
 
-        $schedule->command('passport:purge')
-            ->hourly();
+            $schedule->command('backup:monitor')
+                ->dailyAt('02:00');
+        }
     }
 
     /**
