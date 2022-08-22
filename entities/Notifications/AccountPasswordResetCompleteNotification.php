@@ -28,7 +28,7 @@ final class AccountPasswordResetCompleteNotification extends Notification implem
     public function viaQueues(): array
     {
         return [
-            'mail' => 'mail-queue',
+            'mail' => 'mail',
         ];
     }
 

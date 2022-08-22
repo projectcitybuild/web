@@ -37,7 +37,7 @@ class AccountMfaBackupCodeUsedNotification extends Notification implements Shoul
     public function viaQueues(): array
     {
         return [
-            'mail' => 'mail-queue',
+            'mail' => 'mail',
         ];
     }
 

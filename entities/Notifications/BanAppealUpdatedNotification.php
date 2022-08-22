@@ -38,7 +38,7 @@ class BanAppealUpdatedNotification extends Notification implements ShouldQueue
     public function viaQueues(): array
     {
         return [
-            'mail' => 'mail-queue',
+            'mail' => 'mail',
         ];
     }
 

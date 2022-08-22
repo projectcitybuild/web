@@ -37,7 +37,7 @@ class AccountMfaBackupCodeRegeneratedNotification extends Notification implement
     public function viaQueues(): array
     {
         return [
-            'mail' => 'mail-queue',
+            'mail' => 'mail',
         ];
     }
 

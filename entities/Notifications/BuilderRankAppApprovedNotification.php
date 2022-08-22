@@ -41,7 +41,7 @@ class BuilderRankAppApprovedNotification extends Notification implements ShouldQ
     public function viaQueues(): array
     {
         return [
-            'mail' => 'mail-queue',
+            'mail' => 'mail',
         ];
     }
 

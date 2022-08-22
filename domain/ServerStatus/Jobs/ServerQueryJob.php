@@ -23,7 +23,7 @@ final class ServerQueryJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        private Server $server
+        private readonly Server $server
     ) {
     }
 
@@ -32,7 +32,9 @@ final class ServerQueryJob implements ShouldQueue
      */
     public function middleware(): array
     {
-        return [new WithoutOverlapping($this->server->getKey())];
+        return [
+            (new WithoutOverlapping($this->server->getKey()))->dontRelease(),
+        ];
     }
 
     /**

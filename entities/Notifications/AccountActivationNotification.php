@@ -30,7 +30,7 @@ final class AccountActivationNotification extends Notification implements Should
     public function viaQueues(): array
     {
         return [
-            'mail' => 'mail-queue',
+            'mail' => 'mail',
         ];
     }
 

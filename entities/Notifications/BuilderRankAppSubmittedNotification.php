@@ -43,8 +43,8 @@ class BuilderRankAppSubmittedNotification extends Notification implements Should
     public function viaQueues(): array
     {
         return [
-            'mail' => 'mail-queue',
-            'discordHook' => 'discord-queue',
+            'mail' => 'mail',
+            'discordHook' => 'discord-message',
         ];
     }
 

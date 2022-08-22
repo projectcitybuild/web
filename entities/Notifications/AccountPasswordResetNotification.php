@@ -30,7 +30,7 @@ final class AccountPasswordResetNotification extends Notification implements Sho
     public function viaQueues(): array
     {
         return [
-            'mail' => 'mail-queue',
+            'mail' => 'mail',
         ];
     }
 

@@ -42,7 +42,7 @@ class DonationPerkStartedNotification extends Notification implements ShouldQueu
     public function viaQueues(): array
     {
         return [
-            'mail' => 'mail-queue',
+            'mail' => 'mail',
         ];
     }
 
