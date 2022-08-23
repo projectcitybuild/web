@@ -46,7 +46,7 @@ final class GameBanV2Controller extends ApiController
         if ($expiresAt !== null) {
             $expiresAt = Carbon::createFromTimestamp($expiresAt);
 
-            if ($expiresAt->lt(now()->getTimestamp())) {
+            if ($expiresAt->lt(now())) {
                 throw new BadRequestException('bad_input', 'Expiry date cannot be in the past');
             }
         }
@@ -109,16 +109,16 @@ final class GameBanV2Controller extends ApiController
         GetActiveBanUseCase $getActiveBans,
     ): GameBanV2Resource|array {
         $this->validateRequest($request->all(), [
-            'banned_player_id' => 'required|max:60',
-            'banner_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
+            'player_id' => 'required|max:60',
+            'player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
         ], [
             'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
         ]);
 
         $ban = $getActiveBans->execute(
             playerIdentifier: new PlayerIdentifier(
-                key: $request->get('banned_player_id'),
-                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('banner_player_type')),
+                key: $request->get('player_id'),
+                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('player_type')),
             ),
         );
 
@@ -137,16 +137,16 @@ final class GameBanV2Controller extends ApiController
         GetAllBansUseCase $getBans,
     ): AnonymousResourceCollection {
         $this->validateRequest($request->all(), [
-            'banned_player_id' => 'required|max:60',
-            'banner_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
+            'player_id' => 'required|max:60',
+            'player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
         ], [
             'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
         ]);
 
         $bans = $getBans->execute(
             playerIdentifier: new PlayerIdentifier(
-                key: $request->get('banned_player_id'),
-                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('banner_player_type')),
+                key: $request->get('player_id'),
+                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('player_type')),
             ),
         );
 

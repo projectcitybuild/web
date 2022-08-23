@@ -66,10 +66,10 @@ class APIBanStatusTest extends E2ETestCase
             ])
             ->assertJson([
                 'data' => [
-                    'game_ban_id' => $ban->getKey(),
+                    'id' => $ban->getKey(),
                     'server_id' => $server->getKey(),
                     'banned_player_id' => $player1->getKey(),
-                    'staff_player_id' => $player2->getKey(),
+                    'banner_player_id' => $player2->getKey(),
                     'is_active' => true,
                     'expires_at' => null,
                 ],
@@ -100,10 +100,10 @@ class APIBanStatusTest extends E2ETestCase
             ])
             ->assertJson([
                 'data' => [
-                    'game_ban_id' => $ban->getKey(),
+                    'id' => $ban->getKey(),
                     'server_id' => $server->getKey(),
                     'banned_player_id' => $player1->getKey(),
-                    'staff_player_id' => $player2->getKey(),
+                    'banner_player_id' => $player2->getKey(),
                     'is_active' => true,
                     'expires_at' => $ban->expires_at->timestamp,
                 ],

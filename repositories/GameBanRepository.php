@@ -47,7 +47,7 @@ class GameBanRepository
     public function all(MinecraftPlayer $player): Collection
     {
         return GameBan::where('banned_player_id', $player->getKey())
-            ->active()
+            ->orderBy('created_at', 'desc')
             ->limit(25)
             ->get();
     }
