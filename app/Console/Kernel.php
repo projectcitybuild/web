@@ -5,7 +5,7 @@ namespace App\Console;
 use App\Console\Commands\AccountCreatedAtImport;
 use App\Console\Commands\CleanupUnactivatedAccountsCommand;
 use App\Console\Commands\DeactivateDonatorPerksCommand;
-use App\Console\Commands\DeleteExpiredPasswordResetsCommand;
+use App\Console\Commands\CleanupExpiredPasswordResetsCommand;
 use App\Console\Commands\GenerateSitemapCommand;
 use App\Console\Commands\RepairMissingGroupsCommand;
 use App\Console\Commands\RewardCurrencyToDonorsCommand;
@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         CleanupUnactivatedAccountsCommand::class,
         DeactivateDonatorPerksCommand::class,
-        DeleteExpiredPasswordResetsCommand::class,
+        CleanupExpiredPasswordResetsCommand::class,
         GenerateSitemapCommand::class,
         RepairMissingGroupsCommand::class,
         RewardCurrencyToDonorsCommand::class,
