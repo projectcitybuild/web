@@ -52,6 +52,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('passport:purge')
             ->hourly();
 
+        $schedule->command('sitemap:generate')
+            ->daily();
+
         $schedule->command('cleanup:password-resets')
             ->daily();
 
@@ -63,6 +66,9 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('donor-perks:reward-currency')
             ->hourly();
+
+        $schedule->command('bans:expire')
+            ->everyFifteenMinutes();
 
         if (! Environment::isLocalDev()) {
             $schedule->command('server:query --all --background')

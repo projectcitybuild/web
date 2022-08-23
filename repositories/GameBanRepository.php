@@ -59,4 +59,10 @@ class GameBanRepository
             ->whereNotNull('expires_at')
             ->update(['is_active' => false]);
     }
+
+    public function deactivateActiveExpired() {
+        GameBan::where('is_active', true)
+            ->where('expired_at', '<=', now())
+            ->save(['is_active', false]);
+    }
 }
