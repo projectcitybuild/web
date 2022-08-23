@@ -11,8 +11,8 @@ use Domain\Bans\UseCases\CreateUnbanUseCase;
 use Domain\Bans\UseCases\GetActiveBanUseCase;
 use Domain\Bans\UseCases\GetAllBansUseCase;
 use Entities\Models\PlayerIdentifierType;
-use Entities\Resources\GameBanResource;
-use Entities\Resources\GameUnbanResource;
+use Entities\Resources\GameBanV2Resource;
+use Entities\Resources\GameUnbanV2Resource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Carbon;
@@ -28,7 +28,7 @@ final class GameBanV2Controller extends ApiController
     public function ban(
         Request $request,
         CreateBanUseCase $createBan,
-    ): GameBanResource {
+    ): GameBanV2Resource {
         $this->validateRequest($request->all(), [
             'banned_player_id' => 'required|max:60',
             'banned_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
@@ -67,7 +67,7 @@ final class GameBanV2Controller extends ApiController
             expiresAt: $expiresAt,
         );
 
-        return new GameBanResource($ban);
+        return new GameBanV2Resource($ban);
     }
 
     /**
@@ -77,7 +77,7 @@ final class GameBanV2Controller extends ApiController
     public function unban(
         Request $request,
         CreateUnbanUseCase $createUnban,
-    ): GameUnbanResource {
+    ): GameUnbanV2Resource {
         $this->validateRequest($request->all(), [
             'banned_player_id' => 'required|max:60',
             'banned_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
@@ -98,7 +98,7 @@ final class GameBanV2Controller extends ApiController
             ),
         );
 
-        return new GameUnbanResource($unban);
+        return new GameUnbanV2Resource($unban);
     }
 
     /**
@@ -107,7 +107,7 @@ final class GameBanV2Controller extends ApiController
     public function status(
         Request $request,
         GetActiveBanUseCase $getActiveBans,
-    ): GameBanResource|array {
+    ): GameBanV2Resource|array {
         $this->validateRequest($request->all(), [
             'banned_player_id' => 'required|max:60',
             'banner_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
@@ -126,7 +126,7 @@ final class GameBanV2Controller extends ApiController
             return ['data' => null];
         }
 
-        return new GameBanResource($ban);
+        return new GameBanV2Resource($ban);
     }
 
     /**
@@ -150,6 +150,6 @@ final class GameBanV2Controller extends ApiController
             ),
         );
 
-        return GameBanResource::collection($bans);
+        return GameBanV2Resource::collection($bans);
     }
 }
