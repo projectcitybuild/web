@@ -6,6 +6,7 @@ use App\Exceptions\Http\BadRequestException;
 use App\Http\ApiController;
 use Domain\Bans\Exceptions\PlayerAlreadyBannedException;
 use Domain\Bans\Exceptions\PlayerNotBannedException;
+use Domain\Bans\UseCases\ConvertToPermanentBanUseCase;
 use Domain\Bans\UseCases\CreateBanUseCase;
 use Domain\Bans\UseCases\CreateUnbanUseCase;
 use Domain\Bans\UseCases\GetActiveBanUseCase;
@@ -99,6 +100,37 @@ final class GameBanV2Controller extends ApiController
         );
 
         return new GameUnbanV2Resource($unban);
+    }
+
+    /**
+     * @throws PlayerAlreadyBannedException
+     * @throws BadRequestException
+     */
+    public function convertToPermanent(
+        Request $request,
+        ConvertToPermanentBanUseCase $convertToPermanentBan,
+    ): GameBanV2Resource {
+        $this->validateRequest($request->all(), [
+            'ban_id' => 'required|integer',
+            'banner_player_id' => 'required|max:60',
+            'banner_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
+            'banner_player_alias' => 'required',
+            'reason' => 'string',
+        ], [
+            'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
+        ]);
+
+        $newBan = $convertToPermanentBan->execute(
+            banId: $request->get('ban_id'),
+            bannerPlayerIdentifier: new PlayerIdentifier(
+                key: $request->get('banner_player_id'),
+                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('banner_player_type')),
+            ),
+            bannerPlayerAlias: $request->get('banner_player_alias'),
+            banReason: $request->get('reason'),
+        );
+
+        return new GameBanV2Resource($newBan);
     }
 
     /**

@@ -30,9 +30,9 @@ class CreateUnbanUseCase
         PlayerIdentifier $bannedPlayerIdentifier,
         PlayerIdentifier $unbannerPlayerIdentifier,
     ): GameUnban {
-        $bannedPlayer = $this->playerLookup->findOrCreate($bannedPlayerIdentifier);
-        $existingBan = $this->gameBanRepository->firstActiveBan(player: $bannedPlayer, skipTempBans: false)
-            ?? throw new PlayerNotBannedException();
+        $existingBan = $this->gameBanRepository->firstActiveBan(
+            player: $this->playerLookup->findOrCreate($bannedPlayerIdentifier)
+        ) ?? throw new PlayerNotBannedException();
 
         $unbannerPlayer = $this->playerLookup->findOrCreate(identifier: $unbannerPlayerIdentifier);
 

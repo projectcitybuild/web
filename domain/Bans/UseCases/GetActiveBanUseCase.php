@@ -22,8 +22,8 @@ final class GetActiveBanUseCase
     public function execute(
         PlayerIdentifier $playerIdentifier,
     ): ?GameBan {
-        $mcPlayer = $this->playerLookup->findOrCreate($playerIdentifier);
-
-        return $this->gameBanRepository->firstActiveBan(player: $mcPlayer, skipTempBans: false);
+        return $this->gameBanRepository->firstActiveBan(
+            player: $this->playerLookup->findOrCreate($playerIdentifier)
+        );
     }
 }

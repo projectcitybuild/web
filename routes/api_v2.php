@@ -27,6 +27,7 @@ Route::prefix('bans')->group(function () {
     )->group(function () {
         Route::post('ban', [GameBanV2Controller::class, 'ban']);
         Route::post('unban', [GameBanV2Controller::class, 'unban']);
+        Route::post('convert_to_permanent', [GameBanV2Controller::class, 'convertToPermanent']);
     });
 
     Route::middleware([

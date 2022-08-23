@@ -44,11 +44,7 @@ final class CreateBanUseCase
             playerAlias: $bannedPlayerAlias,
         );
 
-        $isPermanentBan = $expiresAt === null;
-        $existingBan = $this->gameBanRepository->firstActiveBan(
-            player: $bannedPlayer,
-            skipTempBans: $isPermanentBan, // Permanent bans can override temporary bans
-        );
+        $existingBan = $this->gameBanRepository->firstActiveBan(player: $bannedPlayer);
         if ($existingBan !== null) {
             throw new PlayerAlreadyBannedException();
         }
@@ -60,9 +56,6 @@ final class CreateBanUseCase
 
         DB::beginTransaction();
         try {
-            if ($isPermanentBan) {
-                $this->gameBanRepository->deactivateAllTemporaryBans(player: $bannedPlayer);
-            }
             $ban = $this->gameBanRepository->create(
                 serverId: $serverId,
                 bannedPlayerId: $bannedPlayer->getKey(),
