@@ -8,11 +8,13 @@ use Domain\Bans\Exceptions\PlayerAlreadyBannedException;
 use Domain\Bans\Exceptions\PlayerNotBannedException;
 use Domain\Bans\UseCases\CreateBanUseCase;
 use Domain\Bans\UseCases\CreateUnbanUseCase;
-use Domain\Bans\UseCases\GetBanUseCase;
+use Domain\Bans\UseCases\GetActiveBanUseCase;
+use Domain\Bans\UseCases\GetAllBansUseCase;
 use Entities\Models\PlayerIdentifierType;
 use Entities\Resources\GameBanResource;
 use Entities\Resources\GameUnbanResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
@@ -43,6 +45,10 @@ final class GameBanV2Controller extends ApiController
         $expiresAt = $request->get('expires_at');
         if ($expiresAt !== null) {
             $expiresAt = Carbon::createFromTimestamp($expiresAt);
+
+            if ($expiresAt->lt(now()->getTimestamp())) {
+                throw new BadRequestException('bad_input', 'Expiry date cannot be in the past');
+            }
         }
 
         $ban = $createBan->execute(
@@ -84,11 +90,11 @@ final class GameBanV2Controller extends ApiController
         $unban = $createUnban->execute(
             bannedPlayerIdentifier: new PlayerIdentifier(
                 key: $request->get('banned_player_id'),
-                gameIdentifierType: PlayerIdentifierType::tryFrom($request->Get('banned_player_type')),
+                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('banned_player_type')),
             ),
             unbannerPlayerIdentifier: new PlayerIdentifier(
                 key: $request->get('banner_player_id'),
-                gameIdentifierType: PlayerIdentifierType::tryFrom($request->Get('banner_player_type')),
+                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('banner_player_type')),
             ),
         );
 
@@ -100,19 +106,19 @@ final class GameBanV2Controller extends ApiController
      */
     public function status(
         Request $request,
-        GetBanUseCase $getBan,
+        GetActiveBanUseCase $getActiveBans,
     ): GameBanResource|array {
         $this->validateRequest($request->all(), [
-            'player_id' => 'required|max:60',
-            'player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
+            'banned_player_id' => 'required|max:60',
+            'banner_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
         ], [
             'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
         ]);
 
-        $ban = $getBan->execute(
+        $ban = $getActiveBans->execute(
             playerIdentifier: new PlayerIdentifier(
-                key: $request->get('player_id'),
-                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('player_type')),
+                key: $request->get('banned_player_id'),
+                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('banner_player_type')),
             ),
         );
 
@@ -121,5 +127,29 @@ final class GameBanV2Controller extends ApiController
         }
 
         return new GameBanResource($ban);
+    }
+
+    /**
+     * @throws BadRequestException
+     */
+    public function all(
+        Request $request,
+        GetAllBansUseCase $getBans,
+    ): AnonymousResourceCollection {
+        $this->validateRequest($request->all(), [
+            'banned_player_id' => 'required|max:60',
+            'banner_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
+        ], [
+            'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
+        ]);
+
+        $bans = $getBans->execute(
+            playerIdentifier: new PlayerIdentifier(
+                key: $request->get('banned_player_id'),
+                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('banner_player_type')),
+            ),
+        );
+
+        return GameBanResource::collection($bans);
     }
 }

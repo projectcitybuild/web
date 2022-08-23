@@ -4,6 +4,7 @@ namespace Repositories;
 
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
 /**
@@ -41,6 +42,14 @@ class GameBanRepository
                 $q->whereNull('expires_at');
             })
             ->first();
+    }
+
+    public function all(MinecraftPlayer $player): Collection
+    {
+        return GameBan::where('banned_player_id', $player->getKey())
+            ->active()
+            ->limit(25)
+            ->get();
     }
 
     public function deactivateAllTemporaryBans(MinecraftPlayer $player)
