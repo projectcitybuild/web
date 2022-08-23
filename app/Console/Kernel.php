@@ -9,9 +9,7 @@ use App\Console\Commands\DeleteExpiredPasswordResetsCommand;
 use App\Console\Commands\GenerateSitemapCommand;
 use App\Console\Commands\RepairMissingGroupsCommand;
 use App\Console\Commands\RewardCurrencyToDonorsCommand;
-use App\Console\Commands\ServerKeyCreateCommand;
 use App\Console\Commands\ServerQueryCommand;
-use App\Console\Commands\StripUUIDHyphensCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Library\Environment\Environment;
@@ -30,9 +28,7 @@ class Kernel extends ConsoleKernel
         GenerateSitemapCommand::class,
         RepairMissingGroupsCommand::class,
         RewardCurrencyToDonorsCommand::class,
-        ServerKeyCreateCommand::class,
         ServerQueryCommand::class,
-        StripUUIDHyphensCommand::class,
         AccountCreatedAtImport::class,
     ];
 
