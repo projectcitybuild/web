@@ -4,6 +4,7 @@ namespace Domain\ServerStatus\Adapters;
 
 use Domain\ServerStatus\Entities\ServerQueryResult;
 use Domain\ServerStatus\ServerQueryAdapter;
+use Illuminate\Support\Facades\Log;
 use xPaw\MinecraftPing;
 use xPaw\MinecraftPingException;
 
@@ -15,6 +16,8 @@ final class MinecraftQueryAdapter implements ServerQueryAdapter
             $ping = new MinecraftPing($ip, $port);
             $response = $ping->Query();
 
+            Log::debug('Successfully pinged server', ['response' => $response]);
+
             $players = $response['players'];
 
             return ServerQueryResult::online(
@@ -22,7 +25,7 @@ final class MinecraftQueryAdapter implements ServerQueryAdapter
                 numOfSlots: $players['max'],
                 onlinePlayerNames: [], // TODO: restore this later
             );
-        } catch (MinecraftPingException $e) {
+        } catch (MinecraftPingException) {
             return ServerQueryResult::offline();
         }
     }
