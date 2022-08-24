@@ -57,14 +57,14 @@ class APIBanAllTest extends E2ETestCase
             ->bannedPlayer($player1)
             ->bannedBy($player2)
             ->server($server)
-            ->create();
+            ->create(['created_at' => now()->subDays(1)]);
 
         $ban2 = GameBan::factory()
             ->inactive()
             ->bannedPlayer($player1)
             ->bannedBy($player2)
             ->server($server)
-            ->create();
+            ->create(['created_at' => now()->subDays(2)]);  // Assertion gets confused without different created_at dates
 
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: [
@@ -78,16 +78,22 @@ class APIBanAllTest extends E2ETestCase
                         'server_id' => $server->getKey(),
                         'banned_player_id' => $player1->getKey(),
                         'banner_player_id' => $player2->getKey(),
+                        'reason' => $ban1->reason,
                         'is_active' => true,
                         'expires_at' => null,
+                        'created_at' => $ban1->created_at->timestamp,
+                        'updated_at' => $ban1->updated_at->timestamp,
                     ],
                     [
                         'id' => $ban2->getKey(),
                         'server_id' => $server->getKey(),
                         'banned_player_id' => $player1->getKey(),
                         'banner_player_id' => $player2->getKey(),
+                        'reason' => $ban2->reason,
                         'is_active' => false,
                         'expires_at' => null,
+                        'created_at' => $ban2->created_at->timestamp,
+                        'updated_at' => $ban2->updated_at->timestamp,
                     ],
                 ],
             ])

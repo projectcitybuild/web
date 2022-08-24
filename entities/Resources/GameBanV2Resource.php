@@ -22,11 +22,11 @@ class GameBanV2Resource extends JsonResource
             'banner_player_id' => $this->staff_player_id,
             'reason' => $this->reason,
             'is_active' => (bool) $this->is_active,
-            'expires_at' => isset($this->expires_at) ? $this->expires_at->timestamp : null,
+            'expires_at' => $this->expires_at?->timestamp,
             'created_at' => $this->created_at->timestamp,
             'updated_at' => $this->updated_at->timestamp,
 
-            'unban' => new GameUnbanV1Resource($this->whenLoaded('unban')),
+            'unban' => new GameUnbanV2Resource($this->whenLoaded('unban')),
         ];
     }
 }

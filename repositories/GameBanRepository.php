@@ -43,7 +43,7 @@ class GameBanRepository
             ->where('is_active', true)
             ->where(function ($q) {
                 $q->whereNull('expires_at')
-                    ->orWhere('expires_at', '<=', now());
+                    ->orWhereDate('expires_at', '>=', now());
             })
             ->first();
     }

@@ -2,6 +2,7 @@
 
 namespace Domain\Bans\UseCases;
 
+use App\Exceptions\Http\NotFoundException;
 use Domain\Bans\Exceptions\PlayerNotBannedException;
 use Entities\Models\Eloquent\GameUnban;
 use Illuminate\Support\Facades\DB;
@@ -30,9 +31,11 @@ class CreateUnbanUseCase
         PlayerIdentifier $bannedPlayerIdentifier,
         PlayerIdentifier $unbannerPlayerIdentifier,
     ): GameUnban {
-        $existingBan = $this->gameBanRepository->firstActiveBan(
-            player: $this->playerLookup->findOrCreate($bannedPlayerIdentifier)
-        ) ?? throw new PlayerNotBannedException();
+        $player = $this->playerLookup->find(identifier: $bannedPlayerIdentifier)
+            ?? throw new PlayerNotBannedException();
+
+        $existingBan = $this->gameBanRepository->firstActiveBan(player: $player)
+            ?? throw new PlayerNotBannedException();
 
         $unbannerPlayer = $this->playerLookup->findOrCreate(identifier: $unbannerPlayerIdentifier);
 

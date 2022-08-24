@@ -71,8 +71,7 @@ class GameBanFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'expires_at' => $this->faker->dateTimeBetween('+1 days', '+1 year'),
-
+                'expires_at' => now()->addDays(rand(1, 365)),
             ];
         });
     }

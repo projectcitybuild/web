@@ -66,7 +66,6 @@ class LookupBanUseCaseTest extends TestCase
                 \Mockery::on(function ($arg) use ($playerId) {
                     return $arg->getKey() == $playerId;
                 }),
-                \Mockery::on(fn () => true),
             )
             ->andReturn($bans);
     }
