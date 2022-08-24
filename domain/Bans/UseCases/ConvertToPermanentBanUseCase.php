@@ -22,9 +22,9 @@ final class ConvertToPermanentBanUseCase
     /**
      * Converts a ban matching the given $banId to a permanent ban
      *
-     * @param PlayerIdentifier $bannerPlayerIdentifier Player that created the ban
-     * @param string $bannerPlayerAlias Name of the player that created the ban at the time
-     * @param string|null $banReason Reason the player was banned
+     * @param  PlayerIdentifier  $bannerPlayerIdentifier Player that created the ban
+     * @param  string  $bannerPlayerAlias Name of the player that created the ban at the time
+     * @param  string|null  $banReason Reason the player was banned
      * @return GameBan
      *
      * @throws NotFoundException if no ban matches the given $banId

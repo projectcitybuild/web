@@ -11,7 +11,8 @@ final class ExpireBansUseCase
     ) {
     }
 
-    public function execute() {
+    public function execute()
+    {
         $this->gameBanRepository->deactivateActiveExpired();
     }
 }

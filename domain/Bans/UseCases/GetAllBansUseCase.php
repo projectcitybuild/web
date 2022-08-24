@@ -16,7 +16,7 @@ final class GetAllBansUseCase
     }
 
     /**
-     * @param PlayerIdentifier $playerIdentifier
+     * @param  PlayerIdentifier  $playerIdentifier
      * @return Collection
      */
     public function execute(

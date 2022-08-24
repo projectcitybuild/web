@@ -2,7 +2,6 @@
 
 namespace Domain\Bans\UseCases;
 
-use App\Exceptions\Http\NotFoundException;
 use Domain\Bans\Exceptions\PlayerNotBannedException;
 use Entities\Models\Eloquent\GameUnban;
 use Illuminate\Support\Facades\DB;
