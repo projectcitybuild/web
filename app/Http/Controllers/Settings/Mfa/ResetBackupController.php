@@ -16,7 +16,7 @@ class ResetBackupController extends WebController
             abort(403);
         }
 
-        return view('v2.front.pages.account.security.backup-refresh');
+        return view('front.pages.account.security.backup-refresh');
     }
 
     public function update(Request $request)
@@ -30,6 +30,6 @@ class ResetBackupController extends WebController
         $request->user()->save();
         $request->user()->notify(new AccountMfaBackupCodeRegeneratedNotification());
 
-        return view('v2.front.pages.account.security.backup-refresh-new-code')->with(compact('backupCode'));
+        return view('front.pages.account.security.backup-refresh-new-code')->with(compact('backupCode'));
     }
 }

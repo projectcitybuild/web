@@ -18,7 +18,7 @@ class MfaLoginGateController extends WebController
 
     public function create()
     {
-        return view('v2.front.pages.login.mfa');
+        return view('front.pages.login.mfa');
     }
 
     public function store(Request $request)

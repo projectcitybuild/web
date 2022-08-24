@@ -12,7 +12,7 @@ class MfaBackupController extends WebController
 {
     public function show(Request $request)
     {
-        return view('v2.front.pages.login.mfa-backup');
+        return view('front.pages.login.mfa-backup');
     }
 
     public function destroy(Request $request, LogoutUseCase $logoutService)

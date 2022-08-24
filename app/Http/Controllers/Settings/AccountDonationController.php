@@ -15,7 +15,7 @@ final class AccountDonationController extends WebController
         $donationPerks = $user->donationPerks;
         $donations = $user->donations->sortBy('created_at');
 
-        return view('v2.front.pages.account.account-donations')
+        return view('front.pages.account.account-donations')
             ->with(compact('donations', 'donationPerks'));
     }
 }

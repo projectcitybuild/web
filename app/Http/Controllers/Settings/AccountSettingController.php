@@ -22,7 +22,7 @@ final class AccountSettingController extends WebController
     {
         $user = $request->user();
 
-        return view('v2.front.pages.account.account-settings')
+        return view('front.pages.account.account-settings')
             ->with(compact('user'));
     }
 
@@ -62,7 +62,7 @@ final class AccountSettingController extends WebController
                 token: $request->get('token'),
                 email: $request->get('email'),
                 onHalfComplete: fn (AccountEmailChange $changeRequest) => view(
-                    view: 'v2.front.pages.account.account-settings-email-confirm',
+                    view: 'front.pages.account.account-settings-email-confirm',
                     data: ['changeRequest' => $changeRequest]
                 ),
                 onBothComplete: function (AccountEmailChange $changeRequest) use ($updateAccountEmail) {
@@ -71,7 +71,7 @@ final class AccountSettingController extends WebController
                         emailChangeRequest: $changeRequest,
                     );
 
-                    return view('v2.front.pages.account.account-settings-email-complete');
+                    return view('front.pages.account.account-settings-email-complete');
                 },
             );
         } catch (TokenNotFoundException) {

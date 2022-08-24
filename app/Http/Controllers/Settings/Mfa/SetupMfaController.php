@@ -49,7 +49,7 @@ class SetupMfaController extends WebController
 
         $qrSvg = $this->getWriter()->writeString($qrUrl);
 
-        return view('v2.front.pages.account.security.2fa-setup')->with([
+        return view('front.pages.account.security.2fa-setup')->with([
             'backupCode' => $backupCode,
             'qrSvg' => $qrSvg,
             'secretKey' => $secret,
