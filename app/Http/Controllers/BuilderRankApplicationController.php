@@ -29,7 +29,7 @@ final class BuilderRankApplicationController extends WebController
             );
         }
 
-        return view('v2.front.pages.builder-rank.builder-rank-form')
+        return view('front.pages.builder-rank.builder-rank-form')
             ->with(compact('minecraftUsername', 'applicationInProgress'));
     }
 
@@ -62,7 +62,7 @@ final class BuilderRankApplicationController extends WebController
                 ->withErrors('You cannot submit another application while you have another application under review');
         }
 
-        return view('v2.front.pages.builder-rank.builder-rank-success')
+        return view('front.pages.builder-rank.builder-rank-success')
             ->with(compact('application'));
     }
 
@@ -79,7 +79,7 @@ final class BuilderRankApplicationController extends WebController
             abort(403);
         }
 
-        return view('v2.front.pages.builder-rank.builder-rank-status')
+        return view('front.pages.builder-rank.builder-rank-status')
             ->with(compact('application'));
     }
 }

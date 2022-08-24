@@ -16,7 +16,7 @@ class ReauthController extends WebController
      */
     public function show(Request $request)
     {
-        return view('v2.front.pages.login.reauth');
+        return view('front.pages.login.reauth');
     }
 
     public function process(Request $request)
