@@ -4,7 +4,7 @@ namespace Entities\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GameBanResource extends JsonResource
+class GameBanV1Resource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -27,7 +27,7 @@ class GameBanResource extends JsonResource
             'created_at' => $this->created_at->getTimestamp(),
             'updated_at' => $this->updated_at->getTimestamp(),
 
-            'unban' => new GameUnbanResource($this->whenLoaded('unban')),
+            'unban' => new GameUnbanV1Resource($this->whenLoaded('unban')),
         ];
     }
 }

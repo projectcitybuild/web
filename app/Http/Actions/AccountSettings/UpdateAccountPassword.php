@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 
 /**
  * @final
+ *
+ * @deprecated
  */
 class UpdateAccountPassword
 {

@@ -4,7 +4,7 @@ namespace Entities\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GameUnbanResource extends JsonResource
+class GameUnbanV1Resource extends JsonResource
 {
     /**
      * Transform the resource into an array.

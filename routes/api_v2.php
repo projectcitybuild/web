@@ -27,12 +27,14 @@ Route::prefix('bans')->group(function () {
     )->group(function () {
         Route::post('ban', [GameBanV2Controller::class, 'ban']);
         Route::post('unban', [GameBanV2Controller::class, 'unban']);
+        Route::post('convert_to_permanent', [GameBanV2Controller::class, 'convertToPermanent']);
     });
 
     Route::middleware([
         RequiresServerTokenScope::middleware(ScopeKey::BAN_LOOKUP),
     ])->group(function () {
         Route::post('status', [GameBanV2Controller::class, 'status']);
+        Route::post('all', [GameBanV2Controller::class, 'all']);
     });
 });
 

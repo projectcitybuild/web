@@ -7,7 +7,7 @@ use Repositories\GameBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\PlayerLookup;
 
-final class GetBanUseCase
+final class GetActiveBanUseCase
 {
     public function __construct(
         private readonly GameBanRepository $gameBanRepository,
@@ -22,8 +22,8 @@ final class GetBanUseCase
     public function execute(
         PlayerIdentifier $playerIdentifier,
     ): ?GameBan {
-        $mcPlayer = $this->playerLookup->findOrCreate($playerIdentifier);
-
-        return $this->gameBanRepository->firstActiveBan(player: $mcPlayer, skipTempBans: false);
+        return $this->gameBanRepository->firstActiveBan(
+            player: $this->playerLookup->findOrCreate($playerIdentifier)
+        );
     }
 }

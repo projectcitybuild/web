@@ -6,7 +6,7 @@ use Domain\PasswordReset\UseCases\DeleteExpiredPasswordResetsUseCase;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
-final class DeleteExpiredPasswordResetsCommand extends Command
+final class CleanupExpiredPasswordResetsCommand extends Command
 {
     /**
      * The name and signature of the console command.

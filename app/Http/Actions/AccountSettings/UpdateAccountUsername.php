@@ -4,6 +4,9 @@ namespace App\Http\Actions\AccountSettings;
 
 use Entities\Models\Eloquent\Account;
 
+/**
+ * @deprecated
+ */
 final class UpdateAccountUsername
 {
     public function execute(Account $account, string $newUsername)
