@@ -2,6 +2,11 @@ import Vue from 'vue';
 // import NewsBar from "./components/news-bar/NewsBar.vue"
 // import Spinner from "./components/spinner/Spinner.vue"
 
+// import.meta.glob([
+//     '../images/**',
+//     '../fonts/**',
+// ]);
+
 // Register Vue Components
 Vue.component('news-bar', require('./components/news-bar/NewsBar.vue').default);
 Vue.component('spinner', require('./components/spinner/Spinner.vue').default);

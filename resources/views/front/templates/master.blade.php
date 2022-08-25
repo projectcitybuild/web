@@ -36,9 +36,7 @@
 
     <script src="https://kit.fontawesome.com/a0425475c4.js" crossorigin="anonymous"></script>
 
-    <script defer src="{{ mix('assets/js/manifest.js') }}"></script>
-    <script defer src="{{ mix('assets/js/vendor.js') }}"></script>
-    <script defer src="{{ mix('assets/js/app.js') }}"></script>
+    @vite(['resources/js/app.ts', 'resources/sass/front/front.scss'])
 
     @stack('head')
 
