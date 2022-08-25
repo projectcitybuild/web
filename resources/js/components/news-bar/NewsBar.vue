@@ -34,7 +34,6 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 import * as Api from "./api";
 import { format, parseISO } from "date-fns";
 
@@ -45,7 +44,7 @@ const ViewState = Object.freeze({
     Error: 4,
 })
 
-export default Vue.extend({
+export default {
     name: "NewsBar",
 
     data() {
@@ -100,5 +99,5 @@ export default Vue.extend({
             return this.state == ViewState.Error
         },
     }
-});
+};
 </script>

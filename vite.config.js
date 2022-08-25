@@ -40,6 +40,10 @@ export default defineConfig({
             '@': '/resources/js', // TODO: remove this after migrating mix
         }
     },
+    server: {
+        https: false,
+        host: '0.0.0.0',
+    },
 });
 
 

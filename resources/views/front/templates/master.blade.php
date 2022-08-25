@@ -29,14 +29,17 @@
 
     <title>@yield('title', 'Project City Build')</title>
 
-    <link rel="stylesheet" href="{{ mix('assets/css/app-v2.css') }}">
+    @vite([
+        'resources/sass/front/front.scss',
+        'resources/js/app.ts',
+        'resources/sass/front/front.scss',
+    ])
+
     <link rel="icon" type="type/x-icon" href="{{ asset('assets/favicon.ico') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/g1OfIGT.png"/>
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <script src="https://kit.fontawesome.com/a0425475c4.js" crossorigin="anonymous"></script>
-
-    @vite(['resources/js/app.ts', 'resources/sass/front/front.scss'])
 
     @stack('head')
 

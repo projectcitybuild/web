@@ -2,6 +2,9 @@
 /node_modules
 /vendor
 
+# built assets
+/public/build
+
 # logs
 npm-debug.log
 yarn-error.log
@@ -31,11 +34,6 @@ mix-manifest.json
 # IDE generated settings
 .vscode
 /.idea
-
-# dev environments
-/.vagrant
-Homestead.json
-Homestead.yaml
 
 clover.xml
 
