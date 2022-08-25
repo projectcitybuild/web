@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp } from 'vue/dist/vue.esm-bundler';
 import NewsBar from './components/news-bar/NewsBar.vue';
 import Spinner from './components/spinner/Spinner.vue';
 
@@ -7,7 +7,7 @@ import Spinner from './components/spinner/Spinner.vue';
 //     '../fonts/**',
 // ]);
 
-const app = createApp({})
+const app = createApp({});
 app.component('news-bar', NewsBar);
 app.component('spinner', Spinner);
 app.mount('#app');
