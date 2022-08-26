@@ -10,11 +10,12 @@
     <meta name="theme-color" content="#524641">
     <meta name="apple-mobile-web-app-title" content="PCB">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ Vite::asset('resources/images/favicon/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ Vite::asset('resources/images/favicon/android-icon-192x192.png') }}">
-    <link rel="icon" type="image/png" sizes="96x96" href="{{ Vite::asset('resources/images/favicon/favicon-96x96.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ Vite::asset('resources/images/favicon/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ Vite::asset('resources/images/favicon/favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('static/favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('static/favicon/android-icon-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('static/favicon/favicon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('static/favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('static/favicon/favicon-16x16.png') }}">
+    <link rel="icon" type="type/x-icon" href="{{ asset('static/favicon/favicon.ico') }}">
 
     <meta property="og:url" content="https://projectcitybuild.com">
     <meta property="og:title" content="@yield('meta_title', 'Project City Build')">
@@ -34,8 +35,6 @@
         'resources/js/front/front.ts',
     ])
 
-    <link rel="icon" type="type/x-icon" href="{{ Vite::asset('resources/images/favicon/favicon.ico') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/g1OfIGT.png"/>
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <script src="https://kit.fontawesome.com/a0425475c4.js" crossorigin="anonymous"></script>
