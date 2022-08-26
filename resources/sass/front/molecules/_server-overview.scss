@@ -52,16 +52,16 @@
             flex-grow: 1;
 
             &.creative {
-                background-image: url('/assets/images/gallery1.png');
+                background-image: url('/resources/images//gallery1.png');
             }
             &.survival {
-                background-image: url('/assets/images/gallery4.png');
+                background-image: url('/resources/images//gallery4.png');
             }
             &.monarch {
-                background-image: url('/assets/images/gallery3.png');
+                background-image: url('/resources/images//gallery3.png');
             }
             &.arcade {
-                background-image: url('/assets/images/gallery2.png');
+                background-image: url('/resources/images//gallery2.png');
                 background-position: center;
             }
         }

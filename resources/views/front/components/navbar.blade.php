@@ -2,9 +2,9 @@
     <div class="container">
         <div class="logo">
             <a href="{{ route('front.home') }}">
-                <img srcset="/assets/images/logo-1x.png,
-                             /assets/images/logo-2x.png 2x"
-                     src="/assets/images/logo-1x.png"
+                <img srcset="{{ Vite::asset('resources/images/logo-1x.png') }},
+                             {{ Vite::asset('resources/images/logo-2x.png') }} 2x"
+                     src="{{ Vite::asset('resources/images/logo-1x.png') }}"
                      alt="Project City Build"
                 />
             </a>
