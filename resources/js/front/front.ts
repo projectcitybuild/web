@@ -4,7 +4,7 @@ import Spinner from './components/spinner/Spinner.vue';
 
 // Inform Vite where static assets are located
 import.meta.glob([
-    '../images/**',
+    '../../images/**',
 ]);
 
 const app = createApp({});

@@ -8,7 +8,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/sass/front/front.scss',
-                'resources/js/app.ts',
+                'resources/js/front/front.ts',
                 'resources/sass/admin/admin.scss',
                 'resources/js/admin/admin.ts',
             ],
@@ -40,7 +40,6 @@ export default defineConfig({
             '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
             '~normalize-scss': path.resolve(__dirname, 'node_modules/normalize-scss'),
             '~choices.js': path.resolve(__dirname, 'node_modules/choices.js'),
-            '@': '/resources/js', // TODO: remove this after migrating mix
         }
     },
     server: {
@@ -48,17 +47,3 @@ export default defineConfig({
         host: '0.0.0.0',
     },
 });
-
-
-// mix.typeScript('resources/js/admin/admin.ts', 'public/assets/admin/js')
-//     .extract(['bootstrap', 'jquery', '@popperjs/core', 'choices.js'], 'public/assets/admin/js/admin-vendor.js')
-//
-// mix.typeScript('resources/js/app.ts', 'public/assets/js')
-//     .sass('resources/sass/v2/app-v2.scss', 'public/assets/css')
-//     .vue()
-//     .options({
-//         processCssUrls: false
-//     })
-//     .extract([
-//         'vue',
-//     ]);
