@@ -9,6 +9,8 @@ export default defineConfig({
             input: [
                 'resources/sass/front/front.scss',
                 'resources/js/app.ts',
+                'resources/sass/admin/admin.scss',
+                'resources/js/admin/admin.ts',
             ],
 
             // Refreshes when a change is made to resource/view files or routes
@@ -37,6 +39,7 @@ export default defineConfig({
         alias: {
             '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
             '~normalize-scss': path.resolve(__dirname, 'node_modules/normalize-scss'),
+            '~choices.js': path.resolve(__dirname, 'node_modules/choices.js'),
             '@': '/resources/js', // TODO: remove this after migrating mix
         }
     },
@@ -47,11 +50,8 @@ export default defineConfig({
 });
 
 
-
 // mix.typeScript('resources/js/admin/admin.ts', 'public/assets/admin/js')
 //     .extract(['bootstrap', 'jquery', '@popperjs/core', 'choices.js'], 'public/assets/admin/js/admin-vendor.js')
-//     .sass('resources/sass/admin/admin-dark.scss', 'public/assets/admin/css')
-//     .sass('resources/sass/admin/admin-light.scss', 'public/assets/admin/css');
 //
 // mix.typeScript('resources/js/app.ts', 'public/assets/js')
 //     .sass('resources/sass/v2/app-v2.scss', 'public/assets/css')
@@ -62,28 +62,3 @@ export default defineConfig({
 //     .extract([
 //         'vue',
 //     ]);
-//
-// mix.webpackConfig({
-//     stats: {
-//         children: true
-//     }
-// });
-//
-// if (mix.inProduction()) {
-//     mix.version();
-// } else {
-//     mix.sourceMaps();
-//
-//     mix.browserSync({
-//         open: false,
-//         proxy: 'laravel.test',
-//         files: [
-//             'resources/views/**/*',
-//             'resources/sass/**/*.css',
-//             'resources/js/**/*.js',
-//             'resources/js/**/*.ts',
-//             'public/assets/fonts/**/*',
-//             'public/assets/images/**/*',
-//         ]
-//     });
-// }

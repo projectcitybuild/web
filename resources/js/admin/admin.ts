@@ -1,4 +1,4 @@
-import {Tooltip} from 'bootstrap';
+import { Tooltip } from 'bootstrap';
 
 import './user-picker';
 

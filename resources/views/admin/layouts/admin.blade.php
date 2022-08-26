@@ -5,17 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Staff Panel - @yield('title')</title>
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="{{ mix('assets/admin/css/admin-light.css') }}" media="screen and (prefers-color-scheme: light)">
-    <link rel="stylesheet" href="{{ mix('assets/admin/css/admin-dark.css') }}" media="screen and (prefers-color-scheme: dark)">
+    @vite([
+        'resources/js/admin/admin.ts',
+        'resources/sass/admin/admin.scss',
+    ])
 
     <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/brands.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/solid.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/fontawesome.js"></script>
 
-    <script defer src="{{ mix('assets/js/manifest.js') }}"></script>
-    <script defer src="{{ mix('assets/admin/js/admin-vendor.js') }}"></script>
-    <script defer src="{{ mix('assets/admin/js/admin.js') }}"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.6/purify.min.js"></script>
 </head>
