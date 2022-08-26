@@ -6,4 +6,3 @@ const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-tog
 tooltipTriggerList.map(function (tooltipTriggerEl: HTMLElement): Tooltip {
     return new Tooltip(tooltipTriggerEl);
 })
-
