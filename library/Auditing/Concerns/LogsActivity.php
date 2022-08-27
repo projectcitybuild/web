@@ -3,8 +3,10 @@
 namespace Library\Auditing\Concerns;
 
 use Altek\Eventually\Eventually;
+use Entities\Models\Eloquent\Activity;
 use Illuminate\Database\Eloquent\Model;
 use Library\Auditing\AuditAttributes;
+use Library\Auditing\Causers\SystemCauseResolver;
 use Spatie\Activitylog\ActivityLogger;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity as ParentLogsActivity;
@@ -102,5 +104,21 @@ trait LogsActivity
         if (isset(static::$recordEvents)) {
             static::$recordEvents = static::eventsToBeRecorded()->reject($event)->toArray();
         }
+    }
+
+    /**
+     * @param  string  $anonymousUserDescription
+     * @return $this
+     */
+    public function setAnonymousUserDescription(string $anonymousUserDescription): static
+    {
+        $this->anonymousUserDescription = $anonymousUserDescription;
+
+        return $this;
+    }
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $activity->properties = $activity->properties->put('system_causer', SystemCauseResolver::getCauserName());
     }
 }

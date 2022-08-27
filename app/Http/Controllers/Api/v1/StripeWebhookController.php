@@ -12,6 +12,8 @@ use Entities\Models\Eloquent\Account;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
+use Library\Auditing\Causers\SystemCauser;
+use Library\Auditing\Causers\SystemCauseResolver;
 use Stripe\StripeClient;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,6 +23,7 @@ final class StripeWebhookController extends CashierController
         private ProcessPaymentUseCase $processPaymentUseCase,
         private StripeClient $stripeClient,
     ) {
+        SystemCauseResolver::setCauser(SystemCauser::STRIPE_WEBHOOK);
         parent::__construct();
     }
 

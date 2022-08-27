@@ -6,6 +6,7 @@ use App\View\Components\DonationBarComponent;
 use App\View\Components\NavBarComponent;
 use App\View\Components\PanelSideBarComponent;
 use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Donation;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\Page;
 use Entities\Models\Eloquent\Server;
@@ -62,6 +63,7 @@ final class AppServiceProvider extends ServiceProvider
             'minecraft_player' => MinecraftPlayer::class,
             'server' => Server::class,
             'server_token' => ServerToken::class,
+            'donation' => Donation::class,
         ]);
 
         Blade::component('navbar', NavBarComponent::class);

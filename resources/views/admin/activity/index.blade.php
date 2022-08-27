@@ -17,17 +17,17 @@
         @foreach($activities as $activity)
             <tr>
                 <td>
-                    <x-audit-support::model :model="$activity->causer"/>
+                    @if($activity->causer)
+                        <x-audit-support::model :model="$activity->causer"/>
+                    @else
+                        {{ $activity->getSystemCauser()?->displayName() ?? 'System' }}
+                    @endif
                 </td>
                 <td>
                     <strong>
                         {{ $activity->subject_type }}
                         {{ $activity->description }}
                     </strong>
-                    @if($activity->only_changed_attributes)
-                        <br>
-                        {{ join(', ', array_keys($activity->only_changed_attributes)) }}
-                    @endif
                 </td>
                 <td>
                     <span title="{{ $activity->created_at }}" data-bs-toggle="tooltip">
