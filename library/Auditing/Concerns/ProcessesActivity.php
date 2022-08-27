@@ -11,16 +11,14 @@ trait ProcessesActivity
         $wrappedChanges = collect();
         foreach ($changes['attributes'] as $attribute => $currentValue) {
             // If this is from a create event, there won't be old data
-            $oldValue = $changes->has('old') ? $changes['old'][$attribute] : null;
-            // If old data was missing, or was null, replace with the NotInAudit token.
-            $oldValue = $oldValue ?? new NotInAudit();
+            $oldValue = $changes->has('old') ? $changes['old'][$attribute] : new NotInAudit();
 
             $wrappedChanges->put(
                 $attribute,
                 $this->subject->auditAttributeConfig()
                     ->getChangeType($attribute)
                     ->setValues(
-                        $oldValue ?? new NotInAudit(),
+                        $oldValue,
                         $currentValue
                     )
             );

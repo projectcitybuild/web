@@ -2,6 +2,8 @@
 
 @if($model instanceof \Library\Auditing\Changes\Tokens\NotInAudit)
     <em class="text-muted">Unset</em>
+@elseif($model == null)
+    <span class="badge bg-secondary">Null</span>
 @else
     @if($model?->getActivitySubjectLink() && $link)
         <a href="{{ $model->getActivitySubjectLink() }}" {{ $attributes }} >
