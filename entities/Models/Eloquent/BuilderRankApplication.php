@@ -7,8 +7,9 @@ use Domain\BuilderRankApplications\Entities\ApplicationStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
+use Library\Auditing\Contracts\LinkableAuditModel;
 
-final class BuilderRankApplication extends Model
+final class BuilderRankApplication extends Model implements LinkableAuditModel
 {
     use HasFactory;
     use Notifiable;
@@ -75,5 +76,15 @@ final class BuilderRankApplication extends Model
     public function status(): ApplicationStatus
     {
         return ApplicationStatus::tryFrom($this->status);
+    }
+
+    public function getActivitySubjectLink(): ?string
+    {
+        return route('front.panel.builder-ranks.show', $this);
+    }
+
+    public function getActivitySubjectName(): ?string
+    {
+        return "Builder Application {$this->getKey()}";
     }
 }

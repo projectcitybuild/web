@@ -34,6 +34,10 @@ class ApproveBuildRankApplicationUseCase
             )
         );
 
+        activity()
+            ->on($application)
+            ->log('approved');
+
         return $application;
     }
 }

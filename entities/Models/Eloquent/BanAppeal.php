@@ -10,8 +10,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
+use Library\Auditing\Contracts\LinkableAuditModel;
 
-class BanAppeal extends Model
+class BanAppeal extends Model implements LinkableAuditModel
 {
     use HasFactory, Notifiable;
 
@@ -82,5 +83,15 @@ class BanAppeal extends Model
         }
 
         return $this->gameBan->expires_at->diffForHumans($this->decided_at, CarbonInterface::DIFF_ABSOLUTE);
+    }
+
+    public function getActivitySubjectLink(): ?string
+    {
+        return route('front.panel.ban-appeals.show', $this);
+    }
+
+    public function getActivitySubjectName(): ?string
+    {
+        return "Ban Appeal {$this->getKey()}";
     }
 }

@@ -6,6 +6,8 @@ use App\View\Components\DonationBarComponent;
 use App\View\Components\NavBarComponent;
 use App\View\Components\PanelSideBarComponent;
 use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\BanAppeal;
+use Entities\Models\Eloquent\BuilderRankApplication;
 use Entities\Models\Eloquent\Donation;
 use Entities\Models\Eloquent\DonationPerk;
 use Entities\Models\Eloquent\DonationTier;
@@ -68,6 +70,8 @@ final class AppServiceProvider extends ServiceProvider
             'donation' => Donation::class,
             'donation_perk' => DonationPerk::class,
             'donation_tier' => DonationTier::class,
+            'builder_rank_application' => BuilderRankApplication::class,
+            'ban_appeal' => BanAppeal::class,
         ]);
 
         Blade::component('navbar', NavBarComponent::class);
