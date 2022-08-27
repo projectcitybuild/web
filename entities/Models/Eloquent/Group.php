@@ -5,8 +5,11 @@ namespace Entities\Models\Eloquent;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Library\Auditing\AuditAttributes;
+use Library\Auditing\Concerns\LogsActivity;
+use Library\Auditing\Contracts\LinkableAuditModel;
 
-final class Group extends Model
+final class Group extends Model implements LinkableAuditModel
 {
     use HasFactory;
 
@@ -68,5 +71,15 @@ final class Group extends Model
             parentKey: 'group_id',
             relatedKey: 'id',
         );
+    }
+
+    public function getActivitySubjectLink(): ?string
+    {
+        return route('front.panel.groups.index') . '#group-' . $this->getKey();
+    }
+
+    public function getActivitySubjectName(): ?string
+    {
+        return "Group {$this->name}";
     }
 }
