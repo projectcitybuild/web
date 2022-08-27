@@ -2,6 +2,7 @@
 
 namespace Entities\Models\Eloquent;
 
+use Altek\Eventually\Eventually;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -14,6 +15,7 @@ final class ServerToken extends Model implements LinkableAuditModel
 {
     use HasFactory;
     use LogsActivity;
+    use Eventually;
 
     /**
      * The table associated with the model.
@@ -35,6 +37,12 @@ final class ServerToken extends Model implements LinkableAuditModel
         'description',
     ];
 
+    protected static $recordEvents = [
+        'created',
+        'updated',
+        'deleted',
+        'synced',
+    ];
     protected $dates = [
         'created_at',
         'updated_at',
