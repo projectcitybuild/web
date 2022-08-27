@@ -7,11 +7,11 @@ class SystemCauseResolver
     private static SystemCauser $causer;
 
     /**
-     * @return string
+     * @return null|string
      */
-    public static function getCauserName(): string
+    public static function getCauserName(): ?string
     {
-        return self::$causer->name;
+        return isset(self::$causer) ? self::$causer->name : null;
     }
 
     public static function setCauser(SystemCauser $causer): void
