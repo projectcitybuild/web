@@ -7,6 +7,7 @@ use Entities\Models\GameType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Library\Auditing\AuditAttributes;
+use Library\Auditing\Concerns\CausesActivity;
 use Library\Auditing\Concerns\LogsActivity;
 use Library\Auditing\Contracts\LinkableAuditModel;
 
@@ -14,6 +15,7 @@ final class Server extends Model implements LinkableAuditModel
 {
     use HasFactory;
     use LogsActivity;
+    use CausesActivity;
 
     protected $table = 'servers';
     protected $primaryKey = 'server_id';
