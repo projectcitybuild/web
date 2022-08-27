@@ -9,6 +9,7 @@ use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\Page;
 use Entities\Models\Eloquent\Server;
+use Entities\Models\Eloquent\ServerToken;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Blade;
@@ -60,6 +61,7 @@ final class AppServiceProvider extends ServiceProvider
             'page' => Page::class,
             'minecraft_player' => MinecraftPlayer::class,
             'server' => Server::class,
+            'server_token' => ServerToken::class,
         ]);
 
         Blade::component('navbar', NavBarComponent::class);
