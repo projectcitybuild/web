@@ -10,7 +10,7 @@ class ActivityController extends WebController
     public function index()
     {
         $activities = Activity::latest()
-            ->with('subject', 'causer')
+            ->with(['subject', 'causer'])
             ->paginate(100);
 
         return view('admin.activity.index')->with([
