@@ -2,23 +2,14 @@
 
 namespace Entities\Models\Eloquent;
 
+use Library\Auditing\Concerns\ProcessesActivity;
+
 class Activity extends \Spatie\Activitylog\Models\Activity
 {
-    public function getChangesZippedAttribute()
-    {
-        $changes = $this->changes();
-        if (! $changes->has('old')) {
-            return [];
-        }
-        $onlyChanges = [];
-        foreach ($changes['attributes'] as $attribute => $newValue) {
-            $oldValue = $changes['old'][$attribute];
-            $onlyChanges[$attribute] = [
-                'new' => $newValue,
-                'old' => $oldValue,
-            ];
-        }
+    use ProcessesActivity;
 
-        return $onlyChanges;
+    public function getProcessedChangesAttribute(): array
+    {
+        return $this->getProcessedChanges($this->changes());
     }
 }

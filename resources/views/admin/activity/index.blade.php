@@ -17,7 +17,7 @@
         @foreach($activities as $activity)
             <tr>
                 <td>
-                    <x-activity::model :model="$activity->causer"/>
+                    <x-audit-support::model :model="$activity->causer"/>
                 </td>
                 <td>
                     <strong>
@@ -35,7 +35,7 @@
                     </span>
                 </td>
                 <td>
-                    <x-activity::model :model="$activity->subject"/>
+                    <x-audit-support::model :model="$activity->subject"/>
                 </td>
                 <td>
                     <a href="{{ route('front.panel.activity.show', $activity) }}">

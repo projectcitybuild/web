@@ -187,6 +187,7 @@ return [
         Library\Random\RandomProvider::class,
         Library\SignedURL\SignedURLProvider::class,
         Library\Tokens\TokensProvider::class,
+        Library\Auditing\AuditingServiceProvider::class,
 
         /*
          * Shared Service Providers...

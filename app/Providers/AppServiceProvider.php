@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\View\Components\DonationBarComponent;
 use App\View\Components\NavBarComponent;
 use App\View\Components\PanelSideBarComponent;
-use App\View\Components\TextDiffComponent;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\Page;
@@ -64,7 +63,6 @@ final class AppServiceProvider extends ServiceProvider
         Blade::component('navbar', NavBarComponent::class);
         Blade::component('donation-bar', DonationBarComponent::class);
         Blade::component('panel-side-bar', PanelSideBarComponent::class);
-        Blade::component('text-diff', TextDiffComponent::class);
         Blade::anonymousComponentNamespace('admin.activity.components', 'activity');
 
         // Fix the factory() function always searching for factory files with a relative namespace

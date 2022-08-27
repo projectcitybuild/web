@@ -1,18 +1,38 @@
 <?php
 
-namespace Library\Auditing\Traits;
+namespace Library\Auditing\Concerns;
 
 use Altek\Eventually\Eventually;
 use Illuminate\Database\Eloquent\Model;
+use Library\Auditing\AuditAttributes;
 use Spatie\Activitylog\ActivityLogger;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity as ParentLogsActivity;
 
 trait LogsActivity
 {
-    use Linkable;
-
     use ParentLogsActivity {
         ParentLogsActivity::bootLogsActivity as parentBootLogsActivity;
+    }
+
+    /**
+     * Set the attributes to be audited and their types
+     *
+     * @return AuditAttributes
+     */
+    abstract public function auditAttributeConfig(): AuditAttributes;
+
+    /**
+     * Default settings for logging
+     *
+     * @return LogOptions
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->dontSubmitEmptyLogs()
+            ->logOnly($this->auditAttributeConfig()->getAttributeNames())
+            ->logOnlyDirty();
     }
 
     /**

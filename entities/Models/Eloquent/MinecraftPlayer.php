@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Library\Auditing\Traits\LogsActivity;
+use Library\Auditing\AuditAttributes;
+use Library\Auditing\Concerns\LogsActivity;
+use Library\Auditing\Contracts\LinkableAuditModel;
 use Shared\PlayerLookup\Contracts\Player;
-use Spatie\Activitylog\LogOptions;
 
 /**
  * @property string uuid
@@ -21,7 +22,7 @@ use Spatie\Activitylog\LogOptions;
  * @property ?Carbon last_seen_at
  * @property Collection aliases
  */
-final class MinecraftPlayer extends Model implements Player
+final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
 {
     use HasFactory;
     use LogsActivity;
@@ -40,9 +41,6 @@ final class MinecraftPlayer extends Model implements Player
         'updated_at',
         'last_synced_at',
         'last_seen_at',
-    ];
-    protected $logged = [
-        'account_id',
     ];
 
     public function getBanReadableName(): ?string
@@ -114,12 +112,10 @@ final class MinecraftPlayer extends Model implements Player
         return $this->account;
     }
 
-    public function getActivitylogOptions(): LogOptions
+    public function auditAttributeConfig(): AuditAttributes
     {
-        return LogOptions::defaults()
-            ->dontSubmitEmptyLogs()
-            ->logOnly($this->logged)
-            ->logOnlyDirty();
+        return AuditAttributes::build()
+            ->addRelationship('account_id', Account::class);
     }
 
     public function getActivitySubjectLink(): ?string

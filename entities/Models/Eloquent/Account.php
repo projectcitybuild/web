@@ -17,9 +17,10 @@ use Illuminate\Support\Collection;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
-use Library\Auditing\Traits\CausesActivity;
-use Library\Auditing\Traits\LogsActivity;
-use Spatie\Activitylog\LogOptions;
+use Library\Auditing\AuditAttributes;
+use Library\Auditing\Concerns\CausesActivity;
+use Library\Auditing\Concerns\LogsActivity;
+use Library\Auditing\Contracts\LinkableAuditModel;
 
 /**
  * @property int account_id
@@ -33,7 +34,7 @@ use Spatie\Activitylog\LogOptions;
  * @property ?Carbon last_login_at
  * @property int balance
  */
-final class Account extends Authenticatable
+final class Account extends Authenticatable implements LinkableAuditModel
 {
     use Notifiable;
     use Searchable;
@@ -64,12 +65,6 @@ final class Account extends Authenticatable
         'updated',
         'deleted',
         'synced',
-    ];
-    protected $logged = [
-        'email',
-        'username',
-        'activated',
-        'group_names',
     ];
     protected $dates = [
         'created_at',
@@ -225,6 +220,14 @@ final class Account extends Authenticatable
         return new AccountResource($this);
     }
 
+    public function auditAttributeConfig(): AuditAttributes
+    {
+        return AuditAttributes::build()
+            ->add('email', 'username')
+            ->addBoolean('activated')
+            ->addArray('group_names');
+    }
+
     public function getActivitySubjectLink(): ?string
     {
         return route('front.panel.accounts.show', $this);
@@ -233,13 +236,5 @@ final class Account extends Authenticatable
     public function getActivitySubjectName(): ?string
     {
         return $this->username;
-    }
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->dontSubmitEmptyLogs()
-            ->logOnly($this->logged)
-            ->logOnlyDirty();
     }
 }
