@@ -6,10 +6,14 @@ use App\Model;
 use Entities\Models\GameType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Library\Auditing\AuditAttributes;
+use Library\Auditing\Concerns\LogsActivity;
+use Library\Auditing\Contracts\LinkableAuditModel;
 
-final class Server extends Model
+final class Server extends Model implements LinkableAuditModel
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $table = 'servers';
     protected $primaryKey = 'server_id';
@@ -70,5 +74,22 @@ final class Server extends Model
     public function serverCategory(): BelongsTo
     {
         return $this->belongsTo(ServerCategory::class, 'server_category_id', 'server_category_id');
+    }
+
+    public function getActivitySubjectLink(): ?string
+    {
+        return route('front.panel.servers.edit', $this);
+    }
+
+    public function getActivitySubjectName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function auditAttributeConfig(): AuditAttributes
+    {
+        return AuditAttributes::build()
+            ->add('name', 'ip', 'ip_alias', 'port', 'game_type', 'display_order')
+            ->addBoolean('is_port_visible', 'is_querying', 'is_visible');
     }
 }
