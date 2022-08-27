@@ -7,11 +7,17 @@ use ReflectionEnum;
 enum SystemCauser
 {
     case STRIPE_WEBHOOK;
+    case UNACTIVATED_CLEANUP;
+    case PERK_EXPIRY;
+    case DONOR_REWARDS;
 
     public function displayName(): string
     {
         return match ($this) {
             self::STRIPE_WEBHOOK => 'Stripe',
+            self::UNACTIVATED_CLEANUP => 'Unactivated Cleanup',
+            self::PERK_EXPIRY => 'Perk Expiry',
+            self::DONOR_REWARDS => 'Donor Rewards',
         };
     }
 

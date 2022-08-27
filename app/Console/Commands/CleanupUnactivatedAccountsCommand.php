@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Entities\Models\Eloquent\Account;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use Library\Auditing\Causers\SystemCauser;
+use Library\Auditing\Causers\SystemCauseResolver;
 
 final class CleanupUnactivatedAccountsCommand extends Command
 {
@@ -27,6 +29,8 @@ final class CleanupUnactivatedAccountsCommand extends Command
      */
     public function handle()
     {
+        SystemCauseResolver::setCauser(SystemCauser::UNACTIVATED_CLEANUP);
+
         $deletionThreshold = config('auth.unactivated_cleanup_days');
         $thresholdDate = now()->subDays($deletionThreshold);
 
