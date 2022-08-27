@@ -67,7 +67,7 @@ final class AppServiceProvider extends ServiceProvider
             'server_token' => ServerToken::class,
             'donation' => Donation::class,
             'donation_perk' => DonationPerk::class,
-            'donation_tier' => DonationTier::class
+            'donation_tier' => DonationTier::class,
         ]);
 
         Blade::component('navbar', NavBarComponent::class);

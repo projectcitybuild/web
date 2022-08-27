@@ -25,7 +25,7 @@ class RelationshipChange extends Change
         return parent::setValues($oldValue, $newValue);
     }
 
-    private function findModel(mixed $fromValue): LinkableAuditModel|NotInAudit
+    private function findModel(mixed $fromValue): LinkableAuditModel|NotInAudit|null
     {
         return $fromValue instanceof NotInAudit ? $fromValue : $this->model::find($fromValue);
     }

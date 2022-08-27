@@ -114,7 +114,7 @@ final class DonationPerk extends Model implements LinkableAuditModel
     public function getActivitySubjectLink(): ?string
     {
         return route('front.panel.donations.show', $this->donation_id)
-            . '#perk - ' . $this->getKey();
+            .'#perk - '.$this->getKey();
     }
 
     public function getActivitySubjectName(): ?string
