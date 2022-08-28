@@ -124,13 +124,14 @@ class AuditAttributes
     }
 
     /**
-     * Get the Change instance associated with an attribute
+     * Get the Change instance associated with an attribute.
+     * If this attribute hasn't been set, returns a basic Change.
      *
      * @param  string  $attribute
      * @return Change
      */
     public function getChangeType(string $attribute): Change
     {
-        return $this->attributes->get($attribute);
+        return $this->attributes->get($attribute) ?? new Change();
     }
 }
