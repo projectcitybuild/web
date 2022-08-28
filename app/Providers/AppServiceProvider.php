@@ -6,6 +6,7 @@ use App\View\Components\DonationBarComponent;
 use App\View\Components\NavBarComponent;
 use App\View\Components\PanelSideBarComponent;
 use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\AccountBalanceTransaction;
 use Entities\Models\Eloquent\Badge;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\BuilderRankApplication;
@@ -74,6 +75,7 @@ final class AppServiceProvider extends ServiceProvider
             'builder_rank_application' => BuilderRankApplication::class,
             'ban_appeal' => BanAppeal::class,
             'badge' => Badge::class,
+            'balance_transaction' => AccountBalanceTransaction::class,
         ]);
 
         Blade::component('navbar', NavBarComponent::class);
