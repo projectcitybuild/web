@@ -76,7 +76,7 @@ trait LogsActivity
                     ->performedOn($model)
                     ->withProperties($attrs)
                     ->event('synced')
-                    ->log($model->getDescriptionForEvent("{$relation} update"));
+                    ->log($model->getDescriptionForEvent("{$relation} updated"));
             });
         }
     }

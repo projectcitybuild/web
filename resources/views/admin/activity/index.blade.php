@@ -3,6 +3,7 @@
 @section('title', 'Activity')
 
 @section('body')
+    @include('admin.activity._filter')
     <table class="table table-hover">
         <thead>
         <tr>
@@ -20,13 +21,12 @@
                     @if($activity->causer)
                         <x-audit-support::model :model="$activity->causer"/>
                     @else
-                        {{ $activity->getSystemCauser()?->displayName() ?? 'System' }}
+                        {{ $activity->system_causer?->displayName() ?? 'System' }}
                     @endif
                 </td>
                 <td>
                     <strong>
-                        {{ $activity->subject_type }}
-                        {{ $activity->description }}
+                        {{ $activity->human_action }}
                     </strong>
                 </td>
                 <td>
