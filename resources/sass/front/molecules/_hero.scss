@@ -14,24 +14,24 @@
 
     &.bg-1 {
         background-image: linear-gradient(to right, hsla(0, 0, 0, 0) 40%, hsla(0, 21%, 7%, 79%)),
-                          url('/assets/images/hero-bg1.png');
+                          url('/resources/images/hero-bg1.png');
     }
     &.bg-2 {
         background-image: linear-gradient(to right, hsla(0, 0, 0, 0.2) 20%, hsla(0, 21%, 7%, 85%)),
                           linear-gradient(hsla(0, 0, 0, 0.2), hsla(0, 0, 0, 0.2)),
-                          url('/assets/images/hero-bg4.png');
+                          url('/resources/images/hero-bg4.png');
     }
     &.bg-3 {
         background-image: linear-gradient(to right, hsla(0, 0, 0, 0) 40%, hsla(0, 21%, 7%, 79%)),
-                          url('/assets/images/hero-bg5.png');
+                          url('/resources/images/hero-bg5.png');
     }
     &.bg-4 {
         background-image: linear-gradient(to right, hsla(0, 0, 0, 0.25) 20%, hsla(0, 21%, 7%, 90%)),
-                          url('/assets/images/hero-bg6.png');
+                          url('/resources/images/hero-bg6.png');
     }
     &.bg-5 {
         background-image: linear-gradient(to right, hsla(0, 0, 0, 0) 40%, hsla(0, 21%, 7%, 79%)),
-                          url('/assets/images/hero-bg7.png');
+                          url('/resources/images/hero-bg7.png');
     }
 
     &__dim {

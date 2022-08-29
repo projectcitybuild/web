@@ -1,7 +1,7 @@
 import Choices from 'choices.js';
 
-// TODO: this will break when using `npm run watch` because the :3000 port is missing
-const baseURL = process.env.MIX_APP_URL;
+// TODO: this will break when a port is present
+const baseURL = import.meta.env.VITE_APP_URL;
 
 const element = document.querySelector('[data-pcb-user-picker]') as HTMLSelectElement;
 if (element !== null) {

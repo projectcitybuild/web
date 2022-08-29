@@ -51,7 +51,7 @@
                             <div class="donation-tier__bar donation-tier__bar--copper"></div>
 
                             <div class="donation-tier__header">
-                                <img src="{{ asset('assets/images/icon_copper_tier.png') }}" />
+                                <img src="{{ Vite::asset('resources/images/icon_copper_tier.png') }}" />
                                 <h2>Copper Tier</h2>
                             </div>
 
@@ -102,7 +102,7 @@
                             <div class="donation-tier__bar donation-tier__bar--iron"></div>
 
                             <div class="donation-tier__header">
-                                <img src="{{ asset('assets/images/icon_iron_tier.png') }}" />
+                                <img src="{{ Vite::asset('resources/images/icon_iron_tier.png') }}" />
                                 <h2>Iron Tier</h2>
                             </div>
 
@@ -156,7 +156,7 @@
                             <div class="donation-tier__bar donation-tier__bar--diamond"></div>
 
                             <div class="donation-tier__header">
-                                <img src="{{ asset('assets/images/icon_diamond_tier.png') }}" />
+                                <img src="{{ Vite::asset('resources/images/icon_diamond_tier.png') }}" />
                                 <h2>Diamond Tier</h2>
                             </div>
 

@@ -5,17 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Staff Panel - @yield('title')</title>
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="{{ mix('assets/admin/css/admin-light.css') }}" media="screen and (prefers-color-scheme: light)">
-    <link rel="stylesheet" href="{{ mix('assets/admin/css/admin-dark.css') }}" media="screen and (prefers-color-scheme: dark)">
+    @vite([
+        'resources/js/admin/admin.ts',
+        'resources/sass/admin/admin.scss',
+    ])
 
     <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/brands.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/solid.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/fontawesome.js"></script>
 
-    <script defer src="{{ mix('assets/js/manifest.js') }}"></script>
-    <script defer src="{{ mix('assets/admin/js/admin-vendor.js') }}"></script>
-    <script defer src="{{ mix('assets/admin/js/admin.js') }}"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.6/purify.min.js"></script>
 </head>
@@ -24,7 +22,7 @@
 
     <header class="navbar navbar-dark sticky-top flex-md-nowrap p-0 shadow">
         <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{{ route('front.panel.index') }}">
-            <img src="/assets/images/logo.png" alt="Project City Build" height="30">
+            <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="Project City Build" height="30">
         </a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
                 data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
