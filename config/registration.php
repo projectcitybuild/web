@@ -11,6 +11,6 @@ return [
     | of days, will be automatically purged.
     |
     */
-    'days_elapsed_until_unactivated_purge' => 14
+    'days_elapsed_until_unactivated_purge' => 14,
 
 ];
