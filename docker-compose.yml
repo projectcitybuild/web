@@ -26,6 +26,7 @@ services:
             - mariadb
             - redis
             - minio
+            - mailhog
     mariadb:
         image: 'mariadb:10'
         ports:
