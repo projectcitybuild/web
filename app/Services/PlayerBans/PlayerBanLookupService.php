@@ -2,14 +2,16 @@
 
 namespace App\Services\PlayerBans;
 
-use App\Entities\Bans\Repositories\GameBanRepository;
-use App\Entities\GamePlayerType;
 use App\Services\PlayerLookup\PlayerLookupService;
+use Repositories\GameBanV1Repository;
 
+/**
+ * @deprecated Use GetBanUseCase
+ */
 final class PlayerBanLookupService
 {
     /**
-     * @var GameBanRepository
+     * @var GameBanV1Repository
      */
     private $gameBanRepository;
 
@@ -19,26 +21,21 @@ final class PlayerBanLookupService
     private $playerLookupService;
 
     public function __construct(
-        GameBanRepository $gameBanRepository,
+        GameBanV1Repository $gameBanRepository,
         PlayerLookupService $playerLookupService
     ) {
         $this->gameBanRepository = $gameBanRepository;
         $this->playerLookupService = $playerLookupService;
     }
 
-    public function getStatus(GamePlayerType $playerType, string $identifier)
+    public function getStatus(string $identifier)
     {
-        if ($playerType->valueOf() === GamePlayerType::Minecraft) {
-            // Strip hyphens from Minecraft UUIDs
-            $identifier = str_replace('-', '', $identifier);
-        }
+        $player = $this->playerLookupService->getOrCreatePlayer($identifier);
 
-        $player = $this->playerLookupService->getOrCreatePlayer($playerType, $identifier);
-
-        return $this->gameBanRepository->getActiveBanByGameUserId($player->getKey(), $playerType);
+        return $this->gameBanRepository->getActiveBanByGameUserId($player->getKey());
     }
 
-    public function getHistory(GamePlayerType $playerType, string $identifier)
+    public function getHistory(string $identifier)
     {
     }
 }

@@ -9,5 +9,5 @@ namespace App\Exceptions\Http;
  */
 class BadRequestException extends BaseHttpException
 {
-    protected $status = 400;
+    protected int $status = 400;
 }

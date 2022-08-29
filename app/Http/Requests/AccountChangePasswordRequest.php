@@ -2,20 +2,20 @@
 
 namespace App\Http\Requests;
 
-use App\Entities\Accounts\Repositories\AccountRepository;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Repositories\AccountRepository;
 
 class AccountChangePasswordRequest extends FormRequest
 {
-
     /**
      * The key to be used for the view error bag.
      *
      * @var string
      */
     protected $errorBag = 'password';
+
     /**
      * @var AccountRepository
      */
@@ -28,8 +28,6 @@ class AccountChangePasswordRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -44,7 +42,6 @@ class AccountChangePasswordRequest extends FormRequest
      * Configure the validator instance.
      *
      * @param  \Illuminate\Validation\Validator  $validator
-     *
      * @return void
      */
     public function withValidator($validator)
@@ -67,8 +64,6 @@ class AccountChangePasswordRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -76,13 +71,14 @@ class AccountChangePasswordRequest extends FormRequest
     }
 
     /**
-     * Redirect back to the form anchor
+     * Redirect back to the form anchor.
      *
      * @return string
      */
     protected function getRedirectUrl()
     {
         $url = $this->redirector->getUrlGenerator();
-        return $url->previous() . '#change-password';
+
+        return $url->previous().'#change-password';
     }
 }

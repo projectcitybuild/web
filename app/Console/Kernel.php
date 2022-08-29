@@ -2,16 +2,17 @@
 
 namespace App\Console;
 
+use App\Console\Commands\AccountCreatedAtImport;
+use App\Console\Commands\CleanupExpiredPasswordResetsCommand;
 use App\Console\Commands\CleanupUnactivatedAccountsCommand;
 use App\Console\Commands\DeactivateDonatorPerksCommand;
-use App\Console\Commands\ImportEssentialsBansCommand;
-use App\Console\Commands\QueryServerCommand;
+use App\Console\Commands\GenerateSitemapCommand;
 use App\Console\Commands\RepairMissingGroupsCommand;
-use App\Console\Commands\ServerKeyCreateCommand;
-use App\Console\Commands\StripUUIDHyphensCommand;
-use App\Entities\Environment;
+use App\Console\Commands\RewardCurrencyToDonorsCommand;
+use App\Console\Commands\ServerQueryCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Library\Environment\Environment;
 
 class Kernel extends ConsoleKernel
 {
@@ -21,39 +22,63 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        QueryServerCommand::class,
-        ServerKeyCreateCommand::class,
-        StripUUIDHyphensCommand::class,
-        RepairMissingGroupsCommand::class,
-        ImportEssentialsBansCommand::class,
         CleanupUnactivatedAccountsCommand::class,
         DeactivateDonatorPerksCommand::class,
+        CleanupExpiredPasswordResetsCommand::class,
+        GenerateSitemapCommand::class,
+        RepairMissingGroupsCommand::class,
+        RewardCurrencyToDonorsCommand::class,
+        ServerQueryCommand::class,
+        AccountCreatedAtImport::class,
     ];
 
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     *
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        if (Environment::isDev()) {
-            return;
-        }
+        $schedule->command('telescope:prune')
+            ->daily();
 
-        $schedule->command('query:status --all')
+        $schedule->command('horizon:snapshot')
             ->everyFiveMinutes();
 
+        $schedule->command('passport:purge')
+            ->hourly();
+
+        $schedule->command('sitemap:generate')
+            ->daily();
+
         $schedule->command('cleanup:password-resets')
-            ->weekly();
+            ->daily();
 
         $schedule->command('cleanup:unactivated-accounts')
             ->weekly();
 
-        $schedule->command('donator-perks:expire')
+        $schedule->command('donor-perks:expire')
             ->hourly();
+
+        $schedule->command('donor-perks:reward-currency')
+            ->hourly();
+
+        $schedule->command('bans:expire')
+            ->everyFifteenMinutes();
+
+        if (! Environment::isLocalDev()) {
+            $schedule->command('server:query --all --background')
+                ->everyFiveMinutes();
+
+            $schedule->command('backup:clean')
+                ->dailyAt('00:00');
+
+            $schedule->command('backup:run')
+                ->dailyAt('01:00');
+
+            $schedule->command('backup:monitor')
+                ->dailyAt('02:00');
+        }
     }
 
     /**

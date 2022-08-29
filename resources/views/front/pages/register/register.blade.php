@@ -1,4 +1,4 @@
-@extends('front.layouts.master')
+@extends('front.templates.master')
 
 @section('title', 'Create an Account')
 @section('description', 'Create a PCB account to create forum posts, access personal player statistics and more.')
@@ -12,74 +12,82 @@
     </script>
 @endpush
 
-@section('contents')
-
-    <div class="card card--narrow card--centered">
-        <div class="card__body card__body--padded">
+@section('body')
+    <main class="page login">
+        <div class="login__dialog login__dialog--is-narrow">
             <h1>Create an Account</h1>
-
-            <!-- <div class="register__instructions">
-                Sign-up via social media:
-            </div>
-
-            <div class="register__social">
-                <a class="login__button login__button--facebook" href="">
-                    <i class="fab fa-facebook-square"></i> Facebook
-                </a>
-                <a class="login__button login__button--twitter" href="">
-                    <i class="fab fa-twitter-square"></i> Twitter
-                </a>
-                <a class="login__button login__button--google" href="">
-                    <i class="fab fa-google"></i> Google
-                </a>
-            </div>
-
-            <hr class="divider" data-text="OR SIGN-UP MANUALLY"> -->
-
-            <form method="post" action="{{ route('front.register.submit') }}" id="form">
+            <form method="post" action="{{ route('front.register.submit') }}" id="form" class="form">
                 @csrf
-                
-                @if($errors->any())
-                    <div class="alert alert--error">
-                        <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
-                        {{ $errors->first() }}
-                    </div>
-                    <p>
-                @endif
+
+                @include('front.components.form-error')
 
                 <div class="form-row">
-                    <label>Email Address</label>
-                    <input class="input-text {{ $errors->any() ? 'input-text--error' : '' }}" name="email" type="email" placeholder="Email Address" value="{{ old('email') }}" />
+                    <label for="email">Email Address</label>
+                    <input
+                        class="textfield {{ $errors->any() ? 'error' : '' }}"
+                        name="email"
+                        id="email"
+                        type="email"
+                        placeholder="Email Address"
+                        value="{{ old('email') }}"
+                    />
                 </div>
                 <div class="form-row">
-                    <label>Username</label>
-                    <input class="input-text {{ $errors->any() ? 'input-text--error' : '' }}" name="username" type="username" placeholder="Username" value="{{ old('username') }}" />
+                    <label for="username">Username</label>
+                    <input
+                        class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
+                        name="username"
+                        id="username"
+                        type="text"
+                        placeholder="Username"
+                        value="{{ old('username') }}"
+                    />
                 </div>
                 <div class="form-row">
-                    <label>Password</label>
-                    <input class="input-text {{ $errors->any() ? 'input-text--error' : '' }}" name="password" type="password" placeholder="Password" />
+                    <label for="password">Password</label>
+                    <input
+                        class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
+                        name="password"
+                        id="password"
+                        type="password"
+                        placeholder="Password"
+                        value="{{ old('password') }}"
+                    />
                 </div>
                 <div class="form-row">
-                    <input class="input-text {{ $errors->any() ? 'input-text--error' : '' }}" name="password_confirm" type="password" placeholder="Password (Confirm)" />
+                    <input
+                        class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
+                        id="password_confirm"
+                        aria-label="Confirm Password"
+                        name="password_confirm"
+                        type="password"
+                        placeholder="Password (Confirm)"
+                        value="{{ old('password_confirm') }}"
+                    />
                 </div>
 
-                <div class="form-row">
-                    <button
-                        class="g-recaptcha button button--large button--fill button--primary"
-                        data-sitekey="@recaptcha_key"
-                        data-callback="submitForm"
+                <div class="form-row form-row--emphasise-checkbox">
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="terms"
+                            value="1"
+                            {{ old('terms') ? 'checked' : '' }}
                         >
-                        <i class="fas fa-chevron-right"></i> Register
-                    </button>
+                        I agree to the
+                        <a href="{{ route('terms') }}" target="_blank">terms and conditions</a> and
+                        <a href="{{ route('privacy') }}" target="_blank">privacy policy</a>.
+                    </label>
                 </div>
+
+                <button
+                    class="g-recaptcha button button--filled button--block"
+                    data-sitekey="@recaptcha_key"
+                    data-callback="submitForm"
+                >
+                    <i class="fas fa-chevron-right"></i> Register
+                </button>
             </form>
-
-            <div class="register__fineprint">
-                By signing up, you agree to our community <a href="{{ route('terms') }}">terms and conditions</a>.
-            </div>
-
         </div>
-
-    </div>
-
+    </main>
 @endsection

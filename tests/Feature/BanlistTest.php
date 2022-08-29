@@ -1,38 +1,45 @@
 <?php
 
-
 namespace Tests\Feature;
 
-
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Bans\Models\GameBan;
-use App\Entities\Players\Models\MinecraftPlayer;
-use App\Entities\Players\Models\MinecraftPlayerAlias;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\Eloquent\Server;
+use Entities\Models\Eloquent\ServerCategory;
 use Tests\TestCase;
 
 class BanlistTest extends TestCase
 {
-    public function setUp(): void
+    private function makeMinecraftPlayer(): MinecraftPlayer
     {
-        parent::setUp();
+        return MinecraftPlayer::factory()
+            ->for(Account::factory())
+            ->create();
     }
 
-    public function makeBan($args = [])
+    public function test_active_ban_is_shown_on_list()
     {
-        return factory(GameBan::class)->create($args);
+        $ban = GameBan::factory()
+            ->for(Server::factory()->for(ServerCategory::factory()))
+            ->for($this->makeMinecraftPlayer(), 'bannedPlayer')
+            ->for($this->makeMinecraftPlayer(), 'staffPlayer')
+            ->active()
+            ->create();
 
-    }
-
-    public function testActiveBanIsShownOnList()
-    {
-        $ban = $this->makeBan(['is_active' => 1]);
         $this->get(route('front.banlist'))
             ->assertSee($ban->reason);
     }
 
-    public function testInactiveBanIsNotShownOnList()
+    public function test_inactive_ban_is_not_shown_on_list()
     {
-        $ban = $this->makeBan(['is_active' => 0]);
+        $ban = GameBan::factory()
+            ->for(Server::factory()->for(ServerCategory::factory()))
+            ->for($this->makeMinecraftPlayer(), 'bannedPlayer')
+            ->for($this->makeMinecraftPlayer(), 'staffPlayer')
+            ->inactive()
+            ->create();
+
         $this->get(route('front.banlist'))
             ->assertDontSee($ban->reason);
     }

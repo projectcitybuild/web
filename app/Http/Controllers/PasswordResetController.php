@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Accounts\Models\AccountPasswordReset;
 use App\Exceptions\Http\NotFoundException;
-use App\Http\Actions\AccountPasswordReset\ResetAccountPassword;
-use App\Http\Actions\AccountPasswordReset\SendPasswordResetEmail;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SendPasswordEmailRequest;
 use App\Http\WebController;
+use Domain\PasswordReset\UseCases\ResetAccountPasswordUseCase;
+use Domain\PasswordReset\UseCases\SendPasswordResetEmailUseCase;
 use Illuminate\Http\Request;
+use Repositories\AccountPasswordResetRepository;
 
 final class PasswordResetController extends WebController
 {
     /**
-     * Shows the form to send a verification URL to the user's email address
+     * Shows the form to send a verification URL to the user's email address.
      */
     public function create()
     {
@@ -22,31 +22,30 @@ final class PasswordResetController extends WebController
     }
 
     /**
-     * Creates a password reset request and sends a verification email to the user
-     *
-     * @param SendPasswordEmailRequest $request
-     * @param SendPasswordResetEmail $sendPasswordResetEmail
+     * Creates a password reset request and sends a verification email to the user.
      */
-    public function store(SendPasswordEmailRequest $request, SendPasswordResetEmail $sendPasswordResetEmail)
-    {
+    public function store(
+        SendPasswordEmailRequest $request,
+        SendPasswordResetEmailUseCase $sendPasswordResetEmail,
+    ) {
         $input = $request->validated();
         $email = $input['email'];
 
         $sendPasswordResetEmail->execute(
-            $request->getAccount(),
-            $email
+            account: $request->getAccount(),
+            email: $email,
         );
 
         return redirect()->back()->with(['success' => $email]);
     }
 
     /**
-     * Shows the form to allow the user to set a new password
-     *
-     * @param Request $request
+     * Shows the form to allow the user to set a new password.
      */
-    public function edit(Request $request)
-    {
+    public function edit(
+        Request $request,
+        AccountPasswordResetRepository $passwordResetRepository,
+    ) {
         $token = $request->get('token');
 
         if ($token === null) {
@@ -55,7 +54,7 @@ final class PasswordResetController extends WebController
                 ->withErrors('error', 'Invalid URL. Please try again');
         }
 
-        $passwordReset = AccountPasswordReset::where('token', $token)->first();
+        $passwordReset = $passwordResetRepository->firstByToken($token);
         if ($passwordReset === null) {
             return redirect()
                 ->route('front.password-reset.create')
@@ -68,19 +67,18 @@ final class PasswordResetController extends WebController
     }
 
     /**
-     * Saves the user's new password
-     *
-     * @param ResetPasswordRequest $request
-     * @param ResetAccountPassword $resetAccountPassword
+     * Saves the user's new password.
      */
-    public function update(ResetPasswordRequest $request, ResetAccountPassword $resetAccountPassword)
-    {
+    public function update(
+        ResetPasswordRequest $request,
+        ResetAccountPasswordUseCase $resetAccountPassword,
+    ) {
         $input = $request->validated();
 
         try {
             $resetAccountPassword->execute(
-                $input['password_token'],
-                $input['password']
+                token: $input['password_token'],
+                newPassword: $input['password']
             );
         } catch (NotFoundException $e) {
             return redirect()

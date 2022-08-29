@@ -2,7 +2,6 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\PanelAccess;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -36,6 +35,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\MfaGate::class,
         ],
 
         'api' => [
@@ -57,11 +57,15 @@ class Kernel extends HttpKernel
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'scope' => \App\Http\Middleware\HasGroupScope::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'panel' => PanelAccess::class,
+        'server-token' => \App\Http\Middleware\RequiresServerTokenScope::class,
+        'password.confirm' => \App\Http\Middleware\RequirePassword::class,
+        'active-mfa' => \App\Http\Middleware\ActiveMfaSession::class,
+        'requires-mfa' => \App\Http\Middleware\RequiresMfaEnabled::class,
     ];
 
     /**
@@ -75,9 +79,9 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \App\Http\Middleware\Authenticate::class,
-        PanelAccess::class,
         \Illuminate\Session\Middleware\AuthenticateSession::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
+        \App\Http\Middleware\HasGroupScope::class,
     ];
 }

@@ -1,0 +1,33 @@
+.donation-bar {
+
+    &__outer {
+        background: #fff;
+        border-radius: 5px;
+        padding: 0.25em 0.2em 0.2em 0.2em;
+        box-shadow: inset 0 4px 0 hsla(0, 0, 0, 15%);
+    }
+
+    &__inner {
+        background: #FF842A;
+        border-radius: 5px 0px 0 5px;
+        padding: 0.35em 0.5em 0.5em 0.5em;
+        font-size: 0.9em;
+        font-weight: bold;
+        text-align: center;
+        box-shadow: inset 0 -2px 0 hsla(0, 0, 0, 20%);
+        color: #fff;
+    }
+
+    &__indicators {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0.5em;
+
+        li {
+            font-size: 0.7em;
+            color: #777C95;
+        }
+    }
+}

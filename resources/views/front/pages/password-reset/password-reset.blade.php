@@ -1,4 +1,4 @@
-@extends('front.layouts.master')
+@extends('front.templates.master')
 
 @section('title', 'Forgot Your Password?')
 @section('description', "If you've forgotten your PCB password but remember your email address, use this form to reset your password.")
@@ -12,10 +12,10 @@
     </script>
 @endpush
 
-@section('contents')
+@section('body')
 
-    <div class="card">
-        <div class="card__body card__body--padded">
+    <main class="page login">
+        <div class="login__dialog login__dialog--is-narrow">
             <h1>Forgot Your Password?</h1>
 
             @if(Session::has('success'))
@@ -27,38 +27,29 @@
             @endif
 
             <p>
-                Please enter the email address you used to create your account. 
+                Please enter the email address you used to create your account.
                 If the account exists, an email will be sent with a link to change your password.
             </p>
 
-            <form method="post" action="{{ route('front.password-reset.store') }}" id="form">
+            @include('front.components.form-error')
+
+            <form method="post" action="{{ route('front.password-reset.store') }}" id="form" class="form">
                 @csrf
-                
-                @if($errors->any())
-                    <div class="alert alert--error">
-                        <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
-                        {{ $errors->first() }}
-                    </div>
-                    <p>
-                @endif
 
                 <div class="form-row">
-                    <input class="input-text {{ $errors->any() ? 'input-text--error' : '' }}" name="email" type="email" placeholder="Email Address" value="{{ old('email') }}" />
+                    <label for="email">Email Address</label>
+                    <input class="textfield {{ $errors->any() ? 'input-text--error' : '' }}" name="email" type="email"
+                           placeholder="you@pcbmc.co" value="{{ old('email') }}"/>
                 </div>
 
-                <div>
-                    <button
-                        class="g-recaptcha button button--large button--fill button--primary"
-                        data-sitekey="@recaptcha_key"
-                        data-callback="submitForm"
-                        >
-                        <i class="fas fa-envelope"></i> Send Reset Link
-                    </button>
-                </div>
-
+                <button
+                    class="g-recaptcha button button--filled button--block"
+                    data-sitekey="@recaptcha_key"
+                    data-callback="submitForm"
+                >
+                    <i class="fas fa-envelope"></i> Send Reset Link
+                </button>
             </form>
         </div>
-
-    </div>
-
+    </main>
 @endsection

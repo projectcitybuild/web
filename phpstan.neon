@@ -5,4 +5,10 @@ parameters:
   paths:
     - app
     - bootstrap
+    - domain
+    - entities
+    - helpers
+    - library
+    - repositories
     - routes
+    - shared

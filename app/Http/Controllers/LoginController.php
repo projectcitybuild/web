@@ -2,139 +2,95 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Accounts\Repositories\AccountRepository;
 use App\Http\Requests\LoginRequest;
 use App\Http\WebController;
-use App\Library\Discourse\Api\DiscourseAdminApi;
-use App\Library\Discourse\Exceptions\UserNotFound;
-use App\Library\RateLimit\Storage\SessionTokenStorage;
-use App\Library\RateLimit\TokenBucket;
-use App\Library\RateLimit\TokenRate;
-use App\Services\Login\LogoutService;
-use Illuminate\Contracts\Auth\Guard as AuthGuard;
+use Domain\Login\Entities\LoginCredentials;
+use Domain\Login\Exceptions\AccountNotActivatedException;
+use Domain\Login\Exceptions\InvalidLoginCredentialsException;
+use Domain\Login\UseCases\LoginUseCase;
+use Domain\SignUp\Exceptions\AccountAlreadyActivatedException;
+use Domain\SignUp\UseCases\ResendActivationEmailUseCase;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Library\RateLimit\Storage\SessionTokenStorage;
+use Library\RateLimit\TokenBucket;
+use Library\RateLimit\TokenRate;
 
 final class LoginController extends WebController
 {
-    /**
-     * @var DiscourseAdminApi
-     */
-    private $discourseAdminApi;
-
-    /**
-     * @var AccountRepository
-     */
-    private $accountRepository;
-
-    /**
-     * @var LogoutService
-     */
-    private $logoutService;
-
-    /**
-     * @var AuthGuard
-     */
-    private $auth;
-
-    public function __construct(
-        DiscourseAdminApi $discourseAdminApi,
-        AccountRepository $accountRepository,
-        LogoutService $logoutService,
-        AuthGuard $auth
-    ) {
-        $this->discourseAdminApi = $discourseAdminApi;
-        $this->accountRepository = $accountRepository;
-        $this->logoutService = $logoutService;
-        $this->auth = $auth;
-    }
-
-    public function create()
+    public function show(): View
     {
         return view('front.pages.login.login');
     }
 
-    public function store(LoginRequest $request)
-    {
-        $refillRate = TokenRate::refill(3)->every(2, TokenRate::MINUTES);
-        $sessionStorage = new SessionTokenStorage('login.rate', 5);
-        $rateLimit = new TokenBucket(6, $refillRate, $sessionStorage);
+    public function login(
+        LoginRequest $request,
+        LoginUseCase $loginUseCase,
+    ): RedirectResponse {
+        $input = $request->validated();
 
-        if ($rateLimit->consume(1) === false) {
+        $rateLimit = new TokenBucket(
+            capacity: 6,
+            refillRate: TokenRate::refill(3)
+                ->every(2, TokenRate::MINUTES),
+            storage: new SessionTokenStorage(
+                sessionName: 'login.rate',
+                initialTokens: 5
+            ),
+        );
+
+        if (! $rateLimit->consume(1)) {
             throw ValidationException::withMessages([
                 'error' => ['Too many login attempts. Please try again in a few minutes'],
             ]);
         }
 
-        if (! Auth::attempt($request->validated())) {
+        $credentials = new LoginCredentials(
+            email: $input['email'],
+            password: $input['password'],
+        );
+
+        try {
+            $loginUseCase->execute(
+                credentials: $credentials,
+                shouldRemember: $request->filled('remember_me'),
+                ip: $request->ip(),
+            );
+        } catch (InvalidLoginCredentialsException) {
             $triesLeft = floor($rateLimit->getAvailableTokens());
-
             throw ValidationException::withMessages([
-                'error' => ['Email or password is incorrect: ' . $triesLeft . ' attempts remaining'],
+                'error' => ['Email or password is incorrect: '.$triesLeft.' attempts remaining'],
+            ]);
+        } catch (AccountNotActivatedException) {
+            throw ValidationException::withMessages([
+                'error' => ['Your email has not been confirmed. If you didn\'t receive it, check your spam. <p /><a href="'.route('front.login.reactivate', ['email' => $input['email']]).'">Click here</a> if you need to resend the activation email'],
             ]);
         }
 
-        if (! $this->auth->user()->activated) {
-            Auth::logout();
+        // Prevent session fixation
+        // https://laravel.com/docs/9.x/authentication#authenticating-users
+        $request->session()->regenerate();
 
-            throw ValidationException::withMessages([
-                'error' => ['Your email has not been confirmed. If you didn\'t receive it, check your spam. If you need help, ask PCB staff.'],
+        return redirect()->intended();
+    }
+
+    public function resendActivationEmail(
+        Request $request,
+        ResendActivationEmailUseCase $resendActivationEmail,
+    ) {
+        try {
+            $resendActivationEmail->execute(email: $request->get('email'));
+        } catch (AccountAlreadyActivatedException) {
+            return redirect()->back()->withErrors([
+                'Account has already been activated',
             ]);
         }
 
-        $account = $this->auth->user();
-
-        $account->updateLastLogin($request->ip());
-
-        // Set the user's nickname from Discourse if it isn't already
-        if ($account->username === null) {
-            try {
-                $discourseUser = $this->discourseAdminApi->fetchUserByEmail($account->email);
-                $account->username = $discourseUser['username'];
-            } catch (UserNotFound $e) {
-                $account->username = Str::random(10);
-            } finally {
-                $account->save();
-            }
-        }
-
-        // Redirect back to the intended page
-        // If the user is just logging in, perform discourse SSO
-        return redirect()->intended(route('front.sso.discourse'));
-    }
-
-    /**
-     * Logs out the current PCB account
-     *
-     * (called from Discourse)
-     *
-     * @param Request $request
-     *
-     * @return void
-     */
-    public function logoutFromDiscourse(Request $request)
-    {
-        $this->logoutService->logoutOfPCB();
-
-        return redirect()->route('front.home');
-    }
-
-    /**
-     * Logs out the current PCB account and
-     * its associated Discourse account
-     *
-     * (called from this site)
-     *
-     * @param Request $request
-     *
-     * @return void
-     */
-    public function logout(Request $request)
-    {
-        $this->logoutService->logoutOfDiscourseAndPCB();
-
-        return redirect()->route('front.home');
+        return redirect()->back()->with(
+            key: 'success',
+            value: 'An activation email has been sent if the account exists. Please remember to check your spam/junk',
+        );
     }
 }

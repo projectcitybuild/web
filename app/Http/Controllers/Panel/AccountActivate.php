@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Entities\Accounts\Models\Account;
 use App\Http\WebController;
+use Entities\Models\Eloquent\Account;
 
 class AccountActivate extends WebController
 {
     public function __invoke(Account $account)
     {
         $account->activated = true;
-        $account->save();
+        $account->disableLogging()->save();
+        activity()->on($account)
+            ->log('manually activated');
 
         return redirect()->back();
     }

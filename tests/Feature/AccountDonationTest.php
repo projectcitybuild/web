@@ -2,46 +2,39 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Donations\Models\Donation;
-use App\Entities\Donations\Models\DonationPerk;
 use Carbon\Carbon;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Donation;
+use Entities\Models\Eloquent\DonationPerk;
 use Tests\TestCase;
 
 class AccountDonationTest extends TestCase
 {
-    public function testShowsNoDonations()
+    public function test_shows_no_donations()
     {
-        $this->actingAs(factory(Account::class)->create());
+        $this->actingAs(Account::factory()->create());
 
         $this->get(route('front.account.donations'))
             ->assertOk()
-            ->assertSee("You haven't donated yet!", false);
+            ->assertSee('You have not made any donations.');
     }
 
-    public function testShowsTemporaryDonation()
+    public function test_shows_temporary_donation()
     {
-        $account = factory(Account::class)->create();
+        $expiryDate = Carbon::now()->addDay();
+
+        $account = Account::factory()->create();
+
+        DonationPerk::factory()
+            ->for($account)
+            ->for(Donation::factory()->for($account))
+            ->state(['expires_at' => $expiryDate])
+            ->create();
+
         $this->actingAs($account);
-        $donation = factory(Donation::class)->create(['account_id' => $account->getKey()]);
-        $perkData = factory(DonationPerk::class)->raw(['account_id' => $account->getKey()]);
-        $donation->perks()->create($perkData);
 
         $this->get(route('front.account.donations'))
             ->assertOk()
-            ->assertSee(Carbon::instance($perkData["expires_at"])->toFormattedDateString());
-    }
-
-    public function testShowsLifetimeDonation()
-    {
-        $account = factory(Account::class)->create();
-        $this->actingAs($account);
-        $donation = factory(Donation::class)->create(['account_id' => $account->getKey()]);
-        $perkData = factory(DonationPerk::class)->state('lifetime')->raw(['account_id' => $account->getKey()]);
-        $donation->perks()->create($perkData);
-
-        $this->get(route('front.account.donations'))
-            ->assertOk()
-            ->assertSee("Lifetime");
+            ->assertSee($expiryDate->toFormattedDateString());
     }
 }

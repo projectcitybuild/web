@@ -2,12 +2,21 @@
 
 namespace Database\Seeders;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Groups\Models\Group;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Group;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use PragmaRX\Google2FA\Google2FA;
 
 class AccountSeeder extends Seeder
 {
+    public function __construct(
+        private Google2FA $google2FA,
+    ) {
+    }
+
     /**
      * Run the database seeds.
      *
@@ -15,8 +24,15 @@ class AccountSeeder extends Seeder
      */
     public function run()
     {
-        $account = factory(Account::class, 500)->create();
-        $defaultGroup = Group::where('is_default', 1)->first();
-        $account->groups()->attach($defaultGroup->getKey());
+        $adminGroup = Group::where('name', 'developer')->first();
+        $adminAccount = Account::factory()->make();
+        $adminAccount->username = 'Admin';
+        $adminAccount->email = 'admin@pcbmc.co';
+        $adminAccount->password = Hash::make('admin');
+        $adminAccount->totp_secret = Crypt::encryptString($this->google2FA->generateSecretKey());
+        $adminAccount->totp_backup_code = Crypt::encryptString(Str::random(config('auth.totp.backup_code_length')));
+        $adminAccount->is_totp_enabled = true;
+        $adminAccount->save();
+        $adminAccount->groups()->attach($adminGroup->getKey());
     }
 }

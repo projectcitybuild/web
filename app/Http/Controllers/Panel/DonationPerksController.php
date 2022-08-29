@@ -2,24 +2,13 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Entities\Donations\Models\DonationPerk;
 use App\Http\WebController;
+use Entities\Models\Eloquent\DonationPerk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class DonationPerksController extends WebController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $perks = DonationPerk::with(['account', 'donation'])->orderBy('created_at', 'desc')->paginate(100);
-        return view('front.pages.panel.donation-perks.index')->with(compact('perks'));
-    }
-
     /**
      * Show the form for creating the specified resource.
      *
@@ -27,13 +16,14 @@ class DonationPerksController extends WebController
      */
     public function create(Request $request)
     {
-        return view('front.pages.panel.donation-perks.create');
+        $perk = new DonationPerk();
+
+        return view('admin.donation-perk.create')->with(compact('perk'));
     }
 
     /**
      * Add a specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\Http\Response
      */
@@ -68,7 +58,7 @@ class DonationPerksController extends WebController
                 ->withInput();
         }
 
-        DonationPerk::create([
+        $perk = DonationPerk::create([
             'donation_id' => $request->get('donation_id'),
             'account_id' => $request->get('account_id'),
             'is_active' => $request->get('is_active'),
@@ -78,26 +68,23 @@ class DonationPerksController extends WebController
             'updated_at' => $request->get('created_at'),
         ]);
 
-        return redirect(route('front.panel.donation-perks.index'));
+        return redirect(route('front.panel.donations.show', $perk->donation));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Entities\Donations\Models\DonationPerk  $donationPerk
      *
      * @return \Illuminate\Http\Response
      */
     public function edit(DonationPerk $donationPerk)
     {
-        return view('front.pages.panel.donation-perks.edit')->with(['perk' => $donationPerk]);
+        return view('admin.donation-perk.edit')->with(['perk' => $donationPerk]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Donations\Models\DonationPerk   $donationPerk
      *
      * @return \Illuminate\Http\Response
      */
@@ -141,14 +128,13 @@ class DonationPerksController extends WebController
     /**
      * Delete the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Donations\Models\DonationPerk   $donationPerk
      *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, DonationPerk $donationPerk)
     {
         $donationPerk->delete();
+
         return redirect(route('front.panel.donation-perks.index'));
     }
 }

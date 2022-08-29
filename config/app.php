@@ -166,6 +166,8 @@ return [
          * Package Service Providers...
          */
 
+        \Library\Discord\DiscordChannelServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -173,11 +175,30 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\HorizonServiceProvider::class,
+        App\Providers\PanelGateServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
 
-        App\Library\Discourse\DiscourseServiceProvider::class,
-        App\Library\Recaptcha\RecaptchaServiceProvider::class,
+        /*
+         * Library Service Providers...
+         */
+        Library\Recaptcha\RecaptchaProvider::class,
+        Library\Random\RandomProvider::class,
+        Library\SignedURL\SignedURLProvider::class,
+        Library\Tokens\TokensProvider::class,
 
+        /*
+         * Shared Service Providers...
+         */
+        Shared\Groups\GroupsProvider::class,
+
+        /*
+         * Domain Service Providers...
+         */
+        Domain\CurrencyRewarder\CurrencyRewarderProvider::class,
+        Domain\Donations\DonationsProvider::class,
+        Domain\PlayerFetch\PlayerFetchProvider::class,
     ],
 
     /*

@@ -11,31 +11,42 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.typeScript('resources/js/app.tsx', 'public/assets/js')
-    .sass('resources/sass/app.scss', 'public/assets/css')
+mix.typeScript('resources/js/admin/admin.ts', 'public/assets/admin/js')
+    .extract(['bootstrap', 'jquery', '@popperjs/core', 'choices.js'], 'public/assets/admin/js/admin-vendor.js')
+    .sass('resources/sass/admin/admin-dark.scss', 'public/assets/admin/css')
+    .sass('resources/sass/admin/admin-light.scss', 'public/assets/admin/css');
+
+mix.typeScript('resources/js/app.ts', 'public/assets/js')
+    .sass('resources/sass/v2/app-v2.scss', 'public/assets/css')
+    .vue()
     .options({
         processCssUrls: false
     })
-   .sass('resources/sass/navonly.scss', 'public/assets/css')
-   .extract([
-        'react',
-        'date-fns',
-        'react-dom',
-        'axios'
+    .extract([
+        'vue',
     ]);
 
-if(mix.config.production) {
-    mix.version();
+mix.webpackConfig({
+    stats: {
+        children: true
+    }
+});
 
+if (mix.inProduction()) {
+    mix.version();
 } else {
+    mix.sourceMaps();
+
     mix.browserSync({
         open: false,
+        proxy: 'laravel.test',
         files: [
-            'resources/**/*.php',
-            'resources/**/*.css',
-            'resources/**/*.js',
-            'resources/**/*.ts',
-            'public/**/*',
+            'resources/views/**/*',
+            'resources/sass/**/*.css',
+            'resources/js/**/*.js',
+            'resources/js/**/*.ts',
+            'public/assets/fonts/**/*',
+            'public/assets/images/**/*',
         ]
     });
 }

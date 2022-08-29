@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Groups\Models\Group;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Group;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -25,8 +25,6 @@ final class RepairMissingGroupsCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {
@@ -34,6 +32,7 @@ final class RepairMissingGroupsCommand extends Command
 
         if (count($accountsWithoutGroups) === 0) {
             $this->info('No accounts need to be assigned a group');
+
             return;
         }
 
@@ -49,7 +48,7 @@ final class RepairMissingGroupsCommand extends Command
             }
         });
 
-        $this->info(count($accountsWithoutGroups) . ' accounts assigned to a default group');
+        $this->info(count($accountsWithoutGroups).' accounts assigned to a default group');
 
         $progressBar->finish();
     }

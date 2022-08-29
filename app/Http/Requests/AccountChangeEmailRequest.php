@@ -2,19 +2,19 @@
 
 namespace App\Http\Requests;
 
-use App\Entities\Accounts\Repositories\AccountRepository;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Repositories\AccountRepository;
 
 final class AccountChangeEmailRequest extends FormRequest
 {
-
     /**
      * The key to be used for the view error bag.
      *
      * @var string
      */
     protected $errorBag = 'email';
+
     /**
      * @var AccountRepository
      */
@@ -27,8 +27,6 @@ final class AccountChangeEmailRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -41,7 +39,6 @@ final class AccountChangeEmailRequest extends FormRequest
      * Configure the validator instance.
      *
      * @param  \Illuminate\Validation\Validator  $validator
-     *
      * @return void
      */
     public function withValidator($validator)
@@ -68,8 +65,6 @@ final class AccountChangeEmailRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -77,13 +72,14 @@ final class AccountChangeEmailRequest extends FormRequest
     }
 
     /**
-     * Redirect back to the form anchor
+     * Redirect back to the form anchor.
      *
      * @return string
      */
     protected function getRedirectUrl()
     {
         $url = $this->redirector->getUrlGenerator();
-        return $url->previous() . '#change-email';
+
+        return $url->previous().'#change-email';
     }
 }

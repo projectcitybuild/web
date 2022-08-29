@@ -16,6 +16,8 @@ yarn-error.log
 # generated resources/builds
 /public/assets/css
 /public/assets/js
+/public/assets/admin
+/public/sitemap.xml
 mix-manifest.json
 
 # token buckets
@@ -36,3 +38,6 @@ Homestead.json
 Homestead.yaml
 
 clover.xml
+
+*.pem
+*:Zone.Identifier

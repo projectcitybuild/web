@@ -1,0 +1,18 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    min-height: 100%;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: $color-lightest-grey;
+    font-family: $font-body;
+    font-size: 16px;
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: auto;
+    padding-top: $nav-height;
+}

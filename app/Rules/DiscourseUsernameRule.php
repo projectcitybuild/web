@@ -6,23 +6,23 @@ use Illuminate\Contracts\Validation\Rule;
 
 /**
  * PHP implementation of
- * https://github.com/discourse/discourse/blob/888e68a1637ca784a7bf51a6bbb524dcf7413b13/app/models/username_validator.rb
- *
- * @package App\Rules
+ * https://github.com/discourse/discourse/blob/888e68a1637ca784a7bf51a6bbb524dcf7413b13/app/models/username_validator.rb.
  */
 class DiscourseUsernameRule implements Rule
 {
-
     // usernames must consist of a-z A-Z 0-9 _ - .
     private const ASCII_INVALID_CHARACTERS = "/[^\w.-]/";
+
     // usernames can start with a-z A-Z 0-0 _
     private const VALID_LEADING_CHARACTERS = '/^[a-zA-Z0-9_]/';
+
     // usernames must end with a-z A-Z 0-9
     private const VALID_TRAILING_CHARACTERS = '/[a-zA-Z0-9]$/';
+
     // underscores, dashes and dots can't be repeated consecutively
     private const REPEATING_CONFUSING_CHARACTERS = '/[-_.]{2,}/';
-
     private const CONFUSING_EXTENSIONS = "/\.(js|json|css|htm|html|xml|jpg|jpeg|png|gif|bmp|ico|tif|tiff|woff)$/i";
+
     private $value;
     private $errors = [];
 
@@ -33,15 +33,12 @@ class DiscourseUsernameRule implements Rule
      */
     public function __construct()
     {
-        
     }
 
     /**
      * Determine if the validation rule passes.
      *
-     * @param string $attribute
-     * @param mixed $value
-     *
+     * @param  string  $attribute
      * @return bool
      */
     public function passes($attribute, $value)

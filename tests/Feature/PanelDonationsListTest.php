@@ -2,36 +2,45 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Donations\Models\Donation;
-use App\Entities\Groups\Models\Group;
-use App\Http\Actions\SyncUserToDiscourse;
-use Mockery;
-use Tests\TestCase;
+use Entities\Models\Eloquent\Donation;
+use Entities\Models\PanelGroupScope;
+use Tests\E2ETestCase;
 
-class PanelDonationsListTest extends TestCase
+class PanelDonationsListTest extends E2ETestCase
 {
-    private $adminAccount;
-
-    protected function setUp(): void
+    public function test_donation_shown_in_list()
     {
-        parent::setUp();
-
-        $this->adminAccount = factory(Account::class)->create();
-        $adminGroup = Group::create([
-            'name' => 'Administrator',
-            'can_access_panel' => true
+        $admin = $this->adminAccount(scopes: [
+            PanelGroupScope::ACCESS_PANEL,
+            PanelGroupScope::MANAGE_DONATIONS,
         ]);
 
-        $this->adminAccount->groups()->attach($adminGroup->group_id);
-    }
+        $donation = Donation::factory()->create();
 
-    public function testDonationShownInList()
-    {
-        $donation = factory(Donation::class)->create();
-
-        $this->actingAs($this->adminAccount)
+        $this->actingAs($admin)
             ->get(route('front.panel.donations.index'))
             ->assertSee($donation->donation_id);
+    }
+
+    public function test_unauthorised_without_scope()
+    {
+        $admin = $this->adminAccount(scopes: [
+            PanelGroupScope::ACCESS_PANEL,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('front.panel.donations.index'))
+            ->assertUnauthorized();
+    }
+
+    public function test_unauthorised_without_panel_access()
+    {
+        $admin = $this->adminAccount(scopes: [
+            PanelGroupScope::MANAGE_DONATIONS,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('front.panel.donations.index'))
+            ->assertUnauthorized();
     }
 }

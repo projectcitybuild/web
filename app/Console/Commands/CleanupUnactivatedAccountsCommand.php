@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Entities\Accounts\Models\Account;
+use Entities\Models\Eloquent\Account;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -25,8 +25,6 @@ final class CleanupUnactivatedAccountsCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {

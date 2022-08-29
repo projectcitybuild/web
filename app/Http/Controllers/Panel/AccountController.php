@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Groups\Models\Group;
-use App\Http\Actions\SyncUserToDiscourse;
 use App\Http\WebController;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Badge;
+use Entities\Models\Eloquent\Group;
 use Illuminate\Http\Request;
 
 class AccountController extends WebController
@@ -19,58 +19,52 @@ class AccountController extends WebController
     {
         if ($request->has('query') && $request->input('query') !== '') {
             $query = $request->input('query');
-            $accounts = Account::search($query)->paginate(100);
+            $accounts = Account::search($query)->paginate(50);
         } else {
             $query = '';
-            $accounts = Account::paginate(100);
+            $accounts = Account::paginate(50);
         }
 
-        return view('front.pages.panel.account.index')->with(compact('accounts', 'query'));
+        return view('admin.account.index')->with(compact('accounts', 'query'));
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Entities\Accounts\Models\Account  $account
      *
      * @return \Illuminate\Http\Response
      */
     public function show(Account $account)
     {
         $groups = Group::all();
-        return view('front.pages.panel.account.show')->with(compact('account', 'groups'));
+        $badges = Badge::all();
+
+        return view('admin.account.show')->with(compact('account', 'groups', 'badges'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Entities\Accounts\Models\Account  $account
-     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Account $account)
     {
-        return view('front.pages.panel.account.edit')->with(compact('account'));
+        return view('admin.account.edit')->with(compact('account'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Accounts\Models\Account  $account
-     *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Account $account)
-    {
+    public function update(
+        Request $request,
+        Account $account,
+    ) {
+        // TODO: Validate this
         $account->update($request->all());
         $account->save();
 
         $account->emailChangeRequests()->delete();
-
-        $syncAction = resolve(SyncUserToDiscourse::class);
-        $syncAction->setUser($account);
-        $syncAction->syncAll();
 
         return redirect(route('front.panel.accounts.show', $account));
     }

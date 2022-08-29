@@ -1,8 +1,5 @@
 <?php
 
-use App\Services\PasswordReset\PasswordResetCleanupService;
-use Illuminate\Support\Facades\Artisan;
-
 /*
 |--------------------------------------------------------------------------
 | Console Routes
@@ -13,8 +10,3 @@ use Illuminate\Support\Facades\Artisan;
 | simple approach to interacting with each command's IO methods.
 |
 */
-
-Artisan::command('cleanup:password-resets', function () {
-    $cleanupService = resolve(PasswordResetCleanupService::class);
-    $cleanupService->cleanup();
-})->describe('Delete old password reset requests');

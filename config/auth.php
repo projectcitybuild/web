@@ -42,9 +42,8 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'passport',
             'provider' => 'accounts',
-            'hash' => false,
         ],
     ],
 
@@ -68,7 +67,7 @@ return [
     'providers' => [
         'accounts' => [
             'driver' => 'eloquent',
-            'model' => App\Entities\Accounts\Models\Account::class,
+            'model' => \Entities\Models\Eloquent\Account::class,
         ],
 
         // 'users' => [
@@ -100,4 +99,12 @@ return [
         ],
     ],
 
+    /*
+     * Two-factor authentication settings
+     */
+
+    'totp' => [
+        'backup_code_length' => 32,
+        'bypass' => env('TOTP_BYPASS', false),
+    ],
 ];

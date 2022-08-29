@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use Entities\Models\PanelGroupScope;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Library\Environment\Environment;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -36,8 +38,6 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
-
-    
     }
 
     /**
@@ -51,7 +51,21 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware('web')
             ->namespace($this->namespace)
+            ->name('front.')
             ->group(base_path('routes/web.php'));
+
+        Route::middleware('web')
+            ->group(base_path('routes/web_redirects.php'));
+
+        Route::middleware(['web', 'auth', PanelGroupScope::ACCESS_PANEL->toMiddleware(), 'requires-mfa'])
+            ->prefix('panel')
+            ->name('front.panel.')
+            ->group(base_path('routes/web_panel.php'));
+
+        if (Environment::isTest()) {
+            Route::middleware('web')
+                ->group(base_path('routes/web_tests.php'));
+        }
     }
 
     /**
@@ -63,9 +77,20 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
+        // For backwards compatibility, fallback to v1 if no version specified
         Route::prefix('api')
-            ->middleware('api')
-            ->namespace('App\Http\Controllers\Api')
-            ->group(base_path('routes/api.php'));
+            ->middleware(['api'])
+            ->name('v0.')
+            ->group(base_path('routes/api_v1.php'));
+
+        Route::prefix('api/v1')
+            ->middleware(['api'])
+            ->name('v1.')
+            ->group(base_path('routes/api_v1.php'));
+
+        Route::prefix('api/v2')
+            ->middleware(['api'])
+            ->name('v2.')
+            ->group(base_path('routes/api_v2.php'));
     }
 }

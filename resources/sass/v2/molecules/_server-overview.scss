@@ -1,0 +1,111 @@
+.server-overview {
+
+    &__server {
+        display: flex;
+        align-items: stretch;
+        background: #F3F3F3;
+
+        .server-text {
+            width: 50%;
+            padding: 5em;
+
+            h1 {
+                color: $color-heading-primary;
+                font-size: 3.8em;
+                font-family: $font-header;
+                font-weight: 500;
+                text-transform: uppercase;
+                font-kerning: normal;
+                line-height: 0.95em;
+                margin-bottom: 0.2em;
+            }
+
+            &__desc, &__links {
+                font-size: 0.9em;
+                line-height: 2em;
+            }
+
+            &__desc {
+                color: $color-text-primary;
+            }
+
+            &__links {
+                margin-top: 2em;
+                font-weight: 500;
+
+                ul {
+                    list-style: none;
+                    padding: 0;
+                    display: flex;
+                }
+                li:not(:last-child) {
+                    padding-right: 1.5em;
+                }
+            }
+        }
+
+        .server-image {
+            width: 50%;
+            background: #d9d9d9;
+            background-size: cover;
+            min-height: 500px;
+            flex-grow: 1;
+
+            &.creative {
+                background-image: url('/assets/images/gallery1.png');
+            }
+            &.survival {
+                background-image: url('/assets/images/gallery4.png');
+            }
+            &.monarch {
+                background-image: url('/assets/images/gallery3.png');
+            }
+            &.arcade {
+                background-image: url('/assets/images/gallery2.png');
+                background-position: center;
+            }
+        }
+    }
+
+    &__server.right {
+        text-align: right;
+
+        .server-text__links ul {
+            justify-content: end;
+        }
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .server-overview__server {
+        .server-text {
+            padding: 3em;
+        }
+    }
+}
+@media screen and (max-width: 768px) {
+    .server-overview__server {
+        flex-direction: column;
+
+        .server-text {
+            width: 100%;
+            text-align: center;
+            padding-left: 2em;
+            padding-right: 2em;
+        }
+        .server-image {
+            width: 100%;
+            min-height: 300px;
+        }
+        .server-text__links ul {
+            justify-content: center;
+        }
+    }
+    .server-overview__server.right {
+        flex-direction: column-reverse;
+
+        .server-text__links ul {
+            justify-content: center;
+        }
+    }
+}

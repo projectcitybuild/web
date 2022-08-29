@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Players\Models\MinecraftAuthCode;
 use App\Http\WebController;
+use Entities\Models\Eloquent\MinecraftAuthCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -35,6 +35,8 @@ final class MinecraftPlayerLinkController extends WebController
             throw $e;
         }
 
-        return view('front.pages.minecraft-auth.complete');
+        $request->session()->flash('game_account_added', true);
+
+        return redirect(route('front.account.games'));
     }
 }

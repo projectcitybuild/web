@@ -1,14 +1,13 @@
 <?php
 
-
 namespace Tests\Feature;
 
-
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Accounts\Notifications\AccountEmailChangeVerifyNotification;
+use Domain\EmailChange\Notifications\VerifyNewEmailAddressNotification;
+use Domain\EmailChange\Notifications\VerifyOldEmailAddressNotification;
+use Entities\Models\Eloquent\Account;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 class AccountSettingsEmailTest extends TestCase
@@ -20,20 +19,21 @@ class AccountSettingsEmailTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->account = factory(Account::class)->create();
+
+        $this->account = Account::factory()->create();
     }
 
-    /**
-     * @param $newEmail
-     */
-    private function submitEmailChange($newEmail): \Illuminate\Testing\TestResponse
+    private function submitEmailChange(string $newEmail): TestResponse
     {
-        return $this->actingAs($this->account)->post(route('front.account.settings.email'), [
-            'email' => $newEmail
-        ]);
+        return $this
+            ->actingAs($this->account)
+            ->post(
+                uri: route('front.account.settings.email'),
+                data: ['email' => $newEmail]
+            );
     }
 
-    public function testChangeEmailAddress()
+    public function test_change_email_address()
     {
         Notification::fake();
         Notification::assertNothingSent();
@@ -45,36 +45,36 @@ class AccountSettingsEmailTest extends TestCase
 
         $this->assertDatabaseHas('account_email_changes', [
             'email_previous' => $oldEmail,
-            'email_new' => $newEmail
+            'email_new' => $newEmail,
         ]);
 
         // Test notification to old email
-        Notification::assertSentTo($this->account, AccountEmailChangeVerifyNotification::class);
+        Notification::assertSentTo(Notification::route('mail', $oldEmail), VerifyOldEmailAddressNotification::class);
         // Test notification to new email
-        Notification::assertSentTo(Notification::route('mail', $newEmail), AccountEmailChangeVerifyNotification::class);
+        Notification::assertSentTo(Notification::route('mail', $newEmail), VerifyNewEmailAddressNotification::class);
     }
 
-    public function testCantChangeEmailToExistingEmail()
+    public function test_cant_change_ema_il_to_existing_email()
     {
-        $otherAccount = factory(Account::class)->create();
+        $otherAccount = Account::factory()->create();
 
         $this->submitEmailChange($otherAccount->email)
             ->assertSessionHasErrors();
     }
 
-    public function testCantSubmitEmptyEmail()
+    public function test_cant_submit_empty_email()
     {
-        $this->submitEmailChange("")
+        $this->submitEmailChange('')
             ->assertSessionHasErrors();
     }
 
-    public function testCantSubmitInvalidEmail()
+    public function test_cant_submit_invalid_email()
     {
-        $this->submitEmailChange("test")
+        $this->submitEmailChange('test')
             ->assertSessionHasErrors();
     }
 
-    public function testCantSubmitSameEmail()
+    public function test_cant_submit_same_email()
     {
         $this->submitEmailChange($this->account->email)
             ->assertSessionHasErrors();

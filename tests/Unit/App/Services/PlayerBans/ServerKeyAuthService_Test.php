@@ -1,13 +1,15 @@
 <?php
-namespace Tests\Services;
 
-use Tests\TestCase;
-use App\Services\PlayerBans\ServerKeyAuthService;
-use App\Services\PlayerBans\Exceptions\MalformedTokenException;
+namespace Tests\Unit\App\Services\PlayerBans;
+
 use App\Exceptions\Http\ForbiddenException;
 use App\Exceptions\Http\UnauthorisedException;
-use App\Entities\ServerKeys\Models\ServerKey;
+use App\Services\PlayerBans\Exceptions\MalformedTokenException;
+use App\Services\PlayerBans\ServerKeyAuthService;
+use Entities\Models\Eloquent\Server;
+use Entities\Models\Eloquent\ServerKey;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ServerKeyAuthService_Test extends TestCase
 {
@@ -40,12 +42,13 @@ class ServerKeyAuthService_Test extends TestCase
         $this->expectException(UnauthorisedException::class);
         $service->getServerKey('Bearer unregistered_key');
     }
-    
+
     public function testRegisteredKey()
     {
+        $server = Server::factory()->create();
         // given...
         ServerKey::create([
-            'server_id' => 1,
+            'server_id' => $server->getKey(),
             'token' => 'valid_key',
             'can_local_ban' => true,
             'can_global_ban' => true,

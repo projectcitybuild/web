@@ -2,43 +2,61 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Groups\Models\Group;
-use App\Http\Actions\SyncUserToDiscourse;
-use Mockery;
-use Tests\TestCase;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\PanelGroupScope;
+use Tests\E2ETestCase;
 
-class PanelAccountListTest extends TestCase
+class PanelAccountListTest extends E2ETestCase
 {
-    private $adminAccount;
+    private Account $admin;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
-        $this->adminAccount = factory(Account::class)->create();
-        $adminGroup = Group::create([
-            'name' => 'Administrator',
-            'can_access_panel' => true
+
+        $this->admin = $this->adminAccount(scopes: [
+            PanelGroupScope::ACCESS_PANEL,
+            PanelGroupScope::MANAGE_ACCOUNTS,
+        ]);
+    }
+
+    public function test_account_shown_in_list()
+    {
+        $account = Account::factory()->create();
+
+        $this->actingAs($this->admin)
+            ->get(route('front.panel.accounts.index'))
+            ->assertSee($account->username);
+    }
+
+    public function test_unactivated_account_shown_in_list()
+    {
+        $account = Account::factory()->unactivated()->create();
+
+        $this->actingAs($this->admin)
+            ->get(route('front.panel.accounts.index'))
+            ->assertSee($account->username);
+    }
+
+    public function test_unauthorised_without_scope()
+    {
+        $admin = $this->adminAccount(scopes: [
+            PanelGroupScope::ACCESS_PANEL,
         ]);
 
-        $this->adminAccount->groups()->attach($adminGroup->group_id);
-
+        $this->actingAs($admin)
+            ->get(route('front.panel.accounts.index'))
+            ->assertUnauthorized();
     }
 
-    public function testAccountShownInList()
+    public function test_unauthorised_without_panel_access()
     {
-        $account = factory(Account::class)->create();
-        $this->actingAs($this->adminAccount)
-            ->get(route('front.panel.accounts.index'))
-            ->assertSee($account->username);
-    }
+        $admin = $this->adminAccount(scopes: [
+            PanelGroupScope::MANAGE_ACCOUNTS,
+        ]);
 
-    public function testUnactivatedAccountShownInList()
-    {
-        $account = factory(Account::class)->state('unactivated')->create();
-
-        $this->actingAs($this->adminAccount)
+        $this->actingAs($admin)
             ->get(route('front.panel.accounts.index'))
-            ->assertSee($account->username);
+            ->assertUnauthorized();
     }
 }

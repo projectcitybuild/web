@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" bootstrap="vendor/autoload.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+>
   <coverage processUncoveredFiles="true">
     <include>
       <directory suffix=".php">./app</directory>
@@ -10,21 +14,30 @@
   </coverage>
   <testsuites>
     <testsuite name="Unit">
-      <directory suffix="Test.php">./tests/Unit</directory>
+      <directory>./tests/Unit</directory>
     </testsuite>
     <testsuite name="Feature">
-      <directory suffix="Test.php">./tests/Feature</directory>
+      <directory>./tests/Feature</directory>
+    </testsuite>
+    <testsuite name="E2E">
+        <directory>./tests/E2E</directory>
+    </testsuite>
+    <testsuite name="UnitAndFeature">
+        <directory>./tests/Unit</directory>
+        <directory>./tests/Feature</directory>
     </testsuite>
   </testsuites>
   <php>
-    <server name="APP_ENV" value="testing"/>
-    <server name="BCRYPT_ROUNDS" value="4"/>
-    <server name="CACHE_DRIVER" value="array"/>
-    <server name="MAIL_MAILER" value="array"/>
-    <server name="QUEUE_CONNECTION" value="sync"/>
-    <server name="SESSION_DRIVER" value="array"/>
-    <server name="DB_CONNECTION" value="tests"/>
-    <server name="RECAPTCHA_ENABLED" value="false"/>
+    <env name="APP_ENV" value="testing"/>
+    <env name="BCRYPT_ROUNDS" value="4"/>
+    <env name="CACHE_DRIVER" value="array"/>
+    <env name="MAIL_MAILER" value="array"/>
+    <env name="QUEUE_CONNECTION" value="sync"/>
+    <env name="SESSION_DRIVER" value="array"/>
+    <env name="DB_DATABASE" value="testing"/>
+    <env name="RECAPTCHA_ENABLED" value="false"/>
+    <env name="SCOUT_DRIVER" value="null" />
+    <env name="STRIPE_SECRET" value="sk_test_3dyAn3Pfa23JF6SlJb8qY5VR"/>
+    <env name="TOTP_BYPASS" value="false"/>
   </php>
-  <logging/>
 </phpunit>

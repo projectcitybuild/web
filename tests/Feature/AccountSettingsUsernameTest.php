@@ -1,11 +1,8 @@
 <?php
 
-
 namespace Tests\Feature;
 
-
-use App\Entities\Accounts\Models\Account;
-use App\Library\Discourse\Api\DiscourseAdminApi;
+use Entities\Models\Eloquent\Account;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -18,23 +15,19 @@ class AccountSettingsUsernameTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->account = factory(Account::class)->create();
+        $this->account = Account::factory()->create();
     }
 
     private function submitUsernameChange($newUsername): \Illuminate\Testing\TestResponse
     {
         return $this->actingAs($this->account)->post(route('front.account.settings.username'), [
-            'username' => $newUsername
+            'username' => $newUsername,
         ]);
     }
 
-    public function testChangeUsername()
+    public function test_change_username()
     {
         $this->withoutExceptionHandling();
-
-        $this->mock(DiscourseAdminApi::class, function ($mock) {
-            $mock->shouldReceive('requestSSOSync')->once();
-        });
 
         $newUsername = $this->faker->userName;
         $this->submitUsernameChange($newUsername)
@@ -42,25 +35,25 @@ class AccountSettingsUsernameTest extends TestCase
 
         $this->assertDatabaseHas('accounts', [
             'email' => $this->account->email,
-            'username' => $newUsername
+            'username' => $newUsername,
         ]);
     }
 
-    public function testCantChangeToExistingUsername()
+    public function test_cant_change_to_existing_username()
     {
-        $otherAccount = factory(Account::class)->create();
+        $otherAccount = Account::factory()->create();
 
         $this->submitUsernameChange($otherAccount->username)
             ->assertSessionHasErrors();
     }
 
-    public function testCantSubmitEmptyUsername()
+    public function test_cant_submit_empty_username()
     {
-        $this->submitUsernameChange("")
+        $this->submitUsernameChange('')
             ->assertSessionHasErrors();
     }
 
-    public function testCantSubmitSameUsername()
+    public function test_cant_submit_same_username()
     {
         $this->submitUsernameChange($this->account->username)
             ->assertSessionHasErrors();

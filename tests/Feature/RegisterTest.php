@@ -1,150 +1,199 @@
 <?php
 
-
 namespace Tests\Feature;
 
-
-use App\Entities\Accounts\Models\Account;
-use App\Entities\Accounts\Notifications\AccountActivationNotification;
-use App\Entities\Groups\Models\Group;
-use App\Library\Recaptcha\RecaptchaRule;
-use Illuminate\Support\Facades\Mail;
+use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\Group;
+use Entities\Notifications\AccountActivationNotification;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Library\Recaptcha\Validator\Adapters\GoogleRecaptchaValidator;
+use Library\Recaptcha\Validator\RecaptchaValidator;
+use Library\SignedURL\Adapters\LaravelSignedURLGenerator;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
 {
-    protected function setUp(): void
+    private function withRealRecaptcha(): self
     {
-        parent::setUp();
-        RecaptchaRule::enable(false);
+        $this->app->bind(RecaptchaValidator::class, GoogleRecaptchaValidator::class);
+
+        return $this;
     }
 
-    public function testUserCanRegister()
+    private function withRequiredFormFields(Account $account): array
     {
-        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'unactivated', 'with-recaptcha')->make();
+        return array_merge($account->toArray(), [
+            'password_confirm' => 'password',
+            'g-recaptcha-response' => Str::random(),
+            'terms' => 1,
+        ]);
+    }
 
-        $this->post(route('front.register.submit'), $unactivatedAccount->toArray())
+    public function test_cannot_see_register_signed_in()
+    {
+        $this->actingAs(Account::factory()->create())
+            ->get(route('front.register'))
+            ->assertRedirect(route('front.account.settings'));
+    }
+
+    public function test_user_can_register()
+    {
+        Group::factory()->create(['is_default' => true]);
+
+        $unactivatedAccount = Account::factory()
+            ->passwordUnhashed()
+            ->unactivated()
+            ->make();
+
+        $this->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
             ->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas('accounts', [
             'email' => $unactivatedAccount->email,
             'username' => $unactivatedAccount->username,
-            'activated' => false
+            'activated' => false,
         ]);
     }
 
-    public function testRecaptchaFieldIsRequired()
+    public function test_recaptcha_field_is_required()
     {
-        RecaptchaRule::enable(true);
+        $unactivatedAccount = Account::factory()
+            ->passwordUnhashed()
+            ->unactivated()
+            ->make();
 
-        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'unactivated')->make();
-
-        $this->post(route('front.register.submit'), $unactivatedAccount->toArray())
+        $this->withRealRecaptcha()
+            ->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
             ->assertSessionHasErrors('g-recaptcha-response');
     }
 
-    public function testRecaptchaFieldIsValidated()
+    public function test_recaptcha_field_is_validated()
     {
-        RecaptchaRule::enable(true);
+        $unactivatedAccount = Account::factory()
+            ->passwordUnhashed()
+            ->unactivated()
+            ->make();
 
-        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'unactivated')
-            ->make([
-                'g-recaptcha-response' => Str::random()
-            ]);
-
-        $this->post(route('front.register.submit'), $unactivatedAccount->toArray())
+        $this->withRealRecaptcha()
+            ->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
             ->assertSessionHasErrors('g-recaptcha-response');
     }
 
-    public function testUserCannotRegisterWithSameEmailAsOtherAccount()
+    public function test_user_cannot_register_with_same_email_as_other_account()
     {
-        $existingAccount = factory(Account::class)->create();
+        $existingAccount = Account::factory()->create();
 
-        $newAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'with-recaptcha')->make([
-            'email' => $existingAccount->email
-        ]);
+        $newAccount = Account::factory()
+            ->passwordUnhashed()
+            ->make(['email' => $existingAccount->email]);
 
-        $this->post(route('front.register.submit'), $newAccount->toArray())
+        $this->post(route('front.register.submit'), $this->withRequiredFormFields($newAccount))
             ->assertSessionHasErrors();
     }
 
-    public function testUserCannotRegisterWithSameUsernameAsOtherAccount()
+    public function test_user_cannot_register_with_same_username_as_other_account()
     {
-        $existingAccount = factory(Account::class)->create();
+        $existingAccount = Account::factory()->create();
 
-        $newAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'with-recaptcha')->make([
-            'username' => $existingAccount->username
-        ]);
+        $newAccount = Account::factory()
+            ->passwordUnhashed()
+            ->make(['username' => $existingAccount->username]);
 
-        $this->post(route('front.register.submit'), $newAccount->toArray())
+        $this->post(route('front.register.submit'), $this->withRequiredFormFields($newAccount))
             ->assertSessionHasErrors();
     }
 
-    public function testAssertPasswordIsHashed()
+    public function test_assert_password_is_hashed()
     {
-        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'with-recaptcha')->make();
+        $unactivatedAccount = Account::factory()
+            ->passwordUnhashed()
+            ->make();
 
-        $this->post(route('front.register.submit'), $unactivatedAccount->toArray())
+        $this->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
             ->assertSessionHasNoErrors();
 
         $this->assertDatabaseMissing('accounts', [
             'email' => $unactivatedAccount->email,
-            'password' => $unactivatedAccount->password
+            'password' => $unactivatedAccount->password,
         ]);
     }
 
-    public function testNewMemberIsPutInDefaultGroup()
+    public function test_new_member_is_put_in_default_group()
     {
         $memberGroup = Group::create([
             'name' => 'member',
-            'is_default' => 1
+            'is_default' => 1,
         ]);
 
-        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'unactivated', 'with-recaptcha')->make();
+        $unactivatedAccount = Account::factory()
+            ->passwordUnhashed()
+            ->unactivated()
+            ->make();
 
-        $this->post(route('front.register.submit'), $unactivatedAccount->toArray())
+        $this->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
             ->assertSessionHasNoErrors();
 
-        $account = Account::where('email', $unactivatedAccount["email"])->firstOrFail();
+        $account = Account::where('email', $unactivatedAccount['email'])->firstOrFail();
 
         $this->assertDatabaseHas('groups_accounts', [
             'group_id' => $memberGroup->group_id,
-            'account_id' => $account->account_id
+            'account_id' => $account->account_id,
         ]);
     }
 
-    public function testUserIsSentVerificationMail()
+    public function test_user_is_sent_verification_mail()
     {
         Notification::fake();
 
-        $unactivatedAccount = factory(Account::class)->states('unhashed', 'with-confirm', 'unactivated', 'with-recaptcha')->make();
+        Group::factory()->create(['is_default' => true]);
 
-        $this->post(route('front.register.submit'), $unactivatedAccount->toArray())
+        $unactivatedAccount = Account::factory()
+            ->passwordUnhashed()
+            ->unactivated()
+            ->make();
+
+        $this->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
             ->assertSuccessful()
             ->assertSessionDoesntHaveErrors();
 
         Notification::assertSentTo(Account::first(), AccountActivationNotification::class);
     }
 
-    public function testUserCanVerifyEmail()
+    public function test_user_can_verify_email()
     {
-        $unactivatedAccount = factory(Account::class)->states('unactivated')->create();
+        $unactivatedAccount = Account::factory()->unactivated()->create();
 
-        $this->get($unactivatedAccount->getActivationUrl())
+        // TODO: find way to do this without manually creating the URL here
+        $signedURLGenerator = new LaravelSignedURLGenerator();
+        $activationURL = $signedURLGenerator->makeTemporary(
+            routeName: 'front.register.activate',
+            expiresAt: now()->addDay(),
+            parameters: ['email' => $unactivatedAccount->email],
+        );
+
+        $this->get($activationURL)
             ->assertSuccessful();
 
         $this->assertEquals(true, Account::first()->activated);
     }
 
-    public function testUserIsRedirectedToIntentAfterVerification()
+    public function test_user_is_redirected_to_intent_after_verification()
     {
         Session::put('url.intended', '/my/path');
 
-        $unactivatedAccount = factory(Account::class)->states('unactivated')->create();
-        $this->get($unactivatedAccount->getActivationUrl())
+        $unactivatedAccount = Account::factory()->unactivated()->create();
+
+        // TODO: find way to do this without manually creating the URL here
+        $signedURLGenerator = new LaravelSignedURLGenerator();
+        $activationURL = $signedURLGenerator->makeTemporary(
+            routeName: 'front.register.activate',
+            expiresAt: now()->addDay(),
+            parameters: ['email' => $unactivatedAccount->email],
+        );
+
+        $this->get($activationURL)
             ->assertRedirect('/my/path');
     }
 }

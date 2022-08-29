@@ -8,5 +8,5 @@ namespace App\Exceptions\Http;
  */
 class UnauthorisedException extends BaseHttpException
 {
-    protected $status = 401;
+    protected int $status = 401;
 }

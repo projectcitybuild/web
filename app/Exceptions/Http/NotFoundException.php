@@ -3,9 +3,9 @@
 namespace App\Exceptions\Http;
 
 /**
- * A resource does not exist
+ * A resource does not exist.
  */
 class NotFoundException extends BaseHttpException
 {
-    protected $status = 404;
+    protected int $status = 404;
 }

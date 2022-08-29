@@ -2,12 +2,15 @@
 
 namespace App\Services\PlayerBans;
 
-use App\Entities\ServerKeys\Models\ServerKey;
-use App\Entities\ServerKeys\Repositories\ServerKeyRepository;
 use App\Exceptions\Http\ForbiddenException;
 use App\Services\PlayerBans\Exceptions\MalformedTokenException;
 use App\Services\PlayerBans\Exceptions\UnauthorisedTokenException;
+use Entities\Models\Eloquent\ServerKey;
+use Repositories\ServerKeyRepository;
 
+/**
+ * @deprecated Use Laravel Sanctum to check API token scopes
+ */
 final class ServerKeyAuthService
 {
     /**
@@ -24,11 +27,8 @@ final class ServerKeyAuthService
      * Takes in a server key's token and returns a ServerKey if
      * the token has not been blacklisted.
      *
-     * @param string $token     ServerKeyToken string
      *
      * @throws InvalidTokenException
-     *
-     * @return ServerKey
      */
     public function getServerKey(?string $authHeader): ServerKey
     {
@@ -43,13 +43,11 @@ final class ServerKeyAuthService
     }
 
     /**
-     * Extracts a bearer token from an authorization request header
+     * Extracts a bearer token from an authorization request header.
      *
-     * @param string $authHeader    String in the format of 'Bearer <token>'
+     * @param  string  $authHeader  String in the format of 'Bearer <token>'
      *
      * @throws MalformedTokenException
-     *
-     * @return string
      */
     private function getTokenBearer(?string $authHeader): string
     {
