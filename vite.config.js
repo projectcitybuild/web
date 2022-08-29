@@ -43,7 +43,10 @@ export default defineConfig({
         }
     },
     server: {
-        https: false,
-        host: '0.0.0.0',
-    },
+        // `npm run dev` will not route to the correct IP address without this
+        // https://github.com/laravel/vite-plugin/issues/28#issuecomment-1169592126
+        hmr: {
+            host: 'localhost',
+        },
+    }
 });
