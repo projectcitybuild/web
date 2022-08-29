@@ -100,12 +100,6 @@ return [
     ],
 
     /*
-     * Amount of time to clean up unactivated accounts after
-     */
-
-    'unactivated_cleanup_days' => 14,
-
-    /*
      * Two-factor authentication settings
      */
 
@@ -113,5 +107,4 @@ return [
         'backup_code_length' => 32,
         'bypass' => env('TOTP_BYPASS', false),
     ],
-
 ];
