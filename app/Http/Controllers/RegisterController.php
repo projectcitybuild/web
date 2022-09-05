@@ -18,11 +18,11 @@ final class RegisterController extends WebController
     {
         if ($request->session()->has('url.intended')) {
             return response()
-                ->view('v2.front.pages.register.register')
+                ->view('front.pages.register.register')
                 ->cookie('intended', $request->session()->get('url.intended'), 60);
         }
 
-        return view('v2.front.pages.register.register');
+        return view('front.pages.register.register');
     }
 
     public function register(
@@ -38,7 +38,7 @@ final class RegisterController extends WebController
             ip: $request->ip(),
         );
 
-        return view('v2.front.pages.register.register-success');
+        return view('front.pages.register.register-success');
     }
 
     public function activate(
@@ -60,6 +60,6 @@ final class RegisterController extends WebController
             return redirect($intended);
         }
 
-        return view('v2.front.pages.register.register-verify-complete');
+        return view('front.pages.register.register-verify-complete');
     }
 }

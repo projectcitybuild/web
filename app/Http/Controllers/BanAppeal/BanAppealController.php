@@ -23,7 +23,7 @@ class BanAppealController extends WebController
                 ->with(['banAppeals', 'staffPlayer.aliases', 'bannedPlayer.aliases'])
                 ->latest()->get() ?? collect();
 
-        return view('v2.front.pages.ban-appeal.index')->with([
+        return view('front.pages.ban-appeal.index')->with([
             'bans' => $bans,
         ]);
     }
@@ -39,7 +39,7 @@ class BanAppealController extends WebController
 
         $existingAppeal = $ban->banAppeals()->pending()->first();
         if ($existingAppeal) {
-            return view('v2.front.pages.ban-appeal.error-pending')->with([
+            return view('front.pages.ban-appeal.error-pending')->with([
                 'existingAppeal' => $existingAppeal,
             ]);
         }
@@ -49,7 +49,7 @@ class BanAppealController extends WebController
             ->with(['staffPlayer.aliases', 'bannedPlayer.aliases'])
             ->latest()->get();
 
-        return view('v2.front.pages.ban-appeal.create')->with([
+        return view('front.pages.ban-appeal.create')->with([
             'player' => $bannedPlayer,
             'activeGameBan' => $ban,
             'banHistory' => $banHistory,
@@ -91,7 +91,7 @@ class BanAppealController extends WebController
             $this->authorize('view', $banAppeal);
         }
 
-        return view('v2.front.pages.ban-appeal.show')->with([
+        return view('front.pages.ban-appeal.show')->with([
             'banAppeal' => $banAppeal,
         ]);
     }

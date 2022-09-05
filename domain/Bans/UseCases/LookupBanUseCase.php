@@ -38,7 +38,7 @@ class LookupBanUseCase
             throw new PlayerNotBannedException();
         }
 
-        $gameBan = $this->gameBanRepository->firstActiveBan(player: $mcPlayer, skipTempBans: false);
+        $gameBan = $this->gameBanRepository->firstActiveBan(player: $mcPlayer);
 
         if ($gameBan === null) {
             throw new PlayerNotBannedException();

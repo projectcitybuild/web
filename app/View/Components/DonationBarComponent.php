@@ -20,7 +20,7 @@ class DonationBarComponent extends Component
         $totalDonationsThisYear = Donation::whereYear('created_at', $thisYear)->sum('amount') ?: 0;
         $percentage = round($totalDonationsThisYear / $requiredAmount * 100) ?: 0;
 
-        return view('v2.front.components.donation-bar', [
+        return view('front.components.donation-bar', [
             'current' => $totalDonationsThisYear,
             'percentage' => max(1, $percentage),
             'indicators' => [0, 250, 500, 750, 1000],

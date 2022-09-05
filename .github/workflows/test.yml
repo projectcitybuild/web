@@ -10,7 +10,7 @@ jobs:
       mariadb:
         image: mariadb:10.3
         env:
-          MYSQL_DATABASE: default_test
+          MYSQL_DATABASE: testing
           MYSQL_USER: root
           MYSQL_ROOT_PASSWORD: root
         ports:
@@ -85,7 +85,7 @@ jobs:
 
       - name: Build front-end assets
         if: steps.assets-cache.outputs.cache-hit != 'true'
-        run: npm run prod
+        run: npm run build
 
       - name: Prepare Laravel
         run: |

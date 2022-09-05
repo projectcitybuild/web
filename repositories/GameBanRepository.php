@@ -4,6 +4,7 @@ namespace Repositories;
 
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
 /**
@@ -31,23 +32,34 @@ class GameBanRepository
         ]);
     }
 
-    public function firstActiveBan(
-        MinecraftPlayer $player,
-        bool $skipTempBans,
-    ): ?GameBan {
+    public function find(int $banId): ?GameBan
+    {
+        return GameBan::find($banId);
+    }
+
+    public function firstActiveBan(MinecraftPlayer $player): ?GameBan
+    {
         return GameBan::where('banned_player_id', $player->getKey())
-            ->active()
-            ->when($skipTempBans, function ($q) {
-                $q->whereNull('expires_at');
+            ->where('is_active', true)
+            ->where(function ($q) {
+                $q->whereNull('expires_at')
+                    ->orWhereDate('expires_at', '>=', now());
             })
             ->first();
     }
 
-    public function deactivateAllTemporaryBans(MinecraftPlayer $player)
+    public function all(MinecraftPlayer $player): Collection
     {
-        GameBan::where('banned_player_id', $player->getKey())
-            ->active()
-            ->whereNotNull('expires_at')
-            ->update(['is_active' => false]);
+        return GameBan::where('banned_player_id', $player->getKey())
+            ->orderBy('created_at', 'desc')
+            ->limit(25)
+            ->get();
+    }
+
+    public function deactivateActiveExpired()
+    {
+        GameBan::where('is_active', true)
+            ->where('expired_at', '<=', now())
+            ->save(['is_active', false]);
     }
 }

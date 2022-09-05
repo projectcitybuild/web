@@ -16,6 +16,6 @@ final class PageController extends WebController
             abort(404);
         }
 
-        return view('v2.front.pages.page', ['page' => $page]);
+        return view('front.pages.page', ['page' => $page]);
     }
 }
