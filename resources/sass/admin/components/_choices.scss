@@ -5,8 +5,6 @@ $choices-keyline-color: $form-select-border-color;
 $choices-font-size-lg: $form-select-font-size;
 $choices-guttering: 0px;
 
-@import "~choices.js/src/styles/choices";
-
 .choices {
     border-radius: $choices-border-radius;
 
