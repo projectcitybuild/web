@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Exceptions\Http\BadRequestException;
 use App\Exceptions\Http\ForbiddenException;
 use App\Exceptions\Http\UnauthorisedException;
-use App\Http\ApiController;
+use App\Http\APIController;
 use Entities\Models\Eloquent\MinecraftAuthCode;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Resources\AccountResource;
@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
-final class MinecraftAuthTokenController extends ApiController
+final class MinecraftAuthTokenController extends APIController
 {
     /**
      * Requests an URL that the user can click to link their PCB account.

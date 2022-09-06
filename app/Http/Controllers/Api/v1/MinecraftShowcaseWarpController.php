@@ -2,25 +2,26 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\ApiController;
+use App\Http\APIController;
 use Entities\Models\Eloquent\ShowcaseWarp;
 use Entities\Resources\ShowcaseWarpResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-final class MinecraftShowcaseWarpController extends ApiController
+final class MinecraftShowcaseWarpController extends APIController
 {
-    public function index(Request $request)
+    public function index(Request $request): AnonymousResourceCollection
     {
         $warps = ShowcaseWarp::get();
         return ShowcaseWarpResource::collection($warps);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): ShowcaseWarpResource
     {
         $this->validateRequest(
             requestData: $request->all(),
             rules: [
-                'name' => 'required|string',
+                'name' => 'required|string|unique',
                 'title' => 'string',
                 'description' => 'string',
                 'creators' => 'string',
@@ -34,8 +35,8 @@ final class MinecraftShowcaseWarpController extends ApiController
             ],
         );
 
-        ShowcaseWarp::create($request->all());
+        $warp = ShowcaseWarp::create($request->all());
 
-        return response()->json(null);
+        return new ShowcaseWarpResource($warp);
     }
 }

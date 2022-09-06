@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Exceptions\Http\BadRequestException;
-use App\Http\ApiController;
+use App\Http\APIController;
 use Domain\Balances\Exceptions\InsufficientBalanceException;
 use Domain\Balances\UseCases\DeductBalanceUseCase;
 use Domain\Balances\UseCases\GetBalanceUseCase;
@@ -13,7 +13,7 @@ use Shared\PlayerLookup\Exceptions\InvalidMinecraftUUIDException;
 use Shared\PlayerLookup\Exceptions\NoLinkedAccountException;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 
-final class MinecraftBalanceController extends ApiController
+final class MinecraftBalanceController extends APIController
 {
     public function show(
         Request $request,

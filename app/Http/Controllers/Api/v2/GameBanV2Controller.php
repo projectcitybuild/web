@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\v2;
 
 use App\Exceptions\Http\BadRequestException;
-use App\Http\ApiController;
+use App\Http\APIController;
 use Domain\Bans\Exceptions\PlayerAlreadyBannedException;
 use Domain\Bans\Exceptions\PlayerNotBannedException;
 use Domain\Bans\UseCases\ConvertToPermanentBanUseCase;
@@ -20,7 +20,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 
-final class GameBanV2Controller extends ApiController
+final class GameBanV2Controller extends APIController
 {
     /**
      * @throws PlayerAlreadyBannedException

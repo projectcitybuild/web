@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\ApiController;
+use App\Http\APIController;
 use App\Services\PlayerBans\PlayerBanLookupService;
 use App\Services\PlayerBans\PlayerBanService;
 use App\Services\PlayerBans\ServerKeyAuthService;
@@ -16,7 +16,7 @@ use Illuminate\Validation\Rule;
 /**
  * @deprecated
  */
-final class GameBanV1Controller extends ApiController
+final class GameBanV1Controller extends APIController
 {
     /**
      * @var PlayerBanService

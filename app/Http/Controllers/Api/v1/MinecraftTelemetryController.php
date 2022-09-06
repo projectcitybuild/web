@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\ApiController;
+use App\Http\APIController;
 use Domain\MinecraftTelemetry\UseCases\UpdateSeenMinecraftPlayerUseCase;
 use Illuminate\Http\Request;
 
-final class MinecraftTelemetryController extends ApiController
+final class MinecraftTelemetryController extends APIController
 {
     public function playerSeen(
         Request $request,

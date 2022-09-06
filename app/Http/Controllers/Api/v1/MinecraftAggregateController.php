@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Exceptions\Http\NotFoundException;
-use App\Http\ApiController;
+use App\Http\APIController;
 use Domain\Badges\UseCases\GetBadgesUseCase;
 use Domain\Bans\UseCases\GetActiveBanUseCase;
 use Domain\Donations\UseCases\GetDonationTiersUseCase;
@@ -15,7 +15,7 @@ use Entities\Resources\GameBanV1Resource;
 use Illuminate\Http\Request;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 
-final class MinecraftAggregateController extends ApiController
+final class MinecraftAggregateController extends APIController
 {
     public function show(
         Request $request,

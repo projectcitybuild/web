@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\ApiController;
+use App\Http\APIController;
 use Domain\Donations\UseCases\GetDonationTiersUseCase;
 use Entities\Resources\DonationPerkResource;
 use Illuminate\Http\Request;
 
-final class MinecraftDonationTierController extends ApiController
+final class MinecraftDonationTierController extends APIController
 {
     public function show(
         Request $request,

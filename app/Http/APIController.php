@@ -9,7 +9,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Validator;
 
-class ApiController extends BaseController
+class APIController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
