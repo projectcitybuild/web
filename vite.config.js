@@ -48,5 +48,12 @@ export default defineConfig({
         hmr: {
             host: 'localhost',
         },
+    },
+    build: {
+        // Assets smaller than 4kb are inlined as base64, however there is currently no
+        // support for using it automatically in blade files.
+        // To get around that, we'll disable inlining.
+        // https://stackoverflow.com/questions/73502963/larave-vite-vite-manifest-missing-odd-files
+        assetsInlineLimit: 0
     }
 });
