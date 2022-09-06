@@ -15,14 +15,15 @@ final class CleanupUnactivatedAccountsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'cleanup:unactivated-accounts';
+    protected $signature = 'cleanup:unactivated-accounts
+                        {--days= : Number of days to have elapsed since registration}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Deletes any accounts not activated within a threshold';
+    protected $description = 'Deletes any accounts with an unactivated email address that are older than the given number of days';
 
     /**
      * Execute the console command.
@@ -31,10 +32,12 @@ final class CleanupUnactivatedAccountsCommand extends Command
     {
         SystemCauseResolver::setCauser(SystemCauser::UNACTIVATED_CLEANUP);
 
-        $deletionThreshold = config('auth.unactivated_cleanup_days');
-        $thresholdDate = now()->subDays($deletionThreshold);
+        $elapsedDaysToDelete = $this->option('days')
+            ?: config('registration.days_elapsed_until_unactivated_purge', 14);
 
-        Log::info('[Unactivated Accounts] Deleting unactivated accounts unedited since '.$thresholdDate);
+        $thresholdDate = now()->subDays($elapsedDaysToDelete);
+
+        Log::info('[Unactivated Accounts] Deleting unactivated accounts created before '.$thresholdDate);
 
         Account::where('activated', false)
             ->whereDate('updated_at', '<', $thresholdDate)

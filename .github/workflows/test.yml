@@ -85,7 +85,7 @@ jobs:
 
       - name: Build front-end assets
         if: steps.assets-cache.outputs.cache-hit != 'true'
-        run: npm run prod
+        run: npm run build
 
       - name: Prepare Laravel
         run: |

@@ -1,15 +1,16 @@
-import Vue from 'vue';
-// import NewsBar from "./components/news-bar/NewsBar.vue"
-// import Spinner from "./components/spinner/Spinner.vue"
+import { createApp } from 'vue/dist/vue.esm-bundler';
+import NewsBar from './components/news-bar/NewsBar.vue';
+import Spinner from './components/spinner/Spinner.vue';
 
-// Register Vue Components
-Vue.component('news-bar', require('./components/news-bar/NewsBar.vue').default);
-Vue.component('spinner', require('./components/spinner/Spinner.vue').default);
+// Inform Vite where static assets are located
+import.meta.glob([
+    '../../images/**',
+]);
 
-// Initialise base app
-const app = new Vue({
-    el: '#app',
-});
+const app = createApp({});
+app.component('news-bar', NewsBar);
+app.component('spinner', Spinner);
+app.mount('#app');
 
 // Nav bar
 const hamburger = document.querySelector(".hamburger")
