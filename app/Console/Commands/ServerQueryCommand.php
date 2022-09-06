@@ -69,7 +69,7 @@ final class ServerQueryCommand extends Command
     {
         if ($shouldRunInBackground) {
             $this->info('Starting server query on background queue ['.$server->address().']');
-            ServerQueryJob::dispatch($server);
+            ServerQueryJob::dispatch($server)->onQueue('server-status');
 
             return;
         }

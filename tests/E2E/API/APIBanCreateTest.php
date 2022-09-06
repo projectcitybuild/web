@@ -124,7 +124,7 @@ class APIBanCreateTest extends E2ETestCase
         );
     }
 
-    public function test_permanent_ban_fails_if_already_permanent_banned()
+    public function test_permanent_ban_throws_exception_if_already_permanent_banned()
     {
         $this->authoriseTokenFor(ScopeKey::BAN_UPDATE);
 
@@ -160,27 +160,20 @@ class APIBanCreateTest extends E2ETestCase
         $this->assertDatabaseCount(table: GameBan::getTableName(), count: 1);
     }
 
-    public function test_create_permanent_ban_overrides_temporary_ban()
+    public function test_permanent_ban_throws_exception_if_already_temp_banned()
     {
         $this->authoriseTokenFor(ScopeKey::BAN_UPDATE);
 
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
 
-        $tempBan = GameBan::factory()
+        GameBan::factory()
             ->active()
             ->temporary()
             ->bannedPlayer($player1)
             ->create();
 
-        $this->assertDatabaseHas(
-            table: GameBan::getTableName(),
-            data: [
-                'banned_player_id' => $player1->getKey(),
-                'is_active' => true,
-                'expires_at' => $tempBan->expires_at,
-            ],
-        );
+        $this->assertDatabaseCount(table: GameBan::getTableName(), count: 1);
 
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: [
@@ -192,31 +185,15 @@ class APIBanCreateTest extends E2ETestCase
                 'banner_player_alias' => 'alias2',
                 'reason' => 'reason',
             ])
-            ->assertSuccessful();
+            ->assertJson([
+                'error' => [
+                    'id' => 'player_already_banned',
+                    'title' => '',
+                    'detail' => 'Player is already banned',
+                    'status' => 400,
+                ],
+            ]);
 
-        $this->assertDatabaseHas(
-            table: GameBan::getTableName(),
-            data: [
-                'banned_player_id' => $player1->getKey(),
-                'is_active' => false,
-                'expires_at' => $tempBan->expires_at,
-            ],
-        );
-
-        $this->assertDatabaseHas(
-            table: GameBan::getTableName(),
-            data: [
-                'server_id' => $this->token->server->getKey(),
-                'banned_player_id' => $player1->getKey(),
-                'banned_alias_at_time' => 'alias1',
-                'staff_player_id' => $player2->getKey(),
-                'reason' => 'reason',
-                'is_active' => true,
-                'is_global_ban' => true,
-                'expires_at' => null,
-                'created_at' => $this->now,
-                'updated_at' => $this->now,
-            ],
-        );
+        $this->assertDatabaseCount(table: GameBan::getTableName(), count: 1);
     }
 }

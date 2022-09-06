@@ -14,7 +14,7 @@ class DisableMfaController extends WebController
             return redirect(route('front.account.security'));
         }
 
-        return view('v2.front.pages.account.security.2fa-disable');
+        return view('front.pages.account.security.2fa-disable');
     }
 
     public function destroy(Request $request)

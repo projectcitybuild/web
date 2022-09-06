@@ -8,8 +8,8 @@ use App\Services\PlayerBans\PlayerBanService;
 use App\Services\PlayerBans\ServerKeyAuthService;
 use Entities\Models\Eloquent\ServerKey;
 use Entities\Models\PlayerIdentifierType;
-use Entities\Resources\GameBanResource;
-use Entities\Resources\GameUnbanResource;
+use Entities\Resources\GameBanV1Resource;
+use Entities\Resources\GameUnbanV1Resource;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -84,7 +84,7 @@ final class GameBanV1Controller extends ApiController
             $isGlobalBan
         );
 
-        return new GameBanResource($ban);
+        return new GameBanV1Resource($ban);
     }
 
     /**
@@ -114,7 +114,7 @@ final class GameBanV1Controller extends ApiController
             $staffPlayerId,
         );
 
-        return new GameUnbanResource($unban);
+        return new GameUnbanV1Resource($unban);
     }
 
     public function getPlayerStatus(Request $request)
@@ -138,7 +138,7 @@ final class GameBanV1Controller extends ApiController
             ];
         }
 
-        return new GameBanResource($activeBan);
+        return new GameBanV1Resource($activeBan);
     }
 
     private function getServerKeyFromHeader(Request $request): ServerKey

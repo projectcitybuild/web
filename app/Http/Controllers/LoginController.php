@@ -22,7 +22,7 @@ final class LoginController extends WebController
 {
     public function show(): View
     {
-        return view('v2.front.pages.login.login');
+        return view('front.pages.login.login');
     }
 
     public function login(

@@ -3,15 +3,14 @@
 namespace App\Console;
 
 use App\Console\Commands\AccountCreatedAtImport;
+use App\Console\Commands\CleanupExpiredPasswordResetsCommand;
 use App\Console\Commands\CleanupUnactivatedAccountsCommand;
 use App\Console\Commands\DeactivateDonatorPerksCommand;
-use App\Console\Commands\DeleteExpiredPasswordResetsCommand;
+use App\Console\Commands\DeactivateExpiredBansCommand;
 use App\Console\Commands\GenerateSitemapCommand;
 use App\Console\Commands\RepairMissingGroupsCommand;
 use App\Console\Commands\RewardCurrencyToDonorsCommand;
-use App\Console\Commands\ServerKeyCreateCommand;
 use App\Console\Commands\ServerQueryCommand;
-use App\Console\Commands\StripUUIDHyphensCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Library\Environment\Environment;
@@ -26,13 +25,12 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         CleanupUnactivatedAccountsCommand::class,
         DeactivateDonatorPerksCommand::class,
-        DeleteExpiredPasswordResetsCommand::class,
+        DeactivateExpiredBansCommand::class,
+        CleanupExpiredPasswordResetsCommand::class,
         GenerateSitemapCommand::class,
         RepairMissingGroupsCommand::class,
         RewardCurrencyToDonorsCommand::class,
-        ServerKeyCreateCommand::class,
         ServerQueryCommand::class,
-        StripUUIDHyphensCommand::class,
         AccountCreatedAtImport::class,
     ];
 
@@ -46,12 +44,14 @@ class Kernel extends ConsoleKernel
         $schedule->command('telescope:prune')
             ->daily();
 
-        if (Environment::isLocalDev()) {
-            return;
-        }
-
-        $schedule->command('server:query --all')
+        $schedule->command('horizon:snapshot')
             ->everyFiveMinutes();
+
+        $schedule->command('passport:purge')
+            ->hourly();
+
+        $schedule->command('sitemap:generate')
+            ->daily();
 
         $schedule->command('cleanup:password-resets')
             ->daily();
@@ -65,17 +65,22 @@ class Kernel extends ConsoleKernel
         $schedule->command('donor-perks:reward-currency')
             ->hourly();
 
-        $schedule->command('backup:clean')
-            ->dailyAt('00:00');
+        $schedule->command('bans:expire')
+            ->everyFifteenMinutes();
 
-        $schedule->command('backup:run')
-            ->dailyAt('01:00');
+        if (! Environment::isLocalDev()) {
+            $schedule->command('server:query --all --background')
+                ->everyFiveMinutes();
 
-        $schedule->command('backup:monitor')
-            ->dailyAt('02:00');
+            $schedule->command('backup:clean')
+                ->dailyAt('00:00');
 
-        $schedule->command('passport:purge')
-            ->hourly();
+            $schedule->command('backup:run')
+                ->dailyAt('01:00');
+
+            $schedule->command('backup:monitor')
+                ->dailyAt('02:00');
+        }
     }
 
     /**

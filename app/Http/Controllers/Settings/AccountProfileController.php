@@ -11,6 +11,6 @@ class AccountProfileController extends WebController
     {
         $account = $request->user();
 
-        return view('v2.front.pages.account.profile')->with(compact('account'));
+        return view('front.pages.account.profile')->with(compact('account'));
     }
 }

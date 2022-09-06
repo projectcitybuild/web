@@ -1,0 +1,53 @@
+.footer-sitemap {
+    width: 100%;
+    background-image: url('/resources/images/footer-bg.png');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    padding: 7em 0;
+
+    h1 {
+        font-family: $font-header;
+        font-size: 2.5em;
+        font-weight: 0;
+        color: $color-heading-contrast;
+        margin-bottom: 0.5em;
+    }
+
+    .footer-links {
+        display: flex;
+
+        h2 {
+            font-family: $font-body;
+            font-size: 1em;
+            font-weight: 0;
+            text-transform: uppercase;
+            color: $color-heading-contrast;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            font-size: 0.85em;
+            color: #fff;
+            line-height: 2.5em;
+        }
+        a {
+            color: #fff;
+        }
+
+        &__category {
+            padding-right: 3em;
+        }
+    }
+
+    @media screen and (max-width: 1024px) {
+        .footer-links {
+            flex-wrap: wrap;
+        }
+    }
+    @media screen and (max-width: 768px) {
+        padding: 4em 0;
+    }
+}

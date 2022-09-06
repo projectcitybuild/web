@@ -3,10 +3,11 @@
 namespace Entities\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class DonationEndedNotification extends Notification
+class DonationEndedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -28,6 +29,16 @@ class DonationEndedNotification extends Notification
     public function via($notifiable)
     {
         return ['mail'];
+    }
+
+    /**
+     * Determine which queues should be used for each notification channel.
+     */
+    public function viaQueues(): array
+    {
+        return [
+            'mail' => 'mail',
+        ];
     }
 
     /**
