@@ -62,6 +62,6 @@ class MfaGate
 
     private function isRoutedToPackageController(Request $request): bool
     {
-        return !str_starts_with($request->route()->controller::class, 'App');
+        return ! str_starts_with($request->route()->controller::class, 'App');
     }
 }
