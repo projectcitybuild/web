@@ -14,7 +14,14 @@ class AccountGameAccount
         }
 
         $minecraftPlayer->account_id = null;
-        $minecraftPlayer->save();
+        $minecraftPlayer->disableLogging()->save();
+
+        activity()
+            ->on($minecraftPlayer)
+            ->withProperty('old', ['account_id' => $account->getKey()])
+            ->withProperty('attributes', ['account_id' => null])
+            ->event('updated')
+            ->log('unlinked from account');
 
         return redirect()->back();
     }

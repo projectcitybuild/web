@@ -41,6 +41,10 @@ class BanAppealRepository
         $banAppeal->decided_at = now();
         $banAppeal->save();
 
+        activity()
+            ->on($banAppeal)
+            ->log(strtolower($status->humanReadable()));
+
         return $banAppeal;
     }
 

@@ -26,6 +26,10 @@ class DenyBuildRankApplicationUseCase
 
         $application->account->notify(new BuilderRankAppDeclinedNotification($application));
 
+        activity()
+            ->on($application)
+            ->log('denied');
+
         return $application;
     }
 }
