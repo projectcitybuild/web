@@ -42,6 +42,10 @@ class MfaGate
             return $next($request);
         }
 
+        if ($this->isRoutedToPackageController($request)) {
+            abort(403, 'Complete MFA to continue');
+        }
+
         return $this->responseFactory->redirectGuest(route('front.login.mfa'));
     }
 
@@ -54,5 +58,10 @@ class MfaGate
             $request->user() === null ||
             ! $request->user()->is_totp_enabled ||
             ! Session::has(self::NEEDS_MFA_KEY);
+    }
+
+    private function isRoutedToPackageController(Request $request): bool
+    {
+        return ! str_starts_with($request->route()->controller::class, 'App');
     }
 }
