@@ -1,6 +1,6 @@
 <?php
 
-namespace Library\Auditing\Traits;
+namespace Library\Auditing\Concerns;
 
 trait CausesActivity
 {
