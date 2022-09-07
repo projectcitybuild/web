@@ -82,8 +82,8 @@ final class GameBanV2Controller extends ApiController
         $this->validateRequest($request->all(), [
             'banned_player_id' => 'required|max:60',
             'banned_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
-            'banner_player_id' => 'required|max:60',
-            'banner_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
+            'unbanner_player_id' => 'required|max:60',
+            'unbanner_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
         ], [
             'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
         ]);
@@ -94,8 +94,8 @@ final class GameBanV2Controller extends ApiController
                 gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('banned_player_type')),
             ),
             unbannerPlayerIdentifier: new PlayerIdentifier(
-                key: $request->get('banner_player_id'),
-                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('banner_player_type')),
+                key: $request->get('unbanner_player_id'),
+                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('unbanner_player_type')),
             ),
         );
 
