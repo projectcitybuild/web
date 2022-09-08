@@ -8,25 +8,10 @@
     <div class="row">
         <div class="col-md-8">
             @switch($activity->event)
-                @case('created')
-                    <x-activity::attribute-list :changes="$activity->changes['attributes']" />
-                    @break
-                @case('updated')
-                    @forelse($activity->changes_zipped as $attribute => $values)
-                        <x-text-diff :attribute="$attribute" :old="$values['old']" :new="$values['new']"/>
-                    @empty
-                        <div class="text-center text-muted">
-                            <em>No changes recorded</em>
-                        </div>
-                    @endforelse
-                    @break
-                @case('synced')
-                    @forelse($activity->changes_zipped as $attribute => $values)
-                        <x-text-diff
-                            :attribute="$attribute"
-                            :old="implode(PHP_EOL, $values['old'])"
-                            :new="implode(PHP_EOL, $values['new'])"
-                            :full-context="true"
+                @case('created' || 'updated' || 'synced')
+                    @forelse($activity->processed_changes as $attribute => $change)
+                        <x-audit::attribute-diff :attribute="$attribute" :change="$change"
+                            :description="$activity->event == 'created' ? 'Set' : 'Updated'"
                         />
                     @empty
                         <div class="text-center text-muted">
@@ -53,7 +38,7 @@
                             Made by
                         </dt>
                         <dd class="col-md-9">
-                            <x-activity::model :model="$activity->causer"/>
+                            <x-audit-support::model :model="$activity->causer"/>
                         </dd>
                     </div>
                     <div class="row g-0">

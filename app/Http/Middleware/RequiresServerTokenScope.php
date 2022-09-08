@@ -6,6 +6,7 @@ use Closure;
 use Domain\ServerTokens\ScopeKey;
 use Entities\Models\Eloquent\ServerToken;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\Facades\CauserResolver;
 
 class RequiresServerTokenScope
 {
@@ -41,6 +42,8 @@ class RequiresServerTokenScope
         }
 
         $request->token = $token;
+
+        CauserResolver::setCauser($token->server);
 
         return $next($request);
     }

@@ -1,16 +1,40 @@
 <?php
 
-namespace Library\Auditing\Traits;
+namespace Library\Auditing\Concerns;
 
 use Altek\Eventually\Eventually;
+use Entities\Models\Eloquent\Activity;
 use Illuminate\Database\Eloquent\Model;
+use Library\Auditing\AuditAttributes;
+use Library\Auditing\Causers\SystemCauseResolver;
 use Spatie\Activitylog\ActivityLogger;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity as ParentLogsActivity;
 
 trait LogsActivity
 {
     use ParentLogsActivity {
         ParentLogsActivity::bootLogsActivity as parentBootLogsActivity;
+    }
+
+    /**
+     * Set the attributes to be audited and their types
+     *
+     * @return AuditAttributes
+     */
+    abstract public function auditAttributeConfig(): AuditAttributes;
+
+    /**
+     * Default settings for logging
+     *
+     * @return LogOptions
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->dontSubmitEmptyLogs()
+            ->logOnly($this->auditAttributeConfig()->getAttributeNames())
+            ->logOnlyDirty();
     }
 
     /**
@@ -52,7 +76,7 @@ trait LogsActivity
                     ->performedOn($model)
                     ->withProperties($attrs)
                     ->event('synced')
-                    ->log($model->getDescriptionForEvent("{$relation} update"));
+                    ->log($model->getDescriptionForEvent("{$relation} updated"));
             });
         }
     }
@@ -80,5 +104,21 @@ trait LogsActivity
         if (isset(static::$recordEvents)) {
             static::$recordEvents = static::eventsToBeRecorded()->reject($event)->toArray();
         }
+    }
+
+    /**
+     * @param  string  $anonymousUserDescription
+     * @return $this
+     */
+    public function setAnonymousUserDescription(string $anonymousUserDescription): static
+    {
+        $this->anonymousUserDescription = $anonymousUserDescription;
+
+        return $this;
+    }
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $activity->properties = $activity->properties->put('system_causer', SystemCauseResolver::getCauserName());
     }
 }

@@ -24,7 +24,9 @@ final class MinecraftPlayerLinkController extends WebController
         try {
             $minecraftPlayer = $authCode->minecraftPlayer;
             $minecraftPlayer->account_id = Auth::id();
-            $minecraftPlayer->save();
+            $minecraftPlayer->disableLogging()->save();
+            activity()->on($minecraftPlayer)
+                ->log('linked to account');
 
             // Prevent reuse of the same authentication token
             MinecraftAuthCode::where('minecraft_auth_code_id', $authCode->getKey())->delete();
