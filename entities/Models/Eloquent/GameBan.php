@@ -63,6 +63,11 @@ final class GameBan extends Model
         return $this->hasMany(BanAppeal::class, 'game_ban_id', 'game_ban_id');
     }
 
+    public function isTemporaryBan(): bool
+    {
+        return $this->expires_at !== null;
+    }
+
     public function getStaffName()
     {
         if (is_null($this->staffPlayer)) {
