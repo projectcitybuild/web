@@ -78,7 +78,8 @@ final class AccountSettingController extends WebController
         }
     }
 
-    public function changePassword(AccountChangePasswordRequest $request) {
+    public function changePassword(AccountChangePasswordRequest $request)
+    {
         $input = $request->validated();
 
         $account = $request->user();
@@ -89,7 +90,8 @@ final class AccountSettingController extends WebController
             ->with(['success_password' => 'Password successfully updated']);
     }
 
-    public function changeUsername(AccountChangeUsernameRequest $request) {
+    public function changeUsername(AccountChangeUsernameRequest $request)
+    {
         $input = $request->validated();
 
         $account = $request->user();

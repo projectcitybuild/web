@@ -3,7 +3,6 @@
 namespace Tests\Unit\Domain\PasswordReset\UseCases;
 
 use App\Exceptions\Http\NotFoundException;
-use Domain\Accounts\UseCases\ChangeAccountPasswordUseCase;
 use Domain\PasswordReset\UseCases\ResetAccountPasswordUseCase;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\AccountPasswordReset;
