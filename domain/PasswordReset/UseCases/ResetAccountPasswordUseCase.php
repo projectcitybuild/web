@@ -3,7 +3,7 @@
 namespace Domain\PasswordReset\UseCases;
 
 use App\Exceptions\Http\NotFoundException;
-use App\Http\Actions\AccountSettings\UpdateAccountPassword;
+use Domain\Accounts\UseCases\ChangeAccountPasswordUseCase;
 use Entities\Notifications\AccountPasswordResetCompleteNotification;
 use Illuminate\Support\Facades\DB;
 use Repositories\AccountPasswordResetRepository;
@@ -12,9 +12,9 @@ use Repositories\AccountRepository;
 final class ResetAccountPasswordUseCase
 {
     public function __construct(
-        private UpdateAccountPassword $updateAccountPassword,
+        private ChangeAccountPasswordUseCase   $updateAccountPassword,
         private AccountPasswordResetRepository $passwordResetRepository,
-        private AccountRepository $accountRepository,
+        private AccountRepository              $accountRepository,
     ) {
     }
 

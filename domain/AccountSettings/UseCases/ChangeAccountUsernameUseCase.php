@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Actions\AccountSettings;
+namespace Domain\Accounts\UseCases;
 
 use Entities\Models\Eloquent\Account;
 
 /**
- * @deprecated
+ * @final
  */
-final class UpdateAccountUsername
+class ChangeAccountUsernameUseCase
 {
     public function execute(Account $account, string $newUsername)
     {

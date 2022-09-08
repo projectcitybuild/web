@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Http\Actions\AccountSettings;
+namespace Domain\Accounts\UseCases;
 
 use Entities\Models\Eloquent\Account;
 use Illuminate\Support\Facades\Hash;
 
 /**
  * @final
- *
- * @deprecated
  */
-class UpdateAccountPassword
+class ChangeAccountPasswordUseCase
 {
     public function execute(Account $account, string $newPassword)
     {

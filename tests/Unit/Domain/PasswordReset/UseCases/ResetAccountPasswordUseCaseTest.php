@@ -3,7 +3,7 @@
 namespace Tests\Unit\Domain\PasswordReset\UseCases;
 
 use App\Exceptions\Http\NotFoundException;
-use App\Http\Actions\AccountSettings\UpdateAccountPassword;
+use Domain\Accounts\UseCases\ChangeAccountPasswordUseCase;
 use Domain\PasswordReset\UseCases\ResetAccountPasswordUseCase;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\AccountPasswordReset;
@@ -15,7 +15,7 @@ use Tests\TestCase;
 
 class ResetAccountPasswordUseCaseTest extends TestCase
 {
-    private UpdateAccountPassword $updateAccountPassword;
+    private ChangeAccountPasswordUseCase $updateAccountPassword;
     private AccountRepository $accountRepository;
     private AccountPasswordResetRepository $passwordResetRepository;
     private ResetAccountPasswordUseCase $useCase;
@@ -24,7 +24,7 @@ class ResetAccountPasswordUseCaseTest extends TestCase
     {
         parent::setUp();
 
-        $this->updateAccountPassword = \Mockery::mock(UpdateAccountPassword::class);
+        $this->updateAccountPassword = \Mockery::mock(ChangeAccountPasswordUseCase::class);
         $this->accountRepository = \Mockery::mock(AccountRepository::class);
         $this->passwordResetRepository = \Mockery::mock(AccountPasswordResetRepository::class);
 

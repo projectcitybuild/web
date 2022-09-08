@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Settings;
 
-use App\Http\Actions\AccountSettings\UpdateAccountPassword;
-use App\Http\Actions\AccountSettings\UpdateAccountUsername;
 use App\Http\Requests\AccountChangeEmailRequest;
 use App\Http\Requests\AccountChangePasswordRequest;
 use App\Http\Requests\AccountChangeUsernameRequest;
 use App\Http\WebController;
+use Domain\Accounts\UseCases\ChangeAccountPasswordUseCase;
+use Domain\Accounts\UseCases\ChangeAccountUsernameUseCase;
 use Domain\EmailChange\Exceptions\TokenNotFoundException;
 use Domain\EmailChange\UseCases\SendVerificationEmailUseCase;
 use Domain\EmailChange\UseCases\UpdateAccountEmailUseCase;
@@ -82,7 +82,7 @@ final class AccountSettingController extends WebController
 
     public function changePassword(
         AccountChangePasswordRequest $request,
-        UpdateAccountPassword $updatePassword
+        ChangeAccountPasswordUseCase $updatePassword
     ) {
         $input = $request->validated();
 
@@ -98,7 +98,7 @@ final class AccountSettingController extends WebController
 
     public function changeUsername(
         AccountChangeUsernameRequest $request,
-        UpdateAccountUsername $updateUsername
+        ChangeAccountUsernameUseCase $updateUsername
     ) {
         $input = $request->validated();
 
