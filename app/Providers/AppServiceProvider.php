@@ -5,9 +5,18 @@ namespace App\Providers;
 use App\View\Components\DonationBarComponent;
 use App\View\Components\NavBarComponent;
 use App\View\Components\PanelSideBarComponent;
-use App\View\Components\TextDiffComponent;
 use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\AccountBalanceTransaction;
+use Entities\Models\Eloquent\Badge;
+use Entities\Models\Eloquent\BanAppeal;
+use Entities\Models\Eloquent\BuilderRankApplication;
+use Entities\Models\Eloquent\Donation;
+use Entities\Models\Eloquent\DonationPerk;
+use Entities\Models\Eloquent\DonationTier;
+use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\Page;
+use Entities\Models\Eloquent\Server;
+use Entities\Models\Eloquent\ServerToken;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Blade;
@@ -57,12 +66,21 @@ final class AppServiceProvider extends ServiceProvider
         Relation::enforceMorphMap([
             'account' => Account::class,
             'page' => Page::class,
+            'minecraft_player' => MinecraftPlayer::class,
+            'server' => Server::class,
+            'server_token' => ServerToken::class,
+            'donation' => Donation::class,
+            'donation_perk' => DonationPerk::class,
+            'donation_tier' => DonationTier::class,
+            'builder_rank_application' => BuilderRankApplication::class,
+            'ban_appeal' => BanAppeal::class,
+            'badge' => Badge::class,
+            'balance_transaction' => AccountBalanceTransaction::class,
         ]);
 
         Blade::component('navbar', NavBarComponent::class);
         Blade::component('donation-bar', DonationBarComponent::class);
         Blade::component('panel-side-bar', PanelSideBarComponent::class);
-        Blade::component('text-diff', TextDiffComponent::class);
         Blade::anonymousComponentNamespace('admin.activity.components', 'activity');
 
         // Fix the factory() function always searching for factory files with a relative namespace

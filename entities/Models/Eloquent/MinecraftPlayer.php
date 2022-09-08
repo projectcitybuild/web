@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
+use Library\Auditing\AuditAttributes;
+use Library\Auditing\Concerns\LogsActivity;
+use Library\Auditing\Contracts\LinkableAuditModel;
 use Shared\PlayerLookup\Contracts\Player;
 
 /**
@@ -18,9 +22,10 @@ use Shared\PlayerLookup\Contracts\Player;
  * @property ?Carbon last_seen_at
  * @property Collection aliases
  */
-final class MinecraftPlayer extends Model implements Player
+final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $table = 'players_minecraft';
     protected $primaryKey = 'player_minecraft_id';
@@ -105,5 +110,21 @@ final class MinecraftPlayer extends Model implements Player
     public function getLinkedAccount(): ?Account
     {
         return $this->account;
+    }
+
+    public function auditAttributeConfig(): AuditAttributes
+    {
+        return AuditAttributes::build()
+            ->addRelationship('account_id', Account::class);
+    }
+
+    public function getActivitySubjectLink(): ?string
+    {
+        return route('front.panel.minecraft-players.show', $this);
+    }
+
+    public function getActivitySubjectName(): ?string
+    {
+        return $this->getBanReadableName() ?? Str::limit($this->uuid, 10);
     }
 }

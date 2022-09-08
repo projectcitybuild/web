@@ -1,14 +1,12 @@
 <?php
 
-namespace App\View\Components;
+namespace Library\Auditing\Components;
 
 use Illuminate\Support\HtmlString;
-use Illuminate\Support\Str;
 use Illuminate\View\Component;
-use Jfcherng\Diff\Differ;
 use Jfcherng\Diff\DiffHelper;
 
-class TextDiffComponent extends Component
+class MultilineDiff extends Component
 {
     private array $diffOptions = [
         'context' => 1,
@@ -25,27 +23,15 @@ class TextDiffComponent extends Component
         private string $attribute,
         private string $old,
         private string $new,
-        bool $fullContext = false
+        private string $description = 'Updated'
     ) {
-        if ($fullContext) {
-            $this->diffOptions['context'] = Differ::CONTEXT_ALL;
-        }
     }
 
-    private function getRenderer()
-    {
-        if (Str::contains($this->new, "\n")) {
-            return 'Combined';
-        } else {
-            return 'SideBySide';
-        }
-    }
-
-    public function getDiffHtml()
+    private function getDiffHtml()
     {
         return new HtmlString(DiffHelper::calculate(
             $this->old, $this->new,
-            $this->getRenderer(),
+            'Combined',
             $this->diffOptions,
             $this->rendererOptions
         ));
@@ -53,11 +39,12 @@ class TextDiffComponent extends Component
 
     public function render()
     {
-        return view('admin.activity.components.diff')->with([
+        return view('library.audit.diffs.multiline-diff')->with([
             'attribute' => $this->attribute,
             'diff' => $this->getDiffHtml(),
             'old' => $this->old,
             'new' => $this->new,
+            'description' => $this->description,
         ]);
     }
 }
