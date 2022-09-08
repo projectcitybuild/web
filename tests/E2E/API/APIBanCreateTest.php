@@ -152,7 +152,7 @@ class APIBanCreateTest extends E2ETestCase
                 'error' => [
                     'id' => 'player_already_banned',
                     'title' => '',
-                    'detail' => 'Player is already banned',
+                    'detail' => 'Player is already permanently banned',
                     'status' => 400,
                 ],
             ]);
@@ -187,9 +187,9 @@ class APIBanCreateTest extends E2ETestCase
             ])
             ->assertJson([
                 'error' => [
-                    'id' => 'player_already_banned',
+                    'id' => 'player_already_temp_banned',
                     'title' => '',
-                    'detail' => 'Player is already banned',
+                    'detail' => 'Player is already banned temporarily',
                     'status' => 400,
                 ],
             ]);
