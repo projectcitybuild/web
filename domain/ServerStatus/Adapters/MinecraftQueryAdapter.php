@@ -18,6 +18,10 @@ final class MinecraftQueryAdapter implements ServerQueryAdapter
 
             Log::debug('Successfully pinged server', ['response' => $response]);
 
+            if ($response === false) {
+                return ServerQueryResult::offline();
+            }
+
             $players = $response['players'];
 
             return ServerQueryResult::online(
