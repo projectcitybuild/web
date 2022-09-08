@@ -4,6 +4,7 @@ namespace Entities\Models\Eloquent;
 
 use Altek\Eventually\Eventually;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 use function collect;
 use Entities\Models\PanelGroupScope;
 use Entities\Resources\AccountResource;
@@ -198,6 +199,15 @@ final class Account extends Authenticatable implements LinkableAuditModel
         }
 
         return $this->cachedGroupScopes->has(key: $to);
+    }
+
+    public function updatePassword(string $newPassword)
+    {
+        if (empty($newPassword)) {
+            throw new \Exception('New password cannot be empty');
+        }
+        $this->password = Hash::make($newPassword);
+        $this->save();
     }
 
     public function updateLastLogin(string $ip)

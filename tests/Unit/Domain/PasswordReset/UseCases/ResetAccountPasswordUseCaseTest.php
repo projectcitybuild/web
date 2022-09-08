@@ -15,7 +15,6 @@ use Tests\TestCase;
 
 class ResetAccountPasswordUseCaseTest extends TestCase
 {
-    private ChangeAccountPasswordUseCase $updateAccountPassword;
     private AccountRepository $accountRepository;
     private AccountPasswordResetRepository $passwordResetRepository;
     private ResetAccountPasswordUseCase $useCase;
@@ -24,12 +23,10 @@ class ResetAccountPasswordUseCaseTest extends TestCase
     {
         parent::setUp();
 
-        $this->updateAccountPassword = \Mockery::mock(ChangeAccountPasswordUseCase::class);
         $this->accountRepository = \Mockery::mock(AccountRepository::class);
         $this->passwordResetRepository = \Mockery::mock(AccountPasswordResetRepository::class);
 
         $this->useCase = new ResetAccountPasswordUseCase(
-            updateAccountPassword: $this->updateAccountPassword,
             passwordResetRepository: $this->passwordResetRepository,
             accountRepository: $this->accountRepository,
         );
@@ -87,10 +84,6 @@ class ResetAccountPasswordUseCaseTest extends TestCase
             ->with($passwordReset->email)
             ->andReturn($account);
 
-        $this->updateAccountPassword
-            ->shouldReceive('execute')
-            ->with($account, $newPassword);
-
         $this->passwordResetRepository
             ->shouldReceive('delete')
             ->with($passwordReset);
@@ -118,7 +111,6 @@ class ResetAccountPasswordUseCaseTest extends TestCase
             ->with($passwordReset->email)
             ->andReturn($account);
 
-        $this->updateAccountPassword->shouldReceive('execute');
         $this->passwordResetRepository->shouldReceive('delete');
 
         $this->useCase->execute(

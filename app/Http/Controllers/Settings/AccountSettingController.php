@@ -6,8 +6,6 @@ use App\Http\Requests\AccountChangeEmailRequest;
 use App\Http\Requests\AccountChangePasswordRequest;
 use App\Http\Requests\AccountChangeUsernameRequest;
 use App\Http\WebController;
-use Domain\Accounts\UseCases\ChangeAccountPasswordUseCase;
-use Domain\Accounts\UseCases\ChangeAccountUsernameUseCase;
 use Domain\EmailChange\Exceptions\TokenNotFoundException;
 use Domain\EmailChange\UseCases\SendVerificationEmailUseCase;
 use Domain\EmailChange\UseCases\UpdateAccountEmailUseCase;
@@ -80,32 +78,23 @@ final class AccountSettingController extends WebController
         }
     }
 
-    public function changePassword(
-        AccountChangePasswordRequest $request,
-        ChangeAccountPasswordUseCase $updatePassword
-    ) {
+    public function changePassword(AccountChangePasswordRequest $request) {
         $input = $request->validated();
 
-        $updatePassword->execute(
-            $request->user(),
-            $input['new_password']
-        );
+        $account = $request->user();
+        $account->updatePassword($input['new_password']);
 
         return redirect()
             ->route('front.account.security')
             ->with(['success_password' => 'Password successfully updated']);
     }
 
-    public function changeUsername(
-        AccountChangeUsernameRequest $request,
-        ChangeAccountUsernameUseCase $updateUsername
-    ) {
+    public function changeUsername(AccountChangeUsernameRequest $request) {
         $input = $request->validated();
 
-        $updateUsername->execute(
-            account: $request->user(),
-            newUsername: $input['username'],
-        );
+        $account = $request->user();
+        $account->username = $input['username'];
+        $account->save();
 
         return redirect()
             ->route('front.account.settings')
