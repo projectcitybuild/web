@@ -12,9 +12,9 @@ use Repositories\AccountRepository;
 final class ResetAccountPasswordUseCase
 {
     public function __construct(
-        private ChangeAccountPasswordUseCase   $updateAccountPassword,
+        private ChangeAccountPasswordUseCase $updateAccountPassword,
         private AccountPasswordResetRepository $passwordResetRepository,
-        private AccountRepository              $accountRepository,
+        private AccountRepository $accountRepository,
     ) {
     }
 
