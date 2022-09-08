@@ -19,13 +19,13 @@ final class CreateBanUseCase
     }
 
     /**
-     * @param int $serverId ID of the server the player was banned on
-     * @param PlayerIdentifier $bannedPlayerIdentifier Player to be banned
-     * @param string $bannedPlayerAlias Name of the player at the time of ban
-     * @param PlayerIdentifier $bannerPlayerIdentifier Player that created the ban
-     * @param string $bannerPlayerAlias Name of the player that created the ban at the time
-     * @param string|null $banReason Reason the player was banned
-     * @param Carbon|null $expiresAt Date the ban will expire. If null, ban is permanent
+     * @param  int  $serverId ID of the server the player was banned on
+     * @param  PlayerIdentifier  $bannedPlayerIdentifier Player to be banned
+     * @param  string  $bannedPlayerAlias Name of the player at the time of ban
+     * @param  PlayerIdentifier  $bannerPlayerIdentifier Player that created the ban
+     * @param  string  $bannerPlayerAlias Name of the player that created the ban at the time
+     * @param  string|null  $banReason Reason the player was banned
+     * @param  Carbon|null  $expiresAt Date the ban will expire. If null, ban is permanent
      * @return GameBan
      *
      * @throws AlreadyTempBannedException if a player is already banned temporarily
