@@ -3,7 +3,7 @@
 namespace Domain\Bans\UseCases;
 
 use App\Exceptions\Http\TooManyRequestsException;
-use Domain\Bans\Exceptions\PlayerNotBannedException;
+use Domain\Bans\Exceptions\NotBannedException;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\MinecraftUUID;
 use Library\Mojang\Api\MojangPlayerApi;
@@ -22,7 +22,7 @@ class LookupBanUseCase
 
     /**
      * @throws TooManyRequestsException
-     * @throws PlayerNotBannedException
+     * @throws NotBannedException
      * @throws PlayerNotFoundException
      */
     public function execute(string $username): GameBan
@@ -35,13 +35,13 @@ class LookupBanUseCase
 
         $mcPlayer = $this->minecraftPlayerRepository->getByUUID(new MinecraftUUID($mojangPlayer->getUuid()));
         if ($mcPlayer === null) {
-            throw new PlayerNotBannedException();
+            throw new NotBannedException();
         }
 
         $gameBan = $this->gameBanRepository->firstActiveBan(player: $mcPlayer);
 
         if ($gameBan === null) {
-            throw new PlayerNotBannedException();
+            throw new NotBannedException();
         }
 
         return $gameBan;

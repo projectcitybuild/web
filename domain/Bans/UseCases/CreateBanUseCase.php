@@ -2,10 +2,10 @@
 
 namespace Domain\Bans\UseCases;
 
-use Domain\Bans\Exceptions\PlayerAlreadyBannedException;
+use Domain\Bans\Exceptions\AlreadyPermBannedException;
+use Domain\Bans\Exceptions\AlreadyTempBannedException;
 use Entities\Models\Eloquent\GameBan;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Repositories\GameBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\PlayerLookup;
@@ -28,7 +28,8 @@ final class CreateBanUseCase
      * @param  Carbon|null  $expiresAt Date the ban will expire. If null, ban is permanent
      * @return GameBan
      *
-     * @throws PlayerAlreadyBannedException if player is already banned globally or on the same server
+     * @throws AlreadyTempBannedException if a player is already banned temporarily
+     * @throws AlreadyPermBannedException if player is already banned permanently
      */
     public function execute(
         int $serverId,
@@ -46,7 +47,10 @@ final class CreateBanUseCase
 
         $existingBan = $this->gameBanRepository->firstActiveBan(player: $bannedPlayer);
         if ($existingBan !== null) {
-            throw new PlayerAlreadyBannedException();
+            if ($existingBan->isTemporaryBan()) {
+                throw new AlreadyTempBannedException();
+            }
+            throw new AlreadyPermBannedException();
         }
 
         $bannerPlayer = $this->playerLookup->findOrCreate(
@@ -54,22 +58,13 @@ final class CreateBanUseCase
             playerAlias: $bannerPlayerAlias,
         );
 
-        DB::beginTransaction();
-        try {
-            $ban = $this->gameBanRepository->create(
-                serverId: $serverId,
-                bannedPlayerId: $bannedPlayer->getKey(),
-                bannedPlayerAlias: $bannedPlayerAlias,
-                bannerPlayerId: $bannerPlayer->getKey(),
-                reason: $banReason,
-                expiresAt: $expiresAt,
-            );
-            DB::commit();
-
-            return $ban;
-        } catch (\Throwable $e) {
-            DB::rollBack();
-            throw $e;
-        }
+        return $this->gameBanRepository->create(
+            serverId: $serverId,
+            bannedPlayerId: $bannedPlayer->getKey(),
+            bannedPlayerAlias: $bannedPlayerAlias,
+            bannerPlayerId: $bannerPlayer->getKey(),
+            reason: $banReason,
+            expiresAt: $expiresAt,
+        );
     }
 }

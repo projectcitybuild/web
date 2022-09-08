@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\v2;
 
 use App\Exceptions\Http\BadRequestException;
 use App\Http\ApiController;
-use Domain\Bans\Exceptions\PlayerAlreadyBannedException;
-use Domain\Bans\Exceptions\PlayerNotBannedException;
+use Domain\Bans\Exceptions\AlreadyPermBannedException;
+use Domain\Bans\Exceptions\NotBannedException;
 use Domain\Bans\UseCases\ConvertToPermanentBanUseCase;
 use Domain\Bans\UseCases\CreateBanUseCase;
 use Domain\Bans\UseCases\CreateUnbanUseCase;
@@ -23,7 +23,7 @@ use Shared\PlayerLookup\Entities\PlayerIdentifier;
 final class GameBanV2Controller extends ApiController
 {
     /**
-     * @throws PlayerAlreadyBannedException
+     * @throws AlreadyPermBannedException
      * @throws BadRequestException
      */
     public function ban(
@@ -33,11 +33,11 @@ final class GameBanV2Controller extends ApiController
         $this->validateRequest($request->all(), [
             'banned_player_id' => 'required|max:60',
             'banned_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
-            'banned_player_alias' => 'required',
-            'banner_player_id' => 'required|max:60',
-            'banner_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
-            'banner_player_alias' => 'required',
-            'reason' => 'string',
+            'banned_player_alias' => 'required|string',
+            'banner_player_id' => 'max:60',
+            'banner_player_type' => Rule::in(PlayerIdentifierType::values()),
+            'banner_player_alias' => 'string',
+            'reason' => 'nullable|string',
             'expires_at' => 'integer',
         ], [
             'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
@@ -72,7 +72,7 @@ final class GameBanV2Controller extends ApiController
     }
 
     /**
-     * @throws PlayerNotBannedException
+     * @throws NotBannedException
      * @throws BadRequestException
      */
     public function unban(
@@ -82,8 +82,8 @@ final class GameBanV2Controller extends ApiController
         $this->validateRequest($request->all(), [
             'banned_player_id' => 'required|max:60',
             'banned_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
-            'banner_player_id' => 'required|max:60',
-            'banner_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
+            'unbanner_player_id' => 'max:60',
+            'unbanner_player_type' => Rule::in(PlayerIdentifierType::values()),
         ], [
             'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
         ]);
@@ -94,8 +94,8 @@ final class GameBanV2Controller extends ApiController
                 gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('banned_player_type')),
             ),
             unbannerPlayerIdentifier: new PlayerIdentifier(
-                key: $request->get('banner_player_id'),
-                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('banner_player_type')),
+                key: $request->get('unbanner_player_id'),
+                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('unbanner_player_type')),
             ),
         );
 
@@ -103,7 +103,7 @@ final class GameBanV2Controller extends ApiController
     }
 
     /**
-     * @throws PlayerAlreadyBannedException
+     * @throws AlreadyPermBannedException
      * @throws BadRequestException
      */
     public function convertToPermanent(

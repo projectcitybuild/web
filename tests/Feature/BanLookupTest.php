@@ -3,7 +3,7 @@
 namespace Feature;
 
 use App\Exceptions\Http\TooManyRequestsException;
-use Domain\Bans\Exceptions\PlayerNotBannedException;
+use Domain\Bans\Exceptions\NotBannedException;
 use Domain\Bans\UseCases\LookupBanUseCase;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\GameBan;
@@ -70,7 +70,7 @@ class BanLookupTest extends TestCase
     {
         $mcPlayer = MinecraftPlayer::factory()->create();
         $ban = GameBan::factory()->inactive()->for($mcPlayer, 'bannedPlayer')->create();
-        $this->mockUseCaseToThrow(PlayerNotBannedException::class);
+        $this->mockUseCaseToThrow(NotBannedException::class);
         $this->post(route('front.bans.lookup'), ['username' => 'Herobrine'])
             ->assertSessionHasErrors();
     }
@@ -78,7 +78,7 @@ class BanLookupTest extends TestCase
     public function test_errors_if_no_bans()
     {
         $mcPlayer = MinecraftPlayer::factory()->create();
-        $this->mockUseCaseToThrow(PlayerNotBannedException::class);
+        $this->mockUseCaseToThrow(NotBannedException::class);
         $this->post(route('front.bans.lookup'), ['username' => 'Herobrine'])
             ->assertSessionHasErrors();
     }

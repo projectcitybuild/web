@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Domain\Bans\UseCases;
 
-use Domain\Bans\Exceptions\PlayerAlreadyBannedException;
+use Domain\Bans\Exceptions\AlreadyPermBannedException;
 use Domain\Bans\UseCases\CreateBanUseCase;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
@@ -40,7 +40,7 @@ class CreateBanUseCaseTest extends TestCase
             ->shouldReceive('firstActiveBan')
             ->andReturn(GameBan::factory()->make());
 
-        $this->expectException(PlayerAlreadyBannedException::class);
+        $this->expectException(AlreadyPermBannedException::class);
 
         $this->useCase->execute(
             serverId: 1,

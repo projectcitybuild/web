@@ -5,7 +5,7 @@ namespace Domain\BanAppeals\UseCases;
 use App\Exceptions\Http\NotImplementedException;
 use Domain\BanAppeals\Entities\BanAppealStatus;
 use Domain\BanAppeals\Exceptions\AppealAlreadyDecidedException;
-use Domain\Bans\Exceptions\PlayerNotBannedException;
+use Domain\Bans\Exceptions\NotBannedException;
 use Domain\Bans\UseCases\CreateUnbanUseCase;
 use Domain\Panel\Exceptions\NoPlayerForActionException;
 use Entities\Models\Eloquent\Account;
@@ -33,7 +33,7 @@ class UpdateBanAppealUseCase
      * @throws AppealAlreadyDecidedException if the appeal has already been decided
      * @throws NoPlayerForActionException if the banning account has no minecraft players to perform the action
      * @throws NotImplementedException if an unimplemented ban decision is used
-     * @throws PlayerNotBannedException if the player is not currently banned
+     * @throws NotBannedException if the player is not currently banned
      */
     public function execute(BanAppeal $banAppeal, Account $decidingAccount, string $decisionNote, BanAppealStatus $status): void
     {

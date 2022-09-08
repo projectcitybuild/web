@@ -5,7 +5,7 @@ namespace App\Http\Controllers\BanAppeal;
 use App\Exceptions\Http\TooManyRequestsException;
 use App\Http\Requests\BanLookupRequest;
 use App\Http\WebController;
-use Domain\Bans\Exceptions\PlayerNotBannedException;
+use Domain\Bans\Exceptions\NotBannedException;
 use Domain\Bans\UseCases\LookupBanUseCase;
 use Illuminate\Validation\ValidationException;
 use Library\RateLimit\Storage\SessionTokenStorage;
@@ -31,7 +31,7 @@ class BanLookupController extends WebController
             throw ValidationException::withMessages([
                 'error' => ['The Mojang API is too busy currently. Please try again later'],
             ]);
-        } catch (PlayerNotBannedException) {
+        } catch (NotBannedException) {
             throw ValidationException::withMessages([
                 'error' => ['This player has no active bans.'],
             ]);

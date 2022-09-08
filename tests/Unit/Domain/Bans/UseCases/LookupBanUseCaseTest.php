@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Domain\Bans\UseCases;
 
-use Domain\Bans\Exceptions\PlayerNotBannedException;
+use Domain\Bans\Exceptions\NotBannedException;
 use Domain\Bans\UseCases\LookupBanUseCase;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
@@ -86,7 +86,7 @@ class LookupBanUseCaseTest extends TestCase
     {
         $this->mockMojangApiToReturn('Herobrine', 'abc123');
         $this->mockPlayerRepositoryToReturn('abc123', null);
-        $this->expectException(PlayerNotBannedException::class);
+        $this->expectException(NotBannedException::class);
         $this->useCase->execute('Herobrine');
     }
 
@@ -97,7 +97,7 @@ class LookupBanUseCaseTest extends TestCase
         $this->mockPlayerRepositoryToReturn('abc123', $mcPlayer);
         $this->mockGameBanRepositoryToReturn($mcPlayer->getKey(), null);
 
-        $this->expectException(PlayerNotBannedException::class);
+        $this->expectException(NotBannedException::class);
 
         $this->useCase->execute('Herobrine');
     }

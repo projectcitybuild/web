@@ -6,7 +6,7 @@ use App\Exceptions\Http\NotImplementedException;
 use Domain\BanAppeals\Entities\BanAppealStatus;
 use Domain\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use Domain\BanAppeals\UseCases\UpdateBanAppealUseCase;
-use Domain\Bans\Exceptions\PlayerNotBannedException;
+use Domain\Bans\Exceptions\NotBannedException;
 use Domain\Bans\UseCases\CreateUnbanUseCase;
 use Domain\Panel\Exceptions\NoPlayerForActionException;
 use Entities\Models\Eloquent\Account;
@@ -140,9 +140,9 @@ class UpdateBanAppealUseCaseTest extends TestCase
 
         $this->unbanUseCase->expects('execute')
             ->once()
-            ->andThrows(PlayerNotBannedException::class);
+            ->andThrows(NotBannedException::class);
 
-        $this->expectException(PlayerNotBannedException::class);
+        $this->expectException(NotBannedException::class);
         $this->useCase->execute(
             banAppeal: $this->banAppeal,
             decidingAccount: $this->decidingAccount,

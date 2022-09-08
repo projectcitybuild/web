@@ -28,8 +28,8 @@ class APIUnbanCreateTest extends E2ETestCase
         return [
             'banned_player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
             'banned_player_id' => 'uuid1',
-            'banner_player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
-            'banner_player_id' => 'uuid2',
+            'unbanner_player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
+            'unbanner_player_id' => 'uuid2',
         ];
     }
 
@@ -62,8 +62,8 @@ class APIUnbanCreateTest extends E2ETestCase
             ->postJson(uri: self::ENDPOINT, data: [
                 'banned_player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
                 'banned_player_id' => $player1->uuid,
-                'banner_player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
-                'banner_player_id' => $player2->uuid,
+                'unbanner_player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
+                'unbanner_player_id' => $player2->uuid,
                 'reason' => 'reason',
             ])
             ->assertJson([
@@ -92,8 +92,8 @@ class APIUnbanCreateTest extends E2ETestCase
             ->postJson(uri: self::ENDPOINT, data: [
                 'banned_player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
                 'banned_player_id' => $player1->uuid,
-                'banner_player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
-                'banner_player_id' => $player2->uuid,
+                'unbanner_player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
+                'unbanner_player_id' => $player2->uuid,
             ])
             ->assertSuccessful();
 
@@ -130,8 +130,8 @@ class APIUnbanCreateTest extends E2ETestCase
             ->postJson(uri: self::ENDPOINT, data: [
                 'banned_player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
                 'banned_player_id' => $player1->uuid,
-                'banner_player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
-                'banner_player_id' => $player2->uuid,
+                'unbanner_player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
+                'unbanner_player_id' => $player2->uuid,
             ])
             ->assertSuccessful();
 
