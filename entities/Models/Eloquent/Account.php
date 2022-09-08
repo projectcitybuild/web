@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
@@ -198,6 +199,15 @@ final class Account extends Authenticatable implements LinkableAuditModel
         }
 
         return $this->cachedGroupScopes->has(key: $to);
+    }
+
+    public function updatePassword(string $newPassword)
+    {
+        if (empty($newPassword)) {
+            throw new \Exception('New password cannot be empty');
+        }
+        $this->password = Hash::make($newPassword);
+        $this->save();
     }
 
     public function updateLastLogin(string $ip)
