@@ -82,6 +82,13 @@ return [
     'failed' => [
         'database' => env('DB_CONNECTION', 'mysql'),
         'table' => 'failed_jobs',
+
+        // Force Laravel to use `DatabaseUuidFailedJobProvider` instead of the
+        // default `DatabaseFailedJobProvider`, which isn't compatible with the
+        // failed jobs table schema Laravel provided us
+        //
+        // https://laracasts.com/discuss/channels/lumen/uuid-on-queue-failed-jobs-is-empty
+        'driver' => 'database-uuids',
     ],
 
 ];
