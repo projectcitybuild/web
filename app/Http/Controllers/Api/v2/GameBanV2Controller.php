@@ -37,7 +37,7 @@ final class GameBanV2Controller extends ApiController
             'banner_player_id' => 'max:60',
             'banner_player_type' => Rule::in(PlayerIdentifierType::values()),
             'banner_player_alias' => 'string',
-            'reason' => 'string',
+            'reason' => 'nullable|string',
             'expires_at' => 'integer',
         ], [
             'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
