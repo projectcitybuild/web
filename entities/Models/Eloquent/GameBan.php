@@ -3,6 +3,7 @@
 namespace Entities\Models\Eloquent;
 
 use App\Model;
+use Domain\Bans\UnbanType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -32,10 +33,17 @@ final class GameBan extends Model
         'created_at',
         'updated_at',
     ];
+    protected $casts = [
+        'unban_type' => UnbanType::class,
+    ];
 
     public function scopeActive(Builder $query)
     {
-        $query->where('is_active', true);
+        $query->whereNull('unbanned_at')
+            ->where(function ($q) {
+                $q->whereNull('expires_at')
+                    ->orWhereDate('expires_at', '>=', now());
+            });
     }
 
     public function bannedPlayer(): BelongsTo

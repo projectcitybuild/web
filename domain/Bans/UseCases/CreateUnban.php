@@ -3,6 +3,7 @@
 namespace Domain\Bans\UseCases;
 
 use Domain\Bans\Exceptions\NotBannedException;
+use Domain\Bans\UnbanType;
 use Entities\Models\Eloquent\GameBan;
 use Repositories\GameBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
@@ -38,6 +39,7 @@ class CreateUnban
         $this->gameBanRepository->unban(
             ban: $existingBan,
             unbannerPlayerId: $unbannerPlayer->getKey(),
+            unbanType: UnbanType::MANUAL,
         );
 
         return $existingBan->refresh();
