@@ -5,10 +5,10 @@ namespace Shared\PlayerLookup;
 use Entities\Models\MinecraftUUID;
 use Entities\Models\PlayerIdentifierType;
 use Repositories\MinecraftPlayerAliasRepository;
+use Repositories\MinecraftPlayerRepository;
 use Shared\PlayerLookup\Contracts\Player;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Exceptions\NonCreatableIdentifierException;
-use Shared\PlayerLookup\Repositories\MinecraftPlayerRepository;
 
 /**
  * @final

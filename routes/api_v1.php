@@ -21,13 +21,6 @@ Route::prefix('webhooks')->group(function () {
     Route::post('stripe', [StripeWebhookController::class, 'handleWebhook'])->name('cashier.webhook');
 });
 
-Route::prefix('bans')->group(function () {
-    Route::post('list', [GameBanV1Controller::class, 'getBanList']);
-    Route::post('store/ban', [GameBanV1Controller::class, 'storeBan']);
-    Route::post('store/unban', [GameBanV1Controller::class, 'storeUnban']);
-    Route::post('status', [GameBanV1Controller::class, 'getPlayerStatus']);
-});
-
 Route::prefix('auth')->group(function () {
     Route::post('minecraft', [MinecraftAuthTokenController::class, 'store']);
     Route::get('minecraft/{minecraftUUID}', [MinecraftAuthTokenController::class, 'show']);

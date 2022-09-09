@@ -13,8 +13,8 @@ use Shared\PlayerLookup\PlayerLookup;
 final class CreateBanUseCase
 {
     public function __construct(
-        private GameBanRepository $gameBanRepository,
-        private PlayerLookup $playerLookup,
+        private readonly GameBanRepository $gameBanRepository,
+        private readonly PlayerLookup $playerLookup,
     ) {
     }
 
