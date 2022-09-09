@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\v1\GameBanV1Controller;
 use App\Http\Controllers\Api\v1\GroupApiController;
 use App\Http\Controllers\Api\v1\MinecraftAuthTokenController;
 use App\Http\Controllers\Api\v1\StripeWebhookController;
