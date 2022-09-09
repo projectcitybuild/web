@@ -10,8 +10,8 @@ use Shared\PlayerLookup\Entities\PlayerIdentifier;
 final class MinecraftBadgeController extends ApiController
 {
     public function show(
-        Request   $request,
-        string    $uuid,
+        Request $request,
+        string $uuid,
         GetBadges $getBadges,
     ) {
         $badges = $getBadges->execute(

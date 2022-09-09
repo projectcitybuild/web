@@ -77,7 +77,7 @@ final class LoginController extends WebController
     }
 
     public function resendActivationEmail(
-        Request               $request,
+        Request $request,
         ResendActivationEmail $resendActivationEmail,
     ) {
         try {

@@ -26,7 +26,7 @@ final class RegisterController extends WebController
     }
 
     public function register(
-        RegisterRequest          $request,
+        RegisterRequest $request,
         CreateUnactivatedAccount $createUnactivatedAccountUseCase,
     ): View {
         $input = $request->validated();

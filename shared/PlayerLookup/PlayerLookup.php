@@ -24,10 +24,8 @@ class PlayerLookup
     public function find(PlayerIdentifier $identifier): ?Player
     {
         return match ($identifier->gameIdentifierType) {
-            PlayerIdentifierType::MINECRAFT_UUID
-                => $this->minecraftPlayerRepository->getByUUID(new MinecraftUUID($identifier->key)),
-            PlayerIdentifierType::PCB_PLAYER_ID
-                => $this->minecraftPlayerRepository->getById($identifier->key),
+            PlayerIdentifierType::MINECRAFT_UUID => $this->minecraftPlayerRepository->getByUUID(new MinecraftUUID($identifier->key)),
+            PlayerIdentifierType::PCB_PLAYER_ID => $this->minecraftPlayerRepository->getById($identifier->key),
         };
     }
 

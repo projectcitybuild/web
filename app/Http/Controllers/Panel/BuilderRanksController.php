@@ -36,8 +36,8 @@ class BuilderRanksController extends WebController
     }
 
     public function approve(
-        Request                     $request,
-        int                         $applicationId,
+        Request $request,
+        int $applicationId,
         ApproveBuildRankApplication $approveBuildRankApplication,
     ) {
         $allowedGroups = Group::where('is_build', true)->get()
@@ -66,8 +66,8 @@ class BuilderRanksController extends WebController
     }
 
     public function deny(
-        Request                  $request,
-        int                      $applicationId,
+        Request $request,
+        int $applicationId,
         DenyBuildRankApplication $denyBuildRankApplication,
     ) {
         $validator = Validator::make($request->all(), [

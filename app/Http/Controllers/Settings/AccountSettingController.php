@@ -26,7 +26,7 @@ final class AccountSettingController extends WebController
 
     public function sendVerificationEmail(
         AccountChangeEmailRequest $request,
-        SendVerificationEmail     $sendVerificationEmail,
+        SendVerificationEmail $sendVerificationEmail,
     ): RedirectResponse {
         $input = $request->validated();
         $account = $request->user();
@@ -51,8 +51,8 @@ final class AccountSettingController extends WebController
      * they own both email addresses (old and new).
      */
     public function showConfirmForm(
-        Request            $request,
-        VerifyEmail        $verifyEmail,
+        Request $request,
+        VerifyEmail $verifyEmail,
         UpdateAccountEmail $updateAccountEmail
     ) {
         try {

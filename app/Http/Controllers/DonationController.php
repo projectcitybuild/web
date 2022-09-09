@@ -21,7 +21,7 @@ final class DonationController extends WebController
     }
 
     public function checkout(
-        Request       $request,
+        Request $request,
         BeginCheckout $beginCheckoutUseCase,
     ) {
         $account = $request->user();

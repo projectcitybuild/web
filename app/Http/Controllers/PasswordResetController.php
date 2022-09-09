@@ -26,7 +26,7 @@ final class PasswordResetController extends WebController
      */
     public function store(
         SendPasswordEmailRequest $request,
-        SendPasswordResetEmail   $sendPasswordResetEmail,
+        SendPasswordResetEmail $sendPasswordResetEmail,
     ) {
         $input = $request->validated();
         $email = $input['email'];

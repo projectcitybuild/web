@@ -16,8 +16,8 @@ use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 final class MinecraftBalanceController extends ApiController
 {
     public function show(
-        Request    $request,
-        string     $uuid,
+        Request $request,
+        string $uuid,
         GetBalance $getBalance,
     ) {
         try {
@@ -42,8 +42,8 @@ final class MinecraftBalanceController extends ApiController
      * @throws InsufficientBalanceException|InvalidMinecraftUUIDException
      */
     public function deduct(
-        Request       $request,
-        string        $uuid,
+        Request $request,
+        string $uuid,
         DeductBalance $deductBalance,
     ) {
         $this->validateRequest(

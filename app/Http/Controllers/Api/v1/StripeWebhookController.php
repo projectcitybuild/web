@@ -21,7 +21,7 @@ final class StripeWebhookController extends CashierController
 {
     public function __construct(
         private ProcessPayment $processPaymentUseCase,
-        private StripeClient   $stripeClient,
+        private StripeClient $stripeClient,
     ) {
         SystemCauseResolver::setCauser(SystemCauser::STRIPE_WEBHOOK);
         parent::__construct();

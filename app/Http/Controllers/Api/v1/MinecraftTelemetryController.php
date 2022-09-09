@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 final class MinecraftTelemetryController extends ApiController
 {
     public function playerSeen(
-        Request                   $request,
+        Request $request,
         UpdateSeenMinecraftPlayer $updateSeenMinecraftPlayer,
     ) {
         $this->validateRequest($request->all(), [

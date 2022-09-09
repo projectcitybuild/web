@@ -35,7 +35,7 @@ final class BuilderRankApplicationController extends WebController
 
     public function store(
         BuilderRankApplicationRequest $request,
-        CreateBuildRankApplication    $createBuildRankApplication,
+        CreateBuildRankApplication $createBuildRankApplication,
     ) {
         $input = $request->validated();
 
