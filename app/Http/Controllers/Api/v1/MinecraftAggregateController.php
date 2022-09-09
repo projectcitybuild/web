@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Exceptions\Http\NotFoundException;
 use App\Http\ApiController;
-use Domain\Badges\UseCases\GetBadgesUseCase;
-use Domain\Bans\UseCases\GetActiveBanUseCase;
-use Domain\Donations\UseCases\GetDonationTiersUseCase;
+use Domain\Badges\UseCases\GetBadges;
+use Domain\Bans\UseCases\GetActiveBan;
+use Domain\Donations\UseCases\GetDonationTiers;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Resources\AccountResource;
@@ -20,9 +20,9 @@ final class MinecraftAggregateController extends ApiController
     public function show(
         Request $request,
         string $uuid,
-        GetActiveBanUseCase $getBan,
-        GetBadgesUseCase $getBadges,
-        GetDonationTiersUseCase $getDonationTier,
+        GetActiveBan $getBan,
+        GetBadges $getBadges,
+        GetDonationTiers $getDonationTier,
     ) {
         $identifier = PlayerIdentifier::minecraftUUID($uuid);
 

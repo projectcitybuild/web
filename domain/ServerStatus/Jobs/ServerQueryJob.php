@@ -3,7 +3,7 @@
 namespace Domain\ServerStatus\Jobs;
 
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
-use Domain\ServerStatus\ServerQueryService;
+use Domain\ServerStatus\UseCases\QueryServerStatus;
 use Entities\Models\Eloquent\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -42,7 +42,7 @@ final class ServerQueryJob implements ShouldQueue
      *
      * @throws UnsupportedGameException
      */
-    public function handle(ServerQueryService $queryService)
+    public function handle(QueryServerStatus $queryService)
     {
         $queryService->query(server: $this->server);
     }

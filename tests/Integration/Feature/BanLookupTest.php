@@ -4,7 +4,7 @@ namespace Tests\Integration\Feature;
 
 use App\Exceptions\Http\TooManyRequestsException;
 use Domain\Bans\Exceptions\NotBannedException;
-use Domain\Bans\UseCases\LookupBanUseCase;
+use Domain\Bans\UseCases\LookupBan;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
@@ -19,7 +19,7 @@ class BanLookupTest extends TestCase
 
     private function mockUseCaseToReturnBan(string $username, GameBan $ban)
     {
-        $this->mock(LookupBanUseCase::class, function (MockInterface $mock) use ($username, $ban) {
+        $this->mock(LookupBan::class, function (MockInterface $mock) use ($username, $ban) {
             $mock->shouldReceive('execute')
                 ->with($username)
                 ->andReturn($ban);
@@ -28,7 +28,7 @@ class BanLookupTest extends TestCase
 
     private function mockUseCaseToThrow(string $exception)
     {
-        $this->mock(LookupBanUseCase::class, function (MockInterface $mock) use ($exception) {
+        $this->mock(LookupBan::class, function (MockInterface $mock) use ($exception) {
             $mock->shouldReceive('execute')
                 ->andThrow($exception);
         });
