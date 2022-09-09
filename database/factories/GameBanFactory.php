@@ -27,39 +27,9 @@ class GameBanFactory extends Factory
             'banned_alias_at_time' => $this->faker->name,
             'staff_player_id' => MinecraftPlayer::factory(),
             'reason' => $this->faker->sentence,
-            'is_active' => $this->faker->boolean,
-            'is_global_ban' => $this->faker->boolean,
             'created_at' => $this->faker->dateTimeBetween('-5 years', 'now'),
             'expires_at' => null,
         ];
-    }
-
-    /**
-     * Enables the ban.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function active()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'is_active' => true,
-            ];
-        });
-    }
-
-    /**
-     * Disables the ban.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function inactive()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'is_active' => false,
-            ];
-        });
     }
 
     /**
@@ -85,7 +55,6 @@ class GameBanFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'is_active' => false,
                 'expires_at' => now()->subDay(),
             ];
         });

@@ -48,11 +48,6 @@ final class GameBan extends Model
         return $this->belongsTo(MinecraftPlayer::class, 'staff_player_id', 'player_minecraft_id');
     }
 
-    public function unban(): BelongsTo
-    {
-        return $this->belongsTo(GameUnban::class, 'game_ban_id', 'game_ban_id');
-    }
-
     public function server(): BelongsTo
     {
         return $this->belongsTo(Server::class, 'server_id', 'server_id');

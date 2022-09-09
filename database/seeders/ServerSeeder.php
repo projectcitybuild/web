@@ -42,13 +42,5 @@ class ServerSeeder extends Seeder
             'is_querying' => false,
             'display_order' => 2,
         ]);
-
-        ServerKey::create([
-            'server_id' => $minecraftServer->server_id,
-            'token' => bin2hex(random_bytes(30)),
-            'can_local_ban' => true,
-            'can_global_ban' => true,
-            'can_warn' => true,
-        ]);
     }
 }

@@ -62,4 +62,12 @@ class GameBanRepository
             ->whereDate('expires_at', '<=', now())
             ->update(['is_active' => false]);
     }
+
+    public function unban(GameBan $ban, ?int $unbannerPlayerId)
+    {
+        $ban->save([
+            'unbanned_at' => now(),
+            'unbanner_player_id' => $unbannerPlayerId,
+        ]);
+    }
 }

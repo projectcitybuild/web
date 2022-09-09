@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(GameBanSeeder::class);
         $this->call(DonationSeeder::class);
         $this->call(BadgeSeeder::class);
+        $this->call(ServerTokenScopeSeeder::class);
     }
 }

@@ -6,6 +6,7 @@ use Entities\Models\Eloquent\GameUnban;
 
 /**
  * @final
+ * @deprecated
  */
 class GameUnbanRepository
 {
