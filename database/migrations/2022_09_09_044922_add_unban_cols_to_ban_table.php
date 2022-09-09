@@ -14,7 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::table('game_network_bans', function (Blueprint $table) {
-            $table->dropColumn('is_active');
             $table->dropColumn('is_global_ban');
             $table->timestamp('unbanned_at')->nullable()->after('updated_at');
             $table->integer('unbanner_player_id')->unsigned()->nullable()->after('unbanned_at');
@@ -32,7 +31,6 @@ return new class extends Migration
     public function down()
     {
         Schema::table('game_network_bans', function (Blueprint $table) {
-            $table->boolean('is_active')->default(true)->after('reason');
             $table->boolean('is_global_ban')->default(true)->after('is_active');
 
             $table->dropForeignIdFor('unbanner_player_id');
