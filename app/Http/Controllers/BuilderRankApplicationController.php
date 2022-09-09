@@ -6,7 +6,7 @@ use App\Http\Requests\BuilderRankApplicationRequest;
 use App\Http\WebController;
 use Domain\BuilderRankApplications\Entities\BuilderRank;
 use Domain\BuilderRankApplications\Exceptions\ApplicationAlreadyInProgressException;
-use Domain\BuilderRankApplications\UseCases\CreateBuildRankApplicationUseCase;
+use Domain\BuilderRankApplications\UseCases\CreateBuildRankApplication;
 use Entities\Models\Eloquent\Account;
 use Illuminate\Http\Request;
 use Repositories\BuilderRankApplicationRepository;
@@ -35,7 +35,7 @@ final class BuilderRankApplicationController extends WebController
 
     public function store(
         BuilderRankApplicationRequest $request,
-        CreateBuildRankApplicationUseCase $createBuildRankApplication,
+        CreateBuildRankApplication    $createBuildRankApplication,
     ) {
         $input = $request->validated();
 

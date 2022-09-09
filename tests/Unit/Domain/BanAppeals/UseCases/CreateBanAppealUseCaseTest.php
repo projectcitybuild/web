@@ -3,7 +3,7 @@
 namespace Tests\Unit\Domain\BanAppeals\UseCases;
 
 use Domain\BanAppeals\Exceptions\EmailRequiredException;
-use Domain\BanAppeals\UseCases\CreateBanAppealUseCase;
+use Domain\BanAppeals\UseCases\CreateBanAppeal;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\GameBan;
@@ -16,7 +16,7 @@ use Tests\TestCase;
 class CreateBanAppealUseCaseTest extends TestCase
 {
     private BanAppealRepository $banAppealRepository;
-    private CreateBanAppealUseCase $useCase;
+    private CreateBanAppeal $useCase;
     private GameBan $gameBan;
     private BanAppeal $banAppeal;
 
@@ -26,7 +26,7 @@ class CreateBanAppealUseCaseTest extends TestCase
         Notification::fake();
 
         $this->banAppealRepository = \Mockery::mock(BanAppealRepository::class);
-        $this->useCase = new CreateBanAppealUseCase(
+        $this->useCase = new CreateBanAppeal(
             banAppealRepository: $this->banAppealRepository
         );
         $this->gameBan = GameBan::factory()->for(MinecraftPlayer::factory(), 'bannedPlayer')->active()->create();

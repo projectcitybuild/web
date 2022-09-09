@@ -3,7 +3,7 @@
 namespace Tests\Unit\Domain\Bans\UseCases;
 
 use Domain\Bans\Exceptions\AlreadyPermBannedException;
-use Domain\Bans\UseCases\CreateBanUseCase;
+use Domain\Bans\UseCases\CreateBan;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Repositories\GameBanRepository;
@@ -15,7 +15,7 @@ class CreateBanUseCaseTest extends TestCase
 {
     private readonly PlayerLookup $playerLookup;
     private readonly GameBanRepository $gameBanRepository;
-    private readonly CreateBanUseCase $useCase;
+    private readonly CreateBan $useCase;
 
     protected function setUp(): void
     {
@@ -24,7 +24,7 @@ class CreateBanUseCaseTest extends TestCase
         $this->gameBanRepository = \Mockery::mock(GameBanRepository::class);
         $this->playerLookup = \Mockery::mock(PlayerLookup::class);
 
-        $this->useCase = new CreateBanUseCase(
+        $this->useCase = new CreateBan(
             gameBanRepository: $this->gameBanRepository,
             playerLookup: $this->playerLookup,
         );

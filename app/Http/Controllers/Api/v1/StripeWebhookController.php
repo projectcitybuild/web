@@ -7,7 +7,7 @@ use Domain\Donations\Entities\Payloads\StripeCheckoutSessionCompleted;
 use Domain\Donations\Entities\Payloads\StripeInvoicePaid;
 use Domain\Donations\Entities\PaymentType;
 use Domain\Donations\Exceptions\StripeProductNotFoundException;
-use Domain\Donations\UseCases\ProcessPaymentUseCase;
+use Domain\Donations\UseCases\ProcessPayment;
 use Entities\Models\Eloquent\Account;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -20,8 +20,8 @@ use Symfony\Component\HttpFoundation\Response;
 final class StripeWebhookController extends CashierController
 {
     public function __construct(
-        private ProcessPaymentUseCase $processPaymentUseCase,
-        private StripeClient $stripeClient,
+        private ProcessPayment $processPaymentUseCase,
+        private StripeClient   $stripeClient,
     ) {
         SystemCauseResolver::setCauser(SystemCauser::STRIPE_WEBHOOK);
         parent::__construct();

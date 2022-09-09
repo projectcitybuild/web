@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Domain\MinecraftTelemetry\UseCases;
 
-use Domain\MinecraftTelemetry\UseCases\UpdateSeenMinecraftPlayerUseCase;
+use Domain\MinecraftTelemetry\UseCases\UpdateSeenMinecraftPlayer;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\MinecraftPlayerAlias;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,7 +16,7 @@ class UpdateSeenMinecraftPlayerUseCaseTest extends TestCase
 
     private PlayerLookup $playerLookup;
     private MinecraftPlayerAliasRepository $aliasRepository;
-    private UpdateSeenMinecraftPlayerUseCase $useCase;
+    private UpdateSeenMinecraftPlayer $useCase;
 
     protected function setUp(): void
     {
@@ -25,7 +25,7 @@ class UpdateSeenMinecraftPlayerUseCaseTest extends TestCase
         $this->playerLookup = \Mockery::mock(PlayerLookup::class);
         $this->aliasRepository = \Mockery::mock(MinecraftPlayerAliasRepository::class);
 
-        $this->useCase = new UpdateSeenMinecraftPlayerUseCase(
+        $this->useCase = new UpdateSeenMinecraftPlayer(
             playerLookup: $this->playerLookup,
             aliasRepository: $this->aliasRepository,
         );

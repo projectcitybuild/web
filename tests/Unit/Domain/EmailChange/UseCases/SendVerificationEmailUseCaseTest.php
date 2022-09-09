@@ -4,7 +4,7 @@ namespace Unit\Domain\EmailChange\UseCases;
 
 use Domain\EmailChange\Notifications\VerifyNewEmailAddressNotification;
 use Domain\EmailChange\Notifications\VerifyOldEmailAddressNotification;
-use Domain\EmailChange\UseCases\SendVerificationEmailUseCase;
+use Domain\EmailChange\UseCases\SendVerificationEmail;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\AccountEmailChange;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -23,7 +23,7 @@ class SendVerificationEmailUseCaseTest extends TestCase
     private AccountEmailChangeRepository $emailChangeRepository;
     private TokenGenerator $tokenGenerator;
     private SignedURLGenerator $signedURLGenerator;
-    private SendVerificationEmailUseCase $useCase;
+    private SendVerificationEmail $useCase;
 
     protected function setUp(): void
     {
@@ -33,7 +33,7 @@ class SendVerificationEmailUseCaseTest extends TestCase
         $this->tokenGenerator = new StubTokenGenerator(token: 'token');
         $this->signedURLGenerator = new StubSignedURLGenerator(outputURL: 'url');
 
-        $this->useCase = new SendVerificationEmailUseCase(
+        $this->useCase = new SendVerificationEmail(
             emailChangeRepository: $this->emailChangeRepository,
             tokenGenerator: $this->tokenGenerator,
             signedURLGenerator: $this->signedURLGenerator,

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Domain\PasswordReset\UseCases;
 
-use Domain\PasswordReset\UseCases\DeleteExpiredPasswordResetsUseCase;
+use Domain\PasswordReset\UseCases\DeleteExpiredPasswordResets;
 use Entities\Models\Eloquent\AccountPasswordReset;
 use Illuminate\Support\Carbon;
 use Repositories\AccountPasswordResetRepository;
@@ -10,13 +10,13 @@ use Tests\TestCase;
 
 class DeleteExpiredPasswordResetsUseCaseTest extends TestCase
 {
-    private DeleteExpiredPasswordResetsUseCase $useCase;
+    private DeleteExpiredPasswordResets $useCase;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->useCase = new DeleteExpiredPasswordResetsUseCase(
+        $this->useCase = new DeleteExpiredPasswordResets(
             passwordResetRepository: new AccountPasswordResetRepository(),
         );
     }

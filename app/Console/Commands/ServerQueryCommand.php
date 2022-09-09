@@ -4,14 +4,14 @@ namespace App\Console\Commands;
 
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
 use Domain\ServerStatus\Jobs\ServerQueryJob;
-use Domain\ServerStatus\ServerQueryService;
+use Domain\ServerStatus\UseCases\QueryServerStatus;
 use Entities\Models\Eloquent\Server;
 use Illuminate\Console\Command;
 
 final class ServerQueryCommand extends Command
 {
     public function __construct(
-        private ServerQueryService $serverQueryService,
+        private QueryServerStatus $serverQueryService,
     ) {
         parent::__construct();
     }

@@ -16,26 +16,19 @@ use Shared\PlayerLookup\Exceptions\NonCreatableIdentifierException;
 class PlayerLookup
 {
     public function __construct(
-        private MinecraftPlayerRepository $minecraftPlayerRepository,
-        private MinecraftPlayerAliasRepository $minecraftPlayerAliasRepository,
+        private readonly MinecraftPlayerRepository $minecraftPlayerRepository,
+        private readonly MinecraftPlayerAliasRepository $minecraftPlayerAliasRepository,
     ) {
     }
 
     public function find(PlayerIdentifier $identifier): ?Player
     {
-        $player = null;
-
-        switch ($identifier->gameIdentifierType) {
-            case PlayerIdentifierType::MINECRAFT_UUID:
-                $uuid = new MinecraftUUID($identifier->key);
-                $player = $this->minecraftPlayerRepository->getByUUID($uuid);
-                break;
-            case PlayerIdentifierType::PCB_PLAYER_ID:
-                $player = $this->minecraftPlayerRepository->getById($identifier->key);
-                break;
-        }
-
-        return $player;
+        return match ($identifier->gameIdentifierType) {
+            PlayerIdentifierType::MINECRAFT_UUID
+                => $this->minecraftPlayerRepository->getByUUID(new MinecraftUUID($identifier->key)),
+            PlayerIdentifierType::PCB_PLAYER_ID
+                => $this->minecraftPlayerRepository->getById($identifier->key),
+        };
     }
 
     public function findOrCreate(
@@ -46,6 +39,9 @@ class PlayerLookup
             ?? $this->create(identifier: $identifier, playerAlias: $playerAlias);
     }
 
+    /**
+     * @throws NonCreatableIdentifierException
+     */
     private function create(
         PlayerIdentifier $identifier,
         ?string $playerAlias = null,

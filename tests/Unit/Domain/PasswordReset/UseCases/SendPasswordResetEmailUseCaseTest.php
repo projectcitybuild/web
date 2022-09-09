@@ -17,7 +17,7 @@ class SendPasswordResetEmailUseCaseTest extends TestCase
     private Carbon $now;
     private Account $account;
     private AccountPasswordResetRepository $passwordResetRepository;
-    private SendPasswordResetEmailUseCase $useCase;
+    private SendPasswordResetEmail $useCase;
 
     protected function setUp(): void
     {
@@ -26,7 +26,7 @@ class SendPasswordResetEmailUseCaseTest extends TestCase
         $this->account = Account::factory()->create();
         $this->passwordResetRepository = \Mockery::mock(AccountPasswordResetRepository::class)->makePartial();
 
-        $this->useCase = new SendPasswordResetEmailUseCase(
+        $this->useCase = new SendPasswordResetEmail(
             passwordResetRepository: $this->passwordResetRepository,
             tokenGenerator: new StubTokenGenerator('token'),
             signedURLGenerator: new LaravelSignedURLGenerator()

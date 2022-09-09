@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Domain\PasswordReset\UseCases\DeleteExpiredPasswordResetsUseCase;
+use Domain\PasswordReset\UseCases\DeleteExpiredPasswordResets;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -25,7 +25,7 @@ final class CleanupExpiredPasswordResetsCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(DeleteExpiredPasswordResetsUseCase $deleteExpiredPasswordResetsUseCase)
+    public function handle(DeleteExpiredPasswordResets $deleteExpiredPasswordResetsUseCase)
     {
         Log::info('Deleting expired password reset requests...');
 

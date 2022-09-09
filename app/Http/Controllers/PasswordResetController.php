@@ -6,8 +6,8 @@ use App\Exceptions\Http\NotFoundException;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SendPasswordEmailRequest;
 use App\Http\WebController;
-use Domain\PasswordReset\UseCases\ResetAccountPasswordUseCase;
-use Domain\PasswordReset\UseCases\SendPasswordResetEmailUseCase;
+use Domain\PasswordReset\UseCases\ResetAccountPassword;
+use Domain\PasswordReset\UseCases\SendPasswordResetEmail;
 use Illuminate\Http\Request;
 use Repositories\AccountPasswordResetRepository;
 
@@ -26,7 +26,7 @@ final class PasswordResetController extends WebController
      */
     public function store(
         SendPasswordEmailRequest $request,
-        SendPasswordResetEmailUseCase $sendPasswordResetEmail,
+        SendPasswordResetEmail   $sendPasswordResetEmail,
     ) {
         $input = $request->validated();
         $email = $input['email'];
@@ -71,7 +71,7 @@ final class PasswordResetController extends WebController
      */
     public function update(
         ResetPasswordRequest $request,
-        ResetAccountPasswordUseCase $resetAccountPassword,
+        ResetAccountPassword $resetAccountPassword,
     ) {
         $input = $request->validated();
 

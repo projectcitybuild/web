@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Domain\SignUp\UseCases;
 
-use Domain\SignUp\UseCases\CreateUnactivatedAccountUseCase;
+use Domain\SignUp\UseCases\CreateUnactivatedAccount;
 use Entities\Models\Eloquent\Account;
 use Entities\Notifications\AccountActivationNotification;
 use Illuminate\Support\Facades\Notification;
@@ -17,7 +17,7 @@ class CreateUnactivatedAccountUseCaseTest extends TestCase
     private AccountRepository $accountRepository;
     private GroupsManager $groupsManager;
     private SignedURLGenerator $signedURLGenerator;
-    private CreateUnactivatedAccountUseCase $useCase;
+    private CreateUnactivatedAccount $useCase;
 
     protected function setUp(): void
     {
@@ -27,7 +27,7 @@ class CreateUnactivatedAccountUseCaseTest extends TestCase
         $this->groupsManager = \Mockery::mock(GroupsManager::class);
         $this->signedURLGenerator = new StubSignedURLGenerator(outputURL: 'url');
 
-        $this->useCase = new CreateUnactivatedAccountUseCase(
+        $this->useCase = new CreateUnactivatedAccount(
             accountRepository: $this->accountRepository,
             groupsManager: $this->groupsManager,
             signedURLGenerator: $this->signedURLGenerator,

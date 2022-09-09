@@ -7,7 +7,7 @@ use Database\Factories\AccountFactory;
 use Domain\Login\Entities\LoginCredentials;
 use Domain\Login\Exceptions\AccountNotActivatedException;
 use Domain\Login\Exceptions\InvalidLoginCredentialsException;
-use Domain\Login\UseCases\LoginUseCase;
+use Domain\Login\UseCases\LoginAccount;
 use Entities\Models\Eloquent\Account;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +20,7 @@ class LoginUseCaseTest extends TestCase
     use RefreshDatabase;
 
     private AccountRepository $accountRepository;
-    private LoginUseCase $useCase;
+    private LoginAccount $useCase;
 
     protected function setUp(): void
     {
@@ -28,7 +28,7 @@ class LoginUseCaseTest extends TestCase
 
         $this->accountRepository = \Mockery::mock(AccountRepository::class);
 
-        $this->useCase = new LoginUseCase(
+        $this->useCase = new LoginAccount(
             accountRepository: $this->accountRepository,
         );
     }

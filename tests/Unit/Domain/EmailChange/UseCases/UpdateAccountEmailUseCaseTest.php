@@ -2,7 +2,7 @@
 
 namespace Unit\Domain\EmailChange\UseCases;
 
-use Domain\EmailChange\UseCases\UpdateAccountEmailUseCase;
+use Domain\EmailChange\UseCases\UpdateAccountEmail;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\AccountEmailChange;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -12,13 +12,13 @@ class UpdateAccountEmailUseCaseTest extends TestCase
 {
     use RefreshDatabase;
 
-    private UpdateAccountEmailUseCase $useCase;
+    private UpdateAccountEmail $useCase;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->useCase = new UpdateAccountEmailUseCase();
+        $this->useCase = new UpdateAccountEmail();
     }
 
     public function test_updates_email()

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Domain\Donations\UseCases;
 
-use Domain\Donations\UseCases\DeactivateExpiredDonorPerksUseCase;
+use Domain\Donations\UseCases\DeactivateExpiredDonorPerks;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\Donation;
 use Entities\Models\Eloquent\DonationPerk;
@@ -22,7 +22,7 @@ final class DeactivateExpiredDonorPerksUseCaseTest extends TestCase
     private DonationPerkRepository $donationPerkRepository;
     private Group $donorGroup;
     private Account $account;
-    private DeactivateExpiredDonorPerksUseCase $useCase;
+    private DeactivateExpiredDonorPerks $useCase;
 
     protected function setUp(): void
     {
@@ -34,7 +34,7 @@ final class DeactivateExpiredDonorPerksUseCaseTest extends TestCase
         $this->donorGroup = Group::factory()->create();
         $this->account = Account::factory()->create();
 
-        $this->useCase = new DeactivateExpiredDonorPerksUseCase(
+        $this->useCase = new DeactivateExpiredDonorPerks(
             groupsManager: $this->groupsManager,
             donationPerkRepository: $this->donationPerkRepository,
             donorGroup: $this->donorGroup,

@@ -3,7 +3,7 @@
 namespace Unit\Domain\EmailChange\UseCases;
 
 use Domain\EmailChange\Exceptions\TokenNotFoundException;
-use Domain\EmailChange\UseCases\VerifyEmailUseCase;
+use Domain\EmailChange\UseCases\VerifyEmail;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\AccountEmailChange;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,7 +15,7 @@ class VerifyEmailUseCaseTest extends TestCase
     use RefreshDatabase;
 
     private AccountEmailChangeRepository $emailChangeRepository;
-    private VerifyEmailUseCase $useCase;
+    private VerifyEmail $useCase;
 
     protected function setUp(): void
     {
@@ -23,7 +23,7 @@ class VerifyEmailUseCaseTest extends TestCase
 
         $this->emailChangeRepository = \Mockery::mock(AccountEmailChangeRepository::class);
 
-        $this->useCase = new VerifyEmailUseCase(
+        $this->useCase = new VerifyEmail(
             emailChangeRepository: $this->emailChangeRepository,
         );
     }

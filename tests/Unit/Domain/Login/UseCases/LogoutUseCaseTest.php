@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Domain\Login\UseCases;
 
-use Domain\Login\UseCases\LogoutUseCase;
+use Domain\Login\UseCases\LogoutAccount;
 use Entities\Models\Eloquent\Account;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
@@ -12,13 +12,13 @@ class LogoutUseCaseTest extends TestCase
 {
     use RefreshDatabase;
 
-    private LogoutUseCase $useCase;
+    private LogoutAccount $useCase;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->useCase = new LogoutUseCase();
+        $this->useCase = new LogoutAccount();
     }
 
     public function test_returns_false_if_not_logged_in()

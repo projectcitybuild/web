@@ -4,7 +4,7 @@ namespace Tests\Unit\Domain\SignUp\UseCases;
 
 use App\Exceptions\Http\BadRequestException;
 use Domain\SignUp\Exceptions\AccountAlreadyActivatedException;
-use Domain\SignUp\UseCases\ActivateUnverifiedAccountUseCase;
+use Domain\SignUp\UseCases\ActivateUnverifiedAccount;
 use Entities\Models\Eloquent\Account;
 use Repositories\AccountRepository;
 use Tests\TestCase;
@@ -12,7 +12,7 @@ use Tests\TestCase;
 class ActivateUnverifiedAccountUseCaseTest extends TestCase
 {
     private AccountRepository $accountRepository;
-    private ActivateUnverifiedAccountUseCase $useCase;
+    private ActivateUnverifiedAccount $useCase;
 
     protected function setUp(): void
     {
@@ -20,7 +20,7 @@ class ActivateUnverifiedAccountUseCaseTest extends TestCase
 
         $this->accountRepository = \Mockery::mock(AccountRepository::class);
 
-        $this->useCase = new ActivateUnverifiedAccountUseCase(
+        $this->useCase = new ActivateUnverifiedAccount(
             accountRepository: $this->accountRepository,
         );
     }

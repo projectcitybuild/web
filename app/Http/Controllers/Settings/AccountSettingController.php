@@ -7,9 +7,9 @@ use App\Http\Requests\AccountChangePasswordRequest;
 use App\Http\Requests\AccountChangeUsernameRequest;
 use App\Http\WebController;
 use Domain\EmailChange\Exceptions\TokenNotFoundException;
-use Domain\EmailChange\UseCases\SendVerificationEmailUseCase;
-use Domain\EmailChange\UseCases\UpdateAccountEmailUseCase;
-use Domain\EmailChange\UseCases\VerifyEmailUseCase;
+use Domain\EmailChange\UseCases\SendVerificationEmail;
+use Domain\EmailChange\UseCases\UpdateAccountEmail;
+use Domain\EmailChange\UseCases\VerifyEmail;
 use Entities\Models\Eloquent\AccountEmailChange;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -26,7 +26,7 @@ final class AccountSettingController extends WebController
 
     public function sendVerificationEmail(
         AccountChangeEmailRequest $request,
-        SendVerificationEmailUseCase $sendVerificationEmail,
+        SendVerificationEmail     $sendVerificationEmail,
     ): RedirectResponse {
         $input = $request->validated();
         $account = $request->user();
@@ -51,9 +51,9 @@ final class AccountSettingController extends WebController
      * they own both email addresses (old and new).
      */
     public function showConfirmForm(
-        Request $request,
-        VerifyEmailUseCase $verifyEmail,
-        UpdateAccountEmailUseCase $updateAccountEmail
+        Request            $request,
+        VerifyEmail        $verifyEmail,
+        UpdateAccountEmail $updateAccountEmail
     ) {
         try {
             return $verifyEmail->execute(

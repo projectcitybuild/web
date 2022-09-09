@@ -3,7 +3,7 @@
 namespace Unit\Domain\Balances\UseCases;
 
 use Domain\Balances\Exceptions\InsufficientBalanceException;
-use Domain\Balances\UseCases\DeductBalanceUseCase;
+use Domain\Balances\UseCases\DeductBalance;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Repositories\BalanceHistoryRepository;
@@ -15,7 +15,7 @@ class DeductBalanceUseCaseTest extends TestCase
 {
     private PlayerLookup $playerLookup;
     private BalanceHistoryRepository $balanceHistoryRepository;
-    private DeductBalanceUseCase $useCase;
+    private DeductBalance $useCase;
 
     public function setUp(): void
     {
@@ -24,7 +24,7 @@ class DeductBalanceUseCaseTest extends TestCase
         $this->playerLookup = \Mockery::mock(PlayerLookup::class);
         $this->balanceHistoryRepository = \Mockery::mock(BalanceHistoryRepository::class);
 
-        $this->useCase = new DeductBalanceUseCase(
+        $this->useCase = new DeductBalance(
             playerLookup: $this->playerLookup,
             balanceHistoryRepository: $this->balanceHistoryRepository,
         );

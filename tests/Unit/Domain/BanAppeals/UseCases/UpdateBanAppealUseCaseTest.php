@@ -5,9 +5,9 @@ namespace Tests\Unit\Domain\BanAppeals\UseCases;
 use App\Exceptions\Http\NotImplementedException;
 use Domain\BanAppeals\Entities\BanAppealStatus;
 use Domain\BanAppeals\Exceptions\AppealAlreadyDecidedException;
-use Domain\BanAppeals\UseCases\UpdateBanAppealUseCase;
+use Domain\BanAppeals\UseCases\UpdateBanAppeal;
 use Domain\Bans\Exceptions\NotBannedException;
-use Domain\Bans\UseCases\CreateUnbanUseCase;
+use Domain\Bans\UseCases\CreateUnban;
 use Domain\Panel\Exceptions\NoPlayerForActionException;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
@@ -19,9 +19,9 @@ use Tests\TestCase;
 
 class UpdateBanAppealUseCaseTest extends TestCase
 {
-    private UpdateBanAppealUseCase $useCase;
+    private UpdateBanAppeal $useCase;
     private BanAppealRepository $banAppealRepository;
-    private CreateUnbanUseCase $unbanUseCase;
+    private CreateUnban $unbanUseCase;
     private Account $decidingAccount;
     private MinecraftPlayer $banningPlayer;
     private MinecraftPlayer $decidingPlayer;
@@ -35,8 +35,8 @@ class UpdateBanAppealUseCaseTest extends TestCase
         parent::setUp();
 
         $this->banAppealRepository = \Mockery::mock(BanAppealRepository::class);
-        $this->unbanUseCase = \Mockery::mock(CreateUnbanUseCase::class);
-        $this->useCase = new UpdateBanAppealUseCase(
+        $this->unbanUseCase = \Mockery::mock(CreateUnban::class);
+        $this->useCase = new UpdateBanAppeal(
             banAppealRepository: $this->banAppealRepository,
             unbanUseCase: $this->unbanUseCase
         );

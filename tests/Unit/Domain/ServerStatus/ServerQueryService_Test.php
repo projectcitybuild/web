@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Domain\ServerStatus;
 
+use Domain\ServerStatus\Adapters\ServerQueryAdapter;
+use Domain\ServerStatus\Adapters\ServerQueryAdapterFactory;
 use Domain\ServerStatus\Entities\ServerQueryResult;
-use Domain\ServerStatus\ServerQueryAdapter;
-use Domain\ServerStatus\ServerQueryAdapterFactory;
-use Domain\ServerStatus\ServerQueryService;
+use Domain\ServerStatus\UseCases\QueryServerStatus;
 use Entities\Models\Eloquent\Server;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
@@ -49,7 +49,7 @@ class ServerQueryService_Test extends TestCase
             ->expects('query')
             ->andReturns($expectedResult);
 
-        $service = new ServerQueryService(
+        $service = new QueryServerStatus(
             queryAdapterFactory: $this->serverQueryAdapterFactory,
             serverRepository: new ServerRepository(),
         );
@@ -74,7 +74,7 @@ class ServerQueryService_Test extends TestCase
             ->expects('query')
             ->andReturns($expectedResult);
 
-        $service = new ServerQueryService(
+        $service = new QueryServerStatus(
             queryAdapterFactory: $this->serverQueryAdapterFactory,
             serverRepository: new ServerRepository(),
         );
