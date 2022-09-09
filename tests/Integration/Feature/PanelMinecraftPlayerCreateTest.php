@@ -9,9 +9,9 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Library\Mojang\Api\MojangPlayerApi;
 use Library\Mojang\Models\MojangPlayerNameHistory;
 use Mockery\MockInterface;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class PanelMinecraftPlayerCreateTest extends E2ETestCase
+class PanelMinecraftPlayerCreateTest extends IntegrationTestCase
 {
     use WithFaker;
 

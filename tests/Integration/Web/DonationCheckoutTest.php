@@ -4,9 +4,9 @@ namespace Tests\Integration\Web;
 
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\StripeProduct;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class DonationCheckoutTest extends E2ETestCase
+class DonationCheckoutTest extends IntegrationTestCase
 {
     private const ENDPOINT = 'donate/checkout';
 

@@ -3,10 +3,10 @@
 namespace Tests\Integration\Feature;
 
 use Entities\Models\PanelGroupScope;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 use Tests\Support\TemporaryConfig;
 
-class TelescopeAccessTest extends E2ETestCase
+class TelescopeAccessTest extends IntegrationTestCase
 {
     use TemporaryConfig;
 

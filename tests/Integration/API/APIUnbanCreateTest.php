@@ -8,9 +8,9 @@ use Entities\Models\Eloquent\GameUnban;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\PlayerIdentifierType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class APIUnbanCreateTest extends E2ETestCase
+class APIUnbanCreateTest extends IntegrationTestCase
 {
     use RefreshDatabase;
 

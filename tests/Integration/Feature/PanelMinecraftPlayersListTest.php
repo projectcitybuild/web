@@ -6,9 +6,9 @@ use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\PanelGroupScope;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class PanelMinecraftPlayersListTest extends E2ETestCase
+class PanelMinecraftPlayersListTest extends IntegrationTestCase
 {
     private Account $admin;
 

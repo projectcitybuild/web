@@ -8,9 +8,9 @@ use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\Server;
 use Entities\Models\PlayerIdentifierType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class APIBanStatusTest extends E2ETestCase
+class APIBanStatusTest extends IntegrationTestCase
 {
     use RefreshDatabase;
 

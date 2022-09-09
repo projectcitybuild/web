@@ -6,9 +6,9 @@ use App\Http\Middleware\RequiresServerTokenScope;
 use Domain\ServerTokens\ScopeKey;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class RequiresServerTokenScopeTest extends E2ETestCase
+class RequiresServerTokenScopeTest extends IntegrationTestCase
 {
     public function test_throws_unauthorized_exception_if_token_missing()
     {

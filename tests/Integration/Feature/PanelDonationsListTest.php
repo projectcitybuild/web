@@ -4,9 +4,9 @@ namespace Tests\Integration\Feature;
 
 use Entities\Models\Eloquent\Donation;
 use Entities\Models\PanelGroupScope;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class PanelDonationsListTest extends E2ETestCase
+class PanelDonationsListTest extends IntegrationTestCase
 {
     public function test_donation_shown_in_list()
     {

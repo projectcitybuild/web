@@ -7,9 +7,9 @@ use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\PanelGroupScope;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class PanelMinecraftPlayerShowTest extends E2ETestCase
+class PanelMinecraftPlayerShowTest extends IntegrationTestCase
 {
     private Account $admin;
 

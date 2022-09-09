@@ -6,9 +6,9 @@ use Domain\ServerTokens\ScopeKey;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\MinecraftPlayerAlias;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class APIMinecraftTelemetryTest extends E2ETestCase
+class APIMinecraftTelemetryTest extends IntegrationTestCase
 {
     use RefreshDatabase;
 

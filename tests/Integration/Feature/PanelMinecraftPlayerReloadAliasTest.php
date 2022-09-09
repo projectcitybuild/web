@@ -9,9 +9,9 @@ use Library\Mojang\Api\MojangPlayerApi;
 use Library\Mojang\Models\MojangPlayerNameHistory;
 use Mockery\MockInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class PanelMinecraftPlayerReloadAliasTest extends E2ETestCase
+class PanelMinecraftPlayerReloadAliasTest extends IntegrationTestCase
 {
     private Account $admin;
 

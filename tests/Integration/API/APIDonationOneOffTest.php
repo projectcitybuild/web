@@ -9,9 +9,9 @@ use Entities\Models\Eloquent\Group;
 use Entities\Models\Eloquent\StripeProduct;
 use Entities\Notifications\DonationPerkStartedNotification;
 use Illuminate\Support\Facades\Notification;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class APIDonationOneOffTest extends E2ETestCase
+class APIDonationOneOffTest extends IntegrationTestCase
 {
     private Account $account;
     private DonationTier $donationTier;

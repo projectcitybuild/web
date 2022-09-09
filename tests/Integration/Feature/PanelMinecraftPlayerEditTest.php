@@ -5,9 +5,9 @@ namespace Tests\Integration\Feature;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\PanelGroupScope;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class PanelMinecraftPlayerEditTest extends E2ETestCase
+class PanelMinecraftPlayerEditTest extends IntegrationTestCase
 {
     private Account $admin;
 

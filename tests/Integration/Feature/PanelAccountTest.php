@@ -5,9 +5,9 @@ namespace Tests\Integration\Feature;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\PanelGroupScope;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class PanelAccountTest extends E2ETestCase
+class PanelAccountTest extends IntegrationTestCase
 {
     use WithFaker;
 

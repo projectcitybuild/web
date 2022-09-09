@@ -4,9 +4,9 @@ namespace Tests\Integration\Feature;
 
 use Entities\Models\Eloquent\Group;
 use Entities\Models\PanelGroupScope;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class PanelGroupsTest extends E2ETestCase
+class PanelGroupsTest extends IntegrationTestCase
 {
     public function test_can_view_group_list()
     {

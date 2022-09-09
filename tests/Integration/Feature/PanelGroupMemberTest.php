@@ -5,9 +5,9 @@ namespace Tests\Integration\Feature;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\Group;
 use Entities\Models\PanelGroupScope;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class PanelGroupMemberTest extends E2ETestCase
+class PanelGroupMemberTest extends IntegrationTestCase
 {
     public function test_group_list_only_shows_group_members()
     {

@@ -7,9 +7,9 @@ use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\PanelGroupScope;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class PanelBanAppealViewTest extends E2ETestCase
+class PanelBanAppealViewTest extends IntegrationTestCase
 {
     private Account $admin;
 

@@ -10,9 +10,9 @@ use Library\Mojang\Api\MojangPlayerApi;
 use Library\Mojang\Models\MojangPlayer;
 use Mockery\MockInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class PanelMinecraftPlayerLookupTest extends E2ETestCase
+class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
 {
     use WithFaker;
 

@@ -10,9 +10,9 @@ use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\PanelGroupScope;
 use Entities\Notifications\BanAppealUpdatedNotification;
 use Illuminate\Support\Facades\Notification;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class PanelBanAppealDecisionTest extends E2ETestCase
+class PanelBanAppealDecisionTest extends IntegrationTestCase
 {
     private BanAppeal $appeal;
     private GameBan $gameBan;

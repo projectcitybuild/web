@@ -14,7 +14,7 @@ use Entities\Models\PanelGroupScope;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 
-abstract class E2ETestCase extends TestCase
+abstract class IntegrationTestCase extends TestCase
 {
     use RefreshDatabase;
 

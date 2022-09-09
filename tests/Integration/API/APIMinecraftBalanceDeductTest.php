@@ -7,9 +7,9 @@ use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
-use Tests\E2ETestCase;
+use Tests\IntegrationTestCase;
 
-class APIMinecraftBalanceDeductTest extends E2ETestCase
+class APIMinecraftBalanceDeductTest extends IntegrationTestCase
 {
     use RefreshDatabase;
 
