@@ -10,7 +10,7 @@ use Repositories\MinecraftPlayerAliasRepository;
 use Shared\PlayerLookup\PlayerLookup;
 use Tests\TestCase;
 
-class UpdateSeenMinecraftPlayerUseCaseTest extends TestCase
+class UpdateSeenMinecraftPlayerTest extends TestCase
 {
     use RefreshDatabase;
 

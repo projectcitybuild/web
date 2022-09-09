@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Domain\ServerStatus;
+namespace Tests\Unit\Domain\ServerStatus\UseCases;
 
 use Domain\ServerStatus\Adapters\ServerQueryAdapter;
 use Domain\ServerStatus\Adapters\ServerQueryAdapterFactory;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Queue;
 use Repositories\ServerRepository;
 use Tests\TestCase;
 
-class ServerQueryService_Test extends TestCase
+class QueryServerStatusTest extends TestCase
 {
     use RefreshDatabase;
 

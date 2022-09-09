@@ -9,7 +9,7 @@ use Entities\Models\Eloquent\Account;
 use Repositories\AccountRepository;
 use Tests\TestCase;
 
-class ActivateUnverifiedAccountUseCaseTest extends TestCase
+class ActivateUnverifiedAccountTest extends TestCase
 {
     private AccountRepository $accountRepository;
     private ActivateUnverifiedAccount $useCase;

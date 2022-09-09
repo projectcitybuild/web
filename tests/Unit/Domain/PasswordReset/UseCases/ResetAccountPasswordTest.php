@@ -12,7 +12,7 @@ use Repositories\AccountPasswordResetRepository;
 use Repositories\AccountRepository;
 use Tests\TestCase;
 
-class ResetAccountPasswordUseCaseTest extends TestCase
+class ResetAccountPasswordTest extends TestCase
 {
     private AccountRepository $accountRepository;
     private AccountPasswordResetRepository $passwordResetRepository;

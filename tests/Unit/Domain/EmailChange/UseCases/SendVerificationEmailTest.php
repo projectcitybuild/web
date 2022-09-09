@@ -16,7 +16,7 @@ use Library\Tokens\TokenGenerator;
 use Repositories\AccountEmailChangeRepository;
 use Tests\TestCase;
 
-class SendVerificationEmailUseCaseTest extends TestCase
+class SendVerificationEmailTest extends TestCase
 {
     use RefreshDatabase;
 

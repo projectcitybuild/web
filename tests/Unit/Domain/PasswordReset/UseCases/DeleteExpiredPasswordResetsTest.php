@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 use Repositories\AccountPasswordResetRepository;
 use Tests\TestCase;
 
-class DeleteExpiredPasswordResetsUseCaseTest extends TestCase
+class DeleteExpiredPasswordResetsTest extends TestCase
 {
     private DeleteExpiredPasswordResets $useCase;
 

@@ -11,7 +11,7 @@ use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\PlayerLookup;
 use Tests\TestCase;
 
-class CreateBanUseCaseTest extends TestCase
+class CreateBanTest extends TestCase
 {
     private readonly PlayerLookup $playerLookup;
     private readonly GameBanRepository $gameBanRepository;

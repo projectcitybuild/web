@@ -11,7 +11,7 @@ use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\PlayerLookup;
 use Tests\TestCase;
 
-class DeductBalanceUseCaseTest extends TestCase
+class DeductBalanceTest extends TestCase
 {
     private PlayerLookup $playerLookup;
     private BalanceHistoryRepository $balanceHistoryRepository;

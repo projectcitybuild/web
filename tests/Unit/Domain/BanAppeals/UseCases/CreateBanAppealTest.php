@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Notification;
 use Repositories\BanAppealRepository;
 use Tests\TestCase;
 
-class CreateBanAppealUseCaseTest extends TestCase
+class CreateBanAppealTest extends TestCase
 {
     private BanAppealRepository $banAppealRepository;
     private CreateBanAppeal $useCase;

@@ -14,7 +14,7 @@ use Repositories\DonationPerkRepository;
 use Shared\Groups\GroupsManager;
 use Tests\TestCase;
 
-final class DeactivateExpiredDonorPerksUseCaseTest extends TestCase
+final class DeactivateExpiredDonorPerksTest extends TestCase
 {
     use RefreshDatabase;
 

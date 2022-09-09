@@ -14,7 +14,7 @@ use Queue;
 use Repositories\PlayerFetchRepository;
 use Tests\TestCase;
 
-class PlayerFetchService_Test extends TestCase
+class PlayerFetchServiceTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Session;
 use Repositories\AccountRepository;
 use Tests\TestCase;
 
-class LoginUseCaseTest extends TestCase
+class LoginAccountTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Repositories\AccountEmailChangeRepository;
 use Tests\TestCase;
 
-class VerifyEmailUseCaseTest extends TestCase
+class VerifyEmailTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -17,7 +17,7 @@ use Entities\Models\Eloquent\MinecraftPlayer;
 use Repositories\BanAppealRepository;
 use Tests\TestCase;
 
-class UpdateBanAppealUseCaseTest extends TestCase
+class UpdateBanAppealTest extends TestCase
 {
     private UpdateBanAppeal $useCase;
     private BanAppealRepository $banAppealRepository;

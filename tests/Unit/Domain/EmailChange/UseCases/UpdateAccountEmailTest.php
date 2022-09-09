@@ -8,7 +8,7 @@ use Entities\Models\Eloquent\AccountEmailChange;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class UpdateAccountEmailUseCaseTest extends TestCase
+class UpdateAccountEmailTest extends TestCase
 {
     use RefreshDatabase;
 

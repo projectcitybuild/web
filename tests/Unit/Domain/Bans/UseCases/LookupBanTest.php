@@ -13,7 +13,7 @@ use Repositories\MinecraftPlayerRepository;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 use Tests\TestCase;
 
-class LookupBanUseCaseTest extends TestCase
+class LookupBanTest extends TestCase
 {
     private MojangPlayerApi $mojangPlayerApi;
     private GameBanRepository $gameBanRepository;

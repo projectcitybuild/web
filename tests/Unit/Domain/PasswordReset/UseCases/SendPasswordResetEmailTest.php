@@ -12,7 +12,7 @@ use Library\Tokens\Adapters\StubTokenGenerator;
 use Repositories\AccountPasswordResetRepository;
 use Tests\TestCase;
 
-class SendPasswordResetEmailUseCaseTest extends TestCase
+class SendPasswordResetEmailTest extends TestCase
 {
     private Carbon $now;
     private Account $account;

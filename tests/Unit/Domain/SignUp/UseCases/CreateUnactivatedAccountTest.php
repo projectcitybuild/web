@@ -2,60 +2,70 @@
 
 namespace Tests\Unit\Domain\SignUp\UseCases;
 
-use Domain\SignUp\Exceptions\AccountAlreadyActivatedException;
-use Domain\SignUp\UseCases\ResendActivationEmail;
+use Domain\SignUp\UseCases\CreateUnactivatedAccount;
 use Entities\Models\Eloquent\Account;
 use Entities\Notifications\AccountActivationNotification;
 use Illuminate\Support\Facades\Notification;
 use Library\SignedURL\Adapters\StubSignedURLGenerator;
 use Library\SignedURL\SignedURLGenerator;
 use Repositories\AccountRepository;
+use Shared\Groups\GroupsManager;
 use Tests\TestCase;
 
-class ResendActivationEmailUseCaseTest extends TestCase
+class CreateUnactivatedAccountTest extends TestCase
 {
     private AccountRepository $accountRepository;
+    private GroupsManager $groupsManager;
     private SignedURLGenerator $signedURLGenerator;
-    private ResendActivationEmail $useCase;
+    private CreateUnactivatedAccount $useCase;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->accountRepository = \Mockery::mock(AccountRepository::class);
+        $this->groupsManager = \Mockery::mock(GroupsManager::class);
         $this->signedURLGenerator = new StubSignedURLGenerator(outputURL: 'url');
 
-        $this->useCase = new ResendActivationEmail(
+        $this->useCase = new CreateUnactivatedAccount(
             accountRepository: $this->accountRepository,
+            groupsManager: $this->groupsManager,
             signedURLGenerator: $this->signedURLGenerator,
         );
 
         Notification::fake();
     }
 
-    public function test_throws_exception_if_account_already_activated()
+    public function test_creates_unactivated_account()
     {
-        $account = Account::factory()->create(['activated' => true]);
+        $email = 'email';
+        $username = 'username';
+        $password = 'password';
+        $ip = 'ip';
 
         $this->accountRepository
-            ->shouldReceive('getByEmail')
-            ->with($account->email)
-            ->andReturn($account);
+            ->shouldReceive('create')
+            ->with($email, $username, $password, $ip)
+            ->andReturn(new Account());
 
-        $this->expectException(AccountAlreadyActivatedException::class);
+        $this->groupsManager
+            ->shouldReceive('addToDefaultGroup');
 
-        $this->useCase->execute(email: $account->email);
+        $this->useCase->execute($email, $username, $password, $ip);
     }
 
     public function test_sends_notification()
     {
-        $account = Account::factory()->create(['activated' => false]);
+        $account = Account::factory()->create();
 
         $this->accountRepository
-            ->shouldReceive('getByEmail')
+            ->shouldReceive('create')
             ->andReturn($account);
 
-        $this->useCase->execute('email');
+        $this->groupsManager
+            ->shouldReceive('addToDefaultGroup');
+
+        $this->useCase->execute('email', 'username', 'password', 'ip');
 
         Notification::assertSentTo($account, AccountActivationNotification::class);
     }
