@@ -27,7 +27,7 @@ final class LoginController extends WebController
 
     public function login(
         LoginRequest $request,
-        LoginAccount $loginUseCase,
+        LoginAccount $loginAccount,
     ): RedirectResponse {
         $input = $request->validated();
 
@@ -53,7 +53,7 @@ final class LoginController extends WebController
         );
 
         try {
-            $loginUseCase->execute(
+            $loginAccount->execute(
                 credentials: $credentials,
                 shouldRemember: $request->filled('remember_me'),
                 ip: $request->ip(),

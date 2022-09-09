@@ -25,10 +25,8 @@ class GameBanFactory extends Factory
     {
         return [
             'banned_alias_at_time' => $this->faker->name,
-            'staff_player_id' => MinecraftPlayer::factory(),
             'reason' => $this->faker->sentence,
             'created_at' => $this->faker->dateTimeBetween('-5 years', 'now'),
-            'expires_at' => null,
         ];
     }
 
@@ -60,15 +58,6 @@ class GameBanFactory extends Factory
         });
     }
 
-    public function bannedBy(MinecraftPlayer $minecraftPlayer): GameBanFactory
-    {
-        return $this->state(function (array $attributes) use ($minecraftPlayer) {
-            return [
-                'staff_player_id' => $minecraftPlayer->getKey(),
-            ];
-        });
-    }
-
     public function bannedByConsole(): GameBanFactory
     {
         return $this->state(function (array $attributes) {
@@ -76,6 +65,17 @@ class GameBanFactory extends Factory
                 'staff_player_id' => null,
             ];
         });
+    }
+
+    public function bannedBy(MinecraftPlayer|Factory|null $minecraftPlayer): GameBanFactory
+    {
+        if (is_null($minecraftPlayer)) {
+            return $this->state(function (array $attributes) {
+                return ['staff_player_id' => null];
+            });
+        } else {
+            return $this->for($minecraftPlayer, 'staffPlayer');
+        }
     }
 
     public function bannedPlayer(MinecraftPlayer|Factory $player): GameBanFactory

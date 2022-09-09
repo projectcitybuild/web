@@ -21,17 +21,19 @@ final class GameBan extends Model
         'banned_alias_at_time',
         'staff_player_id',
         'reason',
-        'is_active',
-        'is_global_ban',
         'expires_at',
         'created_at',
         'updated_at',
+        'unbanned_at',
+        'unbanner_player_id',
+        'unban_type',
     ];
     protected $hidden = [];
     protected $dates = [
         'expires_at',
         'created_at',
         'updated_at',
+        'unbanned_at',
     ];
     protected $casts = [
         'unban_type' => UnbanType::class,
