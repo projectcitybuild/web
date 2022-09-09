@@ -41,7 +41,7 @@ fi
 
 echo "=> Checking port availability..."
 
-check_port 3000 "Browsersync"
+check_port 5173 "Vite"
 check_port 3306 "MariaDB"
 check_port 6379 "Redis"
 check_port 8025 "Mailhog"
@@ -101,7 +101,7 @@ echo "=> Downloading NPM dependencies..."
 
 echo "=> Building front-end assets..."
 
-./vendor/bin/sail npm run dev || exit 1
+./vendor/bin/sail npm run build || exit 1
 
 # ------------------------------------------------------------------------------------------------
 
