@@ -14,8 +14,8 @@ use Throwable;
 final class ConvertToPermanentBanUseCase
 {
     public function __construct(
-        private GameBanRepository $gameBanRepository,
-        private PlayerLookup $playerLookup,
+        private readonly GameBanRepository $gameBanRepository,
+        private readonly PlayerLookup $playerLookup,
     ) {
     }
 

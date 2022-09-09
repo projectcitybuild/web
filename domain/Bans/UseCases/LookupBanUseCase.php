@@ -8,15 +8,15 @@ use Entities\Models\Eloquent\GameBan;
 use Entities\Models\MinecraftUUID;
 use Library\Mojang\Api\MojangPlayerApi;
 use Repositories\GameBanRepository;
+use Repositories\MinecraftPlayerRepository;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
-use Shared\PlayerLookup\Repositories\MinecraftPlayerRepository;
 
 class LookupBanUseCase
 {
     public function __construct(
-        private MojangPlayerApi $mojangPlayerApi,
-        private GameBanRepository $gameBanRepository,
-        private MinecraftPlayerRepository $minecraftPlayerRepository
+        private readonly MojangPlayerApi $mojangPlayerApi,
+        private readonly GameBanRepository $gameBanRepository,
+        private readonly MinecraftPlayerRepository $minecraftPlayerRepository
     ) {
     }
 

@@ -7,10 +7,10 @@ use Entities\Models\Eloquent\MinecraftPlayerAlias;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Repositories\MinecraftPlayerAliasRepository;
+use Repositories\MinecraftPlayerRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Exceptions\NonCreatableIdentifierException;
 use Shared\PlayerLookup\PlayerLookup;
-use Shared\PlayerLookup\Repositories\MinecraftPlayerRepository;
 use Tests\TestCase;
 
 class PlayerLookupTest extends TestCase

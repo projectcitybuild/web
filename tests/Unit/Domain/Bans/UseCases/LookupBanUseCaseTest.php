@@ -9,8 +9,8 @@ use Entities\Models\Eloquent\MinecraftPlayer;
 use Library\Mojang\Api\MojangPlayerApi;
 use Library\Mojang\Models\MojangPlayer;
 use Repositories\GameBanRepository;
+use Repositories\MinecraftPlayerRepository;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
-use Shared\PlayerLookup\Repositories\MinecraftPlayerRepository;
 use Tests\TestCase;
 
 class LookupBanUseCaseTest extends TestCase
