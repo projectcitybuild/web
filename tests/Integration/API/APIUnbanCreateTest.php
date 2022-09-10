@@ -5,7 +5,6 @@ namespace Tests\Integration\API;
 use Domain\Bans\UnbanType;
 use Domain\ServerTokens\ScopeKey;
 use Entities\Models\Eloquent\GameBan;
-use Entities\Models\Eloquent\GameUnban;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\PlayerIdentifierType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -101,7 +100,7 @@ class APIUnbanCreateTest extends IntegrationTestCase
             data: [
                 'game_ban_id' => $ban->getKey(),
                 'unbanned_at' => now(),
-                'unbanner_player_id' => $player2->uuid,
+                'unbanner_player_id' => $player2->getKey(),
                 'unban_type' => UnbanType::MANUAL->value,
             ],
         );
@@ -133,7 +132,7 @@ class APIUnbanCreateTest extends IntegrationTestCase
             data: [
                 'game_ban_id' => $ban->getKey(),
                 'unbanned_at' => now(),
-                'unbanner_player_id' => $player2->uuid,
+                'unbanner_player_id' => $player2->getKey(),
                 'unban_type' => UnbanType::MANUAL->value,
             ],
         );

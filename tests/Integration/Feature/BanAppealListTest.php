@@ -30,7 +30,11 @@ class BanAppealListTest extends TestCase
     public function test_shows_ban()
     {
         $player = $this->createPlayerWithAccountAndLogin();
-        $ban = GameBan::factory()->for($player, 'bannedPlayer')->active()->create();
+
+        $ban = GameBan::factory()
+            ->for($player, 'bannedPlayer')
+            ->create();
+
         $this->get(route('front.appeal'))
             ->assertSee($ban->reason);
     }
@@ -38,7 +42,12 @@ class BanAppealListTest extends TestCase
     public function test_shows_appeal()
     {
         $player = $this->createPlayerWithAccountAndLogin();
-        GameBan::factory()->for($player, 'bannedPlayer')->hasBanAppeals(1)->active()->create();
+
+        GameBan::factory()
+            ->for($player, 'bannedPlayer')
+            ->hasBanAppeals(1)
+            ->create();
+
         $this->get(route('front.appeal'))
             ->assertSee('Appeal #1');
     }
@@ -46,7 +55,12 @@ class BanAppealListTest extends TestCase
     public function test_shows_appeal_again()
     {
         $player = $this->createPlayerWithAccountAndLogin();
-        GameBan::factory()->for($player, 'bannedPlayer')->hasBanAppeals(1, ['status' => BanAppealStatus::DENIED])->active()->create();
+
+        GameBan::factory()
+            ->for($player, 'bannedPlayer')
+            ->hasBanAppeals(1, ['status' => BanAppealStatus::DENIED])
+            ->create();
+
         $this->get(route('front.appeal'))
             ->assertSeeIgnoringWhitespace('Appeal Again');
     }

@@ -63,7 +63,7 @@ class GameBanRepository
         ?int $unbannerPlayerId,
         UnbanType $unbanType,
     ) {
-        $ban->save([
+        $ban->update([
             'unbanned_at' => now(),
             'unbanner_player_id' => $unbannerPlayerId,
             'unban_type' => $unbanType->value,
