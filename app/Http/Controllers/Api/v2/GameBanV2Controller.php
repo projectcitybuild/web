@@ -165,7 +165,7 @@ final class GameBanV2Controller extends ApiController
      */
     public function all(
         Request $request,
-        GetAllBans $getBans,
+        GetAllBans $getAllBans,
     ): AnonymousResourceCollection {
         $this->validateRequest($request->all(), [
             'player_id' => 'required|max:60',
@@ -174,7 +174,7 @@ final class GameBanV2Controller extends ApiController
             'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
         ]);
 
-        $bans = $getBans->execute(
+        $bans = $getAllBans->execute(
             playerIdentifier: new PlayerIdentifier(
                 key: $request->get('player_id'),
                 gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('player_type')),

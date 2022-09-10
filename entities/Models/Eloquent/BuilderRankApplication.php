@@ -14,20 +14,8 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
     use HasFactory;
     use Notifiable;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'builder_rank_applications';
-
     protected $primaryKey = 'id';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'account_id',
         'minecraft_alias',
@@ -41,7 +29,6 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
         'created_at',
         'updated_at',
     ];
-
     public $timestamps = [
         'closed_at',
         'created_at',

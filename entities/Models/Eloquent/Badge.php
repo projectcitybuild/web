@@ -14,13 +14,7 @@ final class Badge extends Model implements LinkableAuditModel
     use HasFactory, Notifiable;
     use LogsActivity;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'badges';
-
     protected $primaryKey = 'id';
     protected $fillable = [
         'display_name',

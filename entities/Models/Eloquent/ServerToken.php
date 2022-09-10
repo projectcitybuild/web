@@ -17,26 +17,13 @@ final class ServerToken extends Model implements LinkableAuditModel
     use LogsActivity;
     use Eventually;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'server_tokens';
-
     protected $primaryKey = 'id';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'token',
         'server_id',
         'description',
     ];
-
     protected static $recordEvents = [
         'created',
         'updated',

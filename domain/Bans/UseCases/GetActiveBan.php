@@ -22,8 +22,10 @@ final class GetActiveBan
     public function execute(
         PlayerIdentifier $playerIdentifier,
     ): ?GameBan {
-        return $this->gameBanRepository->firstActiveBan(
-            player: $this->playerLookup->findOrCreate($playerIdentifier)
-        );
+        $player = $this->playerLookup->find($playerIdentifier);
+        if ($player === null) {
+            return null;
+        }
+        return $this->gameBanRepository->firstActiveBan(player: $player);
     }
 }

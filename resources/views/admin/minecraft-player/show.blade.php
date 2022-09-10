@@ -112,19 +112,20 @@
                     <table class="table mb-0">
                         <thead>
                         <tr>
-                            <th></th>
+                            <th>Status</th>
                             <th>Reason</th>
                             <th>Banned By</th>
                             <th>Expires At</th>
                             <th>Banned At</th>
+                            <th>Unbanned At</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         @forelse($minecraftPlayer->gameBans as $ban)
                             <tr class="{{ $ban->is_active ? 'table-warning' : '' }}">
-                                <td data-bs-toggle="tooltip" data-bs-placement="left" title="{{ $ban->is_active ? 'Active' : 'Inactive' }}">
-                                    <i class="fas fa-{{ $ban->is_active ? 'exclamation' : 'clock' }} fa-fw"></i>
+                                <td data-bs-toggle="tooltip" data-bs-placement="left" title="{{ $ban->isActive() ? 'Active' : 'Inactive' }}">
+                                    {{ $ban->isActive() ? 'Active' : 'Inactive' }}
                                 </td>
                                 <td>{{ $ban->reason }}</td>
                                 <td>
@@ -138,6 +139,7 @@
                                 </td>
                                 <td>{{ $ban->expires_at }}</td>
                                 <td>{{ $ban->created_at }}</td>
+                                <td>{{ $ban->unbanned_at }}</td>
 
                                 <td class="actions">
 {{--                                    <a href="#" class="text-danger">Unban</a>--}}

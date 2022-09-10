@@ -15,34 +15,15 @@ final class Donation extends Model implements LinkableAuditModel
     use HasFactory;
     use LogsActivity;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'donations';
-
     protected $primaryKey = 'donation_id';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'account_id',
         'amount',
         'created_at',
         'updated_at',
     ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [];
-
     protected $dates = [
         'created_at',
         'updated_at',
