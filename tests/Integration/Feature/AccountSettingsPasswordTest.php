@@ -17,7 +17,9 @@ class AccountSettingsPasswordTest extends TestCase
     {
         parent::setUp();
 
-        $this->account = Account::factory()->create();
+        $this->account = Account::factory()
+            ->passwordHashed()
+            ->create();
     }
 
     private function submitPasswordChange($old, $new, $newConfirmation)

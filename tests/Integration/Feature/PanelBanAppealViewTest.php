@@ -27,7 +27,7 @@ class PanelBanAppealViewTest extends IntegrationTestCase
     {
         $appeal = BanAppeal::factory()
             ->for(
-                GameBan::factory()->active()->for(MinecraftPlayer::factory(), 'bannedPlayer')
+                GameBan::factory()->for(MinecraftPlayer::factory(), 'bannedPlayer')
             )->create(['explanation' => 'My Explanation']);
 
         $this->actingAs($this->admin)

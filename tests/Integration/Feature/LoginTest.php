@@ -13,7 +13,9 @@ class LoginTest extends TestCase
     {
         parent::setUp();
 
-        $this->account = Account::factory()->create();
+        $this->account = Account::factory()
+            ->passwordHashed()
+            ->create();
     }
 
     public function test_cannot_see_login_signed_in()

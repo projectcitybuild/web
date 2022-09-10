@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Domain\Bans\UnbanType;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\Server;
@@ -54,6 +55,16 @@ class GameBanFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'expires_at' => now()->subDay(),
+            ];
+        });
+    }
+
+    public function inactive()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'unbanned_at' => now()->subDay(),
+                'unban_type' => UnbanType::MANUAL,
             ];
         });
     }

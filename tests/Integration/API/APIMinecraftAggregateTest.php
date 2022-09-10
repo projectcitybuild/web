@@ -38,7 +38,6 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
         $server = Server::factory()->create();
         $staffPlayer = MinecraftPlayer::factory()->create();
         $ban = GameBan::factory()
-            ->active()
             ->bannedBy($staffPlayer)
             ->bannedPlayer($player)
             ->server($server)
@@ -171,7 +170,6 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
         $server = Server::factory()->create();
         $staffPlayer = MinecraftPlayer::factory()->create();
         $ban = GameBan::factory()
-            ->active()
             ->bannedBy($staffPlayer)
             ->bannedPlayer($player)
             ->server($server)

@@ -11,7 +11,7 @@ use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Resources\AccountResource;
 use Entities\Resources\DonationPerkResource;
-use Entities\Resources\GameBanV1Resource;
+use Entities\Resources\GameBanResource;
 use Illuminate\Http\Request;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 
@@ -40,7 +40,7 @@ final class MinecraftAggregateController extends ApiController
         return [
             'data' => [
                 'account' => is_null($account) ? null : new AccountResource($account),
-                'ban' => is_null($ban) ? null : new GameBanV1Resource($ban),
+                'ban' => is_null($ban) ? null : new GameBanResource($ban),
                 'badges' => $badges,
                 'donation_tiers' => DonationPerkResource::collection($donationTiers),
             ],

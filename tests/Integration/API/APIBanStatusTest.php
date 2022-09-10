@@ -53,7 +53,6 @@ class APIBanStatusTest extends IntegrationTestCase
         $server = Server::factory()->create();
 
         $ban = GameBan::factory()
-            ->active()
             ->bannedPlayer($player1)
             ->bannedBy($player2)
             ->server($server)
@@ -86,7 +85,6 @@ class APIBanStatusTest extends IntegrationTestCase
         $server = Server::factory()->create();
 
         $ban = GameBan::factory()
-            ->active()
             ->bannedPlayer($player1)
             ->bannedBy($player2)
             ->server($server)

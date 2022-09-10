@@ -37,7 +37,7 @@ class BanLookupTest extends TestCase
     public function test_can_submit_lookup_as_guest()
     {
         $mcPlayer = MinecraftPlayer::factory()->create();
-        $ban = GameBan::factory()->active()->for($mcPlayer, 'bannedPlayer')->create();
+        $ban = GameBan::factory()->for($mcPlayer, 'bannedPlayer')->create();
 
         $this->mockUseCaseToReturnBan('Herobrine', $ban);
 
@@ -50,7 +50,7 @@ class BanLookupTest extends TestCase
     {
         $this->actingAs(Account::factory()->create());
         $mcPlayer = MinecraftPlayer::factory()->create();
-        $ban = GameBan::factory()->active()->for($mcPlayer, 'bannedPlayer')->create();
+        $ban = GameBan::factory()->for($mcPlayer, 'bannedPlayer')->create();
 
         $this->mockUseCaseToReturnBan('Herobrine', $ban);
 

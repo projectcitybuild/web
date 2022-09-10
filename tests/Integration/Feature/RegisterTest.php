@@ -25,6 +25,7 @@ class RegisterTest extends TestCase
     private function withRequiredFormFields(Account $account): array
     {
         return array_merge($account->toArray(), [
+            'password' => 'password',
             'password_confirm' => 'password',
             'g-recaptcha-response' => Str::random(),
             'terms' => 1,

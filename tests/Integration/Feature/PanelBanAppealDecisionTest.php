@@ -22,7 +22,7 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
     {
         parent::setUp();
         Notification::fake();
-        $this->gameBan = GameBan::factory()->active()->for(MinecraftPlayer::factory(), 'bannedPlayer')->create();
+        $this->gameBan = GameBan::factory()->for(MinecraftPlayer::factory(), 'bannedPlayer')->create();
         $this->appeal = BanAppeal::factory()->for($this->gameBan)->create(['explanation' => 'My Explanation']);
 
         $this->admin = $this->adminAccount(scopes: [

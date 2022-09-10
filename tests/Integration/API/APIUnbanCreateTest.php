@@ -36,7 +36,6 @@ class APIUnbanCreateTest extends IntegrationTestCase
     public function test_requires_scope()
     {
         GameBan::factory()
-            ->active()
             ->bannedPlayer(MinecraftPlayer::factory()->create(['uuid' => 'uuid1']))
             ->create();
 

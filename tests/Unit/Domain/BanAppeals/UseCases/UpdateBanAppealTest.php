@@ -45,7 +45,7 @@ class UpdateBanAppealTest extends TestCase
         $this->banningPlayer = MinecraftPlayer::factory()->for(Account::factory())->create();
         $this->decidingPlayer = MinecraftPlayer::factory()->for($this->decidingAccount)->create();
         $this->bannedPlayer = MinecraftPlayer::factory()->create();
-        $this->gameBan = GameBan::factory()->bannedPlayer($this->bannedPlayer)->active()->create();
+        $this->gameBan = GameBan::factory()->bannedPlayer($this->bannedPlayer)->create();
         $this->banAppeal = BanAppeal::factory()->for($this->gameBan)->create();
     }
 
