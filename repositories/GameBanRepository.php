@@ -54,7 +54,7 @@ class GameBanRepository
             ->whereDate('expires_at', '<=', now())
             ->update([
                 'unbanned_at' => now(),
-                'unban_type' => UnbanType::EXPIRED,
+                'unban_type' => UnbanType::EXPIRED->value,
             ]);
     }
 
