@@ -26,6 +26,7 @@ final class GetActiveBan
         if ($player === null) {
             return null;
         }
+
         return $this->gameBanRepository->firstActiveBan(player: $player);
     }
 }

@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Entities\Models\Eloquent\Server;
 use Entities\Models\Eloquent\ServerCategory;
-use Entities\Models\Eloquent\ServerKey;
 use Entities\Models\GameType;
 use Illuminate\Database\Seeder;
 

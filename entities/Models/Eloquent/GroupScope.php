@@ -14,6 +14,5 @@ final class GroupScope extends Model
     protected $fillable = [
         'scope',
     ];
-
     public $timestamps = false;
 }

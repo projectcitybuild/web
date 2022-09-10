@@ -66,6 +66,7 @@ final class GameBan extends Model
                 if ($this->expires_at !== null && $this->expires_at->lte(now())) {
                     return $this->expires_at;
                 }
+
                 return null;
             },
         );
@@ -81,6 +82,7 @@ final class GameBan extends Model
                 if ($this->expires_at !== null && $this->expires_at->lte(now())) {
                     return UnbanType::EXPIRED;
                 }
+
                 return null;
             },
         );
