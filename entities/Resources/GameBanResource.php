@@ -26,6 +26,7 @@ class GameBanResource extends JsonResource
             'updated_at' => $this->updated_at->timestamp,
             'unbanned_at' => $this->unbanned_at?->timestamp,
             'unbanner_player_id' => $this->unbanner_player_id,
+            'unban_type' => $this->unban_type,
         ];
     }
 }
