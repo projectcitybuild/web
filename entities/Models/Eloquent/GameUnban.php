@@ -6,6 +6,9 @@ use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @deprecated
+ */
 final class GameUnban extends Model
 {
     use HasFactory;

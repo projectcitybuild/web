@@ -16,10 +16,20 @@ class GameBanSeeder extends Seeder
      */
     public function run()
     {
-        GameBan::factory()
-            ->for(MinecraftPlayer::factory()->for(Account::factory()), 'bannedPlayer')
-            ->for(MinecraftPlayer::factory()->for(Account::factory()), 'staffPlayer')
-            ->count(30)
-            ->create();
+        $staffPlayers = collect([
+            MinecraftPlayer::factory()->create(),
+            MinecraftPlayer::factory()->for(Account::factory())->create(),
+            null,
+        ]);
+
+        for ($i = 0; $i < 100; $i++) {
+            GameBan::factory()
+                ->bannedPlayer(
+                    MinecraftPlayer::factory()
+                        ->for(Account::factory(), 'account')
+                )
+                ->bannedBy($staffPlayers->random())
+                ->create();
+        }
     }
 }

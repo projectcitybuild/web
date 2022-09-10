@@ -29,7 +29,7 @@ class CreateBanAppealTest extends TestCase
         $this->useCase = new CreateBanAppeal(
             banAppealRepository: $this->banAppealRepository
         );
-        $this->gameBan = GameBan::factory()->for(MinecraftPlayer::factory(), 'bannedPlayer')->active()->create();
+        $this->gameBan = GameBan::factory()->for(MinecraftPlayer::factory(), 'bannedPlayer')->create();
 
         $this->banAppeal = \Mockery::mock(BanAppeal::class);
         $this->banAppeal->makePartial()

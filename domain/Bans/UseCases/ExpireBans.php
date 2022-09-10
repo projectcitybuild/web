@@ -13,6 +13,6 @@ final class ExpireBans
 
     public function execute()
     {
-        $this->gameBanRepository->deactivateActiveExpired();
+        $this->gameBanRepository->unbanAllExpired();
     }
 }

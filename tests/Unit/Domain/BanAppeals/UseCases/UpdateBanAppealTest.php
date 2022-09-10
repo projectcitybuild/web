@@ -7,12 +7,12 @@ use Domain\BanAppeals\Entities\BanAppealStatus;
 use Domain\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use Domain\BanAppeals\UseCases\UpdateBanAppeal;
 use Domain\Bans\Exceptions\NotBannedException;
+use Domain\Bans\UnbanType;
 use Domain\Bans\UseCases\CreateUnban;
 use Domain\Panel\Exceptions\NoPlayerForActionException;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\GameBan;
-use Entities\Models\Eloquent\GameUnban;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Repositories\BanAppealRepository;
 use Tests\TestCase;
@@ -23,7 +23,6 @@ class UpdateBanAppealTest extends TestCase
     private BanAppealRepository $banAppealRepository;
     private CreateUnban $unbanUseCase;
     private Account $decidingAccount;
-    private MinecraftPlayer $banningPlayer;
     private MinecraftPlayer $decidingPlayer;
     private MinecraftPlayer $bannedPlayer;
     private GameBan $gameBan;
@@ -42,16 +41,10 @@ class UpdateBanAppealTest extends TestCase
         );
 
         $this->decidingAccount = Account::factory()->create();
-        $this->banningPlayer = MinecraftPlayer::factory()->for(Account::factory())->create();
         $this->decidingPlayer = MinecraftPlayer::factory()->for($this->decidingAccount)->create();
         $this->bannedPlayer = MinecraftPlayer::factory()->create();
-        $this->gameBan = GameBan::factory()->bannedPlayer($this->bannedPlayer)->active()->create();
+        $this->gameBan = GameBan::factory()->bannedPlayer($this->bannedPlayer)->create();
         $this->banAppeal = BanAppeal::factory()->for($this->gameBan)->create();
-    }
-
-    private function createUnban()
-    {
-        return GameUnban::factory()->staffPlayer($this->decidingPlayer)->for($this->gameBan, 'ban')->create();
     }
 
     public function test_can_unban()
@@ -68,8 +61,9 @@ class UpdateBanAppealTest extends TestCase
                 }),
                 \Mockery::on(function ($arg) {
                     return $arg->key == $this->decidingPlayer->getKey();
-                })
-            )->andReturn($this->createUnban());
+                }),
+                UnbanType::APPEALED,
+            )->andReturn($this->gameBan);
 
         $this->useCase->execute(
             banAppeal: $this->banAppeal,

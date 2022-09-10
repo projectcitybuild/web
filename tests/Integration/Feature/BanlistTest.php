@@ -24,7 +24,6 @@ class BanlistTest extends TestCase
             ->for(Server::factory()->for(ServerCategory::factory()))
             ->for($this->makeMinecraftPlayer(), 'bannedPlayer')
             ->for($this->makeMinecraftPlayer(), 'staffPlayer')
-            ->active()
             ->create();
 
         $this->get(route('front.banlist'))

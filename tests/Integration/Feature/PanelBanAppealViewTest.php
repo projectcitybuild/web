@@ -27,7 +27,7 @@ class PanelBanAppealViewTest extends IntegrationTestCase
     {
         $appeal = BanAppeal::factory()
             ->for(
-                GameBan::factory()->active()->for(MinecraftPlayer::factory(), 'bannedPlayer')
+                GameBan::factory()->for(MinecraftPlayer::factory(), 'bannedPlayer')
             )->create(['explanation' => 'My Explanation']);
 
         $this->actingAs($this->admin)
@@ -57,7 +57,7 @@ class PanelBanAppealViewTest extends IntegrationTestCase
         $appeal = BanAppeal::factory()
             ->tempBanned()
             ->for(
-                GameBan::factory()->temporary()->active()->for(MinecraftPlayer::factory(), 'bannedPlayer')
+                GameBan::factory()->temporary()->for(MinecraftPlayer::factory(), 'bannedPlayer')
             )->create(['decision_note' => 'Some Decision Reason']);
 
         $this->actingAs($this->admin)
@@ -72,7 +72,7 @@ class PanelBanAppealViewTest extends IntegrationTestCase
         $appeal = BanAppeal::factory()
             ->denied()
             ->for(
-                GameBan::factory()->temporary()->active()->for(MinecraftPlayer::factory(), 'bannedPlayer')
+                GameBan::factory()->temporary()->for(MinecraftPlayer::factory(), 'bannedPlayer')
             )->create(['decision_note' => 'Some Decision Reason']);
 
         $this->actingAs($this->admin)
@@ -85,7 +85,7 @@ class PanelBanAppealViewTest extends IntegrationTestCase
     public function test_unauthorised_without_scope()
     {
         $appeal = BanAppeal::factory()
-            ->for(GameBan::factory()->active()->for(MinecraftPlayer::factory(), 'bannedPlayer'))
+            ->for(GameBan::factory()->for(MinecraftPlayer::factory(), 'bannedPlayer'))
             ->create(['explanation' => 'My Explanation']);
 
         $admin = $this->adminAccount(scopes: [
@@ -100,7 +100,7 @@ class PanelBanAppealViewTest extends IntegrationTestCase
     public function test_unauthorised_without_panel_access()
     {
         $appeal = BanAppeal::factory()
-            ->for(GameBan::factory()->active()->for(MinecraftPlayer::factory(), 'bannedPlayer'))
+            ->for(GameBan::factory()->for(MinecraftPlayer::factory(), 'bannedPlayer'))
             ->create(['explanation' => 'My Explanation']);
 
         $admin = $this->adminAccount(scopes: [

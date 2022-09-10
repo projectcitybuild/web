@@ -17,7 +17,11 @@ class MfaLoginTest extends TestCase
     {
         parent::setUp();
 
-        $this->mfaAccount = Account::factory()->hasFinishedTotp()->create();
+        $this->mfaAccount = Account::factory()
+            ->passwordHashed()
+            ->hasFinishedTotp()
+            ->create();
+
         $this->google2fa = $this->app->make(Google2FA::class);
     }
 

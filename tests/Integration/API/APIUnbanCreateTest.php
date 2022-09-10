@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\API;
 
+use Domain\Bans\UnbanType;
 use Domain\ServerTokens\ScopeKey;
 use Entities\Models\Eloquent\GameBan;
-use Entities\Models\Eloquent\GameUnban;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\PlayerIdentifierType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -36,7 +36,6 @@ class APIUnbanCreateTest extends IntegrationTestCase
     public function test_requires_scope()
     {
         GameBan::factory()
-            ->active()
             ->bannedPlayer(MinecraftPlayer::factory()->create(['uuid' => 'uuid1']))
             ->create();
 
@@ -84,7 +83,6 @@ class APIUnbanCreateTest extends IntegrationTestCase
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
 
         $ban = GameBan::factory()
-            ->active()
             ->bannedPlayer($player1)
             ->create();
 
@@ -101,14 +99,9 @@ class APIUnbanCreateTest extends IntegrationTestCase
             table: GameBan::getTableName(),
             data: [
                 'game_ban_id' => $ban->getKey(),
-                'is_active' => false,
-            ],
-        );
-
-        $this->assertDatabaseHas(
-            table: GameUnban::getTableName(),
-            data: [
-                'staff_player_id' => $player2->getKey(),
+                'unbanned_at' => now(),
+                'unbanner_player_id' => $player2->getKey(),
+                'unban_type' => UnbanType::MANUAL->value,
             ],
         );
     }
@@ -121,7 +114,6 @@ class APIUnbanCreateTest extends IntegrationTestCase
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
 
         $ban = GameBan::factory()
-            ->active()
             ->temporary()
             ->bannedPlayer($player1)
             ->create();
@@ -139,14 +131,9 @@ class APIUnbanCreateTest extends IntegrationTestCase
             table: GameBan::getTableName(),
             data: [
                 'game_ban_id' => $ban->getKey(),
-                'is_active' => false,
-            ],
-        );
-
-        $this->assertDatabaseHas(
-            table: GameUnban::getTableName(),
-            data: [
-                'staff_player_id' => $player2->getKey(),
+                'unbanned_at' => now(),
+                'unbanner_player_id' => $player2->getKey(),
+                'unban_type' => UnbanType::MANUAL->value,
             ],
         );
     }

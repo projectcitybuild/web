@@ -51,7 +51,9 @@ class LoginAccountTest extends TestCase
 
     public function test_throws_error_if_account_not_activated()
     {
-        $account = Account::factory()->create(['activated' => false]);
+        $account = Account::factory()
+            ->passwordHashed()
+            ->create(['activated' => false]);
 
         $this->accountRepository
             ->shouldReceive('getByEmail')
@@ -71,7 +73,9 @@ class LoginAccountTest extends TestCase
 
     public function test_logs_in()
     {
-        $account = Account::factory()->create();
+        $account = Account::factory()
+            ->passwordHashed()
+            ->create();
 
         $this->accountRepository
             ->shouldReceive('getByEmail')
@@ -96,7 +100,9 @@ class LoginAccountTest extends TestCase
 
     public function test_puts_session_if_2fa_enabled()
     {
-        $account = Account::factory()->create(['is_totp_enabled' => true]);
+        $account = Account::factory()
+            ->passwordHashed()
+            ->create(['is_totp_enabled' => true]);
 
         $this->accountRepository
             ->shouldReceive('getByEmail')

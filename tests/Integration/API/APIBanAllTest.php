@@ -2,6 +2,7 @@
 
 namespace Tests\Integration\API;
 
+use Domain\Bans\UnbanType;
 use Domain\ServerTokens\ScopeKey;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
@@ -53,7 +54,6 @@ class APIBanAllTest extends IntegrationTestCase
         $server = Server::factory()->create();
 
         $ban1 = GameBan::factory()
-            ->active()
             ->bannedPlayer($player1)
             ->bannedBy($player2)
             ->server($server)
@@ -79,10 +79,12 @@ class APIBanAllTest extends IntegrationTestCase
                         'banned_player_id' => $player1->getKey(),
                         'banner_player_id' => $player2->getKey(),
                         'reason' => $ban1->reason,
-                        'is_active' => true,
                         'expires_at' => null,
                         'created_at' => $ban1->created_at->timestamp,
                         'updated_at' => $ban1->updated_at->timestamp,
+                        'unbanned_at' => null,
+                        'unbanner_player_id' => null,
+                        'unban_type' => null,
                     ],
                     [
                         'id' => $ban2->getKey(),
@@ -90,10 +92,12 @@ class APIBanAllTest extends IntegrationTestCase
                         'banned_player_id' => $player1->getKey(),
                         'banner_player_id' => $player2->getKey(),
                         'reason' => $ban2->reason,
-                        'is_active' => false,
                         'expires_at' => null,
                         'created_at' => $ban2->created_at->timestamp,
                         'updated_at' => $ban2->updated_at->timestamp,
+                        'unbanned_at' => $ban2->unbanned_at->timestamp,
+                        'unbanner_player_id' => null,
+                        'unban_type' => UnbanType::MANUAL->value,
                     ],
                 ],
             ])

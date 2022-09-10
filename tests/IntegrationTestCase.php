@@ -28,6 +28,13 @@ abstract class IntegrationTestCase extends TestCase
         $this->now = $this->setTestNow();
     }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        Carbon::setTestNow(); // Reset
+    }
+
     /**
      * Returns the contents of a JSON file inside the `resources/testing` folder
      *
