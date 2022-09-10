@@ -50,7 +50,8 @@ class GameBanRepository
 
     public function unbanAllExpired()
     {
-        GameBan::active()
+        GameBan::whereNull('unbanned_at')
+            ->whereDate('expires_at', '<=', now())
             ->update([
                 'unbanned_at' => now(),
                 'unban_type' => UnbanType::EXPIRED,
