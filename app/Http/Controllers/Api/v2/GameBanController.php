@@ -6,6 +6,7 @@ use App\Exceptions\Http\BadRequestException;
 use App\Http\ApiController;
 use Domain\Bans\Exceptions\AlreadyPermBannedException;
 use Domain\Bans\Exceptions\NotBannedException;
+use Domain\Bans\UnbanType;
 use Domain\Bans\UseCases\ConvertToPermanentBan;
 use Domain\Bans\UseCases\CreateBan;
 use Domain\Bans\UseCases\CreateUnban;
@@ -19,7 +20,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 
-final class GameBanV2Controller extends ApiController
+final class GameBanController extends ApiController
 {
     /**
      * @throws AlreadyPermBannedException
@@ -96,6 +97,7 @@ final class GameBanV2Controller extends ApiController
                 key: $request->get('unbanner_player_id'),
                 gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('unbanner_player_type')),
             ),
+            unbanType: UnbanType::MANUAL,
         );
 
         return new GameBanResource($ban);

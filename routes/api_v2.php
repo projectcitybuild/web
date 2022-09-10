@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\v1\MinecraftBadgeController;
 use App\Http\Controllers\Api\v1\MinecraftBalanceController;
 use App\Http\Controllers\Api\v1\MinecraftDonationTierController;
 use App\Http\Controllers\Api\v1\MinecraftTelemetryController;
-use App\Http\Controllers\Api\v2\GameBanV2Controller;
+use App\Http\Controllers\Api\v2\GameBanController;
 use App\Http\Middleware\RequiresServerTokenScope;
 use Domain\ServerTokens\ScopeKey;
 use Illuminate\Support\Facades\Route;
@@ -25,16 +25,16 @@ Route::prefix('bans')->group(function () {
     Route::middleware(
         RequiresServerTokenScope::middleware(ScopeKey::BAN_UPDATE),
     )->group(function () {
-        Route::post('ban', [GameBanV2Controller::class, 'ban']);
-        Route::post('unban', [GameBanV2Controller::class, 'unban']);
-        Route::post('convert_to_permanent', [GameBanV2Controller::class, 'convertToPermanent']);
+        Route::post('ban', [GameBanController::class, 'ban']);
+        Route::post('unban', [GameBanController::class, 'unban']);
+        Route::post('convert_to_permanent', [GameBanController::class, 'convertToPermanent']);
     });
 
     Route::middleware([
         RequiresServerTokenScope::middleware(ScopeKey::BAN_LOOKUP),
     ])->group(function () {
-        Route::post('status', [GameBanV2Controller::class, 'status']);
-        Route::post('all', [GameBanV2Controller::class, 'all']);
+        Route::post('status', [GameBanController::class, 'status']);
+        Route::post('all', [GameBanController::class, 'all']);
     });
 });
 

@@ -12,7 +12,7 @@
             <div class="game-ban__reason">
                 "{{ $ban->reason }}"
             </div>
-            @if($ban->banAppeals->isEmpty() && !$ban->is_active)
+            @if($ban->banAppeals->isEmpty() && !$ban->isActive())
                 <div class="game-ban__status game-ban__status--is-ban">
                     <i class="fas fa-check is-unbanned"></i> Unbanned
                 </div>
@@ -52,7 +52,7 @@
             @endforeach
         </ul>
     @endif
-    @if($ban->is_active && !$ban->banAppeals()->pending()->exists())
+    @if($ban->isActive() && !$ban->banAppeals()->pending()->exists())
         <div class="game-ban__actions">
             <a class="button button--filled button--is-small" href="{{ route('front.appeal.create', $ban) }}">
                 Appeal

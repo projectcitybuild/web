@@ -10,8 +10,8 @@
     </thead>
     <tbody>
         @foreach($banHistory as $ban)
-            <tr class="{{ $ban->is_active ? 'warning' : '' }}">
-                <td>{{ $ban->is_active ? 'Active' : 'Removed' }}</td>
+            <tr class="{{ $ban->isActive() ? 'warning' : '' }}">
+                <td>{{ $ban->isActive() ? 'Active' : 'Removed' }}</td>
                 <td>{{ $ban->reason ?? 'No Reason Given' }}</td>
                 <td>
                     @if($ban->staff_player_id != null && count($ban->staffPlayer->aliases) > 0)

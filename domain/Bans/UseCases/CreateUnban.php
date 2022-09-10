@@ -27,6 +27,7 @@ class CreateUnban
     public function execute(
         PlayerIdentifier $bannedPlayerIdentifier,
         PlayerIdentifier $unbannerPlayerIdentifier,
+        UnbanType $unbanType,
     ): GameBan {
         $player = $this->playerLookup->find(identifier: $bannedPlayerIdentifier)
             ?? throw new NotBannedException();
@@ -39,7 +40,7 @@ class CreateUnban
         $this->gameBanRepository->unban(
             ban: $existingBan,
             unbannerPlayerId: $unbannerPlayer->getKey(),
-            unbanType: UnbanType::MANUAL,
+            unbanType: $unbanType,
         );
 
         return $existingBan->refresh();

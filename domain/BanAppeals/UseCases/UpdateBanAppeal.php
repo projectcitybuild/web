@@ -6,6 +6,7 @@ use App\Exceptions\Http\NotImplementedException;
 use Domain\BanAppeals\Entities\BanAppealStatus;
 use Domain\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use Domain\Bans\Exceptions\NotBannedException;
+use Domain\Bans\UnbanType;
 use Domain\Bans\UseCases\CreateUnban;
 use Domain\Panel\Exceptions\NoPlayerForActionException;
 use Entities\Models\Eloquent\Account;
@@ -35,8 +36,12 @@ class UpdateBanAppeal
      * @throws NotImplementedException if an unimplemented ban decision is used
      * @throws NotBannedException if the player is not currently banned
      */
-    public function execute(BanAppeal $banAppeal, Account $decidingAccount, string $decisionNote, BanAppealStatus $status): void
-    {
+    public function execute(
+        BanAppeal $banAppeal,
+        Account $decidingAccount,
+        string $decisionNote,
+        BanAppealStatus $status
+    ): void {
         if ($banAppeal->status != BanAppealStatus::PENDING) {
             throw new AppealAlreadyDecidedException();
         }
@@ -64,7 +69,12 @@ class UpdateBanAppeal
             if ($status == BanAppealStatus::ACCEPTED_UNBAN) {
                 $bannedPlayerIdentifier = PlayerIdentifier::pcbAccountId($banAppeal->gameBan->bannedPlayer->getKey());
                 $staffPlayerIdentifier = PlayerIdentifier::pcbAccountId($decidingPlayer->getKey());
-                $this->unbanUseCase->execute($bannedPlayerIdentifier, $staffPlayerIdentifier);
+
+                $this->unbanUseCase->execute(
+                    bannedPlayerIdentifier: $bannedPlayerIdentifier,
+                    unbannerPlayerIdentifier: $staffPlayerIdentifier,
+                    unbanType: UnbanType::APPEALED,
+                );
             }
             DB::commit();
         } catch (Exception $exception) {

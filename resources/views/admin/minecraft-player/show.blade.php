@@ -124,7 +124,7 @@
                         </thead>
                         <tbody>
                         @forelse($minecraftPlayer->gameBans as $ban)
-                            <tr class="{{ $ban->is_active ? 'table-warning' : '' }}">
+                            <tr class="{{ $ban->isActive() ? 'table-warning' : '' }}">
                                 <td data-bs-toggle="tooltip" data-bs-placement="left" title="{{ $ban->isActive() ? 'Active' : 'Inactive' }}">
                                     {{ $ban->isActive() ? 'Active' : 'Inactive' }}
                                 </td>

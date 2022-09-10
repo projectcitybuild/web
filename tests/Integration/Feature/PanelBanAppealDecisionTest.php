@@ -3,6 +3,7 @@
 namespace Tests\Integration\Feature;
 
 use Domain\BanAppeals\Entities\BanAppealStatus;
+use Domain\Bans\UnbanType;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\GameBan;
@@ -60,9 +61,11 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
             ->assertRedirect(route('front.panel.ban-appeals.show', $this->appeal));
         $this->assertEquals(BanAppealStatus::ACCEPTED_UNBAN, $this->appeal->refresh()->status);
         $this->assertEquals(false, $this->appeal->gameBan->refresh()->is_active);
-        $this->assertDatabaseHas('game_network_unbans', [
+        $this->assertDatabaseHas(GameBan::getTableName(), [
             'game_ban_id' => $this->gameBan->getKey(),
-            'staff_player_id' => $this->admin->minecraftAccount()->first()->getKey(),
+            'unbanned_at' => now(),
+            'unbanner_player_id' => $this->admin->minecraftAccount()->first()->getKey(),
+            'unban_type' => UnbanType::APPEALED,
         ]);
         Notification::assertSentTo($this->appeal, BanAppealUpdatedNotification::class);
     }
@@ -77,9 +80,11 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
             ->assertSessionHasNoErrors()
             ->assertRedirect(route('front.panel.ban-appeals.show', $this->appeal));
         $this->assertEquals(BanAppealStatus::DENIED, $this->appeal->refresh()->status);
-        $this->assertEquals(true, $this->appeal->gameBan->refresh()->is_active);
-        $this->assertDatabaseMissing('game_network_unbans', [
+        $this->assertDatabaseHas(GameBan::getTableName(), [
             'game_ban_id' => $this->gameBan->getKey(),
+            'unbanned_at' => null,
+            'unbanner_player_id' => null,
+            'unban_type' => null,
         ]);
         Notification::assertSentTo($this->appeal, BanAppealUpdatedNotification::class);
     }
@@ -90,7 +95,7 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
      */
     public function test_validation_error_if_ban_has_become_inactive()
     {
-        $this->gameBan->is_active = false;
+        $this->gameBan->unbanned_at = now()->subDay();
         $this->gameBan->save();
 
         $this->actingAs($this->admin)

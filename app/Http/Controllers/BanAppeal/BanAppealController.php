@@ -33,7 +33,7 @@ class BanAppealController extends WebController
      */
     public function create(GameBan $ban, Request $request, CreateBanAppeal $useCase)
     {
-        if (! $ban->is_active) {
+        if (! $ban->isActive()) {
             return abort(404);
         }
 
