@@ -21,7 +21,6 @@ class BanAppealCreateTest extends TestCase
     private function createBan()
     {
         return GameBan::factory()
-            ->active()
             ->for(MinecraftPlayer::factory(), 'bannedPlayer')
             ->create([
                 'reason' => 'Some Ban Reason',

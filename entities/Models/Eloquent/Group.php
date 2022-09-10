@@ -28,6 +28,12 @@ final class Group extends Model implements LinkableAuditModel
         'can_access_panel',
     ];
     protected $hidden = [];
+    protected $casts = [
+        'is_build' => 'boolean',
+        'is_default' => 'boolean',
+        'is_staff' => 'boolean',
+        'is_admin' => 'boolean',
+    ];
     public $timestamps = false;
 
     public function accounts()

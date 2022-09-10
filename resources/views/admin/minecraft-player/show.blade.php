@@ -118,6 +118,7 @@
                             <th>Expires At</th>
                             <th>Banned At</th>
                             <th>Unbanned At</th>
+                            <th>Unban Type</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -140,6 +141,7 @@
                                 <td>{{ $ban->expires_at }}</td>
                                 <td>{{ $ban->created_at }}</td>
                                 <td>{{ $ban->unbanned_at }}</td>
+                                <td>{{ $ban->unban_type?->value }}</td>
 
                                 <td class="actions">
 {{--                                    <a href="#" class="text-danger">Unban</a>--}}

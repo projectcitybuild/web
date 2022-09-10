@@ -38,9 +38,6 @@ final class GameBan extends Model
         'expires_at',
         'unbanned_at' => 'datetime',
     ];
-    protected $casts = [
-        'unban_type' => UnbanType::class,
-    ];
 
     public function scopeActive(Builder $query)
     {
@@ -77,7 +74,7 @@ final class GameBan extends Model
         return Attribute::make(
             get: function ($unbanType) {
                 if ($unbanType !== null) {
-                    return $unbanType;
+                    return UnbanType::tryFrom($unbanType);
                 }
                 if ($this->expires_at !== null && $this->expires_at->lte(now())) {
                     return UnbanType::EXPIRED;

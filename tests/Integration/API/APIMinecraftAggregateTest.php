@@ -78,15 +78,17 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
                         ],
                     ],
                     'ban' => [
-                        'game_ban_id' => $ban->getKey(),
+                        'id' => $ban->getKey(),
                         'server_id' => $server->getKey(),
                         'banned_player_id' => $player->getKey(),
-                        'staff_player_id' => $staffPlayer->getKey(),
+                        'banner_player_id' => $staffPlayer->getKey(),
                         'reason' => $ban->reason,
-                        'is_active' => true,
                         'expires_at' => $ban->expires_at,
                         'created_at' => $ban->created_at->timestamp,
                         'updated_at' => $ban->updated_at->timestamp,
+                        'unbanned_at' => null,
+                        'unbanner_player_id' => null,
+                        'unban_type' => null,
                     ],
                     'badges' => [
                         [
@@ -178,17 +180,19 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
         $this->getJson($this->endpoint($player))
             ->assertJson([
                 'data' => [
-                    'account' => [],
+                    'account' => null,
                     'ban' => [
-                        'game_ban_id' => $ban->getKey(),
+                        'id' => $ban->getKey(),
                         'server_id' => $server->getKey(),
                         'banned_player_id' => $player->getKey(),
-                        'staff_player_id' => $staffPlayer->getKey(),
+                        'banner_player_id' => $staffPlayer->getKey(),
                         'reason' => $ban->reason,
-                        'is_active' => true,
                         'expires_at' => $ban->expires_at,
                         'created_at' => $ban->created_at->timestamp,
                         'updated_at' => $ban->updated_at->timestamp,
+                        'unbanned_at' => null,
+                        'unbanner_player_id' => null,
+                        'unban_type' => null,
                     ],
                     'badges' => [],
                     'donation_tiers' => [],
