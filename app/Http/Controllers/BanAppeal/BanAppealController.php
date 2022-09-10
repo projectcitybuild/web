@@ -68,7 +68,12 @@ class BanAppealController extends WebController
     public function store(GameBan $ban, StoreBanAppealRequest $request, CreateBanAppeal $useCase)
     {
         try {
-            $banAppeal = $useCase->execute($ban, $request->get('explanation'), $request->user(), $request->get('email'));
+            $banAppeal = $useCase->execute(
+                ban: $ban,
+                explanation: $request->get('explanation'),
+                loggedInAccount: $request->user(),
+                email: $request->get('email'),
+            );
         } catch (EmailRequiredException $e) {
             $e->throwAsValidationException();
         }
