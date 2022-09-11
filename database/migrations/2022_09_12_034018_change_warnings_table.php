@@ -13,7 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('game_network_warnings', function (Blueprint $table) {
+        Schema::rename(from: 'game_network_warnings', to: 'player_warnings');
+
+        Schema::table('player_warnings', function (Blueprint $table) {
             $table->dropForeign('game_network_warnings_server_id_foreign');
             $table->dropColumn('server_id');
 
@@ -33,13 +35,15 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::rename(from: 'player_warnings', to: 'game_network_warnings');
+
         Schema::table('game_network_warnings', function (Blueprint $table) {
             $table->integer('server_id')->unsigned()->nullable()->after('game_warning_id');
             $table->foreign('server_id')->references('server_id')->on('servers');
 
             $table->boolean('is_active')->default(true)->after('weight');
 
-            $table->text('reason')->nullable(false)->change();
+            $table->text('reason')->nullable(true)->change();
 
             $table->renameColumn(from: 'warner_player_id', to: 'staff_player_id');
             $table->renameColumn(from: 'id', to: 'game_warning_id');

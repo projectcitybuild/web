@@ -6,13 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 final class DonationPerkResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request
-     * @return array
-     */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'donation_perks_id' => $this->donation_perks_id,

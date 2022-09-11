@@ -3,27 +3,25 @@
 namespace Entities\Models\Eloquent;
 
 use App\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-final class GameWarning extends Model
+final class PlayerWarning extends Model
 {
-    protected $table = 'game_network_warnings';
+    protected $table = 'player_warnings';
     protected $fillable = [
-        'server_id',
         'warned_player_id',
-        'staff_player_id',
+        'warner_player_id',
         'reason',
         'weight',
-        'is_active',
         'created_at',
         'updated_at',
     ];
-    protected $hidden = [];
     protected $dates = [
         'created_at',
         'updated_at',
     ];
 
-    public function warnedPlayer()
+    public function warnedPlayer(): BelongsTo
     {
         return $this->belongsTo(
             related: MinecraftPlayer::class,
@@ -32,11 +30,11 @@ final class GameWarning extends Model
         );
     }
 
-    public function staffPlayer()
+    public function warnerPlayer(): BelongsTo
     {
         return $this->belongsTo(
             related: MinecraftPlayer::class,
-            foreignKey: 'staff_player_id',
+            foreignKey: 'warner_player_id',
             ownerKey: 'player_minecraft_id',
         );
     }
