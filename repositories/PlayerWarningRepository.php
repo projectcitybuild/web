@@ -3,6 +3,7 @@
 namespace Repositories;
 
 use Entities\Models\Eloquent\PlayerWarning;
+use Illuminate\Database\Eloquent\Collection;
 
 final class PlayerWarningRepository
 {
@@ -17,7 +18,13 @@ final class PlayerWarningRepository
             'warner_player_id' => $warnerPlayerId,
             'reason' => $reason,
             'weight' => $weight,
-            'is_active' => true,
         ]);
+    }
+
+    public function all(int $playerId): Collection
+    {
+        return PlayerWarning::where('warned_player_id', $playerId)
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 }

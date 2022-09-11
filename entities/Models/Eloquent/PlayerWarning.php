@@ -3,10 +3,13 @@
 namespace Entities\Models\Eloquent;
 
 use App\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class PlayerWarning extends Model
 {
+    use HasFactory;
+
     protected $table = 'player_warnings';
     protected $fillable = [
         'warned_player_id',

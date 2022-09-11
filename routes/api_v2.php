@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\v1\MinecraftBadgeController;
 use App\Http\Controllers\Api\v1\MinecraftBalanceController;
 use App\Http\Controllers\Api\v1\MinecraftDonationTierController;
 use App\Http\Controllers\Api\v1\MinecraftTelemetryController;
+use App\Http\Controllers\Api\v1\PlayerWarningController;
 use App\Http\Controllers\Api\v2\GameBanController;
 use App\Http\Middleware\RequiresServerTokenScope;
 use Domain\ServerTokens\ScopeKey;
@@ -36,6 +37,14 @@ Route::prefix('bans')->group(function () {
         Route::post('status', [GameBanController::class, 'status']);
         Route::post('all', [GameBanController::class, 'all']);
     });
+});
+
+Route::prefix('warnings')->group(function () {
+    Route::get('/', [PlayerWarningController::class, 'show'])
+        ->middleware(RequiresServerTokenScope::middleware(ScopeKey::WARNING_LOOKUP));
+
+    Route::post('/', [PlayerWarningController::class, 'store'])
+        ->middleware(RequiresServerTokenScope::middleware(ScopeKey::WARNING_UPDATE));
 });
 
 Route::prefix('minecraft/{minecraftUUID}')->group(function () {
