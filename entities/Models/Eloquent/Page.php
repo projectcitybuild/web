@@ -13,20 +13,8 @@ final class Page extends Model implements LinkableAuditModel
     use HasFactory;
     use LogsActivity;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'pages';
-
     protected $primaryKey = 'page_id';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'url',
         'title',
@@ -34,14 +22,7 @@ final class Page extends Model implements LinkableAuditModel
         'description',
         'is_draft',
     ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [];
-
     protected $casts = [
         'is_draft' => 'boolean',
     ];

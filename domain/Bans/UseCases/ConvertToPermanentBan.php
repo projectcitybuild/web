@@ -3,6 +3,7 @@
 namespace Domain\Bans\UseCases;
 
 use App\Exceptions\Http\NotFoundException;
+use Domain\Bans\UnbanType;
 use Entities\Models\Eloquent\GameBan;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -40,7 +41,7 @@ final class ConvertToPermanentBan
         if ($ban === null) {
             throw new NotFoundException(id: 'ban_not_found', message: 'Cannot find a ban matching the given id');
         }
-        if (! $ban->is_active) {
+        if (! $ban->isActive()) {
             throw new Exception('Cannot modify an inactive ban');
         }
         if ($ban->expires_at === null) {
@@ -54,7 +55,9 @@ final class ConvertToPermanentBan
 
         DB::beginTransaction();
         try {
-            $ban->is_active = false;
+            $ban->unbanned_at = now();
+            $ban->unbanned_by = $bannerPlayer->getKey();
+            $ban->unban_type = UnbanType::CONVERTED_TO_PERMANENT;
             $ban->save();
 
             $newBan = $this->gameBanRepository->create(

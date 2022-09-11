@@ -53,7 +53,6 @@ class APIBanStatusTest extends IntegrationTestCase
         $server = Server::factory()->create();
 
         $ban = GameBan::factory()
-            ->active()
             ->bannedPlayer($player1)
             ->bannedBy($player2)
             ->server($server)
@@ -70,8 +69,10 @@ class APIBanStatusTest extends IntegrationTestCase
                     'server_id' => $server->getKey(),
                     'banned_player_id' => $player1->getKey(),
                     'banner_player_id' => $player2->getKey(),
-                    'is_active' => true,
                     'expires_at' => null,
+                    'unbanned_at' => null,
+                    'unbanner_player_id' => null,
+                    'unban_type' => null,
                 ],
             ])
             ->assertSuccessful();
@@ -86,7 +87,6 @@ class APIBanStatusTest extends IntegrationTestCase
         $server = Server::factory()->create();
 
         $ban = GameBan::factory()
-            ->active()
             ->bannedPlayer($player1)
             ->bannedBy($player2)
             ->server($server)
@@ -104,18 +104,91 @@ class APIBanStatusTest extends IntegrationTestCase
                     'server_id' => $server->getKey(),
                     'banned_player_id' => $player1->getKey(),
                     'banner_player_id' => $player2->getKey(),
-                    'is_active' => true,
                     'expires_at' => $ban->expires_at->timestamp,
+                    'unbanned_at' => null,
+                    'unbanner_player_id' => null,
+                    'unban_type' => null,
                 ],
             ])
             ->assertSuccessful();
     }
 
-    public function test_not_banned()
+    public function test_not_banned_when_no_ban()
     {
         $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
 
-        $player = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
+        $player = MinecraftPlayer::factory()->create();
+
+        $this->withAuthorizationServerToken()
+            ->postJson(uri: self::ENDPOINT, data: [
+                'player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
+                'player_id' => $player->uuid,
+            ])
+            ->assertJson([
+                'data' => [],
+            ])
+            ->assertSuccessful();
+    }
+
+    public function test_not_banned_when_ban_expired()
+    {
+        $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
+
+        $player = MinecraftPlayer::factory()->create();
+
+        GameBan::factory()
+            ->bannedPlayer($player)
+            ->bannedBy(MinecraftPlayer::factory())
+            ->expired()
+            ->create();
+
+        $this->withAuthorizationServerToken()
+            ->postJson(uri: self::ENDPOINT, data: [
+                'player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
+                'player_id' => $player->uuid,
+            ])
+            ->assertJson([
+                'data' => [],
+            ])
+            ->assertSuccessful();
+    }
+
+    public function test_not_banned_when_manually_unbanned()
+    {
+        $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
+
+        $player = MinecraftPlayer::factory()->create();
+
+        GameBan::factory()
+            ->bannedPlayer($player)
+            ->bannedBy(MinecraftPlayer::factory())
+            ->inactive()
+            ->create();
+
+        $this->withAuthorizationServerToken()
+            ->postJson(uri: self::ENDPOINT, data: [
+                'player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
+                'player_id' => $player->uuid,
+            ])
+            ->assertJson([
+                'data' => [],
+            ])
+            ->assertSuccessful();
+    }
+
+    public function test_not_banned_when_ban_expired_but_missing_unban_date()
+    {
+        $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
+
+        $player = MinecraftPlayer::factory()->create();
+
+        GameBan::factory()
+            ->bannedPlayer($player)
+            ->bannedBy(MinecraftPlayer::factory())
+            ->create([
+                'expires_at' => now()->subDay(),
+                'unbanned_at' => null,
+            ]);
 
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: [

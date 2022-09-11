@@ -25,6 +25,7 @@ class RegisterTest extends TestCase
     private function withRequiredFormFields(Account $account): array
     {
         return array_merge($account->toArray(), [
+            'password' => 'password',
             'password_confirm' => 'password',
             'g-recaptcha-response' => Str::random(),
             'terms' => 1,
@@ -43,7 +44,6 @@ class RegisterTest extends TestCase
         Group::factory()->create(['is_default' => true]);
 
         $unactivatedAccount = Account::factory()
-            ->passwordUnhashed()
             ->unactivated()
             ->make();
 
@@ -60,7 +60,6 @@ class RegisterTest extends TestCase
     public function test_recaptcha_field_is_required()
     {
         $unactivatedAccount = Account::factory()
-            ->passwordUnhashed()
             ->unactivated()
             ->make();
 
@@ -72,7 +71,6 @@ class RegisterTest extends TestCase
     public function test_recaptcha_field_is_validated()
     {
         $unactivatedAccount = Account::factory()
-            ->passwordUnhashed()
             ->unactivated()
             ->make();
 
@@ -86,7 +84,6 @@ class RegisterTest extends TestCase
         $existingAccount = Account::factory()->create();
 
         $newAccount = Account::factory()
-            ->passwordUnhashed()
             ->make(['email' => $existingAccount->email]);
 
         $this->post(route('front.register.submit'), $this->withRequiredFormFields($newAccount))
@@ -98,7 +95,6 @@ class RegisterTest extends TestCase
         $existingAccount = Account::factory()->create();
 
         $newAccount = Account::factory()
-            ->passwordUnhashed()
             ->make(['username' => $existingAccount->username]);
 
         $this->post(route('front.register.submit'), $this->withRequiredFormFields($newAccount))
@@ -108,7 +104,7 @@ class RegisterTest extends TestCase
     public function test_assert_password_is_hashed()
     {
         $unactivatedAccount = Account::factory()
-            ->passwordUnhashed()
+            ->passwordHashed()
             ->make();
 
         $this->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
@@ -128,7 +124,6 @@ class RegisterTest extends TestCase
         ]);
 
         $unactivatedAccount = Account::factory()
-            ->passwordUnhashed()
             ->unactivated()
             ->make();
 
@@ -150,7 +145,6 @@ class RegisterTest extends TestCase
         Group::factory()->create(['is_default' => true]);
 
         $unactivatedAccount = Account::factory()
-            ->passwordUnhashed()
             ->unactivated()
             ->make();
 

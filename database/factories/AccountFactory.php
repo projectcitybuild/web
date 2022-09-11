@@ -30,7 +30,7 @@ class AccountFactory extends Factory
         return [
             'email' => $this->faker->email,
             'username' => $this->faker->userName,
-            'password' => Hash::make(self::UNHASHED_PASSWORD),
+            'password' => 'test', // Hashing is expensive
             'activated' => true,
             'last_login_ip' => $this->faker->ipv4,
             'last_login_at' => $this->faker->dateTimeBetween('-180days', '-1hours'),
@@ -42,11 +42,11 @@ class AccountFactory extends Factory
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    public function passwordUnhashed()
+    public function passwordHashed()
     {
         return $this->state(function (array $attributes) {
             return [
-                'password' => 'password',
+                'password' => Hash::make(self::UNHASHED_PASSWORD),
             ];
         });
     }

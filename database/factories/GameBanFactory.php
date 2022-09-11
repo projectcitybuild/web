@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Domain\Bans\UnbanType;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\Server;
@@ -25,41 +26,9 @@ class GameBanFactory extends Factory
     {
         return [
             'banned_alias_at_time' => $this->faker->name,
-            'staff_player_id' => MinecraftPlayer::factory(),
             'reason' => $this->faker->sentence,
-            'is_active' => $this->faker->boolean,
-            'is_global_ban' => $this->faker->boolean,
             'created_at' => $this->faker->dateTimeBetween('-5 years', 'now'),
-            'expires_at' => null,
         ];
-    }
-
-    /**
-     * Enables the ban.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function active()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'is_active' => true,
-            ];
-        });
-    }
-
-    /**
-     * Disables the ban.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function inactive()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'is_active' => false,
-            ];
-        });
     }
 
     /**
@@ -85,17 +54,17 @@ class GameBanFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'is_active' => false,
                 'expires_at' => now()->subDay(),
             ];
         });
     }
 
-    public function bannedBy(MinecraftPlayer $minecraftPlayer): GameBanFactory
+    public function inactive()
     {
-        return $this->state(function (array $attributes) use ($minecraftPlayer) {
+        return $this->state(function (array $attributes) {
             return [
-                'staff_player_id' => $minecraftPlayer->getKey(),
+                'unbanned_at' => now()->subDay(),
+                'unban_type' => UnbanType::MANUAL,
             ];
         });
     }
@@ -107,6 +76,17 @@ class GameBanFactory extends Factory
                 'staff_player_id' => null,
             ];
         });
+    }
+
+    public function bannedBy(MinecraftPlayer|Factory|null $minecraftPlayer): GameBanFactory
+    {
+        if (is_null($minecraftPlayer)) {
+            return $this->state(function (array $attributes) {
+                return ['staff_player_id' => null];
+            });
+        } else {
+            return $this->for($minecraftPlayer, 'staffPlayer');
+        }
     }
 
     public function bannedPlayer(MinecraftPlayer|Factory $player): GameBanFactory

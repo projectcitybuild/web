@@ -76,11 +76,12 @@ class APIBanCreateTest extends IntegrationTestCase
                 'banned_alias_at_time' => 'alias1',
                 'staff_player_id' => $player2->getKey(),
                 'reason' => 'reason',
-                'is_active' => true,
-                'is_global_ban' => true,
                 'expires_at' => null,
                 'created_at' => $this->now,
                 'updated_at' => $this->now,
+                'unbanned_at' => null,
+                'unbanner_player_id' => null,
+                'unban_type' => null,
             ],
         );
     }
@@ -115,11 +116,12 @@ class APIBanCreateTest extends IntegrationTestCase
                 'banned_alias_at_time' => 'alias1',
                 'staff_player_id' => $player2->getKey(),
                 'reason' => 'reason',
-                'is_active' => true,
-                'is_global_ban' => true,
                 'expires_at' => $expiryDate,
                 'created_at' => $this->now,
                 'updated_at' => $this->now,
+                'unbanned_at' => null,
+                'unbanner_player_id' => null,
+                'unban_type' => null,
             ],
         );
     }
@@ -132,7 +134,6 @@ class APIBanCreateTest extends IntegrationTestCase
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
 
         GameBan::factory()
-            ->active()
             ->bannedPlayer($player1)
             ->create();
 
@@ -168,7 +169,6 @@ class APIBanCreateTest extends IntegrationTestCase
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
 
         GameBan::factory()
-            ->active()
             ->temporary()
             ->bannedPlayer($player1)
             ->create();
