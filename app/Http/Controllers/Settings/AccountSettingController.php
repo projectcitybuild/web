@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\Settings;
 
-use App\Http\Actions\AccountSettings\UpdateAccountPassword;
-use App\Http\Actions\AccountSettings\UpdateAccountUsername;
 use App\Http\Requests\AccountChangeEmailRequest;
 use App\Http\Requests\AccountChangePasswordRequest;
 use App\Http\Requests\AccountChangeUsernameRequest;
 use App\Http\WebController;
 use Domain\EmailChange\Exceptions\TokenNotFoundException;
-use Domain\EmailChange\UseCases\SendVerificationEmailUseCase;
-use Domain\EmailChange\UseCases\UpdateAccountEmailUseCase;
-use Domain\EmailChange\UseCases\VerifyEmailUseCase;
+use Domain\EmailChange\UseCases\SendVerificationEmail;
+use Domain\EmailChange\UseCases\UpdateAccountEmail;
+use Domain\EmailChange\UseCases\VerifyEmail;
 use Entities\Models\Eloquent\AccountEmailChange;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -28,7 +26,7 @@ final class AccountSettingController extends WebController
 
     public function sendVerificationEmail(
         AccountChangeEmailRequest $request,
-        SendVerificationEmailUseCase $sendVerificationEmail,
+        SendVerificationEmail $sendVerificationEmail,
     ): RedirectResponse {
         $input = $request->validated();
         $account = $request->user();
@@ -54,8 +52,8 @@ final class AccountSettingController extends WebController
      */
     public function showConfirmForm(
         Request $request,
-        VerifyEmailUseCase $verifyEmail,
-        UpdateAccountEmailUseCase $updateAccountEmail
+        VerifyEmail $verifyEmail,
+        UpdateAccountEmail $updateAccountEmail
     ) {
         try {
             return $verifyEmail->execute(
@@ -80,32 +78,25 @@ final class AccountSettingController extends WebController
         }
     }
 
-    public function changePassword(
-        AccountChangePasswordRequest $request,
-        UpdateAccountPassword $updatePassword
-    ) {
+    public function changePassword(AccountChangePasswordRequest $request)
+    {
         $input = $request->validated();
 
-        $updatePassword->execute(
-            $request->user(),
-            $input['new_password']
-        );
+        $account = $request->user();
+        $account->updatePassword($input['new_password']);
 
         return redirect()
             ->route('front.account.security')
             ->with(['success_password' => 'Password successfully updated']);
     }
 
-    public function changeUsername(
-        AccountChangeUsernameRequest $request,
-        UpdateAccountUsername $updateUsername
-    ) {
+    public function changeUsername(AccountChangeUsernameRequest $request)
+    {
         $input = $request->validated();
 
-        $updateUsername->execute(
-            account: $request->user(),
-            newUsername: $input['username'],
-        );
+        $account = $request->user();
+        $account->username = $input['username'];
+        $account->save();
 
         return redirect()
             ->route('front.account.settings')

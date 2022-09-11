@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\ApiController;
-use Domain\MinecraftTelemetry\UseCases\UpdateSeenMinecraftPlayerUseCase;
+use Domain\MinecraftTelemetry\UseCases\UpdateSeenMinecraftPlayer;
 use Illuminate\Http\Request;
 
 final class MinecraftTelemetryController extends ApiController
 {
     public function playerSeen(
         Request $request,
-        UpdateSeenMinecraftPlayerUseCase $updateSeenMinecraftPlayer,
+        UpdateSeenMinecraftPlayer $updateSeenMinecraftPlayer,
     ) {
         $this->validateRequest($request->all(), [
             'uuid' => 'required|string',

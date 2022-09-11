@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Entities\Models\Eloquent\Account;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use Library\Auditing\Causers\SystemCauser;
+use Library\Auditing\Causers\SystemCauseResolver;
 
 final class CleanupUnactivatedAccountsCommand extends Command
 {
@@ -13,7 +15,7 @@ final class CleanupUnactivatedAccountsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'cleanup:unactivated-accounts 
+    protected $signature = 'cleanup:unactivated-accounts
                         {--days= : Number of days to have elapsed since registration}';
 
     /**
@@ -28,6 +30,8 @@ final class CleanupUnactivatedAccountsCommand extends Command
      */
     public function handle()
     {
+        SystemCauseResolver::setCauser(SystemCauser::UNACTIVATED_CLEANUP);
+
         $elapsedDaysToDelete = $this->option('days')
             ?: config('registration.days_elapsed_until_unactivated_purge', 14);
 

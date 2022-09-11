@@ -4,10 +4,11 @@ namespace Entities\Models\Eloquent;
 
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Library\Auditing\Traits\LogsActivity;
-use Spatie\Activitylog\LogOptions;
+use Library\Auditing\AuditAttributes;
+use Library\Auditing\Concerns\LogsActivity;
+use Library\Auditing\Contracts\LinkableAuditModel;
 
-final class Page extends Model
+final class Page extends Model implements LinkableAuditModel
 {
     use HasFactory;
     use LogsActivity;
@@ -41,22 +42,25 @@ final class Page extends Model
      */
     protected $hidden = [];
 
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->logAll()
-            ->dontSubmitEmptyLogs()
-            ->logOnlyDirty()
-            ->logExcept(['page_id', 'created_at', 'updated_at']);
-    }
+    protected $casts = [
+        'is_draft' => 'boolean',
+    ];
 
-    public function getActivitySubjectLink(): ?string
+    public function auditAttributeConfig(): AuditAttributes
     {
-        return route('front.panel.pages.edit', $this);
+        return AuditAttributes::build()
+            ->add('url', 'title', 'description')
+            ->addMultiline('contents')
+            ->addBoolean('is_draft');
     }
 
     public function getActivitySubjectName(): ?string
     {
         return $this->title;
+    }
+
+    public function getActivitySubjectLink(): ?string
+    {
+        return route('front.panel.pages.edit', $this);
     }
 }

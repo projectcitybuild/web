@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\WebController;
-use Domain\Login\UseCases\LogoutUseCase;
+use Domain\Login\UseCases\LogoutAccount;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 final class LogoutController extends WebController
 {
     public function __construct(
-        private LogoutUseCase $logoutUseCase,
+        private LogoutAccount $logoutUseCase,
     ) {
     }
 

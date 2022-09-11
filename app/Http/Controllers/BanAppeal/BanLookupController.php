@@ -5,8 +5,8 @@ namespace App\Http\Controllers\BanAppeal;
 use App\Exceptions\Http\TooManyRequestsException;
 use App\Http\Requests\BanLookupRequest;
 use App\Http\WebController;
-use Domain\Bans\Exceptions\PlayerNotBannedException;
-use Domain\Bans\UseCases\LookupBanUseCase;
+use Domain\Bans\Exceptions\NotBannedException;
+use Domain\Bans\UseCases\LookupBan;
 use Illuminate\Validation\ValidationException;
 use Library\RateLimit\Storage\SessionTokenStorage;
 use Library\RateLimit\TokenBucket;
@@ -15,7 +15,7 @@ use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 
 class BanLookupController extends WebController
 {
-    public function __invoke(BanLookupRequest $request, LookupBanUseCase $useCase)
+    public function __invoke(BanLookupRequest $request, LookupBan $useCase)
     {
         if (! $this->rateLimiter()->consume(1)) {
             throw ValidationException::withMessages([
@@ -31,7 +31,7 @@ class BanLookupController extends WebController
             throw ValidationException::withMessages([
                 'error' => ['The Mojang API is too busy currently. Please try again later'],
             ]);
-        } catch (PlayerNotBannedException) {
+        } catch (NotBannedException) {
             throw ValidationException::withMessages([
                 'error' => ['This player has no active bans.'],
             ]);

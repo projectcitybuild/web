@@ -3,7 +3,6 @@
 namespace Domain\ServerStatus\Adapters;
 
 use Domain\ServerStatus\Entities\ServerQueryResult;
-use Domain\ServerStatus\ServerQueryAdapter;
 use Illuminate\Support\Facades\Log;
 use xPaw\MinecraftPing;
 use xPaw\MinecraftPingException;
@@ -17,6 +16,10 @@ final class MinecraftQueryAdapter implements ServerQueryAdapter
             $response = $ping->Query();
 
             Log::debug('Successfully pinged server', ['response' => $response]);
+
+            if ($response === false) {
+                return ServerQueryResult::offline();
+            }
 
             $players = $response['players'];
 

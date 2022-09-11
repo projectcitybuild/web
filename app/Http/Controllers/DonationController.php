@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\WebController;
-use Domain\Donations\UseCases\BeginCheckoutUseCase;
+use Domain\Donations\UseCases\BeginCheckout;
 use Illuminate\Http\Request;
 
 final class DonationController extends WebController
@@ -22,7 +22,7 @@ final class DonationController extends WebController
 
     public function checkout(
         Request $request,
-        BeginCheckoutUseCase $beginCheckoutUseCase,
+        BeginCheckout $beginCheckoutUseCase,
     ) {
         $account = $request->user();
         if ($account === null) {
