@@ -7,7 +7,7 @@ use Repositories\PlayerWarningRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\PlayerLookup;
 
-final class GetWarning
+final class GetWarnings
 {
     public function __construct(
         private readonly PlayerLookup $playerLookup,
@@ -17,7 +17,7 @@ final class GetWarning
 
     public function execute(
         PlayerIdentifier $playerIdentifier,
-        string $playerAlias,
+        ?string $playerAlias = null, // TODO: use this later for nickname syncing
     ): Collection {
         $player = $this->playerLookup->find(identifier: $playerIdentifier);
 

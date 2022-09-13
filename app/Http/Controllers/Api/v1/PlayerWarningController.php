@@ -6,7 +6,7 @@ use App\Exceptions\Http\BadRequestException;
 use App\Http\ApiController;
 use Domain\Warnings\UseCases\AcknowledgeWarning;
 use Domain\Warnings\UseCases\CreateWarning;
-use Domain\Warnings\UseCases\GetWarning;
+use Domain\Warnings\UseCases\GetWarnings;
 use Entities\Models\PlayerIdentifierType;
 use Entities\Resources\PlayerWarningResource;
 use Illuminate\Http\Request;
@@ -59,8 +59,8 @@ final class PlayerWarningController extends ApiController
      * @throws BadRequestException
      */
     public function show(
-        Request $request,
-        GetWarning $getWarning,
+        Request     $request,
+        GetWarnings $getWarning,
     ): AnonymousResourceCollection {
         $this->validateRequest($request->all(), [
             'player_id' => 'required|max:60',

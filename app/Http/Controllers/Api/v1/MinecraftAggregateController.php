@@ -7,11 +7,13 @@ use App\Http\ApiController;
 use Domain\Badges\UseCases\GetBadges;
 use Domain\Bans\UseCases\GetActiveBan;
 use Domain\Donations\UseCases\GetDonationTiers;
+use Domain\Warnings\UseCases\GetWarnings;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Resources\AccountResource;
 use Entities\Resources\DonationPerkResource;
 use Entities\Resources\GameBanResource;
+use Entities\Resources\PlayerWarningResource;
 use Illuminate\Http\Request;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 
@@ -23,11 +25,13 @@ final class MinecraftAggregateController extends ApiController
         GetActiveBan $getBan,
         GetBadges $getBadges,
         GetDonationTiers $getDonationTier,
+        GetWarnings $getWarnings,
     ) {
         $identifier = PlayerIdentifier::minecraftUUID($uuid);
 
         $ban = $getBan->execute(playerIdentifier: $identifier);
         $badges = $getBadges->execute(identifier: $identifier);
+        $warnings = $getWarnings->execute(playerIdentifier: $identifier);
 
         try {
             $donationTiers = $getDonationTier->execute(uuid: $uuid);
@@ -39,10 +43,11 @@ final class MinecraftAggregateController extends ApiController
 
         return [
             'data' => [
-                'account' => is_null($account) ? null : new AccountResource($account),
-                'ban' => is_null($ban) ? null : new GameBanResource($ban),
+                'account' => is_null($account) ? null : AccountResource::make($account),
+                'ban' => is_null($ban) ? null : GameBanResource::make($ban),
                 'badges' => $badges,
                 'donation_tiers' => DonationPerkResource::collection($donationTiers),
+                'warnings' => PlayerWarningResource::collection($warnings),
             ],
         ];
     }
