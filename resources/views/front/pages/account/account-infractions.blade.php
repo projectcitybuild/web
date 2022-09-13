@@ -15,9 +15,7 @@
         <div class="settings__content">
             <div class="settings__section">
                 <h2 class="settings__section-heading">Bans</h2>
-                <p class="form__description">A record of all your contributions to help keep PCB running.<br>If
-                    you've donated, but it hasn't appeared here, please contact PCB staff via <a
-                        href="https://forums.projectcitybuild.com/c/support/">our discussion forums</a> or Discord.</p>
+                <p class="form__description">If you wish to appeal a ban, use the <a href="{{ route('front.appeal') }}">appeal form</a>.</p>
             </div>
 
             @if($account->gameBans->count() == 0)
@@ -32,7 +30,7 @@
                         <th>Status</th>
                         <th>Reason</th>
                         <th>Banned By</th>
-                        <th>Created At</th>
+                        <th>Ban Date</th>
                         <th>Expires At</th>
                         <th>Unbanned At</th>
                     </tr>
@@ -41,7 +39,7 @@
                     @foreach($account->gameBans as $ban)
                         <tr>
                             <td>{{ $ban->isActive() ? 'Active' : 'Inactive' }}</td>
-                            <td>{{ $ban->created_at?->toFormattedDateString() ?? 'Unknown' }}</td>
+                            <td>{{ $ban->reason }}</td>
                             <td>{{ $ban->staffPlayer?->getBanReadableName() ?? 'System' }}</td>
                             <td>{{ $ban->created_at?->toFormattedDateString() ?? 'Unknown' }}</td>
                             <td>{{ $ban->expires_at?->toFormattedDateString() ?? 'Never' }}</td>
@@ -75,7 +73,7 @@
                     </thead>
                     <tbody>
                     @foreach($account->warnings as $warning)
-                        <tr class="test">
+                        <tr class="{{ !$warning->is_acknowledged ? 'warning' : '' }}">
                             <td>{{ $warning->reason }}</td>
                             <td>{{ $warning->warnerPlayer->currentAlias()?->alias ?? '(No Alias)' }}</td>
                             <td>{{ $warning->created_at?->toFormattedDateString() ?? 'Unknown' }}</td>
