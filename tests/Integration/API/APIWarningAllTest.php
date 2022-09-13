@@ -49,17 +49,17 @@ class APIWarningAllTest extends IntegrationTestCase
         $this->authoriseTokenFor(ScopeKey::WARNING_LOOKUP);
 
         $player = MinecraftPlayer::factory()->create();
-        $staffPlayer1 = MinecraftPlayer::factory()->create();
-        $staffPlayer2 = MinecraftPlayer::factory()->create();
 
         $warning1 = PlayerWarning::factory()
             ->for($player, 'warnedPlayer')
-            ->for($staffPlayer1, 'warnerPlayer')
+            ->for(MinecraftPlayer::factory(), 'warnerPlayer')
+            ->createdAt(now())
             ->create();
 
         $warning2 = PlayerWarning::factory()
             ->for($player, 'warnedPlayer')
-            ->for($staffPlayer2, 'warnerPlayer')
+            ->for(MinecraftPlayer::factory(), 'warnerPlayer')
+            ->createdAt(now()->subDay())
             ->create();
 
         $this->withAuthorizationServerToken()

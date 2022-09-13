@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\PlayerWarning;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -41,5 +42,15 @@ class PlayerWarningFactory extends Factory
     public function warnedPlayer(MinecraftPlayer|Factory $player): PlayerWarningFactory
     {
         return $this->for($player, 'warnedPlayer');
+    }
+
+    public function createdAt(Carbon $date)
+    {
+        return $this->state(function (array $attributes) use ($date) {
+            return [
+                'created_at' => $date,
+                'updated_at' => $date,
+            ];
+        });
     }
 }
