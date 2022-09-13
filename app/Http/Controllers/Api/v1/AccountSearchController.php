@@ -13,7 +13,7 @@ class AccountSearchController
         $query = $request->input('query');
 
         $accounts = Account::search($query)
-            ->limit(25)
+            ->take(25)
             ->get();
 
         return AccountResource::collection($accounts);

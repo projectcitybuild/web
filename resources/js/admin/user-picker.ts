@@ -1,8 +1,8 @@
 import Choices from 'choices.js';
 
 // TODO: this will break when a port is present
-const baseURL = import.meta.env.VITE_APP_URL;
-const accountSearchURL = baseURL + '/api/accounts/search'
+const baseURL = import.meta.env.VITE_APP_URL + '/api/';
+const accountSearchURL = baseURL + 'v1/accounts/search'
 
 const element = document.querySelector('[data-pcb-user-picker]') as HTMLSelectElement;
 if (element !== null) {
@@ -27,7 +27,7 @@ if (element !== null) {
 
                                 // @ts-expect-error
                                 return json.data.map((account) => {
-                                    return { value: account.account_id, label: `${account.username} (${account.email})` }
+                                    return { value: account.account_id, label: `${account.username} (#${account.account_id})` }
                                 });
                             } catch (err) {
                                 console.log(err);

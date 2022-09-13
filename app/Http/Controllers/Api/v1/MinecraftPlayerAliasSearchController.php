@@ -13,7 +13,7 @@ class MinecraftPlayerAliasSearchController
         $query = $request->input('query');
 
         $accounts = MinecraftPlayerAlias::search($query)
-            ->limit(25)
+            ->take(25)
             ->with('minecraftPlayer')
             ->get();
 
