@@ -29,13 +29,23 @@
                 <table class="table table--first-col-padded table--striped">
                     <thead>
                     <tr>
-                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Reason</th>
+                        <th>Banned By</th>
+                        <th>Created At</th>
+                        <th>Expires At</th>
+                        <th>Unbanned At</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($account->gameBans as $ban)
                         <tr>
-                            <td>{{ $ban->created_at?->toFormattedDateString() ?? "Unknown" }}</td>
+                            <td>{{ $ban->isActive() ? 'Active' : 'Inactive' }}</td>
+                            <td>{{ $ban->created_at?->toFormattedDateString() ?? 'Unknown' }}</td>
+                            <td>{{ $ban->staffPlayer?->getBanReadableName() ?? 'System' }}</td>
+                            <td>{{ $ban->created_at?->toFormattedDateString() ?? 'Unknown' }}</td>
+                            <td>{{ $ban->expires_at?->toFormattedDateString() ?? 'Never' }}</td>
+                            <td>{{ $ban->unbanned_at?->toFormattedDateString() ?? '-' }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -68,7 +78,7 @@
                         <tr class="test">
                             <td>{{ $warning->reason }}</td>
                             <td>{{ $warning->warnerPlayer->currentAlias()?->alias ?? '(No Alias)' }}</td>
-                            <td>{{ $warning->created_at?->toFormattedDateString() ?? "Unknown" }}</td>
+                            <td>{{ $warning->created_at?->toFormattedDateString() ?? 'Unknown' }}</td>
                             <td>
                                 <i class="fas {{ $warning->is_acknowledged ? 'fa-check' : 'fa-multiply' }}"></i>
                             </td>
