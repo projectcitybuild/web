@@ -34,13 +34,13 @@ class APIWarningAllTest extends IntegrationTestCase
     public function test_requires_scope()
     {
         $this->withAuthorizationServerToken()
-            ->getJson(uri: self::ENDPOINT . '?' . http_build_query($this->validData()))
+            ->getJson(uri: self::ENDPOINT.'?'.http_build_query($this->validData()))
             ->assertForbidden();
 
         $this->authoriseTokenFor(ScopeKey::WARNING_LOOKUP);
 
         $this->withAuthorizationServerToken()
-            ->getJson(uri: self::ENDPOINT . '?' . http_build_query($this->validData()))
+            ->getJson(uri: self::ENDPOINT.'?'.http_build_query($this->validData()))
             ->assertSuccessful();
     }
 
@@ -63,7 +63,7 @@ class APIWarningAllTest extends IntegrationTestCase
             ->create();
 
         $this->withAuthorizationServerToken()
-            ->getJson(uri: self::ENDPOINT . '?' . http_build_query([
+            ->getJson(uri: self::ENDPOINT.'?'.http_build_query([
                 'player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
                 'player_id' => $player->uuid,
                 'player_alias' => 'alias1',
@@ -102,11 +102,11 @@ class APIWarningAllTest extends IntegrationTestCase
         $player = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
 
         $this->withAuthorizationServerToken()
-            ->getJson(uri: self::ENDPOINT . '?' . http_build_query([
-                    'player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
-                    'player_id' => $player->uuid,
-                    'player_alias' => 'alias1',
-                ]))
+            ->getJson(uri: self::ENDPOINT.'?'.http_build_query([
+                'player_type' => PlayerIdentifierType::MINECRAFT_UUID->value,
+                'player_id' => $player->uuid,
+                'player_alias' => 'alias1',
+            ]))
             ->assertJson(['data' => []])
             ->assertSuccessful();
     }

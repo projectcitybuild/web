@@ -59,7 +59,7 @@ final class PlayerWarningController extends ApiController
      * @throws BadRequestException
      */
     public function show(
-        Request     $request,
+        Request $request,
         GetWarnings $getWarning,
     ): AnonymousResourceCollection {
         $this->validateRequest($request->all(), [

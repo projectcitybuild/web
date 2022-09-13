@@ -76,7 +76,6 @@ class APIWarningAcknowledgeTest extends IntegrationTestCase
             ])
             ->assertSuccessful();
 
-
         $this->assertDatabaseHas(
             table: PlayerWarning::getTableName(),
             data: [
