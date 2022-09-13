@@ -4,7 +4,6 @@ namespace Domain\Warnings\UseCases;
 
 use Entities\Models\Eloquent\PlayerWarning;
 use Repositories\PlayerWarningRepository;
-use Shared\PlayerLookup\PlayerLookup;
 
 final class AcknowledgeWarning
 {
