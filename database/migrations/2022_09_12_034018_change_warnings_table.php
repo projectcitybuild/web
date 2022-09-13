@@ -25,6 +25,8 @@ return new class extends Migration
 
             $table->renameColumn(from: 'staff_player_id', to: 'warner_player_id');
             $table->renameColumn(from: 'game_warning_id', to: 'id');
+
+            $table->boolean('is_acknowledged')->default(false)->after('weight');
         });
     }
 
@@ -47,6 +49,8 @@ return new class extends Migration
 
             $table->renameColumn(from: 'warner_player_id', to: 'staff_player_id');
             $table->renameColumn(from: 'id', to: 'game_warning_id');
+
+            $table->dropColumn('is_acknowledged');
         });
     }
 };

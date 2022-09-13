@@ -16,12 +16,16 @@ final class PlayerWarning extends Model
         'warner_player_id',
         'reason',
         'weight',
+        'is_acknowledged',
         'created_at',
         'updated_at',
     ];
     protected $dates = [
         'created_at',
         'updated_at',
+    ];
+    protected $casts = [
+        'is_acknowledged' => 'boolean',
     ];
 
     public function warnedPlayer(): BelongsTo

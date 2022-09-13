@@ -62,19 +62,19 @@ final class PlayerWarningController extends ApiController
     ): AnonymousResourceCollection
     {
         $this->validateRequest($request->all(), [
-            'warned_player_id' => 'required|max:60',
-            'warned_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
-            'warned_player_alias' => 'required',
+            'player_id' => 'required|max:60',
+            'player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
+            'player_alias' => 'required',
         ], [
             'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
         ]);
 
         $warning = $getWarning->execute(
             playerIdentifier: new PlayerIdentifier(
-                key: $request->get('warned_player_id'),
-                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('warned_player_type')),
+                key: $request->get('player_id'),
+                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('player_type')),
             ),
-            playerAlias: $request->get('warned_player_alias'),
+            playerAlias: $request->get('player_alias'),
         );
 
         return PlayerWarningResource::collection($warning);
