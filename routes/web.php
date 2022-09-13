@@ -166,8 +166,13 @@ Route::group([
     Route::get('donations', [AccountDonationController::class, 'index'])
         ->name('account.donations');
 
-    Route::get('infractions', [AccountInfractionsController::class, 'index'])
-        ->name('account.infractions');
+    Route::prefix('infractions')->group(function () {
+        Route::get('/', [AccountInfractionsController::class, 'index'])
+            ->name('account.infractions');
+
+        Route::get('{warningId}/acknowledge', [AccountInfractionsController::class, 'acknowledgeWarning'])
+            ->name('account.infractions.acknowledge');
+    });
 
     Route::get('billing', [AccountBillingController::class, 'index'])
         ->name('account.billing');

@@ -82,7 +82,10 @@
                             </td>
                             <td>
                                 @if (! $warning->is_acknowledged)
-                                    <a class="button button--filled button--is-small" href="">
+                                    <a
+                                        class="button button--filled button--is-small"
+                                        href="{{ route('front.account.infractions.acknowledge', $warning) }}"
+                                    >
                                         <i class="fas fa-eye"></i> Acknowledge
                                     </a>
                                 @endif

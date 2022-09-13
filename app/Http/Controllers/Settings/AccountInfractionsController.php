@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\WebController;
+use Domain\Warnings\UseCases\AcknowledgeWarning;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -15,5 +16,18 @@ final class AccountInfractionsController extends WebController
 
         return view('front.pages.account.account-infractions')
             ->with(compact('account'));
+    }
+
+    public function acknowledgeWarning(
+        Request $request,
+        int $warningId,
+        AcknowledgeWarning $acknowledgeWarning,
+    ) {
+        $acknowledgeWarning->execute(warningId: $warningId);
+
+        return redirect()->back()->with(
+            key: 'success',
+            value: 'Warning acknowledged successfully',
+        );
     }
 }
