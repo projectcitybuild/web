@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\WebController;
-use Entities\Models\Eloquent\Badge;
 use Entities\Models\Eloquent\PlayerWarning;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;

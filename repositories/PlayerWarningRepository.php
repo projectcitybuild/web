@@ -4,7 +4,6 @@ namespace Repositories;
 
 use Entities\Models\Eloquent\PlayerWarning;
 use Illuminate\Database\Eloquent\Collection;
-use Shared\PlayerLookup\Contracts\Player;
 
 final class PlayerWarningRepository
 {

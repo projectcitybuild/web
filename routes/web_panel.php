@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\v1\AccountSearchController;
 use App\Http\Controllers\Panel\AccountActivate;
 use App\Http\Controllers\Panel\AccountApproveEmailChange;
 use App\Http\Controllers\Panel\AccountController;

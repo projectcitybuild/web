@@ -11,7 +11,6 @@ class GenerateScoutIndexesCommand extends Command
 {
     protected $signature = 'generate:scout-index';
     protected $description = 'Creates an index for each searchable scout model';
-
     private $models = [
         Account::class,
         GameBan::class,

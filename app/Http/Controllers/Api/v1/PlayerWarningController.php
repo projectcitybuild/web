@@ -61,8 +61,7 @@ final class PlayerWarningController extends ApiController
     public function show(
         Request $request,
         GetWarning $getWarning,
-    ): AnonymousResourceCollection
-    {
+    ): AnonymousResourceCollection {
         $this->validateRequest($request->all(), [
             'player_id' => 'required|max:60',
             'player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
@@ -95,6 +94,7 @@ final class PlayerWarningController extends ApiController
         $warning = $acknowledgeWarning->execute(
             warningId: $request->get('warning_id'),
         );
+
         return new PlayerWarningResource($warning);
     }
 }
