@@ -159,4 +159,39 @@
             </div>
         </div>
     </div>
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">Warnings</div>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                        <tr>
+                            <th>Reason</th>
+                            <th>Warned By</th>
+                            <th>Created At</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @forelse($minecraftPlayer->warnings as $warning)
+                            <tr class="table-warning">
+                                <td>{{ $warning->reason }}</td>
+                                <td>
+                                    <a href="{{ route('front.panel.minecraft-players.show', $warning->warnerPlayer) }}">
+                                        {{ $warning->warnerPlayer->currentAlias()?->alias ?? '(No Alias)' }}
+                                    </a>
+                                </td>
+                                <td>{{ $warning->created_at }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-muted text-center">No warnings</td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
