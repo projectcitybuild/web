@@ -1,23 +1,74 @@
 <div class="row mb-3">
-    <label for="name" class="col-sm-3 col-form-label horizontal-label">Display Name</label>
+    <label for="name" class="col-sm-3 col-form-label horizontal-label">Player</label>
     <div class="col-sm-9">
-        <select
-            name="account_id"
-            id="account_id"
-            data-pcb-user-picker
-            @isset($warning->warned_player_id)
-                data-account-id="{{ $warning->warnedPlayerId->getKey() }}"
-{{--                data-account-username="{{ $minecraftPlayer->account->username }}"--}}
-{{--                data-account-email="{{ $minecraftPlayer->account->email }}"--}}
-            @endisset
-        >
-        </select>
+        <x-panel.minecraft-player-alias-picker
+            fieldName="warned_player_id"
+            :playerId="$warning?->warnedPlayer?->getKey()"
+            :aliasString="$warning?->warnedPlayer?->currentAlias()?->alias"
+        />
+    </div>
+</div>
+<div class="row mb-3">
+    <label for="name" class="col-sm-3 col-form-label horizontal-label">Warned By</label>
+    <div class="col-sm-9">
+        <x-panel.minecraft-player-alias-picker
+            fieldName="warner_player_id"
+            :playerId="$warning?->warnerPlayer?->getKey()"
+            :aliasString="$warning?->warnerPlayer?->currentAlias()?->alias"
+        />
     </div>
 </div>
 <div class="row mb-3">
     <label for="ip" class="col-sm-3 col-form-label horizontal-label">Reason</label>
     <div class="col-sm-9">
-        <input type="text" id="reason" name="reason" class="form-control" value="{{ old('reason', $warning->reason) }}">
+        <input
+            type="text"
+            id="reason"
+            name="reason"
+            class="form-control"
+            placeholder="Verbal abuse"
+            value="{{ old('reason', $warning->reason) }}"
+        >
+    </div>
+</div>
+<div class="row mb-3">
+    <label for="created_at" class="col-sm-3 col-form-label horizontal-label">Created At</label>
+    <div class="col-sm-9">
+        <input
+            type="text"
+            id="created_at"
+            name="created_at"
+            class="form-control"
+            value="{{ old('created_at', $warning->created_at ?? now()) }}"
+        >
+    </div>
+</div>
+<div class="row mb-3">
+    <label for="created_at" class="col-sm-3 col-form-label horizontal-label">Updated At</label>
+    <div class="col-sm-9">
+        <input
+            type="text"
+            id="updated_at"
+            name="updated_at"
+            class="form-control"
+            value="{{ old('updated_at', $perk->updated_at ?? now()) }}"
+        >
+    </div>
+</div>
+<div class="row mb-3">
+    <label for="is_acknowledged" class="col-sm-3 col-form-label horizontal-label"></label>
+    <div class="col-sm-9">
+        <div class="form-check">
+            <input
+                class="form-check-input"
+                type="checkbox"
+                value="1"
+                id="is_acknowledged"
+                name="is_acknowledged"
+                {{ $warning->is_acknowledged ? 'checked' : '' }}
+            >
+            <label class="form-check-label" for="is_acknowledged">Has been acknowledged by the user?</label>
+        </div>
     </div>
 </div>
 <div class="row mb-3">

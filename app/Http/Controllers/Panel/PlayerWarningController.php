@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Panel;
 use App\Http\WebController;
 use Entities\Models\Eloquent\Badge;
 use Entities\Models\Eloquent\PlayerWarning;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -37,8 +36,9 @@ class PlayerWarningController extends WebController
             'warned_player_id' => 'required|max:60',
             'warner_player_id' => 'required|max:60',
             'reason' => 'required|string',
-            'weight' => 'required|integer',
-            'is_acknowledged' => 'required|boolean',
+            'is_acknowledged' => 'boolean',
+            'created_at' => 'required|date',
+            'updated_at' => 'required|date',
         ]);
 
         if ($validator->fails()) {
@@ -47,9 +47,14 @@ class PlayerWarningController extends WebController
                 ->withInput();
         }
 
-        Badge::create([
-            'display_name' => $request->get('display_name'),
-            'unicode_icon' => $request->get('unicode_icon'),
+        PlayerWarning::create([
+            'warned_player_id' => $request->get('warned_player_id'),
+            'warner_player_id' => $request->get('warner_player_id'),
+            'reason' => $request->get('reason'),
+            'weight' => 1,
+            'is_acknowledged' => $request->get('is_acknowledged', false),
+            'created_at' => $request->get('created_at'),
+            'updated_at' => $request->get('updated_at'),
         ]);
 
         return redirect(route('front.panel.warnings.index'));
@@ -72,8 +77,9 @@ class PlayerWarningController extends WebController
             'warned_player_id' => 'required|max:60',
             'warner_player_id' => 'required|max:60',
             'reason' => 'required|string',
-            'weight' => 'required|integer',
-            'is_acknowledged' => 'required|boolean',
+            'is_acknowledged' => 'boolean',
+            'created_at' => 'required|date',
+            'updated_at' => 'required|date',
         ]);
 
         if ($validator->fails()) {
@@ -82,7 +88,11 @@ class PlayerWarningController extends WebController
                 ->withInput();
         }
 
-        PlayerWarning::find($warningId)->update($request->all());
+        PlayerWarning::find($warningId)->update(
+            array_merge($request->all(), [
+                'is_acknowledged' => $request->get('is_acknowledged', false),
+            ]),
+        );
 
         return redirect(route('front.panel.warnings.index'));
     }

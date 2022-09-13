@@ -4,33 +4,25 @@ namespace App\Console\Commands;
 
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\MinecraftPlayerAlias;
 use Illuminate\Console\Command;
 
 class GenerateScoutIndexesCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'generate:scout-index';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Creates an index for each searchable scout model';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
+    private $models = [
+        Account::class,
+        GameBan::class,
+        MinecraftPlayerAlias::class,
+    ];
+
     public function handle()
     {
-        $this->call('scout:import', ['model' => Account::class]);
-        $this->call('scout:import', ['model' => GameBan::class]);
+        collect($this->models)->each(
+            fn ($class) => $this->call('scout:import', ['model' => $class]),
+        );
 
         return 0;
     }

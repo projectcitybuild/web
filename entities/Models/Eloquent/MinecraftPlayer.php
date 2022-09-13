@@ -53,6 +53,11 @@ final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
         return $this->aliases->last()->alias;
     }
 
+    public function currentAlias(): ?MinecraftPlayerAlias
+    {
+        return $this->aliases->last();
+    }
+
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class, 'account_id', 'account_id');
