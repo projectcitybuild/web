@@ -52,7 +52,14 @@
 
             <div class="settings__section">
                 <h2 class="settings__section-heading">Warnings</h2>
-                <p class="settings__description">Note: Subscriptions will auto-renew their associated perk prior to its expiry date</p>
+                <p class="settings__description">Any infractions incurred. Too many warnings may result in bans or other consequences.</p>
+
+                @if(session()->has('success'))
+                    <div class="alert alert--success">
+                        <h2><i class="fas fa-check"></i> Success</h2>
+                        {{ session()->get('success') }}
+                    </div>
+                @endif
             </div>
 
             @if($account->warnings->count() == 0)

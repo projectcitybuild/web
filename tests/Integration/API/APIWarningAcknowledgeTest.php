@@ -67,6 +67,7 @@ class APIWarningAcknowledgeTest extends IntegrationTestCase
                 'is_acknowledged' => false,
                 'created_at' => $warning->created_at,
                 'updated_at' => $warning->updated_at,
+                'acknowledged_at' => null,
             ],
         );
 
@@ -87,6 +88,7 @@ class APIWarningAcknowledgeTest extends IntegrationTestCase
                 'is_acknowledged' => true,
                 'created_at' => $warning->created_at,
                 'updated_at' => now(),
+                'acknowledged_at' => now(),
             ],
         );
     }

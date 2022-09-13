@@ -38,6 +38,7 @@ final class PlayerWarningRepository
     public function acknowledge(PlayerWarning $warning)
     {
         $warning->is_acknowledged = true;
+        $warning->acknowledged_at = now();
         $warning->save();
     }
 }

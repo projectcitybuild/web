@@ -19,10 +19,12 @@ final class PlayerWarning extends Model
         'is_acknowledged',
         'created_at',
         'updated_at',
+        'acknowledged_at',
     ];
     protected $dates = [
         'created_at',
         'updated_at',
+        'acknowledged_at',
     ];
     protected $casts = [
         'is_acknowledged' => 'boolean',

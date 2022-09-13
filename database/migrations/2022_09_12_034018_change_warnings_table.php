@@ -27,6 +27,7 @@ return new class extends Migration
             $table->renameColumn(from: 'game_warning_id', to: 'id');
 
             $table->boolean('is_acknowledged')->default(false)->after('weight');
+            $table->dateTime('acknowledged_at')->nullable()->after('is_acknowledged');
         });
     }
 
@@ -51,6 +52,7 @@ return new class extends Migration
             $table->renameColumn(from: 'id', to: 'game_warning_id');
 
             $table->dropColumn('is_acknowledged');
+            $table->dropColumn('acknowledged_at');
         });
     }
 };

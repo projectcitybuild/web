@@ -9,7 +9,6 @@ use Shared\PlayerLookup\PlayerLookup;
 final class AcknowledgeWarning
 {
     public function __construct(
-        private readonly PlayerLookup $playerLookup,
         private readonly PlayerWarningRepository $playerWarningRepository,
     ) {
     }
