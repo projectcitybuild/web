@@ -54,6 +54,18 @@
     </div>
 </div>
 <div class="row mb-3">
+    <label for="created_at" class="col-sm-3 col-form-label horizontal-label">Acknowledged At</label>
+    <div class="col-sm-9">
+        <input
+            type="text"
+            id="acknowledged_at"
+            name="acknowledged_at"
+            class="form-control"
+            value="{{ old('acknowledged_at', $warning->acknowledged_at) }}"
+        >
+    </div>
+</div>
+<div class="row mb-3">
     <label for="is_acknowledged" class="col-sm-3 col-form-label horizontal-label"></label>
     <div class="col-sm-9">
         <div class="form-check">
@@ -63,7 +75,7 @@
                 value="1"
                 id="is_acknowledged"
                 name="is_acknowledged"
-                {{ $warning->is_acknowledged ? 'checked' : '' }}
+                {{ ($warning->is_acknowledged || old('is_acknowledged')) ? 'checked' : '' }}
             >
             <label class="form-check-label" for="is_acknowledged">Has been acknowledged by the user?</label>
         </div>

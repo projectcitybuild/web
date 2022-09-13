@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class PlayerWarningController extends WebController
 {
@@ -38,6 +39,7 @@ class PlayerWarningController extends WebController
             'is_acknowledged' => 'boolean',
             'created_at' => 'required|date',
             'updated_at' => 'required|date',
+            'acknowledged_at' => ['date', 'nullable', Rule::requiredIf($request->has('is_acknowledged'))],
         ]);
 
         if ($validator->fails()) {
@@ -54,6 +56,7 @@ class PlayerWarningController extends WebController
             'is_acknowledged' => $request->get('is_acknowledged', false),
             'created_at' => $request->get('created_at'),
             'updated_at' => $request->get('updated_at'),
+            'acknowledged_at' => $request->get('acknowledged_at'),
         ]);
 
         return redirect(route('front.panel.warnings.index'));
@@ -79,6 +82,7 @@ class PlayerWarningController extends WebController
             'is_acknowledged' => 'boolean',
             'created_at' => 'required|date',
             'updated_at' => 'required|date',
+            'acknowledged_at' => ['date', 'nullable', Rule::requiredIf($request->has('is_acknowledged'))],
         ]);
 
         if ($validator->fails()) {

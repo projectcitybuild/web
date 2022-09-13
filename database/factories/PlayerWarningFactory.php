@@ -25,12 +25,15 @@ class PlayerWarningFactory extends Factory
     {
         $createdAt = $this->faker->dateTimeBetween('-5 years', 'now');
 
+        $isAcknowledged = rand(0, 1) == 0;
+
         return [
             'reason' => $this->faker->sentence,
             'weight' => $this->faker->randomNumber(nbDigits: 1),
-            'is_acknowledged' => false,
+            'is_acknowledged' => $isAcknowledged,
             'created_at' => $createdAt,
             'updated_at' => $createdAt,
+            'acknowledged_at' => ($isAcknowledged) ? $this->faker->dateTimeBetween('-5 years', 'now') : null,
         ];
     }
 
