@@ -146,6 +146,7 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
                     'ban' => [],
                     'badges' => [],
                     'donation_tiers' => [],
+                    'warnings' => [],
                 ],
             ]);
     }

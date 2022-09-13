@@ -2,7 +2,7 @@
 
 namespace Domain\Warnings\UseCases;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Repositories\PlayerWarningRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\PlayerLookup;
@@ -20,6 +20,9 @@ final class GetWarnings
         ?string $playerAlias = null, // TODO: use this later for nickname syncing
     ): Collection {
         $player = $this->playerLookup->find(identifier: $playerIdentifier);
+        if ($player === null) {
+            return collect();
+        }
 
         return $this->playerWarningRepository->all(
             playerId: $player->getKey(),
