@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\Eloquent\MinecraftPlayerAlias;
 use Entities\Models\Eloquent\PlayerWarning;
 use Illuminate\Database\Seeder;
 
@@ -18,6 +19,7 @@ class PlayerWarningSeeder extends Seeder
     {
         $staffPlayers = collect([
             MinecraftPlayer::factory()->create(),
+            tap(MinecraftPlayer::factory()->create(), fn ($player) => MinecraftPlayerAlias::factory()->for($player)->create()),
             MinecraftPlayer::factory()->for(Account::factory())->create(),
         ]);
 

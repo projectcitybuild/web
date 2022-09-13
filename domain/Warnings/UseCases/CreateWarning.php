@@ -22,6 +22,7 @@ final class CreateWarning
         string $warnerPlayerAlias,
         string $reason,
         float $weight,
+        bool $isAcknowledged,
     ): PlayerWarning {
         $warnedPlayer = $this->playerLookup->findOrCreate(
             identifier: $warnedPlayerIdentifier,
@@ -37,6 +38,7 @@ final class CreateWarning
             warnerPlayerId: $warnerPlayer->getKey(),
             reason: $reason,
             weight: $weight,
+            isAcknowledged: $isAcknowledged,
         );
     }
 }

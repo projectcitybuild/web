@@ -2,6 +2,7 @@ import Choices from 'choices.js';
 
 // TODO: this will break when a port is present
 const baseURL = import.meta.env.VITE_APP_URL;
+const accountSearchURL = baseURL + '/api/accounts/search'
 
 const element = document.querySelector('[data-pcb-user-picker]') as HTMLSelectElement;
 if (element !== null) {
@@ -21,7 +22,7 @@ if (element !== null) {
                         choices.clearChoices();
                         choices.setChoices(async () => {
                             try {
-                                const accounts = await fetch(baseURL + '/panel/api/accounts?query=' + query);
+                                const accounts = await fetch(accountSearchURL + '?query=' + query);
                                 const json = await accounts.json()
 
                                 // @ts-expect-error

@@ -12,12 +12,14 @@ final class PlayerWarningRepository
         int $warnerPlayerId,
         string $reason,
         float $weight,
+        bool $isAcknowledged,
     ): PlayerWarning {
         return PlayerWarning::create([
             'warned_player_id' => $warnedPlayerId,
             'warner_player_id' => $warnerPlayerId,
             'reason' => $reason,
             'weight' => $weight,
+            'is_acknowledged' => $isAcknowledged,
         ]);
     }
 

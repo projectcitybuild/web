@@ -48,6 +48,7 @@ final class PlayerWarningController extends ApiController
             warnerPlayerAlias: $request->get('warner_player_alias'),
             reason: $request->get('reason'),
             weight: $request->get('weight'),
+            isAcknowledged: false,
         );
 
         return new PlayerWarningResource($warning);
