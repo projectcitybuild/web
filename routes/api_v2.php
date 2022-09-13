@@ -43,8 +43,12 @@ Route::prefix('warnings')->group(function () {
     Route::get('/', [PlayerWarningController::class, 'show'])
         ->middleware(RequiresServerTokenScope::middleware(ScopeKey::WARNING_LOOKUP));
 
-    Route::post('/', [PlayerWarningController::class, 'store'])
-        ->middleware(RequiresServerTokenScope::middleware(ScopeKey::WARNING_UPDATE));
+    Route::middleware([
+        RequiresServerTokenScope::middleware(ScopeKey::WARNING_UPDATE),
+    ])->group(function () {
+        Route::post('/', [PlayerWarningController::class, 'store']);
+        Route::post('acknowledge', [PlayerWarningController::class, 'acknowledge']);
+    });
 });
 
 Route::prefix('minecraft/{minecraftUUID}')->group(function () {

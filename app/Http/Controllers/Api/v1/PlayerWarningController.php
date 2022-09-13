@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Exceptions\Http\BadRequestException;
 use App\Http\ApiController;
+use Domain\Warnings\UseCases\AcknowledgeWarning;
 use Domain\Warnings\UseCases\CreateWarning;
 use Domain\Warnings\UseCases\GetWarning;
 use Entities\Models\PlayerIdentifierType;
@@ -79,5 +80,21 @@ final class PlayerWarningController extends ApiController
         );
 
         return PlayerWarningResource::collection($warning);
+    }
+
+    /**
+     * @throws BadRequestException
+     */
+    public function acknowledge(
+        Request $request,
+        AcknowledgeWarning $acknowledgeWarning,
+    ): PlayerWarningResource {
+        $this->validateRequest($request->all(), [
+            'warning_id' => 'required|integer',
+        ]);
+        $warning = $acknowledgeWarning->execute(
+            warningId: $request->get('warning_id'),
+        );
+        return new PlayerWarningResource($warning);
     }
 }

@@ -4,6 +4,7 @@ namespace Repositories;
 
 use Entities\Models\Eloquent\PlayerWarning;
 use Illuminate\Database\Eloquent\Collection;
+use Shared\PlayerLookup\Contracts\Player;
 
 final class PlayerWarningRepository
 {
@@ -28,5 +29,16 @@ final class PlayerWarningRepository
         return PlayerWarning::where('warned_player_id', $playerId)
             ->orderBy('created_at', 'desc')
             ->get();
+    }
+
+    public function find(int $warningId): ?PlayerWarning
+    {
+        return PlayerWarning::find($warningId);
+    }
+
+    public function acknowledge(PlayerWarning $warning)
+    {
+        $warning->is_acknowledged = true;
+        $warning->save();
     }
 }
