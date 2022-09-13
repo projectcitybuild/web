@@ -59,7 +59,7 @@ class APIWarningAllTest extends IntegrationTestCase
 
         $warning2 = PlayerWarning::factory()
             ->for($player, 'warnedPlayer')
-            ->for($staffPlayer1, 'warnerPlayer')
+            ->for($staffPlayer2, 'warnerPlayer')
             ->create();
 
         $this->withAuthorizationServerToken()

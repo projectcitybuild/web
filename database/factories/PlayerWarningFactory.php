@@ -27,6 +27,7 @@ class PlayerWarningFactory extends Factory
         return [
             'reason' => $this->faker->sentence,
             'weight' => $this->faker->randomNumber(nbDigits: 1),
+            'is_acknowledged' => false,
             'created_at' => $createdAt,
             'updated_at' => $createdAt,
         ];
