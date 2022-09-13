@@ -21,14 +21,12 @@
 <div class="row mb-3">
     <label for="ip" class="col-sm-3 col-form-label horizontal-label">Reason</label>
     <div class="col-sm-9">
-        <input
-            type="text"
+        <textarea
             id="reason"
             name="reason"
+            placeholder="Put just a description of the offense here. The player will see it and need to press a button to acknowledge it"
             class="form-control"
-            placeholder="Verbal abuse"
-            value="{{ old('reason', $warning->reason) }}"
-        >
+        >{{ old('reason', $warning->reason) }}</textarea>
     </div>
 </div>
 <div class="row mb-3">
