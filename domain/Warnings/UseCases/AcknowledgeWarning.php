@@ -3,7 +3,7 @@
 namespace Domain\Warnings\UseCases;
 
 use Entities\Models\Eloquent\PlayerWarning;
-use Repositories\PlayerWarningRepository;
+use Repositories\Warnings\PlayerWarningRepository;
 
 final class AcknowledgeWarning
 {
@@ -25,8 +25,6 @@ final class AcknowledgeWarning
             abort(410);
         }
 
-        $this->playerWarningRepository->acknowledge($warning);
-
-        return $warning;
+        return $this->playerWarningRepository->acknowledge($warning);
     }
 }

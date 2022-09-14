@@ -1,11 +1,11 @@
 <?php
 
-namespace Repositories;
+namespace Repositories\Warnings;
 
 use Entities\Models\Eloquent\PlayerWarning;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
-final class PlayerWarningRepository
+final class EloquentPlayerWarningRepository implements PlayerWarningRepository
 {
     public function create(
         int $warnedPlayerId,
@@ -35,10 +35,12 @@ final class PlayerWarningRepository
         return PlayerWarning::find($warningId);
     }
 
-    public function acknowledge(PlayerWarning $warning)
+    public function acknowledge(PlayerWarning $warning): PlayerWarning
     {
         $warning->is_acknowledged = true;
         $warning->acknowledged_at = now();
         $warning->save();
+
+        return $warning;
     }
 }

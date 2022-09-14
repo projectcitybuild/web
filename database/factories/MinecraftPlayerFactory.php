@@ -22,6 +22,7 @@ class MinecraftPlayerFactory extends Factory
     public function definition()
     {
         return [
+            'player_minecraft_id' => $this->faker->randomNumber(),
             'uuid' => str_replace('-', '', $this->faker->uuid),
             'last_synced_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),
             'last_seen_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),

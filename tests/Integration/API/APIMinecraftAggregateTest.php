@@ -124,7 +124,7 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
                             'is_acknowledged' => $warning->is_acknowledged,
                             'created_at' => $warning->created_at->timestamp,
                             'updated_at' => $warning->updated_at->timestamp,
-                            'acknowledged_at' => $warning->acknowledged_at->timestamp,
+                            'acknowledged_at' => $warning->acknowledged_at?->timestamp,
                         ],
                     ],
                 ],
