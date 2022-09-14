@@ -16,9 +16,11 @@ class DatabaseSeeder extends Seeder
         $this->call(ServerSeeder::class);
         $this->call(GroupSeeder::class);
         $this->call(AccountSeeder::class);
+        $this->call(MinecraftPlayerSeeder::class);
         $this->call(GameBanSeeder::class);
+        $this->call(PlayerWarningSeeder::class);
         $this->call(DonationSeeder::class);
         $this->call(BadgeSeeder::class);
-        $this->call(ServerTokenScopeSeeder::class);
+        $this->call(ServerTokenSeeder::class);
     }
 }

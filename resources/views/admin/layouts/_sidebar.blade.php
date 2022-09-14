@@ -59,6 +59,21 @@
             @endscope
         </ul>
 
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Infractions</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+            @scope(Entities\Models\PanelGroupScope::MANAGE_WARNINGS)
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('panel/warnings*') ? 'active' : '' }}"
+                   href="{{ route('front.panel.warnings.index') }}">
+                    <i class="fas fa-exclamation-triangle fa-fw"></i>
+                    Warnings
+                </a>
+            </li>
+            @endscope
+        </ul>
+
         @scope(Entities\Models\PanelGroupScope::MANAGE_PAGES)
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Content</span>

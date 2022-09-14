@@ -4,12 +4,12 @@ namespace Domain\Badges\UseCases;
 
 use Entities\Models\Eloquent\Badge;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\PlayerLookup;
+use Shared\PlayerLookup\Service\ConcretePlayerLookup;
 
 final class GetBadges
 {
     public function __construct(
-        private readonly PlayerLookup $playerLookup,
+        private readonly ConcretePlayerLookup $playerLookup,
     ) {
     }
 

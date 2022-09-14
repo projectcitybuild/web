@@ -10,6 +10,7 @@ use Entities\Models\Eloquent\DonationTier;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\Group;
 use Entities\Models\Eloquent\MinecraftPlayer;
+use Entities\Models\Eloquent\PlayerWarning;
 use Entities\Models\Eloquent\Server;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\IntegrationTestCase;
@@ -55,6 +56,12 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
                 'donation_id' => $donation->getKey(),
                 'donation_tier_id' => $tier->getKey(),
             ]);
+
+        $warning = PlayerWarning::factory()
+            ->warnedBy($staffPlayer)
+            ->warnedPlayer($player)
+            ->acknowledged(false)
+            ->create();
 
         $this->getJson($this->endpoint($player))
             ->assertJson([
@@ -108,6 +115,20 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
                             ],
                         ],
                     ],
+                    'warnings' => [
+                        [
+                            'id' => $warning->getKey(),
+                            'warned_player_id' => $player->getKey(),
+                            'warner_player_id' => $staffPlayer->getKey(),
+                            'reason' => $warning->reason,
+                            'additional_info' => $warning->additional_info,
+                            'weight' => $warning->weight,
+                            'is_acknowledged' => $warning->is_acknowledged,
+                            'created_at' => $warning->created_at->timestamp,
+                            'updated_at' => $warning->updated_at->timestamp,
+                            'acknowledged_at' => $warning->acknowledged_at?->timestamp,
+                        ],
+                    ],
                 ],
             ]);
     }
@@ -133,6 +154,7 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
                     'ban' => [],
                     'badges' => [],
                     'donation_tiers' => [],
+                    'warnings' => [],
                 ],
             ]);
     }
@@ -146,6 +168,7 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
                     'ban' => [],
                     'badges' => [],
                     'donation_tiers' => [],
+                    'warnings' => [],
                 ],
             ]);
     }
@@ -161,6 +184,7 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
                     'ban' => [],
                     'badges' => [],
                     'donation_tiers' => [],
+                    'warnings' => [],
                 ],
             ]);
     }
@@ -196,6 +220,7 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
                     ],
                     'badges' => [],
                     'donation_tiers' => [],
+                    'warnings' => [],
                 ],
             ]);
     }

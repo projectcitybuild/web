@@ -8,12 +8,12 @@ use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Repositories\GameBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\PlayerLookup;
+use Shared\PlayerLookup\Service\ConcretePlayerLookup;
 use Tests\TestCase;
 
 class CreateBanTest extends TestCase
 {
-    private readonly PlayerLookup $playerLookup;
+    private readonly ConcretePlayerLookup $playerLookup;
     private readonly GameBanRepository $gameBanRepository;
     private readonly CreateBan $useCase;
 
@@ -22,7 +22,7 @@ class CreateBanTest extends TestCase
         parent::setUp();
 
         $this->gameBanRepository = \Mockery::mock(GameBanRepository::class);
-        $this->playerLookup = \Mockery::mock(PlayerLookup::class);
+        $this->playerLookup = \Mockery::mock(ConcretePlayerLookup::class);
 
         $this->useCase = new CreateBan(
             gameBanRepository: $this->gameBanRepository,

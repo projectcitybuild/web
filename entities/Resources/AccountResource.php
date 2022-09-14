@@ -6,13 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 final class AccountResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request
-     * @return array
-     */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'account_id' => $this->account_id,

@@ -11,7 +11,8 @@ use Library\Auditing\Contracts\LinkableAuditModel;
 
 final class Badge extends Model implements LinkableAuditModel
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
     use LogsActivity;
 
     protected $table = 'badges';

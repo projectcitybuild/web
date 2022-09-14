@@ -8,12 +8,12 @@ use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Repositories\BalanceHistoryRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\PlayerLookup;
+use Shared\PlayerLookup\Service\ConcretePlayerLookup;
 use Tests\TestCase;
 
 class DeductBalanceTest extends TestCase
 {
-    private PlayerLookup $playerLookup;
+    private ConcretePlayerLookup $playerLookup;
     private BalanceHistoryRepository $balanceHistoryRepository;
     private DeductBalance $useCase;
 
@@ -21,7 +21,7 @@ class DeductBalanceTest extends TestCase
     {
         parent::setUp();
 
-        $this->playerLookup = \Mockery::mock(PlayerLookup::class);
+        $this->playerLookup = \Mockery::mock(ConcretePlayerLookup::class);
         $this->balanceHistoryRepository = \Mockery::mock(BalanceHistoryRepository::class);
 
         $this->useCase = new DeductBalance(

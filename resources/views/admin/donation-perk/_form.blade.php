@@ -7,17 +7,7 @@
 <div class="row mb-3">
     <label for="account_id" class="col-sm-3 col-form-label horizontal-label">Account ID</label>
     <div class="col-sm-9">
-        <select
-            name="account_id"
-            id="account_id"
-            data-pcb-user-picker
-            @isset($perk->account_id)
-                data-account-id="{{ $perk->account->getKey() }}"
-                data-account-username="{{ $perk->account->username }}"
-                data-account-email="{{ $perk->account->email }}"
-            @endisset
-        >
-        </select>
+        <x-panel.account-picker :account="$perk->account" />
     </div>
 </div>
 <div class="row mb-3">

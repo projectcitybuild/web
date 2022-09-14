@@ -7,6 +7,7 @@ use App\Console\Commands\CleanupExpiredPasswordResetsCommand;
 use App\Console\Commands\CleanupUnactivatedAccountsCommand;
 use App\Console\Commands\DeactivateDonatorPerksCommand;
 use App\Console\Commands\DeactivateExpiredBansCommand;
+use App\Console\Commands\GenerateScoutIndexesCommand;
 use App\Console\Commands\GenerateSitemapCommand;
 use App\Console\Commands\RepairMissingGroupsCommand;
 use App\Console\Commands\RewardCurrencyToDonorsCommand;
@@ -32,6 +33,7 @@ class Kernel extends ConsoleKernel
         RewardCurrencyToDonorsCommand::class,
         ServerQueryCommand::class,
         AccountCreatedAtImport::class,
+        GenerateScoutIndexesCommand::class,
     ];
 
     /**

@@ -45,6 +45,16 @@
                 Game Accounts
             </a>
         </li>
+
+        <li @if(\Route::currentRouteName() == 'front.account.infractions') class="side-menu--active" @endif>
+            <a href="{{ route('front.account.infractions') }}">
+                    <span class="fa-stack">
+                        <i class="fas fa-square fa-stack-2x"></i>
+                        <i class="fas fa-ban fa-stack-1x fa-inverse"></i>
+                    </span>
+                Infractions
+            </a>
+        </li>
         <li @if(\Route::currentRouteName() == 'front.account.billing') class="side-menu--active" @endif>
             <a href="{{ route('front.account.billing') }}">
                     <span class="fa-stack">

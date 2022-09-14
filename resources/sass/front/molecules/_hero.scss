@@ -13,24 +13,24 @@
     }
 
     &.bg-1 {
-        background-image: linear-gradient(to right, hsla(0, 0, 0, 0) 40%, hsla(0, 21%, 7%, 79%)),
+        background-image: linear-gradient(to right, hsla(0, 0%, 0%, 0) 40%, hsla(0, 21%, 7%, 79%)),
                           url('/resources/images/hero-bg1.png');
     }
     &.bg-2 {
-        background-image: linear-gradient(to right, hsla(0, 0, 0, 0.2) 20%, hsla(0, 21%, 7%, 85%)),
-                          linear-gradient(hsla(0, 0, 0, 0.2), hsla(0, 0, 0, 0.2)),
+        background-image: linear-gradient(to right, hsla(0, 0%, 0%, 0.2) 20%, hsla(0, 21%, 7%, 85%)),
+                          linear-gradient(hsla(0, 0%, 0%, 0.2), hsla(0, 0%, 0%, 0.2)),
                           url('/resources/images/hero-bg4.png');
     }
     &.bg-3 {
-        background-image: linear-gradient(to right, hsla(0, 0, 0, 0) 40%, hsla(0, 21%, 7%, 79%)),
+        background-image: linear-gradient(to right, hsla(0, 0%, 0%, 0) 40%, hsla(0, 21%, 7%, 79%)),
                           url('/resources/images/hero-bg5.png');
     }
     &.bg-4 {
-        background-image: linear-gradient(to right, hsla(0, 0, 0, 0.25) 20%, hsla(0, 21%, 7%, 90%)),
+        background-image: linear-gradient(to right, hsla(0, 0%, 0%, 0.25) 20%, hsla(0, 21%, 7%, 90%)),
                           url('/resources/images/hero-bg6.png');
     }
     &.bg-5 {
-        background-image: linear-gradient(to right, hsla(0, 0, 0, 0) 40%, hsla(0, 21%, 7%, 79%)),
+        background-image: linear-gradient(to right, hsla(0, 0%, 0%, 0) 40%, hsla(0, 21%, 7%, 79%)),
                           url('/resources/images/hero-bg7.png');
     }
 
@@ -38,7 +38,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        background-image: linear-gradient(to right, hsla(0, 0, 0, 0) 40%, hsla(0, 21%, 7%, 79%));
+        background-image: linear-gradient(to right, hsla(0, 0%, 0%, 0) 40%, hsla(0, 21%, 7%, 79%));
     }
 
     &__server-feed {
@@ -64,9 +64,9 @@
         font-size: 2.3em;
         text-transform: uppercase;
         text-decoration: none;
-        box-shadow: 0 4px 4px hsla(0, 0, 0, 25%),
-                    inset 0 4px 4px hsla(0, 0, 0, 35%);
-        text-shadow: 0 4px 4px hsla(0, 0, 0, 35%);
+        box-shadow: 0 4px 4px hsla(0, 0%, 0%, 25%),
+                    inset 0 4px 4px hsla(0, 0%, 0%, 35%);
+        text-shadow: 0 4px 4px hsla(0, 0%, 0%, 35%);
 
         .fa-mouse-pointer {
             width: 0.45em;
@@ -91,7 +91,7 @@
         text-transform: uppercase;
         font-kerning: normal;
         line-height: 0.95em;
-        text-shadow: 0px 2px 9px hsla(0, 0, 0, 35%);
+        text-shadow: 0px 2px 9px hsla(0, 0%, 0%, 35%);
         margin-bottom: 0.2em;
         text-rendering: geometricPrecision;
 
@@ -104,7 +104,7 @@
         font-weight: 500;
         font-size: 1.2em;
         letter-spacing: -0.02em;
-        text-shadow: 0px 2px 4px hsla(0, 0, 0, 55%);
+        text-shadow: 0px 2px 4px hsla(0, 0%, 0%, 55%);
         line-height: 1.7em;
         margin-bottom: 3em;
     }

@@ -22,12 +22,11 @@ class GameBanSeeder extends Seeder
             null,
         ]);
 
+        $players = MinecraftPlayer::get();
+
         for ($i = 0; $i < 100; $i++) {
             GameBan::factory()
-                ->bannedPlayer(
-                    MinecraftPlayer::factory()
-                        ->for(Account::factory(), 'account')
-                )
+                ->bannedPlayer($players->random())
                 ->bannedBy($staffPlayers->random())
                 ->create();
         }
