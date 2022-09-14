@@ -12,7 +12,7 @@ final class MinecraftPlayerAliasResource extends JsonResource
             'id' => $this->players_minecraft_alias_id,
             'player_id' => $this->player_minecraft_id,
             'alias' => $this->alias,
-            'registered_at' => $this->registered_at->getTimestamp(),
+            'registered_at' => $this->registered_at?->getTimestamp(),
             'created_at' => $this->created_at->getTimestamp(),
             'updated_at' => $this->updated_at->getTimestamp(),
 
