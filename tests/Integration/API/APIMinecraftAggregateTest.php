@@ -60,6 +60,7 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
         $warning = PlayerWarning::factory()
             ->warnedBy($staffPlayer)
             ->warnedPlayer($player)
+            ->acknowledged(false)
             ->create();
 
         $this->getJson($this->endpoint($player))

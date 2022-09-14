@@ -13,6 +13,7 @@ class PlayerWarningResource extends JsonResource
             'warned_player_id' => $this->warned_player_id,
             'warner_player_id' => $this->warner_player_id,
             'reason' => $this->reason,
+            'additional_info' => $this->additional_info,
             'weight' => $this->weight,
             'is_acknowledged' => $this->is_acknowledged,
             'created_at' => $this->created_at->timestamp,
