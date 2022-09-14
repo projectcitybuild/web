@@ -71,8 +71,8 @@ final class PlayerWarning extends Model implements LinkableAuditModel
         return AuditAttributes::build()
             ->addBoolean('is_acknowledged')
             ->addMultiline('reason', 'additional_info')
-//            ->addRelationship('warnedPlayer', MinecraftPlayer::class)
-//            ->addRelationship('warnerPlayer', MinecraftPlayer::class)
+            ->addRelationship('warned_player_id', MinecraftPlayer::class)
+            ->addRelationship('warner_player_id', MinecraftPlayer::class)
             ->add(
                 'weight',
                 'created_at',
