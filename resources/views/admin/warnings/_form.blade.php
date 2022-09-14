@@ -19,7 +19,7 @@
     </div>
 </div>
 <div class="row mb-3">
-    <label for="ip" class="col-sm-3 col-form-label horizontal-label">Reason</label>
+    <label for="ip" class="col-sm-3 col-form-label horizontal-label">Reason for Warning</label>
     <div class="col-sm-9">
         <textarea
             id="reason"
@@ -27,6 +27,22 @@
             placeholder="Put just a description of the offense here. The player will see it and need to press a button to acknowledge it"
             class="form-control"
         >{{ old('reason', $warning->reason) }}</textarea>
+
+        <div class="form-text">This field will be shown to the user. They will have to read it and press a button to acknowledge it</div>
+    </div>
+</div>
+<div class="row mb-3">
+    <label for="ip" class="col-sm-3 col-form-label horizontal-label">Additional Info</label>
+    <div class="col-sm-9">
+        <textarea
+            id="additional_info"
+            name="additional_info"
+            placeholder="Put any detailed, extra information, context, etc about the offense here"
+            class="form-control"
+            rows="6"
+        >{{ old('additional_info', $warning->additional_info) }}</textarea>
+
+        <div class="form-text">This field is not shown to the user. It's for recording purposes</div>
     </div>
 </div>
 <div class="row mb-3">

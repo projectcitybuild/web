@@ -22,6 +22,12 @@ class PlayerWarningController extends WebController
             ->with(compact('warnings'));
     }
 
+    public function show(PlayerWarning $warning): View
+    {
+        return view('admin.warnings.show')
+            ->with(compact('warning'));
+    }
+
     public function create(Request $request): View
     {
         $warning = new PlayerWarning();
@@ -36,6 +42,7 @@ class PlayerWarningController extends WebController
             'warned_player_id' => 'required|max:60',
             'warner_player_id' => 'required|max:60',
             'reason' => 'required|string',
+            'additional_info' => 'string|nullable',
             'is_acknowledged' => 'boolean',
             'created_at' => 'required|date',
             'updated_at' => 'required|date',
@@ -52,6 +59,7 @@ class PlayerWarningController extends WebController
             'warned_player_id' => $request->get('warned_player_id'),
             'warner_player_id' => $request->get('warner_player_id'),
             'reason' => $request->get('reason'),
+            'additional_info' => $request->get('additional_info'),
             'weight' => 1,
             'is_acknowledged' => $request->get('is_acknowledged', false),
             'created_at' => $request->get('created_at'),
@@ -79,6 +87,7 @@ class PlayerWarningController extends WebController
             'warned_player_id' => 'required|max:60',
             'warner_player_id' => 'required|max:60',
             'reason' => 'required|string',
+            'additional_info' => 'string|nullable',
             'is_acknowledged' => 'boolean',
             'created_at' => 'required|date',
             'updated_at' => 'required|date',

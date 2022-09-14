@@ -22,7 +22,6 @@ class MinecraftPlayerFactory extends Factory
     public function definition()
     {
         return [
-            'player_minecraft_id' => $this->faker->randomNumber(),
             'uuid' => str_replace('-', '', $this->faker->uuid),
             'last_synced_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),
             'last_seen_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),
@@ -39,6 +38,15 @@ class MinecraftPlayerFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'last_seen_at' => null,
+            ];
+        });
+    }
+
+    public function id(?int $id = null)
+    {
+        return $this->state(function (array $attributes) use ($id) {
+            return [
+                'player_minecraft_id' => $id ?? $this->faker->randomNumber(),
             ];
         });
     }

@@ -28,8 +28,8 @@ class PlayerWarningFactory extends Factory
         $isAcknowledged = rand(0, 1) == 0;
 
         return [
-            'id' => $this->faker->randomNumber(),
             'reason' => $this->faker->sentence,
+            'additional_info' => (rand(0, 1) == 0) ? $this->faker->text : null,
             'weight' => $this->faker->randomNumber(nbDigits: 1),
             'is_acknowledged' => $isAcknowledged,
             'created_at' => $createdAt,
@@ -55,13 +55,20 @@ class PlayerWarningFactory extends Factory
             ->warnedBy(MinecraftPlayer::factory());
     }
 
-    public function acknowledged(): PlayerWarningFactory
+    public function acknowledged(bool $isAcknowledged = true): PlayerWarningFactory
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'is_acknowledged' => true,
-                'acknowledged_at' => now()->subWeek(),
-            ];
+        return $this->state(function (array $attributes) use ($isAcknowledged){
+            if ($isAcknowledged) {
+                return [
+                    'is_acknowledged' => true,
+                    'acknowledged_at' => now()->subWeek(),
+                ];
+            } else {
+                return [
+                    'is_acknowledged' => false,
+                    'acknowledged_at' => null,
+                ];
+            }
         });
     }
 
@@ -71,6 +78,15 @@ class PlayerWarningFactory extends Factory
             return [
                 'created_at' => $date,
                 'updated_at' => $date,
+            ];
+        });
+    }
+
+    public function id(?int $id = null)
+    {
+        return $this->state(function (array $attributes) use ($id) {
+            return [
+                'id' => $id ?? $this->faker->randomNumber(),
             ];
         });
     }

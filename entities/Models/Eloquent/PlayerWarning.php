@@ -15,6 +15,7 @@ final class PlayerWarning extends Model
         'warned_player_id',
         'warner_player_id',
         'reason',
+        'additional_info',
         'weight',
         'is_acknowledged',
         'created_at',

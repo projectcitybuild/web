@@ -38,7 +38,7 @@ class GetWarningsTest extends TestCase
             PlayerWarning::factory()->withPlayers()->make(),
         ]);
         $this->playerWarningRepository->all = $expectedWarnings;
-        $this->playerLookup->find = MinecraftPlayer::factory()->make();
+        $this->playerLookup->find = MinecraftPlayer::factory()->id()->make();
 
         $warnings = $this->useCase->execute(
             playerIdentifier: PlayerIdentifier::minecraftUUID('test'),
@@ -51,7 +51,7 @@ class GetWarningsTest extends TestCase
     public function test_returns_empty_collection_if_no_warnings()
     {
         $this->playerWarningRepository->all = collect();
-        $this->playerLookup->find = MinecraftPlayer::factory()->make();
+        $this->playerLookup->find = MinecraftPlayer::factory()->id()->make();
 
         $warnings = $this->useCase->execute(
             playerIdentifier: PlayerIdentifier::minecraftUUID('test'),

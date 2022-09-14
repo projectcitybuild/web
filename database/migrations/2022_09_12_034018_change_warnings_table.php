@@ -22,6 +22,7 @@ return new class extends Migration
             $table->dropColumn('is_active');
 
             $table->text('reason')->nullable(false)->change();
+            $table->text('additional_info')->nullable()->after('reason');
 
             $table->renameColumn(from: 'staff_player_id', to: 'warner_player_id');
             $table->renameColumn(from: 'game_warning_id', to: 'id');
@@ -53,6 +54,7 @@ return new class extends Migration
 
             $table->dropColumn('is_acknowledged');
             $table->dropColumn('acknowledged_at');
+            $table->dropColumn('additional_info');
         });
     }
 };

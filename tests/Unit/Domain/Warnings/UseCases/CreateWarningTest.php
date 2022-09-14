@@ -33,9 +33,9 @@ class CreateWarningTest extends TestCase
 
     public function test_creates_warning()
     {
-        $createdWarning = PlayerWarning::factory()->withPlayers()->make();
+        $createdWarning = PlayerWarning::factory()->id()->withPlayers()->make();
         $this->playerWarningRepository->create = $createdWarning;
-        $this->playerLookup->findOrCreate = MinecraftPlayer::factory()->make();
+        $this->playerLookup->findOrCreate = MinecraftPlayer::factory()->id()->make();
 
         $warning = $this->useCase->execute(
             warnedPlayerIdentifier: PlayerIdentifier::minecraftUUID('uuid1'),

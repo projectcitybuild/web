@@ -41,7 +41,9 @@
                     <td>{{ $warning->created_at }}</td>
                     <td>{{ $warning->updated_at }}</td>
                     <td>{{ $warning->acknowledged_at ?? '-' }}</td>
-                    <td><a href="{{ route('front.panel.warnings.edit', $warning->getKey()) }}">Edit</a></td>
+                    <td>
+                        <a href="{{ route('front.panel.warnings.show', $warning) }}">View</a>
+                    </td>
                 </tr>
             @endforeach
             </tbody>

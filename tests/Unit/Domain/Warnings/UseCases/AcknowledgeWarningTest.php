@@ -39,7 +39,7 @@ class AcknowledgeWarningTest extends TestCase
     {
         $warning = PlayerWarning::factory()
             ->warnedPlayer(
-                MinecraftPlayer::factory()->for(Account::factory(['account_id' => 1]))
+                MinecraftPlayer::factory()->id()->for(Account::factory(['account_id' => 1]))
             )
             ->warnedBy(MinecraftPlayer::factory())
             ->make();
@@ -63,6 +63,7 @@ class AcknowledgeWarningTest extends TestCase
     public function test_throws_410_if_warning_already_acknowledged()
     {
         $warning = PlayerWarning::factory()
+            ->id()
             ->withPlayers()
             ->acknowledged()
             ->make();
@@ -85,6 +86,8 @@ class AcknowledgeWarningTest extends TestCase
         $this->setTestNow();
 
         $warning = PlayerWarning::factory()
+            ->id()
+            ->acknowledged(false)
             ->withPlayers()
             ->make();
 
