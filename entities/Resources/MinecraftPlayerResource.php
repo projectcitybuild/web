@@ -17,8 +17,9 @@ final class MinecraftPlayerResource extends JsonResource
             'created_at' => $this->created_at->getTimestamp(),
             'updated_at' => $this->updated_at->getTimestamp(),
 
-            'aliases' => MinecraftPlayerAliasResource::collection(
-                $this->whenLoaded('aliases'),
+            'aliases' => $this->whenLoaded(
+                relationship: 'aliases',
+                value: MinecraftPlayerAliasResource::collection($this->aliases),
             ),
         ];
     }
