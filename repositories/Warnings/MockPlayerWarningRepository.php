@@ -28,13 +28,14 @@ final class MockPlayerWarningRepository implements PlayerWarningRepository
 
     public function find(int $warningId): ?PlayerWarning
     {
-        return $this->find ?? throw new \Exception('Not set');
+        return $this->find;
     }
 
     public function acknowledge(PlayerWarning $warning): PlayerWarning
     {
         $warning->is_acknowledged = true;
         $warning->acknowledged_at = now();
+
         return $warning;
     }
 }

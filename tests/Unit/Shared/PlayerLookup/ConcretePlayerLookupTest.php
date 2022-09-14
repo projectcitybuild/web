@@ -10,16 +10,16 @@ use Repositories\MinecraftPlayerAliasRepository;
 use Repositories\MinecraftPlayerRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Exceptions\NonCreatableIdentifierException;
-use Shared\PlayerLookup\PlayerLookup;
+use Shared\PlayerLookup\Service\ConcretePlayerLookup;
 use Tests\TestCase;
 
-class PlayerLookupTest extends TestCase
+class ConcretePlayerLookupTest extends TestCase
 {
     use RefreshDatabase;
 
     private MinecraftPlayerRepository $minecraftPlayerRepository;
     private MinecraftPlayerAliasRepository $minecraftPlayerAliasRepository;
-    private PlayerLookup $playerLookup;
+    private ConcretePlayerLookup $playerLookup;
 
     public function setUp(): void
     {
@@ -28,7 +28,7 @@ class PlayerLookupTest extends TestCase
         $this->minecraftPlayerRepository = \Mockery::mock(MinecraftPlayerRepository::class);
         $this->minecraftPlayerAliasRepository = \Mockery::mock(MinecraftPlayerAliasRepository::class);
 
-        $this->playerLookup = new PlayerLookup(
+        $this->playerLookup = new ConcretePlayerLookup(
             minecraftPlayerRepository: $this->minecraftPlayerRepository,
             minecraftPlayerAliasRepository: $this->minecraftPlayerAliasRepository,
         );

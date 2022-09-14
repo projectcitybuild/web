@@ -8,7 +8,8 @@ use Entities\Models\Eloquent\PlayerWarning;
 use Repositories\Warnings\MockPlayerWarningRepository;
 use Repositories\Warnings\PlayerWarningRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\PlayerLookup;
+use Shared\PlayerLookup\Service\MockPlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookup;
 use Tests\TestCase;
 
 class GetWarningsTest extends TestCase
@@ -22,7 +23,7 @@ class GetWarningsTest extends TestCase
         parent::setUp();
 
         $this->playerWarningRepository = new MockPlayerWarningRepository();
-        $this->playerLookup = \Mockery::mock(PlayerLookup::class);
+        $this->playerLookup = new MockPlayerLookup();
 
         $this->useCase = new GetWarnings(
             playerLookup: $this->playerLookup,
@@ -30,25 +31,14 @@ class GetWarningsTest extends TestCase
         );
     }
 
-    private function makeWarning(): PlayerWarning
-    {
-        return PlayerWarning::factory()
-            ->warnedPlayer(MinecraftPlayer::factory())
-            ->warnedBy(MinecraftPlayer::factory())
-            ->make();
-    }
-
     public function test_returns_all_warnings()
     {
-        $this->playerLookup
-            ->shouldReceive('find')
-            ->andReturn(MinecraftPlayer::factory()->make());
-
         $expectedWarnings = collect([
-            $this->makeWarning(),
-            $this->makeWarning(),
+            PlayerWarning::factory()->withPlayers()->make(),
+            PlayerWarning::factory()->withPlayers()->make(),
         ]);
         $this->playerWarningRepository->all = $expectedWarnings;
+        $this->playerLookup->find = MinecraftPlayer::factory()->make();
 
         $warnings = $this->useCase->execute(
             playerIdentifier: PlayerIdentifier::minecraftUUID('test'),
@@ -60,11 +50,8 @@ class GetWarningsTest extends TestCase
 
     public function test_returns_empty_collection_if_no_warnings()
     {
-        $this->playerLookup
-            ->shouldReceive('find')
-            ->andReturn(MinecraftPlayer::factory()->make());
-
         $this->playerWarningRepository->all = collect();
+        $this->playerLookup->find = MinecraftPlayer::factory()->make();
 
         $warnings = $this->useCase->execute(
             playerIdentifier: PlayerIdentifier::minecraftUUID('test'),
@@ -76,9 +63,7 @@ class GetWarningsTest extends TestCase
 
     public function test_returns_empty_collection_if_player_not_found()
     {
-        $this->playerLookup
-            ->shouldReceive('find')
-            ->andReturnNull();
+        $this->playerLookup->find = null;
 
         $warnings = $this->useCase->execute(
             playerIdentifier: PlayerIdentifier::minecraftUUID('test'),

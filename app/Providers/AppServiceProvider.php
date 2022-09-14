@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
+use Shared\PlayerLookup\Service\ConcretePlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookup;
 use Stripe\StripeClient;
 
 final class AppServiceProvider extends ServiceProvider
@@ -37,6 +39,11 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->bind(StripeClient::class, function ($app) {
             return new StripeClient(config('services.stripe.secret'));
         });
+
+        $this->app->bind(
+            abstract: PlayerLookup::class,
+            concrete: ConcretePlayerLookup::class,
+        );
 
         // Prevent Cashier's vendor migrations running because we override them
         Cashier::ignoreMigrations();

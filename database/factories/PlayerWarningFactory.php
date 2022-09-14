@@ -28,6 +28,7 @@ class PlayerWarningFactory extends Factory
         $isAcknowledged = rand(0, 1) == 0;
 
         return [
+            'id' => $this->faker->randomNumber(),
             'reason' => $this->faker->sentence,
             'weight' => $this->faker->randomNumber(nbDigits: 1),
             'is_acknowledged' => $isAcknowledged,
@@ -45,6 +46,23 @@ class PlayerWarningFactory extends Factory
     public function warnedPlayer(MinecraftPlayer|Factory $player): PlayerWarningFactory
     {
         return $this->for($player, 'warnedPlayer');
+    }
+
+    public function withPlayers(): PlayerWarningFactory
+    {
+        return $this
+            ->warnedPlayer(MinecraftPlayer::factory())
+            ->warnedBy(MinecraftPlayer::factory());
+    }
+
+    public function acknowledged(): PlayerWarningFactory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'is_acknowledged' => true,
+                'acknowledged_at' => now()->subWeek(),
+            ];
+        });
     }
 
     public function createdAt(Carbon $date)

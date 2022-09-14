@@ -1,6 +1,6 @@
 <?php
 
-namespace Shared\PlayerLookup;
+namespace Shared\PlayerLookup\Service;
 
 use Entities\Models\MinecraftUUID;
 use Entities\Models\PlayerIdentifierType;
@@ -13,7 +13,7 @@ use Shared\PlayerLookup\Exceptions\NonCreatableIdentifierException;
 /**
  * @final
  */
-class PlayerLookup
+class ConcretePlayerLookup implements PlayerLookup
 {
     public function __construct(
         private readonly MinecraftPlayerRepository $minecraftPlayerRepository,

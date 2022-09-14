@@ -7,14 +7,14 @@ use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\MinecraftPlayerAlias;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Repositories\MinecraftPlayerAliasRepository;
-use Shared\PlayerLookup\PlayerLookup;
+use Shared\PlayerLookup\Service\ConcretePlayerLookup;
 use Tests\TestCase;
 
 class UpdateSeenMinecraftPlayerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private PlayerLookup $playerLookup;
+    private ConcretePlayerLookup $playerLookup;
     private MinecraftPlayerAliasRepository $aliasRepository;
     private UpdateSeenMinecraftPlayer $useCase;
 
@@ -22,7 +22,7 @@ class UpdateSeenMinecraftPlayerTest extends TestCase
     {
         parent::setUp();
 
-        $this->playerLookup = \Mockery::mock(PlayerLookup::class);
+        $this->playerLookup = \Mockery::mock(ConcretePlayerLookup::class);
         $this->aliasRepository = \Mockery::mock(MinecraftPlayerAliasRepository::class);
 
         $this->useCase = new UpdateSeenMinecraftPlayer(

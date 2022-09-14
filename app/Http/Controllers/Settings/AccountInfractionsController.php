@@ -27,6 +27,7 @@ final class AccountInfractionsController extends WebController
             warningId: $warningId,
             accountId: $request->user()->getKey(),
         );
+
         return redirect()->back()->with(
             key: 'success',
             value: 'Warning acknowledged successfully',

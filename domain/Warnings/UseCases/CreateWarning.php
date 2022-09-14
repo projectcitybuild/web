@@ -5,12 +5,12 @@ namespace Domain\Warnings\UseCases;
 use Entities\Models\Eloquent\PlayerWarning;
 use Repositories\Warnings\PlayerWarningRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\PlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookup;
 
 final class CreateWarning
 {
     public function __construct(
-        private readonly PlayerLookup            $playerLookup,
+        private readonly PlayerLookup $playerLookup,
         private readonly PlayerWarningRepository $playerWarningRepository,
     ) {
     }
