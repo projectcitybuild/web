@@ -57,7 +57,7 @@ class PlayerWarningFactory extends Factory
 
     public function acknowledged(bool $isAcknowledged = true): PlayerWarningFactory
     {
-        return $this->state(function (array $attributes) use ($isAcknowledged){
+        return $this->state(function (array $attributes) use ($isAcknowledged) {
             if ($isAcknowledged) {
                 return [
                     'is_acknowledged' => true,

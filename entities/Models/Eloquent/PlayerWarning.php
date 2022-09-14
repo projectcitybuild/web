@@ -5,10 +5,14 @@ namespace Entities\Models\Eloquent;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Library\Auditing\AuditAttributes;
+use Library\Auditing\Concerns\LogsActivity;
+use Library\Auditing\Contracts\LinkableAuditModel;
 
-final class PlayerWarning extends Model
+final class PlayerWarning extends Model implements LinkableAuditModel
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $table = 'player_warnings';
     protected $fillable = [
@@ -47,5 +51,33 @@ final class PlayerWarning extends Model
             foreignKey: 'warner_player_id',
             ownerKey: 'player_minecraft_id',
         );
+    }
+
+    public function getActivitySubjectLink(): ?string
+    {
+        return route('front.panel.warnings.edit', $this);
+    }
+
+    public function getActivitySubjectName(): ?string
+    {
+        $player = $this->warnedPlayer->currentAlias()?->alias
+            ?? $this->warnedPlayer->getKey().' player id';
+
+        return "Warning for $player";
+    }
+
+    public function auditAttributeConfig(): AuditAttributes
+    {
+        return AuditAttributes::build()
+            ->addBoolean('is_acknowledged')
+            ->addMultiline('reason', 'additional_info')
+//            ->addRelationship('warnedPlayer', MinecraftPlayer::class)
+//            ->addRelationship('warnerPlayer', MinecraftPlayer::class)
+            ->add(
+                'weight',
+                'created_at',
+                'updated_at',
+                'acknowledged_at',
+            );
     }
 }

@@ -26,6 +26,7 @@ class APIWarningAcknowledgeTest extends IntegrationTestCase
         $warning = PlayerWarning::factory()
             ->for(MinecraftPlayer::factory(), 'warnedPlayer')
             ->for(MinecraftPlayer::factory(), 'warnerPlayer')
+            ->acknowledged(false)
             ->create();
 
         return ['warning_id' => $warning->getKey()];
@@ -54,6 +55,7 @@ class APIWarningAcknowledgeTest extends IntegrationTestCase
         $warning = PlayerWarning::factory()
             ->for($player1, 'warnedPlayer')
             ->for($player2, 'warnerPlayer')
+            ->acknowledged(false)
             ->create();
 
         $this->assertDatabaseHas(
@@ -63,6 +65,7 @@ class APIWarningAcknowledgeTest extends IntegrationTestCase
                 'warned_player_id' => $player1->getKey(),
                 'warner_player_id' => $player2->getKey(),
                 'reason' => $warning->reason,
+                'additional_info' => $warning->additional_info,
                 'weight' => $warning->weight,
                 'is_acknowledged' => false,
                 'created_at' => $warning->created_at,
@@ -84,6 +87,7 @@ class APIWarningAcknowledgeTest extends IntegrationTestCase
                 'warned_player_id' => $player1->getKey(),
                 'warner_player_id' => $player2->getKey(),
                 'reason' => $warning->reason,
+                'additional_info' => $warning->additional_info,
                 'weight' => $warning->weight,
                 'is_acknowledged' => true,
                 'created_at' => $warning->created_at,

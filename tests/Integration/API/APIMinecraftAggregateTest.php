@@ -120,6 +120,7 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
                             'warned_player_id' => $player->getKey(),
                             'warner_player_id' => $staffPlayer->getKey(),
                             'reason' => $warning->reason,
+                            'additional_info' => $warning->additional_info,
                             'weight' => $warning->weight,
                             'is_acknowledged' => $warning->is_acknowledged,
                             'created_at' => $warning->created_at->timestamp,

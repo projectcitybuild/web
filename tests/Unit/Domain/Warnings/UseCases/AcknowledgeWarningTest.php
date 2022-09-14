@@ -38,6 +38,7 @@ class AcknowledgeWarningTest extends TestCase
     public function test_throws_403_if_warned_player_is_different()
     {
         $warning = PlayerWarning::factory()
+            ->id()
             ->warnedPlayer(
                 MinecraftPlayer::factory()->id()->for(Account::factory(['account_id' => 1]))
             )

@@ -15,6 +15,7 @@ use Entities\Models\Eloquent\DonationPerk;
 use Entities\Models\Eloquent\DonationTier;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\Page;
+use Entities\Models\Eloquent\PlayerWarning;
 use Entities\Models\Eloquent\Server;
 use Entities\Models\Eloquent\ServerToken;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -72,17 +73,18 @@ final class AppServiceProvider extends ServiceProvider
          */
         Relation::enforceMorphMap([
             'account' => Account::class,
-            'page' => Page::class,
-            'minecraft_player' => MinecraftPlayer::class,
-            'server' => Server::class,
-            'server_token' => ServerToken::class,
+            'badge' => Badge::class,
+            'balance_transaction' => AccountBalanceTransaction::class,
+            'ban_appeal' => BanAppeal::class,
+            'builder_rank_application' => BuilderRankApplication::class,
             'donation' => Donation::class,
             'donation_perk' => DonationPerk::class,
             'donation_tier' => DonationTier::class,
-            'builder_rank_application' => BuilderRankApplication::class,
-            'ban_appeal' => BanAppeal::class,
-            'badge' => Badge::class,
-            'balance_transaction' => AccountBalanceTransaction::class,
+            'minecraft_player' => MinecraftPlayer::class,
+            'page' => Page::class,
+            'server' => Server::class,
+            'server_token' => ServerToken::class,
+            'player_warning' => PlayerWarning::class,
         ]);
 
         Blade::component('navbar', NavBarComponent::class);
