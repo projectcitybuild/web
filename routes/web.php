@@ -170,7 +170,7 @@ Route::group([
         Route::get('/', [AccountInfractionsController::class, 'index'])
             ->name('account.infractions');
 
-        Route::get('{warningId}/acknowledge', [AccountInfractionsController::class, 'acknowledgeWarning'])
+        Route::post('{warningId}/acknowledge', [AccountInfractionsController::class, 'acknowledgeWarning'])
             ->name('account.infractions.acknowledge');
     });
 

@@ -23,8 +23,10 @@ final class AccountInfractionsController extends WebController
         int $warningId,
         AcknowledgeWarning $acknowledgeWarning,
     ) {
-        $acknowledgeWarning->execute(warningId: $warningId);
-
+        $acknowledgeWarning->execute(
+            warningId: $warningId,
+            accountId: $request->user()->getKey(),
+        );
         return redirect()->back()->with(
             key: 'success',
             value: 'Warning acknowledged successfully',

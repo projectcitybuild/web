@@ -12,11 +12,17 @@ final class AcknowledgeWarning
     ) {
     }
 
-    public function execute(int $warningId): PlayerWarning
+    public function execute(int $warningId, ?int $accountId = null): PlayerWarning
     {
         $warning = $this->playerWarningRepository->find($warningId);
         if ($warning === null) {
             abort(404);
+        }
+        if ($accountId !== null && $warning->warnedPlayer->account?->getKey() !== $accountId) {
+            abort(403);
+        }
+        if ($warning->is_acknowledged && $warning->acknowledged_at !== null) {
+            abort(410);
         }
 
         $this->playerWarningRepository->acknowledge($warning);

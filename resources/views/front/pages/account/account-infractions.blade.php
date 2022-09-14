@@ -89,12 +89,10 @@
                             </td>
                             <td>
                                 @if (! $warning->is_acknowledged)
-                                    <a
-                                        class="button button--filled button--is-small"
-                                        href="{{ route('front.account.infractions.acknowledge', $warning) }}"
-                                    >
-                                        <i class="fas fa-eye"></i> Acknowledge
-                                    </a>
+                                    <form method="post" action="{{ route('front.account.infractions.acknowledge', $warning) }}">
+                                        @csrf
+                                        <button type="submit" class="button button--filled button--is-small"><i class="fas fa-eye"></i> Acknowledge</button>
+                                    </form>
                                 @endif
                             </td>
                         </tr>
