@@ -8,8 +8,8 @@ use Entities\Models\Eloquent\PlayerWarning;
 use Repositories\PlayerWarnings\PlayerWarningMockRepository;
 use Repositories\PlayerWarnings\PlayerWarningRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\PlayerLookupMock;
 use Shared\PlayerLookup\Service\PlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookupMock;
 use Tests\TestCase;
 
 class CreateWarningTest extends TestCase

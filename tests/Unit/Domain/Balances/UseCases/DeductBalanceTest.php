@@ -8,8 +8,8 @@ use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Repositories\BalanceHistoryRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\PlayerLookupMock;
 use Shared\PlayerLookup\Service\PlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookupMock;
 use Tests\TestCase;
 
 class DeductBalanceTest extends TestCase

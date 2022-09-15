@@ -13,6 +13,7 @@ enum PanelGroupScope: string
     case MANAGE_DONATIONS = 'panel-manage-donations';
     case MANAGE_BADGES = 'panel-manage-badges';
     case MANAGE_WARNINGS = 'panel-manage-warnings';
+    case MANAGE_BANS = 'panel-manage-bans';
 
     case VIEW_ACTIVITY = 'panel-view-activity';
 

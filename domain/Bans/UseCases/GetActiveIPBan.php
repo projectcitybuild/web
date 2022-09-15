@@ -12,7 +12,8 @@ final class GetActiveIPBan
     ) {
     }
 
-    public function execute(string $ip): ?GameIPBan {
+    public function execute(string $ip): ?GameIPBan
+    {
         return $this->gameIPBanRepository->find(ip: $ip);
     }
 }
