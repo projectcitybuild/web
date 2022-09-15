@@ -34,5 +34,7 @@ class AccountSeeder extends Seeder
         $adminAccount->is_totp_enabled = true;
         $adminAccount->save();
         $adminAccount->groups()->attach($adminGroup->getKey());
+
+        Account::factory()->count(100)->create();
     }
 }

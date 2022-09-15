@@ -3,7 +3,6 @@
 namespace Domain\ServerStatus\Adapters;
 
 use Domain\ServerStatus\Entities\ServerQueryResult;
-use Domain\ServerStatus\ServerQueryAdapter;
 use Illuminate\Support\Facades\Log;
 use xPaw\MinecraftPing;
 use xPaw\MinecraftPingException;

@@ -7,9 +7,9 @@ use App\Http\WebController;
 use Domain\Login\Entities\LoginCredentials;
 use Domain\Login\Exceptions\AccountNotActivatedException;
 use Domain\Login\Exceptions\InvalidLoginCredentialsException;
-use Domain\Login\UseCases\LoginUseCase;
+use Domain\Login\UseCases\LoginAccount;
 use Domain\SignUp\Exceptions\AccountAlreadyActivatedException;
-use Domain\SignUp\UseCases\ResendActivationEmailUseCase;
+use Domain\SignUp\UseCases\ResendActivationEmail;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -27,7 +27,7 @@ final class LoginController extends WebController
 
     public function login(
         LoginRequest $request,
-        LoginUseCase $loginUseCase,
+        LoginAccount $loginAccount,
     ): RedirectResponse {
         $input = $request->validated();
 
@@ -53,7 +53,7 @@ final class LoginController extends WebController
         );
 
         try {
-            $loginUseCase->execute(
+            $loginAccount->execute(
                 credentials: $credentials,
                 shouldRemember: $request->filled('remember_me'),
                 ip: $request->ip(),
@@ -78,7 +78,7 @@ final class LoginController extends WebController
 
     public function resendActivationEmail(
         Request $request,
-        ResendActivationEmailUseCase $resendActivationEmail,
+        ResendActivationEmail $resendActivationEmail,
     ) {
         try {
             $resendActivationEmail->execute(email: $request->get('email'));

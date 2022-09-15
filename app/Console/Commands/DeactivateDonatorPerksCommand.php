@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Domain\Donations\UseCases\DeactivateExpiredDonorPerksUseCase;
+use Domain\Donations\UseCases\DeactivateExpiredDonorPerks;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Library\Auditing\Causers\SystemCauser;
@@ -27,7 +27,7 @@ final class DeactivateDonatorPerksCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(DeactivateExpiredDonorPerksUseCase $deactivateExpiredDonorPerks)
+    public function handle(DeactivateExpiredDonorPerks $deactivateExpiredDonorPerks)
     {
         Log::info('Checking for expired donation perks');
 

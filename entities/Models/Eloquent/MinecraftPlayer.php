@@ -53,19 +53,45 @@ final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
         return $this->aliases->last()->alias;
     }
 
+    public function currentAlias(): ?MinecraftPlayerAlias
+    {
+        return $this->aliases->last();
+    }
+
     public function account(): BelongsTo
     {
-        return $this->belongsTo(Account::class, 'account_id', 'account_id');
+        return $this->belongsTo(
+            related: Account::class,
+            foreignKey: 'account_id',
+            ownerKey: 'account_id',
+        );
     }
 
     public function aliases(): HasMany
     {
-        return $this->hasMany(MinecraftPlayerAlias::class, 'player_minecraft_id', 'player_minecraft_id');
+        return $this->hasMany(
+            related: MinecraftPlayerAlias::class,
+            foreignKey: 'player_minecraft_id',
+            localKey: 'player_minecraft_id',
+        );
     }
 
     public function gameBans(): HasMany
     {
-        return $this->hasMany(GameBan::class, 'banned_player_id', 'player_minecraft_id');
+        return $this->hasMany(
+            related: GameBan::class,
+            foreignKey: 'banned_player_id',
+            localKey: 'player_minecraft_id',
+        );
+    }
+
+    public function warnings(): HasMany
+    {
+        return $this->hasMany(
+            related: PlayerWarning::class,
+            foreignKey: 'warned_player_id',
+            localKey: 'player_minecraft_id',
+        );
     }
 
     public function isBanned()

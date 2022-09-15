@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\WebController;
-use Domain\Login\UseCases\LogoutUseCase;
+use Domain\Login\UseCases\LogoutAccount;
 use Entities\Notifications\AccountMfaBackupCodeUsedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -15,7 +15,7 @@ class MfaBackupController extends WebController
         return view('front.pages.login.mfa-backup');
     }
 
-    public function destroy(Request $request, LogoutUseCase $logoutService)
+    public function destroy(Request $request, LogoutAccount $logoutService)
     {
         $request->validate([
             'backup_code' => 'required',

@@ -29,6 +29,6 @@ table.table {
 
 tr {
     &.warning {
-        background-color: lighten($color-warning, 10%);
+        background-color: lighten($color-warning, 10%) !important;
     }
 }

@@ -28,25 +28,8 @@ final class DonationPerk extends Model implements LinkableAuditModel
     use HasFactory;
     use LogsActivity;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'donation_perks';
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
     protected $primaryKey = 'donation_perks_id';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'donation_id',
         'account_id',
@@ -57,31 +40,13 @@ final class DonationPerk extends Model implements LinkableAuditModel
         'updated_at',
         'last_currency_reward_at',
     ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
     protected $dates = [
         'expires_at',
         'created_at',
         'updated_at',
         'last_currency_reward_at',
     ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'is_active' => 'boolean',
         'is_lifetime_perks' => 'boolean',

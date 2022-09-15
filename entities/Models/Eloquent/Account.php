@@ -157,6 +157,18 @@ final class Account extends Authenticatable implements LinkableAuditModel
         );
     }
 
+    public function warnings(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            related: PlayerWarning::class,
+            through: MinecraftPlayer::class,
+            firstKey: 'account_id',
+            secondKey: 'warned_player_id',
+            localKey: 'account_id',
+            secondLocalKey: 'player_minecraft_id'
+        );
+    }
+
     public function isBanned()
     {
         return $this->gameBans()->active()->exists();

@@ -41,4 +41,13 @@ class MinecraftPlayerFactory extends Factory
             ];
         });
     }
+
+    public function id(?int $id = null)
+    {
+        return $this->state(function (array $attributes) use ($id) {
+            return [
+                'player_minecraft_id' => $id ?? $this->faker->randomNumber(),
+            ];
+        });
+    }
 }

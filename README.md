@@ -1,10 +1,11 @@
 <p align="center">
-    <img src="https://projectcitybuild.com/assets/images/logo-2x.png" alt="Project City Build"/>
+    <img src="https://github.com/projectcitybuild/web/blob/master/resources/images/logo-2x.png?raw=true" alt="Project City Build"/>
 </p>
 
 <p align="center">
     <a href="https://opensource.org/licenses/MPL-2.0"><img src="https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg" alt="License: MPL 2.0"></a>
     <a href="https://github.com/projectcitybuild/web/actions/workflows/test.yml"><img src="https://github.com/projectcitybuild/web/actions/workflows/test.yml/badge.svg" alt="Build status"></a>
+    <a href="https://github.com/projectcitybuild/web/actions/workflows/test.yml"><img src="https://github.com/projectcitybuild/web/actions/workflows/lint.yml/badge.svg" alt="Linter status"></a>
 </p>
 
 ---
@@ -12,9 +13,9 @@
 The official repository for [Project City Build](https://projectcitybuild.com)'s homepage and related web services.
 
 ### Stack
-* Frameworks: Laravel 9, Vue 2
-* Environment: Dockerised with Laravel Sail
-* CI/CD: Github Actions
+* Frameworks: Laravel 9, Vue 3
+* Environment: Laravel Sail (Docker)
+* CI/CD: GitHub Actions
 
 All branches, commits and pull-requests are continuously tested
 

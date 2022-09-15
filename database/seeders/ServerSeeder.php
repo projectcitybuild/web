@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Entities\Models\Eloquent\Server;
 use Entities\Models\Eloquent\ServerCategory;
-use Entities\Models\Eloquent\ServerKey;
 use Entities\Models\GameType;
 use Illuminate\Database\Seeder;
 
@@ -41,14 +40,6 @@ class ServerSeeder extends Seeder
             'game_type' => GameType::MINECRAFT->value,
             'is_querying' => false,
             'display_order' => 2,
-        ]);
-
-        ServerKey::create([
-            'server_id' => $minecraftServer->server_id,
-            'token' => bin2hex(random_bytes(30)),
-            'can_local_ban' => true,
-            'can_global_ban' => true,
-            'can_warn' => true,
         ]);
     }
 }

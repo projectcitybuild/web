@@ -13,27 +13,8 @@ final class Group extends Model implements LinkableAuditModel
 
     public const DONOR_GROUP_NAME = 'donator'; // Some day we'll get rid of this misspelling...
 
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'groups';
-
     protected $primaryKey = 'group_id';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
         'alias',
@@ -46,13 +27,14 @@ final class Group extends Model implements LinkableAuditModel
         'discord_name',
         'can_access_panel',
     ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [];
+    protected $casts = [
+        'is_build' => 'boolean',
+        'is_default' => 'boolean',
+        'is_staff' => 'boolean',
+        'is_admin' => 'boolean',
+    ];
+    public $timestamps = false;
 
     public function accounts()
     {

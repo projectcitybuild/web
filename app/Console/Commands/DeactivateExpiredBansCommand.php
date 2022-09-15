@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Domain\Bans\UseCases\ExpireBansUseCase;
+use Domain\Bans\UseCases\ExpireBans;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -25,7 +25,7 @@ final class DeactivateExpiredBansCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(ExpireBansUseCase $expireBans)
+    public function handle(ExpireBans $expireBans)
     {
         Log::info('Deactivating expired temporary bans...');
 

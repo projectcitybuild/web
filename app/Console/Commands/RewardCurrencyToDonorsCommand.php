@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Domain\CurrencyRewarder\UseCases\RewardCurrencyUseCase;
+use Domain\CurrencyRewarder\UseCases\RewardCurrency;
 use Illuminate\Console\Command;
 use Library\Auditing\Causers\SystemCauser;
 use Library\Auditing\Causers\SystemCauseResolver;
@@ -28,7 +28,7 @@ class RewardCurrencyToDonorsCommand extends Command
      *
      * @return int
      */
-    public function handle(RewardCurrencyUseCase $rewardCurrencyUseCase)
+    public function handle(RewardCurrency $rewardCurrencyUseCase)
     {
         SystemCauseResolver::setCauser(SystemCauser::DONOR_REWARDS);
 

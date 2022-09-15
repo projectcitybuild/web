@@ -18,6 +18,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Settings\AccountBillingController;
 use App\Http\Controllers\Settings\AccountDonationController;
 use App\Http\Controllers\Settings\AccountGameAccountController;
+use App\Http\Controllers\Settings\AccountInfractionsController;
 use App\Http\Controllers\Settings\AccountProfileController;
 use App\Http\Controllers\Settings\AccountSecurityController;
 use App\Http\Controllers\Settings\AccountSettingController;
@@ -164,6 +165,14 @@ Route::group([
 
     Route::get('donations', [AccountDonationController::class, 'index'])
         ->name('account.donations');
+
+    Route::prefix('infractions')->group(function () {
+        Route::get('/', [AccountInfractionsController::class, 'index'])
+            ->name('account.infractions');
+
+        Route::post('{warningId}/acknowledge', [AccountInfractionsController::class, 'acknowledgeWarning'])
+            ->name('account.infractions.acknowledge');
+    });
 
     Route::get('billing', [AccountBillingController::class, 'index'])
         ->name('account.billing');

@@ -72,9 +72,13 @@
                             Banned By
                         </dt>
                         <dd class="col-md-9">
+                            @if ($banAppeal->gameBan->staffPlayer === null)
+                                System
+                            @else
                             <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->gameBan->staffPlayer) }}">
                                 {{ $banAppeal->gameBan->staffPlayer->getBanReadableName() ?? 'No Alias' }}
                             </a>
+                            @endif
                         </dd>
                     </div>
                     <div class="row g-0">

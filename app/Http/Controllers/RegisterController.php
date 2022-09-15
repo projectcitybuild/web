@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterRequest;
 use App\Http\WebController;
 use Domain\SignUp\Exceptions\AccountAlreadyActivatedException;
-use Domain\SignUp\UseCases\ActivateUnverifiedAccountUseCase;
-use Domain\SignUp\UseCases\CreateUnactivatedAccountUseCase;
+use Domain\SignUp\UseCases\ActivateUnverifiedAccount;
+use Domain\SignUp\UseCases\CreateUnactivatedAccount;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -27,7 +27,7 @@ final class RegisterController extends WebController
 
     public function register(
         RegisterRequest $request,
-        CreateUnactivatedAccountUseCase $createUnactivatedAccountUseCase,
+        CreateUnactivatedAccount $createUnactivatedAccountUseCase,
     ): View {
         $input = $request->validated();
 
@@ -43,7 +43,7 @@ final class RegisterController extends WebController
 
     public function activate(
         Request $request,
-        ActivateUnverifiedAccountUseCase $activateUnverifiedAccount
+        ActivateUnverifiedAccount $activateUnverifiedAccount
     ): View|RedirectResponse {
         $email = $request->get('email');
 

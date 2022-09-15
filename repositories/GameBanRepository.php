@@ -2,14 +2,12 @@
 
 namespace Repositories;
 
+use Domain\Bans\UnbanType;
 use Entities\Models\Eloquent\GameBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
-/**
- * @final
- */
 class GameBanRepository
 {
     public function create(
@@ -26,8 +24,6 @@ class GameBanRepository
             'banned_alias_at_time' => $bannedPlayerAlias,
             'staff_player_id' => $bannerPlayerId,
             'reason' => $reason,
-            'is_active' => true,
-            'is_global_ban' => true,
             'expires_at' => $expiresAt,
         ]);
     }
@@ -40,11 +36,7 @@ class GameBanRepository
     public function firstActiveBan(MinecraftPlayer $player): ?GameBan
     {
         return GameBan::where('banned_player_id', $player->getKey())
-            ->where('is_active', true)
-            ->where(function ($q) {
-                $q->whereNull('expires_at')
-                    ->orWhereDate('expires_at', '>=', now());
-            })
+            ->active()
             ->first();
     }
 
@@ -56,10 +48,25 @@ class GameBanRepository
             ->get();
     }
 
-    public function deactivateActiveExpired()
+    public function unbanAllExpired()
     {
-        GameBan::where('is_active', true)
+        GameBan::whereNull('unbanned_at')
             ->whereDate('expires_at', '<=', now())
-            ->update(['is_active' => false]);
+            ->update([
+                'unbanned_at' => now(),
+                'unban_type' => UnbanType::EXPIRED->value,
+            ]);
+    }
+
+    public function unban(
+        GameBan $ban,
+        ?int $unbannerPlayerId,
+        UnbanType $unbanType,
+    ) {
+        $ban->update([
+            'unbanned_at' => now(),
+            'unbanner_player_id' => $unbannerPlayerId,
+            'unban_type' => $unbanType->value,
+        ]);
     }
 }

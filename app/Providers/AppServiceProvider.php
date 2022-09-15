@@ -15,6 +15,7 @@ use Entities\Models\Eloquent\DonationPerk;
 use Entities\Models\Eloquent\DonationTier;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\Page;
+use Entities\Models\Eloquent\PlayerWarning;
 use Entities\Models\Eloquent\Server;
 use Entities\Models\Eloquent\ServerToken;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -23,6 +24,8 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
+use Shared\PlayerLookup\Service\ConcretePlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookup;
 use Stripe\StripeClient;
 
 final class AppServiceProvider extends ServiceProvider
@@ -37,6 +40,11 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->bind(StripeClient::class, function ($app) {
             return new StripeClient(config('services.stripe.secret'));
         });
+
+        $this->app->bind(
+            abstract: PlayerLookup::class,
+            concrete: ConcretePlayerLookup::class,
+        );
 
         // Prevent Cashier's vendor migrations running because we override them
         Cashier::ignoreMigrations();
@@ -65,17 +73,18 @@ final class AppServiceProvider extends ServiceProvider
          */
         Relation::enforceMorphMap([
             'account' => Account::class,
-            'page' => Page::class,
-            'minecraft_player' => MinecraftPlayer::class,
-            'server' => Server::class,
-            'server_token' => ServerToken::class,
+            'badge' => Badge::class,
+            'balance_transaction' => AccountBalanceTransaction::class,
+            'ban_appeal' => BanAppeal::class,
+            'builder_rank_application' => BuilderRankApplication::class,
             'donation' => Donation::class,
             'donation_perk' => DonationPerk::class,
             'donation_tier' => DonationTier::class,
-            'builder_rank_application' => BuilderRankApplication::class,
-            'ban_appeal' => BanAppeal::class,
-            'badge' => Badge::class,
-            'balance_transaction' => AccountBalanceTransaction::class,
+            'minecraft_player' => MinecraftPlayer::class,
+            'page' => Page::class,
+            'server' => Server::class,
+            'server_token' => ServerToken::class,
+            'player_warning' => PlayerWarning::class,
         ]);
 
         Blade::component('navbar', NavBarComponent::class);

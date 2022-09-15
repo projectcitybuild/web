@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api\v1;
 use App\Exceptions\Http\BadRequestException;
 use App\Http\ApiController;
 use Domain\Balances\Exceptions\InsufficientBalanceException;
-use Domain\Balances\UseCases\DeductBalanceUseCase;
-use Domain\Balances\UseCases\GetBalanceUseCase;
+use Domain\Balances\UseCases\DeductBalance;
+use Domain\Balances\UseCases\GetBalance;
 use Illuminate\Http\Request;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Exceptions\InvalidMinecraftUUIDException;
@@ -18,7 +18,7 @@ final class MinecraftBalanceController extends ApiController
     public function show(
         Request $request,
         string $uuid,
-        GetBalanceUseCase $getBalance,
+        GetBalance $getBalance,
     ) {
         try {
             $balance = $getBalance->execute(
@@ -44,7 +44,7 @@ final class MinecraftBalanceController extends ApiController
     public function deduct(
         Request $request,
         string $uuid,
-        DeductBalanceUseCase $deductBalance,
+        DeductBalance $deductBalance,
     ) {
         $this->validateRequest(
             requestData: $request->all(),

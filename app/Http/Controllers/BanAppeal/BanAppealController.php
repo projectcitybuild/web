@@ -5,7 +5,7 @@ namespace App\Http\Controllers\BanAppeal;
 use App\Http\Requests\StoreBanAppealRequest;
 use App\Http\WebController;
 use Domain\BanAppeals\Exceptions\EmailRequiredException;
-use Domain\BanAppeals\UseCases\CreateBanAppealUseCase;
+use Domain\BanAppeals\UseCases\CreateBanAppeal;
 use Entities\Models\Eloquent\BanAppeal;
 use Entities\Models\Eloquent\GameBan;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -31,9 +31,9 @@ class BanAppealController extends WebController
     /**
      * Show the form for creating a new resource.
      */
-    public function create(GameBan $ban, Request $request, CreateBanAppealUseCase $useCase)
+    public function create(GameBan $ban, Request $request, CreateBanAppeal $useCase)
     {
-        if (! $ban->is_active) {
+        if (! $ban->isActive()) {
             return abort(404);
         }
 
@@ -62,13 +62,18 @@ class BanAppealController extends WebController
      *
      * @param  GameBan  $ban
      * @param  StoreBanAppealRequest  $request
-     * @param  CreateBanAppealUseCase  $useCase
+     * @param  CreateBanAppeal  $useCase
      * @return Response
      */
-    public function store(GameBan $ban, StoreBanAppealRequest $request, CreateBanAppealUseCase $useCase)
+    public function store(GameBan $ban, StoreBanAppealRequest $request, CreateBanAppeal $useCase)
     {
         try {
-            $banAppeal = $useCase->execute($ban, $request->get('explanation'), $request->user(), $request->get('email'));
+            $banAppeal = $useCase->execute(
+                ban: $ban,
+                explanation: $request->get('explanation'),
+                loggedInAccount: $request->user(),
+                email: $request->get('email'),
+            );
         } catch (EmailRequiredException $e) {
             $e->throwAsValidationException();
         }
