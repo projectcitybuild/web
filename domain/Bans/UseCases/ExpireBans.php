@@ -2,17 +2,17 @@
 
 namespace Domain\Bans\UseCases;
 
-use Repositories\GameBanRepository;
+use Repositories\GamePlayerBanRepository;
 
 final class ExpireBans
 {
     public function __construct(
-        private readonly GameBanRepository $gameBanRepository,
+        private readonly GamePlayerBanRepository $gamePlayerBanRepository,
     ) {
     }
 
     public function execute()
     {
-        $this->gameBanRepository->unbanAllExpired();
+        $this->gamePlayerBanRepository->unbanAllExpired();
     }
 }

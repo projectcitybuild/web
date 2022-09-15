@@ -3,17 +3,17 @@
 namespace Tests\Unit\Entities\Models\Eloquent;
 
 use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Tests\TestCase;
 
-class GameBanTest extends TestCase
+class GamePlayerBanTest extends TestCase
 {
     public function test_unban_date_matches_expiry_date()
     {
         $expiryDate = now()->subDay();
 
-        $ban = GameBan::factory()
+        $ban = GamePlayerBan::factory()
             ->bannedBy(MinecraftPlayer::factory())
             ->bannedPlayer(MinecraftPlayer::factory())
             ->create([
@@ -30,7 +30,7 @@ class GameBanTest extends TestCase
         $expiryDate = now()->subDay();
         $unbanDate = now()->subDays(5);
 
-        $ban = GameBan::factory()
+        $ban = GamePlayerBan::factory()
             ->bannedBy(MinecraftPlayer::factory())
             ->bannedPlayer(MinecraftPlayer::factory())
             ->create([

@@ -12,7 +12,7 @@ use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Resources\AccountResource;
 use Entities\Resources\DonationPerkResource;
-use Entities\Resources\GameBanResource;
+use Entities\Resources\GamePlayerBanResource;
 use Entities\Resources\PlayerWarningResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -45,7 +45,7 @@ final class MinecraftAggregateController extends ApiController
         return response()->json([
             'data' => [
                 'account' => is_null($account) ? null : AccountResource::make($account),
-                'ban' => is_null($ban) ? null : GameBanResource::make($ban),
+                'ban' => is_null($ban) ? null : GamePlayerBanResource::make($ban),
                 'badges' => $badges,
                 'donation_tiers' => DonationPerkResource::collection($donationTiers),
                 'warnings' => PlayerWarningResource::collection($warnings),

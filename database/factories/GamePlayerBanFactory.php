@@ -3,19 +3,19 @@
 namespace Database\Factories;
 
 use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\Server;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class GameBanFactory extends Factory
+class GamePlayerBanFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = GameBan::class;
+    protected $model = GamePlayerBan::class;
 
     /**
      * Define the model's default state.
@@ -69,7 +69,7 @@ class GameBanFactory extends Factory
         });
     }
 
-    public function bannedByConsole(): GameBanFactory
+    public function bannedByConsole(): GamePlayerBanFactory
     {
         return $this->state(function (array $attributes) {
             return [
@@ -78,7 +78,7 @@ class GameBanFactory extends Factory
         });
     }
 
-    public function bannedBy(MinecraftPlayer|Factory|null $minecraftPlayer): GameBanFactory
+    public function bannedBy(MinecraftPlayer|Factory|null $minecraftPlayer): GamePlayerBanFactory
     {
         if (is_null($minecraftPlayer)) {
             return $this->state(function (array $attributes) {
@@ -89,12 +89,12 @@ class GameBanFactory extends Factory
         }
     }
 
-    public function bannedPlayer(MinecraftPlayer|Factory $player): GameBanFactory
+    public function bannedPlayer(MinecraftPlayer|Factory $player): GamePlayerBanFactory
     {
         return $this->for($player, 'bannedPlayer');
     }
 
-    public function server(Server|Factory $server): GameBanFactory
+    public function server(Server|Factory $server): GamePlayerBanFactory
     {
         return $this->for($server, 'server');
     }

@@ -18,6 +18,6 @@ class BanAppealPolicy
 
     public function view(?Account $account, BanAppeal $banAppeal): bool
     {
-        return $this->createUseCase->isAccountVerified($banAppeal->gameBan, $account);
+        return $this->createUseCase->isAccountVerified($banAppeal->gamePlayerBan, $account);
     }
 }

@@ -145,10 +145,10 @@ final class Account extends Authenticatable implements LinkableAuditModel
         );
     }
 
-    public function gameBans(): HasManyThrough
+    public function gamePlayerBans(): HasManyThrough
     {
         return $this->hasManyThrough(
-            related: GameBan::class,
+            related: GamePlayerBan::class,
             through: MinecraftPlayer::class,
             firstKey: 'account_id',
             secondKey: 'banned_player_id',
@@ -171,12 +171,12 @@ final class Account extends Authenticatable implements LinkableAuditModel
 
     public function isBanned()
     {
-        return $this->gameBans()->active()->exists();
+        return $this->gamePlayerBans()->active()->exists();
     }
 
     public function banAppeals()
     {
-        return BanAppeal::whereIn('game_ban_id', $this->gameBans()->pluck('game_ban_id'));
+        return BanAppeal::whereIn('game_ban_id', $this->gamePlayerBans()->pluck('game_ban_id'));
     }
 
     public function inGroup(Group $group)

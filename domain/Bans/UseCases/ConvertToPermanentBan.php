@@ -4,10 +4,10 @@ namespace Domain\Bans\UseCases;
 
 use App\Exceptions\Http\NotFoundException;
 use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Repositories\GameBanRepository;
+use Repositories\GamePlayerBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Service\ConcretePlayerLookup;
 use Throwable;
@@ -15,8 +15,8 @@ use Throwable;
 final class ConvertToPermanentBan
 {
     public function __construct(
-        private readonly GameBanRepository $gameBanRepository,
-        private readonly ConcretePlayerLookup $playerLookup,
+        private readonly GamePlayerBanRepository $gamePlayerBanRepository,
+        private readonly ConcretePlayerLookup    $playerLookup,
     ) {
     }
 
@@ -26,7 +26,7 @@ final class ConvertToPermanentBan
      * @param  PlayerIdentifier  $bannerPlayerIdentifier Player that created the ban
      * @param  string  $bannerPlayerAlias Name of the player that created the ban at the time
      * @param  string|null  $banReason Reason the player was banned
-     * @return GameBan
+     * @return GamePlayerBan
      *
      * @throws NotFoundException if no ban matches the given $banId
      * @throws Exception|Throwable if the matching ban is inactive or not a temporary ban
@@ -36,8 +36,8 @@ final class ConvertToPermanentBan
         PlayerIdentifier $bannerPlayerIdentifier,
         string $bannerPlayerAlias,
         ?string $banReason,
-    ): GameBan {
-        $ban = $this->gameBanRepository->find($banId);
+    ): GamePlayerBan {
+        $ban = $this->gamePlayerBanRepository->find($banId);
         if ($ban === null) {
             throw new NotFoundException(id: 'ban_not_found', message: 'Cannot find a ban matching the given id');
         }
@@ -60,7 +60,7 @@ final class ConvertToPermanentBan
             $ban->unban_type = UnbanType::CONVERTED_TO_PERMANENT;
             $ban->save();
 
-            $newBan = $this->gameBanRepository->create(
+            $newBan = $this->gamePlayerBanRepository->create(
                 serverId: $ban->serverId,
                 bannedPlayerId: $ban->banned_player_id,
                 bannedPlayerAlias: $ban->banned_alias_at_time,

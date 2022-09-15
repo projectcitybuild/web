@@ -6,7 +6,7 @@ use App\Exceptions\Http\TooManyRequestsException;
 use Domain\Bans\Exceptions\NotBannedException;
 use Domain\Bans\UseCases\LookupBan;
 use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Foundation\Testing\WithFaker;
 use Mockery\MockInterface;
@@ -17,7 +17,7 @@ class BanLookupTest extends TestCase
 {
     use WithFaker;
 
-    private function mockUseCaseToReturnBan(string $username, GameBan $ban)
+    private function mockUseCaseToReturnBan(string $username, GamePlayerBan $ban)
     {
         $this->mock(LookupBan::class, function (MockInterface $mock) use ($username, $ban) {
             $mock->shouldReceive('execute')
@@ -37,7 +37,7 @@ class BanLookupTest extends TestCase
     public function test_can_submit_lookup_as_guest()
     {
         $mcPlayer = MinecraftPlayer::factory()->create();
-        $ban = GameBan::factory()->for($mcPlayer, 'bannedPlayer')->create();
+        $ban = GamePlayerBan::factory()->for($mcPlayer, 'bannedPlayer')->create();
 
         $this->mockUseCaseToReturnBan('Herobrine', $ban);
 
@@ -50,7 +50,7 @@ class BanLookupTest extends TestCase
     {
         $this->actingAs(Account::factory()->create());
         $mcPlayer = MinecraftPlayer::factory()->create();
-        $ban = GameBan::factory()->for($mcPlayer, 'bannedPlayer')->create();
+        $ban = GamePlayerBan::factory()->for($mcPlayer, 'bannedPlayer')->create();
 
         $this->mockUseCaseToReturnBan('Herobrine', $ban);
 
@@ -69,7 +69,7 @@ class BanLookupTest extends TestCase
     public function test_errors_if_no_active_bans()
     {
         $mcPlayer = MinecraftPlayer::factory()->create();
-        $ban = GameBan::factory()->inactive()->for($mcPlayer, 'bannedPlayer')->create();
+        $ban = GamePlayerBan::factory()->inactive()->for($mcPlayer, 'bannedPlayer')->create();
         $this->mockUseCaseToThrow(NotBannedException::class);
         $this->post(route('front.bans.lookup'), ['username' => 'Herobrine'])
             ->assertSessionHasErrors();

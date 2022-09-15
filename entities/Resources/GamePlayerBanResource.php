@@ -4,7 +4,7 @@ namespace Entities\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GameBanResource extends JsonResource
+class GamePlayerBanResource extends JsonResource
 {
     public function toArray($request): array
     {

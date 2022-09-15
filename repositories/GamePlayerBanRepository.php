@@ -3,12 +3,12 @@
 namespace Repositories;
 
 use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
-class GameBanRepository
+class GamePlayerBanRepository
 {
     public function create(
         int $serverId,
@@ -17,8 +17,8 @@ class GameBanRepository
         int $bannerPlayerId,
         ?string $reason,
         ?Carbon $expiresAt,
-    ): GameBan {
-        return GameBan::create([
+    ): GamePlayerBan {
+        return GamePlayerBan::create([
             'server_id' => $serverId,
             'banned_player_id' => $bannedPlayerId,
             'banned_alias_at_time' => $bannedPlayerAlias,
@@ -28,21 +28,21 @@ class GameBanRepository
         ]);
     }
 
-    public function find(int $banId): ?GameBan
+    public function find(int $banId): ?GamePlayerBan
     {
-        return GameBan::find($banId);
+        return GamePlayerBan::find($banId);
     }
 
-    public function firstActiveBan(MinecraftPlayer $player): ?GameBan
+    public function firstActiveBan(MinecraftPlayer $player): ?GamePlayerBan
     {
-        return GameBan::where('banned_player_id', $player->getKey())
+        return GamePlayerBan::where('banned_player_id', $player->getKey())
             ->active()
             ->first();
     }
 
     public function all(MinecraftPlayer $player): Collection
     {
-        return GameBan::where('banned_player_id', $player->getKey())
+        return GamePlayerBan::where('banned_player_id', $player->getKey())
             ->orderBy('created_at', 'desc')
             ->limit(25)
             ->get();
@@ -50,7 +50,7 @@ class GameBanRepository
 
     public function unbanAllExpired()
     {
-        GameBan::whereNull('unbanned_at')
+        GamePlayerBan::whereNull('unbanned_at')
             ->whereDate('expires_at', '<=', now())
             ->update([
                 'unbanned_at' => now(),
@@ -59,9 +59,9 @@ class GameBanRepository
     }
 
     public function unban(
-        GameBan $ban,
-        ?int $unbannerPlayerId,
-        UnbanType $unbanType,
+        GamePlayerBan $ban,
+        ?int          $unbannerPlayerId,
+        UnbanType     $unbanType,
     ) {
         $ban->update([
             'unbanned_at' => now(),

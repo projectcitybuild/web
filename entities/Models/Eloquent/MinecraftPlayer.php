@@ -76,10 +76,10 @@ final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
         );
     }
 
-    public function gameBans(): HasMany
+    public function gamePlayerBans(): HasMany
     {
         return $this->hasMany(
-            related: GameBan::class,
+            related: GamePlayerBan::class,
             foreignKey: 'banned_player_id',
             localKey: 'player_minecraft_id',
         );
@@ -96,14 +96,14 @@ final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
 
     public function isBanned()
     {
-        return $this->gameBans()->active()->exists();
+        return $this->gamePlayerBans()->active()->exists();
     }
 
     public function banAppeals()
     {
         // We have to do this because game bans are a polymorphic relationship, but this is just what
         // HasManyThrough does internally anyway..
-        return BanAppeal::whereIn('game_ban_id', $this->gameBans()->pluck('game_ban_id'));
+        return BanAppeal::whereIn('game_ban_id', $this->gamePlayerBans()->pluck('game_ban_id'));
     }
 
     /**

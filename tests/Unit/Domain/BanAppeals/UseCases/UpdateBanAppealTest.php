@@ -12,7 +12,7 @@ use Domain\Bans\UseCases\CreateUnban;
 use Domain\Panel\Exceptions\NoPlayerForActionException;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Repositories\BanAppealRepository;
 use Tests\TestCase;
@@ -25,7 +25,7 @@ class UpdateBanAppealTest extends TestCase
     private Account $decidingAccount;
     private MinecraftPlayer $decidingPlayer;
     private MinecraftPlayer $bannedPlayer;
-    private GameBan $gameBan;
+    private GamePlayerBan $gamePlayerBan;
     private BanAppeal $banAppeal;
     private string $decisionNote = 'Some decision note';
 
@@ -43,8 +43,8 @@ class UpdateBanAppealTest extends TestCase
         $this->decidingAccount = Account::factory()->create();
         $this->decidingPlayer = MinecraftPlayer::factory()->for($this->decidingAccount)->create();
         $this->bannedPlayer = MinecraftPlayer::factory()->create();
-        $this->gameBan = GameBan::factory()->bannedPlayer($this->bannedPlayer)->create();
-        $this->banAppeal = BanAppeal::factory()->for($this->gameBan)->create();
+        $this->gamePlayerBan = GamePlayerBan::factory()->bannedPlayer($this->bannedPlayer)->create();
+        $this->banAppeal = BanAppeal::factory()->for($this->gamePlayerBan)->create();
     }
 
     public function test_can_unban()
@@ -63,7 +63,7 @@ class UpdateBanAppealTest extends TestCase
                     return $arg->key == $this->decidingPlayer->getKey();
                 }),
                 UnbanType::APPEALED,
-            )->andReturn($this->gameBan);
+            )->andReturn($this->gamePlayerBan);
 
         $this->useCase->execute(
             banAppeal: $this->banAppeal,
@@ -105,7 +105,7 @@ class UpdateBanAppealTest extends TestCase
 
     public function test_throws_exception_if_appeal_decided()
     {
-        $decidedAppeal = BanAppeal::factory()->unbanned()->for($this->gameBan)->create();
+        $decidedAppeal = BanAppeal::factory()->unbanned()->for($this->gamePlayerBan)->create();
         $this->expectException(AppealAlreadyDecidedException::class);
         $this->useCase->execute(
             banAppeal: $decidedAppeal,

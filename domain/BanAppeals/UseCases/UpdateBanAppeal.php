@@ -67,7 +67,7 @@ class UpdateBanAppeal
             );
 
             if ($status == BanAppealStatus::ACCEPTED_UNBAN) {
-                $bannedPlayerIdentifier = PlayerIdentifier::pcbAccountId($banAppeal->gameBan->bannedPlayer->getKey());
+                $bannedPlayerIdentifier = PlayerIdentifier::pcbAccountId($banAppeal->gamePlayerBan->bannedPlayer->getKey());
                 $staffPlayerIdentifier = PlayerIdentifier::pcbAccountId($decidingPlayer->getKey());
 
                 $this->unbanUseCase->execute(

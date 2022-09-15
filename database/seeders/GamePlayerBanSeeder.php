@@ -3,11 +3,11 @@
 namespace Database\Seeders;
 
 use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Database\Seeder;
 
-class GameBanSeeder extends Seeder
+class GamePlayerBanSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -25,7 +25,7 @@ class GameBanSeeder extends Seeder
         $players = MinecraftPlayer::get();
 
         for ($i = 0; $i < 100; $i++) {
-            GameBan::factory()
+            GamePlayerBan::factory()
                 ->bannedPlayer($players->random())
                 ->bannedBy($staffPlayers->random())
                 ->create();

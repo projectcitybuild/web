@@ -4,11 +4,11 @@ namespace Tests\Unit\Domain\Bans\UseCases;
 
 use Domain\Bans\Exceptions\NotBannedException;
 use Domain\Bans\UseCases\LookupBan;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Library\Mojang\Api\MojangPlayerApi;
 use Library\Mojang\Models\MojangPlayer;
-use Repositories\GameBanRepository;
+use Repositories\GamePlayerBanRepository;
 use Repositories\MinecraftPlayerRepository;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 use Tests\TestCase;
@@ -16,7 +16,7 @@ use Tests\TestCase;
 class LookupBanTest extends TestCase
 {
     private MojangPlayerApi $mojangPlayerApi;
-    private GameBanRepository $gameBanRepository;
+    private GamePlayerBanRepository $gamePlayerBanRepository;
     private MinecraftPlayerRepository $minecraftPlayerRepository;
     private LookupBan $useCase;
 
@@ -25,12 +25,12 @@ class LookupBanTest extends TestCase
         parent::setUp();
 
         $this->mojangPlayerApi = \Mockery::mock(MojangPlayerApi::class);
-        $this->gameBanRepository = \Mockery::mock(GameBanRepository::class);
+        $this->gamePlayerBanRepository = \Mockery::mock(GamePlayerBanRepository::class);
         $this->minecraftPlayerRepository = \Mockery::mock(MinecraftPlayerRepository::class);
 
         $this->useCase = new LookupBan(
             mojangPlayerApi: $this->mojangPlayerApi,
-            gameBanRepository: $this->gameBanRepository,
+            gamePlayerBanRepository: $this->gamePlayerBanRepository,
             minecraftPlayerRepository: $this->minecraftPlayerRepository
         );
     }
@@ -57,9 +57,9 @@ class LookupBanTest extends TestCase
             ->andReturn($player);
     }
 
-    public function mockGameBanRepositoryToReturn($playerId, $bans)
+    public function mockgamePlayerBanRepositoryToReturn($playerId, $bans)
     {
-        $this->gameBanRepository
+        $this->gamePlayerBanRepository
             ->shouldReceive('firstActiveBan')
             ->once()
             ->with(
@@ -95,7 +95,7 @@ class LookupBanTest extends TestCase
         $mcPlayer = MinecraftPlayer::factory()->create(['uuid' => 'abc123']);
         $this->mockMojangApiToReturn('Herobrine', 'abc123');
         $this->mockPlayerRepositoryToReturn('abc123', $mcPlayer);
-        $this->mockGameBanRepositoryToReturn($mcPlayer->getKey(), null);
+        $this->mockgamePlayerBanRepositoryToReturn($mcPlayer->getKey(), null);
 
         $this->expectException(NotBannedException::class);
 
@@ -107,11 +107,11 @@ class LookupBanTest extends TestCase
         $mcPlayer = MinecraftPlayer::factory()->create(['uuid' => 'abc123']);
         $this->mockMojangApiToReturn('Herobrine', 'abc123');
         $this->mockPlayerRepositoryToReturn('abc123', $mcPlayer);
-        $gameBanInst = GameBan::factory()->make();
-        $this->mockGameBanRepositoryToReturn($mcPlayer->getKey(), $gameBanInst);
+        $gamePlayerBanInst = GamePlayerBan::factory()->make();
+        $this->mockgamePlayerBanRepositoryToReturn($mcPlayer->getKey(), $gamePlayerBanInst);
 
         $this->assertEquals(
-            $gameBanInst,
+            $gamePlayerBanInst,
             $this->useCase->execute('Herobrine')
         );
     }

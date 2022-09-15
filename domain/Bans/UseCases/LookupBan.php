@@ -4,18 +4,18 @@ namespace Domain\Bans\UseCases;
 
 use App\Exceptions\Http\TooManyRequestsException;
 use Domain\Bans\Exceptions\NotBannedException;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\MinecraftUUID;
 use Library\Mojang\Api\MojangPlayerApi;
-use Repositories\GameBanRepository;
+use Repositories\GamePlayerBanRepository;
 use Repositories\MinecraftPlayerRepository;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 
 class LookupBan
 {
     public function __construct(
-        private readonly MojangPlayerApi $mojangPlayerApi,
-        private readonly GameBanRepository $gameBanRepository,
+        private readonly MojangPlayerApi           $mojangPlayerApi,
+        private readonly GamePlayerBanRepository   $gamePlayerBanRepository,
         private readonly MinecraftPlayerRepository $minecraftPlayerRepository
     ) {
     }
@@ -25,7 +25,7 @@ class LookupBan
      * @throws NotBannedException
      * @throws PlayerNotFoundException
      */
-    public function execute(string $username): GameBan
+    public function execute(string $username): GamePlayerBan
     {
         $mojangPlayer = $this->mojangPlayerApi->getUuidOf($username);
 
@@ -38,12 +38,12 @@ class LookupBan
             throw new NotBannedException();
         }
 
-        $gameBan = $this->gameBanRepository->firstActiveBan(player: $mcPlayer);
+        $gamePlayerBan = $this->gamePlayerBanRepository->firstActiveBan(player: $mcPlayer);
 
-        if ($gameBan === null) {
+        if ($gamePlayerBan === null) {
             throw new NotBannedException();
         }
 
-        return $gameBan;
+        return $gamePlayerBan;
     }
 }

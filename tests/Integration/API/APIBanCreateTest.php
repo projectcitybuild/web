@@ -4,7 +4,7 @@ namespace Tests\Integration\API;
 
 use Carbon\Carbon;
 use Domain\ServerTokens\ScopeKey;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\PlayerIdentifierType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -69,7 +69,7 @@ class APIBanCreateTest extends IntegrationTestCase
             ->assertSuccessful();
 
         $this->assertDatabaseHas(
-            table: GameBan::getTableName(),
+            table: GamePlayerBan::getTableName(),
             data: [
                 'server_id' => $this->token->server->getKey(),
                 'banned_player_id' => $player1->getKey(),
@@ -109,7 +109,7 @@ class APIBanCreateTest extends IntegrationTestCase
             ->assertSuccessful();
 
         $this->assertDatabaseHas(
-            table: GameBan::getTableName(),
+            table: GamePlayerBan::getTableName(),
             data: [
                 'server_id' => $this->token->server->getKey(),
                 'banned_player_id' => $player1->getKey(),
@@ -133,11 +133,11 @@ class APIBanCreateTest extends IntegrationTestCase
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
 
-        GameBan::factory()
+        GamePlayerBan::factory()
             ->bannedPlayer($player1)
             ->create();
 
-        $this->assertDatabaseCount(table: GameBan::getTableName(), count: 1);
+        $this->assertDatabaseCount(table: GamePlayerBan::getTableName(), count: 1);
 
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: [
@@ -158,7 +158,7 @@ class APIBanCreateTest extends IntegrationTestCase
                 ],
             ]);
 
-        $this->assertDatabaseCount(table: GameBan::getTableName(), count: 1);
+        $this->assertDatabaseCount(table: GamePlayerBan::getTableName(), count: 1);
     }
 
     public function test_permanent_ban_throws_exception_if_already_temp_banned()
@@ -168,12 +168,12 @@ class APIBanCreateTest extends IntegrationTestCase
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
 
-        GameBan::factory()
+        GamePlayerBan::factory()
             ->temporary()
             ->bannedPlayer($player1)
             ->create();
 
-        $this->assertDatabaseCount(table: GameBan::getTableName(), count: 1);
+        $this->assertDatabaseCount(table: GamePlayerBan::getTableName(), count: 1);
 
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: [
@@ -194,6 +194,6 @@ class APIBanCreateTest extends IntegrationTestCase
                 ],
             ]);
 
-        $this->assertDatabaseCount(table: GameBan::getTableName(), count: 1);
+        $this->assertDatabaseCount(table: GamePlayerBan::getTableName(), count: 1);
     }
 }

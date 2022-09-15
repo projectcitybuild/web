@@ -29,7 +29,7 @@ final class GameUnban extends Model
 
     public function ban(): BelongsTo
     {
-        return $this->belongsTo(GameBan::class, 'game_ban_id', 'game_ban_id');
+        return $this->belongsTo(GamePlayerBan::class, 'game_ban_id', 'game_ban_id');
     }
 
     public function staffPlayer(): BelongsTo

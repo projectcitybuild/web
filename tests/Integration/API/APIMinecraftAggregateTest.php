@@ -7,7 +7,7 @@ use Entities\Models\Eloquent\Badge;
 use Entities\Models\Eloquent\Donation;
 use Entities\Models\Eloquent\DonationPerk;
 use Entities\Models\Eloquent\DonationTier;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\Group;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\PlayerWarning;
@@ -38,7 +38,7 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
 
         $server = Server::factory()->create();
         $staffPlayer = MinecraftPlayer::factory()->create();
-        $ban = GameBan::factory()
+        $ban = GamePlayerBan::factory()
             ->bannedBy($staffPlayer)
             ->bannedPlayer($player)
             ->server($server)
@@ -195,7 +195,7 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
 
         $server = Server::factory()->create();
         $staffPlayer = MinecraftPlayer::factory()->create();
-        $ban = GameBan::factory()
+        $ban = GamePlayerBan::factory()
             ->bannedBy($staffPlayer)
             ->bannedPlayer($player)
             ->server($server)

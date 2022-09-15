@@ -4,7 +4,7 @@ namespace Tests\Integration\Feature;
 
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
@@ -17,7 +17,7 @@ class BanAppealViewTest extends TestCase
     {
         parent::setUp();
         $this->banAppeal = BanAppeal::factory()
-            ->for(GameBan::factory()->for(MinecraftPlayer::factory(), 'bannedPlayer'))
+            ->for(GamePlayerBan::factory()->for(MinecraftPlayer::factory(), 'bannedPlayer'))
             ->create();
     }
 
@@ -37,7 +37,7 @@ class BanAppealViewTest extends TestCase
     public function test_can_view_if_player_owner_and_unsigned()
     {
         $account = Account::factory()->create();
-        $this->banAppeal->gameBan->bannedPlayer->account()->associate($account)->save();
+        $this->banAppeal->gamePlayerBan->bannedPlayer->account()->associate($account)->save();
         $this->actingAs($account)
             ->get(route('front.appeal.show', $this->banAppeal))
             ->assertOk();
@@ -45,7 +45,7 @@ class BanAppealViewTest extends TestCase
 
     public function test_cant_view_if_not_player_owner_and_unsigned()
     {
-        $this->banAppeal->gameBan->bannedPlayer->account()->associate(Account::factory()->create())->save();
+        $this->banAppeal->gamePlayerBan->bannedPlayer->account()->associate(Account::factory()->create())->save();
         $this->actingAs(Account::factory()->create())
             ->get(route('front.appeal.show', $this->banAppeal))
             ->assertForbidden();

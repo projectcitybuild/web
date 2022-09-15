@@ -20,13 +20,13 @@
                 <tr class="{{ $banAppeal->isPending()  ? 'table-warning' : '' }}">
                     <td>{{ $banAppeal->status->humanReadable() }}</td>
                     <td>
-                        <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->gameBan->bannedPlayer)}}">
+                        <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->gamePlayerBan->bannedPlayer)}}">
                             {{ $banAppeal->getBannedPlayerName() ?? 'No Alias' }}
                         </a>
                     </td>
                     <td>
-                        <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->gameBan->bannedPlayer)}}">
-                            {{ $banAppeal->gameBan->staffPlayer->getBanReadableName() ?? 'No Alias' }}
+                        <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->gamePlayerBan->bannedPlayer)}}">
+                            {{ $banAppeal->gamePlayerBan->staffPlayer->getBanReadableName() ?? 'No Alias' }}
                         </a>
                     </td>
                     <td>

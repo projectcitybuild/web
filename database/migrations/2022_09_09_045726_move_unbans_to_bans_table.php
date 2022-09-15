@@ -1,7 +1,7 @@
 <?php
 
 use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\GameUnban;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -27,14 +27,14 @@ return new class extends Migration
                 $ban->save();
             }
 
-            $bans = GameBan::where('is_active', false)->whereNull('expires_at')->get();
+            $bans = GamePlayerBan::where('is_active', false)->whereNull('expires_at')->get();
             foreach ($bans as $ban) {
                 $ban->unbanned_at = $ban->updated_at;
                 $ban->unban_type = UnbanType::MANUAL->value;
                 $ban->save();
             }
 
-            $bans = GameBan::where('is_active', false)->whereNotNull('expires_at')->get();
+            $bans = GamePlayerBan::where('is_active', false)->whereNotNull('expires_at')->get();
             foreach ($bans as $ban) {
                 $ban->unbanned_at = $ban->expires_at;
                 $ban->unban_type = UnbanType::EXPIRED->value;
