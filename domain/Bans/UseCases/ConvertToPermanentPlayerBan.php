@@ -12,7 +12,7 @@ use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Service\ConcretePlayerLookup;
 use Throwable;
 
-final class ConvertToPermanentBan
+final class ConvertToPermanentPlayerBan
 {
     public function __construct(
         private readonly GamePlayerBanRepository $gamePlayerBanRepository,

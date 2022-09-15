@@ -7,11 +7,11 @@ use App\Http\ApiController;
 use Domain\Bans\Exceptions\AlreadyPermBannedException;
 use Domain\Bans\Exceptions\NotBannedException;
 use Domain\Bans\UnbanType;
-use Domain\Bans\UseCases\ConvertToPermanentBan;
-use Domain\Bans\UseCases\CreateBan;
-use Domain\Bans\UseCases\CreateUnban;
-use Domain\Bans\UseCases\GetActiveBan;
-use Domain\Bans\UseCases\GetAllBans;
+use Domain\Bans\UseCases\ConvertToPermanentPlayerBan;
+use Domain\Bans\UseCases\CreatePlayerBan;
+use Domain\Bans\UseCases\CreatePlayerUnban;
+use Domain\Bans\UseCases\GetActivePlayerBan;
+use Domain\Bans\UseCases\GetAllPlayerBans;
 use Entities\Models\PlayerIdentifierType;
 use Entities\Resources\GamePlayerBanResource;
 use Illuminate\Http\Request;
@@ -27,8 +27,8 @@ final class GamePlayerBanController extends ApiController
      * @throws BadRequestException
      */
     public function ban(
-        Request $request,
-        CreateBan $createBan,
+        Request         $request,
+        CreatePlayerBan $createBan,
     ): GamePlayerBanResource {
         $this->validateRequest($request->all(), [
             'banned_player_id' => 'required|max:60',
@@ -76,8 +76,8 @@ final class GamePlayerBanController extends ApiController
      * @throws BadRequestException
      */
     public function unban(
-        Request $request,
-        CreateUnban $createUnban,
+        Request           $request,
+        CreatePlayerUnban $createUnban,
     ): GamePlayerBanResource {
         $this->validateRequest($request->all(), [
             'banned_player_id' => 'required|max:60',
@@ -108,8 +108,8 @@ final class GamePlayerBanController extends ApiController
      * @throws BadRequestException
      */
     public function convertToPermanent(
-        Request $request,
-        ConvertToPermanentBan $convertToPermanentBan,
+        Request                     $request,
+        ConvertToPermanentPlayerBan $convertToPermanentBan,
     ): GamePlayerBanResource {
         $this->validateRequest($request->all(), [
             'ban_id' => 'required|integer',
@@ -138,8 +138,8 @@ final class GamePlayerBanController extends ApiController
      * @throws BadRequestException
      */
     public function status(
-        Request $request,
-        GetActiveBan $getActiveBans,
+        Request            $request,
+        GetActivePlayerBan $getActiveBans,
     ): GamePlayerBanResource|array {
         $this->validateRequest($request->all(), [
             'player_id' => 'required|max:60',
@@ -166,8 +166,8 @@ final class GamePlayerBanController extends ApiController
      * @throws BadRequestException
      */
     public function all(
-        Request $request,
-        GetAllBans $getAllBans,
+        Request          $request,
+        GetAllPlayerBans $getAllBans,
     ): AnonymousResourceCollection {
         $this->validateRequest($request->all(), [
             'player_id' => 'required|max:60',

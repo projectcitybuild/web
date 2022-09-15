@@ -4,7 +4,7 @@ namespace Domain\Bans\UseCases;
 
 use Repositories\GamePlayerBanRepository;
 
-final class ExpireBans
+final class ExpirePlayerBans
 {
     public function __construct(
         private readonly GamePlayerBanRepository $gamePlayerBanRepository,

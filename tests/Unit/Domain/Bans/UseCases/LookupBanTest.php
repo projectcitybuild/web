@@ -3,7 +3,7 @@
 namespace Tests\Unit\Domain\Bans\UseCases;
 
 use Domain\Bans\Exceptions\NotBannedException;
-use Domain\Bans\UseCases\LookupBan;
+use Domain\Bans\UseCases\LookupPlayerBan;
 use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Library\Mojang\Api\MojangPlayerApi;
@@ -18,7 +18,7 @@ class LookupBanTest extends TestCase
     private MojangPlayerApi $mojangPlayerApi;
     private GamePlayerBanRepository $gamePlayerBanRepository;
     private MinecraftPlayerRepository $minecraftPlayerRepository;
-    private LookupBan $useCase;
+    private LookupPlayerBan $useCase;
 
     protected function setUp(): void
     {
@@ -28,7 +28,7 @@ class LookupBanTest extends TestCase
         $this->gamePlayerBanRepository = \Mockery::mock(GamePlayerBanRepository::class);
         $this->minecraftPlayerRepository = \Mockery::mock(MinecraftPlayerRepository::class);
 
-        $this->useCase = new LookupBan(
+        $this->useCase = new LookupPlayerBan(
             mojangPlayerApi: $this->mojangPlayerApi,
             gamePlayerBanRepository: $this->gamePlayerBanRepository,
             minecraftPlayerRepository: $this->minecraftPlayerRepository

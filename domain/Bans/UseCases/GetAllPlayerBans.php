@@ -2,12 +2,12 @@
 
 namespace Domain\Bans\UseCases;
 
-use Entities\Models\Eloquent\GamePlayerBan;
+use Illuminate\Support\Collection;
 use Repositories\GamePlayerBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Service\ConcretePlayerLookup;
 
-final class GetActiveBan
+final class GetAllPlayerBans
 {
     public function __construct(
         private readonly GamePlayerBanRepository $gamePlayerBanRepository,
@@ -17,16 +17,17 @@ final class GetActiveBan
 
     /**
      * @param  PlayerIdentifier  $playerIdentifier
-     * @return ?GamePlayerBan
+     * @return Collection
      */
     public function execute(
         PlayerIdentifier $playerIdentifier,
-    ): ?GamePlayerBan {
+    ): Collection {
         $player = $this->playerLookup->find($playerIdentifier);
         if ($player === null) {
-            return null;
+            return collect();
         }
+        $bans = $this->gamePlayerBanRepository->all(player: $player);
 
-        return $this->gamePlayerBanRepository->firstActiveBan(player: $player);
+        return $bans;
     }
 }

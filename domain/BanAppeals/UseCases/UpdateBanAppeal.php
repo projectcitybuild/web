@@ -7,7 +7,7 @@ use Domain\BanAppeals\Entities\BanAppealStatus;
 use Domain\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use Domain\Bans\Exceptions\NotBannedException;
 use Domain\Bans\UnbanType;
-use Domain\Bans\UseCases\CreateUnban;
+use Domain\Bans\UseCases\CreatePlayerUnban;
 use Domain\Panel\Exceptions\NoPlayerForActionException;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
@@ -20,7 +20,7 @@ class UpdateBanAppeal
 {
     public function __construct(
         private readonly BanAppealRepository $banAppealRepository,
-        private readonly CreateUnban $unbanUseCase
+        private readonly CreatePlayerUnban $unbanUseCase
     ) {
     }
 

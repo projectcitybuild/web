@@ -11,7 +11,7 @@ use Repositories\GamePlayerBanRepository;
 use Repositories\MinecraftPlayerRepository;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 
-class LookupBan
+class LookupPlayerBan
 {
     public function __construct(
         private readonly MojangPlayerApi           $mojangPlayerApi,

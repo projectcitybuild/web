@@ -9,7 +9,7 @@ use Repositories\GamePlayerBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Service\ConcretePlayerLookup;
 
-class CreateUnban
+class CreatePlayerUnban
 {
     public function __construct(
         private readonly GamePlayerBanRepository $gamePlayerBanRepository,
