@@ -5,8 +5,8 @@ namespace Tests\Unit\Domain\Warnings\UseCases;
 use Domain\Warnings\UseCases\CreateWarning;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\PlayerWarning;
-use Repositories\Warnings\MockPlayerWarningRepository;
-use Repositories\Warnings\PlayerWarningRepository;
+use Repositories\PlayerWarnings\PlayerWarningMockRepository;
+use Repositories\PlayerWarnings\PlayerWarningRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Service\MockPlayerLookup;
 use Shared\PlayerLookup\Service\PlayerLookup;
@@ -22,7 +22,7 @@ class CreateWarningTest extends TestCase
     {
         parent::setUp();
 
-        $this->playerWarningRepository = new MockPlayerWarningRepository();
+        $this->playerWarningRepository = new PlayerWarningMockRepository();
         $this->playerLookup = new MockPlayerLookup();
 
         $this->useCase = new CreateWarning(

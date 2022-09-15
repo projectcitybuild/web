@@ -1,14 +1,14 @@
 <?php
 
-namespace Repositories\Warnings;
+namespace Repositories\PlayerWarnings;
 
 use Entities\Models\Eloquent\PlayerWarning;
 use Illuminate\Support\Collection;
 
-final class MockPlayerWarningRepository implements PlayerWarningRepository
+final class PlayerWarningMockRepository implements PlayerWarningRepository
 {
-    public ?PlayerWarning $create;
-    public ?Collection $all;
+    public PlayerWarning $create;
+    public Collection $all;
     public ?PlayerWarning $find;
 
     public function create(
@@ -18,12 +18,12 @@ final class MockPlayerWarningRepository implements PlayerWarningRepository
         float $weight,
         bool $isAcknowledged,
     ): PlayerWarning {
-        return $this->create ?? throw new \Exception('Not set');
+        return $this->create;
     }
 
     public function all(int $playerId): Collection
     {
-        return $this->all ?? throw new \Exception('Not set');
+        return $this->all;
     }
 
     public function find(int $warningId): ?PlayerWarning

@@ -1,6 +1,6 @@
 <?php
 
-namespace Repositories\Warnings;
+namespace Repositories\PlayerWarnings;
 
 use Entities\Models\Eloquent\PlayerWarning;
 use Illuminate\Support\Collection;
