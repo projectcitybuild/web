@@ -5,12 +5,12 @@ namespace Domain\MinecraftTelemetry\UseCases;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Repositories\MinecraftPlayerAliasRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\ConcretePlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookup;
 
 final class UpdateSeenMinecraftPlayer
 {
     public function __construct(
-        private readonly ConcretePlayerLookup $playerLookup,
+        private readonly PlayerLookup $playerLookup,
         private readonly MinecraftPlayerAliasRepository $aliasRepository,
     ) {
     }

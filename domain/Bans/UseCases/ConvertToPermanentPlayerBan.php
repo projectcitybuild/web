@@ -9,14 +9,14 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Repositories\GamePlayerBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\ConcretePlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookup;
 use Throwable;
 
 final class ConvertToPermanentPlayerBan
 {
     public function __construct(
         private readonly GamePlayerBanRepository $gamePlayerBanRepository,
-        private readonly ConcretePlayerLookup $playerLookup,
+        private readonly PlayerLookup $playerLookup,
     ) {
     }
 

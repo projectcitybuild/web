@@ -8,7 +8,7 @@ use Entities\Models\Eloquent\PlayerWarning;
 use Repositories\PlayerWarnings\PlayerWarningMockRepository;
 use Repositories\PlayerWarnings\PlayerWarningRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\MockPlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookupMock;
 use Shared\PlayerLookup\Service\PlayerLookup;
 use Tests\TestCase;
 
@@ -23,7 +23,7 @@ class GetWarningsTest extends TestCase
         parent::setUp();
 
         $this->playerWarningRepository = new PlayerWarningMockRepository();
-        $this->playerLookup = new MockPlayerLookup();
+        $this->playerLookup = new PlayerLookupMock();
 
         $this->useCase = new GetWarnings(
             playerLookup: $this->playerLookup,

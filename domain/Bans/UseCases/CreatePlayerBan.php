@@ -8,13 +8,13 @@ use Entities\Models\Eloquent\GamePlayerBan;
 use Illuminate\Support\Carbon;
 use Repositories\GamePlayerBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\ConcretePlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookup;
 
 final class CreatePlayerBan
 {
     public function __construct(
         private readonly GamePlayerBanRepository $gamePlayerBanRepository,
-        private readonly ConcretePlayerLookup $playerLookup,
+        private readonly PlayerLookup $playerLookup,
     ) {
     }
 

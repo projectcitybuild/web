@@ -5,20 +5,16 @@ namespace Domain\Bans\UseCases;
 use Entities\Models\Eloquent\GamePlayerBan;
 use Repositories\GamePlayerBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\ConcretePlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookup;
 
 final class GetActivePlayerBan
 {
     public function __construct(
         private readonly GamePlayerBanRepository $gamePlayerBanRepository,
-        private readonly ConcretePlayerLookup $playerLookup,
+        private readonly PlayerLookup $playerLookup,
     ) {
     }
 
-    /**
-     * @param  PlayerIdentifier  $playerIdentifier
-     * @return ?GamePlayerBan
-     */
     public function execute(
         PlayerIdentifier $playerIdentifier,
     ): ?GamePlayerBan {

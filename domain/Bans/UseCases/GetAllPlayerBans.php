@@ -5,13 +5,13 @@ namespace Domain\Bans\UseCases;
 use Illuminate\Support\Collection;
 use Repositories\GamePlayerBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\ConcretePlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookup;
 
 final class GetAllPlayerBans
 {
     public function __construct(
         private readonly GamePlayerBanRepository $gamePlayerBanRepository,
-        private readonly ConcretePlayerLookup $playerLookup,
+        private readonly PlayerLookup $playerLookup,
     ) {
     }
 

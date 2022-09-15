@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Exceptions\Http\NotFoundException;
 use App\Http\ApiController;
 use Domain\Badges\UseCases\GetBadges;
+use Domain\Bans\UseCases\GetActiveIPBan;
 use Domain\Bans\UseCases\GetActivePlayerBan;
 use Domain\Donations\UseCases\GetDonationTiers;
 use Domain\Warnings\UseCases\GetWarnings;
@@ -26,13 +27,15 @@ final class MinecraftAggregateController extends ApiController
         GetActivePlayerBan $getBan,
         GetBadges $getBadges,
         GetDonationTiers $getDonationTier,
-        GetWarnings $getWarnings,
+        GetActiveIPBan $getActiveIPBan,
     ): JsonResponse {
+        $this->validateRequest($request->all(), [
+            'ip' => 'ip',
+        ]);
         $identifier = PlayerIdentifier::minecraftUUID($uuid);
 
         $ban = $getBan->execute(playerIdentifier: $identifier);
         $badges = $getBadges->execute(identifier: $identifier);
-        $warnings = $getWarnings->execute(playerIdentifier: $identifier);
 
         try {
             $donationTiers = $getDonationTier->execute(uuid: $uuid);
@@ -42,13 +45,18 @@ final class MinecraftAggregateController extends ApiController
 
         $account = $this->getLinkedAccount($uuid);
 
+        $ipBan = null;
+        if ($request->has('ip')) {
+            $ipBan = $getActiveIPBan->execute(ip: $request->get('ip'));
+        }
+
         return response()->json([
             'data' => [
                 'account' => is_null($account) ? null : AccountResource::make($account),
                 'ban' => is_null($ban) ? null : GamePlayerBanResource::make($ban),
                 'badges' => $badges,
                 'donation_tiers' => DonationPerkResource::collection($donationTiers),
-                'warnings' => PlayerWarningResource::collection($warnings),
+                'ip_ban' => $ipBan,
             ],
         ]);
     }
