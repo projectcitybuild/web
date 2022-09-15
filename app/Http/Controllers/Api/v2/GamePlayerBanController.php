@@ -27,7 +27,7 @@ final class GamePlayerBanController extends ApiController
      * @throws BadRequestException
      */
     public function ban(
-        Request         $request,
+        Request $request,
         CreatePlayerBan $createBan,
     ): GamePlayerBanResource {
         $this->validateRequest($request->all(), [
@@ -76,7 +76,7 @@ final class GamePlayerBanController extends ApiController
      * @throws BadRequestException
      */
     public function unban(
-        Request           $request,
+        Request $request,
         CreatePlayerUnban $createUnban,
     ): GamePlayerBanResource {
         $this->validateRequest($request->all(), [
@@ -108,7 +108,7 @@ final class GamePlayerBanController extends ApiController
      * @throws BadRequestException
      */
     public function convertToPermanent(
-        Request                     $request,
+        Request $request,
         ConvertToPermanentPlayerBan $convertToPermanentBan,
     ): GamePlayerBanResource {
         $this->validateRequest($request->all(), [
@@ -138,7 +138,7 @@ final class GamePlayerBanController extends ApiController
      * @throws BadRequestException
      */
     public function status(
-        Request            $request,
+        Request $request,
         GetActivePlayerBan $getActiveBans,
     ): GamePlayerBanResource|array {
         $this->validateRequest($request->all(), [
@@ -166,7 +166,7 @@ final class GamePlayerBanController extends ApiController
      * @throws BadRequestException
      */
     public function all(
-        Request          $request,
+        Request $request,
         GetAllPlayerBans $getAllBans,
     ): AnonymousResourceCollection {
         $this->validateRequest($request->all(), [

@@ -60,8 +60,8 @@ class GamePlayerBanRepository
 
     public function unban(
         GamePlayerBan $ban,
-        ?int          $unbannerPlayerId,
-        UnbanType     $unbanType,
+        ?int $unbannerPlayerId,
+        UnbanType $unbanType,
     ) {
         $ban->update([
             'unbanned_at' => now(),

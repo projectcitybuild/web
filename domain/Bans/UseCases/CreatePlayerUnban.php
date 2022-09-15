@@ -13,7 +13,7 @@ class CreatePlayerUnban
 {
     public function __construct(
         private readonly GamePlayerBanRepository $gamePlayerBanRepository,
-        private readonly ConcretePlayerLookup    $playerLookup,
+        private readonly ConcretePlayerLookup $playerLookup,
     ) {
     }
 

@@ -14,8 +14,8 @@ use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 class LookupPlayerBan
 {
     public function __construct(
-        private readonly MojangPlayerApi           $mojangPlayerApi,
-        private readonly GamePlayerBanRepository   $gamePlayerBanRepository,
+        private readonly MojangPlayerApi $mojangPlayerApi,
+        private readonly GamePlayerBanRepository $gamePlayerBanRepository,
         private readonly MinecraftPlayerRepository $minecraftPlayerRepository
     ) {
     }

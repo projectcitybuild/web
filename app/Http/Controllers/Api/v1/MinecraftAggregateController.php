@@ -21,12 +21,12 @@ use Shared\PlayerLookup\Entities\PlayerIdentifier;
 final class MinecraftAggregateController extends ApiController
 {
     public function show(
-        Request            $request,
-        string             $uuid,
+        Request $request,
+        string $uuid,
         GetActivePlayerBan $getBan,
-        GetBadges          $getBadges,
-        GetDonationTiers   $getDonationTier,
-        GetWarnings        $getWarnings,
+        GetBadges $getBadges,
+        GetDonationTiers $getDonationTier,
+        GetWarnings $getWarnings,
     ): JsonResponse {
         $identifier = PlayerIdentifier::minecraftUUID($uuid);
 

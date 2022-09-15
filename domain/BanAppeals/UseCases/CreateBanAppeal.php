@@ -33,9 +33,9 @@ final class CreateBanAppeal
      */
     public function execute(
         GamePlayerBan $ban,
-        string        $explanation,
-        ?Account      $loggedInAccount,
-        ?string       $email
+        string $explanation,
+        ?Account $loggedInAccount,
+        ?string $email
     ): BanAppeal {
         $isAccountVerified = $this->isAccountVerified($ban, $loggedInAccount);
         if (! $isAccountVerified && $email === null) {
