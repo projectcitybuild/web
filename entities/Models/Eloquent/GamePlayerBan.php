@@ -14,7 +14,8 @@ use Laravel\Scout\Searchable;
 
 final class GamePlayerBan extends Model
 {
-    use Searchable, HasFactory;
+    use Searchable;
+    use HasFactory;
 
     protected $table = 'game_player_bans';
     protected $primaryKey = 'game_ban_id';

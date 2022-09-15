@@ -19,6 +19,8 @@ return new class extends Migration
             $table->ipAddress();
             $table->string('reason');
             $table->timestamps();
+
+            $table->index('ip_address');
         });
         Schema::rename(from: 'game_network_bans', to: 'game_player_bans');
     }

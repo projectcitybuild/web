@@ -1,12 +1,8 @@
 <?php
 
-use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\GameUnban;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Library\Environment\Environment;
 
 return new class extends Migration
 {
@@ -17,6 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
+        /*
         // Tests will slow down if we run this in every environment
         if (Environment::isProduction()) {
             foreach (GameUnban::get() as $unban) {
@@ -41,6 +38,7 @@ return new class extends Migration
                 $ban->save();
             }
         }
+        */
 
         Schema::table('game_network_bans', function (Blueprint $table) {
             $table->dropColumn('is_active');
