@@ -96,4 +96,23 @@ class AccountFactory extends Factory
             ];
         });
     }
+
+    public function neverLoggedIn()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'last_login_at' => null,
+            ];
+        });
+    }
+
+    public function withTimestamps()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        });
+    }
 }
