@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use Entities\Models\Eloquent\GameUnban;
 use Entities\Models\Eloquent\MinecraftPlayer;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GameUnbanFactory extends Factory
 {

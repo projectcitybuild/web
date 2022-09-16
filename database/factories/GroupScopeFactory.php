@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Entities\Models\Eloquent\GroupScope;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GroupScopeFactory extends Factory
 {
