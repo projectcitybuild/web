@@ -133,8 +133,9 @@ class DonationPerksController extends WebController
      */
     public function destroy(Request $request, DonationPerk $donationPerk)
     {
+        $donation = $donationPerk->donation;
         $donationPerk->delete();
 
-        return redirect(route('front.panel.donation-perks.index'));
+        return redirect(route('front.panel.donations.show', $donation));
     }
 }

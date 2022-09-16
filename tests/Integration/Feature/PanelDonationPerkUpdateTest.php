@@ -38,7 +38,7 @@ class PanelDonationPerkUpdateTest extends IntegrationTestCase
             ])->assertSessionHasNoErrors()
             ->assertRedirect(route('front.panel.donations.show', $donationPerk->donation));
 
-        $this->assertDatabaseHas('donation_perks', [
+        $this->assertDatabaseHas(DonationPerk::getTableName(), [
             'donation_perks_id' => $donationPerk->getKey(),
             'expires_at' => $newExpiry,
         ]);
