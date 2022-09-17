@@ -25,6 +25,7 @@ final class LogTailLoggerFactory
                 )
             );
         }
+
         return $logger;
     }
 }

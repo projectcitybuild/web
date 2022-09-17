@@ -75,7 +75,7 @@ return [
         ],
 
         'logtail' => [
-            'driver'  => 'custom',
+            'driver' => 'custom',
             'via' => LogTailLoggerFactory::class,
             'name' => env('LOGTAIL_NAME', 'logtail'),
             'source_token' => env('LOGTAIL_SOURCE_TOKEN'),
