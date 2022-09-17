@@ -19,7 +19,11 @@ return new class extends Migration
             $table->ipAddress();
             $table->string('reason');
             $table->timestamps();
+            $table->timestamp('unbanned_at')->nullable();
+            $table->integer('unbanner_player_id')->unsigned()->nullable();
+            $table->string('unban_type')->nullable();
 
+            $table->foreign('unbanner_player_id')->references('player_minecraft_id')->on('players_minecraft');
             $table->index('ip_address');
         });
         Schema::rename(from: 'game_network_bans', to: 'game_player_bans');
