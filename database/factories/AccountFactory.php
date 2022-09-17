@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Entities\Models\Eloquent\Account;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -93,6 +92,15 @@ class AccountFactory extends Factory
         return $this->hasStartedTotp()->state(function (array $attributes) {
             return [
                 'is_totp_enabled' => true,
+            ];
+        });
+    }
+
+    public function neverLoggedIn()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'last_login_at' => null,
             ];
         });
     }
