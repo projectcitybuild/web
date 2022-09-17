@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Entities\Models\Eloquent\Group;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GroupFactory extends Factory
 {
