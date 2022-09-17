@@ -25,6 +25,7 @@
         "laravel/tinker": "^2.0",
         "league/commonmark": "^2.3",
         "league/flysystem-aws-s3-v3": "^3.0",
+        "logtail/monolog-logtail": "^0.1.4",
         "pragmarx/google2fa": "^8.0",
         "predis/predis": "^1.1",
         "sentry/sentry-laravel": "^2.12.0",

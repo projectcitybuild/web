@@ -28,7 +28,12 @@ document.querySelectorAll('[data-pcb-user-picker]')
                                     const json = await accounts.json()
 
                                     // @ts-expect-error
-                                    return json.data.map(mapJSONToChoice(account))
+                                    return json.data.map((account) => {
+                                        return {
+                                            value: account.account_id,
+                                            label: `${account.username} (#${account.account_id})`,
+                                        }
+                                    })
                                 } catch (err) {
                                     console.log(err)
                                 }
