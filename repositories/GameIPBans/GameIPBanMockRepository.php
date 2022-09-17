@@ -10,7 +10,7 @@ final class GameIPBanMockRepository implements GameIPBanRepository
     public GameIPBan $find;
 
     public function create(
-        int $warnerPlayerId,
+        int $bannerPlayerId,
         string $ip,
         string $reason,
     ): GameIPBan {

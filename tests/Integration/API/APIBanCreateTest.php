@@ -14,7 +14,7 @@ class APIBanCreateTest extends IntegrationTestCase
 {
     use RefreshDatabase;
 
-    private const ENDPOINT = 'api/v2/bans/ban';
+    private const ENDPOINT = 'api/v2/bans/player/ban';
 
     protected function setUp(): void
     {

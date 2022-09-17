@@ -7,8 +7,8 @@ use Entities\Models\Eloquent\GameIPBan;
 interface GameIPBanRepository
 {
     public function create(
-        int $warnerPlayerId,
         string $ip,
+        int $bannerPlayerId,
         string $reason,
     ): GameIPBan;
 
