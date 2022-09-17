@@ -29,8 +29,6 @@ use App\Http\Controllers\Settings\Mfa\SetupMfaController;
 use App\Http\Controllers\Settings\Mfa\StartMfaController;
 use Illuminate\Support\Facades\Route;
 
-\Illuminate\Support\Facades\Log::info('LogTail test');
-
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
 
