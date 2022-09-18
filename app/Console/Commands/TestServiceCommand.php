@@ -23,6 +23,7 @@ final class TestServiceCommand extends Command
         $service = $this->option('service');
         if (count($service) === 0) {
             $this->error('You must specify a service to test with --service=xxx');
+
             return;
         }
 
@@ -39,7 +40,7 @@ final class TestServiceCommand extends Command
                 break;
 
             default:
-                $this->error($serviceName . 'is not a recognised service');
+                $this->error($serviceName.'is not a recognised service');
                 break;
         }
     }
