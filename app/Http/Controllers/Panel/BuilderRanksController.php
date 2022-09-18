@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Http\WebController;
+use App\Http\Controllers\WebController;
 use Domain\BuilderRankApplications\UseCases\ApproveBuildRankApplication;
 use Domain\BuilderRankApplications\UseCases\DenyBuildRankApplication;
 use Entities\Models\Eloquent\Group;
