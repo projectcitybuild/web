@@ -5,7 +5,7 @@ namespace Shared\PlayerLookup\Service;
 use Shared\PlayerLookup\Contracts\Player;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 
-final class MockPlayerLookup implements PlayerLookup
+final class PlayerLookupMock implements PlayerLookup
 {
     public ?Player $find;
     public Player $findOrCreate;

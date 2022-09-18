@@ -1,11 +1,11 @@
 <?php
 
-namespace Repositories\Warnings;
+namespace Repositories\PlayerWarnings;
 
 use Entities\Models\Eloquent\PlayerWarning;
 use Illuminate\Support\Collection;
 
-final class EloquentPlayerWarningRepository implements PlayerWarningRepository
+final class PlayerWarningEloquentRepository implements PlayerWarningRepository
 {
     public function create(
         int $warnedPlayerId,

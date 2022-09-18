@@ -12,11 +12,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
 
-final class GameBan extends Model
+final class GamePlayerBan extends Model
 {
-    use Searchable, HasFactory;
+    use Searchable;
+    use HasFactory;
 
-    protected $table = 'game_network_bans';
+    protected $table = 'game_player_bans';
     protected $primaryKey = 'game_ban_id';
     protected $fillable = [
         'server_id',

@@ -6,7 +6,7 @@ use Domain\BanAppeals\Entities\BanAppealStatus;
 use Domain\Bans\UnbanType;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\PanelGroupScope;
 use Entities\Notifications\BanAppealUpdatedNotification;
@@ -16,15 +16,15 @@ use Tests\IntegrationTestCase;
 class PanelBanAppealDecisionTest extends IntegrationTestCase
 {
     private BanAppeal $appeal;
-    private GameBan $gameBan;
+    private GamePlayerBan $gamePlayerBan;
     private Account $admin;
 
     protected function setUp(): void
     {
         parent::setUp();
         Notification::fake();
-        $this->gameBan = GameBan::factory()->for(MinecraftPlayer::factory(), 'bannedPlayer')->create();
-        $this->appeal = BanAppeal::factory()->for($this->gameBan)->create(['explanation' => 'My Explanation']);
+        $this->gamePlayerBan = GamePlayerBan::factory()->for(MinecraftPlayer::factory(), 'bannedPlayer')->create();
+        $this->appeal = BanAppeal::factory()->for($this->gamePlayerBan)->create(['explanation' => 'My Explanation']);
 
         $this->admin = $this->adminAccount(scopes: [
             PanelGroupScope::ACCESS_PANEL,
@@ -60,9 +60,9 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
             ->assertSessionHasNoErrors()
             ->assertRedirect(route('front.panel.ban-appeals.show', $this->appeal));
         $this->assertEquals(BanAppealStatus::ACCEPTED_UNBAN, $this->appeal->refresh()->status);
-        $this->assertEquals(false, $this->appeal->gameBan->refresh()->is_active);
-        $this->assertDatabaseHas(GameBan::getTableName(), [
-            'game_ban_id' => $this->gameBan->getKey(),
+        $this->assertEquals(false, $this->appeal->gamePlayerBan->refresh()->is_active);
+        $this->assertDatabaseHas(GamePlayerBan::getTableName(), [
+            'game_ban_id' => $this->gamePlayerBan->getKey(),
             'unbanned_at' => now(),
             'unbanner_player_id' => $this->admin->minecraftAccount()->first()->getKey(),
             'unban_type' => UnbanType::APPEALED,
@@ -80,8 +80,8 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
             ->assertSessionHasNoErrors()
             ->assertRedirect(route('front.panel.ban-appeals.show', $this->appeal));
         $this->assertEquals(BanAppealStatus::DENIED, $this->appeal->refresh()->status);
-        $this->assertDatabaseHas(GameBan::getTableName(), [
-            'game_ban_id' => $this->gameBan->getKey(),
+        $this->assertDatabaseHas(GamePlayerBan::getTableName(), [
+            'game_ban_id' => $this->gamePlayerBan->getKey(),
             'unbanned_at' => null,
             'unbanner_player_id' => null,
             'unban_type' => null,
@@ -95,8 +95,8 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
      */
     public function test_validation_error_if_ban_has_become_inactive()
     {
-        $this->gameBan->unbanned_at = now()->subDay();
-        $this->gameBan->save();
+        $this->gamePlayerBan->unbanned_at = now()->subDay();
+        $this->gamePlayerBan->save();
 
         $this->actingAs($this->admin)
             ->put(route('front.panel.ban-appeals.update', $this->appeal), [

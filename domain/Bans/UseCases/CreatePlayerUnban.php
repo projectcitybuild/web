@@ -4,23 +4,23 @@ namespace Domain\Bans\UseCases;
 
 use Domain\Bans\Exceptions\NotBannedException;
 use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\GameBan;
-use Repositories\GameBanRepository;
+use Entities\Models\Eloquent\GamePlayerBan;
+use Repositories\GamePlayerBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\ConcretePlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookup;
 
-class CreateUnban
+class CreatePlayerUnban
 {
     public function __construct(
-        private readonly GameBanRepository $gameBanRepository,
-        private readonly ConcretePlayerLookup $playerLookup,
+        private readonly GamePlayerBanRepository $gamePlayerBanRepository,
+        private readonly PlayerLookup $playerLookup,
     ) {
     }
 
     /**
      * @param  PlayerIdentifier  $bannedPlayerIdentifier Player currently banned
      * @param  PlayerIdentifier  $unbannerPlayerIdentifier Player unbanning the banned player
-     * @return GameBan
+     * @return GamePlayerBan
      *
      * @throws NotBannedException if the banned player is not actually banned
      */
@@ -28,16 +28,16 @@ class CreateUnban
         PlayerIdentifier $bannedPlayerIdentifier,
         PlayerIdentifier $unbannerPlayerIdentifier,
         UnbanType $unbanType,
-    ): GameBan {
+    ): GamePlayerBan {
         $player = $this->playerLookup->find(identifier: $bannedPlayerIdentifier)
             ?? throw new NotBannedException();
 
-        $existingBan = $this->gameBanRepository->firstActiveBan(player: $player)
+        $existingBan = $this->gamePlayerBanRepository->firstActiveBan(player: $player)
             ?? throw new NotBannedException();
 
         $unbannerPlayer = $this->playerLookup->findOrCreate(identifier: $unbannerPlayerIdentifier);
 
-        $this->gameBanRepository->unban(
+        $this->gamePlayerBanRepository->unban(
             ban: $existingBan,
             unbannerPlayerId: $unbannerPlayer->getKey(),
             unbanType: $unbanType,

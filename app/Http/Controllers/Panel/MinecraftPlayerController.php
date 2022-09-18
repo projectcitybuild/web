@@ -64,7 +64,7 @@ class MinecraftPlayerController extends WebController
      */
     public function show(MinecraftPlayer $minecraftPlayer)
     {
-        $minecraftPlayer->load(['account', 'aliases', 'gameBans', 'gameBans.bannedPlayer.aliases', 'gameBans.staffPlayer.aliases']);
+        $minecraftPlayer->load(['account', 'aliases', 'gamePlayerBans', 'gamePlayerBans.bannedPlayer.aliases', 'gamePlayerBans.staffPlayer.aliases']);
 
         return view('admin.minecraft-player.show')->with(compact('minecraftPlayer'));
     }

@@ -7,20 +7,20 @@ use App\Http\Controllers\APIController;
 use Domain\Bans\Exceptions\AlreadyPermBannedException;
 use Domain\Bans\Exceptions\NotBannedException;
 use Domain\Bans\UnbanType;
-use Domain\Bans\UseCases\ConvertToPermanentBan;
-use Domain\Bans\UseCases\CreateBan;
-use Domain\Bans\UseCases\CreateUnban;
-use Domain\Bans\UseCases\GetActiveBan;
-use Domain\Bans\UseCases\GetAllBans;
+use Domain\Bans\UseCases\ConvertToPermanentPlayerBan;
+use Domain\Bans\UseCases\CreatePlayerBan;
+use Domain\Bans\UseCases\CreatePlayerUnban;
+use Domain\Bans\UseCases\GetActivePlayerBan;
+use Domain\Bans\UseCases\GetAllPlayerBans;
 use Entities\Models\PlayerIdentifierType;
-use Entities\Resources\GameBanResource;
+use Entities\Resources\GamePlayerBanResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 
-final class GameBanController extends APIController
+final class GamePlayerBanController extends APIController
 {
     /**
      * @throws AlreadyPermBannedException
@@ -28,8 +28,8 @@ final class GameBanController extends APIController
      */
     public function ban(
         Request $request,
-        CreateBan $createBan,
-    ): GameBanResource {
+        CreatePlayerBan $createBan,
+    ): GamePlayerBanResource {
         $this->validateRequest($request->all(), [
             'banned_player_id' => 'required|max:60',
             'banned_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
@@ -68,7 +68,7 @@ final class GameBanController extends APIController
             expiresAt: $expiresAt,
         );
 
-        return new GameBanResource($ban);
+        return new GamePlayerBanResource($ban);
     }
 
     /**
@@ -77,8 +77,8 @@ final class GameBanController extends APIController
      */
     public function unban(
         Request $request,
-        CreateUnban $createUnban,
-    ): GameBanResource {
+        CreatePlayerUnban $createUnban,
+    ): GamePlayerBanResource {
         $this->validateRequest($request->all(), [
             'banned_player_id' => 'required|max:60',
             'banned_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
@@ -100,7 +100,7 @@ final class GameBanController extends APIController
             unbanType: UnbanType::MANUAL,
         );
 
-        return new GameBanResource($ban);
+        return new GamePlayerBanResource($ban);
     }
 
     /**
@@ -109,8 +109,8 @@ final class GameBanController extends APIController
      */
     public function convertToPermanent(
         Request $request,
-        ConvertToPermanentBan $convertToPermanentBan,
-    ): GameBanResource {
+        ConvertToPermanentPlayerBan $convertToPermanentBan,
+    ): GamePlayerBanResource {
         $this->validateRequest($request->all(), [
             'ban_id' => 'required|integer',
             'banner_player_id' => 'required|max:60',
@@ -131,7 +131,7 @@ final class GameBanController extends APIController
             banReason: $request->get('reason'),
         );
 
-        return new GameBanResource($newBan);
+        return new GamePlayerBanResource($newBan);
     }
 
     /**
@@ -139,8 +139,8 @@ final class GameBanController extends APIController
      */
     public function status(
         Request $request,
-        GetActiveBan $getActiveBans,
-    ): GameBanResource|array {
+        GetActivePlayerBan $getActiveBans,
+    ): GamePlayerBanResource|array {
         $this->validateRequest($request->all(), [
             'player_id' => 'required|max:60',
             'player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
@@ -159,7 +159,7 @@ final class GameBanController extends APIController
             return ['data' => null];
         }
 
-        return new GameBanResource($ban);
+        return new GamePlayerBanResource($ban);
     }
 
     /**
@@ -167,7 +167,7 @@ final class GameBanController extends APIController
      */
     public function all(
         Request $request,
-        GetAllBans $getAllBans,
+        GetAllPlayerBans $getAllBans,
     ): AnonymousResourceCollection {
         $this->validateRequest($request->all(), [
             'player_id' => 'required|max:60',
@@ -183,6 +183,6 @@ final class GameBanController extends APIController
             ),
         );
 
-        return GameBanResource::collection($bans);
+        return GamePlayerBanResource::collection($bans);
     }
 }

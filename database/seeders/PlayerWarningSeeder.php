@@ -10,11 +10,6 @@ use Illuminate\Database\Seeder;
 
 class PlayerWarningSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $staffPlayers = collect([

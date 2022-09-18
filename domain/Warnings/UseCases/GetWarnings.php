@@ -3,7 +3,7 @@
 namespace Domain\Warnings\UseCases;
 
 use Illuminate\Support\Collection;
-use Repositories\Warnings\PlayerWarningRepository;
+use Repositories\PlayerWarnings\PlayerWarningRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Service\PlayerLookup;
 

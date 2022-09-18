@@ -15,13 +15,13 @@
                             Banned Player
                         </dt>
                         <dd class="col-md-9">
-                            <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->gameBan->bannedPlayer) }}">
-                                {{ $banAppeal->gameBan->bannedPlayer->getBanReadableName() ?? 'No Alias' }}</a>
-                            @if ($banAppeal->gameBan->hasNameChangedSinceBan())
-                                (was {{ $banAppeal->gameBan->banned_alias_at_time }})
+                            <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->gamePlayerBan->bannedPlayer) }}">
+                                {{ $banAppeal->gamePlayerBan->bannedPlayer->getBanReadableName() ?? 'No Alias' }}</a>
+                            @if ($banAppeal->gamePlayerBan->hasNameChangedSinceBan())
+                                (was {{ $banAppeal->gamePlayerBan->banned_alias_at_time }})
                             @endif
                             <br>
-                            @forelse($banAppeal->gameBan->bannedPlayer->account?->groups ?? [] as $group)
+                            @forelse($banAppeal->gamePlayerBan->bannedPlayer->account?->groups ?? [] as $group)
                                 <span class="badge bg-secondary">
                                     {{ $group->alias ?? Str::title($group->name) }}
                                 </span>
@@ -37,9 +37,9 @@
                             Account
                         </dt>
                         <dd class="col-md-9">
-                            @isset($banAppeal->gameBan->bannedPlayer->account)
-                                <a href="{{ route('front.panel.accounts.show', $banAppeal->gameBan->bannedPlayer->account) }}">
-                                    {{ $banAppeal->gameBan->bannedPlayer->account->username }}
+                            @isset($banAppeal->gamePlayerBan->bannedPlayer->account)
+                                <a href="{{ route('front.panel.accounts.show', $banAppeal->gamePlayerBan->bannedPlayer->account) }}">
+                                    {{ $banAppeal->gamePlayerBan->bannedPlayer->account->username }}
                                 </a>
                             @else
                                 <span class="text-muted">Guest</span>
@@ -72,11 +72,11 @@
                             Banned By
                         </dt>
                         <dd class="col-md-9">
-                            @if ($banAppeal->gameBan->staffPlayer === null)
+                            @if ($banAppeal->gamePlayerBan->staffPlayer === null)
                                 System
                             @else
-                            <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->gameBan->staffPlayer) }}">
-                                {{ $banAppeal->gameBan->staffPlayer->getBanReadableName() ?? 'No Alias' }}
+                            <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->gamePlayerBan->staffPlayer) }}">
+                                {{ $banAppeal->gamePlayerBan->staffPlayer->getBanReadableName() ?? 'No Alias' }}
                             </a>
                             @endif
                         </dd>
@@ -86,7 +86,7 @@
                             Ban Expiry
                         </dt>
                         <dd class="col-md-9">
-                            {{ $banAppeal->gameBan->expires_at?->format('j M Y H:i') ?? 'Never' }}
+                            {{ $banAppeal->gamePlayerBan->expires_at?->format('j M Y H:i') ?? 'Never' }}
                         </dd>
                     </div>
                     <div class="row g-0">
@@ -94,7 +94,7 @@
                             Appeal Created
                         </dt>
                         <dd class="col-md-9">
-                            {{ $banAppeal->gameBan->created_at }}
+                            {{ $banAppeal->gamePlayerBan->created_at }}
                         </dd>
                     </div>
                     <div class="row g-0">

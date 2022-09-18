@@ -6,7 +6,7 @@ use App\Exceptions\Http\TooManyRequestsException;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\BanLookupRequest;
 use Domain\Bans\Exceptions\NotBannedException;
-use Domain\Bans\UseCases\LookupBan;
+use Domain\Bans\UseCases\LookupPlayerBan;
 use Illuminate\Validation\ValidationException;
 use Library\RateLimit\Storage\SessionTokenStorage;
 use Library\RateLimit\TokenBucket;
@@ -15,7 +15,7 @@ use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 
 class BanLookupController extends WebController
 {
-    public function __invoke(BanLookupRequest $request, LookupBan $useCase)
+    public function __invoke(BanLookupRequest $request, LookupPlayerBan $useCase)
     {
         if (! $this->rateLimiter()->consume(1)) {
             throw ValidationException::withMessages([

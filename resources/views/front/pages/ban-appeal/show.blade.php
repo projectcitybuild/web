@@ -35,7 +35,7 @@
                 <div class="alert alert--warning">
                     <h2><i class="fas fa-hourglass-half"></i> Ban reduced</h2>
                     <p>Your appeal has been considered, and your ban has been reduced to a temporary ban.</p>
-                    <p>You will be unbanned on {{ $banAppeal->gameBan->expires_at }}.</p>
+                    <p>You will be unbanned on {{ $banAppeal->gamePlayerBan->expires_at }}.</p>
                 </div>
                 @break
             @case(\Domain\BanAppeals\Entities\BanAppealStatus::DENIED)
@@ -51,7 +51,7 @@
         <div class="messages">
             <div class="message message--left">
                 <div class="message-avatar">
-                    <img src="https://minotar.net/helm/{{ $banAppeal->gameBan->bannedPlayer->uuid }}/32" width="32"/>
+                    <img src="https://minotar.net/helm/{{ $banAppeal->gamePlayerBan->bannedPlayer->uuid }}/32" width="32"/>
                 </div>
                 <div class="message-comment">
                     <div class="message-text">

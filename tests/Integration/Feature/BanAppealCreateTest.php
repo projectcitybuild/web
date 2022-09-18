@@ -4,7 +4,7 @@ namespace Tests\Integration\Feature;
 
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\BanAppeal;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Testing\TestResponse;
@@ -20,7 +20,7 @@ class BanAppealCreateTest extends TestCase
 
     private function createBan()
     {
-        return GameBan::factory()
+        return GamePlayerBan::factory()
             ->for(MinecraftPlayer::factory(), 'bannedPlayer')
             ->create([
                 'reason' => 'Some Ban Reason',
@@ -40,7 +40,7 @@ class BanAppealCreateTest extends TestCase
         return $ban;
     }
 
-    private function submitAppealForBan(GameBan $ban, bool $withEmail = false): TestResponse
+    private function submitAppealForBan(GamePlayerBan $ban, bool $withEmail = false): TestResponse
     {
         $data = [
             'explanation' => 'My Ban Appeal',
@@ -55,7 +55,7 @@ class BanAppealCreateTest extends TestCase
 
     public function test_create_page_not_found_for_inactive_bans()
     {
-        $ban = GameBan::factory()->inactive()->for(MinecraftPlayer::factory(), 'bannedPlayer')->create();
+        $ban = GamePlayerBan::factory()->inactive()->for(MinecraftPlayer::factory(), 'bannedPlayer')->create();
         $this->get(route('front.appeal.create', $ban))
             ->assertNotFound();
     }
@@ -75,7 +75,7 @@ class BanAppealCreateTest extends TestCase
     public function test_create_page_shows_past_ban_details()
     {
         $ban = $this->createBan();
-        GameBan::factory()->inactive()->for($ban->bannedPlayer, 'bannedPlayer')->create(['reason' => 'My Expired Ban']);
+        GamePlayerBan::factory()->inactive()->for($ban->bannedPlayer, 'bannedPlayer')->create(['reason' => 'My Expired Ban']);
         $this->get(route('front.appeal.create', $ban))
             ->assertSee('My Expired Ban');
     }

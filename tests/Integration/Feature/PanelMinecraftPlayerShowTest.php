@@ -3,7 +3,7 @@
 namespace Tests\Integration\Feature;
 
 use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\PanelGroupScope;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -30,33 +30,33 @@ class PanelMinecraftPlayerShowTest extends IntegrationTestCase
         $banningStaff = MinecraftPlayer::factory()->hasAliases(1)->create();
         $bannedPlayer = MinecraftPlayer::factory()
             ->hasAliases(1)
-            ->has(GameBan::factory()->bannedBy($banningStaff))
+            ->has(GamePlayerBan::factory()->bannedBy($banningStaff))
             ->create();
 
         $this->actingAs($this->admin)
             ->get(route('front.panel.minecraft-players.show', $bannedPlayer))
             ->assertOk()
-            ->assertSee(GameBan::first()->reason);
+            ->assertSee(GamePlayerBan::first()->reason);
     }
 
     public function test_ban_with_null_staff_shown()
     {
         $bannedPlayer = MinecraftPlayer::factory()
             ->hasAliases(1)
-            ->has(GameBan::factory()->bannedByConsole())
+            ->has(GamePlayerBan::factory()->bannedByConsole())
             ->create();
 
         $this->actingAs($this->admin)
             ->get(route('front.panel.minecraft-players.show', $bannedPlayer))
             ->assertOk()
-            ->assertSee(GameBan::first()->reason);
+            ->assertSee(GamePlayerBan::first()->reason);
     }
 
     public function test_unauthorised_without_scope()
     {
         $bannedPlayer = MinecraftPlayer::factory()
             ->hasAliases(1)
-            ->has(GameBan::factory()->bannedByConsole())
+            ->has(GamePlayerBan::factory()->bannedByConsole())
             ->create();
 
         $admin = $this->adminAccount(scopes: [
@@ -75,7 +75,7 @@ class PanelMinecraftPlayerShowTest extends IntegrationTestCase
     {
         $bannedPlayer = MinecraftPlayer::factory()
             ->hasAliases(1)
-            ->has(GameBan::factory()->bannedByConsole())
+            ->has(GamePlayerBan::factory()->bannedByConsole())
             ->create();
 
         $admin = $this->adminAccount(scopes: [

@@ -3,10 +3,10 @@
 namespace Tests\Unit\Domain\Bans\UseCases;
 
 use Domain\Bans\Exceptions\AlreadyPermBannedException;
-use Domain\Bans\UseCases\CreateBan;
-use Entities\Models\Eloquent\GameBan;
+use Domain\Bans\UseCases\CreatePlayerBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
-use Repositories\GameBanRepository;
+use Repositories\GamePlayerBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Service\ConcretePlayerLookup;
 use Tests\TestCase;
@@ -14,18 +14,18 @@ use Tests\TestCase;
 class CreateBanTest extends TestCase
 {
     private readonly ConcretePlayerLookup $playerLookup;
-    private readonly GameBanRepository $gameBanRepository;
-    private readonly CreateBan $useCase;
+    private readonly GamePlayerBanRepository $gamePlayerBanRepository;
+    private readonly CreatePlayerBan $useCase;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->gameBanRepository = \Mockery::mock(GameBanRepository::class);
+        $this->gamePlayerBanRepository = \Mockery::mock(GamePlayerBanRepository::class);
         $this->playerLookup = \Mockery::mock(ConcretePlayerLookup::class);
 
-        $this->useCase = new CreateBan(
-            gameBanRepository: $this->gameBanRepository,
+        $this->useCase = new CreatePlayerBan(
+            gamePlayerBanRepository: $this->gamePlayerBanRepository,
             playerLookup: $this->playerLookup,
         );
     }
@@ -36,9 +36,9 @@ class CreateBanTest extends TestCase
             ->shouldReceive('findOrCreate')
             ->andReturn(MinecraftPlayer::factory()->make());
 
-        $this->gameBanRepository
+        $this->gamePlayerBanRepository
             ->shouldReceive('firstActiveBan')
-            ->andReturn(GameBan::factory()->make());
+            ->andReturn(GamePlayerBan::factory()->make());
 
         $this->expectException(AlreadyPermBannedException::class);
 
@@ -57,7 +57,7 @@ class CreateBanTest extends TestCase
     {
         $bannedPlayer = MinecraftPlayer::factory()->create();
         $bannerPlayer = MinecraftPlayer::factory()->create();
-        $ban = GameBan::factory()->make();
+        $ban = GamePlayerBan::factory()->make();
 
         $this->playerLookup
             ->shouldReceive('findOrCreate')
@@ -67,15 +67,15 @@ class CreateBanTest extends TestCase
             ->shouldReceive('findOrCreate')
             ->andReturn($bannerPlayer);
 
-        $this->gameBanRepository
+        $this->gamePlayerBanRepository
             ->shouldReceive('firstActiveBan')
             ->andReturn(null);
 
-        $this->gameBanRepository
+        $this->gamePlayerBanRepository
             ->shouldReceive('create')
             ->andReturn($ban);
 
-        $this->gameBanRepository
+        $this->gamePlayerBanRepository
             ->shouldReceive('deactivateAllTemporaryBans');
 
         $returnedBan = $this->useCase->execute(

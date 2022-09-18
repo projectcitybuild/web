@@ -6,8 +6,8 @@ use Domain\Warnings\UseCases\AcknowledgeWarning;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\PlayerWarning;
-use Repositories\Warnings\MockPlayerWarningRepository;
-use Repositories\Warnings\PlayerWarningRepository;
+use Repositories\PlayerWarnings\PlayerWarningMockRepository;
+use Repositories\PlayerWarnings\PlayerWarningRepository;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tests\TestCase;
@@ -21,7 +21,7 @@ class AcknowledgeWarningTest extends TestCase
     {
         parent::setUp();
 
-        $this->playerWarningRepository = new MockPlayerWarningRepository();
+        $this->playerWarningRepository = new PlayerWarningMockRepository();
 
         $this->useCase = new AcknowledgeWarning(
             playerWarningRepository: $this->playerWarningRepository,

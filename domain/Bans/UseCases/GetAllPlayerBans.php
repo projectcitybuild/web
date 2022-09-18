@@ -3,15 +3,15 @@
 namespace Domain\Bans\UseCases;
 
 use Illuminate\Support\Collection;
-use Repositories\GameBanRepository;
+use Repositories\GamePlayerBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\ConcretePlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookup;
 
-final class GetAllBans
+final class GetAllPlayerBans
 {
     public function __construct(
-        private readonly GameBanRepository $gameBanRepository,
-        private readonly ConcretePlayerLookup $playerLookup,
+        private readonly GamePlayerBanRepository $gamePlayerBanRepository,
+        private readonly PlayerLookup $playerLookup,
     ) {
     }
 
@@ -26,7 +26,7 @@ final class GetAllBans
         if ($player === null) {
             return collect();
         }
-        $bans = $this->gameBanRepository->all(player: $player);
+        $bans = $this->gamePlayerBanRepository->all(player: $player);
 
         return $bans;
     }

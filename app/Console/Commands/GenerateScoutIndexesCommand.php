@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayerAlias;
 use Illuminate\Console\Command;
 
@@ -13,7 +13,7 @@ class GenerateScoutIndexesCommand extends Command
     protected $description = 'Creates an index for each searchable scout model';
     private $models = [
         Account::class,
-        GameBan::class,
+        GamePlayerBan::class,
         MinecraftPlayerAlias::class,
     ];
 

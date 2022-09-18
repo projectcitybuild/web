@@ -4,17 +4,17 @@ namespace Domain\Bans\UseCases;
 
 use Domain\Bans\Exceptions\AlreadyPermBannedException;
 use Domain\Bans\Exceptions\AlreadyTempBannedException;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Illuminate\Support\Carbon;
-use Repositories\GameBanRepository;
+use Repositories\GamePlayerBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\ConcretePlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookup;
 
-final class CreateBan
+final class CreatePlayerBan
 {
     public function __construct(
-        private readonly GameBanRepository $gameBanRepository,
-        private readonly ConcretePlayerLookup $playerLookup,
+        private readonly GamePlayerBanRepository $gamePlayerBanRepository,
+        private readonly PlayerLookup $playerLookup,
     ) {
     }
 
@@ -26,7 +26,7 @@ final class CreateBan
      * @param  string  $bannerPlayerAlias Name of the player that created the ban at the time
      * @param  string|null  $banReason Reason the player was banned
      * @param  Carbon|null  $expiresAt Date the ban will expire. If null, ban is permanent
-     * @return GameBan
+     * @return GamePlayerBan
      *
      * @throws AlreadyTempBannedException if a player is already banned temporarily
      * @throws AlreadyPermBannedException if player is already banned permanently
@@ -39,13 +39,13 @@ final class CreateBan
         string $bannerPlayerAlias,
         ?string $banReason,
         ?Carbon $expiresAt,
-    ): GameBan {
+    ): GamePlayerBan {
         $bannedPlayer = $this->playerLookup->findOrCreate(
             identifier: $bannedPlayerIdentifier,
             playerAlias: $bannedPlayerAlias,
         );
 
-        $existingBan = $this->gameBanRepository->firstActiveBan(player: $bannedPlayer);
+        $existingBan = $this->gamePlayerBanRepository->firstActiveBan(player: $bannedPlayer);
         if ($existingBan !== null) {
             if ($existingBan->isTemporaryBan()) {
                 throw new AlreadyTempBannedException();
@@ -58,7 +58,7 @@ final class CreateBan
             playerAlias: $bannerPlayerAlias,
         );
 
-        return $this->gameBanRepository->create(
+        return $this->gamePlayerBanRepository->create(
             serverId: $serverId,
             bannedPlayerId: $bannedPlayer->getKey(),
             bannedPlayerAlias: $bannedPlayerAlias,

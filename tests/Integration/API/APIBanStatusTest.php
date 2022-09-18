@@ -3,7 +3,7 @@
 namespace Tests\Integration\API;
 
 use Domain\ServerTokens\ScopeKey;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\Server;
 use Entities\Models\PlayerIdentifierType;
@@ -14,7 +14,7 @@ class APIBanStatusTest extends IntegrationTestCase
 {
     use RefreshDatabase;
 
-    private const ENDPOINT = 'api/v2/bans/status';
+    private const ENDPOINT = 'api/v2/bans/player/status';
 
     protected function setUp(): void
     {
@@ -52,7 +52,7 @@ class APIBanStatusTest extends IntegrationTestCase
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
         $server = Server::factory()->create();
 
-        $ban = GameBan::factory()
+        $ban = GamePlayerBan::factory()
             ->bannedPlayer($player1)
             ->bannedBy($player2)
             ->server($server)
@@ -86,7 +86,7 @@ class APIBanStatusTest extends IntegrationTestCase
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
         $server = Server::factory()->create();
 
-        $ban = GameBan::factory()
+        $ban = GamePlayerBan::factory()
             ->bannedPlayer($player1)
             ->bannedBy($player2)
             ->server($server)
@@ -136,7 +136,7 @@ class APIBanStatusTest extends IntegrationTestCase
 
         $player = MinecraftPlayer::factory()->create();
 
-        GameBan::factory()
+        GamePlayerBan::factory()
             ->bannedPlayer($player)
             ->bannedBy(MinecraftPlayer::factory())
             ->expired()
@@ -159,7 +159,7 @@ class APIBanStatusTest extends IntegrationTestCase
 
         $player = MinecraftPlayer::factory()->create();
 
-        GameBan::factory()
+        GamePlayerBan::factory()
             ->bannedPlayer($player)
             ->bannedBy(MinecraftPlayer::factory())
             ->inactive()
@@ -182,7 +182,7 @@ class APIBanStatusTest extends IntegrationTestCase
 
         $player = MinecraftPlayer::factory()->create();
 
-        GameBan::factory()
+        GamePlayerBan::factory()
             ->bannedPlayer($player)
             ->bannedBy(MinecraftPlayer::factory())
             ->create([

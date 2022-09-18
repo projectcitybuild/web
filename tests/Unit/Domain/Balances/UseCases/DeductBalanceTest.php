@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\Domain\Balances\UseCases;
+namespace Tests\Unit\Domain\Balances\UseCases;
 
 use Domain\Balances\Exceptions\InsufficientBalanceException;
 use Domain\Balances\UseCases\DeductBalance;
@@ -8,12 +8,13 @@ use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Repositories\BalanceHistoryRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\ConcretePlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookupMock;
 use Tests\TestCase;
 
 class DeductBalanceTest extends TestCase
 {
-    private ConcretePlayerLookup $playerLookup;
+    private PlayerLookup $playerLookup;
     private BalanceHistoryRepository $balanceHistoryRepository;
     private DeductBalance $useCase;
 
@@ -21,7 +22,7 @@ class DeductBalanceTest extends TestCase
     {
         parent::setUp();
 
-        $this->playerLookup = \Mockery::mock(ConcretePlayerLookup::class);
+        $this->playerLookup = new PlayerLookupMock();
         $this->balanceHistoryRepository = \Mockery::mock(BalanceHistoryRepository::class);
 
         $this->useCase = new DeductBalance(
@@ -59,10 +60,7 @@ class DeductBalanceTest extends TestCase
         $player = MinecraftPlayer::factory()->for($account)->create();
         $identifier = PlayerIdentifier::minecraftUUID('uuid');
 
-        $this->playerLookup
-            ->shouldReceive('find')
-            ->with($identifier)
-            ->andReturn($player);
+        $this->playerLookup->find = $player;
 
         $this->expectException(InsufficientBalanceException::class);
 
@@ -79,10 +77,7 @@ class DeductBalanceTest extends TestCase
         $player = MinecraftPlayer::factory()->for($account)->create();
         $identifier = PlayerIdentifier::minecraftUUID('uuid');
 
-        $this->playerLookup
-            ->shouldReceive('find')
-            ->with($identifier)
-            ->andReturn($player);
+        $this->playerLookup->find = $player;
 
         $this->balanceHistoryRepository
             ->shouldReceive('create')
