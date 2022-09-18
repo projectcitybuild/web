@@ -6,7 +6,7 @@ use App\Http\Controllers\API\v1\MinecraftBalanceController;
 use App\Http\Controllers\API\v1\MinecraftDonationTierController;
 use App\Http\Controllers\API\v1\MinecraftTelemetryController;
 use App\Http\Controllers\API\v1\PlayerWarningController;
-use App\Http\Controllers\Api\v2\GameIPBanController;
+use App\Http\Controllers\API\v2\GameIPBanController;
 use App\Http\Controllers\API\v2\GamePlayerBanController;
 use App\Http\Middleware\RequiresServerTokenScope;
 use Domain\ServerTokens\ScopeKey;
