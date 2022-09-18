@@ -17,11 +17,15 @@ final class GameIPBan extends Model
         'reason',
         'created_at',
         'updated_at',
+        'unbanned_at',
+        'unbanner_player_id',
+        'unban_type',
     ];
     protected $hidden = [];
     protected $dates = [
         'created_at',
         'updated_at',
+        'unbanned_at' => 'datetime',
     ];
 
     public function bannerPlayer(): BelongsTo
@@ -29,6 +33,15 @@ final class GameIPBan extends Model
         return $this->belongsTo(
             related: MinecraftPlayer::class,
             foreignKey: 'banner_player_id',
+            ownerKey: 'player_minecraft_id',
+        );
+    }
+
+    public function unbannerPlayer(): BelongsTo
+    {
+        return $this->belongsTo(
+            related: MinecraftPlayer::class,
+            foreignKey: 'unbanner_player_id',
             ownerKey: 'player_minecraft_id',
         );
     }

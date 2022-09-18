@@ -5,11 +5,13 @@ namespace App\Http\Controllers\API\v2;
 use App\Exceptions\Http\BadRequestException;
 use App\Http\Controllers\APIController;
 use Domain\Bans\Exceptions\AlreadyIPBannedException;
-use Domain\Bans\Exceptions\NotBannedException;
+use Domain\Bans\Exceptions\NotIPBannedException;
 use Domain\Bans\UnbanType;
 use Domain\Bans\UseCases\CreateIPBan;
-use Domain\Bans\UseCases\CreatePlayerUnban;
+use Domain\Bans\UseCases\CreateIPUnban;
+use Domain\Bans\UseCases\GetActiveIPBan;
 use Entities\Models\PlayerIdentifierType;
+use Entities\Resources\GameIPBanResource;
 use Entities\Resources\GamePlayerBanResource;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -24,7 +26,7 @@ final class GameIPBanController extends APIController
     public function ban(
         Request $request,
         CreateIPBan $createIPBan,
-    ): GamePlayerBanResource {
+    ): GameIPBanResource {
         $this->validateRequest($request->all(), [
             'banner_player_id' => 'required|max:60',
             'banner_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
@@ -45,30 +47,27 @@ final class GameIPBanController extends APIController
             banReason: $request->get('reason'),
         );
 
-        return new GamePlayerBanResource($ban);
+        return new GameIPBanResource($ban);
     }
 
     /**
-     * @throws NotBannedException
+     * @throws NotIPBannedException
      * @throws BadRequestException
      */
     public function unban(
         Request $request,
-        CreatePlayerUnban $createUnban,
-    ): GamePlayerBanResource {
+        CreateIPUnban $createUnban,
+    ): GameIPBanResource {
         $this->validateRequest($request->all(), [
-            'banned_player_id' => 'required|max:60',
-            'banned_player_type' => ['required', Rule::in(PlayerIdentifierType::values())],
-            'ip' => 'required|ip',
+            'ip_address' => 'required|ip',
+            'unbanner_player_id' => 'max:60',
+            'unbanner_player_type' => Rule::in(PlayerIdentifierType::values()),
         ], [
             'in' => 'Invalid :attribute given. Must be ['.PlayerIdentifierType::allJoined().']',
         ]);
 
         $ban = $createUnban->execute(
-            bannedPlayerIdentifier: new PlayerIdentifier(
-                key: $request->get('banned_player_id'),
-                gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('banned_player_type')),
-            ),
+            ip: $request->get('ip_address'),
             unbannerPlayerIdentifier: new PlayerIdentifier(
                 key: $request->get('unbanner_player_id'),
                 gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('unbanner_player_type')),
@@ -76,6 +75,21 @@ final class GameIPBanController extends APIController
             unbanType: UnbanType::MANUAL,
         );
 
-        return new GamePlayerBanResource($ban);
+        return new GameIPBanResource($ban);
+    }
+
+    /**
+     * @throws BadRequestException
+     */
+    public function status(
+        Request $request,
+        GetActiveIPBan $getActiveIPBans,
+    ): GamePlayerBanResource {
+        $this->validateRequest($request->all(), [
+            'ip_address' => 'required|ip',
+        ]);
+        $ban = $getActiveIPBans->execute(ip: $request->get('ip'));
+
+        return GamePlayerBanResource::make($ban);
     }
 }

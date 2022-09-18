@@ -2,6 +2,7 @@
 
 namespace Repositories\GameIPBans;
 
+use Domain\Bans\UnbanType;
 use Entities\Models\Eloquent\GameIPBan;
 
 interface GameIPBanRepository
@@ -13,4 +14,12 @@ interface GameIPBanRepository
     ): GameIPBan;
 
     public function find(int $ip): ?GameIPBan;
+
+    public function firstActive(string $ip): ?GameIPBan;
+
+    public function unban(
+        GameIPBan $ban,
+        int $unbannerPlayerId,
+        UnbanType $unbanType,
+    );
 }
