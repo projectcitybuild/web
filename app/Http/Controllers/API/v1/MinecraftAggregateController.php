@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\API\v1;
 
 use App\Exceptions\Http\NotFoundException;
 use App\Http\Controllers\APIController;

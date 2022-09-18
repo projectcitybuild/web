@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v2;
+namespace App\Http\Controllers\API\v2;
 
 use App\Exceptions\Http\BadRequestException;
 use App\Http\Controllers\APIController;

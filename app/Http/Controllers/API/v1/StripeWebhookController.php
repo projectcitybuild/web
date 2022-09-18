@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\API\v1;
 
 use App\Exceptions\Http\BadRequestException;
 use Domain\Donations\Entities\Payloads\StripeCheckoutSessionCompleted;

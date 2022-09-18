@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\Api\v1\AccountSearchController;
-use App\Http\Controllers\Api\v1\GroupAPIController;
-use App\Http\Controllers\Api\v1\MinecraftAuthTokenController;
-use App\Http\Controllers\Api\v1\MinecraftPlayerAliasSearchController;
-use App\Http\Controllers\Api\v1\StripeWebhookController;
+use App\Http\Controllers\API\v1\AccountSearchController;
+use App\Http\Controllers\API\v1\GroupAPIController;
+use App\Http\Controllers\API\v1\MinecraftAuthTokenController;
+use App\Http\Controllers\API\v1\MinecraftPlayerAliasSearchController;
+use App\Http\Controllers\API\v1\StripeWebhookController;
 use Illuminate\Support\Facades\Route;
 
 /*

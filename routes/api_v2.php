@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\Api\v1\MinecraftAggregateController;
-use App\Http\Controllers\Api\v1\MinecraftBadgeController;
-use App\Http\Controllers\Api\v1\MinecraftBalanceController;
-use App\Http\Controllers\Api\v1\MinecraftDonationTierController;
-use App\Http\Controllers\Api\v1\MinecraftTelemetryController;
-use App\Http\Controllers\Api\v1\PlayerWarningController;
-use App\Http\Controllers\Api\v2\GameBanController;
+use App\Http\Controllers\API\v1\MinecraftAggregateController;
+use App\Http\Controllers\API\v1\MinecraftBadgeController;
+use App\Http\Controllers\API\v1\MinecraftBalanceController;
+use App\Http\Controllers\API\v1\MinecraftDonationTierController;
+use App\Http\Controllers\API\v1\MinecraftTelemetryController;
+use App\Http\Controllers\API\v1\PlayerWarningController;
+use App\Http\Controllers\API\v2\GameBanController;
 use App\Http\Middleware\RequiresServerTokenScope;
 use Domain\ServerTokens\ScopeKey;
 use Illuminate\Support\Facades\Route;
