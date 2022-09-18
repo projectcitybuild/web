@@ -10,9 +10,7 @@
         'resources/sass/admin/admin.scss',
     ])
 
-    <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/brands.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/solid.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/fontawesome.js"></script>
+    <script src="https://kit.fontawesome.com/a0425475c4.js" crossorigin="anonymous"></script>
 
     <script defer src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.6/purify.min.js"></script>

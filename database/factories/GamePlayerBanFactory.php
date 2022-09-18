@@ -6,7 +6,6 @@ use Domain\Bans\UnbanType;
 use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\Server;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GamePlayerBanFactory extends Factory
 {

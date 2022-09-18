@@ -5,7 +5,6 @@ namespace Database\Factories;
 use Carbon\Carbon;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\PlayerWarning;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PlayerWarningFactory extends Factory
 {

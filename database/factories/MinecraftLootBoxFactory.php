@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Entities\Models\Eloquent\MinecraftLootBox;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 class MinecraftLootBoxFactory extends Factory

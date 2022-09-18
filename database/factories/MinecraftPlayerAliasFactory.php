@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Entities\Models\Eloquent\MinecraftPlayerAlias;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class MinecraftPlayerAliasFactory extends Factory
 {
