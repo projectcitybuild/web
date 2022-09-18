@@ -2,7 +2,6 @@
 
 namespace App\Console;
 
-use App\Console\Commands\AccountCreatedAtImport;
 use App\Console\Commands\CleanupExpiredPasswordResetsCommand;
 use App\Console\Commands\CleanupUnactivatedAccountsCommand;
 use App\Console\Commands\DeactivateDonatorPerksCommand;
@@ -32,7 +31,6 @@ class Kernel extends ConsoleKernel
         RepairMissingGroupsCommand::class,
         RewardCurrencyToDonorsCommand::class,
         ServerQueryCommand::class,
-        AccountCreatedAtImport::class,
         GenerateScoutIndexesCommand::class,
     ];
 
