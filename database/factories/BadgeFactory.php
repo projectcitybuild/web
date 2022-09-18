@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Entities\Models\Eloquent\Badge;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BadgeFactory extends Factory
 {

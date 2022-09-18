@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Entities\Models\Eloquent\Donation;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DonationFactory extends Factory
 {
