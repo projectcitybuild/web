@@ -2,11 +2,22 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\Http\BadRequestException;
 use App\Exceptions\Http\BaseHttpException;
+use App\Exceptions\Http\ForbiddenException;
+use App\Exceptions\Http\NotFoundException;
+use App\Exceptions\Http\TooManyRequestsException;
+use App\Exceptions\Http\UnauthorisedException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Session\TokenMismatchException;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
 class ExceptionHandler extends Handler
@@ -17,17 +28,17 @@ class ExceptionHandler extends Handler
      * @var array
      */
     protected $dontReport = [
-        \Illuminate\Auth\AuthenticationException::class,
-        \Illuminate\Auth\Access\AuthorizationException::class,
-        \Symfony\Component\HttpKernel\Exception\HttpException::class,
-        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-        \Illuminate\Session\TokenMismatchException::class,
-        \Illuminate\Validation\ValidationException::class,
-        \App\Exceptions\Http\UnauthorisedException::class,
-        \App\Exceptions\Http\BadRequestException::class,
-        \App\Exceptions\Http\ForbiddenException::class,
-        \App\Exceptions\Http\NotFoundException::class,
-        \App\Exceptions\Http\TooManyRequestsException::class,
+        AuthenticationException::class,
+        AuthorizationException::class,
+        HttpException::class,
+        ModelNotFoundException::class,
+        TokenMismatchException::class,
+        ValidationException::class,
+        UnauthorisedException::class,
+        BadRequestException::class,
+        ForbiddenException::class,
+        NotFoundException::class,
+        TooManyRequestsException::class,
     ];
 
     /**

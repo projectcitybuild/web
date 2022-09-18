@@ -11,6 +11,7 @@ use App\Console\Commands\GenerateSitemapCommand;
 use App\Console\Commands\RepairMissingGroupsCommand;
 use App\Console\Commands\RewardCurrencyToDonorsCommand;
 use App\Console\Commands\ServerQueryCommand;
+use App\Console\Commands\TestServiceCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Library\Environment\Environment;
@@ -32,6 +33,7 @@ class Kernel extends ConsoleKernel
         RewardCurrencyToDonorsCommand::class,
         ServerQueryCommand::class,
         GenerateScoutIndexesCommand::class,
+        TestServiceCommand::class,
     ];
 
     /**
