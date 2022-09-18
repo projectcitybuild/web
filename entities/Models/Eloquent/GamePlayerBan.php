@@ -37,7 +37,7 @@ final class GamePlayerBan extends Model
         'created_at',
         'updated_at',
         'expires_at',
-        'unbanned_at' => 'datetime',
+        'unbanned_at',
     ];
 
     public function scopeActive(Builder $query)
@@ -88,22 +88,47 @@ final class GamePlayerBan extends Model
 
     public function bannedPlayer(): BelongsTo
     {
-        return $this->belongsTo(MinecraftPlayer::class, 'banned_player_id', 'player_minecraft_id');
+        return $this->belongsTo(
+            related: MinecraftPlayer::class,
+            foreignKey: 'banned_player_id',
+            ownerKey: 'player_minecraft_id',
+        );
     }
 
     public function staffPlayer(): BelongsTo
     {
-        return $this->belongsTo(MinecraftPlayer::class, 'staff_player_id', 'player_minecraft_id');
+        return $this->belongsTo(
+            related: MinecraftPlayer::class,
+            foreignKey: 'staff_player_id',
+            ownerKey: 'player_minecraft_id',
+        );
+    }
+
+    public function unbannerPlayer(): BelongsTo
+    {
+        return $this->belongsTo(
+            related: MinecraftPlayer::class,
+            foreignKey: 'unbanner_player_id',
+            ownerKey: 'player_minecraft_id',
+        );
     }
 
     public function server(): BelongsTo
     {
-        return $this->belongsTo(Server::class, 'server_id', 'server_id');
+        return $this->belongsTo(
+            related: Server::class,
+            foreignKey: 'server_id',
+            ownerKey: 'server_id',
+        );
     }
 
     public function banAppeals(): HasMany
     {
-        return $this->hasMany(BanAppeal::class, 'game_ban_id', 'game_ban_id');
+        return $this->hasMany(
+            related: BanAppeal::class,
+            foreignKey: 'game_ban_id',
+            localKey: 'game_ban_id',
+        );
     }
 
     public function isTemporaryBan(): bool
