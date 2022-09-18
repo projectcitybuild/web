@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Http\WebController;
+use App\Http\Controllers\WebController;
 use Entities\Models\Eloquent\PlayerWarning;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Http\WebController;
+use App\Http\Controllers\WebController;
 use Entities\Models\Eloquent\Server;
 use Entities\Models\Eloquent\ServerCategory;
 use Illuminate\Contracts\Foundation\Application;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Http\WebController;
+use App\Http\Controllers\WebController;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\Badge;
 use Entities\Models\Eloquent\Group;

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\v1\AccountSearchController;
-use App\Http\Controllers\Api\v1\GroupApiController;
+use App\Http\Controllers\Api\v1\GroupAPIController;
 use App\Http\Controllers\Api\v1\MinecraftAuthTokenController;
 use App\Http\Controllers\Api\v1\MinecraftPlayerAliasSearchController;
 use App\Http\Controllers\Api\v1\StripeWebhookController;
@@ -29,7 +29,7 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::prefix('groups')->group(function () {
-    Route::get('/', [GroupApiController::class, 'getAll']);
+    Route::get('/', [GroupAPIController::class, 'getAll']);
 });
 
 Route::get('accounts/search', AccountSearchController::class);
