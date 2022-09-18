@@ -33,7 +33,6 @@ class Kernel extends ConsoleKernel
         RewardCurrencyToDonorsCommand::class,
         ServerQueryCommand::class,
         GenerateScoutIndexesCommand::class,
-        TestServiceCommand::class,
     ];
 
     /**
