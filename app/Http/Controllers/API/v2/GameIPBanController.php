@@ -94,8 +94,8 @@ final class GameIPBanController extends APIController
             return response()->json(['data' => []]);
         }
 
-        return response()->json()->setData(
-            GameIPBanResource::make($ban)
-        );
+        return response()->json([
+            'data' => GameIPBanResource::make($ban),
+        ]);
     }
 }

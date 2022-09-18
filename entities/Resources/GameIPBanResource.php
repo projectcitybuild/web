@@ -10,7 +10,7 @@ class GameIPBanResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'banner_player_id' => $this->staff_player_id,
+            'banner_player_id' => $this->banner_player_id,
             'ip_address' => $this->ip_address,
             'reason' => $this->reason,
             'created_at' => $this->created_at->timestamp,

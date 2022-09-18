@@ -59,7 +59,10 @@ class APIBanIPStatusTest extends IntegrationTestCase
                 'data' => [
                     'id' => $ban->getKey(),
                     'ip_address' => $ban->ip_address,
+                    'reason' => $ban->reason,
                     'banner_player_id' => $player->getKey(),
+                    'created_at' => $ban->created_at->timestamp,
+                    'updated_at' => $ban->updated_at->timestamp,
                     'unbanned_at' => null,
                     'unbanner_player_id' => null,
                     'unban_type' => null,
