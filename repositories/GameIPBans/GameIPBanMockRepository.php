@@ -19,7 +19,7 @@ final class GameIPBanMockRepository implements GameIPBanRepository
         return $this->create;
     }
 
-    public function find(int $ip): ?GameIPBan
+    public function find(string $ip): ?GameIPBan
     {
         return $this->find;
     }

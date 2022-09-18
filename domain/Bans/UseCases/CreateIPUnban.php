@@ -2,7 +2,6 @@
 
 namespace Domain\Bans\UseCases;
 
-use Domain\Bans\Exceptions\NotBannedException;
 use Domain\Bans\Exceptions\NotIPBannedException;
 use Domain\Bans\UnbanType;
 use Entities\Models\Eloquent\GameIPBan;

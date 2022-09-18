@@ -19,14 +19,14 @@ final class GameIPBanEloquentRepository implements GameIPBanRepository
         ]);
     }
 
-    public function find(int $ip): ?GameIPBan
+    public function find(string $ip): ?GameIPBan
     {
         return GameIPBan::where('ip_address', $ip)->first();
     }
 
     public function firstActive(string $ip): ?GameIPBan
     {
-        return GameIPBan::where('ip', $ip)
+        return GameIPBan::where('ip_address', $ip)
             ->whereNull('unbanned_at')
             ->first();
     }

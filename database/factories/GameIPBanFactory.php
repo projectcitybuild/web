@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Domain\Bans\UnbanType;
 use Entities\Models\Eloquent\GameIPBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -29,11 +30,24 @@ class GameIPBanFactory extends Factory
             'reason' => $this->faker->sentence,
             'created_at' => $date,
             'updated_at' => $date,
+            'unbanned_at' => null,
+            'unbanner_player_id' => null,
+            'unban_type' => null,
         ];
     }
 
     public function bannedBy(MinecraftPlayer|Factory|null $minecraftPlayer): GameIPBanFactory
     {
         return $this->for($minecraftPlayer, 'bannerPlayer');
+    }
+
+    public function inactive()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'unbanned_at' => now()->subDay(),
+                'unban_type' => UnbanType::MANUAL,
+            ];
+        });
     }
 }

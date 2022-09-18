@@ -12,7 +12,7 @@ use Domain\Bans\UseCases\CreateIPUnban;
 use Domain\Bans\UseCases\GetActiveIPBan;
 use Entities\Models\PlayerIdentifierType;
 use Entities\Resources\GameIPBanResource;
-use Entities\Resources\GamePlayerBanResource;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
@@ -84,12 +84,18 @@ final class GameIPBanController extends APIController
     public function status(
         Request $request,
         GetActiveIPBan $getActiveIPBans,
-    ): GamePlayerBanResource {
+    ): JsonResponse {
         $this->validateRequest($request->all(), [
             'ip_address' => 'required|ip',
         ]);
-        $ban = $getActiveIPBans->execute(ip: $request->get('ip'));
+        $ban = $getActiveIPBans->execute(ip: $request->get('ip_address'));
 
-        return GamePlayerBanResource::make($ban);
+        if ($ban === null) {
+            return response()->json(['data' => []]);
+        }
+
+        return response()->json()->setData(
+            GameIPBanResource::make($ban)
+        );
     }
 }

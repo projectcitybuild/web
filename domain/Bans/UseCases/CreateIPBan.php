@@ -31,6 +31,7 @@ final class CreateIPBan
             identifier: $bannerPlayerIdentifier,
             playerAlias: $bannerPlayerAlias,
         );
+
         return $this->gameIPBanRepository->create(
             ip: $ip,
             bannerPlayerId: $bannerPlayer->getKey(),

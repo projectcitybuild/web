@@ -25,7 +25,7 @@ final class GameIPBan extends Model
     protected $dates = [
         'created_at',
         'updated_at',
-        'unbanned_at' => 'datetime',
+        'unbanned_at',
     ];
 
     public function bannerPlayer(): BelongsTo
