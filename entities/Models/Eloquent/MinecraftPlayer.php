@@ -103,7 +103,7 @@ final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
     {
         // We have to do this because game bans are a polymorphic relationship, but this is just what
         // HasManyThrough does internally anyway..
-        return BanAppeal::whereIn('game_ban_id', $this->gamePlayerBans()->pluck('game_ban_id'));
+        return BanAppeal::whereIn('game_ban_id', $this->gamePlayerBans()->pluck('id'));
     }
 
     /**

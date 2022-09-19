@@ -18,7 +18,6 @@ final class GamePlayerBan extends Model
     use HasFactory;
 
     protected $table = 'game_player_bans';
-    protected $primaryKey = 'game_ban_id';
     protected $fillable = [
         'server_id',
         'banned_player_id',
@@ -127,7 +126,7 @@ final class GamePlayerBan extends Model
         return $this->hasMany(
             related: BanAppeal::class,
             foreignKey: 'game_ban_id',
-            localKey: 'game_ban_id',
+            localKey: 'id',
         );
     }
 
@@ -161,7 +160,7 @@ final class GamePlayerBan extends Model
     public function toSearchableArray(): array
     {
         return [
-            'game_ban_id' => $this->game_ban_id,
+            'id' => $this->getKey(),
             'banned_alias_at_time' => $this->banned_alias_at_time,
             'reason' => $this->reason,
         ];

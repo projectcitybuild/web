@@ -176,7 +176,7 @@ final class Account extends Authenticatable implements LinkableAuditModel
 
     public function banAppeals()
     {
-        return BanAppeal::whereIn('game_ban_id', $this->gamePlayerBans()->pluck('game_ban_id'));
+        return BanAppeal::whereIn('game_ban_id', $this->gamePlayerBans()->pluck('id'));
     }
 
     public function inGroup(Group $group)

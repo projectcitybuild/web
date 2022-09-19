@@ -9,7 +9,7 @@ class GamePlayerBanResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'id' => $this->game_ban_id,
+            'id' => $this->id,
             'server_id' => $this->server_id,
             'banned_player_id' => $this->banned_player_id,
             'banned_player_alias' => $this->banned_alias_at_time,
