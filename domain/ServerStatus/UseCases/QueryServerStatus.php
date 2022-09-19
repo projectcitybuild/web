@@ -26,7 +26,7 @@ final class QueryServerStatus
      */
     public function query(Server $server): ServerQueryResult
     {
-        Log::notice('Attempting server status query...', $server->toArray());
+        Log::info('Attempting server status query...', $server->toArray());
 
         $start = microtime(true);
         $now = now();
@@ -44,7 +44,7 @@ final class QueryServerStatus
         );
 
         $end = microtime(true) - $start;
-        Log::notice('Fetch completed in '.($end / 1000).'ms', $status->toArray());
+        Log::info('Server status fetched in '.($end / 1000).'ms', $status->toArray());
 
         return $status;
     }
