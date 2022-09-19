@@ -13,6 +13,8 @@ use Entities\Models\Eloquent\BuilderRankApplication;
 use Entities\Models\Eloquent\Donation;
 use Entities\Models\Eloquent\DonationPerk;
 use Entities\Models\Eloquent\DonationTier;
+use Entities\Models\Eloquent\GameIPBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\Page;
 use Entities\Models\Eloquent\PlayerWarning;
@@ -80,6 +82,8 @@ final class AppServiceProvider extends ServiceProvider
             'donation' => Donation::class,
             'donation_perk' => DonationPerk::class,
             'donation_tier' => DonationTier::class,
+            'game_player_ban' => GamePlayerBan::class,
+            'game_ip_ban' => GameIPBan::class,
             'minecraft_player' => MinecraftPlayer::class,
             'page' => Page::class,
             'server' => Server::class,

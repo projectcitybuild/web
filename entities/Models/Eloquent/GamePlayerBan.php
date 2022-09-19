@@ -11,11 +11,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
+use Library\Auditing\AuditAttributes;
+use Library\Auditing\Concerns\LogsActivity;
+use Library\Auditing\Contracts\LinkableAuditModel;
 
-final class GamePlayerBan extends Model
+final class GamePlayerBan extends Model implements LinkableAuditModel
 {
     use Searchable;
     use HasFactory;
+    use LogsActivity;
 
     protected $table = 'game_player_bans';
     protected $fillable = [
@@ -164,5 +168,35 @@ final class GamePlayerBan extends Model
             'banned_alias_at_time' => $this->banned_alias_at_time,
             'reason' => $this->reason,
         ];
+    }
+
+    public function getActivitySubjectLink(): ?string
+    {
+        return route('front.panel.player-bans.edit', $this);
+    }
+
+    public function getActivitySubjectName(): ?string
+    {
+        $player = $this->bannedPlayer->currentAlias()?->alias
+            ?? $this->bannedPlayer->getKey().' player id';
+
+        return "Ban for $player";
+    }
+
+    public function auditAttributeConfig(): AuditAttributes
+    {
+        return AuditAttributes::build()
+            ->addRelationship('banned_player_id', MinecraftPlayer::class)
+            ->addRelationship('banner_player_id', MinecraftPlayer::class)
+            ->addRelationship('unbanner_player_id', MinecraftPlayer::class)
+            ->add(
+                'banned_alias_at_time',
+                'reason',
+                'expires_at',
+                'created_at',
+                'updated_at',
+                'unbanned_at',
+                'unban_type',
+            );
     }
 }
