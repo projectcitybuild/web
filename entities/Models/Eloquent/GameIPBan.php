@@ -57,7 +57,7 @@ final class GameIPBan extends Model implements LinkableAuditModel
 
     public function getActivitySubjectName(): ?string
     {
-        return 'IP ban for '. $this->ip_address;
+        return 'IP ban for '.$this->ip_address;
     }
 
     public function auditAttributeConfig(): AuditAttributes
