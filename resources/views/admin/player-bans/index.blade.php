@@ -19,8 +19,7 @@
                 <th>Reason</th>
                 <th>Banned By</th>
                 <th>Expires At</th>
-                <th>Created At</th>
-                <th>Updated At</th>
+                <th>Banned At</th>
                 <th>Unbanned At</th>
                 <th></th>
             </tr>
@@ -39,9 +38,9 @@
                     </td>
                     <td>{{ $ban->reason }}</td>
                     <td>
-                        @if ($ban->staffPlayer)
-                        <a href="{{ route('front.panel.minecraft-players.show', $ban->staffPlayer) }}">
-                            {{ $ban->staffPlayer?->getBanReadableName() ?: '(No Alias)' }}
+                        @if ($ban->bannerPlayer)
+                        <a href="{{ route('front.panel.minecraft-players.show', $ban->bannerPlayer) }}">
+                            {{ $ban->bannerPlayer?->getBanReadableName() ?: '(No Alias)' }}
                         </a>
                         @else
                             System
@@ -49,7 +48,6 @@
                     </td>
                     <td>{{ $ban->expires_at ?? '-' }}</td>
                     <td>{{ $ban->created_at }}</td>
-                    <td>{{ $ban->updated_at }}</td>
                     <td>{{ $ban->unbanned_at ?? '-' }}</td>
                     <td>
                         <a href="{{ route('front.panel.player-bans.edit', $ban) }}">Edit</a>

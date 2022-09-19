@@ -22,8 +22,8 @@ class BanlistTest extends TestCase
     {
         $ban = GamePlayerBan::factory()
             ->for(Server::factory()->for(ServerCategory::factory()))
-            ->for($this->makeMinecraftPlayer(), 'bannedPlayer')
-            ->for($this->makeMinecraftPlayer(), 'staffPlayer')
+            ->bannedPlayer($this->makeMinecraftPlayer())
+            ->bannedBy($this->makeMinecraftPlayer())
             ->create();
 
         $this->get(route('front.banlist'))
@@ -34,8 +34,8 @@ class BanlistTest extends TestCase
     {
         $ban = GamePlayerBan::factory()
             ->for(Server::factory()->for(ServerCategory::factory()))
-            ->for($this->makeMinecraftPlayer(), 'bannedPlayer')
-            ->for($this->makeMinecraftPlayer(), 'staffPlayer')
+            ->bannedPlayer($this->makeMinecraftPlayer())
+            ->bannedBy($this->makeMinecraftPlayer())
             ->inactive()
             ->create();
 

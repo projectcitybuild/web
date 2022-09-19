@@ -70,7 +70,7 @@ class BanAppealConfirmationNotification extends Notification implements ShouldQu
             ->embed(function (DiscordEmbed $embed) {
                 $embed->title('Ban Appeal', route('front.panel.ban-appeals.show', $this->banAppeal))
                     ->description(Str::limit($this->banAppeal->explanation, 500))
-                    ->field('Banning Staff', $this->banAppeal->gamePlayerBan->staffPlayer->getBanReadableName() ?? 'No Alias')
+                    ->field('Banning Staff', $this->banAppeal->gamePlayerBan->bannerPlayer->getBanReadableName() ?? 'No Alias')
                     ->field('Ban Reason', $this->banAppeal->gamePlayerBan->reason ?? '-')
                     ->author($this->banAppeal->gamePlayerBan->bannedPlayer->getBanReadableName());
             });

@@ -72,7 +72,7 @@ class GamePlayerBanFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'staff_player_id' => null,
+                'banner_player_id' => null,
             ];
         });
     }
@@ -81,10 +81,10 @@ class GamePlayerBanFactory extends Factory
     {
         if (is_null($minecraftPlayer)) {
             return $this->state(function (array $attributes) {
-                return ['staff_player_id' => null];
+                return ['banner_player_id' => null];
             });
         } else {
-            return $this->for($minecraftPlayer, 'staffPlayer');
+            return $this->for($minecraftPlayer, 'bannerPlayer');
         }
     }
 

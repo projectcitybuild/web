@@ -23,7 +23,7 @@ final class GamePlayerBan extends Model
         'server_id',
         'banned_player_id',
         'banned_alias_at_time',
-        'staff_player_id',
+        'banner_player_id',
         'reason',
         'expires_at',
         'created_at',
@@ -95,11 +95,11 @@ final class GamePlayerBan extends Model
         );
     }
 
-    public function staffPlayer(): BelongsTo
+    public function bannerPlayer(): BelongsTo
     {
         return $this->belongsTo(
             related: MinecraftPlayer::class,
-            foreignKey: 'staff_player_id',
+            foreignKey: 'banner_player_id',
             ownerKey: 'player_minecraft_id',
         );
     }
@@ -141,13 +141,13 @@ final class GamePlayerBan extends Model
         return $this->unbanned_at === null;
     }
 
-    public function getStaffName(): string
+    public function getBannerName(): string
     {
-        if (is_null($this->staffPlayer)) {
+        if (is_null($this->bannerPlayer)) {
             return 'System';
         }
 
-        return $this->staffPlayer->getBanReadableName() ?? 'No Alias';
+        return $this->bannerPlayer->getBanReadableName() ?? 'No Alias';
     }
 
     public function hasNameChangedSinceBan(): bool

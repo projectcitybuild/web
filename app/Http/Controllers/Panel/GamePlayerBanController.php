@@ -15,7 +15,7 @@ class GamePlayerBanController extends WebController
 {
     public function index(Request $request): View
     {
-        $bans = GamePlayerBan::with('bannedPlayer', 'staffPlayer', 'unbannerPlayer')
+        $bans = GamePlayerBan::with('bannedPlayer', 'bannerPlayer', 'unbannerPlayer')
             ->orderBy('created_at', 'desc')
             ->paginate(100);
 
@@ -57,7 +57,7 @@ class GamePlayerBanController extends WebController
         GamePlayerBan::create([
             'banned_player_id' => $request->get('banned_player_id'),
             'banned_alias_at_time' => $request->get('banned_alias_at_time'),
-            'staff_player_id' => $request->get('banner_player_id'),
+            'banner_player_id' => $request->get('banner_player_id'),
             'reason' => $request->get('reason'),
             'expires_at' => $request->get('expires_at'),
             'created_at' => $request->get('created_at'),
@@ -84,11 +84,16 @@ class GamePlayerBanController extends WebController
     public function update(Request $request, int $banId): RedirectResponse
     {
         $validator = Validator::make($request->all(), [
+            'banned_player_id' => 'required|max:60',
+            'banned_alias_at_time' => 'required|string',
             'banner_player_id' => 'required|max:60',
-            'ip_address' => 'required|ip',
             'reason' => 'required|string',
+            'expires_at' => 'nullable|date',
             'created_at' => 'required|date',
             'updated_at' => 'required|date',
+            'unbanned_at' => 'nullable|date',
+            'unbanner_player_id' => 'nullable|max:60',
+            'unban_type' => ['nullable', Rule::in(UnbanType::values())],
         ]);
 
         if ($validator->fails()) {
