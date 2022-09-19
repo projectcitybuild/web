@@ -123,18 +123,18 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse($minecraftPlayer->gameBans as $ban)
+                        @forelse($minecraftPlayer->gamePlayerBans as $ban)
                             <tr class="{{ $ban->isActive() ? 'table-warning' : '' }}">
                                 <td data-bs-toggle="tooltip" data-bs-placement="left" title="{{ $ban->isActive() ? 'Active' : 'Inactive' }}">
                                     {{ $ban->isActive() ? 'Active' : 'Inactive' }}
                                 </td>
                                 <td>{{ $ban->reason }}</td>
                                 <td>
-                                    @if($ban->staffPlayer == null)
+                                    @if($ban->bannerPlayer == null)
                                         <span class="badge bg-secondary">Null</span>
                                     @else
-                                    <a href="{{ route('front.panel.minecraft-players.show', $ban->staffPlayer) }}">
-                                        {{ $ban->getStaffName() }}
+                                    <a href="{{ route('front.panel.minecraft-players.show', $ban->bannerPlayer) }}">
+                                        {{ $ban->getBannerName() }}
                                     </a>
                                     @endif
                                 </td>

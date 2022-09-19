@@ -9,7 +9,7 @@ use Repositories\BalanceHistoryRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Exceptions\NoLinkedAccountException;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
-use Shared\PlayerLookup\Service\ConcretePlayerLookup;
+use Shared\PlayerLookup\Service\PlayerLookup;
 
 /**
  * @final
@@ -17,7 +17,7 @@ use Shared\PlayerLookup\Service\ConcretePlayerLookup;
 class DeductBalance
 {
     public function __construct(
-        private readonly ConcretePlayerLookup $playerLookup,
+        private readonly PlayerLookup $playerLookup,
         private readonly BalanceHistoryRepository $balanceHistoryRepository,
     ) {
     }

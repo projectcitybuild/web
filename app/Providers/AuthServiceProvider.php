@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Http\Controllers\Api\v1\OAuthController;
+use App\Http\Controllers\API\v1\OAuthController;
 use App\Policies\BanAppealPolicy;
 use Entities\Models\Eloquent\BanAppeal;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;

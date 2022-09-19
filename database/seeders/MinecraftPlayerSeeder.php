@@ -9,11 +9,6 @@ use Illuminate\Database\Seeder;
 
 class MinecraftPlayerSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $accounts = Account::get();

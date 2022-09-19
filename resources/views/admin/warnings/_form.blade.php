@@ -1,5 +1,5 @@
 <div class="row mb-3">
-    <label for="name" class="col-sm-3 col-form-label horizontal-label">Player</label>
+    <label for="warned_player_id" class="col-sm-3 col-form-label horizontal-label">Player</label>
     <div class="col-sm-9">
         <x-panel.minecraft-player-alias-picker
             fieldName="warned_player_id"
@@ -9,7 +9,7 @@
     </div>
 </div>
 <div class="row mb-3">
-    <label for="name" class="col-sm-3 col-form-label horizontal-label">Warned By</label>
+    <label for="warner_player_id" class="col-sm-3 col-form-label horizontal-label">Warned By</label>
     <div class="col-sm-9">
         <x-panel.minecraft-player-alias-picker
             fieldName="warner_player_id"
@@ -65,7 +65,7 @@
             id="updated_at"
             name="updated_at"
             class="form-control"
-            value="{{ old('updated_at', $perk->updated_at ?? now()) }}"
+            value="{{ old('updated_at', $warning->updated_at ?? now()) }}"
         >
     </div>
 </div>

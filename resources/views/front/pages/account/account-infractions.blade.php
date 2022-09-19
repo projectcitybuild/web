@@ -18,7 +18,7 @@
                 <p class="form__description">If you wish to appeal a ban, use the <a href="{{ route('front.appeal') }}">appeal form</a>.</p>
             </div>
 
-            @if($account->gameBans->count() == 0)
+            @if($account->gamePlayerBans->count() == 0)
                 <div class="settings__empty-placeholder">
                     <div><i class="fas fa-ban fa-2x"></i></div>
                     <p>You have not been banned.</p>
@@ -36,11 +36,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($account->gameBans as $ban)
+                    @foreach($account->gamePlayerBans as $ban)
                         <tr>
                             <td>{{ $ban->isActive() ? 'Active' : 'Inactive' }}</td>
                             <td>{{ $ban->reason }}</td>
-                            <td>{{ $ban->staffPlayer?->getBanReadableName() ?? 'System' }}</td>
+                            <td>{{ $ban->bannerPlayer?->getBanReadableName() ?? 'System' }}</td>
                             <td>{{ $ban->created_at?->toFormattedDateString() ?? 'Unknown' }}</td>
                             <td>{{ $ban->expires_at?->toFormattedDateString() ?? 'Never' }}</td>
                             <td>{{ $ban->unbanned_at?->toFormattedDateString() ?? '-' }}</td>

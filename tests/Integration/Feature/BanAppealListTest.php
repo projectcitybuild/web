@@ -4,7 +4,7 @@ namespace Tests\Integration\Feature;
 
 use Domain\BanAppeals\Entities\BanAppealStatus;
 use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Tests\TestCase;
 
@@ -31,7 +31,7 @@ class BanAppealListTest extends TestCase
     {
         $player = $this->createPlayerWithAccountAndLogin();
 
-        $ban = GameBan::factory()
+        $ban = GamePlayerBan::factory()
             ->for($player, 'bannedPlayer')
             ->create();
 
@@ -43,7 +43,7 @@ class BanAppealListTest extends TestCase
     {
         $player = $this->createPlayerWithAccountAndLogin();
 
-        GameBan::factory()
+        GamePlayerBan::factory()
             ->for($player, 'bannedPlayer')
             ->hasBanAppeals(1)
             ->create();
@@ -56,7 +56,7 @@ class BanAppealListTest extends TestCase
     {
         $player = $this->createPlayerWithAccountAndLogin();
 
-        GameBan::factory()
+        GamePlayerBan::factory()
             ->for($player, 'bannedPlayer')
             ->hasBanAppeals(1, ['status' => BanAppealStatus::DENIED])
             ->create();

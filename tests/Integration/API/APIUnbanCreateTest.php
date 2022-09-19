@@ -4,7 +4,7 @@ namespace Tests\Integration\API;
 
 use Domain\Bans\UnbanType;
 use Domain\ServerTokens\ScopeKey;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\PlayerIdentifierType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,7 +14,7 @@ class APIUnbanCreateTest extends IntegrationTestCase
 {
     use RefreshDatabase;
 
-    private const ENDPOINT = 'api/v2/bans/unban';
+    private const ENDPOINT = 'api/v2/bans/player/unban';
 
     protected function setUp(): void
     {
@@ -35,7 +35,7 @@ class APIUnbanCreateTest extends IntegrationTestCase
 
     public function test_requires_scope()
     {
-        GameBan::factory()
+        GamePlayerBan::factory()
             ->bannedPlayer(MinecraftPlayer::factory()->create(['uuid' => 'uuid1']))
             ->create();
 
@@ -82,7 +82,7 @@ class APIUnbanCreateTest extends IntegrationTestCase
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
 
-        $ban = GameBan::factory()
+        $ban = GamePlayerBan::factory()
             ->bannedPlayer($player1)
             ->create();
 
@@ -96,9 +96,9 @@ class APIUnbanCreateTest extends IntegrationTestCase
             ->assertSuccessful();
 
         $this->assertDatabaseHas(
-            table: GameBan::getTableName(),
+            table: GamePlayerBan::getTableName(),
             data: [
-                'game_ban_id' => $ban->getKey(),
+                'id' => $ban->getKey(),
                 'unbanned_at' => now(),
                 'unbanner_player_id' => $player2->getKey(),
                 'unban_type' => UnbanType::MANUAL->value,
@@ -113,7 +113,7 @@ class APIUnbanCreateTest extends IntegrationTestCase
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
 
-        $ban = GameBan::factory()
+        $ban = GamePlayerBan::factory()
             ->temporary()
             ->bannedPlayer($player1)
             ->create();
@@ -128,9 +128,9 @@ class APIUnbanCreateTest extends IntegrationTestCase
             ->assertSuccessful();
 
         $this->assertDatabaseHas(
-            table: GameBan::getTableName(),
+            table: GamePlayerBan::getTableName(),
             data: [
-                'game_ban_id' => $ban->getKey(),
+                'id' => $ban->getKey(),
                 'unbanned_at' => now(),
                 'unbanner_player_id' => $player2->getKey(),
                 'unban_type' => UnbanType::MANUAL->value,

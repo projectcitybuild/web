@@ -28,14 +28,22 @@ class BanAppeal extends Model implements LinkableAuditModel
         'status',
     ];
 
-    public function gameBan(): BelongsTo
+    public function gamePlayerBan(): BelongsTo
     {
-        return $this->belongsTo(GameBan::class, 'game_ban_id', 'game_ban_id');
+        return $this->belongsTo(
+            related: GamePlayerBan::class,
+            foreignKey: 'game_ban_id',
+            ownerKey: 'id',
+        );
     }
 
     public function deciderPlayer(): BelongsTo
     {
-        return $this->belongsTo(MinecraftPlayer::class, 'decider_player_minecraft_id', 'player_minecraft_id');
+        return $this->belongsTo(
+            related: MinecraftPlayer::class,
+            foreignKey: 'decider_player_minecraft_id',
+            ownerKey: 'player_minecraft_id',
+        );
     }
 
     public function scopePending(Builder $query): Builder
@@ -55,7 +63,7 @@ class BanAppeal extends Model implements LinkableAuditModel
 
     public function routeNotificationForMail($notification)
     {
-        return $this->gameBan->bannedPlayer->account?->email ?? $this->email;
+        return $this->gamePlayerBan->bannedPlayer->account?->email ?? $this->email;
     }
 
     public function routeNotificationForDiscord(): string
@@ -65,8 +73,8 @@ class BanAppeal extends Model implements LinkableAuditModel
 
     public function getBannedPlayerName()
     {
-        return $this->gameBan->bannedPlayer->getBanReadableName() ??
-            $this->gameBan->banned_alias_at_time;
+        return $this->gamePlayerBan->bannedPlayer->getBanReadableName() ??
+            $this->gamePlayerBan->banned_alias_at_time;
     }
 
     public function showLink(): string
@@ -82,7 +90,7 @@ class BanAppeal extends Model implements LinkableAuditModel
             return null;
         }
 
-        return $this->gameBan->expires_at->diffForHumans($this->decided_at, CarbonInterface::DIFF_ABSOLUTE);
+        return $this->gamePlayerBan->expires_at->diffForHumans($this->decided_at, CarbonInterface::DIFF_ABSOLUTE);
     }
 
     public function getActivitySubjectLink(): ?string

@@ -11,11 +11,6 @@ use Library\Tokens\Adapters\HashedTokenGenerator;
 
 class ServerTokenSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $scopes = collect(ScopeKey::values())->map(

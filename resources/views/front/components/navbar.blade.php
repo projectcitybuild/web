@@ -18,11 +18,11 @@
                     <li>
                         <h5>Information</h5>
                         <ul>
-                            <li><a href="https://forums.projectcitybuild.com/t/pcb-community-rules/22928">Rules & Guidelines</a></li>
-                            <li><a href="https://forums.projectcitybuild.com/t/pcb-ranks/32812">Ranks</a></li>
-                            <li><a href="https://wiki.projectcitybuild.com/wiki/List_of_Staff_Members">Staff</a></li>
-                            <li><a href="https://forums.projectcitybuild.com/t/vote-for-our-server/18568">Vote For Us</a></li>
-                            <li><a href="https://forums.projectcitybuild.com/t/map-archive/32793">Map Archive</a></li>
+                            <li><a href="https://portal.projectcitybuild.com/books/rules/page/community-rules">Rules & Guidelines</a></li>
+                            <li><a href="https://portal.projectcitybuild.com/books/player-ranks/page/list-of-ranks">Ranks</a></li>
+                            <li><a href="https://portal.projectcitybuild.com/books/list-of-staff/page/active">Staff</a></li>
+                            <li><a href="https://portal.projectcitybuild.com/books/server-voting/page/server-voting">Vote For Us</a></li>
+                            <li><a href="https://portal.projectcitybuild.com/books/map-archive/page/map-archive">Map Archive</a></li>
                         </ul>
                     </li>
                     <li>
@@ -42,7 +42,7 @@
                     <li><a href="{{ route('front.rank-up') }}">Apply for Build Rank</a></li>
                     <li class="divider"><a href="https://goo.gl/forms/UodUsKQBZJdCzNWk1">Apply for Staff</a></li>
                     <li><a href="https://forums.projectcitybuild.com/" target="_blank" rel="noopener">Forums (archived)</a></li>
-                    <li class="divider"><a href="https://wiki.projectcitybuild.com/" target="_blank" rel="noopener">Community Wiki</a></li>
+                    <li class="divider"><a href="https://wiki.projectcitybuild.com/" target="_blank" rel="noopener">Community Wiki (archived)</a></li>
                     <li><a href="{{ route('front.banlist') }}">Ban List</a></li>
                 </ul>
             </li>

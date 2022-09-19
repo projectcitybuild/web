@@ -4,7 +4,7 @@ namespace Tests\Integration\API;
 
 use Domain\Bans\UnbanType;
 use Domain\ServerTokens\ScopeKey;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\Server;
 use Entities\Models\PlayerIdentifierType;
@@ -15,7 +15,7 @@ class APIBanAllTest extends IntegrationTestCase
 {
     use RefreshDatabase;
 
-    private const ENDPOINT = 'api/v2/bans/all';
+    private const ENDPOINT = 'api/v2/bans/player/all';
 
     protected function setUp(): void
     {
@@ -53,13 +53,13 @@ class APIBanAllTest extends IntegrationTestCase
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
         $server = Server::factory()->create();
 
-        $ban1 = GameBan::factory()
+        $ban1 = GamePlayerBan::factory()
             ->bannedPlayer($player1)
             ->bannedBy($player2)
             ->server($server)
             ->create(['created_at' => now()->subDays(1)]);
 
-        $ban2 = GameBan::factory()
+        $ban2 = GamePlayerBan::factory()
             ->inactive()
             ->bannedPlayer($player1)
             ->bannedBy($player2)

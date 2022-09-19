@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Http\WebController;
+use App\Http\Controllers\WebController;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -64,7 +64,7 @@ class MinecraftPlayerController extends WebController
      */
     public function show(MinecraftPlayer $minecraftPlayer)
     {
-        $minecraftPlayer->load(['account', 'aliases', 'gameBans', 'gameBans.bannedPlayer.aliases', 'gameBans.staffPlayer.aliases']);
+        $minecraftPlayer->load(['account', 'aliases', 'gamePlayerBans', 'gamePlayerBans.bannedPlayer.aliases', 'gamePlayerBans.bannerPlayer.aliases']);
 
         return view('admin.minecraft-player.show')->with(compact('minecraftPlayer'));
     }

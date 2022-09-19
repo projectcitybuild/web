@@ -13,6 +13,8 @@ use App\Http\Controllers\Panel\BanAppealController;
 use App\Http\Controllers\Panel\BuilderRanksController;
 use App\Http\Controllers\Panel\DonationController;
 use App\Http\Controllers\Panel\DonationPerksController;
+use App\Http\Controllers\Panel\GameIPBanController;
+use App\Http\Controllers\Panel\GamePlayerBanController;
 use App\Http\Controllers\Panel\GroupAccountController;
 use App\Http\Controllers\Panel\GroupController;
 use App\Http\Controllers\Panel\MinecraftPlayerController;
@@ -88,6 +90,14 @@ Route::resource('server-tokens', ServerTokenController::class)
 
 Route::resource('warnings', PlayerWarningController::class)
     ->middleware(PanelGroupScope::MANAGE_WARNINGS->toMiddleware());
+
+Route::resource('ip-bans', GameIPBanController::class)
+    ->except(['show'])
+    ->middleware(PanelGroupScope::MANAGE_BANS->toMiddleware());
+
+Route::resource('player-bans', GamePlayerBanController::class)
+    ->except(['show'])
+    ->middleware(PanelGroupScope::MANAGE_BANS->toMiddleware());
 
 Route::group([
     'prefix' => 'groups',
