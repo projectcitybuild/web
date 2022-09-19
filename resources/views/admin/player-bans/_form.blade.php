@@ -108,11 +108,15 @@
 <div class="row mb-3">
     <label for="game_type" class="col-sm-3 col-form-label horizontal-label">Unban Type</label>
     <div class="col-sm-9">
-        <select name="game_type">
+        <select name="unban_type">
+            <option
+                value=""
+                {{ old('unban_type') === null || $ban->unban_type === null ? 'selected' : '' }}
+            ></option>
             @foreach (\Domain\Bans\UnbanType::cases() as $unbanType)
                 <option
                     value="{{ $unbanType->value }}"
-                    {{ $ban->unban_type === $unbanType->value ? 'selected' : '' }}
+                    {{ old('unban_type') === $unbanType || $ban->unban_type === $unbanType ? 'selected' : '' }}
                 >
                     {{ $unbanType->value }}
                 </option>
