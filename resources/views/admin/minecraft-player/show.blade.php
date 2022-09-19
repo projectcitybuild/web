@@ -130,11 +130,11 @@
                                 </td>
                                 <td>{{ $ban->reason }}</td>
                                 <td>
-                                    @if($ban->staffPlayer == null)
+                                    @if($ban->bannerPlayer == null)
                                         <span class="badge bg-secondary">Null</span>
                                     @else
-                                    <a href="{{ route('front.panel.minecraft-players.show', $ban->staffPlayer) }}">
-                                        {{ $ban->getStaffName() }}
+                                    <a href="{{ route('front.panel.minecraft-players.show', $ban->bannerPlayer) }}">
+                                        {{ $ban->getBannerName() }}
                                     </a>
                                     @endif
                                 </td>

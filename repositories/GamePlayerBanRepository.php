@@ -22,7 +22,7 @@ class GamePlayerBanRepository
             'server_id' => $serverId,
             'banned_player_id' => $bannedPlayerId,
             'banned_alias_at_time' => $bannedPlayerAlias,
-            'staff_player_id' => $bannerPlayerId,
+            'banner_player_id' => $bannerPlayerId,
             'reason' => $reason,
             'expires_at' => $expiresAt,
         ]);

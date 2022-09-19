@@ -40,7 +40,7 @@
                         <tr>
                             <td>{{ $ban->isActive() ? 'Active' : 'Inactive' }}</td>
                             <td>{{ $ban->reason }}</td>
-                            <td>{{ $ban->staffPlayer?->getBanReadableName() ?? 'System' }}</td>
+                            <td>{{ $ban->bannerPlayer?->getBanReadableName() ?? 'System' }}</td>
                             <td>{{ $ban->created_at?->toFormattedDateString() ?? 'Unknown' }}</td>
                             <td>{{ $ban->expires_at?->toFormattedDateString() ?? 'Never' }}</td>
                             <td>{{ $ban->unbanned_at?->toFormattedDateString() ?? '-' }}</td>

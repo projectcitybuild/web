@@ -74,6 +74,13 @@
             @endscope
             @scope(Entities\Models\PanelGroupScope::MANAGE_BANS)
             <li class="nav-item">
+                <a class="nav-link {{ request()->is('panel/player-bans*') ? 'active' : '' }}"
+                   href="{{ route('front.panel.player-bans.index') }}">
+                    <i class="fas fa-user-slash fa-fw"></i>
+                    Banned Players
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/ip-bans*') ? 'active' : '' }}"
                    href="{{ route('front.panel.ip-bans.index') }}">
                     <i class="fas fa-ban fa-fw"></i>

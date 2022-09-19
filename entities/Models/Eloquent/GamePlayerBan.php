@@ -18,12 +18,11 @@ final class GamePlayerBan extends Model
     use HasFactory;
 
     protected $table = 'game_player_bans';
-    protected $primaryKey = 'game_ban_id';
     protected $fillable = [
         'server_id',
         'banned_player_id',
         'banned_alias_at_time',
-        'staff_player_id',
+        'banner_player_id',
         'reason',
         'expires_at',
         'created_at',
@@ -37,7 +36,7 @@ final class GamePlayerBan extends Model
         'created_at',
         'updated_at',
         'expires_at',
-        'unbanned_at' => 'datetime',
+        'unbanned_at',
     ];
 
     public function scopeActive(Builder $query)
@@ -88,22 +87,47 @@ final class GamePlayerBan extends Model
 
     public function bannedPlayer(): BelongsTo
     {
-        return $this->belongsTo(MinecraftPlayer::class, 'banned_player_id', 'player_minecraft_id');
+        return $this->belongsTo(
+            related: MinecraftPlayer::class,
+            foreignKey: 'banned_player_id',
+            ownerKey: 'player_minecraft_id',
+        );
     }
 
-    public function staffPlayer(): BelongsTo
+    public function bannerPlayer(): BelongsTo
     {
-        return $this->belongsTo(MinecraftPlayer::class, 'staff_player_id', 'player_minecraft_id');
+        return $this->belongsTo(
+            related: MinecraftPlayer::class,
+            foreignKey: 'banner_player_id',
+            ownerKey: 'player_minecraft_id',
+        );
+    }
+
+    public function unbannerPlayer(): BelongsTo
+    {
+        return $this->belongsTo(
+            related: MinecraftPlayer::class,
+            foreignKey: 'unbanner_player_id',
+            ownerKey: 'player_minecraft_id',
+        );
     }
 
     public function server(): BelongsTo
     {
-        return $this->belongsTo(Server::class, 'server_id', 'server_id');
+        return $this->belongsTo(
+            related: Server::class,
+            foreignKey: 'server_id',
+            ownerKey: 'server_id',
+        );
     }
 
     public function banAppeals(): HasMany
     {
-        return $this->hasMany(BanAppeal::class, 'game_ban_id', 'game_ban_id');
+        return $this->hasMany(
+            related: BanAppeal::class,
+            foreignKey: 'game_ban_id',
+            localKey: 'id',
+        );
     }
 
     public function isTemporaryBan(): bool
@@ -116,13 +140,13 @@ final class GamePlayerBan extends Model
         return $this->unbanned_at === null;
     }
 
-    public function getStaffName(): string
+    public function getBannerName(): string
     {
-        if (is_null($this->staffPlayer)) {
+        if (is_null($this->bannerPlayer)) {
             return 'System';
         }
 
-        return $this->staffPlayer->getBanReadableName() ?? 'No Alias';
+        return $this->bannerPlayer->getBanReadableName() ?? 'No Alias';
     }
 
     public function hasNameChangedSinceBan(): bool
@@ -136,7 +160,7 @@ final class GamePlayerBan extends Model
     public function toSearchableArray(): array
     {
         return [
-            'game_ban_id' => $this->game_ban_id,
+            'id' => $this->getKey(),
             'banned_alias_at_time' => $this->banned_alias_at_time,
             'reason' => $this->reason,
         ];
