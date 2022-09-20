@@ -12,6 +12,7 @@ use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Resources\AccountResource;
 use Entities\Resources\DonationPerkResource;
+use Entities\Resources\GameIPBanResource;
 use Entities\Resources\GamePlayerBanResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -54,7 +55,7 @@ final class MinecraftAggregateController extends APIController
                 'ban' => is_null($ban) ? null : GamePlayerBanResource::make($ban),
                 'badges' => $badges,
                 'donation_tiers' => DonationPerkResource::collection($donationTiers),
-                'ip_ban' => $ipBan,
+                'ip_ban' => is_null($ipBan) ? null : GameIPBanResource::make($ipBan),
             ],
         ]);
     }

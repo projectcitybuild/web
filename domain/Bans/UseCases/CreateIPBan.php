@@ -22,7 +22,7 @@ final class CreateIPBan
         string $bannerPlayerAlias,
         string $banReason,
     ): GameIPBan {
-        $existingBan = $this->gameIPBanRepository->find(ip: $ip);
+        $existingBan = $this->gameIPBanRepository->firstActive(ip: $ip);
         if ($existingBan !== null) {
             throw new AlreadyIPBannedException();
         }
