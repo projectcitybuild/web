@@ -13,8 +13,6 @@ interface GameIPBanRepository
         string $reason,
     ): GameIPBan;
 
-    public function find(string $ip): ?GameIPBan;
-
     public function firstActive(string $ip): ?GameIPBan;
 
     public function unban(
