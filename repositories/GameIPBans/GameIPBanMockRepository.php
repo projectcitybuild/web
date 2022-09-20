@@ -8,7 +8,6 @@ use Entities\Models\Eloquent\GameIPBan;
 final class GameIPBanMockRepository implements GameIPBanRepository
 {
     public GameIPBan $create;
-    public GameIPBan $find;
     public ?GameIPBan $firstActive;
 
     public function create(
@@ -17,11 +16,6 @@ final class GameIPBanMockRepository implements GameIPBanRepository
         string $reason,
     ): GameIPBan {
         return $this->create;
-    }
-
-    public function find(string $ip): ?GameIPBan
-    {
-        return $this->find;
     }
 
     public function firstActive(string $ip): ?GameIPBan
