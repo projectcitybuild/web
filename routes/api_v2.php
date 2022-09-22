@@ -89,6 +89,12 @@ Route::prefix('minecraft')->group(function () {
 
         Route::post('/', [MinecraftShowcaseWarpController::class, 'store'])
             ->middleware(RequiresServerTokenScope::middleware(ScopeKey::SHOWCASE_WARPS_UPDATE));
+
+        Route::get('{name}', [MinecraftShowcaseWarpController::class, 'show'])
+            ->middleware(RequiresServerTokenScope::middleware(ScopeKey::SHOWCASE_WARPS_SHOW));
+
+        Route::post('{name}', [MinecraftShowcaseWarpController::class, 'update'])
+            ->middleware(RequiresServerTokenScope::middleware(ScopeKey::SHOWCASE_WARPS_UPDATE));
     });
 
     Route::post('telemetry/seen', [MinecraftTelemetryController::class, 'playerSeen'])

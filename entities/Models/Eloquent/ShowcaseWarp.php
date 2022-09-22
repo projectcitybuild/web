@@ -28,4 +28,8 @@ class ShowcaseWarp extends Model
     protected $dates = [
         'built_at',
     ];
+    protected $casts = [
+        'location_pitch' => 'decimal:1',
+        'location_yaw' => 'decimal:1',
+    ];
 }
