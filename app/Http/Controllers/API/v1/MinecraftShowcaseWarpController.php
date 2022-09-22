@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\API\v1;
 
-use App\Http\APIController;
+use App\Http\Controllers\APIController;
 use Entities\Models\Eloquent\ShowcaseWarp;
 use Entities\Resources\ShowcaseWarpResource;
 use Illuminate\Http\Request;
