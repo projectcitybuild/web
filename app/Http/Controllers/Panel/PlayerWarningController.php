@@ -14,7 +14,7 @@ class PlayerWarningController extends WebController
 {
     public function index(Request $request): View
     {
-        $warnings = PlayerWarning::with('warnedPlayer', 'warnerPlayer')
+        $warnings = PlayerWarning::with('warnedPlayer.aliases', 'warnerPlayer.aliases')
             ->orderBy('created_at', 'desc')
             ->paginate(100);
 

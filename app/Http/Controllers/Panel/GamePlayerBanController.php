@@ -15,7 +15,7 @@ class GamePlayerBanController extends WebController
 {
     public function index(Request $request): View
     {
-        $bans = GamePlayerBan::with('bannedPlayer', 'bannerPlayer', 'unbannerPlayer')
+        $bans = GamePlayerBan::with('bannedPlayer.aliases', 'bannerPlayer.aliases', 'unbannerPlayer.aliases')
             ->orderBy('created_at', 'desc')
             ->paginate(100);
 
