@@ -113,7 +113,7 @@ class APIMinecraftShowcaseWarpStoreTest extends IntegrationTestCase
                 'location_z' => 3,
                 'location_pitch' => 4.0,
                 'location_yaw' => 5.0,
-                'built_at' => "2022-09-22 09:45:08",
+                'built_at' => '2022-09-22 09:45:08',
             ],
         );
     }

@@ -15,7 +15,7 @@ class APIMinecraftShowcaseWarpUpdateTest extends IntegrationTestCase
 
     private function endpoint(?string $name = null): string
     {
-        return 'api/v2/minecraft/showcase-warps/' . ($name ?: $this->existingWarp->name);
+        return 'api/v2/minecraft/showcase-warps/'.($name ?: $this->existingWarp->name);
     }
 
     private function validData(): array

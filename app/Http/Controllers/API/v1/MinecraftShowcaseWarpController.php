@@ -7,7 +7,6 @@ use Entities\Models\Eloquent\ShowcaseWarp;
 use Entities\Resources\ShowcaseWarpResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 final class MinecraftShowcaseWarpController extends APIController
 {
