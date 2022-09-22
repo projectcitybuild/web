@@ -16,7 +16,8 @@ class ShowcaseWarpsController extends WebController
 {
     public function index(Request $request): ShowcaseWarp|Factory|View
     {
-        $warps = ShowcaseWarp::orderBy('name', 'desc')->paginate(100);
+        $warps = ShowcaseWarp::orderBy('name', 'asc')
+            ->paginate(100);
 
         return view('admin.showcase-warps.index')->with(compact('warps'));
     }

@@ -11,7 +11,7 @@ class ShowcaseWarpFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->firstName,
+            'name' => strtolower($this->faker->unique()->firstName),
             'title' => $this->faker->name,
             'description' => $this->faker->sentence,
             'creators' => $this->faker->name,

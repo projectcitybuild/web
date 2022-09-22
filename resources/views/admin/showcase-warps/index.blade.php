@@ -28,7 +28,7 @@
             @foreach($warps as $warp)
                 <tr>
                     <td>{{ $warp->getKey() }}</td>
-                    <td>{{ $warp->name }}</td>
+                    <td><strong>{{ $warp->name }}</strong></td>
                     <td>{{ $warp->title }}</td>
                     <td>{{ $warp->creators }}</td>
                     <td>{{ $warp->location_world }}</td>
