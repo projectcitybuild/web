@@ -43,7 +43,7 @@
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/badges*') ? 'active' : '' }}"
                    href="{{ route('front.panel.badges.index') }}">
-                    <i class="fas fa-certificate fa-fw"></i>
+                    <i class="fas fa-medal fa-fw"></i>
                     Badges
                 </a>
             </li>
@@ -89,6 +89,21 @@
             </li>
             @endscope
         </ul>
+
+        @scope(Entities\Models\PanelGroupScope::MANAGE_SHOWCASE_WARPS)
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Minecraft</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('panel/showcase-warps*') ? 'active' : '' }} "
+                   href="{{ route('front.panel.showcase-warps.index') }}">
+                    <i class="fas fa-flag fa-fw"></i>
+                    Showcase Warps
+                </a>
+            </li>
+        </ul>
+        @endscope
 
         @scope(Entities\Models\PanelGroupScope::MANAGE_PAGES)
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">

@@ -26,7 +26,7 @@ class GameIPBanFactory extends Factory
         $date = $this->faker->dateTimeBetween('-5 years', 'now');
 
         return [
-            'ip_address' => $this->faker->ipv4,
+            'ip_address' => $this->faker->unique()->ipv4,
             'reason' => $this->faker->sentence,
             'created_at' => $date,
             'updated_at' => $date,
