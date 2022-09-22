@@ -3,17 +3,13 @@
 namespace Entities\Models\Eloquent;
 
 use App\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ShowcaseWarp extends Model
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'showcase_warps';
+    use HasFactory;
 
-    protected $primaryKey = 'id';
+    protected $table = 'showcase_warps';
     protected $fillable = [
         'name',
         'title',
@@ -26,6 +22,8 @@ class ShowcaseWarp extends Model
         'location_pitch',
         'location_yaw',
         'built_at',
+        'created_at',
+        'updated_at',
     ];
     protected $dates = [
         'built_at',

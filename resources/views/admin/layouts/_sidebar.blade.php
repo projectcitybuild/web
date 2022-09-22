@@ -98,7 +98,7 @@
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/showcase-warps*') ? 'active' : '' }} "
                    href="{{ route('front.panel.showcase-warps.index') }}">
-                    <i class="fas fa-certificate fa-fw"></i>
+                    <i class="fas fa-flag fa-fw"></i>
                     Showcase Warps
                 </a>
             </li>

@@ -18,11 +18,8 @@
                 <th>Title</th>
                 <th>Creators</th>
                 <th>World</th>
-                <th>X</th>
-                <th>Y</th>
-                <th>Z</th>
-                <th>Pitch</th>
-                <th>Yaw</th>
+                <th>X,Y,Z</th>
+                <th>Direction</th>
                 <th>Created At</th>
                 <th></th>
             </tr>
@@ -34,12 +31,9 @@
                     <td>{{ $warp->name }}</td>
                     <td>{{ $warp->title }}</td>
                     <td>{{ $warp->creators }}</td>
-                    <td>{{ $warp->world }}</td>
-                    <td>{{ $warp->x }}</td>
-                    <td>{{ $warp->y }}</td>
-                    <td>{{ $warp->z }}</td>
-                    <td>{{ $warp->pitch }}</td>
-                    <td>{{ $warp->yaw }}</td>
+                    <td>{{ $warp->location_world }}</td>
+                    <td>({{ $warp->location_x }}, {{ $warp->location_y }}, {{ $warp->location_z }})</td>
+                    <td>p: {{ $warp->location_pitch }}, y: {{ $warp->location_yaw }}</td>
                     <td>{{ $warp->created_at }}</td>
                     <td><a href="{{ route('front.panel.showcase-warps.edit', $warp->getKey()) }}">Edit</a></td>
                 </tr>

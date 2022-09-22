@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DonationSeeder::class);
         $this->call(BadgeSeeder::class);
         $this->call(ServerTokenSeeder::class);
+        $this->call(ShowcaseWarpSeeder::class);
     }
 }
