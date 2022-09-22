@@ -61,7 +61,7 @@
 <div class="row mb-3">
     <label for="built_at" class="col-sm-3 col-form-label horizontal-label">Built at</label>
     <div class="col-sm-9">
-        <input type="number" id="built_at" name="built_at" class="form-control" value="{{ old('built_at', $warp->built_at?->getTimestamp() ?: now()->getTimestamp()) }}">
+        <input type="text" id="built_at" name="built_at" class="form-control" value="{{ old('built_at', $warp->built_at ?: now()) }}">
     </div>
 </div>
 <div class="row mb-3">

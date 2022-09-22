@@ -25,7 +25,7 @@ return new class extends Migration
             $table->double('location_z');
             $table->float('location_pitch');
             $table->float('location_yaw');
-            $table->dateTime('built_at');
+            $table->dateTime('built_at')->nullable();
             $table->timestamps();
         });
     }

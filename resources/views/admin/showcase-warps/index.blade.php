@@ -20,6 +20,7 @@
                 <th>World</th>
                 <th>X,Y,Z</th>
                 <th>Direction</th>
+                <th>Built At</th>
                 <th>Created At</th>
                 <th></th>
             </tr>
@@ -34,6 +35,7 @@
                     <td>{{ $warp->location_world }}</td>
                     <td>({{ $warp->location_x }}, {{ $warp->location_y }}, {{ $warp->location_z }})</td>
                     <td>p: {{ $warp->location_pitch }}, y: {{ $warp->location_yaw }}</td>
+                    <td>{{ $warp->built_at }}</td>
                     <td>{{ $warp->created_at }}</td>
                     <td><a href="{{ route('front.panel.showcase-warps.edit', $warp->getKey()) }}">Edit</a></td>
                 </tr>

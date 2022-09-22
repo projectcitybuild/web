@@ -43,7 +43,7 @@ class ShowcaseWarpsController extends WebController
             'location_z' => 'required|integer',
             'location_pitch' => 'required|numeric',
             'location_yaw' => 'required|numeric',
-            'built_at' => 'integer',
+            'built_at' => 'date',
         ]);
 
         if ($validator->fails()) {
@@ -52,11 +52,7 @@ class ShowcaseWarpsController extends WebController
                 ->withInput();
         }
 
-        $input = $request->all();
-        $input['built_at'] = Carbon::createFromTimestamp(
-            $request->get(key: 'built_at', default: now()->timestamp),
-        );
-        ShowcaseWarp::create($input);
+        ShowcaseWarp::create($request->all());
 
         return redirect(route('front.panel.showcase-warps.index'));
     }
@@ -86,7 +82,7 @@ class ShowcaseWarpsController extends WebController
             'location_z' => 'required|integer',
             'location_pitch' => 'required|numeric',
             'location_yaw' => 'required|numeric',
-            'built_at' => 'integer',
+            'built_at' => 'date',
         ]);
 
         if ($validator->fails()) {
