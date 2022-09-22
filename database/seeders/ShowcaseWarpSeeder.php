@@ -12,7 +12,7 @@ class ShowcaseWarpSeeder extends Seeder
     public function run()
     {
         ShowcaseWarp::factory()
-            ->count(50)
+            ->count(75)
             ->create();
     }
 }
