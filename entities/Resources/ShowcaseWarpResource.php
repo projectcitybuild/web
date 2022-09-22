@@ -26,7 +26,7 @@ final class ShowcaseWarpResource extends JsonResource
             'location_z' => $this->location_z,
             'location_pitch' => $this->location_pitch,
             'location_yaw' => $this->location_yaw,
-            'built_at' => $this->built_at->getTimestamp(),
+            'built_at' => $this->built_at?->getTimestamp(),
             'created_at' => $this->created_at->getTimestamp(),
             'updated_at' => $this->updated_at->getTimestamp(),
         ];

@@ -27,6 +27,8 @@ return new class extends Migration
             $table->float('location_yaw');
             $table->dateTime('built_at')->nullable();
             $table->timestamps();
+
+            $table->index('name');
         });
     }
 
