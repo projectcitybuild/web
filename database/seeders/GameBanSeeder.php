@@ -3,23 +3,35 @@
 namespace Database\Seeders;
 
 use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\GameBan;
+use Entities\Models\Eloquent\GameIPBan;
+use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Database\Seeder;
 
 class GameBanSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        GameBan::factory()
-            ->for(MinecraftPlayer::factory()->for(Account::factory()), 'bannedPlayer')
-            ->for(MinecraftPlayer::factory()->for(Account::factory()), 'staffPlayer')
-            ->count(30)
-            ->create();
+        $staffPlayers = collect([
+            MinecraftPlayer::factory()->create(),
+            MinecraftPlayer::factory()->for(Account::factory())->create(),
+            null,
+        ]);
+
+        $players = MinecraftPlayer::get();
+
+        for ($i = 0; $i < 100; $i++) {
+            GamePlayerBan::factory()
+                ->bannedPlayer($players->random())
+                ->bannedBy($staffPlayers->random())
+                ->create();
+        }
+
+        $staffPlayersWithoutNull = $staffPlayers->filter(fn ($it) => $it !== null);
+        for ($i = 0; $i < 25; $i++) {
+            GameIPBan::factory()
+                ->bannedBy($staffPlayersWithoutNull->random())
+                ->create();
+        }
     }
 }

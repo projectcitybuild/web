@@ -1,31 +1,32 @@
 <?php
 
-use App\Http\Controllers\BanAppeal\BanAppealController;
-use App\Http\Controllers\BanAppeal\BanLookupController;
-use App\Http\Controllers\BanlistController;
-use App\Http\Controllers\BuilderRankApplicationController;
-use App\Http\Controllers\DonationController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\LogoutController;
-use App\Http\Controllers\MfaBackupController;
-use App\Http\Controllers\MfaLoginGateController;
-use App\Http\Controllers\MinecraftPlayerLinkController;
-use App\Http\Controllers\PageController;
-use App\Http\Controllers\PasswordResetController;
-use App\Http\Controllers\ReauthController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\Settings\AccountBillingController;
-use App\Http\Controllers\Settings\AccountDonationController;
-use App\Http\Controllers\Settings\AccountGameAccountController;
-use App\Http\Controllers\Settings\AccountProfileController;
-use App\Http\Controllers\Settings\AccountSecurityController;
-use App\Http\Controllers\Settings\AccountSettingController;
-use App\Http\Controllers\Settings\Mfa\DisableMfaController;
-use App\Http\Controllers\Settings\Mfa\FinishMfaController;
-use App\Http\Controllers\Settings\Mfa\ResetBackupController;
-use App\Http\Controllers\Settings\Mfa\SetupMfaController;
-use App\Http\Controllers\Settings\Mfa\StartMfaController;
+use App\Http\Controllers\Front\Account\AccountBillingController;
+use App\Http\Controllers\Front\Account\AccountDonationController;
+use App\Http\Controllers\Front\Account\AccountGameAccountController;
+use App\Http\Controllers\Front\Account\AccountInfractionsController;
+use App\Http\Controllers\Front\Account\AccountProfileController;
+use App\Http\Controllers\Front\Account\AccountSecurityController;
+use App\Http\Controllers\Front\Account\AccountSettingController;
+use App\Http\Controllers\Front\Account\Mfa\DisableMfaController;
+use App\Http\Controllers\Front\Account\Mfa\FinishMfaController;
+use App\Http\Controllers\Front\Account\Mfa\ResetBackupController;
+use App\Http\Controllers\Front\Account\Mfa\SetupMfaController;
+use App\Http\Controllers\Front\Account\Mfa\StartMfaController;
+use App\Http\Controllers\Front\BanAppeal\BanAppealController;
+use App\Http\Controllers\Front\BanAppeal\BanLookupController;
+use App\Http\Controllers\Front\BanlistController;
+use App\Http\Controllers\Front\BuilderRankApplicationController;
+use App\Http\Controllers\Front\DonationController;
+use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Front\LoginController;
+use App\Http\Controllers\Front\LogoutController;
+use App\Http\Controllers\Front\MfaBackupController;
+use App\Http\Controllers\Front\MfaLoginGateController;
+use App\Http\Controllers\Front\MinecraftPlayerLinkController;
+use App\Http\Controllers\Front\PageController;
+use App\Http\Controllers\Front\PasswordResetController;
+use App\Http\Controllers\Front\ReauthController;
+use App\Http\Controllers\Front\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])
@@ -164,6 +165,14 @@ Route::group([
 
     Route::get('donations', [AccountDonationController::class, 'index'])
         ->name('account.donations');
+
+    Route::prefix('infractions')->group(function () {
+        Route::get('/', [AccountInfractionsController::class, 'index'])
+            ->name('account.infractions');
+
+        Route::post('{warningId}/acknowledge', [AccountInfractionsController::class, 'acknowledgeWarning'])
+            ->name('account.infractions.acknowledge');
+    });
 
     Route::get('billing', [AccountBillingController::class, 'index'])
         ->name('account.billing');

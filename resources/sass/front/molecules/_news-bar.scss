@@ -1,5 +1,5 @@
 .news-bar {
-    background: hsl(240, 2, 24);
+    background: hsl(240, 2%, 24%);
     padding: 1em 0;
 
     a:link, a:visited {
@@ -17,7 +17,7 @@
     &__date {
         flex-grow: 0;
         font-size: 0.8em;
-        color: hsl(0, 0, 51);
+        color: hsl(0, 0%, 51%);
         margin-right: 2em;
     }
 
@@ -35,7 +35,7 @@
 
     &__view-more {
         flex-grow: 0;
-        color: hsl(0, 0, 78);
+        color: hsl(0, 0%, 78%);
         font-size: 0.8em;
     }
 

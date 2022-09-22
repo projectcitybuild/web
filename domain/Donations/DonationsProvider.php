@@ -2,8 +2,8 @@
 
 namespace Domain\Donations;
 
-use Domain\Donations\UseCases\DeactivateExpiredDonorPerksUseCase;
-use Domain\Donations\UseCases\ProcessPaymentUseCase;
+use Domain\Donations\UseCases\DeactivateExpiredDonorPerks;
+use Domain\Donations\UseCases\ProcessPayment;
 use Entities\Models\Eloquent\Group;
 use Illuminate\Support\ServiceProvider;
 use Repositories\DonationPerkRepository;
@@ -19,8 +19,8 @@ class DonationsProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(DeactivateExpiredDonorPerksUseCase::class, function ($app) {
-            return new DeactivateExpiredDonorPerksUseCase(
+        $this->app->bind(DeactivateExpiredDonorPerks::class, function ($app) {
+            return new DeactivateExpiredDonorPerks(
                 groupsManager: $app->make(GroupsManager::class),
                 donationPerkRepository: $app->make(DonationPerkRepository::class),
                 donorGroup: Group::where('name', Group::DONOR_GROUP_NAME)->first()
@@ -28,8 +28,8 @@ class DonationsProvider extends ServiceProvider
             );
         });
 
-        $this->app->bind(ProcessPaymentUseCase::class, function ($app) {
-            return new ProcessPaymentUseCase(
+        $this->app->bind(ProcessPayment::class, function ($app) {
+            return new ProcessPayment(
                 groupsManager: $app->make(GroupsManager::class),
                 paymentRepository: $app->make(PaymentRepository::class),
                 donationPerkRepository: $app->make(DonationPerkRepository::class),

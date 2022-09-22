@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\Api\v1\GameBanV1Controller;
-use App\Http\Controllers\Api\v1\GroupAPIController;
-use App\Http\Controllers\Api\v1\MinecraftAuthTokenController;
-use App\Http\Controllers\Api\v1\StripeWebhookController;
+use App\Http\Controllers\API\v1\AccountSearchController;
+use App\Http\Controllers\API\v1\GroupAPIController;
+use App\Http\Controllers\API\v1\MinecraftAuthTokenController;
+use App\Http\Controllers\API\v1\MinecraftPlayerAliasSearchController;
+use App\Http\Controllers\API\v1\StripeWebhookController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,14 +19,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('webhooks')->group(function () {
-    Route::post('stripe', [StripeWebhookController::class, 'handleWebhook'])->name('cashier.webhook');
-});
-
-Route::prefix('bans')->group(function () {
-    Route::post('list', [GameBanV1Controller::class, 'getBanList']);
-    Route::post('store/ban', [GameBanV1Controller::class, 'storeBan']);
-    Route::post('store/unban', [GameBanV1Controller::class, 'storeUnban']);
-    Route::post('status', [GameBanV1Controller::class, 'getPlayerStatus']);
+    Route::post('stripe', [StripeWebhookController::class, 'handleWebhook'])
+        ->name('cashier.webhook');
 });
 
 Route::prefix('auth')->group(function () {
@@ -36,3 +31,6 @@ Route::prefix('auth')->group(function () {
 Route::prefix('groups')->group(function () {
     Route::get('/', [GroupAPIController::class, 'getAll']);
 });
+
+Route::get('accounts/search', AccountSearchController::class);
+Route::get('minecraft/aliases/search', MinecraftPlayerAliasSearchController::class);

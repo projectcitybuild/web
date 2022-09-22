@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Entities\Models\Eloquent\Account;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -30,7 +29,7 @@ class AccountFactory extends Factory
         return [
             'email' => $this->faker->email,
             'username' => $this->faker->userName,
-            'password' => Hash::make(self::UNHASHED_PASSWORD),
+            'password' => 'test', // Hashing is expensive
             'activated' => true,
             'last_login_ip' => $this->faker->ipv4,
             'last_login_at' => $this->faker->dateTimeBetween('-180days', '-1hours'),
@@ -42,11 +41,11 @@ class AccountFactory extends Factory
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    public function passwordUnhashed()
+    public function passwordHashed()
     {
         return $this->state(function (array $attributes) {
             return [
-                'password' => 'password',
+                'password' => Hash::make(self::UNHASHED_PASSWORD),
             ];
         });
     }
@@ -93,6 +92,15 @@ class AccountFactory extends Factory
         return $this->hasStartedTotp()->state(function (array $attributes) {
             return [
                 'is_totp_enabled' => true,
+            ];
+        });
+    }
+
+    public function neverLoggedIn()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'last_login_at' => null,
             ];
         });
     }

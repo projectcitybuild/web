@@ -8,18 +8,20 @@ use App\Http\Controllers\Panel\AccountResendActivation;
 use App\Http\Controllers\Panel\AccountUpdateBadges;
 use App\Http\Controllers\Panel\AccountUpdateGroups;
 use App\Http\Controllers\Panel\ActivityController;
-use App\Http\Controllers\Panel\Api\AccountSearchController;
 use App\Http\Controllers\Panel\BadgeController;
 use App\Http\Controllers\Panel\BanAppealController;
 use App\Http\Controllers\Panel\BuilderRanksController;
 use App\Http\Controllers\Panel\DonationController;
 use App\Http\Controllers\Panel\DonationPerksController;
+use App\Http\Controllers\Panel\GameIPBanController;
+use App\Http\Controllers\Panel\GamePlayerBanController;
 use App\Http\Controllers\Panel\GroupAccountController;
 use App\Http\Controllers\Panel\GroupController;
 use App\Http\Controllers\Panel\MinecraftPlayerController;
 use App\Http\Controllers\Panel\MinecraftPlayerLookupController;
 use App\Http\Controllers\Panel\MinecraftPlayerReloadAliasController;
 use App\Http\Controllers\Panel\PageController;
+use App\Http\Controllers\Panel\PlayerWarningController;
 use App\Http\Controllers\Panel\ServerController;
 use App\Http\Controllers\Panel\ServerTokenController;
 use App\Http\Controllers\Panel\ShowcaseWarpsController;
@@ -69,11 +71,6 @@ Route::post('minecraft-players/{minecraft_player}/reload-alias', MinecraftPlayer
     ->name('minecraft-players.reload-alias')
     ->middleware(PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware());
 
-Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
-    Route::get('accounts', AccountSearchController::class)
-        ->name('account-search');
-});
-
 Route::resource('showcase-warps', ShowcaseWarpsController::class)
     ->middleware(PanelGroupScope::MANAGE_SHOWCASE_WARPS->toMiddleware());
 
@@ -94,6 +91,17 @@ Route::resource('servers', ServerController::class)
 Route::resource('server-tokens', ServerTokenController::class)
     ->except(['show'])
     ->middleware(PanelGroupScope::MANAGE_SERVERS->toMiddleware());
+
+Route::resource('warnings', PlayerWarningController::class)
+    ->middleware(PanelGroupScope::MANAGE_WARNINGS->toMiddleware());
+
+Route::resource('ip-bans', GameIPBanController::class)
+    ->except(['show'])
+    ->middleware(PanelGroupScope::MANAGE_BANS->toMiddleware());
+
+Route::resource('player-bans', GamePlayerBanController::class)
+    ->except(['show'])
+    ->middleware(PanelGroupScope::MANAGE_BANS->toMiddleware());
 
 Route::group([
     'prefix' => 'groups',

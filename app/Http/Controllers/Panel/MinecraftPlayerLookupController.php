@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Exceptions\Http\TooManyRequestsException;
-use App\Http\WebController;
+use App\Http\Controllers\WebController;
 use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Models\Eloquent\MinecraftPlayerAlias;
 use Illuminate\Http\Request;

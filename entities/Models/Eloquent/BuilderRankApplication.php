@@ -7,26 +7,15 @@ use Domain\BuilderRankApplications\Entities\ApplicationStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
+use Library\Auditing\Contracts\LinkableAuditModel;
 
-final class BuilderRankApplication extends Model
+final class BuilderRankApplication extends Model implements LinkableAuditModel
 {
     use HasFactory;
     use Notifiable;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'builder_rank_applications';
-
     protected $primaryKey = 'id';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'account_id',
         'minecraft_alias',
@@ -40,7 +29,6 @@ final class BuilderRankApplication extends Model
         'created_at',
         'updated_at',
     ];
-
     public $timestamps = [
         'closed_at',
         'created_at',
@@ -75,5 +63,15 @@ final class BuilderRankApplication extends Model
     public function status(): ApplicationStatus
     {
         return ApplicationStatus::tryFrom($this->status);
+    }
+
+    public function getActivitySubjectLink(): ?string
+    {
+        return route('front.panel.builder-ranks.show', $this);
+    }
+
+    public function getActivitySubjectName(): ?string
+    {
+        return "Builder Application {$this->getKey()}";
     }
 }

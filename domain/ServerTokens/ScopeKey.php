@@ -11,6 +11,9 @@ enum ScopeKey: string
     case BAN_UPDATE = 'ban:update';
     case BAN_LOOKUP = 'ban:lookup';
 
+    case WARNING_UPDATE = 'warning:update';
+    case WARNING_LOOKUP = 'warning:lookup';
+
     case ACCOUNT_BALANCE_SHOW = 'balance:show';
     case ACCOUNT_BALANCE_DEDUCT = 'balance:deduct';
 

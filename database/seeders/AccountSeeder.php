@@ -17,11 +17,6 @@ class AccountSeeder extends Seeder
     ) {
     }
 
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $adminGroup = Group::where('name', 'developer')->first();
@@ -34,5 +29,7 @@ class AccountSeeder extends Seeder
         $adminAccount->is_totp_enabled = true;
         $adminAccount->save();
         $adminAccount->groups()->attach($adminGroup->getKey());
+
+        Account::factory()->count(100)->create();
     }
 }

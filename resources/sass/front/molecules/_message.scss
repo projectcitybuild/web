@@ -55,7 +55,7 @@
 
         &.message--distinguish {
             .message-text::after {
-                border-right-color: lighten($color-accent, 45%);;
+                border-right-color: lighten($color-accent, 45%);
             }
         }
     }
@@ -80,7 +80,7 @@
 
         &.message--distinguish {
             .message-text::after {
-                border-left-color: lighten($color-accent, 45%);;
+                border-left-color: lighten($color-accent, 45%);
             }
         }
     }

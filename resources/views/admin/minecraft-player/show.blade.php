@@ -112,32 +112,36 @@
                     <table class="table mb-0">
                         <thead>
                         <tr>
-                            <th></th>
+                            <th>Status</th>
                             <th>Reason</th>
                             <th>Banned By</th>
                             <th>Expires At</th>
                             <th>Banned At</th>
+                            <th>Unbanned At</th>
+                            <th>Unban Type</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse($minecraftPlayer->gameBans as $ban)
-                            <tr class="{{ $ban->is_active ? 'table-warning' : '' }}">
-                                <td data-bs-toggle="tooltip" data-bs-placement="left" title="{{ $ban->is_active ? 'Active' : 'Inactive' }}">
-                                    <i class="fas fa-{{ $ban->is_active ? 'exclamation' : 'clock' }} fa-fw"></i>
+                        @forelse($minecraftPlayer->gamePlayerBans as $ban)
+                            <tr class="{{ $ban->isActive() ? 'table-warning' : '' }}">
+                                <td data-bs-toggle="tooltip" data-bs-placement="left" title="{{ $ban->isActive() ? 'Active' : 'Inactive' }}">
+                                    {{ $ban->isActive() ? 'Active' : 'Inactive' }}
                                 </td>
                                 <td>{{ $ban->reason }}</td>
                                 <td>
-                                    @if($ban->staffPlayer == null)
+                                    @if($ban->bannerPlayer == null)
                                         <span class="badge bg-secondary">Null</span>
                                     @else
-                                    <a href="{{ route('front.panel.minecraft-players.show', $ban->staffPlayer) }}">
-                                        {{ $ban->getStaffName() }}
+                                    <a href="{{ route('front.panel.minecraft-players.show', $ban->bannerPlayer) }}">
+                                        {{ $ban->getBannerName() }}
                                     </a>
                                     @endif
                                 </td>
                                 <td>{{ $ban->expires_at }}</td>
                                 <td>{{ $ban->created_at }}</td>
+                                <td>{{ $ban->unbanned_at }}</td>
+                                <td>{{ $ban->unban_type?->value }}</td>
 
                                 <td class="actions">
 {{--                                    <a href="#" class="text-danger">Unban</a>--}}
@@ -147,6 +151,41 @@
                         @empty
                             <tr>
                                 <td colspan="5" class="text-muted text-center">No bans</td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">Warnings</div>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                        <tr>
+                            <th>Reason</th>
+                            <th>Warned By</th>
+                            <th>Created At</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @forelse($minecraftPlayer->warnings as $warning)
+                            <tr class="table-warning">
+                                <td>{{ $warning->reason }}</td>
+                                <td>
+                                    <a href="{{ route('front.panel.minecraft-players.show', $warning->warnerPlayer) }}">
+                                        {{ $warning->warnerPlayer->currentAlias()?->alias ?? '(No Alias)' }}
+                                    </a>
+                                </td>
+                                <td>{{ $warning->created_at }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-muted text-center">No warnings</td>
                             </tr>
                         @endforelse
                         </tbody>

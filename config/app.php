@@ -179,6 +179,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\HorizonServiceProvider::class,
         App\Providers\PanelGateServiceProvider::class,
+        App\Providers\RepositoryServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
 
@@ -189,6 +190,7 @@ return [
         Library\Random\RandomProvider::class,
         Library\SignedURL\SignedURLProvider::class,
         Library\Tokens\TokensProvider::class,
+        Library\Auditing\AuditingServiceProvider::class,
 
         /*
          * Shared Service Providers...
@@ -200,7 +202,6 @@ return [
          */
         Domain\CurrencyRewarder\CurrencyRewarderProvider::class,
         Domain\Donations\DonationsProvider::class,
-        Domain\PlayerFetch\PlayerFetchProvider::class,
     ],
 
     /*

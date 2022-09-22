@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Http\WebController;
-use Domain\BuilderRankApplications\UseCases\ApproveBuildRankApplicationUseCase;
-use Domain\BuilderRankApplications\UseCases\DenyBuildRankApplicationUseCase;
+use App\Http\Controllers\WebController;
+use Domain\BuilderRankApplications\UseCases\ApproveBuildRankApplication;
+use Domain\BuilderRankApplications\UseCases\DenyBuildRankApplication;
 use Entities\Models\Eloquent\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -38,7 +38,7 @@ class BuilderRanksController extends WebController
     public function approve(
         Request $request,
         int $applicationId,
-        ApproveBuildRankApplicationUseCase $approveBuildRankApplication,
+        ApproveBuildRankApplication $approveBuildRankApplication,
     ) {
         $allowedGroups = Group::where('is_build', true)->get()
             ->map(fn ($group) => $group->getKey())
@@ -68,7 +68,7 @@ class BuilderRanksController extends WebController
     public function deny(
         Request $request,
         int $applicationId,
-        DenyBuildRankApplicationUseCase $denyBuildRankApplication,
+        DenyBuildRankApplication $denyBuildRankApplication,
     ) {
         $validator = Validator::make($request->all(), [
             'deny_reason' => 'required',

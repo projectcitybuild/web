@@ -59,6 +59,37 @@
             @endscope
         </ul>
 
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Infractions</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+            @scope(Entities\Models\PanelGroupScope::MANAGE_WARNINGS)
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('panel/warnings*') ? 'active' : '' }}"
+                   href="{{ route('front.panel.warnings.index') }}">
+                    <i class="fas fa-exclamation-triangle fa-fw"></i>
+                    Warnings
+                </a>
+            </li>
+            @endscope
+            @scope(Entities\Models\PanelGroupScope::MANAGE_BANS)
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('panel/player-bans*') ? 'active' : '' }}"
+                   href="{{ route('front.panel.player-bans.index') }}">
+                    <i class="fas fa-user-slash fa-fw"></i>
+                    Banned Players
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('panel/ip-bans*') ? 'active' : '' }}"
+                   href="{{ route('front.panel.ip-bans.index') }}">
+                    <i class="fas fa-ban fa-fw"></i>
+                    Banned IPs
+                </a>
+            </li>
+            @endscope
+        </ul>
+
         @scope(Entities\Models\PanelGroupScope::MANAGE_SHOWCASE_WARPS)
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Minecraft</span>

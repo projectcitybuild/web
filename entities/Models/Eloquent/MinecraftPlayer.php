@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
+use Library\Auditing\AuditAttributes;
+use Library\Auditing\Concerns\LogsActivity;
+use Library\Auditing\Contracts\LinkableAuditModel;
 use Shared\PlayerLookup\Contracts\Player;
 
 /**
@@ -18,9 +22,10 @@ use Shared\PlayerLookup\Contracts\Player;
  * @property ?Carbon last_seen_at
  * @property Collection aliases
  */
-final class MinecraftPlayer extends Model implements Player
+final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $table = 'players_minecraft';
     protected $primaryKey = 'player_minecraft_id';
@@ -48,31 +53,57 @@ final class MinecraftPlayer extends Model implements Player
         return $this->aliases->last()->alias;
     }
 
+    public function currentAlias(): ?MinecraftPlayerAlias
+    {
+        return $this->aliases->last();
+    }
+
     public function account(): BelongsTo
     {
-        return $this->belongsTo(Account::class, 'account_id', 'account_id');
+        return $this->belongsTo(
+            related: Account::class,
+            foreignKey: 'account_id',
+            ownerKey: 'account_id',
+        );
     }
 
     public function aliases(): HasMany
     {
-        return $this->hasMany(MinecraftPlayerAlias::class, 'player_minecraft_id', 'player_minecraft_id');
+        return $this->hasMany(
+            related: MinecraftPlayerAlias::class,
+            foreignKey: 'player_minecraft_id',
+            localKey: 'player_minecraft_id',
+        );
     }
 
-    public function gameBans(): HasMany
+    public function gamePlayerBans(): HasMany
     {
-        return $this->hasMany(GameBan::class, 'banned_player_id', 'player_minecraft_id');
+        return $this->hasMany(
+            related: GamePlayerBan::class,
+            foreignKey: 'banned_player_id',
+            localKey: 'player_minecraft_id',
+        );
+    }
+
+    public function warnings(): HasMany
+    {
+        return $this->hasMany(
+            related: PlayerWarning::class,
+            foreignKey: 'warned_player_id',
+            localKey: 'player_minecraft_id',
+        );
     }
 
     public function isBanned()
     {
-        return $this->gameBans()->active()->exists();
+        return $this->gamePlayerBans()->active()->exists();
     }
 
     public function banAppeals()
     {
         // We have to do this because game bans are a polymorphic relationship, but this is just what
         // HasManyThrough does internally anyway..
-        return BanAppeal::whereIn('game_ban_id', $this->gameBans()->pluck('game_ban_id'));
+        return BanAppeal::whereIn('game_ban_id', $this->gamePlayerBans()->pluck('id'));
     }
 
     /**
@@ -105,5 +136,21 @@ final class MinecraftPlayer extends Model implements Player
     public function getLinkedAccount(): ?Account
     {
         return $this->account;
+    }
+
+    public function auditAttributeConfig(): AuditAttributes
+    {
+        return AuditAttributes::build()
+            ->addRelationship('account_id', Account::class);
+    }
+
+    public function getActivitySubjectLink(): ?string
+    {
+        return route('front.panel.minecraft-players.show', $this);
+    }
+
+    public function getActivitySubjectName(): ?string
+    {
+        return $this->getBanReadableName() ?? Str::limit($this->uuid, 10);
     }
 }

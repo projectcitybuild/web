@@ -16,4 +16,4 @@ fi
 
 echo "=> Running file watcher..."
 
-./vendor/bin/sail npm run watch
+./vendor/bin/sail npm run dev

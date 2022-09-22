@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Http\WebController;
+use App\Http\Controllers\WebController;
 use Entities\Models\Eloquent\Server;
 use Entities\Models\Eloquent\ServerCategory;
 use Illuminate\Contracts\Foundation\Application;
@@ -109,6 +109,7 @@ class ServerController extends WebController
                 ->withInput();
         }
 
+        // TODO: this can be done in a single update
         $server->update($request->all());
         $server->is_visible = $request->get('is_visible', false);
         $server->is_port_visible = $request->get('is_port_visible', false);

@@ -2,15 +2,16 @@
 
 namespace App\Console;
 
-use App\Console\Commands\AccountCreatedAtImport;
 use App\Console\Commands\CleanupExpiredPasswordResetsCommand;
 use App\Console\Commands\CleanupUnactivatedAccountsCommand;
 use App\Console\Commands\DeactivateDonatorPerksCommand;
 use App\Console\Commands\DeactivateExpiredBansCommand;
+use App\Console\Commands\GenerateScoutIndexesCommand;
 use App\Console\Commands\GenerateSitemapCommand;
 use App\Console\Commands\RepairMissingGroupsCommand;
 use App\Console\Commands\RewardCurrencyToDonorsCommand;
 use App\Console\Commands\ServerQueryCommand;
+use App\Console\Commands\TestServiceCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Library\Environment\Environment;
@@ -31,7 +32,8 @@ class Kernel extends ConsoleKernel
         RepairMissingGroupsCommand::class,
         RewardCurrencyToDonorsCommand::class,
         ServerQueryCommand::class,
-        AccountCreatedAtImport::class,
+        GenerateScoutIndexesCommand::class,
+        TestServiceCommand::class,
     ];
 
     /**

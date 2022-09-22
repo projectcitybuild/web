@@ -27,7 +27,6 @@ class ShowcaseWarp extends Model
         'location_yaw',
         'built_at',
     ];
-
     protected $dates = [
         'built_at',
     ];
