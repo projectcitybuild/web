@@ -32,7 +32,7 @@ final class MinecraftAggregateController extends APIController
             'ip' => 'ip',
         ]);
 
-        $uuid = str_replace(search: "-", replace: "", subject: $uuid);
+        $uuid = str_replace(search: '-', replace: '', subject: $uuid);
 
         $identifier = PlayerIdentifier::minecraftUUID($uuid);
 
