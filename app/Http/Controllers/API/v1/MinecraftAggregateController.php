@@ -31,6 +31,9 @@ final class MinecraftAggregateController extends APIController
         $this->validateRequest($request->all(), [
             'ip' => 'ip',
         ]);
+
+        $uuid = str_replace(search: '-', replace: '', subject: $uuid);
+
         $identifier = PlayerIdentifier::minecraftUUID($uuid);
 
         $ban = $getBan->execute(playerIdentifier: $identifier);
