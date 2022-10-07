@@ -24,6 +24,7 @@ use App\Http\Controllers\Panel\PageController;
 use App\Http\Controllers\Panel\PlayerWarningController;
 use App\Http\Controllers\Panel\ServerController;
 use App\Http\Controllers\Panel\ServerTokenController;
+use App\Http\Controllers\Panel\ShowcaseWarpsController;
 use Entities\Models\PanelGroupScope;
 use Illuminate\Support\Facades\Route;
 
@@ -69,6 +70,9 @@ Route::post('minecraft-players/lookup', MinecraftPlayerLookupController::class)
 Route::post('minecraft-players/{minecraft_player}/reload-alias', MinecraftPlayerReloadAliasController::class)
     ->name('minecraft-players.reload-alias')
     ->middleware(PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware());
+
+Route::resource('showcase-warps', ShowcaseWarpsController::class)
+    ->middleware(PanelGroupScope::MANAGE_SHOWCASE_WARPS->toMiddleware());
 
 Route::resource('badges', BadgeController::class)
     ->middleware(PanelGroupScope::MANAGE_BADGES->toMiddleware());

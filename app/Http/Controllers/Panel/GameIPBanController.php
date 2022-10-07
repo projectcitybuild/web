@@ -13,7 +13,7 @@ class GameIPBanController extends WebController
 {
     public function index(Request $request): View
     {
-        $bans = GameIPBan::with('bannerPlayer')
+        $bans = GameIPBan::with('bannerPlayer.aliases')
             ->orderBy('created_at', 'desc')
             ->paginate(100);
 
