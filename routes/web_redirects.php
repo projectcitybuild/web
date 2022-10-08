@@ -34,4 +34,3 @@ Route::permanentRedirect('vote', 'https://portal.projectcitybuild.com/books/serv
 
 Route::permanentRedirect('map-archive', 'https://portal.projectcitybuild.com/books/map-archive/page/map-archive')
     ->name('map-archive');
-
