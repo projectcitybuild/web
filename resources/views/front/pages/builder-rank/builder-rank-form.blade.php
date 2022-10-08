@@ -37,7 +37,7 @@
         <h2>Application Process</h2>
         <ol>
             <li>Submit an Application using the below form</li>
-            <li>Applications are examined by the Architects Council</li>
+            <li>Applications are examined by the Architect Council</li>
             <li>If your application is successful, you will receive a rank up and be notified</li>
             <li>Should your application be unsuccessful, you may request feedback on the build</li>
         </ol>

@@ -16,6 +16,7 @@ use App\Http\Controllers\Front\BanAppeal\BanAppealController;
 use App\Http\Controllers\Front\BanAppeal\BanLookupController;
 use App\Http\Controllers\Front\BanlistController;
 use App\Http\Controllers\Front\BuilderRankApplicationController;
+use App\Http\Controllers\Front\BuildShowcaseController;
 use App\Http\Controllers\Front\DonationController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\LoginController;
@@ -59,6 +60,17 @@ Route::prefix('rank-up')->group(function () {
 
     Route::get('{id}', [BuilderRankApplicationController::class, 'show'])
         ->name('rank-up.status');
+});
+
+Route::prefix('showcase/apply')->group(function () {
+    Route::get('/', [BuildShowcaseController::class, 'index'])
+        ->name('showcase.apply');
+
+    Route::post('/', [BuildShowcaseController::class, 'store'])
+        ->name('showcase.apply.submit');
+
+    Route::get('{id}', [BuildShowcaseController::class, 'show'])
+        ->name('showcase.status');
 });
 
 Route::prefix('appeal')->group(function () {
