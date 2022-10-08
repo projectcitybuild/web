@@ -18,11 +18,11 @@
                     <li>
                         <h5>Information</h5>
                         <ul>
-                            <li><a href="https://portal.projectcitybuild.com/books/rules/page/community-rules">Rules & Guidelines</a></li>
-                            <li><a href="https://portal.projectcitybuild.com/books/player-ranks/page/list-of-ranks">Ranks</a></li>
-                            <li><a href="https://portal.projectcitybuild.com/books/list-of-staff/page/active">Staff</a></li>
-                            <li><a href="https://portal.projectcitybuild.com/books/server-voting/page/server-voting">Vote For Us</a></li>
-                            <li><a href="https://portal.projectcitybuild.com/books/map-archive/page/map-archive">Map Archive</a></li>
+                            <li><a href="{{ route('rules') }}">Rules & Guidelines</a></li>
+                            <li><a href="{{ route('ranks') }}">Ranks</a></li>
+                            <li><a href="{{ route('staff') }}">Staff</a></li>
+                            <li><a href="{{ route('vote') }}">Vote For Us</a></li>
+                            <li><a href="{{ route('map-archive') }}">Map Archive</a></li>
                         </ul>
                     </li>
                     <li>
