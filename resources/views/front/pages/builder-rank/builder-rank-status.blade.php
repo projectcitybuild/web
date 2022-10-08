@@ -2,15 +2,6 @@
 
 @section('title', 'Status - Apply for Build Rank')
 
-@push('head')
-    <script src='https://www.google.com/recaptcha/api.js'></script>
-    <script>
-        function submitForm() {
-            document.getElementById('form').submit();
-        }
-    </script>
-@endpush
-
 @section('heading', 'Application Status')
 
 @section('col-1')
@@ -44,7 +35,7 @@
                     <h2><i class="fas fa-times"></i> Unsuccessful</h2>
                     Sorry, your application was not approved this time.
                     <br />
-                    The follow reason was provided: <strong>{{ $application->denied_reason }}</strong>
+                    The following reason was provided: <strong>{{ $application->denied_reason }}</strong>
                 </div>
                 @break
         @endswitch

@@ -85,43 +85,43 @@
                         <label>Build coordinates</label>
                         <input
                             class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
-                            name="x"
-                            id="x"
+                            name="location_x"
+                            id="location_x"
                             type="text"
                             placeholder="x"
-                            value="{{ old('x') }}"
+                            value="{{ old('location_x') }}"
                         />
                         <input
                             class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
-                            name="y"
-                            id="y"
+                            name="location_y"
+                            id="location_y"
                             type="text"
                             placeholder="y"
-                            value="{{ old('y') }}"
+                            value="{{ old('location_y') }}"
                         />
                         <input
                             class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
-                            name="z"
-                            id="z"
+                            name="location_z"
+                            id="location_z"
                             type="text"
                             placeholder="z"
-                            value="{{ old('z') }}"
+                            value="{{ old('location_z') }}"
                         />
                         <input
                             class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
-                            name="pitch"
-                            id="pitch"
+                            name="location_pitch"
+                            id="location_pitch"
                             type="text"
                             placeholder="pitch"
-                            value="{{ old('pitch') }}"
+                            value="{{ old('location_pitch') }}"
                         />
                         <input
                             class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
-                            name="yaw"
-                            id="yaw"
+                            name="location_yaw"
+                            id="location_yaw"
                             type="text"
                             placeholder="yaw"
-                            value="{{ old('yaw') }}"
+                            value="{{ old('location_yaw') }}"
                         />
 
                         Please check these in-game, and be precise.
@@ -148,7 +148,18 @@
                         >{{ old('description') }}</textarea>
                     </div>
                     <div class="form-row">
-                        <label for="built_at">Build Date</label>
+                        <label for="creators">Build Creator(s)</label>
+                        <input
+                            class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
+                            name="creators"
+                            id="creators"
+                            type="text"
+                            placeholder="Notch"
+                            value="{{ old('creators') ?: $minecraftUsername }}"
+                        />
+                    </div>
+                    <div class="form-row">
+                        <label for="built_at">Approximate Build Date</label>
                         <input
                             class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
                             name="built_at"

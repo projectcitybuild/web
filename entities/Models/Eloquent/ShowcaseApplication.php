@@ -4,24 +4,28 @@ namespace Entities\Models\Eloquent;
 
 use App\Model;
 use Domain\BuilderRankApplications\Entities\ApplicationStatus;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Library\Auditing\Contracts\LinkableAuditModel;
 
-final class BuilderRankApplication extends Model implements LinkableAuditModel
+final class ShowcaseApplication extends Model implements LinkableAuditModel
 {
-    use HasFactory;
     use Notifiable;
 
-    protected $table = 'builder_rank_applications';
+    protected $table = 'showcase_applications';
     protected $fillable = [
         'account_id',
-        'minecraft_alias',
-        'current_builder_rank',
-        'build_location',
-        'build_description',
-        'additional_notes',
+        'name',
+        'title',
+        'description',
+        'creators',
+        'location_world',
+        'location_x',
+        'location_y',
+        'location_z',
+        'location_pitch',
+        'location_yaw',
+        'built_at',
         'status',
         'denied_reason',
         'closed_at',
@@ -29,6 +33,7 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
         'updated_at',
     ];
     public $timestamps = [
+        'built_at',
         'closed_at',
         'created_at',
         'updated_at',
@@ -66,11 +71,11 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.builder-ranks.show', $this);
+        return route('front.panel.showcase-applications.show', $this);
     }
 
     public function getActivitySubjectName(): ?string
     {
-        return "Builder Application {$this->getKey()}";
+        return "Showcase Application {$this->getKey()}";
     }
 }

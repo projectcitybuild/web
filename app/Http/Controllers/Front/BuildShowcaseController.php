@@ -4,19 +4,20 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\WebController;
 use App\Http\Requests\BuilderRankApplicationRequest;
+use Carbon\Carbon;
+use Domain\BuilderRankApplications\Entities\ApplicationStatus;
 use Domain\BuilderRankApplications\Entities\BuilderRank;
 use Domain\BuilderRankApplications\Exceptions\ApplicationAlreadyInProgressException;
 use Domain\BuilderRankApplications\UseCases\CreateBuildRankApplication;
 use Entities\Models\Eloquent\Account;
+use Entities\Models\Eloquent\ShowcaseApplication;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Repositories\BuilderRankApplicationRepository;
 
 final class BuildShowcaseController extends WebController
 {
-    public function index(
-        Request $request,
-        BuilderRankApplicationRepository $applicationRepository,
-    ) {
+    public function index(Request $request) {
         $minecraftUsername = $request->user()
             ?->minecraftAccount?->first()
             ?->aliases?->first()
@@ -24,54 +25,68 @@ final class BuildShowcaseController extends WebController
 
         $applicationInProgress = null;
         if ($request->user() !== null) {
-            $applicationInProgress = $applicationRepository->firstActive(
-                accountId: $request->user()->getKey(),
-            );
+            $applicationInProgress = ShowcaseApplication::where('account_id', $request->user()->getKey())->first();
         }
 
         return view('front.pages.build-showcase.form')
             ->with(compact('minecraftUsername', 'applicationInProgress'));
     }
 
-    public function store(
-        BuilderRankApplicationRequest $request,
-        CreateBuildRankApplication $createBuildRankApplication,
-    ) {
-        $input = $request->validated();
-
+    public function store(Request $request) {
         /** @var Account $account */
         $account = $request->user();
 
         if ($account === null) {
             return redirect()
                 ->back()
-                ->withErrors('You must be logged-in to submit a Builder Rank application');
+                ->withErrors('You must be logged-in to submit a build to the showcase');
         }
-        try {
-            $application = $createBuildRankApplication->execute(
-                account:  $account,
-                minecraftAlias:  $input['minecraft_username'],
-                currentBuilderRank: BuilderRank::from($input['current_builder_rank']),
-                buildLocation: $input['build_location'],
-                buildDescription: $input['build_description'],
-                additionalNotes: $request->get('additional_notes'),
-            );
-        } catch (ApplicationAlreadyInProgressException) {
+
+        $applicationInProgress = ShowcaseApplication::where('account_id', $request->user()->getKey())->first();
+        if ($applicationInProgress !== null) {
             return redirect()
                 ->back()
                 ->withErrors('You cannot submit another application while you have another application under review');
         }
 
-        return view('front.pages.builder-rank.builder-rank-success')
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|alpha_dash',
+            'title' => 'string',
+            'description' => 'string',
+            'creators' => 'string',
+            'location_world' => 'required|string',
+            'location_x' => 'required|integer',
+            'location_y' => 'required|integer',
+            'location_z' => 'required|integer',
+            'location_pitch' => 'required|numeric',
+            'location_yaw' => 'required|numeric',
+            'built_at' => 'date',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+
+        $application = ShowcaseApplication::create(
+            array_merge($request->all(), [
+                'account_id' => $account->getKey(),
+                'status' => ApplicationStatus::IN_PROGRESS,
+                'built_at' => Carbon::createFromTimeString($request->get('built_at')),
+            ])
+        );
+
+        return view('front.pages.build-showcase.form-success')
             ->with(compact('application'));
     }
 
     public function show(
         Request $request,
         int $applicationId,
-        BuilderRankApplicationRepository $applicationRepository,
     ) {
-        $application = $applicationRepository->first(applicationId: $applicationId);
+        $application = ShowcaseApplication::find($applicationId);
         if ($application === null) {
             abort(404);
         }
@@ -79,7 +94,7 @@ final class BuildShowcaseController extends WebController
             abort(403);
         }
 
-        return view('front.pages.builder-rank.builder-rank-status')
+        return view('front.pages.build-showcase.status')
             ->with(compact('application'));
     }
 }
