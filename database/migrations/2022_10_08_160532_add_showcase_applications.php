@@ -27,12 +27,14 @@ return new class extends Migration
             $table->float('location_pitch');
             $table->float('location_yaw');
             $table->dateTime('built_at')->nullable();
-            $table->integer('status');
-            $table->text('denied_reason')->nullable();
-            $table->dateTime('closed_at')->nullable();
+            $table->tinyInteger('status')->unsigned();
+            $table->text('decision_note')->nullable();
+            $table->timestamp('decided_at')->nullable();
+            $table->integer('decider_account_id')->unsigned()->nullable();
             $table->timestamps();
 
             $table->foreign('account_id')->references('account_id')->on('accounts');
+            $table->foreign('decider_account_id')->references('account_id')->on('accounts');
         });
     }
 

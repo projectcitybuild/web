@@ -12,7 +12,7 @@ use Entities\Models\Eloquent\ShowcaseApplication;
 use Entities\Notifications\ShowcaseApplicationUpdatedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Repositories\ShowcaseApplicationRepository;
+use Repositories\ShowcaseApplications\ShowcaseApplicationRepository;
 
 class ShowcaseApplicationController extends WebController
 {
@@ -31,7 +31,7 @@ class ShowcaseApplicationController extends WebController
         int $applicationId,
         ShowcaseApplicationRepository $applicationRepository,
     ) {
-        $application = $applicationRepository->first(applicationId: $applicationId);
+        $application = $applicationRepository->find(applicationId: $applicationId);
 
         return view('admin.showcase-applications.show')
             ->with(compact('application'));

@@ -16,7 +16,6 @@ use App\Http\Controllers\Front\BanAppeal\BanAppealController;
 use App\Http\Controllers\Front\BanAppeal\BanLookupController;
 use App\Http\Controllers\Front\BanlistController;
 use App\Http\Controllers\Front\BuilderRankApplicationController;
-use App\Http\Controllers\Front\BuildShowcaseController;
 use App\Http\Controllers\Front\DonationController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\LoginController;
@@ -28,6 +27,7 @@ use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\Front\PasswordResetController;
 use App\Http\Controllers\Front\ReauthController;
 use App\Http\Controllers\Front\RegisterController;
+use App\Http\Controllers\Front\ShowcaseApplicationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])
@@ -63,13 +63,13 @@ Route::prefix('rank-up')->group(function () {
 });
 
 Route::prefix('showcase/apply')->group(function () {
-    Route::get('/', [BuildShowcaseController::class, 'index'])
+    Route::get('/', [ShowcaseApplicationController::class, 'index'])
         ->name('showcase.apply');
 
-    Route::post('/', [BuildShowcaseController::class, 'store'])
+    Route::post('/', [ShowcaseApplicationController::class, 'store'])
         ->name('showcase.apply.submit');
 
-    Route::get('{id}', [BuildShowcaseController::class, 'show'])
+    Route::get('{id}', [ShowcaseApplicationController::class, 'show'])
         ->name('showcase.status');
 });
 

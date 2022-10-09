@@ -7,6 +7,8 @@ use Repositories\GameIPBans\GameIPBanEloquentRepository;
 use Repositories\GameIPBans\GameIPBanRepository;
 use Repositories\PlayerWarnings\PlayerWarningEloquentRepository;
 use Repositories\PlayerWarnings\PlayerWarningRepository;
+use Repositories\ShowcaseApplications\ShowcaseApplicationEloquentRepository;
+use Repositories\ShowcaseApplications\ShowcaseApplicationRepository;
 
 final class RepositoryServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,10 @@ final class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: PlayerWarningRepository::class,
             concrete: PlayerWarningEloquentRepository::class,
+        );
+        $this->app->bind(
+            abstract: ShowcaseApplicationRepository::class,
+            concrete: ShowcaseApplicationEloquentRepository::class,
         );
     }
 }

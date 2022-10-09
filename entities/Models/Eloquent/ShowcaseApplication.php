@@ -27,8 +27,9 @@ final class ShowcaseApplication extends Model implements LinkableAuditModel
         'location_yaw',
         'built_at',
         'status',
-        'denied_reason',
-        'closed_at',
+        'decision_note',
+        'decided_at',
+        'decider_account_id',
         'created_at',
         'updated_at',
     ];

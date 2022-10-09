@@ -7,7 +7,7 @@ use Domain\ShowcaseApplications\Entities\ApplicationStatus;
 use Domain\ShowcaseApplications\Exceptions\ApplicationAlreadyDecidedException;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\ShowcaseApplication;
-use Repositories\ShowcaseApplicationRepository;
+use Repositories\ShowcaseApplications\ShowcaseApplicationRepository;
 
 class UpdateShowcaseApplication
 {

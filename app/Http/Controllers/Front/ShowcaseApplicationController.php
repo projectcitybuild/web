@@ -4,17 +4,19 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\WebController;
 use Carbon\Carbon;
-use Domain\BuilderRankApplications\Entities\ApplicationStatus;
+use Domain\ShowcaseApplications\UseCases\CreateShowcaseApplication;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\ShowcaseApplication;
-use Entities\Notifications\ShowcaseApplicationSubmittedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Repositories\ShowcaseApplications\ShowcaseApplicationRepository;
 
-final class BuildShowcaseController extends WebController
+final class ShowcaseApplicationController extends WebController
 {
-    public function index(Request $request)
-    {
+    public function index(
+        Request $request,
+        ShowcaseApplicationRepository $applicationRepository,
+    ) {
         $minecraftUsername = $request->user()
             ?->minecraftAccount?->first()
             ?->aliases?->first()
@@ -22,15 +24,17 @@ final class BuildShowcaseController extends WebController
 
         $applicationInProgress = null;
         if ($request->user() !== null) {
-            $applicationInProgress = ShowcaseApplication::where('account_id', $request->user()->getKey())->first();
+            $applicationInProgress = $applicationRepository->firstActive(accountId: $request->user()->getKey());
         }
 
         return view('front.pages.build-showcase.form')
             ->with(compact('minecraftUsername', 'applicationInProgress'));
     }
 
-    public function store(Request $request)
-    {
+    public function store(
+        Request $request,
+        CreateShowcaseApplication $createShowcaseApplication,
+    ) {
         /** @var Account $account */
         $account = $request->user();
 
@@ -67,15 +71,20 @@ final class BuildShowcaseController extends WebController
                 ->withInput();
         }
 
-        $application = ShowcaseApplication::create(
-            array_merge($request->all(), [
-                'account_id' => $account->getKey(),
-                'status' => ApplicationStatus::IN_PROGRESS,
-                'built_at' => Carbon::createFromTimeString($request->get('built_at')),
-            ])
+        $application = $createShowcaseApplication->execute(
+            account: $account,
+            title: $request->get('title'),
+            warpName: $request->get('name'),
+            description: $request->get('description'),
+            creators: $request->get('creators'),
+            x: $request->get('location_x'),
+            y: $request->get('location_y'),
+            z: $request->get('location_z'),
+            pitch: $request->get('location_pitch'),
+            yaw: $request->get('location_yaw'),
+            world: $request->get('location_world'),
+            builtAt: Carbon::createFromTimeString($request->get('built_at')),
         );
-
-        $application->notify(new ShowcaseApplicationSubmittedNotification($application));
 
         return view('front.pages.build-showcase.form-success')
             ->with(compact('application'));
@@ -84,8 +93,9 @@ final class BuildShowcaseController extends WebController
     public function show(
         Request $request,
         int $applicationId,
+        ShowcaseApplicationRepository $applicationRepository,
     ) {
-        $application = ShowcaseApplication::find($applicationId);
+        $application = $applicationRepository->find($applicationId);
         if ($application === null) {
             abort(404);
         }
