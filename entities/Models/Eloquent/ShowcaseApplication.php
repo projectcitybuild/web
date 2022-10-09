@@ -3,7 +3,7 @@
 namespace Entities\Models\Eloquent;
 
 use App\Model;
-use Domain\BuilderRankApplications\Entities\ApplicationStatus;
+use Domain\ShowcaseApplications\Entities\ApplicationStatus;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Library\Auditing\Contracts\LinkableAuditModel;
@@ -31,6 +31,9 @@ final class ShowcaseApplication extends Model implements LinkableAuditModel
         'closed_at',
         'created_at',
         'updated_at',
+    ];
+    protected $casts = [
+        'status' => ApplicationStatus::class,
     ];
     public $timestamps = [
         'built_at',
@@ -64,14 +67,9 @@ final class ShowcaseApplication extends Model implements LinkableAuditModel
             || $this->status == ApplicationStatus::APPROVED->value;
     }
 
-    public function status(): ApplicationStatus
-    {
-        return ApplicationStatus::tryFrom($this->status);
-    }
-
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.showcase-applications.show', $this);
+        return route('front.panel.showcase-apps.show', $this);
     }
 
     public function getActivitySubjectName(): ?string

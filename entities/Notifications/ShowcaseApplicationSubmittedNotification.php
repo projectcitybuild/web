@@ -12,7 +12,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
 use function route;
 
-class BuildShowcaseAppSubmittedNotification extends Notification implements ShouldQueue
+class ShowcaseApplicationSubmittedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -73,7 +73,7 @@ class BuildShowcaseAppSubmittedNotification extends Notification implements Shou
         return (new DiscordMessage)
             ->content('A new showcase application has arrived.')
             ->embed(function (DiscordEmbed $embed) {
-                $embed->title('Showcase Submission', route('front.panel.showcase-applications.show', $this->showcaseApplication))
+                $embed->title('Showcase Submission', route('front.panel.showcase-apps.show', $this->showcaseApplication))
                     ->field('Title', $this->showcaseApplication->title)
                     ->field('Description', Str::limit($this->showcaseApplication->description, 500))
                     ->author($this->showcaseApplication->creators);

@@ -3,22 +3,18 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\WebController;
-use App\Http\Requests\BuilderRankApplicationRequest;
 use Carbon\Carbon;
 use Domain\BuilderRankApplications\Entities\ApplicationStatus;
-use Domain\BuilderRankApplications\Entities\BuilderRank;
-use Domain\BuilderRankApplications\Exceptions\ApplicationAlreadyInProgressException;
-use Domain\BuilderRankApplications\UseCases\CreateBuildRankApplication;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\ShowcaseApplication;
-use Entities\Notifications\BuildShowcaseAppSubmittedNotification;
+use Entities\Notifications\ShowcaseApplicationSubmittedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Repositories\BuilderRankApplicationRepository;
 
 final class BuildShowcaseController extends WebController
 {
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $minecraftUsername = $request->user()
             ?->minecraftAccount?->first()
             ?->aliases?->first()
@@ -33,7 +29,8 @@ final class BuildShowcaseController extends WebController
             ->with(compact('minecraftUsername', 'applicationInProgress'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         /** @var Account $account */
         $account = $request->user();
 
@@ -70,7 +67,6 @@ final class BuildShowcaseController extends WebController
                 ->withInput();
         }
 
-
         $application = ShowcaseApplication::create(
             array_merge($request->all(), [
                 'account_id' => $account->getKey(),
@@ -79,7 +75,7 @@ final class BuildShowcaseController extends WebController
             ])
         );
 
-        $application->notify(new BuildShowcaseAppSubmittedNotification($application));
+        $application->notify(new ShowcaseApplicationSubmittedNotification($application));
 
         return view('front.pages.build-showcase.form-success')
             ->with(compact('application'));

@@ -157,95 +157,58 @@
                 </dl>
             </div>
         </div>
+
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    Close Application
-                </div>
+            @include('admin.showcase-applications.status._' . $application->status->slug())
 
-                @if ($application->status == \Domain\BuilderRankApplications\Entities\ApplicationStatus::IN_PROGRESS->value)
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                    data-bs-target="#approveModal">
-                                <i class="fas fa-check"></i> Approve and Create Warp
-                            </button>
-                        </li>
-                        <li class="list-group-item">
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                    data-bs-target="#denyModal">
-                                <i class="fas fa-times"></i> Deny and Close
-                            </button>
-                        </li>
-                    </ul>
-                @else
-                    <div class="card-body">
-                        No further action can be taken
+            @if($application->status == \Domain\ShowcaseApplications\Entities\ApplicationStatus::PENDING)
+                <div class="card mt-2">
+                    <div class="card-header">
+                        Decide Appeal
                     </div>
-                @endif
-
-                <div class="card-footer">
-                    <strong>Applications cannot be re-opened after approving or denying.</strong><br/>
-                    Please finalise the decision before pressing a button!
+                    <div class="card-body border-bottom">
+                        <i class="fas fa-exclamation-triangle text-danger"></i> The player <strong>will be notified of this decision immediately with the below message</strong>.
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('front.panel.showcase-apps.update', $application) }}" method="post">
+                            @csrf
+                            @include('admin._errors')
+                            @method('PUT')
+                            <div class="mb-3">
+                                <div class="mb-3">
+                                    <label for="decision_note" class="form-label">Decision Message</label>
+                                    <textarea
+                                        class="form-control"
+                                        name="decision_note"
+                                        id="decision_note"
+                                        rows="5"
+                                    >{{ old('deny_reason', $application->decision_note) }}</textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="mb-1">Decision</label>
+                                    @foreach(\Domain\ShowcaseApplications\Entities\ApplicationStatus::decisionCases() as $status)
+                                        <div class="form-check ">
+                                            <input
+                                                class="form-check-input"
+                                                type="radio" name="status"
+                                                name="status"
+                                                value="{{ $status->value }}"
+                                                id="status{{ $status->value }}"
+                                                @checked(old('status', $application->status) == $status)>
+                                            <label class="form-check-label" for="status{{ $status->value }}">
+                                                {{ $status->humanReadableAction() }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
-
-
-    <form action="{{ route('front.panel.builder-ranks.approve', $application->getKey()) }}" method="post">
-        @csrf
-        <div class="modal fade" id="approveModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Approve Application</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Promote this user to:
-                        <select class="form-select" name="promote_group">
-                            <option value=""></option>
-                        </select>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Approve and Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <form action="{{ route('front.panel.builder-ranks.deny', $application->getKey()) }}" method="post">
-        @csrf
-        <div class="modal fade" id="denyModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Deny Application</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row gy-3">
-                            <span>Please enter a denial reason. <strong>This will be publicly visible to the applicant!</strong></span>
-
-                            <div class="mb-3">
-                                <textarea
-                                    class="form-control"
-                                    name="deny_reason"
-                                    rows="5"
-                                    placeholder="We don't accept dirt huts..."
-                                >{{ old('deny_reason') }}</textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Deny and Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
 @endsection

@@ -2,9 +2,7 @@
 
 namespace Repositories;
 
-use Domain\BuilderRankApplications\Entities\ApplicationStatus;
-use Domain\BuilderRankApplications\Entities\BuilderRank;
-use Entities\Models\Eloquent\BuilderRankApplication;
+use Domain\ShowcaseApplications\Entities\ApplicationStatus;
 use Entities\Models\Eloquent\ShowcaseApplication;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -56,23 +54,27 @@ class ShowcaseApplicationRepository
 
     public function allWithPriority(int $perPage): LengthAwarePaginator
     {
-        return ShowcaseApplication::orderbyRaw('FIELD(status, '.ApplicationStatus::IN_PROGRESS->value.') DESC')
+        return ShowcaseApplication::orderbyRaw('FIELD(status, '.ApplicationStatus::PENDING->value.') DESC')
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
     }
 
-    public function approve(ShowcaseApplication $application)
-    {
-        $application->status = ApplicationStatus::APPROVED->value;
-        $application->closed_at = now();
+    public function updateDecision(
+        ShowcaseApplication $application,
+        string $decisionNote,
+        int $deciderPlayerMinecraftId,
+        ApplicationStatus $newStatus,
+    ): ShowcaseApplication {
+        $application->decision_note = $decisionNote;
+        $application->decider_player_minecraft_id = $deciderPlayerMinecraftId;
+        $application->status = $newStatus;
+        $application->decided_at = now();
         $application->save();
-    }
 
-    public function deny(ShowcaseApplication $application, string $reason)
-    {
-        $application->status = ApplicationStatus::DENIED->value;
-        $application->denied_reason = $reason;
-        $application->closed_at = now();
-        $application->save();
+        activity()
+            ->on($application)
+            ->log(strtolower($newStatus->humanReadable()));
+
+        return $application;
     }
 }
