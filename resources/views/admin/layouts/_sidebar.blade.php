@@ -167,8 +167,20 @@
                    href="{{ route('front.panel.builder-ranks.index') }}">
                     <i class="fas fa-hammer fa-fw"></i>
                     Builder Rank Applications
-                    @if ($outgoing_rank_apps > 0)
-                        <span class="badge bg-danger">{{ $outgoing_rank_apps }}</span>
+                    @if ($outstandingRankApps > 0)
+                        <span class="badge bg-danger">{{ $outstandingRankApps }}</span>
+                    @endif
+                </a>
+            </li>
+            @endscope
+            @scope(Entities\Models\PanelGroupScope::REVIEW_SHOWCASE_APPS)
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('panel/showcase-apps*') ? 'active' : '' }}"
+                   href="{{ route('front.panel.showcase-apps.index') }}">
+                    <i class="fas fa-certificate fa-fw"></i>
+                    Showcase Applications
+                    @if ($outstandingShowcaseApps > 0)
+                        <span class="badge bg-danger">{{ $outstandingShowcaseApps }}</span>
                     @endif
                 </a>
             </li>
@@ -179,8 +191,8 @@
                    href="{{ route('front.panel.ban-appeals.index') }}">
                     <i class="fas fa-gavel fa-fw"></i>
                     Ban Appeals
-                    @if ($outstanding_ban_appeals > 0)
-                        <span class="badge bg-danger">{{ $outstanding_ban_appeals }}</span>
+                    @if ($outstandingBanAppeals > 0)
+                        <span class="badge bg-danger">{{ $outstandingBanAppeals }}</span>
                     @endif
                 </a>
             </li>

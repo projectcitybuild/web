@@ -24,6 +24,7 @@ use App\Http\Controllers\Panel\PageController;
 use App\Http\Controllers\Panel\PlayerWarningController;
 use App\Http\Controllers\Panel\ServerController;
 use App\Http\Controllers\Panel\ServerTokenController;
+use App\Http\Controllers\Panel\ShowcaseApplicationController;
 use App\Http\Controllers\Panel\ShowcaseWarpsController;
 use Entities\Models\PanelGroupScope;
 use Illuminate\Support\Facades\Route;
@@ -135,6 +136,10 @@ Route::group([
     Route::post('{id}/deny', [BuilderRanksController::class, 'deny'])
         ->name('deny');
 });
+
+Route::resource('showcase-apps', ShowcaseApplicationController::class)
+    ->only('index', 'show', 'update')
+    ->middleware(PanelGroupScope::REVIEW_SHOWCASE_APPS->toMiddleware());
 
 Route::resource('ban-appeals', BanAppealController::class)
     ->only('index', 'show', 'update')

@@ -20,6 +20,7 @@ enum PanelGroupScope: string
 
     case REVIEW_APPEALS = 'panel-review-appeals';
     case REVIEW_BUILD_RANK_APPS = 'panel-review-build-rank-app';
+    case REVIEW_SHOWCASE_APPS = 'panel-review-showcase-apps';
 
     public function toMiddleware(): string
     {

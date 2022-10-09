@@ -11,6 +11,7 @@ use Domain\BuilderRankApplications\Exceptions\ApplicationAlreadyInProgressExcept
 use Domain\BuilderRankApplications\UseCases\CreateBuildRankApplication;
 use Entities\Models\Eloquent\Account;
 use Entities\Models\Eloquent\ShowcaseApplication;
+use Entities\Notifications\BuildShowcaseAppSubmittedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Repositories\BuilderRankApplicationRepository;
@@ -77,6 +78,8 @@ final class BuildShowcaseController extends WebController
                 'built_at' => Carbon::createFromTimeString($request->get('built_at')),
             ])
         );
+
+        $application->notify(new BuildShowcaseAppSubmittedNotification($application));
 
         return view('front.pages.build-showcase.form-success')
             ->with(compact('application'));
