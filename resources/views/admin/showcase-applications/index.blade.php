@@ -18,7 +18,7 @@
             <tbody>
             @foreach($applications as $application)
                 <tr class="{{ !$application->isReviewed()  ? 'table-warning' : '' }}">
-                    <td>{{ \Domain\BuilderRankApplications\Entities\ApplicationStatus::from($application->status)->humanReadable() }}</td>
+                    <td>{{ $application->status->humanReadable() }}</td>
                     <td>
                         <a href="{{ route('front.panel.accounts.show', $application->account->getKey()) }}">
                             {{ $application->account->username ?: 'Undefined' }}

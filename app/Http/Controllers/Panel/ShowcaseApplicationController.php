@@ -40,11 +40,11 @@ class ShowcaseApplicationController extends WebController
     public function update(
         UpdateShowcaseApplication $useCase,
         ShowcaseApplicationUpdateRequest $request,
-        ShowcaseApplication $application,
+        ShowcaseApplication $showcaseApplication,
     ) {
         try {
             $useCase->execute(
-                application: $application,
+                application: $showcaseApplication,
                 decidingAccount: $request->user(),
                 decisionNote: $request->get('decision_note'),
                 newStatus: ApplicationStatus::from($request->get('status'))
@@ -59,7 +59,7 @@ class ShowcaseApplicationController extends WebController
             ]);
         }
 
-        $application->notify(
+        $showcaseApplication->notify(
             new ShowcaseApplicationUpdatedNotification(
                 applicationLink: route('front.appeal.show', $application),
             )

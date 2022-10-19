@@ -4,7 +4,7 @@
             Decided At
         </dt>
         <dd class="col-md-9">
-            {{ $banAppeal->decided_at }}
+            {{ $application->decided_at }}
         </dd>
     </div>
     <div class="row g-0">
@@ -12,8 +12,8 @@
             Decided By
         </dt>
         <dd class="col-md-9">
-            <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->deciderPlayer) }}">
-                {{ $banAppeal->deciderPlayer->getBanReadableName() ?? 'No Alias' }}
+            <a href="{{ route('front.panel.accounts.show', $application->deciderAccount) }}">
+                {{ $application->deciderAccount->username }}
             </a>
         </dd>
     </div>
@@ -22,7 +22,7 @@
             Decision Reason
         </dt>
         <dd class="col-md-9">
-            <em>{{ $banAppeal->decision_note }}</em>
+            <em>{{ $application->decision_note }}</em>
         </dd>
     </div>
 </dl>

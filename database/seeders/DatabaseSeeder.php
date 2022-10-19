@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(BadgeSeeder::class);
         $this->call(ServerTokenSeeder::class);
         $this->call(ShowcaseWarpSeeder::class);
+        $this->call(ShowcaseApplicationSeeder::class);
     }
 }

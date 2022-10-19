@@ -4,6 +4,7 @@ namespace Entities\Models\Eloquent;
 
 use App\Model;
 use Domain\ShowcaseApplications\Entities\ApplicationStatus;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Library\Auditing\Contracts\LinkableAuditModel;
@@ -11,6 +12,7 @@ use Library\Auditing\Contracts\LinkableAuditModel;
 final class ShowcaseApplication extends Model implements LinkableAuditModel
 {
     use Notifiable;
+    use HasFactory;
 
     protected $table = 'showcase_applications';
     protected $fillable = [
@@ -62,10 +64,19 @@ final class ShowcaseApplication extends Model implements LinkableAuditModel
         );
     }
 
+    public function deciderAccount(): BelongsTo
+    {
+        return $this->belongsTo(
+            related: Account::class,
+            foreignKey: 'decider_account_id',
+            ownerKey: 'account_id',
+        );
+    }
+
     public function isReviewed(): bool
     {
-        return $this->status == ApplicationStatus::DENIED->value
-            || $this->status == ApplicationStatus::APPROVED->value;
+        return $this->status == ApplicationStatus::DENIED
+            || $this->status == ApplicationStatus::APPROVED;
     }
 
     public function getActivitySubjectLink(): ?string

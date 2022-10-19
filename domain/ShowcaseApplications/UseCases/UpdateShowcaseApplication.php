@@ -22,7 +22,7 @@ class UpdateShowcaseApplication
         string $decisionNote,
         ApplicationStatus $newStatus,
     ) {
-        if ($application->status != ApplicationStatus::PENDING) {
+        if ($application->status->isDecided()) {
             throw new ApplicationAlreadyDecidedException();
         }
         if ($decidingAccount->minecraftAccount()->doesntExist()) {

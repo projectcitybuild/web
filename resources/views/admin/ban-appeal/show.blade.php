@@ -132,7 +132,7 @@
                                         name="decision_note"
                                         id="decision_note"
                                         rows="5"
-                                    >{{ old('deny_reason', $banAppeal->decision_note) }}</textarea>
+                                    >{{ old('decision_note', $banAppeal->decision_note) }}</textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label class="mb-1">Appeal Decision</label>
