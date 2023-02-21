@@ -17,7 +17,6 @@ final class Server extends Model
 
     protected $fillable = [
         'name',
-        'server_category_id',
         'ip',
         'ip_alias',
         'port',

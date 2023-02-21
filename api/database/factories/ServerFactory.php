@@ -21,7 +21,6 @@ class ServerFactory extends Factory
             'is_port_visible' => true,
             'is_visible' => true,
             'is_querying' => true,
-            'server_category_id' => ServerCategory::factory()->create()->getKey(),
         ];
     }
 }
