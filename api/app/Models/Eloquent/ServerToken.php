@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Models\Eloquent;
+namespace App\Models\Eloquent;
 
 use Altek\Eventually\Eventually;
 use App\Model;

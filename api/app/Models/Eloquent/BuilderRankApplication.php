@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Models\Eloquent;
+namespace App\Models\Eloquent;
 
 use App\Model;
 use Domain\BuilderRankApplications\Entities\ApplicationStatus;
