@@ -17,6 +17,10 @@ return new class extends Migration
             $table->integer('display_order')->default(0)->change();
         });
         Schema::drop('server_categories');
+
+        Schema::table('groups', function (Blueprint $table) {
+            $table->dropColumn('discourse_name');
+        });
     }
 
     /**

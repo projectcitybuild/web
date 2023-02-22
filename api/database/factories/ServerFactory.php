@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Eloquent\Server;
-use App\Models\Eloquent\ServerCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ServerFactory extends Factory

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Eloquent\Group;
 use App\Models\Eloquent\Server;
 use Illuminate\Database\Seeder;
 
@@ -14,5 +15,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Server::factory(5)->create();
+
+        Group::factory(10)->create();
     }
 }

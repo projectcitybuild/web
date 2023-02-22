@@ -2,19 +2,19 @@
 
 namespace App\Models\Eloquent;
 
-use App\Model;
+use Database\Factories\GroupFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Library\Auditing\Contracts\LinkableAuditModel;
+use Illuminate\Database\Eloquent\Model;
 
-final class Group extends Model implements LinkableAuditModel
+final class Group extends Model
 {
     use HasFactory;
 
-    public const DONOR_GROUP_NAME = 'donator'; // Some day we'll get rid of this misspelling...
-
     protected $table = 'groups';
+
     protected $primaryKey = 'group_id';
+
     protected $fillable = [
         'name',
         'alias',
@@ -22,44 +22,22 @@ final class Group extends Model implements LinkableAuditModel
         'is_default',
         'is_staff',
         'is_admin',
-        'discourse_name',
         'minecraft_name',
         'discord_name',
         'can_access_panel',
     ];
-    protected $hidden = [];
+
     protected $casts = [
         'is_build' => 'boolean',
         'is_default' => 'boolean',
         'is_staff' => 'boolean',
         'is_admin' => 'boolean',
     ];
+
     public $timestamps = false;
 
-    public function accounts()
+    protected static function newFactory(): Factory
     {
-        return $this->belongsToMany(Account::class, 'groups_accounts', 'group_id', 'account_id');
-    }
-
-    public function groupScopes(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            related: GroupScope::class,
-            table: 'group_scopes_pivot',
-            foreignPivotKey: 'group_id',
-            relatedPivotKey: 'scope_id',
-            parentKey: 'group_id',
-            relatedKey: 'id',
-        );
-    }
-
-    public function getActivitySubjectLink(): ?string
-    {
-        return route('front.panel.groups.index').'#group-'.$this->getKey();
-    }
-
-    public function getActivitySubjectName(): ?string
-    {
-        return "Group {$this->name}";
+        return GroupFactory::new();
     }
 }
