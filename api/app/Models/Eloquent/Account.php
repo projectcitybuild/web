@@ -2,10 +2,20 @@
 
 namespace App\Models\Eloquent;
 
+use Database\Factories\AccountFactory;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-final class Account extends Authenticatable
+final class Account extends Authenticatable implements MustVerifyEmail
 {
+    use HasFactory;
+    use HasApiTokens;
+    use Notifiable;
+
     protected $table = 'accounts';
 
     protected $primaryKey = 'account_id';
@@ -21,6 +31,8 @@ final class Account extends Authenticatable
     ];
 
     protected $hidden = [
+        'password',
+        'remember_token',
         'totp_secret',
         'totp_backup_code',
     ];
@@ -29,9 +41,15 @@ final class Account extends Authenticatable
         'created_at',
         'updated_at',
         'last_login_at',
+        'email_verified_at',
     ];
 
     protected $casts = [
         'is_totp_enabled' => 'boolean',
     ];
+
+    protected static function newFactory(): Factory
+    {
+        return AccountFactory::new();
+    }
 }
