@@ -13,12 +13,12 @@ class AuthenticationController extends Controller
      */
     public function login(Request $request): JsonResponse
     {
-        $validated = $request->validate([
-            'email' => ['required', 'string'],
+        $request->validate([
+            'email' => ['required', 'email'],
             'password' => ['required', 'string'],
         ]);
 
-        if (! auth()->attempt($validated)) {
+        if (! auth()->attempt($request->only('email', 'password'))) {
             throw ValidationException::withMessages([
                 'email' => ['Email or password is incorrect'],
             ]);
@@ -33,7 +33,7 @@ class AuthenticationController extends Controller
         }
 
         $account->tokens()->delete();
-        $token = $account->createToken($request->email)->accessToken;
+        $token = $account->createToken($request->email)->plainTextToken;
 
         return response()->json([
             'account' => $account,

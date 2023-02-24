@@ -3,17 +3,20 @@
 namespace App\Models\Eloquent;
 
 use Database\Factories\AccountFactory;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
-final class Account extends Authenticatable implements MustVerifyEmail
+final class Account extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
     use HasFactory;
     use HasApiTokens;
+    use TwoFactorAuthenticatable;
     use Notifiable;
 
     protected $table = 'accounts';
