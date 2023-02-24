@@ -23,6 +23,8 @@ return new class extends Migration
             $table->dropColumn('discourse_name');
         });
 
+        Schema::rename(from: 'groups_accounts', to: 'groups_accounts_pivot');
+
         Schema::table('accounts', function (Blueprint $table) {
             $table->text('two_factor_secret')
                 ->after('password')
@@ -54,7 +56,12 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::drop('group_scopes_pivot');
         Schema::drop('group_scopes');
+        Schema::drop('server_token_scopes_pivot');
+        Schema::drop('server_token_scopes');
+        Schema::drop('server_tokens');
+        Schema::drop('pages');
     }
 
     /**
