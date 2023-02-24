@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Eloquent\Account;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class AuthenticationController extends Controller
@@ -15,31 +13,31 @@ class AuthenticationController extends Controller
      */
     public function login(Request $request): JsonResponse
     {
-        $request->validate([
+        $validated = $request->validate([
             'email' => ['required', 'string'],
             'password' => ['required', 'string'],
         ]);
 
-        // TODO: use Auth instead?
-        $account = Account::where('email', $request->email)->first();
-        if ($account === null) {
+        if (! auth()->attempt($validated)) {
             throw ValidationException::withMessages([
                 'email' => ['Email or password is incorrect'],
             ]);
         }
 
-        $account->tokens()->delete();
+        $account = auth()->user();
 
-        if (! Hash::check($request->password, $account->password)) {
+        if (! $account->hasVerifiedEmail()) {
             throw ValidationException::withMessages([
-               'email' => ['Email or password is incorrect'],
+                'email' => ['Account not verified. Please check the email sent to your email address'],
             ]);
         }
 
-        $token = $account->createToken($request->email)->plainTextToken;
+        $account->tokens()->delete();
+        $token = $account->createToken($request->email)->accessToken;
 
         return response()->json([
-            'auth_token' => $token,
+            'account' => $account,
+            'access_token' => $token,
         ]);
     }
 
