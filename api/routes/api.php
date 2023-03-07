@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\ConfirmablePasswordController;
 use Laravel\Fortify\Http\Controllers\ConfirmedPasswordStatusController;
 use Laravel\Fortify\Http\Controllers\NewPasswordController;
+use Laravel\Fortify\Http\Controllers\PasswordController;
 use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
 use Laravel\Fortify\Http\Controllers\RecoveryCodeController;
 use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticationController;
 use Laravel\Fortify\Http\Controllers\TwoFactorQrCodeController;
+use Laravel\Fortify\Http\Controllers\TwoFactorSecretKeyController;
 
 
 Route::middleware(['guest', 'throttle:6,1'])->group(function () {
@@ -21,11 +23,11 @@ Route::middleware(['guest', 'throttle:6,1'])->group(function () {
 
     Route::post('/register', [RegistrationController::class, 'register']);
 
-    Route::get('/email-verify/{id}/{hash}', [VerifyEmailController::class, 'verify'])
+    Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'])
         ->name('verification.verify')
         ->middleware('signed');
 
-    Route::post('/email-verify/resend', [VerifyEmailController::class, 'resend'])
+    Route::post('/email/verify/resend', [VerifyEmailController::class, 'resend']);
 
     Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
         ->name('password.email');
@@ -37,27 +39,29 @@ Route::middleware(['guest', 'throttle:6,1'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    $fortifyAuthMiddleware = config(key: 'fortify.auth_middleware', default: 'auth').':'.config('fortify.guard');
+
     Route::post('/logout', [AuthenticationController::class, 'logout']);
 
-    Route::prefix('/user/2fa')->group(function () {
-        Route::post('/confirm-password', [ConfirmablePasswordController::class, 'store']);
+    Route::put('/user/password', [PasswordController::class, 'update'])
+        ->middleware($fortifyAuthMiddleware);
 
-        Route::get('/confirmed-password-status', [ConfirmedPasswordStatusController::class, 'show']);
+    Route::get('/user/confirm-password/status', [ConfirmedPasswordStatusController::class, 'show'])
+        ->middleware($fortifyAuthMiddleware);
 
-        Route::post('/', [TwoFactorAuthenticationController::class, 'store'])
-            ->middleware('password.confirm');
+    Route::post('/user/confirm-password', [ConfirmablePasswordController::class, 'store'])
+        ->middleware($fortifyAuthMiddleware);
 
-        Route::delete('/', [TwoFactorAuthenticationController::class, 'destroy'])
-            ->middleware('password.confirm');
 
-        Route::post('/qr-code', [TwoFactorQrCodeController::class, 'show'])
-            ->middleware('password.confirm');
+    $twoFactorMiddleware = [$fortifyAuthMiddleware, 'password.confirm'];
 
-        Route::get('/recovery-codes', [RecoveryCodeController::class, 'index'])
-            ->middleware('password.confirm');
-
-        Route::post('/recovery-codes', [RecoveryCodeController::class, 'store'])
-            ->middleware('password.confirm');
+    Route::prefix('/user/2fa')->middleware($twoFactorMiddleware)->group(function () {
+        Route::post('/', [TwoFactorAuthenticationController::class, 'store']);
+        Route::delete('/', [TwoFactorAuthenticationController::class, 'destroy']);
+        Route::post('/qr-code', [TwoFactorQrCodeController::class, 'show']);
+        Route::get('/secret-key', [TwoFactorSecretKeyController::class, 'show']);
+        Route::get('/recovery-codes', [RecoveryCodeController::class, 'index']);
+        Route::post('/recovery-codes', [RecoveryCodeController::class, 'store']);
     });
 
     Route::apiResource('/servers', ServerController::class);

@@ -10,14 +10,15 @@ use Illuminate\Http\Request;
 
 class VerifyEmailController extends Controller
 {
-    public function verify(Request $request): JsonResponse
+    public function verify(Request $request, String $id): JsonResponse
     {
-        $account = Account::find($request->route('id'));
+        $account = Account::find($id);
+
         if ($account === null) {
             throw new AuthorizationException;
         }
         if ($account->hasVerifiedEmail()) {
-            abort(code: 410);
+            return response()->json(data: null, status: 204);
         }
         if (! hash_equals(sha1($account->getEmailForVerification()), (string) $request->route('hash'))) {
             throw new AuthorizationException;
@@ -30,8 +31,17 @@ class VerifyEmailController extends Controller
         return response()->json();
     }
 
-    public function resend(Request $request): JsonResponse
+    public function resend(Request $request, String $id): JsonResponse
     {
+        $account = Account::find($id);
+
+        if ($account === null) {
+            throw new AuthorizationException;
+        }
+        if ($account->hasVerifiedEmail()) {
+            return response()->json(data: null, status: 204);
+        }
+
         $request->user()->sendEmailVerificationNotification();
 
         return response()->json();
