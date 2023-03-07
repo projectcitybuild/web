@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\GroupController;
-use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ServerController;
 use App\Http\Controllers\VerifyEmailController;
@@ -17,17 +16,16 @@ use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticationController;
 use Laravel\Fortify\Http\Controllers\TwoFactorQrCodeController;
 
 
-Route::middleware('guest')->group(function () {
+Route::middleware(['guest', 'throttle:6,1'])->group(function () {
     Route::post('/login', [AuthenticationController::class, 'login']);
 
     Route::post('/register', [RegistrationController::class, 'register']);
 
     Route::get('/email-verify/{id}/{hash}', [VerifyEmailController::class, 'verify'])
         ->name('verification.verify')
-        ->middleware(['signed', 'throttle:6,1']);
+        ->middleware('signed');
 
     Route::post('/email-verify/resend', [VerifyEmailController::class, 'resend'])
-        ->middleware('throttle:6,1');
 
     Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
         ->name('password.email');
