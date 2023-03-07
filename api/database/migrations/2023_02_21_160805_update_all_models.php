@@ -62,6 +62,12 @@ return new class extends Migration
         Schema::drop('server_token_scopes');
         Schema::drop('server_tokens');
         Schema::drop('pages');
+
+        Schema::create('password_reset_tokens', function (Blueprint $table) {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+        });
     }
 
     /**
