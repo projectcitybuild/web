@@ -3,8 +3,8 @@ import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { Auth } from "@/http/auth"
-import { DisplayableError } from "@/http/api";
+import { Auth } from "@/libs/auth/auth"
+import { DisplayableError } from "@/libs/http/api";
 
 interface Props {}
 
@@ -30,6 +30,7 @@ const Login: NextPage<Props> = (props): JSX.Element => {
     const onSubmit = async (data: FormData) => {
         try {
             await auth.login(data.email, data.password)
+
         } catch (error) {
             if (error instanceof DisplayableError) {
                 setError("root", { message: error.message })
