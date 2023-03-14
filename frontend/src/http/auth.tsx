@@ -10,11 +10,10 @@ export class Auth {
     }
 
     async login(email: string, password: string) {
-        await this.apiClient.get("sanctum/csrf-cookie")
-
         const params = querystring.stringify({ email: email, password: password })
         const response = await this.apiClient.post("api/login", params, {
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
         })
+        console.log(response)
     }
 }

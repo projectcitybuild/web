@@ -1,4 +1,4 @@
-import axios, {AxiosError, AxiosInstance} from "axios";
+import axios, {AxiosError, AxiosInstance, AxiosResponse} from "axios";
 
 const api = (baseURL: string) => axios.create({
     baseURL: baseURL,
@@ -7,11 +7,19 @@ const api = (baseURL: string) => axios.create({
     headers: { Accept: "application/json" },
 })
 
-const withErrorHandling = (api: AxiosInstance) => {
+const withInterceptors = (api: AxiosInstance) => {
     api.interceptors.response.use(
         (response) => response,
-        (error) => {
+        async (error) => {
             if (error instanceof AxiosError) {
+                // TODO: clean this up
+                if (error.status == 419 && error.config!.url != "sanctum/csrf-cookie") {
+                    console.log("Requesting XSRF token...")
+
+                    await api.get("sanctum/csrf-cookie")
+                    return await api(error.config!) // Retry request
+                }
+
                 const body = error.response?.data
                 if (body satisfies DisplayableError) {
                     throw new DisplayableError(body.message)
@@ -29,6 +37,6 @@ export class DisplayableError extends Error {
     }
 }
 
-const _api = (baseURL: string) => withErrorHandling(api(baseURL))
+const _api = (baseURL: string) => withInterceptors(api(baseURL))
 
 export default _api
