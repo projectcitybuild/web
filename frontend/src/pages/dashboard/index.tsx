@@ -1,6 +1,7 @@
 import { NextPage } from "next"
 import { useRouter } from "next/router"
 import {withSessionSsr} from "@/libs/auth/session";
+import Link from "next/link";
 
 interface Props {}
 
@@ -10,6 +11,12 @@ const Dashboard: NextPage<Props> = (props): JSX.Element => {
     return (
         <div>
             Dashboard
+
+            <ul>
+                <li>
+                    <Link href="dashboard/logout">Logout</Link>
+                </li>
+            </ul>
         </div>
     )
 }

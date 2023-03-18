@@ -5,12 +5,11 @@ type Response = {}
 
 export default withApiSessionRoute(
     async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
-        if (req.method !== 'POST') {
+        if (req.method !== 'GET') {
             res.status(405)
             return
         }
-        req.session.user = req.body
-        await req.session.save()
+        await req.session.destroy()
         res.status(200).json({})
     }
 )

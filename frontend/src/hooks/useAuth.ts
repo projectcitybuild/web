@@ -1,5 +1,7 @@
 import api from "@/libs/http/api"
 import querystring from "querystring"
+import localApi from "@/libs/http/local_api";
+import {query} from "express";
 
 interface LoginCredentials {
     email: string
@@ -15,6 +17,7 @@ interface AuthProvider {
 export const useAuth = (): AuthProvider => {
     const apiBaseURL = process.env.NEXT_PUBLIC_API_BASE_URL as string
     const apiClient = api(apiBaseURL)
+    const localApiClient = localApi()
 
     const login = async (credentials: LoginCredentials) => {
         const params = querystring.stringify({
@@ -25,18 +28,16 @@ export const useAuth = (): AuthProvider => {
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
         })
         console.log(response)
-        const test = await fetch("login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(response.data.account),
-        })
-        console.log(test)
+
+        const accountParams = querystring.stringify(response.data.account)
+        await localApiClient.post("user/set", accountParams)
     }
 
     const logout = async () => {
         const response = await apiClient.post("logout", {
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
         })
+        await localApiClient.get("user/destroy")
         console.log(response)
     }
 
