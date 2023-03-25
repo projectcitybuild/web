@@ -48,14 +48,20 @@ export default withApiSessionRoute(
 
                     proxyRes.on('end', async () => {
                         const json = JSON.parse(responseBody)
-                        const { accessToken } = json
-                        req.session.accessToken = accessToken
-                        await req.session.save()
+                        const { account } = json
+                        const accessToken = json.access_token
 
-                        // Don't expose the access token to the client
-                        json["access_token"] = null
+                        if (accessToken) {
+                            req.session.accessToken = accessToken
+                            req.session.user = account
+                            await req.session.save()
 
-                        res.status(200).json(json)
+                            // Don't expose the access token to the client
+                            json["access_token"] = null
+                        }
+
+                        const statusCode = proxyRes.statusCode ?? interceptedRes.statusCode
+                        res.status(statusCode).json(json)
                         resolve(responseBody)
                     })
                 })
