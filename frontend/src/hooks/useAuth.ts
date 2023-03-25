@@ -1,7 +1,5 @@
 import api from "@/libs/http/api"
 import querystring from "querystring"
-import localApi from "@/libs/http/local_api";
-import {query} from "express";
 
 interface LoginCredentials {
     email: string
@@ -9,9 +7,8 @@ interface LoginCredentials {
 }
 
 interface AuthProvider {
-    login: (credentials: LoginCredentials) => void
-    logout: () => void
-    isLoggedIn: boolean
+    login: (credentials: LoginCredentials) => Promise<void>
+    logout: () => Promise<void>
 }
 
 export const useAuth = (): AuthProvider => {
@@ -27,24 +24,17 @@ export const useAuth = (): AuthProvider => {
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
         })
         console.log(response)
-
-        // const accountParams = querystring.stringify(response.data.account)
-        // await localApiClient.post("user/set", accountParams)
     }
 
     const logout = async () => {
-        // const response = await apiClient.post("logout", {
-        //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        // })
-        // await localApiClient.get("user/destroy")
-        // console.log(response)
+        const response = await apiClient.post("logout", {
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        })
+        console.log(response)
     }
-
-    const isLoggedIn = false
 
     return {
         login,
         logout,
-        isLoggedIn,
     }
 }

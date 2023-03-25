@@ -28,7 +28,7 @@ export default withApiSessionRoute(
 
             const accessToken = req.session.accessToken
             if (accessToken) {
-                req.headers['access-token'] = accessToken
+                req.headers["Authorization"] = `Bearer ${accessToken}`
             }
 
             req.url = req.url.replace(/^\/api\/proxy/, '')
@@ -63,6 +63,26 @@ export default withApiSessionRoute(
                         const statusCode = proxyRes.statusCode ?? interceptedRes.statusCode
                         res.status(statusCode).json(json)
                         resolve(responseBody)
+                    })
+                })
+            }
+            if (originalPath === '/api/proxy/logout') {
+                didInterceptResponse = true
+
+                proxy.once('proxyRes', (proxyRes, _interceptedReq, interceptedRes) => {
+                    let responseBody = ''
+                    proxyRes.on('data', (chunk) => responseBody += chunk)
+
+                    proxyRes.on('end', async () => {
+                        if (proxyRes.statusCode == 200) {
+                            req.session.destroy()
+                            res.status(200).json({})
+                            resolve(responseBody)
+                        } else {
+                            const statusCode = proxyRes.statusCode ?? interceptedRes.statusCode
+                            res.status(statusCode).json(JSON.parse(responseBody))
+                            resolve(responseBody)
+                        }
                     })
                 })
             }
