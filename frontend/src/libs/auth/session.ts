@@ -1,4 +1,4 @@
-import { IronSessionOptions} from "iron-session"
+import {getIronSession, IronSessionOptions} from "iron-session"
 import {withIronSessionApiRoute, withIronSessionSsr} from "iron-session/next"
 import { User } from "@/libs/auth/user"
 import {GetServerSidePropsContext, GetServerSidePropsResult, NextApiHandler} from "next"
@@ -19,7 +19,8 @@ export const sessionOptions: IronSessionOptions = {
 // our expected data type
 declare module "iron-session" {
     interface IronSessionData {
-        user?: User
+        user?: User,
+        accessToken: string,
     }
 }
 
@@ -39,4 +40,9 @@ export function withSessionSsr<
 // with NodeJS API routes
 export function withApiSessionRoute(handler: NextApiHandler) {
     return withIronSessionApiRoute(handler, sessionOptions)
+}
+
+// TODO: add types
+export function getSession(req: any, res: any) {
+    return getIronSession(req, res, sessionOptions)
 }

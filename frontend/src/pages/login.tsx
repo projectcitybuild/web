@@ -30,7 +30,7 @@ const Login: NextPage<Props> = (props): JSX.Element => {
     const onSubmit = async (data: FormData) => {
         try {
             await login({ email: data.email, password: data.password })
-            await router.push('/dashboard')
+            // await router.push('/dashboard')
         } catch (error) {
             if (error instanceof DisplayableError) {
                 setError("root", { message: error.message })
