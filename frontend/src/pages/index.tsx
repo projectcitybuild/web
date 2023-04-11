@@ -1,13 +1,16 @@
-import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
+import NavBar from "@/components/navbar";
+import HomeHero from "@/components/home-hero";
 
 export default function Home() {
   return (
     <>
-        <h1>Home</h1>
-        <ul>
-            <li><a href="/login">Login</a></li>
-        </ul>
+        <NavBar />
+        <HomeHero />
+
+        <section className="section">
+            Test
+        </section>
     </>
   )
 }

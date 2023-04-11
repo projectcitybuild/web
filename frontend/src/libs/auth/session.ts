@@ -6,7 +6,8 @@ import {GetServerSidePropsContext, GetServerSidePropsResult, NextApiHandler} fro
 export const sessionOptions: IronSessionOptions = {
     cookieName: 'pcb-web',
     cookieOptions: {
-        // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
+        // secure: true should be used in production (HTTPS) but
+        // can't be used in development (HTTP)
         secure: process.env.NODE_ENV === 'production',
 
         // Uncomment later to kill the cookie when the browser is closed

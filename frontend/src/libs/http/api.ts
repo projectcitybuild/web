@@ -1,13 +1,21 @@
-import axios, {AxiosError, AxiosInstance, AxiosResponse} from "axios";
+import axios, {AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 
 const api = (baseURL: string) => axios.create({
     baseURL: baseURL,
     withCredentials: true,
     timeout: 10_000,
-    headers: { Accept: "application/json" },
+    headers: {
+        Accept: "application/json",
+    },
 })
 
 const withInterceptors = (api: AxiosInstance) => {
+    api.interceptors.request.use(
+        (req) => {
+            return Promise.resolve(req)
+        },
+        (error) => Promise.reject(error),
+    )
     api.interceptors.response.use(
         (response) => response,
         async (error) => {
@@ -28,7 +36,7 @@ const withInterceptors = (api: AxiosInstance) => {
             return Promise.reject(error)
         }
     )
-    return api;
+    return api
 }
 
 export class DisplayableError extends Error {

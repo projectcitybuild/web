@@ -1,0 +1,29 @@
+.background {
+  background-image: linear-gradient(to right, hsla(0, 0%, 0%, 0.25) 20%, hsla(0, 21%, 7%, 90%)),
+                    url('/hero-bg.png');
+}
+
+.title {
+  color: #fff;
+  font-size: 6.5em;
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-kerning: normal;
+  line-height: 0.95em;
+  text-shadow: 0 2px 9px hsla(0, 0%, 0%, 35%);
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  margin-bottom: 0.2em;
+}
+
+.subtitle {
+  color: #e6e6e6;
+  font-weight: 500;
+  font-size: 1.2em;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 4px hsla(0, 0%, 0%, 55%);
+  line-height: 1.7em;
+}
