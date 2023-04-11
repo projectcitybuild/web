@@ -9,7 +9,14 @@ export default function Home() {
         <HomeHero />
 
         <section className="section">
-            Test
+            <div className="columns">
+                <div className="column">
+                    test
+                </div>
+                <div className="column">
+                    test
+                </div>
+            </div>
         </section>
     </>
   )

@@ -3,8 +3,7 @@ export default function NavBar() {
         <nav className="navbar is-fixed-top" role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
                 <a className="navbar-item" href="https://bulma.io">
-                    {/*<img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" />*/}
-                    Project City Build
+                    <img src="https://projectcitybuild.com/build/assets/logo-2x.d21e50a7.png" />
                 </a>
 
                 <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false"
@@ -21,13 +20,9 @@ export default function NavBar() {
                         Home
                     </a>
 
-                    <a className="navbar-item">
-                        Portal
-                    </a>
-
                     <div className="navbar-item has-dropdown is-hoverable">
                         <a className="navbar-link">
-                            Maps
+                            Live Maps
                         </a>
 
                         <div className="navbar-dropdown">
@@ -39,6 +34,10 @@ export default function NavBar() {
                             </a>
                         </div>
                     </div>
+
+                    <a className="navbar-item">
+                        Portal
+                    </a>
 
                     <a className="navbar-item">
                         Vote For Us

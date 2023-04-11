@@ -1,4 +1,5 @@
 import styles from '@/components/home-hero.module.scss'
+import ServerFeed from "@/components/server-feed";
 
 export default function HomeHero() {
     return (
@@ -6,15 +7,15 @@ export default function HomeHero() {
             <div className="hero-body">
                 <div className="columns">
                     <div className="column is-half-tablet">
-                        Test
+                        <ServerFeed />
                     </div>
                     <div className="column is-half-tablet">
                         <p className={styles.title}>
-                            We build stuff. <br />
+                            We build stuff. <wbr />
                             Come join us!
                         </p>
                         <p className={styles.subtitle}>
-                            One of the world's longest-running Minecraft servers; we're a
+                            One of the world's longest-running Minecraft servers; we're a <wbr />
                             community of creative players and city builders
                         </p>
                     </div>
