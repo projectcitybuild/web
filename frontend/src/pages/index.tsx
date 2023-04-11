@@ -4,7 +4,10 @@ import styles from '@/styles/Home.module.css'
 export default function Home() {
   return (
     <>
-      <div>Home</div>
+        <h1>Home</h1>
+        <ul>
+            <li><a href="/login">Login</a></li>
+        </ul>
     </>
   )
 }

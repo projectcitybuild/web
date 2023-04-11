@@ -2,15 +2,23 @@ import { NextPage } from "next"
 import { useRouter } from "next/router"
 import {withSessionSsr} from "@/libs/auth/session";
 import Link from "next/link";
+import {useEffect} from "react";
+import api from "@/libs/http/api";
 
 interface Props {}
 
 const Dashboard: NextPage<Props> = (props): JSX.Element => {
     const router = useRouter()
 
+    useEffect(() => {
+        const apiClient = api('/api/proxy')
+        const res = apiClient.get('user/confirm-password/status')
+        console.log(res)
+    })
+
     return (
         <div>
-            <h1>Dashboard</h1>
+            <h1>Security Settings</h1>
 
             <ul>
                 <li>
@@ -19,6 +27,11 @@ const Dashboard: NextPage<Props> = (props): JSX.Element => {
                     <Link href="/dashboard/logout">Logout</Link>
                 </li>
             </ul>
+
+            <hr />
+
+            <h2>2FA</h2>
+
         </div>
     )
 }

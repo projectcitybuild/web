@@ -74,15 +74,9 @@ export default withApiSessionRoute(
                     proxyRes.on('data', (chunk) => responseBody += chunk)
 
                     proxyRes.on('end', async () => {
-                        if (proxyRes.statusCode == 200) {
-                            req.session.destroy()
-                            res.status(200).json({})
-                            resolve(responseBody)
-                        } else {
-                            const statusCode = proxyRes.statusCode ?? interceptedRes.statusCode
-                            res.status(statusCode).json(JSON.parse(responseBody))
-                            resolve(responseBody)
-                        }
+                        req.session.destroy()
+                        res.status(200).json({})
+                        resolve(responseBody)
                     })
                 })
             }

@@ -42,6 +42,8 @@ const Login: NextPage<Props> = (props): JSX.Element => {
 
     return (
         <div>
+            <h1>Login</h1>
+
             <form onSubmit={handleSubmit(onSubmit)}>
                 <p>{errors.root?.message}</p>
 
