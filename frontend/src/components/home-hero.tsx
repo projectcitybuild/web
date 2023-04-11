@@ -5,7 +5,7 @@ export default function HomeHero() {
     return (
         <section className={["hero is-fullheight-with-navbar", styles.background].join(" ")}>
             <div className="hero-body">
-                <div className="columns">
+                <div className={["columns", styles.reverseColumnsMobile].join(" ")}>
                     <div className="column is-half-tablet">
                         <ServerFeed />
                     </div>

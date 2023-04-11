@@ -1,9 +1,11 @@
+import styles from '@/components/navbar.module.scss'
+
 export default function NavBar() {
     return (
-        <nav className="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+        <nav className={["navbar is-fixed-top", styles.navbar].join(" ")} role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
                 <a className="navbar-item" href="https://bulma.io">
-                    <img src="https://projectcitybuild.com/build/assets/logo-2x.d21e50a7.png" />
+                    <img src="https://projectcitybuild.com/build/assets/logo-2x.d21e50a7.png" alt="Project City Build"/>
                 </a>
 
                 <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false"
@@ -20,6 +22,10 @@ export default function NavBar() {
                         Home
                     </a>
 
+                    <a className="navbar-item" href="https://portal.projectcitybuild.com">
+                        Portal
+                    </a>
+
                     <div className="navbar-item has-dropdown is-hoverable">
                         <a className="navbar-link">
                             Live Maps
@@ -34,10 +40,6 @@ export default function NavBar() {
                             </a>
                         </div>
                     </div>
-
-                    <a className="navbar-item">
-                        Portal
-                    </a>
 
                     <a className="navbar-item">
                         Vote For Us

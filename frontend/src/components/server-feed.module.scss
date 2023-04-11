@@ -1,47 +1,56 @@
-.server {
-  background: hsla(0, 5%, 12%, 75%);
-  margin-bottom: 0.5em;
-  padding: 1em;
-  border-radius: 4px;
+@import '../styles/typography';
+@import '../styles/dimensions';
+@import '../styles/colors';
 
+.server {
   display: flex;
   align-items: center;
-
-  box-shadow:
-          0 4px 4px hsla(0, 0%, 0%, 25%),
-          inset 0 -4px 0 hsla(0, 0%, 0%, 25%);
+  background: hsla(0, 5%, 12%, 75%);
+  margin-bottom: $spacing-s;
+  padding: 0 $spacing-m;
+  border-radius: $corner-radius-small;
+  box-shadow: $shadow-strong;
 
   &.offline {
     background-color: hsla(0, 5%, 12%, 25%);
     border: 1px solid hsla(0, 0%, 0%, 15%);
   }
+
+  :not(:last-child) {
+    margin-right: $spacing-key;
+  }
 }
 
 .title {
   color: #fff;
-  font-size: 1.5em;
-  font-family: 'Bebas Neue', sans-serif;
-  margin-right: 1em;
+  font-size: $text-size-m;
+  font-family: $font-family-accent;
+  padding: $spacing-key 0;
 }
 
 .playerCount {
-  display: inline-block;
+  display: flex;
+  align-items: center;
   background: hsla(0, 0%, 77%, 20%);
-  border-radius: 4px;
-  padding: 0.6em 0.8em;
+  border-radius: $corner-radius-small;
+  padding: 0.5em 0.75em;
   color: #fff;
-  font-size: 0.8em;
-  margin-right: 1em;
+  font-size: $text-size-xs;
+
+  :not(:last-child) {
+    margin-right: $spacing-xs;
+  }
 }
 
 .address {
   display: inline-block;
   flex: auto;
   text-align: right;
-  font-size: 0.8em;
+  font-size: $text-size-s;
 
   a:link, a:visited {
     color: #fff;
+    text-decoration: underline;
   }
 
   a:hover {

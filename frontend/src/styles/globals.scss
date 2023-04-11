@@ -1,3 +1,11 @@
-@import '~bulma/bulma.sass';
+@import 'colors';
+@import 'dimensions';
+@import 'typography';
 
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap');
+// Bulma overrides
+$navbar-background-color: hsl(20, 12%, 29%);
+$navbar-item-color: #fff;
+$navbar-dropdown-arrow: #fff;
+$family-primary: $font-family-body;
+
+@import '~bulma/bulma.sass';

@@ -9,7 +9,7 @@ export default function Home() {
         <HomeHero />
 
         <section className="section">
-            <div className="columns">
+            <div className="reverse-columns-mobile">
                 <div className="column">
                     test
                 </div>

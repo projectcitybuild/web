@@ -1,4 +1,7 @@
 .background {
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
   background-image: linear-gradient(to right, hsla(0, 0%, 0%, 0.25) 20%, hsla(0, 21%, 7%, 90%)),
                     url('/hero-bg.png');
 }
@@ -26,4 +29,11 @@
   letter-spacing: -0.02em;
   text-shadow: 0 2px 4px hsla(0, 0%, 0%, 55%);
   line-height: 1.7em;
+}
+
+.reverseColumnsMobile {
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+    display: flex;
+  }
 }
