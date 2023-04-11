@@ -1,11 +1,14 @@
-@import 'colors';
-@import 'dimensions';
-@import 'typography';
+@import 'global/colors';
+@import 'global/dimensions';
+@import 'global/typography';
+
+@import 'helpers/color_mix';
+@import 'helpers/margins';
 
 // Bulma overrides
 $navbar-background-color: hsl(20, 12%, 29%);
 $navbar-item-color: #fff;
 $navbar-dropdown-arrow: #fff;
-$family-primary: $font-family-body;
+$family-primary: var(--font-primary);
 
 @import '~bulma/bulma.sass';

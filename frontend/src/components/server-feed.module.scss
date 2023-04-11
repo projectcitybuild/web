@@ -1,15 +1,16 @@
-@import '../styles/typography';
-@import '../styles/dimensions';
-@import '../styles/colors';
+.servers {
+  & > :not(:last-child) {
+    margin-bottom: var(--space-sm);
+  }
+}
 
 .server {
   display: flex;
   align-items: center;
   background: hsla(0, 5%, 12%, 75%);
-  margin-bottom: $spacing-s;
-  padding: 0 $spacing-m;
-  border-radius: $corner-radius-small;
-  box-shadow: $shadow-strong;
+  padding: 0 var(--space-md);
+  border-radius: var(--corner-radius-sm);
+  box-shadow: var(--shadow-strong);
 
   &.offline {
     background-color: hsla(0, 5%, 12%, 25%);
@@ -17,28 +18,28 @@
   }
 
   :not(:last-child) {
-    margin-right: $spacing-key;
+    margin-right: var(--space-sm);
   }
 }
 
 .title {
-  color: #fff;
-  font-size: $text-size-m;
-  font-family: $font-family-accent;
-  padding: $spacing-key 0;
+  color: var(--white);
+  font-size: var(--text-lg);
+  font-family: var(--font-secondary);
+  padding: var(--space-sm) 0;
 }
 
 .playerCount {
   display: flex;
   align-items: center;
   background: hsla(0, 0%, 77%, 20%);
-  border-radius: $corner-radius-small;
-  padding: 0.5em 0.75em;
-  color: #fff;
-  font-size: $text-size-xs;
+  border-radius: var(--corner-radius-sm);
+  padding: var(--space-xs) var(--space-sm);
+  color: var(--white);
+  font-size: var(--text-xs);
 
   :not(:last-child) {
-    margin-right: $spacing-xs;
+    margin-right: var(--space-sm);
   }
 }
 
@@ -46,14 +47,14 @@
   display: inline-block;
   flex: auto;
   text-align: right;
-  font-size: $text-size-s;
+  font-size: var(--text-sm);
 
   a:link, a:visited {
-    color: #fff;
+    color: var(--white);
     text-decoration: underline;
   }
 
   a:hover {
-    color: #fff;
+    color: #fff; // TODO
   }
 }

@@ -1,0 +1,21 @@
+@each $direction in top, bottom, left, right {
+  .margin-#{$direction}--md {
+    margin-#{$direction}: var(--space-md);
+  }
+
+  .margin-#{$direction}--sm {
+    margin-#{$direction}: var(--space-sm);
+  }
+
+  .margin-#{$direction}--lg {
+    margin-#{$direction}: var(--space-lg);
+  }
+
+  .margin-#{$direction}--xl {
+    margin-#{$direction}: var(--space-xl);
+  }
+
+  .margin-#{$direction}--xxl {
+    margin-#{$direction}: var(--space-xxl);
+  }
+}

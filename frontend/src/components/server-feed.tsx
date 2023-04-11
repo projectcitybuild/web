@@ -1,11 +1,11 @@
 import styles from '@/components/server-feed.module.scss'
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {faCopy, faUser} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCopy, faUser } from '@fortawesome/free-solid-svg-icons'
 import { faDiscord } from "@fortawesome/free-brands-svg-icons"
 
 export default function ServerFeed() {
     return (
-        <>
+        <div className={styles.servers}>
             <div className={styles.server}>
                 <div className={styles.title}>Minecraft (Java)</div>
                 <div className={styles.playerCount}>
@@ -21,7 +21,7 @@ export default function ServerFeed() {
             </div>
 
             <div className={styles.server}>
-                <span className={["icon-text", styles.title].join(" ")}>
+                <span className={`icon-text ${styles.title}`}>
                     <span className="icon">
                       <FontAwesomeIcon icon={faDiscord} />
                     </span>
@@ -31,6 +31,6 @@ export default function ServerFeed() {
                     <a href="https://discord.gg/3NYaUeScDX" target="_blank" rel="noopener noreferrer">Connect / Open</a>
                 </span>
             </div>
-        </>
+        </div>
     )
 }
