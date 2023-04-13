@@ -5,6 +5,8 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { DisplayableError } from "@/libs/http/api";
 import { useAuth } from "@/hooks/useAuth";
+import NavBar from "@/components/navbar";
+import HomeHero from "@/components/home-hero";
 
 interface Props {}
 
@@ -42,18 +44,20 @@ const Login: NextPage<Props> = (props): JSX.Element => {
 
     return (
         <div>
-            <h1>Login</h1>
+            <NavBar />
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <p>{errors.root?.message}</p>
+            <section className="section">
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <p>{errors.root?.message}</p>
 
-                <input type="email" placeholder="foo@bar.com" {...register("email")} />
-                <p>{errors.email?.message}</p>
-                <input type="password" {...register("password")} />
-                <p>{errors.password?.message}</p>
+                    <input type="email" placeholder="foo@bar.com" {...register("email")} />
+                    <p>{errors.email?.message}</p>
+                    <input type="password" {...register("password")} />
+                    <p>{errors.password?.message}</p>
 
-                <input type="submit" value="Sign In" disabled={formState.isSubmitting} />
-            </form>
+                    <input type="submit" value="Sign In" disabled={formState.isSubmitting} />
+                </form>
+            </section>
         </div>
     )
 }

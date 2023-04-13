@@ -4,7 +4,7 @@ export default function NavBar() {
     return (
         <nav className={["navbar is-fixed-top", styles.navbar].join(" ")} role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
-                <a className="navbar-item" href="https://projectcitybuild.com">
+                <a className="navbar-item" href="/">
                     <img src="https://projectcitybuild.com/build/assets/logo-2x.d21e50a7.png" alt="Project City Build"/>
                 </a>
 
@@ -18,7 +18,7 @@ export default function NavBar() {
 
             <div id="nav-menu" className="navbar-menu">
                 <div className="navbar-start">
-                    <a className="navbar-item">
+                    <a className="navbar-item" href="/">
                         Home
                     </a>
 
@@ -60,7 +60,7 @@ export default function NavBar() {
                             <a className="button is-primary">
                                 <strong>Sign up</strong>
                             </a>
-                            <a className="button is-light">
+                            <a className="button is-light" href="/login">
                                 Log in
                             </a>
                         </div>

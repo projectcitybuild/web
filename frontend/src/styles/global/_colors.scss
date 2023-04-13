@@ -1,10 +1,10 @@
 :root {
-  --color-primary: #4D84F4;
+  --color-primary: hsl(206, 80%, 48%);
   --color-primary-light: tint(var(--color-primary), 15%);
   --color-primary-dark: shade(var(--color-primary), 15%);
   --color-primary-bg: color-mod(var(--color-primary) alpha(20%)); // TODO: replace with sass function
 
-  --color-accent: #f5414f;
+  --color-accent: hsl(40, 98%, 49%);
   --color-accent-light: tint(var(--color-accent), 15%);
   --color-accent-dark: shade(var(--color-accent), 10%);
   --color-accent-bg: color-mod(var(--color-accent) alpha(20%)); // TODO: replace with sass function
