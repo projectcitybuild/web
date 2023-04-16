@@ -1,40 +1,206 @@
-import api from "@/libs/http/api"
+import useSWR from 'swr'
+import http from "@/libs/http/http"
 import querystring from "querystring"
+import {useRouter} from "next/router"
+import { useCookies } from "react-cookie"
+import {Dispatch, SetStateAction, useEffect, useState} from "react";
+import {User} from "@/libs/auth/user";
+import {AxiosError} from "axios";
 
-interface LoginCredentials {
+export type SetErrorsParam = Dispatch<SetStateAction<[]>>
+
+export type SetStatusParam = Dispatch<SetStateAction<string | null>>
+
+export type LoginParams = {
+    // setErrors: SetErrorsParam
+    // setStatus: SetStatusParam
     email: string
     password: string
 }
 
-interface AuthProvider {
-    login: (credentials: LoginCredentials) => Promise<void>
-    logout: () => Promise<void>
+interface AuthHookParams {
+    middleware?: string
+    redirectIfAuthenticated?: string
+    redirectIfNotAdmin?: string
 }
 
-export const useAuth = (): AuthProvider => {
-    const apiClient = api('/api/proxy')
-    // const localApiClient = localApi()
+export const useAuth = ({
+    middleware,
+    redirectIfAuthenticated,
+    redirectIfNotAdmin,
+}: AuthHookParams = {}) => {
+    const router = useRouter()
+    const [cookies, setCookies, removeCookies] = useCookies()
+    const [loading, setLoading] = useState(false)
 
-    const login = async (credentials: LoginCredentials) => {
+    const csrf = () => http.get('../sanctum/csrf-cookie')
+        .catch(() => setLoading(false))
+
+    const {
+        data: user,
+        error,
+        mutate
+    } = useSWR(tryUser() ? 'user' : null, () =>
+        http
+            .get('me')
+            .then(res => res.data)
+            .catch(error => {
+                removeCookies('isAuth')
+                if (error.response.status === 409) {
+                    router.push('/verify-email')
+                } else {
+                    setCookies('isAuth', false, { sameSite: 'lax' })
+                    throw error
+                }
+            })
+    )
+
+    const login = async ({...props }: LoginParams) => {
+        setLoading(true)
+        await csrf()
+
+        // setErrors([])
+        // setStatus(null)
+
         const params = querystring.stringify({
-            email: credentials.email,
-            password: credentials.password,
+            email: props.email,
+            password: props.password,
         })
-        const response = await apiClient.post("login", params, {
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        })
-        console.log(response)
+        const response = await http
+            .post('login', params)
+            .then((data) => {
+                console.log(data)
+                setCookies('isAuth', true, { sameSite: 'lax', path: '/' })
+                mutate()
+            })
+            .catch((error) => {
+                removeCookies('isAuth')
+                if (error.status !== 422) throw error
+
+                setLoading(false)
+                console.log(error)
+                // setErrors(
+                //     Object.values(error.response.data.errors).flat() as []
+                // )
+            })
     }
 
     const logout = async () => {
-        const response = await apiClient.post("logout", {
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        })
-        console.log(response)
+        if (!error) {
+            removeCookies('isAuth', { sameSite: 'lax' })
+            await http.post('logout')
+        }
+        window.location.pathname = '/'
+    }
+
+    // const register = async ({ setErrors, ...props }: RegisterParams) => {
+    //     setLoading(true)
+    //     await csrf()
+    //
+    //     setErrors([])
+    //
+    //     api
+    //         .post('register', props)
+    //         .then(() => {
+    //             setCookies('isAuth', true, { sameSite: 'lax' })
+    //             mutate()
+    //         })
+    //         .catch(error => {
+    //             if (error.response.status !== 422) throw error
+    //
+    //             setErrors(
+    //                 Object.values(error.response.data.errors).flat() as []
+    //             )
+    //         })
+    //     setLoading(false)
+    // }
+    //
+    // const forgotPassword = async ({setErrors, setStatus, email}: ForgotPasswordParams) => {
+    //     setLoading(true)
+    //     await csrf()
+    //
+    //     setErrors([])
+    //     setStatus(null)
+    //
+    //     api
+    //         .post('forgot-password', { email })
+    //         .then(response => setStatus(response.data.status))
+    //         .catch(error => {
+    //             if (error.response.status !== 422) throw error
+    //
+    //             setErrors(
+    //                 Object.values(error.response.data.errors).flat() as []
+    //             )
+    //         })
+    //     setLoading(false)
+    // }
+    //
+    // const resetPassword = async ({setErrors, setStatus, ...props}: ResetPasswordParams) => {
+    //     setLoading(true)
+    //     await csrf()
+    //
+    //     setErrors([])
+    //     setStatus(null)
+    //
+    //     api
+    //         .post('reset-password', { token: router.query.token, ...props })
+    //         .then(response =>
+    //             router.push('/login?reset=' + window.btoa(response.data.status))
+    //         )
+    //         .catch(error => {
+    //             if (error.response.status != 422) throw error
+    //
+    //             setErrors(
+    //                 Object.values(error.response.data.errors).flat() as []
+    //             )
+    //         })
+    //     setLoading(false)
+    // }
+    //
+    // const resendEmailVerification = ({setStatus}: ResendEmailVerificationParams) => {
+    //     api
+    //         .post('email/verification-notification')
+    //         .then(response => setStatus(response.data.status))
+    // }
+    //
+    const isAdmin = (user?: User) => {
+        return false // TODO
+        // return user?.roles.some(role => role.name === 'Admin')
+    }
+
+    useEffect(() => {
+        if (middleware === 'guest' && redirectIfAuthenticated && user) {
+            router.push(redirectIfAuthenticated)
+        }
+        if ((middleware === 'auth' || middleware === 'admin') && error) {
+            logout()
+        }
+        if (middleware === 'admin' && user && !isAdmin(user)) {
+            redirectIfNotAdmin
+                ? router.push(redirectIfNotAdmin)
+                : router.push('/')
+        }
+    })
+
+    function tryUser() {
+        if (
+            middleware === 'auth' ||
+            middleware === 'admin' ||
+            cookies.isAuth !== 'false'
+        ) {
+            return true
+        }
+        return null
     }
 
     return {
+        user,
+        // register,
         login,
+        // forgotPassword,
+        // resetPassword,
+        // resendEmailVerification,
         logout,
+        loading,
     }
 }

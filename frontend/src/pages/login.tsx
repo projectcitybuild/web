@@ -3,10 +3,9 @@ import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { DisplayableError } from "@/libs/http/api";
+import { DisplayableError } from "@/libs/http/http";
 import { useAuth } from "@/hooks/useAuth";
 import NavBar from "@/components/navbar";
-import HomeHero from "@/components/home-hero";
 
 interface Props {}
 
@@ -17,7 +16,10 @@ type FormData = {
 
 const Login: NextPage<Props> = (props): JSX.Element => {
     const router = useRouter()
-    const { login } = useAuth()
+    const { login } = useAuth({
+        middleware: 'guest',
+        redirectIfAuthenticated: '/dashboard'
+    })
 
     const schema = yup
         .object({
@@ -31,8 +33,8 @@ const Login: NextPage<Props> = (props): JSX.Element => {
 
     const onSubmit = async (data: FormData) => {
         try {
-            await login({ email: data.email, password: data.password })
-            await router.push('/dashboard')
+            await login({email: data.email, password: data.password})
+            // await router.push('/dashboard')
         } catch (error) {
             if (error instanceof DisplayableError) {
                 setError("root", { message: error.message })

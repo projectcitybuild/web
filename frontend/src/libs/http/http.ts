@@ -1,7 +1,7 @@
 import axios, {AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 
-const api = (baseURL: string) => axios.create({
-    baseURL: baseURL,
+const http = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
     withCredentials: true,
     timeout: 10_000,
     headers: {
@@ -45,6 +45,6 @@ export class DisplayableError extends Error {
     }
 }
 
-const _api = (baseURL: string) => withInterceptors(api(baseURL))
+const _http = withInterceptors(http)
 
-export default _api
+export default _http

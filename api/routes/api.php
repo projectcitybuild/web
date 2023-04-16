@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\RegistrationController;
@@ -40,6 +41,8 @@ Route::middleware(['guest', 'throttle:6,1'])->group(function () {
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     $fortifyAuthMiddleware = config(key: 'fortify.auth_middleware', default: 'auth').':'.config('fortify.guard');
+
+    Route::get('/me', [AccountController::class, 'me']);
 
     Route::post('/logout', [AuthenticationController::class, 'logout']);
 

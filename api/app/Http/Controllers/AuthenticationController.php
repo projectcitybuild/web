@@ -33,11 +33,10 @@ class AuthenticationController extends Controller
         }
 
         $account->tokens()->delete();
-        $token = $account->createToken($request->email)->plainTextToken;
+        $account->createToken($request->email)->plainTextToken;
 
         return response()->json([
             'account' => $account,
-            'access_token' => $token,
         ]);
     }
 
