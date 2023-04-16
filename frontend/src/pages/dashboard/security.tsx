@@ -1,18 +1,14 @@
 import { NextPage } from "next"
 import { useRouter } from "next/router"
-import {withSessionSsr} from "@/libs/auth/session";
 import Link from "next/link";
 import {useEffect} from "react";
-import api from "@/libs/http/api";
+import http from "@/libs/http/http";
 
-interface Props {}
-
-const Dashboard: NextPage<Props> = (props): JSX.Element => {
+const Dashboard: NextPage = (props): JSX.Element => {
     const router = useRouter()
 
     useEffect(() => {
-        const apiClient = api('/api/proxy')
-        const res = apiClient.get('user/confirm-password/status')
+        const res = http.get('user/confirm-password/status')
         console.log(res)
     })
 
@@ -35,19 +31,5 @@ const Dashboard: NextPage<Props> = (props): JSX.Element => {
         </div>
     )
 }
-
-export const getServerSideProps = withSessionSsr(
-    async function({ req, res }: any) { // TODO
-        const { user, accessToken } = req.session
-        if (!user || !accessToken) {
-            res.writeHead(307, { Location: '/login' })
-            res.end()
-            return { props: {} }
-        }
-        return {
-            props: { user }
-        }
-    }
-)
 
 export default Dashboard

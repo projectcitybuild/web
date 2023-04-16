@@ -21,8 +21,6 @@
     "bulma": "^0.9.4",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
-    "http-proxy": "^1.18.1",
-    "iron-session": "^6.3.1",
     "next": "13.2.4",
     "node-sass": "^7.0.3",
     "querystring": "^0.2.1",
@@ -35,7 +33,6 @@
     "yup": "^1.0.2"
   },
   "devDependencies": {
-    "@types/http-proxy": "^1.17.10",
     "sass": "^1.61.0"
   }
 }

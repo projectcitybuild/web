@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AccountController;
-use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ServerController;
@@ -9,9 +8,7 @@ use App\Http\Controllers\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\ConfirmablePasswordController;
 use Laravel\Fortify\Http\Controllers\ConfirmedPasswordStatusController;
-use Laravel\Fortify\Http\Controllers\NewPasswordController;
 use Laravel\Fortify\Http\Controllers\PasswordController;
-use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
 use Laravel\Fortify\Http\Controllers\RecoveryCodeController;
 use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticationController;
@@ -27,12 +24,6 @@ Route::middleware(['guest', 'throttle:6,1'])->group(function () {
         ->middleware('signed');
 
     Route::post('/email/verify/resend', [VerifyEmailController::class, 'resend']);
-
-    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
-        ->name('password.email');
-
-    Route::post('/new-password', [NewPasswordController::class, 'store'])
-        ->name('password.update');
 
     Route::post('/user/2fa/challenge', [TwoFactorAuthenticatedSessionController::class, 'store']);
 });

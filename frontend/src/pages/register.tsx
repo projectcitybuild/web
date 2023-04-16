@@ -9,14 +9,12 @@ import NavBar from "@/components/navbar";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
 
-interface Props {}
-
 type FormData = {
     email: string
     password: string
 }
 
-const Register: NextPage<Props> = (props): JSX.Element => {
+const Register: NextPage = (props): JSX.Element => {
     const router = useRouter()
     const { login } = useAuth({
         middleware: 'guest',

@@ -1,29 +1,27 @@
 import { NextPage } from "next"
-import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { DisplayableError } from "@/libs/http/http";
 import { useAuth } from "@/hooks/useAuth";
 import NavBar from "@/components/navbar";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
-import {useState} from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 interface Props {}
 
 type FormData = {
     email: string
-    password: string
 }
 
 const ForgotPassword: NextPage<Props> = (props): JSX.Element => {
-    const router = useRouter()
     const { forgotPassword } = useAuth({
         middleware: 'guest',
         redirectIfAuthenticated: '/dashboard'
     })
     const [ loading, setLoading ] = useState(false)
+    const [ success, setSuccess ] = useState("")
 
     const schema = yup
         .object({
@@ -36,10 +34,12 @@ const ForgotPassword: NextPage<Props> = (props): JSX.Element => {
 
     const onSubmit = async (data: FormData) => {
         setLoading(true)
+        setSuccess("")
 
         try {
-            await forgotPassword(data.email)
-            // await router.push('/dashboard')
+            const message = await forgotPassword(data.email)
+            setSuccess(message)
+
         } catch (error) {
             if (error instanceof DisplayableError) {
                 setError("root", { message: error.message })
@@ -59,6 +59,14 @@ const ForgotPassword: NextPage<Props> = (props): JSX.Element => {
             </div>
         )
     }
+    const Success = () => {
+        if (!success || success == "") return null;
+        return (
+            <div className="notification is-success">
+                {success}
+            </div>
+        )
+    }
 
     return (
         <div>
@@ -69,6 +77,7 @@ const ForgotPassword: NextPage<Props> = (props): JSX.Element => {
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <RootError />
+                    <Success />
 
                     <div className="field">
                         <p className="control has-icons-left">
@@ -81,12 +90,13 @@ const ForgotPassword: NextPage<Props> = (props): JSX.Element => {
                     </div>
                     <div className="field">
                         <p className="control">
-                            <input
+                            <button
                                 type="submit"
-                                value="Send Email"
                                 disabled={formState.isSubmitting || loading}
                                 className={`button is-success ${loading ? 'is-loading' : ''}`}
-                            />
+                            >
+                                Send Email
+                            </button>
                         </p>
                     </div>
                 </form>

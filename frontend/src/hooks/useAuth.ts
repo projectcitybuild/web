@@ -4,7 +4,6 @@ import querystring from "querystring"
 import { useRouter } from "next/router"
 import { useCookies } from "react-cookie"
 import { useEffect } from "react";
-import { User } from "@/libs/auth/user";
 
 export type LoginParams = {
     email: string
@@ -94,47 +93,41 @@ export const useAuth = ({
     //         })
     // }
 
-    const forgotPassword = async (email: string) => {
+    const forgotPassword = async (email: string): Promise<string> => {
         await csrf()
-        await http
+
+        return await http
             .post('../forgot-password', { email })
-            .then(response => console.log(response))
+            .then(response => response.data.status)
             .catch(error => {
                 if (error.status !== 422) throw error
 
                 console.log(error)
             })
     }
-    //
-    // const resetPassword = async ({setErrors, setStatus, ...props}: ResetPasswordParams) => {
-    //     setLoading(true)
-    //     await csrf()
-    //
-    //     setErrors([])
-    //     setStatus(null)
-    //
-    //     api
-    //         .post('reset-password', { token: router.query.token, ...props })
-    //         .then(response =>
-    //             router.push('/login?reset=' + window.btoa(response.data.status))
-    //         )
-    //         .catch(error => {
-    //             if (error.response.status != 422) throw error
-    //
-    //             setErrors(
-    //                 Object.values(error.response.data.errors).flat() as []
-    //             )
-    //         })
-    //     setLoading(false)
-    // }
-    //
+
+    const resetPassword = async (email: string, password: string, passwordConfirm: string) => {
+        await csrf()
+        await http
+            .post('../reset-password', {
+                token: router.query.token,
+                email: email,
+                password: password,
+                password_confirmation: passwordConfirm,
+            })
+            .catch(error => {
+                if (error.response.status != 422) throw error
+                console.error(error)
+            })
+    }
+
     // const resendEmailVerification = ({setStatus}: ResendEmailVerificationParams) => {
     //     api
     //         .post('email/verification-notification')
     //         .then(response => setStatus(response.data.status))
     // }
-    //
-    const isAdmin = (user?: User) => {
+
+    const isAdmin = () => {
         return false // TODO
         // return user?.roles.some(role => role.name === 'Admin')
     }
@@ -146,7 +139,7 @@ export const useAuth = ({
         if ((middleware === 'auth' || middleware === 'admin') && error) {
             logout()
         }
-        if (middleware === 'admin' && user && !isAdmin(user)) {
+        if (middleware === 'admin' && user && !isAdmin()) {
             redirectIfNotAdmin
                 ? router.push(redirectIfNotAdmin)
                 : router.push('/')
@@ -169,7 +162,7 @@ export const useAuth = ({
         // register,
         login,
         forgotPassword,
-        // resetPassword,
+        resetPassword,
         // resendEmailVerification,
         logout,
     }

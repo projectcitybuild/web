@@ -1,14 +1,5 @@
 import axios, {AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 
-const http = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
-    withCredentials: true,
-    timeout: 10_000,
-    headers: {
-        Accept: "application/json",
-    },
-})
-
 const withInterceptors = (api: AxiosInstance) => {
     api.interceptors.request.use(
         (req) => {
@@ -31,12 +22,21 @@ const withInterceptors = (api: AxiosInstance) => {
     return api
 }
 
+const authHttp = withInterceptors(
+    axios.create({
+        baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+        withCredentials: true,
+        timeout: 10_000,
+        headers: {
+            Accept: "application/json",
+        },
+    })
+)
+
 export class DisplayableError extends Error {
     constructor(message: string) {
         super(message)
     }
 }
 
-const _http = withInterceptors(http)
-
-export default _http
+export default authHttp
