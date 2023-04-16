@@ -1,10 +1,10 @@
 import useSWR from 'swr'
 import http from "@/libs/http/http"
 import querystring from "querystring"
-import {useRouter} from "next/router"
+import { useRouter } from "next/router"
 import { useCookies } from "react-cookie"
-import {Dispatch, SetStateAction, useEffect, useState} from "react";
-import {User} from "@/libs/auth/user";
+import { useEffect } from "react";
+import { User } from "@/libs/auth/user";
 
 export type LoginParams = {
     email: string
