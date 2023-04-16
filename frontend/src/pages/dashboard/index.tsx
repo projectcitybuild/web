@@ -2,11 +2,19 @@ import { NextPage } from "next"
 import { useRouter } from "next/router"
 import {withSessionSsr} from "@/libs/auth/session";
 import Link from "next/link";
+import {useAuth} from "@/hooks/useAuth";
 
 interface Props {}
 
 const Dashboard: NextPage<Props> = (props): JSX.Element => {
     const router = useRouter()
+
+    const { user } = useAuth({
+        middleware: 'auth',
+        redirectIfAuthenticated: '/dashboard'
+    })
+
+    console.log(user)
 
     return (
         <div>

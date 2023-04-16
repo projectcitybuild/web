@@ -16,7 +16,7 @@ type FormData = {
     password: string
 }
 
-const Login: NextPage<Props> = (props): JSX.Element => {
+const Register: NextPage<Props> = (props): JSX.Element => {
     const router = useRouter()
     const { login } = useAuth({
         middleware: 'guest',
@@ -60,6 +60,8 @@ const Login: NextPage<Props> = (props): JSX.Element => {
             <NavBar />
 
             <section className="section">
+                Register
+
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <RootError />
 
@@ -82,11 +84,6 @@ const Login: NextPage<Props> = (props): JSX.Element => {
                         <p className="help is-danger">{errors.password?.message}</p>
                     </div>
                     <div className="field">
-                        <p className="help">
-                            <a href="/forgot-password">Forgot password?</a>
-                        </p>
-                    </div>
-                    <div className="field">
                         <p className="control">
                             <input type="submit" value="Sign In" disabled={formState.isSubmitting} className="button is-success" />
                         </p>
@@ -97,4 +94,4 @@ const Login: NextPage<Props> = (props): JSX.Element => {
     )
 }
 
-export default Login
+export default Register

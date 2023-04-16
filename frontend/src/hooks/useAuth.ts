@@ -6,13 +6,7 @@ import { useCookies } from "react-cookie"
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {User} from "@/libs/auth/user";
 
-export type SetErrorsParam = Dispatch<SetStateAction<[]>>
-
-export type SetStatusParam = Dispatch<SetStateAction<string | null>>
-
 export type LoginParams = {
-    // setErrors: SetErrorsParam
-    // setStatus: SetStatusParam
     email: string
     password: string
 }
@@ -25,15 +19,11 @@ interface AuthHookParams {
 
 export const useAuth = ({
     middleware,
-    redirectIfAuthenticated,
+    redirectIfAuthenticated = '/dashboard',
     redirectIfNotAdmin,
 }: AuthHookParams = {}) => {
     const router = useRouter()
     const [cookies, setCookies, removeCookies] = useCookies()
-    const [loading, setLoading] = useState(false)
-
-    const csrf = () => http.get('../sanctum/csrf-cookie')
-        .catch(() => setLoading(false))
 
     const {
         data: user,
@@ -54,21 +44,18 @@ export const useAuth = ({
             })
     )
 
-    const login = async ({...props }: LoginParams) => {
-        setLoading(true)
-        await csrf()
+    const csrf = () => http.get('../sanctum/csrf-cookie')
 
-        // setErrors([])
-        // setStatus(null)
+    const login = async ({...props }: LoginParams) => {
+        await csrf()
 
         const params = querystring.stringify({
             email: props.email,
             password: props.password,
         })
-        const response = await http
+        await http
             .post('../login', params)
             .then((data) => {
-                console.log(data)
                 setCookies('isAuth', true, { sameSite: 'lax', path: '/' })
                 mutate()
             })
@@ -76,11 +63,7 @@ export const useAuth = ({
                 removeCookies('isAuth')
                 if (error.status !== 422) throw error
 
-                setLoading(false)
                 console.log(error)
-                // setErrors(
-                //     Object.values(error.response.data.errors).flat() as []
-                // )
             })
     }
 
@@ -92,13 +75,10 @@ export const useAuth = ({
         window.location.pathname = '/'
     }
 
-    // const register = async ({ setErrors, ...props }: RegisterParams) => {
-    //     setLoading(true)
+    // const register = async ({ ...props }: RegisterParams) => {
     //     await csrf()
     //
-    //     setErrors([])
-    //
-    //     api
+    //     await http
     //         .post('register', props)
     //         .then(() => {
     //             setCookies('isAuth', true, { sameSite: 'lax' })
@@ -107,32 +87,24 @@ export const useAuth = ({
     //         .catch(error => {
     //             if (error.response.status !== 422) throw error
     //
-    //             setErrors(
-    //                 Object.values(error.response.data.errors).flat() as []
-    //             )
+    //             console.log(error)
+    //             // setErrors(
+    //             //     Object.values(error.response.data.errors).flat() as []
+    //             // )
     //         })
-    //     setLoading(false)
     // }
-    //
-    // const forgotPassword = async ({setErrors, setStatus, email}: ForgotPasswordParams) => {
-    //     setLoading(true)
-    //     await csrf()
-    //
-    //     setErrors([])
-    //     setStatus(null)
-    //
-    //     api
-    //         .post('forgot-password', { email })
-    //         .then(response => setStatus(response.data.status))
-    //         .catch(error => {
-    //             if (error.response.status !== 422) throw error
-    //
-    //             setErrors(
-    //                 Object.values(error.response.data.errors).flat() as []
-    //             )
-    //         })
-    //     setLoading(false)
-    // }
+
+    const forgotPassword = async (email: string) => {
+        await csrf()
+        await http
+            .post('../forgot-password', { email })
+            .then(response => console.log(response))
+            .catch(error => {
+                if (error.status !== 422) throw error
+
+                console.log(error)
+            })
+    }
     //
     // const resetPassword = async ({setErrors, setStatus, ...props}: ResetPasswordParams) => {
     //     setLoading(true)
@@ -196,10 +168,9 @@ export const useAuth = ({
         user,
         // register,
         login,
-        // forgotPassword,
+        forgotPassword,
         // resetPassword,
         // resendEmailVerification,
         logout,
-        loading,
     }
 }

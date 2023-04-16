@@ -20,14 +20,6 @@ const withInterceptors = (api: AxiosInstance) => {
         (response) => response,
         async (error) => {
             if (error instanceof AxiosError) {
-                // TODO: clean this up
-                if (error.status == 419 && error.config!.url != "sanctum/csrf-cookie") {
-                    console.log("Requesting XSRF token...")
-
-                    await api.get("sanctum/csrf-cookie")
-                    return await api(error.config!) // Retry request
-                }
-
                 const body = error.response?.data
                 if (body satisfies DisplayableError) {
                     throw new DisplayableError(body.message)
