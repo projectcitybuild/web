@@ -20,8 +20,6 @@ use Laravel\Fortify\Http\Controllers\TwoFactorSecretKeyController;
 
 
 Route::middleware(['guest', 'throttle:6,1'])->group(function () {
-    Route::post('/login', [AuthenticationController::class, 'login']);
-
     Route::post('/register', [RegistrationController::class, 'register']);
 
     Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'])
@@ -39,12 +37,12 @@ Route::middleware(['guest', 'throttle:6,1'])->group(function () {
     Route::post('/user/2fa/challenge', [TwoFactorAuthenticatedSessionController::class, 'store']);
 });
 
+Route::middleware('auth:sanctum')->group(function (){
+    Route::get('/profile/me', [AccountController::class, 'me']);
+});
+
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     $fortifyAuthMiddleware = config(key: 'fortify.auth_middleware', default: 'auth').':'.config('fortify.guard');
-
-    Route::get('/me', [AccountController::class, 'me']);
-
-    Route::post('/logout', [AuthenticationController::class, 'logout']);
 
     Route::put('/user/password', [PasswordController::class, 'update'])
         ->middleware($fortifyAuthMiddleware);

@@ -5,7 +5,6 @@ import {useRouter} from "next/router"
 import { useCookies } from "react-cookie"
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {User} from "@/libs/auth/user";
-import {AxiosError} from "axios";
 
 export type SetErrorsParam = Dispatch<SetStateAction<[]>>
 
@@ -42,7 +41,7 @@ export const useAuth = ({
         mutate
     } = useSWR(tryUser() ? 'user' : null, () =>
         http
-            .get('me')
+            .get('profile/me')
             .then(res => res.data)
             .catch(error => {
                 removeCookies('isAuth')
@@ -67,7 +66,7 @@ export const useAuth = ({
             password: props.password,
         })
         const response = await http
-            .post('login', params)
+            .post('../login', params)
             .then((data) => {
                 console.log(data)
                 setCookies('isAuth', true, { sameSite: 'lax', path: '/' })
@@ -88,7 +87,7 @@ export const useAuth = ({
     const logout = async () => {
         if (!error) {
             removeCookies('isAuth', { sameSite: 'lax' })
-            await http.post('logout')
+            await http.post('../logout')
         }
         window.location.pathname = '/'
     }

@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\Http\UnauthorisedException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\UnauthorizedException;
 
 class AccountController extends Controller
 {
     /**
-     * @throws UnauthorisedException if not logged in
+     * @throws UnauthorizedException if not logged in
      */
     public function me(Request $request): JsonResponse
     {
-        $account = auth()->user();
+        $account = $request->user();
 
         if ($account === null) {
-            throw new UnauthorisedException();
+            throw new UnauthorizedException();
         }
         return response()->json($account);
     }
