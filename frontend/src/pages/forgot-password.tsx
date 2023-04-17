@@ -9,13 +9,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
-interface Props {}
-
 type FormData = {
     email: string
 }
 
-const ForgotPassword: NextPage<Props> = (props): JSX.Element => {
+const ForgotPassword: NextPage = (props): JSX.Element => {
     const { forgotPassword } = useAuth({
         middleware: 'guest',
         redirectIfAuthenticated: '/dashboard'

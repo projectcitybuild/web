@@ -11,6 +11,10 @@ const withInterceptors = (api: AxiosInstance) => {
         (response) => response,
         async (error) => {
             if (error instanceof AxiosError) {
+                // TODO: clean up this mess...
+                if (error.response?.status == 409) {
+                    return Promise.reject(error);
+                }
                 const body = error.response?.data
                 if (body satisfies DisplayableError) {
                     throw new DisplayableError(body.message)

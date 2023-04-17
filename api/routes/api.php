@@ -4,7 +4,6 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ServerController;
-use App\Http\Controllers\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\ConfirmablePasswordController;
 use Laravel\Fortify\Http\Controllers\ConfirmedPasswordStatusController;
@@ -19,21 +18,14 @@ use Laravel\Fortify\Http\Controllers\TwoFactorSecretKeyController;
 Route::middleware(['guest', 'throttle:6,1'])->group(function () {
     Route::post('/register', [RegistrationController::class, 'register']);
 
-    Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'])
-        ->name('verification.verify')
-        ->middleware('signed');
-
-    Route::post('/email/verify/resend', [VerifyEmailController::class, 'resend']);
-
     Route::post('/user/2fa/challenge', [TwoFactorAuthenticatedSessionController::class, 'store']);
-});
-
-Route::middleware('auth:sanctum')->group(function (){
-    Route::get('/profile/me', [AccountController::class, 'me']);
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     $fortifyAuthMiddleware = config(key: 'fortify.auth_middleware', default: 'auth').':'.config('fortify.guard');
+
+    Route::get('/profile/me', [AccountController::class, 'me'])
+        ->middleware($fortifyAuthMiddleware);
 
     Route::put('/user/password', [PasswordController::class, 'update'])
         ->middleware($fortifyAuthMiddleware);

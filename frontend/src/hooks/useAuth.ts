@@ -121,11 +121,7 @@ export const useAuth = ({
             })
     }
 
-    // const resendEmailVerification = ({setStatus}: ResendEmailVerificationParams) => {
-    //     api
-    //         .post('email/verification-notification')
-    //         .then(response => setStatus(response.data.status))
-    // }
+    const resendEmailVerification = () => http.post('../email/verification-notification')
 
     const isAdmin = () => {
         return false // TODO
@@ -137,7 +133,8 @@ export const useAuth = ({
             router.push(redirectIfAuthenticated)
         }
         if ((middleware === 'auth' || middleware === 'admin') && error) {
-            logout()
+            console.error(error)
+            // logout()
         }
         if (middleware === 'admin' && user && !isAdmin()) {
             redirectIfNotAdmin
@@ -163,7 +160,7 @@ export const useAuth = ({
         login,
         forgotPassword,
         resetPassword,
-        // resendEmailVerification,
+        resendEmailVerification,
         logout,
     }
 }
