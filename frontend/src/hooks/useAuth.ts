@@ -12,6 +12,7 @@ type LoginParams = {
 }
 
 type RegisterParams = {
+    username: string
     email: string
     password: string
     passwordConfirm: string
@@ -96,6 +97,7 @@ export const useAuth = ({
         await csrf()
 
         const params = querystring.stringify({
+            username: props.username,
             email: props.email,
             password: props.password,
             password_confirmation: props.passwordConfirm,
