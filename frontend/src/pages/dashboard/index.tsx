@@ -1,13 +1,13 @@
-import { NextPage } from "next"
+import {NextPage} from "next"
 import Link from "next/link";
-import {useAuth} from "@/hooks/useAuth";
+import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
 import {Routes} from "@/constants/routes";
 
 interface Props {}
 
 const Dashboard: NextPage<Props> = (props): JSX.Element => {
     const { user } = useAuth({
-        middleware: 'auth',
+        middleware: AuthMiddleware.AUTH,
     })
 
     console.log(user)

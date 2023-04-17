@@ -1,11 +1,11 @@
-import {useAuth} from "@/hooks/useAuth";
+import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
 import {NextPage} from "next";
 import {useEffect} from "react";
 import {useRouter} from "next/router";
 
 const Logout: NextPage = (): JSX.Element => {
     const { logout } = useAuth({
-        middleware: 'auth',
+        middleware: AuthMiddleware.AUTH,
     })
     const router = useRouter()
 

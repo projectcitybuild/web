@@ -18,9 +18,20 @@ type RegisterParams = {
 }
 
 interface AuthHookParams {
-    middleware?: string
+    middleware?: AuthMiddleware
     redirectIfAuthenticated?: string
     redirectIfNotAdmin?: string
+}
+
+export enum AuthMiddleware {
+    // Grants access only to guests
+    GUEST,
+
+    // Grants access only to logged-in users
+    AUTH,
+
+    // Grants access only to logged-in admin
+    AUTH_ADMIN,
 }
 
 export const useAuth = ({
@@ -137,14 +148,14 @@ export const useAuth = ({
     }
 
     useEffect(() => {
-        if (middleware === 'guest' && redirectIfAuthenticated && user) {
+        if (middleware === AuthMiddleware.GUEST && redirectIfAuthenticated && user) {
             router.push(redirectIfAuthenticated)
         }
-        if ((middleware === 'auth' || middleware === 'admin') && error) {
+        if ((middleware === AuthMiddleware.AUTH || middleware === AuthMiddleware.AUTH_ADMIN) && error) {
             console.error(error)
             // logout() // TODO
         }
-        if (middleware === 'admin' && user && !isAdmin()) {
+        if (middleware === AuthMiddleware.AUTH_ADMIN && user && !isAdmin()) {
             redirectIfNotAdmin
                 ? router.push(redirectIfNotAdmin)
                 : router.push('/')
@@ -153,8 +164,8 @@ export const useAuth = ({
 
     function tryUser() {
         if (
-            middleware === 'auth' ||
-            middleware === 'admin' ||
+            middleware === AuthMiddleware.AUTH_ADMIN ||
+            middleware === AuthMiddleware.AUTH ||
             cookies.isAuth !== 'false'
         ) {
             return true

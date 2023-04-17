@@ -3,9 +3,14 @@ import { useRouter } from "next/router"
 import Link from "next/link";
 import {useEffect} from "react";
 import http from "@/libs/http/http";
+import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
 
 const Dashboard: NextPage = (props): JSX.Element => {
     const router = useRouter()
+
+    const { user } = useAuth({
+        middleware: AuthMiddleware.AUTH,
+    })
 
     useEffect(() => {
         const res = http.get('user/confirm-password/status')

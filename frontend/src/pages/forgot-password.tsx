@@ -1,14 +1,14 @@
-import { NextPage } from "next"
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
+import {NextPage} from "next"
+import {useForm} from "react-hook-form"
+import {yupResolver} from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { DisplayableError } from "@/libs/http/http";
-import { useAuth } from "@/hooks/useAuth";
+import {DisplayableError} from "@/libs/http/http";
+import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
 import NavBar from "@/components/navbar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import { Routes } from "@/constants/routes";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEnvelope} from "@fortawesome/free-solid-svg-icons";
+import {useState} from "react";
+import {Routes} from "@/constants/routes";
 
 type FormData = {
     email: string
@@ -16,7 +16,7 @@ type FormData = {
 
 const ForgotPassword: NextPage = (props): JSX.Element => {
     const { forgotPassword } = useAuth({
-        middleware: 'guest',
+        middleware: AuthMiddleware.GUEST,
         redirectIfAuthenticated: Routes.DASHBOARD,
     })
     const [ loading, setLoading ] = useState(false)

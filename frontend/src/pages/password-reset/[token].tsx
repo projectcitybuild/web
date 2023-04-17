@@ -1,12 +1,12 @@
-import { NextPage } from "next"
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
+import {NextPage} from "next"
+import {useForm} from "react-hook-form"
+import {yupResolver} from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { DisplayableError } from "@/libs/http/http";
-import { useAuth } from "@/hooks/useAuth";
+import {DisplayableError} from "@/libs/http/http";
+import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
 import NavBar from "@/components/navbar";
-import { useState } from "react";
-import { useRouter } from "next/router";
+import {useState} from "react";
+import {useRouter} from "next/router";
 import {Routes} from "@/constants/routes";
 
 type FormData = {
@@ -17,7 +17,7 @@ type FormData = {
 
 const PasswordReset: NextPage = (props): JSX.Element => {
     const { resetPassword } = useAuth({
-        middleware: 'guest',
+        middleware: AuthMiddleware.GUEST,
         redirectIfAuthenticated: Routes.DASHBOARD,
     })
     const [ loading, setLoading ] = useState(false)

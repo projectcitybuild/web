@@ -1,12 +1,12 @@
-import { NextPage } from "next"
-import { useAuth } from "@/hooks/useAuth";
+import {NextPage} from "next"
+import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
 import NavBar from "@/components/navbar";
-import { useState } from "react";
-import { Routes } from "@/constants/routes";
+import {useState} from "react";
+import {Routes} from "@/constants/routes";
 
 const VerifyEmail: NextPage = (props): JSX.Element => {
     const { resendEmailVerification } = useAuth({
-        middleware: 'guest',
+        middleware: AuthMiddleware.GUEST,
         redirectIfAuthenticated: Routes.DASHBOARD,
     })
     const [ error, setError ] = useState("")

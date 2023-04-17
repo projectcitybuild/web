@@ -1,16 +1,16 @@
-import { NextPage } from "next"
-import { useRouter } from "next/router"
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
+import {NextPage} from "next"
+import {useRouter} from "next/router"
+import {useForm} from "react-hook-form"
+import {yupResolver} from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { DisplayableError } from "@/libs/http/http";
-import { useAuth } from "@/hooks/useAuth";
+import {DisplayableError} from "@/libs/http/http";
+import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
 import NavBar from "@/components/navbar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import Link from "next/link";
-import { Routes } from "@/constants/routes";
+import {Routes} from "@/constants/routes";
 
 type FormData = {
     email: string
@@ -20,7 +20,7 @@ type FormData = {
 const Login: NextPage = (props): JSX.Element => {
     const router = useRouter()
     const { login } = useAuth({
-        middleware: 'guest',
+        middleware: AuthMiddleware.GUEST,
         redirectIfAuthenticated: Routes.DASHBOARD,
     })
 
@@ -37,7 +37,6 @@ const Login: NextPage = (props): JSX.Element => {
     const onSubmit = async (data: FormData) => {
         try {
             await login({email: data.email, password: data.password})
-            await router.push(Routes.DASHBOARD)
         } catch (error) {
             if (error instanceof DisplayableError) {
                 setError("root", { message: error.message })

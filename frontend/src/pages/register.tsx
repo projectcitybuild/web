@@ -1,14 +1,14 @@
-import { NextPage } from "next"
-import { useRouter } from "next/router"
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
+import {NextPage} from "next"
+import {useRouter} from "next/router"
+import {useForm} from "react-hook-form"
+import {yupResolver} from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { DisplayableError } from "@/libs/http/http";
-import { useAuth } from "@/hooks/useAuth";
+import {DisplayableError} from "@/libs/http/http";
+import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
 import NavBar from "@/components/navbar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
-import { Routes } from "@/constants/routes";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
+import {Routes} from "@/constants/routes";
 
 type FormData = {
     email: string
@@ -18,7 +18,7 @@ type FormData = {
 const Register: NextPage = (props): JSX.Element => {
     const router = useRouter()
     const { login } = useAuth({
-        middleware: 'guest',
+        middleware: AuthMiddleware.GUEST,
         redirectIfAuthenticated: Routes.DASHBOARD,
     })
 
