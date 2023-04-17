@@ -58,4 +58,9 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
     {
         return AccountFactory::new();
     }
+
+    public function isTwoFactorEnabled(): bool
+    {
+        return $this->two_factor_secret != null;
+    }
 }

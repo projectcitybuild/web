@@ -5,6 +5,7 @@ export abstract class Routes {
     static readonly REGISTER = '/register'
     static readonly FORGOT_PASSWORD = '/forgot-password'
     static readonly VERIFY_EMAIL = '/verify-email'
+    static readonly PASSWORD_CONFIRM = '/password-confirm'
 
     static readonly DASHBOARD = '/dashboard'
     static readonly SECURITY = '/dashboard/security'

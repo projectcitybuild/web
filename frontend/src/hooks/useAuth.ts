@@ -18,6 +18,10 @@ type RegisterParams = {
     passwordConfirm: string
 }
 
+type PasswordConfirmProps = {
+    password: string
+}
+
 interface AuthHookParams {
     middleware?: AuthMiddleware
     redirectIfAuthenticated?: string
@@ -74,6 +78,7 @@ export const useAuth = ({
         await http
             .post('../login', params)
             .then((data) => {
+                console.log(data)
                 setCookies('isAuth', true, { sameSite: 'lax', path: '/' })
                 mutate()
             })
@@ -144,6 +149,31 @@ export const useAuth = ({
 
     const resendEmailVerification = () => http.post('../email/verification-notification')
 
+    const passwordConfirm = async ({ ...props }: PasswordConfirmProps) => {
+        const params = querystring.stringify({
+            password: props.password,
+        })
+        await http.post('user/confirm-password', params)
+    }
+
+    const twoFactorEnable = async () => {
+        const response = await http.post('user/two-factor-authentication')
+            .catch(error => {
+                if (error.response.status === 423) {
+                    router.push(Routes.PASSWORD_CONFIRM)
+                } else {
+                    throw error
+                }
+            })
+
+        console.log(response)
+    }
+
+    const twoFactorQRCode = async () => {
+        const response = await http.post('user/two-factor-qr-code')
+        console.log(response.data)
+    }
+
     const isAdmin = () => {
         return false // TODO
         // return user?.roles.some(role => role.name === 'Admin')
@@ -183,5 +213,8 @@ export const useAuth = ({
         resetPassword,
         resendEmailVerification,
         logout,
+        passwordConfirm,
+        twoFactorEnable,
+        twoFactorQRCode,
     }
 }

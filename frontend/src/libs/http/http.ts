@@ -12,7 +12,7 @@ const withInterceptors = (api: AxiosInstance) => {
         async (error) => {
             if (error instanceof AxiosError) {
                 // TODO: clean up this mess...
-                if (error.response?.status == 409) {
+                if (error.response?.status == 409 || error.response?.status == 423) {
                     return Promise.reject(error);
                 }
                 const body = error.response?.data
