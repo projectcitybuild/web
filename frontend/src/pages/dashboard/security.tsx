@@ -20,7 +20,7 @@ const Dashboard: NextPage = (props): JSX.Element => {
                 <li>
                     <Link href="/dashboard">Dashboard</Link>
                     <Link href="/dashboard/security">Security</Link>
-                    <Link href="/dashboard/logout">Logout</Link>
+                    <Link href="/logout">Logout</Link>
                 </li>
             </ul>
 

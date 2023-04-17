@@ -8,6 +8,7 @@ import NavBar from "@/components/navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { Routes } from "@/constants/routes";
 
 type FormData = {
     email: string
@@ -16,7 +17,7 @@ type FormData = {
 const ForgotPassword: NextPage = (props): JSX.Element => {
     const { forgotPassword } = useAuth({
         middleware: 'guest',
-        redirectIfAuthenticated: '/dashboard'
+        redirectIfAuthenticated: Routes.DASHBOARD,
     })
     const [ loading, setLoading ] = useState(false)
     const [ success, setSuccess ] = useState("")

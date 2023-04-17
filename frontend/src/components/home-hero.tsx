@@ -1,7 +1,10 @@
 import styles from '@/components/home-hero.module.scss'
 import ServerFeed from "@/components/server-feed";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowPointer} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowPointer } from "@fortawesome/free-solid-svg-icons";
+import { Routes } from "@/constants/routes";
+import React from "react";
+import Link from "next/link";
 
 export default function HomeHero() {
     return (
@@ -20,9 +23,9 @@ export default function HomeHero() {
                             One of the world's longest-running Minecraft servers; we're a <wbr />
                             community of creative players and city builders
                         </p>
-                        <a href="" className={styles.button}>
+                        <Link href={Routes.REGISTER} className={styles.button}>
                             <FontAwesomeIcon icon={faArrowPointer} /> Register
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>

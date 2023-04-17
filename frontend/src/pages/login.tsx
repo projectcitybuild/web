@@ -6,10 +6,11 @@ import * as yup from "yup"
 import { DisplayableError } from "@/libs/http/http";
 import { useAuth } from "@/hooks/useAuth";
 import NavBar from "@/components/navbar";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import Link from "next/link";
+import { Routes } from "@/constants/routes";
 
 type FormData = {
     email: string
@@ -20,7 +21,7 @@ const Login: NextPage = (props): JSX.Element => {
     const router = useRouter()
     const { login } = useAuth({
         middleware: 'guest',
-        redirectIfAuthenticated: '/dashboard'
+        redirectIfAuthenticated: Routes.DASHBOARD,
     })
 
     const schema = yup
@@ -36,7 +37,7 @@ const Login: NextPage = (props): JSX.Element => {
     const onSubmit = async (data: FormData) => {
         try {
             await login({email: data.email, password: data.password})
-            await router.push('/dashboard')
+            await router.push(Routes.DASHBOARD)
         } catch (error) {
             if (error instanceof DisplayableError) {
                 setError("root", { message: error.message })
@@ -83,7 +84,7 @@ const Login: NextPage = (props): JSX.Element => {
                     </div>
                     <div className="field">
                         <p className="help">
-                            <Link href="/forgot-password">Forgot password?</Link>
+                            <Link href={Routes.FORGOT_PASSWORD}>Forgot password?</Link>
                         </p>
                     </div>
                     <div className="field">

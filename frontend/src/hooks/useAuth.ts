@@ -4,10 +4,17 @@ import querystring from "querystring"
 import { useRouter } from "next/router"
 import { useCookies } from "react-cookie"
 import { useEffect } from "react";
+import {Routes} from "@/constants/routes";
 
-export type LoginParams = {
+type LoginParams = {
     email: string
     password: string
+}
+
+type RegisterParams = {
+    email: string
+    password: string
+    passwordConfirm: string
 }
 
 interface AuthHookParams {
@@ -18,7 +25,7 @@ interface AuthHookParams {
 
 export const useAuth = ({
     middleware,
-    redirectIfAuthenticated = '/dashboard',
+    redirectIfAuthenticated,
     redirectIfNotAdmin,
 }: AuthHookParams = {}) => {
     const router = useRouter()
@@ -35,7 +42,7 @@ export const useAuth = ({
             .catch(error => {
                 removeCookies('isAuth')
                 if (error.response.status === 409) {
-                    router.push('/verify-email')
+                    router.push(Routes.VERIFY_EMAIL)
                 } else {
                     setCookies('isAuth', false, { sameSite: 'lax' })
                     throw error
@@ -74,24 +81,25 @@ export const useAuth = ({
         window.location.pathname = '/'
     }
 
-    // const register = async ({ ...props }: RegisterParams) => {
-    //     await csrf()
-    //
-    //     await http
-    //         .post('register', props)
-    //         .then(() => {
-    //             setCookies('isAuth', true, { sameSite: 'lax' })
-    //             mutate()
-    //         })
-    //         .catch(error => {
-    //             if (error.response.status !== 422) throw error
-    //
-    //             console.log(error)
-    //             // setErrors(
-    //             //     Object.values(error.response.data.errors).flat() as []
-    //             // )
-    //         })
-    // }
+    const register = async ({ ...props }: RegisterParams) => {
+        await csrf()
+
+        const params = querystring.stringify({
+            email: props.email,
+            password: props.password,
+            password_confirmation: props.passwordConfirm,
+        })
+        await http
+            .post('register', params)
+            .then(() => {
+                setCookies('isAuth', true, { sameSite: 'lax' })
+                mutate()
+            })
+            .catch(error => {
+                if (error.response.status !== 422) throw error
+                console.log(error)
+            })
+    }
 
     const forgotPassword = async (email: string): Promise<string> => {
         await csrf()
@@ -134,7 +142,7 @@ export const useAuth = ({
         }
         if ((middleware === 'auth' || middleware === 'admin') && error) {
             console.error(error)
-            // logout()
+            // logout() // TODO
         }
         if (middleware === 'admin' && user && !isAdmin()) {
             redirectIfNotAdmin
@@ -156,7 +164,7 @@ export const useAuth = ({
 
     return {
         user,
-        // register,
+        register,
         login,
         forgotPassword,
         resetPassword,

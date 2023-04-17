@@ -1,11 +1,12 @@
 import styles from '@/components/navbar.module.scss'
 import Link from "next/link";
+import {Routes} from "@/constants/routes";
 
 export default function NavBar() {
     return (
         <nav className={["navbar is-fixed-top", styles.navbar].join(" ")} role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
-                <Link className="navbar-item" href="/">
+                <Link className="navbar-item" href={Routes.HOME}>
                     <img src="https://projectcitybuild.com/build/assets/logo-2x.d21e50a7.png" alt="Project City Build"/>
                 </Link>
 
@@ -19,7 +20,7 @@ export default function NavBar() {
 
             <div id="nav-menu" className="navbar-menu">
                 <div className="navbar-start">
-                    <Link className="navbar-item" href="/">
+                    <Link className="navbar-item" href={Routes.HOME}>
                         Home
                     </Link>
 
@@ -58,10 +59,10 @@ export default function NavBar() {
                 <div className="navbar-end">
                     <div className="navbar-item">
                         <div className="buttons">
-                            <Link className="button is-primary" href="/register">
+                            <Link className="button is-primary" href={Routes.REGISTER}>
                                 <strong>Sign up</strong>
                             </Link>
-                            <Link className="button is-light" href="/login">
+                            <Link className="button is-light" href={Routes.LOGIN}>
                                 Log in
                             </Link>
                         </div>

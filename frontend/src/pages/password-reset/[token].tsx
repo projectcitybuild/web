@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import NavBar from "@/components/navbar";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import {Routes} from "@/constants/routes";
 
 type FormData = {
     email: string,
@@ -17,7 +18,7 @@ type FormData = {
 const PasswordReset: NextPage = (props): JSX.Element => {
     const { resetPassword } = useAuth({
         middleware: 'guest',
-        redirectIfAuthenticated: '/dashboard'
+        redirectIfAuthenticated: Routes.DASHBOARD,
     })
     const [ loading, setLoading ] = useState(false)
     const router = useRouter()
