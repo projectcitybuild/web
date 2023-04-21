@@ -1,7 +1,7 @@
 import { NextPage } from "next"
 import { useRouter } from "next/router"
 import Link from "next/link";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import http from "@/libs/http/http";
 import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
 
@@ -12,9 +12,18 @@ const Dashboard: NextPage = (props): JSX.Element => {
         middleware: AuthMiddleware.AUTH,
     })
 
-    useEffect(() => {
-        twoFactorEnable()
-    })
+    const [ loading, setLoading ] = useState(false)
+
+    const onEnableTwoFactor = async () => {
+        setLoading(true)
+        try {
+            await twoFactorEnable()
+        } catch (error) {
+
+        } finally {
+            setLoading(false)
+        }
+    }
 
     return (
         <div>
@@ -30,8 +39,15 @@ const Dashboard: NextPage = (props): JSX.Element => {
 
             <hr />
 
-            <h2>2FA</h2>
+            <section className="section">
+                <h2>2FA</h2>
 
+                <button
+                    className={`button is-primary ${loading ? 'is-loading' : ''}`}
+                    disabled={loading}
+                    onClick={onEnableTwoFactor}
+                >Enable 2FA</button>
+            </section>
         </div>
     )
 }

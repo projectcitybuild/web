@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Eloquent\Account;
 use App\Models\Eloquent\Group;
 use App\Models\Eloquent\Server;
@@ -16,7 +15,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Server::factory(5)->create();
+        Server::factory()->create([
+            'name' => 'Minecraft (Java)',
+            'ip' => '158.69.120.168',
+            'ip_alias' => 'pcbmc.co',
+            'port' => '25565',
+            'display_order' => 1,
+            'is_online' => true,
+            'num_of_players' => 45,
+            'num_of_slots' => 100,
+        ]);
 
         Group::factory(10)->create();
 

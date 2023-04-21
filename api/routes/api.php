@@ -22,10 +22,7 @@ Route::middleware(['guest', 'throttle:6,1'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    $fortifyAuthMiddleware = config(key: 'fortify.auth_middleware', default: 'auth').':'.config('fortify.guard');
-
-    Route::get('/profile/me', [AccountController::class, 'me'])
-        ->middleware($fortifyAuthMiddleware);
+//    $fortifyAuthMiddleware = config(key: 'fortify.auth_middleware', default: 'auth').':'.config('fortify.guard');
 
 //    Route::put('/user/password', [PasswordController::class, 'update'])
 //        ->middleware($fortifyAuthMiddleware);
@@ -47,7 +44,19 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 //        Route::get('/recovery-codes', [RecoveryCodeController::class, 'index']);
 //        Route::post('/recovery-codes', [RecoveryCodeController::class, 'store']);
 //    });
-
-    Route::apiResource('/servers', ServerController::class);
-    Route::apiResource('/groups', GroupController::class);
 });
+
+$authMiddleware = ['auth:sanctum', 'verified'];
+
+Route::get('/profile/me', [AccountController::class, 'me'])
+    ->middleware($authMiddleware);
+
+Route::get('/servers', [ServerController::class, 'index']);
+
+Route::apiResource('/servers', ServerController::class)
+    ->middleware($authMiddleware)
+    ->except('index');
+
+
+Route::apiResource('/groups', GroupController::class)
+    ->middleware($authMiddleware);
