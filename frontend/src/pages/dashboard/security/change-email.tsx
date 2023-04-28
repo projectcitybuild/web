@@ -1,29 +1,48 @@
 import { NextPage } from "next"
-import { useRouter } from "next/router"
 import Link from "next/link";
-import React, {useEffect, useState} from "react";
-import http from "@/libs/http/http";
+import React, {useState} from "react";
+import {DisplayableError} from "@/libs/http/http";
 import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
 import {Alert} from "@/components/alert";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronLeft, faEnvelope} from "@fortawesome/free-solid-svg-icons";
 import {Routes} from "@/constants/routes";
+import * as yup from "yup";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
 
-const Dashboard: NextPage = (props): JSX.Element => {
-    const router = useRouter()
+type FormData = {
+    email: string
+}
 
-    const { user, twoFactorEnable } = useAuth({
+const ChangeEmail: NextPage = (props): JSX.Element => {
+    const { updateEmail } = useAuth({
         middleware: AuthMiddleware.AUTH,
     })
-
     const [ loading, setLoading ] = useState(false)
+    const [ success, setSuccess ] = useState("")
 
-    const onEnableTwoFactor = async () => {
+    const schema = yup
+        .object({
+            email: yup.string().required().email(),
+        })
+        .required()
+
+    const { register, handleSubmit, formState, setError } = useForm<FormData>({ resolver: yupResolver(schema) })
+    const { errors } = formState
+
+    const onSubmit = async (data: FormData) => {
         setLoading(true)
-        try {
-            await twoFactorEnable()
-        } catch (error) {
+        setSuccess("")
 
+        try {
+            // TODO
+        } catch (error) {
+            if (error instanceof DisplayableError) {
+                setError("root", { message: error.message })
+            } else {
+                console.error(error)
+            }
         } finally {
             setLoading(false)
         }
@@ -39,14 +58,14 @@ const Dashboard: NextPage = (props): JSX.Element => {
 
             <hr />
 
-            <form onSubmit={handleSubmit(onEmailChangeSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <Alert
                     error={errors.root?.message}
                     success={success}
                 />
                 <div className="field">
                     <p className="control has-icons-left">
-                        <input type="email" placeholder="Email address" className="input" {...register("email")} />
+                        <input type="email" placeholder="New Email address" className="input" {...register("email")} />
                         <span className="icon is-small is-left">
                                 <FontAwesomeIcon icon={faEnvelope} />
                             </span>
@@ -60,7 +79,7 @@ const Dashboard: NextPage = (props): JSX.Element => {
                             disabled={formState.isSubmitting || loading}
                             className={`button is-success ${loading ? 'is-loading' : ''}`}
                         >
-                            Send Email
+                            Verify Email
                         </button>
                     </p>
                 </div>
@@ -69,4 +88,4 @@ const Dashboard: NextPage = (props): JSX.Element => {
     )
 }
 
-export default Dashboard
+export default ChangeEmail

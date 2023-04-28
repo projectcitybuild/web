@@ -22,6 +22,10 @@ type PasswordConfirmProps = {
     password: string
 }
 
+type TwoFactorConfirmParams = {
+    code: string
+}
+
 interface AuthHookParams {
     middleware?: AuthMiddleware
     redirectIfAuthenticated?: string
@@ -147,13 +151,25 @@ export const useAuth = ({
             })
     }
 
+    const updateEmail = async (email: string) => {
+        await http
+            .post('../email/change', {
+                email: email,
+            })
+            .catch(error => {
+                if (error.response.status != 422) throw error
+                console.error(error)
+            })
+    }
+
     const resendEmailVerification = () => http.post('../email/verification-notification')
 
     const passwordConfirm = async ({ ...props }: PasswordConfirmProps) => {
         const params = querystring.stringify({
             password: props.password,
         })
-        await http.post('user/confirm-password', params)
+        const res = await http.post('user/confirm-password', params)
+        console.log(res)
     }
 
     const twoFactorEnable = async () => {
@@ -170,7 +186,20 @@ export const useAuth = ({
     }
 
     const twoFactorQRCode = async () => {
-        const response = await http.post('user/two-factor-qr-code')
+        const response = await http.get('user/two-factor-qr-code')
+        console.log(response.data)
+    }
+
+    const twoFactorConfirmSetup = async ({ ... props }: TwoFactorConfirmParams) => {
+        const params = querystring.stringify({
+            code: props.code,
+        })
+        const res = await http.post('user/confirmed-two-factor-authentication', params)
+        console.log(res.data)
+    }
+
+    const twoFactorRecoveryCodes = async () => {
+        const response = await http.get('user/two-factor-recovery-codes')
         console.log(response.data)
     }
 
@@ -211,10 +240,13 @@ export const useAuth = ({
         login,
         forgotPassword,
         resetPassword,
+        updateEmail,
         resendEmailVerification,
         logout,
         passwordConfirm,
         twoFactorEnable,
         twoFactorQRCode,
+        twoFactorConfirmSetup,
+        twoFactorRecoveryCodes,
     }
 }
