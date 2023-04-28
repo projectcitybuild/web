@@ -27,12 +27,16 @@ const TwoFactorAuthentication: NextPage = (props): JSX.Element => {
 
     const [ loading, setLoading ] = useState(false)
     const [ confirmError, setConfirmError ] = useState<string|undefined>()
+    const [ qrCode, setQrCode ] = useState<string|undefined>()
 
     const onEnableTwoFactor = async () => {
         setLoading(true)
         try {
             await twoFactorEnable()
-            await twoFactorQRCode()
+
+            const qr = await twoFactorQRCode()
+            setQrCode(qr.data.svg)
+
             await twoFactorRecoveryCodes()
         } catch (error) {
 
@@ -85,6 +89,9 @@ const TwoFactorAuthentication: NextPage = (props): JSX.Element => {
                     disabled={loading}
                     onClick={onEnableTwoFactor}
                 >Enable 2FA</button>
+
+                { qrCode && (<p dangerouslySetInnerHTML={{ __html: qrCode }} />) }
+                
             </section>
 
             <section className="section">

@@ -188,6 +188,7 @@ export const useAuth = ({
     const twoFactorQRCode = async () => {
         const response = await http.get('user/two-factor-qr-code')
         console.log(response.data)
+        return response
     }
 
     const twoFactorConfirmSetup = async ({ ... props }: TwoFactorConfirmParams) => {
