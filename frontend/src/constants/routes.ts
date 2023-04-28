@@ -9,4 +9,5 @@ export abstract class Routes {
 
     static readonly DASHBOARD = '/dashboard'
     static readonly SECURITY = '/dashboard/security'
+    static readonly CHANGE_EMAIL = '/dashboard/security/change-email'
 }

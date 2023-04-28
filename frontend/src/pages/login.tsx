@@ -5,13 +5,13 @@ import {yupResolver} from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import {DisplayableError} from "@/libs/http/http";
 import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
-import NavBar from "@/components/navbar";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import Link from "next/link";
 import {Routes} from "@/constants/routes";
 import {Alert} from "@/components/alert";
+import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
 
 type FormData = {
     email: string
@@ -49,7 +49,9 @@ const Login: NextPage = (props): JSX.Element => {
 
     return (
         <div>
-            <NavBar />
+            <Link href={Routes.HOME}>
+                <FontAwesomeIcon icon={faChevronLeft} /> Back
+            </Link>
 
             <section className="section">
                 <form onSubmit={handleSubmit(onSubmit)}>
