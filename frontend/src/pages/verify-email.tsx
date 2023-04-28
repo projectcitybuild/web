@@ -1,8 +1,9 @@
 import {NextPage} from "next"
 import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
 import NavBar from "@/components/navbar";
-import {useState} from "react";
+import React, {useState} from "react";
 import {Routes} from "@/constants/routes";
+import {Alert} from "@/components/alert";
 
 const VerifyEmail: NextPage = (props): JSX.Element => {
     const { resendEmailVerification } = useAuth({
@@ -43,14 +44,6 @@ const VerifyEmail: NextPage = (props): JSX.Element => {
         }
     }
 
-    const RootError = () => {
-        if (error == "") return null;
-        return (
-            <div className="notification is-danger">
-                {error}
-            </div>
-        )
-    }
     const Success = () => {
         if (!success || success == "") return null;
         return (
@@ -67,7 +60,7 @@ const VerifyEmail: NextPage = (props): JSX.Element => {
             <section className="section">
                 <h1>Verify your email address</h1>
 
-                <RootError />
+                <Alert error={error} />
                 <Success />
 
                 <p>

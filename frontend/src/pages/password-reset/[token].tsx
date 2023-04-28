@@ -5,9 +5,10 @@ import * as yup from "yup"
 import {DisplayableError} from "@/libs/http/http";
 import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
 import NavBar from "@/components/navbar";
-import {useState} from "react";
+import React, {useState} from "react";
 import {useRouter} from "next/router";
 import {Routes} from "@/constants/routes";
+import {Alert} from "@/components/alert";
 
 type FormData = {
     email: string,
@@ -57,15 +58,6 @@ const PasswordReset: NextPage = (props): JSX.Element => {
         }
     }
 
-    const RootError = () => {
-        if (!errors.root) return null;
-        return (
-            <div className="notification is-danger">
-                {errors.root?.message}
-            </div>
-        )
-    }
-
     return (
         <div>
             <NavBar />
@@ -74,7 +66,7 @@ const PasswordReset: NextPage = (props): JSX.Element => {
                 <h1>Set a New Password</h1>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <RootError />
+                    <Alert error={errors.root?.message} />
 
                     <div className="field">
                         <p className="control">

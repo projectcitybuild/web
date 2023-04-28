@@ -9,7 +9,8 @@ import NavBar from "@/components/navbar";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faLock, faUser} from "@fortawesome/free-solid-svg-icons";
 import {Routes} from "@/constants/routes";
-import {useState} from "react";
+import React, {useState} from "react";
+import {Alert} from "@/components/alert";
 
 type FormData = {
     username: string
@@ -65,15 +66,6 @@ const Register: NextPage = (props): JSX.Element => {
         }
     }
 
-    const RootError = () => {
-        if (!errors.root) return null;
-        return (
-            <div className="notification is-danger">
-                {errors.root?.message}
-            </div>
-        )
-    }
-
     return (
         <div>
             <NavBar />
@@ -81,7 +73,7 @@ const Register: NextPage = (props): JSX.Element => {
             <section className="section">
                 Register
 
-                <RootError />
+                <Alert error={errors.root?.message} />
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="field">

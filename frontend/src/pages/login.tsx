@@ -11,6 +11,7 @@ import {faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import Link from "next/link";
 import {Routes} from "@/constants/routes";
+import {Alert} from "@/components/alert";
 
 type FormData = {
     email: string
@@ -46,22 +47,13 @@ const Login: NextPage = (props): JSX.Element => {
         }
     }
 
-    const RootError = () => {
-        if (!errors.root) return null;
-        return (
-            <div className="notification is-danger">
-                {errors.root?.message}
-            </div>
-        )
-    }
-
     return (
         <div>
             <NavBar />
 
             <section className="section">
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <RootError />
+                    <Alert error={errors.root?.message} />
 
                     <div className="field">
                         <p className="control has-icons-left">

@@ -7,8 +7,9 @@ import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
 import NavBar from "@/components/navbar";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope} from "@fortawesome/free-solid-svg-icons";
-import {useState} from "react";
+import React, {useState} from "react";
 import {Routes} from "@/constants/routes";
+import {Alert} from "@/components/alert";
 
 type FormData = {
     email: string
@@ -50,14 +51,6 @@ const ForgotPassword: NextPage = (props): JSX.Element => {
         }
     }
 
-    const RootError = () => {
-        if (!errors.root) return null;
-        return (
-            <div className="notification is-danger">
-                {errors.root?.message}
-            </div>
-        )
-    }
     const Success = () => {
         if (!success || success == "") return null;
         return (
@@ -75,7 +68,7 @@ const ForgotPassword: NextPage = (props): JSX.Element => {
                 <h1>Forgot Email</h1>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <RootError />
+                    <Alert error={errors.root?.message} />
                     <Success />
 
                     <div className="field">

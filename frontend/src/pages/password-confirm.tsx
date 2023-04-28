@@ -1,15 +1,15 @@
-import {NextPage} from "next"
-import {useRouter} from "next/router"
-import {useForm} from "react-hook-form"
-import {yupResolver} from "@hookform/resolvers/yup"
+import { NextPage } from "next"
+import { useRouter } from "next/router"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import {DisplayableError} from "@/libs/http/http";
-import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
+import { DisplayableError } from "@/libs/http/http";
+import { AuthMiddleware, useAuth } from "@/hooks/useAuth";
 import NavBar from "@/components/navbar";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEnvelope, faLock, faUser} from "@fortawesome/free-solid-svg-icons";
-import {Routes} from "@/constants/routes";
-import {useState} from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
+import React, { useState } from "react";
+import {Alert} from "@/components/alert";
 
 type FormData = {
     password: string
@@ -49,15 +49,6 @@ const PasswordConfirm: NextPage = (props): JSX.Element => {
         }
     }
 
-    const RootError = () => {
-        if (!errors.root) return null;
-        return (
-            <div className="notification is-danger">
-                {errors.root?.message}
-            </div>
-        )
-    }
-
     return (
         <div>
             <NavBar />
@@ -65,7 +56,7 @@ const PasswordConfirm: NextPage = (props): JSX.Element => {
             <section className="section">
                 Enter Your Password
 
-                <RootError />
+                <Alert error={errors.root?.message} />
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="field">
