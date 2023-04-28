@@ -44,15 +44,6 @@ const VerifyEmail: NextPage = (props): JSX.Element => {
         }
     }
 
-    const Success = () => {
-        if (!success || success == "") return null;
-        return (
-            <div className="notification is-success">
-                {success}
-            </div>
-        )
-    }
-
     return (
         <div>
             <NavBar />
@@ -60,8 +51,10 @@ const VerifyEmail: NextPage = (props): JSX.Element => {
             <section className="section">
                 <h1>Verify your email address</h1>
 
-                <Alert error={error} />
-                <Success />
+                <Alert
+                    error={error}
+                    success={success}
+                />
 
                 <p>
                     Please click the button below to confirm your email address and activate your account.

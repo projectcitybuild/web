@@ -51,15 +51,6 @@ const ForgotPassword: NextPage = (props): JSX.Element => {
         }
     }
 
-    const Success = () => {
-        if (!success || success == "") return null;
-        return (
-            <div className="notification is-success">
-                {success}
-            </div>
-        )
-    }
-
     return (
         <div>
             <NavBar />
@@ -68,9 +59,10 @@ const ForgotPassword: NextPage = (props): JSX.Element => {
                 <h1>Forgot Email</h1>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <Alert error={errors.root?.message} />
-                    <Success />
-
+                    <Alert
+                        error={errors.root?.message}
+                        success={success}
+                    />
                     <div className="field">
                         <p className="control has-icons-left">
                             <input type="email" placeholder="Email address" className="input" {...register("email")} />
