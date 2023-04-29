@@ -37,12 +37,24 @@ const Dashboard: NextPage = (props): JSX.Element => {
             <nav className="columns">
                 <div className="column is-three-quarters">
                     <h2 className="is-size-6 has-text-weight-bold">
+                        <Link href={Routes.CHANGE_PASSWORD}>Password</Link>
+                    </h2>
+                    Update the password used to log-in to your account
+                </div>
+                <div className="column">
+                    Last updated: TODO
+                </div>
+            </nav>
+
+            <nav className="columns">
+                <div className="column is-three-quarters">
+                    <h2 className="is-size-6 has-text-weight-bold">
                         <Link href={Routes.TWO_FACTOR_AUTH}>2-Step Verification</Link>
                     </h2>
                     Keep your account secure. Along with your password, you'll need to enter a code from another device
                 </div>
                 <div className="column">
-
+                    {user?.two_factor_confirmed_at == null ? "Not Setup" : "Active"}
                 </div>
             </nav>
         </div>

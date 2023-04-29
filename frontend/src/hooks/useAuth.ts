@@ -18,12 +18,26 @@ type RegisterParams = {
     passwordConfirm: string
 }
 
+type UpdatePasswordProps = {
+    oldPassword: string
+    newPassword: string
+    newPasswordConfirm: string
+}
+
 type PasswordConfirmProps = {
     password: string
 }
 
 type TwoFactorConfirmParams = {
     code: string
+}
+
+type TwoFactorChallengeParams = {
+    code: string
+}
+
+type TwoFactorRecoveryParams = {
+    recovery_code: string
 }
 
 interface AuthHookParams {
@@ -81,10 +95,15 @@ export const useAuth = ({
         })
         await http
             .post('../login', params)
-            .then((data) => {
-                console.log(data)
-                setCookies('isAuth', true, { sameSite: 'lax', path: '/' })
-                mutate()
+            .then((res) => {
+                console.log(res)
+
+                if (res.data.two_factor) {
+                    router.push(Routes.VERIFY_2FA)
+                } else {
+                    setCookies('isAuth', true, { sameSite: 'lax', path: '/' })
+                    mutate()
+                }
             })
             .catch((error) => {
                 removeCookies('isAuth')
@@ -162,6 +181,15 @@ export const useAuth = ({
             })
     }
 
+    const updatePassword = async ({ ...props }: UpdatePasswordProps) => {
+        await http
+            .put('user/password', {
+                current_password: props.oldPassword,
+                password: props.newPassword,
+                password_confirmation: props.newPasswordConfirm,
+            })
+    }
+
     const resendEmailVerification = () => http.post('../email/verification-notification')
 
     const passwordConfirm = async ({ ...props }: PasswordConfirmProps) => {
@@ -185,10 +213,23 @@ export const useAuth = ({
         console.log(response)
     }
 
+    const twoFactorDisable = async () => {
+        const response = await http.delete('user/two-factor-authentication')
+            .catch(error => {
+                if (error.response.status === 423) {
+                    router.push(Routes.PASSWORD_CONFIRM)
+                } else {
+                    throw error
+                }
+            })
+
+        console.log(response)
+    }
+
     const twoFactorQRCode = async () => {
         const response = await http.get('user/two-factor-qr-code')
         console.log(response.data)
-        return response
+        return response.data.svg
     }
 
     const twoFactorConfirmSetup = async ({ ... props }: TwoFactorConfirmParams) => {
@@ -202,6 +243,36 @@ export const useAuth = ({
     const twoFactorRecoveryCodes = async () => {
         const response = await http.get('user/two-factor-recovery-codes')
         console.log(response.data)
+        return response.data
+    }
+
+    const twoFactorChallenge = async ({ ... props }: TwoFactorChallengeParams) => {
+        const params = querystring.stringify({
+            code: props.code,
+        })
+        const res = await http.post('two-factor-challenge', params)
+        console.log(res.data)
+        setCookies('isAuth', true, { sameSite: 'lax', path: '/' })
+        await mutate()
+    }
+
+    /**
+     * Attempts access to an account using a recovery code. For use
+     * in the case where a user loses access to their OTP code
+     * generating device
+     *
+     * @param props
+     */
+    const twoFactorRecovery = async ({ ... props }: TwoFactorRecoveryParams) => {
+        const params = querystring.stringify({
+            recovery_code: props.recovery_code,
+        })
+        const res = await http.post('two-factor-challenge', params)
+        console.log(res.data)
+        if (res.status == 204) {
+            setCookies('isAuth', true, { sameSite: 'lax', path: '/' })
+            await mutate()
+        }
     }
 
     const isAdmin = () => {
@@ -242,12 +313,16 @@ export const useAuth = ({
         forgotPassword,
         resetPassword,
         updateEmail,
+        updatePassword,
         resendEmailVerification,
         logout,
         passwordConfirm,
         twoFactorEnable,
+        twoFactorDisable,
         twoFactorQRCode,
         twoFactorConfirmSetup,
         twoFactorRecoveryCodes,
+        twoFactorChallenge,
+        twoFactorRecovery,
     }
 }

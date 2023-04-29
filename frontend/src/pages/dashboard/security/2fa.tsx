@@ -18,6 +18,7 @@ const TwoFactorAuthentication: NextPage = (props): JSX.Element => {
     const {
         user,
         twoFactorEnable,
+        twoFactorDisable,
         twoFactorQRCode,
         twoFactorRecoveryCodes,
         twoFactorConfirmSetup,
@@ -28,16 +29,30 @@ const TwoFactorAuthentication: NextPage = (props): JSX.Element => {
     const [ loading, setLoading ] = useState(false)
     const [ confirmError, setConfirmError ] = useState<string|undefined>()
     const [ qrCode, setQrCode ] = useState<string|undefined>()
+    const [ recoveryCodes, setRecoveryCodes ] = useState<[string]>()
 
     const onEnableTwoFactor = async () => {
         setLoading(true)
         try {
             await twoFactorEnable()
 
-            const qr = await twoFactorQRCode()
-            setQrCode(qr.data.svg)
+            twoFactorQRCode()
+                .then(svg => setQrCode(svg))
 
-            await twoFactorRecoveryCodes()
+            twoFactorRecoveryCodes()
+                .then(recoveryCodes => setRecoveryCodes(recoveryCodes))
+
+        } catch (error) {
+
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const onDisableTwoFactor = async () => {
+        setLoading(true)
+        try {
+            await twoFactorDisable()
         } catch (error) {
 
         } finally {
@@ -90,8 +105,23 @@ const TwoFactorAuthentication: NextPage = (props): JSX.Element => {
                     onClick={onEnableTwoFactor}
                 >Enable 2FA</button>
 
-                { qrCode && (<p dangerouslySetInnerHTML={{ __html: qrCode }} />) }
-                
+                { qrCode && (<span dangerouslySetInnerHTML={{ __html: qrCode }} />) }
+
+                <ul>
+                    { recoveryCodes?.map(code => (<li key={code}>{code}</li>)) }
+                </ul>
+
+            </section>
+
+            <section className="section">
+                <h2>Disable</h2>
+
+                <button
+                    className={`button is-primary ${loading ? 'is-loading' : ''}`}
+                    disabled={loading}
+                    onClick={onDisableTwoFactor}
+                >Disable 2FA</button>
+
             </section>
 
             <section className="section">
