@@ -51,7 +51,7 @@
         <div class="messages">
             <div class="message message--left">
                 <div class="message-avatar">
-                    <img src="https://minotar.net/helm/{{ $banAppeal->gamePlayerBan->bannedPlayer->uuid }}/32" width="32"/>
+                    <img src="https://minotar.net/helm/{{ $banAppeal->gamePlayerBan->bannedPlayer?->uuid }}/32" width="32"/>
                 </div>
                 <div class="message-comment">
                     <div class="message-text">
@@ -73,11 +73,11 @@
                             @endif
                         </div>
                         <div class="message-date">
-                            {{$banAppeal->deciderAccount->username }} &bull; {{ $banAppeal->decided_at }}
+                            {{$banAppeal->deciderAccount?->username }} &bull; {{ $banAppeal->decided_at }}
                         </div>
                     </div>
                     <div class="message-avatar">
-                        <img src="https://minotar.net/helm/{{ $banAppeal->deciderAccount->uuid }}/32" width="32"/>
+                        <img src="https://minotar.net/helm/{{ $banAppeal->deciderAccount?->uuid }}/32" width="32"/>
                     </div>
                 </div>
             @endif
