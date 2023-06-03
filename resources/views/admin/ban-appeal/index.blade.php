@@ -26,7 +26,7 @@
                     </td>
                     <td>
                         <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->gamePlayerBan->bannedPlayer)}}">
-                            {{ $banAppeal->gamePlayerBan->bannerPlayer->getBanReadableName() ?? 'No Alias' }}
+                            {{ $banAppeal->gamePlayerBan->bannerPlayer?->getBanReadableName() ?? 'No Alias' }}
                         </a>
                     </td>
                     <td>
