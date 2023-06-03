@@ -6,9 +6,9 @@
             <div class="footer-links__category">
                 <h2>Server</h2>
                 <ul>
-                    <li><i class="bullet fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/pcb-community-rules/22928">Rules & Guidelines</a></li>
-                    <li><i class="bullet fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/pcb-ranks/32812">Ranks</a></li>
-                    <li><i class="bullet fas fa-cube"></i> <a href="https://wiki.projectcitybuild.com/wiki/List_of_Staff_Members">Staff</a></li>
+                    <li><i class="bullet fas fa-cube"></i> <a href="{{ route('rules') }}">Rules & Guidelines</a></li>
+                    <li><i class="bullet fas fa-cube"></i> <a href="{{ route('ranks') }}">Ranks</a></li>
+                    <li><i class="bullet fas fa-cube"></i> <a href="{{ route('staff') }}">Staff</a></li>
                     <li><i class="bullet fas fa-cube"></i> <a href="{{ route('maps') }}" target="_blank" rel="noopener noreferrer">Real-Time Maps</a></li>
                     <li><i class="bullet fas fa-cube"></i> <a href="{{ route('3d-maps') }}" target="_blank" rel="noopener noreferrer">3D Maps</a></li>
                 </ul>
@@ -18,7 +18,7 @@
                 <h2>Community</h2>
                 <ul>
                     <li><i class="bullet fas fa-cube"></i> <a href="{{ route('wiki') }}">Community Wiki</a></li>
-                    <li><i class="bullet fas fa-cube"></i> <a href="https://forums.projectcitybuild.com/t/vote-for-our-server/18568">Vote For Our Server</a></li>
+                    <li><i class="bullet fas fa-cube"></i> <a href="{{ route('vote') }}">Vote For Our Server</a></li>
                 </ul>
             </div>
 
