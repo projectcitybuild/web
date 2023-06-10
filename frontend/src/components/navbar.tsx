@@ -1,14 +1,23 @@
 import styles from '@/components/navbar.module.scss'
 import Link from "next/link";
 import {Routes} from "@/constants/routes";
+import Image from "next/image";
+import logoImage from '../assets/images/logo.png';
 
 export default function NavBar() {
     return (
-        <nav className={["navbar is-fixed-top", styles.navbar].join(" ")} role="navigation" aria-label="main navigation">
+        <nav className={`navbar is-fixed-top is-transparent ${styles.navbar}`} role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
-                <Link className="navbar-item" href={Routes.HOME}>
-                    <img src="https://projectcitybuild.com/build/assets/logo-2x.d21e50a7.png" alt="Project City Build"/>
-                </Link>
+                <div className={`navbar-item ${styles.logoContainer}`}>
+                    <Link href={Routes.HOME}>
+                        <Image
+                            src={logoImage}
+                            width={159}
+                            height={47}
+                            alt="Project City Build"
+                        />
+                    </Link>
+                </div>
 
                 <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false"
                    data-target="nav-menu">
@@ -59,11 +68,11 @@ export default function NavBar() {
                 <div className="navbar-end">
                     <div className="navbar-item">
                         <div className="buttons">
-                            <Link className="button is-primary" href={Routes.REGISTER}>
-                                <strong>Sign up</strong>
+                            <Link className="button is-text" href={Routes.REGISTER}>
+                                Log In
                             </Link>
                             <Link className="button is-light" href={Routes.LOGIN}>
-                                Log in
+                                Sign Up
                             </Link>
                         </div>
                     </div>

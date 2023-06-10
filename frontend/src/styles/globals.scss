@@ -6,16 +6,15 @@
 @import 'helpers/margins';
 
 // Bulma overrides
-$navbar-background-color: hsl(20, 12%, 29%);
 $navbar-item-color: #fff;
-$navbar-item-hover-color: #fff;
+$navbar-item-hover-color: darken($navbar-item-color, 15%);
 $navbar-item-hover-background-color: lighten(hsl(20, 12%, 29%), 10%);
 $navbar-dropdown-arrow: #fff;
-$navbar-dropdown-background-color: lighten(hsl(20, 12%, 29%), 10%);
+//$navbar-dropdown-background-color: lighten(hsl(20, 12%, 29%), 10%);
 $navbar-dropdown-border-top: 3px solid darken(hsl(20, 12%, 29%), 10%);
 $navbar-dropdown-radius: var(--corner-radius-sm);
 
 $primary: hsl(40, 98%, 49%);
-$family-primary: var(--font-primary);
+$family-primary: var(--font-body);
 
 @import '~bulma/bulma.sass';

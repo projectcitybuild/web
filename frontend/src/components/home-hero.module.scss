@@ -12,7 +12,7 @@
 
 .title {
   color: var(--white);
-  font-size: 6.5em;
+  font-size: 6em;
   font-family: var(--font-secondary);
   font-weight: 500;
   text-transform: uppercase;
@@ -29,7 +29,6 @@
 .subtitle {
   color: #e6e6e6;
   font-weight: 500;
-  font-size: 1.2em;
   letter-spacing: -0.02em;
   text-shadow: 0 2px 4px hsla(0, 0%, 0%, 55%);
   line-height: 1.7em;
@@ -44,24 +43,11 @@
   align-items: flex-end;
 }
 
-.columnServerFeed {
-  padding-left: 3rem;
-  display: flex;
-  align-items: flex-end;
-}
-
-.reverseColumnsMobile {
-  @media (max-width: 768px) {
-    flex-direction: column-reverse;
-    display: flex;
-  }
-}
-
 .button {
   border-radius: var(--corner-radius-lg);
-  border: 5px solid var(--color-accent);
+  border: 3px solid var(--color-accent);
   display: block;
-  padding: 0.1em 1.5em 0.025em 1.5em;
+  padding: 0.1em 0.75em 0 0.75em;
   color: var(--color-accent);
   font-family: var(--font-secondary);
   font-size: var(--text-xxxl);

@@ -1,12 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap');
 
 :root {
-  --font-primary: 'Roboto', sans-serif;
-  --font-secondary: 'Bebas Neue', sans-serif;
+  --font-body: 'Roboto', sans-serif;
+  --font-display: 'Bebas Neue', sans-serif;
 
+  --text-body-large: 1.2rem;
+  --text-body-normal: 1rem;
+  --text-body-small: 0.8rem;
+
+  --text-display-large: 3rem;
+
+  // TODO: remove these
   --text-scale-ratio: 1.2;
-
-  // TODO: reuse calculations
   --text-xs:    calc(1em / (var(--text-scale-ratio) * var(--text-scale-ratio)));
   --text-sm:    calc(1em / var(--text-scale-ratio));
   --text-md:    calc(1em * var(--text-scale-ratio));

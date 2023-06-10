@@ -1,4 +1,20 @@
 .navbar {
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
-  border-bottom: 3px solid darken(hsl(20, 12%, 29%), 10%);
+  background-color: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.logoContainer {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-right: 1em;
+
+  img {
+    // Kill the navbar-item max height
+    max-height: inherit;
+  }
+
+  a {
+    // Kill the extra height of <Link> pushing the image up
+    line-height: 0;
+  }
 }
