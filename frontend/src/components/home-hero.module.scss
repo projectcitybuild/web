@@ -6,55 +6,67 @@
                     url('/hero-bg.png');
 }
 
-.hero {
-  text-align: right;
-}
-
 .title {
   color: var(--white);
-  font-size: 6em;
-  font-family: var(--font-secondary);
   font-weight: 500;
-  text-transform: uppercase;
-  font-kerning: normal;
-  line-height: 0.95em;
   text-shadow: 0 2px 9px hsla(0, 0%, 0%, 35%);
-  text-rendering: geometricPrecision;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 
   margin-bottom: 0.2em;
 }
 
-.subtitle {
+.subtitle,
+.subtitle strong {
   color: #e6e6e6;
-  font-weight: 500;
-  letter-spacing: -0.02em;
   text-shadow: 0 2px 4px hsla(0, 0%, 0%, 55%);
   line-height: 1.7em;
-
-  margin-bottom: 1.8em;
+  margin-bottom: 2.5em;
 }
 
-.columnText {
-  padding-right: 3rem;
+.content {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  flex-grow: 1;
+  justify-content: flex-end;
+
+  // TODO: fetch the width from Bulma
+  @media only screen and (min-width: 600px) {
+    padding: 0 4em;
+  }
+}
+
+.textContainer {
+  text-align: right;
+  max-width: 550px;
 }
 
 .button {
   border-radius: var(--corner-radius-lg);
   border: 3px solid var(--color-accent);
-  display: block;
+  font-family: var(--font-display);
+  font-size: var(--text-display-md);
+  display: inline-block;
   padding: 0.1em 0.75em 0 0.75em;
   color: var(--color-accent);
-  font-family: var(--font-secondary);
-  font-size: var(--text-xxxl);
-  font-weight: 400;
   text-transform: uppercase;
   text-align: center;
   box-shadow: 0 4px 10px hsla(0, 0%, 0%, 15%),
               inset 0 4px 10px hsla(0, 0%, 0%, 15%);
   text-shadow: none;
+  margin-bottom: 1em;
+
+  // Adjusts the icon
+  svg {
+    padding-right: 0.15em;
+    font-size: 0.9em;
+  }
+
+  u {
+    color: var(--white);
+  }
+}
+
+.discordLink {
+  font-family: var(--font-display);
+  font-size: var(--text-display-sm);
+  color: var(--white);
+  text-decoration: underline;
 }

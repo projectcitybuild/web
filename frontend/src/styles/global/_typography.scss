@@ -4,51 +4,100 @@
   --font-body: 'Roboto', sans-serif;
   --font-display: 'Bebas Neue', sans-serif;
 
-  --text-body-large: 1.2rem;
-  --text-body-normal: 1rem;
-  --text-body-small: 0.8rem;
+  --text-body-lg: 1.2rem;
+  --text-body-md: 1rem;
+  --text-body-sm: 0.8rem;
 
-  --text-display-large: 3rem;
+  --text-heading-h1: 4rem;
+  --text-heading-h2: 3rem;
+  --text-heading-h3: 2.5rem;
+  --text-heading-h4: 2rem;
+  --text-heading-h5: 1.5rem;
+  --text-heading-h6: 1rem;
 
-  // TODO: remove these
-  --text-scale-ratio: 1.2;
-  --text-xs:    calc(1em / (var(--text-scale-ratio) * var(--text-scale-ratio)));
-  --text-sm:    calc(1em / var(--text-scale-ratio));
-  --text-md:    calc(1em * var(--text-scale-ratio));
-  --text-lg:    calc(1em * var(--text-scale-ratio) * var(--text-scale-ratio));
-  --text-xl:    calc(1em * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio));
-  --text-xxl:   calc(1em * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio));
-  --text-xxxl:  calc(1em * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio));
+  --text-display-lg: 6.5rem;
+  --text-display-md: 2.5rem;
+  --text-display-sm: 1.5rem;
 }
 
-.text--xxxl {
-  font-size: var(--text-xxxl);
+.text-body-lg,
+.text-body-md,
+.text-body.sm,
+.text-heading-h1,
+.text-heading-h2,
+.text-heading-h3,
+.text-heading-h4,
+.text-heading-h5,
+.text-heading-h6 {
+  font-family: var(--font-body);
 }
 
-h1, .text--xxl {
-  font-size: var(--text-xxl);
+.text-display-lg,
+.text-display-md,
+.text-display-sm {
+  font-family: var(--font-display);
 }
 
-h2, .text--xl {
-  font-size: var(--text-xl);
+.text-body-lg {
+  font-size: var(--text-body-lg);
+  letter-spacing: -0.02em;
+}
+.text-body-md {
+  font-size: var(--text-body-md);
+  letter-spacing: -0.02em;
+}
+.text-body-lg {
+  font-size: var(--text-body-sm);
+  letter-spacing: -0.02em;
 }
 
-h3, .text--lg {
-  font-size: var(--text-lg);
+h1, .text-heading-h1 {
+  font-size: var(--text-heading-h1);
+}
+h2, .text-heading-h2 {
+  font-size: var(--text-heading-h2);
+}
+h3, .text-heading-h3 {
+  font-size: var(--text-heading-h3);
+}
+h4, .text-heading-h4 {
+  font-size: var(--text-heading-h4);
+}
+h5, .text-heading-h5 {
+  font-size: var(--text-heading-h5);
+}
+h6, .text-heading-h6 {
+  font-size: var(--text-heading-h6);
 }
 
-h4, .text--md {
-  font-size: var(--text-md);
+.text-display-lg {
+  font-size: var(--text-display-lg);
+  font-kerning: normal;
+  letter-spacing: 0;
+  line-height: 0.95em;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-
-.text--sm, small {
-  font-size: var(--text-sm);
+.text-display-md {
+  font-size: var(--text-display-md);
+  font-kerning: normal;
+  letter-spacing: 0;
+  line-height: 0.95em;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-
-.text--xs {
-  font-size: var(--text-xs);
+.text-display-sm {
+  font-size: var(--text-display-sm);
+  font-kerning: normal;
+  letter-spacing: 0;
+  line-height: 0.95em;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 p {
-  line-height: var(--body-line-height);
+  //line-height: var(--body-line-height);
 }
