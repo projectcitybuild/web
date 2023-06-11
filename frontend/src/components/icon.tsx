@@ -4,6 +4,7 @@ import {
   faArrowPointer,
   faEnvelope,
   faLock,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faDiscord,
@@ -14,6 +15,7 @@ export enum IconToken {
   discord,
   envelope,
   lock,
+  user,
 }
 
 const iconFrom = (token: IconToken) => {
@@ -22,6 +24,7 @@ const iconFrom = (token: IconToken) => {
     case IconToken.discord: return faDiscord
     case IconToken.envelope: return faEnvelope
     case IconToken.lock: return faLock
+    case IconToken.user: return faUser
   }
 }
 

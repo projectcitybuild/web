@@ -12,7 +12,7 @@ type Props = {
 export default function AuthLayout(props: Props) {
   return (
     <div className={`columns ${styles.columns}`}>
-      <div className={`column is-half-tablet ${styles.formCol}`}>
+      <div className={`column is-half-tablet ${styles.contentsCol}`}>
         <Link href={Routes.HOME} className={styles.logo}>
           <Image
             src={logoImage}

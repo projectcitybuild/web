@@ -98,8 +98,8 @@ const Login: NextPageWithLayout = (props): JSX.Element => {
           </div>
 
           <span className="text-label-sm">
-                <Link href={Routes.FORGOT_PASSWORD}>Forgot password?</Link>
-              </span>
+              <Link href={Routes.FORGOT_PASSWORD}>Forgot password?</Link>
+          </span>
         </div>
 
         <div className="field">
@@ -112,9 +112,9 @@ const Login: NextPageWithLayout = (props): JSX.Element => {
         </div>
 
         <div className={styles.registerText}>
-              <span className="text-label-md">
-                Don't have an account? <strong><Link href={Routes.REGISTER}>Register for free</Link></strong>
-              </span>
+          <span className="text-label-md">
+            Don't have an account? <strong><Link href={Routes.REGISTER}>Register for free</Link></strong>
+          </span>
         </div>
       </form>
     </>

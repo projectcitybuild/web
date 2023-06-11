@@ -1,7 +1,7 @@
 import React, {ReactNode} from "react";
 
 type Props = {
-  label: String,
+  label?: string | undefined,
   errorText?: string | undefined,
   supportText?: string | undefined,
   className?: string | undefined;
@@ -11,7 +11,9 @@ type Props = {
 export default function FormField(props: Props) {
   return (
     <div className={`field ${props.className}`}>
-      <label className="label">{props.label}</label>
+      { props.label &&
+        (<label className="label">{props.label}</label>)
+      }
 
       {props.children}
 
