@@ -48,8 +48,8 @@
 
   .button {
     border-radius: dimensions.$corner-radius-lg;
-    border: 3px solid colors.$color-button-primary;
-    color: colors.$color-button-primary;
+    border: 3px solid colors.$color-primary;
+    color: colors.$color-primary;
     font-family: typography.$font-display;
     font-size: typography.$text-display-md;
     display: inline-block;
@@ -59,8 +59,8 @@
                 inset 0 4px 10px rgba(0, 0, 0, 0.15);
 
     &:hover {
-      color: colors.$color-button-primary-hover;
-      border-color: colors.$color-button-primary-hover;
+      color: colors.$color-primary-dark;
+      border-color: colors.$color-primary-dark;
 
       u {
         color: darken(colors.$color-white, 30%);

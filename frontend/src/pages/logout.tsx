@@ -11,7 +11,7 @@ const Logout: NextPage = (): JSX.Element => {
 
     useEffect(() => {
         logout()
-            .then(() => router.push("/"))
+            .then(() => router.push(Routes.LOGIN))
             .catch(console.error)
     }, [])
 

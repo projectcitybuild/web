@@ -1,0 +1,15 @@
+@use '../styles/vars/colors';
+@use '../styles/vars/dimensions';
+@use '../styles/vars/typography';
+
+.button {
+  background-color: colors.$color-button-primary-bg!important;  // prevents `is-loading` overriding the bg
+  color: colors.$color-button-primary-text;
+  font-size: typography.$text-label-lg;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15),
+              inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+  border: 0;
+  border-radius: dimensions.$corner-radius-sm;
+  padding: 1.25em;
+}

@@ -1,5 +1,5 @@
 // TODO: is there a better way to import with NextJS?
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;500;600;700&display=swap');
 
 $font-body: 'Roboto', sans-serif;
 $font-display: 'Bebas Neue', sans-serif;
@@ -30,6 +30,6 @@ $text-heading-xxs: 1.0rem;
 // For smaller, utilitarian styles, such as text inside
 // components, button text, captions or small text in the
 // content body
-$text-label-lg: 1.5em;
-$text-label-md: 0.8125em;
-$text-label-sm: 0.7em;
+$text-label-lg: 1rem;
+$text-label-md: 0.8125rem;
+$text-label-sm: 0.6875em;

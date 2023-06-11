@@ -117,16 +117,16 @@ h6 { @extend .text-heading-xxs }
   &-lg {
     @extend .text-label;
     font-size: typography.$text-label-lg;
-    font-weight: 500;
+    font-weight: 400;
   }
   &-md {
     @extend .text-label;
     font-size: typography.$text-label-md;
-    font-weight: 500;
+    font-weight: 400;
   }
   &-sm {
     @extend .text-label;
     font-size: typography.$text-label-sm;
-    font-weight: 500;
+    font-weight: 400;
   }
 }

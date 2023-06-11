@@ -13,6 +13,7 @@ import logoImage from "@/assets/images/logo.png";
 import styles from "@/pages/login.module.scss";
 import Icon, {IconToken} from "@/components/icon";
 import FormField from "@/components/form-field";
+import FilledButton from "@/components/filled-button";
 
 type FormData = {
   email: string
@@ -65,7 +66,11 @@ const Login: NextPage = (props): JSX.Element => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Alert error={errors.root?.message} />
 
-            <FormField label="Email Address" errorText={errors.email?.message}>
+            <FormField
+              label="Email Address"
+              errorText={errors.email?.message}
+              className={styles.fieldEmail}
+            >
               <p className="control has-icons-left">
                 <input
                   type="email"
@@ -79,7 +84,11 @@ const Login: NextPage = (props): JSX.Element => {
               </p>
             </FormField>
 
-            <FormField label="Password" errorText={errors.password?.message}>
+            <FormField
+              label="Password"
+              errorText={errors.password?.message}
+              className={styles.fieldPassword}
+            >
               <p className="control has-icons-left">
                 <input
                   type="password"
@@ -93,26 +102,31 @@ const Login: NextPage = (props): JSX.Element => {
               </p>
             </FormField>
 
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <label className="checkbox">
-                    <input type="checkbox" /> Remember me
-                  </label>
-                </div>
-
-                <Link href={Routes.FORGOT_PASSWORD}>Forgot password?</Link>
+            <div className={`field ${styles.fieldOptions}`}>
+              <div className="field">
+                <label className={`checkbox ${styles.checkbox}`}>
+                  <input type="checkbox" /> Remember me
+                </label>
               </div>
+
+              <span className="text-label-sm">
+                <Link href={Routes.FORGOT_PASSWORD}>Forgot password?</Link>
+              </span>
             </div>
 
             <div className="field">
-              <p className="control">
-                <button
-                  type="submit"
-                  disabled={formState.isSubmitting}
-                  className={`button is-primary ${formState.isSubmitting ? "is-loading" : null}`}
-                >Sign in</button>
-              </p>
+              <FilledButton
+                text="Sign In"
+                submit={true}
+                loading={formState.isSubmitting}
+                disabled={formState.isSubmitting}
+              />
+            </div>
+
+            <div className={styles.registerText}>
+              <span className="text-label-md">
+                Don't have an account? <strong><Link href={Routes.REGISTER}>Register for free</Link></strong>
+              </span>
             </div>
           </form>
         </div>
