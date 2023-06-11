@@ -1,20 +1,12 @@
-@import 'global/colors';
-@import 'global/dimensions';
-@import 'global/typography';
+@import 'vars/colors';
+@import 'vars/dimensions';
+@import 'vars/media';
+@import 'vars/shadows';
+@import 'vars/typography';
 
 @import 'helpers/color_mix';
 @import 'helpers/margins';
 
-// Bulma overrides
-$navbar-item-color: #fff;
-$navbar-item-hover-color: darken($navbar-item-color, 15%);
-$navbar-item-hover-background-color: lighten(hsl(20, 12%, 29%), 10%);
-$navbar-dropdown-arrow: #fff;
-//$navbar-dropdown-background-color: lighten(hsl(20, 12%, 29%), 10%);
-$navbar-dropdown-border-top: 3px solid darken(hsl(20, 12%, 29%), 10%);
-$navbar-dropdown-radius: var(--corner-radius-sm);
+@import 'text';
 
-$primary: hsl(40, 98%, 49%);
-$family-primary: var(--font-body);
-
-@import '~bulma/bulma.sass';
+@import 'bulma';

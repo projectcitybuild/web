@@ -1,0 +1,131 @@
+@use 'vars/typography';
+@use 'vars/colors';
+
+h1 { @extend .text-heading-xl }
+h2 { @extend .text-heading-lg }
+h3 { @extend .text-heading-md }
+h4 { @extend .text-heading-sm }
+h5 { @extend .text-heading-xs }
+h6 { @extend .text-heading-xxs }
+
+.text-display {
+  font-family: typography.$font-display;
+  font-weight: 500;
+  font-kerning: normal;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: colors.$color-text-heading;
+
+  &-lg {
+    @extend .text-display;
+    font-size: typography.$text-display-lg;
+    letter-spacing: 0;
+    line-height: 0.95em;
+  }
+  &-md {
+    @extend .text-display;
+    font-size: typography.$text-display-md;
+    letter-spacing: 0;
+    line-height: 0.95em;
+  }
+  &-sm {
+    @extend .text-display;
+    font-size: typography.$text-display-sm;
+    letter-spacing: 0;
+    line-height: 0.95em;
+  }
+}
+
+.text-heading {
+  font-family: typography.$font-body;
+  color: colors.$color-text-heading;
+
+  &-xl {
+    @extend .text-heading;
+    font-size: typography.$text-heading-xl;
+  }
+  &-lg {
+    @extend .text-heading;
+    font-size: typography.$text-heading-lg;
+  }
+  &-md {
+    @extend .text-heading;
+    font-size: typography.$text-heading-md;
+  }
+  &-sm {
+    @extend .text-heading;
+    font-size: typography.$text-heading-sm;
+  }
+  &-xs {
+    @extend .text-heading;
+    font-size: typography.$text-heading-xs;
+  }
+  &-xxs {
+    @extend .text-heading;
+    font-size: typography.$text-heading-xxs;
+  }
+}
+
+.text-title {
+  font-family: typography.$font-body;
+  color: colors.$color-text-heading;
+
+  &-lg {
+    @extend .text-title;
+    font-size: typography.$text-title-lg;
+    line-height: 1.8em;
+  }
+  &-md {
+    @extend .text-title;
+    font-size: typography.$text-title-md;
+    line-height: 1.8em;
+  }
+  &-sm {
+    @extend .text-title;
+    font-size: typography.$text-title-sm;
+    line-height: 1.8em;
+  }
+}
+
+.text-body {
+  font-family: typography.$font-body;
+  color: colors.$color-text-body;
+
+  &-lg {
+    @extend .text-body;
+    font-size: typography.$text-body-lg;
+    letter-spacing: -0.02em;
+  }
+  &-md {
+    @extend .text-body;
+    font-size: typography.$text-body-md;
+    letter-spacing: -0.02em;
+  }
+  &-sm {
+    @extend .text-body;
+    font-size: typography.$text-body-sm;
+    letter-spacing: -0.02em;
+  }
+}
+
+.text-label {
+  font-family: typography.$font-body;
+  color: colors.$color-text-body;
+
+  &-lg {
+    @extend .text-label;
+    font-size: typography.$text-label-lg;
+    letter-spacing: -0.02em;
+  }
+  &-md {
+    @extend .text-label;
+    font-size: typography.$text-label-md;
+    letter-spacing: -0.02em;
+  }
+  &-sm {
+    @extend .text-label;
+    font-size: typography.$text-label-sm;
+    letter-spacing: -0.02em;
+  }
+}

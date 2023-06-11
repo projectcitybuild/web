@@ -1,3 +1,8 @@
+@use '../styles/vars/colors';
+@use '../styles/vars/dimensions';
+@use '../styles/vars/media';
+@use '../styles/vars/typography';
+
 .background {
   background-size: cover;
   background-position: center top;
@@ -6,67 +11,68 @@
                     url('/hero-bg.png');
 }
 
-.title {
-  color: var(--white);
-  font-weight: 500;
-  text-shadow: 0 2px 9px hsla(0, 0%, 0%, 35%);
-
-  margin-bottom: 0.2em;
-}
-
-.subtitle,
-.subtitle strong {
-  color: #e6e6e6;
-  text-shadow: 0 2px 4px hsla(0, 0%, 0%, 55%);
-  line-height: 1.7em;
-  margin-bottom: 2.5em;
-}
-
-.content {
+.layoutHeroBody {
   display: flex;
   flex-grow: 1;
   justify-content: flex-end;
 
-  // TODO: fetch the width from Bulma
-  @media only screen and (min-width: 600px) {
+  @media only screen and (min-width: media.$media-screen-tablet) {
     padding: 0 4em;
   }
 }
 
-.textContainer {
+.layoutRightCol {
   text-align: right;
-  max-width: 550px;
+  max-width: 650px;
 }
 
-.button {
-  border-radius: var(--corner-radius-lg);
-  border: 3px solid var(--color-accent);
-  font-family: var(--font-display);
-  font-size: var(--text-display-md);
-  display: inline-block;
-  padding: 0.1em 0.75em 0 0.75em;
-  color: var(--color-accent);
-  text-transform: uppercase;
-  text-align: center;
-  box-shadow: 0 4px 10px hsla(0, 0%, 0%, 15%),
-              inset 0 4px 10px hsla(0, 0%, 0%, 15%);
-  text-shadow: none;
+.layoutTitle {
+  h1 {
+    color: colors.$color-white;
+    text-shadow: 0 2px 9px hsla(0, 0%, 0%, 35%);
+  }
+}
+
+.layoutDescription {
+  margin-top: 1.2em;
+  margin-bottom: 2.0em;
+
+  span, strong {
+    color: #e6e6e6;
+    text-shadow: 0 2px 4px hsla(0, 0%, 0%, 55%);
+  }
+}
+
+.layoutButton {
   margin-bottom: 1em;
 
-  // Adjusts the icon
-  svg {
-    padding-right: 0.15em;
-    font-size: 0.9em;
-  }
+  .button {
+    border-radius: dimensions.$corner-radius-lg;
+    border: 3px solid colors.$color-button-primary;
+    color: colors.$color-button-primary;
+    font-family: typography.$font-display;
+    font-size: typography.$text-display-md;
+    display: inline-block;
+    padding: 0.1em 0.75em 0 0.75em;
+    text-align: center;
+    box-shadow: 0 4px 10px hsla(0, 0%, 0%, 15%),
+                inset 0 4px 10px hsla(0, 0%, 0%, 15%);
 
-  u {
-    color: var(--white);
+    u {
+      color: colors.$color-white;
+    }
+
+    // Adjust the icon
+    svg {
+      padding-right: 0.15em;
+      font-size: 0.9em;
+    }
   }
 }
 
 .discordLink {
-  font-family: var(--font-display);
-  font-size: var(--text-display-sm);
-  color: var(--white);
+  font-family: typography.$font-display;
+  font-size: typography.$text-display-sm;
+  color: colors.$color-white;
   text-decoration: underline;
 }

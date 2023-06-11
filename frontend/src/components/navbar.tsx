@@ -68,10 +68,10 @@ export default function NavBar() {
                 <div className="navbar-end">
                     <div className="navbar-item">
                         <div className="buttons">
-                            <Link className="button is-text" href={Routes.REGISTER}>
+                            <Link className="button is-text" href={Routes.LOGIN}>
                                 Log In
                             </Link>
-                            <Link className="button is-light" href={Routes.LOGIN}>
+                            <Link className="button is-light" href={Routes.REGISTER}>
                                 Sign Up
                             </Link>
                         </div>
