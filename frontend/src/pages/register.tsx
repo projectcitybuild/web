@@ -14,6 +14,7 @@ import FormField from "@/components/form-field";
 import FilledButton from "@/components/filled-button";
 import styles from "@/pages/login.module.scss";
 import Link from "next/link";
+import {Urls} from "@/constants/urls";
 
 type FormData = {
   username: string
@@ -47,7 +48,7 @@ const Register: NextPageWithLayout = (props): JSX.Element => {
         .oneOf([yup.ref('password')], 'Passwords must match'),
 
       acceptTerms: yup.boolean()
-        .required("You must accept to continue"),
+        .isTrue("You must accept to continue"),
     })
     .required()
 
@@ -100,7 +101,7 @@ const Register: NextPageWithLayout = (props): JSX.Element => {
             <input
               type="text"
               placeholder="Notch"
-              className="input"
+              className={`input ${errors.username && "is-danger"}`}
               {...register("username")}
             />
             <span className="icon is-small is-left">
@@ -117,7 +118,7 @@ const Register: NextPageWithLayout = (props): JSX.Element => {
             <input
               type="email"
               placeholder="me@pcbmc.co"
-              className="input"
+              className={`input ${errors.email && "is-danger"}`}
               {...register("email")}
             />
             <span className="icon is-small is-left">
@@ -133,7 +134,7 @@ const Register: NextPageWithLayout = (props): JSX.Element => {
           <p className="control has-icons-left">
             <input
               type="password"
-              className="input"
+              className={`input ${errors.password && "is-danger"}`}
               {...register("password")}
             />
             <span className="icon is-small is-left">
@@ -149,7 +150,7 @@ const Register: NextPageWithLayout = (props): JSX.Element => {
             <input
               type="password"
               placeholder="(Confirm Password)"
-              className="input"
+              className={`input ${errors.passwordConfirm && "is-danger"}`}
               {...register("passwordConfirm")}
             />
             <span className="icon is-small is-left">
@@ -158,18 +159,21 @@ const Register: NextPageWithLayout = (props): JSX.Element => {
           </p>
         </FormField>
 
-        <div className="field">
+        <div className="field mt-4">
           <div className="box">
             <label className={`checkbox ${styles.checkbox}`}>
-              <input type="checkbox" /> I agree to the <a href="https://projectcitybuild.com/terms" target="_blank">terms of service</a> and <a href="https://projectcitybuild.com/privacy" target="_blank">privacy policy</a>.
+              <input
+                type="checkbox"
+                {...register("acceptTerms")}
+              /> I agree to the <a href={Urls.TERMS_OF_SERVICE} target="_blank">terms of service</a> and <a href={Urls.PRIVACY_POLICY} target="_blank">privacy policy</a>
             </label>
             <p className="help is-danger">{errors.acceptTerms?.message}</p>
           </div>
         </div>
 
-        <div className="field">
+        <div className="field mt-5">
           <FilledButton
-            text="Create Account"
+            text="Submit"
             submit={true}
             loading={loading}
             disabled={loading}
@@ -177,9 +181,9 @@ const Register: NextPageWithLayout = (props): JSX.Element => {
         </div>
 
         <div>
-            <span className="text-label-md">
-              Already have an account? <strong><Link href={Routes.LOGIN}>Sign in</Link></strong>
-            </span>
+          <span className="text-label-md">
+            Already have an account? <strong><Link href={Routes.LOGIN}>Sign in</Link></strong>
+          </span>
         </div>
       </form>
     </div>
