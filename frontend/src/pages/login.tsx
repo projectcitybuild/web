@@ -27,8 +27,12 @@ const Login: NextPageWithLayout = (props): JSX.Element => {
 
   const schema = yup
     .object({
-      email: yup.string().required().email(),
-      password: yup.string().required(),
+      email: yup.string()
+        .required("Cannot be empty")
+        .email("Must be a valid email address"),
+
+      password: yup.string()
+        .required("Cannot be empty"),
     })
     .required()
 

@@ -32,12 +32,22 @@ const Register: NextPageWithLayout = (props): JSX.Element => {
 
   const schema = yup
     .object({
-      username: yup.string().required(),
-      email: yup.string().required().email(),
-      password: yup.string().required(),
-      passwordConfirm: yup.string().required()
+      username: yup.string()
+        .required("Cannot be empty"),
+
+      email: yup.string()
+        .required("Cannot be empty")
+        .email("Must be a valid email address"),
+
+      password: yup.string()
+        .required("Cannot be empty"),
+
+      passwordConfirm: yup.string()
+        .required("Cannot be empty")
         .oneOf([yup.ref('password')], 'Passwords must match'),
-      acceptTerms: yup.boolean().required(),
+
+      acceptTerms: yup.boolean()
+        .required("You must accept to continue"),
     })
     .required()
 
@@ -153,8 +163,8 @@ const Register: NextPageWithLayout = (props): JSX.Element => {
             <label className={`checkbox ${styles.checkbox}`}>
               <input type="checkbox" /> I agree to the <a href="https://projectcitybuild.com/terms" target="_blank">terms of service</a> and <a href="https://projectcitybuild.com/privacy" target="_blank">privacy policy</a>.
             </label>
+            <p className="help is-danger">{errors.acceptTerms?.message}</p>
           </div>
-          <p className="help is-danger">{errors.acceptTerms?.message}</p>
         </div>
 
         <div className="field">
