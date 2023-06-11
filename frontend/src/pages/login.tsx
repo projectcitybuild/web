@@ -71,8 +71,8 @@ const Login: NextPageWithLayout = (props): JSX.Element => {
               {...register("email")}
             />
             <span className="icon is-small is-left">
-                  <Icon token={IconToken.envelope} />
-                </span>
+              <Icon token={IconToken.envelope} />
+            </span>
           </p>
         </FormField>
 
@@ -89,8 +89,8 @@ const Login: NextPageWithLayout = (props): JSX.Element => {
               {...register("password")}
             />
             <span className="icon is-small is-left">
-                  <Icon token={IconToken.lock} />
-                </span>
+              <Icon token={IconToken.lock} />
+            </span>
           </p>
         </FormField>
 
@@ -102,7 +102,7 @@ const Login: NextPageWithLayout = (props): JSX.Element => {
           </div>
 
           <span className="text-label-sm">
-              <Link href={Routes.FORGOT_PASSWORD}>Forgot password?</Link>
+            <Link href={Routes.FORGOT_PASSWORD}>Forgot password?</Link>
           </span>
         </div>
 

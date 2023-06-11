@@ -1,92 +1,112 @@
-import {NextPage} from "next"
-import {useForm} from "react-hook-form"
-import {yupResolver} from "@hookform/resolvers/yup"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import {DisplayableError} from "@/libs/http/http";
-import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
-import NavBar from "@/components/navbar";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEnvelope} from "@fortawesome/free-solid-svg-icons";
-import React, {useState} from "react";
-import {Routes} from "@/constants/routes";
-import {Alert} from "@/components/alert";
+import { DisplayableError } from "@/libs/http/http";
+import { AuthMiddleware, useAuth } from "@/hooks/useAuth";
+import React, { ReactElement, useState } from "react";
+import { Routes } from "@/constants/routes";
+import { Alert} from "@/components/alert";
+import { NextPageWithLayout } from "@/pages/_app";
+import AuthLayout from "@/components/layouts/auth-layout";
+import FilledButton from "@/components/filled-button";
+import Icon, { IconToken } from "@/components/icon";
+import Link from "next/link";
+import styles from "@/pages/login.module.scss";
+import FormField from "@/components/form-field";
 
 type FormData = {
-    email: string
+  email: string
 }
 
-const ForgotPassword: NextPage = (props): JSX.Element => {
-    const { forgotPassword } = useAuth({
-        middleware: AuthMiddleware.GUEST,
-        redirectIfAuthenticated: Routes.DASHBOARD,
+const ForgotPassword: NextPageWithLayout = (props): JSX.Element => {
+  const { forgotPassword } = useAuth({
+    middleware: AuthMiddleware.GUEST,
+    redirectIfAuthenticated: Routes.DASHBOARD,
+  })
+  const [ loading, setLoading ] = useState(false)
+  const [ success, setSuccess ] = useState("")
+
+  const schema = yup
+    .object({
+      email: yup.string()
+        .required("Cannot be empty")
+        .email("Must be a valid email address"),
     })
-    const [ loading, setLoading ] = useState(false)
-    const [ success, setSuccess ] = useState("")
+    .required()
 
-    const schema = yup
-        .object({
-            email: yup.string().required().email(),
-        })
-        .required()
+  const { register, handleSubmit, formState, setError } = useForm<FormData>({ resolver: yupResolver(schema) })
+  const { errors } = formState
 
-    const { register, handleSubmit, formState, setError } = useForm<FormData>({ resolver: yupResolver(schema) })
-    const { errors } = formState
+  const onSubmit = async (data: FormData) => {
+    setLoading(true)
+    setSuccess("")
 
-    const onSubmit = async (data: FormData) => {
-        setLoading(true)
-        setSuccess("")
+    try {
+      await forgotPassword(data.email)
+      setSuccess("A password reset link has been emailed to you")
 
-        try {
-            const message = await forgotPassword(data.email)
-            setSuccess(message)
-
-        } catch (error) {
-            if (error instanceof DisplayableError) {
-                setError("root", { message: error.message })
-            } else {
-                console.error(error)
-            }
-        } finally {
-            setLoading(false)
-        }
+    } catch (error) {
+      if (error instanceof DisplayableError) {
+        setError("root", { message: error.message })
+      } else {
+        console.error(error)
+      }
+    } finally {
+      setLoading(false)
     }
+  }
 
-    return (
-        <div>
-            <NavBar />
+  return (
+    <>
+      <Link href={Routes.LOGIN}>
+        <Icon token={IconToken.chevronLeft} /> Back to Sign In
+      </Link>
 
-            <section className="section">
-                <h1>Forgot Email</h1>
+      <h1 className="text-heading-xl">Forgot Password</h1>
 
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <Alert
-                        error={errors.root?.message}
-                        success={success}
-                    />
-                    <div className="field">
-                        <p className="control has-icons-left">
-                            <input type="email" placeholder="Email address" className="input" {...register("email")} />
-                            <span className="icon is-small is-left">
-                                <FontAwesomeIcon icon={faEnvelope} />
-                            </span>
-                        </p>
-                        <p className="help is-danger">{errors.email?.message}</p>
-                    </div>
-                    <div className="field">
-                        <p className="control">
-                            <button
-                                type="submit"
-                                disabled={formState.isSubmitting || loading}
-                                className={`button is-success ${loading ? 'is-loading' : ''}`}
-                            >
-                                Send Email
-                            </button>
-                        </p>
-                    </div>
-                </form>
-            </section>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Alert
+          error={errors.root?.message}
+          success={success}
+        />
+
+        <FormField
+          label="Email Address"
+          errorText={errors.email?.message}
+          className={styles.fieldEmail}
+        >
+          <p className="control has-icons-left">
+            <input
+              type="email"
+              placeholder="me@pcbmc.co"
+              className={`input ${errors.email && "is-danger"}`}
+              {...register("email")}
+            />
+            <span className="icon is-small is-left">
+              <Icon token={IconToken.envelope} />
+            </span>
+          </p>
+        </FormField>
+
+        <div className="field">
+          <FilledButton
+            text="Send Email"
+            submit={true}
+            loading={loading}
+            disabled={loading}
+          />
         </div>
-    )
+      </form>
+    </>
+  )
+}
+
+ForgotPassword.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <AuthLayout>
+      {page}
+    </AuthLayout>
+  )
 }
 
 export default ForgotPassword

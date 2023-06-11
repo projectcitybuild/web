@@ -87,7 +87,7 @@ const Register: NextPageWithLayout = (props): JSX.Element => {
   }
 
   return (
-    <div>
+    <>
       <h1 className="text-heading-xl">Create an Account</h1>
 
       <Alert error={errors.root?.message} />
@@ -186,7 +186,7 @@ const Register: NextPageWithLayout = (props): JSX.Element => {
           </span>
         </div>
       </form>
-    </div>
+    </>
   )
 }
 
