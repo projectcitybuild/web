@@ -1,0 +1,32 @@
+@use 'vars/colors';
+@use 'vars/typography';
+@use 'vars/dimensions';
+@use 'text';
+
+$navbar-item-color: #fff;
+$navbar-item-hover-color: darken($navbar-item-color, 15%);
+$navbar-item-hover-background-color: lighten(hsl(20, 12%, 29%), 10%);
+$navbar-dropdown-arrow: #fff;
+//$navbar-dropdown-background-color: lighten(hsl(20, 12%, 29%), 10%);
+$navbar-dropdown-border-top: 3px solid darken(hsl(20, 12%, 29%), 10%);
+$navbar-dropdown-radius: var(--corner-radius-sm);
+
+$input-radius: dimensions.$corner-radius-sm;
+$input-shadow: 0;
+$input-placeholder-color: rgb(206, 201, 201);
+$input-background-color: rgb(246, 245, 245);
+$input-border-color: transparent;
+$input-border-width: 0;
+$input-focus-color: colors.$color-alternate;
+$input-focus-border-color: colors.$color-alternate;
+
+$primary: colors.$color-primary;
+$family-primary: typography.$font-body;
+$link: colors.$color-link;
+$link-visited: colors.$color-link-visited;
+$danger: colors.$color-danger;
+$warning: colors.$color-warning;
+$success: colors.$color-success;
+
+
+@import '~bulma/bulma.sass';

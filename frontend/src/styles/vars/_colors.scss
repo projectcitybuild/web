@@ -18,17 +18,17 @@ $color-alternate-light: lighten($color-alternate, 15%);
 $color-alternate-dark: darken($color-alternate, 15%);
 
 $color-success: rgb(136, 196, 89);
-$color-error: rgb(239, 38, 38);
-$color-warning: rgb(255, 209, 55);
+$color-danger: rgb(241, 70, 104);
+$color-warning: rgb(255, 224, 138);
 
 
 // Semantics
 
 $color-text-body: $color-gray-10;
-$color-text-heading: $color-gray-6;
+$color-text-heading: $color-black;
 
-$color-link: $color-primary;
-$color-link-visited: $color-primary-dark;
+$color-link: $color-alternate;
+$color-link-visited: $color-alternate-dark;
 
 $color-button-primary: $color-primary;
 $color-button-primary-hover: $color-primary-dark;

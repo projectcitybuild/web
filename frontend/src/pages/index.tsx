@@ -1,4 +1,3 @@
-import styles from '@/styles/Home.module.css'
 import NavBar from "@/components/navbar";
 import HomeHero from "@/components/home-hero";
 
