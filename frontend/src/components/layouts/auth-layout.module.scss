@@ -1,0 +1,38 @@
+.background {
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-image: url('/login-bg.png');
+}
+
+.columns {
+  min-height: 100vh;
+  margin: 0;  // Kills the blank space at the bottom
+  justify-content: stretch;
+}
+
+.logo {
+  position: absolute;
+}
+
+.formCol {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    margin-bottom: 1.2em;
+  }
+}
+
+.contents {
+  // Subtract logo height so that the vertical alignment is
+  // centered to the page
+  margin-top: -47px;
+
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8rem 3rem;
+}
