@@ -58,6 +58,15 @@
     box-shadow: 0 4px 10px hsla(0, 0%, 0%, 15%),
                 inset 0 4px 10px hsla(0, 0%, 0%, 15%);
 
+    &:hover {
+      color: colors.$color-button-primary-hover;
+      border-color: colors.$color-button-primary-hover;
+
+      u {
+        color: darken(colors.$color-white, 30%);
+      }
+    }
+
     u {
       color: colors.$color-white;
     }

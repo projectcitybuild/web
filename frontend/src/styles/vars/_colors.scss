@@ -10,12 +10,12 @@ $color-gray-1: rgb(232, 231, 232);
 $color-white: rgb(255, 255, 255);
 
 $color-primary: rgb(247, 166, 2);
-$color-primary-light: tint($color-primary, 15%);
-$color-primary-dark: shade($color-primary, 10%);
+$color-primary-light: lighten($color-primary, 15%);
+$color-primary-dark: darken($color-primary, 10%);
 
 $color-alternate: rgb(24, 135, 220);
-$color-alternate-light: tint($color-alternate, 15%);
-$color-alternate-dark: shade($color-alternate, 15%);
+$color-alternate-light: lighten($color-alternate, 15%);
+$color-alternate-dark: darken($color-alternate, 15%);
 
 $color-success: rgb(136, 196, 89);
 $color-error: rgb(239, 38, 38);
@@ -31,3 +31,4 @@ $color-link: $color-primary;
 $color-link-visited: $color-primary-dark;
 
 $color-button-primary: $color-primary;
+$color-button-primary-hover: $color-primary-dark;
