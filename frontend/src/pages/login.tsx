@@ -19,7 +19,7 @@ type FormData = {
   password: string
 }
 
-const Login: NextPageWithLayout = (props): JSX.Element => {
+const Page: NextPageWithLayout = (): JSX.Element => {
   const { login } = useAuth({
     middleware: AuthMiddleware.GUEST,
     redirectIfAuthenticated: Routes.DASHBOARD,
@@ -125,7 +125,7 @@ const Login: NextPageWithLayout = (props): JSX.Element => {
   )
 }
 
-Login.getLayout = function getLayout(page: ReactElement) {
+Page.getLayout = function getLayout(page: ReactElement) {
   return (
     <AuthLayout>
       {page}
@@ -133,4 +133,4 @@ Login.getLayout = function getLayout(page: ReactElement) {
   )
 }
 
-export default Login
+export default Page

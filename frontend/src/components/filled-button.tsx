@@ -5,6 +5,7 @@ type Props = {
   disabled?: boolean|undefined,
   loading: boolean,
   submit?: boolean|undefined,
+  onClick?: () => Promise<void>|undefined,
 }
 
 export default function FilledButton(props: Props) {

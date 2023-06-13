@@ -18,7 +18,7 @@ type FormData = {
   email: string
 }
 
-const ForgotPassword: NextPageWithLayout = (props): JSX.Element => {
+const Page: NextPageWithLayout = (props): JSX.Element => {
   const { forgotPassword } = useAuth({
     middleware: AuthMiddleware.GUEST,
     redirectIfAuthenticated: Routes.DASHBOARD,
@@ -101,7 +101,7 @@ const ForgotPassword: NextPageWithLayout = (props): JSX.Element => {
   )
 }
 
-ForgotPassword.getLayout = function getLayout(page: ReactElement) {
+Page.getLayout = function getLayout(page: ReactElement) {
   return (
     <AuthLayout>
       {page}
@@ -109,4 +109,4 @@ ForgotPassword.getLayout = function getLayout(page: ReactElement) {
   )
 }
 
-export default ForgotPassword
+export default Page

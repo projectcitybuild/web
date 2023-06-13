@@ -24,7 +24,7 @@ type FormData = {
   acceptTerms: boolean
 }
 
-const Register: NextPageWithLayout = (props): JSX.Element => {
+const Page: NextPageWithLayout = (): JSX.Element => {
   const router = useRouter()
   const { register: registerAccount, login } = useAuth({
     middleware: AuthMiddleware.GUEST,
@@ -190,7 +190,7 @@ const Register: NextPageWithLayout = (props): JSX.Element => {
   )
 }
 
-Register.getLayout = function getLayout(page: ReactElement) {
+Page.getLayout = function getLayout(page: ReactElement) {
   return (
     <AuthLayout>
       {page}
@@ -198,4 +198,4 @@ Register.getLayout = function getLayout(page: ReactElement) {
   )
 }
 
-export default Register
+export default Page
