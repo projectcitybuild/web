@@ -1,30 +1,31 @@
-import {NextPage} from "next"
-import Link from "next/link";
-import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
-import {Routes} from "@/constants/routes";
+import { AuthMiddleware, useAuth } from "@/hooks/useAuth";
+import { NextPageWithLayout } from "@/pages/_app";
+import React, { ReactElement } from "react";
+import DashboardLayout from "@/components/layouts/dashboard-layout";
 
-interface Props {}
-
-const Dashboard: NextPage<Props> = (props): JSX.Element => {
-    const { user } = useAuth({
-        middleware: AuthMiddleware.AUTH,
-    })
-
-    console.log(user)
-
-    return (
-        <div>
-            <h1>Dashboard</h1>
-
-            <ul>
-                <li>
-                    <Link href={Routes.DASHBOARD}>Dashboard</Link>
-                    <Link href={Routes.SECURITY}>Security</Link>
-                    <Link href={Routes.LOGOUT}>Logout</Link>
-                </li>
-            </ul>
-        </div>
-    )
+interface Props {
 }
 
-export default Dashboard
+const Page: NextPageWithLayout<Props> = (props): JSX.Element => {
+  const {user} = useAuth({
+    middleware: AuthMiddleware.AUTH,
+  })
+
+  console.log(user)
+
+  return (
+    <>
+      TODO
+    </>
+  )
+}
+
+Page.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <DashboardLayout>
+      {page}
+    </DashboardLayout>
+  )
+}
+
+export default Page

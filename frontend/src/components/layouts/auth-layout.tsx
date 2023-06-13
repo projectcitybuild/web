@@ -4,7 +4,7 @@ import { Routes } from "@/constants/routes";
 import Image from "next/image";
 import logoImage from "@/assets/images/logo.png";
 import React, { ReactElement } from "react";
-import {Urls} from "@/constants/urls";
+import { Urls } from "@/constants/urls";
 
 type Props = {
   children: ReactElement
