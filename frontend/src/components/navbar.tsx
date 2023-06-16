@@ -1,3 +1,7 @@
+import Icon, { IconToken } from "@/components/icon"
+import { useAuth } from "@/hooks/useAuth"
+import { faExternalLink } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Link from "next/link";
 import Image from "next/image";
 import styles from '@/components/navbar.module.scss'
@@ -102,6 +106,9 @@ const NavBarWrapper = (props: {className: string, children: ReactElement}) => {
 }
 
 const HomeVariant = () => {
+  const { user } = useAuth()
+  const isLoggedIn = user != null
+
   return (
     <>
       <div className="navbar-start">
@@ -143,14 +150,26 @@ const HomeVariant = () => {
 
       <div className="navbar-end">
         <div className="navbar-item">
-          <div className="buttons">
-            <Link className="button is-text" href={Routes.LOGIN}>
-              Log In
-            </Link>
-            <Link className="button is-light" href={Routes.REGISTER}>
-              Sign Up
-            </Link>
-          </div>
+          { isLoggedIn
+            ? (
+              <div className="buttons">
+                <Link className="button is-text" href={Routes.DASHBOARD}>
+                  <span className="mr-2">Dashboard</span>
+                  <Icon token={IconToken.arrowRight} />
+                </Link>
+              </div>
+            )
+            : (
+              <div className="buttons">
+                <Link className="button is-text" href={Routes.LOGIN}>
+                  Log In
+                </Link>
+                <Link className="button is-light" href={Routes.REGISTER}>
+                  Sign Up
+                </Link>
+              </div>
+            )
+          }
         </div>
       </div>
     </>

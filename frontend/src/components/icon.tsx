@@ -2,6 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowPointer,
+  faArrowRight,
   faEnvelope,
   faLock,
   faUser,
@@ -14,6 +15,7 @@ import {
 
 export enum IconToken {
   arrowPointer,
+  arrowRight,
   chevronLeft,
   chevronRight,
   discord,
@@ -25,6 +27,7 @@ export enum IconToken {
 const iconFrom = (token: IconToken) => {
   switch (token) {
     case IconToken.arrowPointer: return faArrowPointer
+    case IconToken.arrowRight: return faArrowRight
     case IconToken.chevronLeft: return faChevronLeft
     case IconToken.chevronRight: return faChevronRight
     case IconToken.discord: return faDiscord
