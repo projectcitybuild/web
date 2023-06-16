@@ -84,9 +84,9 @@ const HomeVariant = () => {
             Portal
           </a>
 
-          <a className="navbar-item">
+          <Link className="navbar-item" href={Routes.MAPS}>
             Live Maps
-          </a>
+          </Link>
 
           <a className="navbar-item">
             Vote For Us
