@@ -1,10 +1,14 @@
 import HomeHero from "@/components/home-hero";
-import NavBar, { NavBarVariant } from "@/components/navbar";
+import NavBar, { NavBarColorVariant, NavBarMenuSet } from "@/components/navbar";
+import React from "react"
 
 export default function Home() {
   return (
     <>
-        <NavBar variant={NavBarVariant.home} />
+        <NavBar
+          menuSet={NavBarMenuSet.home}
+          colorVariant={NavBarColorVariant.floatingTransparent}
+        />
         <HomeHero />
 
         <section className="section">
