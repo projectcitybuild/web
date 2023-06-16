@@ -1,10 +1,10 @@
-import NavBar from "@/components/navbar";
 import HomeHero from "@/components/home-hero";
+import NavBar, { NavBarVariant } from "@/components/navbar";
 
 export default function Home() {
   return (
     <>
-        <NavBar />
+        <NavBar variant={NavBarVariant.home} />
         <HomeHero />
 
         <section className="section">

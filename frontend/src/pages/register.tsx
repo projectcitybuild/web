@@ -5,7 +5,7 @@ import * as yup from "yup"
 import { DisplayableError } from "@/libs/http/http";
 import { AuthMiddleware, useAuth } from "@/hooks/useAuth";
 import { Routes } from "@/constants/routes";
-import React, {ReactElement, useState} from "react";
+import React, { ReactElement, useState } from "react";
 import { Alert } from "@/components/alert";
 import { NextPageWithLayout } from "@/pages/_app";
 import AuthLayout from "@/components/layouts/auth-layout";
@@ -14,7 +14,7 @@ import FormField from "@/components/form-field";
 import FilledButton from "@/components/filled-button";
 import styles from "@/pages/login.module.scss";
 import Link from "next/link";
-import {Urls} from "@/constants/urls";
+import { Urls } from "@/constants/urls";
 
 type FormData = {
   username: string
@@ -45,7 +45,7 @@ const Page: NextPageWithLayout = (): JSX.Element => {
 
       passwordConfirm: yup.string()
         .required("Cannot be empty")
-        .oneOf([yup.ref('password')], 'Passwords must match'),
+        .oneOf([ yup.ref("password") ], "Passwords must match"),
 
       acceptTerms: yup.boolean()
         .isTrue("You must accept to continue"),
@@ -90,7 +90,7 @@ const Page: NextPageWithLayout = (): JSX.Element => {
     <>
       <h1 className="text-heading-xl">Create an Account</h1>
 
-      <Alert error={errors.root?.message} />
+      <Alert error={errors.root?.message}/>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormField
@@ -105,7 +105,7 @@ const Page: NextPageWithLayout = (): JSX.Element => {
               {...register("username")}
             />
             <span className="icon is-small is-left">
-                <Icon token={IconToken.user} />
+                <Icon token={IconToken.user}/>
               </span>
           </p>
         </FormField>
@@ -122,7 +122,7 @@ const Page: NextPageWithLayout = (): JSX.Element => {
               {...register("email")}
             />
             <span className="icon is-small is-left">
-                <Icon token={IconToken.envelope} />
+                <Icon token={IconToken.envelope}/>
               </span>
           </p>
         </FormField>
@@ -138,7 +138,7 @@ const Page: NextPageWithLayout = (): JSX.Element => {
               {...register("password")}
             />
             <span className="icon is-small is-left">
-                <Icon token={IconToken.lock} />
+                <Icon token={IconToken.lock}/>
               </span>
           </p>
         </FormField>
@@ -154,7 +154,7 @@ const Page: NextPageWithLayout = (): JSX.Element => {
               {...register("passwordConfirm")}
             />
             <span className="icon is-small is-left">
-                <Icon token={IconToken.lock} />
+                <Icon token={IconToken.lock}/>
               </span>
           </p>
         </FormField>
@@ -165,7 +165,8 @@ const Page: NextPageWithLayout = (): JSX.Element => {
               <input
                 type="checkbox"
                 {...register("acceptTerms")}
-              /> I agree to the <a href={Urls.TERMS_OF_SERVICE} target="_blank">terms of service</a> and <a href={Urls.PRIVACY_POLICY} target="_blank">privacy policy</a>
+              /> I agree to the <a href={Urls.TERMS_OF_SERVICE} target="_blank">terms of service</a> and <a
+              href={Urls.PRIVACY_POLICY} target="_blank">privacy policy</a>
             </label>
             <p className="help is-danger">{errors.acceptTerms?.message}</p>
           </div>

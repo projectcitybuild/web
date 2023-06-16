@@ -1,6 +1,5 @@
 import { AuthMiddleware, useAuth } from "@/hooks/useAuth";
-import NavBar from "@/components/navbar";
-import React, {ReactElement, useState} from "react";
+import React, { ReactElement, useState } from "react";
 import { Routes } from "@/constants/routes";
 import { Alert } from "@/components/alert";
 import { NextPageWithLayout } from "@/pages/_app";
@@ -66,13 +65,13 @@ const Page: NextPageWithLayout = (): JSX.Element => {
         onClick={onSubmit}
       />
 
-      <hr />
+      <hr/>
 
       <div>
         <h2 className="text-heading-sm">Didn't receive an email?</h2>
 
         <p className="text-body-sm">
-          Please wait up to a few minutes, and be sure to check your spam inbox just in-case.<br />
+          Please wait up to a few minutes, and be sure to check your spam inbox just in-case.<br/>
           If you still don't receive anything, you can <a href="" onClick={onResend}>send another email</a>.
         </p>
       </div>
