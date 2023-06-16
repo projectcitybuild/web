@@ -164,18 +164,32 @@ const DashboardVariant = () => {
           <a className="navbar-item">
             Donations
           </a>
-
-          <Link className="navbar-item" href={Routes.LOGOUT}>
-            Logout
-          </Link>
         </div>
 
         <div className="navbar-end">
+          <div className="navbar-item has-dropdown is-hoverable">
+            <a className="navbar-link">
+              <figure className="image mr-2" style={{"width": 28}}>
+                <img
+                  className="is-rounded"
+                  src="https://bulma.io/images/placeholders/128x128.png"
+                />
+              </figure>
+
+              Username
+            </a>
+
+            <div className="navbar-dropdown">
+              <hr className="navbar-divider" />
+
+              <Link className="navbar-item" href={Routes.LOGOUT}>
+                Logout
+              </Link>
+            </div>
+          </div>
+
           <div className="navbar-item">
             <div className="buttons">
-              <Link className="button is-text" href={Routes.LOGIN}>
-                Username
-              </Link>
               <Link className="button is-light" href={Routes.REGISTER}>
                 Apply for...
               </Link>

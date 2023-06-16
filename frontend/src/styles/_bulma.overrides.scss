@@ -53,6 +53,11 @@ $navbar-dropdown-radius: dimensions.$corner-radius-sm;
 .is-main-variant {
   background-color: rgb(255, 255, 255);
   border-bottom: 1px solid rgb(241, 241, 241);
+
+  .button {
+    padding-left: 1.75em;
+    padding-right: 1.75em;
+  }
 }
 
 
