@@ -72,7 +72,7 @@ const Page: NextPageWithLayout = (): JSX.Element => {
 
         <p className="text-body-sm">
           Please wait up to a few minutes, and be sure to check your spam inbox just in-case.<br/>
-          If you still don't receive anything, you can <a href="" onClick={onResend}>send another email</a>.
+          If you still don't receive anything, you can <a href="frontend/src/pages" onClick={onResend}>send another email</a>.
         </p>
       </div>
     </>

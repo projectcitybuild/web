@@ -7,7 +7,7 @@ import { DisplayableError } from "@/libs/http/http";
 import { AuthMiddleware, useAuth } from "@/hooks/useAuth";
 import  {Routes } from "@/constants/routes";
 import { Alert } from "@/components/alert";
-import styles from "@/pages/login.module.scss";
+import styles from "@/pages/auth/login.module.scss";
 import Icon, { IconToken } from "@/components/icon";
 import FormField from "@/components/form-field";
 import FilledButton from "@/components/filled-button";

@@ -12,7 +12,7 @@ import AuthLayout from "@/components/layouts/auth-layout";
 import Icon, { IconToken } from "@/components/icon";
 import FormField from "@/components/form-field";
 import FilledButton from "@/components/filled-button";
-import styles from "@/pages/login.module.scss";
+import styles from "@/pages/auth/login.module.scss";
 import Link from "next/link";
 import { Urls } from "@/constants/urls";
 

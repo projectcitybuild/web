@@ -1,5 +1,5 @@
-@use '../styles/vars/colors';
-@use '../styles/vars/typography';
+@use '../../styles/vars/colors';
+@use '../../styles/vars/typography';
 
 .checkbox {
   font-size: typography.$text-label-md;

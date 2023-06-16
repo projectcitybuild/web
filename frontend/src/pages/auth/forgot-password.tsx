@@ -11,7 +11,7 @@ import AuthLayout from "@/components/layouts/auth-layout";
 import FilledButton from "@/components/filled-button";
 import Icon, { IconToken } from "@/components/icon";
 import Link from "next/link";
-import styles from "@/pages/login.module.scss";
+import styles from "@/pages/auth/login.module.scss";
 import FormField from "@/components/form-field";
 
 type FormData = {
