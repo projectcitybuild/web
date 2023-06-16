@@ -1,7 +1,7 @@
 import "@/styles/globals.scss"
 import type { AppProps } from "next/app"
 import Head from "next/head";
-import React, { ReactElement, ReactNode } from "react";
+import React, { ReactElement, ReactNode, useEffect } from "react";
 import { config } from "@fortawesome/fontawesome-svg-core"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { CookiesProvider } from "react-cookie";
@@ -19,6 +19,10 @@ type AppPropsWithLayout = AppProps & {
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page)
+
+  useEffect(() => {
+    document.body.className = pageProps.backgroundClassName
+  })
 
   return getLayout(
     <CookiesProvider>

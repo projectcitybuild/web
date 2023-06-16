@@ -15,7 +15,9 @@ export default function DashboardLayout(props: Props) {
       />
 
       <main className={styles.contents}>
-        {props.children}
+        <div className="container">
+          {props.children}
+        </div>
       </main>
     </>
   )
