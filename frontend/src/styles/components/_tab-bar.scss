@@ -1,0 +1,28 @@
+@use '../vars/colors';
+@use '../vars/dimensions';
+@use '../vars/typography';
+
+.tab-bar {
+  border-radius: dimensions.$corner-radius-lg;
+  border: 1px solid colors.$color-card-border;
+  background: #F1F1F1;
+  padding: 0.25em;
+  display: flex;
+
+  .tab-item {
+    padding: 0.5em 1.5em;
+    border-radius: dimensions.$corner-radius-lg;
+    color: colors.$color-tab-item;
+    font-size: typography.$text-body-md;
+
+    &:not(:last-child) {
+      margin-right: 0.25em;
+    }
+
+    &.is-active {
+      background: colors.$color-white;
+      font-weight: 500;
+      color: colors.$color-tab-item-active;
+    }
+  }
+}

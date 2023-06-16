@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowPointer,
   faArrowRight,
+  faChevronLeft,
+  faChevronRight,
   faEnvelope,
   faLock,
   faUser,
-  faChevronLeft,
-  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faDiscord,

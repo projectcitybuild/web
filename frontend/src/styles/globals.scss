@@ -6,6 +6,10 @@
 
 @import 'text';
 
+@import 'components/card';
+@import 'components/list-row';
+@import 'components/tab-bar';
+
 @import 'bulma.overrides';
 
 html, body {

@@ -15,6 +15,12 @@ const Page: NextPageWithLayout<Props> = (props): JSX.Element => {
   return (
     <>
       <h1 className="text-heading-xl">Welcome back, {user?.username}</h1>
+
+      <div className="card">
+        <div className="card-content">
+          test
+        </div>
+      </div>
     </>
   )
 }
