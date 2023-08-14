@@ -1,13 +1,13 @@
+import withoutAuth from "@/hooks/withoutAuth"
+import { useAccount } from "@/libs/account/AccountService"
+import { getHumanReadableError } from "@/libs/errors/HumanReadableError"
 import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { DisplayableError } from "@/libs/http/Http";
-import { AuthMiddleware, useAuth } from "@/hooks/legacyUseAuth";
 import { Routes } from "@/constants/Routes";
-import React, { ReactElement, useState } from "react";
+import React, { useState } from "react";
 import { Alert } from "@/components/alert";
-import { NextPageWithLayout } from "@/pages/_app";
 import AuthLayout from "@/components/layouts/auth-layout";
 import Icon, { IconToken } from "@/components/icon";
 import FormField from "@/components/form-field";
@@ -24,12 +24,9 @@ type FormData = {
   acceptTerms: boolean
 }
 
-const Page: NextPageWithLayout = (): JSX.Element => {
+const Page = (): JSX.Element => {
   const router = useRouter()
-  const { register: registerAccount, login } = useAuth({
-    middleware: AuthMiddleware.GUEST,
-    redirectIfAuthenticated: Routes.DASHBOARD,
-  })
+  const { register: registerAccount } = useAccount()
 
   const schema = yup
     .object({
@@ -70,24 +67,17 @@ const Page: NextPageWithLayout = (): JSX.Element => {
         password: data.password,
         passwordConfirm: data.passwordConfirm,
       })
-      await login({
-        email: data.email,
-        password: data.password,
-      })
       await router.push(Routes.VERIFY_EMAIL)
     } catch (error) {
-      if (error instanceof DisplayableError) {
-        setError("root", { message: error.message })
-      } else {
-        console.error(error)
-      }
+      console.log(error)
+      setError("root", { message: getHumanReadableError(error) })
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <>
+    <AuthLayout>
       <h1 className="text-heading-xl">Create an Account</h1>
 
       <Alert error={errors.root?.message}/>
@@ -188,16 +178,8 @@ const Page: NextPageWithLayout = (): JSX.Element => {
           </span>
         </div>
       </form>
-    </>
-  )
-}
-
-Page.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <AuthLayout>
-      {page}
     </AuthLayout>
   )
 }
 
-export default Page
+export default withoutAuth(Page)

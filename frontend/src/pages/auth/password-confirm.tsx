@@ -1,9 +1,9 @@
+import { getHumanReadableError } from "@/libs/errors/HumanReadableError"
 import { NextPage } from "next"
 import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { DisplayableError } from "@/libs/http/Http";
 import { AuthMiddleware, useAuth } from "@/hooks/legacyUseAuth";
 import NavBar from "@/components/navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -39,11 +39,8 @@ const PasswordConfirm: NextPage = (props): JSX.Element => {
                 password: data.password,
             })
         } catch (error) {
-            if (error instanceof DisplayableError) {
-                setError("root", { message: error.message })
-            } else {
-                console.error(error)
-            }
+            console.log(error)
+            setError("root", { message: getHumanReadableError(error) })
         } finally {
             setLoading(false)
         }

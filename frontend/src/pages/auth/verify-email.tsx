@@ -1,16 +1,12 @@
-import { AuthMiddleware, useAuth } from "@/hooks/legacyUseAuth";
-import React, { ReactElement, useState } from "react";
-import { Routes } from "@/constants/Routes";
+import { useAccount } from "@/libs/account/AccountService"
+import { getHumanReadableError } from "@/libs/errors/HumanReadableError"
+import React, { useState } from "react";
 import { Alert } from "@/components/alert";
-import { NextPageWithLayout } from "@/pages/_app";
 import AuthLayout from "@/components/layouts/auth-layout";
 import FilledButton from "@/components/filled-button";
 
-const Page: NextPageWithLayout = (): JSX.Element => {
-  const { resendEmailVerification } = useAuth({
-    middleware: AuthMiddleware.GUEST,
-    redirectIfAuthenticated: Routes.DASHBOARD,
-  })
+const Page = (): JSX.Element => {
+  const { resendEmailVerification } = useAccount()
   const [ error, setError ] = useState("")
   const [ loading, setLoading ] = useState(false)
   const [ success, setSuccess ] = useState("")
@@ -38,15 +34,16 @@ const Page: NextPageWithLayout = (): JSX.Element => {
     try {
       await resendEmailVerification()
       setSuccess("We've sent another email to your registered email address")
-    } catch (error: any) { // TODO
-      setError(error.message)
+    } catch (error: any) {
+      console.log(error)
+      setError(getHumanReadableError(error))
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <>
+    <AuthLayout>
       <h1 className="text-heading-xl">Verify Email Address</h1>
 
       <Alert
@@ -75,14 +72,6 @@ const Page: NextPageWithLayout = (): JSX.Element => {
           If you still don't receive anything, you can <a href="frontend/src/pages" onClick={onResend}>send another email</a>.
         </p>
       </div>
-    </>
-  )
-}
-
-Page.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <AuthLayout>
-      {page}
     </AuthLayout>
   )
 }

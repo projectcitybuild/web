@@ -1,12 +1,12 @@
+import withoutAuth from "@/hooks/withoutAuth"
+import { getHumanReadableError } from "@/libs/errors/HumanReadableError"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { DisplayableError } from "@/libs/http/Http";
 import { AuthMiddleware, useAuth } from "@/hooks/legacyUseAuth";
-import React, { ReactElement, useState } from "react";
+import React, { useState } from "react";
 import { Routes } from "@/constants/Routes";
 import { Alert} from "@/components/alert";
-import { NextPageWithLayout } from "@/pages/_app";
 import AuthLayout from "@/components/layouts/auth-layout";
 import FilledButton from "@/components/filled-button";
 import Icon, { IconToken } from "@/components/icon";
@@ -18,7 +18,7 @@ type FormData = {
   email: string
 }
 
-const Page: NextPageWithLayout = (props): JSX.Element => {
+const Page = (): JSX.Element => {
   const { forgotPassword } = useAuth({
     middleware: AuthMiddleware.GUEST,
     redirectIfAuthenticated: Routes.DASHBOARD,
@@ -46,18 +46,15 @@ const Page: NextPageWithLayout = (props): JSX.Element => {
       setSuccess("A password reset link has been emailed to you")
 
     } catch (error) {
-      if (error instanceof DisplayableError) {
-        setError("root", { message: error.message })
-      } else {
-        console.error(error)
-      }
+      console.log(error)
+      setError("root", { message: getHumanReadableError(error) })
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <>
+    <AuthLayout>
       <Link href={Routes.LOGIN}>
         <Icon token={IconToken.chevronLeft} /> Back to Sign In
       </Link>
@@ -97,16 +94,8 @@ const Page: NextPageWithLayout = (props): JSX.Element => {
           />
         </div>
       </form>
-    </>
-  )
-}
-
-Page.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <AuthLayout>
-      {page}
     </AuthLayout>
   )
 }
 
-export default Page
+export default withoutAuth(Page)

@@ -1,19 +1,17 @@
 import Icon, { IconToken } from "@/components/icon"
 import DashboardLayout from "@/components/layouts/dashboard-layout"
-import { NextPageWithLayout } from "@/pages/_app"
+import withAuth from "@/hooks/withAuth"
+import { useAuth } from "@/providers/useAuth"
 import { GetStaticProps } from "next"
 import Link from "next/link";
-import React, { ReactElement } from "react";
-import { AuthMiddleware, useAuth } from "@/hooks/legacyUseAuth";
+import React from "react";
 import { Routes } from "@/constants/Routes";
 
-const Page: NextPageWithLayout = (): JSX.Element => {
-  const { user } = useAuth({
-    middleware: AuthMiddleware.AUTH,
-  })
+const Page = (): JSX.Element => {
+  const { user } = useAuth()
 
   return (
-    <>
+    <DashboardLayout>
       <h1 className="text-heading-xl">Account Settings</h1>
 
       <div className="tab-bar mb-4 mt-2">
@@ -45,7 +43,12 @@ const Page: NextPageWithLayout = (): JSX.Element => {
             </div>
             <div className="list-details">
               {user?.email}<br/>
-              {user?.email_verified_at == null ? "Unverified" : "Verified"}
+              {user?.email_verified_at == null && (
+                <span className="tag is-danger">Unverified</span>
+              )}
+              {user?.email_verified_at != null && (
+                <span className="tag is-success">Verified</span>
+              )}
             </div>
           </div>
 
@@ -72,7 +75,7 @@ const Page: NextPageWithLayout = (): JSX.Element => {
             </div>
             <div className="list-content">
               <h2 className="list-title">
-                <Link href={Routes.CHANGE_PASSWORD}>Two-Step Authentication</Link>
+                <Link href={Routes.TWO_FACTOR_AUTH}>Two-Step Authentication</Link>
               </h2>
               <span className="list-description">
                 Keep your account secure. Along with your password, you'll need to enter a code from another device
@@ -84,14 +87,6 @@ const Page: NextPageWithLayout = (): JSX.Element => {
           </div>
         </div>
       </div>
-    </>
-  )
-}
-
-Page.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <DashboardLayout>
-      {page}
     </DashboardLayout>
   )
 }
@@ -104,4 +99,4 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-export default Page
+export default withAuth(Page)

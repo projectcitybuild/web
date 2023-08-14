@@ -1,4 +1,4 @@
-import { HumanReadableError } from "@/libs/http/HumanReadableError"
+import { HumanReadableError } from "@/libs/errors/HumanReadableError"
 
 export class UnauthenticatedError extends Error {}
 

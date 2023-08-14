@@ -1,7 +1,7 @@
+import withAuth from "@/hooks/withAuth"
 import { NextPage } from "next"
 import Link from "next/link";
 import React, {useState} from "react";
-import {DisplayableError} from "@/libs/http/Http";
 import {AuthMiddleware, useAuth} from "@/hooks/legacyUseAuth";
 import {Alert} from "@/components/alert";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -121,4 +121,4 @@ const ChangePassword: NextPage = (props): JSX.Element => {
     )
 }
 
-export default ChangePassword
+export default withAuth(ChangePassword)

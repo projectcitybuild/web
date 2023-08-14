@@ -1,8 +1,7 @@
 import withoutAuth from "@/hooks/withoutAuth"
-import { isHumanReadableError } from "@/libs/http/HumanReadableError"
+import { getHumanReadableError } from "@/libs/errors/HumanReadableError"
 import { useAuth } from "@/providers/useAuth"
-import { NextPageWithLayout } from "@/support/nextjs/NextPageWithLayout"
-import React, {ReactElement} from "react";
+import React from "react";
 import { useForm } from "react-hook-form"
 import Link from "next/link";
 import * as yup from "yup"
@@ -20,7 +19,7 @@ type FormData = {
   password: string
 }
 
-const Page: NextPageWithLayout = (): JSX.Element => {
+const Page = (): JSX.Element => {
   const { login } = useAuth()
 
   const schema = yup
@@ -44,12 +43,7 @@ const Page: NextPageWithLayout = (): JSX.Element => {
         password: data.password,
       })
     } catch (error: any) {
-      if (isHumanReadableError(error)) {
-        setError("root", { message: error.userFacingMessage })
-      } else {
-        console.error(error)
-        setError("root", { message: "An unexpected error occurred" })
-      }
+      setError("root", { message: getHumanReadableError(error) })
     }
   }
 

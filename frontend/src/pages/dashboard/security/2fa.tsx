@@ -1,159 +1,162 @@
+import withAuth from "@/hooks/withAuth"
 import { NextPage } from "next"
 import Link from "next/link";
-import React, {useState} from "react";
-import {AuthMiddleware, useAuth} from "@/hooks/legacyUseAuth";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronLeft, faEnvelope} from "@fortawesome/free-solid-svg-icons";
+import React, { useState } from "react";
+import { AuthMiddleware, useAuth } from "@/hooks/legacyUseAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import * as yup from "yup"
-import {Routes} from "@/constants/Routes";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
-import {Alert} from "@/components/alert";
+import { Routes } from "@/constants/Routes";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
+import { Alert } from "@/components/alert";
 
 type FormData = {
-    code: string
+  code: string
 }
 
 const TwoFactorAuthentication: NextPage = (props): JSX.Element => {
-    const {
-        user,
-        twoFactorEnable,
-        twoFactorDisable,
-        twoFactorQRCode,
-        twoFactorRecoveryCodes,
-        twoFactorConfirmSetup,
-    } = useAuth({
-        middleware: AuthMiddleware.AUTH,
+  const {
+    user,
+    twoFactorEnable,
+    twoFactorDisable,
+    twoFactorQRCode,
+    twoFactorRecoveryCodes,
+    twoFactorConfirmSetup,
+  } = useAuth({
+    middleware: AuthMiddleware.AUTH,
+  })
+
+  const [ loading, setLoading ] = useState(false)
+  const [ confirmError, setConfirmError ] = useState<string | undefined>()
+  const [ qrCode, setQrCode ] = useState<string | undefined>()
+  const [ recoveryCodes, setRecoveryCodes ] = useState<[ string ]>()
+
+  const onEnableTwoFactor = async () => {
+    setLoading(true)
+    try {
+      await twoFactorEnable()
+
+      twoFactorQRCode()
+        .then(svg => setQrCode(svg))
+
+      twoFactorRecoveryCodes()
+        .then(recoveryCodes => setRecoveryCodes(recoveryCodes))
+
+    } catch (error) {
+
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const onDisableTwoFactor = async () => {
+    setLoading(true)
+    try {
+      await twoFactorDisable()
+    } catch (error) {
+
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const onConfirmTwoFactorSetup = async (data: FormData) => {
+    setLoading(true)
+
+    twoFactorConfirmSetup({ code: data.code })
+      .then((res) => console.log(res))
+      .catch((err) => setConfirmError(err.message))
+      .finally(() => setLoading(false))
+  }
+
+  const schema = yup
+    .object({
+      code: yup.string().required(),
     })
+    .required()
 
-    const [ loading, setLoading ] = useState(false)
-    const [ confirmError, setConfirmError ] = useState<string|undefined>()
-    const [ qrCode, setQrCode ] = useState<string|undefined>()
-    const [ recoveryCodes, setRecoveryCodes ] = useState<[string]>()
+  const { register, handleSubmit, formState, setError } = useForm<FormData>({ resolver: yupResolver(schema) })
+  const { errors } = formState
 
-    const onEnableTwoFactor = async () => {
-        setLoading(true)
-        try {
-            await twoFactorEnable()
+  return (
+    <div>
+      {/*<div className="modal is-active">*/}
+      {/*    <div className="modal-background"></div>*/}
+      {/*    <div className="modal-content">*/}
+      {/*        Todo*/}
+      {/*    </div>*/}
+      {/*    <button className="modal-close is-large" aria-label="close"></button>*/}
+      {/*</div>*/}
 
-            twoFactorQRCode()
-                .then(svg => setQrCode(svg))
+      <Link href={Routes.SECURITY}>
+        <FontAwesomeIcon icon={faChevronLeft}/> Back
+      </Link>
 
-            twoFactorRecoveryCodes()
-                .then(recoveryCodes => setRecoveryCodes(recoveryCodes))
+      <h1>Two Step Verification</h1>
 
-        } catch (error) {
+      <hr/>
 
-        } finally {
-            setLoading(false)
-        }
-    }
+      <section className="section">
+        <h2>2FA</h2>
 
-    const onDisableTwoFactor = async () => {
-        setLoading(true)
-        try {
-            await twoFactorDisable()
-        } catch (error) {
+        <button
+          className={`button is-primary ${loading ? "is-loading" : ""}`}
+          disabled={loading}
+          onClick={onEnableTwoFactor}
+        >Enable 2FA
+        </button>
 
-        } finally {
-            setLoading(false)
-        }
-    }
+        {qrCode && (<span dangerouslySetInnerHTML={{ __html: qrCode }}/>)}
 
-    const onConfirmTwoFactorSetup = async (data: FormData) => {
-        setLoading(true)
+        <ul>
+          {recoveryCodes?.map(code => (<li key={code}>{code}</li>))}
+        </ul>
 
-        twoFactorConfirmSetup({code: data.code})
-            .then((res) => console.log(res))
-            .catch((err) => setConfirmError(err.message))
-            .finally(() => setLoading(false))
-    }
+      </section>
 
-    const schema = yup
-        .object({
-            code: yup.string().required(),
-        })
-        .required()
+      <section className="section">
+        <h2>Disable</h2>
 
-    const { register, handleSubmit, formState, setError } = useForm<FormData>({ resolver: yupResolver(schema) })
-    const { errors } = formState
+        <button
+          className={`button is-primary ${loading ? "is-loading" : ""}`}
+          disabled={loading}
+          onClick={onDisableTwoFactor}
+        >Disable 2FA
+        </button>
 
-    return (
-        <div>
-            {/*<div className="modal is-active">*/}
-            {/*    <div className="modal-background"></div>*/}
-            {/*    <div className="modal-content">*/}
-            {/*        Todo*/}
-            {/*    </div>*/}
-            {/*    <button className="modal-close is-large" aria-label="close"></button>*/}
-            {/*</div>*/}
+      </section>
 
-            <Link href={Routes.SECURITY}>
-                <FontAwesomeIcon icon={faChevronLeft} /> Back
-            </Link>
+      <section className="section">
+        <h1>Confirm</h1>
 
-            <h1>Two Step Verification</h1>
+        <Alert error={confirmError}/>
 
-            <hr />
-
-            <section className="section">
-                <h2>2FA</h2>
-
-                <button
-                    className={`button is-primary ${loading ? 'is-loading' : ''}`}
-                    disabled={loading}
-                    onClick={onEnableTwoFactor}
-                >Enable 2FA</button>
-
-                { qrCode && (<span dangerouslySetInnerHTML={{ __html: qrCode }} />) }
-
-                <ul>
-                    { recoveryCodes?.map(code => (<li key={code}>{code}</li>)) }
-                </ul>
-
-            </section>
-
-            <section className="section">
-                <h2>Disable</h2>
-
-                <button
-                    className={`button is-primary ${loading ? 'is-loading' : ''}`}
-                    disabled={loading}
-                    onClick={onDisableTwoFactor}
-                >Disable 2FA</button>
-
-            </section>
-
-            <section className="section">
-                <h1>Confirm</h1>
-
-                <Alert error={confirmError} />
-
-                <form onSubmit={handleSubmit(onConfirmTwoFactorSetup)}>
-                    <div className="field">
-                        <p className="control has-icons-left">
-                            <input type="text" placeholder="2FA Code" className="input" {...register("code")} />
-                            <span className="icon is-small is-left">
-                                <FontAwesomeIcon icon={faEnvelope} />
+        <form onSubmit={handleSubmit(onConfirmTwoFactorSetup)}>
+          <div className="field">
+            <p className="control has-icons-left">
+              <input type="text" placeholder="2FA Code" className="input" {...register("code")} />
+              <span className="icon is-small is-left">
+                                <FontAwesomeIcon icon={faEnvelope}/>
                             </span>
-                        </p>
-                        <p className="help is-danger">{errors.code?.message}</p>
-                    </div>
-                    <div className="field">
-                        <p className="control">
-                            <button
-                                type="submit"
-                                disabled={formState.isSubmitting || loading}
-                                className={`button is-success ${loading ? 'is-loading' : ''}`}
-                            >
-                                Confirm
-                            </button>
-                        </p>
-                    </div>
-                </form>
-            </section>
-        </div>
-    )
+            </p>
+            <p className="help is-danger">{errors.code?.message}</p>
+          </div>
+          <div className="field">
+            <p className="control">
+              <button
+                type="submit"
+                disabled={formState.isSubmitting || loading}
+                className={`button is-success ${loading ? "is-loading" : ""}`}
+              >
+                Confirm
+              </button>
+            </p>
+          </div>
+        </form>
+      </section>
+    </div>
+  )
 }
 
-export default TwoFactorAuthentication
+export default withAuth(TwoFactorAuthentication)

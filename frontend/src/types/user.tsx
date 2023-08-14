@@ -4,7 +4,8 @@ export interface User {
     email: string
     email_verified_at: string
     activated: boolean
+    balance: number
     created_at: string
     updated_at: string
-    balance: number
+    two_factor_confirmed_at: string
 }

@@ -93,41 +93,6 @@ export const useAuth = ({
 
     const csrf = () => http.get('../sanctum/csrf-cookie')
 
-    const login = async ({...props }: LoginParams) => {
-        await csrf()
-
-        const params = querystring.stringify({
-            email: props.email,
-            password: props.password,
-        })
-        await http
-            .post('../login', params)
-            .then((res) => {
-                console.log(res)
-
-                if (res.data.two_factor) {
-                    router.push(Routes.VERIFY_2FA)
-                } else {
-                    setCookies('isAuth', true, { sameSite: 'lax', path: '/' })
-                    mutate()
-                }
-            })
-            .catch((error) => {
-                removeCookies('isAuth')
-                if (error.status !== 422) throw error
-
-                console.log(error)
-            })
-    }
-
-    const logout = async () => {
-        if (!error) {
-            removeCookies('isAuth', { sameSite: 'lax' })
-            await http.post('../logout')
-        }
-        window.location.pathname = '/'
-    }
-
     const register = async ({ ...props }: RegisterParams) => {
         await csrf()
 
@@ -316,13 +281,11 @@ export const useAuth = ({
     return {
         user,
         register,
-        login,
         forgotPassword,
         resetPassword,
         updateEmail,
         updatePassword,
         resendEmailVerification,
-        logout,
         passwordConfirm,
         twoFactorEnable,
         twoFactorDisable,

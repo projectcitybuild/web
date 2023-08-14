@@ -22,7 +22,7 @@ export default function withAuthRedirect<
   expectedAuth: boolean
   location: string
 }): NextPage<Props, InitialProps> {
-  const WithAuthRedirectWrapper: NextPage<Props, InitialProps> = props => {
+  return (props) => {
     const router = useRouter()
     const { isLoading, isAuthenticated } = useAuth()
     if (isLoading) {
@@ -34,5 +34,4 @@ export default function withAuthRedirect<
     }
     return <WrappedComponent {...props} />
   }
-  return WithAuthRedirectWrapper
 }
