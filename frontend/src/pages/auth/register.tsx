@@ -2,9 +2,9 @@ import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { DisplayableError } from "@/libs/http/http";
-import { AuthMiddleware, useAuth } from "@/hooks/useAuth";
-import { Routes } from "@/constants/routes";
+import { DisplayableError } from "@/libs/http/Http";
+import { AuthMiddleware, useAuth } from "@/hooks/legacyUseAuth";
+import { Routes } from "@/constants/Routes";
 import React, { ReactElement, useState } from "react";
 import { Alert } from "@/components/alert";
 import { NextPageWithLayout } from "@/pages/_app";
@@ -14,7 +14,7 @@ import FormField from "@/components/form-field";
 import FilledButton from "@/components/filled-button";
 import styles from "@/pages/auth/login.module.scss";
 import Link from "next/link";
-import { Urls } from "@/constants/urls";
+import { Urls } from "@/constants/Urls";
 
 type FormData = {
   username: string

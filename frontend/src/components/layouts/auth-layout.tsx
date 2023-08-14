@@ -1,13 +1,13 @@
 import styles from "@/components/layouts/auth-layout.module.scss";
 import Link from "next/link";
-import { Routes } from "@/constants/routes";
+import { Routes } from "@/constants/Routes";
 import Image from "next/image";
 import logoImage from "@/assets/images/logo.png";
 import React, { ReactElement } from "react";
-import { Urls } from "@/constants/urls";
+import { Urls } from "@/constants/Urls";
 
 type Props = {
-  children: ReactElement
+  children: ReactElement|ReactElement[]
 }
 
 export default function AuthLayout(props: Props) {

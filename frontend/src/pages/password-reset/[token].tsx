@@ -2,12 +2,12 @@ import {NextPage} from "next"
 import {useForm} from "react-hook-form"
 import {yupResolver} from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import {DisplayableError} from "@/libs/http/http";
-import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
+import {DisplayableError} from "@/libs/http/Http";
+import {AuthMiddleware, useAuth} from "@/hooks/legacyUseAuth";
 import NavBar from "@/components/navbar";
 import React, {useState} from "react";
 import {useRouter} from "next/router";
-import {Routes} from "@/constants/routes";
+import {Routes} from "@/constants/Routes";
 import {Alert} from "@/components/alert";
 
 type FormData = {

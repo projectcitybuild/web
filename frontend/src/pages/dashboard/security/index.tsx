@@ -4,8 +4,8 @@ import { NextPageWithLayout } from "@/pages/_app"
 import { GetStaticProps } from "next"
 import Link from "next/link";
 import React, { ReactElement } from "react";
-import { AuthMiddleware, useAuth } from "@/hooks/useAuth";
-import { Routes } from "@/constants/routes";
+import { AuthMiddleware, useAuth } from "@/hooks/legacyUseAuth";
+import { Routes } from "@/constants/Routes";
 
 const Page: NextPageWithLayout = (): JSX.Element => {
   const { user } = useAuth({

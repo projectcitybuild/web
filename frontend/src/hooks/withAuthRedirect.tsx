@@ -4,7 +4,8 @@ import { useRouter } from "next/router"
 import { ReactElement } from "react"
 
 function DefaultLoadingFallback(): ReactElement {
-  return <p>Loading...</p>;
+  // TODO
+  return <></>;
 }
 
 export default function withAuthRedirect<
@@ -21,7 +22,7 @@ export default function withAuthRedirect<
   expectedAuth: boolean
   location: string
 }): NextPage<Props, InitialProps> {
-  return (props) => {
+  const WithAuthRedirectWrapper: NextPage<Props, InitialProps> = props => {
     const router = useRouter()
     const { isLoading, isAuthenticated } = useAuth()
     if (isLoading) {
@@ -33,4 +34,5 @@ export default function withAuthRedirect<
     }
     return <WrappedComponent {...props} />
   }
+  return WithAuthRedirectWrapper
 }

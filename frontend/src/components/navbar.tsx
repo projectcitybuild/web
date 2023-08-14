@@ -1,11 +1,9 @@
 import Icon, { IconToken } from "@/components/icon"
-import { useAuth } from "@/hooks/useAuth"
-import { faExternalLink } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { useAuth } from "@/providers/useAuth"
 import Link from "next/link";
 import Image from "next/image";
 import styles from '@/components/navbar.module.scss'
-import { Routes } from "@/constants/routes";
+import { Routes } from "@/constants/Routes";
 import logoImage from '@/assets/images/logo.png';
 import React, { ReactElement, useEffect, useRef } from "react"
 
@@ -24,7 +22,7 @@ type Props = {
   colorVariant: NavBarColorVariant,
 }
 
-const variantElement = (menuSet: NavBarMenuSet) => {
+const VariantElement = (menuSet: NavBarMenuSet) => {
   switch (menuSet) {
     case NavBarMenuSet.home: return HomeVariant();
     case NavBarMenuSet.dashboard: return DashboardVariant();
@@ -36,12 +34,12 @@ export default function NavBar(props: Props) {
     const burgers = Array.prototype.slice
       .call(document.querySelectorAll('.navbar-burger'), 0)
 
-    burgers.forEach(el => {
-      el.addEventListener('click', () => {
-        const target = el.dataset.target
+    burgers.forEach(element => {
+      element.addEventListener('click', () => {
+        const target = element.dataset.target
         const targetElement = document.getElementById(target)
 
-        el.classList.toggle('is-active')
+        element.classList.toggle('is-active')
         targetElement?.classList.toggle('is-active')
       })
     })
@@ -61,7 +59,7 @@ export default function NavBar(props: Props) {
 
   return (
     <NavBarWrapper className={navClass.join(" ")}>
-      {variantElement(props.menuSet)}
+      {VariantElement(props.menuSet)}
     </NavBarWrapper>
   )
 }
@@ -177,6 +175,8 @@ const HomeVariant = () => {
 }
 
 const DashboardVariant = () => {
+  const { user, logout } = useAuth()
+
   return (
     <>
       <div className="navbar-start">
@@ -207,15 +207,15 @@ const DashboardVariant = () => {
               />
             </figure>
 
-            Username
+            { user?.username ?? "-" }
           </a>
 
           <div className="navbar-dropdown">
             <hr className="navbar-divider" />
 
-            <Link className="navbar-item" href={Routes.LOGOUT}>
+            <a className="navbar-item" onClick={logout}>
               Logout
-            </Link>
+            </a>
           </div>
         </div>
 

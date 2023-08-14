@@ -3,8 +3,8 @@ import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { DisplayableError } from "@/libs/http/http";
-import { AuthMiddleware, useAuth } from "@/hooks/useAuth";
+import { DisplayableError } from "@/libs/http/Http";
+import { AuthMiddleware, useAuth } from "@/hooks/legacyUseAuth";
 import NavBar from "@/components/navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";

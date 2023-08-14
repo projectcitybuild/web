@@ -3,7 +3,7 @@ import NavBar, { NavBarColorVariant, NavBarMenuSet } from "@/components/navbar"
 import React, { ReactElement } from "react";
 
 type Props = {
-  children: ReactElement,
+  children: ReactElement|ReactElement[],
 }
 
 export default function DashboardLayout(props: Props) {

@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { DisplayableError } from "@/libs/http/http";
-import { AuthMiddleware, useAuth } from "@/hooks/useAuth";
+import { DisplayableError } from "@/libs/http/Http";
+import { AuthMiddleware, useAuth } from "@/hooks/legacyUseAuth";
 import React, { ReactElement, useState } from "react";
-import { Routes } from "@/constants/routes";
+import { Routes } from "@/constants/Routes";
 import { Alert} from "@/components/alert";
 import { NextPageWithLayout } from "@/pages/_app";
 import AuthLayout from "@/components/layouts/auth-layout";

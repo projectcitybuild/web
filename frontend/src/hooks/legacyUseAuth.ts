@@ -1,11 +1,11 @@
 import { isAxiosError } from "axios"
 import useSWR from 'swr'
-import http from "@/libs/http/http"
+import http from "@/libs/http/Http"
 import querystring from "querystring"
 import { useRouter } from "next/router"
 import { useCookies } from "react-cookie"
 import { useEffect } from "react";
-import {Routes} from "@/constants/routes";
+import {Routes} from "@/constants/Routes";
 
 type LoginParams = {
     email: string

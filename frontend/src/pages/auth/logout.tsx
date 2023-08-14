@@ -1,8 +1,8 @@
-import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
+import {AuthMiddleware, useAuth} from "@/hooks/legacyUseAuth";
 import {NextPage} from "next";
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import {Routes} from "@/constants/routes";
+import {Routes} from "@/constants/Routes";
 import styles from "./logout.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCube} from "@fortawesome/free-solid-svg-icons";

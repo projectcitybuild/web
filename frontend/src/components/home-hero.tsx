@@ -1,5 +1,5 @@
 import styles from '@/components/home-hero.module.scss'
-import { Routes } from "@/constants/routes";
+import { Routes } from "@/constants/Routes";
 import React from "react";
 import Link from "next/link";
 import Icon, { IconToken } from "@/components/icon";

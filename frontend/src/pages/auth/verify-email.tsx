@@ -1,6 +1,6 @@
-import { AuthMiddleware, useAuth } from "@/hooks/useAuth";
+import { AuthMiddleware, useAuth } from "@/hooks/legacyUseAuth";
 import React, { ReactElement, useState } from "react";
-import { Routes } from "@/constants/routes";
+import { Routes } from "@/constants/Routes";
 import { Alert } from "@/components/alert";
 import { NextPageWithLayout } from "@/pages/_app";
 import AuthLayout from "@/components/layouts/auth-layout";

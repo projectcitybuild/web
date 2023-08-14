@@ -1,4 +1,4 @@
-import { Routes } from "@/constants/routes"
+import { Routes } from "@/constants/Routes"
 import withAuthRedirect from "@/hooks/withAuthRedirect"
 import { NextPage } from "next"
 

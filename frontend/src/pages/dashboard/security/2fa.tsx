@@ -1,11 +1,11 @@
 import { NextPage } from "next"
 import Link from "next/link";
 import React, {useState} from "react";
-import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
+import {AuthMiddleware, useAuth} from "@/hooks/legacyUseAuth";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronLeft, faEnvelope} from "@fortawesome/free-solid-svg-icons";
 import * as yup from "yup"
-import {Routes} from "@/constants/routes";
+import {Routes} from "@/constants/Routes";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import {Alert} from "@/components/alert";

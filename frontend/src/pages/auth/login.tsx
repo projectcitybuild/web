@@ -1,18 +1,19 @@
+import withoutAuth from "@/hooks/withoutAuth"
+import { isHumanReadableError } from "@/libs/http/HumanReadableError"
+import { useAuth } from "@/providers/useAuth"
+import { NextPageWithLayout } from "@/support/nextjs/NextPageWithLayout"
 import React, {ReactElement} from "react";
 import { useForm } from "react-hook-form"
 import Link from "next/link";
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { DisplayableError } from "@/libs/http/http";
-import { AuthMiddleware, useAuth } from "@/hooks/useAuth";
-import  {Routes } from "@/constants/routes";
+import  {Routes } from "@/constants/Routes";
 import { Alert } from "@/components/alert";
 import styles from "@/pages/auth/login.module.scss";
 import Icon, { IconToken } from "@/components/icon";
 import FormField from "@/components/form-field";
 import FilledButton from "@/components/filled-button";
 import AuthLayout from "@/components/layouts/auth-layout";
-import { NextPageWithLayout } from "@/pages/_app";
 
 type FormData = {
   email: string
@@ -20,10 +21,7 @@ type FormData = {
 }
 
 const Page: NextPageWithLayout = (): JSX.Element => {
-  const { login } = useAuth({
-    middleware: AuthMiddleware.GUEST,
-    redirectIfAuthenticated: Routes.DASHBOARD,
-  })
+  const { login } = useAuth()
 
   const schema = yup
     .object({
@@ -41,18 +39,22 @@ const Page: NextPageWithLayout = (): JSX.Element => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      await login({email: data.email, password: data.password})
-    } catch (error) {
-      if (error instanceof DisplayableError) {
-        setError("root", { message: error.message })
+      await login({
+        email: data.email,
+        password: data.password,
+      })
+    } catch (error: any) {
+      if (isHumanReadableError(error)) {
+        setError("root", { message: error.userFacingMessage })
       } else {
         console.error(error)
+        setError("root", { message: "An unexpected error occurred" })
       }
     }
   }
 
   return (
-    <>
+    <AuthLayout>
       <h1 className="text-heading-xl">Sign In</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -121,16 +123,8 @@ const Page: NextPageWithLayout = (): JSX.Element => {
           </span>
         </div>
       </form>
-    </>
-  )
-}
-
-Page.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <AuthLayout>
-      {page}
     </AuthLayout>
   )
 }
 
-export default Page
+export default withoutAuth(Page)

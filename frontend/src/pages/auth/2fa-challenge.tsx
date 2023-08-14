@@ -3,12 +3,12 @@ import {useRouter} from "next/router"
 import {useForm} from "react-hook-form"
 import {yupResolver} from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
+import {AuthMiddleware, useAuth} from "@/hooks/legacyUseAuth";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
 import React, {useState} from "react";
 import {Alert} from "@/components/alert";
-import {Routes} from "@/constants/routes";
+import {Routes} from "@/constants/Routes";
 
 type FormData = {
     code: string

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {AuthMiddleware, useAuth} from "@/hooks/useAuth";
+import {AuthMiddleware, useAuth} from "@/hooks/legacyUseAuth";
 
 export const TwoFactorAuthEnable = () => {
     const {

@@ -1,4 +1,4 @@
-import { ResponseBodyError, UnauthenticatedError } from "@/libs/http/httpError"
+import { ResponseBodyError, UnauthenticatedError, ValidationError } from "@/libs/http/HttpError"
 import axios, { AxiosInstance, isAxiosError } from "axios";
 
 type BackendError = {
@@ -21,6 +21,12 @@ const withInterceptors = (api: AxiosInstance) => {
 
                 if (status === 401) {
                   return Promise.reject(new UnauthenticatedError())
+                }
+                if (status === 422) {
+                  // TODO: extract the fields from the `errors` parameter
+                  return Promise.reject(
+                    new ValidationError({message: body.message})
+                  )
                 }
 
                 // TODO: what do these codes represent again...?
