@@ -1,3 +1,4 @@
+import { isAxiosError } from "axios"
 import useSWR from 'swr'
 import http from "@/libs/http/http"
 import querystring from "querystring"
@@ -69,19 +70,25 @@ export const useAuth = ({
         data: user,
         error,
         mutate
-    } = useSWR(tryUser() ? 'user' : null, () =>
-        http
-            .get('profile/me')
-            .then(res => res.data)
-            .catch(error => {
+    } = useSWR(tryUser() ? 'user' : null, async () => {
+        try {
+            const response = await http.get('profile/me')
+            return response.data
+        } catch (e) {
+            if (!isAxiosError(e) || !e.response) {
+                throw e
+            }
+            if (e.response.status === 401) {
                 removeCookies('isAuth')
-                if (error.response.status === 409) {
-                    router.push(Routes.VERIFY_EMAIL)
-                } else {
-                    setCookies('isAuth', false, { sameSite: 'lax' })
-                    throw error
-                }
-            })
+                return null
+            } else if (e.response.status === 409) {
+                await router.push(Routes.VERIFY_EMAIL)
+            } else {
+                setCookies('isAuth', false, { sameSite: 'lax' })
+                throw e
+            }
+        }
+      }
     )
 
     const csrf = () => http.get('../sanctum/csrf-cookie')

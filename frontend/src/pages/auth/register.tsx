@@ -134,6 +134,7 @@ const Page: NextPageWithLayout = (): JSX.Element => {
           <p className="control has-icons-left">
             <input
               type="password"
+              placeholder="Password"
               className={`input ${errors.password && "is-danger"}`}
               {...register("password")}
             />
@@ -149,7 +150,7 @@ const Page: NextPageWithLayout = (): JSX.Element => {
           <p className="control has-icons-left">
             <input
               type="password"
-              placeholder="(Confirm Password)"
+              placeholder="Password (Confirm)"
               className={`input ${errors.passwordConfirm && "is-danger"}`}
               {...register("passwordConfirm")}
             />

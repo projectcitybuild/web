@@ -1,16 +1,14 @@
-import { AuthMiddleware, useAuth } from "@/hooks/useAuth";
+import withAuth from "@/hooks/withAuth"
 import { NextPageWithLayout } from "@/pages/_app";
+import { useAuth } from "@/providers/useAuth"
 import { GetStaticProps } from "next"
 import React, { ReactElement } from "react";
 import DashboardLayout from "@/components/layouts/dashboard-layout";
 
-interface Props {
-}
+interface Props {}
 
 const Page: NextPageWithLayout<Props> = (props): JSX.Element => {
-  const { user } = useAuth({
-    middleware: AuthMiddleware.AUTH,
-  })
+  const { user } = useAuth()
 
   return (
     <>
@@ -41,4 +39,4 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-export default Page
+export default withAuth(Page)

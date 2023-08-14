@@ -1,4 +1,5 @@
 import "@/styles/globals.scss"
+import { AuthProvider } from "@/providers/useAuth"
 import type { AppProps } from "next/app"
 import Head from "next/head";
 import React, { ReactElement, ReactNode, useEffect } from "react";
@@ -26,10 +27,12 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   return getLayout(
     <CookiesProvider>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-      </Head>
-      <Component {...pageProps} />
+      <AuthProvider>
+        <Head>
+          <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        </Head>
+        <Component {...pageProps} />
+      </AuthProvider>
     </CookiesProvider>
   )
 }
