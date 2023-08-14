@@ -45,10 +45,27 @@ export const useAccount = () => {
     await http.put('account/password', params)
   }
 
+  const resetPassword = async (props: {
+    email: string,
+    password: string,
+    passwordConfirm: string,
+    token: string,
+  }) => {
+    await csrf()
+
+    await http.post('../reset-password', {
+      token: props.token,
+      email: props.email,
+      password: props.password,
+      password_confirmation: props.passwordConfirm,
+    })
+  }
+
   return {
     register,
     resendEmailVerification,
     updateEmail,
     updatePassword,
+    resetPassword,
   }
 }

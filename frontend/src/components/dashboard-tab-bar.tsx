@@ -1,3 +1,4 @@
+import Icon, { IconToken } from "@/components/icon"
 import React from "react"
 
 export default function DashboardTabBar() {
@@ -10,7 +11,7 @@ export default function DashboardTabBar() {
         Security
       </div>
       <div className="tab-item">
-        Billing
+        Billing <Icon token={IconToken.externalLink} />
       </div>
     </div>
   )
