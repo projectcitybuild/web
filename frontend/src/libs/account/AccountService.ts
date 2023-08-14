@@ -26,8 +26,29 @@ export const useAccount = () => {
     await http.post('../email/verification-notification')
   }
 
+  const updateEmail = async (props: {
+    email: string
+  }) => {
+    await http.post('../email/change', { email: props.email })
+  }
+
+  const updatePassword = async (props: {
+    oldPassword: string
+    newPassword: string
+    newPasswordConfirm: string
+  }) => {
+    const params = querystring.stringify({
+      current_password: props.oldPassword,
+      password: props.newPassword,
+      password_confirmation: props.newPasswordConfirm,
+    })
+    await http.put('account/password', params)
+  }
+
   return {
     register,
     resendEmailVerification,
+    updateEmail,
+    updatePassword,
   }
 }

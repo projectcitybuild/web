@@ -14,7 +14,7 @@ export const Alert = (props: AlertProps) => {
     useEffect(() => {
         setError(props.error ?? null)
         setSuccess(props.success ?? null)
-    }, [props.error]);
+    }, [props.error, props.success]);
 
     return (
         <>

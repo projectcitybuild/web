@@ -1,9 +1,11 @@
+import DashboardLayout from "@/components/layouts/dashboard-layout"
+import DashboardSecurityLayout from "@/components/layouts/dashboard-security-layout"
 import withAuth from "@/hooks/withAuth"
+import { useAccount } from "@/libs/account/AccountService"
 import { getHumanReadableError } from "@/libs/errors/HumanReadableError"
-import { NextPage } from "next"
+import { GetStaticProps, NextPage } from "next"
 import Link from "next/link";
 import React, {useState} from "react";
-import {AuthMiddleware, useAuth} from "@/hooks/legacyUseAuth";
 import {Alert} from "@/components/alert";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronLeft, faEnvelope} from "@fortawesome/free-solid-svg-icons";
@@ -17,9 +19,7 @@ type FormData = {
 }
 
 const ChangeEmail: NextPage = (props): JSX.Element => {
-    const { updateEmail } = useAuth({
-        middleware: AuthMiddleware.AUTH,
-    })
+    const { updateEmail } = useAccount()
     const [ loading, setLoading ] = useState(false)
     const [ success, setSuccess ] = useState("")
 
@@ -37,7 +37,7 @@ const ChangeEmail: NextPage = (props): JSX.Element => {
         setSuccess("")
 
         try {
-            // TODO
+            await updateEmail({email: data.email })
         } catch (error) {
             console.log(error)
             setError("root", { message: getHumanReadableError(error) })
@@ -47,12 +47,12 @@ const ChangeEmail: NextPage = (props): JSX.Element => {
     }
 
     return (
-        <div>
+        <DashboardSecurityLayout>
             <Link href={Routes.SECURITY}>
                 <FontAwesomeIcon icon={faChevronLeft} /> Back
             </Link>
 
-            <h1>Email Address</h1>
+            <h1 className="text-heading-md">Email Address</h1>
 
             <hr />
 
@@ -82,7 +82,7 @@ const ChangeEmail: NextPage = (props): JSX.Element => {
                     </p>
                 </div>
             </form>
-        </div>
+        </DashboardSecurityLayout>
     )
 }
 

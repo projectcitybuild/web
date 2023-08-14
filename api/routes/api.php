@@ -52,7 +52,7 @@ $authMiddleware = ['auth:sanctum', 'verified'];
 Route::get('/profile/me', [AccountController::class, 'me'])
     ->middleware($authMiddleware);
 
-Route::patch('/account/password', [UpdatePasswordController::class, 'update'])
+Route::put('/account/password', [UpdatePasswordController::class, 'update'])
     ->middleware($authMiddleware);
 
 Route::get('/servers', [ServerController::class, 'index']);

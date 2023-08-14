@@ -1,13 +1,10 @@
 import withAuth from "@/hooks/withAuth"
 import { useAuth } from "@/providers/useAuth"
-import { NextPageWithLayout } from "@/support/nextjs/NextPageWithLayout"
 import { GetStaticProps } from "next"
 import React from "react";
 import DashboardLayout from "@/components/layouts/dashboard-layout";
 
-interface Props {}
-
-const Page: NextPageWithLayout<Props> = (props): JSX.Element => {
+const Page = (): JSX.Element => {
   const { user } = useAuth()
 
   return (

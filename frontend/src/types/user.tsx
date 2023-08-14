@@ -8,4 +8,5 @@ export interface User {
     created_at: string
     updated_at: string
     two_factor_confirmed_at: string
+    password_changed_at: string
 }

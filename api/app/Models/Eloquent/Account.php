@@ -30,6 +30,7 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
         'remember_token',
         'last_login_ip',
         'last_login_at',
+        'password_changed_at',
         'balance',
     ];
 
@@ -47,6 +48,7 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
         'created_at',
         'updated_at',
         'last_login_at',
+        'password_changed_at',
         'email_verified_at',
     ];
 

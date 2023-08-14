@@ -34,13 +34,17 @@ return new class extends Migration
                 ->after('two_factor_secret')
                 ->nullable();
 
-            if (Fortify::confirmsTwoFactorAuthentication()) {
-                $table->timestamp('two_factor_confirmed_at')
-                    ->after('two_factor_recovery_codes')
-                    ->nullable();
-            }
+            $table->timestamp('two_factor_confirmed_at')
+                ->after('two_factor_recovery_codes')
+                ->nullable();
 
-            $table->timestamp('email_verified_at')->nullable()->after('email');
+            $table->timestamp('email_verified_at')
+                ->nullable()
+                ->after('email');
+
+            $table->timestamp('password_changed_at')
+                ->nullable()
+                ->after('last_login_at');
         });
 
         Schema::drop('personal_access_tokens');

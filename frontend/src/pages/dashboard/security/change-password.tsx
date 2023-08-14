@@ -1,124 +1,122 @@
+import DashboardSecurityLayout from "@/components/layouts/dashboard-security-layout"
 import withAuth from "@/hooks/withAuth"
+import { useAccount } from "@/libs/account/AccountService"
+import { getHumanReadableError } from "@/libs/errors/HumanReadableError"
 import { NextPage } from "next"
 import Link from "next/link";
-import React, {useState} from "react";
-import {AuthMiddleware, useAuth} from "@/hooks/legacyUseAuth";
-import {Alert} from "@/components/alert";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronLeft, faLock} from "@fortawesome/free-solid-svg-icons";
-import {Routes} from "@/constants/Routes";
+import React, { useState } from "react";
+import { Alert } from "@/components/alert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft, faLock } from "@fortawesome/free-solid-svg-icons";
+import { Routes } from "@/constants/Routes";
 import * as yup from "yup";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 type FormData = {
-    oldPassword: string
-    newPassword: string
-    newPasswordConfirm: string
-}
-
-interface ErrorList {
-    current_password?: string[]
-    password?: string[]
-    password_confirm?: string[]
+  oldPassword: string
+  newPassword: string
+  newPasswordConfirm: string
 }
 
 const ChangePassword: NextPage = (props): JSX.Element => {
-    const { updatePassword } = useAuth({
-        middleware: AuthMiddleware.AUTH,
+  const { updatePassword } = useAccount()
+  const [ loading, setLoading ] = useState(false)
+  const [ success, setSuccess ] = useState("")
+
+  const schema = yup
+    .object({
+      oldPassword: yup.string()
+        .required("Cannot be empty"),
+      newPassword: yup.string()
+        .required("Cannot be empty")
+        .notOneOf([ yup.ref("oldPassword") ], "Cannot be the same as your current password"),
+      newPasswordConfirm: yup.string()
+        .required("Cannot be empty")
+        .oneOf([ yup.ref("newPassword") ], "New passwords must match"),
     })
-    const [ loading, setLoading ] = useState(false)
-    const [ success, setSuccess ] = useState("")
+    .required()
 
-    const schema = yup
-        .object({
-            oldPassword: yup.string().required(),
-            newPassword: yup.string().required(),
-            newPasswordConfirm: yup.string().required()
-                .oneOf([yup.ref('newPassword')], 'New passwords must match'),
-        })
-        .required()
+  const { register, handleSubmit, formState, setError, reset } = useForm<FormData>({ resolver: yupResolver(schema) })
+  const { errors } = formState
 
-    const { register, handleSubmit, formState, setError } = useForm<FormData>({ resolver: yupResolver(schema) })
-    const { errors } = formState
+  const onSubmit = async (data: FormData) => {
+    setLoading(true)
+    setSuccess("")
 
-    const onSubmit = async (data: FormData) => {
-        setLoading(true)
-        setSuccess("")
-
-        updatePassword({
-            oldPassword: data.oldPassword,
-            newPassword: data.newPassword,
-            newPasswordConfirm: data.newPasswordConfirm,
-        })
-            .catch(error => {
-                setError("oldPassword", error.errors?.current_password?.first)
-                setError("newPassword", error.errors?.password?.first)
-                setError("newPasswordConfirm", error.errors?.passwordConfirm?.first)
-
-                if (error instanceof DisplayableError) {
-                    setError("root", { message: error.message })
-                }
-            })
-            .finally(() => setLoading(false))
+    try {
+      await updatePassword({
+        oldPassword: data.oldPassword,
+        newPassword: data.newPassword,
+        newPasswordConfirm: data.newPasswordConfirm,
+      })
+      setSuccess("Password successfully updated")
+      reset()
+    } catch (error: any) {
+      setError("root", { message: getHumanReadableError(error) })
+    } finally {
+      setLoading(false)
     }
+  }
 
-    return (
-        <div>
-            <Link href={Routes.SECURITY}>
-                <FontAwesomeIcon icon={faChevronLeft} /> Back
-            </Link>
+  return (
+    <DashboardSecurityLayout>
+      <Link href={Routes.SECURITY}>
+        <FontAwesomeIcon icon={faChevronLeft}/> Back
+      </Link>
 
-            <h1>Update Password</h1>
+      <h1 className="text-heading-md">Update Password</h1>
 
-            <hr />
+      <hr/>
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <Alert
-                    error={errors.root?.message}
-                    success={success}
-                />
-                <div className="field">
-                    <p className="control has-icons-left">
-                        <input type="password" placeholder="Current Password" className="input" {...register("oldPassword")} />
-                        <span className="icon is-small is-left">
-                            <FontAwesomeIcon icon={faLock} />
-                        </span>
-                    </p>
-                    <p className="help is-danger">{errors.oldPassword?.message}</p>
-                </div>
-                <div className="field">
-                    <p className="control has-icons-left">
-                        <input type="password" placeholder="New Password" className="input" {...register("newPassword")} />
-                        <span className="icon is-small is-left">
-                            <FontAwesomeIcon icon={faLock} />
-                        </span>
-                    </p>
-                    <p className="help is-danger">{errors.newPassword?.message}</p>
-                </div>
-                <div className="field">
-                    <p className="control has-icons-left">
-                        <input type="password" placeholder="New Password (Confirm)" className="input" {...register("newPasswordConfirm")} />
-                        <span className="icon is-small is-left">
-                            <FontAwesomeIcon icon={faLock} />
-                        </span>
-                    </p>
-                    <p className="help is-danger">{errors.newPasswordConfirm?.message}</p>
-                </div>
-                <div className="field">
-                    <p className="control">
-                        <button
-                            type="submit"
-                            disabled={formState.isSubmitting || loading}
-                            className={`button is-success ${loading ? 'is-loading' : ''}`}
-                        >
-                            Update
-                        </button>
-                    </p>
-                </div>
-            </form>
+      <Alert
+        error={errors.root?.message}
+        success={success}
+      />
+
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="field">
+          <p className="control has-icons-left">
+            <input type="password" placeholder="Current Password" className="input" {...register("oldPassword")} />
+            <span className="icon is-small is-left">
+                <FontAwesomeIcon icon={faLock}/>
+            </span>
+          </p>
+          <p className="help is-danger">{errors.oldPassword?.message}</p>
         </div>
-    )
+        <div className="field">
+          <p className="control has-icons-left">
+            <input type="password" placeholder="New Password" className="input" {...register("newPassword")} />
+            <span className="icon is-small is-left">
+                <FontAwesomeIcon icon={faLock}/>
+            </span>
+          </p>
+          <p className="help is-danger">{errors.newPassword?.message}</p>
+        </div>
+        <div className="field">
+          <p className="control has-icons-left">
+            <input type="password" placeholder="New Password (Confirm)"
+                   className="input" {...register("newPasswordConfirm")} />
+            <span className="icon is-small is-left">
+                            <FontAwesomeIcon icon={faLock}/>
+                        </span>
+          </p>
+          <p className="help is-danger">{errors.newPasswordConfirm?.message}</p>
+        </div>
+        <div className="field">
+          <p className="control">
+            <button
+              type="submit"
+              disabled={formState.isSubmitting || loading}
+              className={`button is-success ${loading ? "is-loading" : ""}`}
+            >
+              Update
+            </button>
+          </p>
+        </div>
+      </form>
+    </DashboardSecurityLayout>
+  )
 }
 
 export default withAuth(ChangePassword)
