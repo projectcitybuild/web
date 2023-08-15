@@ -1,7 +1,11 @@
-import { ResponseBodyError, UnauthenticatedError, ValidationError } from "@/libs/http/HttpError"
+import { ResourceLockedError, ResponseBodyError, UnauthenticatedError, ValidationError } from "@/libs/http/HttpError"
 import axios, { AxiosInstance, isAxiosError } from "axios";
 
 type BackendError = {
+  message: string
+}
+
+interface PayloadBody {
   message: string
 }
 
@@ -19,19 +23,9 @@ const withInterceptors = (api: AxiosInstance) => {
                 const status = error.response.status
                 const body = error.response.data
 
-                if (status === 401) {
-                  return Promise.reject(new UnauthenticatedError())
-                }
-                if (status === 422) {
-                  // TODO: extract the fields from the `errors` parameter
-                  return Promise.reject(
-                    new ValidationError({message: body.message})
-                  )
-                }
-
-                // TODO: what do these codes represent again...?
-                if (status == 409 || status == 423) {
-                    return Promise.reject(error);
+                const mappedError = errorFromStatus({status: status, body: body})
+                if (mappedError) {
+                  return Promise.reject(error)
                 }
                 if (body satisfies BackendError) {
                     const casted = new ResponseBodyError({
@@ -44,6 +38,22 @@ const withInterceptors = (api: AxiosInstance) => {
         }
     )
     return api
+}
+
+const errorFromStatus = (props: {status: number, body: PayloadBody}): Error|null => {
+  if (props.status === 401) {
+    return new UnauthenticatedError()
+  }
+  if (props.status === 422) {
+    // TODO: extract the fields from the `errors` parameter
+    return new ValidationError({
+      message: props.body.message,
+    })
+  }
+  if (props.status === 423) {
+    return new ResourceLockedError()
+  }
+  return null
 }
 
 const authHttp = withInterceptors(

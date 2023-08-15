@@ -1,7 +1,8 @@
+import Icon, { IconToken } from "@/components/icon"
 import DashboardLayout from "@/components/layouts/dashboard-layout"
 import DashboardSecurityLayout from "@/components/layouts/dashboard-security-layout"
 import withAuth from "@/hooks/withAuth"
-import { useAccount } from "@/libs/account/AccountService"
+import { useAccount } from "@/libs/account/useAccount"
 import { getHumanReadableError } from "@/libs/errors/HumanReadableError"
 import { GetStaticProps, NextPage } from "next"
 import Link from "next/link";
@@ -49,7 +50,7 @@ const ChangeEmail: NextPage = (props): JSX.Element => {
     return (
         <DashboardSecurityLayout>
             <Link href={Routes.SECURITY}>
-                <FontAwesomeIcon icon={faChevronLeft} /> Back
+                <Icon token={IconToken.chevronLeft} /> Back
             </Link>
 
             <h1 className="text-heading-md">Email Address</h1>

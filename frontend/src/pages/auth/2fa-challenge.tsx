@@ -3,7 +3,7 @@ import {useRouter} from "next/router"
 import {useForm} from "react-hook-form"
 import {yupResolver} from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import {AuthMiddleware, useAuth} from "@/hooks/legacyUseAuth";
+import {AuthMiddleware, useAuth} from "@/libs/account/use2FA";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
 import React, {useState} from "react";

@@ -1,15 +1,17 @@
+import { Alert } from "@/components/alert";
+import Icon, { IconToken } from "@/components/icon"
+import DashboardSecurityLayout from "@/components/layouts/dashboard-security-layout"
+import { Routes } from "@/constants/Routes";
 import withAuth from "@/hooks/withAuth"
+import { use2FA } from "@/libs/account/use2FA"
+import { getHumanReadableError } from "@/libs/errors/HumanReadableError"
+import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { NextPage } from "next"
 import Link from "next/link";
+import { useRouter } from "next/router"
 import React, { useState } from "react";
-import { AuthMiddleware, useAuth } from "@/hooks/legacyUseAuth";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import * as yup from "yup"
-import { Routes } from "@/constants/Routes";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
-import { Alert } from "@/components/alert";
+import * as yup from "yup"
 
 type FormData = {
   code: string
@@ -17,34 +19,33 @@ type FormData = {
 
 const TwoFactorAuthentication: NextPage = (props): JSX.Element => {
   const {
-    user,
     twoFactorEnable,
     twoFactorDisable,
-    twoFactorQRCode,
-    twoFactorRecoveryCodes,
     twoFactorConfirmSetup,
-  } = useAuth({
-    middleware: AuthMiddleware.AUTH,
-  })
+  } = use2FA()
 
+  const router = useRouter()
   const [ loading, setLoading ] = useState(false)
   const [ confirmError, setConfirmError ] = useState<string | undefined>()
-  const [ qrCode, setQrCode ] = useState<string | undefined>()
-  const [ recoveryCodes, setRecoveryCodes ] = useState<[ string ]>()
+
+  const schema = yup
+    .object({
+      code: yup.string().required(),
+    })
+    .required()
+
+  const { register, handleSubmit, formState, setError } = useForm<FormData>({ resolver: yupResolver(schema) })
+  const { errors } = formState
 
   const onEnableTwoFactor = async () => {
     setLoading(true)
+
     try {
       await twoFactorEnable()
-
-      twoFactorQRCode()
-        .then(svg => setQrCode(svg))
-
-      twoFactorRecoveryCodes()
-        .then(recoveryCodes => setRecoveryCodes(recoveryCodes))
-
+      await router.push(Routes.TWO_FACTOR_AUTH_ENABLE)
     } catch (error) {
-
+      console.log(error)
+      setError("root", { message: getHumanReadableError(error) })
     } finally {
       setLoading(false)
     }
@@ -70,17 +71,8 @@ const TwoFactorAuthentication: NextPage = (props): JSX.Element => {
       .finally(() => setLoading(false))
   }
 
-  const schema = yup
-    .object({
-      code: yup.string().required(),
-    })
-    .required()
-
-  const { register, handleSubmit, formState, setError } = useForm<FormData>({ resolver: yupResolver(schema) })
-  const { errors } = formState
-
   return (
-    <div>
+    <DashboardSecurityLayout>
       {/*<div className="modal is-active">*/}
       {/*    <div className="modal-background"></div>*/}
       {/*    <div className="modal-content">*/}
@@ -90,12 +82,16 @@ const TwoFactorAuthentication: NextPage = (props): JSX.Element => {
       {/*</div>*/}
 
       <Link href={Routes.SECURITY}>
-        <FontAwesomeIcon icon={faChevronLeft}/> Back
+        <Icon token={IconToken.chevronLeft}/> Back
       </Link>
 
       <h1>Two Step Verification</h1>
 
       <hr/>
+
+      <Alert
+        error={errors.root?.message}
+      />
 
       <section className="section">
         <h2>2FA</h2>
@@ -106,12 +102,6 @@ const TwoFactorAuthentication: NextPage = (props): JSX.Element => {
           onClick={onEnableTwoFactor}
         >Enable 2FA
         </button>
-
-        {qrCode && (<span dangerouslySetInnerHTML={{ __html: qrCode }}/>)}
-
-        <ul>
-          {recoveryCodes?.map(code => (<li key={code}>{code}</li>))}
-        </ul>
 
       </section>
 
@@ -126,36 +116,7 @@ const TwoFactorAuthentication: NextPage = (props): JSX.Element => {
         </button>
 
       </section>
-
-      <section className="section">
-        <h1>Confirm</h1>
-
-        <Alert error={confirmError}/>
-
-        <form onSubmit={handleSubmit(onConfirmTwoFactorSetup)}>
-          <div className="field">
-            <p className="control has-icons-left">
-              <input type="text" placeholder="2FA Code" className="input" {...register("code")} />
-              <span className="icon is-small is-left">
-                                <FontAwesomeIcon icon={faEnvelope}/>
-                            </span>
-            </p>
-            <p className="help is-danger">{errors.code?.message}</p>
-          </div>
-          <div className="field">
-            <p className="control">
-              <button
-                type="submit"
-                disabled={formState.isSubmitting || loading}
-                className={`button is-success ${loading ? "is-loading" : ""}`}
-              >
-                Confirm
-              </button>
-            </p>
-          </div>
-        </form>
-      </section>
-    </div>
+    </DashboardSecurityLayout>
   )
 }
 

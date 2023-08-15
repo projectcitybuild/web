@@ -1,11 +1,15 @@
+import FilledButton from "@/components/filled-button"
+import Icon, { IconToken } from "@/components/icon"
+import AuthLayout from "@/components/layouts/auth-layout"
+import { Routes } from "@/constants/Routes"
 import { getHumanReadableError } from "@/libs/errors/HumanReadableError"
+import { useAuth } from "@/providers/useAuth"
 import { NextPage } from "next"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { AuthMiddleware, useAuth } from "@/hooks/legacyUseAuth";
-import NavBar from "@/components/navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
@@ -17,13 +21,13 @@ type FormData = {
 
 const PasswordConfirm: NextPage = (props): JSX.Element => {
     const router = useRouter()
-    const { passwordConfirm } = useAuth({
-        middleware: AuthMiddleware.AUTH,
-    })
+    const { confirmPassword } = useAuth()
 
     const schema = yup
         .object({
-            password: yup.string().required(),
+            password: yup
+              .string()
+              .required('Cannot be empty'),
         })
         .required()
 
@@ -35,7 +39,7 @@ const PasswordConfirm: NextPage = (props): JSX.Element => {
         setLoading(true)
 
         try {
-            await passwordConfirm({
+            await confirmPassword({
                 password: data.password,
             })
         } catch (error) {
@@ -47,36 +51,33 @@ const PasswordConfirm: NextPage = (props): JSX.Element => {
     }
 
     return (
-        <div>
-            <NavBar />
+        <AuthLayout>
+            <h1 className="text-heading-xl">Enter Your Password</h1>
 
-            <section className="section">
-                Enter Your Password
+            <div>Password confirmation is required to continue</div>
 
-                <Alert error={errors.root?.message} />
+            <Alert error={errors.root?.message} />
 
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="field">
-                        <p className="control has-icons-left">
-                            <input type="password" placeholder="Password" className="input" {...register("password")} />
-                            <span className="icon is-small is-left">
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="field">
+                    <p className="control has-icons-left">
+                        <input type="password" placeholder="Password" className="input" {...register("password")} />
+                        <span className="icon is-small is-left">
                               <FontAwesomeIcon icon={faLock} />
                             </span>
-                        </p>
-                        <p className="help is-danger">{errors.password?.message}</p>
-                    </div>
-                    <div className="field">
-                        <p className="control">
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className={`button is-primary ${loading ? 'is-loading' : ''}`}
-                            >Confirm</button>
-                        </p>
-                    </div>
-                </form>
-            </section>
-        </div>
+                    </p>
+                    <p className="help is-danger">{errors.password?.message}</p>
+                </div>
+                <div className="field">
+                    <FilledButton
+                      text="Confirm"
+                      submit={true}
+                      loading={loading}
+                      disabled={loading}
+                    />
+                </div>
+            </form>
+        </AuthLayout>
     )
 }
 

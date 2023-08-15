@@ -23,13 +23,13 @@ export const useAccount = () => {
   }
 
   const resendEmailVerification = async () => {
-    await http.post('../email/verification-notification')
+    await http.post('email/verification-notification')
   }
 
   const updateEmail = async (props: {
     email: string
   }) => {
-    await http.post('../email/change', { email: props.email })
+    await http.post('email/change', { email: props.email })
   }
 
   const updatePassword = async (props: {
@@ -53,11 +53,21 @@ export const useAccount = () => {
   }) => {
     await csrf()
 
-    await http.post('../reset-password', {
+    await http.post('reset-password', {
       token: props.token,
       email: props.email,
       password: props.password,
       password_confirmation: props.passwordConfirm,
+    })
+  }
+
+  const forgotPassword = async (props: {
+    email: string
+  }) => {
+    await csrf()
+
+    await http.post('forgot-password', {
+      email: props.email
     })
   }
 
@@ -67,5 +77,6 @@ export const useAccount = () => {
     updateEmail,
     updatePassword,
     resetPassword,
+    forgotPassword,
   }
 }

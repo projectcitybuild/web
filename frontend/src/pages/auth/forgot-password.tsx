@@ -1,9 +1,9 @@
 import withoutAuth from "@/hooks/withoutAuth"
+import { useAccount } from "@/libs/account/useAccount"
 import { getHumanReadableError } from "@/libs/errors/HumanReadableError"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { AuthMiddleware, useAuth } from "@/hooks/legacyUseAuth";
 import React, { useState } from "react";
 import { Routes } from "@/constants/Routes";
 import { Alert} from "@/components/alert";
@@ -19,10 +19,7 @@ type FormData = {
 }
 
 const Page = (): JSX.Element => {
-  const { forgotPassword } = useAuth({
-    middleware: AuthMiddleware.GUEST,
-    redirectIfAuthenticated: Routes.DASHBOARD,
-  })
+  const { forgotPassword } = useAccount()
   const [ loading, setLoading ] = useState(false)
   const [ success, setSuccess ] = useState("")
 
@@ -42,7 +39,7 @@ const Page = (): JSX.Element => {
     setSuccess("")
 
     try {
-      await forgotPassword(data.email)
+      await forgotPassword({ email: data.email })
       setSuccess("A password reset link has been emailed to you")
 
     } catch (error) {

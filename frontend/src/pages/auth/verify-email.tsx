@@ -1,4 +1,4 @@
-import { useAccount } from "@/libs/account/AccountService"
+import { useAccount } from "@/libs/account/useAccount"
 import { getHumanReadableError } from "@/libs/errors/HumanReadableError"
 import React, { useState } from "react";
 import { Alert } from "@/components/alert";

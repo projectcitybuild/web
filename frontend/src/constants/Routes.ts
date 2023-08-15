@@ -15,4 +15,5 @@ export abstract class Routes {
   static readonly CHANGE_EMAIL = '/dashboard/security/change-email'
   static readonly CHANGE_PASSWORD = '/dashboard/security/change-password'
   static readonly TWO_FACTOR_AUTH = '/dashboard/security/2fa'
+  static readonly TWO_FACTOR_AUTH_SETUP = '/dashboard/security/2fa-setup'
 }

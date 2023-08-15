@@ -23,6 +23,7 @@ type AuthContextType = {
   csrf: () => Promise<void>
   login: (props: LoginProps) => Promise<void>
   logout: () => Promise<void>
+  confirmPassword: (props: ConfirmPasswordProps) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -33,10 +34,15 @@ const AuthContext = createContext<AuthContextType>({
   csrf: async () => Promise.resolve(),
   login: async (_) => Promise.resolve(),
   logout: async () => Promise.resolve(),
+  confirmPassword: async (_) => Promise.resolve(),
 })
 
 type LoginProps = {
   email: string
+  password: string
+}
+
+type ConfirmPasswordProps = {
   password: string
 }
 
@@ -62,7 +68,7 @@ export const AuthProvider = ({
       password: props.password,
     })
 
-    const response = await http.post('../login', params)
+    const response = await http.post('login', params)
 
     if (response.data.two_factor) {
       await router.push(Routes.VERIFY_2FA)
@@ -72,9 +78,16 @@ export const AuthProvider = ({
   }
 
   const logout = async () => {
-    await http.post('../logout')
+    await http.post('logout')
     setAuthenticated(false)
     setUser(null)
+  }
+
+  const confirmPassword = async (props: ConfirmPasswordProps) => {
+    const params = querystring.stringify({
+      password: props.password,
+    })
+    await http.post('user/confirm-password', params)
   }
 
   const fetchUser = async () => {
@@ -106,6 +119,7 @@ export const AuthProvider = ({
         csrf,
         login,
         logout,
+        confirmPassword,
       }}
     >
       {children}

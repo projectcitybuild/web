@@ -1,5 +1,5 @@
 import withoutAuth from "@/hooks/withoutAuth"
-import { useAccount } from "@/libs/account/AccountService"
+import { useAccount } from "@/libs/account/useAccount"
 import { getHumanReadableError } from "@/libs/errors/HumanReadableError"
 import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
