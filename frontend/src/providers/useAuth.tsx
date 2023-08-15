@@ -56,6 +56,7 @@ export const AuthProvider = ({
   const [isAuthenticated, setAuthenticated] = useState(false)
   const [isLoading, setLoading] = useState(true)
   const [user, setUser] = useState<User|null>(null)
+  const router = useRouter()
 
   const csrf = async () => {
     await http.get('../sanctum/csrf-cookie')
@@ -68,9 +69,12 @@ export const AuthProvider = ({
       email: props.email,
       password: props.password,
     })
-
-    await http.post('login', params)
-    await fetchUser()
+    const response = await http.post('login', params)
+    if (response.data && response.data.two_factor) {
+      await router.push(Routes.VERIFY_2FA)
+    } else {
+      await fetchUser()
+    }
   }
 
   const logout = async () => {

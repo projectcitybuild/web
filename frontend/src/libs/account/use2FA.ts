@@ -63,10 +63,8 @@ export const use2FA = () => {
     const params = querystring.stringify({
       code: props.code,
     })
-    const res = await http.post('two-factor-challenge', params)
-    console.log(res.data)
-    // setCookies('isAuth', true, { sameSite: 'lax', path: '/' })
-    // await mutate()
+    await http.post('two-factor-challenge', params)
+    await invalidateUser()
   }
 
   /**

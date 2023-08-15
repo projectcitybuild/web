@@ -7,7 +7,7 @@ import {
   faChevronRight,
   faEnvelope,
   faExternalLink,
-  faLock,
+  faLock, faMobilePhone, faMobileScreenButton,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -23,6 +23,7 @@ export enum IconToken {
   envelope,
   externalLink,
   lock,
+  mobile,
   user,
 }
 
@@ -36,6 +37,7 @@ const iconFrom = (token: IconToken) => {
     case IconToken.envelope: return faEnvelope
     case IconToken.externalLink: return faExternalLink
     case IconToken.lock: return faLock
+    case IconToken.mobile: return faMobileScreenButton
     case IconToken.user: return faUser
   }
 }
