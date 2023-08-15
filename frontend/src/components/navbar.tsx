@@ -184,10 +184,6 @@ const DashboardVariant = () => {
           Dashboard
         </Link>
 
-        <Link className="navbar-item" href={Routes.SECURITY}>
-          Account Settings
-        </Link>
-
         <a className="navbar-item">
           Account Linking
         </a>
@@ -195,6 +191,10 @@ const DashboardVariant = () => {
         <a className="navbar-item">
           Donations
         </a>
+
+        <Link className="navbar-item" href={Routes.SETTINGS_SECURITY}>
+          Account Settings
+        </Link>
       </div>
 
       <div className="navbar-end">

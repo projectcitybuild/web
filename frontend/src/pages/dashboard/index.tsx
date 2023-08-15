@@ -13,7 +13,7 @@ const Page = (): JSX.Element => {
 
       <div className="card">
         <div className="card-content">
-          test
+          TODO
         </div>
       </div>
     </DashboardLayout>

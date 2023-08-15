@@ -16,7 +16,7 @@ type FormData = {
     email: string
 }
 
-const ChangeEmail: NextPage = (props): JSX.Element => {
+const Page: NextPage = (props): JSX.Element => {
     const { updateEmail } = useAccount()
     const [ loading, setLoading ] = useState(false)
     const [ success, setSuccess ] = useState("")
@@ -34,23 +34,15 @@ const ChangeEmail: NextPage = (props): JSX.Element => {
         setLoading(true)
         setSuccess("")
 
-        try {
-            await updateEmail({email: data.email })
-        } catch (error) {
-            console.log(error)
-            setError("root", { message: getHumanReadableError(error) })
-        } finally {
-            setLoading(false)
-        }
     }
 
     return (
         <DashboardSecurityLayout>
-            <Link href={Routes.SETTINGS_SECURITY}>
+            <Link href={Routes.SETTINGS_PROFILE}>
                 <Icon token={IconToken.chevronLeft} /> Back
             </Link>
 
-            <h1 className="text-heading-md">Change Email Address</h1>
+            <h1 className="text-heading-md">Change Username</h1>
 
             <hr />
 
@@ -84,4 +76,4 @@ const ChangeEmail: NextPage = (props): JSX.Element => {
     )
 }
 
-export default withAuth(ChangeEmail)
+export default withAuth(Page)

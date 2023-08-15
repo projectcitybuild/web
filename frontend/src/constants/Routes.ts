@@ -11,7 +11,9 @@ export abstract class Routes {
   static readonly PASSWORD_CONFIRM = '/auth/password-confirm'
 
   static readonly DASHBOARD = '/dashboard'
-  static readonly SECURITY = '/dashboard/security'
+  static readonly SETTINGS_PROFILE = '/dashboard/profile'
+  static readonly CHANGE_USERNAME = '/dashboard/profile/change-username'
+  static readonly SETTINGS_SECURITY = '/dashboard/security'
   static readonly CHANGE_EMAIL = '/dashboard/security/change-email'
   static readonly CHANGE_PASSWORD = '/dashboard/security/change-password'
   static readonly TWO_FACTOR_AUTH = '/dashboard/security/2fa'

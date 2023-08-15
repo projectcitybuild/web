@@ -74,7 +74,7 @@ const TwoFactorAuthentication: NextPage = (props): JSX.Element => {
       {/*    <button className="modal-close is-large" aria-label="close"></button>*/}
       {/*</div>*/}
 
-      <Link href={Routes.SECURITY}>
+      <Link href={Routes.SETTINGS_SECURITY}>
         <Icon token={IconToken.chevronLeft}/> Back
       </Link>
 

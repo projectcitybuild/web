@@ -4,7 +4,7 @@ import withAuth from "@/hooks/withAuth"
 import { useAuth } from "@/providers/useAuth"
 import { GetStaticProps } from "next"
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React from "react";
 import { Routes } from "@/constants/Routes";
 
 const Page = (): JSX.Element => {
@@ -59,7 +59,7 @@ const Page = (): JSX.Element => {
 
         <div className="list-row">
           <div className="list-icon">
-            <Icon token={IconToken.lock} />
+            <Icon token={IconToken.mobile} />
           </div>
           <div className="list-content">
             <h2 className="list-title">

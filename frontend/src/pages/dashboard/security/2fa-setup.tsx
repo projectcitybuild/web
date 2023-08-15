@@ -83,7 +83,7 @@ const TwoFactorAuthenticationSetup: NextPage = (props): JSX.Element => {
 
   return (
     <DashboardSecurityLayout>
-      <Link href={Routes.SECURITY}>
+      <Link href={Routes.SETTINGS_SECURITY}>
         <Icon token={IconToken.chevronLeft}/> Back
       </Link>
 
