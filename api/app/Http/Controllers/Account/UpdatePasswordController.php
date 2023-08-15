@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers\Account;
 
 use App\Actions\Fortify\UpdateUserPassword;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 

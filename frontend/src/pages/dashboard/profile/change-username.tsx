@@ -13,27 +13,39 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 
 type FormData = {
-    email: string
+    username: string
 }
 
 const Page: NextPage = (props): JSX.Element => {
-    const { updateEmail } = useAccount()
+    const { updateUsername } = useAccount()
     const [ loading, setLoading ] = useState(false)
     const [ success, setSuccess ] = useState("")
 
     const schema = yup
         .object({
-            email: yup.string().required().email(),
+            username: yup
+              .string()
+              .required('Cannot be empty'),
         })
         .required()
 
-    const { register, handleSubmit, formState, setError } = useForm<FormData>({ resolver: yupResolver(schema) })
+    const { register, handleSubmit, formState, setError, reset } = useForm<FormData>({ resolver: yupResolver(schema) })
     const { errors } = formState
 
     const onSubmit = async (data: FormData) => {
         setLoading(true)
         setSuccess("")
 
+        try {
+            await updateUsername({ username: data.username })
+            setSuccess("Username successfully updated")
+            reset()
+        } catch (error: any) {
+            console.log(error)
+            setError("root", { message: getHumanReadableError(error) })
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -53,12 +65,17 @@ const Page: NextPage = (props): JSX.Element => {
                 />
                 <div className="field">
                     <p className="control has-icons-left">
-                        <input type="email" placeholder="New Email address" className="input" {...register("email")} />
+                        <input
+                          type="text"
+                          placeholder="New Username"
+                          className="input"
+                          {...register("username")}
+                        />
                         <span className="icon is-small is-left">
-                                <Icon token={IconToken.envelope} />
-                            </span>
+                            <Icon token={IconToken.user} />
+                        </span>
                     </p>
-                    <p className="help is-danger">{errors.email?.message}</p>
+                    <p className="help is-danger">{errors.username?.message}</p>
                 </div>
                 <div className="field">
                     <p className="control">
@@ -67,7 +84,7 @@ const Page: NextPage = (props): JSX.Element => {
                             disabled={formState.isSubmitting || loading}
                             className={`button is-success ${loading ? 'is-loading' : ''}`}
                         >
-                            Verify Email
+                            Update
                         </button>
                     </p>
                 </div>

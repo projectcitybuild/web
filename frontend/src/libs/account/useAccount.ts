@@ -29,7 +29,18 @@ export const useAccount = () => {
   const updateEmail = async (props: {
     email: string
   }) => {
-    await http.post('email/change', { email: props.email })
+    await http.post('email/change', {
+      email: props.email,
+    })
+  }
+
+  const updateUsername = async (props: {
+    username: string
+  }) => {
+    const params = querystring.stringify({
+      username: props.username,
+    })
+    await http.patch('account/username', params)
   }
 
   const updatePassword = async (props: {
@@ -75,6 +86,7 @@ export const useAccount = () => {
     register,
     resendEmailVerification,
     updateEmail,
+    updateUsername,
     updatePassword,
     resetPassword,
     forgotPassword,
