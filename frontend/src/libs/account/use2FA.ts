@@ -9,6 +9,13 @@ export const use2FA = () => {
   const router = useRouter()
   const { invalidateUser } = useAuth()
 
+  /**
+   * Generates (or overwrites) the user's secret key for
+   * use with 2FA.
+   *
+   * Note: 2FA is not actually considered active until the user
+   * finishes set up by sending a valid code (see `twoFactorConfirmSetup`)
+   */
   const twoFactorEnable = async () => {
     try {
       await http.post('user/two-factor-authentication')
@@ -22,6 +29,9 @@ export const use2FA = () => {
     }
   }
 
+  /**
+   * Deletes the user's secret key and disables 2FA
+   */
   const twoFactorDisable = async () => {
     try {
       await http.delete('user/two-factor-authentication')
@@ -35,28 +45,47 @@ export const use2FA = () => {
     }
   }
 
-  const twoFactorQRCode = async () => {
-    const response = await http.get('user/two-factor-qr-code')
-    console.log(response.data)
-    return response.data.svg
-  }
-
+  /**
+   * Finishes setting up 2FA for the user by confirming that
+   * the given code (generated from their device) is valid
+   *
+   * @param props
+   */
   const twoFactorConfirmSetup = async (props: {
     code: string
   }) => {
     const params = querystring.stringify({
       code: props.code,
     })
-    const res = await http.post('user/confirmed-two-factor-authentication', params)
-    console.log(res.data)
+    await http.post('user/confirmed-two-factor-authentication', params)
+    await invalidateUser()
   }
 
-  const twoFactorRecoveryCodes = async () => {
+  /**
+   * Fetches a SVG (as HTML) of a QR code the user can scan
+   * to register 2FA on their secondary device
+   */
+  const twoFactorQRCode = async () => {
+    const response = await http.get('user/two-factor-qr-code')
+    return response.data.svg
+  }
+
+  /**
+   * Fetches a list of the user's recovery codes.
+   *
+   * All codes can be assumed to be valid, as using a recovery code
+   * will cause it to be replaced with a new one
+   */
+  const twoFactorRecoveryCodes = async (): Promise<[string]> => {
     const response = await http.get('user/two-factor-recovery-codes')
-    console.log(response.data)
     return response.data
   }
 
+  /**
+   * Attempts authentication using an OTP code
+   *
+   * @param props
+   */
   const twoFactorChallenge = async (props: {
     code: string
   }) => {
@@ -68,24 +97,21 @@ export const use2FA = () => {
   }
 
   /**
-   * Attempts access to an account using a recovery code. For use
-   * in the case where a user loses access to their OTP code
-   * generating device
+   * Attempts authentication using a recovery code, for cases
+   * where the user loses access to their OTP generation-capable
+   * device
    *
    * @param props
    */
   const twoFactorRecovery = async (props: {
     recoveryCode: string
   }) => {
+    console.log("test")
     const params = querystring.stringify({
       recovery_code: props.recoveryCode,
     })
-    const res = await http.post('two-factor-challenge', params)
-    console.log(res.data)
-    if (res.status == 204) {
-      // setCookies('isAuth', true, { sameSite: 'lax', path: '/' })
-      // await mutate()
-    }
+    await http.post('two-factor-challenge', params)
+    await invalidateUser()
   }
 
   return {

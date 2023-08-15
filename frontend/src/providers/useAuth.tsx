@@ -71,7 +71,7 @@ export const AuthProvider = ({
     })
     const response = await http.post('login', params)
     if (response.data && response.data.two_factor) {
-      await router.push(Routes.VERIFY_2FA)
+      await router.push(Routes.TWO_FACTOR_CHALLENGE)
     } else {
       await fetchUser()
     }

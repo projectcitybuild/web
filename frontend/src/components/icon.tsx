@@ -1,3 +1,4 @@
+import { faQuestionCircle } from "@fortawesome/free-regular-svg-icons"
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -24,6 +25,7 @@ export enum IconToken {
   externalLink,
   lock,
   mobile,
+  question,
   user,
 }
 
@@ -38,6 +40,7 @@ const iconFrom = (token: IconToken) => {
     case IconToken.externalLink: return faExternalLink
     case IconToken.lock: return faLock
     case IconToken.mobile: return faMobileScreenButton
+    case IconToken.question: return faQuestionCircle
     case IconToken.user: return faUser
   }
 }

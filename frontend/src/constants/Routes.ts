@@ -3,11 +3,11 @@ export abstract class Routes {
   static readonly MAPS = '/maps'
 
   static readonly LOGIN = '/auth/login'
-  static readonly LOGOUT = '/auth/logout'
   static readonly REGISTER = '/auth/register'
   static readonly FORGOT_PASSWORD = '/auth/forgot-password'
   static readonly VERIFY_EMAIL = '/auth/verify-email'
-  static readonly VERIFY_2FA = '/auth/2fa-challenge'
+  static readonly TWO_FACTOR_CHALLENGE = '/auth/2fa-challenge'
+  static readonly TWO_FACTOR_RECOVER = '/auth/2fa-recover'
   static readonly PASSWORD_CONFIRM = '/auth/password-confirm'
 
   static readonly DASHBOARD = '/dashboard'
