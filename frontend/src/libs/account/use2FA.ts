@@ -1,15 +1,18 @@
 import http from "@/libs/http/Http"
 import { ResourceLockedError } from "@/libs/http/HttpError"
+import { useAuth } from "@/providers/useAuth"
 import querystring from "querystring"
 import { useRouter } from "next/router"
 import { Routes } from "@/constants/Routes";
 
 export const use2FA = () => {
   const router = useRouter()
+  const { invalidateUser } = useAuth()
 
   const twoFactorEnable = async () => {
     try {
       await http.post('user/two-factor-authentication')
+      await invalidateUser()
     } catch (error: any) {
       if (error instanceof ResourceLockedError) { // TODO: move this to an app-wide navigation observer
         await router.push(Routes.PASSWORD_CONFIRM)
@@ -20,16 +23,16 @@ export const use2FA = () => {
   }
 
   const twoFactorDisable = async () => {
-    const response = await http.delete('user/two-factor-authentication')
-      .catch(error => {
-        if (error.response.status === 423) {
-          router.push(Routes.PASSWORD_CONFIRM)
-        } else {
-          throw error
-        }
-      })
-
-    console.log(response)
+    try {
+      await http.delete('user/two-factor-authentication')
+      await invalidateUser()
+    } catch (error: any) {
+      if (error instanceof ResourceLockedError) { // TODO: move this to an app-wide navigation observer
+        await router.push(Routes.PASSWORD_CONFIRM)
+      } else {
+        throw error
+      }
+    }
   }
 
   const twoFactorQRCode = async () => {

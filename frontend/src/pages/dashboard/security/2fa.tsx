@@ -5,11 +5,12 @@ import { Routes } from "@/constants/Routes";
 import withAuth from "@/hooks/withAuth"
 import { use2FA } from "@/libs/account/use2FA"
 import { getHumanReadableError } from "@/libs/errors/HumanReadableError"
-import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
+import { useAuth } from "@/providers/useAuth"
+import { yupResolver } from "@hookform/resolvers/yup";
 import { NextPage } from "next"
 import Link from "next/link";
 import { useRouter } from "next/router"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup"
 
@@ -21,12 +22,11 @@ const TwoFactorAuthentication: NextPage = (props): JSX.Element => {
   const {
     twoFactorEnable,
     twoFactorDisable,
-    twoFactorConfirmSetup,
   } = use2FA()
 
   const router = useRouter()
+  const { user } = useAuth()
   const [ loading, setLoading ] = useState(false)
-  const [ confirmError, setConfirmError ] = useState<string | undefined>()
 
   const schema = yup
     .object({
@@ -42,7 +42,7 @@ const TwoFactorAuthentication: NextPage = (props): JSX.Element => {
 
     try {
       await twoFactorEnable()
-      await router.push(Routes.TWO_FACTOR_AUTH_ENABLE)
+      await router.push(Routes.TWO_FACTOR_AUTH_SETUP)
     } catch (error) {
       console.log(error)
       setError("root", { message: getHumanReadableError(error) })
@@ -53,22 +53,15 @@ const TwoFactorAuthentication: NextPage = (props): JSX.Element => {
 
   const onDisableTwoFactor = async () => {
     setLoading(true)
+
     try {
       await twoFactorDisable()
     } catch (error) {
-
+      console.log(error)
+      setError("root", { message: getHumanReadableError(error) })
     } finally {
       setLoading(false)
     }
-  }
-
-  const onConfirmTwoFactorSetup = async (data: FormData) => {
-    setLoading(true)
-
-    twoFactorConfirmSetup({ code: data.code })
-      .then((res) => console.log(res))
-      .catch((err) => setConfirmError(err.message))
-      .finally(() => setLoading(false))
   }
 
   return (
@@ -93,29 +86,24 @@ const TwoFactorAuthentication: NextPage = (props): JSX.Element => {
         error={errors.root?.message}
       />
 
-      <section className="section">
-        <h2>2FA</h2>
-
-        <button
-          className={`button is-primary ${loading ? "is-loading" : ""}`}
-          disabled={loading}
-          onClick={onEnableTwoFactor}
-        >Enable 2FA
-        </button>
-
-      </section>
-
-      <section className="section">
-        <h2>Disable</h2>
-
-        <button
-          className={`button is-primary ${loading ? "is-loading" : ""}`}
-          disabled={loading}
-          onClick={onDisableTwoFactor}
-        >Disable 2FA
-        </button>
-
-      </section>
+      <div>
+        {user?.two_factor_confirmed_at === null && (
+          <button
+            className={`button is-primary ${loading ? "is-loading" : ""}`}
+            disabled={loading}
+            onClick={onEnableTwoFactor}
+          >Enable 2FA
+          </button>
+        )}
+        {user?.two_factor_confirmed_at !== null && (
+          <button
+            className={`button is-primary ${loading ? "is-loading" : ""}`}
+            disabled={loading}
+            onClick={onDisableTwoFactor}
+          >Disable 2FA
+          </button>
+        )}
+      </div>
     </DashboardSecurityLayout>
   )
 }

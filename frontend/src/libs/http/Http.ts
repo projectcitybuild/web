@@ -1,3 +1,4 @@
+import { isHumanReadableError } from "@/libs/errors/HumanReadableError"
 import { ResourceLockedError, ResponseBodyError, UnauthenticatedError, ValidationError } from "@/libs/http/HttpError"
 import axios, { AxiosInstance, isAxiosError } from "axios";
 
@@ -25,7 +26,7 @@ const withInterceptors = (api: AxiosInstance) => {
 
                 const mappedError = errorFromStatus({status: status, body: body})
                 if (mappedError) {
-                  return Promise.reject(error)
+                  return Promise.reject(mappedError)
                 }
                 if (body satisfies BackendError) {
                     const casted = new ResponseBodyError({

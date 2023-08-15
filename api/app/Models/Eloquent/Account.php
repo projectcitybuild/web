@@ -41,7 +41,6 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
         'totp_backup_code',
         'two_factor_secret',
         'two_factor_recovery_codes',
-        'two_factor_confirmed_at',
     ];
 
     protected $dates = [

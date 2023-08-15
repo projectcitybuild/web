@@ -4,7 +4,7 @@ import withAuth from "@/hooks/withAuth"
 import { useAuth } from "@/providers/useAuth"
 import { GetStaticProps } from "next"
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes } from "@/constants/Routes";
 
 const Page = (): JSX.Element => {
@@ -70,10 +70,10 @@ const Page = (): JSX.Element => {
               </span>
           </div>
           <div className="list-details">
-            {user?.two_factor_confirmed_at == null && (
+            {user?.two_factor_confirmed_at === null && (
               <span className="tag is-danger">Not Enabled</span>
             )}
-            {user?.two_factor_confirmed_at != null && (
+            {user?.two_factor_confirmed_at !== null && (
               <span className="tag is-success">Active</span>
             )}
           </div>

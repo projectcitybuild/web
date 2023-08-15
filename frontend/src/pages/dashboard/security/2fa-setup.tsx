@@ -1,18 +1,24 @@
 import { Alert } from "@/components/alert"
+import FilledButton from "@/components/filled-button"
 import Icon, { IconToken } from "@/components/icon"
 import DashboardSecurityLayout from "@/components/layouts/dashboard-security-layout"
+import { Urls } from "@/constants/Urls"
 import withAuth from "@/hooks/withAuth"
 import { use2FA } from "@/libs/account/use2FA"
+import { getHumanReadableError } from "@/libs/errors/HumanReadableError"
+import styles from "@/pages/auth/login.module.scss"
 import { NextPage } from "next"
 import Link from "next/link";
+import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react";
 import * as yup from "yup"
 import { Routes } from "@/constants/Routes";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 type FormData = {
   code: string
+  savedRecoveryCodes: boolean
 }
 
 const TwoFactorAuthenticationSetup: NextPage = (props): JSX.Element => {
@@ -22,14 +28,27 @@ const TwoFactorAuthenticationSetup: NextPage = (props): JSX.Element => {
     twoFactorConfirmSetup,
   } = use2FA()
 
+  const router = useRouter()
   const [ loading, setLoading ] = useState(false)
-  const [ confirmError, setConfirmError ] = useState<string | undefined>()
-  const [ qrCode, setQrCode ] = useState<string | undefined>()
-  const [ recoveryCodes, setRecoveryCodes ] = useState<[ string ]>()
+  const [ qrCode, setQrCode ] = useState<string|undefined>()
+  const [ recoveryCodes, setRecoveryCodes ] = useState<[string]>()
+
+  const schema = yup
+    .object({
+      code: yup
+        .string()
+        .required('Cannot be empty'),
+      acceptTerms: yup.boolean()
+        .isTrue("You must accept to continue"),
+    })
+    .required()
+
+  const { register, handleSubmit, formState, setError, watch } = useForm<FormData>({ resolver: yupResolver(schema) })
+  const { errors } = formState
 
   useEffect(() => {
     loadCodes()
-  })
+  }, [])
 
   const loadCodes = async () => {
     setLoading(true)
@@ -51,20 +70,16 @@ const TwoFactorAuthenticationSetup: NextPage = (props): JSX.Element => {
   const onConfirmTwoFactorSetup = async (data: FormData) => {
     setLoading(true)
 
-    twoFactorConfirmSetup({ code: data.code })
-      .then((res) => console.log(res))
-      .catch((err) => setConfirmError(err.message))
-      .finally(() => setLoading(false))
+    try {
+      await twoFactorConfirmSetup({ code: data.code })
+      await router.push(Routes.TWO_FACTOR_AUTH)
+    } catch (error: any) {
+      console.log(error)
+      setError("root", {message: getHumanReadableError(error)})
+    } finally {
+      setLoading(false)
+    }
   }
-
-  const schema = yup
-    .object({
-      code: yup.string().required(),
-    })
-    .required()
-
-  const { register, handleSubmit, formState, setError } = useForm<FormData>({ resolver: yupResolver(schema) })
-  const { errors } = formState
 
   return (
     <DashboardSecurityLayout>
@@ -91,7 +106,7 @@ const TwoFactorAuthenticationSetup: NextPage = (props): JSX.Element => {
       <section className="section">
         <h1>Confirm</h1>
 
-        <Alert error={confirmError}/>
+        <Alert error={errors.root?.message} />
 
         <form onSubmit={handleSubmit(onConfirmTwoFactorSetup)}>
           <div className="field">
@@ -103,15 +118,27 @@ const TwoFactorAuthenticationSetup: NextPage = (props): JSX.Element => {
             </p>
             <p className="help is-danger">{errors.code?.message}</p>
           </div>
+
+          <div className="field mt-4">
+            <div className="box">
+              <label className={`checkbox ${styles.checkbox}`}>
+                <input
+                  type="checkbox"
+                  {...register("savedRecoveryCodes")}
+                /> I have made a copy of the above recovery codes, and understand that I will not be able to view them again
+              </label>
+              <p className="help is-danger">{errors.savedRecoveryCodes?.message}</p>
+            </div>
+          </div>
+
           <div className="field">
             <p className="control">
-              <button
-                type="submit"
-                disabled={formState.isSubmitting || loading}
-                className={`button is-success ${loading ? "is-loading" : ""}`}
-              >
-                Confirm
-              </button>
+              <FilledButton
+                text="Confirm"
+                submit={true}
+                loading={loading}
+                disabled={loading || !watch("savedRecoveryCodes")}
+              />
             </p>
           </div>
         </form>
