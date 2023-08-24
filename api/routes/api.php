@@ -1,7 +1,7 @@
 <?php
 
-use app\Http\Controllers\Account\UpdatePasswordController;
-use app\Http\Controllers\Account\UpdateUsernameController;
+use App\Http\Controllers\Account\UpdatePasswordController;
+use App\Http\Controllers\Account\UpdateUsernameController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\RegistrationController;

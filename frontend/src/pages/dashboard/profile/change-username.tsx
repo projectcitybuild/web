@@ -5,12 +5,13 @@ import { useAccount } from "@/libs/account/useAccount"
 import { getHumanReadableError } from "@/libs/errors/HumanReadableError"
 import { NextPage } from "next"
 import Link from "next/link";
-import React, {useState} from "react";
-import {Alert} from "@/components/alert";
-import {Routes} from "@/constants/Routes";
+import React, { useState } from "react";
+import { Alert } from "@/components/alert";
+import { Routes } from "@/constants/Routes";
 import * as yup from "yup";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import FilledButton from "@/components/filled-button";
 
 type FormData = {
     username: string
@@ -79,13 +80,12 @@ const Page: NextPage = (props): JSX.Element => {
                 </div>
                 <div className="field">
                     <p className="control">
-                        <button
-                            type="submit"
-                            disabled={formState.isSubmitting || loading}
-                            className={`button is-success ${loading ? 'is-loading' : ''}`}
-                        >
-                            Update
-                        </button>
+                        <FilledButton
+                          text="Update"
+                          submit={true}
+                          loading={loading}
+                          disabled={formState.isSubmitting || loading}
+                        />
                     </p>
                 </div>
             </form>

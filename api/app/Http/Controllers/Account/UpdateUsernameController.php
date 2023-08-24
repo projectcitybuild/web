@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Controllers\Account;
+namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
 use App\Rules\UsernameValidationRules;
