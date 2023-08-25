@@ -1,5 +1,5 @@
+import DashboardNavBar from "@/components/dashboard-navbar"
 import styles from "@/components/layouts/dashboard-layout.module.scss";
-import NavBar, { NavBarColorVariant, NavBarMenuSet } from "@/components/navbar"
 import React, { ReactElement } from "react";
 
 type Props = {
@@ -9,10 +9,7 @@ type Props = {
 export default function DashboardLayout(props: Props) {
   return (
     <>
-      <NavBar
-        menuSet={NavBarMenuSet.dashboard}
-        colorVariant={NavBarColorVariant.opaque}
-      />
+      <DashboardNavBar />
 
       <main className={styles.contents}>
         <div className="container">

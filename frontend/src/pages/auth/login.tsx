@@ -17,6 +17,7 @@ import AuthLayout from "@/components/layouts/auth-layout";
 type FormData = {
   email: string
   password: string
+  remember: boolean
 }
 
 const Page = (): JSX.Element => {
@@ -30,6 +31,8 @@ const Page = (): JSX.Element => {
 
       password: yup.string()
         .required("Cannot be empty"),
+
+      remember: yup.boolean(),
     })
     .required()
 
@@ -41,6 +44,7 @@ const Page = (): JSX.Element => {
       await login({
         email: data.email,
         password: data.password,
+        remember: data.remember,
       })
     } catch (error: any) {
       setError("root", { message: getHumanReadableError(error) })
@@ -93,7 +97,7 @@ const Page = (): JSX.Element => {
         <div className={`field ${styles.fieldOptions}`}>
           <div className="field">
             <label className={`checkbox ${styles.checkbox}`}>
-              <input type="checkbox" /> Remember me
+              <input type="checkbox" {...register("remember")} /> Remember me
             </label>
           </div>
 

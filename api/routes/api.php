@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Account\UpdatePasswordController;
 use App\Http\Controllers\Account\UpdateUsernameController;
+use App\Http\Controllers\Donations\DonationController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\RegistrationController;
@@ -22,6 +23,9 @@ Route::put('/account/password', [UpdatePasswordController::class, 'update'])
     ->middleware($authMiddleware);
 
 Route::patch('/account/username', [UpdateUsernameController::class, 'update'])
+    ->middleware($authMiddleware);
+
+Route::get('/donations', [DonationController::class, 'index'])
     ->middleware($authMiddleware);
 
 Route::get('/servers', [ServerController::class, 'index']);

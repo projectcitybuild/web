@@ -42,6 +42,7 @@ const AuthContext = createContext<AuthContextType>({
 type LoginProps = {
   email: string
   password: string
+  remember: boolean
 }
 
 type ConfirmPasswordProps = {
@@ -68,6 +69,7 @@ export const AuthProvider = ({
     const params = querystring.stringify({
       email: props.email,
       password: props.password,
+      remember: props.remember,
     })
     const response = await http.post('login', params)
     if (response.data && response.data.two_factor) {

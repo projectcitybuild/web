@@ -2,11 +2,13 @@
 
 namespace App\Models\Eloquent;
 
+use App\Models\Eloquent\Donation;
 use Database\Factories\AccountFactory;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -63,5 +65,14 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
     public function isTwoFactorEnabled(): bool
     {
         return $this->two_factor_secret != null;
+    }
+
+    public function donations(): HasMany
+    {
+        return $this->hasMany(
+            related: Donation::class,
+            foreignKey: 'account_id',
+            localKey: 'account_id',
+        );
     }
 }

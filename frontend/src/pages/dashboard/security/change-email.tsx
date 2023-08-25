@@ -1,3 +1,4 @@
+import FilledButton from "@/components/filled-button"
 import Icon, { IconToken } from "@/components/icon"
 import DashboardSecurityLayout from "@/components/layouts/dashboard-security-layout"
 import withAuth from "@/hooks/withAuth"
@@ -70,13 +71,12 @@ const ChangeEmail: NextPage = (props): JSX.Element => {
                 </div>
                 <div className="field">
                     <p className="control">
-                        <button
-                            type="submit"
-                            disabled={formState.isSubmitting || loading}
-                            className={`button is-success ${loading ? 'is-loading' : ''}`}
-                        >
-                            Verify Email
-                        </button>
+                        <FilledButton
+                          text="Verify Email"
+                          submit={true}
+                          loading={loading}
+                          disabled={formState.isSubmitting || loading}
+                        />
                     </p>
                 </div>
             </form>

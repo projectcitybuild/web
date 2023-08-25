@@ -5,12 +5,7 @@ import Image from "next/image";
 import styles from '@/components/navbar.module.scss'
 import { Routes } from "@/constants/Routes";
 import logoImage from '@/assets/images/logo.png';
-import React, { ReactElement, useEffect, useRef } from "react"
-
-export enum NavBarMenuSet {
-  home,
-  dashboard,
-}
+import React, { useEffect } from "react"
 
 export enum NavBarColorVariant {
   floatingTransparent,
@@ -18,18 +13,13 @@ export enum NavBarColorVariant {
 }
 
 type Props = {
-  menuSet: NavBarMenuSet,
   colorVariant: NavBarColorVariant,
 }
 
-const VariantElement = (menuSet: NavBarMenuSet) => {
-  switch (menuSet) {
-    case NavBarMenuSet.home: return HomeVariant();
-    case NavBarMenuSet.dashboard: return DashboardVariant();
-  }
-}
-
 export default function NavBar(props: Props) {
+  const { user } = useAuth()
+  const isLoggedIn = user != null
+
   useEffect(() => {
     const burgers = Array.prototype.slice
       .call(document.querySelectorAll('.navbar-burger'), 0)
@@ -58,16 +48,8 @@ export default function NavBar(props: Props) {
   }
 
   return (
-    <NavBarWrapper className={navClass.join(" ")}>
-      {VariantElement(props.menuSet)}
-    </NavBarWrapper>
-  )
-}
-
-const NavBarWrapper = (props: {className: string, children: ReactElement}) => {
-  return (
     <nav
-      className={props.className}
+      className={navClass.join(" ")}
       role="navigation"
       aria-label="main navigation"
     >
@@ -97,136 +79,68 @@ const NavBarWrapper = (props: {className: string, children: ReactElement}) => {
       </div>
 
       <div id="nav-menu" className="navbar-menu">
-        { props.children }
+        <div className="navbar-start">
+          <Link className="navbar-item" href={Routes.HOME}>
+            Home
+          </Link>
+
+          <a className="navbar-item" href="https://portal.projectcitybuild.com">
+            Portal
+          </a>
+
+          <Link className="navbar-item" href={Routes.MAPS}>
+            Live Maps
+          </Link>
+
+          <a className="navbar-item">
+            Vote For Us
+          </a>
+
+          <a className="navbar-item">
+            Donate
+          </a>
+
+          <div className="navbar-item has-dropdown is-hoverable">
+            <a className="navbar-link">
+              More
+            </a>
+
+            <div className="navbar-dropdown">
+              <a className="navbar-item">
+                Todo
+              </a>
+              <a className="navbar-item">
+                Todo
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="navbar-end">
+          <div className="navbar-item">
+            { isLoggedIn
+              ? (
+                <div className="buttons">
+                  <Link className="button is-text" href={Routes.DASHBOARD}>
+                    <span className="mr-2">Dashboard</span>
+                    <Icon token={IconToken.arrowRight} />
+                  </Link>
+                </div>
+              )
+              : (
+                <div className="buttons">
+                  <Link className="button is-text" href={Routes.LOGIN}>
+                    Log In
+                  </Link>
+                  <Link className="button is-light" href={Routes.REGISTER}>
+                    Sign Up
+                  </Link>
+                </div>
+              )
+            }
+          </div>
+        </div>
       </div>
     </nav>
-  )
-}
-
-const HomeVariant = () => {
-  const { user } = useAuth()
-  const isLoggedIn = user != null
-
-  return (
-    <>
-      <div className="navbar-start">
-        <Link className="navbar-item" href={Routes.HOME}>
-          Home
-        </Link>
-
-        <a className="navbar-item" href="https://portal.projectcitybuild.com">
-          Portal
-        </a>
-
-        <Link className="navbar-item" href={Routes.MAPS}>
-          Live Maps
-        </Link>
-
-        <a className="navbar-item">
-          Vote For Us
-        </a>
-
-        <a className="navbar-item">
-          Donate
-        </a>
-
-        <div className="navbar-item has-dropdown is-hoverable">
-          <a className="navbar-link">
-            More
-          </a>
-
-          <div className="navbar-dropdown">
-            <a className="navbar-item">
-              Todo
-            </a>
-            <a className="navbar-item">
-              Todo
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div className="navbar-end">
-        <div className="navbar-item">
-          { isLoggedIn
-            ? (
-              <div className="buttons">
-                <Link className="button is-text" href={Routes.DASHBOARD}>
-                  <span className="mr-2">Dashboard</span>
-                  <Icon token={IconToken.arrowRight} />
-                </Link>
-              </div>
-            )
-            : (
-              <div className="buttons">
-                <Link className="button is-text" href={Routes.LOGIN}>
-                  Log In
-                </Link>
-                <Link className="button is-light" href={Routes.REGISTER}>
-                  Sign Up
-                </Link>
-              </div>
-            )
-          }
-        </div>
-      </div>
-    </>
-  )
-}
-
-const DashboardVariant = () => {
-  const { user, logout } = useAuth()
-
-  return (
-    <>
-      <div className="navbar-start">
-        <Link className="navbar-item" href={Routes.DASHBOARD}>
-          Dashboard
-        </Link>
-
-        <a className="navbar-item">
-          Account Linking
-        </a>
-
-        <a className="navbar-item">
-          Donations
-        </a>
-
-        <Link className="navbar-item" href={Routes.SETTINGS_SECURITY}>
-          Account Settings
-        </Link>
-      </div>
-
-      <div className="navbar-end">
-        <div className="navbar-item has-dropdown is-hoverable">
-          <a className="navbar-link">
-            <figure className="image mr-2" style={{"width": 28}}>
-              <img
-                className="is-rounded"
-                src="https://bulma.io/images/placeholders/128x128.png"
-              />
-            </figure>
-
-            { user?.username ?? "-" }
-          </a>
-
-          <div className="navbar-dropdown">
-            <hr className="navbar-divider" />
-
-            <a className="navbar-item" onClick={logout}>
-              Logout
-            </a>
-          </div>
-        </div>
-
-        <div className="navbar-item">
-          <div className="buttons">
-            <Link className="button is-light" href={Routes.REGISTER}>
-              Apply for...
-            </Link>
-          </div>
-        </div>
-      </div>
-    </>
   )
 }

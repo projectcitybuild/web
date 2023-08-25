@@ -1,3 +1,4 @@
+import FilledButton from "@/components/filled-button"
 import Icon, { IconToken } from "@/components/icon"
 import DashboardSecurityLayout from "@/components/layouts/dashboard-security-layout"
 import withAuth from "@/hooks/withAuth"
@@ -7,8 +8,6 @@ import { NextPage } from "next"
 import Link from "next/link";
 import React, { useState } from "react";
 import { Alert } from "@/components/alert";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faLock } from "@fortawesome/free-solid-svg-icons";
 import { Routes } from "@/constants/Routes";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -80,7 +79,7 @@ const ChangePassword: NextPage = (props): JSX.Element => {
           <p className="control has-icons-left">
             <input type="password" placeholder="Current Password" className="input" {...register("oldPassword")} />
             <span className="icon is-small is-left">
-                <FontAwesomeIcon icon={faLock}/>
+              <Icon token={IconToken.lock} />
             </span>
           </p>
           <p className="help is-danger">{errors.oldPassword?.message}</p>
@@ -89,30 +88,33 @@ const ChangePassword: NextPage = (props): JSX.Element => {
           <p className="control has-icons-left">
             <input type="password" placeholder="New Password" className="input" {...register("newPassword")} />
             <span className="icon is-small is-left">
-                <FontAwesomeIcon icon={faLock}/>
+              <Icon token={IconToken.lock} />
             </span>
           </p>
           <p className="help is-danger">{errors.newPassword?.message}</p>
         </div>
         <div className="field">
           <p className="control has-icons-left">
-            <input type="password" placeholder="New Password (Confirm)"
-                   className="input" {...register("newPasswordConfirm")} />
+            <input
+              type="password"
+              placeholder="New Password (Confirm)"
+              className="input"
+              {...register("newPasswordConfirm")}
+            />
             <span className="icon is-small is-left">
-                            <FontAwesomeIcon icon={faLock}/>
-                        </span>
+              <Icon token={IconToken.lock} />
+            </span>
           </p>
           <p className="help is-danger">{errors.newPasswordConfirm?.message}</p>
         </div>
         <div className="field">
           <p className="control">
-            <button
-              type="submit"
+            <FilledButton
+              text="Update"
+              submit={true}
+              loading={loading}
               disabled={formState.isSubmitting || loading}
-              className={`button is-success ${loading ? "is-loading" : ""}`}
-            >
-              Update
-            </button>
+            />
           </p>
         </div>
       </form>
