@@ -9,4 +9,5 @@ export interface User {
     updated_at: string
     two_factor_confirmed_at: string|undefined
     password_changed_at: string|undefined
+    avatarUrl: string|undefined
 }

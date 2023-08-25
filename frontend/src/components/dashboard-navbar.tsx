@@ -4,7 +4,7 @@ import Image from "next/image";
 import styles from '@/components/navbar.module.scss'
 import { Routes } from "@/constants/Routes";
 import logoImage from '@/assets/images/logo.png';
-import React, { ReactElement, useEffect, useRef } from "react"
+import React, { useEffect } from "react"
 
 export default function DashboardNavBar() {
   const { user, logout } = useAuth()
@@ -77,12 +77,14 @@ export default function DashboardNavBar() {
         <div className="navbar-end">
           <div className="navbar-item has-dropdown is-hoverable">
             <a className="navbar-link">
-              <figure className="image mr-2" style={{"width": 28}}>
-                <img
-                  className="is-rounded"
-                  src="https://bulma.io/images/placeholders/128x128.png"
-                />
-              </figure>
+              { user?.avatarUrl &&
+                  <figure className="image mr-2" style={{"width": 28}}>
+                      <img
+                          className="is-rounded"
+                          src={user?.avatarUrl}
+                      />
+                  </figure>
+              }
 
               { user?.username ?? "-" }
             </a>
@@ -93,14 +95,6 @@ export default function DashboardNavBar() {
               <a className="navbar-item" onClick={logout}>
                 Logout
               </a>
-            </div>
-          </div>
-
-          <div className="navbar-item">
-            <div className="buttons">
-              <Link className="button is-light" href={Routes.REGISTER}>
-                Apply for...
-              </Link>
             </div>
           </div>
         </div>

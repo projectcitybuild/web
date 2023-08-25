@@ -2,12 +2,12 @@
 
 namespace App\Models\Eloquent;
 
-use App\Models\Eloquent\Donation;
 use Database\Factories\AccountFactory;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -53,6 +53,10 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
         'email_verified_at',
     ];
 
+    protected $appends = [
+        'avatarUrl',
+    ];
+
     protected $casts = [
         'is_totp_enabled' => 'boolean',
     ];
@@ -65,6 +69,28 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
     public function isTwoFactorEnabled(): bool
     {
         return $this->two_factor_secret != null;
+    }
+
+    public function minecraftPlayer(): BelongsTo
+    {
+        return $this->belongsTo(
+            related: MinecraftPlayer::class,
+            foreignKey: 'account_id',
+            ownerKey: 'account_id',
+        );
+    }
+
+    public function getAvatarUrlAttribute(): ?string
+    {
+        $player = $this->minecraftPlayer;
+        if ($player !== null) {
+            return "https://minotar.net/avatar/".$player->dashStrippedUuid();
+        }
+        if ($this->username !== null) {
+            $name = str_replace(search: " ", replace: "+", subject: $this->username);
+            return "https://ui-avatars.com/api/?name=".$name;
+        }
+        return null;
     }
 
     public function donations(): HasMany
