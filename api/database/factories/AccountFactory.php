@@ -4,10 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Eloquent\Account;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use PragmaRX\Google2FA\Google2FA;
 
 class AccountFactory extends Factory
 {
@@ -61,47 +58,6 @@ class AccountFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'activated' => false,
-            ];
-        });
-    }
-
-    public function withTotpCode()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'totp_secret' => Crypt::encryptString((new Google2FA)->generateSecretKey()),
-            ];
-        });
-    }
-
-    public function withTotpBackupCode()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'totp_backup_code' => Crypt::encryptString(Str::random(32)),
-            ];
-        });
-    }
-
-    public function hasStartedTotp()
-    {
-        return $this->withTotpBackupCode()->withTotpCode();
-    }
-
-    public function hasFinishedTotp()
-    {
-        return $this->hasStartedTotp()->state(function (array $attributes) {
-            return [
-                'is_totp_enabled' => true,
-            ];
-        });
-    }
-
-    public function neverLoggedIn()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'last_login_at' => null,
             ];
         });
     }

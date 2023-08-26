@@ -2,6 +2,8 @@
 
 namespace App\Models\Eloquent;
 
+use Database\Factories\MinecraftPlayerFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -40,6 +42,11 @@ final class MinecraftPlayer extends Model
         'last_synced_at',
         'last_seen_at',
     ];
+
+    protected static function newFactory(): Factory
+    {
+        return MinecraftPlayerFactory::new();
+    }
 
     public function getBanReadableName(): ?string
     {

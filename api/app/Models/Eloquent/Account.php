@@ -51,6 +51,7 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
         'last_login_at',
         'password_changed_at',
         'email_verified_at',
+        'two_factor_confirmed_at',
     ];
 
     protected $appends = [
@@ -66,19 +67,7 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
         return AccountFactory::new();
     }
 
-    public function isTwoFactorEnabled(): bool
-    {
-        return $this->two_factor_secret != null;
-    }
-
-    public function minecraftPlayer(): BelongsTo
-    {
-        return $this->belongsTo(
-            related: MinecraftPlayer::class,
-            foreignKey: 'account_id',
-            ownerKey: 'account_id',
-        );
-    }
+    // Attributes
 
     public function getAvatarUrlAttribute(): ?string
     {
@@ -91,6 +80,17 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
             return "https://ui-avatars.com/api/?name=".$name;
         }
         return null;
+    }
+
+    // Relations
+
+    public function minecraftPlayer(): BelongsTo
+    {
+        return $this->belongsTo(
+            related: MinecraftPlayer::class,
+            foreignKey: 'account_id',
+            ownerKey: 'account_id',
+        );
     }
 
     public function donations(): HasMany
