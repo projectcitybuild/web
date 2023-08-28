@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Eloquent\Account;
+
 return [
 
     /*

@@ -76,6 +76,7 @@ return new class extends Migration
 
         Schema::table('account_email_changes', function (Blueprint $table) {
             $table->dropColumn('is_previous_confirmed');
+            $table->timestamp('expires_at')->after('is_new_confirmed');
             $table->renameColumn('is_new_confirmed', 'is_confirmed');
         });
     }

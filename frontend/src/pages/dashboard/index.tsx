@@ -10,7 +10,7 @@ const Page = (): JSX.Element => {
   const { user } = useAuth()
   const router = useRouter()
   const [verified, _] = useState<boolean>(router.query.verified === "1")
-  const [success, setSuccess] = useState<string|undefined>()
+  const [success, setSuccess] = useState("")
 
   useEffect(() => {
     if (verified) {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Account;
 
 use App\Actions\Auth\SendEmailChangeVerification;
+use App\Actions\Auth\UpdateUserEmail;
 use App\Http\Controllers\Controller;
 use App\Rules\EmailValidationRules;
 use Illuminate\Http\JsonResponse;
@@ -30,5 +31,17 @@ class UpdateEmailController extends Controller
         );
 
         return response()->json();
+    }
+
+    public function update(Request $request, UpdateUserEmail $updateUserEmail)
+    {
+        $token = $request->get('token');
+        if ($token === null) {
+            return response()->json([], 400);
+        }
+
+        $updateUserEmail->update(token: $token);
+
+        return response()->redirectTo(config('app.frontend_url') . '/dashboard/security/change-email?verified=1');
     }
 }

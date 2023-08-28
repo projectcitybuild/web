@@ -1,6 +1,8 @@
 <?php
 
-namespace Services;
+namespace App\Services;
+
+use Exception;
 
 /**
  * A TokenGenerator that creates a cryptographically-safe
@@ -19,7 +21,7 @@ final class HashedTokenGenerator
     }
 
     /**
-     * @throws \Exception if an appropriate source of randomness cannot be found.
+     * @throws Exception if an appropriate source of randomness cannot be found.
      */
     public function make(): string
     {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Resources\Notifications;
+namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-final class VerifyNewEmailAddressNotification extends Notification
+final class VerifyNewEmailNotification extends Notification
 {
     use Queueable;
 
@@ -34,7 +34,7 @@ final class VerifyNewEmailAddressNotification extends Notification
             ->greeting('Email Change Request')
             ->line('A request has been made to change your account\'s email address to this address. Use the below link if you wish to proceed.')
             ->action('Yes, use this email address', $this->confirmLink)
-            ->line('If you have changed your mind, feel free to ignore this email.')
+            ->line('If you have changed your mind, you can safely ignore this email.')
             ->line('The above link will expire in '.$this->expiryTimeInMins.' minutes.');
     }
 

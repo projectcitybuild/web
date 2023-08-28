@@ -34,7 +34,7 @@ export const useAccount = () => {
   const updateEmail = async (props: {
     email: string
   }) => {
-    await http.post('email/change', {
+    await http.post('account/email', {
       email: props.email,
     })
   }
