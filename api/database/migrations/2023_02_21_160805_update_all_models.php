@@ -60,6 +60,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::drop('account_password_resets');
         Schema::drop('group_scopes_pivot');
         Schema::drop('group_scopes');
         Schema::drop('server_token_scopes_pivot');
@@ -71,6 +72,11 @@ return new class extends Migration
             $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
+        });
+
+        Schema::table('account_email_changes', function (Blueprint $table) {
+            $table->dropColumn('is_previous_confirmed');
+            $table->renameColumn('is_new_confirmed', 'is_confirmed');
         });
     }
 

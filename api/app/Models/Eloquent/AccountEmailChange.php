@@ -3,8 +3,6 @@
 namespace App\Models\Eloquent;
 
 use App\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class AccountEmailChange extends Model
 {
@@ -17,8 +15,7 @@ final class AccountEmailChange extends Model
         'token',
         'email_previous',
         'email_new',
-        'is_previous_confirmed',
-        'is_new_confirmed',
+        'is_confirmed',
     ];
 
     protected $dates = [

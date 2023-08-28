@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Account;
+namespace App\Http\Controllers\AccountLink;
 
 use App\Http\Controllers\WebController;
 use Entities\Models\Eloquent\MinecraftAuthCode;

@@ -21,6 +21,8 @@ Route::middleware($authMiddleware)->group(function() {
     Route::get('/profile/me', [AccountController::class, 'me']);
 
     Route::put('/account/password', [UpdatePasswordController::class, 'update']);
+    Route::post('/account/email', [UpdatePasswordController::class, 'store']);
+    Route::patch('/account/email', [UpdatePasswordController::class, 'update']);
     Route::patch('/account/username', [UpdateUsernameController::class, 'update']);
     Route::patch('/account/link/minecraft', [MinecraftLinkController::class, 'store']);
     Route::get('/account/donations', [DonationController::class, 'index']);
