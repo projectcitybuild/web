@@ -31,7 +31,7 @@ const Page = (): JSX.Element => {
               <span className="tag is-danger">Unverified</span>
             )}
             {user?.email_verified_at != null && (
-              <span className="tag is-success">Verified</span>
+              <span className="tag"><Icon token={IconToken.check} />&nbsp;Verified</span>
             )}
           </div>
         </div>
@@ -74,7 +74,7 @@ const Page = (): JSX.Element => {
               <span className="tag is-danger">Not Enabled</span>
             )}
             {user?.two_factor_confirmed_at !== null && (
-              <span className="tag is-success">Active</span>
+              <span className="tag"><Icon token={IconToken.check} />&nbsp;Active</span>
             )}
           </div>
         </div>

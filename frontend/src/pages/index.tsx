@@ -19,6 +19,14 @@ export default function Home() {
                 </div>
             </div>
         </section>
+
+        <footer className="footer">
+          <div className="content">
+            <p>
+              TODO
+            </p>
+          </div>
+        </footer>
     </>
   )
 }

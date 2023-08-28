@@ -1,4 +1,5 @@
 import FilledButton from "@/components/filled-button"
+import FormField from "@/components/form-field"
 import Icon, { IconToken } from "@/components/icon"
 import DashboardSecurityLayout from "@/components/layouts/dashboard-security-layout"
 import withAuth from "@/hooks/withAuth"
@@ -59,44 +60,56 @@ const ChangeEmail: NextPage = (props): JSX.Element => {
 
     return (
         <DashboardSecurityLayout>
-            <Link href={Routes.SETTINGS_SECURITY}>
-                <Icon token={IconToken.chevronLeft} /> Back
-            </Link>
+            <header className="card-header">
+                <p className="card-header-title">
+                    <Link href={Routes.SETTINGS_SECURITY}>
+                        <Icon token={IconToken.chevronLeft} /> Back
+                    </Link>
+                </p>
+                <hr />
+            </header>
 
-            <h1 className="text-heading-md">Change Email Address</h1>
-
-            <hr />
-
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <Alert
-                    error={errors.root?.message}
-                    success={success}
-                />
-                <div className="field">
-                    <p className="control has-icons-left">
-                        <input
-                          type="email"
-                          placeholder="New email address"
-                          className="input"
-                          {...register("email")}
-                        />
-                        <span className="icon is-small is-left">
-                            <Icon token={IconToken.envelope} />
-                        </span>
-                    </p>
-                    <p className="help is-danger">{errors.email?.message}</p>
+            <div className="card-content">
+                <div className="block">
+                    <h1 className="text-heading-md">Update Email Address</h1>
+                    We'll send a verification email to confirm that you own the new email address
                 </div>
-                <div className="field">
-                    <p className="control">
+
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <Alert
+                      error={errors.root?.message}
+                      success={success}
+                    />
+
+                    <div className="block">
+                        <FormField
+                          label="New Email Address"
+                          errorText={errors.email?.message}
+                        >
+                            <p className="control has-icons-left">
+                                <input
+                                  type="text"
+                                  placeholder="me@pcbmc.co"
+                                  className={`input ${errors.email && "is-danger"}`}
+                                  {...register("email")}
+                                />
+                                <span className="icon is-small is-left">
+                                <Icon token={IconToken.envelope}/>
+                            </span>
+                            </p>
+                        </FormField>
+                    </div>
+
+                    <div className="block">
                         <FilledButton
                           text="Verify Email"
                           submit={true}
                           loading={loading}
                           disabled={formState.isSubmitting || loading}
                         />
-                    </p>
-                </div>
-            </form>
+                    </div>
+                </form>
+            </div>
         </DashboardSecurityLayout>
     )
 }

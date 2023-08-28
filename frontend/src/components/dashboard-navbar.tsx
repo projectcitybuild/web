@@ -1,13 +1,16 @@
-import { useAuth } from "@/providers/useAuth"
-import Link from "next/link";
-import Image from "next/image";
-import styles from '@/components/navbar.module.scss'
+import logoImage from "@/assets/images/logo.png";
+import Icon, { IconToken } from "@/components/icon"
+import styles from "@/components/navbar.module.scss"
 import { Routes } from "@/constants/Routes";
-import logoImage from '@/assets/images/logo.png';
+import { useAuth } from "@/providers/useAuth"
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router"
 import React, { useEffect } from "react"
 
 export default function DashboardNavBar() {
   const { user, logout } = useAuth()
+  const router = useRouter()
 
   useEffect(() => {
     const burgers = Array.prototype.slice
@@ -57,19 +60,19 @@ export default function DashboardNavBar() {
 
       <div id="nav-menu" className="navbar-menu">
         <div className="navbar-start">
-          <Link className="navbar-item" href={Routes.DASHBOARD}>
+          <Link className={`navbar-item is-tab ${router.pathname == '/dashboard' && 'is-active'}`} href={Routes.DASHBOARD}>
             Dashboard
           </Link>
 
-          <Link className="navbar-item" href={Routes.LINKING}>
+          <Link className={`navbar-item is-tab ${router.pathname == '/dashboard/linking' && 'is-active'}`} href={Routes.LINKING}>
             Account Linking
           </Link>
 
-          <Link className="navbar-item" href={Routes.DONATIONS}>
+          <Link className={`navbar-item is-tab ${router.pathname == '/dashboard/donations' && 'is-active'}`} href={Routes.DONATIONS}>
             Donations
           </Link>
 
-          <Link className="navbar-item" href={Routes.SETTINGS_SECURITY}>
+          <Link className={`navbar-item is-tab ${router.pathname.match(/^(\/dashboard\/(security|profile))+/) && 'is-active'}`} href={Routes.SETTINGS_SECURITY}>
             Account Settings
           </Link>
         </div>
@@ -87,11 +90,11 @@ export default function DashboardNavBar() {
               }
 
               { user?.username ?? "-" }
+              &nbsp;
+              <Icon token={IconToken.caretDown} />
             </a>
 
             <div className="navbar-dropdown">
-              <hr className="navbar-divider" />
-
               <a className="navbar-item" onClick={logout}>
                 Logout
               </a>
