@@ -45,6 +45,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $account = Account::factory()->create([
+            'username' => 'dev admin',
             'email' => 'admin@pcbmc.co',
             'password' => Hash::make('admin'),
             'email_verified_at' => now(),

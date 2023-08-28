@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Cashier\Billable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -20,6 +21,7 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
     use HasApiTokens;
     use TwoFactorAuthenticatable;
     use Notifiable;
+    use Billable;
 
     protected $table = 'accounts';
 

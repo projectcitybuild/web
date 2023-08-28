@@ -3,6 +3,14 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/laravel/breeze" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/symfony/polyfill-php83" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/symfony/polyfill-intl-icu" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/moneyphp/money" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/psr/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/league/flysystem-local" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/laravel/cashier" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/laravel/prompts" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/stripe/stripe-php" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

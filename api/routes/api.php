@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\Account\MinecraftLinkController;
+use App\Http\Controllers\Account\BillingPortalController;
 use App\Http\Controllers\Account\UpdatePasswordController;
 use App\Http\Controllers\Account\UpdateUsernameController;
+use App\Http\Controllers\AccountLink\MinecraftLinkController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Donations\DonationController;
 use App\Http\Controllers\AccountController;
@@ -26,6 +27,7 @@ Route::middleware($authMiddleware)->group(function() {
     Route::patch('/account/username', [UpdateUsernameController::class, 'update']);
     Route::patch('/account/link/minecraft', [MinecraftLinkController::class, 'store']);
     Route::get('/account/donations', [DonationController::class, 'index']);
+    Route::post('/account/billing', [BillingPortalController::class, 'index']);
 
     Route::apiResource('/servers', ServerController::class);
     Route::apiResource('/groups', GroupController::class);
