@@ -4,8 +4,10 @@ import { useDonations } from "@/libs/account/useDonations"
 import { Donation } from "@/types/donation"
 import { GetStaticProps, NextPage } from "next"
 import React, { useEffect, useState } from "react";
+import { useFormatter } from "use-intl"
 
 const Page: NextPage = (props): JSX.Element => {
+  const formatter = useFormatter();
   const { getDonations } = useDonations()
   const [ loading, setLoading ] = useState(true)
   const [ donations, setDonations ] = useState<Donation[]>([])
@@ -34,7 +36,15 @@ const Page: NextPage = (props): JSX.Element => {
           <span className="tag">Active</span>
         </td>
         <td></td>
-        <td>{donation.created_at}</td>
+        <td>
+          {
+            formatter.dateTime(new Date(donation.created_at), {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            })
+          }
+        </td>
         <td>Sep 5th, 2023</td>
         <td>-</td>
       </tr>

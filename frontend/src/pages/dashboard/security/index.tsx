@@ -6,8 +6,10 @@ import { GetStaticProps } from "next"
 import Link from "next/link";
 import React from "react";
 import { Routes } from "@/constants/Routes";
+import { useFormatter } from "use-intl"
 
 const Page = (): JSX.Element => {
+  const formatter = useFormatter()
   const { user } = useAuth()
 
   return (
@@ -49,10 +51,17 @@ const Page = (): JSX.Element => {
               </span>
           </div>
           <div className="list-details">
-            Last updated: {
+            Last updated:<br/>
+            {
               user?.password_changed_at == null
                 ? 'Never'
-                : user?.password_changed_at
+                : formatter.dateTime(new Date(user?.password_changed_at), {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                })
             }
           </div>
         </div>
