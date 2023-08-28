@@ -1,5 +1,10 @@
-import { isHumanReadableError } from "@/libs/errors/HumanReadableError"
-import { ResourceLockedError, ResponseBodyError, UnauthenticatedError, ValidationError } from "@/libs/http/HttpError"
+import {
+  ResourceConflictError,
+  ResourceLockedError,
+  ResponseBodyError,
+  UnauthenticatedError,
+  ValidationError
+} from "@/libs/http/HttpError"
 import axios, { AxiosInstance, isAxiosError } from "axios";
 
 type BackendError = {
@@ -44,6 +49,11 @@ const withInterceptors = (api: AxiosInstance) => {
 const errorFromStatus = (props: {status: number, body: PayloadBody}): Error|null => {
   if (props.status === 401) {
     return new UnauthenticatedError()
+  }
+  if (props.status === 409) {
+    return new ResourceConflictError({
+      message: props.body.message,
+    })
   }
   if (props.status === 422) {
     // TODO: extract the fields from the `errors` parameter

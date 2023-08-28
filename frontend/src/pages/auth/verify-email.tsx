@@ -11,21 +11,6 @@ const Page = (): JSX.Element => {
   const [ loading, setLoading ] = useState(false)
   const [ success, setSuccess ] = useState("")
 
-  const onSubmit = async () => {
-    setLoading(true)
-    setError("")
-    setSuccess("")
-
-    try {
-      await resendEmailVerification()
-      setSuccess("Please check the email sent to your registered email address")
-    } catch (error: any) { // TODO
-      setError(error.message)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const onResend = async () => {
     setLoading(true)
     setError("")
@@ -52,26 +37,24 @@ const Page = (): JSX.Element => {
       />
 
       <p className="text-body-lg">
-        Please click the button below to confirm your email address and activate your account.
+        An email has been sent to your email address. Please click the verification link inside to complete registration.
       </p>
-
-      <FilledButton
-        text="Send Email"
-        loading={loading}
-        disabled={loading}
-        onClick={onSubmit}
-      />
 
       <hr/>
 
-      <div>
-        <h2 className="text-heading-sm">Didn't receive an email?</h2>
+      <h2 className="text-heading-sm">Didn't receive an email?</h2>
 
-        <p className="text-body-sm">
-          Please wait up to a few minutes, and be sure to check your spam inbox just in-case.<br/>
-          If you still don't receive anything, you can <a href="frontend/src/pages" onClick={onResend}>send another email</a>.
-        </p>
-      </div>
+      <p className="text-body-sm">
+        Please wait up to a few minutes, and be sure to check your spam inbox.<br/>
+        If you still can't find the email, you can request another with the below button.
+      </p>
+
+      <FilledButton
+        text="Resend Verification Email"
+        loading={loading}
+        disabled={loading}
+        onClick={onResend}
+      />
     </AuthLayout>
   )
 }

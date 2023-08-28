@@ -61,9 +61,9 @@ export default function DashboardNavBar() {
             Dashboard
           </Link>
 
-          <a className="navbar-item">
+          <Link className="navbar-item" href={Routes.LINKING}>
             Account Linking
-          </a>
+          </Link>
 
           <Link className="navbar-item" href={Routes.DONATIONS}>
             Donations

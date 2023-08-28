@@ -14,6 +14,7 @@ export default function FilledButton(props: Props) {
       type={props.submit ? "submit" : "button"}
       className={`button is-fullwidth ${props.loading ? "is-loading" : null} ${styles.button}`}
       disabled={props.disabled}
+      onClick={props.onClick}
     >
       {props.text}
     </button>

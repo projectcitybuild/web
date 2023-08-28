@@ -5,9 +5,9 @@ namespace App\Actions\Fortify;
 use App\Models\Eloquent\Account;
 use App\Rules\EmailValidationRules;
 use App\Rules\UsernameValidationRules;
+use App\Rules\PasswordValidationRules;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 

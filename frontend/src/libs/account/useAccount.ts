@@ -3,7 +3,7 @@ import { useAuth } from "@/providers/useAuth"
 import querystring from "querystring"
 
 export const useAccount = () => {
-  const { csrf } = useAuth()
+  const { csrf, login } = useAuth()
 
   const register = async (props: {
     username: string
@@ -20,6 +20,11 @@ export const useAccount = () => {
       password_confirmation: props.passwordConfirm,
     })
     await http.post('register', params)
+    await login({
+      email: props.email,
+      password: props.password,
+      remember: true,
+    })
   }
 
   const resendEmailVerification = async () => {

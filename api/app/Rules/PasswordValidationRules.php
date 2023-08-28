@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Fortify;
+namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Laravel\Fortify\Rules\Password;

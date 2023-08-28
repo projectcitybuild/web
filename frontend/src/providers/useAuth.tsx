@@ -1,6 +1,6 @@
 import { Routes } from "@/constants/Routes"
 import http from "@/libs/http/Http"
-import { UnauthenticatedError } from "@/libs/http/HttpError"
+import { ResourceConflictError, UnauthenticatedError } from "@/libs/http/HttpError"
 import { User } from "@/types/user"
 import { useRouter } from "next/router"
 import querystring from "querystring"
@@ -71,11 +71,19 @@ export const AuthProvider = ({
       password: props.password,
       remember: props.remember,
     })
-    const response = await http.post('login', params)
-    if (response.data && response.data.two_factor) {
-      await router.push(Routes.TWO_FACTOR_CHALLENGE)
-    } else {
-      await fetchUser()
+    try {
+      const response = await http.post('login', params)
+      if (response.data && response.data.two_factor) {
+        await router.push(Routes.TWO_FACTOR_CHALLENGE)
+      } else {
+        await fetchUser()
+      }
+    } catch (error: any) {
+      if (error instanceof ResourceConflictError) {
+        await router.push(Routes.VERIFY_EMAIL)
+      } else {
+        throw error
+      }
     }
   }
 
