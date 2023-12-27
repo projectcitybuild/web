@@ -79,6 +79,11 @@ return new class extends Migration
             $table->timestamp('expires_at')->after('is_new_confirmed');
             $table->renameColumn('is_new_confirmed', 'is_confirmed');
         });
+
+        Schema::table('game_player_bans', function (Blueprint $table) {
+            $table->dropColumn('server_id');
+            $table->rename('player_bans');
+        });
     }
 
     /**

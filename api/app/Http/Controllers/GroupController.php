@@ -17,7 +17,7 @@ class GroupController extends Controller
 
     public function store(GroupRequest $request): JsonResponse
     {
-        $group = Group::create($request->all());
+        $group = Group::create($request->validated());
 
         return response()->json($group);
     }
@@ -32,7 +32,7 @@ class GroupController extends Controller
     public function update(GroupRequest $request, string $id): JsonResponse
     {
         $group = Group::findOrFail($id);
-        $group->update($request->all());
+        $group->update($request->validated());
         $group->save();
 
         return response()->json($group);

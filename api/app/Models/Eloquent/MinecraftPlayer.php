@@ -2,6 +2,7 @@
 
 namespace App\Models\Eloquent;
 
+use App\Traits\HasStaticTable;
 use Database\Factories\MinecraftPlayerFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +23,7 @@ use Illuminate\Support\Carbon;
 final class MinecraftPlayer extends Model
 {
     use HasFactory;
+    use HasStaticTable;
 
     protected $table = 'players_minecraft';
 
@@ -89,7 +91,7 @@ final class MinecraftPlayer extends Model
     public function gamePlayerBans(): HasMany
     {
         return $this->hasMany(
-            related: GamePlayerBan::class,
+            related: PlayerBan::class,
             foreignKey: 'banned_player_id',
             localKey: 'player_minecraft_id',
         );

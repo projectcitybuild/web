@@ -17,7 +17,7 @@ class ServerController extends Controller
 
     public function store(ServerRequest $request): JsonResponse
     {
-        $server = Server::create($request->all());
+        $server = Server::create($request->validated());
 
         return response()->json($server);
     }
@@ -32,7 +32,7 @@ class ServerController extends Controller
     public function update(ServerRequest $request, string $id): JsonResponse
     {
         $server = Server::findOrFail($id);
-        $server->update($request->all());
+        $server->update($request->validated());
         $server->save();
 
         return response()->json($server);

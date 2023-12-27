@@ -6,7 +6,9 @@ use App\Models\Eloquent\Account;
 use App\Models\Eloquent\Donation;
 use App\Models\Eloquent\DonationPerk;
 use App\Models\Eloquent\DonationTier;
+use App\Models\Eloquent\PlayerBan;
 use App\Models\Eloquent\Group;
+use App\Models\Eloquent\MinecraftPlayer;
 use App\Models\Eloquent\Server;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -29,7 +31,7 @@ class DatabaseSeeder extends Seeder
             'num_of_slots' => 100,
         ]);
 
-        Group::factory(10)->create();
+        Group::factory(count: 10)->create();
 
         $copperTier = DonationTier::factory()->create([
            'name' => 'copper_tier',
@@ -61,5 +63,13 @@ class DatabaseSeeder extends Seeder
             'expires_at' => now()->addYears(3),
             'donation_tier_id' => $ironTier->getKey(),
         ]);
+
+        $players = MinecraftPlayer::factory(100)->create();
+
+        for ($x = 0; $x < 100; $x++) {
+            PlayerBan::factory()
+                ->bannedPlayer($players->random())
+                ->create();
+        }
     }
 }

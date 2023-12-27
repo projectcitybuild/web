@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Donations\DonationController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\PlayerBanController;
 use App\Http\Controllers\ServerController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,7 @@ Route::middleware($authMiddleware)->group(function() {
     Route::get('/account/donations', [DonationController::class, 'index']);
     Route::post('/account/billing', [BillingPortalController::class, 'index']);
 
-    Route::apiResource('/servers', ServerController::class);
+    Route::apiResource('/bans', PlayerBanController::class);
     Route::apiResource('/groups', GroupController::class);
+    Route::apiResource('/servers', ServerController::class);
 });

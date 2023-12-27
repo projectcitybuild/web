@@ -31,7 +31,7 @@ class BanAppeal extends Model implements LinkableAuditModel
     public function gamePlayerBan(): BelongsTo
     {
         return $this->belongsTo(
-            related: GamePlayerBan::class,
+            related: PlayerBan::class,
             foreignKey: 'game_ban_id',
             ownerKey: 'id',
         );

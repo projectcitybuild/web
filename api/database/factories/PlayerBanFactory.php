@@ -2,19 +2,19 @@
 
 namespace Database\Factories;
 
-use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\Server;
+use App\Models\Eloquent\PlayerBan;
+use App\Models\Eloquent\MinecraftPlayer;
+use App\Models\UnbanType;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-class GamePlayerBanFactory extends Factory
+class PlayerBanFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = GamePlayerBan::class;
+    protected $model = PlayerBan::class;
 
     /**
      * Define the model's default state.
@@ -26,7 +26,7 @@ class GamePlayerBanFactory extends Factory
         return [
             'banned_alias_at_time' => $this->faker->name,
             'reason' => $this->faker->sentence,
-            'created_at' => $this->faker->dateTimeBetween('-5 years', 'now'),
+            'created_at' => $this->faker->dateTimeBetween(startDate: '-5 years', endDate: 'now'),
         ];
     }
 
@@ -84,17 +84,12 @@ class GamePlayerBanFactory extends Factory
                 return ['banner_player_id' => null];
             });
         } else {
-            return $this->for($minecraftPlayer, 'bannerPlayer');
+            return $this->for($minecraftPlayer, relationship: 'bannerPlayer');
         }
     }
 
     public function bannedPlayer(MinecraftPlayer|Factory $player): PlayerBanFactory
     {
-        return $this->for($player, 'bannedPlayer');
-    }
-
-    public function server(Server|Factory $server): PlayerBanFactory
-    {
-        return $this->for($server, 'server');
+        return $this->for($player, relationship: 'bannedPlayer');
     }
 }
