@@ -30,7 +30,7 @@ class MinecraftPlayerFactory extends Factory
     /**
      * Generate a player who does not have a synced time.
      *
-     * @return MinecraftPlayerFactory
+     * @return PlayerFactory
      */
     public function neverSeen()
     {

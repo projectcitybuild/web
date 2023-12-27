@@ -84,6 +84,15 @@ return new class extends Migration
             $table->dropColumn('server_id');
             $table->rename('player_bans');
         });
+
+        Schema::table('players_minecraft', function (Blueprint $table) {
+            $table->rename('players');
+        });
+
+        Schema::table('players_minecraft_aliases', function (Blueprint $table) {
+            $table->renameColumn('players_minecraft_alias_id', 'players_alias_id');
+            $table->rename('players_aliases');
+        });
     }
 
     /**

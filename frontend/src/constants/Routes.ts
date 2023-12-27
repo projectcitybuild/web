@@ -1,6 +1,7 @@
 export abstract class Routes {
   static readonly HOME = '/'
   static readonly MAPS = '/maps'
+  static readonly HOW_TO_CONNECT = '/how-to-connect'
 
   static readonly LOGIN = '/auth/login'
   static readonly REGISTER = '/auth/register'

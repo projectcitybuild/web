@@ -3,7 +3,7 @@
 namespace Tests\Unit\Models\Eloquent;
 
 use App\Models\Eloquent\Account;
-use App\Models\Eloquent\MinecraftPlayer;
+use App\Models\Eloquent\Player;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,7 +15,7 @@ class AccountTest extends TestCase
     {
         $account = Account::factory()->create();
 
-        MinecraftPlayer::factory()
+        Player::factory()
             ->for($account)
             ->create(['uuid' => 'test-uuid']);
 

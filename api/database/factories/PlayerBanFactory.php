@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Eloquent\PlayerBan;
-use App\Models\Eloquent\MinecraftPlayer;
+use App\Models\Eloquent\Player;
 use App\Models\UnbanType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -77,7 +77,7 @@ class PlayerBanFactory extends Factory
         });
     }
 
-    public function bannedBy(MinecraftPlayer|Factory|null $minecraftPlayer): PlayerBanFactory
+    public function bannedBy(Player|Factory|null $minecraftPlayer): PlayerBanFactory
     {
         if (is_null($minecraftPlayer)) {
             return $this->state(function (array $attributes) {
@@ -88,7 +88,7 @@ class PlayerBanFactory extends Factory
         }
     }
 
-    public function bannedPlayer(MinecraftPlayer|Factory $player): PlayerBanFactory
+    public function bannedPlayer(Player|Factory $player): PlayerBanFactory
     {
         return $this->for($player, relationship: 'bannedPlayer');
     }

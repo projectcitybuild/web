@@ -6,10 +6,13 @@ use App\Http\Controllers\Account\UpdatePasswordController;
 use App\Http\Controllers\Account\UpdateUsernameController;
 use App\Http\Controllers\AccountLink\MinecraftLinkController;
 use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\Donations\DonationController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\PlayerBanController;
+use App\Http\Controllers\PlayerWarningController;
 use App\Http\Controllers\ServerController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,11 +36,14 @@ Route::middleware($authMiddleware)->group(function() {
         ->middleware('throttle:2,1');
 
     Route::patch('/account/username', [UpdateUsernameController::class, 'update']);
-    Route::patch('/account/link/minecraft', [MinecraftLinkController::class, 'store']);
+//    Route::patch('/account/link/minecraft', [MinecraftLinkController::class, 'store']);
     Route::get('/account/donations', [DonationController::class, 'index']);
     Route::post('/account/billing', [BillingPortalController::class, 'index']);
 
     Route::apiResource('/bans', PlayerBanController::class);
+    Route::apiResource('/badges', BadgeController::class);
     Route::apiResource('/groups', GroupController::class);
+    Route::apiResource('/players', PlayerController::class);
     Route::apiResource('/servers', ServerController::class);
+    Route::apiResource('/warnings', PlayerWarningController::class);
 });

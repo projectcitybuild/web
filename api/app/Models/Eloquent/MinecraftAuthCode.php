@@ -21,6 +21,6 @@ final class MinecraftAuthCode extends Model
 
     public function minecraftPlayer(): HasOne
     {
-        return $this->hasOne(MinecraftPlayer::class, 'player_minecraft_id', 'player_minecraft_id');
+        return $this->hasOne(Player::class, 'player_minecraft_id', 'player_minecraft_id');
     }
 }

@@ -2,12 +2,14 @@
 
 namespace App\Models\Eloquent;
 
+use App\Traits\HasStaticTable;
 use Database\Factories\AccountFactory;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -22,6 +24,7 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
     use TwoFactorAuthenticatable;
     use Notifiable;
     use Billable;
+    use HasStaticTable;
 
     protected $table = 'accounts';
 
@@ -89,9 +92,9 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
     public function minecraftPlayer(): BelongsTo
     {
         return $this->belongsTo(
-            related: MinecraftPlayer::class,
-            foreignKey: 'account_id',
-            ownerKey: 'account_id',
+            related: Player::class,
+            foreignKey: Account::primaryKey(),
+            ownerKey: Account::primaryKey(),
         );
     }
 
@@ -99,8 +102,18 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
     {
         return $this->hasMany(
             related: Donation::class,
-            foreignKey: 'account_id',
-            localKey: 'account_id',
+            foreignKey: Account::primaryKey(),
+            localKey: Account::primaryKey(),
+        );
+    }
+
+    public function badges(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            related: Badge::class,
+            table: 'badges_pivot',
+            foreignPivotKey: Account::primaryKey(),
+            relatedPivotKey: Badge::primaryKey(),
         );
     }
 }

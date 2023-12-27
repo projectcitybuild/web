@@ -22,7 +22,7 @@ export default function HomeHero() {
             </span>
           </div>
           <div className={styles.layoutButton}>
-            <Link href={Routes.REGISTER} className={styles.button}>
+            <Link href={Routes.HOW_TO_CONNECT} className={styles.button}>
               <Icon token={IconToken.arrowPointer} /> Connect to <u>pcbmc.co</u>
             </Link>
           </div>

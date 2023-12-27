@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Eloquent\MinecraftPlayer;
+use App\Models\Eloquent\Player;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class MinecraftPlayerFactory extends Factory
+class PlayerFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = MinecraftPlayer::class;
+    protected $model = Player::class;
 
     /**
      * Define the model's default state.

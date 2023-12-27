@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Eloquent\PlayerBan;
-use App\Models\Eloquent\MinecraftPlayer;
+use App\Models\Eloquent\Player;
 use App\Rules\TimestampPastNow;
 use Closure;
 use Illuminate\Foundation\Http\FormRequest;
@@ -21,7 +21,7 @@ class PlayerBanStoreRequest extends FormRequest
             'banned_player_id' => [
                 'required',
                 'integer',
-                'exists:'.MinecraftPlayer::tableName().','.MinecraftPlayer::primaryKey(),
+                'exists:'.Player::tableName().','.Player::primaryKey(),
                 function (string $attribute, mixed $value, Closure $fail) {
                     if (PlayerBan::where('banned_player_id', $value)
                         ->active()
@@ -31,7 +31,7 @@ class PlayerBanStoreRequest extends FormRequest
                 },
             ],
             'banned_player_alias' => 'required|string',
-            'banner_player_id' => 'integer|exists:'.MinecraftPlayer::tableName().','.MinecraftPlayer::primaryKey(),
+            'banner_player_id' => 'integer|exists:'.Player::tableName().','.Player::primaryKey(),
             'banner_player_alias' => 'string',
             'reason' => 'nullable|string',
             'expires_at' => ['integer', new TimestampPastNow],

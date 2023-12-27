@@ -8,7 +8,7 @@ use App\Models\Eloquent\DonationPerk;
 use App\Models\Eloquent\DonationTier;
 use App\Models\Eloquent\PlayerBan;
 use App\Models\Eloquent\Group;
-use App\Models\Eloquent\MinecraftPlayer;
+use App\Models\Eloquent\Player;
 use App\Models\Eloquent\Server;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
             'donation_tier_id' => $ironTier->getKey(),
         ]);
 
-        $players = MinecraftPlayer::factory(100)->create();
+        $players = Player::factory(100)->create();
 
         for ($x = 0; $x < 100; $x++) {
             PlayerBan::factory()

@@ -40,7 +40,7 @@ class BanAppeal extends Model implements LinkableAuditModel
     public function deciderPlayer(): BelongsTo
     {
         return $this->belongsTo(
-            related: MinecraftPlayer::class,
+            related: Player::class,
             foreignKey: 'decider_player_minecraft_id',
             ownerKey: 'player_minecraft_id',
         );

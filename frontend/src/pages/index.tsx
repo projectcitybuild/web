@@ -1,4 +1,5 @@
 import HomeHero from "@/components/home-hero";
+import MainFooter from "@/components/main-footer"
 import NavBar, { NavBarColorVariant } from "@/components/navbar";
 import React from "react"
 
@@ -10,9 +11,16 @@ export default function Home() {
         <HomeHero />
 
         <section className="section">
-            <div className="reverse-columns-mobile">
+            <div className="columns">
                 <div className="column">
-                    test
+                    <h1 className="text-display-md">Minecraft 24/7</h1>
+
+                    <p className="text-body-md">
+                      We're a Minecraft community that's been around <strong>since 2010</strong>.
+                      <br /><br />
+                      With our free-build Creative and Survival multiplayer maps, we offer a fun platform & building
+                      experience like no other. You can visit and build in established towns & cities or start your own.
+                    </p>
                 </div>
                 <div className="column">
                     test
@@ -20,13 +28,7 @@ export default function Home() {
             </div>
         </section>
 
-        <footer className="footer">
-          <div className="content">
-            <p>
-              TODO
-            </p>
-          </div>
-        </footer>
+        <MainFooter />
     </>
   )
 }

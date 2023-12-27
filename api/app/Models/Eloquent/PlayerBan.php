@@ -93,41 +93,27 @@ final class PlayerBan extends Model
     public function bannedPlayer(): BelongsTo
     {
         return $this->belongsTo(
-            related: MinecraftPlayer::class,
+            related: Player::class,
             foreignKey: 'banned_player_id',
-            ownerKey: 'player_minecraft_id',
+            ownerKey: Player::primaryKey(),
         );
     }
 
     public function bannerPlayer(): BelongsTo
     {
         return $this->belongsTo(
-            related: MinecraftPlayer::class,
+            related: Player::class,
             foreignKey: 'banner_player_id',
-            ownerKey: 'player_minecraft_id',
+            ownerKey: Player::primaryKey(),
         );
     }
 
     public function unbannerPlayer(): BelongsTo
     {
         return $this->belongsTo(
-            related: MinecraftPlayer::class,
+            related: Player::class,
             foreignKey: 'unbanner_player_id',
-            ownerKey: 'player_minecraft_id',
+            ownerKey: Player::primaryKey(),
         );
-    }
-
-    public function banAppeals(): HasMany
-    {
-        return $this->hasMany(
-            related: BanAppeal::class,
-            foreignKey: 'game_ban_id',
-            localKey: 'id',
-        );
-    }
-
-    public function isTemporaryBan(): bool
-    {
-        return $this->expires_at !== null;
     }
 }

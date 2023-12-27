@@ -3,6 +3,7 @@
 namespace Entities\Models\Eloquent;
 
 use App\Model;
+use App\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,21 +15,16 @@ use Library\Auditing\Concerns\LogsActivity;
 use Library\Auditing\Contracts\LinkableAuditModel;
 use Shared\PlayerLookup\Contracts\Player;
 
-/**
- * @property string uuid
- * @property int account_id
- * @property ?Account account
- * @property ?Carbon last_synced_at
- * @property ?Carbon last_seen_at
- * @property Collection aliases
- */
 final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
 {
     use HasFactory;
+    use HasStaticTable;
     use LogsActivity;
 
     protected $table = 'players_minecraft';
+
     protected $primaryKey = 'player_minecraft_id';
+
     protected $fillable = [
         'uuid',
         'account_id',
