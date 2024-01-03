@@ -21,23 +21,15 @@ final class DonationPerk extends Model
         'donation_id',
         'account_id',
         'donation_tier_id',
-        'is_active',
         'expires_at',
         'created_at',
         'updated_at',
-        'last_currency_reward_at',
     ];
 
     protected $dates = [
         'expires_at',
         'created_at',
         'updated_at',
-        'last_currency_reward_at',
-    ];
-
-    protected $casts = [
-        'is_active' => 'boolean',
-        'is_lifetime_perks' => 'boolean',
     ];
 
     protected static function newFactory(): Factory

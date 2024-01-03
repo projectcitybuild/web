@@ -85,6 +85,10 @@ return new class extends Migration
             $table->rename('player_bans');
         });
 
+        Schema::table('game_ip_bans', function (Blueprint $table) {
+            $table->rename('ip_bans');
+        });
+
         Schema::table('players_minecraft', function (Blueprint $table) {
             $table->rename('players');
         });
@@ -92,6 +96,12 @@ return new class extends Migration
         Schema::table('players_minecraft_aliases', function (Blueprint $table) {
             $table->renameColumn('players_minecraft_alias_id', 'players_alias_id');
             $table->rename('players_aliases');
+        });
+
+        Schema::table('donation_perks', function (Blueprint $table) {
+            $table->dropColumn('last_currency_reward_at');
+            $table->dropColumn('is_active');
+            $table->integer('donation_id')->unsigned()->nullable()->change();
         });
     }
 

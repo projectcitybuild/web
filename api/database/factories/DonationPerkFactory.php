@@ -22,7 +22,6 @@ class DonationPerkFactory extends Factory
     public function definition()
     {
         return [
-            'is_active' => true,
             'expires_at' => $this->faker->dateTime(),
             'created_at' => $this->faker->dateTime(),
             'updated_at' => $this->faker->dateTime(),
