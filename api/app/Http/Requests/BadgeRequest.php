@@ -9,8 +9,8 @@ class BadgeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'display_name' => 'required|string',
-            'unicode_icon' => 'required|string',
+            'display_name' => ['required', 'string'],
+            'unicode_icon' => ['required', 'string'],
         ];
     }
 }

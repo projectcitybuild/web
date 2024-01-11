@@ -30,10 +30,13 @@ class PlayerBanStoreRequest extends FormRequest
                     }
                 },
             ],
-            'banned_player_alias' => 'required|string',
-            'banner_player_id' => 'integer|exists:'.Player::tableName().','.Player::primaryKey(),
+            'banned_player_alias' => ['required', 'string'],
+            'banner_player_id' => [
+                'integer',
+                'exists:'.Player::tableName().','.Player::primaryKey(),
+            ],
             'banner_player_alias' => 'string',
-            'reason' => 'nullable|string',
+            'reason' => ['nullable', 'string'],
             'expires_at' => ['integer', new TimestampPastNow],
         ];
     }

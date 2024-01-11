@@ -20,8 +20,8 @@ class PlayerWarningRequest extends FormRequest
                 'exists:'.Player::tableName().','.Player::primaryKey(),
             ],
             'warner_player_alias' => 'required',
-            'reason' => 'required|string',
-            'weight' => 'required|integer',
+            'reason' => ['required', 'string'],
+            'weight' => ['required', 'integer'],
             'acknowledged_at' => 'integer',
         ];
     }

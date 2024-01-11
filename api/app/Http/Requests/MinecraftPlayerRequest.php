@@ -10,8 +10,14 @@ class MinecraftPlayerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'uuid' => 'required|uuid',
-            'account_id' => 'integer|exists:'.Account::tableName().','.Account::primaryKey(),
+            'uuid' => [
+                'required',
+                'uuid',
+            ],
+            'account_id' => [
+                'integer',
+                'exists:'.Account::tableName().','.Account::primaryKey(),
+            ],
         ];
     }
 }
