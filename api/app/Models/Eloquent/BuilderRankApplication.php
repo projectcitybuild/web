@@ -2,20 +2,21 @@
 
 namespace App\Models\Eloquent;
 
-use App\Model;
 use Domain\BuilderRankApplications\Entities\ApplicationStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
-use Library\Auditing\Contracts\LinkableAuditModel;
 
-final class BuilderRankApplication extends Model implements LinkableAuditModel
+final class BuilderRankApplication extends Model
 {
     use HasFactory;
     use Notifiable;
 
     protected $table = 'builder_rank_applications';
+
     protected $primaryKey = 'id';
+
     protected $fillable = [
         'account_id',
         'minecraft_alias',
@@ -29,6 +30,7 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
         'created_at',
         'updated_at',
     ];
+
     public $timestamps = [
         'closed_at',
         'created_at',
@@ -63,15 +65,5 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
     public function status(): ApplicationStatus
     {
         return ApplicationStatus::tryFrom($this->status);
-    }
-
-    public function getActivitySubjectLink(): ?string
-    {
-        return route('front.panel.builder-ranks.show', $this);
-    }
-
-    public function getActivitySubjectName(): ?string
-    {
-        return "Builder Application {$this->getKey()}";
     }
 }

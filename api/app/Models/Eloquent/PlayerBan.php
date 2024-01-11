@@ -2,16 +2,13 @@
 
 namespace App\Models\Eloquent;
 
+use App\Models\UnbanType;
 use Carbon\Carbon;
-use Database\Factories\PlayerBanFactory;
-use Domain\Bans\UnbanType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 final class PlayerBan extends Model
 {
@@ -38,11 +35,6 @@ final class PlayerBan extends Model
         'expires_at',
         'unbanned_at',
     ];
-
-    protected static function newFactory(): Factory
-    {
-        return PlayerBanFactory::new();
-    }
 
     public function scopeActive(Builder $query)
     {

@@ -10,22 +10,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
-use Library\Auditing\Contracts\LinkableAuditModel;
 
-class BanAppeal extends Model implements LinkableAuditModel
+class BanAppeal extends Model
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
-    protected $casts = [
-        'status' => BanAppealStatus::class,
-        'decided_at' => 'datetime',
-    ];
     protected $fillable = [
         'game_ban_id',
         'is_account_verified',
         'explanation',
         'email',
         'status',
+    ];
+
+    protected $casts = [
+        'status' => BanAppealStatus::class,
+        'decided_at' => 'datetime',
     ];
 
     public function gamePlayerBan(): BelongsTo
@@ -91,15 +92,5 @@ class BanAppeal extends Model implements LinkableAuditModel
         }
 
         return $this->gamePlayerBan->expires_at->diffForHumans($this->decided_at, CarbonInterface::DIFF_ABSOLUTE);
-    }
-
-    public function getActivitySubjectLink(): ?string
-    {
-        return route('front.panel.ban-appeals.show', $this);
-    }
-
-    public function getActivitySubjectName(): ?string
-    {
-        return "Ban Appeal {$this->getKey()}";
     }
 }

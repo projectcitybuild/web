@@ -3,8 +3,6 @@
 namespace App\Models\Eloquent;
 
 use App\Traits\HasStaticTable;
-use Database\Factories\PlayerFactory;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,11 +32,6 @@ final class Player extends Model
         'last_synced_at',
         'last_seen_at',
     ];
-
-    protected static function newFactory(): Factory
-    {
-        return PlayerFactory::new();
-    }
 
     public function account(): BelongsTo
     {

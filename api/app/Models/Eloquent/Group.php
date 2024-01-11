@@ -2,8 +2,6 @@
 
 namespace App\Models\Eloquent;
 
-use Database\Factories\GroupFactory;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,9 +33,4 @@ final class Group extends Model
     ];
 
     public $timestamps = false;
-
-    protected static function newFactory(): Factory
-    {
-        return GroupFactory::new();
-    }
 }

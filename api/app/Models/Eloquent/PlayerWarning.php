@@ -2,8 +2,6 @@
 
 namespace App\Models\Eloquent;
 
-use Database\Factories\Factory;
-use Database\Factories\PlayerWarningFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,11 +28,6 @@ final class PlayerWarning extends Model
         'updated_at',
         'acknowledged_at',
     ];
-
-    protected static function newFactory(): Factory
-    {
-        return PlayerWarningFactory::new();
-    }
 
     public function warnedPlayer(): BelongsTo
     {

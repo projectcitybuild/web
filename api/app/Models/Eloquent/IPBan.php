@@ -2,8 +2,6 @@
 
 namespace App\Models\Eloquent;
 
-use Database\Factories\IPBanFactory;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,11 +28,6 @@ final class IPBan extends Model
         'updated_at',
         'unbanned_at',
     ];
-
-    protected static function newFactory(): Factory
-    {
-        return IPBanFactory::new();
-    }
 
     public function bannerPlayer(): BelongsTo
     {

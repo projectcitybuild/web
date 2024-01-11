@@ -3,10 +3,8 @@
 namespace App\Models\Eloquent;
 
 use App\Traits\HasStaticTable;
-use Database\Factories\AccountFactory;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -66,11 +64,6 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
     protected $casts = [
         'is_totp_enabled' => 'boolean',
     ];
-
-    protected static function newFactory(): Factory
-    {
-        return AccountFactory::new();
-    }
 
     // Attributes
 

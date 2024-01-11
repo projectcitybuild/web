@@ -2,12 +2,14 @@
 
 namespace App\Models\Eloquent;
 
-use App\Model;
+use Illuminate\Database\Eloquent\Model;
 
 final class Payment extends Model
 {
     protected $table = 'payments';
+
     protected $primaryKey = 'payment_id';
+
     protected $fillable = [
         'account_id',
         'stripe_price',
@@ -18,7 +20,7 @@ final class Payment extends Model
         'created_at',
         'updated_at',
     ];
-    protected $hidden = [];
+
     protected $dates = [
         'created_at',
         'updated_at',

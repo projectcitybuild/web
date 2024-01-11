@@ -10,6 +10,7 @@ class ShowcaseWarp extends Model
     use HasFactory;
 
     protected $table = 'showcase_warps';
+
     protected $fillable = [
         'name',
         'title',
@@ -25,9 +26,11 @@ class ShowcaseWarp extends Model
         'created_at',
         'updated_at',
     ];
+    
     protected $dates = [
         'built_at',
     ];
+
     protected $casts = [
         'location_pitch' => 'decimal:1',
         'location_yaw' => 'decimal:1',

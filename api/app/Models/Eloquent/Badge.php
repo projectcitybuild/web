@@ -4,8 +4,6 @@ namespace App\Models\Eloquent;
 
 use App\Model;
 use App\Traits\HasStaticTable;
-use Database\Factories\BadgeFactory;
-use Database\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 
@@ -25,9 +23,4 @@ final class Badge extends Model
     ];
 
     public $timestamps = false;
-
-    protected static function newFactory(): Factory
-    {
-        return BadgeFactory::new();
-    }
 }
