@@ -1,17 +1,16 @@
 <?php
 
 use App\Http\Controllers\Account\BillingPortalController;
+use App\Http\Controllers\Account\DonationController;
 use App\Http\Controllers\Account\UpdateEmailController;
 use App\Http\Controllers\Account\UpdatePasswordController;
 use App\Http\Controllers\Account\UpdateUsernameController;
-use App\Http\Controllers\AccountLink\MinecraftLinkController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\BadgeController;
-use App\Http\Controllers\Donations\DonationController;
-use App\Http\Controllers\AccountController;
 use App\Http\Controllers\GroupController;
-use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\PlayerBanController;
+use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\PlayerWarningController;
 use App\Http\Controllers\ServerController;
 use Illuminate\Support\Facades\Route;

@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Donations;
+namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class DonationPerkController extends Controller
+class DonationController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
         $account = $request->user();
-        $perks = $account->perks ?? [];
+        $donations = $account->donations ?? [];
 
-        return response()->json($perks);
+        return response()->json($donations);
     }
 }
