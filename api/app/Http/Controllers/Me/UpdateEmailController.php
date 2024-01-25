@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Account;
+namespace App\Http\Controllers\Me;
 
 use App\Actions\Auth\SendEmailChangeVerification;
 use App\Actions\Auth\UpdateUserEmail;
@@ -42,6 +42,7 @@ class UpdateEmailController extends Controller
 
         $updateUserEmail->update(token: $token);
 
+        // TODO: move this to frontend
         return response()->redirectTo(config('app.frontend_url') . '/dashboard/security/change-email?verified=1');
     }
 }

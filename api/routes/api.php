@@ -1,48 +1,52 @@
 <?php
 
-use App\Http\Controllers\Account\BillingPortalController;
-use App\Http\Controllers\Account\DonationController;
-use App\Http\Controllers\Account\UpdateEmailController;
-use App\Http\Controllers\Account\UpdatePasswordController;
-use App\Http\Controllers\Account\UpdateUsernameController;
-use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Me\AccountBillingPortalController;
+use App\Http\Controllers\Me\AccountDonationController;
+use App\Http\Controllers\Me\UpdateEmailController;
+use App\Http\Controllers\Me\UpdatePasswordController;
+use App\Http\Controllers\Me\UpdateUsernameController;
 use App\Http\Controllers\Auth\RegistrationController;
-use App\Http\Controllers\BadgeController;
-use App\Http\Controllers\GroupController;
-use App\Http\Controllers\PlayerBanController;
-use App\Http\Controllers\PlayerController;
-use App\Http\Controllers\PlayerWarningController;
-use App\Http\Controllers\ServerController;
+use App\Http\Controllers\Manage\AccountController;
+use App\Http\Controllers\Manage\BadgeController;
+use App\Http\Controllers\Manage\DonationController;
+use App\Http\Controllers\Manage\GroupController;
+use App\Http\Controllers\Manage\PlayerBanController;
+use App\Http\Controllers\Manage\PlayerController;
+use App\Http\Controllers\Manage\PlayerWarningController;
+use App\Http\Controllers\Manage\ServerController;
 use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('guest')->group(function () {
-    Route::post('/register', [RegistrationController::class, 'register'])
+    Route::post('register', [RegistrationController::class, 'register'])
         ->middleware('throttle:6,1');
 
-    Route::get('/account/email', [UpdateEmailController::class, 'update'])
+    Route::get('account/email', [UpdateEmailController::class, 'update'])
         ->name("account.update-email.confirm");
 });
 
-$authMiddleware = ['auth:sanctum', 'verified'];
+Route::middleware(['auth:sanctum', 'verified'])->group(function() {
+    Route::get('profile/me', [AccountController::class, 'me']);
 
-Route::middleware($authMiddleware)->group(function() {
-    Route::get('/profile/me', [AccountController::class, 'me']);
+    Route::prefix('account')->group(function () {
+        Route::put('password', [UpdatePasswordController::class, 'update'])
+            ->middleware('throttle:2,1');
 
-    Route::put('/account/password', [UpdatePasswordController::class, 'update']);
+        Route::post('email', [UpdateEmailController::class, 'store'])
+            ->middleware('throttle:2,1');
 
-    Route::post('/account/email', [UpdateEmailController::class, 'store'])
-        ->middleware('throttle:2,1');
+        Route::patch('username', [UpdateUsernameController::class, 'update']);
+        Route::get('donations', [AccountDonationController::class, 'index']);
+        Route::post('billing', AccountBillingPortalController::class);
+    });
 
-    Route::patch('/account/username', [UpdateUsernameController::class, 'update']);
-//    Route::patch('/account/link/minecraft', [MinecraftLinkController::class, 'store']);
-    Route::get('/account/donations', [DonationController::class, 'index']);
-    Route::post('/account/billing', [BillingPortalController::class, 'index']);
-
-    Route::apiResource('/bans', PlayerBanController::class);
-    Route::apiResource('/badges', BadgeController::class);
-    Route::apiResource('/groups', GroupController::class);
-    Route::apiResource('/players', PlayerController::class);
-    Route::apiResource('/servers', ServerController::class);
-    Route::apiResource('/warnings', PlayerWarningController::class);
+    Route::prefix('manage')->group(function () {
+        Route::apiResource('bans', PlayerBanController::class);
+        Route::apiResource('badges', BadgeController::class);
+        Route::apiResource('donations', DonationController::class);
+        Route::apiResource('groups', GroupController::class);
+        Route::apiResource('players', PlayerController::class);
+        Route::apiResource('servers', ServerController::class);
+        Route::apiResource('warnings', PlayerWarningController::class);
+    });
 });

@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Account;
+namespace App\Http\Controllers\Me;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-final class BillingPortalController extends Controller
+final class AccountBillingPortalController extends Controller
 {
-    public function index(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
         $returnUrl = $request->get('return_url');
         $user = $request->user();

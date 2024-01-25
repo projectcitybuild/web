@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Account;
+namespace App\Http\Controllers\Me;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class DonationController extends Controller
+class AccountDonationController extends Controller
 {
     public function index(Request $request): JsonResponse
     {

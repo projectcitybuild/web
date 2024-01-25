@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Manage;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\GroupStoreRequest;
 use App\Http\Requests\GroupUpdateRequest;
 use App\Models\Eloquent\Group;
