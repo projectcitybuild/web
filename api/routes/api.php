@@ -26,20 +26,14 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function() {
-    Route::get('profile/me', [AccountController::class, 'me']);
-
     Route::prefix('account')->group(function () {
-        Route::put('password', [UpdatePasswordController::class, 'update'])
-            ->middleware('throttle:2,1');
-
-        Route::post('email', [UpdateEmailController::class, 'store'])
-            ->middleware('throttle:2,1');
-
+        Route::get('me', [AccountController::class, 'me']);
+        Route::put('password', [UpdatePasswordController::class, 'update'])->middleware('throttle:2,1');
+        Route::post('email', [UpdateEmailController::class, 'store'])->middleware('throttle:2,1');
         Route::patch('username', [UpdateUsernameController::class, 'update']);
         Route::get('donations', [AccountDonationController::class, 'index']);
         Route::post('billing', AccountBillingPortalController::class);
     });
-
     Route::prefix('manage')->group(function () {
         Route::apiResource('bans', PlayerBanController::class);
         Route::apiResource('badges', BadgeController::class);
