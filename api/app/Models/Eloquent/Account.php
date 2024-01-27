@@ -109,4 +109,9 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
             relatedPivotKey: Badge::primaryKey(),
         );
     }
+
+    public function isTwoFactorEnabled(): bool
+    {
+        return $this->two_factor_confirmed_at != null;
+    }
 }

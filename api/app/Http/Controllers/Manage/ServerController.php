@@ -12,7 +12,7 @@ class ServerController extends Controller
 {
     public function index(): JsonResponse
     {
-        $servers = Server::get();
+        $servers = Server::cursorPaginate(config('api.page_size'));
 
         return response()->json($servers);
     }

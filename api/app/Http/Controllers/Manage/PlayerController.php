@@ -11,7 +11,7 @@ class PlayerController extends Controller
 {
     public function index(): JsonResponse
     {
-        $players = Player::get();
+        $players = Player::cursorPaginate(config('api.page_size'));
 
         return response()->json($players);
     }

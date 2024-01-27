@@ -1,12 +1,6 @@
 <?php
 
-use App\Http\Controllers\Me\AccountBillingPortalController;
-use App\Http\Controllers\Me\AccountDonationController;
-use App\Http\Controllers\Me\UpdateEmailController;
-use App\Http\Controllers\Me\UpdatePasswordController;
-use App\Http\Controllers\Me\UpdateUsernameController;
 use App\Http\Controllers\Auth\RegistrationController;
-use App\Http\Controllers\Manage\AccountController;
 use App\Http\Controllers\Manage\BadgeController;
 use App\Http\Controllers\Manage\DonationController;
 use App\Http\Controllers\Manage\GroupController;
@@ -14,6 +8,12 @@ use App\Http\Controllers\Manage\PlayerBanController;
 use App\Http\Controllers\Manage\PlayerController;
 use App\Http\Controllers\Manage\PlayerWarningController;
 use App\Http\Controllers\Manage\ServerController;
+use App\Http\Controllers\Me\AccountBillingPortalController;
+use App\Http\Controllers\Me\AccountController;
+use App\Http\Controllers\Me\AccountDonationController;
+use App\Http\Controllers\Me\UpdateEmailController;
+use App\Http\Controllers\Me\UpdatePasswordController;
+use App\Http\Controllers\Me\UpdateUsernameController;
 use Illuminate\Support\Facades\Route;
 
 

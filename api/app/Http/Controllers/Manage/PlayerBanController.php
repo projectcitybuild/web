@@ -11,7 +11,7 @@ class PlayerBanController extends Controller
 {
     public function index(): JsonResponse
     {
-        $bans = PlayerBan::get();
+        $bans = PlayerBan::cursorPaginate(config('api.page_size'));
 
         return response()->json($bans);
     }

@@ -12,7 +12,7 @@ class GroupController extends Controller
 {
     public function index(): JsonResponse
     {
-        $groups = Group::get();
+        $groups = Group::cursorPaginate(config('api.page_size'));
 
         return response()->json($groups);
     }

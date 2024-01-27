@@ -11,7 +11,7 @@ class BadgeController extends Controller
 {
     public function index(): JsonResponse
     {
-        $badges = Badge::get();
+        $badges = Badge::cursorPaginate(config('api.page_size'));
 
         return response()->json($badges);
     }

@@ -2,7 +2,7 @@
 
 namespace App\Models\Eloquent;
 
-use App\Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class MinecraftAuthCode extends Model

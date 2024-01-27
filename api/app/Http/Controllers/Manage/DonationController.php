@@ -11,7 +11,7 @@ class DonationController extends Controller
 {
     public function index(): JsonResponse
     {
-        $donations = Donation::get();
+        $donations = Donation::cursorPaginate(config('api.page_size'));
 
         return response()->json($donations);
     }

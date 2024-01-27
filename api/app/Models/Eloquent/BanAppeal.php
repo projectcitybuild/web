@@ -2,11 +2,11 @@
 
 namespace App\Models\Eloquent;
 
-use App\Model;
 use Carbon\CarbonInterface;
 use Domain\BanAppeals\Entities\BanAppealStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;

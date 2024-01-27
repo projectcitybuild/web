@@ -2,9 +2,9 @@
 
 namespace App\Models\Eloquent;
 
-use App\Model;
 use App\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
 final class Badge extends Model

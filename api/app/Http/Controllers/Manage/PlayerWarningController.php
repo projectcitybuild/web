@@ -11,7 +11,7 @@ class PlayerWarningController extends Controller
 {
     public function index(): JsonResponse
     {
-        $warnings = PlayerWarning::get();
+        $warnings = PlayerWarning::cursorPaginate(config('api.page_size'));
 
         return response()->json($warnings);
     }
