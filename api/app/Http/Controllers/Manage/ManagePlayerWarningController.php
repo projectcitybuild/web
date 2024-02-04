@@ -7,7 +7,7 @@ use App\Http\Requests\PlayerWarningRequest;
 use App\Models\Eloquent\PlayerWarning;
 use Illuminate\Http\JsonResponse;
 
-class PlayerWarningController extends Controller
+class ManagePlayerWarningController extends Controller
 {
     public function index(): JsonResponse
     {

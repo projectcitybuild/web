@@ -2,7 +2,7 @@
 
 namespace App\Models\Eloquent;
 
-use App\Traits\HasStaticTable;
+use App\Utilities\Traits\HasStaticTable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

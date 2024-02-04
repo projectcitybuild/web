@@ -8,7 +8,7 @@ use App\Http\Requests\ServerUpdateRequest;
 use App\Models\Eloquent\Server;
 use Illuminate\Http\JsonResponse;
 
-class ServerController extends Controller
+class ManageServerController extends Controller
 {
     public function index(): JsonResponse
     {

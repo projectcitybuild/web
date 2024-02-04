@@ -1,19 +1,23 @@
 <?php
 
 use App\Http\Controllers\Auth\RegistrationController;
-use App\Http\Controllers\Manage\BadgeController;
-use App\Http\Controllers\Manage\DonationController;
-use App\Http\Controllers\Manage\GroupController;
-use App\Http\Controllers\Manage\PlayerBanController;
-use App\Http\Controllers\Manage\PlayerController;
-use App\Http\Controllers\Manage\PlayerWarningController;
-use App\Http\Controllers\Manage\ServerController;
+use App\Http\Controllers\Bans\PlayerBanController;
+use App\Http\Controllers\Manage\ManageBadgeController;
+use App\Http\Controllers\Manage\ManageDonationController;
+use App\Http\Controllers\Manage\ManageGroupController;
+use App\Http\Controllers\Manage\ManageIPBanController;
+use App\Http\Controllers\Manage\ManagePlayerBanController;
+use App\Http\Controllers\Manage\ManagePlayerController;
+use App\Http\Controllers\Manage\ManagePlayerWarningController;
+use App\Http\Controllers\Manage\ManageServerController;
 use App\Http\Controllers\Me\AccountBillingPortalController;
 use App\Http\Controllers\Me\AccountController;
 use App\Http\Controllers\Me\AccountDonationController;
 use App\Http\Controllers\Me\UpdateEmailController;
 use App\Http\Controllers\Me\UpdatePasswordController;
 use App\Http\Controllers\Me\UpdateUsernameController;
+use App\Http\Controllers\Minecraft\MinecraftConfigController;
+use App\Http\Controllers\Minecraft\MinecraftPlayerSyncController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -34,13 +38,21 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
         Route::get('donations', [AccountDonationController::class, 'index']);
         Route::post('billing', AccountBillingPortalController::class);
     });
+    Route::prefix('bans')->group(function () {
+        Route::post('uuid', [PlayerBanController::class, 'ban']);
+    });
+    Route::prefix('minecraft')->group(function () {
+        Route::get('config', [MinecraftConfigController::class]);
+        Route::get('player/{uuid}/sync', [MinecraftPlayerSyncController::class]);
+    });
     Route::prefix('manage')->group(function () {
-        Route::apiResource('bans', PlayerBanController::class);
-        Route::apiResource('badges', BadgeController::class);
-        Route::apiResource('donations', DonationController::class);
-        Route::apiResource('groups', GroupController::class);
-        Route::apiResource('players', PlayerController::class);
-        Route::apiResource('servers', ServerController::class);
-        Route::apiResource('warnings', PlayerWarningController::class);
+        Route::apiResource('bans/players', ManagePlayerBanController::class);
+        Route::apiResource('bans/ips', ManageIPBanController::class);
+        Route::apiResource('badges', ManageBadgeController::class);
+        Route::apiResource('donations', ManageDonationController::class);
+        Route::apiResource('groups', ManageGroupController::class);
+        Route::apiResource('players', ManagePlayerController::class);
+        Route::apiResource('servers', ManageServerController::class);
+        Route::apiResource('warnings', ManagePlayerWarningController::class);
     });
 });

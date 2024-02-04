@@ -7,7 +7,7 @@ use App\Http\Requests\MinecraftPlayerRequest;
 use App\Models\Eloquent\Player;
 use Illuminate\Http\JsonResponse;
 
-class PlayerController extends Controller
+class ManagePlayerController extends Controller
 {
     public function index(): JsonResponse
     {

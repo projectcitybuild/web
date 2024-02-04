@@ -8,7 +8,7 @@ use App\Http\Requests\GroupUpdateRequest;
 use App\Models\Eloquent\Group;
 use Illuminate\Http\JsonResponse;
 
-class GroupController extends Controller
+class ManageGroupController extends Controller
 {
     public function index(): JsonResponse
     {

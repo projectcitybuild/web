@@ -7,7 +7,7 @@ use App\Http\Requests\DonationRequest;
 use App\Models\Eloquent\Donation;
 use Illuminate\Http\JsonResponse;
 
-class DonationController extends Controller
+class ManageDonationController extends Controller
 {
     public function index(): JsonResponse
     {

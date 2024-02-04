@@ -5,7 +5,7 @@ namespace App\Actions\Auth;
 use App\Models\Eloquent\Account;
 use App\Models\Eloquent\AccountEmailChange;
 use App\Models\Notifications\VerifyNewEmailNotification;
-use App\Services\HashedTokenGenerator;
+use App\Utilities\HashedTokenGenerator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;

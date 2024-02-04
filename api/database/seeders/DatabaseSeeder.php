@@ -3,9 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\Eloquent\Account;
+use App\Models\Eloquent\Badge;
 use App\Models\Eloquent\Donation;
 use App\Models\Eloquent\DonationPerk;
 use App\Models\Eloquent\DonationTier;
+use App\Models\Eloquent\IPBan;
 use App\Models\Eloquent\PlayerBan;
 use App\Models\Eloquent\Group;
 use App\Models\Eloquent\Player;
@@ -32,6 +34,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Group::factory(count: 10)->create();
+
+        Badge::factory(count: 15)->create();
 
         $copperTier = DonationTier::factory()->create([
            'name' => 'copper_tier',
@@ -64,12 +68,26 @@ class DatabaseSeeder extends Seeder
             'donation_tier_id' => $ironTier->getKey(),
         ]);
 
-        $players = Player::factory(100)->create();
+        $players = Player::factory(175)->create();
+
+        $staff = $players->take(5);
 
         for ($x = 0; $x < 100; $x++) {
             PlayerBan::factory()
+                ->bannedBy($this->randomBool(0.75) ? $staff->random() : null)
                 ->bannedPlayer($players->random())
                 ->create();
         }
+
+        for ($x = 0; $x < 150; $x++) {
+            IPBan::factory()
+                ->bannedBy($staff->random())
+                ->create();
+        }
+    }
+
+    private function randomBool(float $chance = 0.5): bool
+    {
+        return rand(0, 1) < $chance;
     }
 }

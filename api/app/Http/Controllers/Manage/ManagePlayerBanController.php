@@ -7,11 +7,14 @@ use App\Http\Requests\PlayerBanStoreRequest;
 use App\Models\Eloquent\PlayerBan;
 use Illuminate\Http\JsonResponse;
 
-class PlayerBanController extends Controller
+class ManagePlayerBanController extends Controller
 {
+    private const DEFAULT_RELATIONS = ['bannedPlayer', 'bannerPlayer', 'unbannerPlayer'];
+
     public function index(): JsonResponse
     {
-        $bans = PlayerBan::cursorPaginate(config('api.page_size'));
+        $bans = PlayerBan::with(self::DEFAULT_RELATIONS)
+            ->cursorPaginate(config('api.page_size'));
 
         return response()->json($bans);
     }
@@ -24,7 +27,8 @@ class PlayerBanController extends Controller
 
     public function show(string $id): JsonResponse
     {
-        $ban = PlayerBan::findOrFail($id);
+        $ban = PlayerBan::with(self::DEFAULT_RELATIONS)
+            ->findOrFail($id);
 
         return response()->json($ban);
     }

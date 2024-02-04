@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Eloquent\IPBan;
+use App\Models\Eloquent\Player;
 use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class IPBanFactory extends Factory
@@ -36,7 +36,7 @@ class IPBanFactory extends Factory
         ];
     }
 
-    public function bannedBy(MinecraftPlayer|Factory|null $minecraftPlayer): IPBanFactory
+    public function bannedBy(Player|Factory|null $minecraftPlayer): IPBanFactory
     {
         return $this->for($minecraftPlayer, 'bannerPlayer');
     }

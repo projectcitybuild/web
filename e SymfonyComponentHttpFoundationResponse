@@ -1,0 +1,363 @@
+[1mdiff --git a/api/app/Actions/Auth/SendEmailChangeVerification.php b/api/app/Actions/Auth/SendEmailChangeVerification.php[m
+[1mindex 408f64b8..2c36b33b 100644[m
+[1m--- a/api/app/Actions/Auth/SendEmailChangeVerification.php[m
+[1m+++ b/api/app/Actions/Auth/SendEmailChangeVerification.php[m
+[36m@@ -5,7 +5,7 @@[m
+ use App\Models\Eloquent\Account;[m
+ use App\Models\Eloquent\AccountEmailChange;[m
+ use App\Models\Notifications\VerifyNewEmailNotification;[m
+[31m-use App\Services\HashedTokenGenerator;[m
+[32m+[m[32muse App\Utilities\HashedTokenGenerator;[m
+ use Illuminate\Support\Facades\DB;[m
+ use Illuminate\Support\Facades\Notification;[m
+ use Illuminate\Support\Facades\URL;[m
+[1mdiff --git a/api/app/Http/Controllers/Manage/ManageBadgeController.php b/api/app/Http/Controllers/Manage/ManageBadgeController.php[m
+[1mindex 5266dffd..2e574cd3 100644[m
+[1m--- a/api/app/Http/Controllers/Manage/ManageBadgeController.php[m
+[1m+++ b/api/app/Http/Controllers/Manage/ManageBadgeController.php[m
+[36m@@ -7,7 +7,7 @@[m
+ use App\Models\Eloquent\Badge;[m
+ use Illuminate\Http\JsonResponse;[m
+ [m
+[31m-class BadgeController extends Controller[m
+[32m+[m[32mclass ManageBadgeController extends Controller[m
+ {[m
+     public function index(): JsonResponse[m
+     {[m
+[1mdiff --git a/api/app/Http/Controllers/Manage/ManageDonationController.php b/api/app/Http/Controllers/Manage/ManageDonationController.php[m
+[1mindex 4aaaad4f..04e2e9cb 100644[m
+[1m--- a/api/app/Http/Controllers/Manage/ManageDonationController.php[m
+[1m+++ b/api/app/Http/Controllers/Manage/ManageDonationController.php[m
+[36m@@ -7,7 +7,7 @@[m
+ use App\Models\Eloquent\Donation;[m
+ use Illuminate\Http\JsonResponse;[m
+ [m
+[31m-class DonationController extends Controller[m
+[32m+[m[32mclass ManageDonationController extends Controller[m
+ {[m
+     public function index(): JsonResponse[m
+     {[m
+[1mdiff --git a/api/app/Http/Controllers/Manage/ManageGroupController.php b/api/app/Http/Controllers/Manage/ManageGroupController.php[m
+[1mindex 17fb881a..a693199b 100644[m
+[1m--- a/api/app/Http/Controllers/Manage/ManageGroupController.php[m
+[1m+++ b/api/app/Http/Controllers/Manage/ManageGroupController.php[m
+[36m@@ -8,7 +8,7 @@[m
+ use App\Models\Eloquent\Group;[m
+ use Illuminate\Http\JsonResponse;[m
+ [m
+[31m-class GroupController extends Controller[m
+[32m+[m[32mclass ManageGroupController extends Controller[m
+ {[m
+     public function index(): JsonResponse[m
+     {[m
+[1mdiff --git a/api/app/Http/Controllers/Manage/ManagePlayerBanController.php b/api/app/Http/Controllers/Manage/ManagePlayerBanController.php[m
+[1mindex 9013dc09..c091537a 100644[m
+[1m--- a/api/app/Http/Controllers/Manage/ManagePlayerBanController.php[m
+[1m+++ b/api/app/Http/Controllers/Manage/ManagePlayerBanController.php[m
+[36m@@ -7,7 +7,7 @@[m
+ use App\Models\Eloquent\PlayerBan;[m
+ use Illuminate\Http\JsonResponse;[m
+ [m
+[31m-class PlayerBanController extends Controller[m
+[32m+[m[32mclass ManagePlayerBanController extends Controller[m
+ {[m
+     private const DEFAULT_RELATIONS = ['bannedPlayer', 'bannerPlayer', 'unbannerPlayer'];[m
+ [m
+[1mdiff --git a/api/app/Http/Controllers/Manage/ManagePlayerController.php b/api/app/Http/Controllers/Manage/ManagePlayerController.php[m
+[1mindex 692627d4..815b679d 100644[m
+[1m--- a/api/app/Http/Controllers/Manage/ManagePlayerController.php[m
+[1m+++ b/api/app/Http/Controllers/Manage/ManagePlayerController.php[m
+[36m@@ -7,7 +7,7 @@[m
+ use App\Models\Eloquent\Player;[m
+ use Illuminate\Http\JsonResponse;[m
+ [m
+[31m-class PlayerController extends Controller[m
+[32m+[m[32mclass ManagePlayerController extends Controller[m
+ {[m
+     public function index(): JsonResponse[m
+     {[m
+[1mdiff --git a/api/app/Http/Controllers/Manage/ManagePlayerWarningController.php b/api/app/Http/Controllers/Manage/ManagePlayerWarningController.php[m
+[1mindex f3e47c1b..f6f4430f 100644[m
+[1m--- a/api/app/Http/Controllers/Manage/ManagePlayerWarningController.php[m
+[1m+++ b/api/app/Http/Controllers/Manage/ManagePlayerWarningController.php[m
+[36m@@ -7,7 +7,7 @@[m
+ use App\Models\Eloquent\PlayerWarning;[m
+ use Illuminate\Http\JsonResponse;[m
+ [m
+[31m-class PlayerWarningController extends Controller[m
+[32m+[m[32mclass ManagePlayerWarningController extends Controller[m
+ {[m
+     public function index(): JsonResponse[m
+     {[m
+[1mdiff --git a/api/app/Http/Controllers/Manage/ManageServerController.php b/api/app/Http/Controllers/Manage/ManageServerController.php[m
+[1mindex 34100a01..8250f1ff 100644[m
+[1m--- a/api/app/Http/Controllers/Manage/ManageServerController.php[m
+[1m+++ b/api/app/Http/Controllers/Manage/ManageServerController.php[m
+[36m@@ -8,7 +8,7 @@[m
+ use App\Models\Eloquent\Server;[m
+ use Illuminate\Http\JsonResponse;[m
+ [m
+[31m-class ServerController extends Controller[m
+[32m+[m[32mclass ManageServerController extends Controller[m
+ {[m
+     public function index(): JsonResponse[m
+     {[m
+[1mdiff --git a/api/app/Models/Eloquent/Account.php b/api/app/Models/Eloquent/Account.php[m
+[1mindex 3f336260..d2e58498 100644[m
+[1m--- a/api/app/Models/Eloquent/Account.php[m
+[1m+++ b/api/app/Models/Eloquent/Account.php[m
+[36m@@ -2,7 +2,7 @@[m
+ [m
+ namespace App\Models\Eloquent;[m
+ [m
+[31m-use App\Traits\HasStaticTable;[m
+[32m+[m[32muse App\Utilities\Traits\HasStaticTable;[m
+ use Illuminate\Contracts\Auth\CanResetPassword;[m
+ use Illuminate\Contracts\Auth\MustVerifyEmail;[m
+ use Illuminate\Database\Eloquent\Factories\HasFactory;[m
+[1mdiff --git a/api/app/Models/Eloquent/Badge.php b/api/app/Models/Eloquent/Badge.php[m
+[1mindex 136b8331..3e97a255 100644[m
+[1m--- a/api/app/Models/Eloquent/Badge.php[m
+[1m+++ b/api/app/Models/Eloquent/Badge.php[m
+[36m@@ -2,7 +2,7 @@[m
+ [m
+ namespace App\Models\Eloquent;[m
+ [m
+[31m-use App\Traits\HasStaticTable;[m
+[32m+[m[32muse App\Utilities\Traits\HasStaticTable;[m
+ use Illuminate\Database\Eloquent\Factories\HasFactory;[m
+ use Illuminate\Database\Eloquent\Model;[m
+ use Illuminate\Notifications\Notifiable;[m
+[1mdiff --git a/api/app/Models/Eloquent/Player.php b/api/app/Models/Eloquent/Player.php[m
+[1mindex 3299b217..59c27442 100644[m
+[1m--- a/api/app/Models/Eloquent/Player.php[m
+[1m+++ b/api/app/Models/Eloquent/Player.php[m
+[36m@@ -2,9 +2,9 @@[m
+ [m
+ namespace App\Models\Eloquent;[m
+ [m
+[31m-use App\Traits\HasStaticTable;[m
+[31m-use Illuminate\Database\Eloquent\Model;[m
+[32m+[m[32muse App\Utilities\Traits\HasStaticTable;[m
+ use Illuminate\Database\Eloquent\Factories\HasFactory;[m
+[32m+[m[32muse Illuminate\Database\Eloquent\Model;[m
+ use Illuminate\Database\Eloquent\Relations\BelongsTo;[m
+ use Illuminate\Database\Eloquent\Relations\HasMany;[m
+ [m
+[1mdiff --git a/api/app/Rules/PasswordValidationRules.php b/api/app/Rules/PasswordValidationRules.php[m
+[1mindex 2c2eca94..fe185be4 100644[m
+[1m--- a/api/app/Rules/PasswordValidationRules.php[m
+[1m+++ b/api/app/Rules/PasswordValidationRules.php[m
+[36m@@ -2,8 +2,8 @@[m
+ [m
+ namespace App\Rules;[m
+ [m
+[31m-use Illuminate\Contracts\Validation\Rule;[m
+[31m-use Laravel\Fortify\Rules\Password;[m
+[32m+[m[32muse Illuminate\Validation\Rule;[m
+[32m+[m[32muse Illuminate\Validation\Rules\Password;[m
+ [m
+ trait PasswordValidationRules[m
+ {[m
+[36m@@ -14,6 +14,6 @@[m [mtrait PasswordValidationRules[m
+      */[m
+     protected function passwordRules(): array[m
+     {[m
+[31m-        return ['required', 'string', new Password, 'confirmed'];[m
+[32m+[m[32m        return ['required', 'string', new Password(min: 8), 'confirmed'];[m
+     }[m
+ }[m
+[1mdiff --git a/api/app/Utilities/HashedTokenGenerator.php b/api/app/Utilities/HashedTokenGenerator.php[m
+[1mindex 21cc1687..be5ecb16 100644[m
+[1m--- a/api/app/Utilities/HashedTokenGenerator.php[m
+[1m+++ b/api/app/Utilities/HashedTokenGenerator.php[m
+[36m@@ -1,6 +1,6 @@[m
+ <?php[m
+ [m
+[31m-namespace App\Services;[m
+[32m+[m[32mnamespace App\Utilities;[m
+ [m
+ use Exception;[m
+ [m
+[1mdiff --git a/api/app/Utilities/Traits/HasStaticTable.php b/api/app/Utilities/Traits/HasStaticTable.php[m
+[1mindex c939b8cd..ed321e63 100644[m
+[1m--- a/api/app/Utilities/Traits/HasStaticTable.php[m
+[1m+++ b/api/app/Utilities/Traits/HasStaticTable.php[m
+[36m@@ -1,6 +1,6 @@[m
+ <?php[m
+ [m
+[31m-namespace App\Traits;[m
+[32m+[m[32mnamespace App\Utilities\Traits;[m
+ [m
+ trait HasStaticTable[m
+ {[m
+[1mdiff --git a/api/database/factories/BadgeFactory.php b/api/database/factories/BadgeFactory.php[m
+[1mindex 04f1f0cf..216caba4 100644[m
+[1m--- a/api/database/factories/BadgeFactory.php[m
+[1m+++ b/api/database/factories/BadgeFactory.php[m
+[36m@@ -3,6 +3,7 @@[m
+ namespace Database\Factories;[m
+ [m
+ use App\Models\Eloquent\Badge;[m
+[32m+[m[32muse Illuminate\Database\Eloquent\Factories\Factory;[m
+ [m
+ class BadgeFactory extends Factory[m
+ {[m
+[1mdiff --git a/api/database/factories/IPBanFactory.php b/api/database/factories/IPBanFactory.php[m
+[1mindex 8ee368e6..286a1595 100644[m
+[1m--- a/api/database/factories/IPBanFactory.php[m
+[1m+++ b/api/database/factories/IPBanFactory.php[m
+[36m@@ -3,8 +3,8 @@[m
+ namespace Database\Factories;[m
+ [m
+ use App\Models\Eloquent\IPBan;[m
+[32m+[m[32muse App\Models\Eloquent\Player;[m
+ use Domain\Bans\UnbanType;[m
+[31m-use Entities\Models\Eloquent\MinecraftPlayer;[m
+ use Illuminate\Database\Eloquent\Factories\Factory;[m
+ [m
+ class IPBanFactory extends Factory[m
+[36m@@ -36,7 +36,7 @@[m [mpublic function definition()[m
+         ];[m
+     }[m
+ [m
+[31m-    public function bannedBy(MinecraftPlayer|Factory|null $minecraftPlayer): IPBanFactory[m
+[32m+[m[32m    public function bannedBy(Player|Factory|null $minecraftPlayer): IPBanFactory[m
+     {[m
+         return $this->for($minecraftPlayer, 'bannerPlayer');[m
+     }[m
+[1mdiff --git a/api/database/seeders/DatabaseSeeder.php b/api/database/seeders/DatabaseSeeder.php[m
+[1mindex 741935ff..3cade269 100644[m
+[1m--- a/api/database/seeders/DatabaseSeeder.php[m
+[1m+++ b/api/database/seeders/DatabaseSeeder.php[m
+[36m@@ -3,9 +3,11 @@[m
+ namespace Database\Seeders;[m
+ [m
+ use App\Models\Eloquent\Account;[m
+[32m+[m[32muse App\Models\Eloquent\Badge;[m
+ use App\Models\Eloquent\Donation;[m
+ use App\Models\Eloquent\DonationPerk;[m
+ use App\Models\Eloquent\DonationTier;[m
+[32m+[m[32muse App\Models\Eloquent\IPBan;[m
+ use App\Models\Eloquent\PlayerBan;[m
+ use App\Models\Eloquent\Group;[m
+ use App\Models\Eloquent\Player;[m
+[36m@@ -33,6 +35,8 @@[m [mpublic function run(): void[m
+ [m
+         Group::factory(count: 10)->create();[m
+ [m
+[32m+[m[32m        Badge::factory(count: 15)->create();[m
+[32m+[m
+         $copperTier = DonationTier::factory()->create([[m
+            'name' => 'copper_tier',[m
+            'currency_reward' => 10,[m
+[36m@@ -64,12 +68,26 @@[m [mpublic function run(): void[m
+             'donation_tier_id' => $ironTier->getKey(),[m
+         ]);[m
+ [m
+[31m-        $players = Player::factory(100)->create();[m
+[32m+[m[32m        $players = Player::factory(175)->create();[m
+[32m+[m
+[32m+[m[32m        $staff = $players->take(5);[m
+ [m
+         for ($x = 0; $x < 100; $x++) {[m
+             PlayerBan::factory()[m
+[32m+[m[32m                ->bannedBy($this->randomBool(0.75) ? $staff->random() : null)[m
+                 ->bannedPlayer($players->random())[m
+                 ->create();[m
+         }[m
+[32m+[m
+[32m+[m[32m        for ($x = 0; $x < 150; $x++) {[m
+[32m+[m[32m            IPBan::factory()[m
+[32m+[m[32m                ->bannedBy($staff->random())[m
+[32m+[m[32m                ->create();[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    private function randomBool(float $chance = 0.5): bool[m
+[32m+[m[32m    {[m
+[32m+[m[32m        return rand(0, 1) < $chance;[m
+     }[m
+ }[m
+[1mdiff --git a/api/routes/api.php b/api/routes/api.php[m
+[1mindex ed16274e..13f45ad0 100644[m
+[1m--- a/api/routes/api.php[m
+[1m+++ b/api/routes/api.php[m
+[36m@@ -1,19 +1,23 @@[m
+ <?php[m
+ [m
+ use App\Http\Controllers\Auth\RegistrationController;[m
+[31m-use App\Http\Controllers\Manage\BadgeController;[m
+[31m-use App\Http\Controllers\Manage\DonationController;[m
+[31m-use App\Http\Controllers\Manage\GroupController;[m
+[31m-use App\Http\Controllers\Manage\PlayerBanController;[m
+[31m-use App\Http\Controllers\Manage\PlayerController;[m
+[31m-use App\Http\Controllers\Manage\PlayerWarningController;[m
+[31m-use App\Http\Controllers\Manage\ServerController;[m
+[32m+[m[32muse App\Http\Controllers\Bans\PlayerBanController;[m
+[32m+[m[32muse App\Http\Controllers\Manage\ManageBadgeController;[m
+[32m+[m[32muse App\Http\Controllers\Manage\ManageDonationController;[m
+[32m+[m[32muse App\Http\Controllers\Manage\ManageGroupController;[m
+[32m+[m[32muse App\Http\Controllers\Manage\ManageIPBanController;[m
+[32m+[m[32muse App\Http\Controllers\Manage\ManagePlayerBanController;[m
+[32m+[m[32muse App\Http\Controllers\Manage\ManagePlayerController;[m
+[32m+[m[32muse App\Http\Controllers\Manage\ManagePlayerWarningController;[m
+[32m+[m[32muse App\Http\Controllers\Manage\ManageServerController;[m
+ use App\Http\Controllers\Me\AccountBillingPortalController;[m
+ use App\Http\Controllers\Me\AccountController;[m
+ use App\Http\Controllers\Me\AccountDonationController;[m
+ use App\Http\Controllers\Me\UpdateEmailController;[m
+ use App\Http\Controllers\Me\UpdatePasswordController;[m
+ use App\Http\Controllers\Me\UpdateUsernameController;[m
+[32m+[m[32muse App\Http\Controllers\Minecraft\MinecraftConfigController;[m
+[32m+[m[32muse App\Http\Controllers\Minecraft\MinecraftPlayerSyncController;[m
+ use Illuminate\Support\Facades\Route;[m
+ [m
+ [m
+[36m@@ -34,13 +38,21 @@[m
+         Route::get('donations', [AccountDonationController::class, 'index']);[m
+         Route::post('billing', AccountBillingPortalController::class);[m
+     });[m
+[32m+[m[32m    Route::prefix('bans')->group(function () {[m
+[32m+[m[32m        Route::post('uuid', [PlayerBanController::class, 'ban']);[m
+[32m+[m[32m    });[m
+[32m+[m[32m    Route::prefix('minecraft')->group(function () {[m
+[32m+[m[32m        Route::get('config', [MinecraftConfigController::class]);[m
+[32m+[m[32m        Route::get('player/{uuid}/sync', [MinecraftPlayerSyncController::class]);[m
+[32m+[m[32m    });[m
+     Route::prefix('manage')->group(function () {[m
+[31m-        Route::apiResource('bans', PlayerBanController::class);[m
+[31m-        Route::apiResource('badges', BadgeController::class);[m
+[31m-        Route::apiResource('donations', DonationController::class);[m
+[31m-        Route::apiResource('groups', GroupController::class);[m
+[31m-        Route::apiResource('players', PlayerController::class);[m
+[31m-        Route::apiResource('servers', ServerController::class);[m
+[31m-        Route::apiResource('warnings', PlayerWarningController::class);[m
+[32m+[m[32m        Route::apiResource('bans/players', ManagePlayerBanController::class);[m
+[32m+[m[32m        Route::apiResource('bans/ips', ManageIPBanController::class);[m
+[32m+[m[32m        Route::apiResource('badges', ManageBadgeController::class);[m
+[32m+[m[32m        Route::apiResource('donations', ManageDonationController::class);[m
+[32m+[m[32m        Route::apiResource('groups', ManageGroupController::class);[m
+[32m+[m[32m        Route::apiResource('players', ManagePlayerController::class);[m
+[32m+[m[32m        Route::apiResource('servers', ManageServerController::class);[m
+[32m+[m[32m        Route::apiResource('warnings', ManagePlayerWarningController::class);[m
+     });[m
+ });[m
+[1mdiff --git a/legacy/entities/Models/Eloquent/MinecraftPlayer.php b/legacy/entities/Models/Eloquent/MinecraftPlayer.php[m
+[1mindex 0bb7ea5c..5087c91b 100644[m
+[1m--- a/legacy/entities/Models/Eloquent/MinecraftPlayer.php[m
+[1m+++ b/legacy/entities/Models/Eloquent/MinecraftPlayer.php[m
+[36m@@ -3,12 +3,10 @@[m
+ namespace Entities\Models\Eloquent;[m
+ [m
+ use App\Model;[m
+[31m-use App\Traits\HasStaticTable;[m
+[31m-use Illuminate\Database\Eloquent\Collection;[m
+[32m+[m[32muse App\Utilities\Traits\HasStaticTable;[m
+ use Illuminate\Database\Eloquent\Factories\HasFactory;[m
+ use Illuminate\Database\Eloquent\Relations\BelongsTo;[m
+ use Illuminate\Database\Eloquent\Relations\HasMany;[m
+[31m-use Illuminate\Support\Carbon;[m
+ use Illuminate\Support\Str;[m
+ use Library\Auditing\AuditAttributes;[m
+ use Library\Auditing\Concerns\LogsActivity;[m

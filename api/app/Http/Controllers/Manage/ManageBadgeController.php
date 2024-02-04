@@ -7,7 +7,7 @@ use App\Http\Requests\BadgeRequest;
 use App\Models\Eloquent\Badge;
 use Illuminate\Http\JsonResponse;
 
-class BadgeController extends Controller
+class ManageBadgeController extends Controller
 {
     public function index(): JsonResponse
     {
