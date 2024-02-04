@@ -17,7 +17,7 @@ Route::permanentRedirect('maps', 'https://maps.pcbmc.co')
 Route::permanentRedirect('3d-maps', 'https://3d.pcbmc.co')
     ->name('3d-maps');
 
-Route::permanentRedirect('report', 'https://forums.projectcitybuild.com/w/player-report')
+Route::permanentRedirect('report', 'https://docs.google.com/forms/d/e/1FAIpQLSerzdjDmc-xM26ZiDqIKN0d1gjjmRomFKg6efdHxXqir6QIMQ/viewform')
     ->name('report');
 
 Route::permanentRedirect('rules', 'https://portal.projectcitybuild.com/books/rules/page/community-rules')
