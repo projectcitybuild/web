@@ -1,0 +1,9 @@
+@use '../vars/colors';
+@use '../vars/dimensions';
+
+.card {
+  border-radius: dimensions.$corner-radius-lg;
+  border: 1px solid colors.$color-card-border;
+  background: colors.$color-white;
+  padding: 1.5em;
+}

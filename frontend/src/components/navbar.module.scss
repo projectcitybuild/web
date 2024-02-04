@@ -1,0 +1,15 @@
+.logoContainer {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-right: 2em;
+
+  img {
+    // Kill the navbar-item max height
+    max-height: inherit;
+  }
+
+  a {
+    // Kill the extra height of <Link> pushing the image up
+    line-height: 0;
+  }
+}

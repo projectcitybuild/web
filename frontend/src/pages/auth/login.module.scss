@@ -1,0 +1,31 @@
+@use '../../styles/vars/colors';
+@use '../../styles/vars/typography';
+
+.checkbox {
+  font-size: typography.$text-label-md;
+  font-weight: 300;
+  color: #6C6C6C;
+}
+
+.fieldEmail {
+  margin-bottom: 1.5em!important;
+}
+
+.fieldPassword {
+  margin-bottom: 1.5em!important;
+}
+
+.fieldOptions {
+  margin-bottom: 2.2em!important;
+  display: flex;
+  justify-content: space-between;
+}
+
+.registerText {
+  margin-top: 1.5em;
+  text-align: center;
+
+  span {
+    color: rgb(108, 108, 108);
+  }
+}

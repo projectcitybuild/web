@@ -1,0 +1,49 @@
+@use '../vars/colors';
+@use '../vars/typography';
+
+.list-rows {
+  .list-row:not(:last-child) {
+    border-bottom: 1px solid colors.$color-divider;
+    padding-bottom: 1.25em;
+    margin-bottom: 1.25em;
+  }
+}
+
+.list-row {
+  display: flex;
+  align-items: center;
+
+  .list-icon {
+    flex-grow: 0;
+    margin-right: 1em;
+    align-self: flex-start;
+  }
+
+  .list-content {
+    flex-grow: 1;
+
+    .list-title {
+      a {
+        color: colors.$color-text-heading;
+        font-size: typography.$text-heading-xxs;
+        font-weight: 500;
+        text-decoration: underline;
+      }
+    }
+
+    .list-description {
+      color: colors.$color-text-secondary;
+      font-size: typography.$text-body-sm;
+      font-weight: 400;
+    }
+  }
+
+  .list-details {
+    flex-grow: 0;
+    text-align: right;
+
+    color: colors.$color-text-body;
+    font-size: typography.$text-body-md;
+    font-weight: 400;
+  }
+}

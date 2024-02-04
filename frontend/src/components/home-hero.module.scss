@@ -1,0 +1,88 @@
+@use '../styles/vars/colors';
+@use '../styles/vars/dimensions';
+@use '../styles/vars/media';
+@use '../styles/vars/typography';
+
+.background {
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.25) 20%, rgba(22, 14, 14, 0.9)),
+                    url('/hero-bg.png');
+}
+
+.layoutHeroBody {
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+
+  @media only screen and (min-width: media.$media-screen-tablet) {
+    padding: 0 4em;
+  }
+}
+
+.layoutRightCol {
+  text-align: right;
+  max-width: 650px;
+  padding: 7rem 0;
+}
+
+.layoutTitle {
+  h1 {
+    color: colors.$color-white;
+    text-shadow: 0 2px 9px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.layoutDescription {
+  margin-top: 1.2em;
+  margin-bottom: 2.0em;
+
+  span, strong {
+    color: #e6e6e6;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.55);
+  }
+}
+
+.layoutButton {
+  margin-bottom: 1em;
+
+  .button {
+    border-radius: dimensions.$corner-radius-lg;
+    border: 3px solid colors.$color-primary;
+    color: colors.$color-primary;
+    font-family: typography.$font-display;
+    font-size: typography.$text-display-md;
+    display: inline-block;
+    padding: 0.1em 0.75em 0 0.75em;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15),
+                inset 0 4px 10px rgba(0, 0, 0, 0.15);
+
+    &:hover {
+      color: colors.$color-primary-dark;
+      border-color: colors.$color-primary-dark;
+
+      u {
+        color: darken(colors.$color-white, 30%);
+      }
+    }
+
+    u {
+      color: colors.$color-white;
+    }
+
+    // Adjust the icon
+    svg {
+      padding-right: 0.15em;
+      font-size: 0.9em;
+    }
+  }
+}
+
+.discordLink {
+  font-family: typography.$font-display;
+  font-size: typography.$text-display-sm;
+  color: colors.$color-white;
+  text-decoration: underline;
+}

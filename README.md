@@ -13,8 +13,9 @@
 The official repository for [Project City Build](https://projectcitybuild.com)'s homepage and related web services.
 
 ### Stack
-* Frameworks: Laravel 9, Vue 3
-* Environment: Laravel Sail (Docker)
+* Backend: Laravel
+* Frontend: NextJS, SASS
+* Dev Container: Laravel Sail (Docker)
 * CI/CD: GitHub Actions
 
 All branches, commits and pull-requests are continuously tested

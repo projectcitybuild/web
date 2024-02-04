@@ -1,0 +1,35 @@
+// TODO: is there a better way to import with NextJS?
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;500;600;700&display=swap');
+
+$font-body: 'Roboto', sans-serif;
+$font-display: 'Bebas Neue', sans-serif;
+
+// For huge, main-attraction headliners
+$text-display-lg: 6.5rem;
+$text-display-md: 2.5rem;
+$text-display-sm: 1.5rem;
+
+// For large paragraphs of text
+$text-body-lg: 1.2rem;
+$text-body-md: 1.0rem;
+$text-body-sm: 0.8rem;
+
+// For secondary, medium emphasis text of short length
+$text-title-lg: 1.7rem;
+$text-title-md: 1.4rem;
+$text-title-sm: 1.1rem;
+
+// For section headings and titles
+$text-heading-xl: 2.25rem;
+$text-heading-lg: 1.8rem;
+$text-heading-md: 1.6rem;
+$text-heading-sm: 1.4rem;
+$text-heading-xs: 1.2rem;
+$text-heading-xxs: 1.0rem;
+
+// For smaller, utilitarian styles, such as text inside
+// components, button text, captions or small text in the
+// content body
+$text-label-lg: 1rem;
+$text-label-md: 0.8125rem;
+$text-label-sm: 0.6875em;

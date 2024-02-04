@@ -1,0 +1,102 @@
+@charset "utf-8";
+
+@use 'vars/colors';
+@use 'vars/typography';
+@use 'vars/dimensions';
+@use 'text';
+
+$primary: colors.$color-primary;
+$family-primary: typography.$font-body;
+$link: colors.$color-link;
+$link-visited: colors.$color-link-visited;
+$danger: colors.$color-danger;
+$warning: colors.$color-warning;
+$success: colors.$color-success;
+
+$input-radius: dimensions.$corner-radius-sm;
+$input-shadow: 0;
+$input-placeholder-color: rgb(206, 201, 201);
+$input-background-color: rgb(246, 245, 245);
+$input-border-color: transparent;
+$input-border-width: 0;
+$input-focus-color: colors.$color-alternate;
+$input-focus-border-color: colors.$color-alternate;
+
+$navbar-dropdown-radius: dimensions.$corner-radius-sm;
+
+@import '~bulma/sass/components/navbar';
+
+.is-clear-variant {
+  $_nav-item-color: rgb(255, 255, 255);
+  $_nav-item-hover-color: darken($_nav-item-color, 15%);
+
+  background-color: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+
+  .navbar-item, .navbar-link, .navbar-burger {
+    color: $_nav-item-color;
+
+    &:hover {
+      color: $_nav-item-hover-color;
+    }
+    &:not(.is-arrowless)::after {
+      border-color: $_nav-item-color;
+    }
+  }
+
+  .button {
+    padding-left: 1.75em;
+    padding-right: 1.75em;
+  }
+}
+
+.is-main-variant {
+  background-color: rgb(255, 255, 255);
+  border-bottom: 1px solid rgb(241, 241, 241);
+
+  .button {
+    padding-left: 1.75em;
+    padding-right: 1.75em;
+  }
+}
+
+
+
+@import "~bulma/sass/utilities/_all";
+@import "~bulma/sass/base/_all";
+
+@import "~bulma/sass/elements/box";
+@import "~bulma/sass/elements/button";
+@import "~bulma/sass/elements/container";
+@import "~bulma/sass/elements/content";
+@import "~bulma/sass/elements/icon";
+@import "~bulma/sass/elements/image";
+@import "~bulma/sass/elements/notification";
+@import "~bulma/sass/elements/progress";
+@import "~bulma/sass/elements/table";
+@import "~bulma/sass/elements/tag";
+@import "~bulma/sass/elements/title";
+@import "~bulma/sass/elements/other";
+
+@import "~bulma/sass/form/shared";
+@import "~bulma/sass/form/input-textarea";
+@import "~bulma/sass/form/checkbox-radio";
+@import "~bulma/sass/form/select";
+@import "~bulma/sass/form/file";
+@import "~bulma/sass/form/tools";
+
+@import "~bulma/sass/components/breadcrumb";
+//@import "~bulma/sass/components/card";
+@import "~bulma/sass/components/dropdown";
+@import "~bulma/sass/components/level";
+@import "~bulma/sass/components/media";
+@import "~bulma/sass/components/menu";
+@import "~bulma/sass/components/message";
+@import "~bulma/sass/components/modal";
+@import "~bulma/sass/components/pagination";
+@import "~bulma/sass/components/panel";
+//@import "~bulma/sass/components/tabs";
+
+@import "~bulma/sass/grid/_all";
+@import "~bulma/sass/helpers/_all";
+@import "~bulma/sass/layout/_all";

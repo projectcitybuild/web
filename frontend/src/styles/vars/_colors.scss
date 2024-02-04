@@ -1,0 +1,45 @@
+// Primitives
+
+$color-black: rgb(29, 29, 33);
+$color-gray-10: rgb(46, 46, 49);
+$color-gray-6: rgb(123, 122, 125);
+$color-gray-4: rgb(165, 165, 166);
+$color-gray-3: rgb(187, 187, 188);
+$color-gray-2: rgb(209, 208, 210);
+$color-gray-1: rgb(232, 231, 232);
+$color-white: rgb(255, 255, 255);
+
+$color-primary: rgb(247, 166, 2);
+$color-primary-light: lighten($color-primary, 15%);
+$color-primary-dark: darken($color-primary, 10%);
+
+$color-alternate: rgb(24, 135, 220);
+$color-alternate-light: lighten($color-alternate, 15%);
+$color-alternate-dark: darken($color-alternate, 15%);
+
+$color-secondary: rgb(83, 71, 65);
+
+$color-success: rgb(136, 196, 89);
+$color-danger: rgb(241, 70, 104);
+$color-warning: rgb(255, 224, 138);
+
+
+// Semantics
+
+$color-text-heading: $color-black;
+$color-text-body: $color-gray-10;
+$color-text-secondary: $color-gray-4;
+
+$color-link: $color-alternate;
+$color-link-visited: $color-alternate-dark;
+
+$color-button-primary-bg: $color-secondary;
+$color-button-primary-bg-hover: darken($color-button-primary-bg, 10%);
+$color-button-primary-text: $color-white;
+
+$color-divider: #E1E1E1;
+
+$color-card-border: rgb(241, 241, 241);
+
+$color-tab-item: rgb(115, 115, 115);
+$color-tab-item-active: $color-black;
