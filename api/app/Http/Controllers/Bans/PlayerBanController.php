@@ -9,6 +9,7 @@ use App\Http\Requests\Bans\PlayerBanDeleteRequest;
 use App\Http\Requests\Bans\PlayerBanStoreRequest;
 use App\Models\Eloquent\Player;
 use App\Models\Eloquent\PlayerBan;
+use App\Models\MinecraftUUID;
 use App\Utilities\Traits\HasTimestampInput;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -18,7 +19,7 @@ class PlayerBanController extends Controller
 {
     use HasTimestampInput;
 
-    public function show(String $uuid): JsonResponse
+    public function show(MinecraftUUID $uuid): JsonResponse
     {
         $player = Player::uuid($uuid)->first();
         if ($player === null) {

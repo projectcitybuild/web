@@ -32,7 +32,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::prefix('account')->group(function () {
         Route::get('me', [AccountController::class, 'me']);
-        Route::put('password', [UpdatePasswordController::class, 'update'])->middleware('throttle:2,1');
+        Route::put('password', [UpdatePasswordController::class, 'update'])->middleware('throttle:2,1'); // 2 attempts per 1 min
         Route::post('email', [UpdateEmailController::class, 'store'])->middleware('throttle:2,1');
         Route::patch('username', [UpdateUsernameController::class, 'update']);
         Route::get('donations', [AccountDonationController::class, 'index']);
@@ -59,6 +59,6 @@ Route::prefix('bans')->group(function () {
     Route::prefix('uuid')->group(function () {
         Route::post('/', [PlayerBanController::class, 'store']);
         Route::delete('/', [PlayerBanController::class, 'delete']);
-        Route::get('{uuid}', [PlayerBanController::class, 'show']);
+        Route::get('{minecraft_uuid}', [PlayerBanController::class, 'show']);
     });
 });
