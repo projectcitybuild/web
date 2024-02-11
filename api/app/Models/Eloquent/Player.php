@@ -45,7 +45,7 @@ final class Player extends Model
     public function aliases(): HasMany
     {
         return $this->hasMany(
-            related: MinecraftPlayerAlias::class,
+            related: PlayerAlias::class,
             foreignKey: 'player_minecraft_id',
             localKey: 'player_minecraft_id',
         );

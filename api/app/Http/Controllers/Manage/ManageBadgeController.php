@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BadgeRequest;
+use App\Http\Requests\Manage\ManageBadgeRequest;
 use App\Models\Eloquent\Badge;
 use Illuminate\Http\JsonResponse;
 
@@ -16,7 +16,7 @@ class ManageBadgeController extends Controller
         return response()->json($badges);
     }
 
-    public function store(BadgeRequest $request): JsonResponse
+    public function store(ManageBadgeRequest $request): JsonResponse
     {
         $badge = Badge::create($request->validated());
 
@@ -30,7 +30,7 @@ class ManageBadgeController extends Controller
         return response()->json($badge);
     }
 
-    public function update(BadgeRequest $request, string $id): JsonResponse
+    public function update(ManageBadgeRequest $request, string $id): JsonResponse
     {
         $badge = Badge::findOrFail($id);
         $badge->update($request->validated());

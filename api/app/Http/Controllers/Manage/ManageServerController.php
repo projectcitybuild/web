@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ServerStoreRequest;
-use App\Http\Requests\ServerUpdateRequest;
+use App\Http\Requests\Manage\ManageServerStoreRequest;
+use App\Http\Requests\Manage\ManageServerUpdateRequest;
 use App\Models\Eloquent\Server;
 use Illuminate\Http\JsonResponse;
 
@@ -17,7 +17,7 @@ class ManageServerController extends Controller
         return response()->json($servers);
     }
 
-    public function store(ServerStoreRequest $request): JsonResponse
+    public function store(ManageServerStoreRequest $request): JsonResponse
     {
         $server = Server::create($request->validated());
 
@@ -31,7 +31,7 @@ class ManageServerController extends Controller
         return response()->json($server);
     }
 
-    public function update(ServerUpdateRequest $request, string $id): JsonResponse
+    public function update(ManageServerUpdateRequest $request, string $id): JsonResponse
     {
         $server = Server::findOrFail($id);
         $server->update($request->validated());

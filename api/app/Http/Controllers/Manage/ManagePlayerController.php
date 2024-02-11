@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MinecraftPlayerRequest;
+use App\Http\Requests\Manage\ManagePlayerRequest;
 use App\Models\Eloquent\Player;
 use Illuminate\Http\JsonResponse;
 
@@ -16,7 +16,7 @@ class ManagePlayerController extends Controller
         return response()->json($players);
     }
 
-    public function store(MinecraftPlayerRequest $request): JsonResponse
+    public function store(ManagePlayerRequest $request): JsonResponse
     {
         $player = Player::create($request->validated());
 
@@ -30,7 +30,7 @@ class ManagePlayerController extends Controller
         return response()->json($player);
     }
 
-    public function update(MinecraftPlayerRequest $request, string $id): JsonResponse
+    public function update(ManagePlayerRequest $request, string $id): JsonResponse
     {
         $player = Player::findOrFail($id);
         $player->update($request->validated());

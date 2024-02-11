@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Manage;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BadgeRequest extends FormRequest
+class ManageBadgeRequest extends FormRequest
 {
     public function rules(): array
     {

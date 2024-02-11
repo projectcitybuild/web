@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PlayerWarningRequest;
+use App\Http\Requests\Manage\ManagePlayerWarningRequest;
 use App\Models\Eloquent\PlayerWarning;
 use Illuminate\Http\JsonResponse;
 
@@ -16,7 +16,7 @@ class ManagePlayerWarningController extends Controller
         return response()->json($warnings);
     }
 
-    public function store(PlayerWarningRequest $request): JsonResponse
+    public function store(ManagePlayerWarningRequest $request): JsonResponse
     {
         $warning = PlayerWarning::create($request->validated());
 
@@ -30,7 +30,7 @@ class ManagePlayerWarningController extends Controller
         return response()->json($warning);
     }
 
-    public function update(PlayerWarningRequest $request, string $id): JsonResponse
+    public function update(ManagePlayerWarningRequest $request, string $id): JsonResponse
     {
         $warning = PlayerWarning::findOrFail($id);
         $warning->update($request->validated());
