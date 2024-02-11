@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DonationRequest;
+use App\Http\Requests\Manage\ManageDonationRequest;
 use App\Models\Eloquent\Donation;
 use Illuminate\Http\JsonResponse;
 
@@ -16,7 +16,7 @@ class ManageDonationController extends Controller
         return response()->json($donations);
     }
 
-    public function store(DonationRequest $request): JsonResponse
+    public function store(ManageDonationRequest $request): JsonResponse
     {
         $donation = Donation::create($request->validated());
 
@@ -30,7 +30,7 @@ class ManageDonationController extends Controller
         return response()->json($donation);
     }
 
-    public function update(DonationRequest $request, string $id): JsonResponse
+    public function update(ManageDonationRequest $request, string $id): JsonResponse
     {
         $donation = Donation::findOrFail($id);
         $donation->update($request->validated());

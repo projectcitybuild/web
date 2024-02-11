@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\GroupStoreRequest;
-use App\Http\Requests\GroupUpdateRequest;
+use App\Http\Requests\Manage\ManageGroupStoreRequest;
+use App\Http\Requests\Manage\ManageGroupUpdateRequest;
 use App\Models\Eloquent\Group;
 use Illuminate\Http\JsonResponse;
 
@@ -17,7 +17,7 @@ class ManageGroupController extends Controller
         return response()->json($groups);
     }
 
-    public function store(GroupStoreRequest $request): JsonResponse
+    public function store(ManageGroupStoreRequest $request): JsonResponse
     {
         $group = Group::create($request->validated());
 
@@ -31,7 +31,7 @@ class ManageGroupController extends Controller
         return response()->json($group);
     }
 
-    public function update(GroupUpdateRequest $request, string $id): JsonResponse
+    public function update(ManageGroupUpdateRequest $request, string $id): JsonResponse
     {
         $group = Group::findOrFail($id);
         $group->update($request->validated());

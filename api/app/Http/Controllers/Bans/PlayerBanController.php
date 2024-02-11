@@ -2,52 +2,29 @@
 
 namespace App\Http\Controllers\Bans;
 
+use App\Actions\Bans\CreatePlayerBan;
 use App\Http\Controllers\Controller;
-use App\Models\Eloquent\Player;
-use App\Models\Eloquent\PlayerBan;
-use App\Rules\TimestampPastNow;
+use App\Http\Requests\Bans\PlayerBanStoreRequest;
+use App\Utilities\Traits\HasTimestampInput;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class PlayerBanController extends Controller
 {
-    private const DEFAULT_RELATIONS = ['bannedPlayer', 'bannerPlayer', 'unbannerPlayer'];
+    use HasTimestampInput;
 
-    public function ban(Request $request): JsonResponse
-    {
-        $this->validateRequest($request->all(), [
-            'banned_player_uuid' => ['required', 'uuid'],
-            'banned_player_alias' => 'required|string',
-            'banner_player_uuid' => 'max:60',
-            'banner_player_alias' => 'string',
-            'reason' => 'nullable|string',
-            'expires_at' => ['integer', new TimestampPastNow],
-        ]);
+    public function ban(
+        PlayerBanStoreRequest $request,
+        CreatePlayerBan $createPlayerBan,
+    ): JsonResponse {
+        $validated = $request->safe()->collect();
 
-        // TODO: validate if valid Minecraft UUID (lookup db?)
-
-        $bannerPlayer = Player::where('uuid', $request->get('banner_player_uuid'))->first();
-        if ($bannerPlayer === null) {
-            $bannerPlayer = Player::create(); // TODO
-        }
-
-        $bannedPlayer = Player::where('uuid', $request->get('banned_player_uuid'))->first();
-        if ($bannedPlayer === null) {
-            $bannedPlayer = Player::create(); // TODO
-        }
-
-        $activeBan = PlayerBan::where('banned_player_id', $bannedPlayer->getKey())
-            ->active()
-            ->exists();
-
-        if ($activeBan) {
-            // TODO: return error body
-            return response()->json(['error' => 'todo']);
-        }
-
-        $ban = PlayerBan::create([
-
-        ]);
+        $ban = $createPlayerBan->create(
+            bannedPlayerUUID: $validated->get('banned_player_uuid'),
+            bannedPlayerAlias: $validated->get('banned_player_alias'),
+            bannerPlayerUUID: $validated->get('banner_player_uuid'),
+            reason: $validated->get('reason'),
+            expiresAt: self::timestamp(named: 'expires_at', in: $validated),
+        );
 
         return response()->json($ban);
     }

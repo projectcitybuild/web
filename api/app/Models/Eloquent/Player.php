@@ -3,6 +3,7 @@
 namespace App\Models\Eloquent;
 
 use App\Utilities\Traits\HasStaticTable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,7 +46,7 @@ final class Player extends Model
     public function aliases(): HasMany
     {
         return $this->hasMany(
-            related: MinecraftPlayerAlias::class,
+            related: PlayerAlias::class,
             foreignKey: 'player_minecraft_id',
             localKey: 'player_minecraft_id',
         );
@@ -67,6 +68,11 @@ final class Player extends Model
             foreignKey: 'warned_player_id',
             localKey: 'player_minecraft_id',
         );
+    }
+
+    public function scopeUUID(Builder $query, String $uuid)
+    {
+        $query->where('uuid', $uuid);
     }
 
 //    public function banAppeals()

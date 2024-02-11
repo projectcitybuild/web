@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Manage;
 
-use App\Models\Eloquent\PlayerBan;
 use App\Models\Eloquent\Player;
+use App\Models\Eloquent\PlayerBan;
 use App\Rules\TimestampPastNow;
 use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PlayerBanStoreRequest extends FormRequest
+class ManagePlayerBanStoreRequest extends FormRequest
 {
     public function authorize(): bool
     {

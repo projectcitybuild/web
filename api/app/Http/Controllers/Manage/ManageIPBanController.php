@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PlayerBanStoreRequest;
+use App\Http\Requests\Manage\ManagePlayerBanStoreRequest;
 use App\Models\Eloquent\IPBan;
 use Illuminate\Http\JsonResponse;
 
@@ -19,7 +19,7 @@ class ManageIPBanController extends Controller
         return response()->json($bans);
     }
 
-    public function store(PlayerBanStoreRequest $request): JsonResponse
+    public function store(ManagePlayerBanStoreRequest $request): JsonResponse
     {
         $ban = IPBan::create($request->validated());
         return response()->json($ban);
@@ -33,7 +33,7 @@ class ManageIPBanController extends Controller
         return response()->json($ban);
     }
 
-    public function update(PlayerBanStoreRequest $request, string $id): JsonResponse
+    public function update(ManagePlayerBanStoreRequest $request, string $id): JsonResponse
     {
         $ban = IPBan::findOrFail($id);
         $ban->update($request->validated());

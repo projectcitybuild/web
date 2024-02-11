@@ -1,21 +1,23 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Manage;
 
 use App\Models\Eloquent\Account;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DonationRequest extends FormRequest
+class ManagePlayerRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'account_id' => [
+            'uuid' => [
                 'required',
+                'uuid',
+            ],
+            'account_id' => [
                 'integer',
                 'exists:'.Account::tableName().','.Account::primaryKey(),
             ],
-            'amount' => ['required', 'numeric'],
         ];
     }
 }

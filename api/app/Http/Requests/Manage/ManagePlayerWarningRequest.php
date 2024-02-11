@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Manage;
 
 use App\Models\Eloquent\Player;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PlayerWarningRequest extends FormRequest
+class ManagePlayerWarningRequest extends FormRequest
 {
     public function rules(): array
     {
