@@ -27,18 +27,4 @@ class PlayerBanStoreRequest extends FormRequest
             'expires_at' => ['integer', new TimestampPastNow],
         ];
     }
-
-    public function after(): array
-    {
-        return [
-            function (Validator $validator) {
-                if ($this->somethingElseIsInvalid()) {
-                    $validator->errors()->add(
-                        'field',
-                        'Something is wrong with this field!'
-                    );
-                }
-            }
-        ];
-    }
 }

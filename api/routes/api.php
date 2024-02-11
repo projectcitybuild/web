@@ -29,7 +29,7 @@ Route::middleware('guest')->group(function () {
         ->name("account.update-email.confirm");
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function() {
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::prefix('account')->group(function () {
         Route::get('me', [AccountController::class, 'me']);
         Route::put('password', [UpdatePasswordController::class, 'update'])->middleware('throttle:2,1');
@@ -37,9 +37,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
         Route::patch('username', [UpdateUsernameController::class, 'update']);
         Route::get('donations', [AccountDonationController::class, 'index']);
         Route::post('billing', AccountBillingPortalController::class);
-    });
-    Route::prefix('bans')->group(function () {
-        Route::post('uuid', [PlayerBanController::class, 'ban']);
     });
     Route::prefix('minecraft')->group(function () {
         Route::get('config', [MinecraftConfigController::class]);
@@ -55,4 +52,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
         Route::apiResource('servers', ManageServerController::class);
         Route::apiResource('warnings', ManagePlayerWarningController::class);
     });
+});
+
+// TODO: middleware for application keys
+Route::prefix('bans')->group(function () {
+    Route::post('uuid', [PlayerBanController::class, 'ban']);
 });

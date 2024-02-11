@@ -36,6 +36,11 @@ final class PlayerBan extends Model
         'unbanned_at',
     ];
 
+    public function scopeForPlayer(Builder $query, Player $player)
+    {
+        $query->where('banned_player_id', $player->getKey());
+    }
+
     public function scopeActive(Builder $query)
     {
         $query->whereNull('unbanned_at')

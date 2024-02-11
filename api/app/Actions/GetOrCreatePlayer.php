@@ -9,7 +9,7 @@ class GetOrCreatePlayer
 {
     public function run(String $uuid): Player
     {
-        $player = Player::where('uuid', $uuid)->first();
+        $player = Player::uuid($uuid)->first();
 
         if ($player === null) {
             $player = Player::create(['uuid' => $uuid]);
