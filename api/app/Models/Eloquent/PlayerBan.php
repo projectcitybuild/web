@@ -27,6 +27,7 @@ final class PlayerBan extends Model
         'unbanned_at',
         'unbanner_player_id',
         'unban_type',
+        'unban_reason',
     ];
 
     protected $dates = [

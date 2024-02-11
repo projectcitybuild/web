@@ -56,5 +56,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 // TODO: middleware for application keys
 Route::prefix('bans')->group(function () {
-    Route::post('uuid', [PlayerBanController::class, 'ban']);
+    Route::post('uuid', [PlayerBanController::class, 'store']);
+    Route::delete('uuid', [PlayerBanController::class, 'delete']);
 });

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Events\ShouldDispatchAfterCommit;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class BanCreatedEvent implements ShouldDispatchAfterCommit
+class PlayerBannedEvent implements ShouldDispatchAfterCommit
 {
     use Dispatchable;
     use SerializesModels;
