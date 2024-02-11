@@ -7,6 +7,8 @@ use App\Actions\Bans\CreatePlayerUnban;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Bans\PlayerBanDeleteRequest;
 use App\Http\Requests\Bans\PlayerBanStoreRequest;
+use App\Models\Eloquent\Player;
+use App\Models\Eloquent\PlayerBan;
 use App\Utilities\Traits\HasTimestampInput;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -15,6 +17,16 @@ use Illuminate\Validation\ValidationException;
 class PlayerBanController extends Controller
 {
     use HasTimestampInput;
+
+    public function show(String $uuid): JsonResponse
+    {
+        $player = Player::uuid($uuid)->first();
+        if ($player === null) {
+            return response()->json(null);
+        }
+        $ban = PlayerBan::forPlayer($player)->active()->first();
+        return response()->json($ban);
+    }
 
     public function store(
         PlayerBanStoreRequest $request,
