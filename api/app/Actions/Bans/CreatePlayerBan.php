@@ -4,7 +4,7 @@ namespace App\Actions\Bans;
 
 use App\Actions\GetOrCreatePlayer;
 use App\Models\Eloquent\PlayerBan;
-use App\Models\Events\BanCreatedEvent;
+use App\Models\Events\PlayerBannedEvent;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\ValidationException;
 
@@ -19,8 +19,7 @@ class CreatePlayerBan
         ?String $bannerPlayerUUID,
         ?String $reason = null,
         ?Carbon $expiresAt = null,
-    ): PlayerBan
-    {
+    ): PlayerBan {
         $bannedPlayer = (new GetOrCreatePlayer())
             ->run(uuid: $bannedPlayerUUID);
 
@@ -43,7 +42,7 @@ class CreatePlayerBan
             'expires_at' => $expiresAt,
         ]);
 
-        BanCreatedEvent::dispatch($ban);
+        PlayerBannedEvent::dispatch($ban);
 
         return $ban;
     }

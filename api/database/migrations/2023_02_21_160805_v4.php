@@ -83,6 +83,7 @@ return new class extends Migration
         Schema::table('game_player_bans', function (Blueprint $table) {
             $table->dropColumn('server_id');
             $table->rename('player_bans');
+            $table->text('unban_reason')->after('unban_type')->nullable();
         });
 
         Schema::table('game_ip_bans', function (Blueprint $table) {

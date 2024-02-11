@@ -3,16 +3,20 @@
 namespace App\Http\Controllers\Bans;
 
 use App\Actions\Bans\CreatePlayerBan;
+use App\Actions\Bans\CreatePlayerUnban;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Bans\PlayerBanDeleteRequest;
 use App\Http\Requests\Bans\PlayerBanStoreRequest;
 use App\Utilities\Traits\HasTimestampInput;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
 
 class PlayerBanController extends Controller
 {
     use HasTimestampInput;
 
-    public function ban(
+    public function store(
         PlayerBanStoreRequest $request,
         CreatePlayerBan $createPlayerBan,
     ): JsonResponse {
@@ -23,8 +27,29 @@ class PlayerBanController extends Controller
             bannedPlayerAlias: $validated->get('banned_player_alias'),
             bannerPlayerUUID: $validated->get('banner_player_uuid'),
             reason: $validated->get('reason'),
-            expiresAt: self::timestamp(named: 'expires_at', in: $validated),
+            expiresAt: $this->timestamp(named: 'expires_at', in: $validated),
         );
+
+        return response()->json($ban);
+    }
+
+    public function delete(
+        PlayerBanDeleteRequest $request,
+        CreatePlayerUnban $createPlayerUnban,
+    ): JsonResponse {
+        $validated = $request->safe()->collect();
+
+        try {
+            $ban = $createPlayerUnban->create(
+                bannedPlayerUUID: $validated->get('banned_player_uuid'),
+                unbannerPlayerUUID: $validated->get('unbanner_player_uuid'),
+                reason: $validated->get('reason'),
+            );
+        } catch (ModelNotFoundException) {
+            throw ValidationException::withMessages([
+               'banned_player_uuid' => ['Player is not currently banned'],
+            ]);
+        }
 
         return response()->json($ban);
     }

@@ -9,7 +9,7 @@ use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 
-class PlayerBanStoreRequest extends FormRequest
+class PlayerBanDeleteRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -20,10 +20,8 @@ class PlayerBanStoreRequest extends FormRequest
     {
         return [
             'banned_player_uuid' => ['required', 'uuid'],
-            'banned_player_alias' => 'required|string',
-            'banner_player_uuid' => 'uuid',
+            'unbanner_player_uuid' => ['uuid'],
             'reason' => 'string',
-            'expires_at' => ['integer', new TimestampPastNow],
         ];
     }
 }
