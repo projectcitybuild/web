@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Minecraft;
 
-use App\Http\Controllers\APIController;
+use App\Http\Controllers\Controller;
 use App\Models\Eloquent\Player;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-final class MinecraftPlayerSyncController extends APIController
+final class MinecraftPlayerSyncController extends Controller
 {
     public function __invoke(Request $request, string $uuid): JsonResponse
     {

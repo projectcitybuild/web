@@ -70,7 +70,7 @@ final class Player extends Model
         );
     }
 
-    public function scopeUUID(Builder $query, String $uuid)
+    public function scopeUuid(Builder $query, String $uuid)
     {
         $query->where('uuid', $uuid);
     }
