@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Bans\PlayerBanController;
 use App\Http\Controllers\Manage\ManageBadgeController;
 use App\Http\Controllers\Manage\ManageDonationController;
@@ -20,14 +25,34 @@ use App\Http\Controllers\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Minecraft\MinecraftPlayerSyncController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::middleware('guest')->group(function () {
     Route::post('register', [RegistrationController::class, 'register'])
         ->middleware('throttle:6,1');
 
     Route::get('account/email', [UpdateEmailController::class, 'update'])
         ->name("account.update-email.confirm");
+
+    Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+        ->name('login');
+
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+        ->name('password.email');
+
+    Route::post('/reset-password', [NewPasswordController::class, 'store'])
+        ->name('password.store');
 });
+
+Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
+    ->middleware(['auth', 'signed', 'throttle:6,1'])
+    ->name('verification.verify');
+
+Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+    ->middleware(['auth', 'throttle:6,1'])
+    ->name('verification.send');
+
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('logout');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::prefix('account')->group(function () {

@@ -111,6 +111,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // v4 - Point of no return
+        // Point of no return
     }
 };
