@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\SessionController;
+use App\Http\Controllers\Auth\ResendVerificationEmailController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegistrationController;
@@ -25,27 +25,27 @@ use App\Http\Controllers\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Minecraft\MinecraftPlayerSyncController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('register', [RegistrationController::class, 'register'])
-    ->middleware('throttle:6,1');
-
-Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+Route::post('/login', [SessionController::class, 'store'])
     ->name('login');
 
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+Route::post('/logout', [SessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
-Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+Route::post('register', RegistrationController::class)
+    ->middleware('throttle:6,1');
+
+Route::post('/forgot-password', PasswordResetLinkController::class)
     ->name('password.email');
 
-Route::post('/reset-password', [NewPasswordController::class, 'store'])
+Route::post('/reset-password', NewPasswordController::class)
     ->name('password.store');
 
 Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
     ->middleware(['auth', 'signed', 'throttle:6,1'])
     ->name('verification.verify');
 
-Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+Route::post('/verify-email/resend', ResendVerificationEmailController::class)
     ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.send');
 
