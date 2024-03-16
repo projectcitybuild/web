@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Me;
 use App\Actions\Auth\SendEmailChangeVerification;
 use App\Actions\Auth\UpdateUserEmail;
 use App\Http\Controllers\Controller;
-use App\Rules\EmailValidationRules;
+use App\Models\Rules\EmailValidationRules;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -24,9 +24,8 @@ class UpdateEmailController extends Controller
             'email' => $this->emailRules(),
         ])->validate();
 
-        $account = $request->user();
         $sendEmailChangeVerification->send(
-            account: $account,
+            account: $request->user(),
             newEmailAddress: $request->get('email'),
         );
 

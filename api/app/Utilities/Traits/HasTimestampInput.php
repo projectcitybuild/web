@@ -7,12 +7,11 @@ use Illuminate\Support\Collection;
 
 trait HasTimestampInput
 {
-    public function timestamp(String $named, Collection $in): ?Carbon
+    public static function timestamp(?String $from): ?Carbon
     {
-        $value = $in->get($named);
-        if (! empty($value)) {
-            $value = Carbon::createFromTimestamp($value);
+        if ($from !== null && ! empty($from)) {
+            $from = Carbon::createFromTimestamp($from);
         }
-        return $value;
+        return $from;
     }
 }

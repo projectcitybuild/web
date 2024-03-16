@@ -2,15 +2,16 @@
 
 namespace App\Http\Requests\Bans;
 
-use App\Models\Eloquent\Player;
-use App\Models\Eloquent\PlayerBan;
-use App\Rules\TimestampPastNow;
-use Closure;
+use App\Models\MinecraftUUID;
+use App\Models\Rules\TimestampPastNow;
+use App\Models\Transfers\CreatePlayerBanTransfer;
+use App\Utilities\Traits\HasTimestampInput;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Validator;
 
 class PlayerBanStoreRequest extends FormRequest
 {
+    use HasTimestampInput;
+
     public function authorize(): bool
     {
         return true;
@@ -25,5 +26,20 @@ class PlayerBanStoreRequest extends FormRequest
             'reason' => 'string',
             'expires_at' => ['integer', new TimestampPastNow],
         ];
+    }
+
+    public function playerBan(): CreatePlayerBanTransfer
+    {
+        $validated = $this->safe()->collect();
+
+        return new CreatePlayerBanTransfer(
+            bannedPlayerUUID: new MinecraftUUID($validated->get('banned_player_uuid')),
+            bannedPlayerAlias: $validated->get('banned_player_alias'),
+            bannerPlayerUUID: $validated->has('banner_player_uuid')
+                ? new MinecraftUUID($validated->get('banner_player_uuid'))
+                : null,
+            reason: $validated->get('reason'),
+            expiresAt: self::timestamp(from: $validated->get('expires_at')),
+        );
     }
 }

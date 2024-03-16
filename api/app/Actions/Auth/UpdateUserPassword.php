@@ -3,7 +3,7 @@
 namespace App\Actions\Auth;
 
 use App\Models\Eloquent\Account;
-use App\Rules\PasswordValidationRules;
+use App\Models\Rules\PasswordValidationRules;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\UpdatesUserPasswords;

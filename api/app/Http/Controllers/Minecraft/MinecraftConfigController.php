@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Minecraft;
 
 use App\Http\Controllers\Controller;
-use Entities\Models\Eloquent\Group;
+use App\Models\Eloquent\Group;
 use Illuminate\Http\JsonResponse;
 
 final class MinecraftConfigController extends Controller

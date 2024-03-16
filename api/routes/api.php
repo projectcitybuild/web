@@ -28,11 +28,12 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', [RegistrationController::class, 'register'])
     ->middleware('throttle:6,1');
 
-Route::get('account/email', [UpdateEmailController::class, 'update'])
-    ->name("account.update-email.confirm");
-
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])
     ->name('login');
+
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('logout');
 
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
     ->name('password.email');
@@ -48,22 +49,23 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
     ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.send');
 
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->middleware('auth')
-    ->name('logout');
+Route::get('me/email', [UpdateEmailController::class, 'update'])
+    ->name("account.update-email.confirm");
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::prefix('account')->group(function () {
-        Route::get('me', [AccountController::class, 'me']);
-        Route::put('password', [UpdatePasswordController::class, 'update'])->middleware('throttle:2,1'); // 2 attempts per 1 min
-        Route::post('email', [UpdateEmailController::class, 'store'])->middleware('throttle:2,1');
+    Route::prefix('me')->group(function () {
+        Route::get('/', [AccountController::class, 'me']);
+        Route::put('password', [UpdatePasswordController::class, 'update'])
+            ->middleware('throttle:2,1'); // 2 attempts per 1 min
+        Route::post('email', [UpdateEmailController::class, 'store'])
+            ->middleware('throttle:2,1');
         Route::patch('username', [UpdateUsernameController::class, 'update']);
         Route::get('donations', [AccountDonationController::class, 'index']);
         Route::post('billing', AccountBillingPortalController::class);
     });
     Route::prefix('minecraft')->group(function () {
-        Route::get('config', [MinecraftConfigController::class]);
-        Route::get('player/{uuid}/sync', [MinecraftPlayerSyncController::class]);
+        Route::get('config', MinecraftConfigController::class);
+        Route::get('player/{uuid}/sync', MinecraftPlayerSyncController::class);
     });
     Route::prefix('manage')->group(function () {
         Route::apiResource('bans/players', ManagePlayerBanController::class);
