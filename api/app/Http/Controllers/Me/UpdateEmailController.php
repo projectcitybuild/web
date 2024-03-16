@@ -7,23 +7,18 @@ use App\Actions\Me\UpdateUserEmail;
 use App\Http\Controllers\Controller;
 use App\Models\Rules\EmailValidationRules;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
 class UpdateEmailController extends Controller
 {
     use EmailValidationRules;
 
-    /**
-     * @throws ValidationException
-     */
     public function store(Request $request, SendEmailChangeVerification $sendEmailChangeVerification): JsonResponse
     {
-        Validator::make($request->input(), [
+        $request->validate([
             'email' => $this->emailRules(),
-        ])->validate();
-
+        ]);
         $sendEmailChangeVerification->send(
             account: $request->user(),
             newEmailAddress: $request->get('email'),
@@ -32,11 +27,11 @@ class UpdateEmailController extends Controller
         return response()->json();
     }
 
-    public function update(Request $request, UpdateUserEmail $updateUserEmail)
+    public function update(Request $request, UpdateUserEmail $updateUserEmail): RedirectResponse
     {
         $token = $request->get('token');
         if ($token === null) {
-            return response()->json([], 400);
+            abort(401);
         }
 
         $updateUserEmail->update(token: $token);
