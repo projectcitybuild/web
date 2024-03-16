@@ -65,7 +65,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::post('billing', AccountBillingPortalController::class);
     });
     Route::prefix('2fa')->group(function () {
-        Route::post('enable', [TwoFactorAuthController::class, 'enable']);
+        Route::post('/', [TwoFactorAuthController::class, 'enable']);
+        Route::delete('/', [TwoFactorAuthController::class, 'disable']);
         Route::get('recovery-codes', [TwoFactorAuthController::class, 'recoveryCodes']);
         Route::post('confirm', [TwoFactorAuthController::class, 'confirm']);
         Route::get('qr', [TwoFactorAuthController::class, 'qrCode']);

@@ -21,6 +21,17 @@ class TwoFactorAuthController extends Controller
         return response()->json();
     }
 
+    public function disable(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        $user->two_factor_secret = null;
+        $user->two_factor_recovery_codes = null;
+        $user->two_factor_confirmed_at = null;
+        $user->save();
+
+        return response()->json();
+    }
+
     public function recoveryCodes(Request $request, TwoFactorAuth $twoFactorAuth): JsonResponse
     {
         $user = $request->user();
