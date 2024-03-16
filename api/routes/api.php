@@ -25,22 +25,20 @@ use App\Http\Controllers\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Minecraft\MinecraftPlayerSyncController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('guest')->group(function () {
-    Route::post('register', [RegistrationController::class, 'register'])
-        ->middleware('throttle:6,1');
+Route::post('register', [RegistrationController::class, 'register'])
+    ->middleware('throttle:6,1');
 
-    Route::get('account/email', [UpdateEmailController::class, 'update'])
-        ->name("account.update-email.confirm");
+Route::get('account/email', [UpdateEmailController::class, 'update'])
+    ->name("account.update-email.confirm");
 
-    Route::post('/login', [AuthenticatedSessionController::class, 'store'])
-        ->name('login');
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+    ->name('login');
 
-    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
-        ->name('password.email');
+Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+    ->name('password.email');
 
-    Route::post('/reset-password', [NewPasswordController::class, 'store'])
-        ->name('password.store');
-});
+Route::post('/reset-password', [NewPasswordController::class, 'store'])
+    ->name('password.store');
 
 Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
     ->middleware(['auth', 'signed', 'throttle:6,1'])
