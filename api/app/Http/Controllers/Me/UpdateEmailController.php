@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Me;
 
 use App\Actions\Auth\SendEmailChangeVerification;
-use App\Actions\Auth\UpdateUserEmail;
+use App\Actions\Me\UpdateUserEmail;
 use App\Http\Controllers\Controller;
 use App\Models\Rules\EmailValidationRules;
 use Illuminate\Http\JsonResponse;

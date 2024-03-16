@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Auth;
+namespace App\Actions\Me;
 
 use App\Models\Eloquent\AccountEmailChange;
 use Exception;

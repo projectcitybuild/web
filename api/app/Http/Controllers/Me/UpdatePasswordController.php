@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers\Me;
 
-use App\Actions\Auth\UpdateUserPassword;
+use App\Actions\Me\UpdateUserPassword;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Me\UpdatePasswordRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class UpdatePasswordController extends Controller
 {
-    public function update(Request $request, UpdateUserPassword $updater): JsonResponse
+    public function update(UpdatePasswordRequest $request, UpdateUserPassword $updatePassword): JsonResponse
     {
-        $updater->update(
+        $validated = $request->safe()->collect();
+
+        $updatePassword->update(
             user: $request->user(),
-            input: $request->all(),
+            newPassword: $validated->get('password'),
         );
+
         return response()->json();
     }
 }

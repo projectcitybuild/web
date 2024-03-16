@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Bans;
 use App\Actions\Bans\CreatePlayerBan;
 use App\Actions\Bans\CreatePlayerUnban;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Bans\PlayerBanDeleteRequest;
+use App\Http\Requests\Bans\UpdatePasswordRequest;
 use App\Http\Requests\Bans\PlayerBanStoreRequest;
 use App\Models\Transfers\CreatePlayerBanTransfer;
 use App\Models\Eloquent\Player;
@@ -38,8 +38,8 @@ class PlayerBanController extends Controller
     }
 
     public function delete(
-        PlayerBanDeleteRequest $request,
-        CreatePlayerUnban $createPlayerUnban,
+        UpdatePasswordRequest $request,
+        CreatePlayerUnban     $createPlayerUnban,
     ): JsonResponse {
         try {
             $ban = $createPlayerUnban->create($request->playerUnban());
