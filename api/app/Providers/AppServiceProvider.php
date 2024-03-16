@@ -11,12 +11,21 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use RobThree\Auth\Algorithm;
+use RobThree\Auth\Providers\Qr\EndroidQrCodeProvider;
+use RobThree\Auth\TwoFactorAuth;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        $this->app->bind(TwoFactorAuth::class, function ($app) {
+            return new TwoFactorAuth(
+                issuer: "Project City Build",
+                algorithm: Algorithm::Sha512,
+                qrcodeprovider: new EndroidQrCodeProvider()
+            );
+        });
     }
 
     public function boot(): void

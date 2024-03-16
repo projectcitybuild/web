@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\ResendVerificationEmailController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\Auth\TwoFactorAuthController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Bans\PlayerBanController;
 use App\Http\Controllers\Manage\ManageBadgeController;
@@ -62,6 +63,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::patch('username', [UpdateUsernameController::class, 'update']);
         Route::get('donations', [AccountDonationController::class, 'index']);
         Route::post('billing', AccountBillingPortalController::class);
+    });
+    Route::prefix('2fa')->group(function () {
+        Route::post('enable', [TwoFactorAuthController::class, 'enable']);
+        Route::get('recovery-codes', [TwoFactorAuthController::class, 'recoveryCodes']);
+        Route::post('confirm', [TwoFactorAuthController::class, 'confirm']);
+        Route::get('qr', [TwoFactorAuthController::class, 'qrCode']);
     });
     Route::prefix('minecraft')->group(function () {
         Route::get('config', MinecraftConfigController::class);
