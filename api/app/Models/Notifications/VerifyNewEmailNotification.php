@@ -3,10 +3,11 @@
 namespace App\Models\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-final class VerifyNewEmailNotification extends Notification
+final class VerifyNewEmailNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 

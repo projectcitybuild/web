@@ -3,6 +3,7 @@
 namespace App\Actions\Bans;
 
 use App\Actions\GetOrCreatePlayer;
+use App\Models\Transfers\CreatePlayerBanTransfer;
 use App\Models\Eloquent\PlayerBan;
 use App\Models\Events\PlayerBannedEvent;
 use Illuminate\Support\Carbon;
@@ -13,15 +14,9 @@ class CreatePlayerBan
     /**
      * @throws ValidationException if $bannerPlayerUUID is already banned
      */
-    public function create(
-        String $bannedPlayerUUID,
-        String $bannedPlayerAlias,
-        ?String $bannerPlayerUUID,
-        ?String $reason = null,
-        ?Carbon $expiresAt = null,
-    ): PlayerBan {
+    public function create(CreatePlayerBanTransfer $input): PlayerBan {
         $bannedPlayer = (new GetOrCreatePlayer())
-            ->run(uuid: $bannedPlayerUUID);
+            ->run(uuid: $input->bannedPlayerUUID);
 
         $activeBan = PlayerBan::forPlayer($bannedPlayer)->active();
         if ($activeBan->exists()) {
@@ -30,16 +25,16 @@ class CreatePlayerBan
             ]);
         }
 
-        $bannerPlayer = (! empty($bannerPlayerUUID))
-            ? (new GetOrCreatePlayer())->run(uuid: $bannerPlayerUUID)
+        $bannerPlayer = ($input->bannerPlayerUUID != null)
+            ? (new GetOrCreatePlayer())->run(uuid: $input->bannerPlayerUUID)
             : null;
 
         $ban = PlayerBan::create([
             'banned_player_id' => $bannedPlayer->getKey(),
-            'banned_alias_at_time' => $bannedPlayerAlias,
+            'banned_alias_at_time' => $input->bannedPlayerAlias,
             'banner_player_id' => $bannerPlayer?->getKey(),
-            'reason' => empty($reason) ? null : $reason,
-            'expires_at' => $expiresAt,
+            'reason' => empty($input->reason) ? null : $input->reason,
+            'expires_at' => $input->expiresAt,
         ]);
 
         PlayerBannedEvent::dispatch($ban);

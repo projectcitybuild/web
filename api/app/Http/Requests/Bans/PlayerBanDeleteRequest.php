@@ -2,12 +2,9 @@
 
 namespace App\Http\Requests\Bans;
 
-use App\Models\Eloquent\Player;
-use App\Models\Eloquent\PlayerBan;
-use App\Rules\TimestampPastNow;
-use Closure;
+use App\Models\MinecraftUUID;
+use App\Models\Transfers\CreatePlayerUnbanTransfer;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Validator;
 
 class PlayerBanDeleteRequest extends FormRequest
 {
@@ -23,5 +20,18 @@ class PlayerBanDeleteRequest extends FormRequest
             'unbanner_player_uuid' => ['uuid'],
             'reason' => 'string',
         ];
+    }
+
+    public function playerUnban(): CreatePlayerUnbanTransfer
+    {
+        $validated = $this->safe()->collect();
+
+        return new CreatePlayerUnbanTransfer(
+            bannedPlayerUUID: new MinecraftUUID($validated->get('banned_player_uuid')),
+            unbannerPlayerUUID: $validated->has('unbanner_player_uuid')
+                ? new MinecraftUUID($validated->get('unbanner_player_uuid'))
+                : null,
+            reason: $validated->get('reason'),
+        );
     }
 }
