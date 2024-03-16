@@ -22,6 +22,7 @@ class ManagePlayerBanController extends Controller
     public function store(ManagePlayerBanStoreRequest $request): JsonResponse
     {
         $ban = PlayerBan::create($request->validated());
+
         return response()->json($ban);
     }
 
