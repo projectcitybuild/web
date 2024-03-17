@@ -31,13 +31,14 @@ class AccountFactory extends Factory
             'activated' => true,
             'last_login_ip' => $this->faker->ipv4,
             'last_login_at' => $this->faker->dateTimeBetween('-180days', '-1hours'),
+            'email_verified_at' => $this->faker->dateTime(),
         ];
     }
 
     /**
      * Sets the password to the string 'password' unhashed.
      *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * @return Factory
      */
     public function passwordHashed()
     {
@@ -51,13 +52,43 @@ class AccountFactory extends Factory
     /**
      * Deactivates the account.
      *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * @return Factory
      */
     public function unactivated()
     {
         return $this->state(function (array $attributes) {
             return [
                 'activated' => false,
+            ];
+        });
+    }
+
+    /**
+     * Account has enabled 2FA (but hasn't verified it)
+     *
+     * @return Factory
+     */
+    public function enabled2FA()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'two_factor_secret' => 'secret',
+            ];
+        });
+    }
+
+    /**
+     * Account has enabled 2FA (but hasn't verified it)
+     *
+     * @return Factory
+     */
+    public function verified2FA()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'two_factor_secret' => 'secret',
+                'two_factor_recovery_codes' => 'codes',
+                'two_factor_confirmed_at' => $this->faker->dateTime(),
             ];
         });
     }

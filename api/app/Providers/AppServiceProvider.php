@@ -11,12 +11,25 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use RobThree\Auth\Algorithm;
+use RobThree\Auth\Providers\Qr\EndroidQrCodeProvider;
+use RobThree\Auth\Providers\Qr\IQRCodeProvider;
+use RobThree\Auth\TwoFactorAuth;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        $this->app->bind(IQRCodeProvider::class, function ($app) {
+            return new EndroidQrCodeProvider();
+        });
+        $this->app->bind(TwoFactorAuth::class, function ($app) {
+            return new TwoFactorAuth(
+                issuer: "Project City Build",
+                algorithm: Algorithm::Sha512,
+                qrcodeprovider: $app->make(IQRCodeProvider::class),
+            );
+        });
     }
 
     public function boot(): void
@@ -42,17 +55,25 @@ class AppServiceProvider extends ServiceProvider
     private function registerRateLimiters()
     {
         RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+            return Limit::perMinute(60)
+                ->by($request->user()?->id ?: $request->ip());
         });
 
         RateLimiter::for('login', function (Request $request) {
             $email = (string) $request->email;
 
-            return Limit::perMinute(5)->by($email.$request->ip());
+            return Limit::perMinute(5)
+                ->by($email.$request->ip());
         });
 
         RateLimiter::for('two-factor', function (Request $request) {
-            return Limit::perMinute(5)->by($request->session()->get('login.id'));
+            return Limit::perMinute(5)
+                ->by($request->user()->getKey());
+        });
+
+        RateLimiter::for('password-confirm', function (Request $request) {
+            return Limit::perMinute(5)
+                ->by($request->user()->getKey());
         });
     }
 }

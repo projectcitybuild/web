@@ -45,6 +45,11 @@ return new class extends Migration
             $table->timestamp('password_changed_at')
                 ->nullable()
                 ->after('last_login_at');
+
+            $table->dropColumn('is_totp_enabled');
+            $table->dropColumn('totp_last_used');
+            $table->dropColumn('totp_backup_code');
+            $table->dropColumn('totp_secret');
         });
 
         Schema::drop('personal_access_tokens');
