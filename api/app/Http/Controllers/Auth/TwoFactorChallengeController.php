@@ -22,7 +22,7 @@ class TwoFactorChallengeController extends Controller
            'code' => ['required', 'string'],
         ]);
         $isValid = $twoFactorAuth->verifyCode(
-            secret: $user->two_factor_secret,
+            secret: decrypt($user->two_factor_secret),
             code: $request->get('code'),
         );
 

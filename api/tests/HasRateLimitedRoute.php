@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\RateLimiter;
 
 trait HasRateLimitedRoute
 {
-    protected function hitRateLimit(String $name)
+    protected function hitRateLimit(String $name): void
     {
         RateLimiter::increment($this->getRateLimitKey($name), amount: PHP_INT_MAX);
     }
 
-    protected function resetRateLimit(String $name)
+    protected function resetRateLimit(String $name): void
     {
         RateLimiter::clear($this->getRateLimitKey($name));
     }
