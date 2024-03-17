@@ -14,18 +14,11 @@ jobs:
       mariadb:
         image: mariadb:10.3
         env:
-          MYSQL_DATABASE: testing
-          MYSQL_USER: root
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: test
+          MYSQL_ROOT_PASSWORD: password
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=5s --health-retries=3
-
-    env:
-      DB_HOST: 127.0.0.1
-      MYSQL_DATABASE: testing
-      MYSQL_USER: root
-      MYSQL_ROOT_PASSWORD: root
 
     steps:
       - uses: actions/checkout@v4
@@ -41,10 +34,18 @@ jobs:
         working-directory: api
         run: composer install --prefer-dist --ignore-platform-reqs --no-interaction
 
-      - name: Prepare Laravel
+      - name: Prepare .env file
         working-directory: api
         run: |
           cp .env.example .env
+          echo "MYSQL_DATABASE=test" >> .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_USERNAME=root" >> .env
+          echo "DB_PASSWORD=password" >> .env
+
+      - name: Prepare Laravel
+        working-directory: api
+        run: |
           php artisan key:generate
           chmod -R 755 storage bootstrap/cache
 
