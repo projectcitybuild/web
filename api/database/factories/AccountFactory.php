@@ -31,6 +31,7 @@ class AccountFactory extends Factory
             'activated' => true,
             'last_login_ip' => $this->faker->ipv4,
             'last_login_at' => $this->faker->dateTimeBetween('-180days', '-1hours'),
+            'email_verified_at' => $this->faker->dateTime(),
         ];
     }
 

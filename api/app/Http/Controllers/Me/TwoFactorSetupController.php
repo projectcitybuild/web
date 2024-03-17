@@ -56,7 +56,7 @@ class TwoFactorSetupController extends Controller
         ]);
         if (! Hash::check($request->get('password'), $user->password)) {
             // TODO: rate limit this !!!
-            throw new UnauthorizedException('Invalid password');
+            abort(401, 'Invalid password');
         }
 
         $user->two_factor_secret = null;
