@@ -71,10 +71,9 @@ class TwoFactorSetupController extends Controller
      * Generates a fresh set of recovery codes for the current user
      *
      * @param Request $request
-     * @param TwoFactorAuth $twoFactorAuth
      * @return JsonResponse
      */
-    public function recoveryCodes(Request $request, TwoFactorAuth $twoFactorAuth): JsonResponse
+    public function recoveryCodes(Request $request): JsonResponse
     {
         $user = $request->user();
 

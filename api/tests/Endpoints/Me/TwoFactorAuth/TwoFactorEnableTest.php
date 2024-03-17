@@ -21,9 +21,10 @@ class TwoFactorEnableTest extends TestCase
 
     public function test_throws_if_already_enabled()
     {
-        $user = Account::factory()->create([
-            'two_factor_secret' => 'secret',
-        ]);
+        $user = Account::factory()
+            ->enabled2FA()
+            ->create();
+
         $this->actingAs($user)
             ->json(method: self::METHOD, uri: self::ENDPOINT)
             ->assertStatus(400);

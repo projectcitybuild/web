@@ -3,6 +3,7 @@
 namespace Tests\Endpoints\Me\TwoFactorAuth;
 
 use App\Models\Eloquent\Account;
+use Database\Factories\AccountFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
@@ -33,12 +34,10 @@ class TwoFactorDisableTest extends TestCase
 
     public function test_throws_if_incorrect_password()
     {
-        $user = Account::factory()->create([
-            'password' => Hash::make('password'),
-            'two_factor_secret' => 'secret',
-            'two_factor_recovery_codes' => 'codes',
-            'two_factor_confirmed_at' => now(),
-        ]);
+        $user = Account::factory()
+            ->passwordHashed()
+            ->verified2FA()
+            ->create();
 
         $this->actingAs($user)
             ->json(method: self::METHOD, uri: self::ENDPOINT, data: [
@@ -49,12 +48,10 @@ class TwoFactorDisableTest extends TestCase
 
     public function test_deletes_2fa_data()
     {
-        $user = Account::factory()->create([
-            'password' => Hash::make('password'),
-            'two_factor_secret' => 'secret',
-            'two_factor_recovery_codes' => 'codes',
-            'two_factor_confirmed_at' => now(),
-        ]);
+        $user = Account::factory()
+            ->passwordHashed()
+            ->verified2FA()
+            ->create();
 
         $this->assertNotNull($user->two_factor_secret);
         $this->assertNotNull($user->two_factor_recovery_codes);
@@ -62,7 +59,7 @@ class TwoFactorDisableTest extends TestCase
 
         $this->actingAs($user)
             ->json(method: self::METHOD, uri: self::ENDPOINT, data: [
-                'password' => 'password',
+                'password' => AccountFactory::UNHASHED_PASSWORD,
             ])
             ->assertStatus(200);
 
