@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Me;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\TwoFactorDisableRequest;
+use App\Http\Requests\Me\TwoFactorConfirmRequest;
+use App\Http\Requests\Me\TwoFactorDisableRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use RobThree\Auth\TwoFactorAuth;
@@ -86,28 +86,20 @@ class TwoFactorSetupController extends Controller
      * Completes 2FA setup for the current user (provided that they can give us
      * a valid 2FA code)
      *
-     * @param Request $request
+     * @param TwoFactorConfirmRequest $request
      * @param TwoFactorAuth $twoFactorAuth
      * @return JsonResponse
      * @throws ValidationException
      */
-    public function confirm(Request $request, TwoFactorAuth $twoFactorAuth): JsonResponse
+    public function confirm(TwoFactorConfirmRequest $request, TwoFactorAuth $twoFactorAuth): JsonResponse
     {
+        $validated = $request->validated();
+
         $user = $request->user();
 
-        if ($user->two_factor_secret === null) {
-            abort(400, 'Two Factor Authentication must be enabled first');
-        }
-        if ($user->two_factor_confirmed_at !== null) {
-            abort(409, 'Two Factor Authentication has already been confirmed');
-        }
-
-        $request->validate([
-           'code' => ['required', 'string'],
-        ]);
         $isValid = $twoFactorAuth->verifyCode(
             secret: decrypt($user->two_factor_secret),
-            code: $request->get('code'),
+            code: $validated['code'],
         );
         if (! $isValid) {
             throw ValidationException::withMessages([

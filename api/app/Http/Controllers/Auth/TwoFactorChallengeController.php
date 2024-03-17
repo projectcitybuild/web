@@ -3,27 +3,22 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\TwoFactorChallengeRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use RobThree\Auth\TwoFactorAuth;
 
 class TwoFactorChallengeController extends Controller
 {
-    public function __invoke(Request $request, TwoFactorAuth $twoFactorAuth): JsonResponse
+    public function __invoke(TwoFactorChallengeRequest $request, TwoFactorAuth $twoFactorAuth): JsonResponse
     {
+        $validated = $request->validated();
+
         $user = $request->user();
 
-        if (! $user->isTwoFactorEnabled()) {
-            abort(400, 'Two Factor Authentication is not setup');
-        }
-
-        $request->validate([
-           'code' => ['required', 'string'],
-        ]);
         $isValid = $twoFactorAuth->verifyCode(
             secret: decrypt($user->two_factor_secret),
-            code: $request->get('code'),
+            code: $validated['code'],
         );
 
         if (! $isValid) {

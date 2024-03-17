@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Me;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
-class TwoFactorDisableRequest extends FormRequest
+class TwoFactorConfirmRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -17,7 +16,7 @@ class TwoFactorDisableRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => 'required',
+            'code' => 'required',
         ];
     }
 
@@ -31,18 +30,18 @@ class TwoFactorDisableRequest extends FormRequest
                 if ($this->user()->two_factor_secret === null) {
                     $validator->errors()->add(
                         '2fa',
-                        'Two Factor Authentication is already disabled'
+                        'Two Factor Authentication is not enabled'
                     );
                 }
             },
             function (Validator $validator) {
-                if (! Hash::check($this->get('password'), $this->user()->password)) {
+                if ($this->user()->two_factor_confirmed_at !== null) {
                     $validator->errors()->add(
-                        'password',
-                        'Incorrect password'
+                        '2fa',
+                        'Two Factor Authentication is already confirmed'
                     );
                 }
-            }
+            },
         ];
     }
 }

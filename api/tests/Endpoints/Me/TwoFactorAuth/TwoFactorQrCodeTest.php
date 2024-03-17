@@ -51,7 +51,6 @@ class TwoFactorQrCodeTest extends TestCase
 
         $this->actingAs($user)
             ->json(method: self::METHOD, uri: self::ENDPOINT)
-            ->dump()
             ->assertStatus(200)
             ->assertJson([
               'qr' => 'data:image/png;base64,'.base64_encode($imageData),
