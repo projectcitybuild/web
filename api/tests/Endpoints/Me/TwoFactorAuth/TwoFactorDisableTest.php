@@ -6,6 +6,7 @@ use App\Models\Eloquent\Account;
 use Database\Factories\AccountFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
 use Tests\TestCase;
 
 class TwoFactorDisableTest extends TestCase
@@ -28,8 +29,11 @@ class TwoFactorDisableTest extends TestCase
         $this->assertNull($user->two_factor_secret);
 
         $this->actingAs($user)
-            ->json(method: self::METHOD, uri: self::ENDPOINT)
-            ->assertStatus(400);
+            ->json(method: self::METHOD, uri: self::ENDPOINT, data: [
+                'password' => 'password',
+            ])
+            ->assertJsonValidationErrorFor('2fa')
+            ->assertStatus(422);
     }
 
     public function test_throws_if_incorrect_password()
@@ -43,7 +47,26 @@ class TwoFactorDisableTest extends TestCase
             ->json(method: self::METHOD, uri: self::ENDPOINT, data: [
                 'password' => 'invalid',
             ])
-            ->assertStatus(401);
+            ->assertJsonValidationErrorFor('password')
+            ->assertStatus(422);
+    }
+
+    public function test_is_rate_limited()
+    {
+        $user = Account::factory()
+            ->passwordHashed()
+            ->verified2FA()
+            ->create();
+
+        RateLimiter::increment('login', amount: 100);
+
+        $this->actingAs($user)
+            ->json(method: self::METHOD, uri: self::ENDPOINT, data: [
+                'password' => 'invalid',
+            ])
+            ->assertStatus(429);
+
+        RateLimiter::resetAttempts('login');
     }
 
     public function test_deletes_2fa_data()

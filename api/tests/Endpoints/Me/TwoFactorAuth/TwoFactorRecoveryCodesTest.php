@@ -53,7 +53,6 @@ class TwoFactorRecoveryCodesTest extends TestCase
 
         $this->actingAs($user)
             ->json(method: self::METHOD, uri: self::ENDPOINT)
-            ->dump()
             ->assertStatus(200)
             ->assertJson([
               'recovery_codes' => [

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Me;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\TwoFactorDisableRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
 use RobThree\Auth\TwoFactorAuth;
 use RobThree\Auth\TwoFactorAuthException;
@@ -43,21 +43,12 @@ class TwoFactorSetupController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function disable(Request $request): JsonResponse
+    public function disable(TwoFactorDisableRequest $request): JsonResponse
     {
         $user = $request->user();
 
-        if ($user->two_factor_secret === null) {
-            abort(400, 'Two Factor Authentication is already disabled');
-        }
-
-        $request->validate([
-           'password' => 'required',
-        ]);
-        if (! Hash::check($request->get('password'), $user->password)) {
-            // TODO: rate limit this !!!
-            abort(401, 'Invalid password');
-        }
+        $request->validated();
+        $request->authenticate();
 
         $user->two_factor_secret = null;
         $user->two_factor_recovery_codes = null;
