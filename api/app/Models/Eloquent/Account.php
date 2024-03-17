@@ -2,9 +2,11 @@
 
 namespace App\Models\Eloquent;
 
+use App\Models\MinecraftUUID;
 use App\Utilities\Traits\HasStaticTable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -55,30 +57,27 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
         'two_factor_confirmed_at',
     ];
 
-    protected $appends = [
-        'avatarUrl',
-    ];
-
     protected $casts = [
         'is_totp_enabled' => 'boolean',
     ];
 
-    // Attributes
-
-    public function getAvatarUrlAttribute(): ?string
+    public function avatarUrl(): Attribute
     {
-        $player = $this->minecraftPlayer;
-        if ($player !== null) {
-            return "https://minotar.net/avatar/".$player->dashStrippedUuid();
-        }
-        if ($this->username !== null) {
-            $name = str_replace(search: " ", replace: "+", subject: $this->username);
-            return "https://ui-avatars.com/api/?name=".$name;
-        }
-        return null;
+        return Attribute::make(
+            get: function () {
+                $player = $this->minecraftPlayer;
+                if ($player !== null) {
+                    $uuid = new MinecraftUUID($player->uuid);
+                    return "https://minotar.net/avatar/".$uuid->trimmed();
+                }
+                if ($this->username !== null) {
+                    $name = str_replace(search: " ", replace: "+", subject: $this->username);
+                    return "https://ui-avatars.com/api/?name=".$name;
+                }
+                return null;
+            }
+        );
     }
-
-    // Relations
 
     public function minecraftPlayer(): BelongsTo
     {

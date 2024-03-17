@@ -2,6 +2,7 @@
 
 namespace App\Models\Eloquent;
 
+use App\Models\MinecraftUUID;
 use App\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,8 +25,6 @@ final class Player extends Model
         'last_synced_at',
         'last_seen_at',
     ];
-
-    protected $hidden = [];
 
     protected $dates = [
         'created_at',
@@ -74,28 +73,4 @@ final class Player extends Model
     {
         $query->where('uuid', $uuid);
     }
-
-//    public function banAppeals()
-//    {
-//        // We have to do this because game bans are a polymorphic relationship, but this is just what
-//        // HasManyThrough does internally anyway..
-//        return BanAppeal::whereIn('game_ban_id', $this->gamePlayerBans()->pluck('id'));
-//    }
-
-//    /**
-//     * Update the last seen at time of the player to now.
-//     */
-//    public function touchLastSyncedAt(): bool
-//    {
-//        $this->last_synced_at = $this->freshTimestamp();
-//
-//        return $this->save();
-//    }
-//
-//    public function hasAlias(string $alias): bool
-//    {
-//        return $this->aliases
-//            ->where('alias', $alias)
-//            ->isNotEmpty();
-//    }
 }
