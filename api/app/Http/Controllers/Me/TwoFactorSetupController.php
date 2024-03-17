@@ -6,15 +6,23 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
 use RobThree\Auth\TwoFactorAuth;
+use RobThree\Auth\TwoFactorAuthException;
 
 class TwoFactorSetupController extends Controller
 {
+    /**
+     * Enables 2FA for the current user by generating them a 2FA secret
+     *
+     * @param Request $request
+     * @param TwoFactorAuth $twoFactorAuth
+     * @return JsonResponse
+     * @throws TwoFactorAuthException
+     */
     public function enable(Request $request, TwoFactorAuth $twoFactorAuth): JsonResponse
     {
         $user = $request->user();
@@ -23,12 +31,18 @@ class TwoFactorSetupController extends Controller
             abort(400, 'Two Factor Authentication is already enabled');
         }
 
-        $user->two_factor_secret = $twoFactorAuth->createSecret();
+        $user->two_factor_secret = encrypt($twoFactorAuth->createSecret());
         $user->save();
 
         return response()->json();
     }
 
+    /**
+     * Disables 2FA for the current user (provided that they can authorize it)
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function disable(Request $request): JsonResponse
     {
         $user = $request->user();
@@ -40,11 +54,7 @@ class TwoFactorSetupController extends Controller
         $request->validate([
            'password' => 'required',
         ]);
-        $credentials = [
-            'email' => $user->email,
-            'password' => $request->get('password'),
-        ];
-        if (! Auth::validate($credentials)) {
+        if (! Hash::check($request->get('password'), $user->password)) {
             // TODO: rate limit this !!!
             throw new UnauthorizedException('Invalid password');
         }
@@ -57,6 +67,13 @@ class TwoFactorSetupController extends Controller
         return response()->json();
     }
 
+    /**
+     * Generates a fresh set of recovery codes for the current user
+     *
+     * @param Request $request
+     * @param TwoFactorAuth $twoFactorAuth
+     * @return JsonResponse
+     */
     public function recoveryCodes(Request $request, TwoFactorAuth $twoFactorAuth): JsonResponse
     {
         $user = $request->user();
@@ -76,6 +93,15 @@ class TwoFactorSetupController extends Controller
         ]);
     }
 
+    /**
+     * Completes 2FA setup for the current user (provided that they can give us
+     * a valid 2FA code)
+     *
+     * @param Request $request
+     * @param TwoFactorAuth $twoFactorAuth
+     * @return JsonResponse
+     * @throws ValidationException
+     */
     public function confirm(Request $request, TwoFactorAuth $twoFactorAuth): JsonResponse
     {
         $user = $request->user();
@@ -91,7 +117,7 @@ class TwoFactorSetupController extends Controller
            'code' => ['required', 'string'],
         ]);
         $isValid = $twoFactorAuth->verifyCode(
-            secret: $user->two_factor_secret,
+            secret: decrypt($user->two_factor_secret),
             code: $request->get('code'),
         );
         if (! $isValid) {
@@ -106,6 +132,15 @@ class TwoFactorSetupController extends Controller
         return response()->json();
     }
 
+    /**
+     * Returns image data to display a QR code. The QR code can be scanned by
+     * the user in their 2FA app of choice to start generating 2FA codes.
+     *
+     * @param Request $request
+     * @param TwoFactorAuth $twoFactorAuth
+     * @return JsonResponse
+     * @throws TwoFactorAuthException
+     */
     public function qrCode(Request $request, TwoFactorAuth $twoFactorAuth): JsonResponse
     {
         $user = $request->user();
@@ -113,10 +148,11 @@ class TwoFactorSetupController extends Controller
         if ($user->two_factor_secret === null) {
             abort(400, 'Two Factor Authentication must be enabled first');
         }
-
-        // TODO: what is the label for?
         return response()->json([
-            'qr' => $twoFactorAuth->getQRCodeImageAsDataUri($user->username, secret: $user->two_factor_secret),
+            'qr' => $twoFactorAuth->getQRCodeImageAsDataUri(
+                label: $user->username,
+                secret: decrypt($user->two_factor_secret),
+            ),
         ]);
     }
 }
