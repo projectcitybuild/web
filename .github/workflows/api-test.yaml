@@ -37,7 +37,7 @@ jobs:
 
       - name: Prepare .env file
         working-directory: api
-        run: cp .env.example .
+        run: cp .env.example .env
 
       - name: Prepare Laravel
         working-directory: api
