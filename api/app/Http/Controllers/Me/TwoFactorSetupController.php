@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Me;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
 use RobThree\Auth\TwoFactorAuth;
@@ -63,16 +65,14 @@ class TwoFactorSetupController extends Controller
             abort(400, 'Two Factor Authentication must be enabled first');
         }
 
-        $code = Hash::make(
-        // TODO: replace this with a random token?
-            $twoFactorAuth->getCode(secret: $user->two_factor_secret),
-        );
+        $generator = fn () => Str::random(10).'-'.Str::random(10);
+        $codes = Collection::times(8, $generator)->all();
 
-        $user->two_factor_recovery_codes = $code;
+        $user->two_factor_recovery_codes = encrypt(json_encode($codes));
         $user->save();
 
         return response()->json([
-            'recovery_codes' => [$code],
+            'recovery_codes' => $codes,
         ]);
     }
 
