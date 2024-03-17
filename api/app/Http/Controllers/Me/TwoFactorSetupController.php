@@ -48,7 +48,6 @@ class TwoFactorSetupController extends Controller
         $user = $request->user();
 
         $request->validated();
-        $request->authenticate();
 
         $user->two_factor_secret = null;
         $user->two_factor_recovery_codes = null;

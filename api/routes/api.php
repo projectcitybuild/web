@@ -52,7 +52,8 @@ Route::get('me/email', [UpdateEmailController::class, 'update'])
     ->name("account.update-email.confirm");
 
 Route::prefix('2fa')->group(function () {
-    Route::post('challenge', TwoFactorChallengeController::class);
+    Route::post('challenge', TwoFactorChallengeController::class)
+        ->middleware('throttle:two-factor');
     Route::post('recovery', TwoFactorRecoveryController::class);
 });
 
@@ -69,10 +70,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
         Route::prefix('2fa')->group(function () {
             Route::post('/', [TwoFactorSetupController::class, 'enable']);
-            Route::delete('/', [TwoFactorSetupController::class, 'disable']);
+            Route::delete('/', [TwoFactorSetupController::class, 'disable'])
+                ->middleware('throttle:password-confirm');
             Route::get('recovery-codes', [TwoFactorSetupController::class, 'recoveryCodes']);
             Route::post('confirm', [TwoFactorSetupController::class, 'confirm']);
-            Route::get('qr', [TwoFactorSetupController::class, 'qrCode']);
+            Route::get('qr', [TwoFactorSetupController::class, 'qrCode'])
+                ->middleware('throttle:2,1');
         });
     });
     Route::prefix('minecraft')->group(function () {

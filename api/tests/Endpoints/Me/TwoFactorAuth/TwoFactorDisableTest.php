@@ -5,13 +5,13 @@ namespace Tests\Endpoints\Me\TwoFactorAuth;
 use App\Models\Eloquent\Account;
 use Database\Factories\AccountFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\RateLimiter;
+use Tests\HasRateLimitedRoute;
 use Tests\TestCase;
 
 class TwoFactorDisableTest extends TestCase
 {
     use RefreshDatabase;
+    use HasRateLimitedRoute;
 
     private const ENDPOINT = 'api/me/2fa';
     private const METHOD = 'DELETE';
@@ -24,7 +24,9 @@ class TwoFactorDisableTest extends TestCase
 
     public function test_throws_if_2fa_not_enabled()
     {
-        $user = Account::factory()->create();
+        $user = Account::factory()
+            ->passwordHashed()
+            ->create();
 
         $this->assertNull($user->two_factor_secret);
 
@@ -58,7 +60,7 @@ class TwoFactorDisableTest extends TestCase
             ->verified2FA()
             ->create();
 
-        RateLimiter::increment('login', amount: 100);
+        $this->hitRateLimit(name: 'password-confirm'.$user->getKey());
 
         $this->actingAs($user)
             ->json(method: self::METHOD, uri: self::ENDPOINT, data: [
@@ -66,7 +68,7 @@ class TwoFactorDisableTest extends TestCase
             ])
             ->assertStatus(429);
 
-        RateLimiter::resetAttempts('login');
+        $this->resetRateLimit('password-confirm'.$user->getKey());
     }
 
     public function test_deletes_2fa_data()

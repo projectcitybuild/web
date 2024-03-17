@@ -26,8 +26,6 @@ class TwoFactorChallengeController extends Controller
             code: $request->get('code'),
         );
 
-        // TODO: rate limit
-
         if (! $isValid) {
             throw ValidationException::withMessages([
                'code' => 'Invalid two factor authentication code'
