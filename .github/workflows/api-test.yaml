@@ -1,0 +1,57 @@
+name: Run API tests
+
+on:
+  push:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10.3
+        env:
+          MYSQL_DATABASE: testing
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=5s --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+          coverage: none
+
+      - name: Install Composer dependencies
+        working-directory: api
+        run: composer install --prefer-dist --ignore-platform-reqs --no-interaction
+
+      - name: Prepare .env file
+        working-directory: api
+        run: |
+          cp .env.example .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_USERNAME=root" >> .env
+          echo "DB_PASSWORD=password" >> .env
+
+      - name: Prepare Laravel
+        working-directory: api
+        run: |
+          php artisan key:generate
+          chmod -R 755 storage bootstrap/cache
+
+      - name: Prepare database
+        working-directory: api
+        run: php artisan migrate
+
+      - name: Run tests
+        working-directory: api
+        run: php artisan test
