@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\TwoFactorChallengeController;
 use App\Http\Controllers\Auth\TwoFactorRecoveryController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Bans\PlayerBanController;
+use App\Http\Controllers\Donate\DonateController;
 use App\Http\Controllers\Manage\ManageBadgeController;
 use App\Http\Controllers\Manage\ManageDonationController;
 use App\Http\Controllers\Manage\ManageGroupController;
@@ -77,6 +78,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::get('qr', [TwoFactorSetupController::class, 'qrCode'])
                 ->middleware('throttle:2,1');
         });
+    });
+    Route::prefix('donate')->group(function () {
+        Route::post('single', [DonateController::class, 'single']);
+        Route::post('subscription', [DonateController::class, 'subscription']);
     });
     Route::prefix('minecraft')->group(function () {
         Route::get('config', MinecraftConfigController::class);

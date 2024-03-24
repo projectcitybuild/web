@@ -30,14 +30,13 @@ class AppServiceProvider extends ServiceProvider
                 qrcodeprovider: $app->make(IQRCodeProvider::class),
             );
         });
+        Route::bind('minecraft_uuid', function ($value) {
+            return new MinecraftUUID($value);
+        });
     }
 
     public function boot(): void
     {
-        Route::bind('minecraft_uuid', function ($value) {
-            return new MinecraftUUID($value);
-        });
-
         // Can't auto-resolve model factories because our models aren't located in `App/Models`
         Factory::guessFactoryNamesUsing(function (string $modelName) {
             $modelName = Str::after($modelName, "Eloquent\\");

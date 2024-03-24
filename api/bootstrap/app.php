@@ -12,6 +12,11 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->statefulApi();
+        $middleware->validateCsrfTokens(except: [
+            // Stripe webhooks need to bypass CSRF protection
+            // https://laravel.com/docs/11.x/billing#webhooks-csrf-protection
+           'stripe/*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

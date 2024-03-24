@@ -42,8 +42,6 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
     protected $hidden = [
         'password',
         'remember_token',
-        'totp_secret',
-        'totp_backup_code',
         'two_factor_secret',
         'two_factor_recovery_codes',
     ];
@@ -55,10 +53,6 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
         'password_changed_at',
         'email_verified_at',
         'two_factor_confirmed_at',
-    ];
-
-    protected $casts = [
-        'is_totp_enabled' => 'boolean',
     ];
 
     public function avatarUrl(): Attribute
