@@ -17,6 +17,8 @@ class DonateController extends Controller
             'cancel_url' => ['required', 'url'],
         ]);
 
+        // TODO: whitelist urls
+
         $checkout = $request
             ->user()
             ->checkout(
@@ -35,6 +37,8 @@ class DonateController extends Controller
         $request->validate([
             'price_id' => ['required', 'string'],
         ]);
+
+        // TODO: whitelist urls
 
         $checkout = $request
             ->user()

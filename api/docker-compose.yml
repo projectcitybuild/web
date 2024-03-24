@@ -93,6 +93,12 @@ services:
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
         networks:
             - sail
+    stripe-cli:
+        image: stripe/stripe-cli
+        container_name: stripe-cli
+        command: "listen --api-key ${STRIPE_SECRET} --device-name=${STRIPE_DEVICE_NAME} --forward-to http://laravel.test/stripe/webhook/"
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge
