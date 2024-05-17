@@ -26,8 +26,6 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
 
     protected $table = 'account';
 
-    protected $primaryKey = 'account_id';
-
     protected $fillable = [
         'email',
         'username',
@@ -73,7 +71,7 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
         );
     }
 
-    public function minecraftPlayer(): BelongsTo
+    public function player(): BelongsTo
     {
         return $this->belongsTo(
             related: Player::class,

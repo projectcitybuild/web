@@ -13,8 +13,6 @@ final class DonationPerk extends Model
 
     protected $table = 'donation_perk';
 
-    protected $primaryKey = 'donation_perks_id';
-
     protected $fillable = [
         'donation_id',
         'account_id',

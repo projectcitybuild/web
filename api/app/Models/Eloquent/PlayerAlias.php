@@ -12,8 +12,6 @@ final class PlayerAlias extends Model
 
     protected $table = 'player_alias';
 
-    protected $primaryKey = 'players_alias_id';
-
     protected $fillable = [
         'player_minecraft_id',
         'alias',

@@ -9,8 +9,6 @@ final class MinecraftAuthCode extends Model
 {
     protected $table = 'minecraft_auth_code';
 
-    protected $primaryKey = 'minecraft_auth_code_id';
-
     protected $fillable = [
         'uuid',
         'token',
@@ -22,7 +20,7 @@ final class MinecraftAuthCode extends Model
         'expires_at',
     ];
 
-    public function minecraftPlayer(): HasOne
+    public function player(): HasOne
     {
         return $this->hasOne(
             related: Player::class,

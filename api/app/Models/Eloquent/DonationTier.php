@@ -11,8 +11,6 @@ final class DonationTier extends Model
 
     protected $table = 'donation_tier';
 
-    protected $primaryKey = 'donation_tier_id';
-
     protected $fillable = [
         'name',
         'currency_reward',

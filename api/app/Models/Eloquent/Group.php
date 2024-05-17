@@ -11,8 +11,6 @@ final class Group extends Model
 
     protected $table = 'group';
 
-    protected $primaryKey = 'group_id';
-
     protected $fillable = [
         'name',
         'alias',

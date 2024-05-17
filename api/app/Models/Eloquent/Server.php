@@ -13,8 +13,6 @@ final class Server extends Model
 
     protected $table = 'server';
 
-    protected $primaryKey = 'server_id';
-
     protected $fillable = [
         'name',
         'ip',

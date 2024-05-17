@@ -145,10 +145,25 @@ return new class extends Migration
         Schema::table('stripe_products', fn ($t) => $t->rename('stripe_product'));
 
 
-        // Fix primary key columns
+        // Rename primary key columns
+
+        Schema::table('account', fn ($t) => $t->renameColumn('account_id', 'id'));
+        Schema::table('account_balance_transaction', fn ($t) => $t->renameColumn('balance_transaction_id', 'id'));
+        Schema::table('account_email_change', fn ($t) => $t->renameColumn('account_email_change_id', 'id'));
+        Schema::table('donation', fn ($t) => $t->renameColumn('donation_id', 'id'));
+        Schema::table('donation_perk', fn ($t) => $t->renameColumn('donation_perks_id', 'id'));
+        Schema::table('donation_tier', fn ($t) => $t->renameColumn('donation_tier_id', 'id'));
+        Schema::table('group', fn ($t) => $t->renameColumn('group_id', 'id'));
+        Schema::table('minecraft_auth_code', fn ($t) => $t->renameColumn('minecraft_auth_code_id', 'id'));
+        Schema::table('payment', fn ($t) => $t->renameColumn('payment_id', 'id'));
+        Schema::table('player', fn ($t) => $t->renameColumn('player_minecraft_id', 'id'));
+        Schema::table('player_alias', fn ($t) => $t->renameColumn('players_alias_id', 'id'));
 
 
+        // Fix weird foreign key column namings
 
+        Schema::table('minecraft_auth_code', fn ($t) => $t->renameColumn('player_minecraft_id', 'player_id'));
+        Schema::table('player_alias', fn ($t) => $t->renameColumn('player_minecraft_id', 'player_id'));
 
         // Introduce attributes
 

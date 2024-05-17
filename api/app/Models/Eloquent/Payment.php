@@ -8,8 +8,6 @@ final class Payment extends Model
 {
     protected $table = 'payment';
 
-    protected $primaryKey = 'payment_id';
-
     protected $fillable = [
         'account_id',
         'stripe_price',
