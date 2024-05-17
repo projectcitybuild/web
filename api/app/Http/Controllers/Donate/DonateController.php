@@ -19,12 +19,13 @@ class DonateController extends Controller
 
         // TODO: whitelist urls
 
+        $product = [$request->get('price_id') => $request->get('months')];
+        $options = $request->only(['success_url', 'cancel_url']);
+        $options['metadata'] = ['purpose' => 'donation'];
+
         $checkout = $request
             ->user()
-            ->checkout(
-                [$request->get('price_id') => $request->get('months')],
-                $request->only(['success_url', 'cancel_url']),
-            )
+            ->checkout($product, $options)
             ->toArray(); // Prevent automatic redirection to Stripe Checkout
 
         return response()->json([
@@ -40,10 +41,13 @@ class DonateController extends Controller
 
         // TODO: whitelist urls
 
+        $options = $request->only(['success_url', 'cancel_url']);
+        $options['metadata'] = ['purpose' => 'donation'];
+
         $checkout = $request
             ->user()
-            ->newSubscription('TODO product name', $request->get('price_id'))
-            ->checkout($request->only(['success_url', 'cancel_url']))
+            ->newSubscription('TODO product name', $request->get('price_id')) // TODO
+            ->checkout($options)
             ->toArray(); // Prevent automatic redirection to Stripe Checkout
 
         return response()->json([

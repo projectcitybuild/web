@@ -10,7 +10,7 @@ final class PlayerAlias extends Model
 {
     use HasFactory;
 
-    protected $table = 'players_aliases';
+    protected $table = 'player_alias';
 
     protected $primaryKey = 'players_alias_id';
 

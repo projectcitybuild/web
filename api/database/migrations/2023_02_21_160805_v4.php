@@ -95,6 +95,14 @@ return new class extends Migration
             $table->rename('ip_bans');
         });
 
+        Schema::table('player_bans', function (Blueprint $table) {
+            $table->json('meta')->after('reason')->nullable();
+        });
+
+        Schema::table('ip_bans', function (Blueprint $table) {
+            $table->json('meta')->after('reason')->nullable();
+        });
+
         Schema::table('players_minecraft', function (Blueprint $table) {
             $table->rename('players');
         });
@@ -109,6 +117,82 @@ return new class extends Migration
             $table->dropColumn('is_active');
             $table->integer('donation_id')->unsigned()->nullable()->change();
         });
+
+
+        // Rename all tables to be singular
+
+        Schema::table('accounts', fn ($t) => $t->rename('account'));
+        Schema::table('account_balance_transactions', fn ($t) => $t->rename('account_balance_transaction'));
+        Schema::table('account_email_changes', fn ($t) => $t->rename('account_email_change'));
+        Schema::table('badges', fn ($t) => $t->rename('badge'));
+        Schema::table('badges_pivot', fn ($t) => $t->rename('badge_pivot'));
+        Schema::table('ban_appeals', fn ($t) => $t->rename('ban_appeal'));
+        Schema::table('builder_rank_applications', fn ($t) => $t->rename('builder_rank_application'));
+        Schema::table('donations', fn ($t) => $t->rename('donation'));
+        Schema::table('donation_perks', fn ($t) => $t->rename('donation_perk'));
+        Schema::table('donation_tiers', fn ($t) => $t->rename('donation_tier'));
+        Schema::table('groups', fn ($t) => $t->rename('group'));
+        Schema::table('groups_accounts_pivot', fn ($t) => $t->rename('group_account_pivot'));
+        Schema::table('ip_bans', fn ($t) => $t->rename('ip_ban'));
+        Schema::table('minecraft_auth_codes', fn ($t) => $t->rename('minecraft_auth_code'));
+        Schema::table('payments', fn ($t) => $t->rename('payment'));
+        Schema::table('players', fn ($t) => $t->rename('player'));
+        Schema::table('players_aliases', fn ($t) => $t->rename('player_alias'));
+        Schema::table('player_bans', fn ($t) => $t->rename('player_ban'));
+        Schema::table('player_warnings', fn ($t) => $t->rename('player_warning'));
+        Schema::table('servers', fn ($t) => $t->rename('server'));
+        Schema::table('showcase_warps', fn ($t) => $t->rename('showcase_warp'));
+        Schema::table('stripe_products', fn ($t) => $t->rename('stripe_product'));
+
+
+        // Fix primary key columns
+
+
+
+
+        // Introduce attributes
+
+//        Schema::create('attribute', function (Blueprint $table) {
+//            $table->id();
+//            $table->string('name');
+//        });
+//
+//        Schema::create('group_attribute', function (Blueprint $table) {
+//            $table->id();
+//            $table->foreignId('group_id')->constrained(
+//                table: 'group',
+//                column: 'group_id',
+//            );
+//            $table->foreignId('attribute_id')->constrained(
+//                table: 'attribute',
+//            );
+//            $table->string('value');
+//            $table->timestamps();
+//        });
+//
+//        Schema::create('perk', function (Blueprint $table) {
+//            $table->id();
+//            $table->foreignId('player_id')->constrained(
+//                table: 'players',
+//                column: 'player_minecraft_id',
+//            );
+//            $table->dateTime('starts_at');
+//            $table->dateTime('ends_at');
+//            $table->timestamps();
+//        });
+//
+//        Schema::create('perk_attribute', function (Blueprint $table) {
+//            $table->id();
+//            $table->foreignId('group_id')->constrained(
+//                table: 'groups',
+//                column: 'group_id',
+//            );
+//            $table->foreignId('attribute_id')->constrained(
+//                table: 'attributes',
+//            );
+//            $table->string('value');
+//            $table->timestamps();
+//        });
     }
 
     /**

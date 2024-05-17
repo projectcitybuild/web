@@ -13,9 +13,7 @@ final class BuilderRankApplication extends Model
     use HasFactory;
     use Notifiable;
 
-    protected $table = 'builder_rank_applications';
-
-    protected $primaryKey = 'id';
+    protected $table = 'builder_rank_application';
 
     protected $fillable = [
         'account_id',

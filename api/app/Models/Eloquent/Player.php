@@ -15,7 +15,7 @@ final class Player extends Model
     use HasFactory;
     use HasStaticTable;
 
-    protected $table = 'players';
+    protected $table = 'player';
 
     protected $primaryKey = 'player_minecraft_id';
 

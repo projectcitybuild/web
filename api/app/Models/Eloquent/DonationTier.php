@@ -9,7 +9,7 @@ final class DonationTier extends Model
 {
     use HasFactory;
 
-    protected $table = 'donation_tiers';
+    protected $table = 'donation_tier';
 
     protected $primaryKey = 'donation_tier_id';
 

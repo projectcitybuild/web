@@ -24,7 +24,7 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
     use Billable;
     use HasStaticTable;
 
-    protected $table = 'accounts';
+    protected $table = 'account';
 
     protected $primaryKey = 'account_id';
 

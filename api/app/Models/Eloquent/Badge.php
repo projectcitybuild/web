@@ -13,9 +13,7 @@ final class Badge extends Model
     use HasStaticTable;
     use Notifiable;
 
-    protected $table = 'badges';
-
-    protected $primaryKey = 'id';
+    protected $table = 'badge';
 
     protected $fillable = [
         'display_name',

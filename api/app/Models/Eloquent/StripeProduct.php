@@ -12,13 +12,16 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 final class StripeProduct extends Model
 {
-    protected $table = 'stripe_products';
+    protected $table = 'stripe_product';
+
     protected $primaryKey = 'price_id';
+
     protected $fillable = [
         'price_id',
         'product_id',
         'donation_tier_id',
     ];
+
     public $timestamps = false;
 
     public function donationTier(): HasOne

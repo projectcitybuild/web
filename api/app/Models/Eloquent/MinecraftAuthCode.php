@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class MinecraftAuthCode extends Model
 {
-    protected $table = 'minecraft_auth_codes';
+    protected $table = 'minecraft_auth_code';
 
     protected $primaryKey = 'minecraft_auth_code_id';
 

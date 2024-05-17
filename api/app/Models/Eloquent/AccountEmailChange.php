@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class AccountEmailChange extends Model
 {
-    protected $table = 'account_email_changes';
+    protected $table = 'account_email_change';
 
     protected $primaryKey = 'account_email_change_id';
 

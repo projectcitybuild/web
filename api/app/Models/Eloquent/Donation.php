@@ -11,7 +11,7 @@ final class Donation extends Model
 {
     use HasFactory;
 
-    protected $table = 'donations';
+    protected $table = 'donation';
 
     protected $primaryKey = 'donation_id';
 

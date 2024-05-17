@@ -11,7 +11,7 @@ final class Server extends Model
 {
     use HasFactory;
 
-    protected $table = 'servers';
+    protected $table = 'server';
 
     protected $primaryKey = 'server_id';
 
