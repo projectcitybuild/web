@@ -169,6 +169,8 @@ return new class extends Migration
                 ->unsigned()
                 ->default(null)
                 ->change();
+
+            $table->renameColumn('decider_player_minecraft_id', 'decider_player_id');
         });
 
 
@@ -176,7 +178,7 @@ return new class extends Migration
 
         Schema::table('minecraft_auth_code', fn ($t) => $t->renameColumn('player_minecraft_id', 'player_id'));
         Schema::table('player_alias', fn ($t) => $t->renameColumn('player_minecraft_id', 'player_id'));
-        Schema::table('ban_appeal', fn ($t) => $t->renameColumn('decider_player_minecraft_id', 'decider_player_id'));
+//        Schema::table('ban_appeal', fn ($t) => $t->renameColumn('decider_player_minecraft_id', 'decider_player_id'));
         Schema::table('ban_appeal', fn ($t) => $t->renameColumn('game_ban_id', 'player_ban_id'));
 
 
