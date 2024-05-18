@@ -256,7 +256,7 @@ return new class extends Migration
         });
         Schema::table('ban_appeal', function (Blueprint $table) {
             $table->unsignedBigInteger('player_ban_id')->change();
-            $table->unsignedBigInteger('decider_player_id')->change();
+            $table->unsignedBigInteger('decider_player_id')->nullable()->change();
         });
         Schema::table('builder_rank_application', function (Blueprint $table) {
             $table->unsignedBigInteger('account_id')->change();
