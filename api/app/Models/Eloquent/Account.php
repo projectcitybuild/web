@@ -57,7 +57,7 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
     {
         return Attribute::make(
             get: function () {
-                $player = $this->minecraftPlayer;
+                $player = $this->player;
                 if ($player !== null) {
                     $uuid = new MinecraftUUID($player->uuid);
                     return "https://minotar.net/avatar/".$uuid->trimmed();
