@@ -14,6 +14,7 @@ class StripeListener implements ShouldQueue, ShouldHandleEventsAfterCommit
         if ($event->payload['type'] === 'invoice.payment_succeeded') {
             Log::info('Handling invoice.payment_succeeded webhook event', context: ['event' => $event]);
 
+            // TODO
         }
     }
 }

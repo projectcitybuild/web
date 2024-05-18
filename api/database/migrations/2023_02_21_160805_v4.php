@@ -384,37 +384,29 @@ return new class extends Migration
             $table->string('name');
         });
 
-//        Schema::create('group_attribute', function (Blueprint $table) {
-//            $table->id();
-//            $table->foreignId('group_id')->constrained();
-//            $table->foreignId('attribute_id')->constrained();
-//            $table->string('value');
-//            $table->timestamps();
-//        });
+        Schema::create('group_attribute', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('group_id')->constrained(table: 'group');
+            $table->foreignId('attribute_id')->constrained(table: 'attribute');
+            $table->string('value');
+            $table->timestamps();
+        });
 
-//        Schema::create('perk', function (Blueprint $table) {
-//            $table->id();
-//            $table->foreignId('player_id')->constrained(
-//                table: 'players',
-//                column: 'player_minecraft_id',
-//            );
-//            $table->dateTime('starts_at');
-//            $table->dateTime('ends_at');
-//            $table->timestamps();
-//        });
-//
-//        Schema::create('perk_attribute', function (Blueprint $table) {
-//            $table->id();
-//            $table->foreignId('group_id')->constrained(
-//                table: 'groups',
-//                column: 'group_id',
-//            );
-//            $table->foreignId('attribute_id')->constrained(
-//                table: 'attributes',
-//            );
-//            $table->string('value');
-//            $table->timestamps();
-//        });
+        Schema::create('perk', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('player_id')->constrained(table: 'player');
+            $table->dateTime('starts_at');
+            $table->dateTime('ends_at');
+            $table->timestamps();
+        });
+
+        Schema::create('perk_attribute', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('group_id')->constrained(table: 'group');
+            $table->foreignId('attribute_id')->constrained(table: 'attribute');
+            $table->string('value');
+            $table->timestamps();
+        });
     }
 
     /**
