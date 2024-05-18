@@ -161,6 +161,17 @@ return new class extends Migration
         Schema::table('player_alias', fn ($t) => $t->renameColumn('players_alias_id', 'id'));
 
 
+        // Fix weird default value
+
+        Schema::table('ban_appeal', function (Blueprint $table) {
+            $table->integer('decider_player_minecraft_id')
+                ->nullable()
+                ->unsigned()
+                ->default(null)
+                ->change();
+        });
+
+
         // Fix weird foreign key column namings
 
         Schema::table('minecraft_auth_code', fn ($t) => $t->renameColumn('player_minecraft_id', 'player_id'));

@@ -17,11 +17,14 @@ class BanAppeal extends Model
     use Notifiable;
 
     protected $fillable = [
-        'game_ban_id',
+        'player_ban_id',
         'is_account_verified',
         'explanation',
         'email',
         'status',
+        'decision_note',
+        'decided_at',
+        'decider_player_id',
     ];
 
     protected $casts = [
@@ -33,7 +36,7 @@ class BanAppeal extends Model
     {
         return $this->belongsTo(
             related: PlayerBan::class,
-            foreignKey: 'game_ban_id',
+            foreignKey: 'player_ban_id',
             ownerKey: 'id',
         );
     }
@@ -42,8 +45,8 @@ class BanAppeal extends Model
     {
         return $this->belongsTo(
             related: Player::class,
-            foreignKey: 'decider_player_minecraft_id',
-            ownerKey: 'player_minecraft_id',
+            foreignKey: 'decider_player_id',
+            ownerKey: 'player_id',
         );
     }
 
