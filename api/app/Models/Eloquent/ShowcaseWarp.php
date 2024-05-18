@@ -9,7 +9,7 @@ class ShowcaseWarp extends Model
 {
     use HasFactory;
 
-    protected $table = 'showcase_warps';
+    protected $table = 'showcase_warp';
 
     protected $fillable = [
         'name',

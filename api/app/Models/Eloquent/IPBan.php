@@ -10,7 +10,7 @@ final class IPBan extends Model
 {
     use HasFactory;
 
-    protected $table = 'ip_bans';
+    protected $table = 'ip_ban';
 
     protected $fillable = [
         'banner_player_id',

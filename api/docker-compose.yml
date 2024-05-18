@@ -27,7 +27,7 @@ services:
             - minio
             - mailpit
     mariadb:
-        image: 'mariadb:10'
+        image: 'mariadb:11.0.5'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
@@ -91,6 +91,12 @@ services:
         ports:
             - '${FORWARD_MAILPIT_PORT:-1025}:1025'
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
+        networks:
+            - sail
+    stripe-cli:
+        image: stripe/stripe-cli
+        container_name: stripe-cli
+        command: "listen --api-key ${STRIPE_SECRET} --device-name=${STRIPE_CLI_DEVICE_NAME} --forward-to http://laravel.test/stripe/webhook/"
         networks:
             - sail
 networks:

@@ -2,7 +2,6 @@
 
 namespace App\Models\Eloquent;
 
-use App\Models\MinecraftUUID;
 use App\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,9 +14,7 @@ final class Player extends Model
     use HasFactory;
     use HasStaticTable;
 
-    protected $table = 'players';
-
-    protected $primaryKey = 'player_minecraft_id';
+    protected $table = 'player';
 
     protected $fillable = [
         'uuid',
@@ -46,8 +43,8 @@ final class Player extends Model
     {
         return $this->hasMany(
             related: PlayerAlias::class,
-            foreignKey: 'player_minecraft_id',
-            localKey: 'player_minecraft_id',
+            foreignKey: 'player_id',
+            localKey: 'player_id',
         );
     }
 
@@ -56,7 +53,7 @@ final class Player extends Model
         return $this->hasMany(
             related: PlayerBan::class,
             foreignKey: 'banned_player_id',
-            localKey: 'player_minecraft_id',
+            localKey: 'player_id',
         );
     }
 
@@ -65,7 +62,7 @@ final class Player extends Model
         return $this->hasMany(
             related: PlayerWarning::class,
             foreignKey: 'warned_player_id',
-            localKey: 'player_minecraft_id',
+            localKey: 'player_id',
         );
     }
 

@@ -10,7 +10,7 @@ final class PlayerWarning extends Model
 {
     use HasFactory;
 
-    protected $table = 'player_warnings';
+    protected $table = 'player_warning';
 
     protected $fillable = [
         'warned_player_id',

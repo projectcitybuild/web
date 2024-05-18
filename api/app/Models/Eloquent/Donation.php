@@ -11,9 +11,7 @@ final class Donation extends Model
 {
     use HasFactory;
 
-    protected $table = 'donations';
-
-    protected $primaryKey = 'donation_id';
+    protected $table = 'donation';
 
     protected $fillable = [
         'account_id',

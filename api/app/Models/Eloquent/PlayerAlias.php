@@ -10,9 +10,7 @@ final class PlayerAlias extends Model
 {
     use HasFactory;
 
-    protected $table = 'players_aliases';
-
-    protected $primaryKey = 'players_alias_id';
+    protected $table = 'player_alias';
 
     protected $fillable = [
         'player_minecraft_id',

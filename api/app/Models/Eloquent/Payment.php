@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 final class Payment extends Model
 {
-    protected $table = 'payments';
-
-    protected $primaryKey = 'payment_id';
+    protected $table = 'payment';
 
     protected $fillable = [
         'account_id',

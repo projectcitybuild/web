@@ -24,9 +24,7 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
     use Billable;
     use HasStaticTable;
 
-    protected $table = 'accounts';
-
-    protected $primaryKey = 'account_id';
+    protected $table = 'account';
 
     protected $fillable = [
         'email',
@@ -42,8 +40,6 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
     protected $hidden = [
         'password',
         'remember_token',
-        'totp_secret',
-        'totp_backup_code',
         'two_factor_secret',
         'two_factor_recovery_codes',
     ];
@@ -57,15 +53,11 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
         'two_factor_confirmed_at',
     ];
 
-    protected $casts = [
-        'is_totp_enabled' => 'boolean',
-    ];
-
     public function avatarUrl(): Attribute
     {
         return Attribute::make(
             get: function () {
-                $player = $this->minecraftPlayer;
+                $player = $this->player;
                 if ($player !== null) {
                     $uuid = new MinecraftUUID($player->uuid);
                     return "https://minotar.net/avatar/".$uuid->trimmed();
@@ -79,7 +71,7 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
         );
     }
 
-    public function minecraftPlayer(): BelongsTo
+    public function player(): BelongsTo
     {
         return $this->belongsTo(
             related: Player::class,

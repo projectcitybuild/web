@@ -3,10 +3,9 @@
 namespace App\Actions\Bans;
 
 use App\Actions\GetOrCreatePlayer;
-use App\Models\Transfers\CreatePlayerBanTransfer;
 use App\Models\Eloquent\PlayerBan;
 use App\Models\Events\PlayerBannedEvent;
-use Illuminate\Support\Carbon;
+use App\Models\Transfers\CreatePlayerBanTransfer;
 use Illuminate\Validation\ValidationException;
 
 class CreatePlayerBan

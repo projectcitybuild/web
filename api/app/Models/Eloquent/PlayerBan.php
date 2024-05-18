@@ -14,7 +14,7 @@ final class PlayerBan extends Model
 {
     use HasFactory;
 
-    protected $table = 'player_bans';
+    protected $table = 'player_ban';
 
     protected $fillable = [
         'banned_player_id',

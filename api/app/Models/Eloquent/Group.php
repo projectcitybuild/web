@@ -9,9 +9,7 @@ final class Group extends Model
 {
     use HasFactory;
 
-    protected $table = 'groups';
-
-    protected $primaryKey = 'group_id';
+    protected $table = 'group';
 
     protected $fillable = [
         'name',
