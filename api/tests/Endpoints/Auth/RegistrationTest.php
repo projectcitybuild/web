@@ -26,7 +26,6 @@ class RegistrationTest extends TestCase
                 'password' => 'password',
                 'password_confirmation' => 'password',
             ])
-            ->dump()
             ->assertStatus(200);
 
         $account = Account::where('email', 'test@example.com')->first();
