@@ -7,6 +7,9 @@
     <testsuite name="Feature">
       <directory suffix="Test.php">./tests/Feature</directory>
     </testsuite>
+    <testsuite name="Endpoints">
+      <directory suffix="Test.php">./tests/Endpoints</directory>
+    </testsuite>
   </testsuites>
   <php>
     <env name="APP_ENV" value="testing"/>
