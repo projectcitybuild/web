@@ -99,11 +99,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
 });
 
-// TODO: middleware for application keys
-Route::prefix('bans')->group(function () {
-    Route::prefix('uuid')->group(function () {
-        Route::post('/', [PlayerBanController::class, 'store']);
-        Route::delete('/', [PlayerBanController::class, 'delete']);
-        Route::get('{minecraft_uuid}', [PlayerBanController::class, 'show']);
+Route::middleware('EnsureClientToken:minecraft')->group(function () {
+    Route::prefix('bans')->group(function () {
+        Route::prefix('uuid')->group(function () {
+            Route::post('/', [PlayerBanController::class, 'store']);
+            Route::delete('/', [PlayerBanController::class, 'delete']);
+            Route::get('{minecraft_uuid}', [PlayerBanController::class, 'show']);
+        });
     });
 });
+

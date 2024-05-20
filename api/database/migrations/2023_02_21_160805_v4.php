@@ -407,6 +407,17 @@ return new class extends Migration
             $table->string('value');
             $table->timestamps();
         });
+
+
+        // Application keys
+
+        Schema:: create('client_token', function (Blueprint $table) {
+           $table->id();
+           $table->string('client');
+           $table->uuid('token');
+           $table->string('scope');
+           $table->timestamps();
+        });
     }
 
     /**
