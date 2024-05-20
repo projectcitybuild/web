@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Bans;
+namespace App\Http\Controllers\Minecraft\Bans;
 
 use App\Actions\Bans\CreatePlayerBan;
 use App\Actions\Bans\CreatePlayerUnban;
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
-class PlayerBanController extends Controller
+class MinecraftPlayerBanController extends Controller
 {
     public function show(MinecraftUUID $uuid): JsonResponse
     {

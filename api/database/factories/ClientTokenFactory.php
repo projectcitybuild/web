@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Eloquent\ClientToken;
-use App\Models\Eloquent\Donation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Ramsey\Uuid\UuidInterface;
 
