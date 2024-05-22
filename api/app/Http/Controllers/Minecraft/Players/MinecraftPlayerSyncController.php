@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Minecraft;
+namespace App\Http\Controllers\Minecraft\Players;
 
 use App\Http\Controllers\Controller;
 use App\Models\Eloquent\Player;

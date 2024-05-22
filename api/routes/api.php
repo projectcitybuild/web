@@ -8,7 +8,6 @@ use App\Http\Controllers\Auth\SessionController;
 use App\Http\Controllers\Auth\TwoFactorChallengeController;
 use App\Http\Controllers\Auth\TwoFactorRecoveryController;
 use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Http\Controllers\Bans\PlayerBanController;
 use App\Http\Controllers\Donate\DonateController;
 use App\Http\Controllers\Manage\ManageBadgeController;
 use App\Http\Controllers\Manage\ManageDonationController;
@@ -25,8 +24,9 @@ use App\Http\Controllers\Me\TwoFactorSetupController;
 use App\Http\Controllers\Me\UpdateEmailController;
 use App\Http\Controllers\Me\UpdatePasswordController;
 use App\Http\Controllers\Me\UpdateUsernameController;
+use App\Http\Controllers\Minecraft\Bans\MinecraftPlayerBanController;
 use App\Http\Controllers\Minecraft\MinecraftConfigController;
-use App\Http\Controllers\Minecraft\MinecraftPlayerSyncController;
+use App\Http\Controllers\Minecraft\Players\MinecraftPlayerSyncController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [SessionController::class, 'store']);
@@ -83,10 +83,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::post('single', [DonateController::class, 'single']);
         Route::post('subscription', [DonateController::class, 'subscription']);
     });
-    Route::prefix('minecraft')->group(function () {
-        Route::get('config', MinecraftConfigController::class);
-        Route::get('player/{uuid}/sync', MinecraftPlayerSyncController::class);
-    });
     Route::prefix('manage')->group(function () {
         Route::apiResource('bans/players', ManagePlayerBanController::class);
         Route::apiResource('bans/ips', ManageIPBanController::class);
@@ -99,11 +95,21 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
 });
 
-// TODO: middleware for application keys
-Route::prefix('bans')->group(function () {
-    Route::prefix('uuid')->group(function () {
-        Route::post('/', [PlayerBanController::class, 'store']);
-        Route::delete('/', [PlayerBanController::class, 'delete']);
-        Route::get('{minecraft_uuid}', [PlayerBanController::class, 'show']);
+
+Route::prefix('minecraft')
+    ->middleware('client-token:minecraft')
+    ->group(function ()
+{
+    Route::get('config', MinecraftConfigController::class);
+
+    Route::get('players/{uuid}', MinecraftPlayerSyncController::class);
+
+    Route::prefix('bans')->group(function () {
+        Route::prefix('uuid')->group(function () {
+            Route::post('/', [MinecraftPlayerBanController::class, 'store']);
+            Route::delete('/', [MinecraftPlayerBanController::class, 'delete']);
+            Route::get('{minecraft_uuid}', [MinecraftPlayerBanController::class, 'show']);
+        });
     });
 });
+

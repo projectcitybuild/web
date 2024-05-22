@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureClientToken;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -16,6 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
             // Stripe webhooks need to bypass CSRF protection
             // https://laravel.com/docs/11.x/billing#webhooks-csrf-protection
            'stripe/*',
+        ]);
+        $middleware->alias([
+           'client-token' => EnsureClientToken::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

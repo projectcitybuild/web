@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Eloquent\Account;
 use App\Models\Eloquent\Badge;
+use App\Models\Eloquent\ClientToken;
 use App\Models\Eloquent\Donation;
 use App\Models\Eloquent\DonationPerk;
 use App\Models\Eloquent\DonationTier;
@@ -84,6 +85,10 @@ class DatabaseSeeder extends Seeder
                 ->bannedBy($staff->random())
                 ->create();
         }
+
+        ClientToken::factory()
+            ->scoped('minecraft')
+            ->create();
     }
 
     private function randomBool(float $chance = 0.5): bool
