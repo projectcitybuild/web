@@ -411,12 +411,24 @@ return new class extends Migration
 
         // Application keys
 
-        Schema:: create('client_token', function (Blueprint $table) {
+        Schema::create('client_token', function (Blueprint $table) {
            $table->id();
            $table->string('client');
-           $table->uuid('token');
+           $table->string('token');
            $table->string('scope');
            $table->timestamps();
+        });
+
+
+        // Mutes
+
+        Schema::create('player_mute', function (Blueprint $table) {
+           $table->id();
+           $table->foreignId('muted_player_id')->constrained(table: 'player');
+           $table->foreignId('muter_player_id')->nullable()->constrained(table: 'player');
+           $table->json('meta')->nullable();
+           $table->timestamps();
+           $table->softDeletes();
         });
     }
 

@@ -4,6 +4,7 @@ namespace Tests\Unit\Middleware;
 
 use App\Http\Middleware\EnsureClientToken;
 use App\Models\Eloquent\ClientToken;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -13,6 +14,8 @@ use Tests\TestCase;
 
 class EnsureClientTokenTest extends TestCase
 {
+    use RefreshDatabase;
+
     private \Closure $nextStub;
 
     protected function setUp(): void
@@ -47,7 +50,7 @@ class EnsureClientTokenTest extends TestCase
 
     public function test_no_matching_scope_throws_403(): void
     {
-        $rawToken = Str::uuid();
+        $rawToken = Str::random();
         $token = ClientToken::factory()
             ->token($rawToken)
             ->scoped('aaa')
@@ -58,14 +61,14 @@ class EnsureClientTokenTest extends TestCase
         );
         $this->assertHttpCode(
             code: 403,
-            authHeader: 'Bearer '.$rawToken->toString(),
+            authHeader: 'Bearer '.$rawToken,
             scope: 'bbb',
         );
     }
 
     public function test_matching_scope_succeeds(): void
     {
-        $rawToken = Str::uuid();
+        $rawToken = Str::random();
         ClientToken::factory()
             ->token($rawToken)
             ->scoped('minecraft')
@@ -78,7 +81,7 @@ class EnsureClientTokenTest extends TestCase
         };
 
         $request = $this->mockRequest(
-            authHeader: 'Bearer '.$rawToken->toString(),
+            authHeader: 'Bearer '.$rawToken,
         );
         $middleware = new EnsureClientToken();
         $middleware->handle($request, $next, scope: 'minecraft');
@@ -88,7 +91,7 @@ class EnsureClientTokenTest extends TestCase
 
     public function test_matching_multi_scope_succeeds(): void
     {
-        $rawToken = Str::uuid();
+        $rawToken = Str::random();
         ClientToken::factory()
             ->token($rawToken)
             ->scoped('test,minecraft')
@@ -101,7 +104,7 @@ class EnsureClientTokenTest extends TestCase
         };
 
         $request = $this->mockRequest(
-            authHeader: 'Bearer '.$rawToken->toString(),
+            authHeader: 'Bearer '.$rawToken,
         );
         $middleware = new EnsureClientToken();
         $middleware->handle($request, $next, scope: 'minecraft');

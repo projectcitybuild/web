@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Eloquent\ClientToken;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Ramsey\Uuid\UuidInterface;
 
 class ClientTokenFactory extends Factory
 {
@@ -31,7 +30,7 @@ class ClientTokenFactory extends Factory
         ];
     }
 
-    public function token(UuidInterface $token): ClientTokenFactory
+    public function token(string $token): ClientTokenFactory
     {
         return $this->state(function (array $attributes) use ($token) {
             return ['token' => $token];
