@@ -26,6 +26,8 @@ use App\Http\Controllers\Me\UpdatePasswordController;
 use App\Http\Controllers\Me\UpdateUsernameController;
 use App\Http\Controllers\Minecraft\Bans\MinecraftPlayerBanController;
 use App\Http\Controllers\Minecraft\MinecraftConfigController;
+use App\Http\Controllers\Minecraft\MinecraftPlayerMuteController;
+use App\Http\Controllers\Minecraft\Players\MinecraftAccountSyncController;
 use App\Http\Controllers\Minecraft\Players\MinecraftPlayerSyncController;
 use Illuminate\Support\Facades\Route;
 
@@ -95,21 +97,25 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
 });
 
-
 Route::prefix('minecraft')
     ->middleware('client-token:minecraft')
-    ->group(function ()
-{
+    ->group(function () {
     Route::get('config', MinecraftConfigController::class);
 
-    Route::get('players/{uuid}', MinecraftPlayerSyncController::class);
-
-    Route::prefix('bans')->group(function () {
-        Route::prefix('uuid')->group(function () {
-            Route::post('/', [MinecraftPlayerBanController::class, 'store']);
-            Route::delete('/', [MinecraftPlayerBanController::class, 'delete']);
-            Route::get('{minecraft_uuid}', [MinecraftPlayerBanController::class, 'show']);
+    Route::prefix('players/{minecraft_uuid}')->group(function () {
+        Route::prefix('/')->group(function () {
+            Route::get('/', [MinecraftAccountSyncController::class, 'show']);
+            Route::post('/', [MinecraftAccountSyncController::class, 'store']);
         });
+
+        Route::prefix('mute')->controller(MinecraftPlayerMuteController::class)->group(function () {
+            Route::get('/', 'show');
+            Route::post('/', 'store');
+            Route::delete('/', 'delete');
+        });
+
+        Route::apiResource('bans', MinecraftPlayerBanController::class)
+            ->only('show', 'store', 'delete');
     });
 });
 

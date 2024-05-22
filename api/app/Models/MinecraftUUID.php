@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Exception;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Wrapper for transferring around a Minecraft UUID - agnostic of what format the UUID is in.
@@ -10,8 +11,8 @@ use Exception;
  */
 class MinecraftUUID
 {
-    const PATTERN_FULL = '#([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})#';
-    const PATTERN_TRIMMED = '#([0-9a-fA-F]{32})#';
+    const PATTERN_FULL = '/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/';
+    const PATTERN_TRIMMED = '/^([0-9a-fA-F]{32})$/';
 
     private string $trimmed;
 
@@ -25,7 +26,9 @@ class MinecraftUUID
         } else if (preg_match(self::PATTERN_TRIMMED, $uuid, $matches) > 0) {
             $this->trimmed = trim($uuid);
         } else {
-            throw new Exception($uuid . ' is not a valid Minecraft UUID format');
+            throw ValidationException::withMessages([
+                'uuid' => 'Invalid Minecraft UUID format',
+            ]);
         }
     }
 
