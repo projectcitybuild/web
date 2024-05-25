@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Minecraft\Players;
 
 use App\Http\Controllers\Controller;
 use App\Models\Eloquent\Player;
+use App\Models\Eloquent\PlayerMute;
 use App\Models\MinecraftUUID;
 use App\Models\Rules\EmailValidationRules;
 use App\Models\Rules\PasswordValidationRules;
@@ -20,10 +21,15 @@ final class MinecraftAccountSyncController extends Controller
     public function show(Request $request, MinecraftUUID $uuid): JsonResponse
     {
         $player = Player::uuid($uuid)
-            ->with(['mute'])
             ->firstOrFail();
 
-        return response()->json($player);
+        // TODO: convert this to a relationship later
+        $mute = PlayerMute::forPlayer($player)->first();
+
+        return response()->json([
+            'player' => $player,
+            'mute' => $mute,
+        ]);
     }
 
     public function store(Request $request, MinecraftUUID $uuid): JsonResponse

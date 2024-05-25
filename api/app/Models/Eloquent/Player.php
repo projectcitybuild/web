@@ -68,15 +68,6 @@ final class Player extends Model
         );
     }
 
-    public function mute(): HasOne
-    {
-        return $this->hasOne(
-            related: PlayerMute::class,
-            foreignKey: 'muted_player_id',
-            localKey: 'player_id',
-        );
-    }
-
     public function scopeUuid(Builder $query, MinecraftUUID $uuid)
     {
         $query->where('uuid', $uuid->trimmed());
