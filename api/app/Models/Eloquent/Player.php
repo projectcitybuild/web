@@ -2,12 +2,14 @@
 
 namespace App\Models\Eloquent;
 
+use App\Models\MinecraftUUID;
 use App\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class Player extends Model
 {
@@ -66,8 +68,8 @@ final class Player extends Model
         );
     }
 
-    public function scopeUuid(Builder $query, String $uuid)
+    public function scopeUuid(Builder $query, MinecraftUUID $uuid)
     {
-        $query->where('uuid', $uuid);
+        $query->where('uuid', $uuid->trimmed());
     }
 }

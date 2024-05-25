@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Eloquent\ClientToken;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class ClientTokenFactory extends Factory
 {
@@ -23,7 +24,7 @@ class ClientTokenFactory extends Factory
     {
         return [
             'client' => $this->faker->name(),
-            'token' => $this->faker->uuid(),
+            'token' => Str::random(32),
             'scope' => $this->faker->name(),
             'created_at' => $this->faker->dateTime(),
             'updated_at' => $this->faker->dateTime(),
