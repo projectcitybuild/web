@@ -2,7 +2,7 @@
 
 namespace Tests\Endpoints\Me\TwoFactorAuth;
 
-use App\Models\Eloquent\Account;
+use App\Models\Account;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

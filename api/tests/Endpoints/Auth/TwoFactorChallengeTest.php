@@ -2,7 +2,7 @@
 
 namespace Tests\Endpoints\Auth;
 
-use App\Models\Eloquent\Account;
+use App\Models\Account;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery\MockInterface;
 use RobThree\Auth\TwoFactorAuth;

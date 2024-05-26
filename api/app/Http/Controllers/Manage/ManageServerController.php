@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Manage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Manage\ManageServerStoreRequest;
 use App\Http\Requests\Manage\ManageServerUpdateRequest;
-use App\Models\Eloquent\Server;
+use App\Models\Server;
 use Illuminate\Http\JsonResponse;
 
 class ManageServerController extends Controller

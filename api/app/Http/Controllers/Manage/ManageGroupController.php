@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Manage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Manage\ManageGroupStoreRequest;
 use App\Http\Requests\Manage\ManageGroupUpdateRequest;
-use App\Models\Eloquent\Group;
+use App\Models\Group;
 use Illuminate\Http\JsonResponse;
 
 class ManageGroupController extends Controller

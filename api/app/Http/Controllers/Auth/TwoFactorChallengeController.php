@@ -2,31 +2,30 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Domains\MFA\Actions\VerifyMFACode;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\TwoFactorChallengeRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
-use RobThree\Auth\TwoFactorAuth;
 
 class TwoFactorChallengeController extends Controller
 {
-    public function __invoke(TwoFactorChallengeRequest $request, TwoFactorAuth $twoFactorAuth): JsonResponse
+    public function __invoke(
+        TwoFactorChallengeRequest $request,
+        VerifyMFACode $verifyMFACode,
+    ): JsonResponse
     {
         $validated = $request->validated();
 
-        $user = $request->user();
-
-        $isValid = $twoFactorAuth->verifyCode(
-            secret: decrypt($user->two_factor_secret),
+        $isValid = $verifyMFACode->call(
+            secret: $request->user()->two_factor_secret,
             code: $validated['code'],
         );
-
         if (! $isValid) {
             throw ValidationException::withMessages([
                'code' => 'Invalid two factor authentication code'
             ]);
         }
-
         return response()->json();
     }
 }

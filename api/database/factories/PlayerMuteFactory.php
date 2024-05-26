@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Eloquent\PlayerMute;
+use App\Models\PlayerMute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PlayerMuteFactory extends Factory

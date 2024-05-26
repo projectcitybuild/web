@@ -2,7 +2,7 @@
 
 namespace Tests\Endpoints\Me\TwoFactorAuth;
 
-use App\Models\Eloquent\Account;
+use App\Models\Account;
 use Database\Factories\AccountFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\HasRateLimitedRoute;

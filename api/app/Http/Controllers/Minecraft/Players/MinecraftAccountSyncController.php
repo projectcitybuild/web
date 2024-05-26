@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Minecraft\Players;
 
+use App\Core\MinecraftUUID\MinecraftUUID;
+use App\Domains\Accounts\Data\Rules\EmailValidationRules;
+use App\Domains\Accounts\Data\Rules\PasswordValidationRules;
+use App\Domains\Accounts\Data\Rules\UsernameValidationRules;
 use App\Http\Controllers\Controller;
-use App\Models\Eloquent\Player;
-use App\Models\Eloquent\PlayerMute;
-use App\Models\MinecraftUUID;
-use App\Models\Rules\EmailValidationRules;
-use App\Models\Rules\PasswordValidationRules;
-use App\Models\Rules\UsernameValidationRules;
+use App\Models\Player;
+use App\Models\PlayerMute;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 

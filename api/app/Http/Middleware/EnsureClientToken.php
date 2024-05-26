@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Eloquent\ClientToken;
+use App\Models\ClientToken;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,20 +17,20 @@ class EnsureClientToken
             $request->header('Authorization')
         );
         if ($token === null) {
-            abort(401);
+            abort(code: 401);
         }
 
         $clientToken = ClientToken::where('token', $token)->first();
 
         if ($clientToken === null) {
-            abort(401);
+            abort(code: 401);
         }
         $permitted = in_array(
             needle: $scope,
             haystack: $clientToken->permittedScopes(),
         );
         if (! $permitted) {
-            abort(403);
+            abort(code: 403);
         }
         return $next($request);
     }

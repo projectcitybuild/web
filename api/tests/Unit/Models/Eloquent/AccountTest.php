@@ -2,9 +2,8 @@
 
 namespace Tests\Unit\Models\Eloquent;
 
-use App\Models\Eloquent\Account;
-use App\Models\Eloquent\Player;
-use Faker\Provider\Uuid;
+use App\Models\Account;
+use App\Models\Player;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Bans;
 
-use App\Models\MinecraftUUID;
-use App\Models\Transfers\CreatePlayerUnbanTransfer;
+use App\Core\MinecraftUUID\MinecraftUUID;
+use App\Domains\Bans\Transfers\CreatePlayerUnbanTransfer;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PlayerBanDeleteRequest extends FormRequest

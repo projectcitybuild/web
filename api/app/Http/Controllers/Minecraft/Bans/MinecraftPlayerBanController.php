@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers\Minecraft\Bans;
 
-use App\Actions\Bans\CreatePlayerBan;
-use App\Actions\Bans\CreatePlayerUnban;
+use App\Core\MinecraftUUID\MinecraftUUID;
+use App\Domains\Bans\Actions\CreatePlayerBan;
+use App\Domains\Bans\Actions\CreatePlayerUnban;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Bans\PlayerBanDeleteRequest;
 use App\Http\Requests\Bans\PlayerBanStoreRequest;
-use App\Models\Eloquent\Player;
-use App\Models\Eloquent\PlayerBan;
-use App\Models\MinecraftUUID;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\Player;
+use App\Models\PlayerBan;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\ValidationException;
 
 class MinecraftPlayerBanController extends Controller
 {
@@ -30,7 +28,7 @@ class MinecraftPlayerBanController extends Controller
         PlayerBanStoreRequest $request,
         CreatePlayerBan $createPlayerBan,
     ): JsonResponse {
-        $ban = $createPlayerBan->create($request->playerBan());
+        $ban = $createPlayerBan->call($request->playerBan());
 
         return response()->json($ban);
     }
@@ -39,13 +37,7 @@ class MinecraftPlayerBanController extends Controller
         PlayerBanDeleteRequest $request,
         CreatePlayerUnban $createPlayerUnban,
     ): JsonResponse {
-        try {
-            $ban = $createPlayerUnban->create($request->playerUnban());
-        } catch (ModelNotFoundException) {
-            throw ValidationException::withMessages([
-               'banned_player_uuid' => ['Player is not currently banned'],
-            ]);
-        }
+        $ban = $createPlayerUnban->call($request->playerUnban());
 
         return response()->json($ban);
     }

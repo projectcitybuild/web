@@ -3,7 +3,7 @@
 namespace Tests\Unit\Middleware;
 
 use App\Http\Middleware\EnsureClientToken;
-use App\Models\Eloquent\ClientToken;
+use App\Models\ClientToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Manage\ManageBadgeRequest;
-use App\Models\Eloquent\Badge;
+use App\Models\Badge;
 use Illuminate\Http\JsonResponse;
 
 class ManageBadgeController extends Controller

@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Eloquent\Account;
-use App\Models\Eloquent\Badge;
-use App\Models\Eloquent\ClientToken;
-use App\Models\Eloquent\Donation;
-use App\Models\Eloquent\DonationPerk;
-use App\Models\Eloquent\DonationTier;
-use App\Models\Eloquent\IPBan;
-use App\Models\Eloquent\PlayerBan;
-use App\Models\Eloquent\Group;
-use App\Models\Eloquent\Player;
-use App\Models\Eloquent\Server;
+use App\Models\Account;
+use App\Models\Badge;
+use App\Models\ClientToken;
+use App\Models\Donation;
+use App\Models\DonationPerk;
+use App\Models\DonationTier;
+use App\Models\Group;
+use App\Models\IPBan;
+use App\Models\Player;
+use App\Models\PlayerBan;
+use App\Models\Server;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 

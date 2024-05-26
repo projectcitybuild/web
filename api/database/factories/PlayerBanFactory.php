@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Eloquent\PlayerBan;
-use App\Models\Eloquent\Player;
-use App\Models\UnbanType;
+use App\Domains\Bans\UnbanType;
+use App\Models\Player;
+use App\Models\PlayerBan;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PlayerBanFactory extends Factory
