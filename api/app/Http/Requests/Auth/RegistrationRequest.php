@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Auth;
 
-use App\Domains\Accounts\Data\Rules\EmailValidationRules;
-use App\Domains\Accounts\Data\Rules\PasswordValidationRules;
-use App\Domains\Accounts\Data\Rules\UsernameValidationRules;
+use App\Domains\Accounts\Rules\EmailValidationRules;
+use App\Domains\Accounts\Rules\PasswordValidationRules;
+use App\Domains\Accounts\Rules\UsernameValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegistrationRequest extends FormRequest
