@@ -73,20 +73,12 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
 
     public function player(): BelongsTo
     {
-        return $this->belongsTo(
-            related: Player::class,
-            foreignKey: Account::primaryKey(),
-            ownerKey: Account::primaryKey(),
-        );
+        return $this->belongsTo(related: Player::class);
     }
 
     public function donations(): HasMany
     {
-        return $this->hasMany(
-            related: Donation::class,
-            foreignKey: Account::primaryKey(),
-            localKey: Account::primaryKey(),
-        );
+        return $this->hasMany(related: Donation::class);
     }
 
     public function badges(): BelongsToMany
@@ -94,7 +86,6 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
         return $this->belongsToMany(
             related: Badge::class,
             table: 'badges_pivot',
-            foreignPivotKey: Account::primaryKey(),
             relatedPivotKey: Badge::primaryKey(),
         );
     }

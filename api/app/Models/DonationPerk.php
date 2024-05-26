@@ -38,28 +38,16 @@ final class DonationPerk extends Model
 
     public function account(): BelongsTo
     {
-        return $this->belongsTo(
-            related: Account::class,
-            foreignKey: 'account_id',
-            ownerKey: 'account_id',
-        );
+        return $this->belongsTo(related: Account::class);
     }
 
     public function donation(): BelongsTo
     {
-        return $this->belongsTo(
-            related: Donation::class,
-            foreignKey: 'donation_id',
-            ownerKey: 'donation_id',
-        );
+        return $this->belongsTo(related: Donation::class);
     }
 
     public function donationTier(): BelongsTo
     {
-        return $this->belongsTo(
-            related: DonationTier::class,
-            foreignKey: 'donation_tier_id',
-            ownerKey: 'donation_tier_id',
-        );
+        return $this->belongsTo(related: DonationTier::class);
     }
 }

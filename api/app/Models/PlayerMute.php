@@ -33,7 +33,6 @@ final class PlayerMute extends Model
         return $this->belongsTo(
             related: Player::class,
             foreignKey: 'muted_player_id',
-            ownerKey: Player::primaryKey(),
         );
     }
 
@@ -42,7 +41,6 @@ final class PlayerMute extends Model
         return $this->belongsTo(
             related: Player::class,
             foreignKey: 'muter_player_id',
-            ownerKey: Player::primaryKey(),
         );
     }
 }

@@ -27,19 +27,11 @@ final class Donation extends Model
 
     public function account(): BelongsTo
     {
-        return $this->belongsTo(
-            related: Account::class,
-            foreignKey: 'account_id',
-            ownerKey: 'account_id',
-        );
+        return $this->belongsTo(related: Account::class);
     }
 
     public function perks(): HasMany
     {
-        return $this->hasMany(
-            related: DonationPerk::class,
-            foreignKey: 'donation_id',
-            localKey: 'donation_id',
-        );
+        return $this->hasMany(related: DonationPerk::class);
     }
 }

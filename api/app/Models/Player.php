@@ -41,20 +41,12 @@ final class Player extends Model
 
     public function account(): BelongsTo
     {
-        return $this->belongsTo(
-            related: Account::class,
-            foreignKey: 'account_id',
-            ownerKey: 'account_id',
-        );
+        return $this->belongsTo(related: Account::class);
     }
 
     public function aliases(): HasMany
     {
-        return $this->hasMany(
-            related: PlayerAlias::class,
-            foreignKey: 'player_id',
-            localKey: 'player_id',
-        );
+        return $this->hasMany(related: PlayerAlias::class);
     }
 
     public function bans(): HasMany
@@ -62,7 +54,6 @@ final class Player extends Model
         return $this->hasMany(
             related: PlayerBan::class,
             foreignKey: 'banned_player_id',
-            localKey: 'player_id',
         );
     }
 
@@ -71,7 +62,6 @@ final class Player extends Model
         return $this->hasMany(
             related: PlayerWarning::class,
             foreignKey: 'warned_player_id',
-            localKey: 'player_id',
         );
     }
 }

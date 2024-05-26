@@ -29,7 +29,7 @@ class TwoFactorQrCodeTest extends TestCase
 
         $this->actingAs($user)
             ->json(method: self::METHOD, uri: self::ENDPOINT)
-            ->assertStatus(400);
+            ->assertNotFound();
     }
 
     public function test_generates_qr_code()
