@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Minecraft\Bans;
 
 use App\Core\Domains\MinecraftUUID\MinecraftUUID;
-use App\Core\Exceptions\ModelAlreadyExistsException;
 use App\Domains\Bans\Actions\CreatePlayerBan;
 use App\Domains\Bans\Actions\CreatePlayerUnban;
 use App\Http\Controllers\Controller;
@@ -12,7 +11,6 @@ use App\Http\Requests\Bans\PlayerBanStoreRequest;
 use App\Models\Player;
 use App\Models\PlayerBan;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\ValidationException;
 
 class MinecraftPlayerBanController extends Controller
 {
@@ -20,6 +18,9 @@ class MinecraftPlayerBanController extends Controller
     {
         $player = Player::uuid($uuid)->firstOrFail();
         $ban = PlayerBan::forPlayer($player)->active()->firstOrFail();
+
+        // TODO: update ban if it expired
+
         return response()->json($ban);
     }
 
@@ -28,7 +29,7 @@ class MinecraftPlayerBanController extends Controller
         CreatePlayerBan $createPlayerBan,
     ): JsonResponse
     {
-        $ban = $createPlayerBan->call($request->playerBan());
+        $ban = $createPlayerBan->call($request->transfer());
         return response()->json($ban);
     }
 
@@ -37,7 +38,7 @@ class MinecraftPlayerBanController extends Controller
         CreatePlayerUnban $createPlayerUnban,
     ): JsonResponse
     {
-        $ban = $createPlayerUnban->call($request->playerUnban());
+        $ban = $createPlayerUnban->call($request->transfer());
         return response()->json($ban);
     }
 }

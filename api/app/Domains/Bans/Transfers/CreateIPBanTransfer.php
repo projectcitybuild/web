@@ -5,13 +5,11 @@ namespace App\Domains\Bans\Transfers;
 use App\Core\Domains\MinecraftUUID\MinecraftUUID;
 use Illuminate\Support\Carbon;
 
-class CreatePlayerBanTransfer
+class CreateIPBanTransfer
 {
     public function __construct(
-      readonly MinecraftUUID $bannedPlayerUUID,
-      readonly string $bannedPlayerAlias,
+      readonly string $ip,
       readonly ?MinecraftUUID $bannerPlayerUUID,
       readonly ?string $reason,
-      readonly ?Carbon $expiresAt,
     ) {}
 }

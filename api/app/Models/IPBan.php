@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @method static Builder forIP(string $ip)
+ */
 final class IPBan extends Model
 {
     use HasFactory;
@@ -28,6 +32,16 @@ final class IPBan extends Model
         'updated_at',
         'unbanned_at',
     ];
+
+    public function scopeForIP(Builder $query, string $ip)
+    {
+        $query->where('ip', $ip);
+    }
+
+    public function scopeActive(Builder $query)
+    {
+        $query->whereNull('unbanned_at');
+    }
 
     public function bannerPlayer(): BelongsTo
     {
