@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Me;
 
-use App\Actions\Auth\SendEmailChangeVerification;
-use App\Actions\Me\UpdateUserEmail;
+use App\Domains\Accounts\Data\Rules\EmailValidationRules;
+use App\Domains\AccountSecurity\Actions\SendEmailChangeVerificationLink;
+use App\Domains\EditAccount\Actions\UpdateUserEmail;
 use App\Http\Controllers\Controller;
-use App\Models\Rules\EmailValidationRules;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,12 +14,15 @@ class UpdateEmailController extends Controller
 {
     use EmailValidationRules;
 
-    public function store(Request $request, SendEmailChangeVerification $sendEmailChangeVerification): JsonResponse
+    public function store(
+        Request                         $request,
+        SendEmailChangeVerificationLink $sendEmailChangeVerification,
+    ): JsonResponse
     {
         $request->validate([
             'email' => $this->emailRules(),
         ]);
-        $sendEmailChangeVerification->send(
+        $sendEmailChangeVerification->call(
             account: $request->user(),
             newEmailAddress: $request->get('email'),
         );
@@ -27,14 +30,17 @@ class UpdateEmailController extends Controller
         return response()->json();
     }
 
-    public function update(Request $request, UpdateUserEmail $updateUserEmail): RedirectResponse
+    public function update(
+        Request $request,
+        UpdateUserEmail $updateUserEmail,
+    ): RedirectResponse
     {
         $token = $request->get('token');
         if ($token === null) {
-            abort(401);
+            abort(code: 401);
         }
 
-        $updateUserEmail->update(token: $token);
+        $updateUserEmail->call(token: $token);
 
         // TODO: move this to frontend
         return response()->redirectTo(config('app.frontend_url') . '/dashboard/security/change-email?verified=1');

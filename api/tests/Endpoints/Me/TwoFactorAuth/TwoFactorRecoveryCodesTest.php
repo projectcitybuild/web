@@ -2,7 +2,7 @@
 
 namespace Tests\Endpoints\Me\TwoFactorAuth;
 
-use App\Models\Eloquent\Account;
+use App\Models\Account;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -28,7 +28,7 @@ class TwoFactorRecoveryCodesTest extends TestCase
 
         $this->actingAs($user)
             ->json(method: self::METHOD, uri: self::ENDPOINT)
-            ->assertStatus(400);
+            ->assertNotFound();
     }
 
     public function test_generates_recovery_codes()

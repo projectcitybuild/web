@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Manage\ManagePlayerBanStoreRequest;
-use App\Models\Eloquent\IPBan;
+use App\Models\IPBan;
 use Illuminate\Http\JsonResponse;
 
 class ManageIPBanController extends Controller

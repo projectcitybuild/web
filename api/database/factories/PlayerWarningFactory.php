@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Eloquent\Player;
-use App\Models\Eloquent\PlayerWarning;
+use App\Models\Player;
+use App\Models\PlayerWarning;
 use Carbon\Carbon;
 
 class PlayerWarningFactory extends Factory

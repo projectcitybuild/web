@@ -2,7 +2,7 @@
 
 namespace Tests\Endpoints\Me\TwoFactorAuth;
 
-use App\Models\Eloquent\Account;
+use App\Models\Account;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -27,7 +27,7 @@ class TwoFactorEnableTest extends TestCase
 
         $this->actingAs($user)
             ->json(method: self::METHOD, uri: self::ENDPOINT)
-            ->assertStatus(400);
+            ->assertStatus(409);
     }
 
     public function test_generates_2fa_secret()

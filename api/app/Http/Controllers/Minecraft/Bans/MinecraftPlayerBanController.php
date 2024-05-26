@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Minecraft\Bans;
 
-use App\Actions\Bans\CreatePlayerBan;
-use App\Actions\Bans\CreatePlayerUnban;
+use App\Core\Domains\MinecraftUUID\MinecraftUUID;
+use App\Core\Exceptions\ModelAlreadyExistsException;
+use App\Domains\Bans\Actions\CreatePlayerBan;
+use App\Domains\Bans\Actions\CreatePlayerUnban;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Bans\PlayerBanDeleteRequest;
 use App\Http\Requests\Bans\PlayerBanStoreRequest;
-use App\Models\Eloquent\Player;
-use App\Models\Eloquent\PlayerBan;
-use App\Models\MinecraftUUID;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\Player;
+use App\Models\PlayerBan;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
@@ -18,35 +18,26 @@ class MinecraftPlayerBanController extends Controller
 {
     public function show(MinecraftUUID $uuid): JsonResponse
     {
-        $player = Player::uuid($uuid)->first();
-        if ($player === null) {
-            return response()->json(null);
-        }
-        $ban = PlayerBan::forPlayer($player)->active()->first();
+        $player = Player::uuid($uuid)->firstOrFail();
+        $ban = PlayerBan::forPlayer($player)->active()->firstOrFail();
         return response()->json($ban);
     }
 
     public function store(
         PlayerBanStoreRequest $request,
         CreatePlayerBan $createPlayerBan,
-    ): JsonResponse {
-        $ban = $createPlayerBan->create($request->playerBan());
-
+    ): JsonResponse
+    {
+        $ban = $createPlayerBan->call($request->playerBan());
         return response()->json($ban);
     }
 
     public function delete(
         PlayerBanDeleteRequest $request,
         CreatePlayerUnban $createPlayerUnban,
-    ): JsonResponse {
-        try {
-            $ban = $createPlayerUnban->create($request->playerUnban());
-        } catch (ModelNotFoundException) {
-            throw ValidationException::withMessages([
-               'banned_player_uuid' => ['Player is not currently banned'],
-            ]);
-        }
-
+    ): JsonResponse
+    {
+        $ban = $createPlayerUnban->call($request->playerUnban());
         return response()->json($ban);
     }
 }

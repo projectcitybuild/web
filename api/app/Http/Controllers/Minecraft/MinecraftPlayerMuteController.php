@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Minecraft;
 
-use App\Actions\GetOrCreatePlayer;
+use App\Core\Domains\MinecraftPlayers\Actions\GetOrCreatePlayer;
+use App\Core\Domains\MinecraftUUID\MinecraftUUID;
+use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Http\Controllers\Controller;
-use App\Models\Eloquent\Player;
-use App\Models\Eloquent\PlayerMute;
-use App\Models\MinecraftUUID;
-use App\Models\Rules\MinecraftUUIDRule;
+use App\Models\Player;
+use App\Models\PlayerMute;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -33,12 +33,12 @@ final class MinecraftPlayerMuteController extends Controller
            'muter_uuid' => [new MinecraftUUIDRule],
         ]);
 
-        $mutedPlayer = $getOrCreatePlayer($uuid);
+        $mutedPlayer = $getOrCreatePlayer->call(uuid: $uuid);
 
         $muterPlayer = null;
         if (! empty($validated['muter_uuid'])) {
             $muterUuid = new MinecraftUUID($validated['muter_uuid']);
-            $muterPlayer = $getOrCreatePlayer($muterUuid);
+            $muterPlayer = $getOrCreatePlayer->call(uuid: $muterUuid);
         }
 
         if (PlayerMute::forPlayer($mutedPlayer)->exists()) {
@@ -59,7 +59,7 @@ final class MinecraftPlayerMuteController extends Controller
         MinecraftUUID $uuid,
         GetOrCreatePlayer $getOrCreatePlayer,
     ): JsonResponse {
-        $mutedPlayer = $getOrCreatePlayer($uuid);
+        $mutedPlayer = $getOrCreatePlayer->call(uuid: $uuid);
         $mute = PlayerMute::forPlayer($mutedPlayer)->firstOrFail();
         $mute->delete();
 

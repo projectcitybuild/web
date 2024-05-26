@@ -2,7 +2,7 @@
 
 namespace Tests\Endpoints\Me\TwoFactorAuth;
 
-use App\Models\Eloquent\Account;
+use App\Models\Account;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery\MockInterface;
 use RobThree\Auth\Providers\Qr\IQRCodeProvider;
@@ -29,7 +29,7 @@ class TwoFactorQrCodeTest extends TestCase
 
         $this->actingAs($user)
             ->json(method: self::METHOD, uri: self::ENDPOINT)
-            ->assertStatus(400);
+            ->assertNotFound();
     }
 
     public function test_generates_qr_code()

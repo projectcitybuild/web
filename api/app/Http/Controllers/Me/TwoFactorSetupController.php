@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Me;
 
+use App\Domains\MFA\Actions\ConfirmMFASetup;
+use App\Domains\MFA\Actions\CreateQRCode;
+use App\Domains\MFA\Actions\CreateRecoveryCodes;
+use App\Domains\MFA\Actions\DisableMFA;
+use App\Domains\MFA\Actions\EnableMFA;
+use App\Domains\MFA\Actions\VerifyMFACode;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Me\TwoFactorConfirmRequest;
 use App\Http\Requests\Me\TwoFactorDisableRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use RobThree\Auth\TwoFactorAuth;
 use RobThree\Auth\TwoFactorAuthException;
 
 class TwoFactorSetupController extends Controller
@@ -19,20 +22,16 @@ class TwoFactorSetupController extends Controller
      * Enables 2FA for the current user by generating them a 2FA secret
      *
      * @param Request $request
-     * @param TwoFactorAuth $twoFactorAuth
+     * @param EnableMFA $enableMFA
      * @return JsonResponse
      * @throws TwoFactorAuthException
      */
-    public function enable(Request $request, TwoFactorAuth $twoFactorAuth): JsonResponse
+    public function enable(
+        Request $request,
+        EnableMFA $enableMFA,
+    ): JsonResponse
     {
-        $user = $request->user();
-
-        if ($user->two_factor_secret !== null) {
-            abort(400, 'Two Factor Authentication is already enabled');
-        }
-
-        $user->two_factor_secret = encrypt($twoFactorAuth->createSecret());
-        $user->save();
+        $enableMFA->call(account: $request->user());
 
         return response()->json();
     }
@@ -40,19 +39,18 @@ class TwoFactorSetupController extends Controller
     /**
      * Disables 2FA for the current user (provided that they can authorize it)
      *
-     * @param Request $request
+     * @param TwoFactorDisableRequest $request
+     * @param DisableMFA $disableMFA
      * @return JsonResponse
      */
-    public function disable(TwoFactorDisableRequest $request): JsonResponse
+    public function disable(
+        TwoFactorDisableRequest $request,
+        DisableMFA $disableMFA,
+    ): JsonResponse
     {
-        $user = $request->user();
-
         $request->validated();
 
-        $user->two_factor_secret = null;
-        $user->two_factor_recovery_codes = null;
-        $user->two_factor_confirmed_at = null;
-        $user->save();
+        $disableMFA->call(account: $request->user());
 
         return response()->json();
     }
@@ -61,21 +59,15 @@ class TwoFactorSetupController extends Controller
      * Generates a fresh set of recovery codes for the current user
      *
      * @param Request $request
+     * @param CreateRecoveryCodes $createCodes
      * @return JsonResponse
      */
-    public function recoveryCodes(Request $request): JsonResponse
+    public function recoveryCodes(
+        Request $request,
+        CreateRecoveryCodes $createCodes,
+    ): JsonResponse
     {
-        $user = $request->user();
-
-        if ($user->two_factor_secret === null) {
-            abort(400, 'Two Factor Authentication must be enabled first');
-        }
-
-        $generator = fn () => Str::random(10).'-'.Str::random(10);
-        $codes = Collection::times(8, $generator)->all();
-
-        $user->two_factor_recovery_codes = encrypt(json_encode($codes));
-        $user->save();
+        $codes = $createCodes->call(account: $request->user());
 
         return response()->json([
             'recovery_codes' => $codes,
@@ -87,18 +79,21 @@ class TwoFactorSetupController extends Controller
      * a valid 2FA code)
      *
      * @param TwoFactorConfirmRequest $request
-     * @param TwoFactorAuth $twoFactorAuth
+     * @param VerifyMFACode $verifyMFACode
      * @return JsonResponse
      * @throws ValidationException
      */
-    public function confirm(TwoFactorConfirmRequest $request, TwoFactorAuth $twoFactorAuth): JsonResponse
+    public function confirm(
+        TwoFactorConfirmRequest $request,
+        VerifyMFACode $verifyMFACode,
+        ConfirmMFASetup $confirmMFASetup,
+    ): JsonResponse
     {
         $validated = $request->validated();
+        $account = $request->user();
 
-        $user = $request->user();
-
-        $isValid = $twoFactorAuth->verifyCode(
-            secret: decrypt($user->two_factor_secret),
+        $isValid = $verifyMFACode->call(
+            secret: $account->two_factor_secret,
             code: $validated['code'],
         );
         if (! $isValid) {
@@ -107,8 +102,7 @@ class TwoFactorSetupController extends Controller
             ]);
         }
 
-        $user->two_factor_confirmed_at = now();
-        $user->save();
+        $confirmMFASetup->call(account: $account);
 
         return response()->json();
     }
@@ -118,22 +112,19 @@ class TwoFactorSetupController extends Controller
      * the user in their 2FA app of choice to start generating 2FA codes.
      *
      * @param Request $request
-     * @param TwoFactorAuth $twoFactorAuth
+     * @param CreateQRCode $createQRCode
      * @return JsonResponse
      * @throws TwoFactorAuthException
      */
-    public function qrCode(Request $request, TwoFactorAuth $twoFactorAuth): JsonResponse
+    public function qrCode(
+        Request $request,
+        CreateQRCode $createQRCode,
+    ): JsonResponse
     {
-        $user = $request->user();
+        $qr =  $createQRCode->call(account: $request->user());
 
-        if ($user->two_factor_secret === null) {
-            abort(400, 'Two Factor Authentication must be enabled first');
-        }
         return response()->json([
-            'qr' => $twoFactorAuth->getQRCodeImageAsDataUri(
-                label: $user->username,
-                secret: decrypt($user->two_factor_secret),
-            ),
+            'qr' => $qr,
         ]);
     }
 }

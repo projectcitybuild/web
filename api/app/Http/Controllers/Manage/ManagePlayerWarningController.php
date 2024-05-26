@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Manage\ManagePlayerWarningRequest;
-use App\Models\Eloquent\PlayerWarning;
+use App\Models\PlayerWarning;
 use Illuminate\Http\JsonResponse;
 
 class ManagePlayerWarningController extends Controller

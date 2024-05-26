@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Eloquent\ClientToken;
+use App\Models\ClientToken;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

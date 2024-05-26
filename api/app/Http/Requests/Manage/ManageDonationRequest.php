@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Manage;
 
-use App\Models\Eloquent\Account;
+use App\Models\Account;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ManageDonationRequest extends FormRequest

@@ -2,7 +2,7 @@
 
 namespace Tests\Endpoints\Auth;
 
-use App\Models\Eloquent\Account;
+use App\Models\Account;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;

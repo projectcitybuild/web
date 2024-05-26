@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Manage\ManagePlayerRequest;
-use App\Models\Eloquent\Player;
+use App\Models\Player;
 use Illuminate\Http\JsonResponse;
 
 class ManagePlayerController extends Controller

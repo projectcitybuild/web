@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Manage\ManageDonationRequest;
-use App\Models\Eloquent\Donation;
+use App\Models\Donation;
 use Illuminate\Http\JsonResponse;
 
 class ManageDonationController extends Controller

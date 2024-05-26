@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Manage;
 
-use App\Models\Eloquent\Player;
+use App\Models\Player;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ManagePlayerWarningRequest extends FormRequest

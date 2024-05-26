@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Eloquent\IPBan;
-use App\Models\Eloquent\Player;
+use App\Models\IPBan;
+use App\Models\Player;
 use Domain\Bans\UnbanType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

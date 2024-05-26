@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Eloquent\Player;
+use App\Models\Player;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PlayerFactory extends Factory

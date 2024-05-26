@@ -9,7 +9,10 @@ use RobThree\Auth\TwoFactorAuth;
 
 class TwoFactorRecoveryController extends Controller
 {
-    public function __invoke(Request $request, TwoFactorAuth $twoFactorAuth): JsonResponse
+    public function __invoke(
+        Request $request,
+        TwoFactorAuth $twoFactorAuth,
+    ): JsonResponse
     {
         // TODO
         return response()->json();

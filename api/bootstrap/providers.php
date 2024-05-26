@@ -1,6 +1,8 @@
 <?php
 
 return [
-    App\Providers\AppServiceProvider::class,
-    App\Providers\CashierServiceProvider::class,
+    App\AppServiceProvider::class,
+    \App\Core\Domains\MinecraftUUID\MinecraftUUIDServiceProvider::class,
+    App\Domains\MFA\MFAServiceProvider::class,
+    App\Domains\PasswordReset\PasswordResetServiceProvider::class,
 ];
