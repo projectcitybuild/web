@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Models;
 
-use App\Core\MinecraftUUID\MinecraftUUID;
+use App\Core\Domains\MinecraftUUID\MinecraftUUID;
 use Tests\TestCase;
 
 class MinecraftUUIDTest extends TestCase

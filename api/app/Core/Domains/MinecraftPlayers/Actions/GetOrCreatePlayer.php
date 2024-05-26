@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Core\MinecraftPlayers\Actions;
+namespace App\Core\Domains\MinecraftPlayers\Actions;
 
-use App\Core\MinecraftPlayers\Events\PlayerCreatedEvent;
-use App\Core\MinecraftUUID\MinecraftUUID;
+use App\Core\Domains\MinecraftPlayers\Events\PlayerCreatedEvent;
+use App\Core\Domains\MinecraftUUID\MinecraftUUID;
 use App\Models\Player;
 
 class GetOrCreatePlayer

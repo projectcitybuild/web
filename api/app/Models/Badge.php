@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Utilities\Traits\HasStaticTable;
+use App\Core\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;

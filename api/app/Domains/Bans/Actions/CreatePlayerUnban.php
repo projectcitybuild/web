@@ -2,7 +2,7 @@
 
 namespace App\Domains\Bans\Actions;
 
-use App\Core\MinecraftPlayers\Actions\GetOrCreatePlayer;
+use App\Core\Domains\MinecraftPlayers\Actions\GetOrCreatePlayer;
 use App\Domains\Bans\Events\PlayerUnbannedEvent;
 use App\Domains\Bans\Transfers\CreatePlayerUnbanTransfer;
 use App\Domains\Bans\UnbanType;

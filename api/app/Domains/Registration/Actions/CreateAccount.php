@@ -13,6 +13,8 @@ class CreateAccount
         string $email,
         string $password,
     ): void {
+        // TODO: move account existence check to here
+
         $account = Account::create([
             'username' => $username,
             'email' => $email,

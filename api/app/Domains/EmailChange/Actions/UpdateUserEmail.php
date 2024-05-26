@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Domains\EditAccount\Actions;
+namespace App\Domains\EmailChange\Actions;
 
 use App\Models\AccountEmailChange;
-use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 

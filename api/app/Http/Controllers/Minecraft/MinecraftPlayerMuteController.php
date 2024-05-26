@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Minecraft;
 
-use App\Core\MinecraftPlayers\Actions\GetOrCreatePlayer;
-use App\Core\MinecraftUUID\MinecraftUUID;
-use App\Core\MinecraftUUID\Rules\MinecraftUUIDRule;
+use App\Core\Domains\MinecraftPlayers\Actions\GetOrCreatePlayer;
+use App\Core\Domains\MinecraftUUID\MinecraftUUID;
+use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Http\Controllers\Controller;
 use App\Models\Player;
 use App\Models\PlayerMute;

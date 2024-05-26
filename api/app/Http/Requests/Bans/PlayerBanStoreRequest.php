@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\Bans;
 
-use App\Core\MinecraftUUID\MinecraftUUID;
+use App\Core\Domains\MinecraftUUID\MinecraftUUID;
+use App\Core\Rules\TimestampPastNow;
+use App\Core\Traits\HasTimestampInput;
 use App\Domains\Bans\Transfers\CreatePlayerBanTransfer;
-use App\Utilities\Rules\TimestampPastNow;
-use App\Utilities\Traits\HasTimestampInput;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PlayerBanStoreRequest extends FormRequest

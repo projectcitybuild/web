@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Accounts\Data\Rules;
+namespace App\Domains\Accounts\Rules;
 
 use App\Models\Account;
 use Illuminate\Validation\Rule;

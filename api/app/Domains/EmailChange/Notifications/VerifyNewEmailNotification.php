@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\AccountSecurity\Data\Notifications;
+namespace App\Domains\EmailChange\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Core\MinecraftUUID\MinecraftUUID;
-use App\Utilities\Traits\HasStaticTable;
+use App\Core\Domains\MinecraftUUID\MinecraftUUID;
+use App\Core\Traits\HasStaticTable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;

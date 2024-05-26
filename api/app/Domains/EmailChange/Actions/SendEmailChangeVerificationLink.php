@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Domains\AccountSecurity\Actions;
+namespace App\Domains\EmailChange\Actions;
 
-use App\Domains\AccountSecurity\Data\Notifications\VerifyNewEmailNotification;
+use App\Core\Utilities\HashedTokenGenerator;
+use App\Domains\EmailChange\Notifications\VerifyNewEmailNotification;
 use App\Models\Account;
 use App\Models\AccountEmailChange;
-use App\Utilities\HashedTokenGenerator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 
-final class SendEmailChangeVerification
+final class SendEmailChangeVerificationLink
 {
     private const LINK_EXPIRY_TIME_IN_MINS = 15;
 
@@ -18,7 +18,7 @@ final class SendEmailChangeVerification
         private readonly HashedTokenGenerator $tokenGenerator,
     ) {}
 
-    public function call(Account $account, string $newEmailAddress)
+    public function call(Account $account, string $newEmailAddress): void
     {
         $token = $this->tokenGenerator->make();
         $expiry = now()->addMinutes(self::LINK_EXPIRY_TIME_IN_MINS);

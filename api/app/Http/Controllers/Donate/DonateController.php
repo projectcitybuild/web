@@ -2,56 +2,57 @@
 
 namespace App\Http\Controllers\Donate;
 
+use App\Domains\Donations\Action\GetCheckoutUrl;
+use App\Domains\Donations\OneTimeCheckoutCharge;
+use App\Domains\Donations\SubscriptionCheckoutCharge;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class DonateController extends Controller
 {
-    public function single(Request $request): JsonResponse
+    public function single(Request $request, GetCheckoutUrl $getCheckoutUrl): JsonResponse
     {
-        $request->validate([
+        $validated = $request->validate([
             'price_id' => ['required', 'string'],
             'months' => ['required', 'int', 'between:1,999'],
             'success_url' => ['required', 'url'],
             'cancel_url' => ['required', 'url'],
         ]);
-
-        // TODO: whitelist urls
-
-        $product = [$request->get('price_id') => $request->get('months')];
-        $options = $request->only(['success_url', 'cancel_url']);
-        $options['metadata'] = ['purpose' => 'donation'];
-
-        $checkout = $request
-            ->user()
-            ->checkout($product, $options)
-            ->toArray(); // Prevent automatic redirection to Stripe Checkout
-
+        $charge = new OneTimeCheckoutCharge(
+            priceId: $validated['price_id'],
+            months: $validated['months'],
+            redirectSuccessUrl: $validated['success_url'],
+            redirectCancelUrl: $validated['cancel_url'],
+        );
+        $redirectUrl = $getCheckoutUrl->call(
+            account: $request->user(),
+            charge: $charge,
+        );
         return response()->json([
-            'checkout_url' => $checkout['url'],
+            'checkout_url' => $redirectUrl,
         ]);
     }
 
-    public function subscription(Request $request): JsonResponse
+    public function subscription(Request $request, GetCheckoutUrl $getCheckoutUrl): JsonResponse
     {
-        $request->validate([
+        $validated = $request->validate([
             'price_id' => ['required', 'string'],
+            'success_url' => ['required', 'url'],
+            'cancel_url' => ['required', 'url'],
         ]);
-
-        // TODO: whitelist urls
-
-        $options = $request->only(['success_url', 'cancel_url']);
-        $options['metadata'] = ['purpose' => 'donation'];
-
-        $checkout = $request
-            ->user()
-            ->newSubscription('TODO product name', $request->get('price_id')) // TODO
-            ->checkout($options)
-            ->toArray(); // Prevent automatic redirection to Stripe Checkout
-
+        $charge = new SubscriptionCheckoutCharge(
+            priceId: $validated['price_id'],
+            productName: 'TODO product name', // TODO
+            redirectSuccessUrl: $validated['success_url'],
+            redirectCancelUrl: $validated['cancel_url'],
+        );
+        $redirectUrl = $getCheckoutUrl->call(
+            account: $request->user(),
+            charge: $charge,
+        );
         return response()->json([
-            'checkout_url' => $checkout['url'],
+            'checkout_url' => $redirectUrl,
         ]);
     }
 }

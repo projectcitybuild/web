@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Core\MinecraftUUID\MinecraftUUID;
-use App\Utilities\Traits\HasStaticTable;
+use App\Core\Domains\MinecraftUUID\MinecraftUUID;
+use App\Core\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

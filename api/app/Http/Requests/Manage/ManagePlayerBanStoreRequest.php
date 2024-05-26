@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Manage;
 
+use App\Core\Rules\TimestampPastNow;
 use App\Models\Player;
 use App\Models\PlayerBan;
-use App\Utilities\Rules\TimestampPastNow;
 use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 

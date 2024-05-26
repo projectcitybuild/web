@@ -2,7 +2,7 @@
 
 namespace App\Domains\Bans\Transfers;
 
-use App\Core\MinecraftUUID\MinecraftUUID;
+use App\Core\Domains\MinecraftUUID\MinecraftUUID;
 use Illuminate\Support\Carbon;
 
 class CreatePlayerBanTransfer

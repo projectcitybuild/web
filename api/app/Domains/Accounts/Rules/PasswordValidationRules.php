@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Accounts\Data\Rules;
+namespace App\Domains\Accounts\Rules;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;

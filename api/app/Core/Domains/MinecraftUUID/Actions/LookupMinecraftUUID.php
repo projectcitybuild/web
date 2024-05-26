@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core\MinecraftUUID\Actions;
+namespace App\Core\Domains\MinecraftUUID\Actions;
 
-use App\Core\MinecraftUUID\MinecraftUUID;
+use App\Core\Domains\MinecraftUUID\MinecraftUUID;
 use Illuminate\Support\Facades\Http;
 
 class LookupMinecraftUUID

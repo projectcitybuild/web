@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Minecraft\Players;
 
-use App\Core\MinecraftUUID\MinecraftUUID;
-use App\Domains\Accounts\Data\Rules\EmailValidationRules;
-use App\Domains\Accounts\Data\Rules\PasswordValidationRules;
-use App\Domains\Accounts\Data\Rules\UsernameValidationRules;
+use App\Core\Domains\MinecraftUUID\MinecraftUUID;
+use App\Domains\Accounts\Rules\EmailValidationRules;
+use App\Domains\Accounts\Rules\PasswordValidationRules;
+use App\Domains\Accounts\Rules\UsernameValidationRules;
 use App\Http\Controllers\Controller;
 use App\Models\Player;
 use App\Models\PlayerMute;

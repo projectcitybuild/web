@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Bans;
 
-use App\Core\MinecraftUUID\MinecraftUUID;
+use App\Core\Domains\MinecraftUUID\MinecraftUUID;
 use App\Domains\Bans\Transfers\CreatePlayerUnbanTransfer;
 use Illuminate\Foundation\Http\FormRequest;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\MinecraftPlayers\Events;
+namespace App\Core\Domains\MinecraftPlayers\Events;
 
 use App\Models\Player;
 use Illuminate\Contracts\Events\ShouldDispatchAfterCommit;

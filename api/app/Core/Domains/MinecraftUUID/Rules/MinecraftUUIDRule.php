@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core\MinecraftUUID\Rules;
+namespace App\Core\Domains\MinecraftUUID\Rules;
 
-use App\Core\MinecraftUUID\MinecraftUUID;
+use App\Core\Domains\MinecraftUUID\MinecraftUUID;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 

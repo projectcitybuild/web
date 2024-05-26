@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utilities\Traits;
+namespace App\Core\Traits;
 
 trait HasStaticTable
 {

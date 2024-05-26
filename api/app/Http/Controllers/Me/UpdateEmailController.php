@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Me;
 
 use App\Domains\Accounts\Data\Rules\EmailValidationRules;
-use App\Domains\AccountSecurity\Actions\SendEmailChangeVerification;
+use App\Domains\AccountSecurity\Actions\SendEmailChangeVerificationLink;
 use App\Domains\EditAccount\Actions\UpdateUserEmail;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
@@ -15,8 +15,8 @@ class UpdateEmailController extends Controller
     use EmailValidationRules;
 
     public function store(
-        Request $request,
-        SendEmailChangeVerification $sendEmailChangeVerification,
+        Request                         $request,
+        SendEmailChangeVerificationLink $sendEmailChangeVerification,
     ): JsonResponse
     {
         $request->validate([

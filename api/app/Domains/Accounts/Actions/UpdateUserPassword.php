@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\EditAccount\Actions;
+namespace App\Domains\Accounts\Actions;
 
 use App\Models\Account;
 use Illuminate\Support\Facades\Hash;

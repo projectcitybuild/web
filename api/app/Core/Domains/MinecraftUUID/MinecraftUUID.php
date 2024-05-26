@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\MinecraftUUID;
+namespace App\Core\Domains\MinecraftUUID;
 
 use Exception;
 use Illuminate\Validation\ValidationException;

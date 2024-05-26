@@ -2,7 +2,7 @@
 
 namespace App\Domains\Bans\Transfers;
 
-use App\Core\MinecraftUUID\MinecraftUUID;
+use App\Core\Domains\MinecraftUUID\MinecraftUUID;
 
 class CreatePlayerUnbanTransfer
 {

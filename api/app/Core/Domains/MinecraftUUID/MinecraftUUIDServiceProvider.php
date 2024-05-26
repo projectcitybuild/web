@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\MinecraftUUID;
+namespace App\Core\Domains\MinecraftUUID;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;

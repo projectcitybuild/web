@@ -2,7 +2,8 @@
 
 namespace App\Domains\Bans\Actions;
 
-use App\Core\MinecraftPlayers\Actions\GetOrCreatePlayer;
+use App\Core\Domains\MinecraftPlayers\Actions\GetOrCreatePlayer;
+use App\Core\Exceptions\ModelAlreadyExistsException;
 use App\Domains\Bans\Events\PlayerBannedEvent;
 use App\Domains\Bans\Transfers\CreatePlayerBanTransfer;
 use App\Models\PlayerBan;
@@ -15,16 +16,14 @@ class CreatePlayerBan
     ) {}
 
     /**
-     * @throws ValidationException if $bannerPlayerUUID is already banned
+     * @throws ModelAlreadyExistsException if the player is already banned
      */
     public function call(CreatePlayerBanTransfer $input): PlayerBan {
         $bannedPlayer = $this->getOrCreatePlayer->call(uuid: $input->bannedPlayerUUID);
 
         $activeBanExists = PlayerBan::forPlayer($bannedPlayer)->active()->exists();
         if ($activeBanExists) {
-            throw ValidationException::withMessages([
-                'banned_player_uuid' => ['This UUID is already banned'],
-            ]);
+            throw new ModelAlreadyExistsException(message: 'This UUID is already banned');
         }
 
         $bannerPlayer = ($input->bannerPlayerUUID != null)
