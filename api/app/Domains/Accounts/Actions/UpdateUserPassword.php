@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 
 final class UpdateUserPassword
 {
-    public function call(Account $user, String $newPassword): void
+    public function call(Account $user, string $newPassword): void
     {
         $newPassword = Hash::make($newPassword);
         $user->forceFill([

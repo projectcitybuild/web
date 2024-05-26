@@ -4,11 +4,10 @@ namespace App\Domains\Bans\Transfers;
 
 use App\Core\Domains\MinecraftUUID\MinecraftUUID;
 
-class CreatePlayerUnbanTransfer
+class CreateIPUnbanTransfer
 {
     public function __construct(
-      readonly MinecraftUUID $bannedPlayerUUID,
+      readonly string $ip,
       readonly ?MinecraftUUID $unbannerPlayerUUID,
-      readonly ?string $reason,
     ) {}
 }

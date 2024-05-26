@@ -3,31 +3,30 @@
 namespace App\Http\Requests\Bans;
 
 use App\Core\Domains\MinecraftUUID\MinecraftUUID;
-use App\Domains\Bans\Transfers\CreatePlayerUnbanTransfer;
+use App\Domains\Bans\Transfers\CreateIPUnbanTransfer;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PlayerBanDeleteRequest extends FormRequest
+class IPBanDeleteRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'banned_player_uuid' => ['required', 'uuid'],
+            'ip' => ['required', 'ip'],
             'unbanner_player_uuid' => ['uuid'],
             'reason' => 'string',
         ];
     }
 
-    public function transfer(): CreatePlayerUnbanTransfer
+    public function transfer(): CreateIPUnbanTransfer
     {
         $validated = $this->safe()->collect();
 
-        return new CreatePlayerUnbanTransfer(
-            bannedPlayerUUID: new MinecraftUUID($validated->get('banned_player_uuid')),
+        return new CreateIPUnbanTransfer(
+            ip: $validated->get('ip'),
             unbannerPlayerUUID: optional(
                 $validated->get('unbanner_player_uuid'),
                 fn ($uuid) => new MinecraftUUID($uuid),
             ),
-            reason: $validated->get('reason'),
         );
     }
 }

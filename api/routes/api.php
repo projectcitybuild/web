@@ -24,6 +24,7 @@ use App\Http\Controllers\Me\TwoFactorSetupController;
 use App\Http\Controllers\Me\UpdateEmailController;
 use App\Http\Controllers\Me\UpdatePasswordController;
 use App\Http\Controllers\Me\UpdateUsernameController;
+use App\Http\Controllers\Minecraft\Bans\MinecraftIPBanController;
 use App\Http\Controllers\Minecraft\Bans\MinecraftPlayerBanController;
 use App\Http\Controllers\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Minecraft\MinecraftPlayerMuteController;
@@ -117,5 +118,8 @@ Route::prefix('minecraft')
         Route::apiResource('bans', MinecraftPlayerBanController::class)
             ->only('show', 'store', 'delete');
     });
+
+    Route::apiResource('ip-bans', MinecraftIPBanController::class)
+        ->only('show', 'store', 'delete');
 });
 

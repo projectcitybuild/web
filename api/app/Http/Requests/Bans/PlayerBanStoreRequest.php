@@ -12,11 +12,6 @@ class PlayerBanStoreRequest extends FormRequest
 {
     use HasTimestampInput;
 
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
@@ -28,16 +23,17 @@ class PlayerBanStoreRequest extends FormRequest
         ];
     }
 
-    public function playerBan(): CreatePlayerBanTransfer
+    public function transfer(): CreatePlayerBanTransfer
     {
         $validated = $this->safe()->collect();
 
         return new CreatePlayerBanTransfer(
             bannedPlayerUUID: new MinecraftUUID($validated->get('banned_player_uuid')),
             bannedPlayerAlias: $validated->get('banned_player_alias'),
-            bannerPlayerUUID: $validated->has('banner_player_uuid')
-                ? new MinecraftUUID($validated->get('banner_player_uuid'))
-                : null,
+            bannerPlayerUUID: optional(
+                $validated->get('banner_player_uuid'),
+                fn ($uuid) => new MinecraftUUID($uuid),
+            ),
             reason: $validated->get('reason'),
             expiresAt: self::timestamp(from: $validated->get('expires_at')),
         );
