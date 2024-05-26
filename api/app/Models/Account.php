@@ -57,9 +57,9 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
     {
         return Attribute::make(
             get: function () {
-                $player = $this->player;
-                if ($player !== null) {
-                    $uuid = new MinecraftUUID($player->uuid);
+                $player = $this->players->first();
+                $uuid = optional($player?->uuid, fn ($uuid) => MinecraftUUID::tryParse($uuid));
+                if ($uuid !== null) {
                     return "https://minotar.net/avatar/".$uuid->trimmed();
                 }
                 if ($this->username !== null) {
@@ -71,9 +71,9 @@ final class Account extends Authenticatable implements MustVerifyEmail, CanReset
         );
     }
 
-    public function player(): BelongsTo
+    public function players(): HasMany
     {
-        return $this->belongsTo(related: Player::class);
+        return $this->hasMany(related: Player::class);
     }
 
     public function donations(): HasMany
