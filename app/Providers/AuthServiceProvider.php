@@ -30,8 +30,6 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         if (! $this->app->routesAreCached()) {
-            Passport::routes();
-
             Route::get('oauth/me', [OAuthController::class, 'show'])
                 ->middleware('auth:api');
         }
