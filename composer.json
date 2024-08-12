@@ -20,7 +20,6 @@
         "laravel/horizon": "^5.10",
         "laravel/passport": "^12.0",
         "laravel/scout": "^10.0",
-        "laravel/telescope": "^5.0",
         "laravel/tinker": "^2.9",
         "league/commonmark": "^2.3",
         "league/flysystem-aws-s3-v3": "^3.0",
@@ -91,11 +90,8 @@
             "@php artisan key:generate --ansi"
         ],
         "post-install-cmd": [
-            "@php artisan vendor:publish --tag=telescope-assets --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan telescope:publish --ansi",
-            "@php artisan horizon:publish --ansi"
         ]
     }
 }
