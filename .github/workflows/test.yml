@@ -98,7 +98,6 @@ jobs:
         run: npm run build
 
       - name: Prepare .env file
-        working-directory: api
         run: |
           cp .env.example .env
           echo "DB_HOST=127.0.0.1" >> .env
