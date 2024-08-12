@@ -15,6 +15,7 @@ final class GameIPBan extends Model implements LinkableAuditModel
     use LogsActivity;
 
     protected $table = 'game_ip_bans';
+
     protected $fillable = [
         'banner_player_id',
         'ip_address',
@@ -25,11 +26,9 @@ final class GameIPBan extends Model implements LinkableAuditModel
         'unbanner_player_id',
         'unban_type',
     ];
-    protected $hidden = [];
-    protected $dates = [
-        'created_at',
-        'updated_at',
-        'unbanned_at',
+
+    protected $casts = [
+        'unbanned_at' => 'datetime',
     ];
 
     public function bannerPlayer(): BelongsTo

@@ -2,7 +2,6 @@
 
 namespace Entities\Models\Eloquent;
 
-use Altek\Eventually\Eventually;
 use Carbon\Carbon;
 use function collect;
 use Entities\Models\PanelGroupScope;
@@ -44,10 +43,11 @@ final class Account extends Authenticatable implements LinkableAuditModel
     use Billable;
     use CausesActivity;
     use LogsActivity;
-    use Eventually;
 
     protected $table = 'accounts';
+
     protected $primaryKey = 'account_id';
+
     protected $fillable = [
         'email',
         'username',
@@ -57,24 +57,24 @@ final class Account extends Authenticatable implements LinkableAuditModel
         'last_login_at',
         'balance',
     ];
+
     protected $hidden = [
         'totp_secret',
         'totp_backup_code',
     ];
+
     protected static $recordEvents = [
         'created',
         'updated',
         'deleted',
         'synced',
     ];
-    protected $dates = [
-        'created_at',
-        'updated_at',
-        'last_login_at',
-    ];
+
     protected $casts = [
+        'last_login_at' => 'datetime',
         'is_totp_enabled' => 'boolean',
     ];
+
     private ?Collection $cachedGroupScopes = null;
 
     public function toSearchableArray()

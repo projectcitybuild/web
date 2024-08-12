@@ -47,9 +47,6 @@ final class AppServiceProvider extends ServiceProvider
             abstract: PlayerLookup::class,
             concrete: ConcretePlayerLookup::class,
         );
-
-        // Prevent Cashier's vendor migrations running because we override them
-        Cashier::ignoreMigrations();
     }
 
     /**
