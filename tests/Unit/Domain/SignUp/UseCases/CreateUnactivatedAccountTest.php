@@ -2,12 +2,12 @@
 
 namespace Tests\Unit\Domain\SignUp\UseCases;
 
+use App\Core\Domains\SignedURL\Adapters\StubSignedURLGenerator;
+use App\Core\Domains\SignedURL\SignedURLGenerator;
 use App\Models\Account;
 use Domain\SignUp\UseCases\CreateUnactivatedAccount;
 use Entities\Notifications\AccountActivationNotification;
 use Illuminate\Support\Facades\Notification;
-use Library\SignedURL\Adapters\StubSignedURLGenerator;
-use Library\SignedURL\SignedURLGenerator;
 use Repositories\AccountRepository;
 use Shared\Groups\GroupsManager;
 use Tests\TestCase;

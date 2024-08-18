@@ -2,12 +2,12 @@
 
 namespace Tests\Unit\Library\Auditing;
 
-use Library\Auditing\AuditAttributes;
-use Library\Auditing\Changes\ArrayChange;
-use Library\Auditing\Changes\BooleanChange;
-use Library\Auditing\Changes\Change;
-use Library\Auditing\Changes\MultilineChange;
-use Library\Auditing\Changes\RelationshipChange;
+use App\Core\Domains\Auditing\AuditAttributes;
+use App\Core\Domains\Auditing\Changes\ArrayChange;
+use App\Core\Domains\Auditing\Changes\BooleanChange;
+use App\Core\Domains\Auditing\Changes\Change;
+use App\Core\Domains\Auditing\Changes\MultilineChange;
+use App\Core\Domains\Auditing\Changes\RelationshipChange;
 use Tests\TestCase;
 
 class AuditAttributesTest extends TestCase

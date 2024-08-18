@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use App\Core\Domains\Auditing\Causers\SystemCauser;
+use App\Core\Domains\Auditing\Causers\SystemCauseResolver;
 use App\Core\Exceptions\BadRequestException;
 use App\Models\Account;
 use Domain\Donations\Entities\Payloads\StripeCheckoutSessionCompleted;
@@ -12,8 +14,6 @@ use Domain\Donations\UseCases\ProcessPayment;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
-use Library\Auditing\Causers\SystemCauser;
-use Library\Auditing\Causers\SystemCauseResolver;
 use Stripe\StripeClient;
 use Symfony\Component\HttpFoundation\Response;
 

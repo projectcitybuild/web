@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Model;
 use Carbon\CarbonInterface;
 use Domain\BanAppeals\Entities\BanAppealStatus;
@@ -10,7 +11,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
-use Library\Auditing\Contracts\LinkableAuditModel;
 
 class BanAppeal extends Model implements LinkableAuditModel
 {

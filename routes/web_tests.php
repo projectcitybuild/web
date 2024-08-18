@@ -1,7 +1,7 @@
 <?php
 
+use App\Core\Domains\Environment\Environment;
 use Illuminate\Support\Facades\Route;
-use Library\Environment\Environment;
 
 if (! Environment::isTest()) return;
 

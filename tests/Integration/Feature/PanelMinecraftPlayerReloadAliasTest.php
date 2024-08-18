@@ -2,11 +2,11 @@
 
 namespace Tests\Integration\Feature;
 
+use App\Core\Domains\Mojang\Api\MojangPlayerApi;
+use App\Core\Domains\Mojang\Models\MojangPlayerNameHistory;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
 use Entities\Models\PanelGroupScope;
-use Library\Mojang\Api\MojangPlayerApi;
-use Library\Mojang\Models\MojangPlayerNameHistory;
 use Mockery\MockInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\IntegrationTestCase;

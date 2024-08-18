@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use App\Core\Domains\Auditing\AuditAttributes;
+use App\Core\Domains\Auditing\Concerns\LogsActivity;
+use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Library\Auditing\AuditAttributes;
-use Library\Auditing\Concerns\LogsActivity;
-use Library\Auditing\Contracts\LinkableAuditModel;
 
 final class GameIPBan extends Model implements LinkableAuditModel
 {

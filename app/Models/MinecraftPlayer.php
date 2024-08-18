@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
+use App\Core\Domains\Auditing\AuditAttributes;
+use App\Core\Domains\Auditing\Concerns\LogsActivity;
+use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Model;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Library\Auditing\AuditAttributes;
-use Library\Auditing\Concerns\LogsActivity;
-use Library\Auditing\Contracts\LinkableAuditModel;
 use Shared\PlayerLookup\Contracts\Player;
 
 final class MinecraftPlayer extends Model implements Player, LinkableAuditModel

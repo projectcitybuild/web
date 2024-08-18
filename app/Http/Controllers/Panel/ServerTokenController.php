@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Core\Domains\Tokens\TokenGenerator;
 use App\Http\Controllers\WebController;
 use App\Models\ServerToken;
 use App\Models\ServerTokenScope;
@@ -12,7 +13,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Library\Tokens\TokenGenerator;
 
 class ServerTokenController extends WebController
 {

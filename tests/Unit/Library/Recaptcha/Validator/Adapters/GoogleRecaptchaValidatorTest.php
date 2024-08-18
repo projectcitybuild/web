@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Library\Recaptcha\Validator\Adapters;
 
+use App\Core\Domains\Recaptcha\Validator\Adapters\GoogleRecaptchaValidator;
 use Illuminate\Support\Facades\Http;
-use Library\Recaptcha\Validator\Adapters\GoogleRecaptchaValidator;
 use Tests\TestCase;
 
 class GoogleRecaptchaValidatorTest extends TestCase

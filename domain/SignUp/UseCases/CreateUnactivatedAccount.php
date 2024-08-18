@@ -2,8 +2,8 @@
 
 namespace Domain\SignUp\UseCases;
 
+use App\Core\Domains\SignedURL\SignedURLGenerator;
 use Entities\Notifications\AccountActivationNotification;
-use Library\SignedURL\SignedURLGenerator;
 use Repositories\AccountRepository;
 use Shared\Groups\GroupsManager;
 

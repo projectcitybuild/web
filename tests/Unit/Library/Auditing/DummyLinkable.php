@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Library\Auditing;
 
-use Library\Auditing\Contracts\LinkableAuditModel;
+use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 
 class DummyLinkable implements LinkableAuditModel
 {

@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Library\Auditing\Changes;
 
-use Library\Auditing\Changes\ArrayChange;
-use Library\Auditing\Changes\ArrayDiff\ArrayWrapState;
-use Library\Auditing\Changes\Tokens\NotInAudit;
+use App\Core\Domains\Auditing\Changes\ArrayChange;
+use App\Core\Domains\Auditing\Changes\ArrayDiff\ArrayWrapState;
+use App\Core\Domains\Auditing\Changes\Tokens\NotInAudit;
 use Tests\TestCase;
 
 class ArrayChangeTest extends TestCase

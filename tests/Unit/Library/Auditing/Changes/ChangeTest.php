@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Library\Auditing\Changes;
 
-use Library\Auditing\Changes\Change;
-use Library\Auditing\Changes\Tokens\NotInAudit;
+use App\Core\Domains\Auditing\Changes\Change;
+use App\Core\Domains\Auditing\Changes\Tokens\NotInAudit;
 use Tests\TestCase;
 
 class ChangeTest extends TestCase

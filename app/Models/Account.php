@@ -3,6 +3,10 @@
 namespace App\Models;
 
 use Altek\Eventually\Eventually;
+use App\Core\Domains\Auditing\AuditAttributes;
+use App\Core\Domains\Auditing\Concerns\CausesActivity;
+use App\Core\Domains\Auditing\Concerns\LogsActivity;
+use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use Carbon\Carbon;
 use Entities\Models\PanelGroupScope;
 use Entities\Resources\AccountResource;
@@ -17,10 +21,6 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
-use Library\Auditing\AuditAttributes;
-use Library\Auditing\Concerns\CausesActivity;
-use Library\Auditing\Concerns\LogsActivity;
-use Library\Auditing\Contracts\LinkableAuditModel;
 use function collect;
 
 final class Account extends Authenticatable implements LinkableAuditModel

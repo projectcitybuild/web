@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Library\RateLimit\Storage;
 
-use Library\RateLimit\Storage\MemoryTokenStorage;
-use Library\RateLimit\TokenState;
+use App\Core\Domains\RateLimit\Storage\MemoryTokenStorage;
+use App\Core\Domains\RateLimit\TokenState;
 use Tests\TestCase;
 
 class MemoryTokenStorage_Test extends TestCase

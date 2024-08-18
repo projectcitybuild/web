@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
+use App\Core\Domains\Google2FA\Google2FAFake;
 use App\Http\Controllers\API\v1\OAuthController;
 use App\Models\BanAppeal;
 use App\Policies\BanAppealPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
-use Library\Google2FA\Google2FAFake;
 use PragmaRX\Google2FA\Google2FA;
 
 class AuthServiceProvider extends ServiceProvider

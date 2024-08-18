@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Core\Domains\Mojang\Api\MojangPlayerApi;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
-use Library\Mojang\Api\MojangPlayerApi;
 
 class MinecraftPlayerReloadAliasController extends WebController
 {

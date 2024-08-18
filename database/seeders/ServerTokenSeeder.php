@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Core\Domains\Tokens\Adapters\HashedTokenGenerator;
 use App\Models\Server;
 use App\Models\ServerToken;
 use App\Models\ServerTokenScope;
 use Domain\ServerTokens\ScopeKey;
 use Illuminate\Database\Seeder;
-use Library\Tokens\Adapters\HashedTokenGenerator;
 
 class ServerTokenSeeder extends Seeder
 {

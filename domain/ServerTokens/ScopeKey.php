@@ -2,7 +2,7 @@
 
 namespace Domain\ServerTokens;
 
-use Helpers\ValueJoinable;
+use App\Core\Utilities\Traits\ValueJoinable;
 
 enum ScopeKey: string
 {

@@ -2,10 +2,10 @@
 
 namespace Domain\PasswordReset\UseCases;
 
+use App\Core\Domains\SignedURL\SignedURLGenerator;
+use App\Core\Domains\Tokens\TokenGenerator;
 use App\Models\Account;
 use Entities\Notifications\AccountPasswordResetNotification;
-use Library\SignedURL\SignedURLGenerator;
-use Library\Tokens\TokenGenerator;
 use Repositories\AccountPasswordResetRepository;
 
 final class SendPasswordResetEmail

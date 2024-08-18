@@ -2,7 +2,7 @@
 
 namespace Domain\Bans;
 
-use Helpers\ValueJoinable;
+use App\Core\Utilities\Traits\ValueJoinable;
 
 enum UnbanType: string
 {

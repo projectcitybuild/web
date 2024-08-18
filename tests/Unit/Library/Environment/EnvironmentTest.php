@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Library\Environment;
 
-use Library\Environment\Environment;
-use Library\Environment\EnvironmentLevel;
+use App\Core\Domains\Environment\Environment;
+use App\Core\Domains\Environment\EnvironmentLevel;
 use Tests\Support\TemporaryConfig;
 use Tests\TestCase;
 

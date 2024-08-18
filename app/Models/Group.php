@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Library\Auditing\Contracts\LinkableAuditModel;
 
 final class Group extends Model implements LinkableAuditModel
 {

@@ -2,6 +2,10 @@
 
 namespace Unit\Domain\EmailChange\UseCases;
 
+use App\Core\Domains\SignedURL\Adapters\StubSignedURLGenerator;
+use App\Core\Domains\SignedURL\SignedURLGenerator;
+use App\Core\Domains\Tokens\Adapters\StubTokenGenerator;
+use App\Core\Domains\Tokens\TokenGenerator;
 use App\Models\Account;
 use App\Models\AccountEmailChange;
 use Domain\EmailChange\Notifications\VerifyNewEmailAddressNotification;
@@ -9,10 +13,6 @@ use Domain\EmailChange\Notifications\VerifyOldEmailAddressNotification;
 use Domain\EmailChange\UseCases\SendVerificationEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
-use Library\SignedURL\Adapters\StubSignedURLGenerator;
-use Library\SignedURL\SignedURLGenerator;
-use Library\Tokens\Adapters\StubTokenGenerator;
-use Library\Tokens\TokenGenerator;
 use Repositories\AccountEmailChangeRepository;
 use Tests\TestCase;
 

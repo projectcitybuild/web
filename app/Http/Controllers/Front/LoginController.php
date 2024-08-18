@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Core\Domains\RateLimit\Storage\SessionTokenStorage;
+use App\Core\Domains\RateLimit\TokenBucket;
+use App\Core\Domains\RateLimit\TokenRate;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\LoginRequest;
 use Domain\Login\Entities\LoginCredentials;
@@ -14,9 +17,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Library\RateLimit\Storage\SessionTokenStorage;
-use Library\RateLimit\TokenBucket;
-use Library\RateLimit\TokenRate;
 
 final class LoginController extends WebController
 {

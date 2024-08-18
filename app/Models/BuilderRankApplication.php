@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Model;
 use Domain\BuilderRankApplications\Entities\ApplicationStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
-use Library\Auditing\Contracts\LinkableAuditModel;
 
 final class BuilderRankApplication extends Model implements LinkableAuditModel
 {

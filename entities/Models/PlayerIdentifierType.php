@@ -2,7 +2,7 @@
 
 namespace Entities\Models;
 
-use Helpers\ValueJoinable;
+use App\Core\Utilities\Traits\ValueJoinable;
 
 enum PlayerIdentifierType: string
 {

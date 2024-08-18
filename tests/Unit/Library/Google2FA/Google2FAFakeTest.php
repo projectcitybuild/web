@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Library\Google2FA;
 
-use Library\Google2FA\Exceptions\Dangerous2FABypassException;
-use Library\Google2FA\Google2FAFake;
+use App\Core\Domains\Google2FA\Exceptions\Dangerous2FABypassException;
+use App\Core\Domains\Google2FA\Google2FAFake;
 use Tests\Support\TemporaryConfig;
 use Tests\TestCase;
 

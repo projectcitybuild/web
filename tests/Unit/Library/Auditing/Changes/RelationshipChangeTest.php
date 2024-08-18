@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Library\Auditing\Changes;
 
-use Library\Auditing\Changes\RelationshipChange;
-use Library\Auditing\Changes\Tokens\NotInAudit;
+use App\Core\Domains\Auditing\Changes\RelationshipChange;
+use App\Core\Domains\Auditing\Changes\Tokens\NotInAudit;
 use Tests\TestCase;
 use Tests\Unit\Library\Auditing\DummyLinkable;
 

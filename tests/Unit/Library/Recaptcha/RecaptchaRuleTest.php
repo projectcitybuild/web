@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Library\Recaptcha;
 
+use App\Core\Domains\Recaptcha\Rules\RecaptchaRule;
+use App\Core\Domains\Recaptcha\Validator\Adapters\StubRecaptchaValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Library\Recaptcha\Rules\RecaptchaRule;
-use Library\Recaptcha\Validator\Adapters\StubRecaptchaValidator;
 use Tests\TestCase;
 
 class RecaptchaRuleTest extends TestCase

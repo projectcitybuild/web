@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Core\Domains\Auditing\Causers\SystemCauser;
+use App\Core\Domains\Auditing\Concerns\ProcessesActivity;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Library\Auditing\Causers\SystemCauser;
-use Library\Auditing\Concerns\ProcessesActivity;
 
 class Activity extends \Spatie\Activitylog\Models\Activity
 {

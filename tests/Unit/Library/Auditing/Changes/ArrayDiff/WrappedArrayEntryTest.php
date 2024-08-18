@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Library\Auditing\Changes\ArrayDiff;
 
-use Library\Auditing\Changes\ArrayDiff\ArrayWrapState;
-use Library\Auditing\Changes\ArrayDiff\WrappedArrayEntry;
+use App\Core\Domains\Auditing\Changes\ArrayDiff\ArrayWrapState;
+use App\Core\Domains\Auditing\Changes\ArrayDiff\WrappedArrayEntry;
 use Tests\TestCase;
 
 class WrappedArrayEntryTest extends TestCase

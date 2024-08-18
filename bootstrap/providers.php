@@ -8,12 +8,12 @@ return [
     App\Providers\PanelGateServiceProvider::class,
     App\Providers\RepositoryServiceProvider::class,
 
-    Library\Discord\DiscordChannelServiceProvider::class,
-    Library\Recaptcha\RecaptchaProvider::class,
-    Library\Random\RandomProvider::class,
-    Library\SignedURL\SignedURLProvider::class,
-    Library\Tokens\TokensProvider::class,
-    Library\Auditing\AuditingServiceProvider::class,
+    \App\Core\Domains\Discord\DiscordChannelServiceProvider::class,
+    \App\Core\Domains\Recaptcha\RecaptchaProvider::class,
+    \App\Core\Domains\Random\RandomProvider::class,
+    \App\Core\Domains\SignedURL\SignedURLProvider::class,
+    \App\Core\Domains\Tokens\TokensProvider::class,
+    \App\Core\Domains\Auditing\AuditingServiceProvider::class,
 
     Shared\Groups\GroupsProvider::class,
 

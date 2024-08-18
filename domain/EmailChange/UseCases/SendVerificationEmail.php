@@ -2,11 +2,11 @@
 
 namespace Domain\EmailChange\UseCases;
 
+use App\Core\Domains\SignedURL\SignedURLGenerator;
+use App\Core\Domains\Tokens\TokenGenerator;
 use Domain\EmailChange\Notifications\VerifyNewEmailAddressNotification;
 use Domain\EmailChange\Notifications\VerifyOldEmailAddressNotification;
 use Illuminate\Support\Facades\Notification;
-use Library\SignedURL\SignedURLGenerator;
-use Library\Tokens\TokenGenerator;
 use Repositories\AccountEmailChangeRepository;
 
 final class SendVerificationEmail
