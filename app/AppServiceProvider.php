@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App;
 
 use App\Core\Domains\PlayerLookup\Service\ConcretePlayerLookup;
 use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
@@ -26,10 +26,15 @@ use App\View\Components\PanelSideBarComponent;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
+use Repositories\GameIPBans\GameIPBanEloquentRepository;
+use Repositories\GameIPBans\GameIPBanRepository;
+use Repositories\PlayerWarnings\PlayerWarningEloquentRepository;
+use Repositories\PlayerWarnings\PlayerWarningRepository;
 use Stripe\StripeClient;
 
 final class AppServiceProvider extends ServiceProvider
@@ -48,6 +53,15 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: PlayerLookup::class,
             concrete: ConcretePlayerLookup::class,
+        );
+
+        $this->app->bind(
+            abstract: GameIPBanRepository::class,
+            concrete: GameIPBanEloquentRepository::class,
+        );
+        $this->app->bind(
+            abstract: PlayerWarningRepository::class,
+            concrete: PlayerWarningEloquentRepository::class,
         );
     }
 
@@ -103,6 +117,12 @@ final class AppServiceProvider extends ServiceProvider
         // Set a default date format for displaying Carbon instances in views
         Blade::stringable(function (\Illuminate\Support\Carbon $dateTime) {
             return $dateTime->format('j M Y H:i');
+        });
+
+        $this->registerOauthRoute();
+
+        Gate::define('viewHorizon', function ($user) {
+            return $user->isAdmin();
         });
     }
 
