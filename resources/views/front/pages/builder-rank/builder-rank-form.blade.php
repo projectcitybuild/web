@@ -79,7 +79,7 @@
                     <div class="form-row">
                         <label for="current_builder_rank">Current builder rank</label>
                         <select name="current_builder_rank" class="textfield {{ $errors->any() ? 'error' : '' }}">
-                            @foreach (\App\Domains\BuilderRankApplications\Entities\BuilderRank::cases() as $rank)
+                            @foreach (\App\Domains\BuilderRankApplications\Data\BuilderRank::cases() as $rank)
                                 <option value="{{ $rank->value }}">{{ $rank->humanReadable() }}</option>
                             @endforeach
                         </select>

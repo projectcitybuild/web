@@ -2,8 +2,8 @@
 
 namespace App\Domains\CurrencyRewarder;
 
+use App\Domains\Donations\Notifications\DonationTierCurrencyAwarded;
 use App\Models\DonationPerk;
-use Entities\Notifications\DonationTierCurrencyAwarded;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Repositories\BalanceHistoryRepository;

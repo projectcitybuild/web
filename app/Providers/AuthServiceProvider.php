@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Core\Domains\Google2FA\Google2FAFake;
 use App\Domains\BanAppeals\Policies\BanAppealPolicy;
-use App\Http\Controllers\API\v1\OAuthController;
+use App\Http\Controllers\Api\v1\OAuthController;
 use App\Models\BanAppeal;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;

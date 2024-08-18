@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Domains\BuilderRankApplications\Entities\BuilderRank;
+use App\Domains\BuilderRankApplications\Data\BuilderRank;
 use App\Domains\BuilderRankApplications\Exceptions\ApplicationAlreadyInProgressException;
 use App\Domains\BuilderRankApplications\UseCases\CreateBuildRankApplication;
 use App\Http\Controllers\WebController;

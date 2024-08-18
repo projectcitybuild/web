@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Front\Account\Mfa;
 
+use App\Core\Domains\Google2FA\Notifications\AccountMfaDisabledNotification;
 use App\Http\Controllers\WebController;
-use Entities\Notifications\AccountMfaDisabledNotification;
 use Illuminate\Http\Request;
 
 class DisableMfaController extends WebController

@@ -4,9 +4,9 @@ namespace Tests\Unit\Domain\SignUp\UseCases;
 
 use App\Core\Domains\SignedURL\Adapters\StubSignedURLGenerator;
 use App\Core\Domains\SignedURL\SignedURLGenerator;
+use App\Domains\SignUp\Notifications\AccountActivationNotification;
 use App\Domains\SignUp\UseCases\CreateUnactivatedAccount;
 use App\Models\Account;
-use Entities\Notifications\AccountActivationNotification;
 use Illuminate\Support\Facades\Notification;
 use Repositories\AccountRepository;
 use Shared\Groups\GroupsManager;

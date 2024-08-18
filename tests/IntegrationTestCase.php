@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Domains\Panel\Data\PanelGroupScope;
 use App\Domains\ServerTokens\ScopeKey;
 use App\Models\Account;
 use App\Models\Group;
@@ -10,7 +11,6 @@ use App\Models\Server;
 use App\Models\ServerCategory;
 use App\Models\ServerToken;
 use App\Models\ServerTokenScope;
-use Entities\Models\PanelGroupScope;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 

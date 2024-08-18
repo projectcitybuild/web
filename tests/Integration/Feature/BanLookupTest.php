@@ -2,7 +2,7 @@
 
 namespace Tests\Integration\Feature;
 
-use App\Core\Exceptions\TooManyRequestsException;
+use App\Core\Data\Exceptions\TooManyRequestsException;
 use App\Domains\Bans\Exceptions\NotBannedException;
 use App\Domains\Bans\UseCases\LookupPlayerBan;
 use App\Models\Account;

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Core\Domains\Google2FA\Notifications\AccountMfaBackupCodeUsedNotification;
 use App\Domains\Login\UseCases\LogoutAccount;
 use App\Http\Controllers\WebController;
-use Entities\Notifications\AccountMfaBackupCodeUsedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 

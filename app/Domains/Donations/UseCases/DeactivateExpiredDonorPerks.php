@@ -2,8 +2,8 @@
 
 namespace App\Domains\Donations\UseCases;
 
+use App\Domains\Donations\Notifications\DonationEndedNotification;
 use App\Models\Group;
-use Entities\Notifications\DonationEndedNotification;
 use Illuminate\Support\Facades\Log;
 use Repositories\DonationPerkRepository;
 use Shared\Groups\GroupsManager;

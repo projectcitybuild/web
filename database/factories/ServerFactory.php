@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Core\Data\GameType;
 use App\Models\Server;
 use App\Models\ServerCategory;
-use Entities\Models\GameType;
 
 class ServerFactory extends Factory
 {

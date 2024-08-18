@@ -2,8 +2,8 @@
 
 namespace Tests\Integration\Feature;
 
+use App\Domains\Panel\Data\PanelGroupScope;
 use App\Models\Group;
-use Entities\Models\PanelGroupScope;
 use Tests\IntegrationTestCase;
 
 class PanelGroupsTest extends IntegrationTestCase

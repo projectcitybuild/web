@@ -4,7 +4,7 @@ namespace App\Domains\SignUp\UseCases;
 
 use App\Core\Domains\SignedURL\SignedURLGenerator;
 use App\Domains\SignUp\Exceptions\AccountAlreadyActivatedException;
-use Entities\Notifications\AccountActivationNotification;
+use App\Domains\SignUp\Notifications\AccountActivationNotification;
 use Repositories\AccountRepository;
 
 /**

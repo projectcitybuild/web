@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Domain\PasswordReset\UseCases;
 
-use App\Core\Exceptions\NotFoundException;
+use App\Core\Data\Exceptions\NotFoundException;
+use App\Domains\PasswordReset\Notifications\AccountPasswordResetCompleteNotification;
 use App\Domains\PasswordReset\UseCases\ResetAccountPassword;
 use App\Models\Account;
 use App\Models\AccountPasswordReset;
-use Entities\Notifications\AccountPasswordResetCompleteNotification;
 use Illuminate\Support\Facades\Notification;
 use Repositories\AccountPasswordResetRepository;
 use Repositories\AccountRepository;

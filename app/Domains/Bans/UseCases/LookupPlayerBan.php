@@ -2,11 +2,11 @@
 
 namespace App\Domains\Bans\UseCases;
 
+use App\Core\Data\Exceptions\TooManyRequestsException;
+use App\Core\Data\MinecraftUUID;
 use App\Core\Domains\Mojang\Api\MojangPlayerApi;
-use App\Core\Exceptions\TooManyRequestsException;
 use App\Domains\Bans\Exceptions\NotBannedException;
 use App\Models\GamePlayerBan;
-use Entities\Models\MinecraftUUID;
 use Repositories\GamePlayerBanRepository;
 use Repositories\MinecraftPlayerRepository;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;

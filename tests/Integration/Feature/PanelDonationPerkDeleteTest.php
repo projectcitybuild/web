@@ -2,11 +2,11 @@
 
 namespace Tests\Integration\Feature;
 
+use App\Domains\Panel\Data\PanelGroupScope;
 use App\Models\Account;
 use App\Models\Donation;
 use App\Models\DonationPerk;
 use App\Models\DonationTier;
-use Entities\Models\PanelGroupScope;
 use Tests\IntegrationTestCase;
 
 class PanelDonationPerkDeleteTest extends IntegrationTestCase

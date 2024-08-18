@@ -7,7 +7,7 @@
         <div class="col-md-6">
             @include('admin._errors')
 
-            @if ($application->status == \App\Domains\BuilderRankApplications\Entities\ApplicationStatus::IN_PROGRESS->value)
+            @if ($application->status == \App\Domains\BuilderRankApplications\Data\ApplicationStatus::IN_PROGRESS->value)
                 <div class="card border-warning mb-3">
                     <div class="card-header">
                         Application Status
@@ -25,7 +25,7 @@
                     </div>
                 </div>
             @endif
-            @if ($application->status == \App\Domains\BuilderRankApplications\Entities\ApplicationStatus::DENIED->value)
+            @if ($application->status == \App\Domains\BuilderRankApplications\Data\ApplicationStatus::DENIED->value)
                 <div class="card border-danger mb-3">
                     <div class="card-header">
                         Application Status
@@ -42,7 +42,7 @@
                     </div>
                 </div>
             @endif
-            @if ($application->status == \App\Domains\BuilderRankApplications\Entities\ApplicationStatus::APPROVED->value)
+            @if ($application->status == \App\Domains\BuilderRankApplications\Data\ApplicationStatus::APPROVED->value)
                 <div class="card border-success mb-3">
                     <div class="card-header">
                         Application Status
@@ -139,7 +139,7 @@
                     Close Application
                 </div>
 
-                @if ($application->status == \App\Domains\BuilderRankApplications\Entities\ApplicationStatus::IN_PROGRESS->value)
+                @if ($application->status == \App\Domains\BuilderRankApplications\Data\ApplicationStatus::IN_PROGRESS->value)
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <button type="button" class="btn btn-success" data-bs-toggle="modal"

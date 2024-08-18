@@ -2,12 +2,12 @@
 
 namespace Tests\Integration\API;
 
+use App\Core\Data\PlayerIdentifierType;
 use App\Domains\Bans\UnbanType;
 use App\Domains\ServerTokens\ScopeKey;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
 use App\Models\Server;
-use Entities\Models\PlayerIdentifierType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\IntegrationTestCase;
 

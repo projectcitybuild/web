@@ -2,8 +2,8 @@
 
 namespace App\Domains\ServerStatus\Adapters;
 
+use App\Core\Data\GameType;
 use App\Domains\ServerStatus\Exceptions\UnsupportedGameException;
-use Entities\Models\GameType;
 
 /**
  * @final

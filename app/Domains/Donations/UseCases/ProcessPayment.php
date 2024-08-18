@@ -2,15 +2,15 @@
 
 namespace App\Domains\Donations\UseCases;
 
-use App\Core\Exceptions\BadRequestException;
+use App\Core\Data\Exceptions\BadRequestException;
 use App\Domains\Donations\Entities\PaidAmount;
 use App\Domains\Donations\Entities\PaymentType;
 use App\Domains\Donations\Events\DonationPerkCreated;
 use App\Domains\Donations\Exceptions\StripeProductNotFoundException;
+use App\Domains\Donations\Notifications\DonationPerkStartedNotification;
 use App\Models\Account;
 use App\Models\DonationPerk;
 use App\Models\Group;
-use Entities\Notifications\DonationPerkStartedNotification;
 use Illuminate\Support\Carbon;
 use Repositories\DonationPerkRepository;
 use Repositories\DonationRepository;

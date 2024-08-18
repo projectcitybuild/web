@@ -2,7 +2,7 @@
 
 namespace App\Domains\Bans\UseCases;
 
-use App\Core\Exceptions\NotFoundException;
+use App\Core\Data\Exceptions\NotFoundException;
 use App\Domains\Bans\UnbanType;
 use App\Models\GamePlayerBan;
 use Exception;

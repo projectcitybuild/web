@@ -2,8 +2,8 @@
 
 namespace App\Domains\BuilderRankApplications\UseCases;
 
+use App\Domains\BuilderRankApplications\Notifications\BuilderRankAppDeclinedNotification;
 use App\Models\BuilderRankApplication;
-use Entities\Notifications\BuilderRankAppDeclinedNotification;
 use Repositories\BuilderRankApplicationRepository;
 
 class DenyBuildRankApplication

@@ -2,10 +2,10 @@
 
 namespace Tests\Integration\Feature;
 
+use App\Domains\Panel\Data\PanelGroupScope;
 use App\Models\Account;
 use App\Models\Donation;
 use App\Models\DonationPerk;
-use Entities\Models\PanelGroupScope;
 use Tests\IntegrationTestCase;
 
 class PanelDonationPerkUpdateTest extends IntegrationTestCase

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Domains\SignUp\Notifications\AccountActivationNotification;
 use App\Models\Account;
-use Entities\Notifications\AccountActivationNotification;
 
 class AccountResendActivation
 {

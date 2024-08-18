@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Front\BanAppeal;
 
+use App\Core\Data\Exceptions\TooManyRequestsException;
 use App\Core\Domains\RateLimit\Storage\SessionTokenStorage;
 use App\Core\Domains\RateLimit\TokenBucket;
 use App\Core\Domains\RateLimit\TokenRate;
-use App\Core\Exceptions\TooManyRequestsException;
 use App\Domains\Bans\Exceptions\NotBannedException;
 use App\Domains\Bans\UseCases\LookupPlayerBan;
 use App\Http\Controllers\WebController;

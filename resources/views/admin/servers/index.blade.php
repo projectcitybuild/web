@@ -4,7 +4,8 @@
 
 @section('toolbar')
     <div class="btn-group btn-group-sm" role="group">
-        <a href="{{ route('front.panel.servers.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
+        <a href="{{ route('front.panel.servers.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i>
+            Create</a>
     </div>
 @endsection
 
@@ -30,7 +31,7 @@
                     <td>{{ $server->ip }}</td>
                     <td>{{ $server->port }}</td>
                     <td>{{ $server->ip_alias ?: '' }}</td>
-                    <td>{{ \Entities\Models\GameType::tryFrom($server->game_type)?->name() ?: 'Unknown' }}</td>
+                    <td>{{ \App\Core\Data\GameType::tryFrom($server->game_type)?->name() ?: 'Unknown' }}</td>
                     <td><a href="{{ route('front.panel.servers.edit', $server->getKey()) }}">Edit</a></td>
                 </tr>
             @endforeach

@@ -2,12 +2,12 @@
 
 namespace App\Domains\BuilderRankApplications\UseCases;
 
-use App\Domains\BuilderRankApplications\Entities\ApplicationStatus;
-use App\Domains\BuilderRankApplications\Entities\BuilderRank;
+use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
+use App\Domains\BuilderRankApplications\Data\BuilderRank;
 use App\Domains\BuilderRankApplications\Exceptions\ApplicationAlreadyInProgressException;
+use App\Domains\BuilderRankApplications\Notifications\BuilderRankAppSubmittedNotification;
 use App\Models\Account;
 use App\Models\BuilderRankApplication;
-use Entities\Notifications\BuilderRankAppSubmittedNotification;
 use Repositories\BuilderRankApplicationRepository;
 
 class CreateBuildRankApplication

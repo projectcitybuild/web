@@ -14,7 +14,7 @@ class MinecraftPlayerReloadAliasController extends WebController
      *
      * @return \Illuminate\Http\Response
      *
-     * @throws \App\Core\Exceptions\TooManyRequestsException
+     * @throws \App\Core\Data\Exceptions\TooManyRequestsException
      */
     public function __invoke(Request $request, MinecraftPlayer $minecraftPlayer, MojangPlayerApi $api)
     {

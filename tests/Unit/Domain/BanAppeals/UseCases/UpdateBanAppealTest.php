@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Domain\BanAppeals\UseCases;
 
-use App\Core\Exceptions\NotImplementedException;
+use App\Core\Data\Exceptions\NotImplementedException;
 use App\Domains\BanAppeals\Entities\BanAppealStatus;
 use App\Domains\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use App\Domains\BanAppeals\UseCases\UpdateBanAppeal;

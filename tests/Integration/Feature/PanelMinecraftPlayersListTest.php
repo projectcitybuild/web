@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\Feature;
 
+use App\Domains\Panel\Data\PanelGroupScope;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
-use Entities\Models\PanelGroupScope;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\IntegrationTestCase;
 

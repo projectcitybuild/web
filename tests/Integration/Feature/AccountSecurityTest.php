@@ -2,10 +2,10 @@
 
 namespace Tests\Integration\Feature;
 
+use App\Core\Domains\Google2FA\Notifications\AccountMfaBackupCodeRegeneratedNotification;
+use App\Core\Domains\Google2FA\Notifications\AccountMfaDisabledNotification;
+use App\Core\Domains\Google2FA\Notifications\AccountMfaEnabledNotification;
 use App\Models\Account;
-use Entities\Notifications\AccountMfaBackupCodeRegeneratedNotification;
-use Entities\Notifications\AccountMfaDisabledNotification;
-use Entities\Notifications\AccountMfaEnabledNotification;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Notification;
 use PragmaRX\Google2FA\Google2FA;

@@ -3,7 +3,7 @@
 namespace App\Domains\SignUp\UseCases;
 
 use App\Core\Domains\SignedURL\SignedURLGenerator;
-use Entities\Notifications\AccountActivationNotification;
+use App\Domains\SignUp\Notifications\AccountActivationNotification;
 use Repositories\AccountRepository;
 use Shared\Groups\GroupsManager;
 

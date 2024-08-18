@@ -4,10 +4,10 @@ namespace Domain\PasswordReset\UseCases;
 
 use App\Core\Domains\SignedURL\Adapters\LaravelSignedURLGenerator;
 use App\Core\Domains\Tokens\Adapters\StubTokenGenerator;
+use App\Domains\PasswordReset\Notifications\AccountPasswordResetNotification;
 use App\Domains\PasswordReset\UseCases\SendPasswordResetEmail;
 use App\Models\Account;
 use App\Models\AccountPasswordReset;
-use Entities\Notifications\AccountPasswordResetNotification;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Repositories\AccountPasswordResetRepository;

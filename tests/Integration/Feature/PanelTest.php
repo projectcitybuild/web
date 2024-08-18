@@ -2,10 +2,10 @@
 
 namespace Tests\Integration\Feature;
 
+use App\Domains\Panel\Data\PanelGroupScope;
 use App\Models\Account;
 use App\Models\Group;
 use App\Models\GroupScope;
-use Entities\Models\PanelGroupScope;
 use Tests\TestCase;
 
 class PanelTest extends TestCase

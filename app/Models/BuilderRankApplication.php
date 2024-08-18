@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
-use App\Domains\BuilderRankApplications\Entities\ApplicationStatus;
+use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

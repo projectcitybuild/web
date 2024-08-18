@@ -2,7 +2,7 @@
 
 namespace App\Domains\Donations\UseCases;
 
-use App\Core\Exceptions\NotFoundException;
+use App\Core\Data\Exceptions\NotFoundException;
 use App\Models\MinecraftPlayer;
 use Illuminate\Support\Collection;
 

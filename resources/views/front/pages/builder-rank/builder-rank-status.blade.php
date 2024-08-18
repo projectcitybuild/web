@@ -25,21 +25,21 @@
         <h2>Application Status</h2>
 
         @switch($application->status())
-            @case(\App\Domains\BuilderRankApplications\Entities\ApplicationStatus::IN_PROGRESS)
+            @case(\App\Domains\BuilderRankApplications\Data\ApplicationStatus::IN_PROGRESS)
                 <div class="alert alert--info">
                     <h2><i class="fas fa-clock"></i> In review</h2>
                     Please wait while the Architect Council reviews your submission
                 </div>
                 @break
 
-            @case(\App\Domains\BuilderRankApplications\Entities\ApplicationStatus::APPROVED)
+            @case(\App\Domains\BuilderRankApplications\Data\ApplicationStatus::APPROVED)
                 <div class="alert alert--success">
                     <h2><i class="fas fa-check"></i> Success!</h2>
                     Your application was approved and your rank has been updated
                 </div>
                 @break
 
-            @case(\App\Domains\BuilderRankApplications\Entities\ApplicationStatus::DENIED)
+            @case(\App\Domains\BuilderRankApplications\Data\ApplicationStatus::DENIED)
                 <div class="alert alert--error">
                     <h2><i class="fas fa-times"></i> Unsuccessful</h2>
                     Sorry, your application was not approved this time.

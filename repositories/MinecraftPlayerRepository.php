@@ -2,8 +2,8 @@
 
 namespace Repositories;
 
+use App\Core\Data\MinecraftUUID;
 use App\Models\MinecraftPlayer;
-use Entities\Models\MinecraftUUID;
 
 /**
  * @final

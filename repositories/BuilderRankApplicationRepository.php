@@ -2,8 +2,8 @@
 
 namespace Repositories;
 
-use App\Domains\BuilderRankApplications\Entities\ApplicationStatus;
-use App\Domains\BuilderRankApplications\Entities\BuilderRank;
+use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
+use App\Domains\BuilderRankApplications\Data\BuilderRank;
 use App\Models\BuilderRankApplication;
 use Illuminate\Pagination\LengthAwarePaginator;
 

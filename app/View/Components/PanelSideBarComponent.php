@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use App\Domains\BuilderRankApplications\Entities\ApplicationStatus;
+use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Models\BanAppeal;
 use App\Models\BuilderRankApplication;
 use Illuminate\View\Component;

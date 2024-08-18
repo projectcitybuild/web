@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Entities\Resources;
 
+use App\Http\Resources\AccountResource;
 use App\Models\Account;
-use Entities\Resources\AccountResource;
 use Tests\TestCase;
 
 class AccountResourceTest extends TestCase

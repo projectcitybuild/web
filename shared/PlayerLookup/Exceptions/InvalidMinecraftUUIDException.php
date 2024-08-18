@@ -2,7 +2,7 @@
 
 namespace Shared\PlayerLookup\Exceptions;
 
-use App\Core\Exceptions\PredefinedHttpException;
+use App\Core\Data\Exceptions\PredefinedHttpException;
 
 final class InvalidMinecraftUUIDException extends PredefinedHttpException
 {

@@ -2,9 +2,9 @@
 
 namespace App\Domains\BuilderRankApplications\UseCases;
 
+use App\Domains\BuilderRankApplications\Notifications\BuilderRankAppApprovedNotification;
 use App\Models\BuilderRankApplication;
 use App\Models\Group;
-use Entities\Notifications\BuilderRankAppApprovedNotification;
 use Repositories\BuilderRankApplicationRepository;
 use Shared\Groups\GroupsManager;
 

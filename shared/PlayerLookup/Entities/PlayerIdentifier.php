@@ -2,7 +2,7 @@
 
 namespace Shared\PlayerLookup\Entities;
 
-use Entities\Models\PlayerIdentifierType;
+use App\Core\Data\PlayerIdentifierType;
 use Shared\PlayerLookup\Exceptions\InvalidMinecraftUUIDException;
 
 final class PlayerIdentifier

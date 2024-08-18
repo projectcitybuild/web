@@ -2,9 +2,9 @@
 
 namespace App\Core\Domains\Mojang\Api;
 
+use App\Core\Data\Exceptions\TooManyRequestsException;
 use App\Core\Domains\Mojang\Models\MojangPlayer;
 use App\Core\Domains\Mojang\Models\MojangPlayerNameHistory;
-use App\Core\Exceptions\TooManyRequestsException;
 use App\Models\MinecraftPlayer;
 use GuzzleHttp\Client;
 use Symfony\Component\HttpClient\Exception\ClientException;

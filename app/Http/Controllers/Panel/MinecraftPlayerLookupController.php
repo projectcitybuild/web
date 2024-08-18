@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Core\Data\Exceptions\TooManyRequestsException;
 use App\Core\Domains\Mojang\Api\MojangPlayerApi;
-use App\Core\Exceptions\TooManyRequestsException;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftPlayer;
 use App\Models\MinecraftPlayerAlias;

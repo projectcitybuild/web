@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Domain\SignUp\UseCases;
 
-use App\Core\Exceptions\BadRequestException;
+use App\Core\Data\Exceptions\BadRequestException;
 use App\Domains\SignUp\Exceptions\AccountAlreadyActivatedException;
 use App\Domains\SignUp\UseCases\ActivateUnverifiedAccount;
 use App\Models\Account;

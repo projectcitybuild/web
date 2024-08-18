@@ -3,12 +3,12 @@
 namespace Tests\Unit\Domain\BanAppeals\UseCases;
 
 use App\Domains\BanAppeals\Exceptions\EmailRequiredException;
+use App\Domains\BanAppeals\Notifications\BanAppealConfirmationNotification;
 use App\Domains\BanAppeals\UseCases\CreateBanAppeal;
 use App\Models\Account;
 use App\Models\BanAppeal;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
-use Entities\Notifications\BanAppealConfirmationNotification;
 use Illuminate\Support\Facades\Notification;
 use Repositories\BanAppealRepository;
 use Tests\TestCase;

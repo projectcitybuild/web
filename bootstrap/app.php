@@ -1,11 +1,11 @@
 <?php
 
-use App\Core\Exceptions\BadRequestException;
-use App\Core\Exceptions\BaseHttpException;
-use App\Core\Exceptions\ForbiddenException;
-use App\Core\Exceptions\NotFoundException;
-use App\Core\Exceptions\TooManyRequestsException;
-use App\Core\Exceptions\UnauthorisedException;
+use App\Core\Data\Exceptions\BadRequestException;
+use App\Core\Data\Exceptions\BaseHttpException;
+use App\Core\Data\Exceptions\ForbiddenException;
+use App\Core\Data\Exceptions\NotFoundException;
+use App\Core\Data\Exceptions\TooManyRequestsException;
+use App\Core\Data\Exceptions\UnauthorisedException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;

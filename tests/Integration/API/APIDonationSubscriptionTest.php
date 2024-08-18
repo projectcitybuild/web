@@ -2,12 +2,12 @@
 
 namespace Tests\Integration\API;
 
+use App\Domains\Donations\Notifications\DonationPerkStartedNotification;
 use App\Models\Account;
 use App\Models\Donation;
 use App\Models\DonationTier;
 use App\Models\Group;
 use App\Models\StripeProduct;
-use Entities\Notifications\DonationPerkStartedNotification;
 use Illuminate\Support\Facades\Notification;
 use Tests\IntegrationTestCase;
 

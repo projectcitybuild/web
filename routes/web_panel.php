@@ -1,5 +1,6 @@
 <?php
 
+use App\Domains\Panel\Data\PanelGroupScope;
 use App\Http\Controllers\Panel\AccountActivate;
 use App\Http\Controllers\Panel\AccountApproveEmailChange;
 use App\Http\Controllers\Panel\AccountController;
@@ -25,7 +26,6 @@ use App\Http\Controllers\Panel\PlayerWarningController;
 use App\Http\Controllers\Panel\ServerController;
 use App\Http\Controllers\Panel\ServerTokenController;
 use App\Http\Controllers\Panel\ShowcaseWarpsController;
-use Entities\Models\PanelGroupScope;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', PanelGroupScope::ACCESS_PANEL->toMiddleware(), 'requires-mfa'])
