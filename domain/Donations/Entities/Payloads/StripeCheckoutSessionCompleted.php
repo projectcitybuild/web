@@ -26,7 +26,7 @@ final class StripeCheckoutSessionCompleted
 
         // `checkout_complete` events don't give us line_items, so we need to fetch this ourselves
         $lineItems = $stripeClient->checkout->sessions->allLineItems(
-            parentId: $sessionId,
+            id: $sessionId,
             params: ['limit' => 1],
         );
 

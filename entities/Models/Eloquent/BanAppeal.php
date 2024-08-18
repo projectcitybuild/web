@@ -14,12 +14,14 @@ use Library\Auditing\Contracts\LinkableAuditModel;
 
 class BanAppeal extends Model implements LinkableAuditModel
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
     protected $casts = [
         'status' => BanAppealStatus::class,
         'decided_at' => 'datetime',
     ];
+
     protected $fillable = [
         'game_ban_id',
         'is_account_verified',

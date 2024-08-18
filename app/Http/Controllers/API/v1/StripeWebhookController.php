@@ -20,8 +20,8 @@ use Symfony\Component\HttpFoundation\Response;
 final class StripeWebhookController extends CashierController
 {
     public function __construct(
-        private ProcessPayment $processPaymentUseCase,
-        private StripeClient $stripeClient,
+        private readonly ProcessPayment $processPaymentUseCase,
+        private readonly StripeClient $stripeClient,
     ) {
         SystemCauseResolver::setCauser(SystemCauser::STRIPE_WEBHOOK);
         parent::__construct();
