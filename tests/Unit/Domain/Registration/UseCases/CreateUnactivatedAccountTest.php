@@ -52,6 +52,9 @@ class CreateUnactivatedAccountTest extends TestCase
             ->shouldReceive('addToDefaultGroup');
 
         $this->useCase->execute($email, $username, $password, $ip);
+
+        // Skip risky warning
+        $this->assertTrue(true);
     }
 
     public function test_sends_notification()

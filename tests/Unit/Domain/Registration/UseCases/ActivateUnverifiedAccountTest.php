@@ -73,5 +73,8 @@ class ActivateUnverifiedAccountTest extends TestCase
             ->with($account);
 
         $this->useCase->execute(email: $account->email);
+
+        // Skip risky warning
+        $this->assertTrue(true);
     }
 }
