@@ -7,6 +7,7 @@ use App\Http\Middleware\MfaGate;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Tests\Support\TestResponseMacros;
 
@@ -17,6 +18,9 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        Route::middleware('web')
+            ->group(base_path('routes/web_tests.php'));
 
         $this->registerTestResponseMacros();
 
