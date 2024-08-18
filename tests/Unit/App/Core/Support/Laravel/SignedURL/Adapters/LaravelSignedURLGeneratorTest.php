@@ -3,7 +3,6 @@
 namespace App\Core\Support\Laravel\SignedURL\Adapters;
 
 use Tests\TestCase;
-use function Tests\Unit\Library\SignedURL\Adapters\str_contains;
 
 class LaravelSignedURLGeneratorTest extends TestCase
 {

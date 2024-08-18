@@ -95,7 +95,7 @@ Route::name('front.')->group(function () {
 
         Route::post('/', [LoginController::class, 'login'])
             ->name('login.submit')
-            ->middleware('guest');
+            ->middleware(['guest', 'throttle:login']);
 
         Route::get('reactivate', [LoginController::class, 'resendActivationEmail'])
             ->name('login.reactivate')

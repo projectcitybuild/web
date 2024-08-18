@@ -23,8 +23,11 @@ use App\Models\ServerToken;
 use App\View\Components\DonationBarComponent;
 use App\View\Components\NavBarComponent;
 use App\View\Components\PanelSideBarComponent;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Repositories\GameIPBans\GameIPBanEloquentRepository;
 use Repositories\GameIPBans\GameIPBanRepository;
@@ -72,6 +75,10 @@ final class AppServiceProvider extends ServiceProvider
         // Set a default date format for displaying Carbon instances in views
         Blade::stringable(function (\Illuminate\Support\Carbon $dateTime) {
             return $dateTime->format('j M Y H:i');
+        });
+
+        RateLimiter::for('login', function (Request $request) {
+           return Limit::perMinute(6)->by($request->ip());
         });
     }
 
