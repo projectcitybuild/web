@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\Feature;
 
-use App\Core\Domains\Google2FA\Notifications\AccountMfaBackupCodeRegeneratedNotification;
-use App\Core\Domains\Google2FA\Notifications\AccountMfaDisabledNotification;
-use App\Core\Domains\Google2FA\Notifications\AccountMfaEnabledNotification;
+use App\Core\Domains\Mfa\Notifications\AccountMfaBackupCodeRegeneratedNotification;
+use App\Core\Domains\Mfa\Notifications\AccountMfaDisabledNotification;
+use App\Core\Domains\Mfa\Notifications\AccountMfaEnabledNotification;
 use App\Models\Account;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Notification;

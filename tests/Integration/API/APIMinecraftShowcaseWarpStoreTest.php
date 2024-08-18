@@ -63,7 +63,7 @@ class APIMinecraftShowcaseWarpStoreTest extends IntegrationTestCase
             ->assertSuccessful();
 
         $this->assertDatabaseHas(
-            table: ShowcaseWarp::getTableName(),
+            table: ShowcaseWarp::tableName(),
             data: [
                 'name' => 'test_warp',
                 'title' => null,
@@ -101,7 +101,7 @@ class APIMinecraftShowcaseWarpStoreTest extends IntegrationTestCase
             ->assertSuccessful();
 
         $this->assertDatabaseHas(
-            table: ShowcaseWarp::getTableName(),
+            table: ShowcaseWarp::tableName(),
             data: [
                 'name' => 'test_warp',
                 'title' => 'title',

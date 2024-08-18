@@ -61,7 +61,7 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
             ->assertRedirect(route('front.panel.ban-appeals.show', $this->appeal));
         $this->assertEquals(BanAppealStatus::ACCEPTED_UNBAN, $this->appeal->refresh()->status);
         $this->assertEquals(false, $this->appeal->gamePlayerBan->refresh()->is_active);
-        $this->assertDatabaseHas(GamePlayerBan::getTableName(), [
+        $this->assertDatabaseHas(GamePlayerBan::tableName(), [
             'id' => $this->gamePlayerBan->getKey(),
             'unbanned_at' => now(),
             'unbanner_player_id' => $this->admin->minecraftAccount()->first()->getKey(),
@@ -80,7 +80,7 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
             ->assertSessionHasNoErrors()
             ->assertRedirect(route('front.panel.ban-appeals.show', $this->appeal));
         $this->assertEquals(BanAppealStatus::DENIED, $this->appeal->refresh()->status);
-        $this->assertDatabaseHas(GamePlayerBan::getTableName(), [
+        $this->assertDatabaseHas(GamePlayerBan::tableName(), [
             'id' => $this->gamePlayerBan->getKey(),
             'unbanned_at' => null,
             'unbanner_player_id' => null,

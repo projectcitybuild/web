@@ -59,7 +59,7 @@ class APIWarningAcknowledgeTest extends IntegrationTestCase
             ->create();
 
         $this->assertDatabaseHas(
-            table: PlayerWarning::getTableName(),
+            table: PlayerWarning::tableName(),
             data: [
                 'id' => $warning->getKey(),
                 'warned_player_id' => $player1->getKey(),
@@ -81,7 +81,7 @@ class APIWarningAcknowledgeTest extends IntegrationTestCase
             ->assertSuccessful();
 
         $this->assertDatabaseHas(
-            table: PlayerWarning::getTableName(),
+            table: PlayerWarning::tableName(),
             data: [
                 'id' => $warning->getKey(),
                 'warned_player_id' => $player1->getKey(),

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Front\Account\Mfa;
 
-use App\Core\Domains\Google2FA\Notifications\AccountMfaDisabledNotification;
+use App\Core\Domains\Mfa\Notifications\AccountMfaDisabledNotification;
 use App\Http\Controllers\WebController;
 use Illuminate\Http\Request;
 

@@ -96,7 +96,7 @@ class APIUnbanCreateTest extends IntegrationTestCase
             ->assertSuccessful();
 
         $this->assertDatabaseHas(
-            table: GamePlayerBan::getTableName(),
+            table: GamePlayerBan::tableName(),
             data: [
                 'id' => $ban->getKey(),
                 'unbanned_at' => now(),
@@ -128,7 +128,7 @@ class APIUnbanCreateTest extends IntegrationTestCase
             ->assertSuccessful();
 
         $this->assertDatabaseHas(
-            table: GamePlayerBan::getTableName(),
+            table: GamePlayerBan::tableName(),
             data: [
                 'id' => $ban->getKey(),
                 'unbanned_at' => now(),

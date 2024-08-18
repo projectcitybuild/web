@@ -2,7 +2,7 @@
 
 namespace Tests\Integration\Feature;
 
-use App\Core\Domains\Google2FA\Notifications\AccountMfaBackupCodeUsedNotification;
+use App\Core\Domains\Mfa\Notifications\AccountMfaBackupCodeUsedNotification;
 use App\Http\Middleware\MfaGate;
 use App\Models\Account;
 use Illuminate\Support\Facades\Crypt;

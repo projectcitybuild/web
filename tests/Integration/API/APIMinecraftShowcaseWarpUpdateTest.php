@@ -72,7 +72,7 @@ class APIMinecraftShowcaseWarpUpdateTest extends IntegrationTestCase
             ->assertSuccessful();
 
         $this->assertDatabaseHas(
-            table: ShowcaseWarp::getTableName(),
+            table: ShowcaseWarp::tableName(),
             data: [
                 'id' => $this->existingWarp->getKey(),
                 'location_world' => 'new_world',

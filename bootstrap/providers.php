@@ -8,7 +8,7 @@ return [
 
     \App\Core\Domains\Auditing\AuditingServiceProvider::class,
     \App\Core\Domains\Discord\DiscordChannelServiceProvider::class,
-    \App\Core\Domains\Google2FA\MfaServiceProvider::class,
+    \App\Core\Domains\Mfa\MfaServiceProvider::class,
     \App\Core\Domains\Recaptcha\RecaptchaProvider::class,
     \App\Core\Domains\Random\RandomProvider::class,
     \App\Core\Domains\SignedURL\SignedURLProvider::class,

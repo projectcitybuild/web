@@ -91,7 +91,7 @@ class APIUnbanIPCreateTest extends IntegrationTestCase
             ->assertSuccessful();
 
         $this->assertDatabaseHas(
-            table: GameIPBan::getTableName(),
+            table: GameIPBan::tableName(),
             data: [
                 'id' => $ban->getKey(),
                 'unbanned_at' => now(),

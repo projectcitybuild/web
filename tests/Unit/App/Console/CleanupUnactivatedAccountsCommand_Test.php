@@ -60,7 +60,7 @@ final class CleanupUnactivatedAccountsCommand_Test extends TestCase
         $this->assertDatabaseMissing('accounts', [
             'account_id' => $account->getKey(),
         ]);
-        $this->assertDatabaseMissing(AccountEmailChange::getTableName(), [
+        $this->assertDatabaseMissing(AccountEmailChange::tableName(), [
             'account_email_change_id' => $emailChange->getKey(),
         ]);
     }

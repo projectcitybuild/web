@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Front\Account\Mfa;
 
-use App\Core\Domains\Google2FA\Notifications\AccountMfaBackupCodeRegeneratedNotification;
+use App\Core\Domains\Mfa\Notifications\AccountMfaBackupCodeRegeneratedNotification;
 use App\Http\Controllers\WebController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;

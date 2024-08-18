@@ -32,6 +32,6 @@ class PanelDonationPerkDeleteTest extends IntegrationTestCase
             ->delete(route('front.panel.donation-perks.destroy', $donationPerk))
             ->assertRedirect(route('front.panel.donations.show', $donation));
 
-        $this->assertDatabaseCount(DonationPerk::getTableName(), 0);
+        $this->assertDatabaseCount(DonationPerk::tableName(), 0);
     }
 }

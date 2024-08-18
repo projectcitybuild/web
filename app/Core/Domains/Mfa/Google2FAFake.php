@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core\Domains\Google2FA;
+namespace App\Core\Domains\Mfa;
 
-use App\Core\Domains\Google2FA\Exceptions\Dangerous2FABypassException;
+use App\Core\Domains\Mfa\Exceptions\Dangerous2FABypassException;
 use Exception;
 use PragmaRX\Google2FA\Google2FA;
 

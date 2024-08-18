@@ -65,7 +65,7 @@ class APIMinecraftTelemetryTest extends IntegrationTestCase
             ->assertOk();
 
         $this->assertDatabaseHas(
-            table: MinecraftPlayer::getTableName(),
+            table: MinecraftPlayer::tableName(),
             data: [
                 'player_minecraft_id' => $player->getKey(),
                 'uuid' => 'uuid',
@@ -73,7 +73,7 @@ class APIMinecraftTelemetryTest extends IntegrationTestCase
             ],
         );
         $this->assertDatabaseHas(
-            table: MinecraftPlayerAlias::getTableName(),
+            table: MinecraftPlayerAlias::tableName(),
             data: [
                 'alias' => 'alias',
             ],

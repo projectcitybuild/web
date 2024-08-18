@@ -33,7 +33,23 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->replace(
+            search: \Illuminate\Http\Middleware\TrustProxies::class,
+            replace: \App\Http\Middleware\TrustProxies::class,
+        );
+        $middleware->web(append: [
+            \App\Http\Middleware\VerifyCsrfToken::class,
+            \App\Http\Middleware\MfaGate::class,
+        ]);
+        $middleware->alias([
+            'auth' => \App\Http\Middleware\Authenticate::class,
+            'scope' => \App\Http\Middleware\HasGroupScope::class,
+            'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+            'server-token' => \App\Http\Middleware\RequiresServerTokenScope::class,
+            'password.confirm' => \App\Http\Middleware\RequirePassword::class,
+            'active-mfa' => \App\Http\Middleware\ActiveMfaSession::class,
+            'requires-mfa' => \App\Http\Middleware\RequiresMfaEnabled::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->dontReport([
@@ -48,10 +64,6 @@ return Application::configure(basePath: dirname(__DIR__))
             ForbiddenException::class,
             NotFoundException::class,
             TooManyRequestsException::class,
-        ]);
-        $exceptions->dontFlash([
-            'password',
-            'password_confirmation',
         ]);
         $exceptions->render(function (BaseHttpException $e, Request $request) {
             // Convert all exceptions to a consistent JSON format
