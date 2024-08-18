@@ -2,8 +2,8 @@
 
 namespace Domain\EmailChange\UseCases;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountEmailChange;
+use App\Models\Account;
+use App\Models\AccountEmailChange;
 use Illuminate\Support\Facades\DB;
 
 final class UpdateAccountEmail

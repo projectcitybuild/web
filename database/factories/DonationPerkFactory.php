@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use Entities\Models\Eloquent\DonationPerk;
+use App\Models\DonationPerk;
 
 class DonationPerkFactory extends Factory
 {

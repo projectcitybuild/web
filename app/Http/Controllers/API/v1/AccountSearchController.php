@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use Entities\Models\Eloquent\Account;
+use App\Models\Account;
 use Entities\Resources\AccountResource;
 use Illuminate\Http\Request;
 

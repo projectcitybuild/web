@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\Feature;
 
+use App\Models\Account;
+use App\Models\AccountPasswordReset;
 use Domain\PasswordReset\UseCases\SendPasswordResetEmail;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountPasswordReset;
 use Entities\Notifications\AccountPasswordResetNotification;
 use Illuminate\Support\Facades\Notification;
 use Library\SignedURL\Adapters\StubSignedURLGenerator;

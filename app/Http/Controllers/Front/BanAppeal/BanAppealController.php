@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Front\BanAppeal;
 
 use App\Http\Controllers\WebController;
 use App\Http\Requests\StoreBanAppealRequest;
+use App\Models\BanAppeal;
+use App\Models\GamePlayerBan;
 use Domain\BanAppeals\Exceptions\EmailRequiredException;
 use Domain\BanAppeals\UseCases\CreateBanAppeal;
-use Entities\Models\Eloquent\BanAppeal;
-use Entities\Models\Eloquent\GamePlayerBan;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

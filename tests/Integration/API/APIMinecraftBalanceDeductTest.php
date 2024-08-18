@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\API;
 
+use App\Models\Account;
+use App\Models\MinecraftPlayer;
 use Domain\ServerTokens\ScopeKey;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\MinecraftPlayer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\IntegrationTestCase;

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\WebController;
+use App\Models\Donation;
+use App\Models\Server;
 use Carbon\Carbon;
-use Entities\Models\Eloquent\Donation;
-use Entities\Models\Eloquent\Server;
 
 final class HomeController extends WebController
 {

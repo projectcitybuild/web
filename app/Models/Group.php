@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Models\Eloquent;
+namespace App\Models;
 
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,7 +14,9 @@ final class Group extends Model implements LinkableAuditModel
     public const DONOR_GROUP_NAME = 'donator'; // Some day we'll get rid of this misspelling...
 
     protected $table = 'groups';
+
     protected $primaryKey = 'group_id';
+
     protected $fillable = [
         'name',
         'alias',

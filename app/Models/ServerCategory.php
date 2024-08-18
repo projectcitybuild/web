@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Models\Eloquent;
+namespace App\Models;
 
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,6 +21,6 @@ final class ServerCategory extends Model
 
     public function servers(): HasMany
     {
-        return $this->hasMany('Entities\Models\Eloquent\Server', 'server_category_id', 'server_category_id');
+        return $this->hasMany('App\Models\Server', 'server_category_id', 'server_category_id');
     }
 }

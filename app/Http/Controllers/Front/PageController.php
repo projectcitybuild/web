@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\WebController;
-use Entities\Models\Eloquent\Page;
+use App\Models\Page;
 use Illuminate\Http\Request;
 
 final class PageController extends WebController

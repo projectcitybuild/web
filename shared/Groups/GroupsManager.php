@@ -2,8 +2,8 @@
 
 namespace Shared\Groups;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\Group;
+use App\Models\Account;
+use App\Models\Group;
 
 /**
  * @final

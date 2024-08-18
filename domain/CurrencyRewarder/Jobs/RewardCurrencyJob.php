@@ -2,8 +2,8 @@
 
 namespace Domain\CurrencyRewarder\Jobs;
 
+use App\Models\DonationPerk;
 use Domain\CurrencyRewarder\CurrencyRewarder;
-use Entities\Models\Eloquent\DonationPerk;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

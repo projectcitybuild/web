@@ -2,7 +2,7 @@
 
 namespace Repositories;
 
-use Entities\Models\Eloquent\AccountBalanceTransaction;
+use App\Models\AccountBalanceTransaction;
 
 /**
  * @final

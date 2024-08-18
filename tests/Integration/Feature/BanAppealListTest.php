@@ -2,10 +2,10 @@
 
 namespace Tests\Integration\Feature;
 
+use App\Models\Account;
+use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayer;
 use Domain\BanAppeals\Entities\BanAppealStatus;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\MinecraftPlayer;
 use Tests\TestCase;
 
 class BanAppealListTest extends TestCase

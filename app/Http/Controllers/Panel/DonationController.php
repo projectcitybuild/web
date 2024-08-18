@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\WebController;
-use Entities\Models\Eloquent\Donation;
+use App\Models\Donation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

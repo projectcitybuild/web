@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use Entities\Models\Eloquent\Account;
+use App\Models\Account;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;

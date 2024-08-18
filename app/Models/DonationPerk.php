@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Models\Eloquent;
+namespace App\Models;
 
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,18 +11,6 @@ use Library\Auditing\Concerns\LogsActivity;
 use Library\Auditing\Contracts\LinkableAuditModel;
 use function now;
 
-/**
- * @property int donation_id
- * @property ?int account_id
- * @property ?int donation_tier_id
- * @property bool is_active
- * @property ?Carbon expires_at
- * @property Carbon created_at
- * @property Carbon updated_at
- * @property ?Carbon last_currency_reward_at
- * @property ?Account account
- * @property ?DonationTier donationTier
- */
 final class DonationPerk extends Model implements LinkableAuditModel
 {
     use HasFactory;

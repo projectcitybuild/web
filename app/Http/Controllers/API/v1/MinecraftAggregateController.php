@@ -4,12 +4,12 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Exceptions\Http\NotFoundException;
 use App\Http\Controllers\APIController;
+use App\Models\Account;
+use App\Models\MinecraftPlayer;
 use Domain\Badges\UseCases\GetBadges;
 use Domain\Bans\UseCases\GetActiveIPBan;
 use Domain\Bans\UseCases\GetActivePlayerBan;
 use Domain\Donations\UseCases\GetDonationTiers;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Resources\AccountResource;
 use Entities\Resources\DonationPerkResource;
 use Entities\Resources\GameIPBanResource;

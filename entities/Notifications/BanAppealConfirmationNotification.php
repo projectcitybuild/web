@@ -2,9 +2,9 @@
 
 namespace Entities\Notifications;
 
+use App\Models\BanAppeal;
 use Awssat\Notifications\Messages\DiscordEmbed;
 use Awssat\Notifications\Messages\DiscordMessage;
-use Entities\Models\Eloquent\BanAppeal;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;

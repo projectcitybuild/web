@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Models\Eloquent;
+namespace App\Models;
 
 use App\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,15 +9,6 @@ use Library\Auditing\AuditAttributes;
 use Library\Auditing\Concerns\LogsActivity;
 use Library\Auditing\Contracts\LinkableAuditModel;
 
-/**
- * @property int account_id
- * @property int balance_before
- * @property int balance_after
- * @property int transaction_amount
- * @property string reason
- * @property Carbon created_at
- * @property ?Account account
- */
 final class AccountBalanceTransaction extends Model implements LinkableAuditModel
 {
     use LogsActivity;

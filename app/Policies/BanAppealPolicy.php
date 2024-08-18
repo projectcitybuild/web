@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
+use App\Models\Account;
+use App\Models\BanAppeal;
 use Domain\BanAppeals\UseCases\CreateBanAppeal;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\BanAppeal;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class BanAppealPolicy

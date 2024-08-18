@@ -2,8 +2,8 @@
 
 namespace Entities\Notifications;
 
-use Entities\Models\Eloquent\BuilderRankApplication;
-use Entities\Models\Eloquent\Group;
+use App\Models\BuilderRankApplication;
+use App\Models\Group;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;

@@ -2,9 +2,9 @@
 
 namespace Unit\Domain\EmailChange\UseCases;
 
+use App\Models\Account;
+use App\Models\AccountEmailChange;
 use Domain\EmailChange\UseCases\UpdateAccountEmail;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountEmailChange;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

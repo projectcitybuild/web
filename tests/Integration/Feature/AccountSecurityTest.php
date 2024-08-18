@@ -2,7 +2,7 @@
 
 namespace Tests\Integration\Feature;
 
-use Entities\Models\Eloquent\Account;
+use App\Models\Account;
 use Entities\Notifications\AccountMfaBackupCodeRegeneratedNotification;
 use Entities\Notifications\AccountMfaDisabledNotification;
 use Entities\Notifications\AccountMfaEnabledNotification;

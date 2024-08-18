@@ -2,8 +2,8 @@
 
 namespace Repositories;
 
+use App\Models\AccountPasswordReset;
 use Carbon\Carbon;
-use Entities\Models\Eloquent\AccountPasswordReset;
 
 /**
  * @final

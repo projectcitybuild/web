@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\APIController;
-use Entities\Models\Eloquent\Group;
+use App\Models\Group;
 use Entities\Resources\GroupResource;
 
 final class GroupAPIController extends APIController

@@ -2,7 +2,7 @@
 
 namespace Domain\MinecraftTelemetry\UseCases;
 
-use Entities\Models\Eloquent\MinecraftPlayer;
+use App\Models\MinecraftPlayer;
 use Repositories\MinecraftPlayerAliasRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Service\PlayerLookup;

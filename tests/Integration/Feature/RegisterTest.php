@@ -2,8 +2,8 @@
 
 namespace Tests\Integration\Feature;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\Group;
+use App\Models\Account;
+use App\Models\Group;
 use Entities\Notifications\AccountActivationNotification;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;

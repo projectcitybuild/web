@@ -1,43 +1,44 @@
 <?php
 
-namespace Entities\Models\Eloquent;
+namespace App\Models;
 
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 use Library\Auditing\AuditAttributes;
 use Library\Auditing\Concerns\LogsActivity;
 use Library\Auditing\Contracts\LinkableAuditModel;
 
-/**
- * @property string name
- * @property int currency_reward
- */
-final class DonationTier extends Model implements LinkableAuditModel
+final class Badge extends Model implements LinkableAuditModel
 {
     use HasFactory;
+    use Notifiable;
     use LogsActivity;
 
-    protected $table = 'donation_tiers';
-    protected $primaryKey = 'donation_tier_id';
+    protected $table = 'badges';
+
+    protected $primaryKey = 'id';
+
     protected $fillable = [
-        'name',
-        'currency_reward',
+        'display_name',
+        'unicode_icon',
     ];
+
     public $timestamps = false;
 
     public function getActivitySubjectLink(): ?string
     {
-        return null;
+        return route('front.panel.badges.edit', $this);
     }
 
     public function getActivitySubjectName(): ?string
     {
-        return "Donation Tier {$this->name}";
+        return "Badge {$this->display_name}";
     }
 
     public function auditAttributeConfig(): AuditAttributes
     {
         return AuditAttributes::build()
-            ->add('name', 'currency_reward');
+            ->add('display_name', 'unicode_icon');
     }
 }

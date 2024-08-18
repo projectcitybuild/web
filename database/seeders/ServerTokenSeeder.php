@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Server;
+use App\Models\ServerToken;
+use App\Models\ServerTokenScope;
 use Domain\ServerTokens\ScopeKey;
-use Entities\Models\Eloquent\Server;
-use Entities\Models\Eloquent\ServerToken;
-use Entities\Models\Eloquent\ServerTokenScope;
 use Illuminate\Database\Seeder;
 use Library\Tokens\Adapters\HashedTokenGenerator;
 

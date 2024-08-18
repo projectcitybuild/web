@@ -3,14 +3,14 @@
 namespace Domain\BanAppeals\UseCases;
 
 use App\Exceptions\Http\NotImplementedException;
+use App\Models\Account;
+use App\Models\BanAppeal;
 use Domain\BanAppeals\Entities\BanAppealStatus;
 use Domain\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use Domain\Bans\Exceptions\NotBannedException;
 use Domain\Bans\UnbanType;
 use Domain\Bans\UseCases\CreatePlayerUnban;
 use Domain\Panel\Exceptions\NoPlayerForActionException;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\BanAppeal;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Repositories\BanAppealRepository;

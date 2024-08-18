@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Domain\MinecraftTelemetry\UseCases;
 
+use App\Models\MinecraftPlayer;
+use App\Models\MinecraftPlayerAlias;
 use Domain\MinecraftTelemetry\UseCases\UpdateSeenMinecraftPlayer;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\MinecraftPlayerAlias;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Repositories\MinecraftPlayerAliasRepository;
 use Shared\PlayerLookup\Service\ConcretePlayerLookup;

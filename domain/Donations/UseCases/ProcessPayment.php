@@ -3,13 +3,13 @@
 namespace Domain\Donations\UseCases;
 
 use App\Exceptions\Http\BadRequestException;
+use App\Models\Account;
+use App\Models\DonationPerk;
+use App\Models\Group;
 use Domain\Donations\Entities\PaidAmount;
 use Domain\Donations\Entities\PaymentType;
 use Domain\Donations\Events\DonationPerkCreated;
 use Domain\Donations\Exceptions\StripeProductNotFoundException;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\DonationPerk;
-use Entities\Models\Eloquent\Group;
 use Entities\Notifications\DonationPerkStartedNotification;
 use Illuminate\Support\Carbon;
 use Repositories\DonationPerkRepository;

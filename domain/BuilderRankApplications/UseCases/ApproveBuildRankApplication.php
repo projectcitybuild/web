@@ -2,8 +2,8 @@
 
 namespace Domain\BuilderRankApplications\UseCases;
 
-use Entities\Models\Eloquent\BuilderRankApplication;
-use Entities\Models\Eloquent\Group;
+use App\Models\BuilderRankApplication;
+use App\Models\Group;
 use Entities\Notifications\BuilderRankAppApprovedNotification;
 use Repositories\BuilderRankApplicationRepository;
 use Shared\Groups\GroupsManager;

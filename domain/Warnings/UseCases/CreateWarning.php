@@ -2,7 +2,7 @@
 
 namespace Domain\Warnings\UseCases;
 
-use Entities\Models\Eloquent\PlayerWarning;
+use App\Models\PlayerWarning;
 use Repositories\PlayerWarnings\PlayerWarningRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Service\PlayerLookup;

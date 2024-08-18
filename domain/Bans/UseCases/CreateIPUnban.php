@@ -2,9 +2,9 @@
 
 namespace Domain\Bans\UseCases;
 
+use App\Models\GameIPBan;
 use Domain\Bans\Exceptions\NotIPBannedException;
 use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\GameIPBan;
 use Repositories\GameIPBans\GameIPBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Service\PlayerLookup;

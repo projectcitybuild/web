@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use Entities\Models\Eloquent\ServerCategory;
+use App\Models\ServerCategory;
 
 class ServerCategoryFactory extends Factory
 {

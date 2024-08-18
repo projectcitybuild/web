@@ -2,9 +2,9 @@
 
 namespace Domain\Bans\UseCases;
 
+use App\Models\GamePlayerBan;
 use Domain\Bans\Exceptions\NotBannedException;
 use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\GamePlayerBan;
 use Repositories\GamePlayerBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Service\PlayerLookup;

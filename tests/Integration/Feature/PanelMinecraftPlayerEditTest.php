@@ -2,8 +2,8 @@
 
 namespace Tests\Integration\Feature;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\MinecraftPlayer;
+use App\Models\Account;
+use App\Models\MinecraftPlayer;
 use Entities\Models\PanelGroupScope;
 use Tests\IntegrationTestCase;
 

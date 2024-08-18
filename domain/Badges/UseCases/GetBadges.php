@@ -2,7 +2,7 @@
 
 namespace Domain\Badges\UseCases;
 
-use Entities\Models\Eloquent\Badge;
+use App\Models\Badge;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Service\PlayerLookup;
 

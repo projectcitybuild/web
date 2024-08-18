@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Domain\Login\UseCases;
 
+use App\Models\Account;
 use Domain\Login\UseCases\LogoutAccount;
-use Entities\Models\Eloquent\Account;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;

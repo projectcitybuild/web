@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Domain\Bans\UseCases;
 
+use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayer;
 use Domain\Bans\Exceptions\NotBannedException;
 use Domain\Bans\UseCases\LookupPlayerBan;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\MinecraftPlayer;
 use Library\Mojang\Api\MojangPlayerApi;
 use Library\Mojang\Models\MojangPlayer;
 use Repositories\GamePlayerBanRepository;

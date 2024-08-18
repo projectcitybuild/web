@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use Entities\Models\Eloquent\Donation;
+use App\Models\Donation;
 use Illuminate\View\Component;
 
 class DonationBarComponent extends Component

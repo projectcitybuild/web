@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use Entities\Models\Eloquent\ShowcaseWarp;
+use App\Models\ShowcaseWarp;
 
 class ShowcaseWarpFactory extends Factory
 {

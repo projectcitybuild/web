@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\WebController;
-use Entities\Models\Eloquent\ServerToken;
-use Entities\Models\Eloquent\ServerTokenScope;
+use App\Models\ServerToken;
+use App\Models\ServerTokenScope;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;

@@ -2,8 +2,8 @@
 
 namespace Repositories;
 
+use App\Models\Server;
 use Domain\ServerStatus\Entities\ServerQueryResult;
-use Entities\Models\Eloquent\Server;
 use Illuminate\Support\Carbon;
 
 /**

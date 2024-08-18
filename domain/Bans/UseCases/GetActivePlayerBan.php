@@ -2,7 +2,7 @@
 
 namespace Domain\Bans\UseCases;
 
-use Entities\Models\Eloquent\GamePlayerBan;
+use App\Models\GamePlayerBan;
 use Repositories\GamePlayerBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Service\PlayerLookup;

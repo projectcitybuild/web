@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Domain\Warnings\UseCases;
 
+use App\Models\MinecraftPlayer;
+use App\Models\PlayerWarning;
 use Domain\Warnings\UseCases\GetWarnings;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\PlayerWarning;
 use Repositories\PlayerWarnings\PlayerWarningMockRepository;
 use Repositories\PlayerWarnings\PlayerWarningRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;

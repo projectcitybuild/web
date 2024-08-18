@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\WebController;
 use App\Http\Requests\BuilderRankApplicationRequest;
+use App\Models\Account;
 use Domain\BuilderRankApplications\Entities\BuilderRank;
 use Domain\BuilderRankApplications\Exceptions\ApplicationAlreadyInProgressException;
 use Domain\BuilderRankApplications\UseCases\CreateBuildRankApplication;
-use Entities\Models\Eloquent\Account;
 use Illuminate\Http\Request;
 use Repositories\BuilderRankApplicationRepository;
 

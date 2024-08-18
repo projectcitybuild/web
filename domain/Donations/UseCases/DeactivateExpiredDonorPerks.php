@@ -2,7 +2,7 @@
 
 namespace Domain\Donations\UseCases;
 
-use Entities\Models\Eloquent\Group;
+use App\Models\Group;
 use Entities\Notifications\DonationEndedNotification;
 use Illuminate\Support\Facades\Log;
 use Repositories\DonationPerkRepository;

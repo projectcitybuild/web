@@ -2,7 +2,7 @@
 
 namespace Tests\Integration\Feature;
 
-use Entities\Models\Eloquent\Account;
+use App\Models\Account;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;

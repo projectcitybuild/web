@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Panel;
 
 use App\Exceptions\Http\TooManyRequestsException;
 use App\Http\Controllers\WebController;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\MinecraftPlayerAlias;
+use App\Models\MinecraftPlayer;
+use App\Models\MinecraftPlayerAlias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Library\Mojang\Api\MojangPlayerApi;

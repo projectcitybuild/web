@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\APIController;
-use Entities\Models\Eloquent\Account;
+use App\Models\Account;
 use Illuminate\Http\Request;
 
 final class OAuthController extends APIController

@@ -2,7 +2,7 @@
 
 namespace Domain\Bans\UseCases;
 
-use Entities\Models\Eloquent\GameIPBan;
+use App\Models\GameIPBan;
 use Repositories\GameIPBans\GameIPBanRepository;
 
 final class GetActiveIPBan

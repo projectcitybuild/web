@@ -2,7 +2,7 @@
 
 namespace Tests\Integration\Feature;
 
-use Entities\Models\Eloquent\Group;
+use App\Models\Group;
 use Entities\Models\PanelGroupScope;
 use Tests\IntegrationTestCase;
 

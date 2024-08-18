@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\WebController;
+use App\Models\Group;
 use Domain\BuilderRankApplications\UseCases\ApproveBuildRankApplication;
 use Domain\BuilderRankApplications\UseCases\DenyBuildRankApplication;
-use Entities\Models\Eloquent\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;

@@ -2,7 +2,7 @@
 
 namespace Domain\PasswordReset\UseCases;
 
-use Entities\Models\Eloquent\Account;
+use App\Models\Account;
 use Entities\Notifications\AccountPasswordResetNotification;
 use Library\SignedURL\SignedURLGenerator;
 use Library\Tokens\TokenGenerator;

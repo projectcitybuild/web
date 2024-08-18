@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Panel;
 
 use App\Exceptions\Http\NotImplementedException;
 use App\Http\Requests\BanAppealUpdateRequest;
+use App\Models\BanAppeal;
 use Domain\BanAppeals\Entities\BanAppealStatus;
 use Domain\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use Domain\BanAppeals\UseCases\UpdateBanAppeal;
 use Domain\Bans\Exceptions\NotBannedException;
 use Domain\Panel\Exceptions\NoPlayerForActionException;
-use Entities\Models\Eloquent\BanAppeal;
 use Entities\Notifications\BanAppealUpdatedNotification;
 use Illuminate\Validation\ValidationException;
 use Repositories\BanAppealRepository;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use Entities\Models\Eloquent\MinecraftPlayerAlias;
+use App\Models\MinecraftPlayerAlias;
 use Entities\Resources\MinecraftPlayerAliasResource;
 use Illuminate\Http\Request;
 

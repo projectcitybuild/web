@@ -2,7 +2,7 @@
 
 namespace Domain\BuilderRankApplications\UseCases;
 
-use Entities\Models\Eloquent\BuilderRankApplication;
+use App\Models\BuilderRankApplication;
 use Entities\Notifications\BuilderRankAppDeclinedNotification;
 use Repositories\BuilderRankApplicationRepository;
 

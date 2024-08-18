@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\WebController;
-use Entities\Models\Eloquent\MinecraftPlayer;
+use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
 use Library\Mojang\Api\MojangPlayerApi;
 

@@ -2,7 +2,7 @@
 
 namespace Domain\Donations\Events;
 
-use Entities\Models\Eloquent\DonationPerk;
+use App\Models\DonationPerk;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;

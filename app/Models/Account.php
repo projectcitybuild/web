@@ -1,10 +1,9 @@
 <?php
 
-namespace Entities\Models\Eloquent;
+namespace App\Models;
 
 use Altek\Eventually\Eventually;
 use Carbon\Carbon;
-use function collect;
 use Entities\Models\PanelGroupScope;
 use Entities\Resources\AccountResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,19 +21,8 @@ use Library\Auditing\AuditAttributes;
 use Library\Auditing\Concerns\CausesActivity;
 use Library\Auditing\Concerns\LogsActivity;
 use Library\Auditing\Contracts\LinkableAuditModel;
+use function collect;
 
-/**
- * @property int account_id
- * @property string email
- * @property string username
- * @property string password
- * @property string remember_token
- * @property bool activated
- * @property bool is_totp_enabled
- * @property ?string last_login_ip
- * @property ?Carbon last_login_at
- * @property int balance
- */
 final class Account extends Authenticatable implements LinkableAuditModel
 {
     use Notifiable;

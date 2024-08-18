@@ -3,12 +3,11 @@
 namespace App\Providers;
 
 use App\Http\Controllers\API\v1\OAuthController;
+use App\Models\BanAppeal;
 use App\Policies\BanAppealPolicy;
-use Entities\Models\Eloquent\BanAppeal;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
-use Laravel\Passport\Passport;
 use Library\Google2FA\Google2FAFake;
 use PragmaRX\Google2FA\Google2FA;
 

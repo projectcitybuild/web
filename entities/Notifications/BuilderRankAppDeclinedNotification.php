@@ -2,7 +2,7 @@
 
 namespace Entities\Notifications;
 
-use Entities\Models\Eloquent\BuilderRankApplication;
+use App\Models\BuilderRankApplication;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;

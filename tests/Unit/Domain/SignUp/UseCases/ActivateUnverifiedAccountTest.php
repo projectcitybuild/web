@@ -3,9 +3,9 @@
 namespace Tests\Unit\Domain\SignUp\UseCases;
 
 use App\Exceptions\Http\BadRequestException;
+use App\Models\Account;
 use Domain\SignUp\Exceptions\AccountAlreadyActivatedException;
 use Domain\SignUp\UseCases\ActivateUnverifiedAccount;
-use Entities\Models\Eloquent\Account;
 use Repositories\AccountRepository;
 use Tests\TestCase;
 

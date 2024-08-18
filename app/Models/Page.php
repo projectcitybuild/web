@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Models\Eloquent;
+namespace App\Models;
 
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,7 +14,9 @@ final class Page extends Model implements LinkableAuditModel
     use LogsActivity;
 
     protected $table = 'pages';
+
     protected $primaryKey = 'page_id';
+
     protected $fillable = [
         'url',
         'title',
@@ -22,7 +24,9 @@ final class Page extends Model implements LinkableAuditModel
         'description',
         'is_draft',
     ];
+
     protected $hidden = [];
+
     protected $casts = [
         'is_draft' => 'boolean',
     ];

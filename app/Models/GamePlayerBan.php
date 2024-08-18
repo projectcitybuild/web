@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Models\Eloquent;
+namespace App\Models;
 
 use App\Model;
 use Carbon\Carbon;
@@ -22,7 +22,7 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
     use LogsActivity;
 
     protected $table = 'game_player_bans';
-    
+
     protected $fillable = [
         'server_id',
         'banned_player_id',

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Exceptions\Http\BadRequestException;
+use App\Models\Account;
 use Domain\Donations\Entities\Payloads\StripeCheckoutSessionCompleted;
 use Domain\Donations\Entities\Payloads\StripeInvoicePaid;
 use Domain\Donations\Entities\PaymentType;
 use Domain\Donations\Exceptions\StripeProductNotFoundException;
 use Domain\Donations\UseCases\ProcessPayment;
-use Entities\Models\Eloquent\Account;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;

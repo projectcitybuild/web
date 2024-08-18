@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
-use Entities\Models\Eloquent\Account;
+use App\Models\Account;
 use Entities\Notifications\AccountActivationNotification;
 
 class AccountResendActivation

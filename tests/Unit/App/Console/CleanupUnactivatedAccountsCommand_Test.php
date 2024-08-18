@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\App\Console;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountEmailChange;
-use Entities\Models\Eloquent\Group;
+use App\Models\Account;
+use App\Models\AccountEmailChange;
+use App\Models\Group;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

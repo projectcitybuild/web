@@ -2,7 +2,7 @@
 
 namespace Domain\Warnings\UseCases;
 
-use Entities\Models\Eloquent\PlayerWarning;
+use App\Models\PlayerWarning;
 use Repositories\PlayerWarnings\PlayerWarningRepository;
 
 final class AcknowledgeWarning

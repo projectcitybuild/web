@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\Feature;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\Donation;
-use Entities\Models\Eloquent\DonationPerk;
+use App\Models\Account;
+use App\Models\Donation;
+use App\Models\DonationPerk;
 use Entities\Models\PanelGroupScope;
 use Tests\IntegrationTestCase;
 

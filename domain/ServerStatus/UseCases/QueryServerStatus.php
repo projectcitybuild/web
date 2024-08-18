@@ -2,10 +2,10 @@
 
 namespace Domain\ServerStatus\UseCases;
 
+use App\Models\Server;
 use Domain\ServerStatus\Adapters\ServerQueryAdapterFactory;
 use Domain\ServerStatus\Entities\ServerQueryResult;
 use Domain\ServerStatus\Exceptions\UnsupportedGameException;
-use Entities\Models\Eloquent\Server;
 use Illuminate\Support\Facades\Log;
 use Repositories\ServerRepository;
 

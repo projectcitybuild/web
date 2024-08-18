@@ -2,8 +2,8 @@
 
 namespace Repositories\GameIPBans;
 
+use App\Models\GameIPBan;
 use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\GameIPBan;
 
 final class GameIPBanEloquentRepository implements GameIPBanRepository
 {

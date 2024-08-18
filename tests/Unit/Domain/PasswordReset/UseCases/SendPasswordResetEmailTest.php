@@ -2,8 +2,8 @@
 
 namespace Domain\PasswordReset\UseCases;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountPasswordReset;
+use App\Models\Account;
+use App\Models\AccountPasswordReset;
 use Entities\Notifications\AccountPasswordResetNotification;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;

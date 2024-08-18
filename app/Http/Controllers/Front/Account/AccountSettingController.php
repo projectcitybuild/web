@@ -6,11 +6,11 @@ use App\Http\Controllers\WebController;
 use App\Http\Requests\AccountChangeEmailRequest;
 use App\Http\Requests\AccountChangePasswordRequest;
 use App\Http\Requests\AccountChangeUsernameRequest;
+use App\Models\AccountEmailChange;
 use Domain\EmailChange\Exceptions\TokenNotFoundException;
 use Domain\EmailChange\UseCases\SendVerificationEmail;
 use Domain\EmailChange\UseCases\UpdateAccountEmail;
 use Domain\EmailChange\UseCases\VerifyEmail;
-use Entities\Models\Eloquent\AccountEmailChange;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 

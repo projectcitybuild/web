@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Models\Eloquent;
+namespace App\Models;
 
 use App\Model;
 use Domain\BuilderRankApplications\Entities\ApplicationStatus;
@@ -15,7 +15,9 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
     use Notifiable;
 
     protected $table = 'builder_rank_applications';
+
     protected $primaryKey = 'id';
+
     protected $fillable = [
         'account_id',
         'minecraft_alias',
@@ -29,6 +31,7 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
         'created_at',
         'updated_at',
     ];
+
     public $timestamps = [
         'closed_at',
         'created_at',

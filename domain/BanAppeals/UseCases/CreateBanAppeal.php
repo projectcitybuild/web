@@ -2,10 +2,10 @@
 
 namespace Domain\BanAppeals\UseCases;
 
+use App\Models\Account;
+use App\Models\BanAppeal;
+use App\Models\GamePlayerBan;
 use Domain\BanAppeals\Exceptions\EmailRequiredException;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\BanAppeal;
-use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Notifications\BanAppealConfirmationNotification;
 use Repositories\BanAppealRepository;
 

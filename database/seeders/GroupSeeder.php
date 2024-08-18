@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Entities\Models\Eloquent\Group;
-use Entities\Models\Eloquent\GroupScope;
+use App\Models\Group;
+use App\Models\GroupScope;
 use Entities\Models\PanelGroupScope;
 use Illuminate\Database\Seeder;
 

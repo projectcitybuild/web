@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\MinecraftPlayer;
+use App\Models\PlayerWarning;
 use Carbon\Carbon;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\PlayerWarning;
 
 class PlayerWarningFactory extends Factory
 {

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Panel;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\MinecraftPlayer;
+use App\Models\Account;
+use App\Models\MinecraftPlayer;
 
 class AccountGameAccount
 {

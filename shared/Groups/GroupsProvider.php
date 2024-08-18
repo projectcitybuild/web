@@ -2,7 +2,7 @@
 
 namespace Shared\Groups;
 
-use Entities\Models\Eloquent\Group;
+use App\Models\Group;
 use Illuminate\Support\ServiceProvider;
 
 class GroupsProvider extends ServiceProvider

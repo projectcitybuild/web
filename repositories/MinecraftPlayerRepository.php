@@ -2,7 +2,7 @@
 
 namespace Repositories;
 
-use Entities\Models\Eloquent\MinecraftPlayer;
+use App\Models\MinecraftPlayer;
 use Entities\Models\MinecraftUUID;
 
 /**

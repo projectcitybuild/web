@@ -2,8 +2,8 @@
 
 namespace Tests\Integration\API;
 
+use App\Models\ShowcaseWarp;
 use Domain\ServerTokens\ScopeKey;
-use Entities\Models\Eloquent\ShowcaseWarp;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\IntegrationTestCase;
 

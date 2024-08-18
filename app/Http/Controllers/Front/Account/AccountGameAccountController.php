@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Front\Account;
 
 use App\Http\Controllers\WebController;
-use Entities\Models\Eloquent\MinecraftPlayer;
+use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
 
 class AccountGameAccountController extends WebController

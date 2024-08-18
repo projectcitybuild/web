@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\Feature;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\Group;
-use Entities\Models\Eloquent\GroupScope;
+use App\Models\Account;
+use App\Models\Group;
+use App\Models\GroupScope;
 use Entities\Models\PanelGroupScope;
 use Tests\TestCase;
 

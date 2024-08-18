@@ -3,8 +3,8 @@
 namespace Domain\Bans\UseCases;
 
 use App\Exceptions\Http\TooManyRequestsException;
+use App\Models\GamePlayerBan;
 use Domain\Bans\Exceptions\NotBannedException;
-use Entities\Models\Eloquent\GamePlayerBan;
 use Entities\Models\MinecraftUUID;
 use Library\Mojang\Api\MojangPlayerApi;
 use Repositories\GamePlayerBanRepository;

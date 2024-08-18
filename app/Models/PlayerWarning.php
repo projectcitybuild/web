@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Models\Eloquent;
+namespace App\Models;
 
 use App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,68 +9,73 @@ use Library\Auditing\AuditAttributes;
 use Library\Auditing\Concerns\LogsActivity;
 use Library\Auditing\Contracts\LinkableAuditModel;
 
-final class GameIPBan extends Model implements LinkableAuditModel
+final class PlayerWarning extends Model implements LinkableAuditModel
 {
     use HasFactory;
     use LogsActivity;
 
-    protected $table = 'game_ip_bans';
+    protected $table = 'player_warnings';
 
     protected $fillable = [
-        'banner_player_id',
-        'ip_address',
+        'warned_player_id',
+        'warner_player_id',
         'reason',
+        'additional_info',
+        'weight',
+        'is_acknowledged',
         'created_at',
         'updated_at',
-        'unbanned_at',
-        'unbanner_player_id',
-        'unban_type',
+        'acknowledged_at',
     ];
 
     protected $casts = [
-        'unbanned_at' => 'datetime',
+        'acknowledged_at' => 'datetime',
+        'is_acknowledged' => 'boolean',
     ];
 
-    public function bannerPlayer(): BelongsTo
+    public function warnedPlayer(): BelongsTo
     {
         return $this->belongsTo(
             related: MinecraftPlayer::class,
-            foreignKey: 'banner_player_id',
+            foreignKey: 'warned_player_id',
             ownerKey: 'player_minecraft_id',
         );
     }
 
-    public function unbannerPlayer(): BelongsTo
+    public function warnerPlayer(): BelongsTo
     {
         return $this->belongsTo(
             related: MinecraftPlayer::class,
-            foreignKey: 'unbanner_player_id',
+            foreignKey: 'warner_player_id',
             ownerKey: 'player_minecraft_id',
         );
     }
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.ip-bans.edit', $this);
+        return route('front.panel.warnings.edit', $this);
     }
 
     public function getActivitySubjectName(): ?string
     {
-        return 'IP ban for '.$this->ip_address;
+        $player = $this->warnedPlayer->currentAlias()?->alias
+            ?? $this->warnedPlayer->getKey().' player id';
+
+        return "Warning for $player";
     }
 
     public function auditAttributeConfig(): AuditAttributes
     {
         return AuditAttributes::build()
-            ->addRelationship('banner_player_id', MinecraftPlayer::class)
-            ->addRelationship('unbanner_player_id', MinecraftPlayer::class)
+            ->addBoolean('is_acknowledged')
+            ->addMultiline('reason', 'additional_info')
+            ->addRelationship('warned_player_id', MinecraftPlayer::class)
+            ->addRelationship('warner_player_id', MinecraftPlayer::class)
             ->add(
-                'ip_address',
-                'reason',
+                'weight',
                 'created_at',
                 'updated_at',
-                'unbanned_at',
-                'unban_type',
+                'acknowledged_at',
             );
     }
 }

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\WebController;
+use App\Models\GamePlayerBan;
 use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\GamePlayerBan;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

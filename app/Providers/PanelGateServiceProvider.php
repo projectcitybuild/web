@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Entities\Models\Eloquent\Account;
+use App\Models\Account;
 use Entities\Models\PanelGroupScope;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;

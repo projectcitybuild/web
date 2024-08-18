@@ -3,7 +3,7 @@
 namespace Library\Auditing\Concerns;
 
 use Altek\Eventually\Eventually;
-use Entities\Models\Eloquent\Activity;
+use App\Models\Activity;
 use Illuminate\Database\Eloquent\Model;
 use Library\Auditing\AuditAttributes;
 use Library\Auditing\Causers\SystemCauseResolver;

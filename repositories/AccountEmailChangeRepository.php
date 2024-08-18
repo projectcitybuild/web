@@ -2,7 +2,7 @@
 
 namespace Repositories;
 
-use Entities\Models\Eloquent\AccountEmailChange;
+use App\Models\AccountEmailChange;
 
 /**
  * @final

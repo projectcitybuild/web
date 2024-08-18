@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\WebController;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\Badge;
-use Entities\Models\Eloquent\Group;
+use App\Models\Account;
+use App\Models\Badge;
+use App\Models\Group;
 use Illuminate\Http\Request;
 
 class AccountController extends WebController

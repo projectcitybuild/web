@@ -2,12 +2,12 @@
 
 namespace Tests\Unit\Domain\BanAppeals\UseCases;
 
+use App\Models\Account;
+use App\Models\BanAppeal;
+use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayer;
 use Domain\BanAppeals\Exceptions\EmailRequiredException;
 use Domain\BanAppeals\UseCases\CreateBanAppeal;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\BanAppeal;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\MinecraftPlayer;
 use Entities\Notifications\BanAppealConfirmationNotification;
 use Illuminate\Support\Facades\Notification;
 use Repositories\BanAppealRepository;

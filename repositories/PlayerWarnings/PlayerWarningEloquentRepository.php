@@ -2,7 +2,7 @@
 
 namespace Repositories\PlayerWarnings;
 
-use Entities\Models\Eloquent\PlayerWarning;
+use App\Models\PlayerWarning;
 use Illuminate\Support\Collection;
 
 final class PlayerWarningEloquentRepository implements PlayerWarningRepository

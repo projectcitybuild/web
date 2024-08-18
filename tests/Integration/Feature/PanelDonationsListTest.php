@@ -2,7 +2,7 @@
 
 namespace Tests\Integration\Feature;
 
-use Entities\Models\Eloquent\Donation;
+use App\Models\Donation;
 use Entities\Models\PanelGroupScope;
 use Tests\IntegrationTestCase;
 

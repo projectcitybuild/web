@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Domain\Donations\UseCases;
 
+use App\Models\Account;
+use App\Models\Donation;
+use App\Models\DonationPerk;
+use App\Models\Group;
 use Domain\Donations\UseCases\DeactivateExpiredDonorPerks;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\Donation;
-use Entities\Models\Eloquent\DonationPerk;
-use Entities\Models\Eloquent\Group;
 use Entities\Notifications\DonationEndedNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;

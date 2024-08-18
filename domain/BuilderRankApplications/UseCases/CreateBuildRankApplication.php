@@ -2,11 +2,11 @@
 
 namespace Domain\BuilderRankApplications\UseCases;
 
+use App\Models\Account;
+use App\Models\BuilderRankApplication;
 use Domain\BuilderRankApplications\Entities\ApplicationStatus;
 use Domain\BuilderRankApplications\Entities\BuilderRank;
 use Domain\BuilderRankApplications\Exceptions\ApplicationAlreadyInProgressException;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\BuilderRankApplication;
 use Entities\Notifications\BuilderRankAppSubmittedNotification;
 use Repositories\BuilderRankApplicationRepository;
 

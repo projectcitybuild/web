@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\API;
 
+use App\Models\MinecraftPlayer;
+use App\Models\PlayerWarning;
 use Domain\ServerTokens\ScopeKey;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\PlayerWarning;
 use Entities\Models\PlayerIdentifierType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\IntegrationTestCase;

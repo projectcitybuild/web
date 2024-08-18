@@ -3,8 +3,8 @@
 namespace Domain\Bans\UseCases;
 
 use App\Exceptions\Http\NotFoundException;
+use App\Models\GamePlayerBan;
 use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\GamePlayerBan;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Repositories\GamePlayerBanRepository;

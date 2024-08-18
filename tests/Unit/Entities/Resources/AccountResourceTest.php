@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Entities\Resources;
 
-use Entities\Models\Eloquent\Account;
+use App\Models\Account;
 use Entities\Resources\AccountResource;
 use Tests\TestCase;
 

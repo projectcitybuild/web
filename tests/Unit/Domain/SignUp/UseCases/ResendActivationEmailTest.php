@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Domain\SignUp\UseCases;
 
+use App\Models\Account;
 use Domain\SignUp\Exceptions\AccountAlreadyActivatedException;
 use Domain\SignUp\UseCases\ResendActivationEmail;
-use Entities\Models\Eloquent\Account;
 use Entities\Notifications\AccountActivationNotification;
 use Illuminate\Support\Facades\Notification;
 use Library\SignedURL\Adapters\StubSignedURLGenerator;

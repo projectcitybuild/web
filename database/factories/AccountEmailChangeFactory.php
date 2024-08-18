@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use Entities\Models\Eloquent\AccountEmailChange;
+use App\Models\AccountEmailChange;
 use Illuminate\Support\Str;
 
 class AccountEmailChangeFactory extends Factory
