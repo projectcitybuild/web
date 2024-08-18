@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\API\v2;
 
 use App\Core\Exceptions\BadRequestException;
+use App\Domains\Bans\Exceptions\AlreadyPermBannedException;
+use App\Domains\Bans\Exceptions\NotBannedException;
+use App\Domains\Bans\UnbanType;
+use App\Domains\Bans\UseCases\ConvertToPermanentPlayerBan;
+use App\Domains\Bans\UseCases\CreatePlayerBan;
+use App\Domains\Bans\UseCases\CreatePlayerUnban;
+use App\Domains\Bans\UseCases\GetActivePlayerBan;
+use App\Domains\Bans\UseCases\GetAllPlayerBans;
 use App\Http\Controllers\APIController;
-use Domain\Bans\Exceptions\AlreadyPermBannedException;
-use Domain\Bans\Exceptions\NotBannedException;
-use Domain\Bans\UnbanType;
-use Domain\Bans\UseCases\ConvertToPermanentPlayerBan;
-use Domain\Bans\UseCases\CreatePlayerBan;
-use Domain\Bans\UseCases\CreatePlayerUnban;
-use Domain\Bans\UseCases\GetActivePlayerBan;
-use Domain\Bans\UseCases\GetAllPlayerBans;
 use Entities\Models\PlayerIdentifierType;
 use Entities\Resources\GamePlayerBanResource;
 use Illuminate\Http\Request;

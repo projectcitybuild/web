@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
-use App\Model;
+use App\Core\Utilities\Traits\HasStaticTable;
+use Illuminate\Database\Eloquent\Model;
 
 final class ServerTokenScope extends Model
 {
+    use HasStaticTable;
+
     protected $table = 'server_token_scopes';
 
     protected $primaryKey = 'id';

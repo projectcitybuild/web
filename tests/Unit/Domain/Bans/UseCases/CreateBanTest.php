@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Domain\Bans\UseCases;
 
+use App\Domains\Bans\Exceptions\AlreadyPermBannedException;
+use App\Domains\Bans\UseCases\CreatePlayerBan;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
-use Domain\Bans\Exceptions\AlreadyPermBannedException;
-use Domain\Bans\UseCases\CreatePlayerBan;
 use Repositories\GamePlayerBanRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Service\ConcretePlayerLookup;

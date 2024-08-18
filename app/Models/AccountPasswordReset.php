@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use App\Model;
+use App\Core\Utilities\Traits\HasStaticTable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Carbon;
 
 final class AccountPasswordReset extends Model
 {
+    use HasStaticTable;
     use HasFactory;
 
     public $incrementing = false;

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\API\v2;
 
 use App\Core\Exceptions\BadRequestException;
+use App\Domains\Bans\Exceptions\AlreadyIPBannedException;
+use App\Domains\Bans\Exceptions\NotIPBannedException;
+use App\Domains\Bans\UnbanType;
+use App\Domains\Bans\UseCases\CreateIPBan;
+use App\Domains\Bans\UseCases\CreateIPUnban;
+use App\Domains\Bans\UseCases\GetActiveIPBan;
 use App\Http\Controllers\APIController;
-use Domain\Bans\Exceptions\AlreadyIPBannedException;
-use Domain\Bans\Exceptions\NotIPBannedException;
-use Domain\Bans\UnbanType;
-use Domain\Bans\UseCases\CreateIPBan;
-use Domain\Bans\UseCases\CreateIPUnban;
-use Domain\Bans\UseCases\GetActiveIPBan;
 use Entities\Models\PlayerIdentifierType;
 use Entities\Resources\GameIPBanResource;
 use Illuminate\Http\JsonResponse;

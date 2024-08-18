@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Core\Exceptions\BadRequestException;
+use App\Domains\Warnings\UseCases\AcknowledgeWarning;
+use App\Domains\Warnings\UseCases\CreateWarning;
+use App\Domains\Warnings\UseCases\GetWarnings;
 use App\Http\Controllers\APIController;
-use Domain\Warnings\UseCases\AcknowledgeWarning;
-use Domain\Warnings\UseCases\CreateWarning;
-use Domain\Warnings\UseCases\GetWarnings;
 use Entities\Models\PlayerIdentifierType;
 use Entities\Resources\PlayerWarningResource;
 use Illuminate\Http\Request;

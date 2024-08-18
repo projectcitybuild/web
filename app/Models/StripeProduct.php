@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
-use App\Model;
+use App\Core\Utilities\Traits\HasStaticTable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class StripeProduct extends Model
 {
+    use HasStaticTable;
+
     protected $table = 'stripe_products';
 
     protected $primaryKey = 'price_id';

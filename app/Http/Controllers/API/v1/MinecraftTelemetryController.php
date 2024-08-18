@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use App\Domains\MinecraftTelemetry\UseCases\UpdateSeenMinecraftPlayer;
 use App\Http\Controllers\APIController;
-use Domain\MinecraftTelemetry\UseCases\UpdateSeenMinecraftPlayer;
 use Illuminate\Http\Request;
 
 final class MinecraftTelemetryController extends APIController

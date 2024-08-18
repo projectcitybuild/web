@@ -5,13 +5,15 @@ namespace App\Models;
 use App\Core\Domains\Auditing\AuditAttributes;
 use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
-use App\Model;
+use App\Core\Utilities\Traits\HasStaticTable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 
 final class Badge extends Model implements LinkableAuditModel
 {
     use HasFactory;
+    use HasStaticTable;
     use Notifiable;
     use LogsActivity;
 

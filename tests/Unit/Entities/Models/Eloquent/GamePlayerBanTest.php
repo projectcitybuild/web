@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Entities\Models\Eloquent;
 
+use App\Domains\Bans\UnbanType;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
-use Domain\Bans\UnbanType;
 use Tests\TestCase;
 
 class GamePlayerBanTest extends TestCase

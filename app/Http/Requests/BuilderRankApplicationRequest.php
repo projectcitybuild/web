@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Domain\BuilderRankApplications\Entities\BuilderRank;
+use App\Domains\BuilderRankApplications\Entities\BuilderRank;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

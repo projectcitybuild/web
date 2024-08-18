@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Core\Exceptions\NotFoundException;
+use App\Domains\Badges\UseCases\GetBadges;
+use App\Domains\Bans\UseCases\GetActiveIPBan;
+use App\Domains\Bans\UseCases\GetActivePlayerBan;
+use App\Domains\Donations\UseCases\GetDonationTiers;
 use App\Http\Controllers\APIController;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
-use Domain\Badges\UseCases\GetBadges;
-use Domain\Bans\UseCases\GetActiveIPBan;
-use Domain\Bans\UseCases\GetActivePlayerBan;
-use Domain\Donations\UseCases\GetDonationTiers;
 use Entities\Resources\AccountResource;
 use Entities\Resources\DonationPerkResource;
 use Entities\Resources\GameIPBanResource;

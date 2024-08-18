@@ -20,14 +20,15 @@
     </p>
     <p>
         For more information about our build ranks,
-        <a class="alternative" href="https://forums.projectcitybuild.com/t/introducing-the-architect-council/35984" target="_blank">
+        <a class="alternative" href="https://forums.projectcitybuild.com/t/introducing-the-architect-council/35984"
+           target="_blank">
             read here <i class="fas fa-external-link"></i>
         </a>
     </p>
     <blockquote>
         <h3><i class="fas fa-warning"></i> WARNING</h3>
         If you have previously submitted an application within <strong>21 days</strong>, your application will
-        be denied.<br/><br />
+        be denied.<br/><br/>
         You must wait at least 21 days between applications
     </blockquote>
 @endsection
@@ -48,7 +49,8 @@
         @if ($applicationInProgress)
             <div class="alert alert--error">
                 <h2><i class="fas fa-exclamation-circle"></i> Error</h2>
-                You already have an <a href="{{ route('front.rank-up.status', $applicationInProgress) }}">application in progress</a>.
+                You already have an <a href="{{ route('front.rank-up.status', $applicationInProgress) }}">application in
+                    progress</a>.
             </div>
         @else
             @guest
@@ -67,17 +69,17 @@
                     <div class="form-row">
                         <label for="minecraft_username">Minecraft username</label>
                         <input
-                            class="textfield {{ $errors->any() ? 'error' : '' }}"
-                            name="minecraft_username"
-                            id="minecraft_username"
-                            type="text"
-                            value="{{ old('minecraft_username', $minecraftUsername ?? '') }}"
+                                class="textfield {{ $errors->any() ? 'error' : '' }}"
+                                name="minecraft_username"
+                                id="minecraft_username"
+                                type="text"
+                                value="{{ old('minecraft_username', $minecraftUsername ?? '') }}"
                         />
                     </div>
                     <div class="form-row">
                         <label for="current_builder_rank">Current builder rank</label>
                         <select name="current_builder_rank" class="textfield {{ $errors->any() ? 'error' : '' }}">
-                            @foreach (\Domain\BuilderRankApplications\Entities\BuilderRank::cases() as $rank)
+                            @foreach (\App\Domains\BuilderRankApplications\Entities\BuilderRank::cases() as $rank)
                                 <option value="{{ $rank->value }}">{{ $rank->humanReadable() }}</option>
                             @endforeach
                         </select>
@@ -85,39 +87,39 @@
                     <div class="form-row">
                         <label for="build_location">Build location (XYZ co-ordinates and world)</label>
                         <input
-                            class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
-                            name="build_location"
-                            id="build_location"
-                            type="text"
-                            placeholder="eg. x: 150, y: -10, z: 300 in Creative"
-                            value="{{ old('build_location') }}"
+                                class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
+                                name="build_location"
+                                id="build_location"
+                                type="text"
+                                placeholder="eg. x: 150, y: -10, z: 300 in Creative"
+                                value="{{ old('build_location') }}"
                         />
                     </div>
                     <div class="form-row">
                         <label for="build_description">Description</label>
                         <textarea
-                            class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
-                            name="build_description"
-                            id="build_description"
-                            rows="5"
-                            placeholder="e.g. A huge pirate ship battle, 2 pirate factions meet to engage in a war."
+                                class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
+                                name="build_description"
+                                id="build_description"
+                                rows="5"
+                                placeholder="e.g. A huge pirate ship battle, 2 pirate factions meet to engage in a war."
                         >{{ old('build_description') }}</textarea>
                     </div>
                     <div class="form-row">
                         <label for="additional_notes">Additional notes (optional)</label>
                         <textarea
-                            class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
-                            name="additional_notes"
-                            id="additional_notes"
-                            rows="5"
-                            placeholder="e.g. The pirate ships also have interiors, so please be sure to check them too"
+                                class="textfield {{ $errors->any() ? 'input-text--error' : '' }}"
+                                name="additional_notes"
+                                id="additional_notes"
+                                rows="5"
+                                placeholder="e.g. The pirate ships also have interiors, so please be sure to check them too"
                         >{{ old('additional_notes') }}</textarea>
                     </div>
 
                     <button
-                        class="g-recaptcha button button--filled button--block"
-                        data-sitekey="@recaptcha_key"
-                        data-callback="submitForm"
+                            class="g-recaptcha button button--filled button--block"
+                            data-sitekey="@recaptcha_key"
+                            data-callback="submitForm"
                     >
                         <i class="fas fa-check"></i> Submit
                     </button>

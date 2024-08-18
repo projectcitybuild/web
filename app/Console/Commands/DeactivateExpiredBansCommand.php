@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Domain\Bans\UseCases\ExpirePlayerBans;
+use App\Domains\Bans\UseCases\ExpirePlayerBans;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 

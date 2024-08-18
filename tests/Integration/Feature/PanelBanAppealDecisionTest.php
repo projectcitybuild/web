@@ -2,12 +2,12 @@
 
 namespace Tests\Integration\Feature;
 
+use App\Domains\BanAppeals\Entities\BanAppealStatus;
+use App\Domains\Bans\UnbanType;
 use App\Models\Account;
 use App\Models\BanAppeal;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
-use Domain\BanAppeals\Entities\BanAppealStatus;
-use Domain\Bans\UnbanType;
 use Entities\Models\PanelGroupScope;
 use Entities\Notifications\BanAppealUpdatedNotification;
 use Illuminate\Support\Facades\Notification;

@@ -5,12 +5,14 @@ namespace App\Models;
 use App\Core\Domains\Auditing\AuditAttributes;
 use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
-use App\Model;
+use App\Core\Utilities\Traits\HasStaticTable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 final class Page extends Model implements LinkableAuditModel
 {
     use HasFactory;
+    use HasStaticTable;
     use LogsActivity;
 
     protected $table = 'pages';

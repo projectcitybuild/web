@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Domains\Login\UseCases\LogoutAccount;
 use App\Http\Controllers\WebController;
-use Domain\Login\UseCases\LogoutAccount;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 

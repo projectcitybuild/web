@@ -3,11 +3,11 @@
 namespace Tests\Integration\Feature;
 
 use App\Core\Exceptions\TooManyRequestsException;
+use App\Domains\Bans\Exceptions\NotBannedException;
+use App\Domains\Bans\UseCases\LookupPlayerBan;
 use App\Models\Account;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
-use Domain\Bans\Exceptions\NotBannedException;
-use Domain\Bans\UseCases\LookupPlayerBan;
 use Illuminate\Foundation\Testing\WithFaker;
 use Mockery\MockInterface;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;

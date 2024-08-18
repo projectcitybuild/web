@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\API;
 
+use App\Domains\ServerTokens\ScopeKey;
 use App\Models\GameIPBan;
 use App\Models\MinecraftPlayer;
-use Domain\ServerTokens\ScopeKey;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\IntegrationTestCase;
 

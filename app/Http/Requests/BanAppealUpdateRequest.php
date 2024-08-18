@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Domain\BanAppeals\Entities\BanAppealStatus;
+use App\Domains\BanAppeals\Entities\BanAppealStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;

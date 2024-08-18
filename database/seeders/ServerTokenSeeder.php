@@ -3,10 +3,10 @@
 namespace Database\Seeders;
 
 use App\Core\Domains\Tokens\Adapters\HashedTokenGenerator;
+use App\Domains\ServerTokens\ScopeKey;
 use App\Models\Server;
 use App\Models\ServerToken;
 use App\Models\ServerTokenScope;
-use Domain\ServerTokens\ScopeKey;
 use Illuminate\Database\Seeder;
 
 class ServerTokenSeeder extends Seeder

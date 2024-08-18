@@ -7,7 +7,7 @@
         <div class="col-md-6">
             @include('admin._errors')
 
-            @if ($application->status == \Domain\BuilderRankApplications\Entities\ApplicationStatus::IN_PROGRESS->value)
+            @if ($application->status == \App\Domains\BuilderRankApplications\Entities\ApplicationStatus::IN_PROGRESS->value)
                 <div class="card border-warning mb-3">
                     <div class="card-header">
                         Application Status
@@ -25,7 +25,7 @@
                     </div>
                 </div>
             @endif
-            @if ($application->status == \Domain\BuilderRankApplications\Entities\ApplicationStatus::DENIED->value)
+            @if ($application->status == \App\Domains\BuilderRankApplications\Entities\ApplicationStatus::DENIED->value)
                 <div class="card border-danger mb-3">
                     <div class="card-header">
                         Application Status
@@ -34,7 +34,7 @@
                     <div class="card-body">
                         <h5 class="card-title"><i class="fas fa-times"></i> Application Denied</h5>
                         <p class="card-text">
-                            This application was denied for the following reason:<br />
+                            This application was denied for the following reason:<br/>
                             <strong>{{ $application->denied_reason }}</strong>
                             <br/><br/>
                             Closed <strong>{{ $application->closed_at }}</strong>
@@ -42,7 +42,7 @@
                     </div>
                 </div>
             @endif
-            @if ($application->status == \Domain\BuilderRankApplications\Entities\ApplicationStatus::APPROVED->value)
+            @if ($application->status == \App\Domains\BuilderRankApplications\Entities\ApplicationStatus::APPROVED->value)
                 <div class="card border-success mb-3">
                     <div class="card-header">
                         Application Status
@@ -139,7 +139,7 @@
                     Close Application
                 </div>
 
-                @if ($application->status == \Domain\BuilderRankApplications\Entities\ApplicationStatus::IN_PROGRESS->value)
+                @if ($application->status == \App\Domains\BuilderRankApplications\Entities\ApplicationStatus::IN_PROGRESS->value)
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <button type="button" class="btn btn-success" data-bs-toggle="modal"
@@ -182,7 +182,7 @@
                         Promote this user to:
                         <select class="form-select" name="promote_group">
                             @foreach ($buildGroups as $group)
-                            <option value="{{ $group->getKey() }}">{{ ucfirst($group->name) }}</option>
+                                <option value="{{ $group->getKey() }}">{{ ucfirst($group->name) }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -210,10 +210,10 @@
 
                             <div class="mb-3">
                                 <textarea
-                                    class="form-control"
-                                    name="deny_reason"
-                                    rows="5"
-                                    placeholder="We don't accept dirt huts..."
+                                        class="form-control"
+                                        name="deny_reason"
+                                        rows="5"
+                                        placeholder="We don't accept dirt huts..."
                                 >{{ old('deny_reason') }}</textarea>
                             </div>
                         </div>

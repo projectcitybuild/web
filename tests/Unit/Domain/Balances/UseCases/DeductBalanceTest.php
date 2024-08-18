@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Domain\Balances\UseCases;
 
+use App\Domains\Balances\Exceptions\InsufficientBalanceException;
+use App\Domains\Balances\UseCases\DeductBalance;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
-use Domain\Balances\Exceptions\InsufficientBalanceException;
-use Domain\Balances\UseCases\DeductBalance;
 use Repositories\BalanceHistoryRepository;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Service\PlayerLookup;

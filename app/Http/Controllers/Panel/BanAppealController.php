@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Core\Exceptions\NotImplementedException;
+use App\Domains\BanAppeals\Entities\BanAppealStatus;
+use App\Domains\BanAppeals\Exceptions\AppealAlreadyDecidedException;
+use App\Domains\BanAppeals\UseCases\UpdateBanAppeal;
+use App\Domains\Bans\Exceptions\NotBannedException;
+use App\Domains\Panel\Exceptions\NoPlayerForActionException;
 use App\Http\Requests\BanAppealUpdateRequest;
 use App\Models\BanAppeal;
-use Domain\BanAppeals\Entities\BanAppealStatus;
-use Domain\BanAppeals\Exceptions\AppealAlreadyDecidedException;
-use Domain\BanAppeals\UseCases\UpdateBanAppeal;
-use Domain\Bans\Exceptions\NotBannedException;
-use Domain\Panel\Exceptions\NoPlayerForActionException;
 use Entities\Notifications\BanAppealUpdatedNotification;
 use Illuminate\Validation\ValidationException;
 use Repositories\BanAppealRepository;

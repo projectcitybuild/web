@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Core\Domains\Auditing\Causers\SystemCauser;
 use App\Core\Domains\Auditing\Causers\SystemCauseResolver;
-use Domain\Donations\UseCases\DeactivateExpiredDonorPerks;
+use App\Domains\Donations\UseCases\DeactivateExpiredDonorPerks;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use App\Domains\Badges\UseCases\GetBadges;
 use App\Http\Controllers\APIController;
-use Domain\Badges\UseCases\GetBadges;
 use Illuminate\Http\Request;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 

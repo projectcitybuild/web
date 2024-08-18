@@ -6,10 +6,10 @@ use App\Core\Domains\RateLimit\Storage\SessionTokenStorage;
 use App\Core\Domains\RateLimit\TokenBucket;
 use App\Core\Domains\RateLimit\TokenRate;
 use App\Core\Exceptions\TooManyRequestsException;
+use App\Domains\Bans\Exceptions\NotBannedException;
+use App\Domains\Bans\UseCases\LookupPlayerBan;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\BanLookupRequest;
-use Domain\Bans\Exceptions\NotBannedException;
-use Domain\Bans\UseCases\LookupPlayerBan;
 use Illuminate\Validation\ValidationException;
 use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 

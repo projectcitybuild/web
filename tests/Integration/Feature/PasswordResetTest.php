@@ -4,9 +4,9 @@ namespace Tests\Integration\Feature;
 
 use App\Core\Domains\SignedURL\Adapters\StubSignedURLGenerator;
 use App\Core\Domains\Tokens\Adapters\StubTokenGenerator;
+use App\Domains\PasswordReset\UseCases\SendPasswordResetEmail;
 use App\Models\Account;
 use App\Models\AccountPasswordReset;
-use Domain\PasswordReset\UseCases\SendPasswordResetEmail;
 use Entities\Notifications\AccountPasswordResetNotification;
 use Illuminate\Support\Facades\Notification;
 use Repositories\AccountPasswordResetRepository;

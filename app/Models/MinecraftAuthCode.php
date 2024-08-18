@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
-use App\Model;
+use App\Core\Utilities\Traits\HasStaticTable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class MinecraftAuthCode extends Model
 {
+    use HasStaticTable;
+
     protected $table = 'minecraft_auth_codes';
 
     protected $primaryKey = 'minecraft_auth_code_id';

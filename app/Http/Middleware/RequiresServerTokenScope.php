@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Domains\ServerTokens\ScopeKey;
 use App\Models\ServerToken;
 use Closure;
-use Domain\ServerTokens\ScopeKey;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Facades\CauserResolver;
 

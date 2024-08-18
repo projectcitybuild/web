@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Model;
+use App\Core\Utilities\Traits\HasStaticTable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Scout\Searchable;
@@ -10,6 +11,7 @@ use Laravel\Scout\Searchable;
 final class MinecraftPlayerAlias extends Model
 {
     use HasFactory;
+    use HasStaticTable;
     use Searchable;
 
     protected $table = 'players_minecraft_aliases';

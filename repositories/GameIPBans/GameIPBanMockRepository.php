@@ -2,8 +2,8 @@
 
 namespace Repositories\GameIPBans;
 
+use App\Domains\Bans\UnbanType;
 use App\Models\GameIPBan;
-use Domain\Bans\UnbanType;
 
 final class GameIPBanMockRepository implements GameIPBanRepository
 {

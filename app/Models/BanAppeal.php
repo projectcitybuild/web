@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
-use App\Model;
+use App\Core\Utilities\Traits\HasStaticTable;
+use App\Domains\BanAppeals\Entities\BanAppealStatus;
 use Carbon\CarbonInterface;
-use Domain\BanAppeals\Entities\BanAppealStatus;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\URL;
 class BanAppeal extends Model implements LinkableAuditModel
 {
     use HasFactory;
+    use HasStaticTable;
     use Notifiable;
 
     protected $casts = [

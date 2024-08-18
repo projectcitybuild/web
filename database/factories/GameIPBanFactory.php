@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Domains\Bans\UnbanType;
 use App\Models\GameIPBan;
 use App\Models\MinecraftPlayer;
-use Domain\Bans\UnbanType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GameIPBanFactory extends Factory

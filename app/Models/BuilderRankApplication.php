@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
-use App\Model;
-use Domain\BuilderRankApplications\Entities\ApplicationStatus;
+use App\Core\Utilities\Traits\HasStaticTable;
+use App\Domains\BuilderRankApplications\Entities\ApplicationStatus;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
@@ -12,6 +13,7 @@ use Illuminate\Notifications\Notifiable;
 final class BuilderRankApplication extends Model implements LinkableAuditModel
 {
     use HasFactory;
+    use HasStaticTable;
     use Notifiable;
 
     protected $table = 'builder_rank_applications';

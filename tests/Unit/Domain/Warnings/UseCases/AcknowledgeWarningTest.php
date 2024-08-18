@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Domain\Warnings\UseCases;
 
+use App\Domains\Warnings\UseCases\AcknowledgeWarning;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
 use App\Models\PlayerWarning;
-use Domain\Warnings\UseCases\AcknowledgeWarning;
 use Repositories\PlayerWarnings\PlayerWarningMockRepository;
 use Repositories\PlayerWarnings\PlayerWarningRepository;
 use Symfony\Component\HttpKernel\Exception\HttpException;

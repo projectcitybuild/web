@@ -17,6 +17,6 @@ return [
 
     Shared\Groups\GroupsProvider::class,
 
-    Domain\CurrencyRewarder\CurrencyRewarderProvider::class,
-    Domain\Donations\DonationsProvider::class,
+    \App\Domains\CurrencyRewarder\CurrencyRewarderProvider::class,
+    \App\Domains\Donations\DonationsProvider::class,
 ];

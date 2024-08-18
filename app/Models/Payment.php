@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
-use App\Model;
+use App\Core\Utilities\Traits\HasStaticTable;
+use Illuminate\Database\Eloquent\Model;
 
 final class Payment extends Model
 {
+    use HasStaticTable;
+
     protected $table = 'payments';
 
     protected $primaryKey = 'payment_id';

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use App\Domains\Donations\UseCases\GetDonationTiers;
 use App\Http\Controllers\APIController;
-use Domain\Donations\UseCases\GetDonationTiers;
 use Entities\Resources\DonationPerkResource;
 use Illuminate\Http\Request;
 

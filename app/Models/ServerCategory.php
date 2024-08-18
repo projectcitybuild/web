@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
-use App\Model;
+use App\Core\Utilities\Traits\HasStaticTable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 final class ServerCategory extends Model
 {
     use HasFactory;
+    use HasStaticTable;
 
     protected $table = 'server_categories';
 

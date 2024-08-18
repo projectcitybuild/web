@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Domains\BuilderRankApplications\UseCases\ApproveBuildRankApplication;
+use App\Domains\BuilderRankApplications\UseCases\DenyBuildRankApplication;
 use App\Http\Controllers\WebController;
 use App\Models\Group;
-use Domain\BuilderRankApplications\UseCases\ApproveBuildRankApplication;
-use Domain\BuilderRankApplications\UseCases\DenyBuildRankApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;

@@ -5,9 +5,10 @@ namespace App\Models;
 use App\Core\Domains\Auditing\AuditAttributes;
 use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
-use App\Model;
+use App\Core\Utilities\Traits\HasStaticTable;
+use App\Domains\Bans\UnbanType;
 use Carbon\Carbon;
-use Domain\Bans\UnbanType;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,7 +20,9 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
 {
     use Searchable;
     use HasFactory;
+    use HasStaticTable;
     use LogsActivity;
+    use HasStaticTable;
 
     protected $table = 'game_player_bans';
 

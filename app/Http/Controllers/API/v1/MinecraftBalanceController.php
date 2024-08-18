@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Core\Exceptions\BadRequestException;
+use App\Domains\Balances\Exceptions\InsufficientBalanceException;
+use App\Domains\Balances\UseCases\DeductBalance;
+use App\Domains\Balances\UseCases\GetBalance;
 use App\Http\Controllers\APIController;
-use Domain\Balances\Exceptions\InsufficientBalanceException;
-use Domain\Balances\UseCases\DeductBalance;
-use Domain\Balances\UseCases\GetBalance;
 use Illuminate\Http\Request;
 use Shared\PlayerLookup\Entities\PlayerIdentifier;
 use Shared\PlayerLookup\Exceptions\InvalidMinecraftUUIDException;

@@ -1,5 +1,6 @@
 <?php
 
+use App\Domains\ServerTokens\ScopeKey;
 use App\Http\Controllers\API\v1\MinecraftAggregateController;
 use App\Http\Controllers\API\v1\MinecraftBadgeController;
 use App\Http\Controllers\API\v1\MinecraftBalanceController;
@@ -10,7 +11,6 @@ use App\Http\Controllers\API\v1\PlayerWarningController;
 use App\Http\Controllers\API\v2\GameIPBanController;
 use App\Http\Controllers\API\v2\GamePlayerBanController;
 use App\Http\Middleware\RequiresServerTokenScope;
-use Domain\ServerTokens\ScopeKey;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v2')

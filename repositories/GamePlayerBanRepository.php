@@ -2,9 +2,9 @@
 
 namespace Repositories;
 
+use App\Domains\Bans\UnbanType;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
-use Domain\Bans\UnbanType;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 

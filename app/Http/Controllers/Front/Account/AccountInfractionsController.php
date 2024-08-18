@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Front\Account;
 
+use App\Domains\Warnings\UseCases\AcknowledgeWarning;
 use App\Http\Controllers\WebController;
-use Domain\Warnings\UseCases\AcknowledgeWarning;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 

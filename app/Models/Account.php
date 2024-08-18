@@ -7,6 +7,7 @@ use App\Core\Domains\Auditing\AuditAttributes;
 use App\Core\Domains\Auditing\Concerns\CausesActivity;
 use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
+use App\Core\Utilities\Traits\HasStaticTable;
 use Carbon\Carbon;
 use Entities\Models\PanelGroupScope;
 use Entities\Resources\AccountResource;
@@ -28,6 +29,7 @@ final class Account extends Authenticatable implements LinkableAuditModel
     use Notifiable;
     use Searchable;
     use HasApiTokens;
+    use HasStaticTable;
     use HasFactory;
     use Billable;
     use CausesActivity;

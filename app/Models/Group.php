@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
-use App\Model;
+use App\Core\Utilities\Traits\HasStaticTable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 final class Group extends Model implements LinkableAuditModel
 {
     use HasFactory;
+    use HasStaticTable;
 
     public const DONOR_GROUP_NAME = 'donator'; // Some day we'll get rid of this misspelling...
 

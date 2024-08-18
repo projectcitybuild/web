@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Domains\ServerStatus\Exceptions\UnsupportedGameException;
+use App\Domains\ServerStatus\Jobs\ServerQueryJob;
+use App\Domains\ServerStatus\UseCases\QueryServerStatus;
 use App\Models\Server;
-use Domain\ServerStatus\Exceptions\UnsupportedGameException;
-use Domain\ServerStatus\Jobs\ServerQueryJob;
-use Domain\ServerStatus\UseCases\QueryServerStatus;
 use Illuminate\Console\Command;
 
 final class ServerQueryCommand extends Command

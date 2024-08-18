@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Core\Domains\Auditing\Causers\SystemCauser;
 use App\Core\Domains\Auditing\Causers\SystemCauseResolver;
-use Domain\CurrencyRewarder\UseCases\RewardCurrency;
+use App\Domains\CurrencyRewarder\UseCases\RewardCurrency;
 use Illuminate\Console\Command;
 
 class RewardCurrencyToDonorsCommand extends Command
