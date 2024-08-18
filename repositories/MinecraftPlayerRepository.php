@@ -6,7 +6,7 @@ use App\Core\Data\MinecraftUUID;
 use App\Models\MinecraftPlayer;
 
 /**
- * @final
+ * @deprecated
  */
 class MinecraftPlayerRepository
 {

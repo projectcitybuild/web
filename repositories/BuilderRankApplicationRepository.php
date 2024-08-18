@@ -8,7 +8,7 @@ use App\Models\BuilderRankApplication;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
- * @final
+ * @deprecated
  */
 class BuilderRankApplicationRepository
 {

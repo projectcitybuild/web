@@ -6,7 +6,7 @@ use App\Models\AccountPasswordReset;
 use Carbon\Carbon;
 
 /**
- * @final
+ * @deprecated
  */
 class AccountPasswordResetRepository
 {

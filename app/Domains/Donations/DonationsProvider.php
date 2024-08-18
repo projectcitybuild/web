@@ -2,6 +2,7 @@
 
 namespace App\Domains\Donations;
 
+use App\Core\Domains\Groups\GroupsManager;
 use App\Domains\Donations\UseCases\DeactivateExpiredDonorPerks;
 use App\Domains\Donations\UseCases\ProcessPayment;
 use App\Models\Group;
@@ -10,7 +11,6 @@ use Repositories\DonationPerkRepository;
 use Repositories\DonationRepository;
 use Repositories\PaymentRepository;
 use Repositories\StripeProductRepository;
-use Shared\Groups\GroupsManager;
 
 class DonationsProvider extends ServiceProvider
 {

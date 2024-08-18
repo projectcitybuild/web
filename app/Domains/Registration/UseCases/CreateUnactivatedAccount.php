@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domains\SignUp\UseCases;
+namespace App\Domains\Registration\UseCases;
 
+use App\Core\Domains\Groups\GroupsManager;
 use App\Core\Domains\SignedURL\SignedURLGenerator;
-use App\Domains\SignUp\Notifications\AccountActivationNotification;
+use App\Domains\Registration\Notifications\AccountActivationNotification;
 use Repositories\AccountRepository;
-use Shared\Groups\GroupsManager;
 
 /**
  * @final

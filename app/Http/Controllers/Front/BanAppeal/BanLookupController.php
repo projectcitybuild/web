@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front\BanAppeal;
 
 use App\Core\Data\Exceptions\TooManyRequestsException;
+use App\Core\Domains\PlayerLookup\Exceptions\PlayerNotFoundException;
 use App\Core\Domains\RateLimit\Storage\SessionTokenStorage;
 use App\Core\Domains\RateLimit\TokenBucket;
 use App\Core\Domains\RateLimit\TokenRate;
@@ -11,7 +12,6 @@ use App\Domains\Bans\UseCases\LookupPlayerBan;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\BanLookupRequest;
 use Illuminate\Validation\ValidationException;
-use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 
 class BanLookupController extends WebController
 {

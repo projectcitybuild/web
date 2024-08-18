@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Domains\SignUp\Notifications\AccountActivationNotification;
+use App\Domains\Registration\Notifications\AccountActivationNotification;
 use App\Models\Account;
 
 class AccountResendActivation

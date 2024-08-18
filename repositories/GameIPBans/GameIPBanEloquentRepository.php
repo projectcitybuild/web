@@ -5,6 +5,9 @@ namespace Repositories\GameIPBans;
 use App\Domains\Bans\UnbanType;
 use App\Models\GameIPBan;
 
+/**
+ * @deprecated
+ */
 final class GameIPBanEloquentRepository implements GameIPBanRepository
 {
     public function create(

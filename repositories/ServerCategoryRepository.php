@@ -6,7 +6,7 @@ use App\Models\ServerCategory;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * @final
+ * @deprecated
  */
 class ServerCategoryRepository
 {

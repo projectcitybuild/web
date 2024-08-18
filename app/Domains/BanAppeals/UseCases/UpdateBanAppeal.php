@@ -3,6 +3,7 @@
 namespace App\Domains\BanAppeals\UseCases;
 
 use App\Core\Data\Exceptions\NotImplementedException;
+use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
 use App\Domains\BanAppeals\Entities\BanAppealStatus;
 use App\Domains\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use App\Domains\Bans\Exceptions\NotBannedException;
@@ -14,7 +15,6 @@ use App\Models\BanAppeal;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Repositories\BanAppealRepository;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
 
 class UpdateBanAppeal
 {

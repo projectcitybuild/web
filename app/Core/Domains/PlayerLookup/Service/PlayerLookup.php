@@ -1,9 +1,9 @@
 <?php
 
-namespace Shared\PlayerLookup\Service;
+namespace App\Core\Domains\PlayerLookup\Service;
 
-use Shared\PlayerLookup\Contracts\Player;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Contracts\Player;
+use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
 
 interface PlayerLookup
 {

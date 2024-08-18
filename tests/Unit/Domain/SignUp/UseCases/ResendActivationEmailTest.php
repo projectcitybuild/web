@@ -4,9 +4,9 @@ namespace Tests\Unit\Domain\SignUp\UseCases;
 
 use App\Core\Domains\SignedURL\Adapters\StubSignedURLGenerator;
 use App\Core\Domains\SignedURL\SignedURLGenerator;
-use App\Domains\SignUp\Exceptions\AccountAlreadyActivatedException;
-use App\Domains\SignUp\Notifications\AccountActivationNotification;
-use App\Domains\SignUp\UseCases\ResendActivationEmail;
+use App\Domains\Registration\Exceptions\AccountAlreadyActivatedException;
+use App\Domains\Registration\Notifications\AccountActivationNotification;
+use App\Domains\Registration\UseCases\ResendActivationEmail;
 use App\Models\Account;
 use Illuminate\Support\Facades\Notification;
 use Repositories\AccountRepository;

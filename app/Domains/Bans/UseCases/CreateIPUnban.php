@@ -2,12 +2,12 @@
 
 namespace App\Domains\Bans\UseCases;
 
+use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
 use App\Domains\Bans\Exceptions\NotIPBannedException;
 use App\Domains\Bans\UnbanType;
 use App\Models\GameIPBan;
 use Repositories\GameIPBans\GameIPBanRepository;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\PlayerLookup;
 
 class CreateIPUnban
 {

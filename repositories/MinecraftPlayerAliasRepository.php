@@ -6,7 +6,7 @@ use App\Models\MinecraftPlayerAlias;
 use Carbon\Carbon;
 
 /**
- * @final
+ * @deprecated
  */
 class MinecraftPlayerAliasRepository
 {

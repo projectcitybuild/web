@@ -2,10 +2,10 @@
 
 namespace App\Domains\Bans\UseCases;
 
+use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
 use App\Models\GamePlayerBan;
 use Repositories\GamePlayerBanRepository;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\PlayerLookup;
 
 final class GetActivePlayerBan
 {

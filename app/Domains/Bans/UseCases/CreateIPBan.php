@@ -2,11 +2,11 @@
 
 namespace App\Domains\Bans\UseCases;
 
+use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
 use App\Domains\Bans\Exceptions\AlreadyIPBannedException;
 use App\Models\GameIPBan;
 use Repositories\GameIPBans\GameIPBanRepository;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\PlayerLookup;
 
 final class CreateIPBan
 {

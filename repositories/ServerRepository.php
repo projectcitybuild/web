@@ -7,7 +7,7 @@ use App\Models\Server;
 use Illuminate\Support\Carbon;
 
 /**
- * @final
+ * @deprecated
  */
 class ServerRepository
 {

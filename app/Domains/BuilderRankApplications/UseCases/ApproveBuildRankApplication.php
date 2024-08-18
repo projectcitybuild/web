@@ -2,11 +2,11 @@
 
 namespace App\Domains\BuilderRankApplications\UseCases;
 
+use App\Core\Domains\Groups\GroupsManager;
 use App\Domains\BuilderRankApplications\Notifications\BuilderRankAppApprovedNotification;
 use App\Models\BuilderRankApplication;
 use App\Models\Group;
 use Repositories\BuilderRankApplicationRepository;
-use Shared\Groups\GroupsManager;
 
 class ApproveBuildRankApplication
 {

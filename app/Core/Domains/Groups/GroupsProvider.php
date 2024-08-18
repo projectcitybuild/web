@@ -1,6 +1,6 @@
 <?php
 
-namespace Shared\Groups;
+namespace App\Core\Domains\Groups;
 
 use App\Models\Group;
 use Illuminate\Support\ServiceProvider;

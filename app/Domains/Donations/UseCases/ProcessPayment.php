@@ -3,6 +3,7 @@
 namespace App\Domains\Donations\UseCases;
 
 use App\Core\Data\Exceptions\BadRequestException;
+use App\Core\Domains\Groups\GroupsManager;
 use App\Domains\Donations\Entities\PaidAmount;
 use App\Domains\Donations\Entities\PaymentType;
 use App\Domains\Donations\Events\DonationPerkCreated;
@@ -16,7 +17,6 @@ use Repositories\DonationPerkRepository;
 use Repositories\DonationRepository;
 use Repositories\PaymentRepository;
 use Repositories\StripeProductRepository;
-use Shared\Groups\GroupsManager;
 
 final class ProcessPayment
 {

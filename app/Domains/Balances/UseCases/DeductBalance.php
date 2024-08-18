@@ -2,14 +2,14 @@
 
 namespace App\Domains\Balances\UseCases;
 
+use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Exceptions\NoLinkedAccountException;
+use App\Core\Domains\PlayerLookup\Exceptions\PlayerNotFoundException;
+use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
 use App\Domains\Balances\Exceptions\InsufficientBalanceException;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Repositories\BalanceHistoryRepository;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Exceptions\NoLinkedAccountException;
-use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
-use Shared\PlayerLookup\Service\PlayerLookup;
 
 /**
  * @final

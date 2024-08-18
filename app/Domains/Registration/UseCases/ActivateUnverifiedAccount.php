@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Domains\SignUp\UseCases;
+namespace App\Domains\Registration\UseCases;
 
 use App\Core\Data\Exceptions\BadRequestException;
-use App\Domains\SignUp\Exceptions\AccountAlreadyActivatedException;
+use App\Domains\Registration\Exceptions\AccountAlreadyActivatedException;
 use Repositories\AccountRepository;
 
 final class ActivateUnverifiedAccount

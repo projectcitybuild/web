@@ -7,7 +7,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * @final
+ * @deprecated
  */
 class AccountRepository
 {

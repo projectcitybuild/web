@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v2;
 
 use App\Core\Data\Exceptions\BadRequestException;
 use App\Core\Data\PlayerIdentifierType;
+use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
 use App\Domains\Bans\Exceptions\AlreadyIPBannedException;
 use App\Domains\Bans\Exceptions\NotIPBannedException;
 use App\Domains\Bans\UnbanType;
@@ -15,7 +16,6 @@ use App\Http\Resources\GameIPBanResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
 
 final class GameIPBanController extends ApiController
 {

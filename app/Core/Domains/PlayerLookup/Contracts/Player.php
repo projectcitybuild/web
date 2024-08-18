@@ -1,6 +1,6 @@
 <?php
 
-namespace Shared\PlayerLookup\Contracts;
+namespace App\Core\Domains\PlayerLookup\Contracts;
 
 use App\Models\Account;
 

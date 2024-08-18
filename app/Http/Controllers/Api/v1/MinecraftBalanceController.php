@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Core\Data\Exceptions\BadRequestException;
+use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Exceptions\InvalidMinecraftUUIDException;
+use App\Core\Domains\PlayerLookup\Exceptions\NoLinkedAccountException;
+use App\Core\Domains\PlayerLookup\Exceptions\PlayerNotFoundException;
 use App\Domains\Balances\Exceptions\InsufficientBalanceException;
 use App\Domains\Balances\UseCases\DeductBalance;
 use App\Domains\Balances\UseCases\GetBalance;
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Exceptions\InvalidMinecraftUUIDException;
-use Shared\PlayerLookup\Exceptions\NoLinkedAccountException;
-use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 
 final class MinecraftBalanceController extends ApiController
 {

@@ -5,6 +5,9 @@ namespace Repositories\PlayerWarnings;
 use App\Models\PlayerWarning;
 use Illuminate\Support\Collection;
 
+/**
+ * @deprecated
+ */
 interface PlayerWarningRepository
 {
     public function create(

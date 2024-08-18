@@ -1,6 +1,6 @@
 <?php
 
-namespace Shared\Groups;
+namespace App\Core\Domains\Groups;
 
 use App\Models\Account;
 use App\Models\Group;

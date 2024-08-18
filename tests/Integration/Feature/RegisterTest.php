@@ -5,7 +5,7 @@ namespace Tests\Integration\Feature;
 use App\Core\Domains\Recaptcha\Validator\Adapters\GoogleRecaptchaValidator;
 use App\Core\Domains\Recaptcha\Validator\RecaptchaValidator;
 use App\Core\Domains\SignedURL\Adapters\LaravelSignedURLGenerator;
-use App\Domains\SignUp\Notifications\AccountActivationNotification;
+use App\Domains\Registration\Notifications\AccountActivationNotification;
 use App\Models\Account;
 use App\Models\Group;
 use Illuminate\Support\Facades\Notification;

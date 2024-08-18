@@ -5,7 +5,7 @@ namespace Repositories;
 use App\Models\AccountBalanceTransaction;
 
 /**
- * @final
+ * @deprecated
  */
 class BalanceHistoryRepository
 {

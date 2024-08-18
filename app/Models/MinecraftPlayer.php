@@ -5,13 +5,13 @@ namespace App\Models;
 use App\Core\Domains\Auditing\AuditAttributes;
 use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
+use App\Core\Domains\PlayerLookup\Contracts\Player;
 use App\Core\Utilities\Traits\HasStaticTable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
-use Shared\PlayerLookup\Contracts\Player;
 
 final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
 {

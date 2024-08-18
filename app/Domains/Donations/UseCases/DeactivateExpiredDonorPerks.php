@@ -2,11 +2,11 @@
 
 namespace App\Domains\Donations\UseCases;
 
+use App\Core\Domains\Groups\GroupsManager;
 use App\Domains\Donations\Notifications\DonationEndedNotification;
 use App\Models\Group;
 use Illuminate\Support\Facades\Log;
 use Repositories\DonationPerkRepository;
-use Shared\Groups\GroupsManager;
 
 final class DeactivateExpiredDonorPerks
 {

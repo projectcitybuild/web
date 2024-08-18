@@ -5,7 +5,7 @@ namespace Repositories;
 use App\Models\AccountEmailChange;
 
 /**
- * @final
+ * @deprecated
  */
 class AccountEmailChangeRepository
 {

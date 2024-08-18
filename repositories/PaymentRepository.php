@@ -6,7 +6,7 @@ use App\Domains\Donations\Entities\PaidAmount;
 use App\Models\Payment;
 
 /**
- * @final
+ * @deprecated
  */
 class PaymentRepository
 {

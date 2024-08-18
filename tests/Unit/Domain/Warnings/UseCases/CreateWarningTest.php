@@ -2,14 +2,14 @@
 
 namespace Tests\Unit\Domain\Warnings\UseCases;
 
+use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
+use App\Core\Domains\PlayerLookup\Service\PlayerLookupMock;
 use App\Domains\Warnings\UseCases\CreateWarning;
 use App\Models\MinecraftPlayer;
 use App\Models\PlayerWarning;
 use Repositories\PlayerWarnings\PlayerWarningMockRepository;
 use Repositories\PlayerWarnings\PlayerWarningRepository;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\PlayerLookup;
-use Shared\PlayerLookup\Service\PlayerLookupMock;
 use Tests\TestCase;
 
 class CreateWarningTest extends TestCase

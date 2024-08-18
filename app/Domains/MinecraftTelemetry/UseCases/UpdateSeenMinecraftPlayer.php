@@ -2,10 +2,10 @@
 
 namespace App\Domains\MinecraftTelemetry\UseCases;
 
+use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
 use App\Models\MinecraftPlayer;
 use Repositories\MinecraftPlayerAliasRepository;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\PlayerLookup;
 
 final class UpdateSeenMinecraftPlayer
 {

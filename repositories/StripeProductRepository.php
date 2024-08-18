@@ -5,7 +5,7 @@ namespace Repositories;
 use App\Models\StripeProduct;
 
 /**
- * @final
+ * @deprecated
  */
 class StripeProductRepository
 {

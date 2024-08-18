@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Core\Data\Exceptions\NotFoundException;
+use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
 use App\Domains\Badges\UseCases\GetBadges;
 use App\Domains\Bans\UseCases\GetActiveIPBan;
 use App\Domains\Bans\UseCases\GetActivePlayerBan;
@@ -16,7 +17,6 @@ use App\Models\Account;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
 
 final class MinecraftAggregateController extends ApiController
 {

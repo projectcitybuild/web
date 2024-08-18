@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Core\Domains\PlayerLookup\Service\ConcretePlayerLookup;
+use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
+use App\Http\Controllers\Api\v1\OAuthController;
 use App\Models\Account;
 use App\Models\AccountBalanceTransaction;
 use App\Models\Badge;
@@ -23,11 +26,10 @@ use App\View\Components\PanelSideBarComponent;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
-use Shared\PlayerLookup\Service\ConcretePlayerLookup;
-use Shared\PlayerLookup\Service\PlayerLookup;
 use Stripe\StripeClient;
 
 final class AppServiceProvider extends ServiceProvider
@@ -102,5 +104,13 @@ final class AppServiceProvider extends ServiceProvider
         Blade::stringable(function (\Illuminate\Support\Carbon $dateTime) {
             return $dateTime->format('j M Y H:i');
         });
+    }
+
+    private function registerOauthRoute()
+    {
+        if (! $this->app->routesAreCached()) {
+            Route::get('oauth/me', [OAuthController::class, 'show'])
+                ->middleware('auth:api');
+        }
     }
 }

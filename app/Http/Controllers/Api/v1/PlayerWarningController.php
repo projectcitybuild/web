@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Core\Data\Exceptions\BadRequestException;
 use App\Core\Data\PlayerIdentifierType;
+use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
 use App\Domains\Warnings\UseCases\AcknowledgeWarning;
 use App\Domains\Warnings\UseCases\CreateWarning;
 use App\Domains\Warnings\UseCases\GetWarnings;
@@ -12,7 +13,6 @@ use App\Http\Resources\PlayerWarningResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Validation\Rule;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
 
 final class PlayerWarningController extends ApiController
 {

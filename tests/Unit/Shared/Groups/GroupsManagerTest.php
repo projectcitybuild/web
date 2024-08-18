@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Shared\Groups;
 
+use App\Core\Domains\Groups\GroupsManager;
 use App\Models\Account;
 use App\Models\Group;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Shared\Groups\GroupsManager;
 use Tests\TestCase;
 
 class GroupsManagerTest extends TestCase

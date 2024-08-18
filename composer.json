@@ -63,8 +63,7 @@
             "App\\": "app/",
             "Database\\Seeders\\": "database/seeders/",
             "Database\\Factories\\": "database/factories/",
-            "Repositories\\": "repositories/",
-            "Shared\\": "shared/"
+            "Repositories\\": "repositories/"
         },
         "classmap": []
     },

@@ -6,6 +6,9 @@ use App\Models\MinecraftPlayer;
 use App\Models\MinecraftPlayerAlias;
 use DB;
 
+/**
+ * @deprecated
+ */
 final class PlayerFetchRepository
 {
     public function createPlayerWithAlias(string $uuid, string $alias)

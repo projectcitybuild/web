@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
 use App\Domains\Badges\UseCases\GetBadges;
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
 
 final class MinecraftBadgeController extends ApiController
 {

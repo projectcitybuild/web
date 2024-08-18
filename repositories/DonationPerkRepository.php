@@ -7,7 +7,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 /**
- * @final
+ * @deprecated
  */
 class DonationPerkRepository
 {

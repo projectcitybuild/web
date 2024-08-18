@@ -5,6 +5,9 @@ namespace Repositories;
 use App\Domains\BanAppeals\Entities\BanAppealStatus;
 use App\Models\BanAppeal;
 
+/**
+ * @deprecated
+ */
 class BanAppealRepository
 {
     /**

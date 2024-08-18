@@ -1,14 +1,14 @@
 <?php
 
-namespace Shared\PlayerLookup\Service;
+namespace App\Core\Domains\PlayerLookup\Service;
 
 use App\Core\Data\MinecraftUUID;
 use App\Core\Data\PlayerIdentifierType;
+use App\Core\Domains\PlayerLookup\Contracts\Player;
+use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Exceptions\NonCreatableIdentifierException;
 use Repositories\MinecraftPlayerAliasRepository;
 use Repositories\MinecraftPlayerRepository;
-use Shared\PlayerLookup\Contracts\Player;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Exceptions\NonCreatableIdentifierException;
 
 /**
  * @final
