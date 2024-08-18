@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Data\Exceptions;
+namespace App\Core\Exceptions;
 
 /**
  * Authorisation required but failed and/or has not

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Core\Data\Exceptions\BadRequestException;
+use App\Core\Exceptions\BadRequestException;
 use App\Models\Account;
 use Domain\Donations\Entities\Payloads\StripeCheckoutSessionCompleted;
 use Domain\Donations\Entities\Payloads\StripeInvoicePaid;

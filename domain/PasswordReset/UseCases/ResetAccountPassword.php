@@ -2,7 +2,7 @@
 
 namespace Domain\PasswordReset\UseCases;
 
-use App\Core\Data\Exceptions\NotFoundException;
+use App\Core\Exceptions\NotFoundException;
 use Entities\Notifications\AccountPasswordResetCompleteNotification;
 use Illuminate\Support\Facades\DB;
 use Repositories\AccountPasswordResetRepository;

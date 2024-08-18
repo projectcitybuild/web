@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Data\Exceptions;
+namespace App\Core\Exceptions;
 
 /**
  * Server-side error, programming error and other errors

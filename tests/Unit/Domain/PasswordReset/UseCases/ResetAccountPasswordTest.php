@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Domain\PasswordReset\UseCases;
 
-use App\Core\Data\Exceptions\NotFoundException;
+use App\Core\Exceptions\NotFoundException;
 use App\Models\Account;
 use App\Models\AccountPasswordReset;
 use Domain\PasswordReset\UseCases\ResetAccountPassword;

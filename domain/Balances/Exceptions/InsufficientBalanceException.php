@@ -2,7 +2,7 @@
 
 namespace Domain\Balances\Exceptions;
 
-use App\Core\Data\Exceptions\PredefinedHttpException;
+use App\Core\Exceptions\PredefinedHttpException;
 
 final class InsufficientBalanceException extends PredefinedHttpException
 {

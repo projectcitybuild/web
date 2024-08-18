@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Core\Data\Exceptions\NotFoundException;
+use App\Core\Exceptions\NotFoundException;
 use App\Http\Controllers\APIController;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;

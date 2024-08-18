@@ -2,7 +2,7 @@
 
 namespace Domain\Bans\Exceptions;
 
-use App\Core\Data\Exceptions\PredefinedHttpException;
+use App\Core\Exceptions\PredefinedHttpException;
 
 final class AlreadyIPBannedException extends PredefinedHttpException
 {

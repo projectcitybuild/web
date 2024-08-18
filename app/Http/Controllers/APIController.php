@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Core\Data\Exceptions\BadRequestException;
+use App\Core\Exceptions\BadRequestException;
 use Illuminate\Support\Facades\Validator;
 
 abstract class APIController

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Data\Exceptions;
+namespace App\Core\Exceptions;
 
 /**
  * Too many requests sent in a period of time.

@@ -2,7 +2,7 @@
 
 namespace Domain\SignUp\UseCases;
 
-use App\Core\Data\Exceptions\BadRequestException;
+use App\Core\Exceptions\BadRequestException;
 use Domain\SignUp\Exceptions\AccountAlreadyActivatedException;
 use Repositories\AccountRepository;
 

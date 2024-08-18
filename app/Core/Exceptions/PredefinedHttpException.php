@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Data\Exceptions;
+namespace App\Core\Exceptions;
 
 /**
  * A HTTP exception with an id and error message that

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Core\Data\Exceptions\BadRequestException;
+use App\Core\Exceptions\BadRequestException;
 use App\Http\Controllers\APIController;
 use Domain\Warnings\UseCases\AcknowledgeWarning;
 use Domain\Warnings\UseCases\CreateWarning;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\v2;
 
-use App\Core\Data\Exceptions\BadRequestException;
+use App\Core\Exceptions\BadRequestException;
 use App\Http\Controllers\APIController;
 use Domain\Bans\Exceptions\AlreadyPermBannedException;
 use Domain\Bans\Exceptions\NotBannedException;

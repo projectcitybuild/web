@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Front\BanAppeal;
 
-use App\Core\Data\Exceptions\TooManyRequestsException;
+use App\Core\Exceptions\TooManyRequestsException;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\BanLookupRequest;
 use Domain\Bans\Exceptions\NotBannedException;

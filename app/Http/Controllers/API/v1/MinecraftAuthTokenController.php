@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Core\Data\Exceptions\BadRequestException;
-use App\Core\Data\Exceptions\ForbiddenException;
-use App\Core\Data\Exceptions\UnauthorisedException;
+use App\Core\Exceptions\BadRequestException;
+use App\Core\Exceptions\ForbiddenException;
+use App\Core\Exceptions\UnauthorisedException;
 use App\Http\Controllers\APIController;
 use App\Models\MinecraftAuthCode;
 use App\Models\MinecraftPlayer;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Core\Data\Exceptions\NotImplementedException;
+use App\Core\Exceptions\NotImplementedException;
 use App\Http\Requests\BanAppealUpdateRequest;
 use App\Models\BanAppeal;
 use Domain\BanAppeals\Entities\BanAppealStatus;

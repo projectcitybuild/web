@@ -2,7 +2,7 @@
 
 namespace Library\Mojang\Api;
 
-use App\Core\Data\Exceptions\TooManyRequestsException;
+use App\Core\Exceptions\TooManyRequestsException;
 use Library\Mojang\Models\MojangPlayer;
 use Library\Mojang\Models\MojangPlayerNameHistory;
 use Library\RateLimit\Storage\FileTokenStorage;

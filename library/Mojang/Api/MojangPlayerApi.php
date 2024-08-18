@@ -2,7 +2,7 @@
 
 namespace Library\Mojang\Api;
 
-use App\Core\Data\Exceptions\TooManyRequestsException;
+use App\Core\Exceptions\TooManyRequestsException;
 use App\Models\MinecraftPlayer;
 use GuzzleHttp\Client;
 use Library\Mojang\Models\MojangPlayer;

@@ -2,7 +2,7 @@
 
 namespace Shared\PlayerLookup\Exceptions;
 
-use App\Core\Data\Exceptions\PredefinedHttpException;
+use App\Core\Exceptions\PredefinedHttpException;
 
 final class PlayerNotFoundException extends PredefinedHttpException
 {

@@ -2,7 +2,7 @@
 
 namespace Domain\Bans\UseCases;
 
-use App\Core\Data\Exceptions\TooManyRequestsException;
+use App\Core\Exceptions\TooManyRequestsException;
 use App\Models\GamePlayerBan;
 use Domain\Bans\Exceptions\NotBannedException;
 use Entities\Models\MinecraftUUID;
