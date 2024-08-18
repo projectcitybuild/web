@@ -22,6 +22,7 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
     use LogsActivity;
 
     protected $table = 'game_player_bans';
+    
     protected $fillable = [
         'server_id',
         'banned_player_id',
@@ -35,12 +36,10 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
         'unbanner_player_id',
         'unban_type',
     ];
-    protected $hidden = [];
-    protected $dates = [
-        'created_at',
-        'updated_at',
-        'expires_at',
-        'unbanned_at',
+
+    protected $casts = [
+        'expires_at' => 'datetime',
+        'unbanned_at' => 'datetime',
     ];
 
     public function scopeActive(Builder $query)

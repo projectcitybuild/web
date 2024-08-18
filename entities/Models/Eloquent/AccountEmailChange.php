@@ -20,7 +20,9 @@ final class AccountEmailChange extends Model
     use HasFactory;
 
     protected $table = 'account_email_changes';
+
     protected $primaryKey = 'account_email_change_id';
+
     protected $fillable = [
         'account_id',
         'token',
@@ -28,10 +30,6 @@ final class AccountEmailChange extends Model
         'email_new',
         'is_previous_confirmed',
         'is_new_confirmed',
-    ];
-    protected $dates = [
-        'created_at',
-        'updated_at',
     ];
 
     public function account(): BelongsTo

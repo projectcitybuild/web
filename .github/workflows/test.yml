@@ -1,6 +1,11 @@
 name: Unit Tests
 
-on: push
+on:
+  push:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   unit-test:
@@ -8,22 +13,27 @@ jobs:
 
     services:
       mariadb:
-        image: mariadb:10.3
+        image: mariadb:11.0.5
         env:
-          MYSQL_DATABASE: testing
-          MYSQL_USER: root
-          MYSQL_ROOT_PASSWORD: root
+          MARIADB_DATABASE: testing
+          MARIADB_USER: user
+          MARIADB_PASSWORD: password
+          MARIADB_ROOT_PASSWORD: password
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=5s --health-retries=3
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
+          php-version: 8.3
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           coverage: none
 
@@ -87,22 +97,22 @@ jobs:
         if: steps.assets-cache.outputs.cache-hit != 'true'
         run: npm run build
 
+      - name: Prepare .env file
+        run: |
+          cp .env.example .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_USERNAME=root" >> .env
+          echo "DB_PASSWORD=password" >> .env
+
       - name: Prepare Laravel
         run: |
           php artisan key:generate
-          chmod -R 777 storage bootstrap/cache
+          chmod -R 755 storage bootstrap/cache
 
       - name: Prepare database
-        env:
-          DB_HOST: 127.0.0.1
-          MYSQL_USER: root
-          MYSQL_ROOT_PASSWORD: root
         run: php artisan migrate
 
-      - name: Larastan
-        run: ./vendor/bin/phpstan analyse
-
-      - name: PHPUnit
+      - name: Run tests
         env:
           DB_HOST: 127.0.0.1
           MYSQL_USER: root

@@ -18,7 +18,9 @@ final class Server extends Model implements LinkableAuditModel
     use CausesActivity;
 
     protected $table = 'servers';
+
     protected $primaryKey = 'server_id';
+
     protected $fillable = [
         'name',
         'server_category_id',
@@ -35,11 +37,9 @@ final class Server extends Model implements LinkableAuditModel
         'num_of_slots',
         'last_queried_at',
     ];
-    protected $hidden = [];
-    protected $dates = [
-        'created_at',
-        'updated_at',
-        'last_queried_at',
+
+    protected $casts = [
+        'last_queried_at' => 'datetime',
     ];
 
     public function address(): string

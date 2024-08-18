@@ -15,6 +15,7 @@ final class PlayerWarning extends Model implements LinkableAuditModel
     use LogsActivity;
 
     protected $table = 'player_warnings';
+
     protected $fillable = [
         'warned_player_id',
         'warner_player_id',
@@ -26,12 +27,9 @@ final class PlayerWarning extends Model implements LinkableAuditModel
         'updated_at',
         'acknowledged_at',
     ];
-    protected $dates = [
-        'created_at',
-        'updated_at',
-        'acknowledged_at',
-    ];
+
     protected $casts = [
+        'acknowledged_at' => 'datetime',
         'is_acknowledged' => 'boolean',
     ];
 

@@ -16,15 +16,12 @@ final class Donation extends Model implements LinkableAuditModel
     use LogsActivity;
 
     protected $table = 'donations';
+
     protected $primaryKey = 'donation_id';
+
     protected $fillable = [
         'account_id',
         'amount',
-        'created_at',
-        'updated_at',
-    ];
-    protected $hidden = [];
-    protected $dates = [
         'created_at',
         'updated_at',
     ];

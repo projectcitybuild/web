@@ -23,7 +23,9 @@ final class AccountBalanceTransaction extends Model implements LinkableAuditMode
     use LogsActivity;
 
     protected $table = 'account_balance_transactions';
+
     protected $primaryKey = 'balance_transaction_id';
+
     protected $fillable = [
         'account_id',
         'balance_before',
@@ -31,9 +33,7 @@ final class AccountBalanceTransaction extends Model implements LinkableAuditMode
         'transaction_amount',
         'reason',
     ];
-    protected $dates = [
-        'created_at',
-    ];
+
     public $timestamps = [
         'created_at',
     ];
