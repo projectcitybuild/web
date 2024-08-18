@@ -3,20 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Core\Data\Exceptions\BadRequestException;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Validator;
 
-class APIController extends BaseController
+abstract class APIController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
     /**
      * @throws BadRequestException
      */
-    protected function validateRequest(array $requestData, array $rules, array $messages = [])
+    protected function validateRequest(array $requestData, array $rules, array $messages = []): void
     {
         $validator = Validator::make($requestData, $rules, $messages);
 
