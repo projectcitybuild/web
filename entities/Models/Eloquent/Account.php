@@ -2,6 +2,7 @@
 
 namespace Entities\Models\Eloquent;
 
+use Altek\Eventually\Eventually;
 use Carbon\Carbon;
 use function collect;
 use Entities\Models\PanelGroupScope;
@@ -43,6 +44,7 @@ final class Account extends Authenticatable implements LinkableAuditModel
     use Billable;
     use CausesActivity;
     use LogsActivity;
+    use Eventually;
 
     protected $table = 'accounts';
 
