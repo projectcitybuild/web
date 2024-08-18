@@ -12,12 +12,9 @@ use function collect;
 
 class MojangPlayerApi
 {
-    private $client;
-
-    public function __construct(Client $client)
-    {
-        $this->client = $client;
-    }
+    public function __construct(
+        private readonly Client $client,
+    ) {}
 
     /**
      * Retrieves the UUID that belongs to the given name at the given time.
@@ -25,10 +22,8 @@ class MojangPlayerApi
      *
      * If no time given, uses the current time.
      *
-     *
      * @return MojangPlayer
-     *
-     * @throws TooManyRequestsException
+     * @throws TooManyRequestsException|\GuzzleHttp\Exception\GuzzleException
      */
     public function getUuidOf(string $name, ?int $time = null): ?MojangPlayer
     {
@@ -71,7 +66,6 @@ class MojangPlayerApi
      *
      * @param $name
      * @return MojangPlayer
-     *
      * @throws TooManyRequestsException
      */
     public function getOriginalOwnerUuidOf(string $name): ?MojangPlayer
@@ -86,9 +80,7 @@ class MojangPlayerApi
      * The API only allows a max of 10 names per lookup.
      *
      * @return MinecraftPlayer[]
-     *
      * @throws TooManyRequestsException
-     * @throws \Exception
      */
     public function getUuidBatchOf(array $names): ?array
     {
@@ -142,7 +134,6 @@ class MojangPlayerApi
      *
      * @param $uuid
      * @return array|null
-     *
      * @throws TooManyRequestsException
      */
     public function getNameHistoryOf($uuid): ?MojangPlayerNameHistory
@@ -175,7 +166,6 @@ class MojangPlayerApi
      *
      * @param $name
      * @return array|null
-     *
      * @throws TooManyRequestsException
      */
     public function getNameHistoryByNameOf($name): ?MojangPlayerNameHistory

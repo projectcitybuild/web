@@ -3,7 +3,7 @@
 namespace App\Domains\Registration\UseCases;
 
 use App\Core\Domains\Groups\GroupsManager;
-use App\Core\Domains\SignedURL\SignedURLGenerator;
+use App\Core\Support\Laravel\SignedURL\SignedURLGenerator;
 use App\Domains\Registration\Notifications\AccountActivationNotification;
 use Repositories\AccountRepository;
 

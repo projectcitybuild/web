@@ -2,8 +2,8 @@
 
 namespace App\Domains\EmailChange\UseCases;
 
-use App\Core\Domains\SignedURL\SignedURLGenerator;
 use App\Core\Domains\Tokens\TokenGenerator;
+use App\Core\Support\Laravel\SignedURL\SignedURLGenerator;
 use App\Domains\EmailChange\Notifications\VerifyNewEmailAddressNotification;
 use App\Domains\EmailChange\Notifications\VerifyOldEmailAddressNotification;
 use Illuminate\Support\Facades\Notification;

@@ -2,10 +2,10 @@
 
 namespace Unit\Domain\EmailChange\UseCases;
 
-use App\Core\Domains\SignedURL\Adapters\StubSignedURLGenerator;
-use App\Core\Domains\SignedURL\SignedURLGenerator;
 use App\Core\Domains\Tokens\Adapters\StubTokenGenerator;
 use App\Core\Domains\Tokens\TokenGenerator;
+use App\Core\Support\Laravel\SignedURL\Adapters\StubSignedURLGenerator;
+use App\Core\Support\Laravel\SignedURL\SignedURLGenerator;
 use App\Domains\EmailChange\Notifications\VerifyNewEmailAddressNotification;
 use App\Domains\EmailChange\Notifications\VerifyOldEmailAddressNotification;
 use App\Domains\EmailChange\UseCases\SendVerificationEmail;
