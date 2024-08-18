@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\v2;
 
 use App\Core\Data\Exceptions\BadRequestException;
 use App\Core\Data\PlayerIdentifierType;
-use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Domains\Bans\Exceptions\AlreadyIPBannedException;
 use App\Domains\Bans\Exceptions\NotIPBannedException;
 use App\Domains\Bans\UnbanType;

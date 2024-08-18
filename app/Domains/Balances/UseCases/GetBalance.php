@@ -2,7 +2,7 @@
 
 namespace App\Domains\Balances\UseCases;
 
-use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Core\Domains\PlayerLookup\Exceptions\NoLinkedAccountException;
 use App\Core\Domains\PlayerLookup\Exceptions\PlayerNotFoundException;
 use App\Core\Domains\PlayerLookup\Service\PlayerLookup;

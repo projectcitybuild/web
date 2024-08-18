@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AccountMfaEnabledNotification extends Notification implements ShouldQueue
+class MfaEnabledNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 

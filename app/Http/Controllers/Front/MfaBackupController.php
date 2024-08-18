@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Core\Domains\Mfa\Notifications\AccountMfaBackupCodeUsedNotification;
+use App\Core\Domains\Mfa\Notifications\MfaBackupCodeUsedNotification;
 use App\Domains\Login\UseCases\LogoutAccount;
 use App\Http\Controllers\WebController;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class MfaBackupController extends WebController
 
         $request->user()->resetTotp();
         $request->user()->save();
-        $request->user()->notify(new AccountMfaBackupCodeUsedNotification());
+        $request->user()->notify(new MfaBackupCodeUsedNotification());
         $logoutService->execute();
         $request->session()->flush();
         $request->session()->regenerateToken();

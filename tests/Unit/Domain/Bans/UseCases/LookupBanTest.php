@@ -3,7 +3,7 @@
 namespace Tests\Unit\Domain\Bans\UseCases;
 
 use App\Core\Domains\Mojang\Api\MojangPlayerApi;
-use App\Core\Domains\Mojang\Models\MojangPlayer;
+use App\Core\Domains\Mojang\Data\MojangPlayer;
 use App\Core\Domains\PlayerLookup\Exceptions\PlayerNotFoundException;
 use App\Domains\Bans\Exceptions\NotBannedException;
 use App\Domains\Bans\UseCases\LookupPlayerBan;

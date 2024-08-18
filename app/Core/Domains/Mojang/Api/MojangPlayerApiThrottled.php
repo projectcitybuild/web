@@ -3,8 +3,8 @@
 namespace App\Core\Domains\Mojang\Api;
 
 use App\Core\Data\Exceptions\TooManyRequestsException;
-use App\Core\Domains\Mojang\Models\MojangPlayer;
-use App\Core\Domains\Mojang\Models\MojangPlayerNameHistory;
+use App\Core\Domains\Mojang\Data\MojangPlayer;
+use App\Core\Domains\Mojang\Data\MojangPlayerNameHistory;
 use App\Core\Domains\RateLimit\Storage\FileTokenStorage;
 use App\Core\Domains\RateLimit\TokenBucket;
 use App\Core\Domains\RateLimit\TokenRate;

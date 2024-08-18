@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Domains\Mojang\Models;
+namespace App\Core\Domains\Mojang\Data;
 
 class MojangPlayerNameHistory
 {

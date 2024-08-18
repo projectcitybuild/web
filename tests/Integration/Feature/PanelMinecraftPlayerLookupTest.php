@@ -3,7 +3,7 @@
 namespace Tests\Integration\Feature;
 
 use App\Core\Domains\Mojang\Api\MojangPlayerApi;
-use App\Core\Domains\Mojang\Models\MojangPlayer;
+use App\Core\Domains\Mojang\Data\MojangPlayer;
 use App\Domains\Panel\Data\PanelGroupScope;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;

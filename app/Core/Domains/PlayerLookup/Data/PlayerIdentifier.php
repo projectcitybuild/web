@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Domains\PlayerLookup\Entities;
+namespace App\Core\Domains\PlayerLookup\Data;
 
 use App\Core\Data\PlayerIdentifierType;
 use App\Core\Domains\PlayerLookup\Exceptions\InvalidMinecraftUUIDException;

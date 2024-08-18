@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AccountMfaBackupCodeRegeneratedNotification extends Notification implements ShouldQueue
+class MfaBackupCodeUsedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -50,9 +50,9 @@ class AccountMfaBackupCodeRegeneratedNotification extends Notification implement
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject('Your 2FA Backup Code Was Regenerated')
-            ->greeting('2FA Backup Code Regenerated')
-            ->line('Your 2FA backup code was regenerated, your old backup code will no longer work.')
+            ->subject('Your 2FA Backup Code Was Used')
+            ->greeting('2FA Backup Code Used')
+            ->line('Your 2FA backup code was used, 2FA has been disabled on your account.')
             ->line('If this wasn\'t you, please speak to a member of PCB staff immediately.');
     }
 

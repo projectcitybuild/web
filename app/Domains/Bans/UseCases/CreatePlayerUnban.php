@@ -2,7 +2,7 @@
 
 namespace App\Domains\Bans\UseCases;
 
-use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
 use App\Domains\Bans\Exceptions\NotBannedException;
 use App\Domains\Bans\UnbanType;

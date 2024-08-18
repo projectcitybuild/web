@@ -5,7 +5,7 @@ namespace App\Core\Domains\PlayerLookup\Service;
 use App\Core\Data\MinecraftUUID;
 use App\Core\Data\PlayerIdentifierType;
 use App\Core\Domains\PlayerLookup\Contracts\Player;
-use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Core\Domains\PlayerLookup\Exceptions\NonCreatableIdentifierException;
 use Repositories\MinecraftPlayerAliasRepository;
 use Repositories\MinecraftPlayerRepository;

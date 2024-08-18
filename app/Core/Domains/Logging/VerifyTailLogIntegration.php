@@ -7,7 +7,7 @@ use Exception;
 final class VerifyTailLogIntegration
 {
     public function __construct(
-        private LogTailLoggerFactory $loggerFactory,
+        private readonly LogTailLoggerFactory $loggerFactory,
     ) {
     }
 

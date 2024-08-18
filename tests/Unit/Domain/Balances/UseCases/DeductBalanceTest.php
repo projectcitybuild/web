@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Domain\Balances\UseCases;
 
-use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
 use App\Core\Domains\PlayerLookup\Service\PlayerLookupMock;
 use App\Domains\Balances\Exceptions\InsufficientBalanceException;

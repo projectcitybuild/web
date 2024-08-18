@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Core\Data\Exceptions\NotFoundException;
-use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Domains\Badges\UseCases\GetBadges;
 use App\Domains\Bans\UseCases\GetActiveIPBan;
 use App\Domains\Bans\UseCases\GetActivePlayerBan;
