@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Exceptions\Http\NotFoundException;
+use App\Core\Data\Exceptions\NotFoundException;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SendPasswordEmailRequest;

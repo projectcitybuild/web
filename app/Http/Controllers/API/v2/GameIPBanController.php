@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\v2;
 
-use App\Exceptions\Http\BadRequestException;
+use App\Core\Data\Exceptions\BadRequestException;
 use App\Http\Controllers\APIController;
 use Domain\Bans\Exceptions\AlreadyIPBannedException;
 use Domain\Bans\Exceptions\NotIPBannedException;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions\Http;
+namespace App\Core\Data\Exceptions;
 
 /**
  * A resource does not exist.

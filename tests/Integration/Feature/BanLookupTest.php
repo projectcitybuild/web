@@ -2,7 +2,7 @@
 
 namespace Tests\Integration\Feature;
 
-use App\Exceptions\Http\TooManyRequestsException;
+use App\Core\Data\Exceptions\TooManyRequestsException;
 use App\Models\Account;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;

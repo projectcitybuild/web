@@ -2,7 +2,7 @@
 
 namespace Shared\PlayerLookup\Exceptions;
 
-use App\Exceptions\Http\PredefinedHttpException;
+use App\Core\Data\Exceptions\PredefinedHttpException;
 
 class NonCreatableIdentifierException extends PredefinedHttpException
 {

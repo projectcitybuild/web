@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Domain\BanAppeals\UseCases;
 
-use App\Exceptions\Http\NotImplementedException;
+use App\Core\Data\Exceptions\NotImplementedException;
 use App\Models\Account;
 use App\Models\BanAppeal;
 use App\Models\GamePlayerBan;

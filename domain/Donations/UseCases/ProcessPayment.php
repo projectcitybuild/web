@@ -2,7 +2,7 @@
 
 namespace Domain\Donations\UseCases;
 
-use App\Exceptions\Http\BadRequestException;
+use App\Core\Data\Exceptions\BadRequestException;
 use App\Models\Account;
 use App\Models\DonationPerk;
 use App\Models\Group;

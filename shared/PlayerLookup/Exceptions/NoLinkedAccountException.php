@@ -2,7 +2,7 @@
 
 namespace Shared\PlayerLookup\Exceptions;
 
-use App\Exceptions\Http\PredefinedHttpException;
+use App\Core\Data\Exceptions\PredefinedHttpException;
 
 final class NoLinkedAccountException extends PredefinedHttpException
 {
