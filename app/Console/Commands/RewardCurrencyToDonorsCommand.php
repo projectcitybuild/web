@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Domain\CurrencyRewarder\UseCases\RewardCurrency;
+use App\Core\Domains\Auditing\Causers\SystemCauser;
+use App\Core\Domains\Auditing\Causers\SystemCauseResolver;
+use App\Domains\CurrencyRewarder\UseCases\RewardCurrency;
 use Illuminate\Console\Command;
-use Library\Auditing\Causers\SystemCauser;
-use Library\Auditing\Causers\SystemCauseResolver;
 
 class RewardCurrencyToDonorsCommand extends Command
 {

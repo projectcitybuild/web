@@ -2,15 +2,15 @@
 
 namespace Tests;
 
-use Domain\ServerTokens\ScopeKey;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\Group;
-use Entities\Models\Eloquent\GroupScope;
-use Entities\Models\Eloquent\Server;
-use Entities\Models\Eloquent\ServerCategory;
-use Entities\Models\Eloquent\ServerToken;
-use Entities\Models\Eloquent\ServerTokenScope;
-use Entities\Models\PanelGroupScope;
+use App\Domains\Panel\Data\PanelGroupScope;
+use App\Domains\ServerTokens\ScopeKey;
+use App\Models\Account;
+use App\Models\Group;
+use App\Models\GroupScope;
+use App\Models\Server;
+use App\Models\ServerCategory;
+use App\Models\ServerToken;
+use App\Models\ServerTokenScope;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 

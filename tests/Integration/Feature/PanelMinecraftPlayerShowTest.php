@@ -2,10 +2,10 @@
 
 namespace Tests\Integration\Feature;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\PanelGroupScope;
+use App\Domains\Panel\Data\PanelGroupScope;
+use App\Models\Account;
+use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayer;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\IntegrationTestCase;
 

@@ -2,14 +2,14 @@
 
 namespace Tests\Integration\Feature;
 
-use Domain\BanAppeals\Entities\BanAppealStatus;
-use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\BanAppeal;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\PanelGroupScope;
-use Entities\Notifications\BanAppealUpdatedNotification;
+use App\Domains\BanAppeals\Entities\BanAppealStatus;
+use App\Domains\BanAppeals\Notifications\BanAppealUpdatedNotification;
+use App\Domains\Bans\UnbanType;
+use App\Domains\Panel\Data\PanelGroupScope;
+use App\Models\Account;
+use App\Models\BanAppeal;
+use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\Notification;
 use Tests\IntegrationTestCase;
 
@@ -61,7 +61,7 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
             ->assertRedirect(route('front.panel.ban-appeals.show', $this->appeal));
         $this->assertEquals(BanAppealStatus::ACCEPTED_UNBAN, $this->appeal->refresh()->status);
         $this->assertEquals(false, $this->appeal->gamePlayerBan->refresh()->is_active);
-        $this->assertDatabaseHas(GamePlayerBan::getTableName(), [
+        $this->assertDatabaseHas(GamePlayerBan::tableName(), [
             'id' => $this->gamePlayerBan->getKey(),
             'unbanned_at' => now(),
             'unbanner_player_id' => $this->admin->minecraftAccount()->first()->getKey(),
@@ -80,7 +80,7 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
             ->assertSessionHasNoErrors()
             ->assertRedirect(route('front.panel.ban-appeals.show', $this->appeal));
         $this->assertEquals(BanAppealStatus::DENIED, $this->appeal->refresh()->status);
-        $this->assertDatabaseHas(GamePlayerBan::getTableName(), [
+        $this->assertDatabaseHas(GamePlayerBan::tableName(), [
             'id' => $this->gamePlayerBan->getKey(),
             'unbanned_at' => null,
             'unbanner_player_id' => null,

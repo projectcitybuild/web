@@ -2,13 +2,13 @@
 
 namespace Tests\Unit\Domain\Login\UseCases;
 
+use App\Domains\Login\Entities\LoginCredentials;
+use App\Domains\Login\Exceptions\AccountNotActivatedException;
+use App\Domains\Login\Exceptions\InvalidLoginCredentialsException;
+use App\Domains\Login\UseCases\LoginAccount;
 use App\Http\Middleware\MfaGate;
+use App\Models\Account;
 use Database\Factories\AccountFactory;
-use Domain\Login\Entities\LoginCredentials;
-use Domain\Login\Exceptions\AccountNotActivatedException;
-use Domain\Login\Exceptions\InvalidLoginCredentialsException;
-use Domain\Login\UseCases\LoginAccount;
-use Entities\Models\Eloquent\Account;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;

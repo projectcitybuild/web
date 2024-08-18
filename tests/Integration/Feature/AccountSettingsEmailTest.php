@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\Feature;
 
-use Domain\EmailChange\Notifications\VerifyNewEmailAddressNotification;
-use Domain\EmailChange\Notifications\VerifyOldEmailAddressNotification;
-use Entities\Models\Eloquent\Account;
+use App\Domains\EmailChange\Notifications\VerifyNewEmailAddressNotification;
+use App\Domains\EmailChange\Notifications\VerifyOldEmailAddressNotification;
+use App\Models\Account;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Testing\TestResponse;

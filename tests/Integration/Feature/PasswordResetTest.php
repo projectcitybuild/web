@@ -2,13 +2,13 @@
 
 namespace Tests\Integration\Feature;
 
-use Domain\PasswordReset\UseCases\SendPasswordResetEmail;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountPasswordReset;
-use Entities\Notifications\AccountPasswordResetNotification;
+use App\Core\Domains\SignedURL\Adapters\StubSignedURLGenerator;
+use App\Core\Domains\Tokens\Adapters\StubTokenGenerator;
+use App\Domains\PasswordReset\Notifications\AccountPasswordResetNotification;
+use App\Domains\PasswordReset\UseCases\SendPasswordResetEmail;
+use App\Models\Account;
+use App\Models\AccountPasswordReset;
 use Illuminate\Support\Facades\Notification;
-use Library\SignedURL\Adapters\StubSignedURLGenerator;
-use Library\Tokens\Adapters\StubTokenGenerator;
 use Repositories\AccountPasswordResetRepository;
 use Tests\TestCase;
 

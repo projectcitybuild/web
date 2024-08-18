@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Domain\ServerStatus\UseCases;
 
-use Domain\ServerStatus\Adapters\ServerQueryAdapter;
-use Domain\ServerStatus\Adapters\ServerQueryAdapterFactory;
-use Domain\ServerStatus\Entities\ServerQueryResult;
-use Domain\ServerStatus\UseCases\QueryServerStatus;
-use Entities\Models\Eloquent\Server;
+use App\Domains\ServerStatus\Adapters\ServerQueryAdapter;
+use App\Domains\ServerStatus\Adapters\ServerQueryAdapterFactory;
+use App\Domains\ServerStatus\Entities\ServerQueryResult;
+use App\Domains\ServerStatus\UseCases\QueryServerStatus;
+use App\Models\Server;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;

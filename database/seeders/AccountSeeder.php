@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\Group;
+use App\Models\Account;
+use App\Models\Group;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;

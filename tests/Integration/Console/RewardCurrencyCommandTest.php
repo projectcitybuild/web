@@ -2,10 +2,10 @@
 
 namespace Tests\Integration\Console;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\Donation;
-use Entities\Models\Eloquent\DonationPerk;
-use Entities\Models\Eloquent\DonationTier;
+use App\Models\Account;
+use App\Models\Donation;
+use App\Models\DonationPerk;
+use App\Models\DonationTier;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;

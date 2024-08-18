@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use Entities\Models\Eloquent\AccountPasswordReset;
+use App\Core\Domains\Tokens\TokenGenerator;
+use App\Models\AccountPasswordReset;
 use Illuminate\Support\Facades\App;
-use Library\Tokens\TokenGenerator;
 
 class AccountPasswordResetFactory extends Factory
 {

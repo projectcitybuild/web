@@ -2,13 +2,14 @@
 
 namespace Domain\PasswordReset\UseCases;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountPasswordReset;
-use Entities\Notifications\AccountPasswordResetNotification;
+use App\Core\Domains\SignedURL\Adapters\LaravelSignedURLGenerator;
+use App\Core\Domains\Tokens\Adapters\StubTokenGenerator;
+use App\Domains\PasswordReset\Notifications\AccountPasswordResetNotification;
+use App\Domains\PasswordReset\UseCases\SendPasswordResetEmail;
+use App\Models\Account;
+use App\Models\AccountPasswordReset;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
-use Library\SignedURL\Adapters\LaravelSignedURLGenerator;
-use Library\Tokens\Adapters\StubTokenGenerator;
 use Repositories\AccountPasswordResetRepository;
 use Tests\TestCase;
 

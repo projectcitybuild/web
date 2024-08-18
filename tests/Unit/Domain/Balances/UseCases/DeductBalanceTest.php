@@ -2,14 +2,14 @@
 
 namespace Tests\Unit\Domain\Balances\UseCases;
 
-use Domain\Balances\Exceptions\InsufficientBalanceException;
-use Domain\Balances\UseCases\DeductBalance;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\MinecraftPlayer;
+use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
+use App\Core\Domains\PlayerLookup\Service\PlayerLookupMock;
+use App\Domains\Balances\Exceptions\InsufficientBalanceException;
+use App\Domains\Balances\UseCases\DeductBalance;
+use App\Models\Account;
+use App\Models\MinecraftPlayer;
 use Repositories\BalanceHistoryRepository;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\PlayerLookup;
-use Shared\PlayerLookup\Service\PlayerLookupMock;
 use Tests\TestCase;
 
 class DeductBalanceTest extends TestCase

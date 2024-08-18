@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Library\RateLimit\Storage;
 
-use Library\RateLimit\Storage\FileTokenStorage;
-use Library\RateLimit\TokenState;
+use App\Core\Domains\RateLimit\Storage\FileTokenStorage;
+use App\Core\Domains\RateLimit\TokenState;
 use Tests\TestCase;
 
 class FileTokenStorage_Test extends TestCase

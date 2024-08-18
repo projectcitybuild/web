@@ -2,32 +2,34 @@
 
 namespace App\Providers;
 
+use App\Core\Domains\PlayerLookup\Service\ConcretePlayerLookup;
+use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
+use App\Http\Controllers\Api\v1\OAuthController;
+use App\Models\Account;
+use App\Models\AccountBalanceTransaction;
+use App\Models\Badge;
+use App\Models\BanAppeal;
+use App\Models\BuilderRankApplication;
+use App\Models\Donation;
+use App\Models\DonationPerk;
+use App\Models\DonationTier;
+use App\Models\GameIPBan;
+use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayer;
+use App\Models\Page;
+use App\Models\PlayerWarning;
+use App\Models\Server;
+use App\Models\ServerToken;
 use App\View\Components\DonationBarComponent;
 use App\View\Components\NavBarComponent;
 use App\View\Components\PanelSideBarComponent;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountBalanceTransaction;
-use Entities\Models\Eloquent\Badge;
-use Entities\Models\Eloquent\BanAppeal;
-use Entities\Models\Eloquent\BuilderRankApplication;
-use Entities\Models\Eloquent\Donation;
-use Entities\Models\Eloquent\DonationPerk;
-use Entities\Models\Eloquent\DonationTier;
-use Entities\Models\Eloquent\GameIPBan;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\Page;
-use Entities\Models\Eloquent\PlayerWarning;
-use Entities\Models\Eloquent\Server;
-use Entities\Models\Eloquent\ServerToken;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
-use Shared\PlayerLookup\Service\ConcretePlayerLookup;
-use Shared\PlayerLookup\Service\PlayerLookup;
 use Stripe\StripeClient;
 
 final class AppServiceProvider extends ServiceProvider
@@ -102,5 +104,13 @@ final class AppServiceProvider extends ServiceProvider
         Blade::stringable(function (\Illuminate\Support\Carbon $dateTime) {
             return $dateTime->format('j M Y H:i');
         });
+    }
+
+    private function registerOauthRoute()
+    {
+        if (! $this->app->routesAreCached()) {
+            Route::get('oauth/me', [OAuthController::class, 'show'])
+                ->middleware('auth:api');
+        }
     }
 }

@@ -2,13 +2,13 @@
 
 namespace Tests\Unit\Domain\SignUp\UseCases;
 
-use Domain\SignUp\Exceptions\AccountAlreadyActivatedException;
-use Domain\SignUp\UseCases\ResendActivationEmail;
-use Entities\Models\Eloquent\Account;
-use Entities\Notifications\AccountActivationNotification;
+use App\Core\Domains\SignedURL\Adapters\StubSignedURLGenerator;
+use App\Core\Domains\SignedURL\SignedURLGenerator;
+use App\Domains\Registration\Exceptions\AccountAlreadyActivatedException;
+use App\Domains\Registration\Notifications\AccountActivationNotification;
+use App\Domains\Registration\UseCases\ResendActivationEmail;
+use App\Models\Account;
 use Illuminate\Support\Facades\Notification;
-use Library\SignedURL\Adapters\StubSignedURLGenerator;
-use Library\SignedURL\SignedURLGenerator;
 use Repositories\AccountRepository;
 use Tests\TestCase;
 

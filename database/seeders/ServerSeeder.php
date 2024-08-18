@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Entities\Models\Eloquent\Server;
-use Entities\Models\Eloquent\ServerCategory;
-use Entities\Models\GameType;
+use App\Core\Data\GameType;
+use App\Models\Server;
+use App\Models\ServerCategory;
 use Illuminate\Database\Seeder;
 
 class ServerSeeder extends Seeder

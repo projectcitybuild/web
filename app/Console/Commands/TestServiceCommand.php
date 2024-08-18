@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Core\Domains\Logging\VerifyTailLogIntegration;
+use App\Core\Domains\Sentry\VerifySentryIntegration;
 use Illuminate\Console\Command;
-use Library\Logging\VerifyTailLogIntegration;
-use Library\Sentry\VerifySentryIntegration;
 
 final class TestServiceCommand extends Command
 {

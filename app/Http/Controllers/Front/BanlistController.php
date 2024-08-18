@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\WebController;
-use Entities\Models\Eloquent\GamePlayerBan;
+use App\Models\GamePlayerBan;
 use Illuminate\Http\Request;
 
 final class BanlistController extends WebController

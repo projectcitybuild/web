@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Domains\EmailChange\UseCases\UpdateAccountEmail;
 use App\Http\Controllers\WebController;
-use Domain\EmailChange\UseCases\UpdateAccountEmail;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountEmailChange;
+use App\Models\Account;
+use App\Models\AccountEmailChange;
 
 class AccountApproveEmailChange extends WebController
 {

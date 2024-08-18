@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Library\Random\Adapters;
 
-use Library\Random\Adapters\RandomStringConcrete;
+use App\Core\Domains\Random\Adapters\RandomStringConcrete;
 use Tests\TestCase;
 
 final class RandomStringConcreteTest extends TestCase

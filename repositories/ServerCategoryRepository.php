@@ -2,11 +2,11 @@
 
 namespace Repositories;
 
-use Entities\Models\Eloquent\ServerCategory;
+use App\Models\ServerCategory;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * @final
+ * @deprecated
  */
 class ServerCategoryRepository
 {

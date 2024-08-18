@@ -13,7 +13,7 @@
 The official repository for [Project City Build](https://projectcitybuild.com)'s homepage and related web services.
 
 ### Stack
-* Frameworks: Laravel 9, Vue 3
+* Frameworks: Laravel 11, Vue 3
 * Environment: Laravel Sail (Docker)
 * CI/CD: GitHub Actions
 
@@ -21,7 +21,7 @@ All branches, commits and pull-requests are continuously tested
 
 ### Requirements
 
-The only requirement is [Docker](https://docs.docker.com/get-docker/), as we use Laravel Sail to boot up a development environment.
+[Docker](https://docs.docker.com/get-docker/) is required to run the development environment via Laravel Sail.
 
 ## Can I contribute?
 

@@ -2,12 +2,12 @@
 
 namespace Repositories;
 
-use Entities\Models\Eloquent\DonationPerk;
+use App\Models\DonationPerk;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 /**
- * @final
+ * @deprecated
  */
 class DonationPerkRepository
 {

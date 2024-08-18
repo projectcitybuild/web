@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use Domain\BanAppeals\Entities\BanAppealStatus;
-use Entities\Models\Eloquent\BanAppeal;
-use Entities\Models\Eloquent\MinecraftPlayer;
+use App\Domains\BanAppeals\Entities\BanAppealStatus;
+use App\Models\BanAppeal;
+use App\Models\MinecraftPlayer;
 
 /**
  * @extends Factory<BanAppeal>

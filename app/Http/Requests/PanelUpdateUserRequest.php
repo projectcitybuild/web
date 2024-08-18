@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\DiscourseUsernameRule;
+use App\Core\Rules\DiscourseUsernameRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

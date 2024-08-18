@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Entities\Models\Eloquent;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\Group;
-use Entities\Models\Eloquent\GroupScope;
+use App\Models\Account;
+use App\Models\Group;
+use App\Models\GroupScope;
 use Tests\TestCase;
 
 class AccountTest extends TestCase

@@ -2,12 +2,12 @@
 
 namespace Repositories;
 
-use Domain\ServerStatus\Entities\ServerQueryResult;
-use Entities\Models\Eloquent\Server;
+use App\Domains\ServerStatus\Entities\ServerQueryResult;
+use App\Models\Server;
 use Illuminate\Support\Carbon;
 
 /**
- * @final
+ * @deprecated
  */
 class ServerRepository
 {

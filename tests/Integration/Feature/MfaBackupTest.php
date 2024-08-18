@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\Feature;
 
+use App\Core\Domains\Mfa\Notifications\AccountMfaBackupCodeUsedNotification;
 use App\Http\Middleware\MfaGate;
-use Entities\Models\Eloquent\Account;
-use Entities\Notifications\AccountMfaBackupCodeUsedNotification;
+use App\Models\Account;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;

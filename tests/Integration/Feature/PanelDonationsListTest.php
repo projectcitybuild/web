@@ -2,8 +2,8 @@
 
 namespace Tests\Integration\Feature;
 
-use Entities\Models\Eloquent\Donation;
-use Entities\Models\PanelGroupScope;
+use App\Domains\Panel\Data\PanelGroupScope;
+use App\Models\Donation;
 use Tests\IntegrationTestCase;
 
 class PanelDonationsListTest extends IntegrationTestCase

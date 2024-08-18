@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Library\Auditing\Changes;
 
+use App\Core\Domains\Auditing\Changes\MultilineChange;
+use App\Core\Domains\Auditing\Changes\Tokens\NotInAudit;
 use Illuminate\Foundation\Testing\WithFaker;
-use Library\Auditing\Changes\MultilineChange;
-use Library\Auditing\Changes\Tokens\NotInAudit;
 use Tests\TestCase;
 
 class MultilineChangeTest extends TestCase

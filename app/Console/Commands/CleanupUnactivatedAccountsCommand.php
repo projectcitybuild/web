@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use Entities\Models\Eloquent\Account;
+use App\Core\Domains\Auditing\Causers\SystemCauser;
+use App\Core\Domains\Auditing\Causers\SystemCauseResolver;
+use App\Models\Account;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
-use Library\Auditing\Causers\SystemCauser;
-use Library\Auditing\Causers\SystemCauseResolver;
 
 final class CleanupUnactivatedAccountsCommand extends Command
 {

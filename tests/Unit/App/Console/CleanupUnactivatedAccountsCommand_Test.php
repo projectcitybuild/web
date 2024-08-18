@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\App\Console;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountEmailChange;
-use Entities\Models\Eloquent\Group;
+use App\Models\Account;
+use App\Models\AccountEmailChange;
+use App\Models\Group;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -60,7 +60,7 @@ final class CleanupUnactivatedAccountsCommand_Test extends TestCase
         $this->assertDatabaseMissing('accounts', [
             'account_id' => $account->getKey(),
         ]);
-        $this->assertDatabaseMissing(AccountEmailChange::getTableName(), [
+        $this->assertDatabaseMissing(AccountEmailChange::tableName(), [
             'account_email_change_id' => $emailChange->getKey(),
         ]);
     }

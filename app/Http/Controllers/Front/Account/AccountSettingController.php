@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Front\Account;
 
+use App\Domains\EmailChange\Exceptions\TokenNotFoundException;
+use App\Domains\EmailChange\UseCases\SendVerificationEmail;
+use App\Domains\EmailChange\UseCases\UpdateAccountEmail;
+use App\Domains\EmailChange\UseCases\VerifyEmail;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\AccountChangeEmailRequest;
 use App\Http\Requests\AccountChangePasswordRequest;
 use App\Http\Requests\AccountChangeUsernameRequest;
-use Domain\EmailChange\Exceptions\TokenNotFoundException;
-use Domain\EmailChange\UseCases\SendVerificationEmail;
-use Domain\EmailChange\UseCases\UpdateAccountEmail;
-use Domain\EmailChange\UseCases\VerifyEmail;
-use Entities\Models\Eloquent\AccountEmailChange;
+use App\Models\AccountEmailChange;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 

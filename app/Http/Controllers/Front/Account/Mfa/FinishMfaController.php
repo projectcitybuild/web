@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Front\Account\Mfa;
 
+use App\Core\Domains\Mfa\Notifications\AccountMfaEnabledNotification;
 use App\Http\Controllers\WebController;
-use Entities\Notifications\AccountMfaEnabledNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\ValidationException;

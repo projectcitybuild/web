@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Domain\PasswordReset\UseCases;
 
-use App\Exceptions\Http\NotFoundException;
-use Domain\PasswordReset\UseCases\ResetAccountPassword;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountPasswordReset;
-use Entities\Notifications\AccountPasswordResetCompleteNotification;
+use App\Core\Data\Exceptions\NotFoundException;
+use App\Domains\PasswordReset\Notifications\AccountPasswordResetCompleteNotification;
+use App\Domains\PasswordReset\UseCases\ResetAccountPassword;
+use App\Models\Account;
+use App\Models\AccountPasswordReset;
 use Illuminate\Support\Facades\Notification;
 use Repositories\AccountPasswordResetRepository;
 use Repositories\AccountRepository;

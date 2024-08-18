@@ -2,10 +2,10 @@
 
 namespace Unit\Domain\EmailChange\UseCases;
 
-use Domain\EmailChange\Exceptions\TokenNotFoundException;
-use Domain\EmailChange\UseCases\VerifyEmail;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountEmailChange;
+use App\Domains\EmailChange\Exceptions\TokenNotFoundException;
+use App\Domains\EmailChange\UseCases\VerifyEmail;
+use App\Models\Account;
+use App\Models\AccountEmailChange;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Repositories\AccountEmailChangeRepository;
 use Tests\TestCase;

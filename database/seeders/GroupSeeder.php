@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Entities\Models\Eloquent\Group;
-use Entities\Models\Eloquent\GroupScope;
-use Entities\Models\PanelGroupScope;
+use App\Domains\Panel\Data\PanelGroupScope;
+use App\Models\Group;
+use App\Models\GroupScope;
 use Illuminate\Database\Seeder;
 
 class GroupSeeder extends Seeder

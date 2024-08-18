@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use Entities\Models\Eloquent\DonationTier;
+use App\Models\DonationTier;
 use Illuminate\Support\Str;
 
 class DonationTierFactory extends Factory

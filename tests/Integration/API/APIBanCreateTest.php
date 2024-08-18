@@ -2,11 +2,11 @@
 
 namespace Tests\Integration\API;
 
+use App\Core\Data\PlayerIdentifierType;
+use App\Domains\ServerTokens\ScopeKey;
+use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayer;
 use Carbon\Carbon;
-use Domain\ServerTokens\ScopeKey;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\PlayerIdentifierType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\IntegrationTestCase;
 
@@ -69,7 +69,7 @@ class APIBanCreateTest extends IntegrationTestCase
             ->assertSuccessful();
 
         $this->assertDatabaseHas(
-            table: GamePlayerBan::getTableName(),
+            table: GamePlayerBan::tableName(),
             data: [
                 'server_id' => $this->token->server->getKey(),
                 'banned_player_id' => $player1->getKey(),
@@ -109,7 +109,7 @@ class APIBanCreateTest extends IntegrationTestCase
             ->assertSuccessful();
 
         $this->assertDatabaseHas(
-            table: GamePlayerBan::getTableName(),
+            table: GamePlayerBan::tableName(),
             data: [
                 'server_id' => $this->token->server->getKey(),
                 'banned_player_id' => $player1->getKey(),
@@ -137,7 +137,7 @@ class APIBanCreateTest extends IntegrationTestCase
             ->bannedPlayer($player1)
             ->create();
 
-        $this->assertDatabaseCount(table: GamePlayerBan::getTableName(), count: 1);
+        $this->assertDatabaseCount(table: GamePlayerBan::tableName(), count: 1);
 
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: [
@@ -158,7 +158,7 @@ class APIBanCreateTest extends IntegrationTestCase
                 ],
             ]);
 
-        $this->assertDatabaseCount(table: GamePlayerBan::getTableName(), count: 1);
+        $this->assertDatabaseCount(table: GamePlayerBan::tableName(), count: 1);
     }
 
     public function test_permanent_ban_throws_exception_if_already_temp_banned()
@@ -173,7 +173,7 @@ class APIBanCreateTest extends IntegrationTestCase
             ->bannedPlayer($player1)
             ->create();
 
-        $this->assertDatabaseCount(table: GamePlayerBan::getTableName(), count: 1);
+        $this->assertDatabaseCount(table: GamePlayerBan::tableName(), count: 1);
 
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: [
@@ -194,6 +194,6 @@ class APIBanCreateTest extends IntegrationTestCase
                 ],
             ]);
 
-        $this->assertDatabaseCount(table: GamePlayerBan::getTableName(), count: 1);
+        $this->assertDatabaseCount(table: GamePlayerBan::tableName(), count: 1);
     }
 }

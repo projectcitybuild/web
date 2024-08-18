@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Domains\BuilderRankApplications\Data\BuilderRank;
+use App\Domains\BuilderRankApplications\Exceptions\ApplicationAlreadyInProgressException;
+use App\Domains\BuilderRankApplications\UseCases\CreateBuildRankApplication;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\BuilderRankApplicationRequest;
-use Domain\BuilderRankApplications\Entities\BuilderRank;
-use Domain\BuilderRankApplications\Exceptions\ApplicationAlreadyInProgressException;
-use Domain\BuilderRankApplications\UseCases\CreateBuildRankApplication;
-use Entities\Models\Eloquent\Account;
+use App\Models\Account;
 use Illuminate\Http\Request;
 use Repositories\BuilderRankApplicationRepository;
 

@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
-use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\Server;
+use App\Domains\Bans\UnbanType;
+use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayer;
+use App\Models\Server;
 
 class GamePlayerBanFactory extends Factory
 {

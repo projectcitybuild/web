@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\MinecraftPlayerAlias;
+use App\Models\Account;
+use App\Models\MinecraftPlayer;
+use App\Models\MinecraftPlayerAlias;
 use Illuminate\Database\Seeder;
 
 class MinecraftPlayerSeeder extends Seeder

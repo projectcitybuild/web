@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\Feature;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\MinecraftPlayerAlias;
+use App\Models\Account;
+use App\Models\MinecraftPlayer;
+use App\Models\MinecraftPlayerAlias;
 use Tests\TestCase;
 
 class AccountMinecraftAccountTest extends TestCase

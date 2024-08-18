@@ -2,12 +2,12 @@
 
 namespace Tests;
 
+use App\Core\Domains\Mojang\Api\MojangPlayerApi;
 use App\Http\Middleware\MfaGate;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
-use Library\Mojang\Api\MojangPlayerApi;
 use Tests\Support\TestResponseMacros;
 
 abstract class TestCase extends BaseTestCase

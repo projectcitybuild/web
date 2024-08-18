@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Entities\Models\Eloquent\Badge;
+use App\Models\Badge;
 use Illuminate\Database\Seeder;
 
 class BadgeSeeder extends Seeder

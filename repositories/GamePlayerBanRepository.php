@@ -2,12 +2,15 @@
 
 namespace Repositories;
 
-use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\MinecraftPlayer;
+use App\Domains\Bans\UnbanType;
+use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayer;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
+/**
+ * @deprecated
+ */
 class GamePlayerBanRepository
 {
     public function create(

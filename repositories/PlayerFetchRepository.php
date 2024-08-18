@@ -2,10 +2,13 @@
 
 namespace Repositories;
 
+use App\Models\MinecraftPlayer;
+use App\Models\MinecraftPlayerAlias;
 use DB;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\MinecraftPlayerAlias;
 
+/**
+ * @deprecated
+ */
 final class PlayerFetchRepository
 {
     public function createPlayerWithAlias(string $uuid, string $alias)

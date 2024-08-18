@@ -2,8 +2,8 @@
 
 namespace Tests\Integration\Feature;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\PanelGroupScope;
+use App\Domains\Panel\Data\PanelGroupScope;
+use App\Models\Account;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\IntegrationTestCase;
 

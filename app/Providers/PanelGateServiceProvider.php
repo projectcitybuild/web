@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\PanelGroupScope;
+use App\Domains\Panel\Data\PanelGroupScope;
+use App\Models\Account;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;

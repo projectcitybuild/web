@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use Entities\Models\Eloquent\Badge;
+use App\Models\Badge;
 
 class BadgeFactory extends Factory
 {

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Library\SignedURL\Adapters;
 
-use Library\SignedURL\Adapters\LaravelSignedURLGenerator;
+use App\Core\Domains\SignedURL\Adapters\LaravelSignedURLGenerator;
 use Tests\TestCase;
 
 class LaravelSignedURLGeneratorTest extends TestCase

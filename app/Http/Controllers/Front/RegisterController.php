@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Domains\Registration\Exceptions\AccountAlreadyActivatedException;
+use App\Domains\Registration\UseCases\ActivateUnverifiedAccount;
+use App\Domains\Registration\UseCases\CreateUnactivatedAccount;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\RegisterRequest;
-use Domain\SignUp\Exceptions\AccountAlreadyActivatedException;
-use Domain\SignUp\UseCases\ActivateUnverifiedAccount;
-use Domain\SignUp\UseCases\CreateUnactivatedAccount;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

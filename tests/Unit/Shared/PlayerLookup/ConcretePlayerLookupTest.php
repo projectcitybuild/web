@@ -2,15 +2,15 @@
 
 namespace Tests\Unit\Shared\PlayerLookup;
 
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\MinecraftPlayerAlias;
+use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Exceptions\NonCreatableIdentifierException;
+use App\Core\Domains\PlayerLookup\Service\ConcretePlayerLookup;
+use App\Models\MinecraftPlayer;
+use App\Models\MinecraftPlayerAlias;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Repositories\MinecraftPlayerAliasRepository;
 use Repositories\MinecraftPlayerRepository;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Exceptions\NonCreatableIdentifierException;
-use Shared\PlayerLookup\Service\ConcretePlayerLookup;
 use Tests\TestCase;
 
 class ConcretePlayerLookupTest extends TestCase

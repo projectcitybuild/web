@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Domain\SignUp\UseCases;
 
-use App\Exceptions\Http\BadRequestException;
-use Domain\SignUp\Exceptions\AccountAlreadyActivatedException;
-use Domain\SignUp\UseCases\ActivateUnverifiedAccount;
-use Entities\Models\Eloquent\Account;
+use App\Core\Data\Exceptions\BadRequestException;
+use App\Domains\Registration\Exceptions\AccountAlreadyActivatedException;
+use App\Domains\Registration\UseCases\ActivateUnverifiedAccount;
+use App\Models\Account;
 use Repositories\AccountRepository;
 use Tests\TestCase;
 

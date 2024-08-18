@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Core\Domains\RateLimit\Storage\SessionTokenStorage;
+use App\Core\Domains\RateLimit\TokenBucket;
+use App\Core\Domains\RateLimit\TokenRate;
+use App\Domains\Login\Entities\LoginCredentials;
+use App\Domains\Login\Exceptions\AccountNotActivatedException;
+use App\Domains\Login\Exceptions\InvalidLoginCredentialsException;
+use App\Domains\Login\UseCases\LoginAccount;
+use App\Domains\Registration\Exceptions\AccountAlreadyActivatedException;
+use App\Domains\Registration\UseCases\ResendActivationEmail;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\LoginRequest;
-use Domain\Login\Entities\LoginCredentials;
-use Domain\Login\Exceptions\AccountNotActivatedException;
-use Domain\Login\Exceptions\InvalidLoginCredentialsException;
-use Domain\Login\UseCases\LoginAccount;
-use Domain\SignUp\Exceptions\AccountAlreadyActivatedException;
-use Domain\SignUp\UseCases\ResendActivationEmail;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Library\RateLimit\Storage\SessionTokenStorage;
-use Library\RateLimit\TokenBucket;
-use Library\RateLimit\TokenRate;
 
 final class LoginController extends WebController
 {

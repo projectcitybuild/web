@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use Entities\Models\Eloquent\GroupScope;
+use App\Models\GroupScope;
 
 class GroupScopeFactory extends Factory
 {

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Front\BanAppeal;
 
+use App\Domains\BanAppeals\Exceptions\EmailRequiredException;
+use App\Domains\BanAppeals\UseCases\CreateBanAppeal;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\StoreBanAppealRequest;
-use Domain\BanAppeals\Exceptions\EmailRequiredException;
-use Domain\BanAppeals\UseCases\CreateBanAppeal;
-use Entities\Models\Eloquent\BanAppeal;
-use Entities\Models\Eloquent\GamePlayerBan;
+use App\Models\BanAppeal;
+use App\Models\GamePlayerBan;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
