@@ -2,8 +2,8 @@
 
 namespace Tests\Integration\Feature;
 
-use App\Core\Domains\SignedURL\Adapters\StubSignedURLGenerator;
 use App\Core\Domains\Tokens\Adapters\StubTokenGenerator;
+use App\Core\Support\Laravel\SignedURL\Adapters\StubSignedURLGenerator;
 use App\Domains\PasswordReset\Notifications\AccountPasswordResetNotification;
 use App\Domains\PasswordReset\UseCases\SendPasswordResetEmail;
 use App\Models\Account;

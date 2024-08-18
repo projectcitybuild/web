@@ -2,8 +2,8 @@
 
 namespace App\Domains\PasswordReset\UseCases;
 
-use App\Core\Domains\SignedURL\SignedURLGenerator;
 use App\Core\Domains\Tokens\TokenGenerator;
+use App\Core\Support\Laravel\SignedURL\SignedURLGenerator;
 use App\Domains\PasswordReset\Notifications\AccountPasswordResetNotification;
 use App\Models\Account;
 use Repositories\AccountPasswordResetRepository;

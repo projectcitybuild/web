@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Core\Domains\RateLimit\Storage\SessionTokenStorage;
-use App\Core\Domains\RateLimit\TokenBucket;
-use App\Core\Domains\RateLimit\TokenRate;
 use App\Domains\Login\Entities\LoginCredentials;
 use App\Domains\Login\Exceptions\AccountNotActivatedException;
 use App\Domains\Login\Exceptions\InvalidLoginCredentialsException;
@@ -31,22 +28,6 @@ final class LoginController extends WebController
     ): RedirectResponse {
         $input = $request->validated();
 
-        $rateLimit = new TokenBucket(
-            capacity: 6,
-            refillRate: TokenRate::refill(3)
-                ->every(2, TokenRate::MINUTES),
-            storage: new SessionTokenStorage(
-                sessionName: 'login.rate',
-                initialTokens: 5
-            ),
-        );
-
-        if (! $rateLimit->consume(1)) {
-            throw ValidationException::withMessages([
-                'error' => ['Too many login attempts. Please try again in a few minutes'],
-            ]);
-        }
-
         $credentials = new LoginCredentials(
             email: $input['email'],
             password: $input['password'],
@@ -59,9 +40,8 @@ final class LoginController extends WebController
                 ip: $request->ip(),
             );
         } catch (InvalidLoginCredentialsException) {
-            $triesLeft = floor($rateLimit->getAvailableTokens());
             throw ValidationException::withMessages([
-                'error' => ['Email or password is incorrect: '.$triesLeft.' attempts remaining'],
+                'error' => ['Email or password is incorrect'],
             ]);
         } catch (AccountNotActivatedException) {
             throw ValidationException::withMessages([

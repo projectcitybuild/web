@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Core\Data\Exceptions\BadRequestException;
-use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Core\Domains\PlayerLookup\Exceptions\InvalidMinecraftUUIDException;
 use App\Core\Domains\PlayerLookup\Exceptions\NoLinkedAccountException;
 use App\Core\Domains\PlayerLookup\Exceptions\PlayerNotFoundException;

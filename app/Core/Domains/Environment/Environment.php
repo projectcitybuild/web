@@ -10,7 +10,7 @@ final class Environment
 
     public static function getLevel(): EnvironmentLevel
     {
-        $rawValue = config('app.env');
+        $rawValue = config('app.env', default: EnvironmentLevel::DEVELOPMENT->value);
 
         return EnvironmentLevel::tryFrom($rawValue);
     }

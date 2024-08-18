@@ -82,5 +82,8 @@ class UpdateSeenMinecraftPlayerTest extends TestCase
             ->andReturn(new MinecraftPlayerAlias());
 
         $this->useCase->execute(uuid: 'uuid', alias: 'new_alias');
+
+        // Skip risky warning
+        $this->assertTrue(true);
     }
 }

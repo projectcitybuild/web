@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Core\Data\Exceptions\BadRequestException;
 use App\Core\Data\PlayerIdentifierType;
-use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Domains\Warnings\UseCases\AcknowledgeWarning;
 use App\Domains\Warnings\UseCases\CreateWarning;
 use App\Domains\Warnings\UseCases\GetWarnings;

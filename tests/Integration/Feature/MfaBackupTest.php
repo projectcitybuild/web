@@ -2,7 +2,7 @@
 
 namespace Tests\Integration\Feature;
 
-use App\Core\Domains\Mfa\Notifications\AccountMfaBackupCodeUsedNotification;
+use App\Core\Domains\Mfa\Notifications\MfaBackupCodeUsedNotification;
 use App\Http\Middleware\MfaGate;
 use App\Models\Account;
 use Illuminate\Support\Facades\Crypt;
@@ -47,7 +47,7 @@ class MfaBackupTest extends TestCase
 
         $this->assertGuest();
 
-        Notification::assertSentTo($this->mfaAccount, AccountMfaBackupCodeUsedNotification::class);
+        Notification::assertSentTo($this->mfaAccount, MfaBackupCodeUsedNotification::class);
 
         $account = $this->mfaAccount->refresh();
 

@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\Feature;
 
-use App\Core\Domains\Mfa\Notifications\AccountMfaBackupCodeRegeneratedNotification;
-use App\Core\Domains\Mfa\Notifications\AccountMfaDisabledNotification;
-use App\Core\Domains\Mfa\Notifications\AccountMfaEnabledNotification;
+use App\Core\Domains\Mfa\Notifications\MfaBackupCodeRegeneratedNotification;
+use App\Core\Domains\Mfa\Notifications\MfaDisabledNotification;
+use App\Core\Domains\Mfa\Notifications\MfaEnabledNotification;
 use App\Models\Account;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Notification;
@@ -90,7 +90,7 @@ class AccountSecurityTest extends TestCase
             'backup_saved' => 1,
             'code' => $validCode,
         ]);
-        Notification::assertSentTo($account, AccountMfaEnabledNotification::class);
+        Notification::assertSentTo($account, MfaEnabledNotification::class);
     }
 
     public function test_cant_re_start_if_set_up()
@@ -165,7 +165,7 @@ class AccountSecurityTest extends TestCase
         $this->disableReauthMiddleware();
         $this->delete(route('front.account.security.disable'))
             ->assertRedirect();
-        Notification::assertSentTo($account, AccountMfaDisabledNotification::class);
+        Notification::assertSentTo($account, MfaDisabledNotification::class);
     }
 
     public function test_cant_refresh_backup_if_not_enabled()
@@ -209,6 +209,6 @@ class AccountSecurityTest extends TestCase
         $account = Account::factory()->hasFinishedTotp()->create();
         $this->actingAs($account)->disableReauthMiddleware();
         $this->post(route('front.account.security.reset-backup'));
-        Notification::assertSentTo($account, AccountMfaBackupCodeRegeneratedNotification::class);
+        Notification::assertSentTo($account, MfaBackupCodeRegeneratedNotification::class);
     }
 }

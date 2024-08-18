@@ -46,6 +46,9 @@ class CreateBanAppealTest extends TestCase
             ->andReturn($this->banAppeal);
 
         $this->useCase->execute($this->gamePlayerBan, 'Explanation', loggedInAccount: null, email: 'test@example.org');
+
+        // Skip risky warning
+        $this->assertTrue(true);
     }
 
     public function test_requires_email_with_no_logged_in_account()
@@ -71,6 +74,9 @@ class CreateBanAppealTest extends TestCase
             ->andReturn($this->banAppeal);
 
         $this->useCase->execute($this->gamePlayerBan, 'Explanation', loggedInAccount: $account, email: null);
+
+        // Skip risky warning
+        $this->assertTrue(true);
     }
 
     public function test_sends_email_to_to_appeal_notifiable()
@@ -93,6 +99,9 @@ class CreateBanAppealTest extends TestCase
             ->with($this->gamePlayerBan->getKey(), true, 'Explanation', null)
             ->andReturn($this->banAppeal);
         $this->useCase->execute($this->gamePlayerBan, 'Explanation', loggedInAccount: $account, email: null);
+
+        // Skip risky warning
+        $this->assertTrue(true);
     }
 
     public function test_sets_not_verified_if_no_account_specified()
@@ -103,6 +112,9 @@ class CreateBanAppealTest extends TestCase
             ->with($this->gamePlayerBan->getKey(), false, 'Explanation', 'test@example.org')
             ->andReturn($this->banAppeal);
         $this->useCase->execute($this->gamePlayerBan, 'Explanation', loggedInAccount: null, email: 'test@example.org');
+
+        // Skip risky warning
+        $this->assertTrue(true);
     }
 
     public function test_sets_not_verified_if_different_account_used()
@@ -113,5 +125,8 @@ class CreateBanAppealTest extends TestCase
             ->with($this->gamePlayerBan->getKey(), false, 'Explanation', 'test@example.org')
             ->andReturn($this->banAppeal);
         $this->useCase->execute($this->gamePlayerBan, 'Explanation', loggedInAccount: Account::factory()->create(), email: 'test@example.org');
+
+        // Skip risky warning
+        $this->assertTrue(true);
     }
 }

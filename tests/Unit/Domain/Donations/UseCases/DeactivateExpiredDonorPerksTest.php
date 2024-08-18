@@ -164,6 +164,9 @@ final class DeactivateExpiredDonorPerksTest extends TestCase
             ->shouldReceive('removeMember');
 
         $this->useCase->execute();
+
+        // Skip risky warning
+        $this->assertTrue(true);
     }
 
     public function test_doesnt_remove_donor_group_if_other_active_perks()

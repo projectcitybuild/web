@@ -17,6 +17,7 @@ class MfaGate
      * @var array<string>
      */
     private array $exclude = [
+        'front.logout',
         'front.login.mfa',
         'front.login.mfa.submit',
         'front.login.mfa-recover',

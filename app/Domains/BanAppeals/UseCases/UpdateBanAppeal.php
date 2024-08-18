@@ -3,7 +3,7 @@
 namespace App\Domains\BanAppeals\UseCases;
 
 use App\Core\Data\Exceptions\NotImplementedException;
-use App\Core\Domains\PlayerLookup\Entities\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Domains\BanAppeals\Entities\BanAppealStatus;
 use App\Domains\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use App\Domains\Bans\Exceptions\NotBannedException;
