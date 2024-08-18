@@ -8,7 +8,6 @@ enum PanelGroupScope: string
 
     case MANAGE_ACCOUNTS = 'panel-manage-accounts';
     case MANAGE_GROUPS = 'panel-manage-groups';
-    case MANAGE_PAGES = 'panel-manage-pages';
     case MANAGE_SERVERS = 'panel-manage-servers';
     case MANAGE_DONATIONS = 'panel-manage-donations';
     case MANAGE_BADGES = 'panel-manage-badges';

@@ -23,7 +23,6 @@ use App\Http\Controllers\Front\LogoutController;
 use App\Http\Controllers\Front\MfaBackupController;
 use App\Http\Controllers\Front\MfaLoginGateController;
 use App\Http\Controllers\Front\MinecraftPlayerLinkController;
-use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\Front\PasswordResetController;
 use App\Http\Controllers\Front\ReauthController;
 use App\Http\Controllers\Front\RegisterController;
@@ -36,9 +35,6 @@ Route::name('front.')->group(function () {
     Route::get('logout', [LogoutController::class, 'logout'])
         ->name('logout')
         ->middleware('auth');
-
-    Route::get('p/{name}', [PageController::class, 'index'])
-        ->name('page');
 
     Route::prefix('donate')->group(function () {
         Route::get('/', [DonationController::class, 'index'])
