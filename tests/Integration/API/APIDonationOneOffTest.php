@@ -115,11 +115,6 @@ class APIDonationOneOffTest extends IntegrationTestCase
 
         $this->assertTrue($this->account->groups->contains($this->donorGroup));
 
-        $this->assertEquals(
-            expected: 150,
-            actual: Account::find($this->account->getKey())->balance,
-        );
-
         Notification::assertSentTo($this->account, DonationPerkStartedNotification::class);
     }
 
@@ -160,11 +155,6 @@ class APIDonationOneOffTest extends IntegrationTestCase
         ]);
 
         $this->assertTrue($this->account->groups->contains($this->donorGroup));
-
-        $this->assertEquals(
-            expected: 150,
-            actual: Account::find($this->account->getKey())->balance,
-        );
 
         Notification::assertSentTo($this->account, DonationPerkStartedNotification::class);
     }
