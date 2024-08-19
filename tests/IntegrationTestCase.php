@@ -51,8 +51,7 @@ abstract class IntegrationTestCase extends TestCase
 
     protected function createServerToken(): ServerToken
     {
-        $serverCategory = ServerCategory::create(['name' => '_', 'display_order' => 0]);
-        $server = Server::factory()->create(['server_category_id' => $serverCategory->getKey()]);
+        $server = Server::factory()->create();
         $this->token = ServerToken::factory()->create(['server_id' => $server->getKey()]);
 
         return $this->token;

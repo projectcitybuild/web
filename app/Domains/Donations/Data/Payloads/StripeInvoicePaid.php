@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Domains\Donations\Entities\Payloads;
+namespace App\Domains\Donations\Data\Payloads;
 
-use App\Domains\Donations\Entities\PaidAmount;
-use App\Domains\Donations\Entities\PaymentType;
+use App\Domains\Donations\Data\PaidAmount;
+use App\Domains\Donations\Data\PaymentType;
 
 final class StripeInvoicePaid
 {

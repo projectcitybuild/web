@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Domains\Bans\UnbanType;
+use App\Domains\Bans\Data\UnbanType;
 use App\Http\Controllers\WebController;
 use App\Models\GamePlayerBan;
 use Illuminate\Contracts\View\View;

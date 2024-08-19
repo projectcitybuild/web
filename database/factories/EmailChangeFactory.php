@@ -5,7 +5,7 @@ namespace Database\Factories;
 use App\Models\EmailChange;
 use Illuminate\Support\Str;
 
-class AccountEmailChangeFactory extends Factory
+class EmailChangeFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.

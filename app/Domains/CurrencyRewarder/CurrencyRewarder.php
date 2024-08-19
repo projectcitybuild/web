@@ -2,7 +2,6 @@
 
 namespace App\Domains\CurrencyRewarder;
 
-use App\Domains\Donations\Notifications\DonationTierCurrencyAwarded;
 use App\Models\DonationPerk;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -68,7 +67,5 @@ final class CurrencyRewarder
             DB::rollBack();
             throw $e;
         }
-
-        $account->notify(new DonationTierCurrencyAwarded($rewardAmount));
     }
 }

@@ -6,7 +6,7 @@ use App\Core\Domains\Tokens\TokenGenerator;
 use App\Models\PasswordReset;
 use Illuminate\Support\Facades\App;
 
-class AccountPasswordResetFactory extends Factory
+class PasswordResetFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
