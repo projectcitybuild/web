@@ -6,7 +6,7 @@ use App\Core\Data\Exceptions\NotFoundException;
 use App\Domains\PasswordReset\Notifications\AccountPasswordResetCompleteNotification;
 use App\Domains\PasswordReset\UseCases\ResetAccountPassword;
 use App\Models\Account;
-use App\Models\AccountPasswordReset;
+use App\Models\PasswordReset;
 use Illuminate\Support\Facades\Notification;
 use Repositories\AccountPasswordResetRepository;
 use Repositories\AccountRepository;
@@ -49,7 +49,7 @@ class ResetAccountPasswordTest extends TestCase
 
     public function test_throws_exception_if_account_not_found()
     {
-        $passwordReset = AccountPasswordReset::factory()->create();
+        $passwordReset = PasswordReset::factory()->create();
 
         $this->passwordResetRepository
             ->shouldReceive('firstByToken')
@@ -69,7 +69,7 @@ class ResetAccountPasswordTest extends TestCase
 
     public function test_updates_password()
     {
-        $passwordReset = AccountPasswordReset::factory()->create();
+        $passwordReset = PasswordReset::factory()->create();
         $account = Account::factory()->create();
         $newPassword = 'new_password';
 
@@ -100,7 +100,7 @@ class ResetAccountPasswordTest extends TestCase
     {
         Notification::assertNothingSent();
 
-        $passwordReset = AccountPasswordReset::factory()->create();
+        $passwordReset = PasswordReset::factory()->create();
         $account = Account::factory()->create();
 
         $this->passwordResetRepository

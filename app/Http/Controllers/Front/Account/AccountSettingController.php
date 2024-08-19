@@ -10,7 +10,7 @@ use App\Http\Controllers\WebController;
 use App\Http\Requests\AccountChangeEmailRequest;
 use App\Http\Requests\AccountChangePasswordRequest;
 use App\Http\Requests\AccountChangeUsernameRequest;
-use App\Models\AccountEmailChange;
+use App\Models\EmailChange;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -59,11 +59,11 @@ final class AccountSettingController extends WebController
             return $verifyEmail->execute(
                 token: $request->get('token'),
                 email: $request->get('email'),
-                onHalfComplete: fn (AccountEmailChange $changeRequest) => view(
+                onHalfComplete: fn (EmailChange $changeRequest) => view(
                     view: 'front.pages.account.account-settings-email-confirm',
                     data: ['changeRequest' => $changeRequest]
                 ),
-                onBothComplete: function (AccountEmailChange $changeRequest) use ($updateAccountEmail) {
+                onBothComplete: function (EmailChange $changeRequest) use ($updateAccountEmail) {
                     $updateAccountEmail->execute(
                         account: $changeRequest->account,
                         emailChangeRequest: $changeRequest,

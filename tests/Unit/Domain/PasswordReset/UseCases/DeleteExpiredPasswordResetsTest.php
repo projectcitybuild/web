@@ -3,7 +3,7 @@
 namespace Tests\Unit\Domain\PasswordReset\UseCases;
 
 use App\Domains\PasswordReset\UseCases\DeleteExpiredPasswordResets;
-use App\Models\AccountPasswordReset;
+use App\Models\PasswordReset;
 use Illuminate\Support\Carbon;
 use Repositories\AccountPasswordResetRepository;
 use Tests\TestCase;
@@ -26,16 +26,16 @@ class DeleteExpiredPasswordResetsTest extends TestCase
         $now = Carbon::create(year: 2022, month: 4, day: 8, hour: 10, minute: 9, second: 8);
         Carbon::setTestNow($now);
 
-        AccountPasswordReset::factory()->create([
+        PasswordReset::factory()->create([
             'created_at' => $now->copy()->addDays(-2),
         ]);
-        AccountPasswordReset::factory()->create([
+        PasswordReset::factory()->create([
             'created_at' => $now->copy()->addDays(-1),
         ]);
-        AccountPasswordReset::factory()->create([
+        PasswordReset::factory()->create([
             'created_at' => $now,
         ]);
-        AccountPasswordReset::factory()->create([
+        PasswordReset::factory()->create([
             'created_at' => $now->copy()->addDay(),
         ]);
 

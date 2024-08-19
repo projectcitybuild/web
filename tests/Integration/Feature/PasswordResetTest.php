@@ -7,7 +7,7 @@ use App\Core\Support\Laravel\SignedURL\Adapters\StubSignedURLGenerator;
 use App\Domains\PasswordReset\Notifications\AccountPasswordResetNotification;
 use App\Domains\PasswordReset\UseCases\SendPasswordResetEmail;
 use App\Models\Account;
-use App\Models\AccountPasswordReset;
+use App\Models\PasswordReset;
 use Illuminate\Support\Facades\Notification;
 use Repositories\AccountPasswordResetRepository;
 use Tests\TestCase;
@@ -48,7 +48,7 @@ class PasswordResetTest extends TestCase
 
     public function test_user_can_change_password()
     {
-        $reset = AccountPasswordReset::factory()->create([
+        $reset = PasswordReset::factory()->create([
             'email' => $this->account->email,
         ]);
 

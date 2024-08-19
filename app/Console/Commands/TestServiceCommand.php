@@ -2,19 +2,15 @@
 
 namespace App\Console\Commands;
 
+use App\Core\Domains\Logging\LogTailLoggerFactory;
 use App\Core\Domains\Logging\VerifyTailLogIntegration;
 use App\Core\Domains\Sentry\VerifySentryIntegration;
+use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\App;
 
 final class TestServiceCommand extends Command
 {
-    public function __construct(
-        private VerifyTailLogIntegration $verifyTailLogIntegration,
-        private VerifySentryIntegration $verifySentryIntegration,
-    ) {
-        parent::__construct();
-    }
-
     protected $signature = 'test:service {--service=*}';
     protected $description = 'Tests the given 3rd-party service';
 
@@ -30,12 +26,16 @@ final class TestServiceCommand extends Command
         $serviceName = strtolower($service[0]);
         switch ($serviceName) {
             case 'logtail':
-                $this->verifyTailLogIntegration->sendTestLog();
+                $factory = App::make(LogTailLoggerFactory::class);
+                $logger = $factory(config: []);
+                $logger->info('Hello World');
                 $this->info('Sent `Hello World` test log to LogTail');
                 break;
 
             case 'sentry':
-                $this->verifySentryIntegration->sendTestException();
+                app('sentry')->captureException(
+                    new Exception('Sentry integration test. Ignore this')
+                );
                 $this->info('Sent test exception to Sentry');
                 break;
 

@@ -4,7 +4,7 @@ namespace Tests\Unit\Domain\ServerStatus\UseCases;
 
 use App\Domains\ServerStatus\Adapters\ServerQueryAdapter;
 use App\Domains\ServerStatus\Adapters\ServerQueryAdapterFactory;
-use App\Domains\ServerStatus\Entities\ServerQueryResult;
+use App\Domains\ServerStatus\Data\ServerQueryResult;
 use App\Domains\ServerStatus\UseCases\QueryServerStatus;
 use App\Models\Server;
 use Illuminate\Foundation\Testing\RefreshDatabase;

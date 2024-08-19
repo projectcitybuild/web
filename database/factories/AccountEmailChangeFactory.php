@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\AccountEmailChange;
+use App\Models\EmailChange;
 use Illuminate\Support\Str;
 
 class AccountEmailChangeFactory extends Factory
@@ -12,7 +12,7 @@ class AccountEmailChangeFactory extends Factory
      *
      * @var string
      */
-    protected $model = AccountEmailChange::class;
+    protected $model = EmailChange::class;
 
     /**
      * Define the model's default state.

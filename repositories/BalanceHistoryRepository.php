@@ -2,7 +2,7 @@
 
 namespace Repositories;
 
-use App\Models\AccountBalanceTransaction;
+use App\Models\BalanceTransaction;
 
 /**
  * @deprecated
@@ -16,7 +16,7 @@ class BalanceHistoryRepository
         int $transactionAmount,
         string $reason,
     ) {
-        AccountBalanceTransaction::create([
+        BalanceTransaction::create([
             'account_id' => $accountId,
             'balance_before' => $balanceBefore,
             'balance_after' => $balanceAfter,

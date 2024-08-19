@@ -2,7 +2,7 @@
 
 namespace App\Domains\ServerStatus\Adapters;
 
-use App\Domains\ServerStatus\Entities\ServerQueryResult;
+use App\Domains\ServerStatus\Data\ServerQueryResult;
 use Illuminate\Support\Facades\Log;
 use xPaw\MinecraftPing;
 use xPaw\MinecraftPingException;
@@ -26,7 +26,6 @@ final class MinecraftQueryAdapter implements ServerQueryAdapter
             return ServerQueryResult::online(
                 numOfPlayers: $players['online'],
                 numOfSlots: $players['max'],
-                onlinePlayerNames: [], // TODO: restore this later
             );
         } catch (MinecraftPingException) {
             return ServerQueryResult::offline();

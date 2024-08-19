@@ -3,7 +3,7 @@
 namespace Tests\Unit\App\Console;
 
 use App\Models\Account;
-use App\Models\AccountEmailChange;
+use App\Models\EmailChange;
 use App\Models\Group;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -47,7 +47,7 @@ final class CleanupUnactivatedAccountsCommand_Test extends TestCase
             ->unactivated()
             ->create(['updated_at' => now()->subDays(14)]);
 
-        $emailChange = AccountEmailChange::factory()
+        $emailChange = EmailChange::factory()
             ->for($account)
             ->create();
 
@@ -60,7 +60,7 @@ final class CleanupUnactivatedAccountsCommand_Test extends TestCase
         $this->assertDatabaseMissing('accounts', [
             'account_id' => $account->getKey(),
         ]);
-        $this->assertDatabaseMissing(AccountEmailChange::tableName(), [
+        $this->assertDatabaseMissing(EmailChange::tableName(), [
             'account_email_change_id' => $emailChange->getKey(),
         ]);
     }
