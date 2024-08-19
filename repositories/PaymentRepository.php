@@ -2,7 +2,7 @@
 
 namespace Repositories;
 
-use App\Domains\Donations\Entities\PaidAmount;
+use App\Domains\Donations\Data\PaidAmount;
 use App\Models\Payment;
 
 /**

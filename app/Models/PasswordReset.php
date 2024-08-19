@@ -6,7 +6,7 @@ use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-final class AccountPasswordReset extends Model
+final class PasswordReset extends Model
 {
     use HasStaticTable;
     use HasFactory;

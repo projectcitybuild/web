@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Domains\Bans\UnbanType;
+use App\Domains\Bans\Data\UnbanType;
 use Tests\TestCase;
 
 class GamePlayerBanTest extends TestCase

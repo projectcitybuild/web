@@ -2,7 +2,7 @@
 
 namespace Repositories\GameIPBans;
 
-use App\Domains\Bans\UnbanType;
+use App\Domains\Bans\Data\UnbanType;
 use App\Models\GameIPBan;
 
 /**

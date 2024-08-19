@@ -113,7 +113,7 @@
                     value=""
                     {{ old('unban_type') === null || $ban->unban_type === null ? 'selected' : '' }}
             ></option>
-            @foreach (\App\Domains\Bans\UnbanType::cases() as $unbanType)
+            @foreach (\App\Domains\Bans\Data\UnbanType::cases() as $unbanType)
                 <option
                         value="{{ $unbanType->value }}"
                         {{ old('unban_type') === $unbanType || $ban->unban_type === $unbanType ? 'selected' : '' }}

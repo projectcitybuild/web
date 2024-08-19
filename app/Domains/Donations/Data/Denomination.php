@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Donations\Entities;
+namespace App\Domains\Donations\Data;
 
 enum Denomination
 {

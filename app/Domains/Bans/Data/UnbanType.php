@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Bans;
+namespace App\Domains\Bans\Data;
 
 use App\Core\Utilities\Traits\ValueJoinable;
 

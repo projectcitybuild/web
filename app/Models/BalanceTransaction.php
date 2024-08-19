@@ -9,7 +9,7 @@ use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-final class AccountBalanceTransaction extends Model implements LinkableAuditModel
+final class BalanceTransaction extends Model implements LinkableAuditModel
 {
     use HasStaticTable;
     use LogsActivity;

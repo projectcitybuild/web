@@ -3,12 +3,12 @@
 namespace App\Domains\EmailChange\UseCases;
 
 use App\Models\Account;
-use App\Models\AccountEmailChange;
+use App\Models\EmailChange;
 use Illuminate\Support\Facades\DB;
 
 final class UpdateAccountEmail
 {
-    public function execute(Account $account, AccountEmailChange $emailChangeRequest)
+    public function execute(Account $account, EmailChange $emailChangeRequest)
     {
         $newEmailAddress = $emailChangeRequest->email_new;
 

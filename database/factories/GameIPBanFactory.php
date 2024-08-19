@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Domains\Bans\UnbanType;
+use App\Domains\Bans\Data\UnbanType;
 use App\Models\GameIPBan;
 use App\Models\MinecraftPlayer;
 use Illuminate\Database\Eloquent\Factories\Factory;

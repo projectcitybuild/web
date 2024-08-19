@@ -4,8 +4,8 @@ namespace App\Domains\Bans\UseCases;
 
 use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
+use App\Domains\Bans\Data\UnbanType;
 use App\Domains\Bans\Exceptions\NotIPBannedException;
-use App\Domains\Bans\UnbanType;
 use App\Models\GameIPBan;
 use Repositories\GameIPBans\GameIPBanRepository;
 

@@ -132,7 +132,7 @@ final class Account extends Authenticatable implements LinkableAuditModel
     public function emailChangeRequests(): HasMany
     {
         return $this->hasMany(
-            related: AccountEmailChange::class,
+            related: EmailChange::class,
             foreignKey: 'account_id',
         );
     }

@@ -7,7 +7,7 @@ use App\Core\Support\Laravel\SignedURL\Adapters\LaravelSignedURLGenerator;
 use App\Domains\PasswordReset\Notifications\AccountPasswordResetNotification;
 use App\Domains\PasswordReset\UseCases\SendPasswordResetEmail;
 use App\Models\Account;
-use App\Models\AccountPasswordReset;
+use App\Models\PasswordReset;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Repositories\AccountPasswordResetRepository;
@@ -70,7 +70,7 @@ class SendPasswordResetEmailTest extends TestCase
 
     public function test_updates_existing_request()
     {
-        AccountPasswordReset::create([
+        PasswordReset::create([
             'email' => $this->account->email,
             'token' => 'old_token',
             'created_at' => Carbon::create(year: 2021, month: 3, day: 2, hour: 10, minute: 9, second: 8),

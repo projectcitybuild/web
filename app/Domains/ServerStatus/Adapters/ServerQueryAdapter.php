@@ -2,7 +2,7 @@
 
 namespace App\Domains\ServerStatus\Adapters;
 
-use App\Domains\ServerStatus\Entities\ServerQueryResult;
+use App\Domains\ServerStatus\Data\ServerQueryResult;
 
 interface ServerQueryAdapter
 {

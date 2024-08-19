@@ -3,17 +3,17 @@
 namespace Database\Factories;
 
 use App\Core\Domains\Tokens\TokenGenerator;
-use App\Models\AccountPasswordReset;
+use App\Models\PasswordReset;
 use Illuminate\Support\Facades\App;
 
-class AccountPasswordResetFactory extends Factory
+class PasswordResetFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = AccountPasswordReset::class;
+    protected $model = PasswordReset::class;
 
     /**
      * Define the model's default state.

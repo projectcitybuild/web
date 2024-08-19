@@ -3,7 +3,7 @@
 namespace Tests\Integration\API;
 
 use App\Core\Data\PlayerIdentifierType;
-use App\Domains\Bans\UnbanType;
+use App\Domains\Bans\Data\UnbanType;
 use App\Domains\ServerTokens\ScopeKey;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;

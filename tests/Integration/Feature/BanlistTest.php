@@ -6,7 +6,6 @@ use App\Models\Account;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
 use App\Models\Server;
-use App\Models\ServerCategory;
 use Tests\TestCase;
 
 class BanlistTest extends TestCase
@@ -21,7 +20,7 @@ class BanlistTest extends TestCase
     public function test_active_ban_is_shown_on_list()
     {
         $ban = GamePlayerBan::factory()
-            ->for(Server::factory()->for(ServerCategory::factory()))
+            ->for(Server::factory())
             ->bannedPlayer($this->makeMinecraftPlayer())
             ->bannedBy($this->makeMinecraftPlayer())
             ->create();
@@ -33,7 +32,7 @@ class BanlistTest extends TestCase
     public function test_inactive_ban_is_not_shown_on_list()
     {
         $ban = GamePlayerBan::factory()
-            ->for(Server::factory()->for(ServerCategory::factory()))
+            ->for(Server::factory())
             ->bannedPlayer($this->makeMinecraftPlayer())
             ->bannedBy($this->makeMinecraftPlayer())
             ->inactive()

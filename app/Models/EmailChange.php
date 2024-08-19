@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-final class AccountEmailChange extends Model
+final class EmailChange extends Model
 {
     use HasStaticTable;
     use HasFactory;

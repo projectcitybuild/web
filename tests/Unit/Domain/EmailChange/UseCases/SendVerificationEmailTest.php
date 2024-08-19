@@ -10,7 +10,7 @@ use App\Domains\EmailChange\Notifications\VerifyNewEmailAddressNotification;
 use App\Domains\EmailChange\Notifications\VerifyOldEmailAddressNotification;
 use App\Domains\EmailChange\UseCases\SendVerificationEmail;
 use App\Models\Account;
-use App\Models\AccountEmailChange;
+use App\Models\EmailChange;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Repositories\AccountEmailChangeRepository;
@@ -50,7 +50,7 @@ class SendVerificationEmailTest extends TestCase
         $this->emailChangeRepository
             ->shouldReceive('create')
             ->with($account->getKey(), 'token', $account->email, $newEmail)
-            ->andReturn(AccountEmailChange::make());
+            ->andReturn(EmailChange::make());
 
         $this->useCase->execute(
             accountId: $account->getKey(),

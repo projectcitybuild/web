@@ -5,7 +5,7 @@ namespace App\Domains\Bans\UseCases;
 use App\Core\Data\Exceptions\NotFoundException;
 use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
-use App\Domains\Bans\UnbanType;
+use App\Domains\Bans\Data\UnbanType;
 use App\Models\GamePlayerBan;
 use Exception;
 use Illuminate\Support\Facades\DB;
