@@ -6,45 +6,7 @@
 One of the world's longest-running Minecraft servers; we're a community of creative players and city builders @endsection
 
 @section('body')
-    <header class="hero" id="hero">
-        <div class="container">
-            <div class="hero__cta">
-                <h1 data-aos="fade-up" data-aos-duration="750">We Build Stuff.<br />Come Join Us!</h1>
-                <div class="subtitle" data-aos="fade-left" data-aos-delay="150" data-aos-duration="750">
-                    One of the world's longest-running Minecraft servers; we're a <br />
-                    community of creative players and city builders
-                </div>
-
-                <a href="{{ route('front.register') }}" class="hero__cta-button" data-aos="fade-left" data-aos-delay="350" data-aos-duration="750">
-                    <i class="fas fa-mouse-pointer"></i>
-                    Join Now
-                </a>
-            </div>
-
-            <div class="hero__server-feed">
-                @foreach($servers as $server)
-                    <div class="server-feed__server {{ $server->is_online ? 'online' : 'offline' }}">
-                        <span class="server-feed__title">{{ $server->name }}</span>
-                        @if($server->is_online)
-                            <span class="server-feed__player-count"><i class="fas fa-user"></i> {{ $server->num_of_players . '/' . $server->num_of_slots }}</span>
-                        @endif
-                        <span class="server-feed__address">
-                            <a href="javascript:void(0)" data-server-address="{{ $server->address() }}">
-                                <i class="fas fa-copy"></i> {{ $server->address() }}
-                            </a>
-                        </span>
-                    </div>
-                @endforeach
-
-                <div class="server-feed__server online discord">
-                    <span class="server-feed__title"><i class="fab fa-discord"></i> Discord</span>
-                    <span class="server-feed__address">
-                        <a href="https://discord.gg/3NYaUeScDX" target="_blank" rel="noopener noreferrer">Connect / Open</a>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </header>
+    @include('front.pages.home.components.hero')
 
     <main>
         <news-bar></news-bar>

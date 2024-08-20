@@ -55,18 +55,6 @@ function copyToClipboard(text: string) {
         })
 }
 
-// Background image rotator
-const heroElement = document.getElementById('hero')
-if (heroElement) {
-    const choices = [
-        "bg-3",
-        "bg-4",
-        "bg-5",
-    ]
-    const roll = Math.floor(Math.random() * (choices.length))
-    heroElement.classList.add(choices[roll])
-}
-
 // Initialise legacy JS-only components
 import Navigation from "./navigation/Navigation";
 const navigation = new Navigation()

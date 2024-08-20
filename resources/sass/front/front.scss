@@ -3,16 +3,18 @@
 @import "~normalize-scss/sass/normalize";
 @include normalize();
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import "foundation/colors";
 @import "foundation/dimensions";
 @import "foundation/typography";
 
-@import "elements/a";
 @import "elements/body";
 @import "elements/button";
 @import "elements/bullet";
 @import "elements/container";
-@import "elements/h";
 @import "elements/input";
 @import "elements/table";
 
@@ -26,7 +28,6 @@
 @import "molecules/form-row";
 @import "molecules/game-account";
 @import "molecules/game-ban";
-@import "molecules/hero";
 @import "molecules/hero-header";
 @import "molecules/image-header";
 @import "molecules/introduction";
