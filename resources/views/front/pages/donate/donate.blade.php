@@ -290,6 +290,8 @@
             @include('front.components.sitemap')
         </footer>
     </div>
+
+    @include('front.components.footer')
 @endsection
 
 @push('end')

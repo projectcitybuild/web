@@ -14,4 +14,6 @@
             @yield('col-2')
         </section>
     </main>
+
+    @include('front.components.footer')
 @endsection

@@ -59,7 +59,6 @@ function copyToClipboard(text: string) {
 const heroElement = document.getElementById('hero')
 if (heroElement) {
     const choices = [
-        "bg-1",
         "bg-3",
         "bg-4",
         "bg-5",

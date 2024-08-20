@@ -95,7 +95,7 @@ One of the world's longest-running Minecraft servers; we're a community of creat
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('maps') }}" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
+                                <a href="{{ route('front.maps') }}" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
                             </li>
                         </ul>
                     </div>
@@ -140,34 +140,11 @@ One of the world's longest-running Minecraft servers; we're a community of creat
                                 <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Gallery</a>
                             </li>
                             <li>
-                                <a href="{{ route('3d-maps') }}" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> 3D Map</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('maps') }}" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
+                                <a href="{{ route('front.maps') }}" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
                             </li>
                         </ul>
                     </div>
                 </div>
-            </div>
-
-            <div class="server-overview__server right">
-                <div class="server-text" data-aos="fade-right">
-                    <h1>Arcade</h1>
-
-                    <div class="server-text__desc">
-                        Who doesn't love minigames? In the Arcade you will find a whole host to try out.
-                        Become a Spleef champion, or test out your crazy ideas in the Redstone Playground.
-                        The fun never stops!
-                    </div>
-                    <div class="server-text__links">
-                        <ul>
-                            <li>
-                                <i class="fas fa-chevron-right"></i> Coming Soon
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="server-image arcade" data-aos="fade-left"></div>
             </div>
         </section>
 
@@ -214,6 +191,8 @@ One of the world's longest-running Minecraft servers; we're a community of creat
             </section>
         </footer>
     </main>
+
+    @include('front.components.footer')
 @endsection
 
 @push('end')

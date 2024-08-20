@@ -12,4 +12,6 @@
             <a href="{{ route('front.login') }}" class="button button--filled">Go to login</a>
         </section>
     </main>
+
+    @include('front.components.footer')
 @endsection
