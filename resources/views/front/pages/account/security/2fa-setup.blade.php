@@ -90,4 +90,6 @@
             </div>
         </form>
     </main>
+
+    @include('front.components.footer')
 @endsection

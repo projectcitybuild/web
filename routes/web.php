@@ -32,6 +32,9 @@ Route::name('front.')->group(function () {
     Route::get('/', [HomeController::class, 'index'])
         ->name('home');
 
+    Route::get('maps', fn () => view('front.pages.maps'))
+        ->name('maps');
+
     Route::get('logout', [LogoutController::class, 'logout'])
         ->name('logout')
         ->middleware('auth');

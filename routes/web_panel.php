@@ -21,7 +21,6 @@ use App\Http\Controllers\Panel\GroupController;
 use App\Http\Controllers\Panel\MinecraftPlayerController;
 use App\Http\Controllers\Panel\MinecraftPlayerLookupController;
 use App\Http\Controllers\Panel\MinecraftPlayerReloadAliasController;
-use App\Http\Controllers\Panel\PageController;
 use App\Http\Controllers\Panel\PlayerWarningController;
 use App\Http\Controllers\Panel\ServerController;
 use App\Http\Controllers\Panel\ServerTokenController;
@@ -118,9 +117,6 @@ Route::middleware(['auth', PanelGroupScope::ACCESS_PANEL->toMiddleware(), 'requi
             Route::get('{group}/accounts', [GroupAccountController::class, 'index'])
                 ->name('accounts');
         });
-
-        Route::resource('pages', PageController::class)
-            ->middleware(PanelGroupScope::MANAGE_GROUPS->toMiddleware());
 
         Route::group([
             'prefix' => 'builder-ranks',

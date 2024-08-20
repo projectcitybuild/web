@@ -26,4 +26,6 @@
             </form>
         </section>
     </main>
+
+    @include('front.components.footer')
 @endsection

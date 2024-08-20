@@ -12,15 +12,6 @@
         column-gap: 4em;
     }
 
-    &.bg-1 {
-        background-image: linear-gradient(to right, hsla(0, 0%, 0%, 0) 40%, hsla(0, 21%, 7%, 79%)),
-                          url('/resources/images/hero-bg1.png');
-    }
-    &.bg-2 {
-        background-image: linear-gradient(to right, hsla(0, 0%, 0%, 0.2) 20%, hsla(0, 21%, 7%, 85%)),
-                          linear-gradient(hsla(0, 0%, 0%, 0.2), hsla(0, 0%, 0%, 0.2)),
-                          url('/resources/images/hero-bg4.png');
-    }
     &.bg-3 {
         background-image: linear-gradient(to right, hsla(0, 0%, 0%, 0) 40%, hsla(0, 21%, 7%, 79%)),
                           url('/resources/images/hero-bg5.png');

@@ -32,9 +32,9 @@
                         <div class="change-status__description">New email address</div>
                     </div>
                 </div>
-
             </div>
         </div>
-
     </main>
+
+    @include('front.components.footer')
 @endsection

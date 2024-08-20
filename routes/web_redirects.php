@@ -11,12 +11,6 @@ Route::permanentRedirect('privacy', 'https://forums.projectcitybuild.com/privacy
 Route::permanentRedirect('wiki', 'https://wiki.projectcitybuild.com')
     ->name('wiki');
 
-Route::permanentRedirect('maps', 'https://maps.pcbmc.co')
-    ->name('maps');
-
-Route::permanentRedirect('3d-maps', 'https://3d.pcbmc.co')
-    ->name('3d-maps');
-
 Route::permanentRedirect('report', 'https://docs.google.com/forms/d/e/1FAIpQLSerzdjDmc-xM26ZiDqIKN0d1gjjmRomFKg6efdHxXqir6QIMQ/viewform')
     ->name('report');
 
@@ -34,3 +28,6 @@ Route::permanentRedirect('vote', 'https://portal.projectcitybuild.com/books/serv
 
 Route::permanentRedirect('map-archive', 'https://portal.projectcitybuild.com/books/map-archive/page/map-archive')
     ->name('map-archive');
+
+Route::permanentRedirect('3d-maps', 'https://3d.pcbmc.co')
+    ->name('3d-maps');
