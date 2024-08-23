@@ -11,6 +11,7 @@ use App\Core\Utilities\Traits\HasStaticTable;
 use App\Domains\Panel\Data\PanelGroupScope;
 use App\Http\Resources\AccountResource;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -250,5 +251,10 @@ final class Account extends Authenticatable implements LinkableAuditModel
     public function getActivitySubjectName(): ?string
     {
         return $this->username;
+    }
+
+    public function scopeWhereEmail(Builder $query, string $email)
+    {
+        $query->where('email', $email);
     }
 }

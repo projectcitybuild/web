@@ -8,6 +8,7 @@ use App\Domains\PasswordReset\UseCases\SendPasswordResetEmail;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SendPasswordEmailRequest;
+use App\Models\PasswordReset;
 use Illuminate\Http\Request;
 use Repositories\AccountPasswordResetRepository;
 
@@ -42,10 +43,8 @@ final class PasswordResetController extends WebController
     /**
      * Shows the form to allow the user to set a new password.
      */
-    public function edit(
-        Request $request,
-        AccountPasswordResetRepository $passwordResetRepository,
-    ) {
+    public function edit(Request $request)
+    {
         $token = $request->get('token');
 
         if ($token === null) {
@@ -54,7 +53,7 @@ final class PasswordResetController extends WebController
                 ->withErrors('error', 'Invalid URL. Please try again');
         }
 
-        $passwordReset = $passwordResetRepository->firstByToken($token);
+        $passwordReset = PasswordReset::where('token', $token)->first();
         if ($passwordReset === null) {
             return redirect()
                 ->route('front.password-reset.create')

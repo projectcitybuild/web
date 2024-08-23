@@ -7,6 +7,7 @@ use App\Domains\PasswordReset\Notifications\AccountPasswordResetCompleteNotifica
 use App\Domains\PasswordReset\UseCases\ResetAccountPassword;
 use App\Models\Account;
 use App\Models\PasswordReset;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Repositories\AccountPasswordResetRepository;
 use Repositories\AccountRepository;
@@ -14,31 +15,21 @@ use Tests\TestCase;
 
 class ResetAccountPasswordTest extends TestCase
 {
-    private AccountRepository $accountRepository;
-    private AccountPasswordResetRepository $passwordResetRepository;
+    use RefreshDatabase;
+
     private ResetAccountPassword $useCase;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->accountRepository = \Mockery::mock(AccountRepository::class);
-        $this->passwordResetRepository = \Mockery::mock(AccountPasswordResetRepository::class);
-
-        $this->useCase = new ResetAccountPassword(
-            passwordResetRepository: $this->passwordResetRepository,
-            accountRepository: $this->accountRepository,
-        );
+        $this->useCase = new ResetAccountPassword();
 
         Notification::fake();
     }
 
     public function test_throws_exception_if_token_not_found()
     {
-        $this->passwordResetRepository
-            ->shouldReceive('firstByToken')
-            ->andReturnNull();
-
         $this->expectException(NotFoundException::class);
 
         $this->useCase->execute(

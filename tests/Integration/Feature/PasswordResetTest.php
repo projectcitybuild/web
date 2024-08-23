@@ -9,13 +9,11 @@ use App\Domains\PasswordReset\UseCases\SendPasswordResetEmail;
 use App\Models\Account;
 use App\Models\PasswordReset;
 use Illuminate\Support\Facades\Notification;
-use Repositories\AccountPasswordResetRepository;
 use Tests\TestCase;
 
 class PasswordResetTest extends TestCase
 {
     private Account $account;
-    private AccountPasswordResetRepository $passwordResetRepository;
     private SendPasswordResetEmail $useCase;
 
     protected function setUp(): void
@@ -23,10 +21,8 @@ class PasswordResetTest extends TestCase
         parent::setUp();
 
         $this->account = Account::factory()->create();
-        $this->passwordResetRepository = \Mockery::mock(AccountPasswordResetRepository::class)->makePartial();
 
         $this->useCase = new SendPasswordResetEmail(
-            passwordResetRepository: $this->passwordResetRepository,
             tokenGenerator: new StubTokenGenerator('token'),
             signedURLGenerator: new StubSignedURLGenerator(outputURL: 'url'),
         );
