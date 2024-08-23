@@ -9,10 +9,8 @@ One of the world's longest-running Minecraft servers; we're a community of creat
     @include('front.pages.home.components.hero')
 
     <main>
-        <news-bar></news-bar>
-
         <section class="introduction">
-            <div class="container" data-aos="fade-up">
+            <div class="container">
                 <h1>Minecraft 24/7</h1>
 
                 <div class="introduction__content">
@@ -40,8 +38,8 @@ One of the world's longest-running Minecraft servers; we're a community of creat
 
         <section class="server-overview">
             <div class="server-overview__server">
-                <div class="server-image creative" data-aos="fade-right"></div>
-                <div class="server-text" data-aos="fade-left">
+                <div class="server-image creative"></div>
+                <div class="server-text">
                     <h1>Creative</h1>
 
                     <div class="server-text__desc">
@@ -65,7 +63,7 @@ One of the world's longest-running Minecraft servers; we're a community of creat
             </div>
 
             <div class="server-overview__server right">
-                <div class="server-text" data-aos="fade-right">
+                <div class="server-text">
                     <h1>Survival</h1>
 
                     <div class="server-text__desc">
@@ -83,12 +81,12 @@ One of the world's longest-running Minecraft servers; we're a community of creat
                         </ul>
                     </div>
                 </div>
-                <div class="server-image survival" data-aos="fade-left"></div>
+                <div class="server-image survival"></div>
             </div>
 
             <div class="server-overview__server">
-                <div class="server-image monarch" data-aos="fade-right"></div>
-                <div class="server-text" data-aos="fade-left">
+                <div class="server-image monarch"></div>
+                <div class="server-text">
                     <h1>Monarch</h1>
 
                     <div class="server-text__desc">
@@ -114,7 +112,7 @@ One of the world's longest-running Minecraft servers; we're a community of creat
             @include('front.components.sitemap', ['animated' => true])
 
             <section class="footer-donations">
-                <div class="container" data-aos="fade-up">
+                <div class="container">
                     <div class="footer-donations__left">
                         <h1>Help Keep Us Online</h1>
 
@@ -156,12 +154,3 @@ One of the world's longest-running Minecraft servers; we're a community of creat
 
     @include('front.components.footer')
 @endsection
-
-@push('end')
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script>
-        AOS.init({
-            once: true,
-        });
-    </script>
-@endpush

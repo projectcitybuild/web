@@ -1,6 +1,4 @@
 import { createApp } from 'vue/dist/vue.esm-bundler';
-import NewsBar from './components/news-bar/NewsBar.vue';
-import Spinner from './components/spinner/Spinner.vue';
 
 // Inform Vite where static assets are located
 import.meta.glob([
@@ -8,8 +6,6 @@ import.meta.glob([
 ]);
 
 const app = createApp({});
-app.component('news-bar', NewsBar);
-app.component('spinner', Spinner);
 app.mount('#app');
 
 // Nav bar
