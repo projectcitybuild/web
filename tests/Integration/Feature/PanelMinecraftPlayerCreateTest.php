@@ -2,12 +2,12 @@
 
 namespace Tests\Integration\Feature;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\PanelGroupScope;
+use App\Core\Domains\Mojang\Api\MojangPlayerApi;
+use App\Core\Domains\Mojang\Data\MojangPlayerNameHistory;
+use App\Domains\Panel\Data\PanelGroupScope;
+use App\Models\Account;
+use App\Models\MinecraftPlayer;
 use Illuminate\Foundation\Testing\WithFaker;
-use Library\Mojang\Api\MojangPlayerApi;
-use Library\Mojang\Models\MojangPlayerNameHistory;
 use Mockery\MockInterface;
 use Tests\IntegrationTestCase;
 

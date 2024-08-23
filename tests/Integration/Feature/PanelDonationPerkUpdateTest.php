@@ -2,10 +2,10 @@
 
 namespace Tests\Integration\Feature;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\Donation;
-use Entities\Models\Eloquent\DonationPerk;
-use Entities\Models\PanelGroupScope;
+use App\Domains\Panel\Data\PanelGroupScope;
+use App\Models\Account;
+use App\Models\Donation;
+use App\Models\DonationPerk;
 use Tests\IntegrationTestCase;
 
 class PanelDonationPerkUpdateTest extends IntegrationTestCase
@@ -38,7 +38,7 @@ class PanelDonationPerkUpdateTest extends IntegrationTestCase
             ])->assertSessionHasNoErrors()
             ->assertRedirect(route('front.panel.donations.show', $donationPerk->donation));
 
-        $this->assertDatabaseHas(DonationPerk::getTableName(), [
+        $this->assertDatabaseHas(DonationPerk::tableName(), [
             'donation_perks_id' => $donationPerk->getKey(),
             'expires_at' => $newExpiry,
         ]);

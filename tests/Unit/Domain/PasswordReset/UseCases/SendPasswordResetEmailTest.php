@@ -2,13 +2,14 @@
 
 namespace Domain\PasswordReset\UseCases;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountPasswordReset;
-use Entities\Notifications\AccountPasswordResetNotification;
+use App\Core\Domains\Tokens\Adapters\StubTokenGenerator;
+use App\Core\Support\Laravel\SignedURL\Adapters\LaravelSignedURLGenerator;
+use App\Domains\PasswordReset\Notifications\AccountPasswordResetNotification;
+use App\Domains\PasswordReset\UseCases\SendPasswordResetEmail;
+use App\Models\Account;
+use App\Models\PasswordReset;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
-use Library\SignedURL\Adapters\LaravelSignedURLGenerator;
-use Library\Tokens\Adapters\StubTokenGenerator;
 use Repositories\AccountPasswordResetRepository;
 use Tests\TestCase;
 
@@ -69,7 +70,7 @@ class SendPasswordResetEmailTest extends TestCase
 
     public function test_updates_existing_request()
     {
-        AccountPasswordReset::create([
+        PasswordReset::create([
             'email' => $this->account->email,
             'token' => 'old_token',
             'created_at' => Carbon::create(year: 2021, month: 3, day: 2, hour: 10, minute: 9, second: 8),

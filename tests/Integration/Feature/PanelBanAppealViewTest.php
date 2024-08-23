@@ -2,11 +2,11 @@
 
 namespace Tests\Integration\Feature;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\BanAppeal;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\PanelGroupScope;
+use App\Domains\Panel\Data\PanelGroupScope;
+use App\Models\Account;
+use App\Models\BanAppeal;
+use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayer;
 use Tests\IntegrationTestCase;
 
 class PanelBanAppealViewTest extends IntegrationTestCase

@@ -2,13 +2,13 @@
 
 namespace Tests\Unit\Domain\BanAppeals\UseCases;
 
-use Domain\BanAppeals\Exceptions\EmailRequiredException;
-use Domain\BanAppeals\UseCases\CreateBanAppeal;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\BanAppeal;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Notifications\BanAppealConfirmationNotification;
+use App\Domains\BanAppeals\Exceptions\EmailRequiredException;
+use App\Domains\BanAppeals\Notifications\BanAppealConfirmationNotification;
+use App\Domains\BanAppeals\UseCases\CreateBanAppeal;
+use App\Models\Account;
+use App\Models\BanAppeal;
+use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\Notification;
 use Repositories\BanAppealRepository;
 use Tests\TestCase;
@@ -46,6 +46,9 @@ class CreateBanAppealTest extends TestCase
             ->andReturn($this->banAppeal);
 
         $this->useCase->execute($this->gamePlayerBan, 'Explanation', loggedInAccount: null, email: 'test@example.org');
+
+        // Skip risky warning
+        $this->assertTrue(true);
     }
 
     public function test_requires_email_with_no_logged_in_account()
@@ -71,6 +74,9 @@ class CreateBanAppealTest extends TestCase
             ->andReturn($this->banAppeal);
 
         $this->useCase->execute($this->gamePlayerBan, 'Explanation', loggedInAccount: $account, email: null);
+
+        // Skip risky warning
+        $this->assertTrue(true);
     }
 
     public function test_sends_email_to_to_appeal_notifiable()
@@ -93,6 +99,9 @@ class CreateBanAppealTest extends TestCase
             ->with($this->gamePlayerBan->getKey(), true, 'Explanation', null)
             ->andReturn($this->banAppeal);
         $this->useCase->execute($this->gamePlayerBan, 'Explanation', loggedInAccount: $account, email: null);
+
+        // Skip risky warning
+        $this->assertTrue(true);
     }
 
     public function test_sets_not_verified_if_no_account_specified()
@@ -103,6 +112,9 @@ class CreateBanAppealTest extends TestCase
             ->with($this->gamePlayerBan->getKey(), false, 'Explanation', 'test@example.org')
             ->andReturn($this->banAppeal);
         $this->useCase->execute($this->gamePlayerBan, 'Explanation', loggedInAccount: null, email: 'test@example.org');
+
+        // Skip risky warning
+        $this->assertTrue(true);
     }
 
     public function test_sets_not_verified_if_different_account_used()
@@ -113,5 +125,8 @@ class CreateBanAppealTest extends TestCase
             ->with($this->gamePlayerBan->getKey(), false, 'Explanation', 'test@example.org')
             ->andReturn($this->banAppeal);
         $this->useCase->execute($this->gamePlayerBan, 'Explanation', loggedInAccount: Account::factory()->create(), email: 'test@example.org');
+
+        // Skip risky warning
+        $this->assertTrue(true);
     }
 }

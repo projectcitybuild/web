@@ -2,8 +2,8 @@
 
 namespace Tests\Integration\Feature;
 
+use App\Domains\ServerTokens\ScopeKey;
 use App\Http\Middleware\RequiresServerTokenScope;
-use Domain\ServerTokens\ScopeKey;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\IntegrationTestCase;

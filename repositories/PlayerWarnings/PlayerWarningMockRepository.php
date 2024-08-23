@@ -2,9 +2,12 @@
 
 namespace Repositories\PlayerWarnings;
 
-use Entities\Models\Eloquent\PlayerWarning;
+use App\Models\PlayerWarning;
 use Illuminate\Support\Collection;
 
+/**
+ * @deprecated
+ */
 final class PlayerWarningMockRepository implements PlayerWarningRepository
 {
     public PlayerWarning $create;

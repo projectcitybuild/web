@@ -2,8 +2,8 @@
 
 namespace Tests\Integration\Web;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\StripeProduct;
+use App\Models\Account;
+use App\Models\StripeProduct;
 use Tests\IntegrationTestCase;
 
 class DonationCheckoutTest extends IntegrationTestCase

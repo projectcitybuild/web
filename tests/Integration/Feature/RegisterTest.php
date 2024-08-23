@@ -2,15 +2,15 @@
 
 namespace Tests\Integration\Feature;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\Group;
-use Entities\Notifications\AccountActivationNotification;
+use App\Core\Domains\Recaptcha\Validator\Adapters\GoogleRecaptchaValidator;
+use App\Core\Domains\Recaptcha\Validator\RecaptchaValidator;
+use App\Core\Support\Laravel\SignedURL\Adapters\LaravelSignedURLGenerator;
+use App\Domains\Registration\Notifications\AccountActivationNotification;
+use App\Models\Account;
+use App\Models\Group;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use Library\Recaptcha\Validator\Adapters\GoogleRecaptchaValidator;
-use Library\Recaptcha\Validator\RecaptchaValidator;
-use Library\SignedURL\Adapters\LaravelSignedURLGenerator;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase

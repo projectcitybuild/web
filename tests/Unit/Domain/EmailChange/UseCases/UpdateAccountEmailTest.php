@@ -2,9 +2,9 @@
 
 namespace Unit\Domain\EmailChange\UseCases;
 
-use Domain\EmailChange\UseCases\UpdateAccountEmail;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountEmailChange;
+use App\Domains\EmailChange\UseCases\UpdateAccountEmail;
+use App\Models\Account;
+use App\Models\EmailChange;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -26,7 +26,7 @@ class UpdateAccountEmailTest extends TestCase
         $oldEmail = 'old_email@pcbmc.co';
         $newEmail = 'new_email@pcbmc.co';
         $account = Account::factory()->create(['email' => $oldEmail]);
-        $changeRequest = AccountEmailChange::factory()
+        $changeRequest = EmailChange::factory()
             ->for($account)
             ->create(['email_new' => $newEmail]);
 

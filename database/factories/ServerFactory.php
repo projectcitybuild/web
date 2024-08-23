@@ -2,9 +2,8 @@
 
 namespace Database\Factories;
 
-use Entities\Models\Eloquent\Server;
-use Entities\Models\Eloquent\ServerCategory;
-use Entities\Models\GameType;
+use App\Core\Data\GameType;
+use App\Models\Server;
 
 class ServerFactory extends Factory
 {
@@ -31,7 +30,6 @@ class ServerFactory extends Factory
             'is_port_visible' => true,
             'is_visible' => true,
             'is_querying' => true,
-            'server_category_id' => ServerCategory::factory()->create()->getKey(),
         ];
     }
 }

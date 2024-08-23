@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\API;
 
-use Domain\ServerTokens\ScopeKey;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\PlayerWarning;
+use App\Domains\ServerTokens\ScopeKey;
+use App\Models\MinecraftPlayer;
+use App\Models\PlayerWarning;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\IntegrationTestCase;
 
@@ -59,7 +59,7 @@ class APIWarningAcknowledgeTest extends IntegrationTestCase
             ->create();
 
         $this->assertDatabaseHas(
-            table: PlayerWarning::getTableName(),
+            table: PlayerWarning::tableName(),
             data: [
                 'id' => $warning->getKey(),
                 'warned_player_id' => $player1->getKey(),
@@ -81,7 +81,7 @@ class APIWarningAcknowledgeTest extends IntegrationTestCase
             ->assertSuccessful();
 
         $this->assertDatabaseHas(
-            table: PlayerWarning::getTableName(),
+            table: PlayerWarning::tableName(),
             data: [
                 'id' => $warning->getKey(),
                 'warned_player_id' => $player1->getKey(),

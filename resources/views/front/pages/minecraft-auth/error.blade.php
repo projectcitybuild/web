@@ -12,4 +12,6 @@
         </div>
 
     </div>
+
+    @include('front.components.footer')
 @endsection

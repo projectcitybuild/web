@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use Entities\Models\Eloquent\MinecraftPlayerAlias;
+use App\Models\MinecraftPlayerAlias;
 
 class MinecraftPlayerAliasFactory extends Factory
 {

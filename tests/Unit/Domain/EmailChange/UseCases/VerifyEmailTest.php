@@ -2,10 +2,10 @@
 
 namespace Unit\Domain\EmailChange\UseCases;
 
-use Domain\EmailChange\Exceptions\TokenNotFoundException;
-use Domain\EmailChange\UseCases\VerifyEmail;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountEmailChange;
+use App\Domains\EmailChange\Exceptions\TokenNotFoundException;
+use App\Domains\EmailChange\UseCases\VerifyEmail;
+use App\Models\Account;
+use App\Models\EmailChange;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Repositories\AccountEmailChangeRepository;
 use Tests\TestCase;
@@ -53,7 +53,7 @@ class VerifyEmailTest extends TestCase
         $oldEmail = 'old_email@pcbmc.co';
         $newEmail = 'new_email@pcbmc.co';
 
-        $changeRequest = AccountEmailChange::factory()
+        $changeRequest = EmailChange::factory()
             ->for(Account::factory()->create())
             ->create([
                 'email_previous' => $oldEmail,

@@ -14,7 +14,7 @@
             <span>Users</span>
         </h6>
         <ul class="nav flex-column mb-2">
-            @scope(Entities\Models\PanelGroupScope::MANAGE_ACCOUNTS)
+            @scope(App\Domains\Panel\Data\PanelGroupScope::MANAGE_ACCOUNTS)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/accounts*') ? 'active' : '' }}"
                    href="{{ route('front.panel.accounts.index') }}">
@@ -30,7 +30,7 @@
                 </a>
             </li>
             @endscope
-            @scope(Entities\Models\PanelGroupScope::MANAGE_GROUPS)
+            @scope(App\Domains\Panel\Data\PanelGroupScope::MANAGE_GROUPS)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/groups*') ? 'active' : '' }} "
                    href="{{ route('front.panel.groups.index') }}">
@@ -39,7 +39,7 @@
                 </a>
             </li>
             @endscope
-            @scope(Entities\Models\PanelGroupScope::MANAGE_BADGES)
+            @scope(App\Domains\Panel\Data\PanelGroupScope::MANAGE_BADGES)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/badges*') ? 'active' : '' }}"
                    href="{{ route('front.panel.badges.index') }}">
@@ -48,7 +48,7 @@
                 </a>
             </li>
             @endscope
-            @scope(Entities\Models\PanelGroupScope::VIEW_ACTIVITY)
+            @scope(App\Domains\Panel\Data\PanelGroupScope::VIEW_ACTIVITY)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/activity*') ? 'active' : '' }}"
                    href="{{ route('front.panel.activity.index') }}">
@@ -63,7 +63,7 @@
             <span>Infractions</span>
         </h6>
         <ul class="nav flex-column mb-2">
-            @scope(Entities\Models\PanelGroupScope::MANAGE_WARNINGS)
+            @scope(App\Domains\Panel\Data\PanelGroupScope::MANAGE_WARNINGS)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/warnings*') ? 'active' : '' }}"
                    href="{{ route('front.panel.warnings.index') }}">
@@ -72,7 +72,7 @@
                 </a>
             </li>
             @endscope
-            @scope(Entities\Models\PanelGroupScope::MANAGE_BANS)
+            @scope(App\Domains\Panel\Data\PanelGroupScope::MANAGE_BANS)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/player-bans*') ? 'active' : '' }}"
                    href="{{ route('front.panel.player-bans.index') }}">
@@ -90,7 +90,7 @@
             @endscope
         </ul>
 
-        @scope(Entities\Models\PanelGroupScope::MANAGE_SHOWCASE_WARPS)
+        @scope(App\Domains\Panel\Data\PanelGroupScope::MANAGE_SHOWCASE_WARPS)
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Minecraft</span>
         </h6>
@@ -105,22 +105,7 @@
         </ul>
         @endscope
 
-        @scope(Entities\Models\PanelGroupScope::MANAGE_PAGES)
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Content</span>
-        </h6>
-        <ul class="nav flex-column mb-2">
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/pages*') ? 'active' : '' }} "
-                   href="{{ route('front.panel.pages.index') }}">
-                    <i class="fas fa-book fa-fw"></i>
-                    Pages
-                </a>
-            </li>
-        </ul>
-        @endscope
-
-        @scope(Entities\Models\PanelGroupScope::MANAGE_SERVERS)
+        @scope(App\Domains\Panel\Data\PanelGroupScope::MANAGE_SERVERS)
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Servers</span>
         </h6>
@@ -142,7 +127,7 @@
         </ul>
         @endscope
 
-        @scope(Entities\Models\PanelGroupScope::MANAGE_DONATIONS)
+        @scope(App\Domains\Panel\Data\PanelGroupScope::MANAGE_DONATIONS)
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Transactions</span>
         </h6>
@@ -161,7 +146,7 @@
             <span>Review</span>
         </h6>
         <ul class="nav flex-column mb-2">
-            @scope(Entities\Models\PanelGroupScope::REVIEW_BUILD_RANK_APPS)
+            @scope(App\Domains\Panel\Data\PanelGroupScope::REVIEW_BUILD_RANK_APPS)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/builder-ranks*') ? 'active' : '' }}"
                    href="{{ route('front.panel.builder-ranks.index') }}">
@@ -173,7 +158,7 @@
                 </a>
             </li>
             @endscope
-            @scope(Entities\Models\PanelGroupScope::REVIEW_APPEALS)
+            @scope(App\Domains\Panel\Data\PanelGroupScope::REVIEW_APPEALS)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/ban-appeals*') ? 'active' : '' }}"
                    href="{{ route('front.panel.ban-appeals.index') }}">

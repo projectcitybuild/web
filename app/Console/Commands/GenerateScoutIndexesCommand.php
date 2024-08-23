@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\MinecraftPlayerAlias;
+use App\Models\Account;
+use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayerAlias;
 use Illuminate\Console\Command;
 
 class GenerateScoutIndexesCommand extends Command

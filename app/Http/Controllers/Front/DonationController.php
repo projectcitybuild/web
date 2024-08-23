@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Domains\Donations\UseCases\BeginCheckout;
 use App\Http\Controllers\WebController;
-use Domain\Donations\UseCases\BeginCheckout;
 use Illuminate\Http\Request;
 
 final class DonationController extends WebController

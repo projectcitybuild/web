@@ -2,11 +2,11 @@
 
 namespace Repositories;
 
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\MinecraftUUID;
+use App\Core\Data\MinecraftUUID;
+use App\Models\MinecraftPlayer;
 
 /**
- * @final
+ * @deprecated
  */
 class MinecraftPlayerRepository
 {

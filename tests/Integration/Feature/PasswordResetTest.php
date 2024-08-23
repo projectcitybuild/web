@@ -2,13 +2,13 @@
 
 namespace Tests\Integration\Feature;
 
-use Domain\PasswordReset\UseCases\SendPasswordResetEmail;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountPasswordReset;
-use Entities\Notifications\AccountPasswordResetNotification;
+use App\Core\Domains\Tokens\Adapters\StubTokenGenerator;
+use App\Core\Support\Laravel\SignedURL\Adapters\StubSignedURLGenerator;
+use App\Domains\PasswordReset\Notifications\AccountPasswordResetNotification;
+use App\Domains\PasswordReset\UseCases\SendPasswordResetEmail;
+use App\Models\Account;
+use App\Models\PasswordReset;
 use Illuminate\Support\Facades\Notification;
-use Library\SignedURL\Adapters\StubSignedURLGenerator;
-use Library\Tokens\Adapters\StubTokenGenerator;
 use Repositories\AccountPasswordResetRepository;
 use Tests\TestCase;
 
@@ -48,7 +48,7 @@ class PasswordResetTest extends TestCase
 
     public function test_user_can_change_password()
     {
-        $reset = AccountPasswordReset::factory()->create([
+        $reset = PasswordReset::factory()->create([
             'email' => $this->account->email,
         ]);
 

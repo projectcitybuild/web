@@ -35,23 +35,9 @@
         'resources/js/front/front.ts',
     ])
 
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
     <script src="https://kit.fontawesome.com/a0425475c4.js" crossorigin="anonymous"></script>
 
     @stack('head')
-
-    @env(['staging', 'production'])
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2747125-5"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-        gtag('config', 'UA-2747125-5');
-    </script>
-    @endenv
 </head>
 <body>
 
@@ -59,7 +45,6 @@
 
 <div id="app">
     @yield('body')
-    @include('front.components.footer')
 </div>
 
 @stack('end')

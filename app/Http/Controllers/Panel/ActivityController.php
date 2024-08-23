@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\Concerns\FiltersWithParameters;
 use App\Http\Controllers\WebController;
-use Entities\Models\Eloquent\Activity;
+use App\Models\Activity;
 
 class ActivityController extends WebController
 {

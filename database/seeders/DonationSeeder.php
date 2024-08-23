@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Entities\Models\Eloquent\DonationTier;
-use Entities\Models\Eloquent\StripeProduct;
+use App\Models\DonationTier;
+use App\Models\StripeProduct;
 use Illuminate\Database\Seeder;
 
 class DonationSeeder extends Seeder

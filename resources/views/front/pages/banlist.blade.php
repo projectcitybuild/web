@@ -73,4 +73,6 @@
             {{ $bans->links('vendor.pagination.default') }}
         </div>
     </main>
+
+    @include('front.components.footer')
 @endsection

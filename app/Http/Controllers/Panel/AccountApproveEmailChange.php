@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Domains\EmailChange\UseCases\UpdateAccountEmail;
 use App\Http\Controllers\WebController;
-use Domain\EmailChange\UseCases\UpdateAccountEmail;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\AccountEmailChange;
+use App\Models\Account;
+use App\Models\EmailChange;
 
 class AccountApproveEmailChange extends WebController
 {
-    public function __invoke(Account $account, AccountEmailChange $accountEmailChange, UpdateAccountEmail $updateAccountEmail)
+    public function __invoke(Account $account, EmailChange $accountEmailChange, UpdateAccountEmail $updateAccountEmail)
     {
         if (! $accountEmailChange->account->is($account)) {
             abort(422);

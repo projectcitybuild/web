@@ -19,7 +19,7 @@
             <tbody>
             @foreach($applications as $application)
                 <tr class="{{ !$application->isReviewed()  ? 'table-warning' : '' }}">
-                    <td>{{ \Domain\BuilderRankApplications\Entities\ApplicationStatus::from($application->status)->humanReadable() }}</td>
+                    <td>{{ \App\Domains\BuilderRankApplications\Data\ApplicationStatus::from($application->status)->humanReadable() }}</td>
                     <td>
                         <a href="{{ route('front.panel.accounts.show', $application->account->getKey()) }}">
                             {{ $application->account->username ?: 'Undefined' }}
@@ -35,7 +35,8 @@
                                 View
                             </a>
                         @else
-                            <a href="{{ route('front.panel.builder-ranks.show', $application->getKey()) }}" class="btn btn-primary btn-sm">
+                            <a href="{{ route('front.panel.builder-ranks.show', $application->getKey()) }}"
+                               class="btn btn-primary btn-sm">
                                 <i class="fas fa-eye"></i> Review
                             </a>
                         @endif

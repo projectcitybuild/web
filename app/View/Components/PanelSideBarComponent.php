@@ -2,9 +2,9 @@
 
 namespace App\View\Components;
 
-use Domain\BuilderRankApplications\Entities\ApplicationStatus;
-use Entities\Models\Eloquent\BanAppeal;
-use Entities\Models\Eloquent\BuilderRankApplication;
+use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
+use App\Models\BanAppeal;
+use App\Models\BuilderRankApplication;
 use Illuminate\View\Component;
 
 class PanelSideBarComponent extends Component

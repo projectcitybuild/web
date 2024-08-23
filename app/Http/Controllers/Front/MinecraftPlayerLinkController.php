@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\WebController;
-use Entities\Models\Eloquent\MinecraftAuthCode;
+use App\Models\MinecraftAuthCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

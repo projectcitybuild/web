@@ -2,13 +2,13 @@
 
 namespace Repositories;
 
-use Domain\BuilderRankApplications\Entities\ApplicationStatus;
-use Domain\BuilderRankApplications\Entities\BuilderRank;
-use Entities\Models\Eloquent\BuilderRankApplication;
+use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
+use App\Domains\BuilderRankApplications\Data\BuilderRank;
+use App\Models\BuilderRankApplication;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
- * @final
+ * @deprecated
  */
 class BuilderRankApplicationRepository
 {

@@ -2,15 +2,15 @@
 
 namespace Tests\Integration\API;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\Badge;
-use Entities\Models\Eloquent\Donation;
-use Entities\Models\Eloquent\DonationPerk;
-use Entities\Models\Eloquent\DonationTier;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\Group;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\Server;
+use App\Models\Account;
+use App\Models\Badge;
+use App\Models\Donation;
+use App\Models\DonationPerk;
+use App\Models\DonationTier;
+use App\Models\GamePlayerBan;
+use App\Models\Group;
+use App\Models\MinecraftPlayer;
+use App\Models\Server;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\IntegrationTestCase;
 

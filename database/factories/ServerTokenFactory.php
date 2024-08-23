@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use Entities\Models\Eloquent\ServerToken;
+use App\Models\ServerToken;
 use Illuminate\Support\Str;
 
 class ServerTokenFactory extends Factory

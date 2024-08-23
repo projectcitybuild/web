@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\MinecraftPlayerAlias;
-use Entities\Models\Eloquent\PlayerWarning;
+use App\Models\Account;
+use App\Models\MinecraftPlayer;
+use App\Models\MinecraftPlayerAlias;
+use App\Models\PlayerWarning;
 use Illuminate\Database\Seeder;
 
 class PlayerWarningSeeder extends Seeder

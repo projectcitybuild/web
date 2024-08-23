@@ -2,12 +2,12 @@
 
 namespace Repositories;
 
-use Entities\Models\Eloquent\Account;
+use App\Models\Account;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * @final
+ * @deprecated
  */
 class AccountRepository
 {

@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\API;
 
-use Domain\ServerTokens\ScopeKey;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\Eloquent\MinecraftPlayerAlias;
+use App\Domains\ServerTokens\ScopeKey;
+use App\Models\MinecraftPlayer;
+use App\Models\MinecraftPlayerAlias;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\IntegrationTestCase;
 
@@ -65,7 +65,7 @@ class APIMinecraftTelemetryTest extends IntegrationTestCase
             ->assertOk();
 
         $this->assertDatabaseHas(
-            table: MinecraftPlayer::getTableName(),
+            table: MinecraftPlayer::tableName(),
             data: [
                 'player_minecraft_id' => $player->getKey(),
                 'uuid' => 'uuid',
@@ -73,7 +73,7 @@ class APIMinecraftTelemetryTest extends IntegrationTestCase
             ],
         );
         $this->assertDatabaseHas(
-            table: MinecraftPlayerAlias::getTableName(),
+            table: MinecraftPlayerAlias::tableName(),
             data: [
                 'alias' => 'alias',
             ],

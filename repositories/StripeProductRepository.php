@@ -2,10 +2,10 @@
 
 namespace Repositories;
 
-use Entities\Models\Eloquent\StripeProduct;
+use App\Models\StripeProduct;
 
 /**
- * @final
+ * @deprecated
  */
 class StripeProductRepository
 {

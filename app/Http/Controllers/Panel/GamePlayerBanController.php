@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Domains\Bans\Data\UnbanType;
 use App\Http\Controllers\WebController;
-use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\GamePlayerBan;
+use App\Models\GamePlayerBan;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

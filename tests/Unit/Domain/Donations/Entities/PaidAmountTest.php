@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Domain\Donations\Entities;
 
-use Domain\Donations\Entities\Denomination;
-use Domain\Donations\Entities\PaidAmount;
+use App\Domains\Donations\Data\Denomination;
+use App\Domains\Donations\Data\PaidAmount;
 use Tests\TestCase;
 
 final class PaidAmountTest extends TestCase

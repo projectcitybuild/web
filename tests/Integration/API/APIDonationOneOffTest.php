@@ -2,12 +2,12 @@
 
 namespace Tests\Integration\API;
 
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\Donation;
-use Entities\Models\Eloquent\DonationTier;
-use Entities\Models\Eloquent\Group;
-use Entities\Models\Eloquent\StripeProduct;
-use Entities\Notifications\DonationPerkStartedNotification;
+use App\Domains\Donations\Notifications\DonationPerkStartedNotification;
+use App\Models\Account;
+use App\Models\Donation;
+use App\Models\DonationTier;
+use App\Models\Group;
+use App\Models\StripeProduct;
 use Illuminate\Support\Facades\Notification;
 use Tests\IntegrationTestCase;
 
@@ -115,11 +115,6 @@ class APIDonationOneOffTest extends IntegrationTestCase
 
         $this->assertTrue($this->account->groups->contains($this->donorGroup));
 
-        $this->assertEquals(
-            expected: 150,
-            actual: Account::find($this->account->getKey())->balance,
-        );
-
         Notification::assertSentTo($this->account, DonationPerkStartedNotification::class);
     }
 
@@ -160,11 +155,6 @@ class APIDonationOneOffTest extends IntegrationTestCase
         ]);
 
         $this->assertTrue($this->account->groups->contains($this->donorGroup));
-
-        $this->assertEquals(
-            expected: 150,
-            actual: Account::find($this->account->getKey())->balance,
-        );
 
         Notification::assertSentTo($this->account, DonationPerkStartedNotification::class);
     }

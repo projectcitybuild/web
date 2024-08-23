@@ -2,18 +2,18 @@
 
 namespace Tests\Unit\Domain\BanAppeals\UseCases;
 
-use App\Exceptions\Http\NotImplementedException;
-use Domain\BanAppeals\Entities\BanAppealStatus;
-use Domain\BanAppeals\Exceptions\AppealAlreadyDecidedException;
-use Domain\BanAppeals\UseCases\UpdateBanAppeal;
-use Domain\Bans\Exceptions\NotBannedException;
-use Domain\Bans\UnbanType;
-use Domain\Bans\UseCases\CreatePlayerUnban;
-use Domain\Panel\Exceptions\NoPlayerForActionException;
-use Entities\Models\Eloquent\Account;
-use Entities\Models\Eloquent\BanAppeal;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\MinecraftPlayer;
+use App\Core\Data\Exceptions\NotImplementedException;
+use App\Domains\BanAppeals\Entities\BanAppealStatus;
+use App\Domains\BanAppeals\Exceptions\AppealAlreadyDecidedException;
+use App\Domains\BanAppeals\UseCases\UpdateBanAppeal;
+use App\Domains\Bans\Data\UnbanType;
+use App\Domains\Bans\Exceptions\NotBannedException;
+use App\Domains\Bans\UseCases\CreatePlayerUnban;
+use App\Domains\Panel\Exceptions\NoPlayerForActionException;
+use App\Models\Account;
+use App\Models\BanAppeal;
+use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayer;
 use Repositories\BanAppealRepository;
 use Tests\TestCase;
 

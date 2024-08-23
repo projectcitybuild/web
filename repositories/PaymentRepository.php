@@ -2,11 +2,11 @@
 
 namespace Repositories;
 
-use Domain\Donations\Entities\PaidAmount;
-use Entities\Models\Eloquent\Payment;
+use App\Domains\Donations\Data\PaidAmount;
+use App\Models\Payment;
 
 /**
- * @final
+ * @deprecated
  */
 class PaymentRepository
 {

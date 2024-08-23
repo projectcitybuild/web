@@ -2,9 +2,12 @@
 
 namespace Repositories;
 
-use Domain\BanAppeals\Entities\BanAppealStatus;
-use Entities\Models\Eloquent\BanAppeal;
+use App\Domains\BanAppeals\Entities\BanAppealStatus;
+use App\Models\BanAppeal;
 
+/**
+ * @deprecated
+ */
 class BanAppealRepository
 {
     /**

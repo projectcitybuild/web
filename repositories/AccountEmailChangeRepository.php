@@ -2,10 +2,10 @@
 
 namespace Repositories;
 
-use Entities\Models\Eloquent\AccountEmailChange;
+use App\Models\EmailChange;
 
 /**
- * @final
+ * @deprecated
  */
 class AccountEmailChangeRepository
 {
@@ -14,8 +14,8 @@ class AccountEmailChangeRepository
         string $token,
         string $previousEmail,
         string $newEmail
-    ): AccountEmailChange {
-        return AccountEmailChange::create([
+    ): EmailChange {
+        return EmailChange::create([
             'account_id' => $accountId,
             'token' => $token,
             'email_previous' => $previousEmail,
@@ -25,8 +25,8 @@ class AccountEmailChangeRepository
         ]);
     }
 
-    public function firstByToken(string $token): ?AccountEmailChange
+    public function firstByToken(string $token): ?EmailChange
     {
-        return AccountEmailChange::where('token', $token)->first();
+        return EmailChange::where('token', $token)->first();
     }
 }

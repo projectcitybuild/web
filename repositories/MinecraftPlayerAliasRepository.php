@@ -2,11 +2,11 @@
 
 namespace Repositories;
 
+use App\Models\MinecraftPlayerAlias;
 use Carbon\Carbon;
-use Entities\Models\Eloquent\MinecraftPlayerAlias;
 
 /**
- * @final
+ * @deprecated
  */
 class MinecraftPlayerAliasRepository
 {

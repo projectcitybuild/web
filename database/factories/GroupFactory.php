@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use Entities\Models\Eloquent\Group;
+use App\Models\Group;
 
 class GroupFactory extends Factory
 {

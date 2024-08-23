@@ -2,15 +2,15 @@
 
 namespace Tests\Unit\Domain\Bans\UseCases;
 
-use Domain\Bans\Exceptions\NotBannedException;
-use Domain\Bans\UseCases\LookupPlayerBan;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Library\Mojang\Api\MojangPlayerApi;
-use Library\Mojang\Models\MojangPlayer;
+use App\Core\Domains\Mojang\Api\MojangPlayerApi;
+use App\Core\Domains\Mojang\Data\MojangPlayer;
+use App\Core\Domains\PlayerLookup\Exceptions\PlayerNotFoundException;
+use App\Domains\Bans\Exceptions\NotBannedException;
+use App\Domains\Bans\UseCases\LookupPlayerBan;
+use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayer;
 use Repositories\GamePlayerBanRepository;
 use Repositories\MinecraftPlayerRepository;
-use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 use Tests\TestCase;
 
 class LookupBanTest extends TestCase

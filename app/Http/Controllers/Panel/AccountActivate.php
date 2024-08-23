@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\WebController;
-use Entities\Models\Eloquent\Account;
+use App\Models\Account;
 
 class AccountActivate extends WebController
 {

@@ -1,26 +1,26 @@
 @switch($changeType)
-    @case(\Library\Auditing\Changes\MultilineChange::class)
+    @case(\App\Core\Domains\Auditing\Changes\MultilineChange::class)
         <x-audit::multiline-diff
-            :attribute="$attribute"
-            :old="$change->getOldValue()"
-            :new="$change->getNewValue()"
-            :description="$description"
+                :attribute="$attribute"
+                :old="$change->getOldValue()"
+                :new="$change->getNewValue()"
+                :description="$description"
         />
         @break
-    @case(\Library\Auditing\Changes\Change::class)
+    @case(\App\Core\Domains\Auditing\Changes\Change::class)
         <x-audit::inline-diff
-            :attribute="$attribute"
-            :old="$change->getOldValue()"
-            :new="$change->getNewValue()"
-            :description="$description"
+                :attribute="$attribute"
+                :old="$change->getOldValue()"
+                :new="$change->getNewValue()"
+                :description="$description"
         />
         @break
-    @case(\Library\Auditing\Changes\BooleanChange::class)
+    @case(\App\Core\Domains\Auditing\Changes\BooleanChange::class)
         <x-audit::inline-diff
-            :attribute="$attribute"
-            :old="$change->getOldValue()"
-            :new="$change->getNewValue()"
-            :description="$description"
+                :attribute="$attribute"
+                :old="$change->getOldValue()"
+                :new="$change->getNewValue()"
+                :description="$description"
         >
             <x-slot:old>
                 <x-audit-support::bool :value="$change->getOldValue()"/>
@@ -30,12 +30,12 @@
             </x-slot:new>
         </x-audit::inline-diff>
         @break
-    @case(\Library\Auditing\Changes\RelationshipChange::class)
+    @case(\App\Core\Domains\Auditing\Changes\RelationshipChange::class)
         <x-audit::inline-diff
-            :attribute="$attribute"
-            :old="$change->getOldValue()"
-            :new="$change->getNewValue()"
-            :description="$description"
+                :attribute="$attribute"
+                :old="$change->getOldValue()"
+                :new="$change->getNewValue()"
+                :description="$description"
         >
             <x-slot:old>
                 <x-audit-support::model :model="$change->getOldValue()"/>
@@ -45,13 +45,13 @@
             </x-slot:new>
         </x-audit::inline-diff>
         @break
-    @case(\Library\Auditing\Changes\ArrayChange::class)
+    @case(\App\Core\Domains\Auditing\Changes\ArrayChange::class)
         <x-audit::inline-diff
-            :attribute="$attribute"
-            :plain="true"
-            :old="$change->getOldValue()"
-            :new="$change->getNewValue()"
-            :description="$description"
+                :attribute="$attribute"
+                :plain="true"
+                :old="$change->getOldValue()"
+                :new="$change->getNewValue()"
+                :description="$description"
         >
             <x-slot:old>
                 <x-audit::wrapped-array-list :entries="$change->getOldValue()" exclude-type="added"/>

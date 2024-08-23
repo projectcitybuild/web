@@ -12,8 +12,12 @@
 
         <ul class="nav-links">
             <li><a href="{{ route('front.home') }}">Home</a></li>
+            <li><a href="https://portal.projectcitybuild.com/">Portal</a></li>
+            <li><a href="{{ route('front.maps') }}">Live Maps</a></li>
+            <li><a href="{{ route('vote') }}">Vote For Us</a></li>
+            <li><a href="{{ route('front.donate') }}">Donate</a></li>
             <li>
-                <a href="javascript:void(0)" class="nav-dropdown">Server <i class="fas fa-caret-down"></i></a>
+                <a href="javascript:void(0)" class="nav-dropdown">More <i class="fas fa-caret-down"></i></a>
                 <ul class="dropdown multi">
                     <li>
                         <h5>Information</h5>
@@ -21,33 +25,27 @@
                             <li><a href="{{ route('rules') }}">Rules & Guidelines</a></li>
                             <li><a href="{{ route('ranks') }}">Ranks</a></li>
                             <li><a href="{{ route('staff') }}">Staff</a></li>
-                            <li><a href="{{ route('vote') }}">Vote For Us</a></li>
-                            <li><a href="{{ route('map-archive') }}">Map Archive</a></li>
                         </ul>
                     </li>
                     <li>
-                        <h5>Maps</h5>
+                        <h5>Community</h5>
                         <ul>
-                            <li><a href="{{ route('maps') }}" target="_blank" rel="noopener noreferrer">Real-Time Maps</a></li>
-                            <li><a href="{{ route('3d-maps') }}" target="_blank" rel="noopener noreferrer">3D Maps</a></li>
+                            <li><a href="{{ route('map-archive') }}">Map Archive</a></li>
+                            <li><a href="{{ route('3d-maps') }}">3d Map</a></li>
+                            <li><a href="{{ route('front.banlist') }}">Ban List</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h5>Apply</h5>
+                        <ul>
+                            <li><a href="{{ route('front.appeal') }}">Appeal a Ban</a></li>
+                            <li><a href="{{ route('report') }}">Report a Player</a></li>
+                            <li><a href="{{ route('front.rank-up') }}">Apply for Build Rank</a></li>
+                            <li class="divider"><a href="https://goo.gl/forms/UodUsKQBZJdCzNWk1">Apply for Staff</a></li>
                         </ul>
                     </li>
                 </ul>
             </li>
-            <li>
-                <a href="javascript:void(0)" class="nav-dropdown">Community <i class="fas fa-caret-down"></i></a>
-                <ul class="dropdown single">
-                    <li><a href="{{ route('front.appeal') }}">Appeal a Ban</a></li>
-                    <li><a href="{{ route('report') }}">Report a Player</a></li>
-                    <li><a href="{{ route('front.rank-up') }}">Apply for Build Rank</a></li>
-                    <li class="divider"><a href="https://goo.gl/forms/UodUsKQBZJdCzNWk1">Apply for Staff</a></li>
-                    <li><a href="https://forums.projectcitybuild.com/" target="_blank" rel="noopener">Forums (archived)</a></li>
-                    <li class="divider"><a href="https://wiki.projectcitybuild.com/" target="_blank" rel="noopener">Community Wiki (archived)</a></li>
-                    <li><a href="{{ route('front.banlist') }}">Ban List</a></li>
-                </ul>
-            </li>
-            <li><a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer">Media</a></li>
-            <li><a href="{{ route('front.donate') }}">Donate</a></li>
 
             <li class="spacer"></li>
 

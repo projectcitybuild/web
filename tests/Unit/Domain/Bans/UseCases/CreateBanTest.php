@@ -2,13 +2,13 @@
 
 namespace Tests\Unit\Domain\Bans\UseCases;
 
-use Domain\Bans\Exceptions\AlreadyPermBannedException;
-use Domain\Bans\UseCases\CreatePlayerBan;
-use Entities\Models\Eloquent\GamePlayerBan;
-use Entities\Models\Eloquent\MinecraftPlayer;
+use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
+use App\Core\Domains\PlayerLookup\Service\ConcretePlayerLookup;
+use App\Domains\Bans\Exceptions\AlreadyPermBannedException;
+use App\Domains\Bans\UseCases\CreatePlayerBan;
+use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayer;
 use Repositories\GamePlayerBanRepository;
-use Shared\PlayerLookup\Entities\PlayerIdentifier;
-use Shared\PlayerLookup\Service\ConcretePlayerLookup;
 use Tests\TestCase;
 
 class CreateBanTest extends TestCase

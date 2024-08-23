@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Entities\Models\Eloquent\ShowcaseWarp;
+use App\Models\ShowcaseWarp;
 use Illuminate\Database\Seeder;
 
 class ShowcaseWarpSeeder extends Seeder

@@ -17,6 +17,7 @@ class MfaGate
      * @var array<string>
      */
     private array $exclude = [
+        'front.logout',
         'front.login.mfa',
         'front.login.mfa.submit',
         'front.login.mfa-recover',
@@ -62,6 +63,6 @@ class MfaGate
 
     private function isRoutedToPackageController(Request $request): bool
     {
-        return ! str_starts_with($request->route()->controller::class, 'App');
+        return ! str_starts_with($request->route()->action['controller'], 'App');
     }
 }

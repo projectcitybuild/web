@@ -2,27 +2,18 @@
 
 namespace App\Http\Controllers\Front\BanAppeal;
 
-use App\Exceptions\Http\TooManyRequestsException;
+use App\Core\Data\Exceptions\TooManyRequestsException;
+use App\Core\Domains\PlayerLookup\Exceptions\PlayerNotFoundException;
+use App\Domains\Bans\Exceptions\NotBannedException;
+use App\Domains\Bans\UseCases\LookupPlayerBan;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\BanLookupRequest;
-use Domain\Bans\Exceptions\NotBannedException;
-use Domain\Bans\UseCases\LookupPlayerBan;
 use Illuminate\Validation\ValidationException;
-use Library\RateLimit\Storage\SessionTokenStorage;
-use Library\RateLimit\TokenBucket;
-use Library\RateLimit\TokenRate;
-use Shared\PlayerLookup\Exceptions\PlayerNotFoundException;
 
 class BanLookupController extends WebController
 {
     public function __invoke(BanLookupRequest $request, LookupPlayerBan $useCase)
     {
-        if (! $this->rateLimiter()->consume(1)) {
-            throw ValidationException::withMessages([
-                'error' => ['Too many lookup attempts. Please try again later.'],
-            ]);
-        }
-
         try {
             $ban = $useCase->execute($request->get('username'));
 
@@ -40,18 +31,5 @@ class BanLookupController extends WebController
                 'error' => ['This username does not belong to a Minecraft player. Check you have entered it correctly.'],
             ]);
         }
-    }
-
-    private function rateLimiter()
-    {
-        return new TokenBucket(
-                capacity: 6,
-                refillRate: TokenRate::refill(3)
-                    ->every(2, TokenRate::MINUTES),
-                storage: new SessionTokenStorage(
-                    sessionName: 'banLookup.rate',
-                    initialTokens: 3
-                ),
-            );
     }
 }

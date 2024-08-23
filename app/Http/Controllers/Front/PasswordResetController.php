@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Exceptions\Http\NotFoundException;
+use App\Core\Data\Exceptions\NotFoundException;
+use App\Domains\PasswordReset\UseCases\ResetAccountPassword;
+use App\Domains\PasswordReset\UseCases\SendPasswordResetEmail;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SendPasswordEmailRequest;
-use Domain\PasswordReset\UseCases\ResetAccountPassword;
-use Domain\PasswordReset\UseCases\SendPasswordResetEmail;
 use Illuminate\Http\Request;
 use Repositories\AccountPasswordResetRepository;
 

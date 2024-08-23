@@ -2,11 +2,11 @@
 
 namespace Repositories;
 
+use App\Models\PasswordReset;
 use Carbon\Carbon;
-use Entities\Models\Eloquent\AccountPasswordReset;
 
 /**
- * @final
+ * @deprecated
  */
 class AccountPasswordResetRepository
 {
@@ -14,9 +14,9 @@ class AccountPasswordResetRepository
      * Updates an AccountPasswordReset matching the given email. If not
      * found, creates a new one for the given email
      */
-    public function updateByEmailOrCreate(string $email, string $token): AccountPasswordReset
+    public function updateByEmailOrCreate(string $email, string $token): PasswordReset
     {
-        return AccountPasswordReset::updateOrCreate(
+        return PasswordReset::updateOrCreate(
             attributes: [
                 'email' => $email,
             ],
@@ -27,19 +27,19 @@ class AccountPasswordResetRepository
         );
     }
 
-    public function firstByToken(string $token): ?AccountPasswordReset
+    public function firstByToken(string $token): ?PasswordReset
     {
-        return AccountPasswordReset::where('token', $token)
+        return PasswordReset::where('token', $token)
             ->first();
     }
 
     public function deleteOlderThanOrEqualTo(Carbon $date)
     {
-        return AccountPasswordReset::whereDate('created_at', '<=', $date)
+        return PasswordReset::whereDate('created_at', '<=', $date)
             ->delete();
     }
 
-    public function delete(AccountPasswordReset $passwordReset)
+    public function delete(PasswordReset $passwordReset)
     {
         $passwordReset->delete();
     }

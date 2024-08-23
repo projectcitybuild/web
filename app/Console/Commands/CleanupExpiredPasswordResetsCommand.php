@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Domain\PasswordReset\UseCases\DeleteExpiredPasswordResets;
+use App\Domains\PasswordReset\UseCases\DeleteExpiredPasswordResets;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 

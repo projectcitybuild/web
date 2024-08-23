@@ -2,8 +2,8 @@
 
 namespace Tests\Integration\API;
 
-use Domain\ServerTokens\ScopeKey;
-use Entities\Models\Eloquent\ShowcaseWarp;
+use App\Domains\ServerTokens\ScopeKey;
+use App\Models\ShowcaseWarp;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\IntegrationTestCase;
 
@@ -72,7 +72,7 @@ class APIMinecraftShowcaseWarpUpdateTest extends IntegrationTestCase
             ->assertSuccessful();
 
         $this->assertDatabaseHas(
-            table: ShowcaseWarp::getTableName(),
+            table: ShowcaseWarp::tableName(),
             data: [
                 'id' => $this->existingWarp->getKey(),
                 'location_world' => 'new_world',

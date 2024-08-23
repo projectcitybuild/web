@@ -2,10 +2,10 @@
 
 namespace Tests\Integration\API;
 
-use Domain\ServerTokens\ScopeKey;
-use Entities\Models\Eloquent\GameIPBan;
-use Entities\Models\Eloquent\MinecraftPlayer;
-use Entities\Models\PlayerIdentifierType;
+use App\Core\Data\PlayerIdentifierType;
+use App\Domains\ServerTokens\ScopeKey;
+use App\Models\GameIPBan;
+use App\Models\MinecraftPlayer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\IntegrationTestCase;
 
@@ -63,7 +63,7 @@ class APIBanIPCreateTest extends IntegrationTestCase
             ->assertSuccessful();
 
         $this->assertDatabaseHas(
-            table: GameIPBan::getTableName(),
+            table: GameIPBan::tableName(),
             data: [
                 'ip_address' => '192.168.0.1',
                 'banner_player_id' => $player->getKey(),
@@ -87,7 +87,7 @@ class APIBanIPCreateTest extends IntegrationTestCase
             ->bannedBy($player)
             ->create();
 
-        $this->assertDatabaseCount(table: GameIPBan::getTableName(), count: 1);
+        $this->assertDatabaseCount(table: GameIPBan::tableName(), count: 1);
 
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: [
@@ -106,6 +106,6 @@ class APIBanIPCreateTest extends IntegrationTestCase
                 ],
             ]);
 
-        $this->assertDatabaseCount(table: GameIPBan::getTableName(), count: 1);
+        $this->assertDatabaseCount(table: GameIPBan::tableName(), count: 1);
     }
 }

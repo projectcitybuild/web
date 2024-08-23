@@ -2,9 +2,12 @@
 
 namespace Repositories\GameIPBans;
 
-use Domain\Bans\UnbanType;
-use Entities\Models\Eloquent\GameIPBan;
+use App\Domains\Bans\Data\UnbanType;
+use App\Models\GameIPBan;
 
+/**
+ * @deprecated
+ */
 interface GameIPBanRepository
 {
     public function create(

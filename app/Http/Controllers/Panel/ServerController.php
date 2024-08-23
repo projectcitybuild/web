@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\WebController;
-use Entities\Models\Eloquent\Server;
-use Entities\Models\Eloquent\ServerCategory;
+use App\Models\Server;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -59,7 +58,6 @@ class ServerController extends WebController
         }
 
         Server::create([
-            'server_category_id' => ServerCategory::first()->getKey(),
             'name' => $request->get('name'),
             'ip' => $request->get('ip'),
             'port' => $request->get('port'),
