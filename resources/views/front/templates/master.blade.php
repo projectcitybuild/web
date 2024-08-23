@@ -40,18 +40,6 @@
     <script src="https://kit.fontawesome.com/a0425475c4.js" crossorigin="anonymous"></script>
 
     @stack('head')
-
-    @env(['staging', 'production'])
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2747125-5"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-        gtag('config', 'UA-2747125-5');
-    </script>
-    @endenv
 </head>
 <body>
 
