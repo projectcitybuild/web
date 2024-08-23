@@ -55,7 +55,7 @@
 </head>
 <body>
 
-<x-navbar />
+{{--<x-navbar />--}}
 
 <div id="app">
     @yield('body')
