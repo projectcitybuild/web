@@ -1,6 +1,4 @@
 import { createApp } from 'vue/dist/vue.esm-bundler';
-import NewsBar from './components/news-bar/NewsBar.vue';
-import Spinner from './components/spinner/Spinner.vue';
 
 // Inform Vite where static assets are located
 import.meta.glob([
@@ -8,8 +6,6 @@ import.meta.glob([
 ]);
 
 const app = createApp({});
-app.component('news-bar', NewsBar);
-app.component('spinner', Spinner);
 app.mount('#app');
 
 // Nav bar
@@ -53,18 +49,6 @@ function copyToClipboard(text: string) {
         .then(() => {
             alert('Copied to clipboard')
         })
-}
-
-// Background image rotator
-const heroElement = document.getElementById('hero')
-if (heroElement) {
-    const choices = [
-        "bg-3",
-        "bg-4",
-        "bg-5",
-    ]
-    const roll = Math.floor(Math.random() * (choices.length))
-    heroElement.classList.add(choices[roll])
 }
 
 // Initialise legacy JS-only components
