@@ -2,7 +2,6 @@
 
 namespace App\Domains\PasswordReset\UseCases;
 
-use App\Core\Data\Exceptions\NotFoundException;
 use App\Domains\PasswordReset\Notifications\AccountPasswordResetCompleteNotification;
 use App\Models\Account;
 use App\Models\PasswordReset;
@@ -10,9 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 final class ResetAccountPassword
 {
-    /**
-     * @throws NotFoundException if password reset request or account not found
-     */
     public function execute(string $token, string $newPassword)
     {
         $passwordReset = PasswordReset::whereToken($token)->firstOrFail();

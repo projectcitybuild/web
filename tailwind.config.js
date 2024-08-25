@@ -12,6 +12,8 @@ module.exports = {
       'body': ['Inter'],
     }
   },
-  plugins: [],
+  plugins: [
+      require('@tailwindcss/forms'),
+  ],
 }
 

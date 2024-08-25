@@ -19,7 +19,7 @@ final class LoginController extends WebController
 {
     public function show(): View
     {
-        return view('front.pages.login.login');
+        return view('front.pages.auth.login');
     }
 
     public function login(
