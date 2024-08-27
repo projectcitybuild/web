@@ -1,0 +1,34 @@
+@extends('front.root-layout')
+
+@section('body')
+    <main class="grid grid-cols-1 md:grid-cols-2 h-screen">
+        <div class="bg-gray-50 flex flex-row justify-center">
+            <div class="p-6 md:p-12 max-w-screen-sm flex-grow flex flex-col">
+                <div class="flex-grow">
+                    <a href="{{ route('front.home') }}" class="absolute">
+                        <img src="{{ Vite::asset('resources/images/logo-alt.png') }}" alt="Project City Build" />
+                    </a>
+                </div>
+
+                <div>
+                    <h1 class="text-5xl font-bold text-gray-900 mt-2">@yield('heading')</h1>
+
+                    @yield('content')
+                </div>
+
+                <div class="flex-grow"></div>
+            </div>
+        </div>
+
+        <div class="
+            hidden md:flex
+            bg-cover bg-no-repeat bg-center
+            bg-[url('/resources/images/login_bg.png')]
+            flex-row justify-end
+        ">
+            <span class="bg-white bg-opacity-10 text-gray-300 py-1 px-2 text-xs self-end">
+                Alderrdeen - Build by <strong>Wolfy</strong>
+            </span>
+        </div>
+    </main>
+@endsection
