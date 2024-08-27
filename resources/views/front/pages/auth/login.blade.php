@@ -12,7 +12,17 @@
     >
         @csrf
 
-        @include('front.components.form-error')
+        <h1 class="text-5xl font-bold text-gray-900 mt-2 mb-6">Sign In</h1>
+
+        @if ($errors->any())
+            <x-validation-error message="{{ $errors }}" class="mt-6">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </x-validation-error>
+        @endif
 
         @if(Session::get('mfa_removed', false))
             <div class="alert alert--success">
@@ -27,13 +37,12 @@
             </div>
         @endif
 
-        <label for="email" class="text-md font-bold mt-12 {{ $errors->any() ? 'text-red-500' : '' }}">
+        <label for="email" class="text-md font-bold mt-6">
             Email Address
         </label>
         <input
             class="
                 rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
-                {{ $errors->any() ? 'border-red-500' : '' }}
             "
             id="email"
             name="email"
@@ -42,12 +51,11 @@
             value="{{ old('email') }}"
         />
 
-        <label for="password" class="text-md font-bold mt-6 {{ $errors->any() ? 'text-red-500' : '' }}">Password</label>
+        <label for="password" class="text-md font-bold mt-6">Password</label>
         <input
             class="
-                        rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
-                        {{ $errors->any() ? 'border-red-500' : '' }}
-                    "
+                rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
+            "
             id="password"
             name="password"
             type="password"
@@ -73,19 +81,7 @@
             <a href="{{ route('front.password-reset.create') }}" class="text-sm text-blue-600">Forgot your password?</a>
         </div>
 
-
-        <input
-            type="submit"
-            class="
-                text-sm sm:text-lg text-gray-50
-                bg-gray-900 rounded-md shadow-lg
-                hover:bg-gray-800
-                active:bg-gray-700
-                px-6 py-4 mt-12
-                cursor-pointer
-            "
-            value="Sign In"
-        />
+        <x-filled-button type="submit">Sign In</x-filled-button>
 
         <div class="mt-12 m-auto">
             <span class="text-gray-500">

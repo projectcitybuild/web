@@ -4,15 +4,13 @@
     <main class="grid grid-cols-1 md:grid-cols-2 h-screen">
         <div class="bg-gray-50 flex flex-row justify-center">
             <div class="p-6 md:p-12 max-w-screen-sm flex-grow flex flex-col">
-                <div class="flex-grow">
+                <div class="flex-grow min-h-24">
                     <a href="{{ route('front.home') }}" class="absolute">
                         <img src="{{ Vite::asset('resources/images/logo-alt.png') }}" alt="Project City Build" />
                     </a>
                 </div>
 
                 <div>
-                    <h1 class="text-5xl font-bold text-gray-900 mt-2">@yield('heading')</h1>
-
                     @yield('content')
                 </div>
 
