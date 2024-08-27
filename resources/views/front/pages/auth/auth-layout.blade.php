@@ -5,21 +5,18 @@
         <div class="bg-gray-50 flex flex-row justify-center">
             <div class="p-6 md:p-12 max-w-screen-sm flex-grow flex flex-col">
                 <div class="flex-grow min-h-24">
-                    <a href="{{ route('front.home') }}" class="absolute">
-                        <img src="{{ Vite::asset('resources/images/logo-alt.png') }}" alt="Project City Build" />
-                    </a>
+                    <x-logo />
                 </div>
-
                 <div>
                     @yield('content')
                 </div>
-
                 <div class="flex-grow"></div>
             </div>
         </div>
 
         <div class="
             hidden md:flex
+            bg-gray-100
             bg-cover bg-no-repeat bg-center
             bg-[url('/resources/images/login_bg.png')]
             flex-row justify-end

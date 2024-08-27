@@ -38,7 +38,7 @@
         @endif
 
         <label for="email" class="text-md font-bold mt-6">
-            Email Address
+            Email
         </label>
         <input
             class="
@@ -47,7 +47,7 @@
             id="email"
             name="email"
             type="email"
-            placeholder="you@projectcitybuild.com"
+            placeholder="Enter your email address"
             value="{{ old('email') }}"
         />
 
@@ -59,8 +59,7 @@
             id="password"
             name="password"
             type="password"
-            placeholder="****************"
-            value="{{ old('password') }}"
+            placeholder="Enter your password"
         />
 
         <div class="flex justify-between mt-6">
@@ -81,7 +80,7 @@
             <a href="{{ route('front.password-reset.create') }}" class="text-sm text-blue-600">Forgot your password?</a>
         </div>
 
-        <x-filled-button type="submit">Sign In</x-filled-button>
+        <x-filled-button type="submit" class="mt-12">Sign In</x-filled-button>
 
         <div class="mt-12 m-auto">
             <span class="text-gray-500">
