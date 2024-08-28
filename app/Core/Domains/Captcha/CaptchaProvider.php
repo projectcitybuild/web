@@ -1,28 +1,23 @@
 <?php
 
-namespace App\Core\Domains\Recaptcha;
+namespace App\Core\Domains\Captcha;
 
-use App\Core\Domains\Recaptcha\Validator\Adapters\GoogleRecaptchaValidator;
-use App\Core\Domains\Recaptcha\Validator\Adapters\StubRecaptchaValidator;
-use App\Core\Domains\Recaptcha\Validator\RecaptchaValidator;
+use App\Core\Domains\Captcha\Validator\Adapters\TurntileCaptchaValidator;
+use App\Core\Domains\Captcha\Validator\CaptchaValidator;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
-class RecaptchaProvider extends ServiceProvider
+class CaptchaProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      */
     public function register(): void
     {
-        $isEnabled = config('recaptcha.enabled', default: false);
-
-        if ($isEnabled) {
-            $this->app->bind(abstract: RecaptchaValidator::class, concrete: GoogleRecaptchaValidator::class);
-        } else {
-            $this->app->bind(abstract: RecaptchaValidator::class, concrete: fn () => new StubRecaptchaValidator(passed: true));
-        }
+        $this->app->bind(
+            abstract: CaptchaValidator::class,
+            concrete: TurntileCaptchaValidator::class,
+        );
     }
 
     /**
@@ -30,12 +25,8 @@ class RecaptchaProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        Blade::directive('recaptcha_key', function () {
-            return "<?php echo config('recaptcha.keys.site') ?>";
-        });
-
-        Validator::extend('recaptcha', 'App\Core\Domains\Recaptcha\Rules\RecaptchaRule@passes');
+        Blade::directive('captcha_key', fn () => "<?php echo config('captcha.keys.site') ?>");
     }
 }

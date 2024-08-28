@@ -4,20 +4,22 @@ namespace App\Core\Domains\Captcha\Rules;
 
 use App\Core\Domains\Captcha\Validator\CaptchaValidator;
 use Closure;
-use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Validation\Validator;
+use Illuminate\Http\Request;
 
-class RecaptchaRule implements ValidationRule, DataAwareRule
+class CaptchaRule implements ValidationRule
 {
-    protected $data = [];
-
     public function __construct(
+        private readonly Request $request,
         private readonly CaptchaValidator $recaptchaValidator,
     ) {}
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+        if (empty($value)) {
+            $fail('Captcha must be completed');
+            return;
+        }
         $passed = $this->recaptchaValidator->passed(
             token: $value,
             ip: $this->request->ip(),
@@ -25,10 +27,5 @@ class RecaptchaRule implements ValidationRule, DataAwareRule
         if (! $passed) {
             $fail('Captcha failed. Please try again');
         }
-    }
-
-    public function setData(array $data)
-    {
-        // TODO: Implement setData() method.
     }
 }

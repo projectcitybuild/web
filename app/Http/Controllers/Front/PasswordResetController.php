@@ -19,7 +19,7 @@ final class PasswordResetController extends WebController
      */
     public function create()
     {
-        return view('front.pages.password-reset.password-reset');
+        return view('front.pages.auth.password-reset.form');
     }
 
     /**

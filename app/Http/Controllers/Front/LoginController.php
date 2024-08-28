@@ -41,11 +41,11 @@ final class LoginController extends WebController
             );
         } catch (InvalidLoginCredentialsException) {
             throw ValidationException::withMessages([
-                'error' => ['Email or password is incorrect'],
+                'error' => 'Email or password is incorrect',
             ]);
         } catch (AccountNotActivatedException) {
             throw ValidationException::withMessages([
-                'error' => ['Your email has not been confirmed. If you didn\'t receive it, check your spam. <p /><a href="'.route('front.login.reactivate', ['email' => $input['email']]).'">Click here</a> if you need to resend the activation email'],
+                'error' => 'Your email has not been confirmed. If you didn\'t receive it, check your spam. <p /><a href="'.route('front.login.reactivate', ['email' => $input['email']]).'">Click here</a> if you need to resend the activation email',
             ]);
         }
 

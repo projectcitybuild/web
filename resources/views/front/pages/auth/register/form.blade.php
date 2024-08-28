@@ -3,15 +3,6 @@
 @section('title', 'Create an Account')
 @section('description', 'Create a PCB account to create forum posts, access personal player statistics and more.')
 
-@push('head')
-    <script src='https://www.google.com/recaptcha/api.js'></script>
-    <script>
-        function submitForm() {
-            document.getElementById('form').submit();
-        }
-    </script>
-@endpush
-
 @section('content')
     <form
         method="post"
@@ -23,14 +14,15 @@
 
         <h1 class="text-4xl font-bold text-gray-900 mt-2 mb-6">Create an Account</h1>
 
-        @include('front.components.form-error')
+        @error('error')
+            <x-validation-error class="mt-6">{{ $message }}</x-validation-error>
+        @enderror
 
-        <label for="email" class="text-md font-bold mt-6">
-            Email
-        </label>
+        <label for="email" class="text-md font-bold mt-6">Email</label>
         <input
             class="
                 rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
+                @error('email') border-red-500 @enderror
             "
             id="email"
             name="email"
@@ -38,13 +30,15 @@
             placeholder="Enter your email address"
             value="{{ old('email') }}"
         />
+        @error('email')
+            <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
+        @enderror
 
-        <label for="email" class="text-md font-bold mt-6">
-            Username
-        </label>
+        <label for="usernname" class="text-md font-bold mt-6">Username</label>
         <input
             class="
                 rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
+                @error('username') border-red-500 @enderror
             "
             id="username"
             name="username"
@@ -52,11 +46,15 @@
             placeholder="Pick a unique username"
             value="{{ old('username') }}"
         />
+        @error('username')
+            <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
+        @enderror
 
         <label for="password" class="text-md font-bold mt-6">Password</label>
         <input
             class="
                 rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
+                @error('password') border-red-500 @enderror
             "
             id="password"
             name="password"
@@ -64,8 +62,14 @@
             placeholder="Enter a password"
             value="{{ old('password') }}"
         />
+        @error('password')
+            <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
+        @enderror
 
-        <div class="flex items-center gap-2 mt-8 rounded-md border-2 border-gray-100 px-6 py-4">
+        <div class="
+            flex items-center gap-2 mt-8 rounded-md border-2 border-gray-100 px-6 py-4
+            @error('terms') border-red-500 @enderror
+        ">
             <input
                 type="checkbox"
                 name="terms"
@@ -83,12 +87,15 @@
                 <a href="{{ route('privacy') }}" class="text-blue-600" target="_blank">privacy policy</a>
             </span>
         </div>
+        @error('terms')
+            <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
+        @enderror
+
+        <x-captcha class="mt-6"></x-captcha>
 
         <x-filled-button
             type="submit"
             class="g-recaptcha mt-6"
-            data-sitekey="@recaptcha_key"
-            data-callback="submitForm"
         >
             Register
         </x-filled-button>

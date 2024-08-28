@@ -16,13 +16,14 @@ final class RegisterController extends WebController
 {
     public function show(Request $request): View|Response
     {
+        $response = response()
+            ->view('front.pages.auth.register.form');
+
         if ($request->session()->has('url.intended')) {
-            return response()
-                ->view('front.pages.register.register')
-                ->cookie('intended', $request->session()->get('url.intended'), 60);
+            $response->cookie('intended', $request->session()->get('url.intended'), 60);
         }
 
-        return view('front.pages.register.register');
+        return $response;
     }
 
     public function register(
@@ -38,7 +39,9 @@ final class RegisterController extends WebController
             ip: $request->ip(),
         );
 
-        return view('front.pages.register.register-success');
+        return view('front.pages.auth.register.verify-mail', [
+            'email' => $input['email'],
+        ]);
     }
 
     public function activate(
@@ -60,6 +63,6 @@ final class RegisterController extends WebController
             return redirect($intended);
         }
 
-        return view('front.pages.register.register-verify-complete');
+        return view('front.pages.auth.register.verify-complete');
     }
 }

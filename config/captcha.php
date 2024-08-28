@@ -1,10 +1,8 @@
 <?php
 
 return [
-    'enabled' => env('RECAPTCHA_ENABLED', false),
-
     'keys' => [
-        'site' => env('RECAPTCHA_SITE_KEY'),
-        'secret' => env('RECAPTCHA_SECRET_KEY'),
+        'site' => env('CAPTCHA_SITE_KEY'),
+        'secret' => env('CAPTCHA_SECRET_KEY'),
     ],
 ];

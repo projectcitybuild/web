@@ -2,8 +2,8 @@
 
 namespace Tests\Integration\Feature;
 
-use App\Core\Domains\Recaptcha\Validator\Adapters\GoogleRecaptchaValidator;
-use App\Core\Domains\Recaptcha\Validator\RecaptchaValidator;
+use App\Core\Domains\Captcha\Validator\Adapters\TurntileCaptchaValidator;
+use App\Core\Domains\Captcha\Validator\CaptchaValidator;
 use App\Core\Support\Laravel\SignedURL\Adapters\LaravelSignedURLGenerator;
 use App\Domains\Registration\Notifications\AccountActivationNotification;
 use App\Models\Account;
@@ -17,7 +17,7 @@ class RegisterTest extends TestCase
 {
     private function withRealRecaptcha(): self
     {
-        $this->app->bind(RecaptchaValidator::class, GoogleRecaptchaValidator::class);
+        $this->app->bind(CaptchaValidator::class, TurntileCaptchaValidator::class);
 
         return $this;
     }

@@ -14,15 +14,9 @@
 
         <h1 class="text-5xl font-bold text-gray-900 mt-2 mb-6">Sign In</h1>
 
-        @if ($errors->any())
-            <x-validation-error message="{{ $errors }}" class="mt-6">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </x-validation-error>
-        @endif
+        @error('error')
+            <x-validation-error class="mt-6">{{ $message }}</x-validation-error>
+        @enderror
 
         @if(Session::get('mfa_removed', false))
             <div class="alert alert--success">
@@ -43,6 +37,7 @@
         <input
             class="
                 rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
+                @error('email') border-red-500 @enderror
             "
             id="email"
             name="email"
@@ -50,17 +45,24 @@
             placeholder="Enter your email address"
             value="{{ old('email') }}"
         />
+        @error('email')
+            <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
+        @enderror
 
         <label for="password" class="text-md font-bold mt-6">Password</label>
         <input
             class="
                 rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
+                 @error('password') border-red-500 @enderror
             "
             id="password"
             name="password"
             type="password"
             placeholder="Enter your password"
         />
+        @error('password')
+            <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
+        @enderror
 
         <div class="flex justify-between mt-6">
             <div class="flex items-center gap-2">

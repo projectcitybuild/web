@@ -22,8 +22,6 @@ final class TurntileCaptchaValidator implements CaptchaValidator
             ],
         );
 
-        dd($response);
-
         Log::debug('Captcha response', ['response' => $response->json()]);
 
         return $response->json(key: 'success', default: false);

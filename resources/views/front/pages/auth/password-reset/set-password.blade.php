@@ -1,9 +1,9 @@
-@extends('front.templates.master')
+@extends('front.pages.auth.layout')
 
 @section('title', 'Forgot Your Password?')
 @section('description', "If you've forgotten your PCB password but remember your email address, use this form to reset your password.")
 
-@section('body')
+@section('content')
     <main class="page login">
         <div class="login__dialog login__dialog--is-narrow">
             <h1>Set Your Password</h1>

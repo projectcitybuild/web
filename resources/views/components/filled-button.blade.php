@@ -9,6 +9,7 @@
             active:bg-gray-700
             px-6 py-4
             cursor-pointer
+            flex justify-center items-center gap-2
         ',
     ]) }}
 >
