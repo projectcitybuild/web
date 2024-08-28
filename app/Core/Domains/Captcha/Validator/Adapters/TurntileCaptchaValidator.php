@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Core\Domains\Recaptcha\Validator\Adapters;
+namespace App\Core\Domains\Captcha\Validator\Adapters;
 
-use App\Core\Domains\Recaptcha\Validator\RecaptchaValidator;
+use App\Core\Domains\Captcha\Validator\CaptchaValidator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-final class GoogleRecaptchaValidator implements RecaptchaValidator
+final class TurntileCaptchaValidator implements CaptchaValidator
 {
     public function passed(?string $token, string $ip): bool
     {
@@ -14,15 +14,17 @@ final class GoogleRecaptchaValidator implements RecaptchaValidator
             return false;
         }
         $response = Http::asForm()->post(
-            url: 'https://www.google.com/recaptcha/api/siteverify',
+            url: 'https://challenges.cloudflare.com/turnstile/v0/siteverify',
             data: [
-                'secret' => config('recaptcha.keys.secret'),
+                'secret' => config('captcha.keys.secret'),
                 'response' => $token,
                 'remoteip' => $ip,
             ],
         );
 
-        Log::debug('Recaptcha response', ['response' => $response->json()]);
+        dd($response);
+
+        Log::debug('Captcha response', ['response' => $response->json()]);
 
         return $response->json(key: 'success', default: false);
     }
