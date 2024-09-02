@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\Feature;
+namespace Feature\Auth;
 
 use App\Core\Domains\Tokens\Adapters\StubTokenGenerator;
 use App\Core\Support\Laravel\SignedURL\Adapters\StubSignedURLGenerator;

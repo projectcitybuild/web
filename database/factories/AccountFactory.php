@@ -41,11 +41,11 @@ class AccountFactory extends Factory
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    public function passwordHashed()
+    public function passwordHashed(string $password = self::UNHASHED_PASSWORD)
     {
-        return $this->state(function (array $attributes) {
+        return $this->state(function (array $attributes) use ($password) {
             return [
-                'password' => Hash::make(self::UNHASHED_PASSWORD),
+                'password' => Hash::make($password),
             ];
         });
     }
