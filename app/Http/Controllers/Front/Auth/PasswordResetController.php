@@ -14,17 +14,11 @@ use Repositories\AccountPasswordResetRepository;
 
 final class PasswordResetController extends WebController
 {
-    /**
-     * Shows the form to send a verification URL to the user's email address.
-     */
     public function create()
     {
         return view('front.pages.auth.password-reset.form');
     }
 
-    /**
-     * Creates a password reset request and sends a verification email to the user.
-     */
     public function store(
         SendPasswordEmailRequest $request,
         SendPasswordResetEmail $sendPasswordResetEmail,
@@ -37,12 +31,10 @@ final class PasswordResetController extends WebController
             email: $email,
         );
 
-        return redirect()->back()->with(['success' => $email]);
+        return redirect()->back()
+            ->with(['success' => 'An email has been sent to '.$email.' with password reset instructions.']);
     }
 
-    /**
-     * Shows the form to allow the user to set a new password.
-     */
     public function edit(Request $request)
     {
         $token = $request->get('token');
@@ -60,31 +52,24 @@ final class PasswordResetController extends WebController
                 ->withErrors('error', 'URL is invalid or has expired. Please try again');
         }
 
-        return view('front.pages.password-reset.password-reset-form', [
+        return view('front.pages.auth.password-reset.set-password', [
             'passwordToken' => $token,
         ]);
     }
 
-    /**
-     * Saves the user's new password.
-     */
     public function update(
         ResetPasswordRequest $request,
         ResetAccountPassword $resetAccountPassword,
     ) {
         $input = $request->validated();
 
-        try {
-            $resetAccountPassword->execute(
-                token: $input['password_token'],
-                newPassword: $input['password']
-            );
-        } catch (NotFoundException $e) {
-            return redirect()
-                ->route('front.password-reset.create')
-                ->withErrors('error', $e->getMessage());
-        }
+        $resetAccountPassword->execute(
+            token: $input['password_token'],
+            newPassword: $input['password'],
+        );
 
-        return view('front.pages.password-reset.password-reset-success');
+        return redirect()
+            ->route('front.login')
+            ->with('success', 'Your password has been reset. Please login');
     }
 }

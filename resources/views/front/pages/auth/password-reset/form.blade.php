@@ -26,11 +26,8 @@
             <x-validation-error class="mt-6">{{ $message }}</x-validation-error>
         @enderror
 
-        @if(Session::has('success'))
-            <div class="alert alert--success">
-                <h3><i class="fas fa-exclamation-circle"></i> Success</h3>
-                An email has been sent to {{ Session::get('success') }} with password reset instructions.
-            </div>
+        @if(session()->has('success'))
+            <x-success-alert class="mt-6">{{ session()->get('success') }}</x-success-alert>
         @endif
 
         <input
