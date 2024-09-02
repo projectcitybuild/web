@@ -66,6 +66,7 @@ final class Account extends Authenticatable implements LinkableAuditModel
     protected $casts = [
         'last_login_at' => 'datetime',
         'is_totp_enabled' => 'boolean',
+        'activated' => 'boolean',
     ];
 
     private ?Collection $cachedGroupScopes = null;

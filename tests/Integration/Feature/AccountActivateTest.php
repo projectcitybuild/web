@@ -1,42 +1,62 @@
 <?php
 
-use App\Domains\Registration\Notifications\AccountActivationNotification;
 use App\Models\Account;
-use App\Models\Group;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Routing\Middleware\ValidateSignature;
+use Illuminate\Support\Facades\Session;
 
-//    public function test_user_can_verify_email()
-//    {
-//        $unactivatedAccount = Account::factory()->unactivated()->create();
-//
-//        // TODO: find way to do this without manually creating the URL here
-//        $signedURLGenerator = new LaravelSignedURLGenerator();
-//        $activationURL = $signedURLGenerator->makeTemporary(
-//            routeName: 'front.register.activate',
-//            expiresAt: now()->addDay(),
-//            parameters: ['email' => $unactivatedAccount->email],
-//        );
-//
-//        $this->get($activationURL)
-//            ->assertSuccessful();
-//
-//        $this->assertEquals(true, Account::first()->activated);
-//    }
-//
-//    public function test_user_is_redirected_to_intent_after_verification()
-//    {
-//        Session::put('url.intended', '/my/path');
-//
-//        $unactivatedAccount = Account::factory()->unactivated()->create();
-//
-//        // TODO: find way to do this without manually creating the URL here
-//        $signedURLGenerator = new LaravelSignedURLGenerator();
-//        $activationURL = $signedURLGenerator->makeTemporary(
-//            routeName: 'front.register.activate',
-//            expiresAt: now()->addDay(),
-//            parameters: ['email' => $unactivatedAccount->email],
-//        );
-//
-//        $this->get($activationURL)
-//            ->assertRedirect('/my/path');
-//    }
+it('shows a page', function () {
+    $this->get(route('front.activate'))
+        ->assertSuccessful();
+});
+
+describe('account activation', function () {
+    it('throws exception if signed url is invalid', function () {
+        $this->get(route('front.activate.verify'))
+            ->assertForbidden();
+    });
+
+    it('throws exception if no account found', function () {
+        $this->withoutMiddleware(ValidateSignature::class)
+            ->get(route('front.activate.verify', ['email' => 'invalid@foo.bar']))
+            ->assertNotFound();
+    });
+
+    it('throws exception if account already activated', function () {
+        $account = Account::factory()->create();
+
+        $this->assertDatabaseHas('accounts', [
+            'email' => $account->email,
+        ]);
+
+        $this->withoutMiddleware(ValidateSignature::class)
+            ->get(route('front.activate.verify', ['email' => $account->email]))
+            ->assertStatus(410);
+    });
+
+    it('activates the account', function () {
+        $account = Account::factory()
+            ->unactivated()
+            ->create();
+
+        $this->withoutMiddleware(ValidateSignature::class)
+            ->get(route('front.activate.verify', ['email' => $account->email]))
+            ->assertRedirectToRoute('front.login');
+
+        expect(Account::whereEmail($account->email)->first()->activated)
+            ->toBeTrue();
+    });
+
+    it('redirects to intent if present', function () {
+        $account = Account::factory()
+            ->unactivated()
+            ->create();
+
+        Session::put('url.intended', '/my/path');
+
+        $this->withoutMiddleware(ValidateSignature::class)
+            ->get(route('front.activate.verify', ['email' => $account->email]))
+            ->assertRedirect('/my/path');
+
+        Session::remove('url.intended');
+    });
+});

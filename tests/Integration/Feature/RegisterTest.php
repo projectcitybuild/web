@@ -14,7 +14,7 @@ function unactivatedAccount(array $attributes = []): Account
         ->make($attributes);
 }
 
-function validFormDataToMake(Account $account): array
+function validFormDataFor(Account $account): array
 {
     return array_merge($account->toArray(), [
         'captcha-response' => 'captcha',
@@ -22,20 +22,17 @@ function validFormDataToMake(Account $account): array
     ]);
 }
 
-function allFieldKeys(): array
-{
-    return [
+beforeEach(function () {
+    $this->formEndpoint = route('front.register');
+    $this->submitEndpoint = route('front.register.submit');
+
+    $this->allFieldKeys = [
         'email',
         'username',
         'password',
         'captcha-response',
         'terms',
     ];
-}
-
-beforeEach(function () {
-    $this->formEndpoint = route('front.register');
-    $this->submitEndpoint = route('front.register.submit');
 });
 
 it('redirects to account settings if logged in', function () {
@@ -44,15 +41,20 @@ it('redirects to account settings if logged in', function () {
         ->assertRedirect(route('front.account.settings'));
 });
 
+it('shows a page', function () {
+    $this->get($this->formEndpoint)
+        ->assertSuccessful();
+});
+
 describe('validation errors', function () {
     it('throws if fields are missing', function () {
         $this->post($this->submitEndpoint, [])
-            ->assertInvalid(allFieldKeys());
+            ->assertInvalid($this->allFieldKeys);
     });
 
     it('throws if password is too short', function () {
         $unactivatedAccount = unactivatedAccount();
-        $formData = validFormDataToMake($unactivatedAccount);
+        $formData = validFormDataFor($unactivatedAccount);
         $formData['password'] = '123';
 
         $this->post($this->submitEndpoint, $formData)
@@ -64,7 +66,7 @@ describe('validation errors', function () {
         $this->assertDatabaseHas('accounts', ['username' => 'taken']);
 
         $unactivatedAccount = unactivatedAccount(['username' => 'taken']);
-        $formData = validFormDataToMake($unactivatedAccount);
+        $formData = validFormDataFor($unactivatedAccount);
 
         $this->post($this->submitEndpoint, $formData)
             ->assertInvalid(['username']);
@@ -75,7 +77,7 @@ describe('validation errors', function () {
         $this->assertDatabaseHas('accounts', ['email' => 'me@pcbmc.co']);
 
         $unactivatedAccount = unactivatedAccount(['email' => 'me@pcbmc.co']);
-        $formData = validFormDataToMake($unactivatedAccount);
+        $formData = validFormDataFor($unactivatedAccount);
 
         $this->post($this->submitEndpoint, $formData)
             ->assertInvalid(['email']);
@@ -88,7 +90,7 @@ describe('validation errors', function () {
                 ->andReturn(false);
         });
         $unactivatedAccount = unactivatedAccount();
-        $formData = validFormDataToMake($unactivatedAccount);
+        $formData = validFormDataFor($unactivatedAccount);
 
         $this->post($this->submitEndpoint, $formData)
             ->assertInvalid(['captcha-response']);
@@ -100,13 +102,13 @@ describe('successful submit', function () {
         Group::factory()->create(['is_default' => true]);
 
         $this->unactivatedAccount = unactivatedAccount();
-        $this->formData = validFormDataToMake($this->unactivatedAccount);
+        $this->formData = validFormDataFor($this->unactivatedAccount);
     });
 
     it('creates an unactivated account from valid form data', function () {
         $this->post($this->submitEndpoint, $this->formData)
             ->assertSessionHasNoErrors()
-            ->assertValid(allFieldKeys());
+            ->assertValid($this->allFieldKeys);
 
         $this->assertDatabaseHas('accounts', [
             'email' => $this->unactivatedAccount->email,
@@ -146,5 +148,10 @@ describe('successful submit', function () {
         $account = Account::where('email', $this->unactivatedAccount->email)->firstOrFail();
 
         Notification::assertSentTo($account, AccountActivationNotification::class);
+    });
+
+    it('redirects to account verification flow', function () {
+        $this->post($this->submitEndpoint, $this->formData)
+            ->assertRedirect(route('front.activate', ['email' => $this->formData['email']]));
     });
 });
