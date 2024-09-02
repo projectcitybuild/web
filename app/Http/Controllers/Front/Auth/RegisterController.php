@@ -26,11 +26,11 @@ final class RegisterController extends WebController
 
     public function register(
         RegisterRequest $request,
-        CreateUnactivatedAccount $createUnactivatedAccountUseCase,
+        CreateUnactivatedAccount $createUnactivatedAccount,
     ): RedirectResponse {
         $validated = $request->validated();
 
-        $createUnactivatedAccountUseCase->execute(
+        $createUnactivatedAccount->execute(
             email: $validated['email'],
             username: $validated['username'],
             password: $validated['password'],

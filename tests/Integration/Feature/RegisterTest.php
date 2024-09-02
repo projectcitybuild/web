@@ -1,193 +1,150 @@
 <?php
 
-namespace Tests\Integration\Feature;
-
-use App\Core\Domains\Captcha\Validator\Adapters\TurntileCaptchaValidator;
 use App\Core\Domains\Captcha\Validator\CaptchaValidator;
-use App\Core\Support\Laravel\SignedURL\Adapters\LaravelSignedURLGenerator;
 use App\Domains\Registration\Notifications\AccountActivationNotification;
 use App\Models\Account;
 use App\Models\Group;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
-use Tests\TestCase;
+use Mockery\MockInterface;
 
-class RegisterTest extends TestCase
+function unactivatedAccount(array $attributes = []): Account
 {
-    private function withRealRecaptcha(): self
-    {
-        $this->app->bind(CaptchaValidator::class, TurntileCaptchaValidator::class);
+    return Account::factory()
+        ->unactivated()
+        ->make($attributes);
+}
 
-        return $this;
-    }
+function validFormDataToMake(Account $account): array
+{
+    return array_merge($account->toArray(), [
+        'captcha-response' => 'captcha',
+        'terms' => 1,
+    ]);
+}
 
-    private function withRequiredFormFields(Account $account): array
-    {
-        return array_merge($account->toArray(), [
-            'password' => 'password',
-            'password_confirm' => 'password',
-            'g-recaptcha-response' => Str::random(),
-            'terms' => 1,
-        ]);
-    }
+function allFieldKeys(): array
+{
+    return [
+        'email',
+        'username',
+        'password',
+        'captcha-response',
+        'terms',
+    ];
+}
 
-    public function test_cannot_see_register_signed_in()
-    {
-        $this->actingAs(Account::factory()->create())
-            ->get(route('front.register'))
-            ->assertRedirect(route('front.account.settings'));
-    }
+beforeEach(function () {
+    $this->formEndpoint = route('front.register');
+    $this->submitEndpoint = route('front.register.submit');
+});
 
-    public function test_user_can_register()
-    {
+it('redirects to account settings if logged in', function () {
+    $this->actingAs(Account::factory()->create())
+        ->get($this->formEndpoint)
+        ->assertRedirect(route('front.account.settings'));
+});
+
+describe('validation errors', function () {
+    it('throws if fields are missing', function () {
+        $this->post($this->submitEndpoint, [])
+            ->assertInvalid(allFieldKeys());
+    });
+
+    it('throws if password is too short', function () {
+        $unactivatedAccount = unactivatedAccount();
+        $formData = validFormDataToMake($unactivatedAccount);
+        $formData['password'] = '123';
+
+        $this->post($this->submitEndpoint, $formData)
+            ->assertInvalid(['password']);
+    });
+
+    it('throws if username is already in use', function () {
+        Account::factory()->create(['username' => 'taken']);
+        $this->assertDatabaseHas('accounts', ['username' => 'taken']);
+
+        $unactivatedAccount = unactivatedAccount(['username' => 'taken']);
+        $formData = validFormDataToMake($unactivatedAccount);
+
+        $this->post($this->submitEndpoint, $formData)
+            ->assertInvalid(['username']);
+    });
+
+    it('throws if email is already in use', function () {
+        Account::factory()->create(['email' => 'me@pcbmc.co']);
+        $this->assertDatabaseHas('accounts', ['email' => 'me@pcbmc.co']);
+
+        $unactivatedAccount = unactivatedAccount(['email' => 'me@pcbmc.co']);
+        $formData = validFormDataToMake($unactivatedAccount);
+
+        $this->post($this->submitEndpoint, $formData)
+            ->assertInvalid(['email']);
+    });
+
+    it('throws if captcha is invalid', function () {
+        $this->mock(CaptchaValidator::class, function (MockInterface $mock) {
+            $mock->shouldReceive('passed')
+                ->once()
+                ->andReturn(false);
+        });
+        $unactivatedAccount = unactivatedAccount();
+        $formData = validFormDataToMake($unactivatedAccount);
+
+        $this->post($this->submitEndpoint, $formData)
+            ->assertInvalid(['captcha-response']);
+    });
+});
+
+describe('successful submit', function () {
+    beforeEach(function () {
         Group::factory()->create(['is_default' => true]);
 
-        $unactivatedAccount = Account::factory()
-            ->unactivated()
-            ->make();
+        $this->unactivatedAccount = unactivatedAccount();
+        $this->formData = validFormDataToMake($this->unactivatedAccount);
+    });
 
-        $this->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
-            ->assertSessionHasNoErrors();
+    it('creates an unactivated account from valid form data', function () {
+        $this->post($this->submitEndpoint, $this->formData)
+            ->assertSessionHasNoErrors()
+            ->assertValid(allFieldKeys());
 
         $this->assertDatabaseHas('accounts', [
-            'email' => $unactivatedAccount->email,
-            'username' => $unactivatedAccount->username,
+            'email' => $this->unactivatedAccount->email,
+            'username' => $this->unactivatedAccount->username,
             'activated' => false,
         ]);
-    }
+    });
 
-    public function test_recaptcha_field_is_required()
-    {
-        $unactivatedAccount = Account::factory()
-            ->unactivated()
-            ->make();
+    it('hashes the password', function () {
+        $this->post($this->submitEndpoint, $this->formData);
 
-        $this->withRealRecaptcha()
-            ->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
-            ->assertSessionHasErrors('g-recaptcha-response');
-    }
+        $account = Account::where('email', $this->unactivatedAccount->email)->firstOrFail();
 
-    public function test_recaptcha_field_is_validated()
-    {
-        $unactivatedAccount = Account::factory()
-            ->unactivated()
-            ->make();
+        expect($account->password)
+            ->not
+            ->toBe($this->unactivatedAccount->password);
+    });
 
-        $this->withRealRecaptcha()
-            ->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
-            ->assertSessionHasErrors('g-recaptcha-response');
-    }
+    it('assigns account to default group', function () {
+        $defaultGroup = Group::where('is_default', true)->firstOrFail();
 
-    public function test_user_cannot_register_with_same_email_as_other_account()
-    {
-        $existingAccount = Account::factory()->create();
+        $this->post($this->submitEndpoint, $this->formData);
 
-        $newAccount = Account::factory()
-            ->make(['email' => $existingAccount->email]);
-
-        $this->post(route('front.register.submit'), $this->withRequiredFormFields($newAccount))
-            ->assertSessionHasErrors();
-    }
-
-    public function test_user_cannot_register_with_same_username_as_other_account()
-    {
-        $existingAccount = Account::factory()->create();
-
-        $newAccount = Account::factory()
-            ->make(['username' => $existingAccount->username]);
-
-        $this->post(route('front.register.submit'), $this->withRequiredFormFields($newAccount))
-            ->assertSessionHasErrors();
-    }
-
-    public function test_assert_password_is_hashed()
-    {
-        $unactivatedAccount = Account::factory()
-            ->passwordHashed()
-            ->make();
-
-        $this->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
-            ->assertSessionHasNoErrors();
-
-        $this->assertDatabaseMissing('accounts', [
-            'email' => $unactivatedAccount->email,
-            'password' => $unactivatedAccount->password,
-        ]);
-    }
-
-    public function test_new_member_is_put_in_default_group()
-    {
-        $memberGroup = Group::create([
-            'name' => 'member',
-            'is_default' => 1,
-        ]);
-
-        $unactivatedAccount = Account::factory()
-            ->unactivated()
-            ->make();
-
-        $this->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
-            ->assertSessionHasNoErrors();
-
-        $account = Account::where('email', $unactivatedAccount['email'])->firstOrFail();
+        $account = Account::where('email', $this->unactivatedAccount->email)->firstOrFail();
 
         $this->assertDatabaseHas('groups_accounts', [
-            'group_id' => $memberGroup->group_id,
+            'group_id' => $defaultGroup->group_id,
             'account_id' => $account->account_id,
         ]);
-    }
+    });
 
-    public function test_user_is_sent_verification_mail()
-    {
+    it('sends an email to activate the account', function () {
         Notification::fake();
 
-        Group::factory()->create(['is_default' => true]);
+        $this->post($this->submitEndpoint, $this->formData);
 
-        $unactivatedAccount = Account::factory()
-            ->unactivated()
-            ->make();
+        $account = Account::where('email', $this->unactivatedAccount->email)->firstOrFail();
 
-        $this->post(route('front.register.submit'), $this->withRequiredFormFields($unactivatedAccount))
-            ->assertSuccessful()
-            ->assertSessionDoesntHaveErrors();
-
-        Notification::assertSentTo(Account::first(), AccountActivationNotification::class);
-    }
-
-    public function test_user_can_verify_email()
-    {
-        $unactivatedAccount = Account::factory()->unactivated()->create();
-
-        // TODO: find way to do this without manually creating the URL here
-        $signedURLGenerator = new LaravelSignedURLGenerator();
-        $activationURL = $signedURLGenerator->makeTemporary(
-            routeName: 'front.register.activate',
-            expiresAt: now()->addDay(),
-            parameters: ['email' => $unactivatedAccount->email],
-        );
-
-        $this->get($activationURL)
-            ->assertSuccessful();
-
-        $this->assertEquals(true, Account::first()->activated);
-    }
-
-    public function test_user_is_redirected_to_intent_after_verification()
-    {
-        Session::put('url.intended', '/my/path');
-
-        $unactivatedAccount = Account::factory()->unactivated()->create();
-
-        // TODO: find way to do this without manually creating the URL here
-        $signedURLGenerator = new LaravelSignedURLGenerator();
-        $activationURL = $signedURLGenerator->makeTemporary(
-            routeName: 'front.register.activate',
-            expiresAt: now()->addDay(),
-            parameters: ['email' => $unactivatedAccount->email],
-        );
-
-        $this->get($activationURL)
-            ->assertRedirect('/my/path');
-    }
-}
+        Notification::assertSentTo($account, AccountActivationNotification::class);
+    });
+});

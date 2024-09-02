@@ -14,10 +14,10 @@ final class RegisterRequest extends FormRequest
     public function rules(CaptchaRule $captchaRule): array
     {
         return [
-            'email' => 'required|email|unique:accounts,email',
+            'email' => ['required', 'email', 'unique:accounts', 'email'],
             'username' => ['required', 'unique:accounts,username', new DiscourseUsernameRule()],
-            'password' => 'required|min:8',    // discourse min is 8 or greater
-            'captcha-response' => [$captchaRule],
+            'password' => ['required', 'min:12'],
+            'captcha-response' => ['required', $captchaRule],
             'terms' => 'accepted',
         ];
     }
