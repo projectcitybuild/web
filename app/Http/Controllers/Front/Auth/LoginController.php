@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Front;
+namespace App\Http\Controllers\Front\Auth;
 
 use App\Domains\Login\Entities\LoginCredentials;
 use App\Domains\Login\Exceptions\AccountNotActivatedException;

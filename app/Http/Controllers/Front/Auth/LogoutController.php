@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Front;
+namespace App\Http\Controllers\Front\Auth;
 
 use App\Domains\Login\UseCases\LogoutAccount;
 use App\Http\Controllers\WebController;
@@ -10,11 +10,10 @@ use Illuminate\Http\Request;
 final class LogoutController extends WebController
 {
     public function __construct(
-        private LogoutAccount $logoutUseCase,
-    ) {
-    }
+        private readonly LogoutAccount $logoutUseCase,
+    ) {}
 
-    public function logout(Request $request): RedirectResponse
+    public function __invoke(Request $request): RedirectResponse
     {
         $this->logoutUseCase->execute();
 
@@ -22,6 +21,6 @@ final class LogoutController extends WebController
         // https://laravel.com/docs/9.x/authentication#logging-out
         $request->session()->regenerateToken();
 
-        return redirect()->route('front.home');
+        return redirect()->route('front.login');
     }
 }

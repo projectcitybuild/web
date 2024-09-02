@@ -18,17 +18,8 @@
             <x-validation-error class="mt-6">{{ $message }}</x-validation-error>
         @enderror
 
-        @if(Session::get('mfa_removed', false))
-            <div class="alert alert--success">
-                <h2><i class="fas fa-check"></i> 2FA Reset</h2>
-                2FA has been removed from your account, please sign in again.
-            </div>
-        @endif
         @if(session()->has('success'))
-            <div class="alert alert--success">
-                <h2><i class="fas fa-check"></i> Success</h2>
-                {{ session()->get('success') }}
-            </div>
+            <x-success-alert>{{ session()->get('success') }}</x-success-alert>
         @endif
 
         <label for="email" class="text-md font-bold mt-6">

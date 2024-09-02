@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Front;
+namespace App\Http\Controllers\Front\Auth;
 
 use App\Core\Data\Exceptions\NotFoundException;
 use App\Domains\PasswordReset\UseCases\ResetAccountPassword;

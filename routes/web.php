@@ -12,20 +12,20 @@ use App\Http\Controllers\Front\Account\Mfa\FinishMfaController;
 use App\Http\Controllers\Front\Account\Mfa\ResetBackupController;
 use App\Http\Controllers\Front\Account\Mfa\SetupMfaController;
 use App\Http\Controllers\Front\Account\Mfa\StartMfaController;
+use App\Http\Controllers\Front\Auth\LoginController;
+use App\Http\Controllers\Front\Auth\LogoutController;
+use App\Http\Controllers\Front\Auth\Mfa\MfaRecoveryController;
+use App\Http\Controllers\Front\Auth\Mfa\MfaLoginGateController;
+use App\Http\Controllers\Front\Auth\PasswordResetController;
+use App\Http\Controllers\Front\Auth\ReauthController;
+use App\Http\Controllers\Front\Auth\RegisterController;
 use App\Http\Controllers\Front\BanAppeal\BanAppealController;
 use App\Http\Controllers\Front\BanAppeal\BanLookupController;
 use App\Http\Controllers\Front\BanlistController;
 use App\Http\Controllers\Front\BuilderRankApplicationController;
 use App\Http\Controllers\Front\DonationController;
 use App\Http\Controllers\Front\HomeController;
-use App\Http\Controllers\Front\LoginController;
-use App\Http\Controllers\Front\LogoutController;
-use App\Http\Controllers\Front\MfaBackupController;
-use App\Http\Controllers\Front\MfaLoginGateController;
 use App\Http\Controllers\Front\MinecraftPlayerLinkController;
-use App\Http\Controllers\Front\PasswordResetController;
-use App\Http\Controllers\Front\ReauthController;
-use App\Http\Controllers\Front\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('front.')->group(function () {
@@ -34,10 +34,6 @@ Route::name('front.')->group(function () {
 
     Route::get('maps', fn () => view('front.pages.maps'))
         ->name('maps');
-
-    Route::get('logout', [LogoutController::class, 'logout'])
-        ->name('logout')
-        ->middleware('auth');
 
     Route::prefix('donate')->group(function () {
         Route::get('/', [DonationController::class, 'index'])
@@ -87,6 +83,10 @@ Route::name('front.')->group(function () {
             ->name('appeal.submit');
     });
 
+    Route::get('logout', LogoutController::class)
+        ->name('logout')
+        ->middleware('auth');
+
     Route::prefix('login')->group(function () {
         Route::get('/', [LoginController::class, 'show'])
             ->name('login')
@@ -104,23 +104,25 @@ Route::name('front.')->group(function () {
             ->name('password.confirm')
             ->middleware('auth');
 
-        Route::post('reauth', [ReauthController::class, 'process'])
+        Route::post('reauth', [ReauthController::class, 'store'])
             ->name('password.confirm.submit')
             ->middleware(['auth', 'throttle:6,1']);
+    });
 
-        Route::get('mfa', [MfaLoginGateController::class, 'create'])
+    Route::prefix('mfa')->group(function () {
+        Route::get('/', [MfaLoginGateController::class, 'show'])
             ->name('login.mfa')
             ->middleware(['auth', 'active-mfa']);
 
-        Route::post('mfa', [MfaLoginGateController::class, 'store'])
+        Route::post('/', [MfaLoginGateController::class, 'store'])
             ->name('login.mfa.submit')
             ->middleware(['auth', 'active-mfa', 'throttle:6,1']);
 
-        Route::get('mfa/recover', [MfaBackupController::class, 'show'])
+        Route::get('recover', [MfaRecoveryController::class, 'show'])
             ->name('login.mfa-recover')
             ->middleware(['auth', 'active-mfa']);
 
-        Route::delete('mfa/recover', [MfaBackupController::class, 'destroy'])
+        Route::delete('recover', [MfaRecoveryController::class, 'destroy'])
             ->name('login.mfa-recover.submit')
             ->middleware(['auth', 'active-mfa', 'throttle:6,1']);
     });

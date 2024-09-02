@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Front;
+namespace App\Http\Controllers\Front\Auth\Mfa;
 
 use App\Core\Domains\Mfa\Notifications\MfaBackupCodeUsedNotification;
 use App\Domains\Login\UseCases\LogoutAccount;
@@ -8,22 +8,22 @@ use App\Http\Controllers\WebController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 
-class MfaBackupController extends WebController
+class MfaRecoveryController extends WebController
 {
     public function show(Request $request)
     {
-        return view('front.pages.login.mfa-backup');
+        return view('front.pages.auth.mfa.recover');
     }
 
     public function destroy(Request $request, LogoutAccount $logoutService)
     {
-        $request->validate([
+        $validated = $request->validate([
             'backup_code' => 'required',
         ]);
 
-        if ($request->backup_code !== Crypt::decryptString($request->user()->totp_backup_code)) {
+        if ($validated['backup_code'] !== Crypt::decryptString($request->user()->totp_backup_code)) {
             return back()->withErrors([
-                'backup_code' => 'Your backup code is incorrect, please try again. If you have lost access, please ask PCB staff for help',
+                'backup_code' => 'Your backup code is incorrect, please try again',
             ]);
         }
 
@@ -33,8 +33,9 @@ class MfaBackupController extends WebController
         $logoutService->execute();
         $request->session()->flush();
         $request->session()->regenerateToken();
-        $request->session()->flash('mfa_removed', true);
 
-        return redirect()->route('front.login');
+        return redirect()
+            ->route('front.login')
+            ->with('success', 'MFA removed. Please login again');
     }
 }

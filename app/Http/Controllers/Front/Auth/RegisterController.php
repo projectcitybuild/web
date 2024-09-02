@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Front;
+namespace App\Http\Controllers\Front\Auth;
 
 use App\Domains\Registration\Exceptions\AccountAlreadyActivatedException;
 use App\Domains\Registration\UseCases\ActivateUnverifiedAccount;
@@ -63,6 +63,8 @@ final class RegisterController extends WebController
             return redirect($intended);
         }
 
-        return view('front.pages.auth.register.verify-complete');
+        return redirect()
+            ->route('front.login')
+            ->with('success', 'Your account has been activated! Please login below');
     }
 }

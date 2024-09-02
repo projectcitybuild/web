@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Front;
+namespace App\Http\Controllers\Front\Auth;
 
 use App\Http\Controllers\WebController;
 use Illuminate\Http\Request;
@@ -8,18 +8,12 @@ use Illuminate\Support\Facades\Hash;
 
 class ReauthController extends WebController
 {
-    /**
-     * Handle the incoming request.
-     *
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function show(Request $request)
     {
         return view('front.pages.login.reauth');
     }
 
-    public function process(Request $request)
+    public function store(Request $request)
     {
         if (! Hash::check($request->password, $request->user()->password)) {
             return back()->withErrors([

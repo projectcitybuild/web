@@ -33,29 +33,28 @@
             </div>
         @endif
 
-        <label for="email" class="text-md font-bold mt-6">Email</label>
         <input
             class="
-                rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
+                rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-8
                 @error('email') border-red-500 @enderror
             "
             id="email"
             name="email"
             type="email"
-            placeholder="you@pcbmc.co"
+            placeholder="Enter your email address"
             value="{{ old('email') }}"
         />
         @error('email')
             <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
         @enderror
 
-        <x-filled-button type="submit" class="mt-12">
+        <x-filled-button type="submit" class="mt-8">
             Send Reset Link
         </x-filled-button>
 
-        <a class="flex items-center gap-1 mt-12" href="{{ route('front.login') }}">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+        <a class="flex items-center gap-2 mt-12 text-sm text-gray-500 m-auto" href="{{ route('front.login') }}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
             </svg>
             Back to Sign In
         </a>

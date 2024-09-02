@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Front;
+namespace App\Http\Controllers\Front\Auth\Mfa;
 
 use App\Http\Controllers\WebController;
 use App\Http\Middleware\MfaGate;
@@ -16,9 +16,9 @@ class MfaLoginGateController extends WebController
     ) {
     }
 
-    public function create()
+    public function show()
     {
-        return view('front.pages.login.mfa');
+        return view('front.pages.auth.mfa.mfa');
     }
 
     public function store(Request $request)
