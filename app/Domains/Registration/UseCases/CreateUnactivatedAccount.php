@@ -35,7 +35,7 @@ class CreateUnactivatedAccount
         $this->groupsManager->addToDefaultGroup($account);
 
         $activationURL = $this->signedURLGenerator->makeTemporary(
-            routeName: 'front.register.activate',
+            routeName: 'front.activate.verify',
             expiresAt: now()->addDay(),
             parameters: ['email' => $account->email],
         );

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Front\Auth;
 
-use App\Domains\Registration\Exceptions\AccountAlreadyActivatedException;
-use App\Domains\Registration\UseCases\ActivateUnverifiedAccount;
 use App\Domains\Registration\UseCases\CreateUnactivatedAccount;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\RegisterRequest;
@@ -29,42 +27,18 @@ final class RegisterController extends WebController
     public function register(
         RegisterRequest $request,
         CreateUnactivatedAccount $createUnactivatedAccountUseCase,
-    ): View {
-        $input = $request->validated();
+    ): RedirectResponse {
+        $validated = $request->validated();
 
         $createUnactivatedAccountUseCase->execute(
-            email: $input['email'],
-            username: $input['username'],
-            password: $input['password'],
+            email: $validated['email'],
+            username: $validated['username'],
+            password: $validated['password'],
             ip: $request->ip(),
         );
 
-        return view('front.pages.auth.register.verify-mail', [
-            'email' => $input['email'],
+        return redirect()->route('front.activate', [
+            'email' => $validated['email'],
         ]);
-    }
-
-    public function activate(
-        Request $request,
-        ActivateUnverifiedAccount $activateUnverifiedAccount
-    ): View|RedirectResponse {
-        $email = $request->get('email');
-
-        try {
-            $activateUnverifiedAccount->execute(email: $email);
-        } catch (AccountAlreadyActivatedException) {
-            abort(code: 410, message: 'Account already activated');
-        }
-
-        if ($request->session()->has('url.intended')) {
-            $intended = $request->session()->get('url.intended');
-            $request->session()->remove('intended');
-
-            return redirect($intended);
-        }
-
-        return redirect()
-            ->route('front.login')
-            ->with('success', 'Your account has been activated! Please login below');
     }
 }

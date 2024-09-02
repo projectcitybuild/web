@@ -10,14 +10,19 @@
 
     <h1 class="text-4xl font-bold text-gray-900 mt-6">Verify Your Email</h1>
 
+    @if(session()->has('success'))
+        <x-success-alert class="mt-6">{{ session()->get('success') }}</x-success-alert>
+    @endif
+
     <div class="text-gray-500 mt-6">
         An email has been sent to <strong>{{ $email }}</strong> with a link to verify your account. If you have not received the email
         after a few minutes, please check your spam folder.
     </div>
 
-    <div class="flex flex-row gap-2 mt-12">
-        <x-filled-button>Resend email</x-filled-button>
+    <form method="post" action="{{ route('front.activate.resend', ['email' => $email]) }}" class="flex flex-row gap-2 mt-12">
+        @csrf
+        <x-button type="submit" variant="filled">Resend email</x-button>
 
-        <x-outlined-button>Go to login</x-outlined-button>
-    </div>
+        <x-button variant="outlined" href="{{ route('front.logout') }}">Back to login</x-button>
+    </form>
 @endsection

@@ -48,9 +48,9 @@
             <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
         @enderror
 
-        <x-filled-button type="submit" class="mt-8">
+        <x-button type="submit" variant="filled" class="mt-8">
             Send Reset Link
-        </x-filled-button>
+        </x-button>
 
         <a class="flex items-center gap-2 mt-12 text-sm text-gray-500 m-auto" href="{{ route('front.login') }}">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">

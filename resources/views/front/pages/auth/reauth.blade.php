@@ -1,9 +1,9 @@
-@extends('front.templates.master')
+@extends('front.pages.auth.auth-layout')
 
 @section('title', 'Re-enter Password')
 @section('description', '')
 
-@section('body')
+@section('content')
     <main class="page login">
         <section class="login__dialog login__reauth login__dialog--is-narrow">
             <h1>Reauthenticate</h1>
@@ -18,10 +18,8 @@
                     <input type="password" class="textfield" id="password" name="password">
                 </div>
 
-                <button type="submit" class="button button--filled">Confirm</button>
+                <x-button type="submit" variant="filled">Confirm</x-button>
             </form>
         </section>
     </main>
-
-    @include('front.components.footer')
 @endsection

@@ -93,12 +93,13 @@
 
         <x-captcha class="mt-6"></x-captcha>
 
-        <x-filled-button
+        <x-button
             type="submit"
+            variant="filled"
             class="g-recaptcha mt-6"
         >
             Register
-        </x-filled-button>
+        </x-button>
 
         <div class="mt-12 m-auto">
             <span class="text-gray-500">

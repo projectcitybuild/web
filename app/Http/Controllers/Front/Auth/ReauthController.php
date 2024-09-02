@@ -10,7 +10,7 @@ class ReauthController extends WebController
 {
     public function show(Request $request)
     {
-        return view('front.pages.login.reauth');
+        return view('front.pages.auth.reauth');
     }
 
     public function store(Request $request)

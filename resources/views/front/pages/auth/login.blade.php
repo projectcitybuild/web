@@ -15,7 +15,7 @@
         <h1 class="text-5xl font-bold text-gray-900 mt-2 mb-6">Sign In</h1>
 
         @error('error')
-            <x-validation-error class="mt-6">{{ $message }}</x-validation-error>
+            <x-validation-error class="mt-6">{!! $message !!}</x-validation-error>
         @enderror
 
         @if(session()->has('success'))
@@ -73,7 +73,7 @@
             <a href="{{ route('front.password-reset.create') }}" class="text-sm text-blue-600">Forgot your password?</a>
         </div>
 
-        <x-filled-button type="submit" class="mt-12">Sign In</x-filled-button>
+        <x-button type="submit" variant="filled" class="mt-12">Sign In</x-button>
 
         <div class="mt-12 m-auto">
             <span class="text-gray-500">

@@ -45,7 +45,7 @@
         @enderror
 
         <div class="mt-12">
-            <x-filled-button type="submit">Verify</x-filled-button>
+            <x-button type="submit" variant="filled">Verify</x-button>
         </div>
 
         <a class="flex items-center gap-2 mt-12 text-sm text-gray-500 m-auto" href="{{ route('front.login.mfa-recover') }}">

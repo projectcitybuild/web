@@ -26,11 +26,11 @@ final class LoginController extends WebController
         LoginRequest $request,
         LoginAccount $loginAccount,
     ): RedirectResponse {
-        $input = $request->validated();
+        $validated = $request->validated();
 
         $credentials = new LoginCredentials(
-            email: $input['email'],
-            password: $input['password'],
+            email: $validated['email'],
+            password: $validated['password'],
         );
 
         try {
@@ -44,8 +44,8 @@ final class LoginController extends WebController
                 'error' => 'Email or password is incorrect',
             ]);
         } catch (AccountNotActivatedException) {
-            throw ValidationException::withMessages([
-                'error' => 'Your email has not been confirmed. If you didn\'t receive it, check your spam. <p /><a href="'.route('front.login.reactivate', ['email' => $input['email']]).'">Click here</a> if you need to resend the activation email',
+            return redirect()->route('front.activate', [
+                'email' => $validated['email'],
             ]);
         }
 
@@ -54,23 +54,5 @@ final class LoginController extends WebController
         $request->session()->regenerate();
 
         return redirect()->intended();
-    }
-
-    public function resendActivationEmail(
-        Request $request,
-        ResendActivationEmail $resendActivationEmail,
-    ) {
-        try {
-            $resendActivationEmail->execute(email: $request->get('email'));
-        } catch (AccountAlreadyActivatedException) {
-            return redirect()->back()->withErrors([
-                'Account has already been activated',
-            ]);
-        }
-
-        return redirect()->back()->with(
-            key: 'success',
-            value: 'An activation email has been sent if the account exists. Please remember to check your spam/junk',
-        );
     }
 }
