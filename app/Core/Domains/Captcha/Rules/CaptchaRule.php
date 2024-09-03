@@ -11,7 +11,7 @@ class CaptchaRule implements ValidationRule
 {
     public function __construct(
         private readonly Request $request,
-        private readonly CaptchaValidator $recaptchaValidator,
+        private readonly CaptchaValidator $captchaValidator,
     ) {}
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
@@ -20,7 +20,7 @@ class CaptchaRule implements ValidationRule
             $fail('Captcha must be completed');
             return;
         }
-        $passed = $this->recaptchaValidator->passed(
+        $passed = $this->captchaValidator->passed(
             token: $value,
             ip: $this->request->ip(),
         );

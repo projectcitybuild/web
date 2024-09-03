@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Middleware\MfaGate;
+use App\Http\Middleware\MfaAuthenticated;
 use App\Models\Account;
 
 beforeEach(function () {
@@ -105,6 +105,6 @@ describe('mfa', function () {
        $this->post($this->submitEndpoint, [
            'email' => $account->email,
            'password' => 'secret',
-       ])->assertSessionHas(MfaGate::NEEDS_MFA_KEY);
+       ])->assertSessionHas(MfaAuthenticated::NEEDS_MFA_KEY);
    });
 });
