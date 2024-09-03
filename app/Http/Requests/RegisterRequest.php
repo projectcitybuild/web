@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Core\Domains\Captcha\Rules\CaptchaRule;
 use App\Core\Rules\DiscourseUsernameRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 final class RegisterRequest extends FormRequest
 {
@@ -16,7 +17,7 @@ final class RegisterRequest extends FormRequest
         return [
             'email' => ['required', 'email', 'unique:accounts', 'email'],
             'username' => ['required', 'unique:accounts,username', new DiscourseUsernameRule()],
-            'password' => ['required', 'min:12'],
+            'password' => ['required', Password::defaults()],
             'captcha-response' => ['required', $captchaRule],
             'terms' => 'accepted',
         ];

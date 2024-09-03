@@ -10,7 +10,7 @@ use PragmaRX\Google2FA\Google2FA;
 
 class AccountFactory extends Factory
 {
-    public const UNHASHED_PASSWORD = 'secret';
+    public const UNHASHED_PASSWORD = 'abcdef123456';
 
     /**
      * The name of the factory's corresponding model.
@@ -29,7 +29,7 @@ class AccountFactory extends Factory
         return [
             'email' => $this->faker->email,
             'username' => $this->faker->userName,
-            'password' => '123456789012', // Hashing is expensive
+            'password' => 'abcdef123456', // Hashing is expensive
             'activated' => true,
             'last_login_ip' => $this->faker->ipv4,
             'last_login_at' => $this->faker->dateTimeBetween('-180days', '-1hours'),

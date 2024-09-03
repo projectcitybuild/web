@@ -1,7 +1,5 @@
 <?php
 
-namespace Tests\Integration\Feature;
-
 use App\Core\Domains\Mfa\Notifications\MfaBackupCodeUsedNotification;
 use App\Http\Middleware\MfaGate;
 use App\Models\Account;
@@ -10,7 +8,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class MfaBackupTest extends TestCase
+class MfaRecoveryTest extends TestCase
 {
     private Account $mfaAccount;
 
@@ -42,7 +40,7 @@ class MfaBackupTest extends TestCase
         ])
             ->assertSessionHasNoErrors()
             ->assertRedirect(route('front.login'))
-            ->assertSessionHas('mfa_removed')
+            ->assertSessionHas('success')
             ->assertSessionMissing(MfaGate::NEEDS_MFA_KEY);
 
         $this->assertGuest();

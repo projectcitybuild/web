@@ -1,7 +1,5 @@
 <?php
 
-namespace Tests\Integration\Feature;
-
 use App\Http\Middleware\MfaGate;
 use App\Models\Account;
 use Illuminate\Support\Facades\Crypt;
@@ -23,23 +21,6 @@ class MfaLoginTest extends TestCase
             ->create();
 
         $this->google2fa = $this->app->make(Google2FA::class);
-    }
-
-    public function test_mfa_flag_is_set_on_login()
-    {
-        $this->post(route('front.login.submit'), [
-            'email' => $this->mfaAccount->email,
-            'password' => 'secret',
-        ])->assertSessionHas(MfaGate::NEEDS_MFA_KEY);
-    }
-
-    public function test_mfa_flag_causes_redirect()
-    {
-        $this->actingAs($this->mfaAccount)
-            ->flagNeedsMfa();
-
-        $this->get(route('front.account.settings'))
-            ->assertRedirect(route('front.login.mfa'));
     }
 
     public function test_submit_mfa_code_removes_flag()

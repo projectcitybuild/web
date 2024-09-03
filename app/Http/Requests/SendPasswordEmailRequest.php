@@ -13,16 +13,6 @@ final class SendPasswordEmailRequest extends FormRequest
      */
     private $account;
 
-    /**
-     * @var AccountRepository
-     */
-    private $accountRepository;
-
-    public function __construct(AccountRepository $accountRepository)
-    {
-        $this->accountRepository = $accountRepository;
-    }
-
     public function getAccount(): ?Account
     {
         return $this->account;
@@ -35,7 +25,6 @@ final class SendPasswordEmailRequest extends FormRequest
     {
         return [
             'email' => 'required|email',
-            'g-recaptcha-response' => 'recaptcha',
         ];
     }
 
@@ -58,7 +47,7 @@ final class SendPasswordEmailRequest extends FormRequest
             if (empty($email)) {
                 return;
             }
-            $account = $this->accountRepository->getByEmail($email);
+            $account = Account::whereEmail($email)->first();
 
             if ($account === null) {
                 $validator->errors()->add('email', 'No account belongs to the given email address');

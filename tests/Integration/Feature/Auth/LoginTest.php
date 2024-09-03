@@ -1,9 +1,7 @@
 <?php
 
-namespace Feature\Auth;
-
+use App\Http\Middleware\MfaGate;
 use App\Models\Account;
-use Tests\TestCase;
 
 beforeEach(function () {
     $this->formEndpoint = route('front.login');
@@ -64,7 +62,7 @@ describe('validation errors', function () {
 });
 
 describe('successful login', function () {
-   it('authenticates', function () {
+   it('starts session', function () {
        $this->assertGuest();
        $this->post($this->submitEndpoint, $this->validCredentials);
        $this->assertAuthenticatedAs($this->account);
@@ -94,5 +92,19 @@ describe('successful login', function () {
        expect($this->account->last_login_at)
            ->not
            ->toBe($oldLoginTime);
+   });
+});
+
+describe('mfa', function () {
+   it('sets mfa flag on login', function () {
+       $account = Account::factory()
+           ->passwordHashed('secret')
+           ->hasFinishedTotp()
+           ->create();
+
+       $this->post($this->submitEndpoint, [
+           'email' => $account->email,
+           'password' => 'secret',
+       ])->assertSessionHas(MfaGate::NEEDS_MFA_KEY);
    });
 });
