@@ -56,7 +56,6 @@ class MfaGate
     private function accountDoesntNeedMfa(Request $request): bool
     {
         return $request->routeIs($this->exclude) ||
-            $request->user() === null ||
             ! $request->user()->is_totp_enabled ||
             ! Session::has(self::NEEDS_MFA_KEY);
     }
