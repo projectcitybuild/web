@@ -17,8 +17,6 @@ class RequireActivation
         if ($account->activated) {
             return $next($request);
         }
-        return redirect()->route('front.activate', [
-            'email' => $account->email,
-        ]);
+        return redirect()->route('front.activate');
     }
 }

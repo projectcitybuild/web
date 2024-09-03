@@ -14,6 +14,10 @@
         @include('front.pages.account.components.account-sidebar')
         <div class="settings__content">
             <div class="settings__section settings__section--is-hero">
+                @if(session()->has('success'))
+                    <x-success-alert>{{ session()->get('success') }}</x-success-alert>
+                @endif
+
                 <h1 class="settings__section-heading">Hi {{ $account->username ?? $account->email }}</h1>
 
                 <div class="settings__groups">

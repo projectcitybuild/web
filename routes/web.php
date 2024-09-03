@@ -159,7 +159,7 @@ Route::prefix('auth')->group(function () {
             ->name('front.activate')
             ->middleware(['auth', 'not-activated']);
 
-        Route::get('verify', [ActivateAccountController::class, 'activate'])
+        Route::get('verify/{token}', [ActivateAccountController::class, 'activate'])
             ->name('front.activate.verify')
             ->middleware(['auth', 'not-activated', 'signed']);
 

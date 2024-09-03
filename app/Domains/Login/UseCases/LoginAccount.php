@@ -20,7 +20,7 @@ class LoginAccount
         LoginCredentials $credentials,
         bool $shouldRemember,
         string $ip
-    ) {
+    ): Account {
         if (! Auth::validate(credentials: $credentials->toArray())) {
             throw new InvalidLoginCredentialsException();
         }
@@ -37,5 +37,7 @@ class LoginAccount
         if ($account->is_totp_enabled) {
             Session::put(MfaAuthenticated::NEEDS_MFA_KEY, 'true');
         }
+
+        return $account;
     }
 }

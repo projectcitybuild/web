@@ -3,16 +3,12 @@
 namespace App\Http\Controllers\Front\Auth;
 
 use App\Domains\Login\Entities\LoginCredentials;
-use App\Domains\Login\Exceptions\AccountNotActivatedException;
 use App\Domains\Login\Exceptions\InvalidLoginCredentialsException;
 use App\Domains\Login\UseCases\LoginAccount;
-use App\Domains\Registration\Exceptions\AccountAlreadyActivatedException;
-use App\Domains\Registration\UseCases\ResendActivationEmail;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 final class LoginController extends WebController
@@ -25,17 +21,13 @@ final class LoginController extends WebController
     public function login(
         LoginRequest $request,
         LoginAccount $loginAccount,
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         $validated = $request->validated();
 
-        $credentials = new LoginCredentials(
-            email: $validated['email'],
-            password: $validated['password'],
-        );
+        $credentials = LoginCredentials::fromArray($validated);
 
         try {
-            $loginAccount->execute(
+            $account = $loginAccount->execute(
                 credentials: $credentials,
                 shouldRemember: $request->filled('remember_me'),
                 ip: $request->ip(),
@@ -50,6 +42,6 @@ final class LoginController extends WebController
         // https://laravel.com/docs/9.x/authentication#authenticating-users
         $request->session()->regenerate();
 
-        return redirect()->intended();
+        return redirect()->intended(route('front.account.profile'));
     }
 }

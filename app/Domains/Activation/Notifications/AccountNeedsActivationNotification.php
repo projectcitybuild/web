@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Domains\Registration\Notifications;
+namespace App\Domains\Activation\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-final class AccountActivationNotification extends Notification implements ShouldQueue
+final class AccountNeedsActivationNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 

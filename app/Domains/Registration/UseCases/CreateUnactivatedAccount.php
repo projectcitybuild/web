@@ -3,19 +3,16 @@
 namespace App\Domains\Registration\UseCases;
 
 use App\Core\Domains\Groups\GroupsManager;
-use App\Core\Support\Laravel\SignedURL\SignedURLGenerator;
-use App\Domains\Registration\Notifications\AccountActivationNotification;
+use App\Domains\Registration\Events\AccountCreated;
 use App\Models\Account;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Repositories\AccountRepository;
 
 class CreateUnactivatedAccount
 {
     public function __construct(
         private readonly GroupsManager $groupsManager,
-        private readonly SignedURLGenerator $signedURLGenerator,
     ) {}
 
     public function execute(
@@ -35,15 +32,7 @@ class CreateUnactivatedAccount
 
         $this->groupsManager->addToDefaultGroup($account);
 
-        $activationURL = $this->signedURLGenerator->makeTemporary(
-            routeName: 'front.activate.verify',
-            expiresAt: now()->addDay(),
-            parameters: ['email' => $account->email],
-        );
-
-        $account->notify(
-            new AccountActivationNotification(activationURL: $activationURL)
-        );
+        AccountCreated::dispatch($account);
 
         Auth::login($account);
     }
