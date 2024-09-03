@@ -11,10 +11,10 @@
 |
 */
 
-//uses(
-//    Tests\TestCase::class,
-//    // Illuminate\Foundation\Testing\RefreshDatabase::class,
-//)->in('Feature', 'Integration', 'Unit');
+uses(
+    Tests\TestCase::class,
+     Illuminate\Foundation\Testing\RefreshDatabase::class,
+)->in('Integration', 'Unit');
 
 /*
 |--------------------------------------------------------------------------
