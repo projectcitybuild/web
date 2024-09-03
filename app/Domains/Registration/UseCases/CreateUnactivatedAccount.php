@@ -5,19 +5,18 @@ namespace App\Domains\Registration\UseCases;
 use App\Core\Domains\Groups\GroupsManager;
 use App\Core\Support\Laravel\SignedURL\SignedURLGenerator;
 use App\Domains\Registration\Notifications\AccountActivationNotification;
+use App\Models\Account;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Repositories\AccountRepository;
 
-/**
- * @final
- */
 class CreateUnactivatedAccount
 {
     public function __construct(
-        private readonly AccountRepository $accountRepository,
         private readonly GroupsManager $groupsManager,
         private readonly SignedURLGenerator $signedURLGenerator,
-    ) {
-    }
+    ) {}
 
     public function execute(
         string $email,
@@ -25,12 +24,14 @@ class CreateUnactivatedAccount
         string $password,
         string $ip,
     ) {
-        $account = $this->accountRepository->create(
-            email: $email,
-            username: $username,
-            password: $password,
-            ip: $ip,
-        );
+        $account = Account::create([
+            'email' => $email,
+            'username' => $username,
+            'password' => Hash::make($password),
+            'remember_token' => '',
+            'last_login_ip' => $ip,
+            'last_login_at' => Carbon::now(),
+        ]);
 
         $this->groupsManager->addToDefaultGroup($account);
 
@@ -43,5 +44,7 @@ class CreateUnactivatedAccount
         $account->notify(
             new AccountActivationNotification(activationURL: $activationURL)
         );
+
+        Auth::login($account);
     }
 }

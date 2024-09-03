@@ -23,6 +23,6 @@
         @csrf
         <x-button type="submit" variant="filled">Resend email</x-button>
 
-        <x-button variant="outlined" href="{{ route('front.logout') }}">Back to login</x-button>
+        <x-button variant="outlined" href="{{ route('front.logout') }}">Logout</x-button>
     </form>
 @endsection

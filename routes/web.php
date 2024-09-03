@@ -111,19 +111,19 @@ Route::prefix('auth')->group(function () {
     Route::prefix('mfa')->group(function () {
         Route::get('/', [MfaLoginGateController::class, 'show'])
             ->name('front.login.mfa')
-            ->middleware(['auth', 'active-mfa']);
+            ->middleware(['auth', 'activated', 'active-mfa']);
 
         Route::post('/', [MfaLoginGateController::class, 'store'])
             ->name('front.login.mfa.submit')
-            ->middleware(['auth', 'active-mfa', 'throttle:6,1']);
+            ->middleware(['auth', 'activated', 'active-mfa', 'throttle:6,1']);
 
         Route::get('recover', [MfaRecoveryController::class, 'show'])
             ->name('front.login.mfa-recover')
-            ->middleware(['auth', 'active-mfa']);
+            ->middleware(['auth', 'activated', 'active-mfa']);
 
         Route::delete('recover', [MfaRecoveryController::class, 'destroy'])
             ->name('front.login.mfa-recover.submit')
-            ->middleware(['auth', 'active-mfa', 'throttle:6,1']);
+            ->middleware(['auth', 'activated', 'active-mfa', 'throttle:6,1']);
     });
 
     Route::prefix('password-reset')->group(function () {
@@ -157,21 +157,21 @@ Route::prefix('auth')->group(function () {
     Route::prefix('activate')->group(function () {
         Route::get('/', [ActivateAccountController::class, 'show'])
             ->name('front.activate')
-            ->middleware(['guest']);
+            ->middleware(['auth', 'not-activated']);
 
         Route::get('verify', [ActivateAccountController::class, 'activate'])
             ->name('front.activate.verify')
-            ->middleware(['signed', 'guest']);
+            ->middleware(['auth', 'not-activated', 'signed']);
 
         Route::post('resend', [ActivateAccountController::class, 'resendMail'])
             ->name('front.activate.resend')
-            ->middleware(['guest', 'throttle:3,1']);
+            ->middleware(['auth', 'not-activated', 'throttle:3,1']);
     });
 });
 
 Route::group([
     'prefix' => 'account',
-    'middleware' => ['auth', 'mfa'],
+    'middleware' => ['auth', 'activated', 'mfa'],
 ], function () {
     Route::redirect(uri: 'settings', destination: 'edit');
 

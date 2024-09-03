@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 /**
  * Prevents access unless the user has 2FA set-up and enabled on their account.
  */
-class RequiresMfaEnabled
+class RequireMfaEnabled
 {
     public function handle(Request $request, Closure $next)
     {

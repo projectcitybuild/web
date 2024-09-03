@@ -44,10 +44,6 @@ final class LoginController extends WebController
             throw ValidationException::withMessages([
                 'error' => 'Email or password is incorrect',
             ]);
-        } catch (AccountNotActivatedException) {
-            return redirect()->route('front.activate', [
-                'email' => $validated['email'],
-            ]);
         }
 
         // Prevent session fixation

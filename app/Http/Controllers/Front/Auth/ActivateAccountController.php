@@ -14,17 +14,15 @@ final class ActivateAccountController extends WebController
 {
     public function show(Request $request)
     {
-        $email = $request->get('email');
-
         return view('front.pages.auth.activate.verify-mail')
-            ->with('email', $email);
+            ->with('email', $request->user()->email);
     }
 
     public function activate(
         Request $request,
         ActivateUnverifiedAccount $activateUnverifiedAccount
     ): View|RedirectResponse {
-        $email = $request->get('email');
+        $email = $request->user()->email;
 
         try {
             $activateUnverifiedAccount->execute(email: $email);
@@ -48,8 +46,7 @@ final class ActivateAccountController extends WebController
         Request $request,
         ResendActivationEmail $resendActivationEmail,
     ) {
-        $validated = $request->validate(['email' => 'required|email']);
-        $email = $validated['email'];
+        $email = $request->user()->email;
 
         try {
             $resendActivationEmail->execute(email: $email);
