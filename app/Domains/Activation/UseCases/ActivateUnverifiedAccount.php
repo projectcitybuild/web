@@ -2,6 +2,7 @@
 
 namespace App\Domains\Activation\UseCases;
 
+use App\Core\Data\Exceptions\ForbiddenException;
 use App\Domains\Activation\Exceptions\AccountAlreadyActivatedException;
 use App\Models\Account;
 use App\Models\AccountActivation;
@@ -16,6 +17,10 @@ final class ActivateUnverifiedAccount
         }
 
         $activation = AccountActivation::where('token', $token)->firstOrFail();
+
+        if ($activation->account_id !== $account->getKey()) {
+            throw new ForbiddenException(id: 'account_mismatch', message: 'Account mismatch');
+        }
 
         DB::transaction(function () use ($account, $activation) {
             $account->activated = true;
