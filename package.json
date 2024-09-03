@@ -10,7 +10,7 @@
         "@types/selectize": "^0.12.34",
         "@vitejs/plugin-vue": "^3.0.3",
         "autoprefixer": "^10.4.20",
-        "axios": "^0.25",
+        "axios": "^0.28",
         "bootstrap": "^5.0.1",
         "choices.js": "^10.1.0",
         "date-fns": "^2.28.0",
