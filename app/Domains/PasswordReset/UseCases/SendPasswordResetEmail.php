@@ -6,12 +6,12 @@ use App\Core\Domains\Tokens\TokenGenerator;
 use App\Core\Support\Laravel\SignedURL\SignedURLGenerator;
 use App\Domains\PasswordReset\Notifications\AccountPasswordResetNotification;
 use App\Models\Account;
-use Repositories\AccountPasswordResetRepository;
+use App\Models\PasswordReset;
+use Illuminate\Support\Carbon;
 
 final class SendPasswordResetEmail
 {
     public function __construct(
-        private readonly AccountPasswordResetRepository $passwordResetRepository,
         private readonly TokenGenerator $tokenGenerator,
         private readonly SignedURLGenerator $signedURLGenerator,
     ) {
@@ -20,10 +20,17 @@ final class SendPasswordResetEmail
     public function execute(Account $account, string $email): void
     {
         $token = $this->tokenGenerator->make();
-        $this->passwordResetRepository->updateByEmailOrCreate(
-            email: $email,
-            token: $token,
+
+        PasswordReset::updateOrCreate(
+            attributes: [
+                'email' => $email,
+            ],
+            values: [
+                'token' => $token,
+                'created_at' => Carbon::now(),
+            ],
         );
+
         $passwordResetURL = $this->signedURLGenerator->makeTemporary(
             routeName: 'front.password-reset.edit',
             expiresAt: now()->addMinutes(20),

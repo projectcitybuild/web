@@ -65,7 +65,6 @@
                     </ul>
                 </li>
             @else
-                <li><a href="{{ route('front.register') }}">Join Us</a></li>
                 <li><a href="{{ route('front.login') }}">Sign In</a></li>
             @endif
         </ul>

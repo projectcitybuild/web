@@ -6,6 +6,7 @@ use App\Domains\Login\Entities\LoginCredentials;
 use App\Domains\Login\Exceptions\AccountNotActivatedException;
 use App\Domains\Login\Exceptions\InvalidLoginCredentialsException;
 use App\Http\Middleware\MfaGate;
+use App\Models\Account;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Repositories\AccountRepository;
@@ -33,7 +34,7 @@ class LoginAccount
             throw new InvalidLoginCredentialsException();
         }
 
-        $account = $this->accountRepository->getByEmail($credentials->email);
+        $account = Account::whereEmail($credentials->email)->first();
 
         if (! $account->activated) {
             throw new AccountNotActivatedException();

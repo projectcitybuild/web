@@ -10,7 +10,7 @@ use PragmaRX\Google2FA\Google2FA;
 
 class AccountFactory extends Factory
 {
-    public const UNHASHED_PASSWORD = 'secret';
+    public const UNHASHED_PASSWORD = 'abcdef123456';
 
     /**
      * The name of the factory's corresponding model.
@@ -29,7 +29,7 @@ class AccountFactory extends Factory
         return [
             'email' => $this->faker->email,
             'username' => $this->faker->userName,
-            'password' => 'test', // Hashing is expensive
+            'password' => 'abcdef123456', // Hashing is expensive
             'activated' => true,
             'last_login_ip' => $this->faker->ipv4,
             'last_login_at' => $this->faker->dateTimeBetween('-180days', '-1hours'),
@@ -41,11 +41,11 @@ class AccountFactory extends Factory
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    public function passwordHashed()
+    public function passwordHashed(string $password = self::UNHASHED_PASSWORD)
     {
-        return $this->state(function (array $attributes) {
+        return $this->state(function (array $attributes) use ($password) {
             return [
-                'password' => Hash::make(self::UNHASHED_PASSWORD),
+                'password' => Hash::make($password),
             ];
         });
     }
@@ -57,29 +57,23 @@ class AccountFactory extends Factory
      */
     public function unactivated()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'activated' => false,
-            ];
-        });
+        return $this->state(fn ($attributes) => [
+            'activated' => false,
+        ]);
     }
 
     public function withTotpCode()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'totp_secret' => Crypt::encryptString((new Google2FA)->generateSecretKey()),
-            ];
-        });
+        return $this->state(fn ($attributes) => [
+            'totp_secret' => Crypt::encryptString((new Google2FA)->generateSecretKey()),
+        ]);
     }
 
     public function withTotpBackupCode()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'totp_backup_code' => Crypt::encryptString(Str::random(32)),
-            ];
-        });
+        return $this->state(fn ($attributes) => [
+            'totp_backup_code' => Crypt::encryptString(Str::random(32)),
+        ]);
     }
 
     public function hasStartedTotp()
@@ -89,19 +83,15 @@ class AccountFactory extends Factory
 
     public function hasFinishedTotp()
     {
-        return $this->hasStartedTotp()->state(function (array $attributes) {
-            return [
-                'is_totp_enabled' => true,
-            ];
-        });
+        return $this->hasStartedTotp()->state(fn ($attributes) => [
+            'is_totp_enabled' => true,
+        ]);
     }
 
     public function neverLoggedIn()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'last_login_at' => null,
-            ];
-        });
+        return $this->state(fn ($attributes) => [
+            'last_login_at' => null,
+        ]);
     }
 }

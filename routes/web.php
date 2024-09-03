@@ -12,20 +12,21 @@ use App\Http\Controllers\Front\Account\Mfa\FinishMfaController;
 use App\Http\Controllers\Front\Account\Mfa\ResetBackupController;
 use App\Http\Controllers\Front\Account\Mfa\SetupMfaController;
 use App\Http\Controllers\Front\Account\Mfa\StartMfaController;
+use App\Http\Controllers\Front\Auth\LoginController;
+use App\Http\Controllers\Front\Auth\LogoutController;
+use App\Http\Controllers\Front\Auth\Mfa\MfaRecoveryController;
+use App\Http\Controllers\Front\Auth\Mfa\MfaLoginGateController;
+use App\Http\Controllers\Front\Auth\PasswordResetController;
+use App\Http\Controllers\Front\Auth\ReauthController;
+use App\Http\Controllers\Front\Auth\RegisterController;
+use App\Http\Controllers\Front\Auth\ActivateAccountController;
 use App\Http\Controllers\Front\BanAppeal\BanAppealController;
 use App\Http\Controllers\Front\BanAppeal\BanLookupController;
 use App\Http\Controllers\Front\BanlistController;
 use App\Http\Controllers\Front\BuilderRankApplicationController;
 use App\Http\Controllers\Front\DonationController;
 use App\Http\Controllers\Front\HomeController;
-use App\Http\Controllers\Front\LoginController;
-use App\Http\Controllers\Front\LogoutController;
-use App\Http\Controllers\Front\MfaBackupController;
-use App\Http\Controllers\Front\MfaLoginGateController;
 use App\Http\Controllers\Front\MinecraftPlayerLinkController;
-use App\Http\Controllers\Front\PasswordResetController;
-use App\Http\Controllers\Front\ReauthController;
-use App\Http\Controllers\Front\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('front.')->group(function () {
@@ -34,10 +35,6 @@ Route::name('front.')->group(function () {
 
     Route::get('maps', fn () => view('front.pages.maps'))
         ->name('maps');
-
-    Route::get('logout', [LogoutController::class, 'logout'])
-        ->name('logout')
-        ->middleware('auth');
 
     Route::prefix('donate')->group(function () {
         Route::get('/', [DonationController::class, 'index'])
@@ -96,31 +93,33 @@ Route::name('front.')->group(function () {
             ->name('login.submit')
             ->middleware(['guest', 'throttle:login']);
 
-        Route::get('reactivate', [LoginController::class, 'resendActivationEmail'])
-            ->name('login.reactivate')
-            ->middleware(['guest', 'throttle:3,1']);
-
         Route::get('reauth', [ReauthController::class, 'show'])
             ->name('password.confirm')
             ->middleware('auth');
 
-        Route::post('reauth', [ReauthController::class, 'process'])
+        Route::post('reauth', [ReauthController::class, 'store'])
             ->name('password.confirm.submit')
             ->middleware(['auth', 'throttle:6,1']);
+    });
 
-        Route::get('mfa', [MfaLoginGateController::class, 'create'])
+    Route::get('logout', LogoutController::class)
+        ->name('logout')
+        ->middleware('auth');
+
+    Route::prefix('mfa')->group(function () {
+        Route::get('/', [MfaLoginGateController::class, 'show'])
             ->name('login.mfa')
             ->middleware(['auth', 'active-mfa']);
 
-        Route::post('mfa', [MfaLoginGateController::class, 'store'])
+        Route::post('/', [MfaLoginGateController::class, 'store'])
             ->name('login.mfa.submit')
             ->middleware(['auth', 'active-mfa', 'throttle:6,1']);
 
-        Route::get('mfa/recover', [MfaBackupController::class, 'show'])
+        Route::get('recover', [MfaRecoveryController::class, 'show'])
             ->name('login.mfa-recover')
             ->middleware(['auth', 'active-mfa']);
 
-        Route::delete('mfa/recover', [MfaBackupController::class, 'destroy'])
+        Route::delete('recover', [MfaRecoveryController::class, 'destroy'])
             ->name('login.mfa-recover.submit')
             ->middleware(['auth', 'active-mfa', 'throttle:6,1']);
     });
@@ -148,10 +147,20 @@ Route::name('front.')->group(function () {
         Route::post('/', [RegisterController::class, 'register'])
             ->name('register.submit')
             ->middleware('guest');
+    });
 
-        Route::get('activate', [RegisterController::class, 'activate'])
-            ->name('register.activate')
+    Route::prefix('activate')->group(function () {
+        Route::get('/', [ActivateAccountController::class, 'show'])
+            ->name('activate')
+            ->middleware(['guest']);
+
+        Route::get('verify', [ActivateAccountController::class, 'activate'])
+            ->name('activate.verify')
             ->middleware(['signed', 'guest']);
+
+        Route::post('resend', [ActivateAccountController::class, 'resendMail'])
+            ->name('activate.resend')
+            ->middleware(['guest', 'throttle:3,1']);
     });
 
     Route::group([

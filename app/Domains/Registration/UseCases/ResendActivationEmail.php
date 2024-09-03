@@ -30,7 +30,7 @@ class ResendActivationEmail
         }
 
         $activationURL = $this->signedURLGenerator->makeTemporary(
-            routeName: 'front.register.activate',
+            routeName: 'front.activate.verify',
             expiresAt: now()->addDay(),
             parameters: ['email' => $account->email],
         );

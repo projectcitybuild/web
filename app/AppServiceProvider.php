@@ -29,6 +29,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 use Repositories\GameIPBans\GameIPBanEloquentRepository;
 use Repositories\GameIPBans\GameIPBanRepository;
 use Repositories\PlayerWarnings\PlayerWarningEloquentRepository;
@@ -79,6 +80,14 @@ final class AppServiceProvider extends ServiceProvider
 
         RateLimiter::for('login', function (Request $request) {
            return Limit::perMinute(6)->by($request->ip());
+        });
+
+        Password::defaults(function () {
+            $rule = Password::min(12);
+
+            return $this->app->isProduction()
+                ? $rule->letters()->numbers()->uncompromised()
+                : $rule;
         });
     }
 

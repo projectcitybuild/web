@@ -2,17 +2,13 @@
 
 namespace App\Domains\PasswordReset\UseCases;
 
+use App\Models\PasswordReset;
 use Repositories\AccountPasswordResetRepository;
 use function now;
 
 class DeleteExpiredPasswordResets
 {
     const DAY_THRESHOLD = 1;
-
-    public function __construct(
-        private readonly AccountPasswordResetRepository $passwordResetRepository
-    ) {
-    }
 
     public function execute()
     {
@@ -21,6 +17,8 @@ class DeleteExpiredPasswordResets
          * as this currently relies on the job queue never breaking
          */
         $thresholdDate = now()->subDays(self::DAY_THRESHOLD);
-        $this->passwordResetRepository->deleteOlderThanOrEqualTo($thresholdDate);
+
+        PasswordReset::whereDate('created_at', '<=', $thresholdDate)
+            ->delete();
     }
 }

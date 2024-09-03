@@ -28,3 +28,23 @@ All branches, commits and pull-requests are continuously tested
 Absolutely. Feel free to fork and send pull requests any time. We'd be thrilled to have some help.
 
 Check out our [wiki page](https://github.com/projectcitybuild/web/wiki/Contributing) on how to prepare and boot up a dev environment.
+
+---
+
+## Development
+
+### Mail
+
+Laravel Sail uses Mailpit during local development.
+
+Mail can be viewed at http://localhost:8025
+
+
+### Captcha
+
+By default, the Captcha will always pass on client and server side.
+
+If you wish to test different situations, set `CAPTCHA_SITE_KEY` and `CAPTCHA_SECRET_KEY` in `.env`
+to an appropriate value from the below list.
+
+https://developers.cloudflare.com/turnstile/troubleshooting/testing/

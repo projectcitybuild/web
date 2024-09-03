@@ -33,7 +33,7 @@
                     <i class="fas fa-copy"></i> <u>pcbmc.co</u>
                 </span>
             </a>
-            <a href="https://discord.gg/3NYaUeScDX" class="text-sm font-semibold leading-6 text-indigo-300">
+            <a href="{{ config('discord.invite_url') }}" class="text-sm font-semibold leading-6 text-indigo-300">
                 <i class="fab fa-discord"></i>
                 Join our Discord <span aria-hidden="true">→</span>
             </a>
