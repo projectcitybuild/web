@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Front\Auth\Mfa;
 
 use App\Http\Controllers\WebController;
-use App\Http\Middleware\MfaGate;
+use App\Http\Middleware\MfaAuthenticated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
@@ -42,7 +42,7 @@ class MfaLoginGateController extends WebController
         $request->user()->totp_last_used = $keyTimestamp;
         $request->user()->save();
 
-        Session::forget(MfaGate::NEEDS_MFA_KEY);
+        Session::forget(MfaAuthenticated::NEEDS_MFA_KEY);
 
         return redirect()->intended();
     }

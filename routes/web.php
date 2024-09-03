@@ -83,83 +83,90 @@ Route::prefix('bans')->group(function () {
         ->name('front.appeal.submit');
 });
 
-Route::prefix('login')->group(function () {
-    Route::get('/', [LoginController::class, 'show'])
-        ->name('front.login')
-        ->middleware('guest');
+Route::prefix('auth')->group(function () {
+    Route::prefix('login')->group(function () {
+        Route::get('/', [LoginController::class, 'show'])
+            ->name('front.login')
+            ->middleware(['guest']);
 
-    Route::post('/', [LoginController::class, 'login'])
-        ->name('front.login.submit')
-        ->middleware(['guest', 'throttle:login']);
+        Route::post('/', [LoginController::class, 'login'])
+            ->name('front.login.submit')
+            ->middleware(['guest', 'throttle:login']);
+    });
 
-    Route::get('reauth', [ReauthController::class, 'show'])
-        ->name('front.password.confirm')
-        ->middleware('auth');
+    Route::get('logout', LogoutController::class)
+        ->name('front.logout')
+        ->middleware(['auth']);
 
-    Route::post('reauth', [ReauthController::class, 'store'])
-        ->name('front.password.confirm.submit')
-        ->middleware(['auth', 'throttle:6,1']);
-});
+    Route::prefix('confirm')->group(function () {
+        Route::get('/', [ReauthController::class, 'show'])
+            ->name('front.password.confirm')
+            ->middleware(['auth']);
 
-Route::get('logout', LogoutController::class)
-    ->name('front.logout')
-    ->middleware('auth');
+        Route::post('/', [ReauthController::class, 'store'])
+            ->name('front.password.confirm.submit')
+            ->middleware(['auth', 'throttle:6,1']);
+    });
 
-Route::prefix('mfa')->group(function () {
-    Route::get('/', [MfaLoginGateController::class, 'show'])
-        ->name('front.login.mfa')
-        ->middleware(['auth', 'active-mfa']);
+    Route::prefix('mfa')->group(function () {
+        Route::get('/', [MfaLoginGateController::class, 'show'])
+            ->name('front.login.mfa')
+            ->middleware(['auth', 'active-mfa']);
 
-    Route::post('/', [MfaLoginGateController::class, 'store'])
-        ->name('front.login.mfa.submit')
-        ->middleware(['auth', 'active-mfa', 'throttle:6,1']);
+        Route::post('/', [MfaLoginGateController::class, 'store'])
+            ->name('front.login.mfa.submit')
+            ->middleware(['auth', 'active-mfa', 'throttle:6,1']);
 
-    Route::get('recover', [MfaRecoveryController::class, 'show'])
-        ->name('front.login.mfa-recover')
-        ->middleware(['auth', 'active-mfa']);
+        Route::get('recover', [MfaRecoveryController::class, 'show'])
+            ->name('front.login.mfa-recover')
+            ->middleware(['auth', 'active-mfa']);
 
-    Route::delete('recover', [MfaRecoveryController::class, 'destroy'])
-        ->name('front.login.mfa-recover.submit')
-        ->middleware(['auth', 'active-mfa', 'throttle:6,1']);
-});
+        Route::delete('recover', [MfaRecoveryController::class, 'destroy'])
+            ->name('front.login.mfa-recover.submit')
+            ->middleware(['auth', 'active-mfa', 'throttle:6,1']);
+    });
 
-Route::prefix('password-reset')->group(function () {
-    Route::get('/', [PasswordResetController::class, 'create'])
-        ->name('front.password-reset.create');
+    Route::prefix('password-reset')->group(function () {
+        Route::get('/', [PasswordResetController::class, 'create'])
+            ->name('front.password-reset.create')
+            ->middleware(['guest']);
 
-    Route::post('/', [PasswordResetController::class, 'store'])
-        ->name('front.password-reset.store');
+        Route::post('/', [PasswordResetController::class, 'store'])
+            ->name('front.password-reset.store')
+            ->middleware(['guest']);
 
-    Route::get('edit', [PasswordResetController::class, 'edit'])
-        ->name('front.password-reset.edit')
-        ->middleware('signed');
+        Route::get('edit', [PasswordResetController::class, 'edit'])
+            ->name('front.password-reset.edit')
+            ->middleware(['signed', 'guest']);
 
-    Route::patch('edit', [PasswordResetController::class, 'update'])
-        ->name('front.password-reset.update');
-});
+        Route::patch('edit', [PasswordResetController::class, 'update'])
+            ->name('front.password-reset.update')
+            ->middleware(['guest']);
+    });
 
-Route::prefix('register')->group(function () {
-    Route::get('/', [RegisterController::class, 'show'])
-        ->name('front.register')
-        ->middleware('guest');
+    Route::prefix('register')->group(function () {
+        Route::get('/', [RegisterController::class, 'show'])
+            ->name('front.register')
+            ->middleware(['guest']);
 
-    Route::post('/', [RegisterController::class, 'register'])
-        ->name('front.register.submit')
-        ->middleware('guest');
-});
+        Route::post('/', [RegisterController::class, 'register'])
+            ->name('front.register.submit')
+            ->middleware(['guest']);
+    });
 
-Route::prefix('activate')->group(function () {
-    Route::get('/', [ActivateAccountController::class, 'show'])
-        ->name('front.activate')
-        ->middleware(['guest']);
+    Route::prefix('activate')->group(function () {
+        Route::get('/', [ActivateAccountController::class, 'show'])
+            ->name('front.activate')
+            ->middleware(['guest']);
 
-    Route::get('verify', [ActivateAccountController::class, 'activate'])
-        ->name('front.activate.verify')
-        ->middleware(['signed', 'guest']);
+        Route::get('verify', [ActivateAccountController::class, 'activate'])
+            ->name('front.activate.verify')
+            ->middleware(['signed', 'guest']);
 
-    Route::post('resend', [ActivateAccountController::class, 'resendMail'])
-        ->name('front.activate.resend')
-        ->middleware(['guest', 'throttle:3,1']);
+        Route::post('resend', [ActivateAccountController::class, 'resendMail'])
+            ->name('front.activate.resend')
+            ->middleware(['guest', 'throttle:3,1']);
+    });
 });
 
 Route::group([

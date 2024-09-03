@@ -40,16 +40,16 @@ return Application::configure(basePath: dirname(__DIR__))
         );
         $middleware->web(append: [
             \App\Http\Middleware\VerifyCsrfToken::class,
-            \App\Http\Middleware\MfaGate::class,
         ]);
         $middleware->alias([
-            'auth' => \App\Http\Middleware\Authenticate::class,
-            'scope' => \App\Http\Middleware\HasGroupScope::class,
-            'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-            'server-token' => \App\Http\Middleware\RequiresServerTokenScope::class,
-            'password.confirm' => \App\Http\Middleware\RequirePassword::class,
             'active-mfa' => \App\Http\Middleware\ActiveMfaSession::class,
+            'auth' => \App\Http\Middleware\Authenticate::class,
+            'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+            'mfa' => \App\Http\Middleware\MfaAuthenticated::class,
+            'password.confirm' => \App\Http\Middleware\RequirePassword::class,
             'requires-mfa' => \App\Http\Middleware\RequiresMfaEnabled::class,
+            'scope' => \App\Http\Middleware\HasGroupScope::class,
+            'server-token' => \App\Http\Middleware\RequiresServerTokenScope::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 
 /**
- * This middleware prevents the user from accessing a route unless they have 2FA enabled on their account.
+ * Prevents access unless the user has 2FA set-up and enabled on their account.
  */
 class RequiresMfaEnabled
 {

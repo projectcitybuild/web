@@ -27,7 +27,7 @@ use App\Http\Controllers\Panel\ServerTokenController;
 use App\Http\Controllers\Panel\ShowcaseWarpsController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', PanelGroupScope::ACCESS_PANEL->toMiddleware(), 'requires-mfa'])
+Route::middleware(['auth', 'mfa', PanelGroupScope::ACCESS_PANEL->toMiddleware(), 'requires-mfa'])
     ->prefix('panel')
     ->name('front.panel.')
     ->group(function () {

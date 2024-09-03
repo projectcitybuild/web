@@ -25,7 +25,8 @@ final class LoginController extends WebController
     public function login(
         LoginRequest $request,
         LoginAccount $loginAccount,
-    ): RedirectResponse {
+    ): RedirectResponse
+    {
         $validated = $request->validated();
 
         $credentials = new LoginCredentials(

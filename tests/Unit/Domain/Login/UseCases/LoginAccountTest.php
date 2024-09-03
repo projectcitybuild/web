@@ -6,7 +6,7 @@ use App\Domains\Login\Entities\LoginCredentials;
 use App\Domains\Login\Exceptions\AccountNotActivatedException;
 use App\Domains\Login\Exceptions\InvalidLoginCredentialsException;
 use App\Domains\Login\UseCases\LoginAccount;
-use App\Http\Middleware\MfaGate;
+use App\Http\Middleware\MfaAuthenticated;
 use App\Models\Account;
 use Database\Factories\AccountFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -122,7 +122,7 @@ class LoginAccountTest extends TestCase
 
         $this->assertEquals(
             expected: 'true',
-            actual: Session::get(MfaGate::NEEDS_MFA_KEY),
+            actual: Session::get(MfaAuthenticated::NEEDS_MFA_KEY),
         );
     }
 }
