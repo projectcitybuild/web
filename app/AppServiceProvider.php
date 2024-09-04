@@ -4,7 +4,6 @@ namespace App;
 
 use App\Core\Domains\PlayerLookup\Service\ConcretePlayerLookup;
 use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
-use App\Http\Controllers\Api\v1\OAuthController;
 use App\Models\Account;
 use App\Models\BalanceTransaction;
 use App\Models\Badge;
@@ -16,7 +15,6 @@ use App\Models\DonationTier;
 use App\Models\GameIPBan;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
-use App\Models\Page;
 use App\Models\PlayerWarning;
 use App\Models\Server;
 use App\Models\ServerToken;
@@ -29,6 +27,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 use Repositories\GameIPBans\GameIPBanEloquentRepository;
 use Repositories\GameIPBans\GameIPBanRepository;
 use Repositories\PlayerWarnings\PlayerWarningEloquentRepository;
@@ -80,6 +79,14 @@ final class AppServiceProvider extends ServiceProvider
         RateLimiter::for('login', function (Request $request) {
            return Limit::perMinute(6)->by($request->ip());
         });
+
+        Password::defaults(function () {
+            $rule = Password::min(12);
+
+            return $this->app->isProduction()
+                ? $rule->letters()->numbers()->uncompromised()
+                : $rule;
+        });
     }
 
     private function enforceMorphMap(): void
@@ -104,7 +111,6 @@ final class AppServiceProvider extends ServiceProvider
             'game_player_ban' => GamePlayerBan::class,
             'game_ip_ban' => GameIPBan::class,
             'minecraft_player' => MinecraftPlayer::class,
-            'page' => Page::class,
             'server' => Server::class,
             'server_token' => ServerToken::class,
             'player_warning' => PlayerWarning::class,

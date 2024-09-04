@@ -12,7 +12,7 @@ class ActiveMfaSession
      */
     public function handle(Request $request, Closure $next)
     {
-        if (! $request->session()->has(MfaGate::NEEDS_MFA_KEY)) {
+        if (! $request->session()->has(MfaAuthenticated::NEEDS_MFA_KEY)) {
             return redirect(route('front.account.settings'));
         }
 

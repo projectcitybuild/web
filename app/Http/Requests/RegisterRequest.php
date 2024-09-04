@@ -2,22 +2,23 @@
 
 namespace App\Http\Requests;
 
+use App\Core\Domains\Captcha\Rules\CaptchaRule;
 use App\Core\Rules\DiscourseUsernameRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 final class RegisterRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
      */
-    public function rules(): array
+    public function rules(CaptchaRule $captchaRule): array
     {
         return [
-            'email' => 'required|email|unique:accounts,email',
+            'email' => ['required', 'email', 'unique:accounts', 'email'],
             'username' => ['required', 'unique:accounts,username', new DiscourseUsernameRule()],
-            'password' => 'required|min:8',    // discourse min is 8 or greater
-            'password_confirm' => 'required_with:password|same:password',
-            'g-recaptcha-response' => 'recaptcha',
+            'password' => ['required', Password::defaults()],
+            'captcha-response' => ['required', $captchaRule],
             'terms' => 'accepted',
         ];
     }

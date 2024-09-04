@@ -25,7 +25,6 @@ class BanLookupRequest extends FormRequest
     {
         return [
             'username' => 'required|min:3|max:16|alpha_dash',
-            'g-recaptcha-response' => 'recaptcha',
         ];
     }
 }

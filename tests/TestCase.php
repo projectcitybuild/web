@@ -3,7 +3,7 @@
 namespace Tests;
 
 use App\Core\Domains\Mojang\Api\MojangPlayerApi;
-use App\Http\Middleware\MfaGate;
+use App\Http\Middleware\MfaAuthenticated;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Carbon;
@@ -33,7 +33,7 @@ abstract class TestCase extends BaseTestCase
 
     protected function flagNeedsMfa(): TestCase
     {
-        Session::put(MfaGate::NEEDS_MFA_KEY, 'true');
+        Session::put(MfaAuthenticated::NEEDS_MFA_KEY, 'true');
 
         return $this;
     }
