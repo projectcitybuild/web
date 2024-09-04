@@ -27,7 +27,7 @@ final class LoginController extends WebController
         $credentials = LoginCredentials::fromArray($validated);
 
         try {
-            $account = $loginAccount->execute(
+            $loginAccount->execute(
                 credentials: $credentials,
                 shouldRemember: $request->filled('remember_me'),
                 ip: $request->ip(),

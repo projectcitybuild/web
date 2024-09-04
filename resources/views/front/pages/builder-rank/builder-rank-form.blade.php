@@ -3,15 +3,6 @@
 @section('title', 'Apply for Build Rank')
 @section('description', 'Use the below form to apply for the next higher builder rank')
 
-@push('head')
-    <script src='https://www.google.com/recaptcha/api.js'></script>
-    <script>
-        function submitForm() {
-            document.getElementById('form').submit();
-        }
-    </script>
-@endpush
-
 @section('heading', 'Apply For Build Rank')
 
 @section('col-1')
@@ -116,13 +107,9 @@
                         >{{ old('additional_notes') }}</textarea>
                     </div>
 
-                    <button
-                            class="g-recaptcha button button--filled button--block"
-                            data-sitekey="@recaptcha_key"
-                            data-callback="submitForm"
-                    >
+                    <x-button type="submit" variant="filled">
                         <i class="fas fa-check"></i> Submit
-                    </button>
+                    </x-button>
                 </form>
             @endauth
         @endif

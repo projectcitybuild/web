@@ -49,13 +49,12 @@
                 >{{ old('explanation') }}</textarea>
             </div>
 
-            <button
+            <x-button
                 class="g-recaptcha button button--filled button--block"
-                data-sitekey="@recaptcha_key"
-                data-callback="submitForm"
+                type="submit"
             >
                 <i class="fas fa-check"></i> Submit
-            </button>
+            </x-button>
         </form>
     </div>
 @endsection

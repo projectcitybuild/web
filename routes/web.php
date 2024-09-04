@@ -48,13 +48,16 @@ Route::prefix('donate')->group(function () {
 
 Route::prefix('rank-up')->group(function () {
     Route::get('/', [BuilderRankApplicationController::class, 'index'])
-        ->name('front.rank-up');
+        ->name('front.rank-up')
+        ->middleware(['auth']);
 
     Route::post('/', [BuilderRankApplicationController::class, 'store'])
-        ->name('front.rank-up.submit');
+        ->name('front.rank-up.submit')
+        ->middleware(['auth']);
 
     Route::get('{id}', [BuilderRankApplicationController::class, 'show'])
-        ->name('front.rank-up.status');
+        ->name('front.rank-up.status')
+        ->middleware(['auth']);
 });
 
 Route::prefix('appeal')->group(function () {
