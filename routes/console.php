@@ -26,9 +26,6 @@ Schedule::command('donor-perks:reward-currency')
 Schedule::command('bans:expire')
     ->everyFifteenMinutes();
 
-Schedule::command('server:query --all --background')
-    ->everyFiveMinutes();
-
 Schedule::command('backup:clean')
     ->dailyAt('00:00');
 
