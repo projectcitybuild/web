@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Schedule;
 
-Schedule::command('horizon:snapshot')
-    ->everyFiveMinutes();
+Schedule::command('model:prune')
+    ->hourly();
 
 Schedule::command('passport:purge')
     ->hourly();

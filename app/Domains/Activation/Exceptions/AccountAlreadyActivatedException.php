@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Registration\Exceptions;
+namespace App\Domains\Activation\Exceptions;
 
 final class AccountAlreadyActivatedException extends \Exception
 {

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Front\Auth;
 
-use App\Domains\Registration\Exceptions\AccountAlreadyActivatedException;
-use App\Domains\Registration\UseCases\ActivateUnverifiedAccount;
-use App\Domains\Registration\UseCases\ResendActivationEmail;
+use App\Domains\Activation\Exceptions\AccountAlreadyActivatedException;
+use App\Domains\Activation\UseCases\ActivateUnverifiedAccount;
+use App\Domains\Activation\UseCases\SendActivationEmail;
 use App\Http\Controllers\WebController;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,53 +14,50 @@ final class ActivateAccountController extends WebController
 {
     public function show(Request $request)
     {
-        $email = $request->get('email');
-
         return view('front.pages.auth.activate.verify-mail')
-            ->with('email', $email);
+            ->with('email', $request->user()->email);
     }
 
     public function activate(
         Request $request,
-        ActivateUnverifiedAccount $activateUnverifiedAccount
+        string $token,
+        ActivateUnverifiedAccount $activateAccount,
     ): View|RedirectResponse {
-        $email = $request->get('email');
+        $account = $request->user();
+        if ($account === null) {
+            abort(401);
+        }
 
         try {
-            $activateUnverifiedAccount->execute(email: $email);
+            $activateAccount->execute(
+                account: $account,
+                token: $token,
+            );
         } catch (AccountAlreadyActivatedException) {
-            abort(code: 410, message: 'Account already activated');
+            // Ignore
         }
-
-        if ($request->session()->has('url.intended')) {
-            $intended = $request->session()->get('url.intended');
-            $request->session()->remove('intended');
-
-            return redirect($intended);
-        }
-
         return redirect()
-            ->route('front.login')
-            ->with('success', 'Your account has been activated! Please login below');
+            ->intended(route('front.account.profile'))
+            ->with('success', 'Your account has been activated');
     }
 
     public function resendMail(
         Request $request,
-        ResendActivationEmail $resendActivationEmail,
+        SendActivationEmail $sendActivationEmail,
     ) {
-        $validated = $request->validate(['email' => 'required|email']);
-        $email = $validated['email'];
+        $account = $request->user();
+        if ($account === null) {
+            abort(401);
+        }
 
         try {
-            $resendActivationEmail->execute(email: $email);
+            $sendActivationEmail->execute($account);
         } catch (AccountAlreadyActivatedException) {
-            return redirect()->back()->withErrors([
-                'Account has already been activated',
-            ]);
+            return redirect()->intended(route('front.account.profile'));
         }
 
         return redirect()
-            ->route('front.activate', ['email' => $email])
-            ->with('success', 'An activation email has been sent to '.$email.'.');
+            ->route('front.activate')
+            ->with('success', 'An activation email has been sent to '.$account->email.'.');
     }
 }

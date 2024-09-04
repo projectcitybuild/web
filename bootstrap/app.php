@@ -43,11 +43,13 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->alias([
             'active-mfa' => \App\Http\Middleware\ActiveMfaSession::class,
+            'activated' => \App\Http\Middleware\RequireActivation::class,
             'auth' => \App\Http\Middleware\Authenticate::class,
             'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
             'mfa' => \App\Http\Middleware\MfaAuthenticated::class,
+            'not-activated' => \App\Http\Middleware\NotActivated::class,
             'password.confirm' => \App\Http\Middleware\RequirePassword::class,
-            'requires-mfa' => \App\Http\Middleware\RequiresMfaEnabled::class,
+            'requires-mfa' => \App\Http\Middleware\RequireMfaEnabled::class,
             'scope' => \App\Http\Middleware\HasGroupScope::class,
             'server-token' => \App\Http\Middleware\RequiresServerTokenScope::class,
         ]);

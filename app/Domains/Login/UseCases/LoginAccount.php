@@ -13,39 +13,31 @@ use Repositories\AccountRepository;
 
 class LoginAccount
 {
-    public function __construct(
-        private readonly AccountRepository $accountRepository,
-    ) {}
-
     /**
      * @throws InvalidLoginCredentialsException if email or password is incorrect
-     * @throws AccountNotActivatedException if account not verified
      */
     public function execute(
         LoginCredentials $credentials,
         bool $shouldRemember,
         string $ip
-    ) {
+    ): Account {
         if (! Auth::validate(credentials: $credentials->toArray())) {
             throw new InvalidLoginCredentialsException();
         }
 
         $account = Account::whereEmail($credentials->email)->first();
-
-        if (! $account->activated) {
-            throw new AccountNotActivatedException();
-        }
+        $account->updateLastLogin($ip);
 
         Auth::loginUsingId(
             id: $account->getKey(),
             remember: $shouldRemember,
         );
 
-        $this->accountRepository->touchLastLogin($account, $ip);
-
         // Check if the user needs to complete 2FA
         if ($account->is_totp_enabled) {
             Session::put(MfaAuthenticated::NEEDS_MFA_KEY, 'true');
         }
+
+        return $account;
     }
 }

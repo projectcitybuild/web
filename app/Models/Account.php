@@ -219,7 +219,7 @@ final class Account extends Authenticatable implements LinkableAuditModel
     public function updateLastLogin(string $ip)
     {
         $this->last_login_ip = $ip;
-        $this->last_login_at = Carbon::now();
+        $this->last_login_at = now();
         $this->save();
     }
 

@@ -1,7 +1,7 @@
 <?php
 
 use App\Core\Domains\Captcha\Validator\CaptchaValidator;
-use App\Domains\Registration\Notifications\AccountActivationNotification;
+use App\Domains\Activation\Notifications\AccountNeedsActivationNotification;
 use App\Models\Account;
 use App\Models\Group;
 use Illuminate\Support\Facades\Notification;
@@ -147,11 +147,19 @@ describe('successful submit', function () {
 
         $account = Account::where('email', $this->unactivatedAccount->email)->firstOrFail();
 
-        Notification::assertSentTo($account, AccountActivationNotification::class);
+        Notification::assertSentTo($account, AccountNeedsActivationNotification::class);
     });
 
-    it('redirects to account verification flow', function () {
+    it('authenticates as user', function () {
+        $this->assertGuest();
+        $this->post($this->submitEndpoint, $this->formData);
+
+        $account = Account::whereEmail($this->formData['email'])->firstOrFail();
+        $this->assertAuthenticatedAs($account);
+    });
+
+    it('redirects to activation flow', function () {
         $this->post($this->submitEndpoint, $this->formData)
-            ->assertRedirect(route('front.activate', ['email' => $this->formData['email']]));
+            ->assertRedirect(route('front.activate'));
     });
 });

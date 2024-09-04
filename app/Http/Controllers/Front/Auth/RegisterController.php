@@ -37,8 +37,6 @@ final class RegisterController extends WebController
             ip: $request->ip(),
         );
 
-        return redirect()->route('front.activate', [
-            'email' => $validated['email'],
-        ]);
+        return redirect()->route('front.activate');
     }
 }
