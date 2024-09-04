@@ -4,15 +4,6 @@
 @section('heading', 'Appeal Ban')
 @section('description', 'Use the below form to submit a ban appeal')
 
-@push('head')
-    <script src='https://www.google.com/recaptcha/api.js'></script>
-    <script>
-        function submitForm() {
-            document.getElementById('form').submit();
-        }
-    </script>
-@endpush
-
 @section('col-1')
     <p>
         If you have been wrongfully banned, please post your request, and we will investigate the matter. Alternatively, if you are simply seeking a second chance, you may plead your case for consideration.
