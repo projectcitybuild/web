@@ -12,6 +12,7 @@ final class PasswordReset extends Model
 {
     use HasStaticTable;
     use HasFactory;
+    use Prunable;
 
     public $incrementing = false;
 
@@ -25,10 +26,16 @@ final class PasswordReset extends Model
         'email',
         'token',
         'created_at',
+        'expires_at',
     ];
 
     public function scopeWhereToken(Builder $query, string $token)
     {
         $query->where('token', $token);
+    }
+
+    public function prunable(): Builder
+    {
+        return static::where('expires_at', '<=', now());
     }
 }

@@ -11,9 +11,6 @@ Schedule::command('passport:purge')
 Schedule::command('sitemap:generate')
     ->daily();
 
-Schedule::command('cleanup:password-resets')
-    ->daily();
-
 Schedule::command('cleanup:unactivated-accounts')
     ->weekly();
 
