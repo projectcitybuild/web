@@ -25,11 +25,11 @@ class SendActivationEmail
         $activation = AccountActivation::create([
             'account_id' => $account->getKey(),
             'token' => $this->tokenGenerator->make(),
+            'expires_at' => now()->addDay(),
         ]);
 
-        $activationURL = $this->signedURLGenerator->makeTemporary(
+        $activationURL = $this->signedURLGenerator->make(
             routeName: 'front.activate.verify',
-            expiresAt: now()->addDay(),
             parameters: ['token' => $activation->token],
         );
 

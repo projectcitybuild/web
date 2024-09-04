@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('token');
             $table->integer('account_id')->unsigned();
             $table->timestamps();
+            $table->dateTime('expires_at');
 
             $table->foreign('account_id')
                 ->references('account_id')

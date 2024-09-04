@@ -16,7 +16,9 @@ final class ActivateUnverifiedAccount
             throw new AccountAlreadyActivatedException();
         }
 
-        $activation = AccountActivation::where('token', $token)->firstOrFail();
+        $activation = AccountActivation::where('token', $token)
+            ->whereNotExpired()
+            ->firstOrFail();
 
         if ($activation->account_id !== $account->getKey()) {
             throw new ForbiddenException(id: 'account_mismatch', message: 'Account mismatch');
