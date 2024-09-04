@@ -27,6 +27,7 @@ final class ActivateAccountController extends WebController
         if ($account === null) {
             abort(401);
         }
+
         try {
             $activateAccount->execute(
                 account: $account,

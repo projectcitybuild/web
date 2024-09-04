@@ -23,19 +23,6 @@ it('redirects to account settings if logged in', function () {
         ->assertRedirectToRoute('front.account.settings');
 });
 
-it('redirects to verification flow if account not activated', function () {
-    $account = Account::factory()
-        ->passwordHashed('secret')
-        ->unactivated()
-        ->create();
-
-    $response = $this->post($this->submitEndpoint, [
-        'email' => $account->email,
-        'password' => 'secret',
-    ]);
-    $response->assertRedirectToRoute('front.activate', ['email' => $account->email]);
-});
-
 describe('validation errors', function () {
     it('throws if credentials are wrong', function () {
         $this->validCredentials['password'] = 'wrong';
@@ -75,6 +62,11 @@ describe('successful login', function () {
        $this->post(route('front.login.submit'), $this->validCredentials)
            ->assertRedirect(route('front.account.billing'));
    });
+
+    it('redirects to account profile if no original destination', function () {
+        $this->post(route('front.login.submit'), $this->validCredentials)
+            ->assertRedirect(route('front.account.profile'));
+    });
 
    it('updates last login timestamp', function () {
        $oldLoginTime = $this->account->last_login_at;

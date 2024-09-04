@@ -150,8 +150,16 @@ describe('successful submit', function () {
         Notification::assertSentTo($account, AccountNeedsActivationNotification::class);
     });
 
-    it('redirects to account verification flow', function () {
+    it('authenticates as user', function () {
+        $this->assertGuest();
+        $this->post($this->submitEndpoint, $this->formData);
+
+        $account = Account::whereEmail($this->formData['email'])->firstOrFail();
+        $this->assertAuthenticatedAs($account);
+    });
+
+    it('redirects to activation flow', function () {
         $this->post($this->submitEndpoint, $this->formData)
-            ->assertRedirect(route('front.activate', ['email' => $this->formData['email']]));
+            ->assertRedirect(route('front.activate'));
     });
 });
