@@ -16,8 +16,6 @@ final class PasswordReset extends Model
 
     public $incrementing = false;
 
-    public $timestamps = false;
-
     protected $table = 'account_password_resets';
 
     protected $primaryKey = 'email';
@@ -26,6 +24,7 @@ final class PasswordReset extends Model
         'email',
         'token',
         'created_at',
+        'updated_at',
         'expires_at',
     ];
 

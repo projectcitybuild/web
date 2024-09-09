@@ -18,6 +18,9 @@ final class ResetAccountPassword
         DB::transaction(function () use ($account, $passwordReset, $newPassword) {
             $account->updatePassword($newPassword);
             $passwordReset->delete();
+
+            PasswordReset::where('account_id', $account->getKey())
+                ->update(['expires_at' => now()]);
         });
 
         $account->notify(new AccountPasswordResetCompleteNotification());

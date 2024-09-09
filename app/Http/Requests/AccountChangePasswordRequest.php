@@ -70,16 +70,4 @@ class AccountChangePasswordRequest extends FormRequest
     {
         return true;
     }
-
-    /**
-     * Redirect back to the form anchor.
-     *
-     * @return string
-     */
-    protected function getRedirectUrl()
-    {
-        $url = $this->redirector->getUrlGenerator();
-
-        return $url->previous().'#change-password';
-    }
 }

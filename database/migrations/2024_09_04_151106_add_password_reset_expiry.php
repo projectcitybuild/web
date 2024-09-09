@@ -15,12 +15,16 @@ return new class extends Migration
         Schema::table('account_password_resets', function (Blueprint $table) {
             $table->dateTime('expires_at')->nullable();
             $table->renameColumn('created_at', 'created_at_tmp');
+            $table->bigIncrements('id')->nullable()->first();
         });
 
+        $i = 1;
         $resets = PasswordReset::all();
         foreach ($resets as $reset) {
             $reset->expires_at = $reset->created_at?->addDay() ?? now();
+            $reset->id = $i;
             $reset->save();
+            $i++;
         }
 
         Schema::table('account_password_resets', function (Blueprint $table) {
@@ -37,6 +41,7 @@ return new class extends Migration
 
         Schema::table('account_password_resets', function (Blueprint $table) {
             $table->dropColumn('created_at_tmp');
+            $table->bigIncrements('id')->change();
         });
     }
 
@@ -45,9 +50,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('account_password_resets', function (Blueprint $table) {
-            $table->dropColumn('expires_at');
-            $table->dropColumn('updated_at');
-        });
+
     }
 };

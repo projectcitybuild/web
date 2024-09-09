@@ -2,31 +2,30 @@
 
 namespace App\Domains\EmailChange\UseCases;
 
+use App\Domains\EmailChange\Notifications\EmailChangedNotification;
 use App\Models\Account;
 use App\Models\EmailChange;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 final class UpdateAccountEmail
 {
-    public function execute(Account $account, EmailChange $emailChangeRequest)
-    {
-        $newEmailAddress = $emailChangeRequest->email_new;
+    public function execute(
+        Account $account,
+        EmailChange $emailChangeRequest,
+        string $oldEmail,
+    ) {
+        $newEmail = $emailChangeRequest->email;
 
-        if (empty($newEmailAddress)) {
-            throw new \Exception('New email address cannot be empty');
-        }
-
-        DB::beginTransaction();
-        try {
-            $account->email = $newEmailAddress;
+        DB::transaction(function () use ($account, $emailChangeRequest) {
+            $account->email = $emailChangeRequest->email;
             $account->save();
 
             $emailChangeRequest->delete();
+        });
 
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
+        Notification::route(channel: 'mail', route: $oldEmail)->notify(
+            new EmailChangedNotification(newEmail: $newEmail),
+        );
     }
 }

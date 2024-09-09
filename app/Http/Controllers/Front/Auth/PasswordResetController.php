@@ -31,7 +31,8 @@ final class PasswordResetController extends WebController
             email: $email,
         );
 
-        return redirect()->back()
+        return redirect()
+            ->back()
             ->with(['success' => 'An email has been sent to '.$email.' with password reset instructions.']);
     }
 

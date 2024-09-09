@@ -6,15 +6,13 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-final class VerifyOldEmailAddressNotification extends Notification
+final class EmailChangedNotification extends Notification
 {
     use Queueable;
 
     public function __construct(
-        private string $confirmLink,
-        private int $expiryTimeInMins,
-    ) {
-    }
+        private readonly string $newEmail,
+    ) {}
 
     /**
      * Get the notification's delivery channels.
@@ -30,12 +28,10 @@ final class VerifyOldEmailAddressNotification extends Notification
     public function toMail($notifiable): MailMessage
     {
         return (new MailMessage())
-            ->subject('Email Address Change was Requested')
-            ->greeting('Email Change Request')
-            ->line('You or somebody else has requested to change your account\'s email address. Use the below link if you wish to proceed.')
-            ->action('Yes, proceed with the change', $this->confirmLink)
-            ->line('If you did not request this, let us know immediately as your account has likely been compromised.')
-            ->line('The above link will expire in '.$this->expiryTimeInMins.' minutes.');
+            ->subject('Your email address was changed')
+            ->greeting('Email Address Updated')
+            ->line('Your account\'s email address was changed to '.$this->newEmail.'.')
+            ->line('If this was not you, please reach out to us immediately as your account may have been compromised.');
     }
 
     /**
