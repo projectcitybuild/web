@@ -52,8 +52,10 @@ describe('submit', function () {
 
 describe('set new password', function () {
     beforeEach(function () {
-        $this->reset = PasswordReset::factory()
-            ->create(['email' => $this->account->email]);
+        $this->reset = PasswordReset::factory()->create([
+            'email' => $this->account->email,
+            'account_id' => $this->account->getKey(),
+        ]);
     });
 
     it('changes the account password', function () {
