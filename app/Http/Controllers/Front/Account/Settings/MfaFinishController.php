@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Front\Account\Mfa;
+namespace App\Http\Controllers\Front\Account\Settings;
 
 use App\Core\Domains\Mfa\Notifications\MfaEnabledNotification;
 use App\Http\Controllers\WebController;
@@ -9,29 +9,12 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\ValidationException;
 use PragmaRX\Google2FA\Google2FA;
 
-class FinishMfaController extends WebController
+class MfaFinishController extends WebController
 {
-    /**
-     * @var Google2FA
-     */
-    private $google2FA;
+    public function __construct(
+        private readonly Google2FA $google2FA,
+    ) {}
 
-    /**
-     * EnableTotpController constructor.
-     */
-    public function __construct(Google2FA $google2FA)
-    {
-        $this->google2FA = $google2FA;
-    }
-
-    /**
-     * Handle the incoming request.
-     *
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws ValidationException
-     */
     public function __invoke(Request $request)
     {
         if ($request->user()->is_totp_enabled) {
@@ -62,8 +45,8 @@ class FinishMfaController extends WebController
 
         $request->user()->notify(new MfaEnabledNotification());
 
-        return redirect()->route('front.account.security')->with([
-            'mfa_setup_finished' => true,
-        ]);
+        return redirect()
+            ->route('front.account.settings.mfa')
+            ->with(['success' => '2FA has successfully been enabled on your account']);
     }
 }

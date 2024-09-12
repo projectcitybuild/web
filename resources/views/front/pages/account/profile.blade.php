@@ -18,16 +18,12 @@
                     <x-success-alert>{{ session()->get('success') }}</x-success-alert>
                 @endif
 
-                <h1 class="settings__section-heading">Hi {{ $account->username ?? $account->email }}</h1>
+                <h1 class="text-3xl">Welcome back {{ $account->username ?? $account->email }}</h1>
 
                 <div class="settings__groups">
                     @foreach($account->groups as $group)
                         <span class="pill pill--is-rank-{{ $group->name }}">{{ $group->alias ?? Str::title($group->name) }}</span>
                     @endforeach
-                </div>
-
-                <div class="settings__balance">
-                    <i class="fas fa-ticket"></i> Tickets: {{ $account->balance }} (<a href="{{ route('front.donate') }}#tickets">what's this?</a>)
                 </div>
             </div>
         </div>

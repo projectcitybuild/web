@@ -53,7 +53,7 @@
                 <li>
                     <a href="javascript:void(0)" class="nav-dropdown">Account <i class="fas fa-caret-down"></i></a>
                     <ul class="dropdown single">
-                        <li class="divider"><a href="{{ route('front.account.profile') }}">Account Settings</a></li>
+                        <li class="divider"><a href="{{ route('front.account.profile') }}">Dashboard</a></li>
                         @if($canAccessPanel)
                             <li class="divider"><a href="{{ route('front.panel.index') }}">Staff Panel</a></li>
                         @endif

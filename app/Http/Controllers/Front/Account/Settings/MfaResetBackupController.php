@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Front\Account\Mfa;
+namespace App\Http\Controllers\Front\Account\Settings;
 
 use App\Core\Domains\Mfa\Notifications\MfaBackupCodeRegeneratedNotification;
 use App\Http\Controllers\WebController;
@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 
-class ResetBackupController extends WebController
+class MfaResetBackupController extends WebController
 {
     public function show(Request $request)
     {
@@ -16,7 +16,7 @@ class ResetBackupController extends WebController
             abort(403);
         }
 
-        return view('front.pages.account.security.backup-refresh');
+        return view('front.pages.account.settings.mfa-backup-refresh');
     }
 
     public function update(Request $request)
@@ -30,6 +30,7 @@ class ResetBackupController extends WebController
         $request->user()->save();
         $request->user()->notify(new MfaBackupCodeRegeneratedNotification());
 
-        return view('front.pages.account.security.backup-refresh-new-code')->with(compact('backupCode'));
+        return view('front.pages.account.settings.mfa-backup-refresh-new-code')
+            ->with(compact('backupCode'));
     }
 }

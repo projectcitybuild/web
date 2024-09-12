@@ -4,22 +4,32 @@
 @section('description', '')
 
 @section('content')
-    <main class="page login">
-        <section class="login__dialog login__reauth login__dialog--is-narrow">
-            <h1>Reauthenticate</h1>
+    <form action="{{ route('front.password.confirm.submit') }}" method="post" class="flex flex-col">
+        @csrf
 
-            @include('front.components.form-error')
+        <h1 class="text-4xl font-bold text-gray-900 mt-2">Reauthenticate</h1>
 
-            <p class="form__description">Please re-enter your password to continue</p>
-            <form action="{{ route('front.password.confirm.submit') }}" method="post" class="form">
-                @csrf
-                <div class="form-row">
-                    <label for="password">Enter Password</label>
-                    <input type="password" class="textfield" id="password" name="password">
-                </div>
+        @error('error')
+        <x-validation-error class="mt-6">{{ $message }}</x-validation-error>
+        @enderror
 
-                <x-button type="submit" variant="filled">Confirm</x-button>
-            </form>
-        </section>
-    </main>
+
+        <div class="text-gray-500 mt-6">Please re-enter your password to continue</div>
+
+        <input
+            class="
+                rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
+                @error('password') border-red-500 @enderror
+            "
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Password"
+        />
+        @error('password')
+            <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
+        @enderror
+
+        <x-button type="submit" variant="filled" class="mt-6">Confirm</x-button>
+    </form>
 @endsection

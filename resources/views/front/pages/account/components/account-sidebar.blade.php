@@ -9,24 +9,6 @@
                 Profile
             </a>
         </li>
-        <li @if(\Route::currentRouteName() == 'front.account.settings') class="side-menu--active" @endif>
-            <a href="{{ route('front.account.settings') }}">
-                    <span class="fa-stack">
-                        <i class="fas fa-square fa-stack-2x"></i>
-                        <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
-                    </span>
-                Edit Details
-            </a>
-        </li>
-        <li @if(\Route::currentRouteName() == 'front.account.security') class="side-menu--active" @endif>
-            <a href="{{ route('front.account.security') }}">
-                    <span class="fa-stack">
-                        <i class="fas fa-square fa-stack-2x"></i>
-                        <i class="fas fa-lock fa-stack-1x fa-inverse"></i>
-                    </span>
-                Security
-            </a>
-        </li>
         <li @if(\Route::currentRouteName() == 'front.account.donations') class="side-menu--active" @endif>
             <a href="{{ route('front.account.donations') }}">
                     <span class="fa-stack">
@@ -53,15 +35,6 @@
                         <i class="fas fa-ban fa-stack-1x fa-inverse"></i>
                     </span>
                 Infractions
-            </a>
-        </li>
-        <li @if(\Route::currentRouteName() == 'front.account.billing') class="side-menu--active" @endif>
-            <a href="{{ route('front.account.billing') }}">
-                    <span class="fa-stack">
-                        <i class="fas fa-square fa-stack-2x"></i>
-                        <i class="fas fa-credit-card fa-stack-1x fa-inverse"></i>
-                    </span>
-                Billing
             </a>
         </li>
     </ul>

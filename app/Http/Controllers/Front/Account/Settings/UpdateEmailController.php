@@ -1,28 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Front\Account;
+namespace App\Http\Controllers\Front\Account\Settings;
 
 use App\Domains\EmailChange\UseCases\SendEmailChangeEmail;
 use App\Domains\EmailChange\UseCases\UpdateAccountEmail;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\AccountChangeEmailRequest;
-use App\Http\Requests\AccountChangePasswordRequest;
-use App\Http\Requests\AccountChangeUsernameRequest;
 use App\Models\EmailChange;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-final class AccountSettingController extends WebController
+final class UpdateEmailController extends WebController
 {
     public function show(Request $request)
     {
-        $user = $request->user();
-
-        return view('front.pages.account.account-settings')
-            ->with(compact('user'));
+        return view('front.pages.account.settings.update-email');
     }
 
-    public function sendEmailChangeEmail(
+    public function store(
         AccountChangeEmailRequest $request,
         SendEmailChangeEmail $sendVerificationEmail,
     ): RedirectResponse {
@@ -40,7 +35,7 @@ final class AccountSettingController extends WebController
             ->with(['success' => 'A verification email has been sent to your new email address with a link to complete the email address update']);
     }
 
-    public function changeEmail(
+    public function update(
         Request $request,
         UpdateAccountEmail $updateAccountEmail
     ) {
@@ -66,32 +61,7 @@ final class AccountSettingController extends WebController
         );
 
         return redirect()
-            ->route('front.account.settings')
+            ->route('front.pages.account.settings.update-email')
             ->with(['success' => 'Your email address has been updated']);
-    }
-
-    public function changePassword(AccountChangePasswordRequest $request)
-    {
-        $input = $request->validated();
-
-        $account = $request->user();
-        $account->updatePassword($input['new_password']);
-
-        return redirect()
-            ->back()
-            ->with(['success' => 'Password successfully updated']);
-    }
-
-    public function changeUsername(AccountChangeUsernameRequest $request)
-    {
-        $input = $request->validated();
-
-        $account = $request->user();
-        $account->username = $input['username'];
-        $account->save();
-
-        return redirect()
-            ->back()
-            ->with(['success', 'Username successfully updated']);
     }
 }

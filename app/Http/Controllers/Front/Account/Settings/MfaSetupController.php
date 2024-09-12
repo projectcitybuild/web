@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Front\Account\Mfa;
+namespace App\Http\Controllers\Front\Account\Settings;
 
 use App\Http\Controllers\WebController;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
@@ -11,27 +11,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use PragmaRX\Google2FA\Google2FA;
 
-class SetupMfaController extends WebController
+class MfaSetupController extends WebController
 {
-    /**
-     * @var Google2FA
-     */
-    private $google2FA;
+    public function __construct(
+        private readonly Google2FA $google2FA,
+    ) {}
 
-    /**
-     * EnableTotpController constructor.
-     */
-    public function __construct(Google2FA $google2FA)
-    {
-        $this->google2FA = $google2FA;
-    }
-
-    /**
-     * Handle the incoming request.
-     *
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function __invoke(Request $request)
     {
         if ($request->user()->is_totp_enabled) {
@@ -49,7 +34,7 @@ class SetupMfaController extends WebController
 
         $qrSvg = $this->getWriter()->writeString($qrUrl);
 
-        return view('front.pages.account.security.2fa-setup')->with([
+        return view('front.pages.account.settings.mfa-setup')->with([
             'backupCode' => $backupCode,
             'qrSvg' => $qrSvg,
             'secretKey' => $secret,

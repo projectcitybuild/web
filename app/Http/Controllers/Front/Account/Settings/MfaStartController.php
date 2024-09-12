@@ -1,26 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Front\Account\Mfa;
+namespace App\Http\Controllers\Front\Account\Settings;
 
+use App\Http\Controllers\WebController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 use PragmaRX\Google2FA\Google2FA;
 
-class StartMfaController extends \App\Http\Controllers\WebController
+class MfaStartController extends WebController
 {
-    /**
-     * @var Google2FA
-     */
-    private $google2FA;
-
-    /**
-     * EnableTotpController constructor.
-     */
-    public function __construct(Google2FA $google2FA)
-    {
-        $this->google2FA = $google2FA;
-    }
+    public function __construct(
+        private readonly Google2FA $google2FA,
+    ) {}
 
     public function __invoke(Request $request)
     {
@@ -34,6 +26,6 @@ class StartMfaController extends \App\Http\Controllers\WebController
         $request->user()->totp_backup_code = Crypt::encryptString($backupCode);
         $request->user()->save();
 
-        return redirect()->route('front.account.security.setup');
+        return redirect()->route('front.account.settings.mfa.setup');
     }
 }
