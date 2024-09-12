@@ -14,28 +14,25 @@ final class SendPasswordResetEmail
     public function __construct(
         private readonly TokenGenerator $tokenGenerator,
         private readonly SignedURLGenerator $signedURLGenerator,
-    ) {
-    }
+    ) {}
 
     public function execute(Account $account, string $email): void
     {
         $token = $this->tokenGenerator->make();
 
-        PasswordReset::updateOrCreate(
-            attributes: [
-                'email' => $email,
-            ],
-            values: [
-                'token' => $token,
-                'created_at' => Carbon::now(),
-            ],
-        );
+        PasswordReset::create([
+            'email' => $email,
+            'token' => $token,
+            'account_id' => $account->getKey(),
+            'created_at' => Carbon::now(),
+            'expires_at' => now()->addMinutes(20),
+        ]);
 
-        $passwordResetURL = $this->signedURLGenerator->makeTemporary(
+        $passwordResetURL = $this->signedURLGenerator->make(
             routeName: 'front.password-reset.edit',
-            expiresAt: now()->addMinutes(20),
             parameters: ['token' => $token],
         );
+
         $account->notify(
             new AccountPasswordResetNotification(passwordResetURL: $passwordResetURL)
         );

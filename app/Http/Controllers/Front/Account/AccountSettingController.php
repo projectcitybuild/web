@@ -47,7 +47,10 @@ final class AccountSettingController extends WebController
         $token = $request->get('token');
         $account = $request->user();
 
-        $changeRequest = EmailChange::where('token', $token)->first();
+        $changeRequest = EmailChange::whereToken($token)
+            ->whereActive()
+            ->first();
+
         if ($changeRequest === null) {
             return redirect()
                 ->route('front.account.settings')

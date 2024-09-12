@@ -33,6 +33,16 @@ final class EmailChange extends Model
         );
     }
 
+    public function scopeWhereToken(Builder $query, string $token)
+    {
+        $query->where('token', $token);
+    }
+
+    public function scopeWhereActive(Builder $query)
+    {
+        $query->where('expires_at', '>', now());
+    }
+
     public function prunable(): Builder
     {
         return static::where('expires_at', '<=', now());

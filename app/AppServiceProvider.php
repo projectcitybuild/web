@@ -81,11 +81,9 @@ final class AppServiceProvider extends ServiceProvider
         });
 
         Password::defaults(function () {
-            $rule = Password::min(12);
-
             return $this->app->isProduction()
-                ? $rule->letters()->numbers()->uncompromised()
-                : $rule;
+                ? Password::min(12)->letters()->numbers()->uncompromised()
+                : Password::min(8);
         });
     }
 

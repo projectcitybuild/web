@@ -14,15 +14,12 @@ final class PasswordReset extends Model
     use HasFactory;
     use Prunable;
 
-    public $incrementing = false;
-
     protected $table = 'account_password_resets';
-
-    protected $primaryKey = 'email';
 
     protected $fillable = [
         'email',
         'token',
+        'account_id',
         'created_at',
         'updated_at',
         'expires_at',

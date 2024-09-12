@@ -39,10 +39,7 @@ final class SendEmailChangeEmail
             new VerifyNewEmailAddressNotification(
                 confirmLink: $this->signedURLGenerator->make(
                     routeName: 'front.account.settings.email.confirm',
-                    parameters: [
-                        'token' => $token,
-                        'email' => $newEmailAddress,
-                    ],
+                    parameters: ['token' => $token],
                 ),
                 expiryTimeInMins: self::LINK_EXPIRY_TIME_IN_MINS,
             )
