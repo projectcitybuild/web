@@ -12,23 +12,26 @@ final class PasswordReset extends Model
 {
     use HasStaticTable;
     use HasFactory;
-
-    public $incrementing = false;
-
-    public $timestamps = false;
+    use Prunable;
 
     protected $table = 'account_password_resets';
-
-    protected $primaryKey = 'email';
 
     protected $fillable = [
         'email',
         'token',
+        'account_id',
         'created_at',
+        'updated_at',
+        'expires_at',
     ];
 
     public function scopeWhereToken(Builder $query, string $token)
     {
         $query->where('token', $token);
+    }
+
+    public function prunable(): Builder
+    {
+        return static::where('expires_at', '<=', now());
     }
 }

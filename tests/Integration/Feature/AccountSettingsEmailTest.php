@@ -3,7 +3,6 @@
 namespace Tests\Integration\Feature;
 
 use App\Domains\EmailChange\Notifications\VerifyNewEmailAddressNotification;
-use App\Domains\EmailChange\Notifications\VerifyOldEmailAddressNotification;
 use App\Models\Account;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
@@ -44,14 +43,13 @@ class AccountSettingsEmailTest extends TestCase
         $this->submitEmailChange($newEmail);
 
         $this->assertDatabaseHas('account_email_changes', [
-            'email_previous' => $oldEmail,
-            'email_new' => $newEmail,
+            'email' => $newEmail,
         ]);
 
-        // Test notification to old email
-        Notification::assertSentTo(Notification::route('mail', $oldEmail), VerifyOldEmailAddressNotification::class);
-        // Test notification to new email
-        Notification::assertSentTo(Notification::route('mail', $newEmail), VerifyNewEmailAddressNotification::class);
+        Notification::assertSentTo(
+            Notification::route('mail', $newEmail),
+            VerifyNewEmailAddressNotification::class,
+        );
     }
 
     public function test_cant_change_ema_il_to_existing_email()

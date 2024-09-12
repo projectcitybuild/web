@@ -199,10 +199,10 @@ Route::group([
         Route::get('/', [AccountSettingController::class, 'show'])
             ->name('front.account.settings');
 
-        Route::post('email/verify', [AccountSettingController::class, 'sendVerificationEmail'])
+        Route::post('email/verify', [AccountSettingController::class, 'sendEmailChangeEmail'])
             ->name('front.account.settings.email');
 
-        Route::get('email/confirm', [AccountSettingController::class, 'showConfirmForm'])
+        Route::get('email/confirm', [AccountSettingController::class, 'changeEmail'])
             ->name('front.account.settings.email.confirm')
             ->middleware('signed');
 

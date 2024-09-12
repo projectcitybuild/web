@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Front\Account;
 
-use App\Domains\EmailChange\Exceptions\TokenNotFoundException;
-use App\Domains\EmailChange\UseCases\SendVerificationEmail;
+use App\Domains\EmailChange\UseCases\SendEmailChangeEmail;
 use App\Domains\EmailChange\UseCases\UpdateAccountEmail;
-use App\Domains\EmailChange\UseCases\VerifyEmail;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\AccountChangeEmailRequest;
 use App\Http\Requests\AccountChangePasswordRequest;
@@ -24,58 +22,52 @@ final class AccountSettingController extends WebController
             ->with(compact('user'));
     }
 
-    public function sendVerificationEmail(
+    public function sendEmailChangeEmail(
         AccountChangeEmailRequest $request,
-        SendVerificationEmail $sendVerificationEmail,
+        SendEmailChangeEmail $sendVerificationEmail,
     ): RedirectResponse {
         $input = $request->validated();
+
         $account = $request->user();
 
         $sendVerificationEmail->execute(
             accountId: $account->getKey(),
-            oldEmailAddress: $account->email,
             newEmailAddress: $input['email'],
         );
 
-        return redirect()->back()->with([
-            'success' => '
-                A verification email has been sent to your new and current email address.
-                Please click the link in both emails to complete the process
-            ',
-        ]);
+        return redirect()
+            ->back()
+            ->with(['success' => 'A verification email has been sent to your new email address with a link to complete the email address update']);
     }
 
-    /**
-     * Either shows information about the current stage in the email change process,
-     * or completes the email change process if the user has just finished verifying
-     * they own both email addresses (old and new).
-     */
-    public function showConfirmForm(
+    public function changeEmail(
         Request $request,
-        VerifyEmail $verifyEmail,
         UpdateAccountEmail $updateAccountEmail
     ) {
-        try {
-            return $verifyEmail->execute(
-                token: $request->get('token'),
-                email: $request->get('email'),
-                onHalfComplete: fn (EmailChange $changeRequest) => view(
-                    view: 'front.pages.account.account-settings-email-confirm',
-                    data: ['changeRequest' => $changeRequest]
-                ),
-                onBothComplete: function (EmailChange $changeRequest) use ($updateAccountEmail) {
-                    $updateAccountEmail->execute(
-                        account: $changeRequest->account,
-                        emailChangeRequest: $changeRequest,
-                    );
+        $token = $request->get('token');
+        $account = $request->user();
 
-                    return view('front.pages.account.account-settings-email-complete');
-                },
-            );
-        } catch (TokenNotFoundException) {
-            // Token has expired or the email change process has already been completed
-            abort(code: 410);
+        $changeRequest = EmailChange::whereToken($token)
+            ->whereActive()
+            ->first();
+
+        if ($changeRequest === null) {
+            return redirect()
+                ->route('front.account.settings')
+                ->withErrors(['error' => 'Invalid or expired link']);
         }
+        if ($changeRequest->account->getKey() !== $account->getKey()) {
+            abort(403);
+        }
+        $updateAccountEmail->execute(
+            account: $changeRequest->account,
+            emailChangeRequest: $changeRequest,
+            oldEmail: $account->email,
+        );
+
+        return redirect()
+            ->route('front.account.settings')
+            ->with(['success' => 'Your email address has been updated']);
     }
 
     public function changePassword(AccountChangePasswordRequest $request)
@@ -86,8 +78,8 @@ final class AccountSettingController extends WebController
         $account->updatePassword($input['new_password']);
 
         return redirect()
-            ->route('front.account.security')
-            ->with(['success_password' => 'Password successfully updated']);
+            ->back()
+            ->with(['success' => 'Password successfully updated']);
     }
 
     public function changeUsername(AccountChangeUsernameRequest $request)
@@ -99,7 +91,7 @@ final class AccountSettingController extends WebController
         $account->save();
 
         return redirect()
-            ->route('front.account.settings')
-            ->with(['success_username', 'Username successfully updated']);
+            ->back()
+            ->with(['success', 'Username successfully updated']);
     }
 }

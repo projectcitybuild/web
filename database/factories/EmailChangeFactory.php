@@ -23,10 +23,8 @@ class EmailChangeFactory extends Factory
     {
         return [
             'token' => Str::random(16),
-            'email_previous' => $this->faker->email,
-            'email_new' => $this->faker->email,
-            'is_previous_confirmed' => false,
-            'is_new_confirmed' => false,
+            'email' => $this->faker->email,
+            'expires_at' => now()->addDay(),
         ];
     }
 }
