@@ -11,7 +11,7 @@ class MfaDisableController extends WebController
     public function show(Request $request)
     {
         if (! $request->user()->is_totp_enabled) {
-            return redirect(route('front.account.security'));
+            return redirect(route('front.account.settings.mfa'));
         }
 
         return view('front.pages.account.settings.mfa-disable');

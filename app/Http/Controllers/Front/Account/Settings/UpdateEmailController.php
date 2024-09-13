@@ -48,7 +48,7 @@ final class UpdateEmailController extends WebController
 
         if ($changeRequest === null) {
             return redirect()
-                ->route('front.account.settings')
+                ->route('front.account.settings.update-email')
                 ->withErrors(['error' => 'Invalid or expired link']);
         }
         if ($changeRequest->account->getKey() !== $account->getKey()) {

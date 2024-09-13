@@ -16,7 +16,7 @@ class AccountDonationTest extends TestCase
 
         $this->get(route('front.account.donations'))
             ->assertOk()
-            ->assertSee('You have not made any donations.');
+            ->assertSee('You have not made any donations');
     }
 
     public function test_shows_temporary_donation()
