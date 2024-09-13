@@ -19,19 +19,28 @@ The official repository for [Project City Build](https://projectcitybuild.com)'s
 
 All branches, commits and pull-requests are continuously tested
 
-### Requirements
-
-[Docker](https://docs.docker.com/get-docker/) is required to run the development environment via Laravel Sail.
-
 ## Can I contribute?
 
-Absolutely. Feel free to fork and send pull requests any time. We'd be thrilled to have some help.
-
-Check out our [wiki page](https://github.com/projectcitybuild/web/wiki/Contributing) on how to prepare and boot up a dev environment.
+Absolutely. Feel free to fork and send pull requests any time - we'd be thrilled to have some help.
 
 ---
 
 ## Development
+
+### Dev Environment
+
+Ensure you have [Docker](https://docs.docker.com/get-docker/) installed.
+
+Run `sail up -d` to start the containers.
+
+If this is your first time building the containers, additionally:
+
+* Run `sail composer install` to install PHP dependencies
+* Run `sail npm install` to install frontend dependencies
+
+From then onwards:
+
+Run `sail npm run dev` to (continuously) build the frontend
 
 ### Mail
 
@@ -48,3 +57,9 @@ If you wish to test different situations, set `CAPTCHA_SITE_KEY` and `CAPTCHA_SE
 to an appropriate value from the below list.
 
 https://developers.cloudflare.com/turnstile/troubleshooting/testing/
+
+### 2FA
+
+No real authenticator is required.
+
+For accounts that have 2FA enabled, always use the code `0000`.

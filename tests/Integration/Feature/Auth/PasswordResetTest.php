@@ -42,17 +42,20 @@ describe('submit', function () {
 
         $this->post($this->requestEndpoint, ['email' => $this->account->email]);
 
-        $this->assertDatabaseHas('account_password_resets', [
+        $this->assertDatabaseHas(PasswordReset::tableName(), [
             'email' => $this->account->email,
             'token' => $token,
+            'account_id' => $this->account->getKey(),
         ]);
     });
 });
 
 describe('set new password', function () {
     beforeEach(function () {
-        $this->reset = PasswordReset::factory()
-            ->create(['email' => $this->account->email]);
+        $this->reset = PasswordReset::factory()->create([
+            'email' => $this->account->email,
+            'account_id' => $this->account->getKey(),
+        ]);
     });
 
     it('changes the account password', function () {

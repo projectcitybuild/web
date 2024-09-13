@@ -24,7 +24,7 @@ class AccountSecurityTest extends TestCase
     public function test_can_view_security_page()
     {
         $this->actingAs(Account::factory()->create());
-        $this->get(route('front.account.security'))
+        $this->get(route('front.account.settings.mfa'))
             ->assertSee('Security')
             ->assertOk();
     }
@@ -35,7 +35,7 @@ class AccountSecurityTest extends TestCase
         $this->actingAs($account);
 
         $resp = $this->followingRedirects()
-            ->post(route('front.account.security.start'))
+            ->post(route('front.account.settings.mfa.start'))
             ->assertOk();
 
         $account = $account->fresh();
@@ -52,8 +52,8 @@ class AccountSecurityTest extends TestCase
         $account = Account::factory()->create();
         $this->actingAs($account);
 
-        $this->post(route('front.account.security.start'))
-            ->assertRedirect(route('front.account.security.setup'));
+        $this->post(route('front.account.settings.mfa.start'))
+            ->assertRedirect(route('front.account.settings.mfa.setup'));
 
         $account = $account->fresh();
         $decryptedSecret = Crypt::decryptString($account->totp_secret);
@@ -68,11 +68,11 @@ class AccountSecurityTest extends TestCase
 
         $this->actingAs($account);
 
-        $this->post(route('front.account.security.finish'), [
+        $this->post(route('front.account.settings.mfa.finish'), [
             'backup_saved' => 1,
             'code' => $validCode,
         ])
-            ->assertRedirect(route('front.account.security'));
+            ->assertRedirect(route('front.account.settings.mfa'));
 
         $this->assertDatabaseHas('accounts', [
             'account_id' => $account->getKey(),
@@ -86,7 +86,7 @@ class AccountSecurityTest extends TestCase
         $account = Account::factory()->hasStartedTotp()->create();
         $validCode = $this->g2fa->getCurrentOtp(Crypt::decryptString($account->totp_secret));
         $this->actingAs($account);
-        $this->post(route('front.account.security.finish'), [
+        $this->post(route('front.account.settings.mfa.finish'), [
             'backup_saved' => 1,
             'code' => $validCode,
         ]);
@@ -96,21 +96,21 @@ class AccountSecurityTest extends TestCase
     public function test_cant_re_start_if_set_up()
     {
         $this->actingAs(Account::factory()->hasFinishedTotp()->create());
-        $this->post(route('front.account.security.start'))
+        $this->post(route('front.account.settings.mfa.start'))
             ->assertForbidden();
     }
 
     public function test_cant_re_setup_if_set_up()
     {
         $this->actingAs(Account::factory()->hasFinishedTotp()->create());
-        $this->get(route('front.account.security.setup'))
+        $this->get(route('front.account.settings.mfa.setup'))
             ->assertForbidden();
     }
 
     public function test_cant_re_finish_if_set_up()
     {
         $this->actingAs(Account::factory()->hasFinishedTotp()->create());
-        $this->post(route('front.account.security.finish'), [
+        $this->post(route('front.account.settings.mfa.finish'), [
             'backup_saved' => 1,
             'code' => '000000',
         ])->assertForbidden();
@@ -120,7 +120,7 @@ class AccountSecurityTest extends TestCase
     {
         $this->actingAs(Account::factory()->hasFinishedTotp()->create());
 
-        $this->get(route('front.account.security.disable'))
+        $this->get(route('front.account.settings.mfa.disable'))
             ->assertRedirect(route('front.password.confirm'));
     }
 
@@ -128,15 +128,15 @@ class AccountSecurityTest extends TestCase
     {
         $this->actingAs(Account::factory()->hasStartedTotp()->create());
         $this->disableReauthMiddleware();
-        $this->get(route('front.account.security.disable'))
-            ->assertRedirect(route('front.account.security'));
+        $this->get(route('front.account.settings.mfa.disable'))
+            ->assertRedirect(route('front.account.settings.mfa'));
     }
 
     public function test_can_see_disable_when_confirmed()
     {
         $this->actingAs(Account::factory()->hasFinishedTotp()->create());
         $this->disableReauthMiddleware();
-        $this->get(route('front.account.security.disable'))
+        $this->get(route('front.account.settings.mfa.disable'))
             ->assertOk();
     }
 
@@ -145,7 +145,7 @@ class AccountSecurityTest extends TestCase
         $account = Account::factory()->hasFinishedTotp()->create();
         $this->actingAs($account);
         $this->disableReauthMiddleware();
-        $this->delete(route('front.account.security.disable'))
+        $this->delete(route('front.account.settings.mfa.disable'))
             ->assertRedirect();
 
         $this->assertDatabaseHas('accounts', [
@@ -163,7 +163,7 @@ class AccountSecurityTest extends TestCase
         $account = Account::factory()->hasFinishedTotp()->create();
         $this->actingAs($account);
         $this->disableReauthMiddleware();
-        $this->delete(route('front.account.security.disable'))
+        $this->delete(route('front.account.settings.mfa.disable'))
             ->assertRedirect();
         Notification::assertSentTo($account, MfaDisabledNotification::class);
     }
@@ -172,7 +172,7 @@ class AccountSecurityTest extends TestCase
     {
         $this->actingAs(Account::factory()->hasStartedTotp()->create());
         $this->disableReauthMiddleware();
-        $this->get(route('front.account.security.reset-backup'))
+        $this->get(route('front.account.settings.mfa.reset-backup'))
             ->assertForbidden();
     }
 
@@ -180,7 +180,7 @@ class AccountSecurityTest extends TestCase
     {
         $this->actingAs(Account::factory()->hasFinishedTotp()->create());
 
-        $this->get(route('front.account.security.reset-backup'))
+        $this->get(route('front.account.settings.mfa.reset-backup'))
             ->assertRedirect(route('front.password.confirm'));
     }
 
@@ -193,7 +193,7 @@ class AccountSecurityTest extends TestCase
         $this->actingAs($account);
         $this->disableReauthMiddleware();
 
-        $resp = $this->post(route('front.account.security.reset-backup'))
+        $resp = $this->post(route('front.account.settings.mfa.reset-backup'))
             ->assertOk();
 
         $account = $account->fresh();
@@ -208,7 +208,7 @@ class AccountSecurityTest extends TestCase
         Notification::fake();
         $account = Account::factory()->hasFinishedTotp()->create();
         $this->actingAs($account)->disableReauthMiddleware();
-        $this->post(route('front.account.security.reset-backup'));
+        $this->post(route('front.account.settings.mfa.reset-backup'));
         Notification::assertSentTo($account, MfaBackupCodeRegeneratedNotification::class);
     }
 }

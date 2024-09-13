@@ -11,23 +11,6 @@ use Repositories\AccountRepository;
 class AccountChangePasswordRequest extends FormRequest
 {
     /**
-     * The key to be used for the view error bag.
-     *
-     * @var string
-     */
-    protected $errorBag = 'password';
-
-    /**
-     * @var AccountRepository
-     */
-    private $accountRepository;
-
-    public function __construct(AccountRepository $accountRepository)
-    {
-        $this->accountRepository = $accountRepository;
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      */
     public function rules(): array
@@ -69,17 +52,5 @@ class AccountChangePasswordRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
-    }
-
-    /**
-     * Redirect back to the form anchor.
-     *
-     * @return string
-     */
-    protected function getRedirectUrl()
-    {
-        $url = $this->redirector->getUrlGenerator();
-
-        return $url->previous().'#change-password';
     }
 }

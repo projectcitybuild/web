@@ -3,8 +3,8 @@
 namespace Tests\Integration\Feature;
 
 use App\Domains\EmailChange\Notifications\VerifyNewEmailAddressNotification;
-use App\Domains\EmailChange\Notifications\VerifyOldEmailAddressNotification;
 use App\Models\Account;
+use App\Models\EmailChange;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Testing\TestResponse;
@@ -12,13 +12,13 @@ use Tests\TestCase;
 
 class AccountSettingsEmailTest extends TestCase
 {
-    use WithFaker;
-
     private $account;
 
     protected function setUp(): void
     {
         parent::setUp();
+
+        Notification::fake();
 
         $this->account = Account::factory()->create();
     }
@@ -35,23 +35,46 @@ class AccountSettingsEmailTest extends TestCase
 
     public function test_change_email_address()
     {
-        Notification::fake();
         Notification::assertNothingSent();
 
-        $newEmail = $this->faker->email;
-        $oldEmail = $this->account->email;
+        $newEmail = 'valid@email.com';
 
         $this->submitEmailChange($newEmail);
 
         $this->assertDatabaseHas('account_email_changes', [
-            'email_previous' => $oldEmail,
-            'email_new' => $newEmail,
+            'email' => $newEmail,
+            'account_id' => $this->account->getKey(),
         ]);
 
-        // Test notification to old email
-        Notification::assertSentTo(Notification::route('mail', $oldEmail), VerifyOldEmailAddressNotification::class);
-        // Test notification to new email
-        Notification::assertSentTo(Notification::route('mail', $newEmail), VerifyNewEmailAddressNotification::class);
+        Notification::assertSentTo(
+            Notification::route('mail', $newEmail),
+            VerifyNewEmailAddressNotification::class,
+        );
+    }
+
+    public function test_deletes_existing_email_change()
+    {
+        EmailChange::create([
+            'token' => 'test',
+            'account_id' => $this->account->getKey(),
+            'email' => 'foo@bar.com',
+            'expires_at' => now()->addDay(),
+        ]);
+        $this->assertDatabaseHas('account_email_changes', [
+            'token' => 'test',
+            'account_id' => $this->account->getKey(),
+            'email' => 'foo@bar.com',
+        ]);
+
+        $newEmail = 'valid@email.com';
+
+        $this->submitEmailChange($newEmail);
+
+        $this->assertDatabaseMissing('account_email_changes', [
+            'token' => 'test',
+            'account_id' => $this->account->getKey(),
+            'email' => 'foo@bar.com',
+        ]);
     }
 
     public function test_cant_change_ema_il_to_existing_email()

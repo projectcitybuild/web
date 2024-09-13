@@ -41,7 +41,7 @@ final class AccountPasswordResetCompleteNotification extends Notification implem
         return (new MailMessage())
             ->subject('Your Password Has Been Reset')
             ->greeting('Password Changed')
-            ->line('Your PCB account password has just been changed.')
-            ->line('If you were not expecting this, please contact a staff member immediately as your account may have been compromised.');
+            ->line('Your account password has just been changed.')
+            ->line('If you were not expecting this, please contact a staff member immediately.');
     }
 }

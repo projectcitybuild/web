@@ -20,7 +20,7 @@ beforeEach(function () {
 it('redirects to account settings if logged in', function () {
     $this->actingAs($this->account)
         ->get($this->formEndpoint)
-        ->assertRedirectToRoute('front.account.settings');
+        ->assertRedirectToRoute('front.account.profile');
 });
 
 describe('validation errors', function () {
@@ -56,11 +56,11 @@ describe('successful login', function () {
    });
 
    it('redirects to original destination', function () {
-       $this->get(route('front.account.billing'))
+       $this->get(route('front.account.settings.billing'))
            ->assertRedirect($this->formEndpoint);
 
        $this->post(route('front.login.submit'), $this->validCredentials)
-           ->assertRedirect(route('front.account.billing'));
+           ->assertRedirect(route('front.account.settings.billing'));
    });
 
     it('redirects to account profile if no original destination', function () {

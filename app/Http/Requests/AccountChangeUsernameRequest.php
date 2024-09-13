@@ -8,13 +8,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class AccountChangeUsernameRequest extends FormRequest
 {
     /**
-     * The key to be used for the view error bag.
-     *
-     * @var string
-     */
-    protected $errorBag = 'username';
-
-    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
@@ -34,17 +27,5 @@ class AccountChangeUsernameRequest extends FormRequest
         return [
             'username' => ['required', 'unique:accounts,username', new DiscourseUsernameRule()],
         ];
-    }
-
-    /**
-     * Redirect back to the form anchor.
-     *
-     * @return string
-     */
-    protected function getRedirectUrl()
-    {
-        $url = $this->redirector->getUrlGenerator();
-
-        return $url->previous().'#change-username';
     }
 }

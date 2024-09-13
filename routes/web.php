@@ -5,21 +5,23 @@ use App\Http\Controllers\Front\Account\AccountDonationController;
 use App\Http\Controllers\Front\Account\AccountGameAccountController;
 use App\Http\Controllers\Front\Account\AccountInfractionsController;
 use App\Http\Controllers\Front\Account\AccountProfileController;
-use App\Http\Controllers\Front\Account\AccountSecurityController;
-use App\Http\Controllers\Front\Account\AccountSettingController;
-use App\Http\Controllers\Front\Account\Mfa\DisableMfaController;
-use App\Http\Controllers\Front\Account\Mfa\FinishMfaController;
-use App\Http\Controllers\Front\Account\Mfa\ResetBackupController;
-use App\Http\Controllers\Front\Account\Mfa\SetupMfaController;
-use App\Http\Controllers\Front\Account\Mfa\StartMfaController;
+use App\Http\Controllers\Front\Account\Settings\MfaDisableController;
+use App\Http\Controllers\Front\Account\Settings\MfaFinishController;
+use App\Http\Controllers\Front\Account\Settings\MfaStatusController;
+use App\Http\Controllers\Front\Account\Settings\MfaResetBackupController;
+use App\Http\Controllers\Front\Account\Settings\MfaSetupController;
+use App\Http\Controllers\Front\Account\Settings\MfaStartController;
+use App\Http\Controllers\Front\Account\Settings\UpdateEmailController;
+use App\Http\Controllers\Front\Account\Settings\UpdatePasswordController;
+use App\Http\Controllers\Front\Account\Settings\UpdateUsernameController;
+use App\Http\Controllers\Front\Auth\ActivateAccountController;
 use App\Http\Controllers\Front\Auth\LoginController;
 use App\Http\Controllers\Front\Auth\LogoutController;
-use App\Http\Controllers\Front\Auth\Mfa\MfaRecoveryController;
 use App\Http\Controllers\Front\Auth\Mfa\MfaLoginGateController;
+use App\Http\Controllers\Front\Auth\Mfa\MfaRecoveryController;
 use App\Http\Controllers\Front\Auth\PasswordResetController;
 use App\Http\Controllers\Front\Auth\ReauthController;
 use App\Http\Controllers\Front\Auth\RegisterController;
-use App\Http\Controllers\Front\Auth\ActivateAccountController;
 use App\Http\Controllers\Front\BanAppeal\BanAppealController;
 use App\Http\Controllers\Front\BanAppeal\BanLookupController;
 use App\Http\Controllers\Front\BanlistController;
@@ -48,13 +50,16 @@ Route::prefix('donate')->group(function () {
 
 Route::prefix('rank-up')->group(function () {
     Route::get('/', [BuilderRankApplicationController::class, 'index'])
-        ->name('front.rank-up');
+        ->name('front.rank-up')
+        ->middleware(['auth']);
 
     Route::post('/', [BuilderRankApplicationController::class, 'store'])
-        ->name('front.rank-up.submit');
+        ->name('front.rank-up.submit')
+        ->middleware(['auth']);
 
     Route::get('{id}', [BuilderRankApplicationController::class, 'show'])
-        ->name('front.rank-up.status');
+        ->name('front.rank-up.status')
+        ->middleware(['auth']);
 });
 
 Route::prefix('appeal')->group(function () {
@@ -189,27 +194,6 @@ Route::group([
             ->name('front.account.infractions.acknowledge');
     });
 
-    Route::get('billing', [AccountBillingController::class, 'index'])
-        ->name('front.account.billing');
-
-    Route::prefix('edit')->group(function () {
-        Route::get('/', [AccountSettingController::class, 'show'])
-            ->name('front.account.settings');
-
-        Route::post('email/verify', [AccountSettingController::class, 'sendVerificationEmail'])
-            ->name('front.account.settings.email');
-
-        Route::get('email/confirm', [AccountSettingController::class, 'showConfirmForm'])
-            ->name('front.account.settings.email.confirm')
-            ->middleware('signed');
-
-        Route::post('password', [AccountSettingController::class, 'changePassword'])
-            ->name('front.account.settings.password');
-
-        Route::post('username', [AccountSettingController::class, 'changeUsername'])
-            ->name('front.account.settings.username');
-    });
-
     Route::prefix('games')->group(function () {
         Route::get('/', [AccountGameAccountController::class, 'index'])
             ->name('front.account.games');
@@ -218,34 +202,67 @@ Route::group([
             ->name('front.account.games.delete');
     });
 
-    Route::prefix('security')->group(function () {
-        Route::get('/', [AccountSecurityController::class, 'show'])
-            ->name('front.account.security');
+    Route::prefix('settings')->group(function () {
+        Route::prefix('username')->group(function () {
+            Route::get('/', [UpdateUsernameController::class, 'show'])
+                ->name('front.account.settings.username');
 
-        Route::post('mfa', StartMfaController::class)
-            ->name('front.account.security.start');
+            Route::post('/', [UpdateUsernameController::class, 'store'])
+                ->name('front.account.settings.username.store');
+        });
 
-        Route::get('mfa/setup', SetupMfaController::class)
-            ->name('front.account.security.setup');
+        Route::prefix('password')->group(function () {
+            Route::get('/', [UpdatePasswordController::class, 'show'])
+                ->name('front.account.settings.password');
 
-        Route::post('mfa/finish', FinishMfaController::class)
-            ->name('front.account.security.finish');
+            Route::post('/', [UpdatePasswordController::class, 'store'])
+                ->name('front.account.settings.password.store');
+        });
 
-        Route::get('mfa/disable', [DisableMfaController::class, 'show'])
-            ->name('front.account.security.disable')
-            ->middleware('password.confirm');
+        Route::prefix('email')->group(function () {
+            Route::get('/', [UpdateEmailController::class, 'show'])
+                ->name('front.account.settings.email');
 
-        Route::delete('mfa/disable', [DisableMfaController::class, 'destroy'])
-            ->name('front.account.security.disable.confirm')
-            ->middleware('password.confirm');
+            Route::post('/', [UpdateEmailController::class, 'store'])
+                ->name('front.account.settings.email.verify');
 
-        Route::get('mfa/backup', [ResetBackupController::class, 'show'])
-            ->name('front.account.security.reset-backup')
-            ->middleware('password.confirm');
+            Route::get('update', [UpdateEmailController::class, 'update'])
+                ->name('front.account.settings.email.update')
+                ->middleware('signed');
+        });
 
-        Route::post('mfa/backup', [ResetBackupController::class, 'update'])
-            ->name('front.account.security.reset-backup.confirm')
-            ->middleware('password.confirm');
+        Route::prefix('mfa')->group(function () {
+            Route::get('/', [MfaStatusController::class, 'show'])
+                ->name('front.account.settings.mfa');
+
+            Route::post('/', MfaStartController::class)
+                ->name('front.account.settings.mfa.start');
+
+            Route::get('setup', MfaSetupController::class)
+                ->name('front.account.settings.mfa.setup');
+
+            Route::post('finish', MfaFinishController::class)
+                ->name('front.account.settings.mfa.finish');
+
+            Route::get('disable', [MfaDisableController::class, 'show'])
+                ->name('front.account.settings.mfa.disable')
+                ->middleware('password.confirm');
+
+            Route::delete('disable', [MfaDisableController::class, 'destroy'])
+                ->name('front.account.settings.mfa.disable.confirm')
+                ->middleware('password.confirm');
+
+            Route::get('backup', [MfaResetBackupController::class, 'show'])
+                ->name('front.account.settings.mfa.reset-backup')
+                ->middleware('password.confirm');
+
+            Route::post('backup', [MfaResetBackupController::class, 'update'])
+                ->name('front.account.settings.mfa.reset-backup.confirm')
+                ->middleware('password.confirm');
+        });
+
+        Route::get('billing', [AccountBillingController::class, 'index'])
+            ->name('front.account.settings.billing');
     });
 });
 

@@ -51,16 +51,6 @@ class GamePlayerBanRepository
             ->get();
     }
 
-    public function unbanAllExpired()
-    {
-        GamePlayerBan::whereNull('unbanned_at')
-            ->whereDate('expires_at', '<=', now())
-            ->update([
-                'unbanned_at' => now(),
-                'unban_type' => UnbanType::EXPIRED->value,
-            ]);
-    }
-
     public function unban(
         GamePlayerBan $ban,
         ?int $unbannerPlayerId,

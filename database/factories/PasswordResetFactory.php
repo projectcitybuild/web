@@ -25,6 +25,7 @@ class PasswordResetFactory extends Factory
         return [
             'email' => $this->faker->email(),
             'token' => App::make(TokenGenerator::class)->make(),
+            'expires_at' => now()->addDay(),
         ];
     }
 }

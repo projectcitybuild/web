@@ -3,26 +3,25 @@
 namespace App\Models;
 
 use App\Core\Utilities\Traits\HasStaticTable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class EmailChange extends Model
 {
     use HasStaticTable;
     use HasFactory;
+    use Prunable;
 
     protected $table = 'account_email_changes';
-
-    protected $primaryKey = 'account_email_change_id';
 
     protected $fillable = [
         'account_id',
         'token',
-        'email_previous',
-        'email_new',
-        'is_previous_confirmed',
-        'is_new_confirmed',
+        'email',
+        'expires_at',
     ];
 
     public function account(): BelongsTo
@@ -32,5 +31,20 @@ final class EmailChange extends Model
             foreignKey: 'account_id',
             ownerKey: 'account_id',
         );
+    }
+
+    public function scopeWhereToken(Builder $query, string $token)
+    {
+        $query->where('token', $token);
+    }
+
+    public function scopeWhereActive(Builder $query)
+    {
+        $query->where('expires_at', '>', now());
+    }
+
+    public function prunable(): Builder
+    {
+        return static::where('expires_at', '<=', now());
     }
 }
