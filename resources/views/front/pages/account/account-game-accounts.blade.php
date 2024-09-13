@@ -4,7 +4,7 @@
 @section('description', '')
 
 @section('body')
-    @include('front.pages.account.navbar')
+    @include('front.pages.account.account-navbar')
 
     <main
         class="
