@@ -29,6 +29,7 @@
         "sifter": false
     },
     "dependencies": {
-        "@tailwindcss/forms": "^0.5.7"
+        "@tailwindcss/forms": "^0.5.7",
+        "flowbite": "^2.5.1"
     }
 }
