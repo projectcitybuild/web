@@ -1,37 +1,31 @@
-@extends('front.templates.master')
+@extends('front.root-layout')
 
-@section('title', 'Your Account - Project City Build')
+@section('title', 'Your Account')
 @section('description', '')
 
 @section('body')
-    <header class="image-header">
-        <div class="container">
-            <h1>Your Account</h1>
-        </div>
-    </header>
+    @include('front.pages.account.navbar')
 
-    <main class="page settings">
-        @include('front.pages.account.components.account-sidebar')
-        <div class="settings__content">
-            <div class="settings__section settings__section--is-hero">
-                @if(session()->has('success'))
-                    <x-success-alert>{{ session()->get('success') }}</x-success-alert>
-                @endif
+    <main
+        class="
+            flex flex-col max-w-screen-xl
+            md:flex-row md:mx-auto md:mt-8
+        "
+    >
+        <div class="rounded-lg bg-white flex-grow p-6 m-2">
+            @if(session()->has('success'))
+                <x-success-alert>{{ session()->get('success') }}</x-success-alert>
+            @endif
 
-                <h1 class="settings__section-heading">Hi {{ $account->username ?? $account->email }}</h1>
+            <h1 class="text-3xl mb-3">
+                Welcome back <span class="font-bold">{{ $account->username ?? "" }}</span>
+            </h1>
 
-                <div class="settings__groups">
-                    @foreach($account->groups as $group)
-                        <span class="pill pill--is-rank-{{ $group->name }}">{{ $group->alias ?? Str::title($group->name) }}</span>
-                    @endforeach
-                </div>
-
-                <div class="settings__balance">
-                    <i class="fas fa-ticket"></i> Tickets: {{ $account->balance }} (<a href="{{ route('front.donate') }}#tickets">what's this?</a>)
-                </div>
+            <div class="settings__groups">
+                @foreach($account->groups as $group)
+                    <span class="rounded-md bg-gray-200 py-1 px-2 text-sm">{{ $group->alias ?? Str::title($group->name) }}</span>
+                @endforeach
             </div>
         </div>
     </main>
-
-    @include('front.components.footer')
 @endsection

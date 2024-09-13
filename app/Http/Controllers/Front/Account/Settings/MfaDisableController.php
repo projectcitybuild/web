@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Front\Account\Mfa;
+namespace App\Http\Controllers\Front\Account\Settings;
 
 use App\Core\Domains\Mfa\Notifications\MfaDisabledNotification;
 use App\Http\Controllers\WebController;
 use Illuminate\Http\Request;
 
-class DisableMfaController extends WebController
+class MfaDisableController extends WebController
 {
     public function show(Request $request)
     {
         if (! $request->user()->is_totp_enabled) {
-            return redirect(route('front.account.security'));
+            return redirect(route('front.account.settings.mfa'));
         }
 
-        return view('front.pages.account.security.2fa-disable');
+        return view('front.pages.account.settings.mfa-disable');
     }
 
     public function destroy(Request $request)
@@ -24,6 +24,8 @@ class DisableMfaController extends WebController
         $account->save();
         $account->notify(new MfaDisabledNotification());
 
-        return redirect(route('front.account.security'))->with(['mfa_disabled' => true]);
+        return redirect()
+            ->route('front.account.settings.mfa')
+            ->with(['success' => '2FA has successfully been removed from your account']);
     }
 }

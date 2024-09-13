@@ -38,7 +38,7 @@ beforeEach(function () {
 it('redirects to account settings if logged in', function () {
     $this->actingAs(Account::factory()->create())
         ->get($this->formEndpoint)
-        ->assertRedirect(route('front.account.settings'));
+        ->assertRedirect(route('front.account.profile'));
 });
 
 it('shows a page', function () {

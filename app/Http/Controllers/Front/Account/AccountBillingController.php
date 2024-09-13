@@ -15,6 +15,6 @@ final class AccountBillingController extends WebController
             $user->createAsStripeCustomer();
         }
 
-        return $user->redirectToBillingPortal(route('front.account.settings'));
+        return $user->redirectToBillingPortal(route('front.account.profile'));
     }
 }
