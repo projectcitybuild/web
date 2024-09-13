@@ -41,6 +41,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\VerifyCsrfToken::class,
         ]);
+        $middleware->redirectGuestsTo(
+            fn (Request $request) => route('front.login'),
+        );
         $middleware->alias([
             'active-mfa' => \App\Http\Middleware\ActiveMfaSession::class,
             'activated' => \App\Http\Middleware\RequireActivation::class,
