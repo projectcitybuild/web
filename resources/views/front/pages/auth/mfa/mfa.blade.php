@@ -34,7 +34,7 @@
                 inputmode="numeric"
                 pattern="[0-9]*"
                 autocomplete="one-time-code"
-                placeholder="000000"
+                placeholder="xxxxxxx"
                 size="6"
                 maxlength="6"
                 autofocus
