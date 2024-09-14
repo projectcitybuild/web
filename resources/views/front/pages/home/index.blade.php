@@ -6,7 +6,7 @@
 One of the world's longest-running Minecraft servers; we're a community of creative players and city builders @endsection
 
 @section('body')
-    @include('front.pages.home.components.hero')
+    @include('front.components.hero')
 
     <main>
         <section class="introduction">

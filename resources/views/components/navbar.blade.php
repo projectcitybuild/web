@@ -1,4 +1,4 @@
-<nav class="border-b border-gray-200 border-opacity-65 absolute w-full">
+<nav class="border-b border-gray-200 border-opacity-65 absolute md:relative w-full">
     <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
         <x-logo />
 
