@@ -134,7 +134,7 @@
         </div>
     </div>
 
-    <div id="mega-menu-full-dropdown" class="hidden shadow-xl md:shadow-sm bg-gray-50 md:bg-white">
+    <div id="mega-menu-full-dropdown" class="hidden shadow-xl md:shadow-sm bg-gray-50 w-full absolute md:bg-white">
         <div class="grid max-w-screen-xl px-4 py-5 mx-auto text-gray-900 sm:grid-cols-3 md:px-6 md:py-8">
             <ul>
                 <li>
@@ -158,15 +158,15 @@
             </ul>
             <ul>
                 <li>
-                    <a href="{{ route('map-archive') }}" class="block p-3 rounded-lg hover:bg-gray-100">
-                        <div class="font-semibold">Map Archive</div>
-                        <span class="text-sm text-gray-500">Download server maps that we retired</span>
-                    </a>
-                </li>
-                <li>
                     <a href="{{ route('3d-maps') }}" class="block p-3 rounded-lg hover:bg-gray-100">
                         <div class="font-semibold">3d Map</div>
                         <span class="text-sm text-gray-500">View the 3d interactive map of Monarch</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('map-archive') }}" class="block p-3 rounded-lg hover:bg-gray-100">
+                        <div class="font-semibold">Map Archive</div>
+                        <span class="text-sm text-gray-500">Download server maps no longer available</span>
                     </a>
                 </li>
                 <li>
