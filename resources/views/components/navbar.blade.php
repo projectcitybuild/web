@@ -1,5 +1,9 @@
-<nav class="border-b border-gray-200 border-opacity-65 absolute md:relative w-full">
-    <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
+@props([
+    'variant' => 'opaque',
+])
+
+<nav class="border-gray-200 border-opacity-65 absolute md:relative w-full {{ $variant != 'opaque' ? 'border-b' : '' }}">
+    <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4 {{ $variant == 'opaque' ? 'bg-[#362f2b]' : '' }}">
         <x-logo />
 
         <div class="flex md:order-2 space-x-3 md:space-x-0 items-center">
