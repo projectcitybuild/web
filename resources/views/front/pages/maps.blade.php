@@ -1,22 +1,24 @@
-@extends('front.templates.master')
+@extends('front.root-layout')
 
-@section('title', 'Live Maps - Project City Build')
+@section('title', 'Live Maps')
 
 @push('head')
     <style>
         #app {
-            display: flex;
             width: 100%;
             height: 100%;
-            flex-direction: column;
-            background: black;
         }
     </style>
 @endpush
 
 @section('body')
-    <iframe
-        src="https://maps.pcbmc.co"
-        style="flex-grow: 1">
-    </iframe>
+    <div class="flex flex-col bg-black size-full">
+        <x-navbar />
+
+        <iframe
+            class="size-full flex-grow"
+            src="https://maps.pcbmc.co"
+            style="flex-grow: 1">
+        </iframe>
+    </div>
 @endsection
