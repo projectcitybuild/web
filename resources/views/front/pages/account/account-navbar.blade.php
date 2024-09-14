@@ -24,6 +24,13 @@
                     <span class="block text-sm  text-gray-500 truncate">{{ Auth::user()->email }}</span>
                 </div>
                 <ul class="py-2" aria-labelledby="user-menu-button">
+                    @if (Auth::user()->canAccessPanel())
+                        <li>
+                            <a href="{{ route('front.panel.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staff Panel</a>
+                        </li>
+                    @endif
+                </ul>
+                <ul class="py-2" aria-labelledby="user-menu-button">
                     <li>
                         <a href="{{ route('front.logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
                     </li>

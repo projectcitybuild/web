@@ -1,4 +1,4 @@
-@extends('front.templates.master')
+@extends('front.root-layout')
 
 @section('title', 'Project City Build - Creative Minecraft Community')
 @section('meta_title', 'Project City Build - Creative Minecraft Community')
