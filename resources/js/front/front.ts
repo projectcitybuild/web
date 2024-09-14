@@ -8,17 +8,6 @@ import.meta.glob([
 const app = createApp({});
 app.mount('#app');
 
-// Nav bar
-const hamburger = document.querySelector(".hamburger")
-const navLinks = document.querySelector(".nav-links")
-
-hamburger.addEventListener("click", openDrawer)
-
-function openDrawer() {
-    hamburger.classList.toggle("active")
-    navLinks.classList.toggle("active")
-}
-
 const dropdownLinks = document.querySelectorAll(".nav-dropdown")
 
 dropdownLinks.forEach(node => {
@@ -50,7 +39,3 @@ function copyToClipboard(text: string) {
             alert('Copied to clipboard')
         })
 }
-
-// Initialise legacy JS-only components
-import Navigation from "./navigation/Navigation";
-const navigation = new Navigation()

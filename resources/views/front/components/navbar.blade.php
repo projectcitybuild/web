@@ -1,28 +1,3 @@
-{{--<nav class="navbar">--}}
-{{--    <div class="container">--}}
-{{--            @if($isLoggedIn)--}}
-{{--                <li>--}}
-{{--                    <a href="javascript:void(0)" class="nav-dropdown">Account <i class="fas fa-caret-down"></i></a>--}}
-{{--                    <ul class="dropdown single">--}}
-{{--                        <li class="divider"><a href="{{ route('front.account.profile') }}">Dashboard</a></li>--}}
-{{--                        @if($canAccessPanel)--}}
-{{--                            <li class="divider"><a href="{{ route('front.panel.index') }}">Staff Panel</a></li>--}}
-{{--                        @endif--}}
-{{--                        <li>--}}
-{{--                            <a href="{{ route('front.logout') }}">--}}
-{{--                                <i class="fas fa-sign-out-alt"></i> Logout--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
-{{--            @else--}}
-{{--                <li><a href="{{ route('front.login') }}">Sign In</a></li>--}}
-{{--            @endif--}}
-{{--        </ul>--}}
-{{--    </div>--}}
-{{--</nav>--}}
-
-
 <nav class="border-b border-gray-200 border-opacity-65 absolute w-full">
     <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
         <x-logo />

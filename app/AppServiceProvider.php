@@ -117,7 +117,6 @@ final class AppServiceProvider extends ServiceProvider
 
     private function bindBladeComponents(): void
     {
-        Blade::component('navbar', NavBarComponent::class);
         Blade::component('donation-bar', DonationBarComponent::class);
         Blade::component('panel-side-bar', PanelSideBarComponent::class);
 
