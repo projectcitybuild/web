@@ -10,11 +10,11 @@
     <hr class="my-6" />
 
     @error('error')
-        <x-shared::validation-error class="mt-6">{{ $message }}</x-shared::validation-error>
+        <x-validation-error class="mt-6">{{ $message }}</x-validation-error>
     @enderror
 
     @if(session()->has('success'))
-        <x-shared::success-alert class="mt-6">{{ session()->get('success') }}</x-shared::success-alert>
+        <x-success-alert class="mt-6">{{ session()->get('success') }}</x-success-alert>
     @endif
 
     <form
@@ -72,6 +72,6 @@
             <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
         @enderror
 
-        <x-front::button type="submit" class="mt-6">Update</x-shared::button>
+        <x-front::button type="submit" class="mt-6">Update</x-button>
     </form>
 @endsection

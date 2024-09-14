@@ -5,7 +5,7 @@
         <div class="bg-gray-50 flex flex-row justify-center">
             <div class="p-6 md:p-12 max-w-screen-sm flex-grow flex flex-col">
                 <div class="flex-grow min-h-24">
-                    <x-shared::logo class="absolute" />
+                    <x-logo class="absolute" />
                 </div>
                 <div>
                     @yield('content')

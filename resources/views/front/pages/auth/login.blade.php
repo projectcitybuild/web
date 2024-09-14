@@ -15,11 +15,11 @@
         <h1 class="text-5xl font-bold text-gray-900 mt-2 mb-6">Sign In</h1>
 
         @error('error')
-            <x-shared::validation-error class="mt-6">{!! $message !!}</x-shared::validation-error>
+            <x-validation-error class="mt-6">{!! $message !!}</x-validation-error>
         @enderror
 
         @if(session()->has('success'))
-            <x-shared::success-alert>{{ session()->get('success') }}</x-shared::success-alert>
+            <x-success-alert>{{ session()->get('success') }}</x-success-alert>
         @endif
 
         <label for="email" class="text-md font-bold mt-6">
@@ -73,7 +73,7 @@
             <a href="{{ route('front.password-reset.create') }}" class="text-sm text-blue-600">Forgot your password?</a>
         </div>
 
-        <x-front::button type="submit" variant="filled" class="mt-12">Sign In</x-shared::button>
+        <x-front::button type="submit" variant="filled" class="mt-12">Sign In</x-button>
 
         <div class="mt-12 m-auto">
             <span class="text-gray-500">

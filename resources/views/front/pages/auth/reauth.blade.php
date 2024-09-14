@@ -10,7 +10,7 @@
         <h1 class="text-4xl font-bold text-gray-900 mt-2">Reauthenticate</h1>
 
         @error('error')
-        <x-shared::validation-error class="mt-6">{{ $message }}</x-shared::validation-error>
+        <x-validation-error class="mt-6">{{ $message }}</x-validation-error>
         @enderror
 
 
@@ -30,6 +30,6 @@
             <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
         @enderror
 
-        <x-front::button type="submit" variant="filled" class="mt-6">Confirm</x-shared::button>
+        <x-front::button type="submit" variant="filled" class="mt-6">Confirm</x-button>
     </form>
 @endsection

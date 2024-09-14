@@ -109,7 +109,7 @@
 
                     <x-front::button type="submit" variant="filled">
                         <i class="fas fa-check"></i> Submit
-                    </x-shared::button>
+                    </x-button>
                 </form>
             @endauth
         @endif

@@ -4,22 +4,13 @@
 
 <nav class="border-gray-200 border-opacity-65 absolute md:relative w-full {{ $variant != 'opaque' ? 'border-b' : 'bg-[#362f2b]' }}">
     <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <x-shared::logo />
+        <x-logo />
 
         <div class="flex md:order-2 space-x-3 md:space-x-0 items-center">
             @auth
                 <button type="button" class="flex text-sm bg-gray-50 rounded-full md:me-0" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                     <span class="sr-only">Open user menu</span>
-                    @php
-                        $uuid = Auth::user()->minecraftAccount->first()?->uuid;
-                    @endphp
-                    @if ($uuid !== null)
-                        <img class="w-8 h-8 rounded-full p-1" src="https://minotar.net/avatar/{{ $uuid }}">
-                    @else
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 text-white">
-                            <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-5.5-2.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10 12a5.99 5.99 0 0 0-4.793 2.39A6.483 6.483 0 0 0 10 16.5a6.483 6.483 0 0 0 4.793-2.11A5.99 5.99 0 0 0 10 12Z" clip-rule="evenodd" />
-                        </svg>
-                    @endif
+                    <x-avatar />
                 </button>
                 <!-- Dropdown menu -->
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">

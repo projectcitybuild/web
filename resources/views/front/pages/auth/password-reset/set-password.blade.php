@@ -24,11 +24,11 @@
         @csrf
 
         @error('error')
-        <x-shared::validation-error class="mt-6">{{ $message }}</x-shared::validation-error>
+        <x-validation-error class="mt-6">{{ $message }}</x-validation-error>
         @enderror
 
         @if(session()->has('success'))
-            <x-shared::success-alert class="mt-6">{{ session()->get('success') }}</x-shared::success-alert>
+            <x-success-alert class="mt-6">{{ session()->get('success') }}</x-success-alert>
         @endif
 
         <input type="hidden" name="password_token" value="{{ $passwordToken }}"/>
@@ -63,6 +63,6 @@
 
         <x-front::button type="submit" variant="filled" class="mt-8">
             Update Password
-        </x-shared::button>
+        </x-button>
     </form>
 @endsection

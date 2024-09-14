@@ -13,7 +13,7 @@
         @csrf
 
         @error('error')
-            <x-shared::validation-error class="mt-6">{{ $message }}</x-shared::validation-error>
+            <x-validation-error class="mt-6">{{ $message }}</x-validation-error>
         @enderror
 
         <section>
@@ -127,6 +127,6 @@
 
         <hr class="my-6" />
 
-        <x-front::button type="submit" class="mt-6">Enable</x-shared::button>
+        <x-front::button type="submit" class="mt-6">Enable</x-button>
     </form>
 @endsection

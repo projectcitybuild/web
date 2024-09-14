@@ -54,7 +54,7 @@
                 type="submit"
             >
                 <i class="fas fa-check"></i> Submit
-            </x-shared::button>
+            </x-button>
         </form>
     </div>
 @endsection

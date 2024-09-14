@@ -19,6 +19,6 @@
 
     <x-front::button href="{{ route('front.account.settings.mfa') }}" class="mt-6">
         Finish
-    </x-shared::button>
+    </x-button>
 @endsection
 

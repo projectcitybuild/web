@@ -20,10 +20,10 @@
 
         <x-front::button variant="outlined" href="{{ route('front.account.settings.mfa') }}">
             Cancel
-        </x-shared::button>
+        </x-button>
 
         <x-front::button type="submit">
             Disable 2FA
-        </x-shared::button>
+        </x-button>
     </form>
 @endsection

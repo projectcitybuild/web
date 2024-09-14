@@ -120,8 +120,8 @@ final class AppServiceProvider extends ServiceProvider
         Blade::component('donation-bar', DonationBarComponent::class);
         Blade::component('panel-side-bar', PanelSideBarComponent::class);
 
+        Blade::anonymousComponentPath(__DIR__.'/../resources/views/shared/components');
         Blade::anonymousComponentPath(__DIR__.'/../resources/views/front/components', 'front');
-        Blade::anonymousComponentPath(__DIR__.'/../resources/views/shared/components', 'shared');
 
         Blade::anonymousComponentNamespace('admin.activity.components', 'activity');
     }

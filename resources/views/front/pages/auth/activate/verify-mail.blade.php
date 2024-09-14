@@ -11,7 +11,7 @@
     <h1 class="text-4xl font-bold text-gray-900 mt-6">Verify Your Email</h1>
 
     @if(session()->has('success'))
-        <x-shared::success-alert class="mt-6">{{ session()->get('success') }}</x-shared::success-alert>
+        <x-success-alert class="mt-6">{{ session()->get('success') }}</x-success-alert>
     @endif
 
     <div class="text-gray-500 mt-6">
@@ -21,8 +21,8 @@
 
     <form method="post" action="{{ route('front.activate.resend', ['email' => $email]) }}" class="flex flex-row gap-2 mt-12">
         @csrf
-        <x-front::button type="submit" variant="filled">Resend email</x-shared::button>
+        <x-front::button type="submit" variant="filled">Resend email</x-button>
 
-        <x-front::button variant="outlined" href="{{ route('front.logout') }}">Logout</x-shared::button>
+        <x-front::button variant="outlined" href="{{ route('front.logout') }}">Logout</x-button>
     </form>
 @endsection

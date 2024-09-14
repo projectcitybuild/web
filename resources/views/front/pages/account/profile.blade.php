@@ -4,7 +4,7 @@
 @section('description', '')
 
 @section('body')
-    @include('front.pages.account.account-navbar')
+    <x-account-navbar />
 
     <main
         class="
@@ -14,16 +14,16 @@
     >
         <div class="rounded-lg bg-white flex-grow p-6 m-2">
             @if(session()->has('success'))
-                <x-shared::success-alert>{{ session()->get('success') }}</x-shared::success-alert>
+                <x-success-alert>{{ session()->get('success') }}</x-success-alert>
             @endif
 
             <h1 class="text-3xl mb-3">
                 Welcome back <span class="font-bold">{{ $account->username ?? "" }}</span>
             </h1>
 
-            <div class="settings__groups">
+            <div class="flex flex-wrap gap-2">
                 @foreach($account->groups as $group)
-                    <span class="rounded-md bg-gray-200 py-1 px-2 text-sm">{{ $group->alias ?? Str::title($group->name) }}</span>
+                    <x-tag>{{ $group->alias ?? Str::title($group->name) }}</x-tag>
                 @endforeach
             </div>
         </div>

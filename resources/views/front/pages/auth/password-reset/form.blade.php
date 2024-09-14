@@ -23,11 +23,11 @@
         @csrf
 
         @error('error')
-            <x-shared::validation-error class="mt-6">{{ $message }}</x-shared::validation-error>
+            <x-validation-error class="mt-6">{{ $message }}</x-validation-error>
         @enderror
 
         @if(session()->has('success'))
-            <x-shared::success-alert class="mt-6">{{ session()->get('success') }}</x-shared::success-alert>
+            <x-success-alert class="mt-6">{{ session()->get('success') }}</x-success-alert>
         @endif
 
         <input
@@ -47,7 +47,7 @@
 
         <x-front::button type="submit" variant="filled" class="mt-8">
             Send Reset Link
-        </x-shared::button>
+        </x-button>
 
         <a class="flex items-center gap-2 mt-12 text-sm text-gray-500 m-auto" href="{{ route('front.login') }}">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">

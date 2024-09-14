@@ -15,7 +15,7 @@
         <h1 class="text-4xl font-bold text-gray-900 mt-2 mb-6">Create an Account</h1>
 
         @error('error')
-            <x-shared::validation-error class="mt-6">{{ $message }}</x-shared::validation-error>
+            <x-validation-error class="mt-6">{{ $message }}</x-validation-error>
         @enderror
 
         <label for="email" class="text-md font-bold mt-6">Email</label>
@@ -91,7 +91,7 @@
             <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
         @enderror
 
-        <x-shared::captcha class="mt-6"></x-shared::captcha>
+        <x-captcha class="mt-6"></x-captcha>
 
         <x-front::button
             type="submit"
@@ -99,7 +99,7 @@
             class="g-recaptcha mt-6"
         >
             Register
-        </x-shared::button>
+        </x-button>
 
         <div class="mt-12 m-auto">
             <span class="text-gray-500">
