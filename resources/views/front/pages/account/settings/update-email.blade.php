@@ -1,4 +1,4 @@
-@extends('front.pages.account.account-layout')
+@extends('front.layouts.account-settings-layout')
 
 @section('title', 'Account Settings')
 @section('description', '')
@@ -10,11 +10,11 @@
     <hr class="my-6" />
 
     @error('error')
-        <x-validation-error class="mt-6">{{ $message }}</x-validation-error>
+        <x-shared::validation-error class="mt-6">{{ $message }}</x-shared::validation-error>
     @enderror
 
     @if(session()->has('success'))
-        <x-success-alert class="mt-6">{{ session()->get('success') }}</x-success-alert>
+        <x-shared::success-alert class="mt-6">{{ session()->get('success') }}</x-shared::success-alert>
     @endif
 
     <p class="text-gray-500 mt-2">An email will be sent to your new email address with a link to complete the change.</p>
@@ -41,6 +41,6 @@
             <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
         @enderror
 
-        <x-button type="submit" class="mt-6">Update</x-button>
+        <x-front::button type="submit" class="mt-6">Update</x-shared::button>
     </form>
 @endsection

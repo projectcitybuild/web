@@ -1,4 +1,4 @@
-@extends('front.pages.auth.auth-layout')
+@extends('front.layouts.auth-layout')
 
 @section('title', 'Forgot Your Password?')
 @section('description', "If you've forgotten your PCB password but remember your email address, use this form to reset your password.")
@@ -23,11 +23,11 @@
         @csrf
 
         @error('error')
-            <x-validation-error class="mt-6">{{ $message }}</x-validation-error>
+            <x-shared::validation-error class="mt-6">{{ $message }}</x-shared::validation-error>
         @enderror
 
         @if(session()->has('success'))
-            <x-success-alert class="mt-6">{{ session()->get('success') }}</x-success-alert>
+            <x-shared::success-alert class="mt-6">{{ session()->get('success') }}</x-shared::success-alert>
         @endif
 
         <input
@@ -45,9 +45,9 @@
             <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
         @enderror
 
-        <x-button type="submit" variant="filled" class="mt-8">
+        <x-front::button type="submit" variant="filled" class="mt-8">
             Send Reset Link
-        </x-button>
+        </x-shared::button>
 
         <a class="flex items-center gap-2 mt-12 text-sm text-gray-500 m-auto" href="{{ route('front.login') }}">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">

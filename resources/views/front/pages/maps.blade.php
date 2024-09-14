@@ -1,4 +1,4 @@
-@extends('front.root-layout')
+@extends('front.layouts.root-layout')
 
 @section('title', 'Live Maps')
 
@@ -13,7 +13,7 @@
 
 @section('body')
     <div class="flex flex-col bg-black size-full">
-        <x-navbar />
+        <x-front::navbar />
 
         <iframe
             class="size-full flex-grow"

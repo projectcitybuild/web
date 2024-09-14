@@ -2,9 +2,9 @@
     'variant' => 'opaque',
 ])
 
-<nav class="border-gray-200 border-opacity-65 absolute md:relative w-full {{ $variant != 'opaque' ? 'border-b' : '' }}">
-    <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4 {{ $variant == 'opaque' ? 'bg-[#362f2b]' : '' }}">
-        <x-logo />
+<nav class="border-gray-200 border-opacity-65 absolute md:relative w-full {{ $variant != 'opaque' ? 'border-b' : 'bg-[#362f2b]' }}">
+    <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <x-shared::logo />
 
         <div class="flex md:order-2 space-x-3 md:space-x-0 items-center">
             @auth
@@ -146,21 +146,21 @@
                 <li>
                     <a href="{{ route('ranks') }}" class="block p-3 rounded-lg hover:bg-gray-100">
                         <div class="font-semibold">Ranks</div>
-                        <span class="text-sm text-gray-500">List of all player ranks attainable</span>
+                        <span class="text-sm text-gray-500">List of all attainable player ranks</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('staff') }}" class="block p-3 rounded-lg hover:bg-gray-100">
                         <div class="font-semibold flex gap-2 items-center">Staff</div>
-                        <span class="text-sm text-gray-500">List of all current and past staff volunteers</span>
+                        <span class="text-sm text-gray-500">List of all current and past volunteers</span>
                     </a>
                 </li>
             </ul>
             <ul>
                 <li>
                     <a href="{{ route('3d-maps') }}" class="block p-3 rounded-lg hover:bg-gray-100">
-                        <div class="font-semibold">3d Map</div>
-                        <span class="text-sm text-gray-500">View the 3d interactive map of Monarch</span>
+                        <div class="font-semibold">3D Map</div>
+                        <span class="text-sm text-gray-500">View the interactive map of Monarch</span>
                     </a>
                 </li>
                 <li>
@@ -180,13 +180,13 @@
                 <li>
                     <a href="{{ route('report') }}" class="block p-3 rounded-lg hover:bg-gray-100">
                         <div class="font-semibold">Report a Player</div>
-                        <span class="text-sm text-gray-500">Let us know of any player misconduct</span>
+                        <span class="text-sm text-gray-500">Notify staff of player misconduct</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('front.appeal') }}" class="block p-3 rounded-lg hover:bg-gray-100">
                         <div class="font-semibold">Appeal a Ban</div>
-                        <span class="text-sm text-gray-500">Apply to reverse a player ban</span>
+                        <span class="text-sm text-gray-500">Request the removal of a player ban</span>
                     </a>
                 </li>
                 <li>

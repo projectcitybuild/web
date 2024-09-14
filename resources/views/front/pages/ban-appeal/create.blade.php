@@ -49,12 +49,12 @@
                 >{{ old('explanation') }}</textarea>
             </div>
 
-            <x-button
+            <x-front::button
                 class="g-recaptcha button button--filled button--block"
                 type="submit"
             >
                 <i class="fas fa-check"></i> Submit
-            </x-button>
+            </x-shared::button>
         </form>
     </div>
 @endsection

@@ -1,4 +1,4 @@
-@extends('front.pages.account.account-layout')
+@extends('front.layouts.account-settings-layout')
 
 @section('title', 'Refresh 2FA Backup')
 @section('description', '')
@@ -17,8 +17,8 @@
         You <strong>must</strong> store this code. It is the only way to regain access to your account if you lose your 2FA device.
     </div>
 
-    <x-button href="{{ route('front.account.settings.mfa') }}" class="mt-6">
+    <x-front::button href="{{ route('front.account.settings.mfa') }}" class="mt-6">
         Finish
-    </x-button>
+    </x-shared::button>
 @endsection
 

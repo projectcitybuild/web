@@ -1,4 +1,4 @@
-@extends('front.pages.auth.auth-layout')
+@extends('front.layouts.auth-layout')
 
 @section('title', '2FA Confirmation')
 @section('description', '')
@@ -45,7 +45,7 @@
         @enderror
 
         <div class="mt-12">
-            <x-button type="submit" variant="filled">Verify</x-button>
+            <x-front::button type="submit" variant="filled">Verify</x-shared::button>
         </div>
 
         <a class="flex items-center gap-2 mt-12 text-sm text-gray-500 m-auto" href="{{ route('front.login.mfa-recover') }}">

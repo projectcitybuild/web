@@ -1,4 +1,4 @@
-@extends('front.root-layout')
+@extends('front.layouts.root-layout')
 
 @section('title', 'Project City Build - Creative Minecraft Community')
 @section('meta_title', 'Project City Build - Creative Minecraft Community')
@@ -6,7 +6,7 @@
 One of the world's longest-running Minecraft servers; we're a community of creative players and city builders @endsection
 
 @section('body')
-    @include('front.components.hero')
+    <x-front::hero />
 
     <main>
         <section class="introduction">

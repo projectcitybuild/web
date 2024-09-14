@@ -1,4 +1,4 @@
-@extends('front.root-layout')
+@extends('front.layouts.root-layout')
 
 @section('title', 'Donations')
 @section('description', '')

@@ -1,4 +1,4 @@
-@extends('front.pages.auth.auth-layout')
+@extends('front.layouts.auth-layout')
 
 @section('title', 'Forgot Your Password?')
 @section('description', "If you've forgotten your PCB password but remember your email address, use this form to reset your password.")
@@ -24,11 +24,11 @@
         @csrf
 
         @error('error')
-        <x-validation-error class="mt-6">{{ $message }}</x-validation-error>
+        <x-shared::validation-error class="mt-6">{{ $message }}</x-shared::validation-error>
         @enderror
 
         @if(session()->has('success'))
-            <x-success-alert class="mt-6">{{ session()->get('success') }}</x-success-alert>
+            <x-shared::success-alert class="mt-6">{{ session()->get('success') }}</x-shared::success-alert>
         @endif
 
         <input type="hidden" name="password_token" value="{{ $passwordToken }}"/>
@@ -61,8 +61,8 @@
             <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
         @enderror
 
-        <x-button type="submit" variant="filled" class="mt-8">
+        <x-front::button type="submit" variant="filled" class="mt-8">
             Update Password
-        </x-button>
+        </x-shared::button>
     </form>
 @endsection

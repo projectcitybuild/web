@@ -4,7 +4,7 @@
     bg-cover bg-no-repeat bg-center
     flex flex-col
 ">
-    <x-navbar variant="clear" />
+    <x-front::navbar variant="clear" />
 
     <div class="flex flex-grow items-center justify-end">
         <div class="visible:m flex-grow"></div>

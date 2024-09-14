@@ -1,4 +1,4 @@
-@extends('front.pages.account.account-layout')
+@extends('front.layouts.account-settings-layout')
 
 @section('title', 'Account Settings')
 @section('description', '')
@@ -10,11 +10,11 @@
     <hr class="my-6" />
 
     @error('error')
-        <x-validation-error class="my-6">{{ $message }}</x-validation-error>
+        <x-shared::validation-error class="my-6">{{ $message }}</x-shared::validation-error>
     @enderror
 
     @if(session()->has('success'))
-        <x-success-alert class="my-6">{{ session()->get('success') }}</x-success-alert>
+        <x-shared::success-alert class="my-6">{{ session()->get('success') }}</x-shared::success-alert>
     @endif
 
     @if(Session::get('mfa_setup_required', false))
@@ -36,19 +36,19 @@
         </div>
 
         <div class="flex flex-row gap-2 mt-6">
-            <x-button href="{{ route('front.account.settings.mfa.reset-backup') }}">
+            <x-front::button href="{{ route('front.account.settings.mfa.reset-backup') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                     <path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 0 1-9.201 2.466l-.312-.311h2.433a.75.75 0 0 0 0-1.5H3.989a.75.75 0 0 0-.75.75v4.242a.75.75 0 0 0 1.5 0v-2.43l.31.31a7 7 0 0 0 11.712-3.138.75.75 0 0 0-1.449-.39Zm1.23-3.723a.75.75 0 0 0 .219-.53V2.929a.75.75 0 0 0-1.5 0V5.36l-.31-.31A7 7 0 0 0 3.239 8.188a.75.75 0 1 0 1.448.389A5.5 5.5 0 0 1 13.89 6.11l.311.31h-2.432a.75.75 0 0 0 0 1.5h4.243a.75.75 0 0 0 .53-.219Z" clip-rule="evenodd" />
                 </svg>
                 Regenerate Backup Code
-            </x-button>
+            </x-shared::button>
 
-            <x-button href="{{ route('front.account.settings.mfa.disable') }}" variant="outlined">
+            <x-front::button href="{{ route('front.account.settings.mfa.disable') }}" variant="outlined">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                     <path fill-rule="evenodd" d="M14.5 1A4.5 4.5 0 0 0 10 5.5V9H3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-1.5V5.5a3 3 0 1 1 6 0v2.75a.75.75 0 0 0 1.5 0V5.5A4.5 4.5 0 0 0 14.5 1Z" clip-rule="evenodd" />
                 </svg>
                 Disable 2FA
-            </x-button>
+            </x-shared::button>
         </div>
     @else
         <div class="rounded-md bg-gray-100 p-6">
@@ -63,7 +63,7 @@
 
         <form action="{{ route('front.account.settings.mfa.start') }}" method="post" class="mt-6">
             @csrf
-            <x-button type="submit">Set Up</x-button>
+            <x-front::button type="submit">Set Up</x-shared::button>
         </form>
     @endif
 @endsection

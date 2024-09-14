@@ -1,4 +1,4 @@
-@extends('front.root-layout')
+@extends('front.layouts.root-layout')
 
 @section('title', 'Your Account')
 @section('description', '')
@@ -14,7 +14,7 @@
     >
         <div class="rounded-lg bg-white flex-grow p-6 m-2">
             @if(session()->has('success'))
-                <x-success-alert>{{ session()->get('success') }}</x-success-alert>
+                <x-shared::success-alert>{{ session()->get('success') }}</x-shared::success-alert>
             @endif
 
             <h1 class="text-3xl mb-3">
