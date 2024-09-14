@@ -1,10 +1,10 @@
-@extends('front.root-layout')
+@extends('front.layouts.root-layout')
 
 @section('title', 'Donations')
 @section('description', '')
 
 @section('body')
-    @include('front.pages.account.account-navbar')
+    <x-account-navbar />
 
     <main
         class="

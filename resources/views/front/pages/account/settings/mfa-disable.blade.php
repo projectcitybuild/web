@@ -1,4 +1,4 @@
-@extends('front.pages.account.account-layout')
+@extends('front.layouts.account-settings-layout')
 
 @section('title', 'Disable 2FA')
 @section('description', '')
@@ -18,11 +18,11 @@
         @csrf
         @method('DELETE')
 
-        <x-button variant="outlined" href="{{ route('front.account.settings.mfa') }}">
+        <x-front::button variant="outlined" href="{{ route('front.account.settings.mfa') }}">
             Cancel
         </x-button>
 
-        <x-button type="submit">
+        <x-front::button type="submit">
             Disable 2FA
         </x-button>
     </form>

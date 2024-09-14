@@ -1,10 +1,10 @@
-@extends('front.root-layout')
+@extends('front.layouts.root-layout')
 
 @section('title', 'Your Account')
 @section('description', '')
 
 @section('body')
-    @include('front.pages.account.account-navbar')
+    <x-account-navbar />
 
     <main
         class="
@@ -21,9 +21,9 @@
                 Welcome back <span class="font-bold">{{ $account->username ?? "" }}</span>
             </h1>
 
-            <div class="settings__groups">
+            <div class="flex flex-wrap gap-2">
                 @foreach($account->groups as $group)
-                    <span class="rounded-md bg-gray-200 py-1 px-2 text-sm">{{ $group->alias ?? Str::title($group->name) }}</span>
+                    <x-tag>{{ $group->alias ?? Str::title($group->name) }}</x-tag>
                 @endforeach
             </div>
         </div>

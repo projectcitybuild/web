@@ -1,4 +1,4 @@
-@extends('front.pages.account.account-layout')
+@extends('front.layouts.account-settings-layout')
 
 @section('title', 'Setup 2FA')
 @section('description', '')
@@ -127,6 +127,6 @@
 
         <hr class="my-6" />
 
-        <x-button type="submit" class="mt-6">Enable</x-button>
+        <x-front::button type="submit" class="mt-6">Enable</x-button>
     </form>
 @endsection

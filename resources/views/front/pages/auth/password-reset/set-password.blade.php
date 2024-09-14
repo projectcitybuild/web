@@ -1,4 +1,4 @@
-@extends('front.pages.auth.auth-layout')
+@extends('front.layouts.auth-layout')
 
 @section('title', 'Forgot Your Password?')
 @section('description', "If you've forgotten your PCB password but remember your email address, use this form to reset your password.")
@@ -61,7 +61,7 @@
             <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
         @enderror
 
-        <x-button type="submit" variant="filled" class="mt-8">
+        <x-front::button type="submit" variant="filled" class="mt-8">
             Update Password
         </x-button>
     </form>

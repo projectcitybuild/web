@@ -2,24 +2,15 @@
     'variant' => 'opaque',
 ])
 
-<nav class="border-gray-200 border-opacity-65 absolute md:relative w-full {{ $variant != 'opaque' ? 'border-b' : '' }}">
-    <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4 {{ $variant == 'opaque' ? 'bg-[#362f2b]' : '' }}">
+<nav class="border-gray-200 border-opacity-65 absolute md:relative w-full {{ $variant != 'opaque' ? 'border-b' : 'bg-[#362f2b]' }}">
+    <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
         <x-logo />
 
         <div class="flex md:order-2 space-x-3 md:space-x-0 items-center">
             @auth
                 <button type="button" class="flex text-sm bg-gray-50 rounded-full md:me-0" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                     <span class="sr-only">Open user menu</span>
-                    @php
-                        $uuid = Auth::user()->minecraftAccount->first()?->uuid;
-                    @endphp
-                    @if ($uuid !== null)
-                        <img class="w-8 h-8 rounded-full p-1" src="https://minotar.net/avatar/{{ $uuid }}">
-                    @else
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 text-white">
-                            <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-5.5-2.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10 12a5.99 5.99 0 0 0-4.793 2.39A6.483 6.483 0 0 0 10 16.5a6.483 6.483 0 0 0 4.793-2.11A5.99 5.99 0 0 0 10 12Z" clip-rule="evenodd" />
-                        </svg>
-                    @endif
+                    <x-avatar />
                 </button>
                 <!-- Dropdown menu -->
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">
@@ -146,21 +137,21 @@
                 <li>
                     <a href="{{ route('ranks') }}" class="block p-3 rounded-lg hover:bg-gray-100">
                         <div class="font-semibold">Ranks</div>
-                        <span class="text-sm text-gray-500">List of all player ranks attainable</span>
+                        <span class="text-sm text-gray-500">List of all attainable player ranks</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('staff') }}" class="block p-3 rounded-lg hover:bg-gray-100">
                         <div class="font-semibold flex gap-2 items-center">Staff</div>
-                        <span class="text-sm text-gray-500">List of all current and past staff volunteers</span>
+                        <span class="text-sm text-gray-500">List of all current and past volunteers</span>
                     </a>
                 </li>
             </ul>
             <ul>
                 <li>
                     <a href="{{ route('3d-maps') }}" class="block p-3 rounded-lg hover:bg-gray-100">
-                        <div class="font-semibold">3d Map</div>
-                        <span class="text-sm text-gray-500">View the 3d interactive map of Monarch</span>
+                        <div class="font-semibold">3D Map</div>
+                        <span class="text-sm text-gray-500">View the interactive map of Monarch</span>
                     </a>
                 </li>
                 <li>
@@ -180,13 +171,13 @@
                 <li>
                     <a href="{{ route('report') }}" class="block p-3 rounded-lg hover:bg-gray-100">
                         <div class="font-semibold">Report a Player</div>
-                        <span class="text-sm text-gray-500">Let us know of any player misconduct</span>
+                        <span class="text-sm text-gray-500">Notify staff of player misconduct</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('front.appeal') }}" class="block p-3 rounded-lg hover:bg-gray-100">
                         <div class="font-semibold">Appeal a Ban</div>
-                        <span class="text-sm text-gray-500">Apply to reverse a player ban</span>
+                        <span class="text-sm text-gray-500">Request the removal of a player ban</span>
                     </a>
                 </li>
                 <li>

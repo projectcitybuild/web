@@ -1,4 +1,4 @@
-@extends('front.root-layout')
+@extends('front.layouts.root-layout')
 
 @section('body')
     <main class="grid grid-cols-1 md:grid-cols-2 h-screen">
