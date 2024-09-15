@@ -29,4 +29,10 @@ final class BanlistController extends WebController
                 'query' => $query,
             ]);
     }
+
+    public function show(Request $request, GamePlayerBan $ban)
+    {
+        return view('front.pages.ban')
+            ->with(['ban' => $ban]);
+    }
 }
