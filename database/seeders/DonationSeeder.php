@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Account;
+use App\Models\Donation;
+use App\Models\DonationPerk;
 use App\Models\DonationTier;
 use App\Models\StripeProduct;
 use Illuminate\Database\Seeder;
@@ -63,6 +66,19 @@ class DonationSeeder extends Seeder
             'price_id' => 'price_1JJL6RAtUyfM4v5Ih3kg7UDM',
             'product_id' => 'prod_JxFbZQxVmr2SCu',
             'donation_tier_id' => $diamondTier->getKey(),
+        ]);
+
+        $account = Account::where('email', 'admin@pcbmc.co')->first();
+
+        Donation::factory()->create(['account_id' => $account->getKey()]);
+        Donation::factory()->create(['account_id' => $account->getKey()]);
+        $donation = Donation::factory()->create(['account_id' => $account->getKey()]);
+
+        DonationPerk::factory()->create([
+            'donation_id' => $donation->getKey(),
+            'donation_tier_id' => $copperTier->getKey(),
+            'account_id' => $account->getKey(),
+            'expires_at' => now()->addDays(14),
         ]);
     }
 }
