@@ -10,7 +10,7 @@
                     <li><i class="bullet fas fa-cube"></i> <a href="{{ route('ranks') }}">Ranks</a></li>
                     <li><i class="bullet fas fa-cube"></i> <a href="{{ route('staff') }}">Staff</a></li>
                     <li><i class="bullet fas fa-cube"></i> <a href="{{ route('front.maps') }}" target="_blank" rel="noopener noreferrer">Real-Time Maps</a></li>
-                    <li><i class="bullet fas fa-cube"></i> <a href="{{ route('3d-maps') }}" target="_blank" rel="noopener noreferrer">3D Maps</a></li>
+                    <li><i class="bullet fas fa-cube"></i> <a href="{{ route('front.3d-map') }}" target="_blank" rel="noopener noreferrer">3D Maps</a></li>
                 </ul>
             </div>
 
