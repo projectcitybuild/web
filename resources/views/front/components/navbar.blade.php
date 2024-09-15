@@ -125,7 +125,7 @@
         </div>
     </div>
 
-    <div id="mega-menu-full-dropdown" class="hidden shadow-xl md:shadow-sm bg-gray-50 w-full absolute md:bg-white">
+    <div id="mega-menu-full-dropdown" class="hidden shadow-xl md:shadow-sm bg-gray-50 w-full absolute bg-white/90 backdrop-blur-md">
         <div class="grid max-w-screen-xl px-4 py-5 mx-auto text-gray-900 sm:grid-cols-3 md:px-6 md:py-8">
             <ul>
                 <li>
