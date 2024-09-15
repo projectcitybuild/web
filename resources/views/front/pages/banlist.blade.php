@@ -45,7 +45,7 @@
                             <th class="py-4 px-2">Player Name</th>
                             <th class="py-4 px-2">Reason</th>
                             <th class="py-4 px-2">Ban Date</th>
-                            <th class="py-4 px-2">Expiry Date</th>
+                            <th class="py-4 px-2">Action</th>
                         </tr>
                     </thead>
                     <tbody>

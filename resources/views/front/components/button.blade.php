@@ -29,7 +29,10 @@
         {{ $slot }}
     </button>
 @else
-    <a href="{{ $href }}" {{ $attributes->merge(['class' => $class]) }}>
+    <a
+        href="{{ $href }}"
+        {{ $attributes->merge(['class' => implode(separator: ' ', array: $class)]) }}
+    >
         {{ $slot }}
     </a>
 @endif
