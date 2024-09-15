@@ -10,17 +10,23 @@ final class BanlistController extends WebController
 {
     public function index(Request $request)
     {
-        $bans = GamePlayerBan::active()->with(['bannedPlayer', 'bannerPlayer', 'bannerPlayer.aliases'])->latest();
+        $bans = GamePlayerBan::active()
+            ->with(['bannedPlayer', 'bannerPlayer', 'bannerPlayer.aliases'])
+            ->latest();
 
-        if ($request->has('query') && $request->input('query') !== '') {
+        if ($request->has('query') && !empty($request->input('query'))) {
             $query = $request->input('query');
             $bans = GamePlayerBan::search($query)->constrain($bans);
         } else {
-            $query = '';
+            $query = null;
         }
 
         $bans = $bans->paginate(50);
 
-        return view('front.pages.banlist')->with(compact('bans', 'query'));
+        return view('front.pages.banlist')
+            ->with([
+                'bans' => $bans,
+                'query' => $query,
+            ]);
     }
 }
