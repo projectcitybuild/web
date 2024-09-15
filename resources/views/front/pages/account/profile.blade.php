@@ -29,8 +29,10 @@
                 </div>
             </div>
 
-            <div class="p-6 md:border-l border-gray-200">
-                <h1 class="text-xl font-bold">Badges</h1>
+            <hr />
+
+            <div class="p-6 border-gray-200">
+                <h1 class="text-2xl font-bold">Badges</h1>
 
                 <div class="text-gray-500 mt-2">
                     Obtained
@@ -40,7 +42,7 @@
                     badges
                 </div>
 
-                <div class="mt-2 grid grid-flow-col auto-cols-max gap-2">
+                <div class="mt-2 flex flex-wrap align-content-stretch gap-2">
                     @php
                         $obtainedBadges = $account->badges->pluck('id')->toArray();
                     @endphp
