@@ -81,6 +81,9 @@ Route::prefix('bans')->group(function () {
     Route::post('/', BanLookupController::class)
         ->name('front.bans.lookup');
 
+    Route::get('{ban}', [BanlistController::class, 'show'])
+        ->name('front.bans.details');
+
     Route::get('{ban}/appeal', [BanAppealController::class, 'create'])
         ->name('front.appeal.create');
 
