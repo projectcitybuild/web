@@ -24,9 +24,10 @@ final class Badge extends Model implements LinkableAuditModel
     protected $fillable = [
         'display_name',
         'unicode_icon',
+        'list_hidden',
+        'created_at',
+        'updated_at',
     ];
-
-    public $timestamps = false;
 
     public function getActivitySubjectLink(): ?string
     {

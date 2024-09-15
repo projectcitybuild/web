@@ -8,23 +8,65 @@
 
     <main
         class="
-            flex flex-col max-w-screen-xl
-            md:flex-row md:mx-auto md:mt-8
+            max-w-screen-xl
+            md:mx-auto md:mt-8
         "
     >
-        <div class="rounded-lg bg-white flex-grow p-6 m-2">
-            @if(session()->has('success'))
-                <x-success-alert>{{ session()->get('success') }}</x-success-alert>
-            @endif
+        <div class="rounded-lg bg-white m-2">
+            <div class="p-6">
+                @if(session()->has('success'))
+                    <x-success-alert>{{ session()->get('success') }}</x-success-alert>
+                @endif
 
-            <h1 class="text-3xl mb-3">
-                Welcome back <span class="font-bold">{{ $account->username ?? "" }}</span>
-            </h1>
+                <h1 class="text-3xl mb-3">
+                    Welcome back <span class="font-bold">{{ $account->username ?? "" }}</span>
+                </h1>
 
-            <div class="flex flex-wrap gap-2">
-                @foreach($account->groups as $group)
-                    <x-tag>{{ $group->alias ?? Str::title($group->name) }}</x-tag>
-                @endforeach
+                <div class="flex flex-wrap gap-2">
+                    @foreach($account->groups as $group)
+                        <x-tag>{{ $group->alias ?? Str::title($group->name) }}</x-tag>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="p-6 md:border-l border-gray-200">
+                <h1 class="text-xl font-bold">Badges</h1>
+
+                <div class="text-gray-500 mt-2">
+                    Obtained
+                    <span class="font-bold">{{ $account->badges->count() }}</span>
+                    of
+                    <span class="font-bold">{{ $badges->count() }}</span>
+                    badges
+                </div>
+
+                <div class="mt-2 grid grid-flow-col auto-cols-max gap-2">
+                    @php
+                        $obtainedBadges = $account->badges->pluck('id')->toArray();
+                    @endphp
+                    @foreach ($badges as $badge)
+                        @php
+                            $obtained = in_array(needle: $badge->id, haystack: $obtainedBadges);
+                        @endphp
+                        @if (!$obtained && $badge->list_hidden)
+                            @continue
+                        @endif
+                        <div
+                            class="
+                                rounded-lg border p-2 md:p-5
+                                flex flex-col items-center justify-center gap-2
+                                text-center text-xs md:text-sm
+                                w-28 md:w-40 aspect-square
+                                {{ $obtained ? 'border-gray-300 bg-gray-50 text-gray-900' : 'border-gray-200 text-gray-300' }}
+                            "
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-9 md:size-12">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0" />
+                            </svg>
+                            {{ $badge->display_name }}
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </main>

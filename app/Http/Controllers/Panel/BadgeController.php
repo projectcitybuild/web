@@ -33,6 +33,7 @@ class BadgeController extends WebController
         $validator = Validator::make($request->all(), [
             'display_name' => 'required|string',
             'unicode_icon' => 'required|string',
+            'list_hidden' => 'boolean',
         ]);
 
         if ($validator->fails()) {
@@ -44,6 +45,7 @@ class BadgeController extends WebController
         Badge::create([
             'display_name' => $request->get('display_name'),
             'unicode_icon' => $request->get('unicode_icon'),
+            'list_hidden' => $request->get('list_hidden', 0),
         ]);
 
         return redirect(route('front.panel.badges.index'));
@@ -66,6 +68,7 @@ class BadgeController extends WebController
         $validator = Validator::make($request->all(), [
             'display_name' => 'required|string',
             'unicode_icon' => 'required|string',
+            'list_hidden' => 'boolean',
         ]);
 
         if ($validator->fails()) {
@@ -74,7 +77,11 @@ class BadgeController extends WebController
                 ->withInput();
         }
 
-        $badge->update($request->all());
+        $input = $request->all();
+        if (! array_key_exists('list_hidden', $input)) {
+            $input['list_hidden'] = 0;
+        }
+        $badge->update($input);
         $badge->save();
 
         return redirect(route('front.panel.badges.index'));
