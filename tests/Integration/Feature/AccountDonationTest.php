@@ -31,10 +31,9 @@ class AccountDonationTest extends TestCase
             ->state(['expires_at' => $expiryDate])
             ->create();
 
-        $this->actingAs($account);
-
-        $this->get(route('front.account.donations'))
+        $this->actingAs($account)
+            ->get(route('front.account.donations'))
             ->assertOk()
-            ->assertSee($expiryDate->toFormattedDateString());
+            ->assertSee($expiryDate->utc()->toDateTimeString());
     }
 }
