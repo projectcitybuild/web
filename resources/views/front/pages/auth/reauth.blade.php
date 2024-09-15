@@ -1,4 +1,4 @@
-@extends('front.pages.auth.auth-layout')
+@extends('front.layouts.auth-layout')
 
 @section('title', 'Re-enter Password')
 @section('description', '')
@@ -30,6 +30,6 @@
             <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
         @enderror
 
-        <x-button type="submit" variant="filled" class="mt-6">Confirm</x-button>
+        <x-front::button type="submit" variant="filled" class="mt-6">Confirm</x-button>
     </form>
 @endsection

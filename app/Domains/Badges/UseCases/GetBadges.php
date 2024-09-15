@@ -10,8 +10,7 @@ final class GetBadges
 {
     public function __construct(
         private readonly PlayerLookup $playerLookup,
-    ) {
-    }
+    ) {}
 
     public function execute(PlayerIdentifier $identifier): array
     {
@@ -25,13 +24,12 @@ final class GetBadges
 
         $badges = $account->badges;
         $accountAgeInYears = $account->created_at->diffInYears(now());
+        $accountAgeInYears = number_format((float)$accountAgeInYears, decimals: 2);
 
-        if ($accountAgeInYears >= 3) {
-            $badge = new Badge();
-            $badge->display_name = $accountAgeInYears.' years on PCB';
-            $badge->unicode_icon = '⌚';
-            $badges->add($badge);
-        }
+        $badge = new Badge();
+        $badge->display_name = $accountAgeInYears.' years on PCB';
+        $badge->unicode_icon = '⌚';
+        $badges->add($badge);
 
         return $badges->toArray();
     }

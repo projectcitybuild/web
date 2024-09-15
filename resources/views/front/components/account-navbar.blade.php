@@ -9,13 +9,7 @@
         <div class="flex items-center md:order-2 space-x-3 md:space-x-0">
             <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                 <span class="sr-only">Open user menu</span>
-                @if ($uuid !== null)
-                    <img class="w-8 h-8 rounded-full p-1" src="https://minotar.net/avatar/{{ $uuid }}">
-                @else
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 text-white">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-5.5-2.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10 12a5.99 5.99 0 0 0-4.793 2.39A6.483 6.483 0 0 0 10 16.5a6.483 6.483 0 0 0 4.793-2.11A5.99 5.99 0 0 0 10 12Z" clip-rule="evenodd" />
-                    </svg>
-                @endif
+                <x-avatar />
             </button>
             <!-- Dropdown menu -->
             <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">
@@ -23,6 +17,13 @@
                     <span class="block text-sm text-gray-900">{{ Auth::user()->username }}</span>
                     <span class="block text-sm  text-gray-500 truncate">{{ Auth::user()->email }}</span>
                 </div>
+                <ul class="py-2" aria-labelledby="user-menu-button">
+                    @if (Auth::user()->canAccessPanel())
+                        <li>
+                            <a href="{{ route('front.panel.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staff Panel</a>
+                        </li>
+                    @endif
+                </ul>
                 <ul class="py-2" aria-labelledby="user-menu-button">
                     <li>
                         <a href="{{ route('front.logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>

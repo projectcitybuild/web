@@ -1,4 +1,4 @@
-@extends('front.pages.account.account-layout')
+@extends('front.layouts.account-settings-layout')
 
 @section('title', 'Refresh Backup Code')
 @section('description', '')
@@ -14,11 +14,11 @@
     <form action="{{ route('front.account.settings.mfa.reset-backup.confirm') }}" method="post" class="flex flex-row gap-2 mt-12">
         @csrf
 
-        <x-button variant="outlined" href="{{ route('front.account.settings.mfa') }}">
+        <x-front::button variant="outlined" href="{{ route('front.account.settings.mfa') }}">
             Cancel
         </x-button>
 
-        <x-button type="submit">
+        <x-front::button type="submit">
             Refresh Backup Code
         </x-button>
     </form>

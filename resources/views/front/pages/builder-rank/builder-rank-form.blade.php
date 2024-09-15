@@ -107,7 +107,7 @@
                         >{{ old('additional_notes') }}</textarea>
                     </div>
 
-                    <x-button type="submit" variant="filled">
+                    <x-front::button type="submit" variant="filled">
                         <i class="fas fa-check"></i> Submit
                     </x-button>
                 </form>

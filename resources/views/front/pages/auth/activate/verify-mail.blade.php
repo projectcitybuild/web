@@ -1,4 +1,4 @@
-@extends('front.pages.auth.auth-layout')
+@extends('front.layouts.auth-layout')
 
 @section('title', 'Registration Verification')
 @section('description', "")
@@ -21,8 +21,8 @@
 
     <form method="post" action="{{ route('front.activate.resend', ['email' => $email]) }}" class="flex flex-row gap-2 mt-12">
         @csrf
-        <x-button type="submit" variant="filled">Resend email</x-button>
+        <x-front::button type="submit" variant="filled">Resend email</x-button>
 
-        <x-button variant="outlined" href="{{ route('front.logout') }}">Logout</x-button>
+        <x-front::button variant="outlined" href="{{ route('front.logout') }}">Logout</x-button>
     </form>
 @endsection

@@ -1,4 +1,4 @@
-@extends('front.pages.auth.auth-layout')
+@extends('front.layouts.auth-layout')
 
 @section('title', 'Create an Account')
 @section('description', 'Create a PCB account to create forum posts, access personal player statistics and more.')
@@ -93,7 +93,7 @@
 
         <x-captcha class="mt-6"></x-captcha>
 
-        <x-button
+        <x-front::button
             type="submit"
             variant="filled"
             class="g-recaptcha mt-6"

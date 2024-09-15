@@ -1,4 +1,4 @@
-@extends('front.pages.auth.auth-layout')
+@extends('front.layouts.auth-layout')
 
 @section('title', 'Sign In - Project City Build')
 @section('meta_title', 'Sign In - Project City Build')
@@ -73,7 +73,7 @@
             <a href="{{ route('front.password-reset.create') }}" class="text-sm text-blue-600">Forgot your password?</a>
         </div>
 
-        <x-button type="submit" variant="filled" class="mt-12">Sign In</x-button>
+        <x-front::button type="submit" variant="filled" class="mt-12">Sign In</x-button>
 
         <div class="mt-12 m-auto">
             <span class="text-gray-500">

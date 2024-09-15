@@ -30,7 +30,7 @@
                             Back to Home
                         </a>
 
-                        <a class="button button--filled button--secondary" href="{{ route('front.account.billing') }}">
+                        <a class="button button--filled button--secondary" href="{{ route('front.account.settings.billing') }}">
                             Billing Portal
                         </a>
 

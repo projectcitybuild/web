@@ -1,4 +1,6 @@
 @php
+    /** @deprecated */
+
     if(!isset($field)) {
         $bag = $errors;
     } else {

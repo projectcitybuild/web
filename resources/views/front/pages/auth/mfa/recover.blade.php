@@ -1,4 +1,4 @@
-@extends('front.pages.auth.auth-layout')
+@extends('front.layouts.auth-layout')
 
 @section('title', '2FA Recovery')
 @section('description', '')
@@ -42,7 +42,7 @@
             <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
         @enderror
 
-        <x-button type="submit" variant="filled" class="mt-8">
+        <x-front::button type="submit" variant="filled" class="mt-8">
             Recover
         </x-button>
 

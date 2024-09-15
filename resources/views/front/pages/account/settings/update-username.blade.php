@@ -1,4 +1,4 @@
-@extends('front.pages.account.account-layout')
+@extends('front.layouts.account-settings-layout')
 
 @section('title', 'Account Settings')
 @section('description', '')
@@ -39,6 +39,6 @@
             <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
         @enderror
 
-        <x-button type="submit" class="mt-6">Update</x-button>
+        <x-front::button type="submit" class="mt-6">Update</x-button>
     </form>
 @endsection

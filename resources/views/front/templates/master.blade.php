@@ -41,7 +41,7 @@
 </head>
 <body>
 
-<x-navbar />
+<x-front::navbar />
 
 <div id="app">
     @yield('body')
