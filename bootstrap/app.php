@@ -41,6 +41,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\VerifyCsrfToken::class,
         ]);
+        $middleware->api(append: [
+           \App\Http\Middleware\LogApiCalls::class,
+        ]);
         $middleware->redirectGuestsTo(
             fn (Request $request) => route('front.login'),
         );
