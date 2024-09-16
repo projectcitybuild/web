@@ -149,7 +149,7 @@
             </ul>
             <ul>
                 <li>
-                    <a href="{{ route('3d-maps') }}" class="block p-3 rounded-lg hover:bg-gray-100">
+                    <a href="{{ route('front.3d-map') }}" class="block p-3 rounded-lg hover:bg-gray-100">
                         <div class="font-semibold">3D Map</div>
                         <span class="text-sm text-gray-500">View the interactive map of Monarch</span>
                     </a>

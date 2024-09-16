@@ -29,9 +29,6 @@ Route::permanentRedirect('vote', 'https://portal.projectcitybuild.com/books/serv
 Route::permanentRedirect('map-archive', 'https://portal.projectcitybuild.com/books/map-archive/page/map-archive')
     ->name('map-archive');
 
-Route::permanentRedirect('3d-maps', 'https://3d.pcbmc.co')
-    ->name('3d-maps');
-
 Route::permanentRedirect('login', 'https://projectcitybuild.com/auth/login');
 
 Route::permanentRedirect('register', 'https://projectcitybuild.com/auth/register');
