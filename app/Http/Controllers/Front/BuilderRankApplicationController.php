@@ -22,15 +22,16 @@ final class BuilderRankApplicationController extends WebController
             ?->aliases?->first()
             ?->alias;
 
-        $applicationInProgress = null;
-        if ($request->user() !== null) {
-            $applicationInProgress = $applicationRepository->firstActive(
-                accountId: $request->user()->getKey(),
-            );
+        $applicationInProgress = $applicationRepository->firstActive(
+            accountId: $request->user()->getKey(),
+        );
+        if ($applicationInProgress !== null) {
+            return redirect()
+                ->route('front.rank-up.status', $applicationInProgress->getKey());
         }
 
         return view('front.pages.builder-rank.builder-rank-form')
-            ->with(compact('minecraftUsername', 'applicationInProgress'));
+            ->with(compact('minecraftUsername'));
     }
 
     public function store(
@@ -38,15 +39,8 @@ final class BuilderRankApplicationController extends WebController
         CreateBuildRankApplication $createBuildRankApplication,
     ) {
         $input = $request->validated();
-
-        /** @var Account $account */
         $account = $request->user();
 
-        if ($account === null) {
-            return redirect()
-                ->back()
-                ->withErrors('You must be logged-in to submit a Builder Rank application');
-        }
         try {
             $application = $createBuildRankApplication->execute(
                 account:  $account,
@@ -56,14 +50,14 @@ final class BuilderRankApplicationController extends WebController
                 buildDescription: $input['build_description'],
                 additionalNotes: $request->get('additional_notes'),
             );
+            return redirect()
+                ->route('front.rank-up.status', $application->getKey());
+
         } catch (ApplicationAlreadyInProgressException) {
             return redirect()
                 ->back()
-                ->withErrors('You cannot submit another application while you have another application under review');
+                ->with(['error' => 'You cannot submit another application while you have another application under review']);
         }
-
-        return view('front.pages.builder-rank.builder-rank-success')
-            ->with(compact('application'));
     }
 
     public function show(

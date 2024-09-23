@@ -51,18 +51,18 @@ Route::prefix('donate')->group(function () {
         ->name('front.donate.success');
 });
 
-Route::prefix('rank-up')->group(function () {
+Route::group([
+    'prefix' => 'rank-up',
+    'middleware' => ['auth', 'activated', 'mfa'],
+], function () {
     Route::get('/', [BuilderRankApplicationController::class, 'index'])
-        ->name('front.rank-up')
-        ->middleware(['auth']);
+        ->name('front.rank-up');
 
     Route::post('/', [BuilderRankApplicationController::class, 'store'])
-        ->name('front.rank-up.submit')
-        ->middleware(['auth']);
+        ->name('front.rank-up.submit');
 
     Route::get('{id}', [BuilderRankApplicationController::class, 'show'])
-        ->name('front.rank-up.status')
-        ->middleware(['auth']);
+        ->name('front.rank-up.status');
 });
 
 Route::prefix('appeal')->group(function () {
