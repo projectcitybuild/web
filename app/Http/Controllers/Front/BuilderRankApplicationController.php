@@ -22,15 +22,16 @@ final class BuilderRankApplicationController extends WebController
             ?->aliases?->first()
             ?->alias;
 
-        $applicationInProgress = null;
-        if ($request->user() !== null) {
-            $applicationInProgress = $applicationRepository->firstActive(
-                accountId: $request->user()->getKey(),
-            );
+        $applicationInProgress = $applicationRepository->firstActive(
+            accountId: $request->user()->getKey(),
+        );
+        if ($applicationInProgress !== null) {
+            return redirect()
+                ->route('front.rank-up.status', $applicationInProgress->getKey());
         }
 
         return view('front.pages.builder-rank.builder-rank-form')
-            ->with(compact('minecraftUsername', 'applicationInProgress'));
+            ->with(compact('minecraftUsername'));
     }
 
     public function store(

@@ -25,7 +25,7 @@
         </div>
 
         <div class="rounded-lg max-w-screen-xl m-auto mt-6 bg-gray-50 p-6">
-            <h2 class="text-xl font-bold mb-6">Application Process</h2>
+            <h2 class="text-2xl font-bold mb-6">Application Process</h2>
 
             <ol class="relative border-s border-gray-200 dark:border-gray-700">
                 <li class="mb-10 ms-6">
@@ -53,115 +53,120 @@
         </div>
 
         <div class="rounded-lg max-w-screen-xl m-auto mt-6 bg-gray-50 p-6 mb-6">
-            <h2 class="text-xl font-bold mb-3">Application Form</h2>
+            <h2 class="text-2xl font-bold mb-3">Application Form</h2>
 
-            @if ($applicationInProgress)
+            @guest
+                <p/>
                 <div class="alert alert--error">
                     <h2><i class="fas fa-exclamation-circle"></i> Error</h2>
-                    You already have an <a href="{{ route('front.rank-up.status', $applicationInProgress) }}">application in progress</a>.
+                    You must be <a href="{{ route('front.login') }}">logged-in</a> to submit a builder rank
+                    application
                 </div>
-            @else
-                @guest
-                    <p/>
-                    <div class="alert alert--error">
-                        <h2><i class="fas fa-exclamation-circle"></i> Error</h2>
-                        You must be <a href="{{ route('front.login') }}">logged-in</a> to submit a builder rank
-                        application
-                    </div>
-                @endguest
-                @auth
-                    <form method="post" action="{{ route('front.rank-up.submit') }}" id="form" class="form">
-                        @csrf
-                        @include('front.components.form-error')
+            @endguest
+            @auth
+                <form
+                    method="post"
+                    action="{{ route('front.rank-up.submit') }}"
+                    class="flex flex-col"
+                >
+                    @csrf
 
-                        <div class="form-row">
-                            <label for="minecraft_username" class="text-md font-bold mt-6">
-                                Minecraft username
-                            </label>
-                            <input
-                                class="
-                                rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2 w-full
-                                @error('minecraft_username') border-red-500 @enderror
-                            "
-                                name="minecraft_username"
-                                id="minecraft_username"
-                                type="text"
-                                value="{{ old('minecraft_username', $minecraftUsername ?? '') }}"
-                            />
-                        </div>
+                    @error('error')
+                        <x-validation-error class="mt-6">{!! $message !!}</x-validation-error>
+                    @enderror
 
-                        <div class="form-row">
-                            <label for="current_builder_rank" class="text-md font-bold mt-6">
-                                Current builder rank
-                            </label>
-                            <select
-                                name="current_builder_rank"
-                                class="
-                                rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2 w-full
-                                @error('current_builder_rank') border-red-500 @enderror
-                            "
-                            >
-                                @foreach (\App\Domains\BuilderRankApplications\Data\BuilderRank::cases() as $rank)
-                                    <option value="{{ $rank->value }}">{{ $rank->humanReadable() }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                    <label for="minecraft_username" class="text-md font-bold mt-6">
+                        Minecraft username
+                    </label>
+                    <input
+                        class="
+                            rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2 w-full
+                            @error('minecraft_username') border-red-500 @enderror
+                        "
+                        name="minecraft_username"
+                        id="minecraft_username"
+                        type="text"
+                        value="{{ old('minecraft_username', $minecraftUsername ?? '') }}"
+                    />
+                    @error('minecraft_username')
+                        <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
+                    @enderror
 
-                        <div class="form-row">
-                            <label for="build_location" class="text-md font-bold mt-6">
-                                Build location (XYZ co-ordinates and world)
-                            </label>
-                            <input
-                                class="
-                                rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2 w-full
-                                @error('build_location') border-red-500 @enderror
-                            "
-                                name="build_location"
-                                id="build_location"
-                                type="text"
-                                placeholder="eg. x: 150, y: -10, z: 300 in Creative"
-                                value="{{ old('build_location') }}"
-                            />
-                        </div>
+                    <label for="current_builder_rank" class="text-md font-bold mt-6">
+                        Current builder rank
+                    </label>
+                    <select
+                        name="current_builder_rank"
+                        class="
+                            rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2 w-full
+                            @error('current_builder_rank') border-red-500 @enderror
+                        "
+                    >
+                        @foreach (\App\Domains\BuilderRankApplications\Data\BuilderRank::cases() as $rank)
+                            <option value="{{ $rank->value }}">{{ $rank->humanReadable() }}</option>
+                        @endforeach
+                    </select>
+                    @error('current_builder_rank')
+                        <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
+                    @enderror
 
-                        <div class="form-row">
-                            <label for="build_description" class="text-md font-bold mt-6">
-                                Description
-                            </label>
-                            <textarea
-                                class="
-                                rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2 w-full
-                                @error('build_description') border-red-500 @enderror
-                            "
-                                name="build_description"
-                                id="build_description"
-                                rows="5"
-                                placeholder="e.g. A huge pirate ship battle, 2 pirate factions meet to engage in a war."
-                            >{{ old('build_description') }}</textarea>
-                        </div>
+                    <label for="build_location" class="text-md font-bold mt-6">
+                        Build location (XYZ co-ordinates and world)
+                    </label>
+                    <input
+                        class="
+                            rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2 w-full
+                            @error('build_location') border-red-500 @enderror
+                        "
+                        name="build_location"
+                        id="build_location"
+                        type="text"
+                        placeholder="x: 150, y: -10, z: 300 in Creative"
+                        value="{{ old('build_location') }}"
+                    />
+                    @error('build_location')
+                        <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
+                    @enderror
 
-                        <div class="form-row">
-                            <label for="additional_notes" class="text-md font-bold mt-6">
-                                Additional notes (optional)
-                            </label>
-                            <textarea
-                                class="
-                                rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2 w-full
-                                @error('additional_notes') border-red-500 @enderror
-                            "
-                                name="additional_notes"
-                                id="additional_notes"
-                                rows="5"
-                                placeholder="e.g. The pirate ships also have interiors, so please be sure to check them too"
-                            >{{ old('additional_notes') }}</textarea>
-                        </div>
+                    <label for="build_description" class="text-md font-bold mt-6">
+                        Description
+                    </label>
+                    <textarea
+                        class="
+                        rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2 w-full
+                        @error('build_description') border-red-500 @enderror
+                    "
+                        name="build_description"
+                        id="build_description"
+                        rows="5"
+                        placeholder="A huge pirate ship battle, 2 pirate factions meet to engage in a war."
+                    >{{ old('build_description') }}</textarea>
+                    @error('build_description')
+                        <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
+                    @enderror
 
-                        <x-front::button type="submit">
-                            Submit
-                        </x-front::button>
-                    </form>
-                @endauth
-            @endif
+                    <label for="additional_notes" class="text-md font-bold mt-6">
+                        Additional notes (optional)
+                    </label>
+                    <textarea
+                        class="
+                        rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2 w-full
+                        @error('additional_notes') border-red-500 @enderror
+                    "
+                        name="additional_notes"
+                        id="additional_notes"
+                        rows="5"
+                        placeholder="The pirate ships also have interiors, so please be sure to check them too"
+                    >{{ old('additional_notes') }}</textarea>
+                    @error('additional_notes')
+                        <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
+                    @enderror
+
+                    <x-front::button type="submit" class="mt-12">
+                        Submit
+                    </x-front::button>
+                </form>
+            @endauth
         </div>
     </div>
 @endsection
