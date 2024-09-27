@@ -1,28 +1,4 @@
 .page.donate {
-
-    .hero-header {
-        .container {
-            display: flex;
-        }
-
-        h1 {
-            margin-bottom: 0.3em;
-        }
-
-        .hero-header__right {
-            color: #fff;
-        }
-    }
-
-    .header-desc {
-        color: white;
-        line-height: 2em;
-
-        strong {
-            color: #FF842A;
-        }
-    }
-
     main {
         background: #fff;
     }
@@ -161,11 +137,8 @@
         .donation-tier__footer {
             padding: 1.5em 2em;
 
-            .button {
+            button {
                 width: 100%;
-                font-family: $font-header;
-                font-size: 2em;
-                font-weight: 500;
             }
         }
     }

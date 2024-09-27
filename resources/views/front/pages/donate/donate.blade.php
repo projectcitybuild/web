@@ -1,4 +1,4 @@
-@extends('front.templates.master')
+@extends('front.layouts.root-layout')
 
 @section('title', 'Donate - Project City Build')
 
@@ -7,28 +7,37 @@
 @endpush
 
 @section('body')
-    <div class="page donate">
-        <header class="hero-header">
-            <div class="container">
-                <div class="hero-header__left">
-                    <h1>Help Keep Us Online</h1>
+    <header class="
+            bg-[url('/resources/images/header-bg1.jpg')]
+            bg-cover bg-no-repeat bg-center
+            flex flex-col md:items-center
+        ">
+        <x-front::navbar variant="clear" />
 
-                    <div class="header-desc">
-                        PCB is only able to operate thanks to the continuous support of our community and volunteers.
-                        All proceeds go towards the high running expense of our servers and websites - <strong>nothing goes into our pockets</strong>.
-                        <br /><br />
-                        Please consider donating to help keep us online for another year
-                    </div>
-                </div>
+        <div class="max-w-screen-2xl flex flex-col items-center py-12 px-6 md:py-24 md:px-12">
+            <h1 class="text-7xl text-gray-50 font-display tracking-tight text-center">
+                Help Keep Us Online
+            </h1>
 
-                <div class="hero-header__right">
-                    <x-donation-bar />
+            <p class="text-gray-300 mt-6 text-center leading-loose">
+                We can only operate thanks to the continuous support of our volunteers and community.
+            </p>
+            <p class="text-gray-300 mt-3 text-center leading-loose">
+                Please consider donating to help us operate for another year.<br />
+                All proceeds go towards the high running expense of our servers and websites - <strong class="text-orange-400">nothing goes into our pockets</strong>.
+            </p>
 
-                    Annual Goal: <strong>${{ $target_funding }}</strong>
-                </div>
+            <div class="min-w-96 mt-12">
+                <x-donation-bar />
             </div>
-        </header>
 
+            <div class="text-gray-300 mt-3">
+                Annual Goal = <strong>${{ $target_funding }}</strong>
+            </div>
+        </div>
+    </header>
+
+    <div class="page donate">
         <main>
             <section class="donate-tiers">
                 <div class="container">
@@ -60,19 +69,8 @@
                                 <div class="donation-tier__price-unit">for a month of perks</div>
                             </div>
 
-                            <div class="donation-tier__boxes">
-                                <div class="donation-tier__boxes-title">
-                                    <strong>Each week</strong> you'll receive
-                                </div>
-                                <div class="donation-tier__boxes-reward">
-                                    <i class="fas fa-ticket"></i>
-                                    <strong>12</strong>
-                                    <span>Tickets (<a href="#tickets">what's this?</a>)</span>
-                                </div>
-                            </div>
-
                             <div class="donation-tier__perks">
-                                <div class="donation-tier__perks-title">Plus, you'll receive</div>
+                                <div class="donation-tier__perks-title">You will receive</div>
 
                                 <ul>
                                     <li><i class="fas fa-home"></i> <strong>3</strong> additional homes</li>
@@ -83,8 +81,7 @@
                             </div>
 
                             <div class="donation-tier__footer">
-                                <button
-                                    class="button button--filled"
+                                <x-button
                                     onclick="openPaymentModal(
                                         'Copper Tier',
                                         '{{ config('donations.price_ids.copper.one_off') }}',
@@ -92,7 +89,7 @@
                                     )"
                                 >
                                     Purchase
-                                </button>
+                                </x-button>
                             </div>
                         </div>
 
@@ -111,19 +108,8 @@
                                 <div class="donation-tier__price-unit">for a month of perks</div>
                             </div>
 
-                            <div class="donation-tier__boxes">
-                                <div class="donation-tier__boxes-title">
-                                    <strong>Each week</strong> you'll receive
-                                </div>
-                                <div class="donation-tier__boxes-reward">
-                                    <i class="fas fa-ticket"></i>
-                                    <strong>25</strong>
-                                    <span>Tickets (<a href="#tickets">what's this?</a>)</span>
-                                </div>
-                            </div>
-
                             <div class="donation-tier__perks">
-                                <div class="donation-tier__perks-title">Plus, you'll receive</div>
+                                <div class="donation-tier__perks-title">You will receive</div>
 
                                 <ul>
                                     <li><i class="fas fa-home"></i> <strong>8</strong> additional homes</li>
@@ -137,8 +123,7 @@
                             </div>
 
                             <div class="donation-tier__footer">
-                                <button
-                                    class="button button--filled"
+                                <x-button
                                     onclick="openPaymentModal(
                                         'Iron Tier',
                                         '{{ config('donations.price_ids.iron.one_off') }}',
@@ -146,7 +131,7 @@
                                     )"
                                 >
                                     Purchase
-                                </button>
+                                </x-button>
                             </div>
                         </div>
 
@@ -165,19 +150,8 @@
                                 <div class="donation-tier__price-unit">for a month of perks</div>
                             </div>
 
-                            <div class="donation-tier__boxes">
-                                <div class="donation-tier__boxes-title">
-                                    <strong>Each week</strong> you'll receive
-                                </div>
-                                <div class="donation-tier__boxes-reward">
-                                    <i class="fas fa-ticket"></i>
-                                    <strong>50</strong>
-                                    <span>Tickets (<a href="#ticketes">what's this?</a>)</span>
-                                </div>
-                            </div>
-
                             <div class="donation-tier__perks">
-                                <div class="donation-tier__perks-title">Plus, you'll receive</div>
+                                <div class="donation-tier__perks-title">You will receive</div>
 
                                 <ul>
                                     <li><i class="fas fa-home"></i> <strong>15</strong> additional homes</li>
@@ -191,8 +165,7 @@
                             </div>
 
                             <div class="donation-tier__footer">
-                                <button
-                                    class="button button--filled"
+                                <x-button
                                     onclick="openPaymentModal(
                                         'Diamond Tier',
                                         '{{ config('donations.price_ids.diamond.one_off') }}',
@@ -200,7 +173,7 @@
                                     )"
                                 >
                                     Purchase
-                                </button>
+                                </x-button>
                             </div>
                         </div>
                     </div>
@@ -208,27 +181,6 @@
                     <div class="donation-tier-fineprint">
                         Your payment details will be processed by <a href="https://stripe.com" target="_blank" rel="noopener noreferrer">Stripe</a>, and only a record of your donation will be stored by PCB.<br />
                         In accordance with data retention laws, <strong>we do not store any credit card or bank account information</strong>.
-                    </div>
-                </div>
-            </section>
-
-            <a id="tickets"></a>
-            <section class="donate-tickets">
-                <div class="container">
-                    <div class="donate-tickets__title">
-                        <h2>Tickets</h2>
-                    </div>
-
-                    <div class="donate-tickets__description">
-                        Tickets can be exchanged in-game at any time for some cool cosmetics and loot, including
-                        <strong>animated hats</strong>, <strong>particle effects</strong>, <strong>pets</strong>,
-                        <strong>fun gadgets</strong>, <strong>cloaks</strong>, <strong>emotes</strong>, <strong>mob morphs</strong> and more
-                        from a rotation of items strictly limited to donors.
-
-                        Every week, tickets are automatically credited to your account based on your donation tier.
-                        <br /><br />
-                        Tickets are separate from the regular Survival in-game currency, do not expire and are exclusively for cosmetics.
-                        They cannot be purchased or exchanged for with regular currency.
                     </div>
                 </div>
             </section>
@@ -248,21 +200,10 @@
                             <li>
                                 <h2>What perks will I lose after my duration ends?</h2>
 
-                                All cosmetics purchased with tickets are yours to keep forever.
-                                <br /><br />
                                 Donor commands (navigation, etc) will not be usable and home limits will be decreased.<br />
                                 However, <strong>you will not lose access to your homes</strong> even if you are over the limit - instead you will be unable to use <span class="command">/sethome</span> until you delete the required amount.
                                 <br /><br />
                                 Subscribers will not lose their perks, provided that their payment isn't declined.
-                            </li>
-                            <li>
-                                <h2>What if I Boost the Discord server?</h2>
-
-                                We really appreciate <a href="https://support.discord.com/hc/en-us/articles/360028038352-Server-Boosting-FAQ-" target="_blank" rel="noopener noreferrer">Server Boosts</a> too,
-                                as it benefits everyone using our Discord server.
-                                Please reach out to staff on Discord or the forums and we can assign you the equivalent Donation Tier from above, for the duration that you continue to boost.
-                                <br /><br />
-                                However, should you choose to stop boosting, we ask that you please notify us as soon as possible.
                             </li>
                         </ul>
                     </div>
@@ -274,11 +215,8 @@
                     <h1>Legal</h1>
                     <div class="donate-legal__contents">
                         <ul>
-                            <li>Please check for any applicable fees as Stripe/PayPal can change these at any time for any reason, beyond our control.</li>
                             <li>
-                                Please remember that donating does not exempt you from obeying the server rules.<br />
-                                Regardless of how much you donate, you will not receive special pardons or privileges for failure to comply.<br />
-                                You are not paying for a service.
+                                Please check for any applicable fees as Stripe can change these at any time for any reason, beyond our control.
                             </li>
                         </ul>
                     </div>
