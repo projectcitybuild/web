@@ -1,5 +1,5 @@
 <section class="footer-sitemap">
-    <div class="container"{!! isset($animated) && $animated ? ' data-aos="fade-up"' : '' !!}>
+    <div class="max-w-screen-2xl mx-auto px-6 md:px-12">
         <h1>Explore More</h1>
 
         <div class="footer-links">
