@@ -4,7 +4,7 @@
 @section('description', 'Players listed on this page are currently banned on one or more servers on our game network')
 
 @section('body')
-    <x-navbar />
+    <x-front::navbar />
 
     <div class="flex flex-col p-9">
         <h1 class="text-4xl font-bold">Banned Players</h1>
