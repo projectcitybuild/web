@@ -32,7 +32,7 @@
         </header>
 
         <section class="max-w-screen-lg mx-auto px-6">
-            <div class="text-gray-500 text-sm text-center">Step 1 of 2</div>
+            <div class="text-gray-500 text-sm text-center">Step 1</div>
 
             <div class="flex flex-col md:flex-row justify-between gap-6 mt-6">
                 <div class="flex-grow md:w-0 rounded-xl border border-gray-200 bg-gray-50 p-8 flex flex-col">
@@ -40,7 +40,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" />
                     </svg>
 
-                    <h2 class="text-3xl font-bold mt-2">Select from list</h2>
+                    <h2 class="text-3xl font-bold mt-3">Select from list</h2>
 
                     <div class="text-gray-500 text-sm mt-3">
                         Auto-fill some of your appeal details by selecting the ban from a list.
@@ -66,7 +66,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                     </svg>
 
-                    <h2 class="text-3xl font-bold mt-2">Fill out form</h2>
+                    <h2 class="text-3xl font-bold mt-3">Fill out form</h2>
 
                     <div class="text-gray-500 text-sm mt-3">
                         No login required, but all details will need to be filled-in manually
@@ -74,7 +74,7 @@
 
                     <div class="flex-grow"></div>
 
-                    <x-button class="mt-9">
+                    <x-button class="mt-9" href="{{ route('front.appeal.form') }}">
                         Proceed
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                             <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
@@ -84,40 +84,4 @@
             </div>
         </section>
     </main>
-
-    <p>
-        Please fill out all fields honestly.
-    </p>
-    <blockquote>
-        <h3><i class="fas fa-warning"></i> WARNING</h3>
-        Abuse of the ban appeal system will result in your access being revoked.
-    </blockquote>
-
-    @auth
-        <div class="contents__section">
-            <h2>Current Bans</h2>
-            <div class="game-ban-column">
-                @each('front.pages.ban-appeal._game-ban-listing', $bans, 'ban', 'front.pages.ban-appeal._game-ban-empty')
-            </div>
-        </div>
-        <div class="contents__section">
-            <h2>Look up Account</h2>
-            <p>If the ban doesn't appear above, try searching manually. Enter your <strong>current</strong> Minecraft
-                username.</p>
-
-            @include('front.pages.ban-appeal._username-lookup')
-        </div>
-    @else
-        <div class="contents__section">
-            <h2>Sign in to Appeal</h2>
-            <p>To appeal a ban, sign in to your PCB account. Alternatively, you may appeal as a guest.</p>
-            <a href="{{ route('front.appeal.auth') }}" class="button button--filled">Sign In </a>
-        </div>
-        <div class="contents__section">
-            <h2>Appeal as a Guest</h2>
-            <p>To start your appeal, enter the <strong>current</strong> username of your Minecraft account</p>
-
-            @include('front.pages.ban-appeal._username-lookup')
-        </div>
-    @endauth
 @endsection
