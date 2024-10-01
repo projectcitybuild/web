@@ -10,8 +10,6 @@ final class DonationController extends WebController
 {
     public function index()
     {
-        return view('front.pages.donate.donate-thanks');
-
         return view('front.pages.donate.donate', [
             'target_funding' => config('donations.target_funding'),
         ]);
