@@ -192,14 +192,6 @@ Route::group([
     Route::get('donations', [AccountDonationController::class, 'index'])
         ->name('front.account.donations');
 
-    Route::prefix('infractions')->group(function () {
-        Route::get('/', [AccountInfractionsController::class, 'index'])
-            ->name('front.account.infractions');
-
-        Route::post('{warningId}/acknowledge', [AccountInfractionsController::class, 'acknowledgeWarning'])
-            ->name('front.account.infractions.acknowledge');
-    });
-
     Route::prefix('games')->group(function () {
         Route::get('/', [AccountGameAccountController::class, 'index'])
             ->name('front.account.games');
