@@ -49,7 +49,7 @@
 
                     <div class="flex-grow"></div>
 
-                    <x-button class="mt-9">
+                    <x-button class="mt-9" href="{{ route('front.appeal.search') }}">
                         Proceed
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                             <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
@@ -66,10 +66,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                     </svg>
 
-                    <h2 class="text-3xl font-bold mt-3">Fill out form</h2>
+                    <h2 class="text-3xl font-bold mt-3">Fill out the form</h2>
 
                     <div class="text-gray-500 text-sm mt-3">
-                        No login required, but all details will need to be filled-in manually
+                        No login required, but all details will need to be filled-in manually.
                     </div>
 
                     <div class="flex-grow"></div>

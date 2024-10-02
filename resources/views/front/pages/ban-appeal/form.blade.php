@@ -20,10 +20,10 @@
                 <div class="w-full px-4">
                     <div class="mx-auto mb-[60px] max-w-[650px] text-center">
                         <h2 class="font-bold text-5xl">
-                            Submit Appeal
+                            Submit Your Appeal
                         </h2>
                         <p class="text-base text-gray-500 mt-4 leading-relaxed">
-                            Please fill out all fields honestly and with appropriate detail. Appeals with invalid, false or inadequate details will likely be denied.
+                            Please fill-in all fields with appropriate detail. Appeals with false or insufficient detail will likely be denied.
                         </p>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                             <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
                         @enderror
                         <p class="text-sm mt-2 text-gray-500">
-                            Can be looked up <a class="text-blue-500" href="https://mcuuid.net/" target="_blank">here</a>. At the very least, provide us your current Minecraft username
+                            Can be looked up <a class="text-blue-500" href="https://mcuuid.net/" target="_blank">here</a>
                         </p>
                     </div>
 
@@ -80,7 +80,7 @@
                         <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
                         @enderror
                         <p class="text-sm mt-2 text-gray-500">
-                            If you don't know, a rough estimate is also acceptable
+                            If unknown, a rough estimate is also acceptable
                         </p>
                     </div>
                 </div>
