@@ -3,17 +3,17 @@
 namespace App\Core\Domains\MinecraftUUID\Data;
 
 use Exception;
-use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 /**
- * Wrapper for transferring around a Minecraft UUID, regardless of whether the hyphens are trimmed.
+ * Wrapper for transferring around a Minecraft UUID.
  *
- * Supports converting between formats on demand.
+ * - Can be constructed regardless of whether hyphens are present
+ * - Can convert between formats on demand
  */
-class MinecraftUUID implements CastsAttributes
+class MinecraftUUID implements Arrayable
 {
     private const PATTERN_FULL = '/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/';
     private const PATTERN_TRIMMED = '/^([0-9a-fA-F]{32})$/';
@@ -37,6 +37,11 @@ class MinecraftUUID implements CastsAttributes
                 'uuid' => 'Invalid Minecraft UUID format',
             ]);
         }
+    }
+
+    public function __toString(): string
+    {
+        return $this->trimmed;
     }
 
     public static function tryParse(string $uuid): ?self
@@ -64,37 +69,9 @@ class MinecraftUUID implements CastsAttributes
         return $uuid;
     }
 
-    /**
-     * Cast the given value.
-     *
-     * @param Model $model
-     * @param string $key
-     * @param mixed $value
-     * @param array $attributes
-     * @return mixed
-     * @throws Exception if invalid Minecraft UUID
-     */
-    public function get(Model $model, string $key, mixed $value, array $attributes)
-    {
-        return new MinecraftUUID($value);
-    }
 
-    /**
-     * Prepare the given value for storage.
-     *
-     * @param Model $model
-     * @param  string  $key
-     * @param  mixed  $value
-     * @param  array  $attributes
-     * @return mixed
-     */
-    public function set(Model $model, string $key, mixed $value, array $attributes)
+    public function toArray()
     {
-        if (! $value instanceof MinecraftUUID) {
-            throw new \InvalidArgumentException(
-                sprintf('Value must be of type %s', MinecraftUUID::class)
-            );
-        }
-        return $model->trimmed();
+        return $this->trimmed();
     }
 }

@@ -5,48 +5,89 @@ namespace App\Http\Controllers\Api\v3\Minecraft;
 use App\Core\Data\Exceptions\BadRequestException;
 use App\Core\Data\Exceptions\ForbiddenException;
 use App\Core\Data\Exceptions\UnauthorisedException;
-use App\Core\Domains\MinecraftUUID\Actions\LookupMinecraftUUID;
+use App\Core\Domains\MinecraftUUID\UseCases\LookupMinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Core\Domains\Tokens\TokenGenerator;
 use App\Http\Controllers\ApiController;
 use App\Http\Resources\AccountResource;
+use App\Models\Account;
 use App\Models\MinecraftAuthCode;
 use App\Models\MinecraftPlayer;
+use App\Models\MinecraftPlayerAlias;
 use App\Models\MinecraftRegistration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 final class MinecraftRegisterController extends ApiController
 {
-    public function store(
-        Request $request,
-        LookupMinecraftUUID $lookupMinecraftUUID,
-    ): array {
+    public function store(Request $request)
+    {
         $request->validate([
             'email' => ['required', 'email'],
-            'minecraft_uuid' => ['required', MinecraftUUIDRule::class],
+            'minecraft_uuid' => ['required', new MinecraftUUIDRule],
             'minecraft_alias' => ['required', 'string'],
         ]);
 
         $uuid = new MinecraftUUID($request->get('minecraft_uuid'));
-        $lookup = $lookupMinecraftUUID->fetch($uuid);
 
-        if ($lookup === null) {
-            throw ValidationException::withMessages(['error' => 'Minecraft UUID does not exist']);
-        }
-
-        MinecraftRegistration::where('minecraft_uuid', $uuid)->delete();
+        MinecraftRegistration::whereUuid($uuid)->delete();
 
         return MinecraftRegistration::create([
             'email' => $request->get('email'),
             'minecraft_uuid' => $uuid,
             'minecraft_alias' => $request->get('minecraft_alias'),
-            'code' => Str::random(6),
+            'code' => strtoupper(Str::random(6)),
             'expires_at' => now()->addMinutes(15),
         ]);
+    }
+
+    public function update(Request $request, TokenGenerator $tokenGenerator)
+    {
+        $request->validate([
+            'code' => ['required', 'string'],
+            'minecraft_uuid' => ['required', MinecraftUUIDRule::class],
+        ]);
+
+        $registration = MinecraftRegistration::where('code', $request->get('code'))
+            ->where('minecraft_uuid', $request->get('minecraft_uuid'))
+            ->firstOrFail();
+
+        if ($registration->expires_at < now()) {
+            Log::debug('Attempted to complete registration for Minecraft UUID, but registration already expired', [
+                'request' => $request->all(),
+                'registration' => $registration,
+            ]);
+            abort(404);
+        }
+
+        DB::transaction(function () use (&$registration, $tokenGenerator) {
+            // TODO: check if account already exists
+            $account = Account::firstOrCreate([
+                ['email' => $registration->email],
+                [
+                    'activated' => true,
+                    'username' => $registration->minecraft_alias, // TODO: ensure uniqueness
+                    'password' => $tokenGenerator->make(),
+                ]
+            ]);
+
+            // TODO: check if player already exists
+            $player = MinecraftPlayer::create([
+                'uuid' => $registration->minecraft_uuid,
+                'account' => $account->getKey(),
+            ]);
+            // TODO: check if alias exists
+            MinecraftPlayerAlias::create([
+                'player_minecraft_id' => $player->getKey(),
+                'alias' => $registration->minecraft_alias,
+            ]);
+
+            $registration->delete();
+        });
     }
 }

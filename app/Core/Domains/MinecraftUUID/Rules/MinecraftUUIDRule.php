@@ -13,7 +13,7 @@ class MinecraftUUIDRule implements ValidationRule
         $uuid = MinecraftUUID::tryParse($value);
 
         if ($uuid === null) {
-            $fail(':attribute is not a valid Minecraft UUID');
+            $fail($value.' is not a valid Minecraft UUID');
         }
     }
 }

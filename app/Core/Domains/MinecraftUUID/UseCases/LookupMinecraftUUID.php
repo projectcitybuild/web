@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Domains\MinecraftUUID\Actions;
+namespace App\Core\Domains\MinecraftUUID\UseCases;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUIDLookup;

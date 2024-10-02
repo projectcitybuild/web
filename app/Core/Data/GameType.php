@@ -4,6 +4,7 @@ namespace App\Core\Data;
 
 /**
  * List of games PCB supports.
+ * @deprecated
  */
 enum GameType: int
 {

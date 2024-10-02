@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Core\Domains\MinecraftUUID\Casts\MinecraftUUIDCast;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Builder;
@@ -28,9 +29,14 @@ final class MinecraftRegistration extends Model
     ];
 
     protected $casts = [
-        'minecraft_uuid' => MinecraftUUID::class,
+        'minecraft_uuid' => MinecraftUUIDCast::class,
         'expires_at' => 'datetime',
     ];
+
+    public function scopeWhereUuid(Builder $query, MinecraftUUID $uuid)
+    {
+        $query->where('minecraft_uuid', $uuid->trimmed());
+    }
 
     public function prunable(): Builder
     {
