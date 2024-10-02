@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Core\Domains\MinecraftUUID\Casts\MinecraftUUIDCast;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Builder;
@@ -29,7 +28,7 @@ final class MinecraftRegistration extends Model
     ];
 
     protected $casts = [
-        'minecraft_uuid' => MinecraftUUIDCast::class,
+        'minecraft_uuid' => MinecraftUUID::class,
         'expires_at' => 'datetime',
     ];
 
