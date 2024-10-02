@@ -50,11 +50,13 @@ final class MinecraftRegisterController extends ApiController
     {
         $request->validate([
             'code' => ['required', 'string'],
-            'minecraft_uuid' => ['required', MinecraftUUIDRule::class],
+            'minecraft_uuid' => ['required', new MinecraftUUIDRule],
         ]);
 
+        $uuid = new MinecraftUUID($request->get('minecraft_uuid'));
+
         $registration = MinecraftRegistration::where('code', $request->get('code'))
-            ->where('minecraft_uuid', $request->get('minecraft_uuid'))
+            ->whereUuid($uuid)
             ->firstOrFail();
 
         if ($registration->expires_at < now()) {
@@ -62,19 +64,30 @@ final class MinecraftRegisterController extends ApiController
                 'request' => $request->all(),
                 'registration' => $registration,
             ]);
-            abort(404);
+            abort(410);
         }
 
         DB::transaction(function () use (&$registration, $tokenGenerator) {
-            // TODO: check if account already exists
-            $account = Account::firstOrCreate([
-                ['email' => $registration->email],
-                [
+            $account = Account::whereEmail($registration->email)->first();
+
+            if ($account === null) {
+                // Generate unique username
+                $alias = Str::slug($registration->minecraft_alias);
+
+                $username = $alias;
+                $i = 1;
+                while (Account::where('username', $username)->exists()) {
+                    $username = $alias . '_' . $i;
+                    $i++;
+                }
+                $account = Account::create([
+                    'email' => $registration->email,
                     'activated' => true,
-                    'username' => $registration->minecraft_alias, // TODO: ensure uniqueness
+                    'username' => $username,
+                    // Intentionally random - we email them a "set a password" link afterwards
                     'password' => $tokenGenerator->make(),
-                ]
-            ]);
+                ]);
+            }
 
             // TODO: check if player already exists
             $player = MinecraftPlayer::create([
