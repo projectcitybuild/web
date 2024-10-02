@@ -6,6 +6,7 @@ use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/** @deprecated */
 final class MinecraftAuthCode extends Model
 {
     use HasStaticTable;

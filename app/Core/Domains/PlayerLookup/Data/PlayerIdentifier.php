@@ -5,6 +5,7 @@ namespace App\Core\Domains\PlayerLookup\Data;
 use App\Core\Data\PlayerIdentifierType;
 use App\Core\Domains\PlayerLookup\Exceptions\InvalidMinecraftUUIDException;
 
+/** @deprecated */
 final class PlayerIdentifier
 {
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Account;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Hash;
 use Repositories\AccountRepository;
@@ -47,7 +48,7 @@ class AccountSaveNewEmailRequest extends FormRequest
             $oldEmail = $input['old_email'];
             $password = $input['password'];
 
-            $account = $this->accountRepository->getByEmail($oldEmail);
+            $account = Account::whereEmail($oldEmail)->first();
             if ($account === null) {
                 throw new \Exception('Failed to find account by email address');
             }
