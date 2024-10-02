@@ -50,10 +50,10 @@
                 <div class="-mx-4 flex flex-wrap">
                     <div class="w-full px-4">
                         <div class="mx-auto mb-[60px] max-w-[510px] text-center">
-                            <h2 class="mb-3 text-3xl font-bold text-dark sm:text-4xl md:text-4xl">
+                            <h2 class="mb-3 text-3xl font-bold sm:text-4xl md:text-4xl">
                                 Donation Tiers
                             </h2>
-                            <p class="text-base text-gray-500 dark:text-dark-6">
+                            <p class="text-base text-gray-500">
                                 Choose the amount that suits you.
                                 <br /><br />
                                 As a thank you for your support, you'll receive perks based on the amount you donate.
@@ -70,7 +70,7 @@
                            </div>
                             <h2 class="mb-5 text-5xl font-bold">
                                 <span>$4</span>
-                                <span class="text-base font-medium text-body-color dark:text-dark-6">
+                                <span class="text-base font-medium text-body-color">
                                   for a month
                                 </span>
                             </h2>
@@ -131,7 +131,7 @@
                             </div>
                             <h2 class="mb-5 text-5xl font-bold">
                                 <span>$8</span>
-                                <span class="text-base font-medium text-body-color dark:text-dark-6">
+                                <span class="text-base font-medium text-body-color">
                                   for a month
                                 </span>
                             </h2>
@@ -214,7 +214,7 @@
                             </div>
                             <h2 class="mb-5 text-5xl font-bold">
                                 <span>$15</span>
-                                <span class="text-base font-medium text-body-color dark:text-dark-6">
+                                <span class="text-base font-medium text-body-color">
                                   for a month
                                 </span>
                             </h2>
@@ -300,7 +300,7 @@
 
         <section class="bg-gray-50 py-12 md:py-16">
             <div class="max-w-screen-2xl mx-auto px-6">
-                <h2 class="mb-3 text-3xl font-bold text-dark sm:text-4xl md:text-4xl text-center">
+                <h2 class="mb-3 text-3xl font-bold sm:text-4xl md:text-4xl text-center">
                     FAQ
                 </h2>
 
@@ -333,7 +333,7 @@
 
         <section class="bg-white py-12 md:py-16">
             <div class="max-w-screen-2xl mx-auto px-6">
-                <h2 class="mb-3 text-3xl font-bold text-dark sm:text-4xl md:text-4xl text-center">
+                <h2 class="mb-3 text-3xl font-bold sm:text-4xl md:text-4xl text-center">
                     Legal
                 </h2>
 
