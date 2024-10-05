@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Core\Domains\Tokens\Adapters\HashedTokenGenerator;
+use App\Core\Domains\SecureTokens\Adapters\HashedSecureTokenGenerator;
 use App\Domains\ServerTokens\ScopeKey;
 use App\Models\Server;
 use App\Models\ServerToken;
@@ -18,7 +18,7 @@ class ServerTokenSeeder extends Seeder
         );
 
         $token = ServerToken::create([
-            'token' => (new HashedTokenGenerator())->make(),
+            'token' => (new HashedSecureTokenGenerator())->make(),
             'server_id' => Server::first()->getKey(),
             'description' => 'For test use',
         ]);

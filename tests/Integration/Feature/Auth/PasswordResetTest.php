@@ -1,6 +1,6 @@
 <?php
 
-use App\Core\Domains\Tokens\TokenGenerator;
+use App\Core\Domains\SecureTokens\SecureTokenGenerator;
 use App\Domains\PasswordReset\Notifications\AccountPasswordResetCompleteNotification;
 use App\Domains\PasswordReset\Notifications\AccountPasswordResetNotification;
 use App\Models\Account;
@@ -34,7 +34,7 @@ describe('submit', function () {
 
     it('saves an associated token', function () {
         $token = 'token';
-        $this->mock(TokenGenerator::class, function (MockInterface $mock) use ($token) {
+        $this->mock(SecureTokenGenerator::class, function (MockInterface $mock) use ($token) {
             $mock->shouldReceive('make')
                 ->once()
                 ->andReturn($token);

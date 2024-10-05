@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Login\Entities;
+namespace App\Domains\Login\Data;
 
 class LoginCredentials
 {

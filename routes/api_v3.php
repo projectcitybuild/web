@@ -10,6 +10,7 @@ Route::prefix('v3')
     ->middleware(RequiresServerTokenScope::middleware(ScopeKey::BAN_LOOKUP)) // TODO: remove scopes later
     ->group(function() {
         Route::prefix('minecraft')->group(function () {
+            // TODO: throttle
             Route::post('register', [MinecraftRegisterController::class, 'store']);
             Route::put('register', [MinecraftRegisterController::class, 'update']);
         });

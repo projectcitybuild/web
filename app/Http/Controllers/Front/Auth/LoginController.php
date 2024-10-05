@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Front\Auth;
 
-use App\Domains\Login\Entities\LoginCredentials;
+use App\Domains\Login\Data\LoginCredentials;
 use App\Domains\Login\Exceptions\InvalidLoginCredentialsException;
 use App\Domains\Login\UseCases\LoginAccount;
 use App\Http\Controllers\WebController;

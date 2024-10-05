@@ -9,7 +9,7 @@ return [
     \App\Core\Domains\Groups\GroupsProvider::class,
     \App\Core\Domains\Mfa\MfaServiceProvider::class,
     \App\Core\Domains\MinecraftUUID\MinecraftUUIDServiceProvider::class,
-    \App\Core\Domains\Tokens\TokensProvider::class,
+    \App\Core\Domains\SecureTokens\TokensProvider::class,
 
     \App\Core\Support\Cashier\CashierServiceProvider::class,
     \App\Core\Support\Horizon\HorizonServiceProvider::class,

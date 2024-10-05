@@ -19,7 +19,6 @@ use App\Models\PlayerWarning;
 use App\Models\Server;
 use App\Models\ServerToken;
 use App\View\Components\DonationBarComponent;
-use App\View\Components\NavBarComponent;
 use App\View\Components\PanelSideBarComponent;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Relations\Relation;

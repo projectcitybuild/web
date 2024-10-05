@@ -2,7 +2,7 @@
 
 namespace App\Domains\Login\UseCases;
 
-use App\Domains\Login\Entities\LoginCredentials;
+use App\Domains\Login\Data\LoginCredentials;
 use App\Domains\Login\Exceptions\AccountNotActivatedException;
 use App\Domains\Login\Exceptions\InvalidLoginCredentialsException;
 use App\Http\Middleware\MfaAuthenticated;

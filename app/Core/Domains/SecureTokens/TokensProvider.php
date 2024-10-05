@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core\Domains\Tokens;
+namespace App\Core\Domains\SecureTokens;
 
-use App\Core\Domains\Tokens\Adapters\HashedTokenGenerator;
+use App\Core\Domains\SecureTokens\Adapters\HashedSecureTokenGenerator;
 use Illuminate\Support\ServiceProvider;
 
 class TokensProvider extends ServiceProvider
@@ -12,6 +12,6 @@ class TokensProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(TokenGenerator::class, HashedTokenGenerator::class);
+        $this->app->bind(SecureTokenGenerator::class, HashedSecureTokenGenerator::class);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Domains\Tokens\Adapters;
+namespace App\Core\Domains\SecureTokens\Adapters;
 
 use Tests\Support\TemporaryConfig;
 use Tests\TestCase;
@@ -16,7 +16,7 @@ final class HashedTimeTokenGeneratorTest extends TestCase
 
         $this->setTemporaryConfig('app.key', $key);
 
-        $tokenGenerator = new HashedTokenGenerator(
+        $tokenGenerator = new HashedSecureTokenGenerator(
             byteGenerator: fn () => $bytes,
         );
         $this->assertEquals(

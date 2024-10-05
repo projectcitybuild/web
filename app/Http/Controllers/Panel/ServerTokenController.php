@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Core\Domains\Tokens\TokenGenerator;
+use App\Core\Domains\SecureTokens\SecureTokenGenerator;
 use App\Http\Controllers\WebController;
 use App\Models\ServerToken;
 use App\Models\ServerTokenScope;
@@ -29,7 +29,7 @@ class ServerTokenController extends WebController
     /**
      * Show the form for creating the specified resource.
      */
-    public function create(Request $request, TokenGenerator $tokenGenerator): Application|Factory|View
+    public function create(Request $request, SecureTokenGenerator $tokenGenerator): Application|Factory|View
     {
         $token = new ServerToken();
         $generatedToken = $tokenGenerator->make();

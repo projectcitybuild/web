@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Core\Domains\Tokens\TokenGenerator;
+use App\Core\Domains\SecureTokens\SecureTokenGenerator;
 use App\Models\PasswordReset;
 use Illuminate\Support\Facades\App;
 
@@ -24,7 +24,7 @@ class PasswordResetFactory extends Factory
     {
         return [
             'email' => $this->faker->email(),
-            'token' => App::make(TokenGenerator::class)->make(),
+            'token' => App::make(SecureTokenGenerator::class)->make(),
             'expires_at' => now()->addDay(),
         ];
     }
