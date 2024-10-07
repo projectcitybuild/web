@@ -26,20 +26,19 @@ class PanelMinecraftPlayersListTest extends IntegrationTestCase
 
     public function test_mc_player_without_account_shown_on_list()
     {
-        $mcPlayer = MinecraftPlayer::factory()->hasAliases(1)->create();
-        $alias = $mcPlayer->aliases()->latest()->first();
+        $player = MinecraftPlayer::factory()->create();
 
         $this->actingAs($this->admin)
             ->get(route('front.panel.minecraft-players.index'))
             ->assertOk()
-            ->assertSee($mcPlayer->uuid)
-            ->assertSee($alias->alias);
+            ->assertSee($player->uuid)
+            ->assertSee($player->alias);
     }
 
     public function test_mc_player_with_account_shown_on_list()
     {
         $account = Account::factory()->create();
-        $mcPlayer = MinecraftPlayer::factory()->for($account)->hasAliases(1)->create();
+        MinecraftPlayer::factory()->for($account)->create();
 
         $this->actingAs($this->admin)
             ->get(route('front.panel.minecraft-players.index'))

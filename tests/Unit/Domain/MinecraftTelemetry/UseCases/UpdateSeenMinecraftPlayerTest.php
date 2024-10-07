@@ -7,7 +7,6 @@ use App\Domains\MinecraftTelemetry\UseCases\UpdateSeenMinecraftPlayer;
 use App\Models\MinecraftPlayer;
 use App\Models\MinecraftPlayerAlias;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Repositories\MinecraftPlayerAliasRepository;
 use Tests\TestCase;
 
 class UpdateSeenMinecraftPlayerTest extends TestCase
@@ -15,7 +14,6 @@ class UpdateSeenMinecraftPlayerTest extends TestCase
     use RefreshDatabase;
 
     private ConcretePlayerLookup $playerLookup;
-    private MinecraftPlayerAliasRepository $aliasRepository;
     private UpdateSeenMinecraftPlayer $useCase;
 
     protected function setUp(): void
@@ -23,11 +21,9 @@ class UpdateSeenMinecraftPlayerTest extends TestCase
         parent::setUp();
 
         $this->playerLookup = \Mockery::mock(ConcretePlayerLookup::class);
-        $this->aliasRepository = \Mockery::mock(MinecraftPlayerAliasRepository::class);
 
         $this->useCase = new UpdateSeenMinecraftPlayer(
             playerLookup: $this->playerLookup,
-            aliasRepository: $this->aliasRepository,
         );
     }
 
@@ -38,10 +34,8 @@ class UpdateSeenMinecraftPlayerTest extends TestCase
 
         $player = MinecraftPlayer::factory()->create([
             'uuid' => 'uuid',
-            'last_seen_at' => $before,
-        ]);
-        MinecraftPlayerAlias::factory()->for($player)->create([
             'alias' => 'alias',
+            'last_seen_at' => $before,
         ]);
 
         $this->playerLookup
@@ -61,15 +55,18 @@ class UpdateSeenMinecraftPlayerTest extends TestCase
         );
     }
 
-    public function test_creates_alias_if_player_changed_alias()
+    public function test_updates_alias()
     {
         $now = $this->setTestNow();
 
         $player = MinecraftPlayer::factory()->create([
             'uuid' => 'uuid',
+            'alias' => 'old_alias',
             'last_synced_at' => $now->copy()->subWeek(),
         ]);
-        MinecraftPlayerAlias::factory()->for($player)->create([
+
+        $this->assertDatabaseHas('players_minecraft', [
+            'uuid' => 'uuid',
             'alias' => 'old_alias',
         ]);
 
@@ -77,13 +74,11 @@ class UpdateSeenMinecraftPlayerTest extends TestCase
             ->shouldReceive('findOrCreate')
             ->andReturn($player);
 
-        $this->aliasRepository
-            ->shouldReceive('store')
-            ->andReturn(new MinecraftPlayerAlias());
-
         $this->useCase->execute(uuid: 'uuid', alias: 'new_alias');
 
-        // Skip risky warning
-        $this->assertTrue(true);
+        $this->assertDatabaseHas('players_minecraft', [
+           'uuid' => 'uuid',
+           'alias' => 'new_alias',
+        ]);
     }
 }

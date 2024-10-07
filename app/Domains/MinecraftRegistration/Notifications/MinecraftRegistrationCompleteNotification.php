@@ -11,7 +11,9 @@ final class MinecraftRegistrationCompleteNotification extends Notification imple
 {
     use Queueable;
 
-    public function __construct() {}
+    public function __construct(
+        private readonly string $name,
+    ) {}
 
     /**
      * Get the notification's delivery channels.
@@ -37,12 +39,9 @@ final class MinecraftRegistrationCompleteNotification extends Notification imple
     public function toMail($notifiable): MailMessage
     {
         return (new MailMessage())
-            ->subject('Activate Your PCB Account')
-            ->greeting('Just One More Step')
-            ->line('Use the below code to activate your account.')
-            ->line($this->code)
-            ->line('Please note that this code will expire in 15 minutes.')
-            ->line('Didn\'t sign up? You can safely ignore this email.');
+            ->subject('Welcome to Project City Build!')
+            ->greeting('Hi '.$this->name)
+            ->line('');
     }
 
     /**

@@ -69,13 +69,8 @@ class APIMinecraftTelemetryTest extends IntegrationTestCase
             data: [
                 'player_minecraft_id' => $player->getKey(),
                 'uuid' => 'uuid',
-                'last_seen_at' => $this->now,
-            ],
-        );
-        $this->assertDatabaseHas(
-            table: MinecraftPlayerAlias::tableName(),
-            data: [
                 'alias' => 'alias',
+                'last_seen_at' => $this->now,
             ],
         );
     }

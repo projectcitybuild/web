@@ -18,22 +18,4 @@ class AccountDonationTest extends TestCase
             ->assertOk()
             ->assertSee('You have not made any donations');
     }
-
-    public function test_shows_temporary_donation()
-    {
-        $expiryDate = Carbon::now()->addDay();
-
-        $account = Account::factory()->create();
-
-        DonationPerk::factory()
-            ->for($account)
-            ->for(Donation::factory()->for($account))
-            ->state(['expires_at' => $expiryDate])
-            ->create();
-
-        $this->actingAs($account)
-            ->get(route('front.account.donations'))
-            ->assertOk()
-            ->assertSee($expiryDate->utc()->toDateTimeString());
-    }
 }

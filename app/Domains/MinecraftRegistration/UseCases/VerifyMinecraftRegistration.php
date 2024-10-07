@@ -5,10 +5,11 @@ namespace App\Domains\MinecraftRegistration\UseCases;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\SecureTokens\SecureTokenGenerator;
 use App\Domains\MinecraftRegistration\Data\MinecraftRegistrationExpiredException;
+use App\Domains\MinecraftRegistration\Notifications\MinecraftRegistrationCompleteNotification;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
-use App\Models\MinecraftPlayerAlias;
 use App\Models\MinecraftRegistration;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -30,37 +31,34 @@ class VerifyMinecraftRegistration
             throw new MinecraftRegistrationExpiredException($registration);
         }
 
-        DB::transaction(function () use (&$registration) {
-            $account = Account::whereEmail($registration->email)->first();
-
-            if ($account === null) {
-                $account = Account::create([
+        DB::beginTransaction();
+        try {
+            $account = Account::whereEmail($registration->email)->first()
+                ?? Account::create([
                     'email' => $registration->email,
                     'activated' => true,
                     'username' => $this->generateUniqueUsername(initial: $registration->minecraft_alias),
                     // Intentionally random - we email them a "set a password" link afterwards
                     'password' => $this->tokenGenerator->make(),
                 ]);
-            }
 
-            $player = MinecraftPlayer::where('uuid', $registration->minecraft_uuid->trimmed())->first();
-            if ($player === null) {
-                $player = MinecraftPlayer::create([
-                    'uuid' => $registration->minecraft_uuid,
+            MinecraftPlayer::whereUuid($registration->minecraft_uuid)->first()
+                ?? MinecraftPlayer::create([
                     'account' => $account->getKey(),
+                    'uuid' => $registration->minecraft_uuid,
+                    'alias' => $registration->minecraft_alias,
                 ]);
-            }
-
-            // TODO: check if alias exists
-            MinecraftPlayerAlias::create([
-                'player_minecraft_id' => $player->getKey(),
-                'alias' => $registration->minecraft_alias,
-            ]);
 
             $registration->delete();
-        });
 
-        // TODO: send email
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+
+        $account->notify(
+            new MinecraftRegistrationCompleteNotification(name: $account->username),
+        );
     }
 
     private function generateUniqueUsername(string $initial): string

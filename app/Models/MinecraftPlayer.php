@@ -5,8 +5,10 @@ namespace App\Models;
 use App\Core\Domains\Auditing\AuditAttributes;
 use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\PlayerLookup\Player;
 use App\Core\Utilities\Traits\HasStaticTable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -92,6 +94,11 @@ final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
         $this->last_synced_at = $this->freshTimestamp();
 
         return $this->save();
+    }
+
+    public function scopeWhereUuid(Builder $query, MinecraftUUID $uuid)
+    {
+        $query->where('uuid', $uuid->trimmed());
     }
 
     /** ************************************************
