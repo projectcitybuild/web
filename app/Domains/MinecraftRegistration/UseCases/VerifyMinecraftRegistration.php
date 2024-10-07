@@ -19,8 +19,8 @@ class VerifyMinecraftRegistration
     ) {}
 
     public function execute(
-        MinecraftUUID $minecraftUuid,
         string $code,
+        MinecraftUUID $minecraftUuid,
     ) {
         $registration = MinecraftRegistration::where('code', $code)
             ->whereUuid($minecraftUuid)
@@ -59,6 +59,8 @@ class VerifyMinecraftRegistration
 
             $registration->delete();
         });
+
+        // TODO: send email
     }
 
     private function generateUniqueUsername(string $initial): string

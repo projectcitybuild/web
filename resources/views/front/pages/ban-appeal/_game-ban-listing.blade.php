@@ -5,9 +5,9 @@
         </div>
         <div>
             <div class="game-ban__meta">
-                {{ $ban->bannedPlayer->getBanReadableName() ?? 'No Alias' }}
+                {{ $ban->bannedPlayer->alias ?? 'No Alias' }}
                 &middot; Banned {{ $ban->created_at }} BY
-                {{ $ban->bannerPlayer?->getBanReadableName() ?? 'No Alias' }}
+                {{ $ban->bannerPlayer?->alias ?? 'No Alias' }}
             </div>
             <div class="game-ban__reason">
                 "{{ $ban->reason }}"

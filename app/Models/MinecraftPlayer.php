@@ -25,6 +25,7 @@ final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
 
     protected $fillable = [
         'uuid',
+        'alias',
         'account_id',
         'last_synced_at',
         'last_seen_at',
@@ -34,21 +35,6 @@ final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
         'last_synced_at' => 'datetime',
         'last_seen_at' => 'datetime',
     ];
-
-    public function getBanReadableName(): ?string
-    {
-        $aliases = $this->aliases;
-        if ($aliases->count() == 0) {
-            return null;
-        }
-
-        return $this->aliases->last()->alias;
-    }
-
-    public function currentAlias(): ?MinecraftPlayerAlias
-    {
-        return $this->aliases->last();
-    }
 
     public function account(): BelongsTo
     {
@@ -108,13 +94,6 @@ final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
         return $this->save();
     }
 
-    public function hasAlias(string $alias): bool
-    {
-        return $this->aliases
-            ->where('alias', $alias)
-            ->isNotEmpty();
-    }
-
     /** ************************************************
      *
      * GamePlayable
@@ -143,6 +122,6 @@ final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
 
     public function getActivitySubjectName(): ?string
     {
-        return $this->getBanReadableName() ?? Str::limit($this->uuid, 10);
+        return $this->alias ?? Str::limit($this->uuid, 10);
     }
 }

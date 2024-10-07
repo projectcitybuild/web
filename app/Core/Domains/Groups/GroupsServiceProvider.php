@@ -5,7 +5,7 @@ namespace App\Core\Domains\Groups;
 use App\Models\Group;
 use Illuminate\Support\ServiceProvider;
 
-class GroupsProvider extends ServiceProvider
+class GroupsServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.

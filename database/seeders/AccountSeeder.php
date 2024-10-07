@@ -57,6 +57,9 @@ class AccountSeeder extends Seeder
 
     private function createDummyAccounts()
     {
-        Account::factory()->count(100)->create();
+        Account::factory()
+            ->passwordHashed('password')
+            ->count(100)
+            ->create();
     }
 }

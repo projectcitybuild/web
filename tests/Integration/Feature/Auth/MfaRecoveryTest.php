@@ -1,6 +1,6 @@
 <?php
 
-use App\Core\Domains\Mfa\Notifications\MfaBackupCodeUsedNotification;
+use App\Domains\Mfa\Notifications\MfaBackupCodeUsedNotification;
 use App\Http\Middleware\MfaAuthenticated;
 use App\Models\Account;
 use Illuminate\Support\Facades\Crypt;

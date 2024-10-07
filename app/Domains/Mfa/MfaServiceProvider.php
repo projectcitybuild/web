@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Domains\Mfa;
+namespace App\Domains\Mfa;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use PragmaRX\Google2FA\Google2FA;

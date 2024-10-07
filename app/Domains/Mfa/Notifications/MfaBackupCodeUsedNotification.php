@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Core\Domains\Mfa\Notifications;
+namespace App\Domains\Mfa\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class MfaDisabledNotification extends Notification implements ShouldQueue
+class MfaBackupCodeUsedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -50,9 +50,9 @@ class MfaDisabledNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject('2FA Has Been Disabled on your Account')
-            ->greeting('2FA Disabled')
-            ->line('Your account is no longer protected by 2-factor authentication.')
+            ->subject('Your 2FA Backup Code Was Used')
+            ->greeting('2FA Backup Code Used')
+            ->line('Your 2FA backup code was used, 2FA has been disabled on your account.')
             ->line('If this wasn\'t you, please speak to a member of PCB staff immediately.');
     }
 

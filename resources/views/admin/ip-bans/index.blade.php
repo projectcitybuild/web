@@ -30,7 +30,7 @@
                     <td>{{ $ban->reason }}</td>
                     <td>
                         <a href="{{ route('front.panel.minecraft-players.show', $ban->bannerPlayer) }}">
-                            {{ $ban->bannerPlayer->getBanReadableName() ?: '(No Alias)' }}
+                            {{ $ban->bannerPlayer->alias ?: '(No Alias)' }}
                         </a>
                     </td>
                     <td>{{ $ban->created_at }}</td>

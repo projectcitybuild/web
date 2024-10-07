@@ -77,7 +77,7 @@ class BanAppeal extends Model implements LinkableAuditModel
 
     public function getBannedPlayerName()
     {
-        return $this->gamePlayerBan->bannedPlayer->getBanReadableName() ??
+        return $this->gamePlayerBan->bannedPlayer->alias ??
             $this->gamePlayerBan->banned_alias_at_time;
     }
 

@@ -57,7 +57,7 @@
                         <dd class="col-md-9">
                             <div>
                                 <a href="{{ route('front.panel.minecraft-players.show', $warning->warnedPlayer) }}">
-                                    {{ $warning->warnedPlayer->currentAlias()?->alias ?? '(No Alias)' }}
+                                    {{ $warning->warnedPlayer->alias ?? '(No Alias)' }}
                                 </a>
                             </div>
                         </dd>
@@ -69,7 +69,7 @@
                         <dd class="col-md-9">
                             <div>
                                 <a href="{{ route('front.panel.minecraft-players.show', $warning->warnerPlayer) }}">
-                                    {{ $warning->warnerPlayer->currentAlias()?->alias ?? '(No Alias)' }}
+                                    {{ $warning->warnerPlayer->alias ?? '(No Alias)' }}
                                 </a>
                             </div>
                         </dd>

@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\Feature;
 
-use App\Core\Domains\Mfa\Notifications\MfaBackupCodeRegeneratedNotification;
-use App\Core\Domains\Mfa\Notifications\MfaDisabledNotification;
-use App\Core\Domains\Mfa\Notifications\MfaEnabledNotification;
+use App\Domains\Mfa\Notifications\MfaBackupCodeRegeneratedNotification;
+use App\Domains\Mfa\Notifications\MfaDisabledNotification;
+use App\Domains\Mfa\Notifications\MfaEnabledNotification;
 use App\Models\Account;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Notification;

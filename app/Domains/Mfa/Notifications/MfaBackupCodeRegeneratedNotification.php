@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Core\Domains\Mfa\Notifications;
+namespace App\Domains\Mfa\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class MfaBackupCodeUsedNotification extends Notification implements ShouldQueue
+class MfaBackupCodeRegeneratedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -50,9 +50,9 @@ class MfaBackupCodeUsedNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject('Your 2FA Backup Code Was Used')
-            ->greeting('2FA Backup Code Used')
-            ->line('Your 2FA backup code was used, 2FA has been disabled on your account.')
+            ->subject('Your 2FA Backup Code Was Regenerated')
+            ->greeting('2FA Backup Code Regenerated')
+            ->line('Your 2FA backup code was regenerated, your old backup code will no longer work.')
             ->line('If this wasn\'t you, please speak to a member of PCB staff immediately.');
     }
 

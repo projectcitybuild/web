@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Domains\Mfa\Notifications;
+namespace App\Domains\Mfa\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

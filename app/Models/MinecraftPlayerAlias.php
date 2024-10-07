@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Scout\Searchable;
 
+/**
+ * @deprecated Use alias column of MinecraftPlayer instead
+ */
 final class MinecraftPlayerAlias extends Model
 {
     use HasFactory;

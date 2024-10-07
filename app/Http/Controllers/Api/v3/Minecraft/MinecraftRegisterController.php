@@ -10,7 +10,7 @@ use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Core\Domains\SecureTokens\SecureTokenGenerator;
 use App\Domains\MinecraftRegistration\Data\MinecraftRegistrationExpiredException;
-use App\Domains\MinecraftRegistration\UseCases\CreateMinecraftRegistration;
+use App\Domains\MinecraftRegistration\UseCases\SendMinecraftRegisterCodeEmail;
 use App\Domains\MinecraftRegistration\UseCases\VerifyMinecraftRegistration;
 use App\Http\Controllers\ApiController;
 use App\Http\Resources\AccountResource;
@@ -29,8 +29,8 @@ use Illuminate\Validation\ValidationException;
 final class MinecraftRegisterController extends ApiController
 {
     public function store(
-        Request $request,
-        CreateMinecraftRegistration $createMinecraftRegistration,
+        Request                        $request,
+        SendMinecraftRegisterCodeEmail $createMinecraftRegistration,
     ) {
         $request->validate([
             'email' => ['required', 'email'],

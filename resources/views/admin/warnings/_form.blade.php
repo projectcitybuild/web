@@ -4,7 +4,7 @@
         <x-panel.minecraft-player-alias-picker
             fieldName="warned_player_id"
             :playerId="$warning?->warnedPlayer?->getKey()"
-            :aliasString="$warning?->warnedPlayer?->currentAlias()?->alias"
+            :aliasString="$warning?->warnedPlayer?->alias"
         />
     </div>
 </div>
@@ -14,7 +14,7 @@
         <x-panel.minecraft-player-alias-picker
             fieldName="warner_player_id"
             :playerId="$warning?->warnerPlayer?->getKey()"
-            :aliasString="$warning?->warnerPlayer?->currentAlias()?->alias"
+            :aliasString="$warning?->warnerPlayer?->alias"
         />
     </div>
 </div>

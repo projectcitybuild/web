@@ -152,12 +152,12 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
             return 'System';
         }
 
-        return $this->bannerPlayer->getBanReadableName() ?? 'No Alias';
+        return $this->bannerPlayer->alias ?? 'No Alias';
     }
 
     public function hasNameChangedSinceBan(): bool
     {
-        return $this->banned_alias_at_time !== $this->bannedPlayer->getBanReadableName();
+        return $this->banned_alias_at_time !== $this->bannedPlayer->alias;
     }
 
     /**
@@ -179,7 +179,7 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
 
     public function getActivitySubjectName(): ?string
     {
-        $player = $this->bannedPlayer->currentAlias()?->alias
+        $player = $this->bannedPlayer->alias
             ?? $this->bannedPlayer->getKey().' player id';
 
         return "Ban for $player";

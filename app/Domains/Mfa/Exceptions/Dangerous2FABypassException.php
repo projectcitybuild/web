@@ -1,5 +1,5 @@
 <?php
 
-namespace App\Core\Domains\Mfa\Exceptions;
+namespace App\Domains\Mfa\Exceptions;
 
 class Dangerous2FABypassException extends \Exception {}

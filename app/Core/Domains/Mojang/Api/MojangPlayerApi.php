@@ -10,6 +10,7 @@ use GuzzleHttp\Client;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use function collect;
 
+/** @deprecated */
 class MojangPlayerApi
 {
     public function __construct(

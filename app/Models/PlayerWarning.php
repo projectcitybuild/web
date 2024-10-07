@@ -60,7 +60,7 @@ final class PlayerWarning extends Model implements LinkableAuditModel
 
     public function getActivitySubjectName(): ?string
     {
-        $player = $this->warnedPlayer->currentAlias()?->alias
+        $player = $this->warnedPlayer->alias
             ?? $this->warnedPlayer->getKey().' player id';
 
         return "Warning for $player";
