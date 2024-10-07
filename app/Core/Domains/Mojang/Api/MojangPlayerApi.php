@@ -10,7 +10,9 @@ use GuzzleHttp\Client;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use function collect;
 
-/** @deprecated */
+/**
+ * @deprecated Use LookupMinecraftUUID instead
+ */
 class MojangPlayerApi
 {
     public function __construct(

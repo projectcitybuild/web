@@ -235,6 +235,11 @@ final class Account extends Authenticatable implements LinkableAuditModel
         return new AccountResource($this);
     }
 
+    public function scopeWhereEmail(Builder $query, string $email)
+    {
+        $query->where('email', $email);
+    }
+
     public function auditAttributeConfig(): AuditAttributes
     {
         return AuditAttributes::build()
@@ -251,10 +256,5 @@ final class Account extends Authenticatable implements LinkableAuditModel
     public function getActivitySubjectName(): ?string
     {
         return $this->username;
-    }
-
-    public function scopeWhereEmail(Builder $query, string $email)
-    {
-        $query->where('email', $email);
     }
 }

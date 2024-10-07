@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -65,5 +66,10 @@ final class Group extends Model implements LinkableAuditModel
     public function getActivitySubjectName(): ?string
     {
         return "Group {$this->name}";
+    }
+
+    public function scopeFirstDefault(Builder $query)
+    {
+        $query->where('is_default', true)->first();
     }
 }

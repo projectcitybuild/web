@@ -10,7 +10,6 @@ final class OAuthController extends ApiController
 {
     public function show(Request $request): array
     {
-        /** @var Account $account */
         $account = $request->user();
 
         return [

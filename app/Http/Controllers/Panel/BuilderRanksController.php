@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Panel;
 use App\Domains\BuilderRankApplications\UseCases\ApproveBuildRankApplication;
 use App\Domains\BuilderRankApplications\UseCases\DenyBuildRankApplication;
 use App\Http\Controllers\WebController;
+use App\Models\BuilderRankApplication;
 use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -26,9 +27,8 @@ class BuilderRanksController extends WebController
     public function show(
         Request $request,
         int $applicationId,
-        BuilderRankApplicationRepository $applicationRepository,
     ) {
-        $application = $applicationRepository->first(applicationId: $applicationId);
+        $application = BuilderRankApplication::find($applicationId);
         $buildGroups = Group::where('is_build', true)->get();
 
         return view('admin.builder-rank.show')

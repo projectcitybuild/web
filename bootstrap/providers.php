@@ -6,7 +6,6 @@ return [
     \App\Core\Domains\Auditing\AuditingServiceProvider::class,
     \App\Core\Domains\Captcha\CaptchaProvider::class,
     \App\Core\Domains\Discord\DiscordChannelServiceProvider::class,
-    \App\Core\Domains\Groups\GroupsServiceProvider::class,
     \App\Domains\Mfa\MfaServiceProvider::class,
     \App\Core\Domains\MinecraftUUID\MinecraftUUIDServiceProvider::class,
     \App\Core\Domains\SecureTokens\TokensProvider::class,

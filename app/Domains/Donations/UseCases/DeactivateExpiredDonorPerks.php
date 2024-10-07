@@ -37,10 +37,7 @@ final class DeactivateExpiredDonorPerks
                 // TODO: we probably need a buffer in case payments are slightly delayed and
                 // the user didn't actually cancel...
                 if ($activePerkCount === 0) {
-                    $this->groupsManager->removeMember(
-                        group: $this->donorGroup,
-                        account: $account,
-                    );
+                    $account->groups()->detach($this->donorGroup->getKey());
                     $account->notify(new DonationEndedNotification());
                 }
             }

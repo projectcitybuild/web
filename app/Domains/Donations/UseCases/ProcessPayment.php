@@ -3,7 +3,6 @@
 namespace App\Domains\Donations\UseCases;
 
 use App\Core\Data\Exceptions\BadRequestException;
-use App\Core\Domains\Groups\GroupsManager;
 use App\Domains\Donations\Data\PaidAmount;
 use App\Domains\Donations\Data\PaymentType;
 use App\Domains\Donations\Events\DonationPerkCreated;
@@ -21,7 +20,6 @@ use Repositories\StripeProductRepository;
 final class ProcessPayment
 {
     public function __construct(
-        private readonly GroupsManager $groupsManager,
         private readonly PaymentRepository $paymentRepository,
         private readonly DonationPerkRepository $donationPerkRepository,
         private readonly DonationRepository $donationRepository,
@@ -86,7 +84,7 @@ final class ProcessPayment
                 expiresAt: $expiryDate,
             );
 
-            $this->groupsManager->addMember(group: $this->donorGroup, account: $account);
+            $account->groups()->attach($this->donorGroup->getKey());
 
             $notification = new DonationPerkStartedNotification($expiryDate);
             $account->notify($notification);

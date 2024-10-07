@@ -4,8 +4,6 @@ namespace App\Domains\MinecraftTelemetry\UseCases;
 
 use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
-use App\Models\MinecraftPlayer;
-use Repositories\MinecraftPlayerAliasRepository;
 
 final class UpdateSeenMinecraftPlayer
 {

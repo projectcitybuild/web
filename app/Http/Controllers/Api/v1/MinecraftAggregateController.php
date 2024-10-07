@@ -14,6 +14,7 @@ use App\Http\Resources\DonationPerkResource;
 use App\Http\Resources\GameIPBanResource;
 use App\Http\Resources\GamePlayerBanResource;
 use App\Models\Account;
+use App\Models\Group;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -74,6 +75,10 @@ final class MinecraftAggregateController extends ApiController
         // Force load groups
         $existingPlayer->account->groups;
         $existingPlayer->touchLastSyncedAt();
+
+        if ($existingPlayer->account->groups->isEmpty) {
+            $existingPlayer->account->groups->push(Group::firstDefault());
+        }
 
         return $existingPlayer->account;
     }

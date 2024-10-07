@@ -29,7 +29,7 @@ use Illuminate\Validation\ValidationException;
 final class MinecraftRegisterController extends ApiController
 {
     public function store(
-        Request                        $request,
+        Request $request,
         SendMinecraftRegisterCodeEmail $createMinecraftRegistration,
     ) {
         $request->validate([
@@ -56,8 +56,8 @@ final class MinecraftRegisterController extends ApiController
 
         try {
             $verifyMinecraftRegistration->execute(
-                minecraftUuid: new MinecraftUUID($request->get('minecraft_uuid')),
                 code: $request->get('code'),
+                minecraftUuid: new MinecraftUUID($request->get('minecraft_uuid')),
             );
         } catch (MinecraftRegistrationExpiredException $e) {
             Log::debug('Attempted to complete registration for Minecraft UUID, but registration already expired', [

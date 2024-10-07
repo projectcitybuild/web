@@ -7,6 +7,7 @@ use App\Core\Data\Exceptions\ForbiddenException;
 use App\Core\Data\Exceptions\UnauthorisedException;
 use App\Http\Controllers\ApiController;
 use App\Http\Resources\AccountResource;
+use App\Models\Group;
 use App\Models\MinecraftAuthCode;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
@@ -83,6 +84,10 @@ final class MinecraftAuthTokenController extends ApiController
 
         // Force load groups
         $existingPlayer->account->groups;
+
+        if ($existingPlayer->account->groups->isEmpty) {
+            $existingPlayer->account->groups->push(Group::firstDefault());
+        }
 
         return [
             'data' => new AccountResource($existingPlayer->account),

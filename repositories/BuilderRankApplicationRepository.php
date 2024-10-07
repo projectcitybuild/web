@@ -48,30 +48,10 @@ class BuilderRankApplicationRepository
             ->first();
     }
 
-    public function first(int $applicationId): ?BuilderRankApplication
-    {
-        return BuilderRankApplication::find($applicationId);
-    }
-
     public function allWithPriority(int $perPage): LengthAwarePaginator
     {
         return BuilderRankApplication::orderbyRaw('FIELD(status, '.ApplicationStatus::IN_PROGRESS->value.') DESC')
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
-    }
-
-    public function approve(BuilderRankApplication $application)
-    {
-        $application->status = ApplicationStatus::APPROVED->value;
-        $application->closed_at = now();
-        $application->save();
-    }
-
-    public function deny(BuilderRankApplication $application, string $reason)
-    {
-        $application->status = ApplicationStatus::DENIED->value;
-        $application->denied_reason = $reason;
-        $application->closed_at = now();
-        $application->save();
     }
 }
