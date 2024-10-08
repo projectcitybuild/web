@@ -4,6 +4,9 @@ namespace App\Domains\ServerTokens;
 
 use App\Core\Utilities\Traits\ValueJoinable;
 
+/**
+ * @deprecated
+ */
 enum ScopeKey: string
 {
     use ValueJoinable;

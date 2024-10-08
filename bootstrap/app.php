@@ -57,6 +57,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'not-activated' => \App\Http\Middleware\NotActivated::class,
             'password.confirm' => \App\Http\Middleware\RequirePassword::class,
             'requires-mfa' => \App\Http\Middleware\RequireMfaEnabled::class,
+            'requires-server-token' => \App\Http\Middleware\RequireServerToken::class,
             'scope' => \App\Http\Middleware\HasGroupScope::class,
             'server-token' => \App\Http\Middleware\RequiresServerTokenScope::class,
         ]);

@@ -13,6 +13,8 @@ return new class extends Migration
     {
         $defaultGroup = Group::where('is_default', true)->first();
 
+        if ($defaultGroup === null) return;
+
         // Delete all members from the default group
         DB::table('groups_accounts')
             ->where('group_id', $defaultGroup->getKey())

@@ -8,6 +8,9 @@ use Closure;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Facades\CauserResolver;
 
+/**
+ * @deprecated Use RequireServerToken instead. Scopes are being removed
+ */
 class RequiresServerTokenScope
 {
     /**
