@@ -32,8 +32,8 @@ describe('Unauthorized exception', function () {
 
     it('throws if no matching ServerToken', function () {
         $request = Request::create(uri: 'foobar');
-        $request->headers->set(key: 'Authorization', values: 'foobar');
-        expect($request->headers->get('Authorization'))->toEqual('foobar');
+        $request->headers->set(key: 'Authorization', values: 'Bearer foobar');
+        expect($request->headers->get('Authorization'))->toEqual('Bearer foobar');
 
         $this->assertDatabaseMissing('server_tokens', [
             'token' => 'foobar',

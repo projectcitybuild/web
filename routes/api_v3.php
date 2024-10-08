@@ -10,8 +10,10 @@ Route::prefix('v3')
     ->middleware('require-server-token')
     ->group(function() {
         Route::prefix('minecraft')->group(function () {
-            // TODO: throttle
-            Route::post('register', [MinecraftRegisterController::class, 'store']);
-            Route::put('register', [MinecraftRegisterController::class, 'update']);
+            Route::post('register', [MinecraftRegisterController::class, 'store'])
+                ->middleware('throttle:3,1');
+
+            Route::put('register', [MinecraftRegisterController::class, 'update'])
+                ->middleware('throttle:12,1');
         });
     });

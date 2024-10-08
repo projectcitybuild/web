@@ -34,7 +34,7 @@ Route::name('front.panel.')
         'activated',
         'mfa',
         PanelGroupScope::ACCESS_PANEL->toMiddleware(),
-        'requires-mfa',
+        'require-mfa',
     ])
     ->group(function() {
         Route::view('/', 'admin.index')

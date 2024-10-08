@@ -3,7 +3,6 @@
 use App\Domains\ServerTokens\ScopeKey;
 use App\Http\Controllers\Api\v1\MinecraftAggregateController;
 use App\Http\Controllers\Api\v1\MinecraftBadgeController;
-use App\Http\Controllers\Api\v1\MinecraftBalanceController;
 use App\Http\Controllers\Api\v1\MinecraftDonationTierController;
 use App\Http\Controllers\Api\v1\MinecraftShowcaseWarpController;
 use App\Http\Controllers\Api\v1\MinecraftTelemetryController;
@@ -65,14 +64,6 @@ Route::prefix('v2')
                 Route::get('donation-tiers', [MinecraftDonationTierController::class, 'show']);
                 Route::get('badges', [MinecraftBadgeController::class, 'show']);
                 Route::get('aggregate', [MinecraftAggregateController::class, 'show']);
-
-                Route::prefix('balance')->group(function () {
-                    Route::get('/', [MinecraftBalanceController::class, 'show'])
-                        ->middleware(RequiresServerTokenScope::middleware(ScopeKey::ACCOUNT_BALANCE_SHOW));
-
-                    Route::post('deduct', [MinecraftBalanceController::class, 'deduct'])
-                        ->middleware(RequiresServerTokenScope::middleware(ScopeKey::ACCOUNT_BALANCE_DEDUCT));
-                });
             });
 
             Route::prefix('showcase-warps')->group(function () {

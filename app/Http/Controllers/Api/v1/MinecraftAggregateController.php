@@ -64,7 +64,6 @@ final class MinecraftAggregateController extends ApiController
         ]);
     }
 
-    // TODO: share this logic with MinecraftAuthTokenController
     private function getLinkedAccount(string $uuid): ?Account
     {
         $existingPlayer = MinecraftPlayer::where('uuid', $uuid)->first();

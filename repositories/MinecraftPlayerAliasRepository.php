@@ -25,9 +25,4 @@ class MinecraftPlayerAliasRepository
             'registered_at' => $registeredAt,
         ]);
     }
-
-    public function getByAlias(string $alias): ?MinecraftPlayerAlias
-    {
-        return MinecraftPlayerAlias::where('alias', $alias)->first();
-    }
 }

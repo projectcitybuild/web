@@ -20,6 +20,8 @@ return new class extends Migration
             $table->timestamps();
             $table->dateTime('expires_at');
         });
+
+        Schema::drop('minecraft_auth_codes');
     }
 
     /**
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('minecraft_registrations');
+        // Point of no return
     }
 };
