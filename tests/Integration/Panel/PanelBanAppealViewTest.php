@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\Feature;
+namespace Panel;
 
 use App\Domains\Panel\Data\PanelGroupScope;
 use App\Models\Account;

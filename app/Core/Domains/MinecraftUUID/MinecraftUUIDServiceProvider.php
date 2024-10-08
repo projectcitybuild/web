@@ -2,7 +2,7 @@
 
 namespace App\Core\Domains\MinecraftUUID;
 
-use App\Core\Data\MinecraftUUID;
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 

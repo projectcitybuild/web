@@ -1,24 +1,25 @@
 <?php
 
-namespace Tests\Integration\Feature;
+namespace Panel;
 
 use App\Domains\Panel\Data\PanelGroupScope;
-use App\Models\Group;
+use App\Models\Donation;
 use Tests\IntegrationTestCase;
 
-class PanelGroupsTest extends IntegrationTestCase
+class PanelDonationsListTest extends IntegrationTestCase
 {
-    public function test_can_view_group_list()
+    public function test_donation_shown_in_list()
     {
         $admin = $this->adminAccount(scopes: [
             PanelGroupScope::ACCESS_PANEL,
-            PanelGroupScope::MANAGE_GROUPS,
+            PanelGroupScope::MANAGE_DONATIONS,
         ]);
 
-        $group = Group::factory()->create();
+        $donation = Donation::factory()->create();
+
         $this->actingAs($admin)
-            ->get(route('front.panel.groups.index'))
-            ->assertSee($group->name);
+            ->get(route('front.panel.donations.index'))
+            ->assertSee($donation->donation_id);
     }
 
     public function test_unauthorised_without_scope()
@@ -28,18 +29,18 @@ class PanelGroupsTest extends IntegrationTestCase
         ]);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.groups.index'))
+            ->get(route('front.panel.donations.index'))
             ->assertUnauthorized();
     }
 
     public function test_unauthorised_without_panel_access()
     {
         $admin = $this->adminAccount(scopes: [
-            PanelGroupScope::MANAGE_GROUPS,
+            PanelGroupScope::MANAGE_DONATIONS,
         ]);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.groups.index'))
+            ->get(route('front.panel.donations.index'))
             ->assertUnauthorized();
     }
 }

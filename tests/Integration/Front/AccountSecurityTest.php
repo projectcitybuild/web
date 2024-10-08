@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\Feature;
+namespace Front;
 
 use App\Domains\Mfa\Notifications\MfaBackupCodeRegeneratedNotification;
 use App\Domains\Mfa\Notifications\MfaDisabledNotification;

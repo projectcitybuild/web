@@ -1,11 +1,10 @@
 <?php
 
-namespace Tests\Integration\Feature;
+namespace Front;
 
 use App\Domains\EmailChange\Notifications\VerifyNewEmailAddressNotification;
 use App\Models\Account;
 use App\Models\EmailChange;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;

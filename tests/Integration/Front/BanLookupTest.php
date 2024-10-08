@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\Feature;
+namespace Front;
 
 use App\Core\Data\Exceptions\TooManyRequestsException;
 use App\Core\Domains\PlayerLookup\Exceptions\PlayerNotFoundException;

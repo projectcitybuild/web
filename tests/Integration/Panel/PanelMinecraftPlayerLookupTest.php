@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\Feature;
+namespace Panel;
 
 use App\Core\Domains\Mojang\Api\MojangPlayerApi;
 use App\Core\Domains\Mojang\Data\MojangPlayer;

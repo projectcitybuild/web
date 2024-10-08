@@ -1,11 +1,8 @@
 <?php
 
-namespace Tests\Integration\Feature;
+namespace Front;
 
 use App\Models\Account;
-use App\Models\Donation;
-use App\Models\DonationPerk;
-use Carbon\Carbon;
 use Tests\TestCase;
 
 class AccountDonationTest extends TestCase

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\Feature;
+namespace Panel;
 
 use App\Domains\BanAppeals\Entities\BanAppealStatus;
 use App\Domains\BanAppeals\Notifications\BanAppealUpdatedNotification;

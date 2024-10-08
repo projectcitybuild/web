@@ -1,13 +1,16 @@
 <?php
 
-namespace Tests\Integration\Feature;
+namespace Panel;
 
 use App\Domains\Panel\Data\PanelGroupScope;
 use App\Models\Account;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\IntegrationTestCase;
 
-class PanelAccountListTest extends IntegrationTestCase
+class PanelAccountTest extends IntegrationTestCase
 {
+    use WithFaker;
+
     private Account $admin;
 
     public function setUp(): void
@@ -20,32 +23,45 @@ class PanelAccountListTest extends IntegrationTestCase
         ]);
     }
 
-    public function test_account_shown_in_list()
+    public function test_account_details_shown()
     {
+        $this->withoutExceptionHandling();
+
         $account = Account::factory()->create();
 
         $this->actingAs($this->admin)
-            ->get(route('front.panel.accounts.index'))
+            ->get(route('front.panel.accounts.show', $account))
+            ->assertOk()
             ->assertSee($account->username);
     }
 
-    public function test_unactivated_account_shown_in_list()
+    public function test_account_details_change()
     {
-        $account = Account::factory()->unactivated()->create();
+        $account = Account::factory()->create();
+
+        $newData = [
+            'email' => $this->faker->email,
+            'username' => $this->faker->userName,
+        ];
 
         $this->actingAs($this->admin)
-            ->get(route('front.panel.accounts.index'))
-            ->assertSee($account->username);
+            ->withoutExceptionHandling()
+            ->put(route('front.panel.accounts.update', $account), $newData)
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('accounts', $newData);
     }
 
     public function test_unauthorised_without_scope()
     {
+        $account = Account::factory()->create();
+
         $admin = $this->adminAccount(scopes: [
             PanelGroupScope::ACCESS_PANEL,
         ]);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.accounts.index'))
+            ->get(route('front.panel.accounts.update', $account))
             ->assertUnauthorized();
     }
 

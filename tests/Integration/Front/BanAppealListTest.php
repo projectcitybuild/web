@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\Feature;
+namespace Front;
 
 use App\Domains\BanAppeals\Entities\BanAppealStatus;
 use App\Models\Account;
