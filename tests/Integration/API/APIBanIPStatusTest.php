@@ -2,7 +2,6 @@
 
 namespace Tests\Integration\API;
 
-use App\Domains\ServerTokens\ScopeKey;
 use App\Models\GameIPBan;
 use App\Models\MinecraftPlayer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -34,8 +33,6 @@ class APIBanIPStatusTest extends IntegrationTestCase
             ->getJson(uri: self::ENDPOINT.'?'.http_build_query($this->validData()))
             ->assertForbidden();
 
-        $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
-
         $this->withAuthorizationServerToken()
             ->getJson(uri: self::ENDPOINT.'?'.http_build_query($this->validData()))
             ->assertSuccessful();
@@ -43,8 +40,6 @@ class APIBanIPStatusTest extends IntegrationTestCase
 
     public function test_returns_ban()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
-
         $player = MinecraftPlayer::factory()->create();
 
         $ban = GameIPBan::factory()
@@ -73,8 +68,6 @@ class APIBanIPStatusTest extends IntegrationTestCase
 
     public function test_not_banned_when_no_ban()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
-
         $this->withAuthorizationServerToken()
             ->getJson(uri: self::ENDPOINT.'?'.http_build_query([
                 'ip_address' => '192.168.0.1',
@@ -87,8 +80,6 @@ class APIBanIPStatusTest extends IntegrationTestCase
 
     public function test_not_banned_when_unbanned()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
-
         $player = MinecraftPlayer::factory()->create();
 
         $ban = GameIPBan::factory()

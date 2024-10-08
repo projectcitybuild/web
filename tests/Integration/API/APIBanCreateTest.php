@@ -3,7 +3,6 @@
 namespace Tests\Integration\API;
 
 use App\Core\Data\PlayerIdentifierType;
-use App\Domains\ServerTokens\ScopeKey;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
 use Carbon\Carbon;
@@ -42,8 +41,6 @@ class APIBanCreateTest extends IntegrationTestCase
             ->postJson(uri: self::ENDPOINT, data: $this->validData())
             ->assertForbidden();
 
-        $this->authoriseTokenFor(ScopeKey::BAN_UPDATE);
-
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: $this->validData())
             ->assertSuccessful();
@@ -51,8 +48,6 @@ class APIBanCreateTest extends IntegrationTestCase
 
     public function test_creates_permanent_ban()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_UPDATE);
-
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
 
@@ -88,8 +83,6 @@ class APIBanCreateTest extends IntegrationTestCase
 
     public function test_creates_temporary_ban()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_UPDATE);
-
         $expiryDate = Carbon::now()->addMonth();
 
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
@@ -128,8 +121,6 @@ class APIBanCreateTest extends IntegrationTestCase
 
     public function test_permanent_ban_throws_exception_if_already_permanent_banned()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_UPDATE);
-
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
 
@@ -163,8 +154,6 @@ class APIBanCreateTest extends IntegrationTestCase
 
     public function test_permanent_ban_throws_exception_if_already_temp_banned()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_UPDATE);
-
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
 

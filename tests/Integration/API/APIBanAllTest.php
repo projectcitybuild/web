@@ -4,7 +4,6 @@ namespace Tests\Integration\API;
 
 use App\Core\Data\PlayerIdentifierType;
 use App\Domains\Bans\Data\UnbanType;
-use App\Domains\ServerTokens\ScopeKey;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
 use App\Models\Server;
@@ -38,8 +37,6 @@ class APIBanAllTest extends IntegrationTestCase
             ->postJson(uri: self::ENDPOINT, data: $this->validData())
             ->assertForbidden();
 
-        $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
-
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: $this->validData())
             ->assertSuccessful();
@@ -47,8 +44,6 @@ class APIBanAllTest extends IntegrationTestCase
 
     public function test_shows_bans_and_unbans()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
-
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
         $server = Server::factory()->create();
@@ -106,8 +101,6 @@ class APIBanAllTest extends IntegrationTestCase
 
     public function test_shows_nothing()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
-
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
 
         $this->withAuthorizationServerToken()

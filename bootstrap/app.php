@@ -59,7 +59,6 @@ return Application::configure(basePath: dirname(__DIR__))
             'require-mfa' => \App\Http\Middleware\RequireMfaEnabled::class,
             'require-server-token' => \App\Http\Middleware\RequireServerToken::class,
             'scope' => \App\Http\Middleware\HasGroupScope::class,
-            'server-token' => \App\Http\Middleware\RequiresServerTokenScope::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -3,7 +3,6 @@
 namespace Tests\Integration\API;
 
 use App\Core\Data\PlayerIdentifierType;
-use App\Domains\ServerTokens\ScopeKey;
 use App\Models\MinecraftPlayer;
 use App\Models\PlayerWarning;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -37,8 +36,6 @@ class APIWarningAllTest extends IntegrationTestCase
             ->getJson(uri: self::ENDPOINT.'?'.http_build_query($this->validData()))
             ->assertForbidden();
 
-        $this->authoriseTokenFor(ScopeKey::WARNING_LOOKUP);
-
         $this->withAuthorizationServerToken()
             ->getJson(uri: self::ENDPOINT.'?'.http_build_query($this->validData()))
             ->assertSuccessful();
@@ -46,8 +43,6 @@ class APIWarningAllTest extends IntegrationTestCase
 
     public function test_shows_warnings()
     {
-        $this->authoriseTokenFor(ScopeKey::WARNING_LOOKUP);
-
         $player = MinecraftPlayer::factory()->create();
 
         $warning1 = PlayerWarning::factory()
@@ -97,8 +92,6 @@ class APIWarningAllTest extends IntegrationTestCase
 
     public function test_shows_no_warnings()
     {
-        $this->authoriseTokenFor(ScopeKey::WARNING_LOOKUP);
-
         $player = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
 
         $this->withAuthorizationServerToken()

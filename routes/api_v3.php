@@ -1,8 +1,6 @@
 <?php
 
-use App\Domains\ServerTokens\ScopeKey;
 use App\Http\Controllers\Api\v3\Minecraft\MinecraftRegisterController;
-use App\Http\Middleware\RequiresServerTokenScope;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v3')

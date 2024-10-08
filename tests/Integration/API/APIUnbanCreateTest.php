@@ -4,7 +4,6 @@ namespace Tests\Integration\API;
 
 use App\Core\Data\PlayerIdentifierType;
 use App\Domains\Bans\Data\UnbanType;
-use App\Domains\ServerTokens\ScopeKey;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,8 +42,6 @@ class APIUnbanCreateTest extends IntegrationTestCase
             ->postJson(uri: self::ENDPOINT, data: $this->validData())
             ->assertForbidden();
 
-        $this->authoriseTokenFor(ScopeKey::BAN_UPDATE);
-
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: $this->validData())
             ->assertSuccessful();
@@ -52,8 +49,6 @@ class APIUnbanCreateTest extends IntegrationTestCase
 
     public function test_throws_exception_if_not_banned()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_UPDATE);
-
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
 
@@ -77,8 +72,6 @@ class APIUnbanCreateTest extends IntegrationTestCase
 
     public function test_unbans_permanent_ban()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_UPDATE);
-
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
 
@@ -108,8 +101,6 @@ class APIUnbanCreateTest extends IntegrationTestCase
 
     public function test_unbans_temporary_ban()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_UPDATE);
-
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
 

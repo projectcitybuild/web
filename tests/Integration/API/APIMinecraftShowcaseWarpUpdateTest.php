@@ -2,7 +2,6 @@
 
 namespace Tests\Integration\API;
 
-use App\Domains\ServerTokens\ScopeKey;
 use App\Models\ShowcaseWarp;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\IntegrationTestCase;
@@ -49,8 +48,6 @@ class APIMinecraftShowcaseWarpUpdateTest extends IntegrationTestCase
             ->postJson(uri: $this->endpoint(), data: $this->validData())
             ->assertForbidden();
 
-        $this->authoriseTokenFor(ScopeKey::SHOWCASE_WARPS_UPDATE);
-
         $this->withAuthorizationServerToken()
             ->postJson(uri: $this->endpoint(), data: $this->validData())
             ->assertSuccessful();
@@ -58,8 +55,6 @@ class APIMinecraftShowcaseWarpUpdateTest extends IntegrationTestCase
 
     public function test_updates_warp()
     {
-        $this->authoriseTokenFor(ScopeKey::SHOWCASE_WARPS_UPDATE);
-
         $this->withAuthorizationServerToken()
             ->postJson(uri: $this->endpoint(), data: [
                 'location_world' => 'new_world',
@@ -86,8 +81,6 @@ class APIMinecraftShowcaseWarpUpdateTest extends IntegrationTestCase
     }
     public function test_returns_resource()
     {
-        $this->authoriseTokenFor(ScopeKey::SHOWCASE_WARPS_UPDATE);
-
         $this->withAuthorizationServerToken()
             ->postJson(uri: $this->endpoint(), data: [
                 'location_world' => 'new_world',
@@ -113,8 +106,6 @@ class APIMinecraftShowcaseWarpUpdateTest extends IntegrationTestCase
 
     public function test_throws_404_if_not_found()
     {
-        $this->authoriseTokenFor(ScopeKey::SHOWCASE_WARPS_UPDATE);
-
         $this->withAuthorizationServerToken()
             ->postJson(uri: $this->endpoint('missing_warp'))
             ->assertNotFound();

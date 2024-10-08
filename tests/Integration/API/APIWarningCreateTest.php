@@ -3,7 +3,6 @@
 namespace Tests\Integration\API;
 
 use App\Core\Data\PlayerIdentifierType;
-use App\Domains\ServerTokens\ScopeKey;
 use App\Models\MinecraftPlayer;
 use App\Models\PlayerWarning;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -42,8 +41,6 @@ class APIWarningCreateTest extends IntegrationTestCase
             ->postJson(uri: self::ENDPOINT, data: $this->validData())
             ->assertForbidden();
 
-        $this->authoriseTokenFor(ScopeKey::WARNING_UPDATE);
-
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: $this->validData())
             ->assertSuccessful();
@@ -51,8 +48,6 @@ class APIWarningCreateTest extends IntegrationTestCase
 
     public function test_creates_warning()
     {
-        $this->authoriseTokenFor(ScopeKey::WARNING_UPDATE);
-
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
 

@@ -2,9 +2,7 @@
 
 namespace Tests\Integration\API;
 
-use App\Domains\ServerTokens\ScopeKey;
 use App\Models\MinecraftPlayer;
-use App\Models\MinecraftPlayerAlias;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\IntegrationTestCase;
 
@@ -27,8 +25,6 @@ class APIMinecraftTelemetryTest extends IntegrationTestCase
             ->postJson(uri: self::ENDPOINT, data: ['uuid' => 'uuid', 'alias' => 'alias'])
             ->assertForbidden();
 
-        $this->authoriseTokenFor(ScopeKey::TELEMETRY);
-
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: ['uuid' => 'uuid', 'alias' => 'alias'])
             ->assertOk();
@@ -36,8 +32,6 @@ class APIMinecraftTelemetryTest extends IntegrationTestCase
 
     public function test_validates_input()
     {
-        $this->authoriseTokenFor(ScopeKey::TELEMETRY);
-
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: ['alias' => 'alias'])
             ->assertStatus(400);
@@ -57,8 +51,6 @@ class APIMinecraftTelemetryTest extends IntegrationTestCase
             'uuid' => 'uuid',
             'last_seen_at' => $this->now->copy()->subWeek(),
         ]);
-
-        $this->authoriseTokenFor(ScopeKey::TELEMETRY);
 
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: ['uuid' => 'uuid', 'alias' => 'alias'])

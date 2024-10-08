@@ -4,7 +4,6 @@ namespace Tests\Integration\API;
 
 use App\Core\Data\PlayerIdentifierType;
 use App\Domains\Bans\Data\UnbanType;
-use App\Domains\ServerTokens\ScopeKey;
 use App\Models\GameIPBan;
 use App\Models\MinecraftPlayer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -42,8 +41,6 @@ class APIUnbanIPCreateTest extends IntegrationTestCase
             ->postJson(uri: self::ENDPOINT, data: $this->validData())
             ->assertForbidden();
 
-        $this->authoriseTokenFor(ScopeKey::BAN_UPDATE);
-
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: $this->validData())
             ->assertSuccessful();
@@ -51,8 +48,6 @@ class APIUnbanIPCreateTest extends IntegrationTestCase
 
     public function test_throws_exception_if_not_banned()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_UPDATE);
-
         $player = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
 
         $this->withAuthorizationServerToken()
@@ -74,8 +69,6 @@ class APIUnbanIPCreateTest extends IntegrationTestCase
 
     public function test_unbans_ban()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_UPDATE);
-
         $player = MinecraftPlayer::factory()->create();
 
         $ban = GameIPBan::factory()

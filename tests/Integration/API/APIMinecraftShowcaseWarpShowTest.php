@@ -2,7 +2,6 @@
 
 namespace Tests\Integration\API;
 
-use App\Domains\ServerTokens\ScopeKey;
 use App\Models\ShowcaseWarp;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\IntegrationTestCase;
@@ -32,8 +31,6 @@ class APIMinecraftShowcaseWarpShowTest extends IntegrationTestCase
             ->getJson(uri: $this->endpoint())
             ->assertForbidden();
 
-        $this->authoriseTokenFor(ScopeKey::SHOWCASE_WARPS_SHOW);
-
         $this->withAuthorizationServerToken()
             ->getJson(uri: $this->endpoint())
             ->assertSuccessful();
@@ -41,8 +38,6 @@ class APIMinecraftShowcaseWarpShowTest extends IntegrationTestCase
 
     public function test_returns_warp()
     {
-        $this->authoriseTokenFor(ScopeKey::SHOWCASE_WARPS_SHOW);
-
         $this->withAuthorizationServerToken()
             ->getJson(uri: $this->endpoint())
             ->assertJson([
@@ -70,8 +65,6 @@ class APIMinecraftShowcaseWarpShowTest extends IntegrationTestCase
 
     public function test_throws_404_if_not_found()
     {
-        $this->authoriseTokenFor(ScopeKey::SHOWCASE_WARPS_SHOW);
-
         $this->withAuthorizationServerToken()
             ->getJson(uri: $this->endpoint('missing_warp'))
             ->assertNotFound();

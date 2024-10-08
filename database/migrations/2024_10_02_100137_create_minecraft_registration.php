@@ -22,6 +22,7 @@ return new class extends Migration
         });
 
         Schema::drop('minecraft_auth_codes');
+        Schema::drop('server_token_scopes');
     }
 
     /**

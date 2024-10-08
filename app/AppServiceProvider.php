@@ -5,7 +5,6 @@ namespace App;
 use App\Core\Domains\PlayerLookup\Service\ConcretePlayerLookup;
 use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
 use App\Models\Account;
-use App\Models\BalanceTransaction;
 use App\Models\Badge;
 use App\Models\BanAppeal;
 use App\Models\BuilderRankApplication;
@@ -99,7 +98,6 @@ final class AppServiceProvider extends ServiceProvider
         Relation::enforceMorphMap([
             'account' => Account::class,
             'badge' => Badge::class,
-            'balance_transaction' => BalanceTransaction::class,
             'ban_appeal' => BanAppeal::class,
             'builder_rank_application' => BuilderRankApplication::class,
             'donation' => Donation::class,

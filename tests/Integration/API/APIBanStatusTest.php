@@ -3,7 +3,6 @@
 namespace Tests\Integration\API;
 
 use App\Core\Data\PlayerIdentifierType;
-use App\Domains\ServerTokens\ScopeKey;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
 use App\Models\Server;
@@ -37,8 +36,6 @@ class APIBanStatusTest extends IntegrationTestCase
             ->postJson(uri: self::ENDPOINT, data: $this->validData())
             ->assertForbidden();
 
-        $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
-
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: $this->validData())
             ->assertSuccessful();
@@ -46,8 +43,6 @@ class APIBanStatusTest extends IntegrationTestCase
 
     public function test_permanently_banned()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
-
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
         $server = Server::factory()->create();
@@ -80,8 +75,6 @@ class APIBanStatusTest extends IntegrationTestCase
 
     public function test_temporarily_banned()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
-
         $player1 = MinecraftPlayer::factory()->create(['uuid' => 'uuid1']);
         $player2 = MinecraftPlayer::factory()->create(['uuid' => 'uuid2']);
         $server = Server::factory()->create();
@@ -115,8 +108,6 @@ class APIBanStatusTest extends IntegrationTestCase
 
     public function test_not_banned_when_no_ban()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
-
         $player = MinecraftPlayer::factory()->create();
 
         $this->withAuthorizationServerToken()
@@ -132,8 +123,6 @@ class APIBanStatusTest extends IntegrationTestCase
 
     public function test_not_banned_when_ban_expired()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
-
         $player = MinecraftPlayer::factory()->create();
 
         GamePlayerBan::factory()
@@ -155,8 +144,6 @@ class APIBanStatusTest extends IntegrationTestCase
 
     public function test_not_banned_when_manually_unbanned()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
-
         $player = MinecraftPlayer::factory()->create();
 
         GamePlayerBan::factory()
@@ -178,8 +165,6 @@ class APIBanStatusTest extends IntegrationTestCase
 
     public function test_not_banned_when_ban_expired_but_missing_unban_date()
     {
-        $this->authoriseTokenFor(ScopeKey::BAN_LOOKUP);
-
         $player = MinecraftPlayer::factory()->create();
 
         GamePlayerBan::factory()

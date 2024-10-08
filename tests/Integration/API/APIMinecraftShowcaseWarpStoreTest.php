@@ -2,7 +2,6 @@
 
 namespace Tests\Integration\API;
 
-use App\Domains\ServerTokens\ScopeKey;
 use App\Models\ShowcaseWarp;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\IntegrationTestCase;
@@ -39,8 +38,6 @@ class APIMinecraftShowcaseWarpStoreTest extends IntegrationTestCase
             ->postJson(uri: self::ENDPOINT, data: $this->validData())
             ->assertForbidden();
 
-        $this->authoriseTokenFor(ScopeKey::SHOWCASE_WARPS_UPDATE);
-
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: $this->validData())
             ->assertSuccessful();
@@ -48,8 +45,6 @@ class APIMinecraftShowcaseWarpStoreTest extends IntegrationTestCase
 
     public function test_creates_warp_without_all_fields()
     {
-        $this->authoriseTokenFor(ScopeKey::SHOWCASE_WARPS_UPDATE);
-
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: [
                 'name' => 'test_warp',
@@ -82,8 +77,6 @@ class APIMinecraftShowcaseWarpStoreTest extends IntegrationTestCase
 
     public function test_creates_warp_with_all_fields()
     {
-        $this->authoriseTokenFor(ScopeKey::SHOWCASE_WARPS_UPDATE);
-
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: [
                 'name' => 'test_warp',
@@ -120,8 +113,6 @@ class APIMinecraftShowcaseWarpStoreTest extends IntegrationTestCase
 
     public function test_returns_resource()
     {
-        $this->authoriseTokenFor(ScopeKey::SHOWCASE_WARPS_UPDATE);
-
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: [
                 'name' => 'test_warp',
@@ -156,8 +147,6 @@ class APIMinecraftShowcaseWarpStoreTest extends IntegrationTestCase
 
     public function test_cannot_reuse_name()
     {
-        $this->authoriseTokenFor(ScopeKey::SHOWCASE_WARPS_UPDATE);
-
         ShowcaseWarp::factory()->create(['name' => 'test_warp']);
 
         $this->withAuthorizationServerToken()
