@@ -41,4 +41,9 @@ final class MinecraftRegistration extends Model
     {
         return static::where('expires_at', '<=', now());
     }
+
+    public function isExpired(): bool
+    {
+        return $this->expires_at <= now();
+    }
 }

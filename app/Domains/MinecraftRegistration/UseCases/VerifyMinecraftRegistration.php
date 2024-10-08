@@ -19,6 +19,10 @@ class VerifyMinecraftRegistration
         private readonly SecureTokenGenerator $tokenGenerator,
     ) {}
 
+    /**
+     * Completes a MinecraftRegistration by creating an Account,
+     * MinecraftPlayer and emailing them onboarding instructions
+     */
     public function execute(
         string $code,
         MinecraftUUID $minecraftUuid,
@@ -27,7 +31,7 @@ class VerifyMinecraftRegistration
             ->whereUuid($minecraftUuid)
             ->firstOrFail();
 
-        if ($registration->expires_at < now()) {
+        if ($registration->isExpired()) {
             throw new MinecraftRegistrationExpiredException($registration);
         }
 
@@ -42,18 +46,20 @@ class VerifyMinecraftRegistration
                     'password' => $this->tokenGenerator->make(),
                 ]);
 
-            MinecraftPlayer::whereUuid($registration->minecraft_uuid)->first()
-                ?? MinecraftPlayer::create([
-                    'account' => $account->getKey(),
-                    'uuid' => $registration->minecraft_uuid,
-                    'alias' => $registration->minecraft_alias,
-                ]);
+            MinecraftPlayer::whereUuid($registration->minecraft_uuid)->upsert([
+                'account_id' => $account->getKey(),
+                'uuid' => $registration->minecraft_uuid,
+                'alias' => $registration->minecraft_alias,
+            ], uniqueBy: [
+                'uuid' => $registration->minecraft_uuid,
+            ]);
 
             $registration->delete();
 
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
+            throw $e;
         }
 
         $account->notify(
