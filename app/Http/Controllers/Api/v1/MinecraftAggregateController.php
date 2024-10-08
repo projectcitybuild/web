@@ -75,8 +75,8 @@ final class MinecraftAggregateController extends ApiController
         $existingPlayer->account->groups;
         $existingPlayer->touchLastSyncedAt();
 
-        if ($existingPlayer->account->groups->isEmpty) {
-            $existingPlayer->account->groups->push(Group::firstDefault());
+        if ($existingPlayer->account->groups->isEmpty()) {
+            $existingPlayer->account->groups = collect(Group::whereDefault()->first());
         }
 
         return $existingPlayer->account;

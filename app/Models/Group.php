@@ -14,7 +14,7 @@ final class Group extends Model implements LinkableAuditModel
     use HasFactory;
     use HasStaticTable;
 
-    public const DONOR_GROUP_NAME = 'donator'; // Some day we'll get rid of this misspelling...
+    public const DONOR_GROUP_NAME = 'donator';
 
     protected $table = 'groups';
 
@@ -32,18 +32,24 @@ final class Group extends Model implements LinkableAuditModel
         'discord_name',
         'can_access_panel',
     ];
-    protected $hidden = [];
+
     protected $casts = [
         'is_build' => 'boolean',
         'is_default' => 'boolean',
         'is_staff' => 'boolean',
         'is_admin' => 'boolean',
     ];
+
     public $timestamps = false;
 
     public function accounts()
     {
-        return $this->belongsToMany(Account::class, 'groups_accounts', 'group_id', 'account_id');
+        return $this->belongsToMany(
+            related: Account::class,
+            table: 'groups_accounts',
+            foreignPivotKey: 'group_id',
+            relatedPivotKey: 'account_id',
+        );
     }
 
     public function groupScopes(): BelongsToMany
@@ -58,6 +64,11 @@ final class Group extends Model implements LinkableAuditModel
         );
     }
 
+    public function scopeWhereDefault(Builder $query)
+    {
+        $query->where('is_default', true);
+    }
+
     public function getActivitySubjectLink(): ?string
     {
         return route('front.panel.groups.index').'#group-'.$this->getKey();
@@ -66,10 +77,5 @@ final class Group extends Model implements LinkableAuditModel
     public function getActivitySubjectName(): ?string
     {
         return "Group {$this->name}";
-    }
-
-    public function scopeFirstDefault(Builder $query)
-    {
-        $query->where('is_default', true)->first();
     }
 }

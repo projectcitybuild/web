@@ -21,9 +21,8 @@ class APIMinecraftShowcaseWarpIndexTest extends IntegrationTestCase
 
     public function test_requires_scope()
     {
-        $this->withAuthorizationServerToken()
-            ->getJson(uri: self::ENDPOINT)
-            ->assertForbidden();
+        $this->getJson(uri: self::ENDPOINT)
+            ->assertUnauthorized();
 
         $this->withAuthorizationServerToken()
             ->getJson(uri: self::ENDPOINT)

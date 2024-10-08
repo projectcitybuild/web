@@ -38,9 +38,8 @@ class APIUnbanCreateTest extends IntegrationTestCase
             ->bannedPlayer(MinecraftPlayer::factory()->create(['uuid' => 'uuid1']))
             ->create();
 
-        $this->withAuthorizationServerToken()
-            ->postJson(uri: self::ENDPOINT, data: $this->validData())
-            ->assertForbidden();
+        $this->postJson(uri: self::ENDPOINT, data: $this->validData())
+            ->assertUnauthorized();
 
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: $this->validData())

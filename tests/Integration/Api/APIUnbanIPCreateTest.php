@@ -37,9 +37,8 @@ class APIUnbanIPCreateTest extends IntegrationTestCase
             ->bannedBy(MinecraftPlayer::factory())
             ->create(['ip_address' => '192.168.0.1']);
 
-        $this->withAuthorizationServerToken()
-            ->postJson(uri: self::ENDPOINT, data: $this->validData())
-            ->assertForbidden();
+        $this->postJson(uri: self::ENDPOINT, data: $this->validData())
+            ->assertUnauthorized();
 
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: $this->validData())

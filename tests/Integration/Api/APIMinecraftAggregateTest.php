@@ -25,6 +25,13 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
         return 'api/v2/minecraft/'.$uuid.'/aggregate';
     }
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->createServerToken();
+    }
+
     public function test_aggregates_all_data()
     {
         $account = Account::factory()->create();
@@ -56,7 +63,8 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
                 'donation_tier_id' => $tier->getKey(),
             ]);
 
-        $this->getJson($this->endpoint($player))
+        $this->withAuthorizationServerToken()
+            ->getJson($this->endpoint($player))
             ->assertJson([
                 'data' => [
                     'account' => [
@@ -119,7 +127,8 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
             ->for($account)
             ->create();
 
-        $this->getJson($this->endpoint($player))
+        $this->withAuthorizationServerToken()
+            ->getJson($this->endpoint($player))
             ->assertJson([
                 'data' => [
                     'account' => [
@@ -139,7 +148,8 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
 
     public function test_missing_player()
     {
-        $this->getJson($this->endpoint(null))
+        $this->withAuthorizationServerToken()
+            ->getJson($this->endpoint(null))
             ->assertJson([
                 'data' => [
                     'account' => [],
@@ -154,7 +164,8 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
     {
         $player = MinecraftPlayer::factory()->create();
 
-        $this->getJson($this->endpoint($player))
+        $this->withAuthorizationServerToken()
+            ->getJson($this->endpoint($player))
             ->assertJson([
                 'data' => [
                     'account' => [],
@@ -177,7 +188,8 @@ class APIMinecraftAggregateTest extends IntegrationTestCase
             ->server($server)
             ->create();
 
-        $this->getJson($this->endpoint($player))
+        $this->withAuthorizationServerToken()
+            ->getJson($this->endpoint($player))
             ->assertJson([
                 'data' => [
                     'account' => null,

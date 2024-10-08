@@ -21,7 +21,6 @@ class DonationsProvider extends ServiceProvider
     {
         $this->app->bind(DeactivateExpiredDonorPerks::class, function ($app) {
             return new DeactivateExpiredDonorPerks(
-                groupsManager: $app->make(GroupsManager::class),
                 donationPerkRepository: $app->make(DonationPerkRepository::class),
                 donorGroup: Group::where('name', Group::DONOR_GROUP_NAME)->first()
                     ?? throw new \Exception('Could not find donor group'),
@@ -30,7 +29,6 @@ class DonationsProvider extends ServiceProvider
 
         $this->app->bind(ProcessPayment::class, function ($app) {
             return new ProcessPayment(
-                groupsManager: $app->make(GroupsManager::class),
                 paymentRepository: $app->make(PaymentRepository::class),
                 donationPerkRepository: $app->make(DonationPerkRepository::class),
                 donationRepository: $app->make(DonationRepository::class),

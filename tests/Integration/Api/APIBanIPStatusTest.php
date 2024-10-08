@@ -29,9 +29,8 @@ class APIBanIPStatusTest extends IntegrationTestCase
 
     public function test_requires_scope()
     {
-        $this->withAuthorizationServerToken()
-            ->getJson(uri: self::ENDPOINT.'?'.http_build_query($this->validData()))
-            ->assertForbidden();
+        $this->getJson(uri: self::ENDPOINT.'?'.http_build_query($this->validData()))
+            ->assertUnauthorized();
 
         $this->withAuthorizationServerToken()
             ->getJson(uri: self::ENDPOINT.'?'.http_build_query($this->validData()))

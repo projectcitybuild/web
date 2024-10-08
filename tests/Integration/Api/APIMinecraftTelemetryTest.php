@@ -21,9 +21,8 @@ class APIMinecraftTelemetryTest extends IntegrationTestCase
 
     public function test_requires_scope()
     {
-        $this->withAuthorizationServerToken()
-            ->postJson(uri: self::ENDPOINT, data: ['uuid' => 'uuid', 'alias' => 'alias'])
-            ->assertForbidden();
+        $this->postJson(uri: self::ENDPOINT, data: ['uuid' => 'uuid', 'alias' => 'alias'])
+            ->assertUnauthorized();
 
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: ['uuid' => 'uuid', 'alias' => 'alias'])

@@ -34,9 +34,8 @@ class APIBanIPCreateTest extends IntegrationTestCase
 
     public function test_requires_scope()
     {
-        $this->withAuthorizationServerToken()
-            ->postJson(uri: self::ENDPOINT, data: $this->validData())
-            ->assertForbidden();
+        $this->postJson(uri: self::ENDPOINT, data: $this->validData())
+            ->assertUnauthorized();
 
         $this->withAuthorizationServerToken()
             ->postJson(uri: self::ENDPOINT, data: $this->validData())

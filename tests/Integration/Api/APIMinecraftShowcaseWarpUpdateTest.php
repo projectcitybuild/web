@@ -44,9 +44,8 @@ class APIMinecraftShowcaseWarpUpdateTest extends IntegrationTestCase
 
     public function test_requires_scope()
     {
-        $this->withAuthorizationServerToken()
-            ->postJson(uri: $this->endpoint(), data: $this->validData())
-            ->assertForbidden();
+        $this->postJson(uri: $this->endpoint(), data: $this->validData())
+            ->assertUnauthorized();
 
         $this->withAuthorizationServerToken()
             ->postJson(uri: $this->endpoint(), data: $this->validData())

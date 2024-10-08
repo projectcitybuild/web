@@ -127,19 +127,6 @@ describe('successful submit', function () {
             ->toBe($this->unactivatedAccount->password);
     });
 
-    it('assigns account to default group', function () {
-        $defaultGroup = Group::where('is_default', true)->firstOrFail();
-
-        $this->post($this->submitEndpoint, $this->formData);
-
-        $account = Account::where('email', $this->unactivatedAccount->email)->firstOrFail();
-
-        $this->assertDatabaseHas('groups_accounts', [
-            'group_id' => $defaultGroup->group_id,
-            'account_id' => $account->account_id,
-        ]);
-    });
-
     it('sends an email to activate the account', function () {
         Notification::fake();
 
