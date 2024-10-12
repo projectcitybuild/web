@@ -34,14 +34,14 @@
                     </td>
                     <td>
                         <a href="{{ route('front.panel.minecraft-players.show', $ban->bannedPlayer) }}">
-                            {{ $ban->bannedPlayer->getBanReadableName() ?: '(No Alias)' }}
+                            {{ $ban->bannedPlayer->alias ?: '(No Alias)' }}
                         </a>
                     </td>
                     <td>{{ $ban->reason }}</td>
                     <td>
                         @if ($ban->bannerPlayer)
                         <a href="{{ route('front.panel.minecraft-players.show', $ban->bannerPlayer) }}">
-                            {{ $ban->bannerPlayer?->getBanReadableName() ?: '(No Alias)' }}
+                            {{ $ban->bannerPlayer?->alias ?: '(No Alias)' }}
                         </a>
                         @else
                             System

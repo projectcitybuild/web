@@ -4,6 +4,7 @@ namespace App\Core\Data;
 
 use App\Core\Utilities\Traits\ValueJoinable;
 
+/** @deprecated */
 enum PlayerIdentifierType: string
 {
     use ValueJoinable;

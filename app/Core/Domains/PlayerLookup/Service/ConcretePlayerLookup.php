@@ -10,9 +10,7 @@ use App\Core\Domains\PlayerLookup\Player;
 use Repositories\MinecraftPlayerAliasRepository;
 use Repositories\MinecraftPlayerRepository;
 
-/**
- * @final
- */
+/** @deprecated */
 class ConcretePlayerLookup implements PlayerLookup
 {
     public function __construct(

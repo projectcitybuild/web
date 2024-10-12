@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Core\Domains\Tokens\TokenGenerator;
+use App\Core\Domains\SecureTokens\SecureTokenGenerator;
 use App\Http\Controllers\WebController;
 use App\Models\ServerToken;
-use App\Models\ServerTokenScope;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ServerTokenController extends WebController
@@ -29,14 +27,13 @@ class ServerTokenController extends WebController
     /**
      * Show the form for creating the specified resource.
      */
-    public function create(Request $request, TokenGenerator $tokenGenerator): Application|Factory|View
+    public function create(Request $request, SecureTokenGenerator $tokenGenerator): Application|Factory|View
     {
         $token = new ServerToken();
         $generatedToken = $tokenGenerator->make();
-        $scopes = ServerTokenScope::all();
 
         return view('admin.server-tokens.create')
-            ->with(compact('token', 'generatedToken', 'scopes'));
+            ->with(compact('token', 'generatedToken'));
     }
 
     /**
@@ -48,7 +45,6 @@ class ServerTokenController extends WebController
             'token' => 'required|string',
             'server_id' => 'nullable|numeric|exists:servers,server_id',
             'description' => 'string',
-            'scopes' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -57,24 +53,11 @@ class ServerTokenController extends WebController
                 ->withInput();
         }
 
-        $scopes = collect($request->get('scopes'))
-            ->map(fn ($name) => ServerTokenScope::where('scope', $name)->first()?->getKey())
-            ->filter()
-            ->toArray();
-
-        DB::beginTransaction();
-        try {
-            $token = ServerToken::create([
-                'token' => $request->get('token'),
-                'server_id' => $request->get('server_id'),
-                'description' => $request->get('description'),
-            ]);
-            $token->scopes()->attach($scopes);
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
+        ServerToken::create([
+            'token' => $request->get('token'),
+            'server_id' => $request->get('server_id'),
+            'description' => $request->get('description'),
+        ]);
 
         return redirect(route('front.panel.server-tokens.index'));
     }
@@ -84,10 +67,9 @@ class ServerTokenController extends WebController
      */
     public function edit(int $tokenId): Application|Factory|View
     {
-        $token = ServerToken::with('scopes')->find($tokenId);
-        $scopes = ServerTokenScope::all();
+        $token = ServerToken::find($tokenId);
 
-        return view('admin.server-tokens.edit')->with(compact('token', 'scopes'));
+        return view('admin.server-tokens.edit')->with(compact('token'));
     }
 
     /**
@@ -101,7 +83,6 @@ class ServerTokenController extends WebController
             'token' => 'required|string',
             'server_id' => 'nullable|numeric|exists:servers,server_id',
             'description' => 'string',
-            'scopes' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -110,23 +91,8 @@ class ServerTokenController extends WebController
                 ->withInput();
         }
 
-        $scopes = collect($request->get('scopes'))
-            ->map(fn ($name) => ServerTokenScope::where('scope', $name)->first()?->getKey())
-            ->filter()
-            ->toArray();
-
-        DB::beginTransaction();
-        try {
-            $token->update($request->all());
-            $token->save();
-
-            $token->scopes()->sync($scopes);
-
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
+        $token->update($request->all());
+        $token->save();
 
         return redirect(route('front.panel.server-tokens.index'));
     }
@@ -137,7 +103,6 @@ class ServerTokenController extends WebController
     public function destroy(Request $request, int $tokenId): RedirectResponse
     {
         $token = ServerToken::find($tokenId);
-        $token->scopes()->detach();
         $token->delete();
 
         return redirect(route('front.panel.server-tokens.index'));

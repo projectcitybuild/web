@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 abstract class ApiController
 {
     /**
+     * @deprecated Use Request validate() instead
      * @throws BadRequestException
      */
     protected function validateRequest(array $requestData, array $rules, array $messages = []): void

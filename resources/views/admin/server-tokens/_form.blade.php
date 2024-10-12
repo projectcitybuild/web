@@ -17,26 +17,6 @@
     </div>
 </div>
 <div class="row mb-3">
-    <label for="description" class="col-sm-3 col-form-label horizontal-label">Scopes</label>
-    <div class="col-sm-9">
-        @foreach ($scopes as $scope)
-            <div class="form-check">
-                <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="{{ $scope->scope }}"
-                    id="scope_{{ $scope->getKey() }}"
-                    name="scopes[]"
-                    {{ $token->scopes->contains($scope->getKey()) ? 'checked' : '' }}
-                >
-                <label class="form-check-label" for="scope_{{ $scope->getKey() }}">
-                    {{ $scope->scope }}
-                </label>
-            </div>
-        @endforeach
-    </div>
-</div>
-<div class="row mb-3">
     <div class="col-sm-9 ms-auto">
         <button type="submit" class="btn btn-primary">{{ $buttonText }}</button>
     </div>

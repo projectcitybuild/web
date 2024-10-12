@@ -34,7 +34,7 @@ Route::name('front.panel.')
         'activated',
         'mfa',
         PanelGroupScope::ACCESS_PANEL->toMiddleware(),
-        'requires-mfa',
+        'require-mfa',
     ])
     ->group(function() {
         Route::view('/', 'admin.index')
@@ -74,10 +74,6 @@ Route::name('front.panel.')
 
         Route::post('minecraft-players/lookup', MinecraftPlayerLookupController::class)
             ->name('minecraft-players.lookup')
-            ->middleware(PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware());
-
-        Route::post('minecraft-players/{minecraft_player}/reload-alias', MinecraftPlayerReloadAliasController::class)
-            ->name('minecraft-players.reload-alias')
             ->middleware(PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware());
 
         Route::resource('showcase-warps', ShowcaseWarpsController::class)

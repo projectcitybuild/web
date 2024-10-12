@@ -21,7 +21,7 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Last Alias</th>
+                <th>Last Known Alias</th>
                 <th>UUID</th>
                 <th>Owner</th>
                 <th>Manage</th>
@@ -31,7 +31,7 @@
                 @foreach($minecraftPlayers as $player)
                     <tr>
                         <td>{{ $player->player_minecraft_id }}</td>
-                        <td>{{ $player->getBanReadableName() ?: '-' }}</td>
+                        <td>{{ $player->alias ?: '-' }}</td>
                         <td class="font-monospace">{{ $player->uuid }}</td>
                         <td>
                             @if($player->account)

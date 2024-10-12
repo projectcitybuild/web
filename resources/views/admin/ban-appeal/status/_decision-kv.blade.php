@@ -13,7 +13,7 @@
         </dt>
         <dd class="col-md-9">
             <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->deciderPlayer) }}">
-                {{ $banAppeal->deciderPlayer->getBanReadableName() ?? 'No Alias' }}
+                {{ $banAppeal->deciderPlayer->alias ?? 'No Alias' }}
             </a>
         </dd>
     </div>

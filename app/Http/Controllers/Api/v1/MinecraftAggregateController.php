@@ -14,6 +14,7 @@ use App\Http\Resources\DonationPerkResource;
 use App\Http\Resources\GameIPBanResource;
 use App\Http\Resources\GamePlayerBanResource;
 use App\Models\Account;
+use App\Models\Group;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -63,7 +64,6 @@ final class MinecraftAggregateController extends ApiController
         ]);
     }
 
-    // TODO: share this logic with MinecraftAuthTokenController
     private function getLinkedAccount(string $uuid): ?Account
     {
         $existingPlayer = MinecraftPlayer::where('uuid', $uuid)->first();
@@ -74,6 +74,10 @@ final class MinecraftAggregateController extends ApiController
         // Force load groups
         $existingPlayer->account->groups;
         $existingPlayer->touchLastSyncedAt();
+
+        if ($existingPlayer->account->groups->isEmpty()) {
+            $existingPlayer->account->groups = collect(Group::whereDefault()->first());
+        }
 
         return $existingPlayer->account;
     }

@@ -3,7 +3,6 @@
 use App\Http\Controllers\Front\Account\AccountBillingController;
 use App\Http\Controllers\Front\Account\AccountDonationController;
 use App\Http\Controllers\Front\Account\AccountGameAccountController;
-use App\Http\Controllers\Front\Account\AccountInfractionsController;
 use App\Http\Controllers\Front\Account\AccountProfileController;
 use App\Http\Controllers\Front\Account\Settings\MfaDisableController;
 use App\Http\Controllers\Front\Account\Settings\MfaFinishController;
@@ -28,7 +27,6 @@ use App\Http\Controllers\Front\BanlistController;
 use App\Http\Controllers\Front\BuilderRankApplicationController;
 use App\Http\Controllers\Front\DonationController;
 use App\Http\Controllers\Front\HomeController;
-use App\Http\Controllers\Front\MinecraftPlayerLinkController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])
@@ -262,9 +260,4 @@ Route::group([
         Route::get('billing', [AccountBillingController::class, 'index'])
             ->name('front.account.settings.billing');
     });
-});
-
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('auth/minecraft/{token}', [MinecraftPlayerLinkController::class, 'index'])
-        ->name('front.auth.minecraft.token');
 });

@@ -3,14 +3,11 @@
 namespace Tests;
 
 use App\Domains\Panel\Data\PanelGroupScope;
-use App\Domains\ServerTokens\ScopeKey;
 use App\Models\Account;
 use App\Models\Group;
 use App\Models\GroupScope;
 use App\Models\Server;
-use App\Models\ServerCategory;
 use App\Models\ServerToken;
-use App\Models\ServerTokenScope;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 
@@ -63,14 +60,6 @@ abstract class IntegrationTestCase extends TestCase
             name: 'Authorization',
             value: 'Bearer '.$this->token->token,
         );
-    }
-
-    protected function authoriseTokenFor(ScopeKey ...$scopes)
-    {
-        foreach ($scopes as $scope) {
-            $tokenScope = ServerTokenScope::create(['scope' => $scope->value]);
-            $this->token->scopes()->attach($tokenScope->getKey());
-        }
     }
 
     /**

@@ -2,29 +2,27 @@
 
 namespace App\Domains\Donations\UseCases;
 
-use App\Core\Domains\Groups\GroupsManager;
 use App\Domains\Donations\Notifications\DonationEndedNotification;
+use App\Models\DonationPerk;
 use App\Models\Group;
 use Illuminate\Support\Facades\Log;
-use Repositories\DonationPerkRepository;
 
 final class DeactivateExpiredDonorPerks
 {
-    public function __construct(
-        private readonly GroupsManager $groupsManager,
-        private readonly DonationPerkRepository $donationPerkRepository,
-        private readonly Group $donorGroup,
-    ) {
-    }
-
-    public function execute()
+    public function execute(): void
     {
-        $expiredPerks = $this->donationPerkRepository->getExpired();
+        $expiredPerks = DonationPerk::where('is_active', true)
+            ->whereDate('expires_at', '<=', now())
+            ->get() ?? collect();
 
         if ($expiredPerks->count() === 0) {
             Log::info('No expired DonationPerks found');
-
             return;
+        }
+
+        $donorGroup = Group::where('name', Group::DONOR_GROUP_NAME)->first();
+        if ($donorGroup === null) {
+            throw new \Exception('Could not find donor group');
         }
 
         foreach ($expiredPerks as $expiredPerk) {
@@ -32,20 +30,20 @@ final class DeactivateExpiredDonorPerks
 
             // Remove from Donor group if account has no other active DonationPerk
             if ($account !== null) {
-                $activePerkCount = $this->donationPerkRepository->countActive(accountId: $account->getKey());
+                $activePerkCount = DonationPerk::where('account_id', $account->getKey())
+                    ->where('is_active', true)
+                    ->where('expires_at', '>', now())
+                    ->count();
 
                 // TODO: we probably need a buffer in case payments are slightly delayed and
                 // the user didn't actually cancel...
                 if ($activePerkCount === 0) {
-                    $this->groupsManager->removeMember(
-                        group: $this->donorGroup,
-                        account: $account,
-                    );
+                    $account->groups()->detach($donorGroup->getKey());
                     $account->notify(new DonationEndedNotification());
                 }
             }
 
-            Log::debug('Deactivating DonationPerk', ['donation_perk' => $expiredPerk]);
+            Log::info('Deactivating DonationPerk', ['donation_perk' => $expiredPerk]);
 
             $expiredPerk->is_active = false;
             $expiredPerk->save();

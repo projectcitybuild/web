@@ -1,26 +1,22 @@
 @extends('admin.layouts.admin')
 
 @section('title')
-    Minecraft Player {{ $minecraftPlayer->getBanReadableName() ?? $minecraftPlayer->uuid }}
+    Minecraft Player {{ $minecraftPlayer->alias ?? $minecraftPlayer->uuid }}
 @endsection
 
 @section('toolbar')
-    <form action="{{ route('front.panel.minecraft-players.reload-alias', $minecraftPlayer) }}" method="post">
-        @csrf
-        <div class="btn-group btn-group-sm" role="group">
-            <a href="https://analytics.pcbmc.co/player/{{ $minecraftPlayer->dashedUuid }}" class="btn btn-outline-secondary"><i class="fas fa-external-link-square-alt"></i> Plan</a>
-            <button type="submit" class="btn btn-outline-secondary"><i class="fas fa-sync"></i> Reload Name</button>
-        </div>
-    </form>
+    <div class="btn-group btn-group-sm" role="group">
+        <a href="https://analytics.pcbmc.co/player/{{ $minecraftPlayer->dashedUuid }}" class="btn btn-outline-secondary"><i class="fas fa-external-link-square-alt"></i> Plan</a>
+    </div>
 @endsection
 
 @section('body')
     <div class="row">
-        <div class="col-md-2 col">
+        <div class="col-md-3 col">
             <img src="https://minotar.net/armor/body/{{ $minecraftPlayer->uuid }}" alt="Player Head" class="img-fluid d-none d-md-block mx-auto">
             <img src="https://minotar.net/helm/{{ $minecraftPlayer->uuid }}" alt="Player Head" class="img-fluid d-block d-md-none mx-auto mb-2">
         </div>
-        <div class="col-md-5">
+        <div class="col-md-9">
             <div class="card h-100 card-default">
                 <div class="card-header d-flex justify-content-between">
                     <span>Details</span>
@@ -42,7 +38,7 @@
                             Last Alias
                         </dt>
                         <dd class="col-md-9">
-                            {{ $minecraftPlayer->getBanReadableName() ?? '-' }}
+                            {{ $minecraftPlayer->alias ?? '-' }}
                         </dd>
                     </div>
                     <div class="row g-0">
@@ -76,31 +72,6 @@
                         </dd>
                     </div>
                 </dl>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <div class="card h-100 card-default">
-                <div class="card-header d-flex justify-content-between">
-                    <span>Aliases</span>
-                </div>
-                <div class="table-responsive">
-                    <table class="table mb-0">
-                        <thead>
-                        <tr>
-                            <th>Alias</th>
-                            <th>Created At</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($minecraftPlayer->aliases as $alias)
-                            <tr>
-                                <td>{{ $alias->alias }}</td>
-                                <td>{{ $alias->created_at }}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
     </div>
@@ -178,7 +149,7 @@
                                 <td>{{ $warning->reason }}</td>
                                 <td>
                                     <a href="{{ route('front.panel.minecraft-players.show', $warning->warnerPlayer) }}">
-                                        {{ $warning->warnerPlayer->currentAlias()?->alias ?? '(No Alias)' }}
+                                        {{ $warning->warnerPlayer->alias ?? '(No Alias)' }}
                                     </a>
                                 </td>
                                 <td>{{ $warning->created_at }}</td>

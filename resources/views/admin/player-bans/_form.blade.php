@@ -4,7 +4,7 @@
         <x-panel.minecraft-player-alias-picker
                 fieldName="banned_player_id"
                 :playerId="$ban?->bannedPlayer?->getKey()"
-                :aliasString="$ban?->bannedPlayer?->currentAlias()?->alias"
+                :aliasString="$ban?->bannedPlayer?->alias"
         />
     </div>
 </div>
@@ -27,7 +27,7 @@
         <x-panel.minecraft-player-alias-picker
                 fieldName="banner_player_id"
                 :playerId="$ban?->bannerPlayer?->getKey()"
-                :aliasString="$ban?->bannerPlayer?->currentAlias()?->alias"
+                :aliasString="$ban?->bannerPlayer?->alias"
         />
     </div>
 </div>
@@ -100,7 +100,7 @@
         <x-panel.minecraft-player-alias-picker
                 fieldName="unbanner_player_id"
                 :playerId="$ban?->unbannerPlayer?->getKey()"
-                :aliasString="$ban?->unbannerPlayer?->currentAlias()?->alias"
+                :aliasString="$ban?->unbannerPlayer?->alias"
         />
         <div class="form-text">Leave blank if this ban should be active</div>
     </div>

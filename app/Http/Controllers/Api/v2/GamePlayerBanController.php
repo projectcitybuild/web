@@ -15,6 +15,7 @@ use App\Domains\Bans\UseCases\GetActivePlayerBan;
 use App\Domains\Bans\UseCases\GetAllPlayerBans;
 use App\Http\Controllers\ApiController;
 use App\Http\Resources\GamePlayerBanResource;
+use App\Models\Server;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Carbon;
@@ -52,8 +53,11 @@ final class GamePlayerBanController extends ApiController
             }
         }
 
+        // Temporary measure to get the server without the server token
+        $server = Server::first();
+
         $ban = $createBan->execute(
-            serverId: $request->token->server_id,
+            serverId: $server->getKey(),
             bannedPlayerIdentifier: new PlayerIdentifier(
                 key: $request->get('banned_player_id'),
                 gameIdentifierType: PlayerIdentifierType::tryFrom($request->get('banned_player_type')),

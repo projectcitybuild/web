@@ -1,7 +1,7 @@
 @extends('admin.layouts.admin')
 
 @section('title')
-    Edit Minecraft Player {{ $minecraftPlayer->getBanReadableName() ?? $minecraftPlayer->uuid }}
+    Edit Minecraft Player {{ $minecraftPlayer->alias ?? $minecraftPlayer->uuid }}
 @endsection
 
 @section('body')

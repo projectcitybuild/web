@@ -4,6 +4,9 @@ namespace App\Core\Data;
 
 use function collect;
 
+/**
+ * @deprecated Use an App\Core\Domains\MinecraftUUID\Data\MinecraftUUID instead
+ */
 final class MinecraftUUID
 {
     private string $uuid;

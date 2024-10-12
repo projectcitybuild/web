@@ -17,7 +17,7 @@
         <x-panel.minecraft-player-alias-picker
             fieldName="banner_player_id"
             :playerId="$ban?->bannerPlayer?->getKey()"
-            :aliasString="$ban?->bannerPlayer?->currentAlias()?->alias"
+            :aliasString="$ban?->bannerPlayer?->alias"
         />
     </div>
 </div>

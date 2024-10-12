@@ -29,13 +29,13 @@
                     <td>{{ $warning->getKey() }}</td>
                     <td>
                         <a href="{{ route('front.panel.minecraft-players.show', $warning->warnedPlayer) }}">
-                            {{ $warning->warnedPlayer->getBanReadableName() ?: '(No Alias)' }}
+                            {{ $warning->warnedPlayer->alias ?: '(No Alias)' }}
                         </a>
                     </td>
                     <td>{{ $warning->reason }}</td>
                     <td>
                         <a href="{{ route('front.panel.minecraft-players.show', $warning->warnerPlayer) }}">
-                            {{ $warning->warnerPlayer->getBanReadableName() ?: '(No Alias)' }}
+                            {{ $warning->warnerPlayer->alias ?: '(No Alias)' }}
                         </a>
                     </td>
                     <td>{{ $warning->created_at }}</td>

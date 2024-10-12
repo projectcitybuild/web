@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Front\Account\Settings;
 
-use App\Core\Domains\Mfa\Notifications\MfaEnabledNotification;
+use App\Domains\Mfa\Notifications\MfaEnabledNotification;
 use App\Http\Controllers\WebController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;

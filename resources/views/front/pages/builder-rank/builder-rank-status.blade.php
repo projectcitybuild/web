@@ -129,7 +129,7 @@
 
                 <li class="mb-10 ms-6">
                     <span class="absolute flex items-center justify-center w-6 h-6 rounded-full -start-3 ring-8 ring-white">
-                        <img src="https://minotar.net/avatar//{{ $application->account->minecraftAccount?->first()?->currentAlias() }}/16" class="rounded-md h-6">
+                        <img src="https://minotar.net/avatar//{{ $application->account->minecraftAccount?->first()?->alias }}/16" class="rounded-md h-6">
                     </span>
                     <div class="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg sm:flex">
                         <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">{{ $application->created_at }}</time>

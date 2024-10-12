@@ -2,6 +2,7 @@
 
 namespace App\Core\Domains\Mojang\Data;
 
+/** @deprecated */
 class MojangPlayerNameHistory
 {
     /**

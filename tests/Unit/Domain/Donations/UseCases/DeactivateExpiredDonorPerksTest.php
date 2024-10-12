@@ -2,198 +2,138 @@
 
 namespace Tests\Unit\Domain\Donations\UseCases;
 
-use App\Core\Domains\Groups\GroupsManager;
 use App\Domains\Donations\Notifications\DonationEndedNotification;
 use App\Domains\Donations\UseCases\DeactivateExpiredDonorPerks;
 use App\Models\Account;
 use App\Models\Donation;
 use App\Models\DonationPerk;
 use App\Models\Group;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
-use Repositories\DonationPerkRepository;
-use Tests\TestCase;
 
-final class DeactivateExpiredDonorPerksTest extends TestCase
-{
-    use RefreshDatabase;
+beforeEach(function () {
+    $this->donorGroup = Group::factory()->donor()->create();
+    $this->account = Account::factory()->create();
+    $this->useCase = new DeactivateExpiredDonorPerks();
 
-    private GroupsManager $groupsManager;
-    private DonationPerkRepository $donationPerkRepository;
-    private Group $donorGroup;
-    private Account $account;
-    private DeactivateExpiredDonorPerks $useCase;
+    Notification::fake();
+});
 
-    protected function setUp(): void
-    {
-        parent::setUp();
+it('deactivates expired perk', function () {
+    $perk = DonationPerk::factory()
+        ->for($this->account)
+        ->for(Donation::factory()->for($this->account))
+        ->expired()
+        ->create(['is_active' => true]);
 
-        $this->groupsManager = \Mockery::mock(GroupsManager::class);
+    $this->assertDatabaseHas('donation_perks', [
+        'donation_perks_id' => $perk->getKey(),
+        'is_active' => true,
+    ]);
 
-        $this->donationPerkRepository = \Mockery::mock(DonationPerkRepository::class);
-        $this->donorGroup = Group::factory()->create();
-        $this->account = Account::factory()->create();
+    $this->useCase->execute();
 
-        $this->useCase = new DeactivateExpiredDonorPerks(
-            groupsManager: $this->groupsManager,
-            donationPerkRepository: $this->donationPerkRepository,
-            donorGroup: $this->donorGroup,
-        );
+    $this->assertDatabaseHas('donation_perks', [
+        'donation_perks_id' => $perk->getKey(),
+        'is_active' => false,
+    ]);
+});
 
-        Notification::fake();
-    }
+it('does not deactivate unexpired perk', function () {
+    $perk = DonationPerk::factory()
+        ->for($this->account)
+        ->for(Donation::factory()->for($this->account))
+        ->notExpired()
+        ->create(['is_active' => true]);
 
-    private function find(DonationPerk $donationPerk): ?DonationPerk
-    {
-        return DonationPerk::find($donationPerk->getKey());
-    }
+    $this->assertDatabaseHas('donation_perks', [
+        'donation_perks_id' => $perk->getKey(),
+        'is_active' => true,
+    ]);
 
-    public function test_deactivates_expired_perk()
-    {
-        $expiredPerk = DonationPerk::factory()
-            ->for($this->account)
-            ->for(Donation::factory()->for($this->account))
-            ->expired()
-            ->create();
+    $this->useCase->execute();
 
-        $this->donationPerkRepository
-            ->shouldReceive('getExpired')
-            ->andReturn(collect([$expiredPerk]));
+    $this->assertDatabaseHas('donation_perks', [
+        'donation_perks_id' => $perk->getKey(),
+        'is_active' => true,
+    ]);
+});
 
-        $this->donationPerkRepository
-            ->shouldReceive('countActive')
-            ->andReturn(0);
+it('sends email to user when perks expires', function () {
+    DonationPerk::factory()
+        ->for($this->account)
+        ->for(Donation::factory()->for($this->account))
+        ->expired()
+        ->create();
 
-        $this->groupsManager
-            ->shouldReceive('removeMember');
+    $this->useCase->execute();
 
-        $this->assertTrue($this->find($expiredPerk)->is_active);
+    Notification::assertSentTo($this->account, DonationEndedNotification::class);
+});
 
-        $this->useCase->execute();
+it('does not send email if user has another active perk', function () {
+    DonationPerk::factory()
+        ->for($this->account)
+        ->for(Donation::factory()->for($this->account))
+        ->expired()
+        ->create();
 
-        $this->assertFalse($this->find($expiredPerk)->is_active);
-    }
+    DonationPerk::factory()
+        ->for($this->account)
+        ->for(Donation::factory()->for($this->account))
+        ->notExpired()
+        ->create();
 
-    public function test_doesnt_deactivate_unexpired_perk()
-    {
-        $expiredPerk = DonationPerk::factory()
-            ->for($this->account)
-            ->for(Donation::factory()->for($this->account))
-            ->notExpired()
-            ->create();
+    $this->useCase->execute();
 
-        $this->donationPerkRepository
-            ->shouldReceive('getExpired')
-            ->andReturn(collect([]));
+    Notification::assertNothingSentTo($this->account);
+});
 
-        $this->assertTrue($this->find($expiredPerk)->is_active);
+it('removes user from donor group on expiry', function () {
+    $this->account->groups()->attach($this->donorGroup);
 
-        $this->useCase->execute();
+    DonationPerk::factory()
+        ->for($this->account)
+        ->for(Donation::factory()->for($this->account))
+        ->expired()
+        ->create();
 
-        $this->assertTrue(DonationPerk::find($expiredPerk->getKey())->is_active);
-    }
+    $this->assertDatabaseHas('groups_accounts', [
+       'account_id' => $this->account->getKey(),
+       'group_id' => $this->donorGroup->getKey(),
+    ]);
 
-    public function test_sends_notification_when_perk_expires()
-    {
-        $expiredPerk = DonationPerk::factory()
-            ->for($this->account)
-            ->for(Donation::factory()->for($this->account))
-            ->expired()
-            ->create();
+    $this->useCase->execute();
 
-        $this->donationPerkRepository
-            ->shouldReceive('getExpired')
-            ->andReturn(collect([$expiredPerk]));
+    $this->assertDatabaseMissing('groups_accounts', [
+        'account_id' => $this->account->getKey(),
+        'group_id' => $this->donorGroup->getKey(),
+    ]);
+});
 
-        $this->donationPerkRepository
-            ->shouldReceive('countActive')
-            ->andReturn(0);
+it('does not remove donor group if user has another active perk', function () {
+    DonationPerk::factory()
+        ->for($this->account)
+        ->for(Donation::factory()->for($this->account))
+        ->expired()
+        ->create();
 
-        $this->groupsManager
-            ->shouldReceive('removeMember');
+    DonationPerk::factory()
+        ->for($this->account)
+        ->for(Donation::factory()->for($this->account))
+        ->notExpired()
+        ->create();
 
-        $this->useCase->execute();
+    $this->account->groups()->attach($this->donorGroup);
 
-        Notification::assertSentTo($this->account, DonationEndedNotification::class);
-    }
+    $this->assertDatabaseHas('groups_accounts', [
+        'account_id' => $this->account->getKey(),
+        'group_id' => $this->donorGroup->getKey(),
+    ]);
 
-    public function test_doesnt_send_notification_if_has_other_active_perk_after_perk_expires()
-    {
-        $expiredPerk1 = DonationPerk::factory()
-            ->for($this->account)
-            ->for(Donation::factory()->for($this->account))
-            ->expired()
-            ->create();
+    $this->useCase->execute();
 
-        $expiredPerk2 = DonationPerk::factory()
-            ->for($this->account)
-            ->for(Donation::factory()->for($this->account))
-            ->notExpired()
-            ->create();
-
-        $this->donationPerkRepository
-            ->shouldReceive('getExpired')
-            ->andReturn(collect([$expiredPerk1, $expiredPerk2]));
-
-        $this->donationPerkRepository
-            ->shouldReceive('countActive')
-            ->andReturn(1);
-
-        $this->useCase->execute();
-
-        Notification::assertNothingSentTo($this->account);
-    }
-
-    public function test_removes_donor_group_if_perks_expired()
-    {
-        $expiredPerk = DonationPerk::factory()
-            ->for($this->account)
-            ->for(Donation::factory()->for($this->account))
-            ->expired()
-            ->create();
-
-        $this->donationPerkRepository
-            ->shouldReceive('getExpired')
-            ->andReturn(collect([$expiredPerk]));
-
-        $this->donationPerkRepository
-            ->shouldReceive('countActive')
-            ->andReturn(0);
-
-        $this->groupsManager
-            ->shouldReceive('removeMember');
-
-        $this->useCase->execute();
-
-        // Skip risky warning
-        $this->assertTrue(true);
-    }
-
-    public function test_doesnt_remove_donor_group_if_other_active_perks()
-    {
-        $expiredPerk1 = DonationPerk::factory()
-            ->for($this->account)
-            ->for(Donation::factory()->for($this->account))
-            ->expired()
-            ->create();
-
-        $expiredPerk2 = DonationPerk::factory()
-            ->for($this->account)
-            ->for(Donation::factory()->for($this->account))
-            ->notExpired()
-            ->create();
-
-        $this->donationPerkRepository
-            ->shouldReceive('getExpired')
-            ->andReturn(collect([$expiredPerk1, $expiredPerk2]));
-
-        $this->donationPerkRepository
-            ->shouldReceive('countActive')
-            ->andReturn(1);
-
-        $this->groupsManager
-            ->shouldNotHaveBeenCalled(['removeMember']);
-
-        $this->useCase->execute();
-    }
-}
+    $this->assertDatabaseHas('groups_accounts', [
+        'account_id' => $this->account->getKey(),
+        'group_id' => $this->donorGroup->getKey(),
+    ]);
+});

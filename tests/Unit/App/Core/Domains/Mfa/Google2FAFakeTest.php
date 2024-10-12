@@ -2,8 +2,8 @@
 
 namespace App\Core\Domains\Mfa;
 
-use App\Core\Domains\Mfa\Exceptions\Dangerous2FABypassException;
-use App\Core\Domains\Mfa\Google2FAFake;
+use App\Domains\Mfa\Exceptions\Dangerous2FABypassException;
+use App\Domains\Mfa\Google2FAFake;
 use Tests\Support\TemporaryConfig;
 use Tests\TestCase;
 

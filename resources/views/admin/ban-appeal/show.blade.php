@@ -16,7 +16,7 @@
                         </dt>
                         <dd class="col-md-9">
                             <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->gamePlayerBan->bannedPlayer) }}">
-                                {{ $banAppeal->gamePlayerBan->bannedPlayer->getBanReadableName() ?? 'No Alias' }}</a>
+                                {{ $banAppeal->gamePlayerBan->bannedPlayer->alias ?? 'No Alias' }}</a>
                             @if ($banAppeal->gamePlayerBan->hasNameChangedSinceBan())
                                 (was {{ $banAppeal->gamePlayerBan->banned_alias_at_time }})
                             @endif
@@ -76,7 +76,7 @@
                                 System
                             @else
                                 <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->gamePlayerBan->bannerPlayer) }}">
-                                    {{ $banAppeal->gamePlayerBan->bannerPlayer->getBanReadableName() ?? 'No Alias' }}
+                                    {{ $banAppeal->gamePlayerBan->bannerPlayer->alias ?? 'No Alias' }}
                                 </a>
                             @endif
                         </dd>

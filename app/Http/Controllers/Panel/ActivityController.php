@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Http\Concerns\FiltersWithParameters;
+use App\Core\Utilities\Traits\FiltersWithParameters;
 use App\Http\Controllers\WebController;
 use App\Models\Activity;
 

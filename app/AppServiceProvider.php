@@ -5,7 +5,6 @@ namespace App;
 use App\Core\Domains\PlayerLookup\Service\ConcretePlayerLookup;
 use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
 use App\Models\Account;
-use App\Models\BalanceTransaction;
 use App\Models\Badge;
 use App\Models\BanAppeal;
 use App\Models\BuilderRankApplication;
@@ -19,7 +18,6 @@ use App\Models\PlayerWarning;
 use App\Models\Server;
 use App\Models\ServerToken;
 use App\View\Components\DonationBarComponent;
-use App\View\Components\NavBarComponent;
 use App\View\Components\PanelSideBarComponent;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -100,7 +98,6 @@ final class AppServiceProvider extends ServiceProvider
         Relation::enforceMorphMap([
             'account' => Account::class,
             'badge' => Badge::class,
-            'balance_transaction' => BalanceTransaction::class,
             'ban_appeal' => BanAppeal::class,
             'builder_rank_application' => BuilderRankApplication::class,
             'donation' => Donation::class,

@@ -8,6 +8,7 @@ use App\Domains\BuilderRankApplications\UseCases\CreateBuildRankApplication;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\BuilderRankApplicationRequest;
 use App\Models\Account;
+use App\Models\BuilderRankApplication;
 use Illuminate\Http\Request;
 use Repositories\BuilderRankApplicationRepository;
 
@@ -63,9 +64,8 @@ final class BuilderRankApplicationController extends WebController
     public function show(
         Request $request,
         int $applicationId,
-        BuilderRankApplicationRepository $applicationRepository,
     ) {
-        $application = $applicationRepository->first(applicationId: $applicationId);
+        $application = BuilderRankApplication::find($applicationId);
         if ($application === null) {
             abort(404);
         }

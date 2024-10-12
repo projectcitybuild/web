@@ -4,6 +4,8 @@ namespace Tests;
 
 use App\Core\Domains\Mojang\Api\MojangPlayerApi;
 use App\Http\Middleware\MfaAuthenticated;
+use App\Models\ServerToken;
+use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Carbon;
@@ -44,5 +46,17 @@ abstract class TestCase extends BaseTestCase
             Carbon::create(year: 2022, month: 12, day: 11, hour: 10, minute: 9, second: 8),
             fn ($now) => Carbon::setTestNow($now)
         );
+    }
+
+    protected function withServerToken(?ServerToken $serverToken = null): TestCase
+    {
+        $serverToken ??= ServerToken::factory()->create();
+
+        return $this->withBearerToken($serverToken->token);
+    }
+
+    protected function withBearerToken(string $token): TestCase
+    {
+        return $this->withHeaders(['Authorization' => 'Bearer '.$token]);
     }
 }
