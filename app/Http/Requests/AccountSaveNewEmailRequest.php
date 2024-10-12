@@ -5,20 +5,9 @@ namespace App\Http\Requests;
 use App\Models\Account;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Hash;
-use Repositories\AccountRepository;
 
 class AccountSaveNewEmailRequest extends FormRequest
 {
-    /**
-     * @var AccountRepository
-     */
-    private $accountRepository;
-
-    public function __construct(AccountRepository $accountRepository)
-    {
-        $this->accountRepository = $accountRepository;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      */

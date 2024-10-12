@@ -14,18 +14,15 @@ use Tests\TestCase;
 class CreateBanTest extends TestCase
 {
     private readonly ConcretePlayerLookup $playerLookup;
-    private readonly GamePlayerBanRepository $gamePlayerBanRepository;
     private readonly CreatePlayerBan $useCase;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->gamePlayerBanRepository = \Mockery::mock(GamePlayerBanRepository::class);
         $this->playerLookup = \Mockery::mock(ConcretePlayerLookup::class);
 
         $this->useCase = new CreatePlayerBan(
-            gamePlayerBanRepository: $this->gamePlayerBanRepository,
             playerLookup: $this->playerLookup,
         );
     }

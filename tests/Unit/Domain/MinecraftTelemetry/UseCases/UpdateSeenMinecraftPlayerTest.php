@@ -13,18 +13,13 @@ class UpdateSeenMinecraftPlayerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private ConcretePlayerLookup $playerLookup;
     private UpdateSeenMinecraftPlayer $useCase;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->playerLookup = \Mockery::mock(ConcretePlayerLookup::class);
-
-        $this->useCase = new UpdateSeenMinecraftPlayer(
-            playerLookup: $this->playerLookup,
-        );
+        $this->useCase = new UpdateSeenMinecraftPlayer();
     }
 
     public function test_updates_last_seen_date()

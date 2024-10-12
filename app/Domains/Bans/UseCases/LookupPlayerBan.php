@@ -20,17 +20,17 @@ class LookupPlayerBan
      * @throws NotBannedException
      * @throws PlayerNotFoundException
      */
-    public function execute(string $username): GamePlayerBan
+    public function execute(string $username): ?GamePlayerBan
     {
         $mojangPlayer = $this->mojangPlayerApi->getUuidOf($username);
 
         if ($mojangPlayer === null) {
-            throw new PlayerNotFoundException();
+            return null;
         }
 
         $mcPlayer = MinecraftPlayer::where('uuid', $mojangPlayer->getUuid())->first();
         if ($mcPlayer === null) {
-            throw new NotBannedException();
+            return null;
         }
 
         $gamePlayerBan = GamePlayerBan::where('banned_player_id', $mcPlayer->getKey())
@@ -38,7 +38,7 @@ class LookupPlayerBan
             ->first();
 
         if ($gamePlayerBan === null) {
-            throw new NotBannedException();
+            return null;
         }
 
         return $gamePlayerBan;

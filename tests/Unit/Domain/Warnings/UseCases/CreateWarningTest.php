@@ -14,7 +14,6 @@ use Tests\TestCase;
 
 class CreateWarningTest extends TestCase
 {
-    private PlayerWarningRepository $playerWarningRepository;
     private PlayerLookup $playerLookup;
     private CreateWarning $useCase;
 
@@ -22,19 +21,16 @@ class CreateWarningTest extends TestCase
     {
         parent::setUp();
 
-        $this->playerWarningRepository = new PlayerWarningMockRepository();
         $this->playerLookup = new PlayerLookupMock();
 
         $this->useCase = new CreateWarning(
             playerLookup: $this->playerLookup,
-            playerWarningRepository: $this->playerWarningRepository,
         );
     }
 
     public function test_creates_warning()
     {
         $createdWarning = PlayerWarning::factory()->id()->withPlayers()->make();
-        $this->playerWarningRepository->create = $createdWarning;
         $this->playerLookup->findOrCreate = MinecraftPlayer::factory()->id()->make();
 
         $warning = $this->useCase->execute(
@@ -46,6 +42,9 @@ class CreateWarningTest extends TestCase
             weight: 5,
             isAcknowledged: false,
         );
+
+        // TODO
+        $this->fail();
 
         $this->assertEquals(expected: $createdWarning, actual: $warning);
     }

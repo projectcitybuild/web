@@ -2,20 +2,16 @@
 
 namespace App\Domains\Bans\UseCases;
 
-use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
-use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\Bans\Exceptions\AlreadyIPBannedException;
 use App\Models\GameIPBan;
+use App\Models\MinecraftPlayer;
 
 final class CreateIPBan
 {
-    public function __construct(
-        private readonly PlayerLookup $playerLookup,
-    ) {}
-
     public function execute(
         string $ip,
-        PlayerIdentifier $bannerPlayerIdentifier,
+        MinecraftUUID $bannerPlayerUuid,
         string $bannerPlayerAlias,
         string $banReason,
     ): GameIPBan {
@@ -27,9 +23,9 @@ final class CreateIPBan
             throw new AlreadyIPBannedException();
         }
 
-        $bannerPlayer = $this->playerLookup->findOrCreate(
-            identifier: $bannerPlayerIdentifier,
-            playerAlias: $bannerPlayerAlias,
+        $bannerPlayer = MinecraftPlayer::firstOrCreate(
+            uuid: $bannerPlayerUuid,
+            alias: $bannerPlayerAlias,
         );
 
         return GameIPBan::create([

@@ -2,26 +2,16 @@
 
 namespace App\Domains\Bans\UseCases;
 
-use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
-use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayer;
 use Illuminate\Support\Collection;
-use Repositories\GamePlayerBanRepository;
 
 final class GetAllPlayerBans
 {
-    public function __construct(
-        private readonly PlayerLookup $playerLookup,
-    ) {}
-
-    /**
-     * @param  PlayerIdentifier  $playerIdentifier
-     * @return Collection
-     */
-    public function execute(
-        PlayerIdentifier $playerIdentifier,
-    ): Collection {
-        $player = $this->playerLookup->find($playerIdentifier);
+    public function execute(MinecraftUUID $uuid): Collection
+    {
+        $player = MinecraftPlayer::whereUuid($uuid)->first();
         if ($player === null) {
             return collect();
         }

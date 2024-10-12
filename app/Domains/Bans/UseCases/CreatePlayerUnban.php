@@ -2,31 +2,20 @@
 
 namespace App\Domains\Bans\UseCases;
 
-use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
-use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\Bans\Data\UnbanType;
 use App\Domains\Bans\Exceptions\NotBannedException;
 use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayer;
 
 class CreatePlayerUnban
 {
-    public function __construct(
-        private readonly PlayerLookup $playerLookup,
-    ) {}
-
-    /**
-     * @param  PlayerIdentifier  $bannedPlayerIdentifier Player currently banned
-     * @param  PlayerIdentifier  $unbannerPlayerIdentifier Player unbanning the banned player
-     * @return GamePlayerBan
-     *
-     * @throws NotBannedException if the banned player is not actually banned
-     */
     public function execute(
-        PlayerIdentifier $bannedPlayerIdentifier,
-        PlayerIdentifier $unbannerPlayerIdentifier,
+        MinecraftUUID $bannedPlayerUuid,
+        MinecraftUUID $unbannerPlayerUuid,
         UnbanType $unbanType,
     ): GamePlayerBan {
-        $player = $this->playerLookup->find(identifier: $bannedPlayerIdentifier)
+        $player = MinecraftPlayer::whereUuid($bannedPlayerUuid)->first()
             ?? throw new NotBannedException();
 
         $existingBan = GamePlayerBan::where('banned_player_id', $player->getKey())
@@ -34,7 +23,7 @@ class CreatePlayerUnban
             ->first()
             ?? throw new NotBannedException();
 
-        $unbannerPlayer = $this->playerLookup->findOrCreate(identifier: $unbannerPlayerIdentifier);
+        $unbannerPlayer = MinecraftPlayer::whereUuid($unbannerPlayerUuid)->first();
 
         $existingBan->update([
             'unbanned_at' => now(),

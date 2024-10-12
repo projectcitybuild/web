@@ -14,7 +14,6 @@ use App\Models\Account;
 use App\Models\BanAppeal;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
-use Repositories\BanAppealRepository;
 use Tests\TestCase;
 
 class UpdateBanAppealTest extends TestCase

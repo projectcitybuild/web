@@ -6,7 +6,6 @@ use App\Domains\Donations\Exceptions\StripeProductNotFoundException;
 use App\Models\Account;
 use App\Models\StripeProduct;
 use Laravel\Cashier\Checkout;
-use Repositories\StripeProductRepository;
 use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
 

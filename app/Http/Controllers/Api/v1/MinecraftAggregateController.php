@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Core\Data\Exceptions\NotFoundException;
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Domains\Badges\UseCases\GetBadges;
 use App\Domains\Bans\UseCases\GetActiveIPBan;
@@ -33,12 +34,10 @@ final class MinecraftAggregateController extends ApiController
             'ip' => 'ip',
         ]);
 
-        $uuid = str_replace(search: '-', replace: '', subject: $uuid);
+        $uuid = new MinecraftUUID($uuid);
 
-        $identifier = PlayerIdentifier::minecraftUUID($uuid);
-
-        $ban = $getBan->execute(playerIdentifier: $identifier);
-        $badges = $getBadges->execute(identifier: $identifier);
+        $ban = $getBan->execute(uuid: $uuid);
+        $badges = $getBadges->execute(uuid: $uuid);
 
         try {
             $donationTiers = $getDonationTier->execute(uuid: $uuid);
@@ -46,7 +45,7 @@ final class MinecraftAggregateController extends ApiController
             $donationTiers = [];
         }
 
-        $account = $this->getLinkedAccount($uuid);
+        $account = $this->getAccount($uuid);
 
         $ipBan = null;
         if ($request->has('ip')) {
@@ -64,9 +63,9 @@ final class MinecraftAggregateController extends ApiController
         ]);
     }
 
-    private function getLinkedAccount(string $uuid): ?Account
+    private function getAccount(MinecraftUUID $uuid): ?Account
     {
-        $existingPlayer = MinecraftPlayer::where('uuid', $uuid)->first();
+        $existingPlayer = MinecraftPlayer::whereUuid($uuid)->first();
 
         if ($existingPlayer === null || $existingPlayer->account === null) {
             return null;
