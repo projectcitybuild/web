@@ -7,15 +7,12 @@ use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
 use App\Domains\Bans\Data\UnbanType;
 use App\Domains\Bans\Exceptions\NotBannedException;
 use App\Models\GamePlayerBan;
-use Repositories\GamePlayerBanRepository;
 
 class CreatePlayerUnban
 {
     public function __construct(
-        private readonly GamePlayerBanRepository $gamePlayerBanRepository,
         private readonly PlayerLookup $playerLookup,
-    ) {
-    }
+    ) {}
 
     /**
      * @param  PlayerIdentifier  $bannedPlayerIdentifier Player currently banned
@@ -32,16 +29,18 @@ class CreatePlayerUnban
         $player = $this->playerLookup->find(identifier: $bannedPlayerIdentifier)
             ?? throw new NotBannedException();
 
-        $existingBan = $this->gamePlayerBanRepository->firstActiveBan(player: $player)
+        $existingBan = GamePlayerBan::where('banned_player_id', $player->getKey())
+            ->active()
+            ->first()
             ?? throw new NotBannedException();
 
         $unbannerPlayer = $this->playerLookup->findOrCreate(identifier: $unbannerPlayerIdentifier);
 
-        $this->gamePlayerBanRepository->unban(
-            ban: $existingBan,
-            unbannerPlayerId: $unbannerPlayer->getKey(),
-            unbanType: $unbanType,
-        );
+        $existingBan->update([
+            'unbanned_at' => now(),
+            'unbanner_player_id' => $unbannerPlayer->getKey(),
+            'unban_type' => $unbanType->value,
+        ]);
 
         return $existingBan->refresh();
     }

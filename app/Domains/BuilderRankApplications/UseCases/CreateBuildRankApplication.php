@@ -8,15 +8,9 @@ use App\Domains\BuilderRankApplications\Exceptions\ApplicationAlreadyInProgressE
 use App\Domains\BuilderRankApplications\Notifications\BuilderRankAppSubmittedNotification;
 use App\Models\Account;
 use App\Models\BuilderRankApplication;
-use Repositories\BuilderRankApplicationRepository;
 
 class CreateBuildRankApplication
 {
-    public function __construct(
-        private readonly BuilderRankApplicationRepository $applicationRepository,
-    ) {
-    }
-
     /**
      * @throws ApplicationAlreadyInProgressException if the account already has an application in progress
      */
@@ -28,23 +22,24 @@ class CreateBuildRankApplication
         string $buildDescription,
         ?string $additionalNotes,
     ): BuilderRankApplication {
-        $existingApplication = $this->applicationRepository->countActive(
-            accountId: $account->getKey(),
-        );
+        $existingApplication = BuilderRankApplication::where('status', ApplicationStatus::IN_PROGRESS->value)
+            ->where('account_id', $account->getKey())
+            ->count();
 
         if ($existingApplication > 0) {
             throw new ApplicationAlreadyInProgressException();
         }
 
-        $application = $this->applicationRepository->create(
-            accountId: $account->getKey(),
-            minecraftAlias: $minecraftAlias,
-            currentBuilderRank: $currentBuilderRank,
-            buildLocation: $buildLocation,
-            buildDescription: $buildDescription,
-            additionalNotes: $additionalNotes,
-            status: ApplicationStatus::IN_PROGRESS,
-        );
+        $application = BuilderRankApplication::create([
+            'account_id' => $account->getKey(),
+            'minecraft_alias' => $minecraftAlias,
+            'current_builder_rank' => $currentBuilderRank->humanReadable(),
+            'build_location' => $buildLocation,
+            'build_description' => $buildDescription,
+            'additional_notes' => $additionalNotes,
+            'status' => ApplicationStatus::IN_PROGRESS->value,
+            'closed_at' => null,
+        ]);
 
         $application->notify(new BuilderRankAppSubmittedNotification($application));
 

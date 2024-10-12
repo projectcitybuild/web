@@ -5,15 +5,12 @@ namespace App\Domains\Warnings\UseCases;
 use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
 use App\Models\PlayerWarning;
-use Repositories\PlayerWarnings\PlayerWarningRepository;
 
 final class CreateWarning
 {
     public function __construct(
         private readonly PlayerLookup $playerLookup,
-        private readonly PlayerWarningRepository $playerWarningRepository,
-    ) {
-    }
+    ) {}
 
     public function execute(
         PlayerIdentifier $warnedPlayerIdentifier,
@@ -33,12 +30,12 @@ final class CreateWarning
             playerAlias: $warnerPlayerAlias,
         );
 
-        return $this->playerWarningRepository->create(
-            warnedPlayerId: $warnedPlayer->getKey(),
-            warnerPlayerId: $warnerPlayer->getKey(),
-            reason: $reason,
-            weight: $weight,
-            isAcknowledged: $isAcknowledged,
-        );
+        return PlayerWarning::create([
+            'warned_player_id' => $warnedPlayer->getKey(),
+            'warner_player_id' => $warnerPlayer->getKey(),
+            'reason' => $reason,
+            'weight' => $weight,
+            'is_acknowledged' => $isAcknowledged,
+        ]);
     }
 }

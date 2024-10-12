@@ -7,23 +7,16 @@ use App\Core\Data\PlayerIdentifierType;
 use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Core\Domains\PlayerLookup\Exceptions\NonCreatableIdentifierException;
 use App\Core\Domains\PlayerLookup\Player;
-use Repositories\MinecraftPlayerAliasRepository;
-use Repositories\MinecraftPlayerRepository;
+use App\Models\MinecraftPlayer;
 
 /** @deprecated */
 class ConcretePlayerLookup implements PlayerLookup
 {
-    public function __construct(
-        private readonly MinecraftPlayerRepository $minecraftPlayerRepository,
-        private readonly MinecraftPlayerAliasRepository $minecraftPlayerAliasRepository,
-    ) {
-    }
-
     public function find(PlayerIdentifier $identifier): ?Player
     {
         return match ($identifier->gameIdentifierType) {
-            PlayerIdentifierType::MINECRAFT_UUID => $this->minecraftPlayerRepository->getByUUID(new MinecraftUUID($identifier->key)),
-            PlayerIdentifierType::PCB_PLAYER_ID => $this->minecraftPlayerRepository->getById($identifier->key),
+            PlayerIdentifierType::MINECRAFT_UUID => MinecraftPlayer::where('uuid', $identifier->key)->first(),
+            PlayerIdentifierType::PCB_PLAYER_ID => MinecraftPlayer::where('player_minecraft_id', $identifier->key)->first(),
         };
     }
 
@@ -47,15 +40,10 @@ class ConcretePlayerLookup implements PlayerLookup
         switch ($identifier->gameIdentifierType) {
             case PlayerIdentifierType::MINECRAFT_UUID:
                 $uuid = new MinecraftUUID($identifier->key);
-                $player = $this->minecraftPlayerRepository->store($uuid);
-
-                if (! empty($playerAlias)) {
-                    $this->minecraftPlayerAliasRepository->store(
-                        minecraftPlayerId: $player->getKey(),
-                        alias: $playerAlias,
-                        registeredAt: now(),
-                    );
-                }
+                $player = MinecraftPlayer::create([
+                    'uuid' => $uuid->rawValue(),
+                    'alias' => $playerAlias,
+                ]);
                 break;
             case PlayerIdentifierType::PCB_PLAYER_ID:
                 throw new NonCreatableIdentifierException();

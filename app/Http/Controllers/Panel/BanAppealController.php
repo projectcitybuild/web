@@ -12,13 +12,16 @@ use App\Domains\Panel\Exceptions\NoPlayerForActionException;
 use App\Http\Requests\BanAppealUpdateRequest;
 use App\Models\BanAppeal;
 use Illuminate\Validation\ValidationException;
-use Repositories\BanAppealRepository;
 
 class BanAppealController
 {
-    public function index(BanAppealRepository $banAppealRepository)
+    public function index()
     {
-        $banAppeals = $banAppealRepository->allWithPriority(50);
+        // Get ban appeals paginated in the order:
+        // Pending appeal (newest first), then all other appeals (newest first)
+        $banAppeals = BanAppeal::orderByRaw('FIELD(status, '.BanAppealStatus::PENDING->value.') DESC')
+            ->orderBy('created_at', 'desc')
+            ->paginate(50);
 
         return view('admin.ban-appeal.index')->with([
             'banAppeals' => $banAppeals,

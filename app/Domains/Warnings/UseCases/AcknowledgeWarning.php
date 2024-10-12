@@ -3,18 +3,12 @@
 namespace App\Domains\Warnings\UseCases;
 
 use App\Models\PlayerWarning;
-use Repositories\PlayerWarnings\PlayerWarningRepository;
 
 final class AcknowledgeWarning
 {
-    public function __construct(
-        private readonly PlayerWarningRepository $playerWarningRepository,
-    ) {
-    }
-
     public function execute(int $warningId, ?int $accountId = null): PlayerWarning
     {
-        $warning = $this->playerWarningRepository->find($warningId);
+        $warning = PlayerWarning::find($warningId);
         if ($warning === null) {
             abort(404);
         }
@@ -25,6 +19,10 @@ final class AcknowledgeWarning
             abort(410);
         }
 
-        return $this->playerWarningRepository->acknowledge($warning);
+        $warning->is_acknowledged = true;
+        $warning->acknowledged_at = now();
+        $warning->save();
+
+        return $warning;
     }
 }

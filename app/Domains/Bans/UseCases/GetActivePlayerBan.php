@@ -5,15 +5,12 @@ namespace App\Domains\Bans\UseCases;
 use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
 use App\Models\GamePlayerBan;
-use Repositories\GamePlayerBanRepository;
 
 final class GetActivePlayerBan
 {
     public function __construct(
-        private readonly GamePlayerBanRepository $gamePlayerBanRepository,
         private readonly PlayerLookup $playerLookup,
-    ) {
-    }
+    ) {}
 
     public function execute(
         PlayerIdentifier $playerIdentifier,
@@ -23,6 +20,8 @@ final class GetActivePlayerBan
             return null;
         }
 
-        return $this->gamePlayerBanRepository->firstActiveBan(player: $player);
+        return GamePlayerBan::where('banned_player_id', $player->getKey())
+            ->active()
+            ->first();
     }
 }

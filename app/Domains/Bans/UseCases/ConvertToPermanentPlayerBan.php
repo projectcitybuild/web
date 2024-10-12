@@ -9,16 +9,13 @@ use App\Domains\Bans\Data\UnbanType;
 use App\Models\GamePlayerBan;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Repositories\GamePlayerBanRepository;
 use Throwable;
 
 final class ConvertToPermanentPlayerBan
 {
     public function __construct(
-        private readonly GamePlayerBanRepository $gamePlayerBanRepository,
         private readonly PlayerLookup $playerLookup,
-    ) {
-    }
+    ) {}
 
     /**
      * Converts a ban matching the given $banId to a permanent ban
@@ -37,7 +34,7 @@ final class ConvertToPermanentPlayerBan
         string $bannerPlayerAlias,
         ?string $banReason,
     ): GamePlayerBan {
-        $ban = $this->gamePlayerBanRepository->find($banId);
+        $ban = GamePlayerBan::find($banId);
         if ($ban === null) {
             throw new NotFoundException(id: 'ban_not_found', message: 'Cannot find a ban matching the given id');
         }
@@ -60,14 +57,14 @@ final class ConvertToPermanentPlayerBan
             $ban->unban_type = UnbanType::CONVERTED_TO_PERMANENT;
             $ban->save();
 
-            $newBan = $this->gamePlayerBanRepository->create(
-                serverId: $ban->serverId,
-                bannedPlayerId: $ban->banned_player_id,
-                bannedPlayerAlias: $ban->banned_alias_at_time,
-                bannerPlayerId: $bannerPlayer->getKey(),
-                reason: $banReason ?: $ban->reason,
-                expiresAt: null,
-            );
+            $newBan = GamePlayerBan::create([
+                'server_id' => $ban->serverId,
+                'banned_player_id' => $ban->banned_player_id,
+                'banned_alias_at_time' => $ban->banned_alias_at_time,
+                'banner_player_id' => $bannerPlayer->getKey(),
+                'reason' => $banReason ?: $ban->reason,
+                'expires_at' => null,
+            ]);
             DB::commit();
 
             return $newBan;

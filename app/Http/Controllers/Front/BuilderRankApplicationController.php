@@ -2,30 +2,30 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Domains\BuilderRankApplications\Data\BuilderRank;
 use App\Domains\BuilderRankApplications\Exceptions\ApplicationAlreadyInProgressException;
 use App\Domains\BuilderRankApplications\UseCases\CreateBuildRankApplication;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\BuilderRankApplicationRequest;
-use App\Models\Account;
 use App\Models\BuilderRankApplication;
 use Illuminate\Http\Request;
-use Repositories\BuilderRankApplicationRepository;
 
 final class BuilderRankApplicationController extends WebController
 {
     public function index(
         Request $request,
-        BuilderRankApplicationRepository $applicationRepository,
     ) {
         $minecraftUsername = $request->user()
             ?->minecraftAccount?->first()
             ?->aliases?->first()
             ?->alias;
 
-        $applicationInProgress = $applicationRepository->firstActive(
-            accountId: $request->user()->getKey(),
-        );
+        $applicationInProgress = BuilderRankApplication::where('status', ApplicationStatus::IN_PROGRESS->value)
+            ->where('account_id', $request->user()->getKey())
+            ->orderBy('created_at', 'DESC')
+            ->first();
+
         if ($applicationInProgress !== null) {
             return redirect()
                 ->route('front.rank-up.status', $applicationInProgress->getKey());

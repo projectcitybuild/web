@@ -4,16 +4,14 @@ namespace App\Domains\Warnings\UseCases;
 
 use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
+use App\Models\PlayerWarning;
 use Illuminate\Support\Collection;
-use Repositories\PlayerWarnings\PlayerWarningRepository;
 
 final class GetWarnings
 {
     public function __construct(
         private readonly PlayerLookup $playerLookup,
-        private readonly PlayerWarningRepository $playerWarningRepository,
-    ) {
-    }
+    ) {}
 
     public function execute(
         PlayerIdentifier $playerIdentifier,
@@ -24,8 +22,8 @@ final class GetWarnings
             return collect();
         }
 
-        return $this->playerWarningRepository->all(
-            playerId: $player->getKey(),
-        );
+        return PlayerWarning::where('warned_player_id', $player->getKey())
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 }

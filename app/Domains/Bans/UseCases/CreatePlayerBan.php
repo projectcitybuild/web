@@ -8,15 +8,12 @@ use App\Domains\Bans\Exceptions\AlreadyPermBannedException;
 use App\Domains\Bans\Exceptions\AlreadyTempBannedException;
 use App\Models\GamePlayerBan;
 use Illuminate\Support\Carbon;
-use Repositories\GamePlayerBanRepository;
 
 final class CreatePlayerBan
 {
     public function __construct(
-        private readonly GamePlayerBanRepository $gamePlayerBanRepository,
         private readonly PlayerLookup $playerLookup,
-    ) {
-    }
+    ) {}
 
     /**
      * @param  int  $serverId ID of the server the player was banned on
@@ -45,7 +42,10 @@ final class CreatePlayerBan
             playerAlias: $bannedPlayerAlias,
         );
 
-        $existingBan = $this->gamePlayerBanRepository->firstActiveBan(player: $bannedPlayer);
+        $existingBan = GamePlayerBan::where('banned_player_id', $bannedPlayer->getKey())
+            ->active()
+            ->first();
+
         if ($existingBan !== null) {
             if ($existingBan->isTemporaryBan()) {
                 throw new AlreadyTempBannedException();
@@ -58,13 +58,13 @@ final class CreatePlayerBan
             playerAlias: $bannerPlayerAlias,
         );
 
-        return $this->gamePlayerBanRepository->create(
-            serverId: $serverId,
-            bannedPlayerId: $bannedPlayer->getKey(),
-            bannedPlayerAlias: $bannedPlayerAlias,
-            bannerPlayerId: $bannerPlayer->getKey(),
-            reason: $banReason,
-            expiresAt: $expiresAt,
-        );
+        return GamePlayerBan::create([
+            'server_id' => $serverId,
+            'banned_player_id' => $bannedPlayer->getKey(),
+            'banned_alias_at_time' => $bannedPlayerAlias,
+            'banner_player_id' => $bannerPlayer->getKey(),
+            'reason' => $banReason,
+            'expires_at' => $expiresAt,
+        ]);
     }
 }

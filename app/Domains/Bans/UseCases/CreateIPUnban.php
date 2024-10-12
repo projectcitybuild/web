@@ -7,31 +7,30 @@ use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
 use App\Domains\Bans\Data\UnbanType;
 use App\Domains\Bans\Exceptions\NotIPBannedException;
 use App\Models\GameIPBan;
-use Repositories\GameIPBans\GameIPBanRepository;
 
 class CreateIPUnban
 {
     public function __construct(
-        private readonly GameIPBanRepository $gameIPBanRepository,
         private readonly PlayerLookup $playerLookup,
-    ) {
-    }
+    ) {}
 
     public function execute(
         string $ip,
         PlayerIdentifier $unbannerPlayerIdentifier,
         UnbanType $unbanType,
     ): GameIPBan {
-        $existingBan = $this->gameIPBanRepository->firstActive(ip: $ip)
+        $existingBan = GameIPBan::where('ip_address', $ip)
+            ->whereNull('unbanned_at')
+            ->first()
             ?? throw new NotIPBannedException();
 
         $unbannerPlayer = $this->playerLookup->findOrCreate(identifier: $unbannerPlayerIdentifier);
 
-        $this->gameIPBanRepository->unban(
-            ban: $existingBan,
-            unbannerPlayerId: $unbannerPlayer->getKey(),
-            unbanType: $unbanType,
-        );
+        $existingBan->update([
+            'unbanned_at' => now(),
+            'unbanner_player_id' => $unbannerPlayer->getKey(),
+            'unban_type' => $unbanType->value,
+        ]);
 
         return $existingBan->refresh();
     }

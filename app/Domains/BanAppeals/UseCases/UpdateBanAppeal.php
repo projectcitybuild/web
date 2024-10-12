@@ -59,12 +59,16 @@ class UpdateBanAppeal
 
         try {
             DB::beginTransaction();
-            $this->banAppealRepository->updateDecision(
-                banAppeal: $banAppeal,
-                decisionNote: $decisionNote,
-                deciderPlayerMinecraftId: $decidingPlayer->getKey(),
-                status: $status,
-            );
+
+            $banAppeal->decision_note = $decisionNote;
+            $banAppeal->decider_player_minecraft_id = $decidingPlayer->getKey();
+            $banAppeal->status = $status;
+            $banAppeal->decided_at = now();
+            $banAppeal->save();
+
+            activity()
+                ->on($banAppeal)
+                ->log(strtolower($status->humanReadable()));
 
             if ($status == BanAppealStatus::ACCEPTED_UNBAN) {
                 $bannedPlayerIdentifier = PlayerIdentifier::pcbAccountId($banAppeal->gamePlayerBan->bannedPlayer->getKey());

@@ -6,15 +6,12 @@ use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
 use App\Domains\Bans\Exceptions\AlreadyIPBannedException;
 use App\Models\GameIPBan;
-use Repositories\GameIPBans\GameIPBanRepository;
 
 final class CreateIPBan
 {
     public function __construct(
-        private readonly GameIPBanRepository $gameIPBanRepository,
         private readonly PlayerLookup $playerLookup,
-    ) {
-    }
+    ) {}
 
     public function execute(
         string $ip,
@@ -22,7 +19,10 @@ final class CreateIPBan
         string $bannerPlayerAlias,
         string $banReason,
     ): GameIPBan {
-        $existingBan = $this->gameIPBanRepository->firstActive(ip: $ip);
+        $existingBan = GameIPBan::where('ip_address', $ip)
+            ->whereNull('unbanned_at')
+            ->first();
+
         if ($existingBan !== null) {
             throw new AlreadyIPBannedException();
         }
@@ -32,10 +32,10 @@ final class CreateIPBan
             playerAlias: $bannerPlayerAlias,
         );
 
-        return $this->gameIPBanRepository->create(
-            ip: $ip,
-            bannerPlayerId: $bannerPlayer->getKey(),
-            reason: $banReason,
-        );
+        return GameIPBan::create([
+            'banner_player_id' => $bannerPlayer->getKey(),
+            'ip_address' => $ip,
+            'reason' => $banReason,
+        ]);
     }
 }
