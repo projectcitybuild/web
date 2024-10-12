@@ -85,7 +85,7 @@ describe('valid request', function () {
         ]);
     });
 
-    it('activates existing Account', function () {
+    it('activates existing Account with same email address', function () {
         $registration = MinecraftRegistration::factory()->create();
         Account::factory()->unactivated()->create([
             'email' => $registration->email,
@@ -109,6 +109,25 @@ describe('valid request', function () {
             'activated' => true,
             'username' => 'foobar',
         ]);
+    });
+
+    it('creates Account with unique username', function () {
+        $registration = MinecraftRegistration::factory()->create([
+            'minecraft_alias' => 'foobar',
+        ]);
+        Account::factory()->create(['username' => 'foobar']);
+        Account::factory()->create(['username' => 'foobar_1']);
+        Account::factory()->create(['username' => 'foobar_2']);
+
+        $this->assertDatabaseMissing('accounts', ['username' => 'foobar_3']);
+
+        $this->withServerToken()
+            ->put($this->endpoint, [
+                'minecraft_uuid' => $registration->minecraft_uuid,
+                'code' => $registration->code,
+            ]);
+
+        $this->assertDatabaseHas('accounts', ['username' => 'foobar_3']);
     });
 
     it('creates MinecraftPlayer', function () {
