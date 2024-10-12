@@ -35,7 +35,7 @@ final class MinecraftRegisterController extends ApiController
         VerifyMinecraftRegistration $verifyMinecraftRegistration,
     ) {
         $request->validate([
-            'code' => ['required', 'string'],
+            'code' => ['required'],
             'minecraft_uuid' => ['required', new MinecraftUUIDRule],
         ]);
 

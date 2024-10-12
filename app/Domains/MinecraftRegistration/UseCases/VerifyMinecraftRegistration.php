@@ -46,6 +46,11 @@ class VerifyMinecraftRegistration
                     'password' => $this->tokenGenerator->make(),
                 ]);
 
+            if (! $account->activated) {
+                $account->activated = true;
+                $account->save();
+            }
+
             MinecraftPlayer::whereUuid($registration->minecraft_uuid)->upsert([
                 'account_id' => $account->getKey(),
                 'uuid' => $registration->minecraft_uuid,
@@ -69,12 +74,10 @@ class VerifyMinecraftRegistration
 
     private function generateUniqueUsername(string $initial): string
     {
-        $original = Str::slug($initial);
-
-        $username = $original;
+        $username = $initial;
         $i = 1;
         while (Account::where('username', $username)->exists()) {
-            $username = $original . '_' . $i;
+            $username = $initial . '_' . $i;
             $i++;
         }
         return $username;

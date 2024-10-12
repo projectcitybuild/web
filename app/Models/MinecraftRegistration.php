@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Prunable;
  */
 final class MinecraftRegistration extends Model
 {
+    use HasFactory;
     use HasStaticTable;
     use Prunable;
 
