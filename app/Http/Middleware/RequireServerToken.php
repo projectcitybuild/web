@@ -23,7 +23,7 @@ class RequireServerToken
             subject: $authorization,
             matches: $matches,
         );
-        abort_if(! $hasAuthHeader, code: 401);
+        abort_if(!$hasAuthHeader, code: 401);
 
         $token = $matches[1];
         $serverToken = ServerToken::where('token', $token)->first();
