@@ -35,14 +35,25 @@ it('validates input', function () {
 
 it('updates last seen date', function () {
     $this->freezeTime(function (Carbon $time) {
+        $uuid = '069a79f444e94726a5befca90e38aaf5';
+        $oldTime = $time->copy()->subWeek();
         $player = MinecraftPlayer::factory()->create([
-            'uuid' => '069a79f444e94726a5befca90e38aaf5',
-            'last_seen_at' => $time->copy()->subWeek(),
+            'uuid' => $uuid,
+            'last_seen_at' => $oldTime,
         ]);
+
+        $this->assertDatabaseHas(
+            table: MinecraftPlayer::tableName(),
+            data: [
+                'player_minecraft_id' => $player->getKey(),
+                'uuid' => $uuid,
+                'last_seen_at' => $oldTime,
+            ],
+        );
 
         $this->withServerToken()
             ->post(uri: $this->endpoint, data: [
-                'uuid' => '069a79f444e94726a5befca90e38aaf5',
+                'uuid' => $uuid,
                 'alias' => 'alias',
             ])
             ->assertOk();
@@ -51,10 +62,69 @@ it('updates last seen date', function () {
             table: MinecraftPlayer::tableName(),
             data: [
                 'player_minecraft_id' => $player->getKey(),
-                'uuid' => '069a79f444e94726a5befca90e38aaf5',
-                'alias' => 'alias',
+                'uuid' => $uuid,
                 'last_seen_at' => $time,
             ],
         );
     });
+});
+
+it('updates alias', function () {
+    $this->freezeTime(function (Carbon $time) {
+        $uuid = '069a79f444e94726a5befca90e38aaf5';
+        $player = MinecraftPlayer::factory()->create([
+            'uuid' => $uuid,
+            'alias' => 'old_alias',
+        ]);
+
+        $this->assertDatabaseHas(
+            table: MinecraftPlayer::tableName(),
+            data: [
+                'player_minecraft_id' => $player->getKey(),
+                'uuid' => $uuid,
+                'alias' => 'old_alias',
+            ],
+        );
+
+        $this->withServerToken()
+            ->post(uri: $this->endpoint, data: [
+                'uuid' => $uuid,
+                'alias' => 'new_alias',
+            ])
+            ->assertOk();
+
+        $this->assertDatabaseHas(
+            table: MinecraftPlayer::tableName(),
+            data: [
+                'player_minecraft_id' => $player->getKey(),
+                'uuid' => $uuid,
+                'alias' => 'new_alias',
+            ],
+        );
+    });
+});
+
+it('creates new player for uuid', function () {
+    $uuid = '069a79f444e94726a5befca90e38aaf5';
+    $this->assertDatabaseMissing(
+        table: MinecraftPlayer::tableName(),
+        data: [
+            'uuid' => $uuid,
+        ],
+    );
+
+    $this->withServerToken()
+        ->post(uri: $this->endpoint, data: [
+            'uuid' => $uuid,
+            'alias' => 'alias',
+        ])
+        ->assertOk();
+
+    $this->assertDatabaseHas(
+        table: MinecraftPlayer::tableName(),
+        data: [
+            'uuid' => $uuid,
+            'alias' => 'alias',
+        ],
+    );
 });
