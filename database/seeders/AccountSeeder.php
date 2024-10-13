@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Core\Domains\SecureTokens\SecureTokenGenerator;
+use App\Core\Utilities\SecureTokenGenerator;
 use App\Models\Account;
 use App\Models\AccountActivation;
 use App\Models\Group;
@@ -15,7 +15,7 @@ use PragmaRX\Google2FA\Google2FA;
 class AccountSeeder extends Seeder
 {
     public function __construct(
-        private readonly Google2FA            $google2FA,
+        private readonly Google2FA $google2FA,
         private readonly SecureTokenGenerator $tokenGenerator,
     ) {}
 

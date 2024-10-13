@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Core\Domains\SecureTokens\SecureTokenGenerator;
+use App\Core\Utilities\SecureTokenGenerator;
 use App\Http\Controllers\WebController;
 use App\Models\ServerToken;
 use Illuminate\Contracts\Foundation\Application;

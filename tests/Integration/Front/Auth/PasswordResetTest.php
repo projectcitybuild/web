@@ -1,6 +1,6 @@
 <?php
 
-use App\Core\Domains\SecureTokens\SecureTokenGenerator;
+use App\Core\Utilities\SecureTokenGenerator;
 use App\Domains\PasswordReset\Notifications\AccountPasswordResetCompleteNotification;
 use App\Domains\PasswordReset\Notifications\AccountPasswordResetNotification;
 use App\Models\Account;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core\Domains\Captcha\Rules;
+namespace App\Domains\Captcha\Rules;
 
-use App\Core\Domains\Captcha\Validator\CaptchaValidator;
+use App\Domains\Captcha\Validator\CaptchaValidator;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Http\Request;

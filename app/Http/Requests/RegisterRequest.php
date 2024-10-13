@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Core\Domains\Captcha\Rules\CaptchaRule;
 use App\Core\Rules\DiscourseUsernameRule;
+use App\Domains\Captcha\Rules\CaptchaRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 

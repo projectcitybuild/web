@@ -2,8 +2,8 @@
 
 namespace App\Domains\EmailChange\UseCases;
 
-use App\Core\Domains\SecureTokens\SecureTokenGenerator;
 use App\Core\Support\Laravel\SignedURL\SignedURLGenerator;
+use App\Core\Utilities\SecureTokenGenerator;
 use App\Domains\EmailChange\Notifications\VerifyNewEmailAddressNotification;
 use App\Models\EmailChange;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +15,7 @@ final class SendEmailChangeEmail
 
     public function __construct(
         private readonly SecureTokenGenerator $tokenGenerator,
-        private readonly SignedURLGenerator   $signedURLGenerator,
+        private readonly SignedURLGenerator $signedURLGenerator,
     ) {}
 
     public function execute(

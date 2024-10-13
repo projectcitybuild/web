@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core\Domains\Captcha\Validator\Adapters;
+namespace App\Domains\Captcha\Validator\Adapters;
 
-use App\Core\Domains\Captcha\Validator\CaptchaValidator;
+use App\Domains\Captcha\Validator\CaptchaValidator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 

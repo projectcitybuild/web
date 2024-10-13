@@ -3,14 +3,13 @@
 namespace App\Models;
 
 use App\Domains\Bans\Data\UnbanType;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class GamePlayerBanTest extends TestCase
 {
     public function test_unban_date_matches_expiry_date()
     {
-        $this->setTestNow();
-
         $expiryDate = now()->subDay();
 
         $ban = GamePlayerBan::factory()
@@ -27,8 +26,6 @@ class GamePlayerBanTest extends TestCase
 
     public function test_prefers_manually_unbanned_date()
     {
-        $this->setTestNow();
-
         $expiryDate = now()->subDay();
         $unbanDate = now()->subDays(5);
 

@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Core\Domains\SecureTokens\SecureTokenGenerator;
+use App\Core\Utilities\SecureTokenGenerator;
 use App\Models\AccountActivation;
 use Illuminate\Support\Facades\App;
 

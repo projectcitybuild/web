@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Domains\Captcha\Validator;
+namespace App\Domains\Captcha\Validator;
 
 interface CaptchaValidator
 {

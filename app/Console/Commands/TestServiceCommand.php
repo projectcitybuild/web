@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Core\Domains\Logging\LogTailLoggerFactory;
 use App\Core\Domains\Logging\VerifyTailLogIntegration;
 use App\Core\Domains\Sentry\VerifySentryIntegration;
+use App\Core\Support\Laravel\Logging\LogTailLoggerFactory;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
