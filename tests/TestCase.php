@@ -10,11 +10,15 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
+use Tests\Support\TemporaryConfig;
 use Tests\Support\TestResponseMacros;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, RefreshDatabase, TestResponseMacros;
+    use CreatesApplication;
+    use RefreshDatabase;
+    use TemporaryConfig;
+    use TestResponseMacros;
 
     protected function setUp(): void
     {
@@ -26,6 +30,7 @@ abstract class TestCase extends BaseTestCase
         $this->mock(MojangPlayerApi::class);
     }
 
+    /** @deprecated Do this on a per-test basis */
     protected function disableReauthMiddleware(): TestCase
     {
         Session::put('auth.password_confirmed_at', time());
@@ -33,19 +38,12 @@ abstract class TestCase extends BaseTestCase
         return $this;
     }
 
+    /** @deprecated Do this on a per-test basis */
     protected function flagNeedsMfa(): TestCase
     {
         Session::put(MfaAuthenticated::NEEDS_MFA_KEY, 'true');
 
         return $this;
-    }
-
-    protected function setTestNow(): Carbon
-    {
-        return tap(
-            Carbon::create(year: 2022, month: 12, day: 11, hour: 10, minute: 9, second: 8),
-            fn ($now) => Carbon::setTestNow($now)
-        );
     }
 
     protected function withServerToken(?ServerToken $serverToken = null): TestCase

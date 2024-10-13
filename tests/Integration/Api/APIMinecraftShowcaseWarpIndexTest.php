@@ -12,19 +12,12 @@ class APIMinecraftShowcaseWarpIndexTest extends IntegrationTestCase
 
     private const ENDPOINT = 'api/v2/minecraft/showcase-warps';
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->createServerToken();
-    }
-
     public function test_requires_scope()
     {
         $this->getJson(uri: self::ENDPOINT)
             ->assertUnauthorized();
 
-        $this->withAuthorizationServerToken()
+        $this->withServerToken()
             ->getJson(uri: self::ENDPOINT)
             ->assertSuccessful();
     }
@@ -34,7 +27,7 @@ class APIMinecraftShowcaseWarpIndexTest extends IntegrationTestCase
         $warp1 = ShowcaseWarp::factory()->create(['name' => 'warp1']);
         $warp2 = ShowcaseWarp::factory()->create(['name' => 'warp2']);
 
-        $this->withAuthorizationServerToken()
+        $this->withServerToken()
             ->getJson(uri: self::ENDPOINT)
             ->assertJson([
                 'data' => [
@@ -77,7 +70,7 @@ class APIMinecraftShowcaseWarpIndexTest extends IntegrationTestCase
 
     public function test_returns_empty_list()
     {
-        $this->withAuthorizationServerToken()
+        $this->withServerToken()
             ->getJson(uri: self::ENDPOINT)
             ->assertJson([
                 'data' => [],

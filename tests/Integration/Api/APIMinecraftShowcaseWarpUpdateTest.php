@@ -39,7 +39,6 @@ class APIMinecraftShowcaseWarpUpdateTest extends IntegrationTestCase
         parent::setUp();
 
         $this->existingWarp = ShowcaseWarp::factory()->create();
-        $this->createServerToken();
     }
 
     public function test_requires_scope()
@@ -47,14 +46,14 @@ class APIMinecraftShowcaseWarpUpdateTest extends IntegrationTestCase
         $this->postJson(uri: $this->endpoint(), data: $this->validData())
             ->assertUnauthorized();
 
-        $this->withAuthorizationServerToken()
+        $this->withServerToken()
             ->postJson(uri: $this->endpoint(), data: $this->validData())
             ->assertSuccessful();
     }
 
     public function test_updates_warp()
     {
-        $this->withAuthorizationServerToken()
+        $this->withServerToken()
             ->postJson(uri: $this->endpoint(), data: [
                 'location_world' => 'new_world',
                 'location_x' => 1,
@@ -80,7 +79,7 @@ class APIMinecraftShowcaseWarpUpdateTest extends IntegrationTestCase
     }
     public function test_returns_resource()
     {
-        $this->withAuthorizationServerToken()
+        $this->withServerToken()
             ->postJson(uri: $this->endpoint(), data: [
                 'location_world' => 'new_world',
                 'location_x' => 1,
@@ -105,7 +104,7 @@ class APIMinecraftShowcaseWarpUpdateTest extends IntegrationTestCase
 
     public function test_throws_404_if_not_found()
     {
-        $this->withAuthorizationServerToken()
+        $this->withServerToken()
             ->postJson(uri: $this->endpoint('missing_warp'))
             ->assertNotFound();
     }

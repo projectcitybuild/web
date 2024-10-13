@@ -1,6 +1,6 @@
 <?php
 
-use App\Core\Domains\Logging\LogTailLoggerFactory;
+use App\Core\Support\Laravel\Logging\LogTailLoggerFactory;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;

@@ -8,6 +8,7 @@ use App\Models\Donation;
 use App\Models\DonationTier;
 use App\Models\Group;
 use App\Models\StripeProduct;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Tests\IntegrationTestCase;
 
@@ -78,37 +79,39 @@ class APIDonationSubscriptionTest extends IntegrationTestCase
 
     public function test_payment_processed_with_perks()
     {
-        $this->createValidStripeProduct(withDonationTier: true);
+        $this->freezeTime(function (Carbon $now) {
+            $this->createValidStripeProduct(withDonationTier: true);
 
-        $this->postJson(self::ENDPOINT, $this->webhookPayload)
-            ->assertStatus(200);
+            $this->postJson(self::ENDPOINT, $this->webhookPayload)
+                ->assertStatus(200);
 
-        $this->assertDatabaseHas('donations', [
-            'account_id' => $this->account->getKey(),
-            'amount' => 3.00,
-        ]);
+            $this->assertDatabaseHas('donations', [
+                'account_id' => $this->account->getKey(),
+                'amount' => 3.00,
+            ]);
 
-        $donationId = Donation::first()->getKey();
+            $donationId = Donation::first()->getKey();
 
-        $this->assertDatabaseHas('payments', [
-            'account_id' => $this->account->getKey(),
-            'stripe_price' => self::PRICE_ID,
-            'stripe_product' => self::PRODUCT_ID,
-            'amount_paid_in_cents' => self::AMOUNT_PAID,
-            'quantity' => self::QUANTITY,
-            'is_subscription_payment' => true,
-        ]);
+            $this->assertDatabaseHas('payments', [
+                'account_id' => $this->account->getKey(),
+                'stripe_price' => self::PRICE_ID,
+                'stripe_product' => self::PRODUCT_ID,
+                'amount_paid_in_cents' => self::AMOUNT_PAID,
+                'quantity' => self::QUANTITY,
+                'is_subscription_payment' => true,
+            ]);
 
-        $this->assertDatabaseHas('donation_perks', [
-            'donation_tier_id' => $this->donationTier->getKey(),
-            'donation_id' => $donationId,
-            'account_id' => $this->account->getKey(),
-            'is_active' => true,
-            'expires_at' => $this->now->addMonth(),
-        ]);
+            $this->assertDatabaseHas('donation_perks', [
+                'donation_tier_id' => $this->donationTier->getKey(),
+                'donation_id' => $donationId,
+                'account_id' => $this->account->getKey(),
+                'is_active' => true,
+                'expires_at' => $now->addMonth(),
+            ]);
 
-        $this->assertTrue($this->account->groups->contains($this->donorGroup));
+            $this->assertTrue($this->account->groups->contains($this->donorGroup));
 
-        Notification::assertSentTo($this->account, DonationPerkStartedNotification::class);
+            Notification::assertSentTo($this->account, DonationPerkStartedNotification::class);
+        });
     }
 }

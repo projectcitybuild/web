@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Domains\Mfa;
+namespace Domain\Mfa;
 
 use App\Domains\Mfa\Exceptions\Dangerous2FABypassException;
 use App\Domains\Mfa\Google2FAFake;

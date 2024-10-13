@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Core\Domains\SecureTokens\Adapters;
-
-use App\Core\Domains\SecureTokens\SecureTokenGenerator;
+namespace App\Core\Utilities;
 
 /**
- * A TokenGenerator that creates a cryptographically-safe
- * series of bytes and further hashes the result with our
- * app key.
+ * Generates an unpredictable, random string.
+ *
+ * More specifically, it creates a cryptographically-safe series of bytes and
+ * then further hashes the result with our app key.
  */
-final class HashedSecureTokenGenerator implements SecureTokenGenerator
+class SecureTokenGenerator
 {
     private mixed $byteGenerator;
 

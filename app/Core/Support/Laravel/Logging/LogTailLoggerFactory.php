@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Domains\Logging;
+namespace App\Core\Support\Laravel\Logging;
 
 use Logtail\Monolog\LogtailHandler;
 use Monolog\Logger;

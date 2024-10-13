@@ -3,7 +3,7 @@
 namespace App\Domains\MinecraftRegistration\UseCases;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
-use App\Core\Domains\SecureTokens\SecureTokenGenerator;
+use App\Core\Utilities\SecureTokenGenerator;
 use App\Domains\MinecraftRegistration\Data\MinecraftRegistrationExpiredException;
 use App\Domains\MinecraftRegistration\Notifications\MinecraftRegistrationCompleteNotification;
 use App\Models\Account;
@@ -11,7 +11,6 @@ use App\Models\MinecraftPlayer;
 use App\Models\MinecraftRegistration;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class VerifyMinecraftRegistration
 {

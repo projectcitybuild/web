@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Domains\Discord;
+namespace App\Core\Support\Laravel\Notifications;
 
 use Awssat\Notifications\Channels\DiscordWebhookChannel;
 use GuzzleHttp\Client as HttpClient;

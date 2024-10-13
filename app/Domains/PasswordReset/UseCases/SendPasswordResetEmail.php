@@ -2,8 +2,8 @@
 
 namespace App\Domains\PasswordReset\UseCases;
 
-use App\Core\Domains\SecureTokens\SecureTokenGenerator;
 use App\Core\Support\Laravel\SignedURL\SignedURLGenerator;
+use App\Core\Utilities\SecureTokenGenerator;
 use App\Domains\PasswordReset\Notifications\AccountPasswordResetNotification;
 use App\Models\Account;
 use App\Models\PasswordReset;
@@ -13,7 +13,7 @@ final class SendPasswordResetEmail
 {
     public function __construct(
         private readonly SecureTokenGenerator $tokenGenerator,
-        private readonly SignedURLGenerator   $signedURLGenerator,
+        private readonly SignedURLGenerator $signedURLGenerator,
     ) {}
 
     public function execute(Account $account, string $email): void

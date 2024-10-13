@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Core\Domains\Captcha\Validator\Adapters;
+namespace Domain\Captcha\Validator\Adapters;
 
+use App\Domains\Captcha\Validator\Adapters\TurntileCaptchaValidator;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 

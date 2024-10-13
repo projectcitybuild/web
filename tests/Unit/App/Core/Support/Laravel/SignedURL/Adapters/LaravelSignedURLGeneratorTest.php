@@ -2,6 +2,7 @@
 
 namespace App\Core\Support\Laravel\SignedURL\Adapters;
 
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class LaravelSignedURLGeneratorTest extends TestCase
@@ -22,17 +23,17 @@ class LaravelSignedURLGeneratorTest extends TestCase
 
     public function test_generates_temporary_valid_url()
     {
-        $now = $this->setTestNow();
+        $this->freezeTime(function (Carbon $now) {
+            $generator = new LaravelSignedURLGenerator();
+            $url = $generator->makeTemporary(
+                routeName: self::ROUTE_NAME,
+                expiresAt: $now->addDay(),
+                parameters: ['key' => 'value'],
+            );
 
-        $generator = new LaravelSignedURLGenerator();
-        $url = $generator->makeTemporary(
-            routeName: self::ROUTE_NAME,
-            expiresAt: $now->addDay(),
-            parameters: ['key' => 'value'],
-        );
-
-        $this->assertTrue(str_contains(haystack: $url, needle: 'key=value'));
-        $this->get($url)->assertSuccessful();
+            $this->assertTrue(str_contains(haystack: $url, needle: 'key=value'));
+            $this->get($url)->assertSuccessful();
+        });
     }
 
     public function test_temporary_url_expires()

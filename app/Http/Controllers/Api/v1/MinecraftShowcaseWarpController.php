@@ -21,22 +21,19 @@ final class MinecraftShowcaseWarpController extends ApiController
 
     public function store(Request $request): JsonResponse
     {
-        $this->validateRequest(
-            requestData: $request->all(),
-            rules: [
-                'name' => 'required|string|unique:showcase_warps,name',
-                'title' => 'nullable|string',
-                'description' => 'nullable|string',
-                'creators' => 'nullable|string',
-                'location_world' => 'required|string',
-                'location_x' => 'required|integer',
-                'location_y' => 'required|integer',
-                'location_z' => 'required|integer',
-                'location_pitch' => 'required|numeric',
-                'location_yaw' => 'required|numeric',
-                'built_at' => 'nullable|integer',
-            ],
-        );
+        $request->validate([
+            'name' => 'required|string|unique:showcase_warps,name',
+            'title' => 'nullable|string',
+            'description' => 'nullable|string',
+            'creators' => 'nullable|string',
+            'location_world' => 'required|string',
+            'location_x' => 'required|integer',
+            'location_y' => 'required|integer',
+            'location_z' => 'required|integer',
+            'location_pitch' => 'required|numeric',
+            'location_yaw' => 'required|numeric',
+            'built_at' => 'nullable|integer',
+        ]);
 
         $warp = ShowcaseWarp::create($request->all());
 
@@ -64,17 +61,14 @@ final class MinecraftShowcaseWarpController extends ApiController
             abort(404);
         }
 
-        $this->validateRequest(
-            requestData: $request->all(),
-            rules: [
-                'location_world' => 'required|string',
-                'location_x' => 'required|integer',
-                'location_y' => 'required|integer',
-                'location_z' => 'required|integer',
-                'location_pitch' => 'required|numeric',
-                'location_yaw' => 'required|numeric',
-            ],
-        );
+        $request->validate([
+            'location_world' => 'required|string',
+            'location_x' => 'required|integer',
+            'location_y' => 'required|integer',
+            'location_z' => 'required|integer',
+            'location_pitch' => 'required|numeric',
+            'location_yaw' => 'required|numeric',
+        ]);
 
         $warp->update($request->all());
 

@@ -64,7 +64,7 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
         return Attribute::make(
             get: function ($unbannedAt) {
                 if ($unbannedAt !== null) {
-                    return new Carbon($unbannedAt);
+                    return $unbannedAt;
                 }
                 if ($this->expires_at !== null && $this->expires_at->lte(now())) {
                     return $this->expires_at;

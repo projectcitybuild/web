@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Core\Domains\Captcha;
+namespace App\Domains\Captcha;
 
-use App\Core\Domains\Captcha\Validator\Adapters\TurntileCaptchaValidator;
-use App\Core\Domains\Captcha\Validator\CaptchaValidator;
+use App\Domains\Captcha\Validator\Adapters\TurntileCaptchaValidator;
+use App\Domains\Captcha\Validator\CaptchaValidator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 

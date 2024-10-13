@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\API;
+namespace Tests\Integration\Api;
 
 use App\Models\ShowcaseWarp;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -11,13 +11,6 @@ class APIMinecraftShowcaseWarpStoreTest extends IntegrationTestCase
     use RefreshDatabase;
 
     private const ENDPOINT = 'api/v2/minecraft/showcase-warps';
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->createServerToken();
-    }
 
     private function validData(): array
     {
@@ -37,14 +30,14 @@ class APIMinecraftShowcaseWarpStoreTest extends IntegrationTestCase
         $this->postJson(uri: self::ENDPOINT, data: $this->validData())
             ->assertUnauthorized();
 
-        $this->withAuthorizationServerToken()
+        $this->withServerToken()
             ->postJson(uri: self::ENDPOINT, data: $this->validData())
             ->assertSuccessful();
     }
 
     public function test_creates_warp_without_all_fields()
     {
-        $this->withAuthorizationServerToken()
+        $this->withServerToken()
             ->postJson(uri: self::ENDPOINT, data: [
                 'name' => 'test_warp',
                 'location_world' => 'creative',
@@ -76,7 +69,7 @@ class APIMinecraftShowcaseWarpStoreTest extends IntegrationTestCase
 
     public function test_creates_warp_with_all_fields()
     {
-        $this->withAuthorizationServerToken()
+        $this->withServerToken()
             ->postJson(uri: self::ENDPOINT, data: [
                 'name' => 'test_warp',
                 'title' => 'title',
@@ -112,7 +105,7 @@ class APIMinecraftShowcaseWarpStoreTest extends IntegrationTestCase
 
     public function test_returns_resource()
     {
-        $this->withAuthorizationServerToken()
+        $this->withServerToken()
             ->postJson(uri: self::ENDPOINT, data: [
                 'name' => 'test_warp',
                 'title' => 'title',
@@ -148,7 +141,7 @@ class APIMinecraftShowcaseWarpStoreTest extends IntegrationTestCase
     {
         ShowcaseWarp::factory()->create(['name' => 'test_warp']);
 
-        $this->withAuthorizationServerToken()
+        $this->withServerToken()
             ->postJson(uri: self::ENDPOINT, data: [
                 'name' => 'test_warp',
                 'location_world' => 'creative',
@@ -158,14 +151,6 @@ class APIMinecraftShowcaseWarpStoreTest extends IntegrationTestCase
                 'location_pitch' => 4.0,
                 'location_yaw' => 5.0,
             ])
-            ->assertJson([
-                'error' => [
-                    'id' => 'bad_input',
-                    'title' => '',
-                    'detail' => 'The name has already been taken.',
-                    'status' => 400,
-                ],
-            ])
-            ->assertStatus(400);
+            ->assertInvalid(['name']);
     }
 }
