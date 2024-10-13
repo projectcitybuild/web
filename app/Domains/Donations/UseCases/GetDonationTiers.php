@@ -3,6 +3,7 @@
 namespace App\Domains\Donations\UseCases;
 
 use App\Core\Data\Exceptions\NotFoundException;
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Models\MinecraftPlayer;
 use Illuminate\Support\Collection;
 
@@ -11,9 +12,9 @@ final class GetDonationTiers
     /**
      * @throws NotFoundException if player not found or not linked to an account
      */
-    public function execute(string $uuid): Collection
+    public function execute(MinecraftUUID $uuid): Collection
     {
-        $existingPlayer = MinecraftPlayer::where('uuid', $uuid)
+        $existingPlayer = MinecraftPlayer::whereUuid($uuid)
             ->with('account.donationPerks.donationTier')
             ->first();
 

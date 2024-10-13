@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Core\Data\Exceptions\NotFoundException;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\Badges\UseCases\GetBadges;
 use App\Domains\Bans\UseCases\GetActiveIPBan;
@@ -21,28 +20,26 @@ use Illuminate\Http\Request;
 
 final class MinecraftAggregateController extends ApiController
 {
-    public function show(
+    public function __invoke(
         Request $request,
-        string $uuid,
+        MinecraftUUID $uuid,
         GetActivePlayerBan $getBan,
         GetBadges $getBadges,
         GetDonationTiers $getDonationTier,
         GetActiveIPBan $getActiveIPBan,
     ): JsonResponse {
-        $this->validateRequest($request->all(), [
+        $request->validate([
             'ip' => 'ip',
         ]);
-
-        $uuid = new MinecraftUUID($uuid);
 
         $ban = $getBan->execute(uuid: $uuid);
         $badges = $getBadges->execute(uuid: $uuid);
 
-        try {
-            $donationTiers = $getDonationTier->execute(uuid: $uuid);
-        } catch (NotFoundException) {
-            $donationTiers = [];
-        }
+        $donationTiers = rescue(
+            callback: fn () => $getDonationTier->execute(uuid: $uuid),
+            rescue: [],
+            report: false,
+        );
 
         $account = $this->getAccount($uuid);
 
@@ -65,18 +62,15 @@ final class MinecraftAggregateController extends ApiController
     private function getAccount(MinecraftUUID $uuid): ?Account
     {
         $existingPlayer = MinecraftPlayer::whereUuid($uuid)->first();
+        $existingPlayer?->touchLastSyncedAt();
 
-        if ($existingPlayer === null || $existingPlayer->account === null) {
+        $account = $existingPlayer?->account;
+        if ($account === null) {
             return null;
         }
-        // Force load groups
-        $existingPlayer->account->groups;
-        $existingPlayer->touchLastSyncedAt();
-
-        if ($existingPlayer->account->groups->isEmpty()) {
-            $existingPlayer->account->groups = collect(Group::whereDefault()->first());
+        if ($account->groups->isEmpty()) {
+            $account->groups = collect(Group::whereDefault()->first());
         }
-
-        return $existingPlayer->account;
+        return $account;
     }
 }

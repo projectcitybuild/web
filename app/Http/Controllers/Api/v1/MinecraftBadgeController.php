@@ -11,10 +11,9 @@ final class MinecraftBadgeController extends ApiController
 {
     public function show(
         Request $request,
-        string $uuid,
+        MinecraftUUID $uuid,
         GetBadges $getBadges,
     ) {
-        $uuid = new MinecraftUUID($uuid);
         $badges = $getBadges->execute(uuid: $uuid);
 
         return [
