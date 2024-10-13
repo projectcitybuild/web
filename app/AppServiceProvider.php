@@ -26,10 +26,6 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
-use Repositories\GameIPBans\GameIPBanEloquentRepository;
-use Repositories\GameIPBans\GameIPBanRepository;
-use Repositories\PlayerWarnings\PlayerWarningEloquentRepository;
-use Repositories\PlayerWarnings\PlayerWarningRepository;
 use Stripe\StripeClient;
 
 final class AppServiceProvider extends ServiceProvider
@@ -47,14 +43,6 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: PlayerLookup::class,
             concrete: ConcretePlayerLookup::class,
-        );
-        $this->app->bind(
-            abstract: GameIPBanRepository::class,
-            concrete: GameIPBanEloquentRepository::class,
-        );
-        $this->app->bind(
-            abstract: PlayerWarningRepository::class,
-            concrete: PlayerWarningEloquentRepository::class,
         );
     }
 

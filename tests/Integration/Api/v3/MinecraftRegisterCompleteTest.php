@@ -1,12 +1,9 @@
 <?php
 
-use App\Domains\MinecraftRegistration\Notifications\MinecraftRegistrationCodeNotification;
 use App\Domains\MinecraftRegistration\Notifications\MinecraftRegistrationCompleteNotification;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
 use App\Models\MinecraftRegistration;
-use App\Models\ServerToken;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 
 beforeEach(function () {

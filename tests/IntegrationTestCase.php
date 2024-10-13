@@ -46,6 +46,7 @@ abstract class IntegrationTestCase extends TestCase
         return json_decode($json, associative: true);
     }
 
+    /** @deprecated */
     protected function createServerToken(): ServerToken
     {
         $server = Server::factory()->create();
@@ -54,6 +55,7 @@ abstract class IntegrationTestCase extends TestCase
         return $this->token;
     }
 
+    /** @deprecated */
     protected function withAuthorizationServerToken(): TestCase
     {
         return $this->withHeader(

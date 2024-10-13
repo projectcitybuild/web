@@ -2,27 +2,21 @@
 
 namespace App\Domains\Bans\UseCases;
 
-use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
-use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Models\GamePlayerBan;
-use Repositories\GamePlayerBanRepository;
+use App\Models\MinecraftPlayer;
 
 final class GetActivePlayerBan
 {
-    public function __construct(
-        private readonly GamePlayerBanRepository $gamePlayerBanRepository,
-        private readonly PlayerLookup $playerLookup,
-    ) {
-    }
-
-    public function execute(
-        PlayerIdentifier $playerIdentifier,
-    ): ?GamePlayerBan {
-        $player = $this->playerLookup->find($playerIdentifier);
+    public function execute(MinecraftUUID $uuid): ?GamePlayerBan
+    {
+        $player = MinecraftPlayer::whereUuid($uuid)->first();
         if ($player === null) {
             return null;
         }
 
-        return $this->gamePlayerBanRepository->firstActiveBan(player: $player);
+        return GamePlayerBan::where('banned_player_id', $player->getKey())
+            ->active()
+            ->first();
     }
 }

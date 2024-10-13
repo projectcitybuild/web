@@ -2,22 +2,20 @@
 
 namespace App\Domains\Badges\UseCases;
 
-use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
-use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Models\Badge;
+use App\Models\MinecraftPlayer;
 
 final class GetBadges
 {
-    public function __construct(
-        private readonly PlayerLookup $playerLookup,
-    ) {}
-
-    public function execute(PlayerIdentifier $identifier): array
+    public function execute(MinecraftUUID $uuid): array
     {
-        $account = $this->playerLookup
-            ->find(identifier: $identifier)
-            ?->getLinkedAccount();
+        $player = MinecraftPlayer::whereUuid($uuid)->first();
+        if ($player === null) {
+            return [];
+        }
 
+        $account = $player->account;
         if ($account === null) {
             return [];
         }

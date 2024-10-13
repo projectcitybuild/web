@@ -6,7 +6,6 @@ use App\Core\Domains\Auditing\AuditAttributes;
 use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
-use App\Core\Domains\PlayerLookup\Player;
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
-final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
+final class MinecraftPlayer extends Model implements LinkableAuditModel
 {
     use HasFactory;
     use HasStaticTable;
@@ -96,6 +95,22 @@ final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
         return $this->save();
     }
 
+    public static function firstOrCreate(MinecraftUUID $uuid, ?string $alias = null): self
+    {
+        $existing = self::whereUuid($uuid)->first();
+        if ($existing === null) {
+            return self::create([
+                'uuid' => $uuid->trimmed(),
+                'alias' => $alias,
+            ]);
+        }
+        if ($existing->alias !== $alias) {
+            $existing->alias = $alias;
+            $existing->save();
+        }
+        return $existing;
+    }
+
     public function scopeWhereUuid(Builder $query, MinecraftUUID $uuid)
     {
         $query->where('uuid', $uuid->trimmed());
@@ -111,6 +126,7 @@ final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
         return $this;
     }
 
+    /** @deprecated */
     public function getLinkedAccount(): ?Account
     {
         return $this->account;

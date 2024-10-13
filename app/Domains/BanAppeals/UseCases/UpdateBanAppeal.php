@@ -3,6 +3,7 @@
 namespace App\Domains\BanAppeals\UseCases;
 
 use App\Core\Data\Exceptions\NotImplementedException;
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Domains\BanAppeals\Entities\BanAppealStatus;
 use App\Domains\BanAppeals\Exceptions\AppealAlreadyDecidedException;
@@ -14,12 +15,10 @@ use App\Models\Account;
 use App\Models\BanAppeal;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Repositories\BanAppealRepository;
 
 class UpdateBanAppeal
 {
     public function __construct(
-        private readonly BanAppealRepository $banAppealRepository,
         private readonly CreatePlayerUnban $unbanUseCase
     ) {
     }
@@ -59,20 +58,24 @@ class UpdateBanAppeal
 
         try {
             DB::beginTransaction();
-            $this->banAppealRepository->updateDecision(
-                banAppeal: $banAppeal,
-                decisionNote: $decisionNote,
-                deciderPlayerMinecraftId: $decidingPlayer->getKey(),
-                status: $status,
-            );
+
+            $banAppeal->decision_note = $decisionNote;
+            $banAppeal->decider_player_minecraft_id = $decidingPlayer->getKey();
+            $banAppeal->status = $status;
+            $banAppeal->decided_at = now();
+            $banAppeal->save();
+
+            activity()
+                ->on($banAppeal)
+                ->log(strtolower($status->humanReadable()));
 
             if ($status == BanAppealStatus::ACCEPTED_UNBAN) {
-                $bannedPlayerIdentifier = PlayerIdentifier::pcbAccountId($banAppeal->gamePlayerBan->bannedPlayer->getKey());
-                $staffPlayerIdentifier = PlayerIdentifier::pcbAccountId($decidingPlayer->getKey());
+                $bannedPlayerUuid = new MinecraftUUID($banAppeal->gamePlayerBan->bannedPlayer->uuid);
+                $staffPlayerIdentifier = new MinecraftUUID($decidingPlayer->uuid);
 
                 $this->unbanUseCase->execute(
-                    bannedPlayerIdentifier: $bannedPlayerIdentifier,
-                    unbannerPlayerIdentifier: $staffPlayerIdentifier,
+                    bannedPlayerUuid: $bannedPlayerUuid,
+                    unbannerPlayerUuid: $staffPlayerIdentifier,
                     unbanType: UnbanType::APPEALED,
                 );
             }

@@ -3,8 +3,6 @@
 namespace Front;
 
 use App\Core\Data\Exceptions\TooManyRequestsException;
-use App\Core\Domains\PlayerLookup\Exceptions\PlayerNotFoundException;
-use App\Domains\Bans\Exceptions\NotBannedException;
 use App\Domains\Bans\UseCases\LookupPlayerBan;
 use App\Models\Account;
 use App\Models\GamePlayerBan;
@@ -17,7 +15,7 @@ class BanLookupTest extends TestCase
 {
     use WithFaker;
 
-    private function mockUseCaseToReturnBan(string $username, GamePlayerBan $ban)
+    private function mockUseCaseToReturnBan(string $username, ?GamePlayerBan $ban)
     {
         $this->mock(LookupPlayerBan::class, function (MockInterface $mock) use ($username, $ban) {
             $mock->shouldReceive('execute')
@@ -69,31 +67,31 @@ class BanLookupTest extends TestCase
     public function test_errors_if_no_active_bans()
     {
         $mcPlayer = MinecraftPlayer::factory()->create();
-        $ban = GamePlayerBan::factory()->inactive()->for($mcPlayer, 'bannedPlayer')->create();
-        $this->mockUseCaseToThrow(NotBannedException::class);
+        GamePlayerBan::factory()->inactive()->for($mcPlayer, 'bannedPlayer')->create();
+        $this->mockUseCaseToReturnBan('Herobrine', null);
         $this->post(route('front.bans.lookup'), ['username' => 'Herobrine'])
             ->assertSessionHasErrors();
     }
 
     public function test_errors_if_no_bans()
     {
-        $mcPlayer = MinecraftPlayer::factory()->create();
-        $this->mockUseCaseToThrow(NotBannedException::class);
+        MinecraftPlayer::factory()->create();
+        $this->mockUseCaseToReturnBan('Herobrine', null);
         $this->post(route('front.bans.lookup'), ['username' => 'Herobrine'])
             ->assertSessionHasErrors();
     }
 
     public function test_errors_if_not_valid_username()
     {
-        $mcPlayer = MinecraftPlayer::factory()->create();
-        $this->mockUseCaseToThrow(PlayerNotFoundException::class);
+        MinecraftPlayer::factory()->create();
+        $this->mockUseCaseToReturnBan('Herobrine', null);
         $this->post(route('front.bans.lookup'), ['username' => 'Herobrine'])
             ->assertSessionHasErrors();
     }
 
     public function test_errors_if_player_not_known()
     {
-        $this->mockUseCaseToThrow(PlayerNotFoundException::class);
+        $this->mockUseCaseToReturnBan('Herobrine', null);
         $this->post(route('front.bans.lookup'), ['username' => 'Herobrine'])
             ->assertSessionHasErrors();
     }

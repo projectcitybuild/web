@@ -1,7 +1,6 @@
 <?php
 
 use App\Domains\MinecraftRegistration\Notifications\MinecraftRegistrationCodeNotification;
-use App\Models\ServerToken;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 

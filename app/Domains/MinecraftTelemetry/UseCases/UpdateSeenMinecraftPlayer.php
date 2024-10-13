@@ -2,23 +2,19 @@
 
 namespace App\Domains\MinecraftTelemetry\UseCases;
 
-use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
-use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
+use App\Models\MinecraftPlayer;
 
 final class UpdateSeenMinecraftPlayer
 {
-    public function __construct(
-        private readonly PlayerLookup $playerLookup,
-    ) {}
-
-    public function execute(string $uuid, string $alias): void
+    public function execute(MinecraftUUID $uuid, string $alias): void
     {
-        $player = $this->playerLookup->findOrCreate(
-            identifier: PlayerIdentifier::minecraftUUID($uuid)
+        $player = MinecraftPlayer::firstOrCreate(
+            uuid: $uuid,
+            alias: $alias,
         );
         $minecraftPlayer = $player->getRawModel();
         $minecraftPlayer->last_seen_at = now();
-        $minecraftPlayer->alias = $alias;
         $minecraftPlayer->save();
     }
 }

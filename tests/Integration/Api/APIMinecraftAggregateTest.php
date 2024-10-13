@@ -1,7 +1,5 @@
 <?php
 
-namespace Tests\Integration\API;
-
 use App\Models\Account;
 use App\Models\Badge;
 use App\Models\Donation;
@@ -11,204 +9,195 @@ use App\Models\GamePlayerBan;
 use App\Models\Group;
 use App\Models\MinecraftPlayer;
 use App\Models\Server;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\IntegrationTestCase;
 
-class APIMinecraftAggregateTest extends IntegrationTestCase
-{
-    use RefreshDatabase;
+it('requires server token', function () {
+    $this->get('api/v2/minecraft/069a79f444e94726a5befca90e38aaf5/aggregate')
+        ->assertUnauthorized();
 
-    private function endpoint(?MinecraftPlayer $player): string
-    {
-        $uuid = $player?->uuid ?? 'invalid';
+    $status = $this->withServerToken()
+        ->get('api/v2/minecraft/069a79f444e94726a5befca90e38aaf5/aggregate')
+        ->status();
 
-        return 'api/v2/minecraft/'.$uuid.'/aggregate';
-    }
+    expect($status)->not->toEqual(401);
+});
 
-    protected function setUp(): void
-    {
-        parent::setUp();
+it('throws exception for invalid Minecraft UUID', function () {
+    $this->withServerToken()
+        ->getJson('api/v2/minecraft/invalid/aggregate')
+        ->assertInvalid(['uuid']);
+});
 
-        $this->createServerToken();
-    }
+it('aggregates all data', function () {
+    $account = Account::factory()->create();
+    $player = MinecraftPlayer::factory()
+        ->for($account)
+        ->create();
 
-    public function test_aggregates_all_data()
-    {
-        $account = Account::factory()->create();
-        $player = MinecraftPlayer::factory()
-            ->for($account)
-            ->create();
+    $group = Group::factory()->create();
+    $account->groups()->attach($group);
 
-        $group = Group::factory()->create();
-        $account->groups()->attach($group);
+    $server = Server::factory()->create();
+    $staffPlayer = MinecraftPlayer::factory()->create();
+    $ban = GamePlayerBan::factory()
+        ->bannedBy($staffPlayer)
+        ->bannedPlayer($player)
+        ->server($server)
+        ->create();
 
-        $server = Server::factory()->create();
-        $staffPlayer = MinecraftPlayer::factory()->create();
-        $ban = GamePlayerBan::factory()
-            ->bannedBy($staffPlayer)
-            ->bannedPlayer($player)
-            ->server($server)
-            ->create();
+    $badge = Badge::factory()->create();
+    $account->badges()->attach($badge);
 
-        $badge = Badge::factory()->create();
-        $account->badges()->attach($badge);
+    $tier = DonationTier::factory()->create();
+    $donation = Donation::factory()->create();
+    $perk = DonationPerk::factory()
+        ->notExpired()
+        ->create([
+            'account_id' => $account->getKey(),
+            'donation_id' => $donation->getKey(),
+            'donation_tier_id' => $tier->getKey(),
+        ]);
 
-        $tier = DonationTier::factory()->create();
-        $donation = Donation::factory()->create();
-        $perk = DonationPerk::factory()
-            ->notExpired()
-            ->create([
-                'account_id' => $account->getKey(),
-                'donation_id' => $donation->getKey(),
-                'donation_tier_id' => $tier->getKey(),
-            ]);
-
-        $this->withAuthorizationServerToken()
-            ->getJson($this->endpoint($player))
-            ->assertJson([
-                'data' => [
-                    'account' => [
-                        'account_id' => $account->getKey(),
-                        'username' => $account->username,
-                        'last_login_at' => $account->last_login_at->timestamp,
-                        'created_at' => $account->created_at->timestamp,
-                        'updated_at' => $account->updated_at->timestamp,
-                        'groups' => [
-                            [
-                                'group_id' => $group->getKey(),
-                                'name' => $group->name,
-                                'alias' => $group->alias,
-                                'minecraft_name' => $group->minecraft_name,
-                                'is_default' => false,
-                                'is_staff' => false,
-                                'is_admin' => false,
-                            ],
-                        ],
-                    ],
-                    'ban' => [
-                        'id' => $ban->getKey(),
-                        'server_id' => $server->getKey(),
-                        'banned_player_id' => $player->getKey(),
-                        'banner_player_id' => $staffPlayer->getKey(),
-                        'reason' => $ban->reason,
-                        'expires_at' => $ban->expires_at,
-                        'created_at' => $ban->created_at->timestamp,
-                        'updated_at' => $ban->updated_at->timestamp,
-                        'unbanned_at' => null,
-                        'unbanner_player_id' => null,
-                        'unban_type' => null,
-                    ],
-                    'badges' => [
+    $this->withServerToken()
+        ->getJson('api/v2/minecraft/'.$player->uuid.'/aggregate')
+        ->assertJson([
+            'data' => [
+                'account' => [
+                    'account_id' => $account->getKey(),
+                    'username' => $account->username,
+                    'last_login_at' => $account->last_login_at->timestamp,
+                    'created_at' => $account->created_at->timestamp,
+                    'updated_at' => $account->updated_at->timestamp,
+                    'groups' => [
                         [
-                            'id' => $badge->getKey(),
-                            'display_name' => $badge->display_name,
-                            'unicode_icon' => $badge->unicode_icon,
-                        ],
-                    ],
-                    'donation_tiers' => [
-                        [
-                            'donation_perks_id' => $perk->getKey(),
-                            'is_active' => true,
-                            'expires_at' => $perk->expires_at->timestamp,
-                            'donation_tier' => [
-                                'donation_tier_id' => $tier->getKey(),
-                                'name' => $tier->name,
-                            ],
+                            'group_id' => $group->getKey(),
+                            'name' => $group->name,
+                            'alias' => $group->alias,
+                            'minecraft_name' => $group->minecraft_name,
+                            'is_default' => false,
+                            'is_staff' => false,
+                            'is_admin' => false,
                         ],
                     ],
                 ],
-            ]);
-    }
-
-    public function test_linked_player_with_no_data()
-    {
-        $account = Account::factory()->create();
-        $player = MinecraftPlayer::factory()
-            ->for($account)
-            ->create();
-
-        $this->withAuthorizationServerToken()
-            ->getJson($this->endpoint($player))
-            ->assertJson([
-                'data' => [
-                    'account' => [
-                        'account_id' => $account->getKey(),
-                        'username' => $account->username,
-                        'last_login_at' => $account->last_login_at->timestamp,
-                        'created_at' => $account->created_at->timestamp,
-                        'updated_at' => $account->updated_at->timestamp,
-                        'groups' => [],
+                'ban' => [
+                    'id' => $ban->getKey(),
+                    'server_id' => $server->getKey(),
+                    'banned_player_id' => $player->getKey(),
+                    'banner_player_id' => $staffPlayer->getKey(),
+                    'reason' => $ban->reason,
+                    'expires_at' => $ban->expires_at,
+                    'created_at' => $ban->created_at->timestamp,
+                    'updated_at' => $ban->updated_at->timestamp,
+                    'unbanned_at' => null,
+                    'unbanner_player_id' => null,
+                    'unban_type' => null,
+                ],
+                'badges' => [
+                    [
+                        'id' => $badge->getKey(),
+                        'display_name' => $badge->display_name,
+                        'unicode_icon' => $badge->unicode_icon,
                     ],
-                    'ban' => [],
-                    'badges' => [],
-                    'donation_tiers' => [],
                 ],
-            ]);
-    }
-
-    public function test_missing_player()
-    {
-        $this->withAuthorizationServerToken()
-            ->getJson($this->endpoint(null))
-            ->assertJson([
-                'data' => [
-                    'account' => [],
-                    'ban' => [],
-                    'badges' => [],
-                    'donation_tiers' => [],
-                ],
-            ]);
-    }
-
-    public function test_unlinked_account()
-    {
-        $player = MinecraftPlayer::factory()->create();
-
-        $this->withAuthorizationServerToken()
-            ->getJson($this->endpoint($player))
-            ->assertJson([
-                'data' => [
-                    'account' => [],
-                    'ban' => [],
-                    'badges' => [],
-                    'donation_tiers' => [],
-                ],
-            ]);
-    }
-
-    public function test_banned_unlinked_account()
-    {
-        $player = MinecraftPlayer::factory()->create();
-
-        $server = Server::factory()->create();
-        $staffPlayer = MinecraftPlayer::factory()->create();
-        $ban = GamePlayerBan::factory()
-            ->bannedBy($staffPlayer)
-            ->bannedPlayer($player)
-            ->server($server)
-            ->create();
-
-        $this->withAuthorizationServerToken()
-            ->getJson($this->endpoint($player))
-            ->assertJson([
-                'data' => [
-                    'account' => null,
-                    'ban' => [
-                        'id' => $ban->getKey(),
-                        'server_id' => $server->getKey(),
-                        'banned_player_id' => $player->getKey(),
-                        'banner_player_id' => $staffPlayer->getKey(),
-                        'reason' => $ban->reason,
-                        'expires_at' => $ban->expires_at,
-                        'created_at' => $ban->created_at->timestamp,
-                        'updated_at' => $ban->updated_at->timestamp,
-                        'unbanned_at' => null,
-                        'unbanner_player_id' => null,
-                        'unban_type' => null,
+                'donation_tiers' => [
+                    [
+                        'donation_perks_id' => $perk->getKey(),
+                        'is_active' => true,
+                        'expires_at' => $perk->expires_at->timestamp,
+                        'donation_tier' => [
+                            'donation_tier_id' => $tier->getKey(),
+                            'name' => $tier->name,
+                        ],
                     ],
-                    'badges' => [],
-                    'donation_tiers' => [],
                 ],
-            ]);
-    }
-}
+            ],
+        ]);
+});
+
+it('shows linked player with no data', function () {
+    $account = Account::factory()->create();
+    $player = MinecraftPlayer::factory()
+        ->for($account)
+        ->create();
+
+    $this->withServerToken()
+        ->getJson('api/v2/minecraft/'.$player->uuid.'/aggregate')
+        ->assertJson([
+            'data' => [
+                'account' => [
+                    'account_id' => $account->getKey(),
+                    'username' => $account->username,
+                    'last_login_at' => $account->last_login_at->timestamp,
+                    'created_at' => $account->created_at->timestamp,
+                    'updated_at' => $account->updated_at->timestamp,
+                    'groups' => [],
+                ],
+                'ban' => [],
+                'badges' => [],
+                'donation_tiers' => [],
+            ],
+        ]);
+});
+
+it('shows empty data for missing player', function () {
+    $this->withServerToken()
+        ->getJson('api/v2/minecraft/069a79f444e94726a5befca90e38aaf5/aggregate')
+        ->assertJson([
+            'data' => [
+                'account' => [],
+                'ban' => [],
+                'badges' => [],
+                'donation_tiers' => [],
+            ],
+        ]);
+});
+
+it('shows empty data for unlinked account', function () {
+    $player = MinecraftPlayer::factory()->create();
+
+    $this->withServerToken()
+        ->getJson('api/v2/minecraft/'.$player->uuid.'/aggregate')
+        ->assertJson([
+            'data' => [
+                'account' => [],
+                'ban' => [],
+                'badges' => [],
+                'donation_tiers' => [],
+            ],
+        ]);
+});
+
+it('shows bans for unlinked account', function () {
+    $player = MinecraftPlayer::factory()->create();
+
+    $server = Server::factory()->create();
+    $staffPlayer = MinecraftPlayer::factory()->create();
+    $ban = GamePlayerBan::factory()
+        ->bannedBy($staffPlayer)
+        ->bannedPlayer($player)
+        ->server($server)
+        ->create();
+
+    $this->withServerToken()
+        ->getJson('api/v2/minecraft/'.$player->uuid.'/aggregate')
+        ->assertJson([
+            'data' => [
+                'account' => null,
+                'ban' => [
+                    'id' => $ban->getKey(),
+                    'server_id' => $server->getKey(),
+                    'banned_player_id' => $player->getKey(),
+                    'banner_player_id' => $staffPlayer->getKey(),
+                    'reason' => $ban->reason,
+                    'expires_at' => $ban->expires_at,
+                    'created_at' => $ban->created_at->timestamp,
+                    'updated_at' => $ban->updated_at->timestamp,
+                    'unbanned_at' => null,
+                    'unbanner_player_id' => null,
+                    'unban_type' => null,
+                ],
+                'badges' => [],
+                'donation_tiers' => [],
+            ],
+        ]);
+});

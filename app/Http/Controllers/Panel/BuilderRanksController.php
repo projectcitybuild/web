@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Domains\BuilderRankApplications\UseCases\ApproveBuildRankApplication;
 use App\Domains\BuilderRankApplications\UseCases\DenyBuildRankApplication;
 use App\Http\Controllers\WebController;
@@ -10,15 +11,15 @@ use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Repositories\BuilderRankApplicationRepository;
 
 class BuilderRanksController extends WebController
 {
     public function index(
         Request $request,
-        BuilderRankApplicationRepository $applicationRepository,
     ) {
-        $applications = $applicationRepository->allWithPriority(perPage: 100);
+        $applications = BuilderRankApplication::orderbyRaw('FIELD(status, '.ApplicationStatus::IN_PROGRESS->value.') DESC')
+            ->orderBy('created_at', 'desc')
+            ->paginate(100);
 
         return view('admin.builder-rank.index')
             ->with(compact('applications'));

@@ -11,12 +11,10 @@ return [
     \App\Core\Domains\SecureTokens\TokensProvider::class,
 
     \App\Core\Support\Cashier\CashierServiceProvider::class,
-    \App\Core\Support\Horizon\HorizonServiceProvider::class,
     \App\Core\Support\Laravel\LaravelServiceProvider::class,
     \App\Core\Support\Passport\PassportServiceProvider::class,
 
     \App\Domains\Activation\ActivationServiceProvider::class,
     \App\Domains\BanAppeals\BanAppealServiceProvider::class,
-    \App\Domains\Donations\DonationsProvider::class,
     \App\Domains\Panel\PanelServiceProvider::class,
 ];
