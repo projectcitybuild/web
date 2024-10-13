@@ -7,7 +7,7 @@ use App\Models\MinecraftRegistration;
 use Illuminate\Support\Facades\Notification;
 
 beforeEach(function () {
-    $this->endpoint = 'api/v3/minecraft/register';
+    $this->endpoint = 'api/v2/minecraft/register';
 });
 
 it('requires server token', function () {

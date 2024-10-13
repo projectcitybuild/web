@@ -5,7 +5,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 
 beforeEach(function () {
-    $this->endpoint = 'api/v3/minecraft/register';
+    $this->endpoint = 'api/v2/minecraft/register';
 
     $this->validBody = [
         'minecraft_uuid' => '069a79f444e94726a5befca90e38aaf5',
