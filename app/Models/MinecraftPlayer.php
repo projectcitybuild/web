@@ -98,14 +98,17 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
     public static function firstOrCreate(MinecraftUUID $uuid, ?string $alias = null): self
     {
         $existing = self::whereUuid($uuid)->first();
+        if ($existing === null) {
+            return self::create([
+                'uuid' => $uuid->trimmed(),
+                'alias' => $alias,
+            ]);
+        }
         if ($existing->alias !== $alias) {
             $existing->alias = $alias;
             $existing->save();
         }
-        return self::create([
-            'uuid' => $uuid->trimmed(),
-            'alias' => $alias,
-        ]);
+        return $existing;
     }
 
     public function scopeWhereUuid(Builder $query, MinecraftUUID $uuid)

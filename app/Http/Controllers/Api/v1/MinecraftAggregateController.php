@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Core\Data\Exceptions\NotFoundException;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
-use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Domains\Badges\UseCases\GetBadges;
 use App\Domains\Bans\UseCases\GetActiveIPBan;
 use App\Domains\Bans\UseCases\GetActivePlayerBan;

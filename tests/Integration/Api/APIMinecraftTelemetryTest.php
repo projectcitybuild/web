@@ -1,68 +1,60 @@
 <?php
 
-namespace Tests\Integration\API;
-
 use App\Models\MinecraftPlayer;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\IntegrationTestCase;
+use Illuminate\Support\Carbon;
 
-class APIMinecraftTelemetryTest extends IntegrationTestCase
-{
-    use RefreshDatabase;
+beforeEach(function () {
+    $this->endpoint = 'api/v2/minecraft/telemetry/seen';
+});
 
-    private const ENDPOINT = 'api/v2/minecraft/telemetry/seen';
+it('requires server token', function () {
+    $body = ['uuid' => 'uuid', 'alias' => 'alias'];
 
-    protected function setUp(): void
-    {
-        parent::setUp();
+    $this->post($this->endpoint, $body)
+        ->assertUnauthorized();
 
-        $this->createServerToken();
-    }
+    $status = $this->withServerToken()
+        ->post($this->endpoint, $body)
+        ->status();
 
-    public function test_requires_scope()
-    {
-        $this->postJson(uri: self::ENDPOINT, data: ['uuid' => 'uuid', 'alias' => 'alias'])
-            ->assertUnauthorized();
+    expect($status)->not->toEqual(401);
+});
 
-        $this->withAuthorizationServerToken()
-            ->postJson(uri: self::ENDPOINT, data: ['uuid' => 'uuid', 'alias' => 'alias'])
-            ->assertOk();
-    }
+it('validates input', function () {
+    $this->withServerToken()
+        ->post(uri: $this->endpoint, data: [])
+        ->assertInvalid(['alias', 'uuid']);
 
-    public function test_validates_input()
-    {
-        $this->withAuthorizationServerToken()
-            ->postJson(uri: self::ENDPOINT, data: ['alias' => 'alias'])
-            ->assertStatus(400);
+    $this->withServerToken()
+        ->post(uri: $this->endpoint, data: [
+            'uuid' => '069a79f444e94726a5befca90e38aaf5',
+            'alias' => 'alias',
+        ])
+        ->assertOk();
+});
 
-        $this->withAuthorizationServerToken()
-            ->postJson(uri: self::ENDPOINT, data: ['uuid' => 'uuid'])
-            ->assertStatus(400);
-
-        $this->withAuthorizationServerToken()
-            ->postJson(uri: self::ENDPOINT, data: ['uuid' => 'uuid', 'alias' => 'alias'])
-            ->assertOk();
-    }
-
-    public function test_updates_last_seen_date()
-    {
+it('updates last seen date', function () {
+    $this->freezeTime(function (Carbon $time) {
         $player = MinecraftPlayer::factory()->create([
-            'uuid' => 'uuid',
-            'last_seen_at' => $this->now->copy()->subWeek(),
+            'uuid' => '069a79f444e94726a5befca90e38aaf5',
+            'last_seen_at' => $time->copy()->subWeek(),
         ]);
 
-        $this->withAuthorizationServerToken()
-            ->postJson(uri: self::ENDPOINT, data: ['uuid' => 'uuid', 'alias' => 'alias'])
+        $this->withServerToken()
+            ->post(uri: $this->endpoint, data: [
+                'uuid' => '069a79f444e94726a5befca90e38aaf5',
+                'alias' => 'alias',
+            ])
             ->assertOk();
 
         $this->assertDatabaseHas(
             table: MinecraftPlayer::tableName(),
             data: [
                 'player_minecraft_id' => $player->getKey(),
-                'uuid' => 'uuid',
+                'uuid' => '069a79f444e94726a5befca90e38aaf5',
                 'alias' => 'alias',
-                'last_seen_at' => $this->now,
+                'last_seen_at' => $time,
             ],
         );
-    }
-}
+    });
+});

@@ -11,8 +11,11 @@ final class GetBadges
     public function execute(MinecraftUUID $uuid): array
     {
         $player = MinecraftPlayer::whereUuid($uuid)->first();
-        $account = $player->account;
+        if ($player === null) {
+            return [];
+        }
 
+        $account = $player->account;
         if ($account === null) {
             return [];
         }
