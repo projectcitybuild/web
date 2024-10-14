@@ -10,7 +10,7 @@ class APIMinecraftShowcaseWarpIndexTest extends IntegrationTestCase
 {
     use RefreshDatabase;
 
-    private const ENDPOINT = 'api/v2/minecraft/showcase-warps';
+    private const ENDPOINT = 'api/v2/minecraft/showcase';
 
     public function test_requires_scope()
     {

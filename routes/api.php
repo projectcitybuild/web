@@ -10,8 +10,7 @@ use App\Http\Controllers\Api\v2\Minecraft\MinecraftRegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('webhooks')->group(function () {
-    Route::post('stripe', [StripeWebhookController::class, 'handleWebhook'])
-        ->name('cashier.webhook');
+    Route::post('stripe', [StripeWebhookController::class, 'handleWebhook']);
 });
 
 Route::prefix('v1')
@@ -26,25 +25,27 @@ Route::prefix('v2')
     ->middleware('require-server-token')
     ->group(function() {
         Route::prefix('minecraft')->group(function () {
-            Route::prefix('{minecraft_uuid}')->group(function () {
-                Route::get('/', MinecraftPlayerController::class);
-            });
-
-            Route::prefix('register')->group(function () {
-                Route::post('/', [MinecraftRegisterController::class, 'store'])
-                    ->middleware('throttle:3,1');
-
-                Route::put('/', [MinecraftRegisterController::class, 'update'])
-                    ->middleware('throttle:12,1');
-            });
-
-            Route::prefix('showcase-warps')->group(function () {
+            Route::prefix('showcase')->group(function () {
                 Route::get('/', [MinecraftShowcaseWarpController::class, 'index']);
                 Route::post('/', [MinecraftShowcaseWarpController::class, 'store']);
                 Route::get('{name}', [MinecraftShowcaseWarpController::class, 'show']);
                 Route::post('{name}', [MinecraftShowcaseWarpController::class, 'update']);
             });
 
-            Route::post('telemetry/seen', [MinecraftTelemetryController::class, 'playerSeen']);
+            Route::prefix('telemetry')->group(function () {
+                Route::post('seen', [MinecraftTelemetryController::class, 'playerSeen']);
+            });
+
+            Route::prefix('player/{minecraft_uuid}')->group(function () {
+                Route::get('/', MinecraftPlayerController::class);
+
+                Route::prefix('register')->group(function () {
+                    Route::post('/', [MinecraftRegisterController::class, 'store'])
+                        ->middleware('throttle:3,1');
+
+                    Route::put('/', [MinecraftRegisterController::class, 'update'])
+                        ->middleware('throttle:12,1');
+                });
+            });
         });
     });
