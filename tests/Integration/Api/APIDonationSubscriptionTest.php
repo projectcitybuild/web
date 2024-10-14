@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\API;
+namespace Tests\Integration\Api;
 
 use App\Domains\Donations\Notifications\DonationPerkStartedNotification;
 use App\Models\Account;

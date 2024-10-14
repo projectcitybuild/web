@@ -4,6 +4,7 @@ namespace App\Domains\Bans\UseCases;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\Bans\Exceptions\AlreadyIPBannedException;
+use App\Domains\MinecraftEventBus\Events\IpBanned;
 use App\Models\GameIPBan;
 use App\Models\MinecraftPlayer;
 
@@ -19,19 +20,21 @@ final class CreateIPBan
             ->whereNull('unbanned_at')
             ->first();
 
-        if ($existingBan !== null) {
-            throw new AlreadyIPBannedException();
-        }
+        throw_if($existingBan !== null, AlreadyIPBannedException::class);
 
         $bannerPlayer = MinecraftPlayer::firstOrCreate(
             uuid: $bannerPlayerUuid,
             alias: $bannerPlayerAlias,
         );
 
-        return GameIPBan::create([
+        $ban = GameIPBan::create([
             'banner_player_id' => $bannerPlayer->getKey(),
             'ip_address' => $ip,
             'reason' => $banReason,
         ]);
+
+        IpBanned::dispatch($ban);
+
+        return $ban;
     }
 }

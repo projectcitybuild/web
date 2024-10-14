@@ -1,13 +1,18 @@
 <?php
 
+use App\Domains\MinecraftEventBus\Jobs\NotifyMinecraftPlayerUpdatedJob;
 use App\Domains\MinecraftRegistration\Notifications\MinecraftRegistrationCompleteNotification;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
 use App\Models\MinecraftRegistration;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Queue;
 
 beforeEach(function () {
     $this->endpoint = 'api/v2/minecraft/register';
+
+    Notification::fake();
+    Queue::fake();
 });
 
 it('requires server token', function () {
@@ -201,8 +206,6 @@ describe('valid request', function () {
     });
 
     it('sends welcome email', function () {
-        Notification::fake();
-
         $registration = MinecraftRegistration::factory()->create();
 
         $this->withServerToken()
@@ -214,5 +217,17 @@ describe('valid request', function () {
         $account = Account::whereEmail($registration->email)->firstOrFail();
 
         Notification::assertSentTo($account, MinecraftRegistrationCompleteNotification::class);
+    });
+
+    it('dispatches player update event', function () {
+        $registration = MinecraftRegistration::factory()->create();
+
+        $this->withServerToken()
+            ->put($this->endpoint, [
+                'minecraft_uuid' => $registration->minecraft_uuid,
+                'code' => $registration->code,
+            ]);
+
+        Queue::assertPushed(NotifyMinecraftPlayerUpdatedJob::class);
     });
 });

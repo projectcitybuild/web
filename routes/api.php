@@ -1,10 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\v1\AccountSearchController;
-use App\Http\Controllers\Api\v1\GroupApiController;
-use App\Http\Controllers\Api\v1\MinecraftAggregateController;
-use App\Http\Controllers\Api\v1\MinecraftBadgeController;
-use App\Http\Controllers\Api\v1\MinecraftDonationTierController;
+use App\Http\Controllers\Api\v1\MinecraftPlayerController;
 use App\Http\Controllers\Api\v1\MinecraftPlayerAliasSearchController;
 use App\Http\Controllers\Api\v1\MinecraftShowcaseWarpController;
 use App\Http\Controllers\Api\v1\MinecraftTelemetryController;
@@ -12,27 +9,14 @@ use App\Http\Controllers\Api\v1\StripeWebhookController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftRegisterController;
 use Illuminate\Support\Facades\Route;
 
-Route::name('v0.')
-    ->group(function() {
-        Route::prefix('webhooks')->group(function () {
-            Route::post('stripe', [StripeWebhookController::class, 'handleWebhook'])
-                ->name('cashier.webhook');
-        });
-
-        Route::get('groups', [GroupApiController::class, 'getAll']);
-        Route::get('accounts/search', AccountSearchController::class);
-        Route::get('minecraft/aliases/search', MinecraftPlayerAliasSearchController::class);
-    });
+Route::prefix('webhooks')->group(function () {
+    Route::post('stripe', [StripeWebhookController::class, 'handleWebhook'])
+        ->name('cashier.webhook');
+});
 
 Route::prefix('v1')
     ->name('v1.')
     ->group(function() {
-        Route::prefix('webhooks')->group(function () {
-            Route::post('stripe', [StripeWebhookController::class, 'handleWebhook'])
-                ->name('cashier.webhook');
-        });
-
-        Route::get('groups', [GroupApiController::class, 'getAll']);
         Route::get('accounts/search', AccountSearchController::class);
         Route::get('minecraft/aliases/search', MinecraftPlayerAliasSearchController::class);
     });
@@ -43,9 +27,7 @@ Route::prefix('v2')
     ->group(function() {
         Route::prefix('minecraft')->group(function () {
             Route::prefix('{minecraft_uuid}')->group(function () {
-                Route::get('donation-tiers', [MinecraftDonationTierController::class, 'show']);
-                Route::get('badges', [MinecraftBadgeController::class, 'show']);
-                Route::get('aggregate', MinecraftAggregateController::class);
+                Route::get('/', MinecraftPlayerController::class);
             });
 
             Route::prefix('register')->group(function () {

@@ -5,6 +5,7 @@ namespace App\Domains\Bans\UseCases;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\Bans\Exceptions\AlreadyPermBannedException;
 use App\Domains\Bans\Exceptions\AlreadyTempBannedException;
+use App\Domains\MinecraftEventBus\Events\UuidBanned;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
 use Illuminate\Support\Carbon;
@@ -41,7 +42,7 @@ final class CreatePlayerBan
             alias: $bannerPlayerAlias,
         );
 
-        return GamePlayerBan::create([
+        $ban = GamePlayerBan::create([
             'server_id' => $serverId,
             'banned_player_id' => $bannedPlayer->getKey(),
             'banned_alias_at_time' => $bannedPlayerAlias,
@@ -49,5 +50,9 @@ final class CreatePlayerBan
             'reason' => $banReason,
             'expires_at' => $expiresAt,
         ]);
+
+        UuidBanned::dispatch($ban);
+
+        return $ban;
     }
 }

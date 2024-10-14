@@ -18,8 +18,6 @@ class SendMinecraftRegisterCodeEmail
         string $minecraftAlias,
         string $email,
     ): MinecraftRegistration {
-        MinecraftRegistration::whereUuid($minecraftUuid)->delete();
-
         $code = strtoupper(Str::random(6));
 
         $registration = MinecraftRegistration::create([
@@ -27,8 +25,10 @@ class SendMinecraftRegisterCodeEmail
             'minecraft_uuid' => $minecraftUuid,
             'minecraft_alias' => $minecraftAlias,
             'code' => $code,
-            'expires_at' => now()->addMinutes(15),
+            'expires_at' => now()->addHour(),
         ]);
+
+        MinecraftRegistration::whereUuid($minecraftUuid)->delete();
 
         Notification::route('mail', $email)->notify(
             new MinecraftRegistrationCodeNotification($code),

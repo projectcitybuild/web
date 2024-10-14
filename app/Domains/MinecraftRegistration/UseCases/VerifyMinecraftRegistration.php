@@ -6,6 +6,7 @@ use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Utilities\SecureTokenGenerator;
 use App\Domains\MinecraftRegistration\Data\MinecraftRegistrationExpiredException;
 use App\Domains\MinecraftRegistration\Notifications\MinecraftRegistrationCompleteNotification;
+use App\Domains\MinecraftEventBus\Events\MinecraftPlayerUpdated;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
 use App\Models\MinecraftRegistration;
@@ -69,6 +70,10 @@ class VerifyMinecraftRegistration
         $account->notify(
             new MinecraftRegistrationCompleteNotification(name: $account->username),
         );
+
+        $player = MinecraftPlayer::whereUuid($registration->minecraft_uuid)->first();
+        assert($player !== null);
+        MinecraftPlayerUpdated::dispatch($player);
     }
 
     private function generateUniqueUsername(string $initial): string

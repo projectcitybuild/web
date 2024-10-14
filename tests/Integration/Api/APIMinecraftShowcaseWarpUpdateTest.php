@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\API;
+namespace Tests\Integration\Api;
 
 use App\Models\ShowcaseWarp;
 use Illuminate\Foundation\Testing\RefreshDatabase;

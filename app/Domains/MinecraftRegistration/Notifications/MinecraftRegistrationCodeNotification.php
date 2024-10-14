@@ -43,7 +43,7 @@ final class MinecraftRegistrationCodeNotification extends Notification implement
             ->greeting('Just One More Step')
             ->line('Use the below code to activate your account.')
             ->line('# '.$this->code)
-            ->line('The above code will expire in 15 minutes.')
+            ->line('The above code will expire in 1 hour.')
             ->line('Didn\'t sign up? You can safely ignore this email.');
     }
 
