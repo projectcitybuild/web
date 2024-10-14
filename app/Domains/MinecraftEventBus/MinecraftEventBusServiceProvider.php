@@ -3,8 +3,8 @@
 namespace App\Domains\MinecraftEventBus;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
-use App\Domains\MinecraftEventBus\Events\IpBanned;
-use App\Domains\MinecraftEventBus\Events\UuidBanned;
+use App\Domains\MinecraftEventBus\Events\IpAddressBanned;
+use App\Domains\MinecraftEventBus\Events\MinecraftUuidBanned;
 use App\Domains\MinecraftEventBus\Events\MinecraftPlayerUpdated;
 use App\Domains\MinecraftEventBus\Jobs\NotifyIpBannedJob;
 use App\Domains\MinecraftEventBus\Jobs\NotifyMinecraftPlayerUpdatedJob;
@@ -26,13 +26,13 @@ class MinecraftEventBusServiceProvider extends ServiceProvider
             );
         });
 
-        Event::listen(function (UuidBanned $event) {
+        Event::listen(function (MinecraftUuidBanned $event) {
             Server::get()->each(
                 fn ($server) => NotifyUuidBannedJob::dispatch($server, $event->ban),
             );
         });
 
-        Event::listen(function (IpBanned $event) {
+        Event::listen(function (IpAddressBanned $event) {
             Server::get()->each(
                 fn ($server) => NotifyIpBannedJob::dispatch($server, $event->ban),
             );

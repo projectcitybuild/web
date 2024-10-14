@@ -4,7 +4,7 @@ namespace App\Domains\Bans\UseCases;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\Bans\Exceptions\AlreadyIPBannedException;
-use App\Domains\MinecraftEventBus\Events\IpBanned;
+use App\Domains\MinecraftEventBus\Events\IpAddressBanned;
 use App\Models\GameIPBan;
 use App\Models\MinecraftPlayer;
 
@@ -33,7 +33,7 @@ final class CreateIPBan
             'reason' => $banReason,
         ]);
 
-        IpBanned::dispatch($ban);
+        IpAddressBanned::dispatch($ban);
 
         return $ban;
     }

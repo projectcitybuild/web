@@ -4,6 +4,7 @@ use App\Domains\Activation\Notifications\AccountNeedsActivationNotification;
 use App\Domains\Captcha\Validator\CaptchaValidator;
 use App\Models\Account;
 use App\Models\Group;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Notification;
 use Mockery\MockInterface;
 
@@ -33,6 +34,14 @@ beforeEach(function () {
         'captcha-response',
         'terms',
     ];
+
+    $this->mockCaptcha = function (bool $passed = true) {
+        $this->mock(CaptchaValidator::class, function (MockInterface $mock) use ($passed) {
+            $mock->shouldReceive('passed')
+                ->once()
+                ->andReturn($passed);
+        });
+    };
 });
 
 it('redirects to account settings if logged in', function () {
@@ -53,6 +62,8 @@ describe('validation errors', function () {
     });
 
     it('throws if password is too short', function () {
+        $this->mockCaptcha->call($this);
+
         $unactivatedAccount = unactivatedAccount();
         $formData = validFormDataFor($unactivatedAccount);
         $formData['password'] = '123';
@@ -62,6 +73,8 @@ describe('validation errors', function () {
     });
 
     it('throws if username is already in use', function () {
+        $this->mockCaptcha->call($this);
+
         Account::factory()->create(['username' => 'taken']);
         $this->assertDatabaseHas('accounts', ['username' => 'taken']);
 
@@ -73,6 +86,8 @@ describe('validation errors', function () {
     });
 
     it('throws if email is already in use', function () {
+        $this->mockCaptcha->call($this);
+
         Account::factory()->create(['email' => 'me@pcbmc.co']);
         $this->assertDatabaseHas('accounts', ['email' => 'me@pcbmc.co']);
 
@@ -84,11 +99,8 @@ describe('validation errors', function () {
     });
 
     it('throws if captcha is invalid', function () {
-        $this->mock(CaptchaValidator::class, function (MockInterface $mock) {
-            $mock->shouldReceive('passed')
-                ->once()
-                ->andReturn(false);
-        });
+        $this->mockCaptcha->call($this, passed: false);
+
         $unactivatedAccount = unactivatedAccount();
         $formData = validFormDataFor($unactivatedAccount);
 
@@ -103,6 +115,8 @@ describe('successful submit', function () {
 
         $this->unactivatedAccount = unactivatedAccount();
         $this->formData = validFormDataFor($this->unactivatedAccount);
+
+        $this->mockCaptcha->call($this);
     });
 
     it('creates an unactivated account from valid form data', function () {

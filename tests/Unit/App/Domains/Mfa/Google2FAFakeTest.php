@@ -1,9 +1,8 @@
 <?php
 
-namespace Domain\Mfa;
+namespace App\Domains\Mfa;
 
 use App\Domains\Mfa\Exceptions\Dangerous2FABypassException;
-use App\Domains\Mfa\Google2FAFake;
 use Tests\Support\TemporaryConfig;
 use Tests\TestCase;
 

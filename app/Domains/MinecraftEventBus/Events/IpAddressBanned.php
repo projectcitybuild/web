@@ -2,15 +2,15 @@
 
 namespace App\Domains\MinecraftEventBus\Events;
 
-use App\Models\GamePlayerBan;
+use App\Models\GameIPBan;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UuidBanned
+class IpAddressBanned
 {
     use Dispatchable, SerializesModels;
 
     public function __construct(
-        public GamePlayerBan $ban,
+        public GameIPBan $ban,
     ) {}
 }

@@ -5,6 +5,7 @@ namespace App\Domains\MinecraftEventBus\UseCases;
 use App\Models\Server;
 use App\Models\ServerToken;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class PostEventToServer
 {
@@ -12,13 +13,20 @@ class PostEventToServer
         Server $server,
         string $path,
         array $payload,
-    ) {
+    ): void {
         $token = $this->getServerToken($server);
-        $url = $this->getServerAddress($server) . '/webhook' . $path;
+        $url = $this->getServerAddress($server) . '/' . $path;
 
-        return Http::withHeader('Authorization', 'Bearer '.$token)
-            ->post($url, $payload)
-            ->json();
+        Log::info('Sending event to Minecraft server', [
+            'server' => $server,
+            'url' => $path,
+            'payload' => $payload,
+        ]);
+
+        $response = Http::withHeader('Authorization', 'Bearer '.$token->token)
+            ->post($url, $payload);
+
+        Log::debug('Received response', ['response' => $response]);
     }
 
     private function getServerAddress(Server $server): string

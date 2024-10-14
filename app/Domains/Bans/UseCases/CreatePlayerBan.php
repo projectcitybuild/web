@@ -5,7 +5,7 @@ namespace App\Domains\Bans\UseCases;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\Bans\Exceptions\AlreadyPermBannedException;
 use App\Domains\Bans\Exceptions\AlreadyTempBannedException;
-use App\Domains\MinecraftEventBus\Events\UuidBanned;
+use App\Domains\MinecraftEventBus\Events\MinecraftUuidBanned;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
 use Illuminate\Support\Carbon;
@@ -51,7 +51,7 @@ final class CreatePlayerBan
             'expires_at' => $expiresAt,
         ]);
 
-        UuidBanned::dispatch($ban);
+        MinecraftUuidBanned::dispatch($ban);
 
         return $ban;
     }
