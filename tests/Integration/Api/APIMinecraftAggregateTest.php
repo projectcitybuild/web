@@ -11,11 +11,11 @@ use App\Models\MinecraftPlayer;
 use App\Models\Server;
 
 it('requires server token', function () {
-    $this->get('api/v2/minecraft/069a79f444e94726a5befca90e38aaf5/aggregate')
+    $this->get('api/v2/minecraft/player/069a79f444e94726a5befca90e38aaf5')
         ->assertUnauthorized();
 
     $status = $this->withServerToken()
-        ->get('api/v2/minecraft/069a79f444e94726a5befca90e38aaf5/aggregate')
+        ->get('api/v2/minecraft/player/069a79f444e94726a5befca90e38aaf5')
         ->status();
 
     expect($status)->not->toEqual(401);
@@ -23,7 +23,7 @@ it('requires server token', function () {
 
 it('throws exception for invalid Minecraft UUID', function () {
     $this->withServerToken()
-        ->getJson('api/v2/minecraft/invalid/aggregate')
+        ->getJson('api/v2/minecraft/player/invalid')
         ->assertInvalid(['uuid']);
 });
 
@@ -58,7 +58,7 @@ it('aggregates all data', function () {
         ]);
 
     $this->withServerToken()
-        ->getJson('api/v2/minecraft/'.$player->uuid.'/aggregate')
+        ->getJson('api/v2/minecraft/player/'.$player->uuid)
         ->assertJson([
             'data' => [
                 'account' => [
@@ -121,7 +121,7 @@ it('shows linked player with no data', function () {
         ->create();
 
     $this->withServerToken()
-        ->getJson('api/v2/minecraft/'.$player->uuid.'/aggregate')
+        ->getJson('api/v2/minecraft/player/'.$player->uuid)
         ->assertJson([
             'data' => [
                 'account' => [
@@ -141,7 +141,7 @@ it('shows linked player with no data', function () {
 
 it('shows empty data for missing player', function () {
     $this->withServerToken()
-        ->getJson('api/v2/minecraft/069a79f444e94726a5befca90e38aaf5/aggregate')
+        ->getJson('api/v2/minecraft/player/069a79f444e94726a5befca90e38aaf5')
         ->assertJson([
             'data' => [
                 'account' => [],
@@ -156,7 +156,7 @@ it('shows empty data for unlinked account', function () {
     $player = MinecraftPlayer::factory()->create();
 
     $this->withServerToken()
-        ->getJson('api/v2/minecraft/'.$player->uuid.'/aggregate')
+        ->getJson('api/v2/minecraft/player/'.$player->uuid)
         ->assertJson([
             'data' => [
                 'account' => [],
@@ -179,7 +179,7 @@ it('shows bans for unlinked account', function () {
         ->create();
 
     $this->withServerToken()
-        ->getJson('api/v2/minecraft/'.$player->uuid.'/aggregate')
+        ->getJson('api/v2/minecraft/player/'.$player->uuid)
         ->assertJson([
             'data' => [
                 'account' => null,

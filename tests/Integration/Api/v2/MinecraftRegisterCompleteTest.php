@@ -1,21 +1,24 @@
 <?php
 
+use App\Domains\MinecraftEventBus\Jobs\NotifyMinecraftPlayerUpdatedJob;
 use App\Domains\MinecraftRegistration\Notifications\MinecraftRegistrationCompleteNotification;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
 use App\Models\MinecraftRegistration;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Queue;
 
 beforeEach(function () {
-    $this->endpoint = 'api/v2/minecraft/register';
+    Notification::fake();
+    Queue::fake();
 });
 
 it('requires server token', function () {
-    $this->post($this->endpoint)
+    $this->post('api/v2/minecraft/player/069a79f444e94726a5befca90e38aaf5/register')
         ->assertUnauthorized();
 
     $status = $this->withServerToken()
-        ->put($this->endpoint)
+        ->put('api/v2/minecraft/player/069a79f444e94726a5befca90e38aaf5/register')
         ->status();
 
     expect($status)->not->toEqual(401);
@@ -24,22 +27,21 @@ it('requires server token', function () {
 describe('validation errors', function () {
     it('throws if fields are missing', function () {
         $this->withServerToken()
-            ->put($this->endpoint)
-            ->assertInvalid(['minecraft_uuid', 'code']);
+            ->put('api/v2/minecraft/player/069a79f444e94726a5befca90e38aaf5/register', [])
+            ->assertInvalid(['code']);
     });
 
     it('throws if minecraft uuid is invalid', function () {
         $this->withServerToken()
-            ->put($this->endpoint, ['minecraft_uuid' => 'invalid uuid'])
-            ->assertInvalid(['minecraft_uuid']);
+            ->put('api/v2/minecraft/player/invalid_uuid/register')
+            ->assertInvalid(['uuid']);
     });
 });
 
 describe('validity check', function () {
     it('throws 404 if not found', function () {
         $this->withServerToken()
-            ->put($this->endpoint, [
-                'minecraft_uuid' => '069a79f444e94726a5befca90e38aaf5',
+            ->put('api/v2/minecraft/player/069a79f444e94726a5befca90e38aaf5/register', [
                 'code' => '123456',
             ])
             ->assertStatus(404);
@@ -51,8 +53,7 @@ describe('validity check', function () {
             ->create();
 
         $this->withServerToken()
-            ->put($this->endpoint, [
-                'minecraft_uuid' => $registration->minecraft_uuid,
+            ->put('api/v2/minecraft/player/'.$registration->minecraft_uuid.'/register', [
                 'code' => $registration->code,
             ])
             ->assertStatus(410);
@@ -63,19 +64,19 @@ describe('valid request', function () {
     it('creates activated Account', function () {
         $registration = MinecraftRegistration::factory()->create();
 
-        $this->assertDatabaseMissing('accounts', [
+        $this->assertDatabaseMissing(Account::tableName(), [
             'email' => $registration->email,
             'activated' => true,
             'username' => $registration->minecraft_alias,
         ]);
 
         $this->withServerToken()
-            ->put($this->endpoint, [
-                'minecraft_uuid' => $registration->minecraft_uuid,
+            ->put('api/v2/minecraft/player/'.$registration->minecraft_uuid.'/register', [
                 'code' => $registration->code,
-            ]);
+            ])
+            ->assertOk();
 
-        $this->assertDatabaseHas('accounts', [
+        $this->assertDatabaseHas(Account::tableName(), [
             'email' => $registration->email,
             'activated' => true,
             'username' => $registration->minecraft_alias,
@@ -89,19 +90,19 @@ describe('valid request', function () {
             'username' => 'foobar',
         ]);
 
-        $this->assertDatabaseHas('accounts', [
+        $this->assertDatabaseHas(Account::tableName(), [
             'email' => $registration->email,
             'activated' => false,
             'username' => 'foobar',
         ]);
 
         $this->withServerToken()
-            ->put($this->endpoint, [
-                'minecraft_uuid' => $registration->minecraft_uuid,
+            ->put('api/v2/minecraft/player/'.$registration->minecraft_uuid.'/register', [
                 'code' => $registration->code,
-            ]);
+            ])
+            ->assertOk();
 
-        $this->assertDatabaseHas('accounts', [
+        $this->assertDatabaseHas(Account::tableName(), [
             'email' => $registration->email,
             'activated' => true,
             'username' => 'foobar',
@@ -116,30 +117,30 @@ describe('valid request', function () {
         Account::factory()->create(['username' => 'foobar_1']);
         Account::factory()->create(['username' => 'foobar_2']);
 
-        $this->assertDatabaseMissing('accounts', ['username' => 'foobar_3']);
+        $this->assertDatabaseMissing(Account::tableName(), ['username' => 'foobar_3']);
 
         $this->withServerToken()
-            ->put($this->endpoint, [
-                'minecraft_uuid' => $registration->minecraft_uuid,
+            ->put('api/v2/minecraft/player/'.$registration->minecraft_uuid.'/register', [
                 'code' => $registration->code,
-            ]);
+            ])
+            ->assertOk();
 
-        $this->assertDatabaseHas('accounts', ['username' => 'foobar_3']);
+        $this->assertDatabaseHas(Account::tableName(), ['username' => 'foobar_3']);
     });
 
     it('creates MinecraftPlayer', function () {
         $registration = MinecraftRegistration::factory()->create();
 
-        $this->assertDatabaseMissing('players_minecraft', [
+        $this->assertDatabaseMissing(MinecraftPlayer::tableName(), [
             'uuid' => $registration->minecraft_uuid,
             'alias' => $registration->minecraft_alias,
         ]);
 
         $this->withServerToken()
-            ->put($this->endpoint, [
-                'minecraft_uuid' => $registration->minecraft_uuid,
+            ->put('api/v2/minecraft/player/'.$registration->minecraft_uuid.'/register', [
                 'code' => $registration->code,
-            ]);
+            ])
+            ->assertOk();
 
         $account = Account::whereEmail($registration->email)->firstOrFail();
         expect($account)->not->toBeNull();
@@ -160,22 +161,22 @@ describe('valid request', function () {
             'account_id' => null,
         ]);
 
-        $this->assertDatabaseHas('players_minecraft', [
+        $this->assertDatabaseHas(MinecraftPlayer::tableName(), [
             'uuid' => $registration->minecraft_uuid,
             'alias' => 'old_alias',
             'account_id' => null,
         ]);
 
         $this->withServerToken()
-            ->put($this->endpoint, [
-                'minecraft_uuid' => $registration->minecraft_uuid,
+            ->put('api/v2/minecraft/player/'.$registration->minecraft_uuid.'/register', [
                 'code' => $registration->code,
-            ]);
+            ])
+            ->assertOk();
 
         $account = Account::whereEmail($registration->email)->firstOrFail();
         expect($account)->not->toBeNull();
 
-        $this->assertDatabaseHas('players_minecraft', [
+        $this->assertDatabaseHas(MinecraftPlayer::tableName(), [
             'uuid' => $registration->minecraft_uuid,
             'alias' => $registration->minecraft_alias,
             'account_id' => $account->getKey(),
@@ -185,34 +186,43 @@ describe('valid request', function () {
     it('deletes MinecraftRegistration', function () {
         $registration = MinecraftRegistration::factory()->create();
 
-        $this->assertDatabaseHas('minecraft_registrations', [
+        $this->assertDatabaseHas(MinecraftRegistration::tableName(), [
             'minecraft_uuid' => $registration->minecraft_uuid,
         ]);
 
         $this->withServerToken()
-            ->put($this->endpoint, [
-                'minecraft_uuid' => $registration->minecraft_uuid,
+            ->put('api/v2/minecraft/player/'.$registration->minecraft_uuid.'/register', [
                 'code' => $registration->code,
-            ]);
+            ])
+            ->assertOk();
 
-        $this->assertDatabaseMissing('minecraft_registrations', [
+        $this->assertDatabaseMissing(MinecraftRegistration::tableName(), [
             'minecraft_uuid' => $registration->minecraft_uuid,
         ]);
     });
 
     it('sends welcome email', function () {
-        Notification::fake();
-
         $registration = MinecraftRegistration::factory()->create();
 
         $this->withServerToken()
-            ->put($this->endpoint, [
-                'minecraft_uuid' => $registration->minecraft_uuid,
+            ->put('api/v2/minecraft/player/'.$registration->minecraft_uuid.'/register', [
                 'code' => $registration->code,
             ]);
 
         $account = Account::whereEmail($registration->email)->firstOrFail();
 
         Notification::assertSentTo($account, MinecraftRegistrationCompleteNotification::class);
+    });
+
+    it('dispatches player update event', function () {
+        $registration = MinecraftRegistration::factory()->create();
+
+        $this->withServerToken()
+            ->put('api/v2/minecraft/player/'.$registration->minecraft_uuid.'/register', [
+                'code' => $registration->code,
+            ])
+            ->assertOk();
+
+        Queue::assertPushed(NotifyMinecraftPlayerUpdatedJob::class);
     });
 });

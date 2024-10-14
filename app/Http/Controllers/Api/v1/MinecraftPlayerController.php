@@ -18,7 +18,7 @@ use App\Models\MinecraftPlayer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-final class MinecraftAggregateController extends ApiController
+final class MinecraftPlayerController extends ApiController
 {
     public function __invoke(
         Request $request,

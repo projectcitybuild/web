@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Tests\Support\TemporaryConfig;
 use Tests\Support\TestResponseMacros;
@@ -28,6 +29,9 @@ abstract class TestCase extends BaseTestCase
 
         // Mock this class everywhere to prevent it making real requests
         $this->mock(MojangPlayerApi::class);
+
+        // Throw an exception if a HTTP response hasn't been mocked
+        Http::preventStrayRequests();
     }
 
     /** @deprecated Do this on a per-test basis */

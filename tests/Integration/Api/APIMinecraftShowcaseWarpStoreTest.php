@@ -10,7 +10,7 @@ class APIMinecraftShowcaseWarpStoreTest extends IntegrationTestCase
 {
     use RefreshDatabase;
 
-    private const ENDPOINT = 'api/v2/minecraft/showcase-warps';
+    private const ENDPOINT = 'api/v2/minecraft/showcase';
 
     private function validData(): array
     {

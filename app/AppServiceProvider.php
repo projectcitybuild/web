@@ -2,8 +2,6 @@
 
 namespace App;
 
-use App\Core\Domains\PlayerLookup\Service\ConcretePlayerLookup;
-use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
 use App\Models\Account;
 use App\Models\Badge;
 use App\Models\BanAppeal;
@@ -22,6 +20,7 @@ use App\View\Components\PanelSideBarComponent;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
@@ -40,10 +39,6 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->bind(StripeClient::class, function ($app) {
             return new StripeClient(config('services.stripe.secret'));
         });
-        $this->app->bind(
-            abstract: PlayerLookup::class,
-            concrete: ConcretePlayerLookup::class,
-        );
     }
 
     /**
@@ -58,7 +53,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->bindBladeComponents();
 
         // Set a default date format for displaying Carbon instances in views
-        Blade::stringable(function (\Illuminate\Support\Carbon $dateTime) {
+        Blade::stringable(function (Carbon $dateTime) {
             return $dateTime->format('j M Y H:i');
         });
 

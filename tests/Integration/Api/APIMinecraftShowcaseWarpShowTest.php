@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\API;
+namespace Tests\Integration\Api;
 
 use App\Models\ShowcaseWarp;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,7 +14,7 @@ class APIMinecraftShowcaseWarpShowTest extends IntegrationTestCase
 
     private function endpoint(?string $name = null): string
     {
-        return 'api/v2/minecraft/showcase-warps/'.$name ?: $this->existingWarp->name;
+        return 'api/v2/minecraft/showcase/'.$name ?: $this->existingWarp->name;
     }
 
     protected function setUp(): void

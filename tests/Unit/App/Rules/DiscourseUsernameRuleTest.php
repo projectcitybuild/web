@@ -5,7 +5,7 @@ namespace Tests\Unit\App\Rules;
 use App\Core\Rules\DiscourseUsernameRule;
 use Tests\TestCase;
 
-class DiscourseUsernameRule_Test extends TestCase
+class DiscourseUsernameRuleTest extends TestCase
 {
     private $rule;
 

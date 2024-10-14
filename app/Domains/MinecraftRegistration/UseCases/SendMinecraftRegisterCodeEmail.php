@@ -5,6 +5,7 @@ namespace App\Domains\MinecraftRegistration\UseCases;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\MinecraftRegistration\Notifications\MinecraftRegistrationCodeNotification;
 use App\Models\MinecraftRegistration;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
@@ -18,8 +19,6 @@ class SendMinecraftRegisterCodeEmail
         string $minecraftAlias,
         string $email,
     ): MinecraftRegistration {
-        MinecraftRegistration::whereUuid($minecraftUuid)->delete();
-
         $code = strtoupper(Str::random(6));
 
         $registration = MinecraftRegistration::create([
@@ -27,8 +26,12 @@ class SendMinecraftRegisterCodeEmail
             'minecraft_uuid' => $minecraftUuid,
             'minecraft_alias' => $minecraftAlias,
             'code' => $code,
-            'expires_at' => now()->addMinutes(15),
+            'expires_at' => now()->addHour(),
         ]);
+
+        MinecraftRegistration::whereUuid($minecraftUuid)
+            ->where('id', '!=', $registration->getKey())
+            ->delete();
 
         Notification::route('mail', $email)->notify(
             new MinecraftRegistrationCodeNotification($code),
