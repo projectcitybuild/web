@@ -1,12 +1,12 @@
 <?php
 
 use App\Domains\MinecraftRegistration\Notifications\MinecraftRegistrationCodeNotification;
+use App\Models\Account;
+use App\Models\MinecraftRegistration;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 
 beforeEach(function () {
-    $this->endpoint = 'api/v2/minecraft/register';
-
     $this->validBody = [
         'minecraft_uuid' => '069a79f444e94726a5befca90e38aaf5',
         'minecraft_alias' => 'alias',
@@ -15,11 +15,11 @@ beforeEach(function () {
 });
 
 it('requires server token', function () {
-    $this->post($this->endpoint)
+    $this->post('api/v2/minecraft/player/069a79f444e94726a5befca90e38aaf5/register')
         ->assertUnauthorized();
 
     $status = $this->withServerToken()
-        ->post($this->endpoint)
+        ->post('api/v2/minecraft/player/069a79f444e94726a5befca90e38aaf5/register')
         ->status();
 
     expect($status)->not->toEqual(401);
@@ -28,19 +28,27 @@ it('requires server token', function () {
 describe('validation errors', function () {
     it('throws if fields are missing', function () {
         $this->withServerToken()
-            ->post($this->endpoint)
-            ->assertInvalid(['minecraft_uuid', 'minecraft_alias', 'email']);
+            ->post('api/v2/minecraft/player/069a79f444e94726a5befca90e38aaf5/register', [])
+            ->assertInvalid(['minecraft_alias', 'email']);
     });
 
     it('throws if minecraft uuid is invalid', function () {
         $this->withServerToken()
-            ->post($this->endpoint, ['minecraft_uuid' => 'invalid uuid'])
-            ->assertInvalid(['minecraft_uuid']);
+            ->post('api/v2/minecraft/player/invalid_uuid/register')
+            ->assertInvalid(['uuid']);
     });
 
     it('throws if email is invalid', function () {
         $this->withServerToken()
-            ->post($this->endpoint, ['email' => 'invalid email'])
+            ->post('api/v2/minecraft/player/069a79f444e94726a5befca90e38aaf5/register', ['email' => 'invalid email'])
+            ->assertInvalid(['email']);
+    });
+
+    it('throws if email already taken', function () {
+        $account = Account::factory()->create();
+
+        $this->withServerToken()
+            ->post('api/v2/minecraft/player/069a79f444e94726a5befca90e38aaf5/register', ['email' => $account->email])
             ->assertInvalid(['email']);
     });
 });
@@ -48,13 +56,14 @@ describe('validation errors', function () {
 it('creates a MinecraftRegistration', function () {
     $this->freezeTime(function (Carbon $time) {
         $this->withServerToken()
-            ->post($this->endpoint, $this->validBody);
+            ->post('api/v2/minecraft/player/'.$this->validBody['minecraft_uuid'].'/register', $this->validBody)
+            ->assertSuccessful();
 
-        $this->assertDatabaseHas('minecraft_registrations', [
+        $this->assertDatabaseHas(MinecraftRegistration::tableName(), [
             'minecraft_uuid' => $this->validBody['minecraft_uuid'],
             'minecraft_alias' => $this->validBody['minecraft_alias'],
             'email' => $this->validBody['email'],
-            'expires_at' => $time->addMinutes(15),
+            'expires_at' => $time->addHour(),
         ]);
     });
 });
@@ -63,11 +72,8 @@ it('accepts any Minecraft UUID format', function ($uuid) {
     $this->validBody['minecraft_uuid'] = $uuid;
 
     $this->withServerToken()
-        ->post($this->endpoint, $this->validBody);
-
-    $this->assertDatabaseHas('minecraft_registrations', [
-        'minecraft_uuid' => '069a79f444e94726a5befca90e38aaf5',
-    ]);
+        ->post('api/v2/minecraft/player/'.$uuid.'/register', $this->validBody)
+        ->assertSuccessful();
 })->with([
     '069a79f4-44e9-4726-a5be-fca90e38aaf5',
     '069a79f444e94726a5befca90e38aaf5',
@@ -77,7 +83,7 @@ it('sends an email with a code', function () {
     Notification::fake();
 
     $this->withServerToken()
-        ->post($this->endpoint, $this->validBody);
+        ->post('api/v2/minecraft/player/'.$this->validBody['minecraft_uuid'].'/register', $this->validBody);
 
     Notification::assertSentOnDemand(
         MinecraftRegistrationCodeNotification::class,

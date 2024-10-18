@@ -15,34 +15,36 @@ final class MinecraftRegisterController extends ApiController
 {
     public function store(
         Request $request,
+        MinecraftUUID $uuid,
         SendMinecraftRegisterCodeEmail $createMinecraftRegistration,
     ) {
         $request->validate([
             'email' => ['required', 'email'],
-            'minecraft_uuid' => ['required', new MinecraftUUIDRule],
             'minecraft_alias' => ['required', 'string'],
         ]);
 
-        return $createMinecraftRegistration->execute(
-            minecraftUuid: new MinecraftUUID($request->get('minecraft_uuid')),
+        $createMinecraftRegistration->execute(
+            minecraftUuid: $uuid,
             minecraftAlias: $request->get('minecraft_alias'),
             email: $request->get('email'),
         );
+
+        return response()->json([]);
     }
 
     public function update(
         Request $request,
+        MinecraftUUID $uuid,
         VerifyMinecraftRegistration $verifyMinecraftRegistration,
     ) {
         $request->validate([
             'code' => ['required'],
-            'minecraft_uuid' => ['required', new MinecraftUUIDRule],
         ]);
 
         try {
             $verifyMinecraftRegistration->execute(
                 code: $request->get('code'),
-                minecraftUuid: new MinecraftUUID($request->get('minecraft_uuid')),
+                minecraftUuid: $uuid,
             );
         } catch (MinecraftRegistrationExpiredException $e) {
             Log::debug('Attempted to complete registration for Minecraft UUID, but registration already expired', [
@@ -51,5 +53,7 @@ final class MinecraftRegisterController extends ApiController
             ]);
             abort(410);
         }
+
+        return response()->json([]);
     }
 }
