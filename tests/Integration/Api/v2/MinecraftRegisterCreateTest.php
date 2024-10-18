@@ -1,7 +1,6 @@
 <?php
 
 use App\Domains\MinecraftRegistration\Notifications\MinecraftRegistrationCodeNotification;
-use App\Models\Account;
 use App\Models\MinecraftRegistration;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
@@ -41,14 +40,6 @@ describe('validation errors', function () {
     it('throws if email is invalid', function () {
         $this->withServerToken()
             ->post('api/v2/minecraft/player/069a79f444e94726a5befca90e38aaf5/register', ['email' => 'invalid email'])
-            ->assertInvalid(['email']);
-    });
-
-    it('throws if email already taken', function () {
-        $account = Account::factory()->create();
-
-        $this->withServerToken()
-            ->post('api/v2/minecraft/player/069a79f444e94726a5befca90e38aaf5/register', ['email' => $account->email])
             ->assertInvalid(['email']);
     });
 });

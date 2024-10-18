@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\API;
+namespace Tests\Integration\Api;
 
 use App\Models\ShowcaseWarp;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -10,7 +10,7 @@ class APIMinecraftShowcaseWarpIndexTest extends IntegrationTestCase
 {
     use RefreshDatabase;
 
-    private const ENDPOINT = 'api/v2/minecraft/showcase-warps';
+    private const ENDPOINT = 'api/v2/minecraft/showcase';
 
     public function test_requires_scope()
     {
