@@ -15,7 +15,7 @@ final class RegisterRequest extends FormRequest
     public function rules(CaptchaRule $captchaRule): array
     {
         return [
-            'email' => ['required', 'email', 'unique:accounts', 'email'],
+            'email' => ['required', 'email', 'unique:accounts,email'],
             'username' => ['required', 'unique:accounts,username', new DiscourseUsernameRule()],
             'password' => ['required', Password::defaults()],
             'captcha-response' => ['required', $captchaRule],

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Resources\MinecraftPlayerAliasResource;
 use App\Models\MinecraftPlayerAlias;
 use Illuminate\Http\Request;
 
@@ -12,10 +11,8 @@ class MinecraftPlayerAliasSearchController
     {
         $query = $request->input('query');
 
-        $aliases = MinecraftPlayerAlias::search($query)
+        return MinecraftPlayerAlias::search($query)
             ->take(25)
             ->get();
-
-        return MinecraftPlayerAliasResource::collection($aliases);
     }
 }

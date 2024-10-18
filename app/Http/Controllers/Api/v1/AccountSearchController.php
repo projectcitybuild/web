@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Resources\AccountResource;
 use App\Models\Account;
 use Illuminate\Http\Request;
 
@@ -12,10 +11,8 @@ class AccountSearchController
     {
         $query = $request->input('query');
 
-        $accounts = Account::search($query)
+        return Account::search($query)
             ->take(25)
             ->get();
-
-        return AccountResource::collection($accounts);
     }
 }

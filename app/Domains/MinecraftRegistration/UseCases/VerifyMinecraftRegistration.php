@@ -12,6 +12,7 @@ use App\Models\MinecraftPlayer;
 use App\Models\MinecraftRegistration;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class VerifyMinecraftRegistration
 {
@@ -73,6 +74,7 @@ class VerifyMinecraftRegistration
 
         $player = MinecraftPlayer::whereUuid($registration->minecraft_uuid)->first();
         assert($player !== null);
+        Log::debug('Dispatching MinecraftPlayerUpdated event for player id '.$player->getKey());
         MinecraftPlayerUpdated::dispatch($player);
     }
 

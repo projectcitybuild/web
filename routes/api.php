@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\v1\AccountSearchController;
-use App\Http\Controllers\Api\v1\MinecraftPlayerController;
 use App\Http\Controllers\Api\v1\MinecraftPlayerAliasSearchController;
 use App\Http\Controllers\Api\v1\MinecraftShowcaseWarpController;
 use App\Http\Controllers\Api\v1\MinecraftTelemetryController;
 use App\Http\Controllers\Api\v1\StripeWebhookController;
+use App\Http\Controllers\Api\v2\Minecraft\MinecraftPlayerController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftRegisterController;
 use Illuminate\Support\Facades\Route;
 
