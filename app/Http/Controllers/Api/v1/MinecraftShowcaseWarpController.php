@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Resources\ShowcaseWarpResource;
 use App\Models\ShowcaseWarp;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,11 +11,7 @@ final class MinecraftShowcaseWarpController extends ApiController
 {
     public function index(Request $request): JsonResponse
     {
-        $warps = ShowcaseWarp::orderBy('name', 'asc')->get();
-
-        return response()->json([
-            'data' => ShowcaseWarpResource::collection($warps),
-        ]);
+        return ShowcaseWarp::orderBy('name', 'asc')->get();
     }
 
     public function store(Request $request): JsonResponse
@@ -35,11 +30,7 @@ final class MinecraftShowcaseWarpController extends ApiController
             'built_at' => 'nullable|integer',
         ]);
 
-        $warp = ShowcaseWarp::create($request->all());
-
-        return response()->json([
-            'data' => ShowcaseWarpResource::make($warp),
-        ]);
+        return ShowcaseWarp::create($request->all());
     }
 
     public function show(Request $request, string $name): JsonResponse
@@ -48,10 +39,7 @@ final class MinecraftShowcaseWarpController extends ApiController
         if ($warp === null) {
             abort(404);
         }
-
-        return response()->json([
-            'data' => is_null($warp) ? null : ShowcaseWarpResource::make($warp),
-        ]);
+        return $warp;
     }
 
     public function update(Request $request, string $name): JsonResponse
@@ -72,8 +60,6 @@ final class MinecraftShowcaseWarpController extends ApiController
 
         $warp->update($request->all());
 
-        return response()->json([
-            'data' => ShowcaseWarpResource::make($warp),
-        ]);
+        return $warp;
     }
 }

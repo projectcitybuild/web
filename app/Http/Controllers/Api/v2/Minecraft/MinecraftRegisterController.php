@@ -23,11 +23,13 @@ final class MinecraftRegisterController extends ApiController
             'minecraft_alias' => ['required', 'string'],
         ]);
 
-        return $createMinecraftRegistration->execute(
+        $createMinecraftRegistration->execute(
             minecraftUuid: $uuid,
             minecraftAlias: $request->get('minecraft_alias'),
             email: $request->get('email'),
         );
+
+        return response()->json([]);
     }
 
     public function update(
@@ -51,5 +53,7 @@ final class MinecraftRegisterController extends ApiController
             ]);
             abort(410);
         }
+
+        return response()->json([]);
     }
 }

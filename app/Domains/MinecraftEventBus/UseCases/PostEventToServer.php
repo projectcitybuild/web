@@ -32,8 +32,8 @@ class PostEventToServer
     private function getServerAddress(Server $server): string
     {
         $address = $server->ip;
-        if (! empty($server->port)) {
-            $address .= ':'.$server->port;
+        if (! empty($server->web_port)) {
+            $address .= ':'.$server->web_port;
         }
         return $address;
     }
