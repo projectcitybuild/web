@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Domain\Donations\Entities;
+namespace Tests\Unit\Domain\Donations\Data;
 
 use App\Domains\Donations\Data\Denomination;
 use App\Domains\Donations\Data\PaidAmount;

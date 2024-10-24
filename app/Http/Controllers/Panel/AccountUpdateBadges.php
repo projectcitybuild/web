@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Domains\MinecraftEventBus\Events\MinecraftPlayerUpdated;
 use App\Models\Account;
 use Illuminate\Http\Request;
 
@@ -12,6 +13,10 @@ class AccountUpdateBadges
         Account $account,
     ) {
         $account->badges()->sync($request->badges);
+
+        $account->minecraftAccount()->each(function ($player) {
+            MinecraftPlayerUpdated::dispatch($player);
+        });
 
         return redirect()->back();
     }
