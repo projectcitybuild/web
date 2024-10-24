@@ -25,7 +25,7 @@ class PostEventToServer
 
         $response = Http::withToken($token->token)
             ->acceptJson()
-            ->postJson($url, $payload);
+            ->post($url, $payload);
 
         Log::debug('Received response', ['response' => $response]);
     }
