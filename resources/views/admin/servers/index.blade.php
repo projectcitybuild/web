@@ -19,7 +19,6 @@
                 <th>IP address</th>
                 <th>Port</th>
                 <th>IP alias</th>
-                <th>Game type</th>
                 <th></th>
             </tr>
             </thead>
@@ -31,7 +30,6 @@
                     <td>{{ $server->ip }}</td>
                     <td>{{ $server->port }}</td>
                     <td>{{ $server->ip_alias ?: '' }}</td>
-                    <td>{{ \App\Core\Data\GameType::tryFrom($server->game_type)?->name() ?: 'Unknown' }}</td>
                     <td><a href="{{ route('front.panel.servers.edit', $server->getKey()) }}">Edit</a></td>
                 </tr>
             @endforeach
