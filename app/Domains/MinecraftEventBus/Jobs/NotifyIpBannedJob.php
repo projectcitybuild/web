@@ -18,11 +18,12 @@ class NotifyIpBannedJob implements ShouldQueue
         public GameIPBan $ban,
     ) {
         $this->server = $server->withoutRelations();
-        $this->ban = $ban->withoutRelations();
     }
 
     public function handle(PostEventToServer $postEventToServer): void
     {
+        $this->ban->load('bannerPlayer');
+
         $postEventToServer->send(
             server: $this->server,
             path: 'events/ban/ip',

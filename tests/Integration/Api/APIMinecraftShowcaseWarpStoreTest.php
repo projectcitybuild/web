@@ -120,19 +120,17 @@ class APIMinecraftShowcaseWarpStoreTest extends IntegrationTestCase
                 'built_at' => 1663839908,
             ])
             ->assertJson([
-                'data' => [
-                    'name' => 'test_warp',
-                    'title' => 'title',
-                    'description' => 'description',
-                    'creators' => 'creators',
-                    'location_world' => 'creative',
-                    'location_x' => 1,
-                    'location_y' => 2,
-                    'location_z' => 3,
-                    'location_pitch' => 4.0,
-                    'location_yaw' => 5.0,
-                    'built_at' => 1663839908,
-                ],
+                'name' => 'test_warp',
+                'title' => 'title',
+                'description' => 'description',
+                'creators' => 'creators',
+                'location_world' => 'creative',
+                'location_x' => 1,
+                'location_y' => 2,
+                'location_z' => 3,
+                'location_pitch' => 4.0,
+                'location_yaw' => 5.0,
+                'built_at' => 1663839908,
             ])
             ->assertSuccessful();
     }

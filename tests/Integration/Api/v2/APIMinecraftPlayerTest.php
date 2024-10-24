@@ -60,54 +60,52 @@ it('aggregates all data', function () {
     $this->withServerToken()
         ->getJson('api/v2/minecraft/player/'.$player->uuid)
         ->assertJson([
-            'data' => [
-                'account' => [
-                    'account_id' => $account->getKey(),
-                    'username' => $account->username,
-                    'last_login_at' => $account->last_login_at->timestamp,
-                    'created_at' => $account->created_at->timestamp,
-                    'updated_at' => $account->updated_at->timestamp,
-                    'groups' => [
-                        [
-                            'group_id' => $group->getKey(),
-                            'name' => $group->name,
-                            'alias' => $group->alias,
-                            'minecraft_name' => $group->minecraft_name,
-                            'is_default' => false,
-                            'is_staff' => false,
-                            'is_admin' => false,
-                        ],
+            'account' => [
+                'account_id' => $account->getKey(),
+                'username' => $account->username,
+                'last_login_at' => $account->last_login_at,
+                'created_at' => $account->created_at,
+                'updated_at' => $account->updated_at,
+                'groups' => [
+                    [
+                        'group_id' => $group->getKey(),
+                        'name' => $group->name,
+                        'alias' => $group->alias,
+                        'minecraft_name' => $group->minecraft_name,
+                        'is_default' => false,
+                        'is_staff' => false,
+                        'is_admin' => false,
                     ],
                 ],
-                'ban' => [
-                    'id' => $ban->getKey(),
-                    'server_id' => $server->getKey(),
-                    'banned_player_id' => $player->getKey(),
-                    'banner_player_id' => $staffPlayer->getKey(),
-                    'reason' => $ban->reason,
-                    'expires_at' => $ban->expires_at,
-                    'created_at' => $ban->created_at->timestamp,
-                    'updated_at' => $ban->updated_at->timestamp,
-                    'unbanned_at' => null,
-                    'unbanner_player_id' => null,
-                    'unban_type' => null,
+            ],
+            'ban' => [
+                'id' => $ban->getKey(),
+                'server_id' => $server->getKey(),
+                'banned_player_id' => $player->getKey(),
+                'banner_player_id' => $staffPlayer->getKey(),
+                'reason' => $ban->reason,
+                'expires_at' => $ban->expires_at,
+                'created_at' => $ban->created_at,
+                'updated_at' => $ban->updated_at,
+                'unbanned_at' => null,
+                'unbanner_player_id' => null,
+                'unban_type' => null,
+            ],
+            'badges' => [
+                [
+                    'id' => $badge->getKey(),
+                    'display_name' => $badge->display_name,
+                    'unicode_icon' => $badge->unicode_icon,
                 ],
-                'badges' => [
-                    [
-                        'id' => $badge->getKey(),
-                        'display_name' => $badge->display_name,
-                        'unicode_icon' => $badge->unicode_icon,
-                    ],
-                ],
-                'donation_tiers' => [
-                    [
-                        'donation_perks_id' => $perk->getKey(),
-                        'is_active' => true,
-                        'expires_at' => $perk->expires_at->timestamp,
-                        'donation_tier' => [
-                            'donation_tier_id' => $tier->getKey(),
-                            'name' => $tier->name,
-                        ],
+            ],
+            'donation_tiers' => [
+                [
+                    'donation_perks_id' => $perk->getKey(),
+                    'is_active' => true,
+                    'expires_at' => $perk->expires_at,
+                    'donation_tier' => [
+                        'donation_tier_id' => $tier->getKey(),
+                        'name' => $tier->name,
                     ],
                 ],
             ],
@@ -123,19 +121,17 @@ it('shows linked player with no data', function () {
     $this->withServerToken()
         ->getJson('api/v2/minecraft/player/'.$player->uuid)
         ->assertJson([
-            'data' => [
-                'account' => [
-                    'account_id' => $account->getKey(),
-                    'username' => $account->username,
-                    'last_login_at' => $account->last_login_at->timestamp,
-                    'created_at' => $account->created_at->timestamp,
-                    'updated_at' => $account->updated_at->timestamp,
-                    'groups' => [],
-                ],
-                'ban' => [],
-                'badges' => [],
-                'donation_tiers' => [],
+            'account' => [
+                'account_id' => $account->getKey(),
+                'username' => $account->username,
+                'last_login_at' => $account->last_login_at,
+                'created_at' => $account->created_at,
+                'updated_at' => $account->updated_at,
+                'groups' => [],
             ],
+            'ban' => [],
+            'badges' => [],
+            'donation_tiers' => [],
         ]);
 });
 
@@ -143,12 +139,10 @@ it('shows empty data for missing player', function () {
     $this->withServerToken()
         ->getJson('api/v2/minecraft/player/069a79f444e94726a5befca90e38aaf5')
         ->assertJson([
-            'data' => [
-                'account' => [],
-                'ban' => [],
-                'badges' => [],
-                'donation_tiers' => [],
-            ],
+            'account' => [],
+            'ban' => [],
+            'badges' => [],
+            'donation_tiers' => [],
         ]);
 });
 
@@ -158,12 +152,10 @@ it('shows empty data for unlinked account', function () {
     $this->withServerToken()
         ->getJson('api/v2/minecraft/player/'.$player->uuid)
         ->assertJson([
-            'data' => [
-                'account' => [],
-                'ban' => [],
-                'badges' => [],
-                'donation_tiers' => [],
-            ],
+            'account' => [],
+            'ban' => [],
+            'badges' => [],
+            'donation_tiers' => [],
         ]);
 });
 
@@ -181,23 +173,21 @@ it('shows bans for unlinked account', function () {
     $this->withServerToken()
         ->getJson('api/v2/minecraft/player/'.$player->uuid)
         ->assertJson([
-            'data' => [
-                'account' => null,
-                'ban' => [
-                    'id' => $ban->getKey(),
-                    'server_id' => $server->getKey(),
-                    'banned_player_id' => $player->getKey(),
-                    'banner_player_id' => $staffPlayer->getKey(),
-                    'reason' => $ban->reason,
-                    'expires_at' => $ban->expires_at,
-                    'created_at' => $ban->created_at->timestamp,
-                    'updated_at' => $ban->updated_at->timestamp,
-                    'unbanned_at' => null,
-                    'unbanner_player_id' => null,
-                    'unban_type' => null,
-                ],
-                'badges' => [],
-                'donation_tiers' => [],
+            'account' => null,
+            'ban' => [
+                'id' => $ban->getKey(),
+                'server_id' => $server->getKey(),
+                'banned_player_id' => $player->getKey(),
+                'banner_player_id' => $staffPlayer->getKey(),
+                'reason' => $ban->reason,
+                'expires_at' => $ban->expires_at,
+                'created_at' => $ban->created_at,
+                'updated_at' => $ban->updated_at,
+                'unbanned_at' => null,
+                'unbanner_player_id' => null,
+                'unban_type' => null,
             ],
+            'badges' => [],
+            'donation_tiers' => [],
         ]);
 });

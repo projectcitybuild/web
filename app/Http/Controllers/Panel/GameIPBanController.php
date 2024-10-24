@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Domains\MinecraftEventBus\Events\IpAddressBanned;
 use App\Http\Controllers\WebController;
 use App\Models\GameIPBan;
 use Illuminate\Contracts\View\View;
@@ -45,13 +46,15 @@ class GameIPBanController extends WebController
                 ->withInput();
         }
 
-        GameIPBan::create([
+        $ban = GameIPBan::create([
             'banner_player_id' => $request->get('banner_player_id'),
             'ip_address' => $request->get('ip_address'),
             'reason' => $request->get('reason'),
             'created_at' => $request->get('created_at'),
             'updated_at' => $request->get('updated_at'),
         ]);
+
+        IpAddressBanned::dispatch($ban);
 
         return redirect(route('front.panel.ip-bans.index'));
     }

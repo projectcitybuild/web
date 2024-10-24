@@ -89,15 +89,13 @@ class APIMinecraftShowcaseWarpUpdateTest extends IntegrationTestCase
                 'location_yaw' => 5.0,
             ])
             ->assertJson([
-                'data' => [
-                    'id' => $this->existingWarp->getKey(),
-                    'location_world' => 'new_world',
-                    'location_x' => 1,
-                    'location_y' => 2,
-                    'location_z' => 3,
-                    'location_pitch' => 4.0,
-                    'location_yaw' => 5.0,
-                ],
+                'id' => $this->existingWarp->getKey(),
+                'location_world' => 'new_world',
+                'location_x' => 1,
+                'location_y' => 2,
+                'location_z' => 3,
+                'location_pitch' => 4.0,
+                'location_yaw' => 5.0,
             ])
             ->assertSuccessful();
     }
