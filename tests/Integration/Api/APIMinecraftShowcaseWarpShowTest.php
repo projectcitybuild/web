@@ -38,26 +38,7 @@ class APIMinecraftShowcaseWarpShowTest extends IntegrationTestCase
     {
         $this->withServerToken()
             ->getJson(uri: $this->endpoint())
-            ->assertJson([
-                'data' => [
-                    [
-                        'id' => $this->existingWarp->getKey(),
-                        'name' => $this->existingWarp->name,
-                        'title' => $this->existingWarp->title,
-                        'description' => $this->existingWarp->description,
-                        'creators' => $this->existingWarp->creators,
-                        'location_world' => $this->existingWarp->location_world,
-                        'location_x' => $this->existingWarp->location_x,
-                        'location_y' => $this->existingWarp->location_y,
-                        'location_z' => $this->existingWarp->location_z,
-                        'location_pitch' => $this->existingWarp->location_pitch,
-                        'location_yaw' => $this->existingWarp->location_yaw,
-                        'built_at' => $this->existingWarp->built_at->timestamp,
-                        'created_at' => $this->existingWarp->created_at->timestamp,
-                        'updated_at' => $this->existingWarp->updated_at->timestamp,
-                    ],
-                ],
-            ])
+            ->assertJson([$this->existingWarp])
             ->assertSuccessful();
     }
 

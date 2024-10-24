@@ -1,11 +1,13 @@
 <div class="row mb-3">
-    <label for="banner_player_id" class="col-sm-3 col-form-label horizontal-label">Banned Player</label>
+    <label for="banner_player_id" class="col-sm-3 col-form-label horizontal-label">Banned Player ID</label>
     <div class="col-sm-9">
-        <x-panel.minecraft-player-alias-picker
-                fieldName="banned_player_id"
-                :playerId="$ban?->bannedPlayer?->getKey()"
-                :aliasString="$ban?->bannedPlayer?->alias"
-        />
+        <input
+            type="text"
+            id="banned_player_id"
+            name="banned_player_id"
+            class="form-control"
+            value="{{ old('banned_player_id', $ban->banned_player_id) }}"
+        >
     </div>
 </div>
 <div class="row mb-3">
@@ -22,13 +24,15 @@
     </div>
 </div>
 <div class="row mb-3">
-    <label for="banner_player_id" class="col-sm-3 col-form-label horizontal-label">Banned By</label>
+    <label for="banner_player_id" class="col-sm-3 col-form-label horizontal-label">Banned By Player ID</label>
     <div class="col-sm-9">
-        <x-panel.minecraft-player-alias-picker
-                fieldName="banner_player_id"
-                :playerId="$ban?->bannerPlayer?->getKey()"
-                :aliasString="$ban?->bannerPlayer?->alias"
-        />
+        <input
+            type="text"
+            id="banner_player_id"
+            name="banner_player_id"
+            class="form-control"
+            value="{{ old('banner_player_id', $ban->banner_player_id ?? Auth::user()->minecraftAccount?->first()?->getKey()) }}"
+        >
     </div>
 </div>
 <div class="row mb-3">

@@ -19,6 +19,7 @@ it('sends post request to given server', function () {
     $server = Server::factory()->create([
         'ip' => '192.168.0.1',
         'port' => '25565',
+        'web_port' => '8080',
     ]);
     ServerToken::factory()->create([
         'server_id' => $server->getKey(),
@@ -34,7 +35,7 @@ it('sends post request to given server', function () {
 
     Http::assertSent(function (Request $request) {
         return $request->hasHeader('Authorization', 'Bearer 123') &&
-            $request->url() == 'http://192.168.0.1:25565/foo/bar' &&
+            $request->url() == 'http://192.168.0.1:8080/foo/bar' &&
             $request->method() == 'POST' &&
             $request['foo'] == 'bar';
     });

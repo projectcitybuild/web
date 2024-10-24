@@ -4,17 +4,16 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\ApiController;
 use App\Models\ShowcaseWarp;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 final class MinecraftShowcaseWarpController extends ApiController
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request)
     {
         return ShowcaseWarp::orderBy('name', 'asc')->get();
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|unique:showcase_warps,name',
@@ -33,7 +32,7 @@ final class MinecraftShowcaseWarpController extends ApiController
         return ShowcaseWarp::create($request->all());
     }
 
-    public function show(Request $request, string $name): JsonResponse
+    public function show(Request $request, string $name)
     {
         $warp = ShowcaseWarp::where('name', $name)->first();
         if ($warp === null) {
@@ -42,7 +41,7 @@ final class MinecraftShowcaseWarpController extends ApiController
         return $warp;
     }
 
-    public function update(Request $request, string $name): JsonResponse
+    public function update(Request $request, string $name)
     {
         $warp = ShowcaseWarp::where('name', $name)->first();
         if ($warp === null) {

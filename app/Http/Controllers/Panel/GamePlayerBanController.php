@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Domains\Bans\Data\UnbanType;
+use App\Domains\MinecraftEventBus\Events\MinecraftUuidBanned;
 use App\Http\Controllers\WebController;
 use App\Models\GamePlayerBan;
 use Illuminate\Contracts\View\View;
@@ -54,7 +55,7 @@ class GamePlayerBanController extends WebController
                 ->withInput();
         }
 
-        GamePlayerBan::create([
+        $ban = GamePlayerBan::create([
             'banned_player_id' => $request->get('banned_player_id'),
             'banned_alias_at_time' => $request->get('banned_alias_at_time'),
             'banner_player_id' => $request->get('banner_player_id'),
@@ -66,6 +67,8 @@ class GamePlayerBanController extends WebController
             'unbanner_player_id' => $request->get('unbanner_player_id'),
             'unban_type' => $request->get('unban_type'),
         ]);
+
+        MinecraftUuidBanned::dispatch($ban);
 
         return redirect(route('front.panel.player-bans.index'));
     }

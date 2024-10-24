@@ -17,11 +17,12 @@ class NotifyUuidBannedJob implements ShouldQueue
         public GamePlayerBan $ban,
     ) {
         $this->server = $server->withoutRelations();
-        $this->ban = $ban->withoutRelations();
     }
 
     public function handle(PostEventToServer $postToServer): void
     {
+        $this->ban->load('bannedPlayer', 'bannerPlayer');
+
         $postToServer->send(
             server: $this->server,
             path: 'events/ban/uuid',
