@@ -12,7 +12,7 @@ final class GetDonationTiers
     /**
      * @throws NotFoundException if player not found or not linked to an account
      */
-    public function execute(MinecraftUUID $uuid): Collection
+    public function execute(MinecraftUUID $uuid): array
     {
         $existingPlayer = MinecraftPlayer::whereUuid($uuid)
             ->with('account.donationPerks.donationTier')
@@ -33,9 +33,9 @@ final class GetDonationTiers
             ->unique('donation_tier_id');
 
         if ($perks === null || count($perks) === 0) {
-            return collect(); // No donation perks for this account
+            return []; // No donation perks for this account
         }
 
-        return $perks;
+        return $perks->values()->toArray();
     }
 }
