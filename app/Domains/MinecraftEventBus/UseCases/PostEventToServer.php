@@ -24,7 +24,7 @@ class PostEventToServer
         ]);
 
         $response = Http::withHeader('Authorization', 'Bearer '.$token->token)
-            ->post($url, $payload);
+            ->postJson($url, $payload);
 
         Log::debug('Received response', ['response' => $response]);
     }
