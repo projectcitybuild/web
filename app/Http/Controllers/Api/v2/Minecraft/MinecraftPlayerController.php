@@ -47,7 +47,7 @@ final class MinecraftPlayerController extends ApiController
         $account = $player?->account;
         if ($account !== null && $account->groups->isEmpty()) {
             // TODO: change this to model attribute
-            $account->groups = collect(Group::whereDefault()->first());
+            $account->groups->push(Group::whereDefault()->first());
         }
 
         return response()->json([

@@ -18,6 +18,7 @@ use App\Http\Controllers\Panel\GameIPBanController;
 use App\Http\Controllers\Panel\GamePlayerBanController;
 use App\Http\Controllers\Panel\GroupAccountController;
 use App\Http\Controllers\Panel\GroupController;
+use App\Http\Controllers\Panel\MinecraftConfigController;
 use App\Http\Controllers\Panel\MinecraftPlayerController;
 use App\Http\Controllers\Panel\MinecraftPlayerLookupController;
 use App\Http\Controllers\Panel\MinecraftPlayerReloadAliasController;
@@ -67,6 +68,12 @@ Route::name('front.panel.')
             Route::post('update-badges', AccountUpdateBadges::class)
                 ->name('update-badges');
         });
+
+
+        Route::get('minecraft/config', [MinecraftConfigController::class, 'create'])
+            ->name('minecraft.config.create');
+        Route::patch('minecraft/config', [MinecraftConfigController::class, 'update'])
+            ->name('minecraft.config.update');
 
         Route::resource('minecraft-players', MinecraftPlayerController::class)
             ->except(['destroy'])
