@@ -76,7 +76,7 @@
                     Banned By
                 </td>
                 <td class="py-4 px-2">
-                    {{ $ban->bannerPlayer?->alias?->first() ?? "No name" }}
+                    {{ $ban->bannerPlayer?->alias ?? "No name" }}
                 </td>
             </tr>
         </table>
