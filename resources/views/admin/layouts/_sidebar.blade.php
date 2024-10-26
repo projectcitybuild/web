@@ -102,6 +102,13 @@
                     Showcase Warps
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('panel/minecraft/config*') ? 'active' : '' }} "
+                   href="{{ route('front.panel.minecraft.config.create') }}">
+                    <i class="fas fa-flag fa-fw"></i>
+                    Config
+                </a>
+            </li>
         </ul>
         @endscope
 

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\MinecraftConfig;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,5 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(BadgeSeeder::class);
         $this->call(ServerTokenSeeder::class);
         $this->call(ShowcaseWarpSeeder::class);
+
+        MinecraftConfig::factory()->create();
     }
 }
