@@ -2,10 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::permanentRedirect('terms', 'https://forums.projectcitybuild.com/t/community-rules/22928')
+Route::permanentRedirect('terms', 'https://portal.projectcitybuild.com/books/legal-and-compliance/page/terms-of-service')
     ->name('terms');
 
-Route::permanentRedirect('privacy', 'https://forums.projectcitybuild.com/privacy')
+Route::permanentRedirect('privacy', 'https://portal.projectcitybuild.com/books/legal-and-compliance/page/privacy-policy')
     ->name('privacy');
 
 Route::permanentRedirect('wiki', 'https://wiki.projectcitybuild.com')
