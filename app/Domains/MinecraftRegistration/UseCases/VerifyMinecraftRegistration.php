@@ -56,6 +56,7 @@ class VerifyMinecraftRegistration
                 'account_id' => $account->getKey(),
                 'uuid' => $registration->minecraft_uuid,
                 'alias' => $registration->minecraft_alias,
+                'last_seen_at' => now(),
             ], uniqueBy: [
                 'uuid' => $registration->minecraft_uuid,
             ]);
