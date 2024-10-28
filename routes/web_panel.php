@@ -21,7 +21,7 @@ use App\Http\Controllers\Panel\GroupController;
 use App\Http\Controllers\Panel\MinecraftConfigController;
 use App\Http\Controllers\Panel\MinecraftPlayerController;
 use App\Http\Controllers\Panel\MinecraftPlayerLookupController;
-use App\Http\Controllers\Panel\MinecraftPlayerReloadAliasController;
+use App\Http\Controllers\Panel\MinecraftWarpController;
 use App\Http\Controllers\Panel\PlayerWarningController;
 use App\Http\Controllers\Panel\ServerController;
 use App\Http\Controllers\Panel\ServerTokenController;
@@ -69,11 +69,18 @@ Route::name('front.panel.')
                 ->name('update-badges');
         });
 
+        Route::prefix('minecraft')->name('minecraft.')->group(function () {
+            Route::get('config', [MinecraftConfigController::class, 'create'])
+                ->name('config.create')
+                ->middleware(PanelGroupScope::MANAGE_SHOWCASE_WARPS->toMiddleware());
 
-        Route::get('minecraft/config', [MinecraftConfigController::class, 'create'])
-            ->name('minecraft.config.create');
-        Route::patch('minecraft/config', [MinecraftConfigController::class, 'update'])
-            ->name('minecraft.config.update');
+            Route::patch('config', [MinecraftConfigController::class, 'update'])
+                ->name('config.update')
+                ->middleware(PanelGroupScope::MANAGE_SHOWCASE_WARPS->toMiddleware());
+
+            Route::resource('warps', MinecraftWarpController::class)
+                ->middleware(PanelGroupScope::MANAGE_SHOWCASE_WARPS->toMiddleware());
+        });
 
         Route::resource('minecraft-players', MinecraftPlayerController::class)
             ->except(['destroy'])

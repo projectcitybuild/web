@@ -96,6 +96,13 @@
         </h6>
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
+                <a class="nav-link {{ request()->is('panel/minecraft/warps*') ? 'active' : '' }} "
+                   href="{{ route('front.panel.minecraft.warps.index') }}">
+                    <i class="fas fa-flag fa-fw"></i>
+                    Warps
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {{ request()->is('panel/showcase-warps*') ? 'active' : '' }} "
                    href="{{ route('front.panel.showcase-warps.index') }}">
                     <i class="fas fa-flag fa-fw"></i>

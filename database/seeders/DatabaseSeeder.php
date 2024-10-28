@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\MinecraftConfig;
+use App\Models\MinecraftWarp;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,6 +21,11 @@ class DatabaseSeeder extends Seeder
         $this->call(ServerTokenSeeder::class);
         $this->call(ShowcaseWarpSeeder::class);
 
-        MinecraftConfig::factory()->create();
+        MinecraftConfig::factory()
+            ->create();
+
+        MinecraftWarp::factory()
+            ->count(40)
+            ->create();
     }
 }
