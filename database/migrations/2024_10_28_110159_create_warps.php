@@ -1,0 +1,40 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('minecraft_warps', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('world');
+            $table->double('x');
+            $table->double('y');
+            $table->double('z');
+            $table->float('pitch');
+            $table->float('yaw');
+            $table->timestamps();
+
+            $table->index('name');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('minecraft_warps');
+    }
+};

@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\v1\StripeWebhookController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftPlayerController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftRegisterController;
+use App\Http\Controllers\Api\v2\Minecraft\MinecraftWarpController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('webhooks')->group(function () {
@@ -27,6 +28,8 @@ Route::prefix('v2')
     ->group(function() {
         Route::prefix('minecraft')->group(function () {
             Route::get('config', MinecraftConfigController::class);
+
+            Route::resource('warp', MinecraftWarpController::class);
 
             Route::prefix('showcase')->group(function () {
                 Route::get('/', [MinecraftShowcaseWarpController::class, 'index']);
