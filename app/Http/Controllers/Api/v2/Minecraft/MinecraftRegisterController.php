@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\v2\Minecraft;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
-use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Domains\MinecraftRegistration\Data\MinecraftRegistrationExpiredException;
 use App\Domains\MinecraftRegistration\UseCases\SendMinecraftRegisterCodeEmail;
 use App\Domains\MinecraftRegistration\UseCases\VerifyMinecraftRegistration;
