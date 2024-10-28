@@ -35,9 +35,9 @@ class MinecraftWarpController extends WebController
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'alpha_dash', Rule::unique('minecraft_warps')],
             'world' => 'required|string',
-            'x' => 'required|integer',
-            'y' => 'required|integer',
-            'z' => 'required|integer',
+            'x' => 'required|numeric',
+            'y' => 'required|numeric',
+            'z' => 'required|numeric',
             'pitch' => 'required|numeric',
             'yaw' => 'required|numeric',
         ]);
@@ -67,9 +67,9 @@ class MinecraftWarpController extends WebController
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'alpha_dash', Rule::unique('minecraft_warps')->ignore($warp)],
             'world' => 'required|string',
-            'x' => 'required|integer',
-            'y' => 'required|integer',
-            'z' => 'required|integer',
+            'x' => 'required|numeric',
+            'y' => 'required|numeric',
+            'z' => 'required|numeric',
             'pitch' => 'required|numeric',
             'yaw' => 'required|numeric',
         ]);
