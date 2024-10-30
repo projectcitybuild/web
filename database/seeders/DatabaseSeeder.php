@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\MinecraftConfig;
 use App\Models\MinecraftWarp;
+use App\Models\Server;
+use App\Models\ServerToken;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,8 +20,13 @@ class DatabaseSeeder extends Seeder
         $this->call(PlayerWarningSeeder::class);
         $this->call(DonationSeeder::class);
         $this->call(BadgeSeeder::class);
-        $this->call(ServerTokenSeeder::class);
         $this->call(ShowcaseWarpSeeder::class);
+
+        ServerToken::create([
+            'token' => 'pcbridge_local',
+            'server_id' => Server::first()->getKey(),
+            'description' => 'For test use',
+        ]);
 
         MinecraftConfig::factory()
             ->create();

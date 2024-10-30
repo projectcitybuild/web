@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\MinecraftWarp;
 
-class WarpFactory extends Factory
+class MinecraftWarpFactory extends Factory
 {
     protected $model = MinecraftWarp::class;
 
