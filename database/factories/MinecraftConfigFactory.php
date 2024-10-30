@@ -20,13 +20,14 @@ class MinecraftConfigFactory extends Factory
     {
         return [
             'version' => 1,
-            'config' => json_encode([
+            'config' => [
                 'localization' => [
                     'time_zone' => 'UTC',
                     'locale' => 'en-us',
                 ],
                 'chat' => [
-                    'badge_icon' => '<color:yellow>★</color>',
+                    'badge_icon' => '<gold>★</gold>',
+                    'staff_channel' => '<yellow>(Staff) <name>:</yellow> <message>',
                 ],
                 'warps' => [
                     'items_per_page' => 15,
@@ -50,7 +51,7 @@ class MinecraftConfigFactory extends Factory
                     'first_time_join' => '<light_purple>✦ Welcome <white><name></white> <light_purple>to the server!',
                     'welcome' => '<gray>Welcome to </gray><white><bold>PROJECT </bold></white><gold><bold>CITY </bold></gold><blue><bold>BUILD</bold></blue><newline><gray>| </gray><newline><gray>| </gray><white>Type <red><bold>/menu </bold></red><white>to access most server features, including rank<newline><gray>| </gray><white>applications, warps, player reporting, and other information.<newline><gray>| </gray><gray>Hold down the <red><bold>TAB </bold><gray>key to see who else is online.<newline><gray>| </gray><white>Ask our staff if you have any questions.</white>',
                 ],
-            ]),
+            ],
         ];
     }
 }

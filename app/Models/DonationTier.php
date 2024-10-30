@@ -8,6 +8,7 @@ use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class DonationTier extends Model implements LinkableAuditModel
 {
@@ -21,9 +22,18 @@ final class DonationTier extends Model implements LinkableAuditModel
 
     protected $fillable = [
         'name',
-        'currency_reward',
+        'minecraft_name',
     ];
     public $timestamps = false;
+
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(
+            related: Group::class,
+            foreignKey: 'group_id',
+            ownerKey: 'group_id',
+        );
+    }
 
     public function getActivitySubjectLink(): ?string
     {

@@ -2,22 +2,17 @@
 
 namespace App\Domains\Badges\UseCases;
 
-use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Models\Badge;
 use App\Models\MinecraftPlayer;
+use Illuminate\Support\Collection;
 
 final class GetBadges
 {
-    public function execute(MinecraftUUID $uuid): array
+    public function execute(MinecraftPlayer $player): Collection
     {
-        $player = MinecraftPlayer::whereUuid($uuid)->first();
-        if ($player === null) {
-            return [];
-        }
-
         $account = $player->account;
         if ($account === null) {
-            return [];
+            return collect();
         }
 
         $badges = $account->badges;
@@ -29,6 +24,6 @@ final class GetBadges
         $badge->unicode_icon = '⌚';
         $badges->add($badge);
 
-        return $badges->toArray();
+        return $badges;
     }
 }
