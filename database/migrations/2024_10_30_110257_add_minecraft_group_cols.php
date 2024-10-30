@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('groups', function (Blueprint $table) {
             $table->dropColumn('discourse_name');
+            $table->integer('display_priority')->nullable()->after('minecraft_name');
             $table->string('minecraft_hover_text')->after('minecraft_name');
             $table->string('minecraft_display_name')->after('minecraft_name');
             $table->string('group_type')->nullable();

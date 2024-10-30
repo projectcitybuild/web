@@ -25,18 +25,21 @@ class GroupSeeder extends Seeder
             'minecraft_name' => 'default',
             'is_default' => true,
             'group_type' => 'trust',
+            'display_priority' => 1,
         ]);
 
         Group::factory()->create([
             'name' => 'trusted',
             'minecraft_name' => 'trusted',
             'group_type' => 'trust',
+            'display_priority' => 2,
         ]);
 
         Group::factory()->create([
             'name' => 'trusted+',
             'minecraft_name' => 'trusted_plus',
             'group_type' => 'trust',
+            'display_priority' => 3,
         ]);
 
         Group::factory()->create([
@@ -44,6 +47,7 @@ class GroupSeeder extends Seeder
             'minecraft_name' => 'intern',
             'is_build' => true,
             'group_type' => 'build',
+            'display_priority' => 1,
         ]);
 
         Group::factory()->create([
@@ -51,6 +55,7 @@ class GroupSeeder extends Seeder
             'minecraft_name' => 'builder',
             'is_build' => true,
             'group_type' => 'build',
+            'display_priority' => 2,
         ]);
 
         Group::factory()->create([
@@ -58,6 +63,7 @@ class GroupSeeder extends Seeder
             'minecraft_name' => 'planner',
             'is_build' => true,
             'group_type' => 'build',
+            'display_priority' => 3,
         ]);
 
         Group::factory()->create([
@@ -65,6 +71,7 @@ class GroupSeeder extends Seeder
             'minecraft_name' => 'engineer',
             'is_build' => true,
             'group_type' => 'build',
+            'display_priority' => 4,
         ]);
 
         $architect = Group::factory()->create([
@@ -72,6 +79,7 @@ class GroupSeeder extends Seeder
             'minecraft_name' => 'architect',
             'is_build' => true,
             'group_type' => 'build',
+            'display_priority' => 5,
         ]);
         $architect->groupScopes()->attach([
             $scopes[PanelGroupScope::ACCESS_PANEL->value],
@@ -82,12 +90,14 @@ class GroupSeeder extends Seeder
             'name' => 'donator',
             'minecraft_name' => 'donator',
             'group_type' => 'donor',
+            'display_priority' => 1,
         ]);
 
         Group::factory()->create([
             'name' => 'legacy donor',
             'minecraft_name' => 'legacy-donor',
             'group_type' => 'donor',
+            'display_priority' => 2,
         ]);
 
         $mod = Group::factory()->create([
@@ -96,6 +106,7 @@ class GroupSeeder extends Seeder
             'alias' => 'Mod',
             'is_staff' => true,
             'group_type' => 'staff',
+            'display_priority' => 1,
         ]);
         $mod->groupScopes()->attach([
             $scopes[PanelGroupScope::ACCESS_PANEL->value],
@@ -111,6 +122,7 @@ class GroupSeeder extends Seeder
             'is_admin' => true,
             'can_access_panel' => true,
             'group_type' => 'staff',
+            'display_priority' => 2,
         ]);
         $dev->groupScopes()->attach(
             collect($scopes)->values()->toArray(),
