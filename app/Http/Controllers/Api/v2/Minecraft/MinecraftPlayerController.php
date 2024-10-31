@@ -37,7 +37,7 @@ final class MinecraftPlayerController extends ApiController
                 ->where('is_active', true)
                 ->where('expires_at', '>', now())
                 ->map(fn ($it) => $it->donationTier);
-        });
+        }) ?: collect();
 
         $groups = $account?->groups ?: collect();
         if ($account !== null && $account->groups->isEmpty()) {
