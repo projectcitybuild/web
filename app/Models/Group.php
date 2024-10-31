@@ -14,8 +14,6 @@ final class Group extends Model implements LinkableAuditModel
     use HasFactory;
     use HasStaticTable;
 
-    public const DONOR_GROUP_NAME = 'donator';
-
     protected $table = 'groups';
 
     protected $primaryKey = 'group_id';
@@ -27,7 +25,6 @@ final class Group extends Model implements LinkableAuditModel
         'is_default',
         'is_staff',
         'is_admin',
-        'discourse_name',
         'minecraft_name',
         'discord_name',
         'can_access_panel',
@@ -67,6 +64,11 @@ final class Group extends Model implements LinkableAuditModel
     public function scopeWhereDefault(Builder $query)
     {
         $query->where('is_default', true);
+    }
+
+    public function scopeWhereDonor(Builder $query)
+    {
+        $query->where('name', 'donator');
     }
 
     public function getActivitySubjectLink(): ?string

@@ -38,7 +38,7 @@ final class ProcessPayment
             throw new BadRequestException(id: 'invalid_quantity', message: 'Quantity purchased was zero');
         }
 
-        $donorGroup = Group::where('name', Group::DONOR_GROUP_NAME)->first();
+        $donorGroup = Group::whereDonor()->first();
         if ($donorGroup === null) {
             throw new \Exception('Could not find donor group');
         }

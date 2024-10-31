@@ -29,7 +29,6 @@ final class DonationPerk extends Model implements LinkableAuditModel
         'expires_at',
         'created_at',
         'updated_at',
-        'last_currency_reward_at',
     ];
 
     protected $casts = [
