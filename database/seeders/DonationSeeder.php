@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\Donation;
 use App\Models\DonationPerk;
 use App\Models\DonationTier;
+use App\Models\Group;
 use App\Models\StripeProduct;
 use Illuminate\Database\Seeder;
 
@@ -13,17 +14,31 @@ class DonationSeeder extends Seeder
 {
     public function run()
     {
+        $copperGroup = Group::factory()->create([
+            'name' => 'copper tier',
+            'minecraft_name' => 'copper_tier',
+        ]);
         $copperTier = DonationTier::create([
             'name' => 'copper',
-            'currency_reward' => 10,
+            'group_id' => $copperGroup->getKey(),
+        ]);
+
+        $ironGroup = Group::factory()->create([
+            'name' => 'iron tier',
+            'minecraft_name' => 'iron_tier',
         ]);
         $ironTier = DonationTier::create([
             'name' => 'iron',
-            'currency_reward' => 25,
+            'group_id' => $ironGroup->getKey(),
+        ]);
+
+        $diamondGroup = Group::factory()->create([
+            'name' => 'diamond tier',
+            'minecraft_name' => 'diamond_tier',
         ]);
         $diamondTier = DonationTier::create([
             'name' => 'diamond',
-            'currency_reward' => 50,
+            'group_id' => $diamondGroup->getKey(),
         ]);
 
         // Copper subscription
