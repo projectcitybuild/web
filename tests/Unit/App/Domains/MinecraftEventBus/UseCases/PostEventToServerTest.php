@@ -42,7 +42,7 @@ it('sends post request to given server', function () {
 });
 
 it('is dispatched on MinecraftPlayerUpdated event', function () {
-    Server::factory()->create();
+    Server::factory()->create(['web_port' => 8080]);
     $player = MinecraftPlayer::factory()->create();
 
     $this->mock(PostEventToServer::class, function (MockInterface $mock) use ($player) {
@@ -56,7 +56,7 @@ it('is dispatched on MinecraftPlayerUpdated event', function () {
 });
 
 it('is dispatched on MinecraftUuidBanned event', function () {
-    $server = Server::factory()->create();
+    $server = Server::factory()->create(['web_port' => 8080]);
     $player = MinecraftPlayer::factory()->create();
     $ban = GamePlayerBan::factory()
         ->server($server)
@@ -74,7 +74,7 @@ it('is dispatched on MinecraftUuidBanned event', function () {
 });
 
 it('is dispatched on IpAddressBanned event', function () {
-    Server::factory()->create();
+    Server::factory()->create(['web_port' => 8080]);
     $player = MinecraftPlayer::factory()->create();
     $ban = GameIPBan::factory()->bannedBy($player)->create();
 

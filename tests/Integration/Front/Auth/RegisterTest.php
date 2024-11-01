@@ -18,6 +18,7 @@ function unactivatedAccount(array $attributes = []): Account
 function validFormDataFor(Account $account): array
 {
     return array_merge($account->toArray(), [
+        'password' => 'password123456',
         'captcha-response' => 'captcha',
         'terms' => 1,
     ]);

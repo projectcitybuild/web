@@ -26,6 +26,8 @@ final class Group extends Model implements LinkableAuditModel
         'is_staff',
         'is_admin',
         'minecraft_name',
+        'minecraft_display_name',
+        'minecraft_hover_text',
         'discord_name',
         'can_access_panel',
     ];

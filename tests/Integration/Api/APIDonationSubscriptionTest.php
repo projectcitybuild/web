@@ -31,8 +31,9 @@ class APIDonationSubscriptionTest extends IntegrationTestCase
 
         $this->webhookPayload = $this->loadJsonFromFile('stripe/webhook-invoice-paid.json');
 
+        $group = Group::factory()->create();
         $this->account = Account::factory()->create(['stripe_id' => 'cus_JyjQ8xLdu1UmFs']);
-        $this->donationTier = DonationTier::factory()->create(['donation_tier_id' => 1]);
+        $this->donationTier = DonationTier::factory()->for($group)->create(['donation_tier_id' => 1]);
 
         $this->donorGroup = Group::factory()->donor()->create();
         Group::factory()->member()->create();

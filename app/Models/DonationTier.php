@@ -22,8 +22,9 @@ final class DonationTier extends Model implements LinkableAuditModel
 
     protected $fillable = [
         'name',
-        'minecraft_name',
+        'group_id',
     ];
+
     public $timestamps = false;
 
     public function group(): BelongsTo

@@ -1,16 +1,16 @@
 <?php
 
-use App\Domains\MinecraftEventBus\Jobs\NotifyMinecraftPlayerUpdatedJob;
+use App\Domains\MinecraftEventBus\Events\MinecraftPlayerUpdated;
 use App\Domains\MinecraftRegistration\Notifications\MinecraftRegistrationCompleteNotification;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
 use App\Models\MinecraftRegistration;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Queue;
 
 beforeEach(function () {
     Notification::fake();
-    Queue::fake();
+    Event::fake();
 });
 
 it('requires server token', function () {
@@ -223,6 +223,6 @@ describe('valid request', function () {
             ])
             ->assertOk();
 
-        Queue::assertPushed(NotifyMinecraftPlayerUpdatedJob::class);
+        Event::assertDispatched(MinecraftPlayerUpdated::class);
     });
 });

@@ -7,6 +7,7 @@ use App\Models\Account;
 use App\Models\Donation;
 use App\Models\DonationPerk;
 use App\Models\DonationTier;
+use App\Models\Group;
 use Tests\IntegrationTestCase;
 
 class PanelDonationPerkDeleteTest extends IntegrationTestCase
@@ -25,8 +26,18 @@ class PanelDonationPerkDeleteTest extends IntegrationTestCase
     public function test_delete_donation_perk()
     {
         $donor = Account::factory()->create();
-        $donation = Donation::factory()->for($donor)->create();
-        $donationPerk = DonationPerk::factory()->for($donation)->for(DonationTier::factory())->for($donor)->create();
+
+        $donation = Donation::factory()
+            ->for($donor)
+            ->create();
+
+        $group = Group::factory()->create();
+
+        $donationPerk = DonationPerk::factory()
+            ->for($donation)
+            ->for(DonationTier::factory()->for($group))
+            ->for($donor)
+            ->create();
 
         $this->actingAs($this->adminAccount)
             ->delete(route('front.panel.donation-perks.destroy', $donationPerk))
