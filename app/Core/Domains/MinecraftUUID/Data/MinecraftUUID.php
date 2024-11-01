@@ -8,6 +8,7 @@ use Illuminate\Contracts\Database\Eloquent\Castable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Wrapper for transferring around a Minecraft UUID.
@@ -48,6 +49,11 @@ class MinecraftUUID implements Castable, Arrayable
         } catch (Exception $e) {
             return null;
         }
+    }
+
+    public static function random(): self
+    {
+        return new self(Uuid::uuid4());
     }
 
     public function __toString(): string

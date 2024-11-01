@@ -35,9 +35,9 @@ class APIDonationOneOffTest extends IntegrationTestCase
             'stripe_id' => 'cus_JyjQ8xLdu1UmFs',
             'balance' => 100,
         ]);
-        $this->donationTier = DonationTier::factory()->create([
+        $group = Group::factory()->create();
+        $this->donationTier = DonationTier::factory()->for($group)->create([
             'donation_tier_id' => 1,
-            'currency_reward' => 50,
         ]);
 
         $this->donorGroup = Group::factory()->donor()->create();

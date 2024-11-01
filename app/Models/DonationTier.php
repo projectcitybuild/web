@@ -21,8 +21,9 @@ final class DonationTier extends Model implements LinkableAuditModel
 
     protected $fillable = [
         'name',
-        'currency_reward',
+        'group_id',
     ];
+
     public $timestamps = false;
 
     public function getActivitySubjectLink(): ?string

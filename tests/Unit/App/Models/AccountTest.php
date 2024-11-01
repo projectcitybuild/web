@@ -13,17 +13,15 @@ class AccountTest extends TestCase
     {
         parent::setUp();
 
-        $this->adminGroup = Group::create([
+        $this->adminGroup = Group::factory()->create([
             'name' => 'administrator',
             'alias' => 'Admin',
             'is_staff' => true,
             'is_admin' => true,
-            'discourse_name' => 'administrator',
         ]);
 
-        $this->normalGroup = Group::create([
+        $this->normalGroup = Group::factory()->create([
             'name' => 'trusted',
-            'discourse_name' => 'trusted',
         ]);
     }
 
