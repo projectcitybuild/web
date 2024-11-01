@@ -52,7 +52,7 @@ final class MinecraftPlayerController extends ApiController
 
         return response()->json([
             'account' => $account,
-            'player' => $player->withoutRelations(),
+            'player' => $player?->withoutRelations(),
             'ban' => $ban,
             'badges' => $badges,
             'donation_tiers' => $donationTiers,
