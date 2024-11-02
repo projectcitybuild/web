@@ -261,10 +261,10 @@
                                     <img src="https://minotar.net/avatar/{{ $player->uuid }}/16" alt="">
                                 </td>
                                 <td>
-                                    @if($player->aliases()->count() == 0)
+                                    @if($player->alias === null)
                                         <span class="text-muted">Unknown</span>
                                     @else
-                                        {{ $player->aliases->last()->alias }}
+                                        {{ $player->alias }}
                                     @endempty
                                 </td>
                                 <td class="font-monospace">{{ $player->uuid }}</td>
