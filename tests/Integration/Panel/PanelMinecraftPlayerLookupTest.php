@@ -43,7 +43,7 @@ class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
     public function test_lookup_player_by_dashed_uuid()
     {
         $uuid = $this->faker->uuid;
-        $mcPlayer = MinecraftPlayer::factory()->hasAliases(1)->create([
+        $mcPlayer = MinecraftPlayer::factory()->create([
             'uuid' => str_replace('-', '', $uuid),
         ]);
 
@@ -56,19 +56,18 @@ class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
 
     public function test_lookup_player_by_stored_alias()
     {
-        $mcPlayer = MinecraftPlayer::factory()->hasAliases(1)->create();
-        $alias = $mcPlayer->aliases()->latest()->first();
+        $mcPlayer = MinecraftPlayer::factory()->create();
 
         $this->actingAs($this->admin)
             ->post(route('front.panel.minecraft-players.lookup'), [
-                'query' => $alias->alias,
+                'query' => $mcPlayer->alias,
             ])
             ->assertRedirect(route('front.panel.minecraft-players.show', $mcPlayer));
     }
 
     public function test_lookup_player_by_non_stored_alias()
     {
-        $mcPlayer = MinecraftPlayer::factory()->hasAliases(1)->create();
+        $mcPlayer = MinecraftPlayer::factory()->create();
 
         $this->mock(MojangPlayerApi::class, function (MockInterface $mock) use ($mcPlayer) {
             $mock->shouldReceive('getUuidOf')->once()->andReturn(

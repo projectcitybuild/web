@@ -37,14 +37,7 @@ class MinecraftPlayerLookupController extends WebController
         if (strlen($alias) < 3 || strlen($alias) > 16) {
             return null;
         }
-
-        $player = MinecraftPlayer::where('alias', $alias)->first();
-
-        if ($player == null) {
-            return null;
-        }
-
-        return $player;
+        return MinecraftPlayer::where('alias', 'like', '%'.$alias.'%')->first();
     }
 
     /**

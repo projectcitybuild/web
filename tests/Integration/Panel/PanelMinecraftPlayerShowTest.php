@@ -27,9 +27,8 @@ class PanelMinecraftPlayerShowTest extends IntegrationTestCase
 
     public function test_ban_shown()
     {
-        $banningStaff = MinecraftPlayer::factory()->hasAliases(1)->create();
+        $banningStaff = MinecraftPlayer::factory()->create();
         $bannedPlayer = MinecraftPlayer::factory()
-            ->hasAliases(1)
             ->has(GamePlayerBan::factory()->bannedBy($banningStaff))
             ->create();
 
@@ -42,7 +41,6 @@ class PanelMinecraftPlayerShowTest extends IntegrationTestCase
     public function test_ban_with_null_staff_shown()
     {
         $bannedPlayer = MinecraftPlayer::factory()
-            ->hasAliases(1)
             ->has(GamePlayerBan::factory()->bannedByConsole())
             ->create();
 
@@ -55,7 +53,6 @@ class PanelMinecraftPlayerShowTest extends IntegrationTestCase
     public function test_unauthorised_without_scope()
     {
         $bannedPlayer = MinecraftPlayer::factory()
-            ->hasAliases(1)
             ->has(GamePlayerBan::factory()->bannedByConsole())
             ->create();
 
@@ -74,7 +71,6 @@ class PanelMinecraftPlayerShowTest extends IntegrationTestCase
     public function test_unauthorised_without_panel_access()
     {
         $bannedPlayer = MinecraftPlayer::factory()
-            ->hasAliases(1)
             ->has(GamePlayerBan::factory()->bannedByConsole())
             ->create();
 
