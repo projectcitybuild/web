@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\WebController;
 use App\Models\Donation;
@@ -67,7 +67,7 @@ class DonationController extends WebController
             'updated_at' => $request->get('created_at'),
         ]);
 
-        return redirect(route('front.panel.donations.index'));
+        return redirect(route('manage.donations.index'));
     }
 
     /**
@@ -104,7 +104,7 @@ class DonationController extends WebController
         $donation->update($request->all());
         $donation->save();
 
-        return redirect(route('front.panel.donations.show', $donation->donation_id));
+        return redirect(route('manage.donations.show', $donation->donation_id));
     }
 
     /**
@@ -117,6 +117,6 @@ class DonationController extends WebController
     {
         $donation->delete();
 
-        return redirect(route('front.panel.donations.index'));
+        return redirect(route('manage.donations.index'));
     }
 }

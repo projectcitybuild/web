@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Core\Utilities\SecureTokenGenerator;
 use App\Http\Controllers\WebController;
@@ -59,7 +59,7 @@ class ServerTokenController extends WebController
             'description' => $request->get('description'),
         ]);
 
-        return redirect(route('front.panel.server-tokens.index'));
+        return redirect(route('manage.server-tokens.index'));
     }
 
     /**
@@ -94,7 +94,7 @@ class ServerTokenController extends WebController
         $token->update($request->all());
         $token->save();
 
-        return redirect(route('front.panel.server-tokens.index'));
+        return redirect(route('manage.server-tokens.index'));
     }
 
     /**
@@ -105,6 +105,6 @@ class ServerTokenController extends WebController
         $token = ServerToken::find($tokenId);
         $token->delete();
 
-        return redirect(route('front.panel.server-tokens.index'));
+        return redirect(route('manage.server-tokens.index'));
     }
 }

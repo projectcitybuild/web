@@ -17,7 +17,7 @@ class PanelGroupsTest extends IntegrationTestCase
 
         $group = Group::factory()->create();
         $this->actingAs($admin)
-            ->get(route('front.panel.groups.index'))
+            ->get(route('manage.groups.index'))
             ->assertSee($group->name);
     }
 
@@ -28,7 +28,7 @@ class PanelGroupsTest extends IntegrationTestCase
         ]);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.groups.index'))
+            ->get(route('manage.groups.index'))
             ->assertUnauthorized();
     }
 
@@ -39,7 +39,7 @@ class PanelGroupsTest extends IntegrationTestCase
         ]);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.groups.index'))
+            ->get(route('manage.groups.index'))
             ->assertUnauthorized();
     }
 }

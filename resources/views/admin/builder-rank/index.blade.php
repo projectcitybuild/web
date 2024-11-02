@@ -21,7 +21,7 @@
                 <tr class="{{ !$application->isReviewed()  ? 'table-warning' : '' }}">
                     <td>{{ \App\Domains\BuilderRankApplications\Data\ApplicationStatus::from($application->status)->humanReadable() }}</td>
                     <td>
-                        <a href="{{ route('front.panel.accounts.show', $application->account->getKey()) }}">
+                        <a href="{{ route('manage.accounts.show', $application->account->getKey()) }}">
                             {{ $application->account->username ?: 'Undefined' }}
                         </a>
                     </td>
@@ -31,11 +31,11 @@
                     <td>{{ $application->closed_at ?: '(Not Reviewed)' }}</td>
                     <td>
                         @if ($application->isReviewed())
-                            <a href="{{ route('front.panel.builder-ranks.show', $application->getKey()) }}">
+                            <a href="{{ route('manage.builder-ranks.show', $application->getKey()) }}">
                                 View
                             </a>
                         @else
-                            <a href="{{ route('front.panel.builder-ranks.show', $application->getKey()) }}"
+                            <a href="{{ route('manage.builder-ranks.show', $application->getKey()) }}"
                                class="btn btn-primary btn-sm">
                                 <i class="fas fa-eye"></i> Review
                             </a>

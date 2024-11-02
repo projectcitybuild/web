@@ -40,7 +40,7 @@ class PanelMinecraftPlayerCreateTest extends IntegrationTestCase
     public function test_can_view_create_form()
     {
         $this->actingAs($this->admin)
-            ->get(route('front.panel.minecraft-players.create'))
+            ->get(route('manage.minecraft-players.create'))
             ->assertOk();
     }
 
@@ -52,7 +52,7 @@ class PanelMinecraftPlayerCreateTest extends IntegrationTestCase
         $this->mockSuccessfulUUIDCheck();
 
         $this->actingAs($this->admin)
-            ->post(route('front.panel.minecraft-players.store'), [
+            ->post(route('manage.minecraft-players.store'), [
                 'uuid' => $mcPlayer->uuid,
                 'account_id' => $account->account_id,
             ])
@@ -72,7 +72,7 @@ class PanelMinecraftPlayerCreateTest extends IntegrationTestCase
         $this->mockSuccessfulUUIDCheck();
 
         $this->actingAs($this->admin)
-            ->post(route('front.panel.minecraft-players.store'), [
+            ->post(route('manage.minecraft-players.store'), [
                 'uuid' => $dashedUUID,
                 'account_id' => $account->account_id,
             ]);
@@ -92,7 +92,7 @@ class PanelMinecraftPlayerCreateTest extends IntegrationTestCase
         $this->mockSuccessfulUUIDCheck();
 
         $this->actingAs($this->admin)
-            ->post(route('front.panel.minecraft-players.store'), [
+            ->post(route('manage.minecraft-players.store'), [
                 'uuid' => $mcPlayer->uuid,
                 'account_id' => $newAccount->account_id,
             ]);
@@ -116,7 +116,7 @@ class PanelMinecraftPlayerCreateTest extends IntegrationTestCase
         });
 
         $this->actingAs($this->admin)
-            ->post(route('front.panel.minecraft-players.store'), [
+            ->post(route('manage.minecraft-players.store'), [
                 'uuid' => $mcPlayer->uuid,
                 'account_id' => $account->account_id,
             ]);
@@ -134,7 +134,7 @@ class PanelMinecraftPlayerCreateTest extends IntegrationTestCase
         ]);
 
         $this->actingAs($admin)
-            ->post(route('front.panel.minecraft-players.store'))
+            ->post(route('manage.minecraft-players.store'))
             ->assertUnauthorized();
     }
 
@@ -145,7 +145,7 @@ class PanelMinecraftPlayerCreateTest extends IntegrationTestCase
         ]);
 
         $this->actingAs($admin)
-            ->post(route('front.panel.minecraft-players.store'))
+            ->post(route('manage.minecraft-players.store'))
             ->assertUnauthorized();
     }
 }

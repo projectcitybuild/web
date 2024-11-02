@@ -25,7 +25,7 @@ class PanelAccountListTest extends IntegrationTestCase
         $account = Account::factory()->create();
 
         $this->actingAs($this->admin)
-            ->get(route('front.panel.accounts.index'))
+            ->get(route('manage.accounts.index'))
             ->assertSee($account->username);
     }
 
@@ -34,7 +34,7 @@ class PanelAccountListTest extends IntegrationTestCase
         $account = Account::factory()->unactivated()->create();
 
         $this->actingAs($this->admin)
-            ->get(route('front.panel.accounts.index'))
+            ->get(route('manage.accounts.index'))
             ->assertSee($account->username);
     }
 
@@ -45,7 +45,7 @@ class PanelAccountListTest extends IntegrationTestCase
         ]);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.accounts.index'))
+            ->get(route('manage.accounts.index'))
             ->assertUnauthorized();
     }
 
@@ -56,7 +56,7 @@ class PanelAccountListTest extends IntegrationTestCase
         ]);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.accounts.index'))
+            ->get(route('manage.accounts.index'))
             ->assertUnauthorized();
     }
 }

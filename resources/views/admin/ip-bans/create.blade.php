@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-8">
             @include('admin._errors')
-            <form action="{{ route('front.panel.ip-bans.store') }}" method="post">
+            <form action="{{ route('manage.ip-bans.store') }}" method="post">
                 @csrf
 
                 @include('admin.ip-bans._form', ['buttonText' => 'Create'])

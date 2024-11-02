@@ -11,7 +11,7 @@ final class BanlistController extends WebController
     public function index(Request $request)
     {
         $bans = GamePlayerBan::active()
-            ->with(['bannedPlayer', 'bannerPlayer', 'bannerPlayer.aliases'])
+            ->with(['bannedPlayer', 'bannerPlayer'])
             ->latest();
 
         if ($request->has('query') && !empty($request->input('query'))) {

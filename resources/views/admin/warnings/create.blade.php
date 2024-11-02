@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-8">
             @include('admin._errors')
-            <form action="{{ route('front.panel.warnings.store') }}" method="post">
+            <form action="{{ route('manage.warnings.store') }}" method="post">
                 @csrf
 
                 @include('admin.warnings._form', ['buttonText' => 'Create'])

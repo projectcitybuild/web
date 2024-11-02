@@ -4,7 +4,7 @@
 
 @section('toolbar')
     <div class="btn-group btn-group-sm" role="group">
-        <a href="{{ route('front.panel.showcase-warps.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
+        <a href="{{ route('manage.showcase-warps.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
     </div>
 @endsection
 
@@ -37,7 +37,7 @@
                     <td>p: {{ $warp->location_pitch }}, y: {{ $warp->location_yaw }}</td>
                     <td>{{ $warp->built_at }}</td>
                     <td>{{ $warp->created_at }}</td>
-                    <td><a href="{{ route('front.panel.showcase-warps.edit', $warp->getKey()) }}">Edit</a></td>
+                    <td><a href="{{ route('manage.showcase-warps.edit', $warp->getKey()) }}">Edit</a></td>
                 </tr>
             @endforeach
             </tbody>

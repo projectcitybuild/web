@@ -6,9 +6,9 @@
     @if($showSearch ?? true)
     <div class="d-flex align-items-center">
         @if(!empty($query))
-            <a href="{{ route('front.panel.accounts.index') }}" class="d-inline-block me-5 link-danger"><i class="fas fa-times me-2"></i>Clear</a>
+            <a href="{{ route('manage.accounts.index') }}" class="d-inline-block me-5 link-danger"><i class="fas fa-times me-2"></i>Clear</a>
         @endif
-        <form action="{{ route('front.panel.accounts.index') }}" method="get">
+        <form action="{{ route('manage.accounts.index') }}" method="get">
             <div class="input-group input-group-sm">
                 <input type="text" class="form-control" name="query" value="{{ $query }}" aria-describedby="button-search">
                 <button class="btn btn-outline-secondary" type="submit" id="button-search"><i class="fas fa-search" aria-label="Search"></i></button>
@@ -46,7 +46,7 @@
                     <td>{{ $account->username }}</td>
                     <td>{{ $account->last_login_at }}</td>
                     <td class="actions">
-                        <a href="{{ route('front.panel.accounts.show', $account->account_id) }}">Manage</a>
+                        <a href="{{ route('manage.accounts.show', $account->account_id) }}">Manage</a>
                     </td>
                 </tr>
             @endforeach

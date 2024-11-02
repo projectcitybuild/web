@@ -38,7 +38,7 @@
                     <x-audit-support::model :model="$activity->subject"/>
                 </td>
                 <td>
-                    <a href="{{ route('front.panel.activity.show', $activity) }}">
+                    <a href="{{ route('manage.activity.show', $activity) }}">
                         <i class="fas fa-eye me-1"></i>Show
                     </a>
                 </td>

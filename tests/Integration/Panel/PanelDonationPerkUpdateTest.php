@@ -28,7 +28,7 @@ class PanelDonationPerkUpdateTest extends IntegrationTestCase
         $newExpiry = now()->addMonth();
 
         $this->actingAs($this->adminAccount)
-            ->put(route('front.panel.donation-perks.update', $donationPerk), [
+            ->put(route('manage.donation-perks.update', $donationPerk), [
                 'donation_id' => $donationPerk->donation->getKey(),
                 'account_id' => $donationPerk->account->getKey(),
                 'is_active' => true,
@@ -36,7 +36,7 @@ class PanelDonationPerkUpdateTest extends IntegrationTestCase
                 'expires_at' => $newExpiry,
                 'created_at' => $donationPerk->created_at,
             ])->assertSessionHasNoErrors()
-            ->assertRedirect(route('front.panel.donations.show', $donationPerk->donation));
+            ->assertRedirect(route('manage.donations.show', $donationPerk->donation));
 
         $this->assertDatabaseHas(DonationPerk::tableName(), [
             'donation_perks_id' => $donationPerk->getKey(),

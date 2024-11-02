@@ -4,8 +4,8 @@
 
 @section('toolbar')
     <div class="d-flex align-items-center">
-        <a href="{{ route('front.panel.minecraft-players.create') }}" class="btn btn-outline-secondary btn-sm me-2"><i class="fas fa-plus"></i> Create</a>
-        <form action="{{ route('front.panel.minecraft-players.lookup') }}" method="post">
+        <a href="{{ route('manage.minecraft-players.create') }}" class="btn btn-outline-secondary btn-sm me-2"><i class="fas fa-plus"></i> Create</a>
+        <form action="{{ route('manage.minecraft-players.lookup') }}" method="post">
             @csrf
             <div class="input-group input-group-sm">
                 <input type="text" class="form-control" name="query" placeholder="Username/UUID" aria-label="Username or UUID search" aria-describedby="button-search">
@@ -35,7 +35,7 @@
                         <td class="font-monospace">{{ $player->uuid }}</td>
                         <td>
                             @if($player->account)
-                                <a href="{{ route('front.panel.accounts.show', $player->account) }}">
+                                <a href="{{ route('manage.accounts.show', $player->account) }}">
                                     {{ $player->account->username ?: '(Unset)' }}
                                 </a>
                             @else
@@ -43,7 +43,7 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('front.panel.minecraft-players.show', $player) }}">Details</a>
+                            <a href="{{ route('manage.minecraft-players.show', $player) }}">Details</a>
                         </td>
                     </tr>
                 @endforeach

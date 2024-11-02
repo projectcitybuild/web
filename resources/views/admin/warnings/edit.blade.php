@@ -4,7 +4,7 @@
 
 @section('toolbar')
     <div class="btn-toolbar">
-        <form method="post" action="{{ route('front.panel.warnings.destroy', $warning) }}">
+        <form method="post" action="{{ route('manage.warnings.destroy', $warning) }}">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash"></i> Delete</button>
@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-8">
             @include('admin._errors')
-            <form action="{{ route('front.panel.warnings.update', $warning) }}" method="post">
+            <form action="{{ route('manage.warnings.update', $warning) }}" method="post">
                 @csrf
                 @method('PUT')
 

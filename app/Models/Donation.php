@@ -40,7 +40,7 @@ final class Donation extends Model implements LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.donations.show', $this);
+        return route('manage.donations.show', $this);
     }
 
     public function getActivitySubjectName(): ?string

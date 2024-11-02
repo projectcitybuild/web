@@ -18,7 +18,7 @@ class PanelDonationsListTest extends IntegrationTestCase
         $donation = Donation::factory()->create();
 
         $this->actingAs($admin)
-            ->get(route('front.panel.donations.index'))
+            ->get(route('manage.donations.index'))
             ->assertSee($donation->donation_id);
     }
 
@@ -29,7 +29,7 @@ class PanelDonationsListTest extends IntegrationTestCase
         ]);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.donations.index'))
+            ->get(route('manage.donations.index'))
             ->assertUnauthorized();
     }
 
@@ -40,7 +40,7 @@ class PanelDonationsListTest extends IntegrationTestCase
         ]);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.donations.index'))
+            ->get(route('manage.donations.index'))
             ->assertUnauthorized();
     }
 }

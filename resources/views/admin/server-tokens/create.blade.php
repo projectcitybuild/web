@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-8">
             @include('admin._errors')
-            <form action="{{ route('front.panel.server-tokens.store') }}" method="post">
+            <form action="{{ route('manage.server-tokens.store') }}" method="post">
                 @csrf
 
                 @include('admin.server-tokens._form', ['buttonText' => 'Create'])

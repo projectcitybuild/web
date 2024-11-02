@@ -5,7 +5,7 @@
 @endsection
 
 @section('toolbar')
-    <a href="{{ route('front.panel.warnings.edit', $warning) }}" class="btn btn-outline-primary btn-md py-0">
+    <a href="{{ route('manage.warnings.edit', $warning) }}" class="btn btn-outline-primary btn-md py-0">
         <i class="fas fa-pencil-alt"></i> Edit
     </a>
 @endsection
@@ -56,7 +56,7 @@
                         </dt>
                         <dd class="col-md-9">
                             <div>
-                                <a href="{{ route('front.panel.minecraft-players.show', $warning->warnedPlayer) }}">
+                                <a href="{{ route('manage.minecraft-players.show', $warning->warnedPlayer) }}">
                                     {{ $warning->warnedPlayer->alias ?? '(No Alias)' }}
                                 </a>
                             </div>
@@ -68,7 +68,7 @@
                         </dt>
                         <dd class="col-md-9">
                             <div>
-                                <a href="{{ route('front.panel.minecraft-players.show', $warning->warnerPlayer) }}">
+                                <a href="{{ route('manage.minecraft-players.show', $warning->warnerPlayer) }}">
                                     {{ $warning->warnerPlayer->alias ?? '(No Alias)' }}
                                 </a>
                             </div>

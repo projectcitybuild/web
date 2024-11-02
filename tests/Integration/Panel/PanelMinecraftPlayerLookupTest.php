@@ -34,10 +34,10 @@ class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
     {
         $mcPlayer = MinecraftPlayer::factory()->create();
         $this->actingAs($this->admin)
-            ->post(route('front.panel.minecraft-players.lookup'), [
+            ->post(route('manage.minecraft-players.lookup'), [
                 'query' => $mcPlayer->uuid,
             ])
-            ->assertRedirect(route('front.panel.minecraft-players.show', $mcPlayer));
+            ->assertRedirect(route('manage.minecraft-players.show', $mcPlayer));
     }
 
     public function test_lookup_player_by_dashed_uuid()
@@ -48,10 +48,10 @@ class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
         ]);
 
         $this->actingAs($this->admin)
-            ->post(route('front.panel.minecraft-players.lookup'), [
+            ->post(route('manage.minecraft-players.lookup'), [
                 'query' => $uuid,
             ])
-            ->assertRedirect(route('front.panel.minecraft-players.show', $mcPlayer));
+            ->assertRedirect(route('manage.minecraft-players.show', $mcPlayer));
     }
 
     public function test_lookup_player_by_stored_alias()
@@ -59,10 +59,10 @@ class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
         $mcPlayer = MinecraftPlayer::factory()->create();
 
         $this->actingAs($this->admin)
-            ->post(route('front.panel.minecraft-players.lookup'), [
+            ->post(route('manage.minecraft-players.lookup'), [
                 'query' => $mcPlayer->alias,
             ])
-            ->assertRedirect(route('front.panel.minecraft-players.show', $mcPlayer));
+            ->assertRedirect(route('manage.minecraft-players.show', $mcPlayer));
     }
 
     public function test_lookup_player_by_non_stored_alias()
@@ -76,10 +76,10 @@ class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
         });
 
         $this->actingAs($this->admin)
-            ->post(route('front.panel.minecraft-players.lookup'), [
+            ->post(route('manage.minecraft-players.lookup'), [
                 'query' => 'Herobrine',
             ])
-            ->assertRedirect(route('front.panel.minecraft-players.show', $mcPlayer));
+            ->assertRedirect(route('manage.minecraft-players.show', $mcPlayer));
     }
 
     public function test_lookup_of_invalid_player()
@@ -90,10 +90,10 @@ class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
         });
 
         $this->actingAs($this->admin)
-            ->post(route('front.panel.minecraft-players.lookup'), [
+            ->post(route('manage.minecraft-players.lookup'), [
                 'query' => 'Herobrine',
             ])
-            ->assertRedirect(route('front.panel.minecraft-players.index'));
+            ->assertRedirect(route('manage.minecraft-players.index'));
     }
 
     public function test_lookup_of_unknown_player()
@@ -105,28 +105,28 @@ class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
         });
 
         $this->actingAs($this->admin)
-            ->post(route('front.panel.minecraft-players.lookup'), [
+            ->post(route('manage.minecraft-players.lookup'), [
                 'query' => 'Herobrine',
             ])
-            ->assertRedirect(route('front.panel.minecraft-players.index'));
+            ->assertRedirect(route('manage.minecraft-players.index'));
     }
 
     public function test_empty_lookup_string_entered()
     {
         $this->actingAs($this->admin)
-            ->post(route('front.panel.minecraft-players.lookup'), [
+            ->post(route('manage.minecraft-players.lookup'), [
                 'query' => '',
             ])
-            ->assertRedirect(route('front.panel.minecraft-players.index'));
+            ->assertRedirect(route('manage.minecraft-players.index'));
     }
 
     public function test_null_lookup_string_entered()
     {
         $this->actingAs($this->admin)
-            ->post(route('front.panel.minecraft-players.lookup'), [
+            ->post(route('manage.minecraft-players.lookup'), [
                 'query' => null,
             ])
-            ->assertRedirect(route('front.panel.minecraft-players.index'));
+            ->assertRedirect(route('manage.minecraft-players.index'));
     }
 
     public function test_unauthorised_without_scope()
@@ -139,7 +139,7 @@ class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
         $this->expectException(HttpException::class);
 
         $this->actingAs($admin)
-            ->post(route('front.panel.minecraft-players.lookup'))
+            ->post(route('manage.minecraft-players.lookup'))
             ->assertUnauthorized();
     }
 
@@ -153,7 +153,7 @@ class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
         $this->expectException(HttpException::class);
 
         $this->actingAs($admin)
-            ->post(route('front.panel.minecraft-players.lookup'))
+            ->post(route('manage.minecraft-players.lookup'))
             ->assertUnauthorized();
     }
 }

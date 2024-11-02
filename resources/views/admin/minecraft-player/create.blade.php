@@ -7,7 +7,7 @@
         <div class="col-md-8">
             @include('admin._errors')
 
-            <form action="{{ route('front.panel.minecraft-players.store') }}" method="post">
+            <form action="{{ route('manage.minecraft-players.store') }}" method="post">
                 @csrf
 
                 <div class="row mb-3">

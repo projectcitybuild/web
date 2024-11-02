@@ -174,7 +174,7 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.player-bans.edit', $this);
+        return route('manage.player-bans.edit', $this);
     }
 
     public function getActivitySubjectName(): ?string

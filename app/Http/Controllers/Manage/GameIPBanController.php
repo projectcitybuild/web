@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Domains\MinecraftEventBus\Events\IpAddressBanned;
 use App\Http\Controllers\WebController;
@@ -14,7 +14,7 @@ class GameIPBanController extends WebController
 {
     public function index(Request $request): View
     {
-        $bans = GameIPBan::with('bannerPlayer.aliases')
+        $bans = GameIPBan::with('bannerPlayer')
             ->orderBy('created_at', 'desc')
             ->paginate(100);
 
@@ -56,7 +56,7 @@ class GameIPBanController extends WebController
 
         IpAddressBanned::dispatch($ban);
 
-        return redirect(route('front.panel.ip-bans.index'));
+        return redirect(route('manage.ip-bans.index'));
     }
 
     /**
@@ -88,13 +88,13 @@ class GameIPBanController extends WebController
 
         GameIPBan::find($banId)->update($request->all());
 
-        return redirect(route('front.panel.ip-bans.index'));
+        return redirect(route('manage.ip-bans.index'));
     }
 
     public function destroy(Request $request, int $banId): RedirectResponse
     {
         GameIPBan::find($banId)->delete();
 
-        return redirect(route('front.panel.ip-bans.index'));
+        return redirect(route('manage.ip-bans.index'));
     }
 }

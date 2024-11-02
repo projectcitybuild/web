@@ -29,7 +29,7 @@ class PanelMinecraftPlayersListTest extends IntegrationTestCase
         $player = MinecraftPlayer::factory()->create();
 
         $this->actingAs($this->admin)
-            ->get(route('front.panel.minecraft-players.index'))
+            ->get(route('manage.minecraft-players.index'))
             ->assertOk()
             ->assertSee($player->uuid)
             ->assertSee($player->alias);
@@ -41,7 +41,7 @@ class PanelMinecraftPlayersListTest extends IntegrationTestCase
         MinecraftPlayer::factory()->for($account)->create();
 
         $this->actingAs($this->admin)
-            ->get(route('front.panel.minecraft-players.index'))
+            ->get(route('manage.minecraft-players.index'))
             ->assertOk()
             ->assertSee($account->username);
     }
@@ -51,7 +51,7 @@ class PanelMinecraftPlayersListTest extends IntegrationTestCase
         $mcPlayer = MinecraftPlayer::factory()->create();
 
         $this->actingAs($this->admin)
-            ->get(route('front.panel.minecraft-players.index'))
+            ->get(route('manage.minecraft-players.index'))
             ->assertOk()
             ->assertSee($mcPlayer->uuid);
     }
@@ -66,7 +66,7 @@ class PanelMinecraftPlayersListTest extends IntegrationTestCase
         $this->expectException(HttpException::class);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.minecraft-players.index'))
+            ->get(route('manage.minecraft-players.index'))
             ->assertUnauthorized();
     }
 
@@ -80,7 +80,7 @@ class PanelMinecraftPlayersListTest extends IntegrationTestCase
         $this->expectException(HttpException::class);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.minecraft-players.index'))
+            ->get(route('manage.minecraft-players.index'))
             ->assertUnauthorized();
     }
 }

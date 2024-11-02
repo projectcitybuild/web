@@ -15,7 +15,7 @@
                             Banned Player
                         </dt>
                         <dd class="col-md-9">
-                            <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->gamePlayerBan->bannedPlayer) }}">
+                            <a href="{{ route('manage.minecraft-players.show', $banAppeal->gamePlayerBan->bannedPlayer) }}">
                                 {{ $banAppeal->gamePlayerBan->bannedPlayer->alias ?? 'No Alias' }}</a>
                             @if ($banAppeal->gamePlayerBan->hasNameChangedSinceBan())
                                 (was {{ $banAppeal->gamePlayerBan->banned_alias_at_time }})
@@ -38,7 +38,7 @@
                         </dt>
                         <dd class="col-md-9">
                             @isset($banAppeal->gamePlayerBan->bannedPlayer->account)
-                                <a href="{{ route('front.panel.accounts.show', $banAppeal->gamePlayerBan->bannedPlayer->account) }}">
+                                <a href="{{ route('manage.accounts.show', $banAppeal->gamePlayerBan->bannedPlayer->account) }}">
                                     {{ $banAppeal->gamePlayerBan->bannedPlayer->account->username }}
                                 </a>
                             @else
@@ -75,7 +75,7 @@
                             @if ($banAppeal->gamePlayerBan->bannerPlayer === null)
                                 System
                             @else
-                                <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->gamePlayerBan->bannerPlayer) }}">
+                                <a href="{{ route('manage.minecraft-players.show', $banAppeal->gamePlayerBan->bannerPlayer) }}">
                                     {{ $banAppeal->gamePlayerBan->bannerPlayer->alias ?? 'No Alias' }}
                                 </a>
                             @endif
@@ -121,7 +121,7 @@
                             this decision immediately</strong>.
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('front.panel.ban-appeals.update', $banAppeal) }}" method="post">
+                        <form action="{{ route('manage.ban-appeals.update', $banAppeal) }}" method="post">
                             @csrf
                             @include('admin._errors')
                             @method('PUT')

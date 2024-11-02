@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-8">
             @include('admin._errors')
-            <form action="{{ route('front.panel.badges.store') }}" method="post">
+            <form action="{{ route('manage.badges.store') }}" method="post">
                 @csrf
 
                 @include('admin.badges._form', ['buttonText' => 'Create'])

@@ -4,7 +4,7 @@
 
 @section('toolbar')
     <div class="btn-group btn-group-sm" role="group">
-        <a href="{{ route('front.panel.ip-bans.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
+        <a href="{{ route('manage.ip-bans.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
     </div>
 @endsection
 
@@ -29,14 +29,14 @@
                     <td>{{ $ban->ip_address }}</td>
                     <td>{{ $ban->reason }}</td>
                     <td>
-                        <a href="{{ route('front.panel.minecraft-players.show', $ban->bannerPlayer) }}">
+                        <a href="{{ route('manage.minecraft-players.show', $ban->bannerPlayer) }}">
                             {{ $ban->bannerPlayer->alias ?: '(No Alias)' }}
                         </a>
                     </td>
                     <td>{{ $ban->created_at }}</td>
                     <td>{{ $ban->updated_at }}</td>
                     <td>
-                        <a href="{{ route('front.panel.ip-bans.edit', $ban) }}">Edit</a>
+                        <a href="{{ route('manage.ip-bans.edit', $ban) }}">Edit</a>
                     </td>
                 </tr>
             @endforeach

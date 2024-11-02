@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Core\Utilities\Traits\FiltersWithParameters;
 use App\Http\Controllers\WebController;

@@ -4,7 +4,7 @@
 
 @section('toolbar')
     <div class="btn-group btn-group-sm" role="group">
-        <a href="{{ route('front.panel.warnings.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
+        <a href="{{ route('manage.warnings.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
     </div>
 @endsection
 
@@ -28,13 +28,13 @@
                 <tr>
                     <td>{{ $warning->getKey() }}</td>
                     <td>
-                        <a href="{{ route('front.panel.minecraft-players.show', $warning->warnedPlayer) }}">
+                        <a href="{{ route('manage.minecraft-players.show', $warning->warnedPlayer) }}">
                             {{ $warning->warnedPlayer->alias ?: '(No Alias)' }}
                         </a>
                     </td>
                     <td>{{ $warning->reason }}</td>
                     <td>
-                        <a href="{{ route('front.panel.minecraft-players.show', $warning->warnerPlayer) }}">
+                        <a href="{{ route('manage.minecraft-players.show', $warning->warnerPlayer) }}">
                             {{ $warning->warnerPlayer->alias ?: '(No Alias)' }}
                         </a>
                     </td>
@@ -42,7 +42,7 @@
                     <td>{{ $warning->updated_at }}</td>
                     <td>{{ $warning->acknowledged_at ?? '-' }}</td>
                     <td>
-                        <a href="{{ route('front.panel.warnings.show', $warning) }}">View</a>
+                        <a href="{{ route('manage.warnings.show', $warning) }}">View</a>
                     </td>
                 </tr>
             @endforeach

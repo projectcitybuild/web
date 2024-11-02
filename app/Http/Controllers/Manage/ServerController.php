@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\WebController;
 use App\Models\Server;
@@ -69,7 +69,7 @@ class ServerController extends WebController
             'is_querying' => $request->get('is_querying', false),
         ]);
 
-        return redirect(route('front.panel.servers.index'));
+        return redirect(route('manage.servers.index'));
     }
 
     /**
@@ -114,7 +114,7 @@ class ServerController extends WebController
         $server->is_querying = $request->get('is_querying', false);
         $server->save();
 
-        return redirect(route('front.panel.servers.index'));
+        return redirect(route('manage.servers.index'));
     }
 
     /**
@@ -125,6 +125,6 @@ class ServerController extends WebController
         $server = Server::find($serverId);
         $server->delete();
 
-        return redirect(route('front.panel.servers.index'));
+        return redirect(route('manage.servers.index'));
     }
 }

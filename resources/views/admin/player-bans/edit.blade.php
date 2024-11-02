@@ -4,7 +4,7 @@
 
 @section('toolbar')
     <div class="btn-toolbar">
-        <form method="post" action="{{ route('front.panel.player-bans.destroy', $ban) }}">
+        <form method="post" action="{{ route('manage.player-bans.destroy', $ban) }}">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash"></i> Delete</button>
@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-8">
             @include('admin._errors')
-            <form action="{{ route('front.panel.player-bans.update', $ban) }}" method="post">
+            <form action="{{ route('manage.player-bans.update', $ban) }}" method="post">
                 @csrf
                 @method('PUT')
 

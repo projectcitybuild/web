@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\WebController;
 use App\Models\DonationPerk;
@@ -68,7 +68,7 @@ class DonationPerksController extends WebController
             'updated_at' => $request->get('created_at'),
         ]);
 
-        return redirect(route('front.panel.donations.show', $perk->donation));
+        return redirect(route('manage.donations.show', $perk->donation));
     }
 
     /**
@@ -122,7 +122,7 @@ class DonationPerksController extends WebController
         $donationPerk->update($request->all());
         $donationPerk->save();
 
-        return redirect(route('front.panel.donations.show', $donationPerk->donation));
+        return redirect(route('manage.donations.show', $donationPerk->donation));
     }
 
     /**
@@ -136,6 +136,6 @@ class DonationPerksController extends WebController
         $donation = $donationPerk->donation;
         $donationPerk->delete();
 
-        return redirect(route('front.panel.donations.show', $donation));
+        return redirect(route('manage.donations.show', $donation));
     }
 }

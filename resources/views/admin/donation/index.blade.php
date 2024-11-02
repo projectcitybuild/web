@@ -4,7 +4,7 @@
 
 @section('toolbar')
     <div class="btn-group btn-group-sm" role="group">
-        <a href="{{ route('front.panel.donations.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
+        <a href="{{ route('manage.donations.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
     </div>
 @endsection
 
@@ -29,7 +29,7 @@
                     <td>{{ $donation->perks->count() }}</td>
                     <td>
                         @isset($donation->account)
-                            <a href="{{ route('front.panel.accounts.show', $donation->account->account_id) }}">
+                            <a href="{{ route('manage.accounts.show', $donation->account->account_id) }}">
                                 {{ $donation->account->username ?? '(Unset)' }}
                             </a>
                         @else
@@ -37,7 +37,7 @@
                         @endif
                     </td>
                     <td>{{ $donation->created_at }}</td>
-                    <td><a href="{{ route('front.panel.donations.show', $donation->donation_id) }}">Manage</a></td>
+                    <td><a href="{{ route('manage.donations.show', $donation->donation_id) }}">Manage</a></td>
                 </tr>
             @endforeach
             </tbody>

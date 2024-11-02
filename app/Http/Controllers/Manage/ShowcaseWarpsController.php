@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\WebController;
 use App\Models\ShowcaseWarp;
@@ -53,7 +53,7 @@ class ShowcaseWarpsController extends WebController
 
         ShowcaseWarp::create($request->all());
 
-        return redirect(route('front.panel.showcase-warps.index'));
+        return redirect(route('manage.showcase-warps.index'));
     }
 
     /**
@@ -93,7 +93,7 @@ class ShowcaseWarpsController extends WebController
         $warp->update($request->all());
         $warp->save();
 
-        return redirect(route('front.panel.showcase-warps.index'));
+        return redirect(route('manage.showcase-warps.index'));
     }
 
     public function destroy(Request $request, int $id): RedirectResponse
@@ -101,6 +101,6 @@ class ShowcaseWarpsController extends WebController
         $warp = ShowcaseWarp::find($id);
         $warp->delete();
 
-        return redirect(route('front.panel.showcase-warps.index'));
+        return redirect(route('manage.showcase-warps.index'));
     }
 }

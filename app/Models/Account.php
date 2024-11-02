@@ -253,7 +253,7 @@ final class Account extends Authenticatable implements LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.accounts.show', $this);
+        return route('manage.accounts.show', $this);
     }
 
     public function getActivitySubjectName(): ?string

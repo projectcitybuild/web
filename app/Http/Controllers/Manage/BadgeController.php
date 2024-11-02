@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\WebController;
 use App\Models\Badge;
@@ -48,7 +48,7 @@ class BadgeController extends WebController
             'list_hidden' => $request->get('list_hidden', 0),
         ]);
 
-        return redirect(route('front.panel.badges.index'));
+        return redirect(route('manage.badges.index'));
     }
 
     /**
@@ -84,7 +84,7 @@ class BadgeController extends WebController
         $badge->update($input);
         $badge->save();
 
-        return redirect(route('front.panel.badges.index'));
+        return redirect(route('manage.badges.index'));
     }
 
     public function destroy(Request $request, int $badgeId): RedirectResponse
@@ -92,6 +92,6 @@ class BadgeController extends WebController
         $badge = Badge::find($badgeId);
         $badge->delete();
 
-        return redirect(route('front.panel.badges.index'));
+        return redirect(route('manage.badges.index'));
     }
 }

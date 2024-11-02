@@ -69,7 +69,7 @@
                             Account
                         </dt>
                         <dd class="col-md-9">
-                            <a href="{{ route('front.panel.accounts.show', $application->account) }}">{{ $application->account->username }}</a>
+                            <a href="{{ route('manage.accounts.show', $application->account) }}">{{ $application->account->username }}</a>
                         </dd>
                     </div>
                     <div class="row g-0">
@@ -169,7 +169,7 @@
     </div>
 
 
-    <form action="{{ route('front.panel.builder-ranks.approve', $application->getKey()) }}" method="post">
+    <form action="{{ route('manage.builder-ranks.approve', $application->getKey()) }}" method="post">
         @csrf
         <div class="modal fade" id="approveModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
@@ -195,7 +195,7 @@
         </div>
     </form>
 
-    <form action="{{ route('front.panel.builder-ranks.deny', $application->getKey()) }}" method="post">
+    <form action="{{ route('manage.builder-ranks.deny', $application->getKey()) }}" method="post">
         @csrf
         <div class="modal fade" id="denyModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">

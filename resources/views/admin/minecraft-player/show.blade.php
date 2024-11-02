@@ -20,7 +20,7 @@
             <div class="card h-100 card-default">
                 <div class="card-header d-flex justify-content-between">
                     <span>Details</span>
-                    <a href="{{ route('front.panel.minecraft-players.edit', $minecraftPlayer) }}" class="btn btn-outline-primary btn-sm py-0">
+                    <a href="{{ route('manage.minecraft-players.edit', $minecraftPlayer) }}" class="btn btn-outline-primary btn-sm py-0">
                         <i class="fas fa-pencil-alt"></i> Edit
                     </a>
                 </div>
@@ -47,7 +47,7 @@
                         </dt>
                         <dd class="col-md-9 d-md-flex">
                             @if($minecraftPlayer->account)
-                                <a href="{{ route('front.panel.accounts.show', $minecraftPlayer->account) }}">
+                                <a href="{{ route('manage.accounts.show', $minecraftPlayer->account) }}">
                                     {{ $minecraftPlayer->account->username ?: '(Unset)' }}
                                 </a>
                             @else
@@ -104,7 +104,7 @@
                                     @if($ban->bannerPlayer == null)
                                         <span class="badge bg-secondary">Null</span>
                                     @else
-                                    <a href="{{ route('front.panel.minecraft-players.show', $ban->bannerPlayer) }}">
+                                    <a href="{{ route('manage.minecraft-players.show', $ban->bannerPlayer) }}">
                                         {{ $ban->getBannerName() }}
                                     </a>
                                     @endif
@@ -148,7 +148,7 @@
                             <tr class="table-warning">
                                 <td>{{ $warning->reason }}</td>
                                 <td>
-                                    <a href="{{ route('front.panel.minecraft-players.show', $warning->warnerPlayer) }}">
+                                    <a href="{{ route('manage.minecraft-players.show', $warning->warnerPlayer) }}">
                                         {{ $warning->warnerPlayer->alias ?? '(No Alias)' }}
                                     </a>
                                 </td>

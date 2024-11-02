@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Domains\MinecraftEventBus\Events\MinecraftPlayerUpdated;
 use App\Models\Account;
 use Illuminate\Http\Request;
 
-class AccountUpdateGroups
+class AccountUpdateBadges
 {
     public function __invoke(
         Request $request,
         Account $account,
     ) {
-        // TODO: consider ID validation
-        $account->groups()->sync($request->groups);
+        $account->badges()->sync($request->badges);
 
         $account->minecraftAccount()->each(function ($player) {
             MinecraftPlayerUpdated::dispatch($player);

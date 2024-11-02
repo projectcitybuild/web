@@ -26,7 +26,7 @@ class PanelGroupMemberTest extends IntegrationTestCase
         $this->withoutExceptionHandling();
 
         $this->actingAs($admin)
-            ->get(route('front.panel.groups.accounts', $groupA))
+            ->get(route('manage.groups.accounts', $groupA))
             ->assertSee($accountA->username)
             ->assertDontSee($accountB->username);
     }
@@ -42,7 +42,7 @@ class PanelGroupMemberTest extends IntegrationTestCase
         $account->groups()->attach($group);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.groups.accounts', $group))
+            ->get(route('manage.groups.accounts', $group))
             ->assertUnauthorized();
     }
 
@@ -57,7 +57,7 @@ class PanelGroupMemberTest extends IntegrationTestCase
         $account->groups()->attach($group);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.groups.accounts', $group))
+            ->get(route('manage.groups.accounts', $group))
             ->assertUnauthorized();
     }
 }

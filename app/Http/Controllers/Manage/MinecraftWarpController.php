@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftWarp;
@@ -50,7 +50,7 @@ class MinecraftWarpController extends WebController
 
         MinecraftWarp::create($request->all());
 
-        return redirect(route('front.panel.minecraft.warps.index'));
+        return redirect(route('manage.minecraft.warps.index'));
     }
 
     /**
@@ -82,13 +82,13 @@ class MinecraftWarpController extends WebController
 
         $warp->update($request->all());
 
-        return redirect(route('front.panel.minecraft.warps.index'));
+        return redirect(route('manage.minecraft.warps.index'));
     }
 
     public function destroy(Request $request, MinecraftWarp $warp): RedirectResponse
     {
         $warp->delete();
 
-        return redirect(route('front.panel.minecraft.warps.index'));
+        return redirect(route('manage.minecraft.warps.index'));
     }
 }
