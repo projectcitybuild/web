@@ -40,10 +40,10 @@
 
                         <div class="flex-grow">
                             <div class="text-xl font-bold">
-                                @if($mcAccount->aliases()->count() == 0)
+                                @if($mcAccount->alias === null)
                                     <em>No known name</em>
                                 @else
-                                    {{ $mcAccount->aliases->last()->alias }}
+                                    {{ $mcAccount->alias }}
                                 @endempty
                             </div>
                             <div class="text-sm">UUID: {{ $mcAccount->uuid }}</div>

@@ -6,7 +6,6 @@ use App\Core\Data\Exceptions\TooManyRequestsException;
 use App\Core\Domains\Mojang\Api\MojangPlayerApi;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftPlayer;
-use App\Models\MinecraftPlayerAlias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -38,14 +37,7 @@ class MinecraftPlayerLookupController extends WebController
         if (strlen($alias) < 3 || strlen($alias) > 16) {
             return null;
         }
-
-        $mcPlayerAlias = MinecraftPlayerAlias::where('alias', $alias)->first();
-
-        if ($mcPlayerAlias == null) {
-            return null;
-        }
-
-        return $mcPlayerAlias->minecraftPlayer;
+        return MinecraftPlayer::where('alias', 'like', '%'.$alias.'%')->first();
     }
 
     /**

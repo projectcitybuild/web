@@ -59,7 +59,7 @@ class AccountSeeder extends Seeder
     {
         Account::factory()
             ->passwordHashed('password')
-            ->count(100)
+            ->count(50)
             ->create();
     }
 }

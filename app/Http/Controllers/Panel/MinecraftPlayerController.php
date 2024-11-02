@@ -17,7 +17,7 @@ class MinecraftPlayerController extends WebController
      */
     public function index()
     {
-        $minecraftPlayers = MinecraftPlayer::with(['account', 'aliases'])->paginate(50);
+        $minecraftPlayers = MinecraftPlayer::with(['account'])->paginate(50);
 
         return view('admin.minecraft-player.index')->with(compact('minecraftPlayers'));
     }
@@ -64,7 +64,7 @@ class MinecraftPlayerController extends WebController
      */
     public function show(MinecraftPlayer $minecraftPlayer)
     {
-        $minecraftPlayer->load(['account', 'aliases', 'gamePlayerBans', 'gamePlayerBans.bannedPlayer.aliases', 'gamePlayerBans.bannerPlayer.aliases']);
+        $minecraftPlayer->load(['account', 'gamePlayerBans', 'gamePlayerBans.bannedPlayer', 'gamePlayerBans.bannerPlayer']);
 
         return view('admin.minecraft-player.show')->with(compact('minecraftPlayer'));
     }
