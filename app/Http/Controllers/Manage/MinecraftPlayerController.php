@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Core\Domains\Mojang\Api\MojangPlayerApi;
 use App\Http\Controllers\WebController;
@@ -54,7 +54,7 @@ class MinecraftPlayerController extends WebController
 
         $mcPlayer = MinecraftPlayer::updateOrCreate(['uuid' => $uuid], ['account_id' => $request->account_id]);
 
-        return redirect(route('front.panel.minecraft-players.show', $mcPlayer));
+        return redirect(route('manage.minecraft-players.show', $mcPlayer));
     }
 
     /**
@@ -94,7 +94,7 @@ class MinecraftPlayerController extends WebController
             'account_id' => $request->account_id,
         ]);
 
-        return redirect(route('front.panel.minecraft-players.show', $minecraftPlayer));
+        return redirect(route('manage.minecraft-players.show', $minecraftPlayer));
     }
 
     /**

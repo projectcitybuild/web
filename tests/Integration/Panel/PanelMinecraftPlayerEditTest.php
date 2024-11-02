@@ -26,7 +26,7 @@ class PanelMinecraftPlayerEditTest extends IntegrationTestCase
         $mcPlayer = MinecraftPlayer::factory()->create();
 
         $this->actingAs($this->admin)
-            ->get(route('front.panel.minecraft-players.edit', $mcPlayer))
+            ->get(route('manage.minecraft-players.edit', $mcPlayer))
             ->assertOk()
             ->assertSee('Edit');
     }
@@ -38,7 +38,7 @@ class PanelMinecraftPlayerEditTest extends IntegrationTestCase
     {
         $mcPlayer = MinecraftPlayer::factory()->for(Account::factory())->create();
         $this->actingAs($this->admin)
-            ->get(route('front.panel.minecraft-players.edit', $mcPlayer))
+            ->get(route('manage.minecraft-players.edit', $mcPlayer))
             ->assertOk();
     }
 
@@ -48,8 +48,8 @@ class PanelMinecraftPlayerEditTest extends IntegrationTestCase
         $anotherAccount = Account::factory()->create();
 
         $this->actingAs($this->admin)
-            ->put(route('front.panel.minecraft-players.update', $mcPlayer), ['account_id' => $anotherAccount->account_id])
-            ->assertRedirect(route('front.panel.minecraft-players.show', $mcPlayer));
+            ->put(route('manage.minecraft-players.update', $mcPlayer), ['account_id' => $anotherAccount->account_id])
+            ->assertRedirect(route('manage.minecraft-players.show', $mcPlayer));
 
         $this->assertDatabaseHas('players_minecraft', [
             'player_minecraft_id' => $mcPlayer->player_minecraft_id,
@@ -61,8 +61,8 @@ class PanelMinecraftPlayerEditTest extends IntegrationTestCase
     {
         $mcPlayer = MinecraftPlayer::factory()->for(Account::factory()->create())->create();
         $this->actingAs($this->admin)
-            ->put(route('front.panel.minecraft-players.update', $mcPlayer), ['account_id' => null])
-            ->assertRedirect(route('front.panel.minecraft-players.show', $mcPlayer));
+            ->put(route('manage.minecraft-players.update', $mcPlayer), ['account_id' => null])
+            ->assertRedirect(route('manage.minecraft-players.show', $mcPlayer));
     }
 
     public function test_cant_change_user_to_unassigned()
@@ -70,7 +70,7 @@ class PanelMinecraftPlayerEditTest extends IntegrationTestCase
         $mcPlayer = MinecraftPlayer::factory()->for(Account::factory()->create())->create();
 
         $this->actingAs($this->admin)
-            ->put(route('front.panel.minecraft-players.update', $mcPlayer), ['account_id' => 12])
+            ->put(route('manage.minecraft-players.update', $mcPlayer), ['account_id' => 12])
             ->assertSessionHasErrors();
     }
 
@@ -83,7 +83,7 @@ class PanelMinecraftPlayerEditTest extends IntegrationTestCase
         $mcPlayer = MinecraftPlayer::factory()->for(Account::factory()->create())->create();
 
         $this->actingAs($admin)
-            ->put(route('front.panel.minecraft-players.update', $mcPlayer))
+            ->put(route('manage.minecraft-players.update', $mcPlayer))
             ->assertUnauthorized();
     }
 
@@ -96,7 +96,7 @@ class PanelMinecraftPlayerEditTest extends IntegrationTestCase
         $mcPlayer = MinecraftPlayer::factory()->for(Account::factory()->create())->create();
 
         $this->actingAs($admin)
-            ->put(route('front.panel.minecraft-players.update', $mcPlayer))
+            ->put(route('manage.minecraft-players.update', $mcPlayer))
             ->assertUnauthorized();
     }
 }

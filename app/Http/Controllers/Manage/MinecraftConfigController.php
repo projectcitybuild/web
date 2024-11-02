@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Domains\MinecraftEventBus\Events\MinecraftConfigUpdated;
 use App\Http\Controllers\WebController;
@@ -41,6 +41,6 @@ class MinecraftConfigController extends WebController
 
         MinecraftConfigUpdated::dispatch($config);
 
-        return redirect(route('front.panel.minecraft.config.create', $config));
+        return redirect(route('manage.minecraft.config.create', $config));
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\WebController;
 use App\Models\Account;
@@ -66,6 +66,6 @@ class AccountController extends WebController
 
         $account->emailChangeRequests()->delete();
 
-        return redirect(route('front.panel.accounts.show', $account));
+        return redirect(route('manage.accounts.show', $account));
     }
 }

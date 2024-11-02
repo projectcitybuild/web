@@ -40,8 +40,8 @@ class PanelDonationPerkDeleteTest extends IntegrationTestCase
             ->create();
 
         $this->actingAs($this->adminAccount)
-            ->delete(route('front.panel.donation-perks.destroy', $donationPerk))
-            ->assertRedirect(route('front.panel.donations.show', $donation));
+            ->delete(route('manage.donation-perks.destroy', $donationPerk))
+            ->assertRedirect(route('manage.donations.show', $donation));
 
         $this->assertDatabaseCount(DonationPerk::tableName(), 0);
     }

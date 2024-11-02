@@ -4,7 +4,7 @@
 
 @section('toolbar')
     <div class="btn-group btn-group-sm" role="group">
-        <a href="{{ route('front.panel.minecraft.warps.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
+        <a href="{{ route('manage.minecraft.warps.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
     </div>
 @endsection
 
@@ -37,7 +37,7 @@
                     <td>{{ $warp->pitch }}</td>
                     <td>{{ $warp->yaw }}</td>
                     <td>{{ $warp->created_at }}</td>
-                    <td><a href="{{ route('front.panel.minecraft.warps.edit', $warp->getKey()) }}">Edit</a></td>
+                    <td><a href="{{ route('manage.minecraft.warps.edit', $warp->getKey()) }}">Edit</a></td>
                 </tr>
             @endforeach
             </tbody>

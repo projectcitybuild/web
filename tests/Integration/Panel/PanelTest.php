@@ -24,7 +24,7 @@ class PanelTest extends TestCase
 
     public function test_guest_cannot_see_panel()
     {
-        $this->get(route('front.panel.index'))
+        $this->get(route('manage.index'))
             ->assertRedirect(route('front.login'));
     }
 
@@ -36,7 +36,7 @@ class PanelTest extends TestCase
         );
 
         $this->actingAs($nonMfaAccount)
-            ->get(route('front.panel.index'))
+            ->get(route('manage.index'))
             ->assertRedirectContains(route('front.account.settings.mfa'))
             ->assertSessionHas('mfa_setup_required', true);
     }
@@ -51,7 +51,7 @@ class PanelTest extends TestCase
         );
 
         $this->actingAs($mfaAccount)
-            ->get(route('front.panel.index'))
+            ->get(route('manage.index'))
             ->assertOk();
     }
 }

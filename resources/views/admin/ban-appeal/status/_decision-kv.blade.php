@@ -12,7 +12,7 @@
             Decided By
         </dt>
         <dd class="col-md-9">
-            <a href="{{ route('front.panel.minecraft-players.show', $banAppeal->deciderPlayer) }}">
+            <a href="{{ route('manage.minecraft-players.show', $banAppeal->deciderPlayer) }}">
                 {{ $banAppeal->deciderPlayer->alias ?? 'No Alias' }}
             </a>
         </dd>

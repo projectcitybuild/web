@@ -9,7 +9,7 @@
         <div class="col-md-8">
             @include('admin._errors')
 
-            <form action="{{ route('front.panel.minecraft-players.update', $minecraftPlayer) }}" method="post">
+            <form action="{{ route('manage.minecraft-players.update', $minecraftPlayer) }}" method="post">
             @csrf
             @method('PUT')
                 <div class="row mb-3">

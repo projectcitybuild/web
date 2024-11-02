@@ -53,7 +53,7 @@ final class GameIPBan extends Model implements LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.ip-bans.edit', $this);
+        return route('manage.ip-bans.edit', $this);
     }
 
     public function getActivitySubjectName(): ?string

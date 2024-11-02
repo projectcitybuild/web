@@ -75,7 +75,7 @@ final class Group extends Model implements LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.groups.index').'#group-'.$this->getKey();
+        return route('manage.groups.index').'#group-'.$this->getKey();
     }
 
     public function getActivitySubjectName(): ?string

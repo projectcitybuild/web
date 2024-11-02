@@ -33,7 +33,7 @@ class PanelMinecraftPlayerShowTest extends IntegrationTestCase
             ->create();
 
         $this->actingAs($this->admin)
-            ->get(route('front.panel.minecraft-players.show', $bannedPlayer))
+            ->get(route('manage.minecraft-players.show', $bannedPlayer))
             ->assertOk()
             ->assertSee(GamePlayerBan::first()->reason);
     }
@@ -45,7 +45,7 @@ class PanelMinecraftPlayerShowTest extends IntegrationTestCase
             ->create();
 
         $this->actingAs($this->admin)
-            ->get(route('front.panel.minecraft-players.show', $bannedPlayer))
+            ->get(route('manage.minecraft-players.show', $bannedPlayer))
             ->assertOk()
             ->assertSee(GamePlayerBan::first()->reason);
     }
@@ -64,7 +64,7 @@ class PanelMinecraftPlayerShowTest extends IntegrationTestCase
         $this->expectException(HttpException::class);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.minecraft-players.show', $bannedPlayer))
+            ->get(route('manage.minecraft-players.show', $bannedPlayer))
             ->assertUnauthorized();
     }
 
@@ -82,7 +82,7 @@ class PanelMinecraftPlayerShowTest extends IntegrationTestCase
         $this->expectException(HttpException::class);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.minecraft-players.show', $bannedPlayer))
+            ->get(route('manage.minecraft-players.show', $bannedPlayer))
             ->assertUnauthorized();
     }
 }

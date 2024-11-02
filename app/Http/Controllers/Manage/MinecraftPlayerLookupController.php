@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Core\Data\Exceptions\TooManyRequestsException;
 use App\Core\Domains\Mojang\Api\MojangPlayerApi;
@@ -81,9 +81,9 @@ class MinecraftPlayerLookupController extends WebController
 
         if ($minecraftPlayer == null) {
             // TODO add flash error
-            return redirect(route('front.panel.minecraft-players.index'));
+            return redirect(route('manage.minecraft-players.index'));
         }
 
-        return redirect(route('front.panel.minecraft-players.show', $minecraftPlayer));
+        return redirect(route('manage.minecraft-players.show', $minecraftPlayer));
     }
 }

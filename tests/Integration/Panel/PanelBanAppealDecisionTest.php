@@ -42,7 +42,7 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
         ]);
 
         $this->actingAs($admin)
-            ->put(route('front.panel.ban-appeals.update', $this->appeal), [
+            ->put(route('manage.ban-appeals.update', $this->appeal), [
                 'decision_note' => 'Some Note',
                 'status' => BanAppealStatus::ACCEPTED_UNBAN->value,
             ])
@@ -53,12 +53,12 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
     public function test_can_unban_player()
     {
         $this->actingAs($this->admin)
-            ->put(route('front.panel.ban-appeals.update', $this->appeal), [
+            ->put(route('manage.ban-appeals.update', $this->appeal), [
                 'decision_note' => 'Some Note',
                 'status' => BanAppealStatus::ACCEPTED_UNBAN->value,
             ])
             ->assertSessionHasNoErrors()
-            ->assertRedirect(route('front.panel.ban-appeals.show', $this->appeal));
+            ->assertRedirect(route('manage.ban-appeals.show', $this->appeal));
         $this->assertEquals(BanAppealStatus::ACCEPTED_UNBAN, $this->appeal->refresh()->status);
         $this->assertEquals(false, $this->appeal->gamePlayerBan->refresh()->is_active);
         $this->assertDatabaseHas(GamePlayerBan::tableName(), [
@@ -73,12 +73,12 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
     public function test_can_deny_appeal()
     {
         $this->actingAs($this->admin)
-            ->put(route('front.panel.ban-appeals.update', $this->appeal), [
+            ->put(route('manage.ban-appeals.update', $this->appeal), [
                 'decision_note' => 'Some Note',
                 'status' => BanAppealStatus::DENIED->value,
             ])
             ->assertSessionHasNoErrors()
-            ->assertRedirect(route('front.panel.ban-appeals.show', $this->appeal));
+            ->assertRedirect(route('manage.ban-appeals.show', $this->appeal));
         $this->assertEquals(BanAppealStatus::DENIED, $this->appeal->refresh()->status);
         $this->assertDatabaseHas(GamePlayerBan::tableName(), [
             'id' => $this->gamePlayerBan->getKey(),
@@ -99,7 +99,7 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
         $this->gamePlayerBan->save();
 
         $this->actingAs($this->admin)
-            ->put(route('front.panel.ban-appeals.update', $this->appeal), [
+            ->put(route('manage.ban-appeals.update', $this->appeal), [
                 'decision_note' => 'Some Note',
                 'status' => BanAppealStatus::ACCEPTED_UNBAN->value,
             ])
@@ -118,7 +118,7 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
         $this->appeal->save();
 
         $this->actingAs($this->admin)
-            ->put(route('front.panel.ban-appeals.update', $this->appeal), [
+            ->put(route('manage.ban-appeals.update', $this->appeal), [
                 'decision_note' => 'Some Note',
                 'status' => BanAppealStatus::ACCEPTED_UNBAN->value,
             ])
@@ -134,7 +134,7 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
         ]);
 
         $this->actingAs($admin)
-            ->put(route('front.panel.ban-appeals.update', $this->appeal))
+            ->put(route('manage.ban-appeals.update', $this->appeal))
             ->assertUnauthorized();
     }
 
@@ -145,7 +145,7 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
         ]);
 
         $this->actingAs($admin)
-            ->put(route('front.panel.ban-appeals.update', $this->appeal))
+            ->put(route('manage.ban-appeals.update', $this->appeal))
             ->assertUnauthorized();
     }
 }

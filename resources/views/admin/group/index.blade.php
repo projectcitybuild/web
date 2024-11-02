@@ -24,7 +24,7 @@
                 <tr id="group-{{ $group->getKey() }}">
                     <td>{{ $group->name }}</td>
                     <td>
-                        <a href="{{ route('front.panel.groups.accounts', $group) }}">{{ number_format($group->accounts_count) }}</a>
+                        <a href="{{ route('manage.groups.accounts', $group) }}">{{ number_format($group->accounts_count) }}</a>
                     </td>
                     <td>{{ $group->alias }}</td>
                     <td>

@@ -44,7 +44,7 @@ final class ServerToken extends Model implements LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.server-tokens.edit', $this);
+        return route('manage.server-tokens.edit', $this);
     }
 
     public function getActivitySubjectName(): ?string

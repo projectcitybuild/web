@@ -4,7 +4,7 @@
 
 @section('toolbar')
     <div class="btn-group btn-group-sm" role="group">
-        <a href="{{ route('front.panel.player-bans.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
+        <a href="{{ route('manage.player-bans.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
     </div>
 @endsection
 
@@ -33,14 +33,14 @@
                         <i class="fas {{ $ban->isActive() ? 'fa-check' : 'fa-multiply' }} fa-fw"></i>
                     </td>
                     <td>
-                        <a href="{{ route('front.panel.minecraft-players.show', $ban->bannedPlayer) }}">
+                        <a href="{{ route('manage.minecraft-players.show', $ban->bannedPlayer) }}">
                             {{ $ban->bannedPlayer->alias ?: '(No Alias)' }}
                         </a>
                     </td>
                     <td>{{ $ban->reason }}</td>
                     <td>
                         @if ($ban->bannerPlayer)
-                        <a href="{{ route('front.panel.minecraft-players.show', $ban->bannerPlayer) }}">
+                        <a href="{{ route('manage.minecraft-players.show', $ban->bannerPlayer) }}">
                             {{ $ban->bannerPlayer?->alias ?: '(No Alias)' }}
                         </a>
                         @else
@@ -52,7 +52,7 @@
                     <td>{{ $ban->unbanned_at ?? '-' }}</td>
                     <td>{{ $ban->unban_type?->value ?? '-' }}</td>
                     <td>
-                        <a href="{{ route('front.panel.player-bans.edit', $ban) }}">Edit</a>
+                        <a href="{{ route('manage.player-bans.edit', $ban) }}">Edit</a>
                     </td>
                 </tr>
             @endforeach

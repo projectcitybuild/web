@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\WebController;
 use App\Models\PlayerWarning;
@@ -14,7 +14,7 @@ class PlayerWarningController extends WebController
 {
     public function index(Request $request): View
     {
-        $warnings = PlayerWarning::with('warnedPlayer.aliases', 'warnerPlayer.aliases')
+        $warnings = PlayerWarning::with('warnedPlayer', 'warnerPlayer')
             ->orderBy('created_at', 'desc')
             ->paginate(100);
 
@@ -67,7 +67,7 @@ class PlayerWarningController extends WebController
             'acknowledged_at' => $request->get('acknowledged_at'),
         ]);
 
-        return redirect(route('front.panel.warnings.index'));
+        return redirect(route('manage.warnings.index'));
     }
 
     /**
@@ -106,13 +106,13 @@ class PlayerWarningController extends WebController
             ]),
         );
 
-        return redirect(route('front.panel.warnings.index'));
+        return redirect(route('manage.warnings.index'));
     }
 
     public function destroy(Request $request, int $warningId): RedirectResponse
     {
         PlayerWarning::find($warningId)->delete();
 
-        return redirect(route('front.panel.warnings.index'));
+        return redirect(route('manage.warnings.index'));
     }
 }

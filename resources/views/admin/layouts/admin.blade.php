@@ -19,7 +19,7 @@
 <div id="app">
 
     <header class="navbar navbar-dark sticky-top flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{{ route('front.panel.index') }}">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{{ route('manage.index') }}">
             <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="Project City Build" height="30">
         </a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"

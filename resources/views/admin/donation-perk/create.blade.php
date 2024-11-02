@@ -11,7 +11,7 @@
 
             @include('admin._errors')
 
-            <form action="{{ route('front.panel.donation-perks.store') }}" method="post">
+            <form action="{{ route('manage.donation-perks.store') }}" method="post">
                 @csrf
 
                 @include('admin.donation-perk._form', ['buttonText' => 'Create'])

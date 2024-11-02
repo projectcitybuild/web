@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Domains\BuilderRankApplications\UseCases\ApproveBuildRankApplication;

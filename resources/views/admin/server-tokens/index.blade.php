@@ -4,7 +4,7 @@
 
 @section('toolbar')
     <div class="btn-group btn-group-sm" role="group">
-        <a href="{{ route('front.panel.server-tokens.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
+        <a href="{{ route('manage.server-tokens.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
     </div>
 @endsection
 
@@ -25,13 +25,13 @@
                 <tr>
                     <td>{{ $token->getKey() }}</td>
                     <td>
-                        <a href="{{ route('front.panel.servers.edit', $token->server->getKey()) }}">
+                        <a href="{{ route('manage.servers.edit', $token->server->getKey()) }}">
                             {{ $token->server->name ?? '(Unset)' }}
                         </a>
                     </td>
                     <td>{{ $token->token }}</td>
                     <td>{{ $token->description ?: '-' }}</td>
-                    <td><a href="{{ route('front.panel.server-tokens.edit', $token->getKey()) }}">Edit</a></td>
+                    <td><a href="{{ route('manage.server-tokens.edit', $token->getKey()) }}">Edit</a></td>
                 </tr>
             @endforeach
             </tbody>

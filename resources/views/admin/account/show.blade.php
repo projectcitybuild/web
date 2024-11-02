@@ -10,7 +10,7 @@
             <div class="card card-default">
                 <div class="card-header d-flex justify-content-between">
                     <span>Details</span>
-                    <a href="{{ route('front.panel.accounts.edit', $account) }}" class="btn btn-outline-primary btn-sm py-0">
+                    <a href="{{ route('manage.accounts.edit', $account) }}" class="btn btn-outline-primary btn-sm py-0">
                         <i class="fas fa-pencil-alt"></i> Edit
                     </a>
                 </div>
@@ -31,12 +31,12 @@
                             @unless($account->activated)
                                 <div class="mt-3">
                                     <form class="d-inline"
-                                          action="{{ route('front.panel.accounts.resend-activation', $account) }}"
+                                          action="{{ route('manage.accounts.resend-activation', $account) }}"
                                           method="post">
                                         @csrf
                                         <button class="btn btn-outline-secondary btn-sm" type="submit"><i class="fas fa-envelope"></i> Resend activation</button>
                                     </form>
-                                    <form class="d-inline" action="{{ route('front.panel.accounts.activate', $account) }}"
+                                    <form class="d-inline" action="{{ route('manage.accounts.activate', $account) }}"
                                           method="post">
                                         @csrf
                                         <button class="btn btn-outline-secondary btn-sm" type="submit"><i class="fas fa-check-double"></i> Manually activate</button>
@@ -125,7 +125,7 @@
                                 <form
                                     class="inline"
                                     method="post"
-                                    action="{{ route('front.panel.accounts.email-change.approve', [$account, $request]) }}">
+                                    action="{{ route('manage.accounts.email-change.approve', [$account, $request]) }}">
                                     @csrf
                                     <button class="btn btn-link btn-sm p-0">Approve</button>
                                 </form>
@@ -139,7 +139,7 @@
                 </ul>
             </div>
 
-            <form action="{{ route('front.panel.accounts.update-badges', $account) }}" method="post">
+            <form action="{{ route('manage.accounts.update-badges', $account) }}" method="post">
                 @csrf
                 <div class="card card-default mt-2">
                     <div class="card-header d-flex justify-content-between">
@@ -163,7 +163,7 @@
 
         </div>
         <div class="col-md-6">
-            <form action="{{ route('front.panel.accounts.update-groups', $account) }}" method="post">
+            <form action="{{ route('manage.accounts.update-groups', $account) }}" method="post">
                 @csrf
                 <div class="card mt-2 mt-md-0 card-default">
                     <div class="card-header d-flex justify-content-between">
@@ -207,7 +207,7 @@
                             <tr>
                                 <td>{{ $perk->is_active ? 'Yes' : 'No' }}</td>
                                 <td>
-                                    <a href="{{ route('front.panel.donations.show', $perk->donation_id) }}#perk-{{ $perk->donation_perks_id  }}">
+                                    <a href="{{ route('manage.donations.show', $perk->donation_id) }}#perk-{{ $perk->donation_perks_id  }}">
                                         #{{ $perk->donation_id }}
                                     </a>
                                 </td>
@@ -220,7 +220,7 @@
                                 </td>
                                 <td>{{ $perk->created_at }}</td>
                                 <td>{{ $perk->expires_at }}</td>
-                                <td><a href="{{ route('front.panel.donation-perks.edit', $perk) }}">Edit</a></td>
+                                <td><a href="{{ route('manage.donation-perks.edit', $perk) }}">Edit</a></td>
                             </tr>
                         @empty
                             <tr>
@@ -277,9 +277,9 @@
                                 </td>
                                 <td>{{ $player->created_at }}</td>
                                 <td class="actions">
-                                    <a href="{{ route('front.panel.minecraft-players.show', $player) }}">View</a>
+                                    <a href="{{ route('manage.minecraft-players.show', $player) }}">View</a>
                                     <form
-                                        action="{{ route('front.panel.accounts.game-account.delete', [$account, $player]) }}"
+                                        action="{{ route('manage.accounts.game-account.delete', [$account, $player]) }}"
                                         class="d-inline"
                                         method="post">
                                         @csrf

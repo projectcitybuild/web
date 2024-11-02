@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Domains\Bans\Data\UnbanType;
 use App\Domains\MinecraftEventBus\Events\MinecraftUuidBanned;
@@ -16,7 +16,7 @@ class GamePlayerBanController extends WebController
 {
     public function index(Request $request): View
     {
-        $bans = GamePlayerBan::with('bannedPlayer.aliases', 'bannerPlayer.aliases', 'unbannerPlayer.aliases')
+        $bans = GamePlayerBan::with('bannedPlayer', 'bannerPlayer', 'unbannerPlayer')
             ->orderBy('created_at', 'desc')
             ->paginate(100);
 
@@ -70,7 +70,7 @@ class GamePlayerBanController extends WebController
 
         MinecraftUuidBanned::dispatch($ban);
 
-        return redirect(route('front.panel.player-bans.index'));
+        return redirect(route('manage.player-bans.index'));
     }
 
     /**
@@ -107,13 +107,13 @@ class GamePlayerBanController extends WebController
 
         GamePlayerBan::find($banId)->update($request->all());
 
-        return redirect(route('front.panel.player-bans.index'));
+        return redirect(route('manage.player-bans.index'));
     }
 
     public function destroy(Request $request, int $banId): RedirectResponse
     {
         GamePlayerBan::find($banId)->delete();
 
-        return redirect(route('front.panel.player-bans.index'));
+        return redirect(route('manage.player-bans.index'));
     }
 }

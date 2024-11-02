@@ -31,7 +31,7 @@ class PanelBanAppealViewTest extends IntegrationTestCase
             )->create(['explanation' => 'My Explanation']);
 
         $this->actingAs($this->admin)
-            ->get(route('front.panel.ban-appeals.show', $appeal))
+            ->get(route('manage.ban-appeals.show', $appeal))
             ->assertOk()
             ->assertSee('My Explanation')
             ->assertSee('Awaiting Decision');
@@ -46,7 +46,7 @@ class PanelBanAppealViewTest extends IntegrationTestCase
             )->create(['decision_note' => 'Some Decision Reason']);
 
         $this->actingAs($this->admin)
-            ->get(route('front.panel.ban-appeals.show', $appeal))
+            ->get(route('manage.ban-appeals.show', $appeal))
             ->assertOk()
             ->assertSee('Some Decision Reason')
             ->assertSee('Unbanned');
@@ -61,7 +61,7 @@ class PanelBanAppealViewTest extends IntegrationTestCase
             )->create(['decision_note' => 'Some Decision Reason']);
 
         $this->actingAs($this->admin)
-            ->get(route('front.panel.ban-appeals.show', $appeal))
+            ->get(route('manage.ban-appeals.show', $appeal))
             ->assertOk()
             ->assertSee('Some Decision Reason')
             ->assertSee('Banned for');
@@ -76,7 +76,7 @@ class PanelBanAppealViewTest extends IntegrationTestCase
             )->create(['decision_note' => 'Some Decision Reason']);
 
         $this->actingAs($this->admin)
-            ->get(route('front.panel.ban-appeals.show', $appeal))
+            ->get(route('manage.ban-appeals.show', $appeal))
             ->assertOk()
             ->assertSee('Some Decision Reason')
             ->assertSee('Denied');
@@ -93,7 +93,7 @@ class PanelBanAppealViewTest extends IntegrationTestCase
         ]);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.ban-appeals.show', $appeal))
+            ->get(route('manage.ban-appeals.show', $appeal))
             ->assertUnauthorized();
     }
 
@@ -108,7 +108,7 @@ class PanelBanAppealViewTest extends IntegrationTestCase
         ]);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.ban-appeals.show', $appeal))
+            ->get(route('manage.ban-appeals.show', $appeal))
             ->assertUnauthorized();
     }
 }

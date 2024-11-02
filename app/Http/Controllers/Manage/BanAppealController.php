@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Manage;
 
 use App\Core\Data\Exceptions\NotImplementedException;
 use App\Domains\BanAppeals\Entities\BanAppealStatus;
@@ -64,6 +64,6 @@ class BanAppealController
 
         $banAppeal->notify(new BanAppealUpdatedNotification($banAppeal->showLink()));
 
-        return redirect()->route('front.panel.ban-appeals.show', $banAppeal);
+        return redirect()->route('manage.ban-appeals.show', $banAppeal);
     }
 }

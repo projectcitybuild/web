@@ -1,35 +1,35 @@
 <?php
 
 use App\Domains\Panel\Data\PanelGroupScope;
-use App\Http\Controllers\Panel\AccountActivate;
-use App\Http\Controllers\Panel\AccountApproveEmailChange;
-use App\Http\Controllers\Panel\AccountController;
-use App\Http\Controllers\Panel\AccountGameAccount;
-use App\Http\Controllers\Panel\AccountResendActivation;
-use App\Http\Controllers\Panel\AccountUpdateBadges;
-use App\Http\Controllers\Panel\AccountUpdateGroups;
-use App\Http\Controllers\Panel\ActivityController;
-use App\Http\Controllers\Panel\BadgeController;
-use App\Http\Controllers\Panel\BanAppealController;
-use App\Http\Controllers\Panel\BuilderRanksController;
-use App\Http\Controllers\Panel\DonationController;
-use App\Http\Controllers\Panel\DonationPerksController;
-use App\Http\Controllers\Panel\GameIPBanController;
-use App\Http\Controllers\Panel\GamePlayerBanController;
-use App\Http\Controllers\Panel\GroupAccountController;
-use App\Http\Controllers\Panel\GroupController;
-use App\Http\Controllers\Panel\MinecraftConfigController;
-use App\Http\Controllers\Panel\MinecraftPlayerController;
-use App\Http\Controllers\Panel\MinecraftPlayerLookupController;
-use App\Http\Controllers\Panel\MinecraftWarpController;
-use App\Http\Controllers\Panel\PlayerWarningController;
-use App\Http\Controllers\Panel\ServerController;
-use App\Http\Controllers\Panel\ServerTokenController;
-use App\Http\Controllers\Panel\ShowcaseWarpsController;
+use App\Http\Controllers\Manage\AccountActivate;
+use App\Http\Controllers\Manage\AccountApproveEmailChange;
+use App\Http\Controllers\Manage\AccountController;
+use App\Http\Controllers\Manage\AccountGameAccount;
+use App\Http\Controllers\Manage\AccountResendActivation;
+use App\Http\Controllers\Manage\AccountUpdateBadges;
+use App\Http\Controllers\Manage\AccountUpdateGroups;
+use App\Http\Controllers\Manage\ActivityController;
+use App\Http\Controllers\Manage\BadgeController;
+use App\Http\Controllers\Manage\BanAppealController;
+use App\Http\Controllers\Manage\BuilderRanksController;
+use App\Http\Controllers\Manage\DonationController;
+use App\Http\Controllers\Manage\DonationPerksController;
+use App\Http\Controllers\Manage\GameIPBanController;
+use App\Http\Controllers\Manage\GamePlayerBanController;
+use App\Http\Controllers\Manage\GroupAccountController;
+use App\Http\Controllers\Manage\GroupController;
+use App\Http\Controllers\Manage\MinecraftConfigController;
+use App\Http\Controllers\Manage\MinecraftPlayerController;
+use App\Http\Controllers\Manage\MinecraftPlayerLookupController;
+use App\Http\Controllers\Manage\MinecraftWarpController;
+use App\Http\Controllers\Manage\PlayerWarningController;
+use App\Http\Controllers\Manage\ServerController;
+use App\Http\Controllers\Manage\ServerTokenController;
+use App\Http\Controllers\Manage\ShowcaseWarpsController;
 use Illuminate\Support\Facades\Route;
 
-Route::name('front.panel.')
-    ->prefix('panel')
+Route::name('manage.')
+    ->prefix('manage')
     ->middleware([
         'auth',
         'activated',

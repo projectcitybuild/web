@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-8">
             @include('admin._errors')
-            <form action="{{ route('front.panel.showcase-warps.store') }}" method="post">
+            <form action="{{ route('manage.showcase-warps.store') }}" method="post">
                 @csrf
 
                 @include('admin.showcase-warps._form', ['buttonText' => 'Create'])

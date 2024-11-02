@@ -4,7 +4,7 @@
 
 @section('toolbar')
     <div class="btn-group btn-group-sm" role="group">
-        <a href="{{ route('front.panel.badges.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
+        <a href="{{ route('manage.badges.create') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create</a>
     </div>
 @endsection
 
@@ -25,7 +25,7 @@
                     <td>{{ $badge->getKey() }}</td>
                     <td>{{ $badge->display_name }}</td>
                     <td>{{ $badge->unicode_icon }}</td>
-                    <td><a href="{{ route('front.panel.badges.edit', $badge->getKey()) }}">Edit</a></td>
+                    <td><a href="{{ route('manage.badges.edit', $badge->getKey()) }}">Edit</a></td>
                 </tr>
             @endforeach
             </tbody>

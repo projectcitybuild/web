@@ -7,7 +7,7 @@
         <div class="col-md-8">
             @include('admin._errors')
 
-            <form action="{{ route('front.panel.minecraft.config.update') }}" method="post">
+            <form action="{{ route('manage.minecraft.config.update') }}" method="post">
                 @csrf
                 @method('patch')
 

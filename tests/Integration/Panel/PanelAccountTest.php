@@ -30,7 +30,7 @@ class PanelAccountTest extends IntegrationTestCase
         $account = Account::factory()->create();
 
         $this->actingAs($this->admin)
-            ->get(route('front.panel.accounts.show', $account))
+            ->get(route('manage.accounts.show', $account))
             ->assertOk()
             ->assertSee($account->username);
     }
@@ -46,7 +46,7 @@ class PanelAccountTest extends IntegrationTestCase
 
         $this->actingAs($this->admin)
             ->withoutExceptionHandling()
-            ->put(route('front.panel.accounts.update', $account), $newData)
+            ->put(route('manage.accounts.update', $account), $newData)
             ->assertRedirect();
 
         $this->assertDatabaseHas('accounts', $newData);
@@ -61,7 +61,7 @@ class PanelAccountTest extends IntegrationTestCase
         ]);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.accounts.update', $account))
+            ->get(route('manage.accounts.update', $account))
             ->assertUnauthorized();
     }
 
@@ -72,7 +72,7 @@ class PanelAccountTest extends IntegrationTestCase
         ]);
 
         $this->actingAs($admin)
-            ->get(route('front.panel.accounts.index'))
+            ->get(route('manage.accounts.index'))
             ->assertUnauthorized();
     }
 }

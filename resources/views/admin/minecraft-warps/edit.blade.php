@@ -4,7 +4,7 @@
 
 @section('toolbar')
     <div class="btn-toolbar">
-        <form method="post" action="{{ route('front.panel.minecraft.warps.destroy', $warp) }}">
+        <form method="post" action="{{ route('manage.minecraft.warps.destroy', $warp) }}">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash"></i> Delete</button>
@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-8">
             @include('admin._errors')
-            <form action="{{ route('front.panel.minecraft.warps.update', $warp) }}" method="post">
+            <form action="{{ route('manage.minecraft.warps.update', $warp) }}" method="post">
                 @csrf
                 @method('PUT')
 
