@@ -20,11 +20,11 @@ class BadgeSeeder extends Seeder
             'unicode_icon' => '✦',
         ]);
 
-        Badge::factory(50)->create();
+        Badge::factory(30)->create();
 
         $account = Account::where('email', 'admin@pcbmc.co')->first();
-        for ($i = 0; $i <= 15; $i++) {
-            $account->badges()->attach(Badge::where('id', $i)->first());
-        }
+        $account->badges()->sync(
+            Badge::where('id', '<=', 6)->get()
+        );
     }
 }

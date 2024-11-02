@@ -17,8 +17,8 @@ final class BuilderRankApplicationController extends WebController
         Request $request,
     ) {
         $minecraftUsername = $request->user()
-            ?->minecraftAccount?->first()
-            ?->aliases?->first()
+            ?->minecraftAccount
+            ?->first()
             ?->alias;
 
         $applicationInProgress = BuilderRankApplication::where('status', ApplicationStatus::IN_PROGRESS->value)

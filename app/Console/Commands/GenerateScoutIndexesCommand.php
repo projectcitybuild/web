@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Models\Account;
 use App\Models\GamePlayerBan;
-use App\Models\MinecraftPlayerAlias;
 use Illuminate\Console\Command;
 
 class GenerateScoutIndexesCommand extends Command
@@ -14,7 +13,6 @@ class GenerateScoutIndexesCommand extends Command
     private $models = [
         Account::class,
         GamePlayerBan::class,
-        MinecraftPlayerAlias::class,
     ];
 
     public function handle()

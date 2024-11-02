@@ -4,14 +4,12 @@ namespace Front;
 
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
-use App\Models\MinecraftPlayerAlias;
 use Tests\TestCase;
 
 class AccountMinecraftAccountTest extends TestCase
 {
     private Account $account;
     private MinecraftPlayer $mcPlayer;
-    private MinecraftPlayerAlias $mcPlayerAlias;
 
     protected function setUp(): void
     {
@@ -22,10 +20,6 @@ class AccountMinecraftAccountTest extends TestCase
         $this->mcPlayer = MinecraftPlayer::factory()
             ->for($this->account)
             ->create();
-
-        $this->mcPlayerAlias = MinecraftPlayerAlias::factory()
-            ->for($this->mcPlayer)
-            ->create();
     }
 
     public function test_minecraft_account_shown_in_list()
@@ -34,8 +28,7 @@ class AccountMinecraftAccountTest extends TestCase
 
         $this->get(route('front.account.games'))
             ->assertOk()
-            ->assertSee($this->mcPlayer->uuid)
-            ->assertSee($this->mcPlayerAlias->alias);
+            ->assertSee($this->mcPlayer->uuid);
     }
 
     public function test_minecraft_account_without_alias()

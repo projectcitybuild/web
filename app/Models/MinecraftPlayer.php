@@ -46,15 +46,6 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         );
     }
 
-    public function aliases(): HasMany
-    {
-        return $this->hasMany(
-            related: MinecraftPlayerAlias::class,
-            foreignKey: 'player_minecraft_id',
-            localKey: 'player_minecraft_id',
-        );
-    }
-
     public function gamePlayerBans(): HasMany
     {
         return $this->hasMany(
