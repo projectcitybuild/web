@@ -11,7 +11,7 @@ class GroupAccountController extends WebController
     {
         $accounts = $group->accounts()->paginate(50);
 
-        return view('manage.account.index')->with([
+        return view('manage.pages.account.index')->with([
             'accounts' => $accounts,
             'query' => '',
             'title' => 'Accounts in '.$group->name,

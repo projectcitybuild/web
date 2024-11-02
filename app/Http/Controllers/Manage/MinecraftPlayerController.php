@@ -19,7 +19,7 @@ class MinecraftPlayerController extends WebController
     {
         $minecraftPlayers = MinecraftPlayer::with(['account'])->paginate(50);
 
-        return view('manage.minecraft-player.index')->with(compact('minecraftPlayers'));
+        return view('manage.pages.minecraft-player.index')->with(compact('minecraftPlayers'));
     }
 
     /**
@@ -29,7 +29,7 @@ class MinecraftPlayerController extends WebController
      */
     public function create()
     {
-        return view('manage.minecraft-player.create');
+        return view('manage.pages.minecraft-player.create');
     }
 
     /**
@@ -66,7 +66,7 @@ class MinecraftPlayerController extends WebController
     {
         $minecraftPlayer->load(['account', 'gamePlayerBans', 'gamePlayerBans.bannedPlayer', 'gamePlayerBans.bannerPlayer']);
 
-        return view('manage.minecraft-player.show')->with(compact('minecraftPlayer'));
+        return view('manage.pages.minecraft-player.show')->with(compact('minecraftPlayer'));
     }
 
     /**
@@ -76,7 +76,7 @@ class MinecraftPlayerController extends WebController
      */
     public function edit(MinecraftPlayer $minecraftPlayer)
     {
-        return view('manage.minecraft-player.edit')->with(compact('minecraftPlayer'));
+        return view('manage.pages.minecraft-player.edit')->with(compact('minecraftPlayer'));
     }
 
     /**

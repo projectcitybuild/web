@@ -20,7 +20,7 @@ class GamePlayerBanController extends WebController
             ->orderBy('created_at', 'desc')
             ->paginate(100);
 
-        return view('manage.player-bans.index')
+        return view('manage.pages.player-bans.index')
             ->with(compact('bans'));
     }
 
@@ -28,7 +28,7 @@ class GamePlayerBanController extends WebController
     {
         $ban = new GamePlayerBan();
 
-        return view('manage.player-bans.create')
+        return view('manage.pages.player-bans.create')
             ->with(compact('ban'));
     }
 
@@ -80,7 +80,7 @@ class GamePlayerBanController extends WebController
     {
         $ban = GamePlayerBan::find($banId);
 
-        return view('manage.player-bans.edit')
+        return view('manage.pages.player-bans.edit')
             ->with(compact('ban'));
     }
 

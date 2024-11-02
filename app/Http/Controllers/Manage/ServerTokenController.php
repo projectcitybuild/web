@@ -21,7 +21,7 @@ class ServerTokenController extends WebController
     {
         $tokens = ServerToken::orderby('created_at', 'desc')->paginate(100);
 
-        return view('manage.server-tokens.index')->with(compact('tokens'));
+        return view('manage.pages.server-tokens.index')->with(compact('tokens'));
     }
 
     /**
@@ -32,7 +32,7 @@ class ServerTokenController extends WebController
         $token = new ServerToken();
         $generatedToken = $tokenGenerator->make();
 
-        return view('manage.server-tokens.create')
+        return view('manage.pages.server-tokens.create')
             ->with(compact('token', 'generatedToken'));
     }
 
@@ -69,7 +69,7 @@ class ServerTokenController extends WebController
     {
         $token = ServerToken::find($tokenId);
 
-        return view('manage.server-tokens.edit')->with(compact('token'));
+        return view('manage.pages.server-tokens.edit')->with(compact('token'));
     }
 
     /**

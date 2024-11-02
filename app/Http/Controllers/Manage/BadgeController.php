@@ -17,14 +17,14 @@ class BadgeController extends WebController
     {
         $badges = Badge::orderBy('display_name', 'desc')->paginate(100);
 
-        return view('manage.badges.index')->with(compact('badges'));
+        return view('manage.pages.badges.index')->with(compact('badges'));
     }
 
     public function create(Request $request): Application|Factory|View
     {
         $badge = new Badge();
 
-        return view('manage.badges.create')
+        return view('manage.pages.badges.create')
             ->with(compact('badge'));
     }
 
@@ -58,7 +58,7 @@ class BadgeController extends WebController
     {
         $badge = Badge::find($badgeId);
 
-        return view('manage.badges.edit')->with(compact('badge'));
+        return view('manage.pages.badges.edit')->with(compact('badge'));
     }
 
     public function update(Request $request, int $badgeId): RedirectResponse

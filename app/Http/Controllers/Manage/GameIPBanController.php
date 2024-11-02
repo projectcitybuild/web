@@ -18,7 +18,7 @@ class GameIPBanController extends WebController
             ->orderBy('created_at', 'desc')
             ->paginate(100);
 
-        return view('manage.ip-bans.index')
+        return view('manage.pages.ip-bans.index')
             ->with(compact('bans'));
     }
 
@@ -26,7 +26,7 @@ class GameIPBanController extends WebController
     {
         $ban = new GameIPBan();
 
-        return view('manage.ip-bans.create')
+        return view('manage.pages.ip-bans.create')
             ->with(compact('ban'));
     }
 
@@ -66,7 +66,7 @@ class GameIPBanController extends WebController
     {
         $ban = GameIPBan::find($banId);
 
-        return view('manage.ip-bans.edit')
+        return view('manage.pages.ip-bans.edit')
             ->with(compact('ban'));
     }
 

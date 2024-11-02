@@ -19,14 +19,14 @@ class MinecraftWarpController extends WebController
         $warps = MinecraftWarp::orderBy('name', 'asc')
             ->paginate(100);
 
-        return view('manage.minecraft-warps.index')->with(compact('warps'));
+        return view('manage.pages.minecraft-warps.index')->with(compact('warps'));
     }
 
     public function create(Request $request): Application|Factory|View
     {
         $warp = new MinecraftWarp();
 
-        return view('manage.minecraft-warps.create')
+        return view('manage.pages.minecraft-warps.create')
             ->with(compact('warp'));
     }
 
@@ -58,7 +58,7 @@ class MinecraftWarpController extends WebController
      */
     public function edit(MinecraftWarp $warp): MinecraftWarp|Factory|View
     {
-        return view('manage.minecraft-warps.edit')
+        return view('manage.pages.minecraft-warps.edit')
             ->with(compact('warp'));
     }
 

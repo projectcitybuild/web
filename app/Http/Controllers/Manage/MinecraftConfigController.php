@@ -19,7 +19,7 @@ class MinecraftConfigController extends WebController
     {
         $config = MinecraftConfig::byLatest()->first();
 
-        return view('manage.minecraft-config.create', ['config' => $config]);
+        return view('manage.pages.minecraft-config.create', ['config' => $config]);
     }
 
     /**

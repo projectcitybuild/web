@@ -14,6 +14,6 @@ class GroupController extends WebController
     {
         $groups = Group::withCount('accounts')->get();
 
-        return view('manage.group.index')->with(compact('groups'));
+        return view('manage.pages.group.index')->with(compact('groups'));
     }
 }
