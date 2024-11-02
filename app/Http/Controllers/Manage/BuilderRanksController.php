@@ -21,7 +21,7 @@ class BuilderRanksController extends WebController
             ->orderBy('created_at', 'desc')
             ->paginate(100);
 
-        return view('admin.builder-rank.index')
+        return view('manage.builder-rank.index')
             ->with(compact('applications'));
     }
 
@@ -32,7 +32,7 @@ class BuilderRanksController extends WebController
         $application = BuilderRankApplication::find($applicationId);
         $buildGroups = Group::where('is_build', true)->get();
 
-        return view('admin.builder-rank.show')
+        return view('manage.builder-rank.show')
             ->with(compact('application', 'buildGroups'));
     }
 

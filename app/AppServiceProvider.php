@@ -102,7 +102,8 @@ final class AppServiceProvider extends ServiceProvider
 
         Blade::anonymousComponentPath(__DIR__.'/../resources/views/shared/components');
         Blade::anonymousComponentPath(__DIR__.'/../resources/views/front/components', 'front');
+        Blade::anonymousComponentPath(__DIR__.'/../resources/views/manage/components', 'manage');
 
-        Blade::anonymousComponentNamespace('admin.activity.components', 'activity');
+        Blade::anonymousComponentNamespace('manage.activity.components', 'activity');
     }
 }

@@ -21,7 +21,7 @@ class ActivityController extends WebController
 
         $allActions = Activity::distinctActions()->get();
 
-        return view('admin.activity.index')->with([
+        return view('manage.activity.index')->with([
             'activities' => $activities,
             'allActions' => $allActions,
             'activeFilters' => $this->activeFilters(),
@@ -30,7 +30,7 @@ class ActivityController extends WebController
 
     public function show(Activity $activity)
     {
-        return view('admin.activity.show')->with([
+        return view('manage.activity.show')->with([
             'activity' => $activity,
         ]);
     }

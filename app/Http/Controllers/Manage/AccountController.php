@@ -25,7 +25,7 @@ class AccountController extends WebController
             $accounts = Account::paginate(50);
         }
 
-        return view('admin.account.index')->with(compact('accounts', 'query'));
+        return view('manage.account.index')->with(compact('accounts', 'query'));
     }
 
     /**
@@ -38,7 +38,7 @@ class AccountController extends WebController
         $groups = Group::all();
         $badges = Badge::all();
 
-        return view('admin.account.show')->with(compact('account', 'groups', 'badges'));
+        return view('manage.account.show')->with(compact('account', 'groups', 'badges'));
     }
 
     /**
@@ -48,7 +48,7 @@ class AccountController extends WebController
      */
     public function edit(Account $account)
     {
-        return view('admin.account.edit')->with(compact('account'));
+        return view('manage.account.edit')->with(compact('account'));
     }
 
     /**

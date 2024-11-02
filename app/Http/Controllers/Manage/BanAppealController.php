@@ -23,14 +23,14 @@ class BanAppealController
             ->orderBy('created_at', 'desc')
             ->paginate(50);
 
-        return view('admin.ban-appeal.index')->with([
+        return view('manage.ban-appeal.index')->with([
             'banAppeals' => $banAppeals,
         ]);
     }
 
     public function show(BanAppeal $banAppeal)
     {
-        return view('admin.ban-appeal.show')->with([
+        return view('manage.ban-appeal.show')->with([
             'banAppeal' => $banAppeal,
         ]);
     }

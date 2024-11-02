@@ -18,13 +18,13 @@ class PlayerWarningController extends WebController
             ->orderBy('created_at', 'desc')
             ->paginate(100);
 
-        return view('admin.warnings.index')
+        return view('manage.warnings.index')
             ->with(compact('warnings'));
     }
 
     public function show(PlayerWarning $warning): View
     {
-        return view('admin.warnings.show')
+        return view('manage.warnings.show')
             ->with(compact('warning'));
     }
 
@@ -32,7 +32,7 @@ class PlayerWarningController extends WebController
     {
         $warning = new PlayerWarning();
 
-        return view('admin.warnings.create')
+        return view('manage.warnings.create')
             ->with(compact('warning'));
     }
 
@@ -77,7 +77,7 @@ class PlayerWarningController extends WebController
     {
         $warning = PlayerWarning::find($warningId);
 
-        return view('admin.warnings.edit')
+        return view('manage.warnings.edit')
             ->with(compact('warning'));
     }
 

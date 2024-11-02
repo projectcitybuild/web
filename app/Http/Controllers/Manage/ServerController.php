@@ -20,7 +20,7 @@ class ServerController extends WebController
     {
         $servers = Server::orderby('created_at', 'desc')->paginate(100);
 
-        return view('admin.servers.index')->with(compact('servers'));
+        return view('manage.servers.index')->with(compact('servers'));
     }
 
     /**
@@ -30,7 +30,7 @@ class ServerController extends WebController
     {
         $server = new Server();
 
-        return view('admin.servers.create')
+        return view('manage.servers.create')
             ->with(compact('server'));
     }
 
@@ -79,7 +79,7 @@ class ServerController extends WebController
     {
         $server = Server::find($serverId);
 
-        return view('admin.servers.edit')->with(compact('server'));
+        return view('manage.servers.edit')->with(compact('server'));
     }
 
     /**
