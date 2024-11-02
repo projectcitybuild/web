@@ -18,7 +18,7 @@ class DonationPerksController extends WebController
     {
         $perk = new DonationPerk();
 
-        return view('admin.donation-perk.create')->with(compact('perk'));
+        return view('manage.pages.donation-perk.create')->with(compact('perk'));
     }
 
     /**
@@ -79,7 +79,7 @@ class DonationPerksController extends WebController
      */
     public function edit(DonationPerk $donationPerk)
     {
-        return view('admin.donation-perk.edit')->with(['perk' => $donationPerk]);
+        return view('manage.pages.donation-perk.edit')->with(['perk' => $donationPerk]);
     }
 
     /**

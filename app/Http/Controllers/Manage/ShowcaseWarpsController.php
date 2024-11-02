@@ -18,14 +18,14 @@ class ShowcaseWarpsController extends WebController
         $warps = ShowcaseWarp::orderBy('name', 'asc')
             ->paginate(100);
 
-        return view('admin.showcase-warps.index')->with(compact('warps'));
+        return view('manage.pages.showcase-warps.index')->with(compact('warps'));
     }
 
     public function create(Request $request): Application|Factory|View
     {
         $warp = new ShowcaseWarp();
 
-        return view('admin.showcase-warps.create')
+        return view('manage.pages.showcase-warps.create')
             ->with(compact('warp'));
     }
 
@@ -63,7 +63,7 @@ class ShowcaseWarpsController extends WebController
     {
         $warp = ShowcaseWarp::find($id);
 
-        return view('admin.showcase-warps.edit')->with(compact('warp'));
+        return view('manage.pages.showcase-warps.edit')->with(compact('warp'));
     }
 
     public function update(Request $request, int $id): RedirectResponse

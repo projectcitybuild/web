@@ -38,7 +38,7 @@ Route::name('manage.')
         'require-mfa',
     ])
     ->group(function() {
-        Route::view('/', 'admin.index')
+        Route::view('/', 'manage.pages.index')
             ->name('index');
 
         Route::resource('accounts', AccountController::class)
