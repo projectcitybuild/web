@@ -15,7 +15,7 @@ final class GetBadges
             return collect();
         }
 
-        $badges = $account->badges;
+        $badges = $account->badges ?: collect();
         $accountAgeInYears = $account->created_at->diffInYears(now());
         $accountAgeInYears = number_format((float)$accountAgeInYears, decimals: 2);
 
