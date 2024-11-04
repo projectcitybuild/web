@@ -142,7 +142,7 @@
                 </li>
                 <li>
                     <a href="{{ route('staff') }}" class="block p-3 rounded-lg hover:bg-gray-100">
-                        <div class="font-semibold flex gap-2 items-center">Staff</div>
+                        <div class="font-semibold">Staff</div>
                         <span class="text-sm text-gray-500">List of all current and past volunteers</span>
                     </a>
                 </li>
@@ -150,20 +150,41 @@
             <ul>
                 <li>
                     <a href="{{ route('front.3d-map') }}" class="block p-3 rounded-lg hover:bg-gray-100">
-                        <div class="font-semibold">3D Map</div>
+                        <div class="font-semibold flex gap-1 items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                <path fill-rule="evenodd" d="m9.69 18.933.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 0 0 .281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 1 0 3 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 0 0 2.273 1.765 11.842 11.842 0 0 0 .976.544l.062.029.018.008.006.003ZM10 11.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z" clip-rule="evenodd" />
+                            </svg>
+                            3D Map
+                        </div>
                         <span class="text-sm text-gray-500">View the interactive map of Monarch</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('map-archive') }}" class="block p-3 rounded-lg hover:bg-gray-100">
-                        <div class="font-semibold">Map Archive</div>
+                        <div class="font-semibold flex gap-1 items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                <path fill-rule="evenodd" d="M2 3a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H2Zm0 4.5h16l-.811 7.71a2 2 0 0 1-1.99 1.79H4.802a2 2 0 0 1-1.99-1.79L2 7.5ZM10 9a.75.75 0 0 1 .75.75v2.546l.943-1.048a.75.75 0 1 1 1.114 1.004l-2.25 2.5a.75.75 0 0 1-1.114 0l-2.25-2.5a.75.75 0 1 1 1.114-1.004l.943 1.048V9.75A.75.75 0 0 1 10 9Z" clip-rule="evenodd" />
+                            </svg>
+                            Map Archive
+                        </div>
                         <span class="text-sm text-gray-500">Download server maps no longer available</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('front.banlist') }}" class="block p-3 rounded-lg hover:bg-gray-100">
-                        <div class="font-semibold">Ban List</div>
+                        <div class="font-semibold flex gap-1 items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                <path fill-rule="evenodd" d="m5.965 4.904 9.131 9.131a6.5 6.5 0 0 0-9.131-9.131Zm8.07 10.192L4.904 5.965a6.5 6.5 0 0 0 9.131 9.131ZM4.343 4.343a8 8 0 1 1 11.314 11.314A8 8 0 0 1 4.343 4.343Z" clip-rule="evenodd" />
+                            </svg>
+                            Ban List
+                        </div>
                         <span class="text-sm text-gray-500">List of players banned from our services</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('monarch.apply') }}" class="block p-3 rounded-lg hover:bg-gray-100">
+                        <div class="font-semibold">Build in Monarch</div>
+                        <span class="text-sm text-gray-500">Apply to build in our premier city project</span>
                     </a>
                 </li>
             </ul>
