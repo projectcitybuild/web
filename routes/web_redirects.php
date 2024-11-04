@@ -29,6 +29,9 @@ Route::permanentRedirect('vote', 'https://portal.projectcitybuild.com/books/serv
 Route::permanentRedirect('map-archive', 'https://portal.projectcitybuild.com/books/map-archive/page/map-archive')
     ->name('map-archive');
 
+Route::permanentRedirect('monarch/apply', 'https://docs.google.com/forms/d/e/1FAIpQLSdm11-3-V8XgkGLAvXmacGgltc8C3VtQXIKHmHE2ZH5o9Ypmw/viewform?pli=1')
+    ->name('monarch.apply');
+
 Route::permanentRedirect('login', 'https://projectcitybuild.com/auth/login');
 
 Route::permanentRedirect('register', 'https://projectcitybuild.com/auth/register');
