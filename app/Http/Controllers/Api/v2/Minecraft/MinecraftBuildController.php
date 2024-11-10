@@ -3,21 +3,29 @@
 namespace App\Http\Controllers\Api\v2\Minecraft;
 
 use App\Http\Controllers\ApiController;
-use App\Models\MinecraftWarp;
+use App\Models\MinecraftBuild;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-final class MinecraftWarpController extends ApiController
+final class MinecraftBuildController extends ApiController
 {
     public function index(Request $request)
     {
-        return MinecraftWarp::orderBy('name', 'asc')->get();
+        $request->validate([
+           'page_size' => 'integer|gt:0',
+        ]);
+
+        $defaultSize = 25;
+        $pageSize = min($defaultSize, $request->get('page_size', $defaultSize));
+
+        return MinecraftBuild::orderBy('votes', 'desc')
+            ->paginate($pageSize);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'alpha_dash', Rule::unique(MinecraftWarp::tableName())],
+            'name' => ['required', 'string', Rule::unique(MinecraftBuild::tableName())],
             'world' => 'required|string',
             'x' => 'required|numeric',
             'y' => 'required|numeric',
@@ -26,13 +34,13 @@ final class MinecraftWarpController extends ApiController
             'yaw' => 'required|numeric',
         ]);
 
-        return MinecraftWarp::create($request->all());
+        return MinecraftBuild::create($request->all());
     }
 
-    public function update(Request $request, MinecraftWarp $warp)
+    public function update(Request $request, MinecraftBuild $build)
     {
         $request->validate([
-            'name' => ['required', 'string', 'alpha_dash', Rule::unique(MinecraftWarp::tableName())->ignore($warp)],
+            'name' => ['required', 'string', 'alpha_dash', Rule::unique('minecraft_warps')->ignore($build)],
             'world' => 'required|string',
             'x' => 'required|numeric',
             'y' => 'required|numeric',
@@ -41,12 +49,12 @@ final class MinecraftWarpController extends ApiController
             'yaw' => 'required|numeric',
         ]);
 
-        $warp->update($request->all());
+        $build->update($request->all());
 
-        return $warp;
+        return $build;
     }
 
-    public function destroy(Request $request, MinecraftWarp $warp)
+    public function destroy(Request $request, MinecraftBuild $warp)
     {
         $warp->delete();
 

@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\MinecraftBuild;
 use App\Models\MinecraftConfig;
+use App\Models\MinecraftPlayer;
 use App\Models\MinecraftWarp;
 use App\Models\Server;
 use App\Models\ServerToken;
@@ -45,5 +47,11 @@ class DatabaseSeeder extends Seeder
         MinecraftWarp::factory()
             ->count(50)
             ->create();
+
+        $players = MinecraftPlayer::get();
+        for ($i = 0; $i < 50; $i++) {
+            MinecraftBuild::factory()
+                ->create(['player_id' => $players->random()]);
+        }
     }
 }

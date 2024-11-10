@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\v1\MinecraftPlayerAliasSearchController;
 use App\Http\Controllers\Api\v1\MinecraftShowcaseWarpController;
 use App\Http\Controllers\Api\v1\MinecraftTelemetryController;
 use App\Http\Controllers\Api\v1\StripeWebhookController;
+use App\Http\Controllers\Api\v2\Minecraft\MinecraftBuildController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftPlayerController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftRegisterController;
@@ -30,6 +31,8 @@ Route::prefix('v2')
             Route::get('config', MinecraftConfigController::class);
 
             Route::resource('warp', MinecraftWarpController::class);
+
+            Route::resource('build', MinecraftBuildController::class);
 
             Route::prefix('showcase')->group(function () {
                 Route::get('/', [MinecraftShowcaseWarpController::class, 'index']);
