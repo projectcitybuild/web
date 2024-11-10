@@ -38,6 +38,9 @@ Route::get('maps', fn () => view('front.pages.maps'))
 Route::get('3d-map', fn () => view('front.pages.3d-map'))
     ->name('front.3d-map');
 
+Route::get('contact', fn () => view('front.pages.contact'))
+    ->name('front.contact');
+
 Route::prefix('donate')->group(function () {
     Route::get('/', [DonationController::class, 'index'])
         ->name('front.donate');
