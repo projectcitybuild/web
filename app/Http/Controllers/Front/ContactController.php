@@ -38,6 +38,12 @@ final class ContactController extends WebController
         Notification::route('mail', $email)
             ->notify($notification);
 
+        Log::info('Contact form submitted', [
+            'subject' => $validated['subject'],
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
+
         return redirect()
             ->route('front.contact')
             ->with(['success' => 'Your inquiry has been submitted. Thank you']);

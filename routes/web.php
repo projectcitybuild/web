@@ -44,7 +44,8 @@ Route::prefix('contact')->group(function () {
         ->name('front.contact');
 
     Route::post('/', [ContactController::class, 'store'])
-        ->name('front.contact.submit');
+        ->name('front.contact.submit')
+        ->middleware('throttle:10,1');
 });
 
 Route::prefix('donate')->group(function () {
