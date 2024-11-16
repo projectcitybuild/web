@@ -12,7 +12,7 @@ final class MinecraftBuildController extends ApiController
     public function index(Request $request)
     {
         $request->validate([
-           'page_size' => 'integer|gt:0',
+           'page_size' => ['integer', 'gt:0'],
         ]);
 
         $defaultSize = 25;
@@ -22,10 +22,15 @@ final class MinecraftBuildController extends ApiController
             ->paginate($pageSize);
     }
 
+    public function show(Request $request, MinecraftBuild $build)
+    {
+        return $build;
+    }
+
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', Rule::unique(MinecraftBuild::tableName())],
+            'name' => ['required', 'alpha_dash', Rule::unique(MinecraftBuild::tableName())],
             'world' => 'required|string',
             'x' => 'required|numeric',
             'y' => 'required|numeric',
@@ -40,7 +45,7 @@ final class MinecraftBuildController extends ApiController
     public function update(Request $request, MinecraftBuild $build)
     {
         $request->validate([
-            'name' => ['required', 'string', 'alpha_dash', Rule::unique('minecraft_warps')->ignore($build)],
+            'name' => ['required', 'alpha_dash', Rule::unique(MinecraftBuild::tableName())->ignore($build)],
             'world' => 'required|string',
             'x' => 'required|numeric',
             'y' => 'required|numeric',
