@@ -30,7 +30,7 @@ class BuilderRanksController extends WebController
         int $applicationId,
     ) {
         $application = BuilderRankApplication::find($applicationId);
-        $buildGroups = Group::where('is_build', true)->get();
+        $buildGroups = Group::whereBuildType()->get();
 
         return view('manage.pages.builder-rank.show')
             ->with(compact('application', 'buildGroups'));
@@ -41,7 +41,7 @@ class BuilderRanksController extends WebController
         int $applicationId,
         ApproveBuildRankApplication $approveBuildRankApplication,
     ) {
-        $allowedGroups = Group::where('is_build', true)->get()
+        $allowedGroups = Group::whereBuildType()->get()
             ->map(fn ($group) => $group->getKey())
             ->toArray();
 

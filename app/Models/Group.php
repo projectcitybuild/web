@@ -28,8 +28,10 @@ final class Group extends Model implements LinkableAuditModel
         'minecraft_name',
         'minecraft_display_name',
         'minecraft_hover_text',
+        'display_priority',
         'discord_name',
         'can_access_panel',
+        'group_type',
     ];
 
     protected $casts = [
@@ -71,6 +73,16 @@ final class Group extends Model implements LinkableAuditModel
     public function scopeWhereDonor(Builder $query)
     {
         $query->where('name', 'donator');
+    }
+
+    public function scopeWhereBuildType(Builder $query)
+    {
+        $query->where('group_type', 'build');
+    }
+
+    public function scopeWhereTrustType(Builder $query)
+    {
+        $query->where('group_type', 'trust');
     }
 
     public function getActivitySubjectLink(): ?string
