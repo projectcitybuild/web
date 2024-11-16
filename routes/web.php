@@ -25,6 +25,7 @@ use App\Http\Controllers\Front\BanAppeal\BanAppealController;
 use App\Http\Controllers\Front\BanAppeal\BanLookupController;
 use App\Http\Controllers\Front\BanlistController;
 use App\Http\Controllers\Front\BuilderRankApplicationController;
+use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Front\DonationController;
 use App\Http\Controllers\Front\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,15 @@ Route::get('maps', fn () => view('front.pages.maps'))
 
 Route::get('3d-map', fn () => view('front.pages.3d-map'))
     ->name('front.3d-map');
+
+Route::prefix('contact')->group(function () {
+    Route::get('/', [ContactController::class, 'index'])
+        ->name('front.contact');
+
+    Route::post('/', [ContactController::class, 'store'])
+        ->name('front.contact.submit')
+        ->middleware('throttle:10,1');
+});
 
 Route::prefix('donate')->group(function () {
     Route::get('/', [DonationController::class, 'index'])

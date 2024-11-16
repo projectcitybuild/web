@@ -146,6 +146,12 @@
                         <span class="text-sm text-gray-500">List of all current and past volunteers</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('front.contact') }}" class="block p-3 rounded-lg hover:bg-gray-100">
+                        <div class="font-semibold">Contact Us</div>
+                        <span class="text-sm text-gray-500">For general inquiries</span>
+                    </a>
+                </li>
             </ul>
             <ul>
                 <li>
