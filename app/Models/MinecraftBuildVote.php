@@ -19,9 +19,4 @@ class MinecraftBuildVote extends Model
         'created_at',
         'updated_at',
     ];
-
-    protected $casts = [
-        'pitch' => 'decimal:1',
-        'yaw' => 'decimal:1',
-    ];
 }
