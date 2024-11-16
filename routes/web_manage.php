@@ -122,17 +122,13 @@ Route::name('manage.')
             ->except(['show'])
             ->middleware(PanelGroupScope::MANAGE_BANS->toMiddleware());
 
-        Route::group([
-            'prefix' => 'groups',
-            'as' => 'groups.',
-            'middleware' => PanelGroupScope::MANAGE_GROUPS->toMiddleware(),
-        ], function () {
-            Route::get('/', [GroupController::class, 'index'])
-                ->name('index');
+        Route::resource('groups', GroupController::class)
+            ->except(['show'])
+            ->middleware(PanelGroupScope::MANAGE_GROUPS->toMiddleware());
 
-            Route::get('{group}/accounts', [GroupAccountController::class, 'index'])
-                ->name('accounts');
-        });
+        Route::get('{group}/accounts', [GroupAccountController::class, 'index'])
+            ->name('groups.accounts')
+            ->middleware(PanelGroupScope::MANAGE_GROUPS->toMiddleware());
 
         Route::group([
             'prefix' => 'builder-ranks',
