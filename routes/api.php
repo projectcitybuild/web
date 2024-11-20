@@ -38,6 +38,7 @@ Route::prefix('v2')
                 Route::resource('/', MinecraftBuildController::class);
 
                 Route::get('/name', [MinecraftBuildNameController::class, 'index']);
+                Route::post('/name/search', [MinecraftBuildNameController::class, 'show']);
 
                 Route::post('{build}/vote', [MinecraftBuildVoteController::class, 'store']);
                 Route::delete('{build}/vote', [MinecraftBuildVoteController::class, 'destroy']);

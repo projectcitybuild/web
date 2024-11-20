@@ -19,6 +19,7 @@ final class MinecraftBuildNameController extends ApiController
         $input = $request->validate([
            'name' => 'required',
         ]);
+
         return MinecraftBuild::where('name', $input['name'])->first();
     }
 }
