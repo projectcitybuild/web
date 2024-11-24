@@ -13,13 +13,4 @@ final class MinecraftBuildNameController extends ApiController
     {
         return MinecraftBuild::get(['id', 'name']);
     }
-
-    public function show(Request $request)
-    {
-        $input = $request->validate([
-           'name' => 'required',
-        ]);
-
-        return MinecraftBuild::where('name', $input['name'])->first();
-    }
 }

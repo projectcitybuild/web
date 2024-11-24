@@ -54,7 +54,8 @@ final class MinecraftBuildController extends ApiController
 
     public function update(Request $request, MinecraftBuild $build)
     {
-        $request->validate([
+        $input = $request->validate([
+            'player_uuid' => ['required', new MinecraftUUIDRule],
             'name' => ['required', 'alpha_dash', Rule::unique(MinecraftBuild::tableName())->ignore($build)],
             'world' => 'required|string',
             'x' => 'required|numeric',
@@ -64,6 +65,19 @@ final class MinecraftBuildController extends ApiController
             'yaw' => 'required|numeric',
         ]);
 
+        $uuid = new MinecraftUUID($input['player_uuid']);
+        $player = MinecraftPlayer::whereUuid($uuid)->with('account.groups')->first();
+        if ($player === null) {
+            abort(403);
+        }
+
+        $isBuildOwner = $build->player_id === $player->getKey();
+
+        // TODO: also check their group permission
+        if (!$isBuildOwner) {
+            abort(403);
+        }
+
         $build->update($request->all());
 
         return $build;
@@ -71,6 +85,10 @@ final class MinecraftBuildController extends ApiController
 
     public function destroy(Request $request, MinecraftBuild $warp)
     {
+        $request->validate([
+            'player_uuid' => ['required', new MinecraftUUIDRule],
+        ]);
+
         $warp->delete();
 
         return response()->json();

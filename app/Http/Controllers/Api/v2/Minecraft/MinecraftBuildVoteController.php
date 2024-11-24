@@ -17,12 +17,12 @@ final class MinecraftBuildVoteController extends ApiController
     public function store(Request $request, MinecraftBuild $build)
     {
         $input = $request->validate([
-            'uuid' => ['required', new MinecraftUUIDRule],
+            'player_uuid' => ['required', new MinecraftUUIDRule],
             'alias' => ['string'],
         ]);
 
         $player = MinecraftPlayer::firstOrCreate(
-            uuid: MinecraftUUID::tryParse($input['uuid']),
+            uuid: MinecraftUUID::tryParse($input['player_uuid']),
             alias: $request->get('alias'),
         );
         $alreadyVoted = MinecraftBuildVote::where('player_id', $player->getKey())
@@ -51,10 +51,10 @@ final class MinecraftBuildVoteController extends ApiController
     public function destroy(Request $request, MinecraftBuild $build)
     {
         $input = $request->validate([
-            'uuid' => ['required', new MinecraftUUIDRule],
+            'player_uuid' => ['required', new MinecraftUUIDRule],
         ]);
 
-        $player = MinecraftPlayer::whereUuid(MinecraftUUID::tryParse($input['uuid']))
+        $player = MinecraftPlayer::whereUuid(MinecraftUUID::tryParse($input['player_uuid']))
             ->first();
 
         $vote = MinecraftBuildVote::where('player_id', $player->getKey())
