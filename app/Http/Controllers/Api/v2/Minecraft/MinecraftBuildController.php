@@ -6,8 +6,10 @@ use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Http\Controllers\ApiController;
 use App\Models\MinecraftBuild;
+use App\Models\MinecraftBuildVote;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 final class MinecraftBuildController extends ApiController
@@ -34,7 +36,7 @@ final class MinecraftBuildController extends ApiController
     {
         $input = $request->validate([
             'player_uuid' => ['required', new MinecraftUUIDRule],
-            'name' => ['required', 'alpha_dash', Rule::unique(MinecraftBuild::tableName())],
+            'name' => ['required', Rule::unique(MinecraftBuild::tableName())],
             'world' => 'required|string',
             'x' => 'required|numeric',
             'y' => 'required|numeric',
@@ -56,7 +58,7 @@ final class MinecraftBuildController extends ApiController
     {
         $input = $request->validate([
             'player_uuid' => ['required', new MinecraftUUIDRule],
-            'name' => ['required', 'alpha_dash', Rule::unique(MinecraftBuild::tableName())->ignore($build)],
+            'name' => ['required', Rule::unique(MinecraftBuild::tableName())->ignore($build)],
             'world' => 'required|string',
             'x' => 'required|numeric',
             'y' => 'required|numeric',
@@ -83,13 +85,29 @@ final class MinecraftBuildController extends ApiController
         return $build;
     }
 
-    public function destroy(Request $request, MinecraftBuild $warp)
+    public function destroy(Request $request, MinecraftBuild $build)
     {
-        $request->validate([
+        $input = $request->validate([
             'player_uuid' => ['required', new MinecraftUUIDRule],
         ]);
 
-        $warp->delete();
+        $uuid = new MinecraftUUID($input['player_uuid']);
+        $player = MinecraftPlayer::whereUuid($uuid)->with('account.groups')->first();
+        if ($player === null) {
+            abort(403);
+        }
+
+        $isBuildOwner = $build->player_id === $player->getKey();
+
+        // TODO: also check their group permission
+        if (!$isBuildOwner) {
+            abort(403);
+        }
+
+        DB::transaction(function () use ($build) {
+            MinecraftBuildVote::where('build_id', $build->getKey())->delete();
+            $build->delete();
+        });
 
         return response()->json();
     }

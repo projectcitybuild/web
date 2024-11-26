@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('player_id');
             $table->string('name');
+            $table->text('description')->nullable();
             $table->integer('votes')->default(0);
             $table->string('world');
             $table->double('x');

@@ -16,6 +16,7 @@ class MinecraftBuild extends Model
     protected $fillable = [
         'player_id',
         'name',
+        'description',
         'votes',
         'world',
         'x',
