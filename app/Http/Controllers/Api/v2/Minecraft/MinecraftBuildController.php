@@ -86,6 +86,7 @@ final class MinecraftBuildController extends ApiController
 
         $build->name = $request->get('name', default: $build->name);
         $build->description = $request->get('description', default: $build->description);
+        $build->lore = $request->get('lore', default: $build->lore);
         $build->save();
 
         return $build;
