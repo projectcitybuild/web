@@ -29,6 +29,7 @@ final class MinecraftBuildController extends ApiController
 
     public function show(Request $request, MinecraftBuild $build)
     {
+        $build->load('player');
         return $build;
     }
 
@@ -79,7 +80,6 @@ final class MinecraftBuildController extends ApiController
         $input = $request->validate([
             'player_uuid' => ['required', new MinecraftUUIDRule],
             'name' => [Rule::unique(MinecraftBuild::tableName())->ignore($build)],
-            'description' => 'string',
         ]);
 
         $this->assertHasWriteAccess(build: $build, uuid: $input['player_uuid']);
@@ -115,12 +115,12 @@ final class MinecraftBuildController extends ApiController
     {
         $uuid = new MinecraftUUID($uuid);
         $player = MinecraftPlayer::whereUuid($uuid)->with('account.groups')->first();
-        abort_if($player === null, 403);
+        abort_if($player === null, 403, "Player not found");
 
         $isBuildOwner = $build->player_id === $player->getKey();
 
         $groups = $player->account?->groups ?? collect();
         $isStaff = $groups->where('group_type', 'staff')->isNotEmpty();
-        abort_if(!$isBuildOwner && !$isStaff, 403);
+        abort_if(!$isBuildOwner && !$isStaff, 403, "Only the build owner can edit this build");
     }
 }

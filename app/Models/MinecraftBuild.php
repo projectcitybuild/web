@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MinecraftBuild extends Model
 {
@@ -17,6 +18,7 @@ class MinecraftBuild extends Model
         'player_id',
         'name',
         'description',
+        'lore',
         'votes',
         'world',
         'x',
@@ -32,4 +34,13 @@ class MinecraftBuild extends Model
         'pitch' => 'decimal:1',
         'yaw' => 'decimal:1',
     ];
+
+    public function player(): BelongsTo
+    {
+        return $this->belongsTo(
+            related: MinecraftPlayer::class,
+            foreignKey: 'player_id',
+            ownerKey: MinecraftPlayer::primaryKey(),
+        );
+    }
 }

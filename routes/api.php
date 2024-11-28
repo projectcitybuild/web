@@ -37,7 +37,7 @@ Route::prefix('v2')
             Route::prefix('build')->group(function () {
                 Route::get('/name', [MinecraftBuildNameController::class, 'index']);
 
-                Route::patch('{build}', [MinecraftBuildController::class, 'patch']);
+                Route::patch('{build}/set', [MinecraftBuildController::class, 'patch']);
 
                 Route::resource('{build}/vote', MinecraftBuildVoteController::class)
                     ->only(['store', 'destroy']);
