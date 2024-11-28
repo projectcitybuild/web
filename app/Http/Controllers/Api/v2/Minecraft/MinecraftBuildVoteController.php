@@ -25,6 +25,13 @@ final class MinecraftBuildVoteController extends ApiController
             uuid: MinecraftUUID::tryParse($input['player_uuid']),
             alias: $request->get('alias'),
         );
+
+        if ($build->player_id === $player->getKey()) {
+            throw ValidationException::withMessages([
+                'error' => 'You cannot vote for your own build',
+            ]);
+        }
+
         $alreadyVoted = MinecraftBuildVote::where('player_id', $player->getKey())
             ->where('build_id', $build->getKey())
             ->exists();
@@ -61,7 +68,11 @@ final class MinecraftBuildVoteController extends ApiController
             ->where('build_id', $build->getKey())
             ->first();
 
-        abort_if($vote === null, code: 404);
+        if ($vote === null) {
+            throw ValidationException::withMessages([
+                'error' => 'You have not voted for this build',
+            ]);
+        }
 
         DB::transaction(function () use ($vote, $build) {
             $build->votes = $build->votes - 1;

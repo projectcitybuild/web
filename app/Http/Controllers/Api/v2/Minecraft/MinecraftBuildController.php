@@ -67,20 +67,26 @@ final class MinecraftBuildController extends ApiController
             'yaw' => 'required|numeric',
         ]);
 
-        $uuid = new MinecraftUUID($input['player_uuid']);
-        $player = MinecraftPlayer::whereUuid($uuid)->with('account.groups')->first();
-        if ($player === null) {
-            abort(403);
-        }
-
-        $isBuildOwner = $build->player_id === $player->getKey();
-
-        // TODO: also check their group permission
-        if (!$isBuildOwner) {
-            abort(403);
-        }
+        $this->assertHasWriteAccess(build: $build, uuid: $input['player_uuid']);
 
         $build->update($request->all());
+
+        return $build;
+    }
+
+    public function patch(Request $request, MinecraftBuild $build)
+    {
+        $input = $request->validate([
+            'player_uuid' => ['required', new MinecraftUUIDRule],
+            'name' => [Rule::unique(MinecraftBuild::tableName())->ignore($build)],
+            'description' => 'string',
+        ]);
+
+        $this->assertHasWriteAccess(build: $build, uuid: $input['player_uuid']);
+
+        $build->name = $request->get('name', default: $build->name);
+        $build->description = $request->get('description', default: $build->description);
+        $build->save();
 
         return $build;
     }
@@ -91,18 +97,7 @@ final class MinecraftBuildController extends ApiController
             'player_uuid' => ['required', new MinecraftUUIDRule],
         ]);
 
-        $uuid = new MinecraftUUID($input['player_uuid']);
-        $player = MinecraftPlayer::whereUuid($uuid)->with('account.groups')->first();
-        if ($player === null) {
-            abort(403);
-        }
-
-        $isBuildOwner = $build->player_id === $player->getKey();
-
-        // TODO: also check their group permission
-        if (!$isBuildOwner) {
-            abort(403);
-        }
+        $this->assertHasWriteAccess(build: $build, uuid: $input['player_uuid']);
 
         DB::transaction(function () use ($build) {
             MinecraftBuildVote::where('build_id', $build->getKey())->delete();
@@ -110,5 +105,22 @@ final class MinecraftBuildController extends ApiController
         });
 
         return response()->json();
+    }
+
+    /**
+     * Ensures the given player UUID has the ability to modify the given build.
+     * Basically checks the UUID is the build owner or a staff member.
+     */
+    private function assertHasWriteAccess(MinecraftBuild $build, string $uuid): void
+    {
+        $uuid = new MinecraftUUID($uuid);
+        $player = MinecraftPlayer::whereUuid($uuid)->with('account.groups')->first();
+        abort_if($player === null, 403);
+
+        $isBuildOwner = $build->player_id === $player->getKey();
+
+        $groups = $player->account?->groups ?? collect();
+        $isStaff = $groups->where('group_type', 'staff')->isNotEmpty();
+        abort_if(!$isBuildOwner && !$isStaff, 403);
     }
 }

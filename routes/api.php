@@ -37,17 +37,12 @@ Route::prefix('v2')
             Route::prefix('build')->group(function () {
                 Route::get('/name', [MinecraftBuildNameController::class, 'index']);
 
-                Route::get('/', [MinecraftBuildController::class, 'index']);
-                Route::post('/', [MinecraftBuildController::class, 'store']);
-                Route::get('{build}', [MinecraftBuildController::class, 'show']);
-                Route::put('{build}', [MinecraftBuildController::class, 'update']);
-                Route::delete('{build}', [MinecraftBuildController::class, 'destroy']);
+                Route::patch('{build}', [MinecraftBuildController::class, 'patch']);
 
-                Route::prefix('{build}/vote')->group(function () {
-                    Route::post('/', [MinecraftBuildVoteController::class, 'store']);
-                    Route::delete('/', [MinecraftBuildVoteController::class, 'destroy']);
-                });
+                Route::resource('{build}/vote', MinecraftBuildVoteController::class)
+                    ->only(['store', 'destroy']);
             });
+            Route::resource('build', MinecraftBuildController::class);
 
             Route::prefix('showcase')->group(function () {
                 Route::get('/', [MinecraftShowcaseWarpController::class, 'index']);
