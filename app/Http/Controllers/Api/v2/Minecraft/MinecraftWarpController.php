@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\v2\Minecraft;
 
 use App\Http\Controllers\ApiController;
 use App\Models\MinecraftWarp;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -18,7 +17,7 @@ final class MinecraftWarpController extends ApiController
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'alpha_dash', Rule::unique('minecraft_warps')],
+            'name' => ['required', 'string', 'alpha_dash', Rule::unique(MinecraftWarp::tableName())],
             'world' => 'required|string',
             'x' => 'required|numeric',
             'y' => 'required|numeric',
@@ -33,7 +32,7 @@ final class MinecraftWarpController extends ApiController
     public function update(Request $request, MinecraftWarp $warp)
     {
         $request->validate([
-            'name' => ['required', 'string', 'alpha_dash', Rule::unique('minecraft_warps')->ignore($warp)],
+            'name' => ['required', 'string', 'alpha_dash', Rule::unique(MinecraftWarp::tableName())->ignore($warp)],
             'world' => 'required|string',
             'x' => 'required|numeric',
             'y' => 'required|numeric',

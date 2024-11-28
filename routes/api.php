@@ -5,6 +5,9 @@ use App\Http\Controllers\Api\v1\MinecraftPlayerAliasSearchController;
 use App\Http\Controllers\Api\v1\MinecraftShowcaseWarpController;
 use App\Http\Controllers\Api\v1\MinecraftTelemetryController;
 use App\Http\Controllers\Api\v1\StripeWebhookController;
+use App\Http\Controllers\Api\v2\Minecraft\MinecraftBuildController;
+use App\Http\Controllers\Api\v2\Minecraft\MinecraftBuildNameController;
+use App\Http\Controllers\Api\v2\Minecraft\MinecraftBuildVoteController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftPlayerController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftRegisterController;
@@ -30,6 +33,16 @@ Route::prefix('v2')
             Route::get('config', MinecraftConfigController::class);
 
             Route::resource('warp', MinecraftWarpController::class);
+
+            Route::prefix('build')->group(function () {
+                Route::get('/name', [MinecraftBuildNameController::class, 'index']);
+
+                Route::patch('{build}/set', [MinecraftBuildController::class, 'patch']);
+
+                Route::resource('{build}/vote', MinecraftBuildVoteController::class)
+                    ->only(['store', 'destroy']);
+            });
+            Route::resource('build', MinecraftBuildController::class);
 
             Route::prefix('showcase')->group(function () {
                 Route::get('/', [MinecraftShowcaseWarpController::class, 'index']);
