@@ -39,8 +39,8 @@ Route::prefix('v2')
 
                 Route::patch('{build}/set', [MinecraftBuildController::class, 'patch']);
 
-                Route::resource('{build}/vote', MinecraftBuildVoteController::class)
-                    ->only(['store', 'destroy']);
+                Route::post('{build}/vote', [MinecraftBuildVoteController::class, 'store']);
+                Route::delete('{build}/vote', [MinecraftBuildVoteController::class, 'destroy']);
             });
             Route::resource('build', MinecraftBuildController::class);
 
