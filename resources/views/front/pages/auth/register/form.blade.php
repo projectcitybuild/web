@@ -92,6 +92,9 @@
         @enderror
 
         <x-captcha class="mt-6"></x-captcha>
+        @error('captcha-response')
+            <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
+        @enderror
 
         <x-front::button
             type="submit"

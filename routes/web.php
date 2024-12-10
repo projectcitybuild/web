@@ -3,7 +3,6 @@
 use App\Http\Controllers\Front\Account\AccountBillingController;
 use App\Http\Controllers\Front\Account\AccountDonationController;
 use App\Http\Controllers\Front\Account\AccountGameAccountController;
-use App\Http\Controllers\Front\Account\AccountInfractionsController;
 use App\Http\Controllers\Front\Account\AccountProfileController;
 use App\Http\Controllers\Front\Account\Settings\MfaDisableController;
 use App\Http\Controllers\Front\Account\Settings\MfaFinishController;
@@ -26,9 +25,9 @@ use App\Http\Controllers\Front\BanAppeal\BanAppealController;
 use App\Http\Controllers\Front\BanAppeal\BanLookupController;
 use App\Http\Controllers\Front\BanlistController;
 use App\Http\Controllers\Front\BuilderRankApplicationController;
+use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Front\DonationController;
 use App\Http\Controllers\Front\HomeController;
-use App\Http\Controllers\Front\MinecraftPlayerLinkController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])
@@ -36,6 +35,18 @@ Route::get('/', [HomeController::class, 'index'])
 
 Route::get('maps', fn () => view('front.pages.maps'))
     ->name('front.maps');
+
+Route::get('3d-map', fn () => view('front.pages.3d-map'))
+    ->name('front.3d-map');
+
+Route::prefix('contact')->group(function () {
+    Route::get('/', [ContactController::class, 'index'])
+        ->name('front.contact');
+
+    Route::post('/', [ContactController::class, 'store'])
+        ->name('front.contact.submit')
+        ->middleware('throttle:10,1');
+});
 
 Route::prefix('donate')->group(function () {
     Route::get('/', [DonationController::class, 'index'])
@@ -48,18 +59,18 @@ Route::prefix('donate')->group(function () {
         ->name('front.donate.success');
 });
 
-Route::prefix('rank-up')->group(function () {
+Route::group([
+    'prefix' => 'rank-up',
+    'middleware' => ['auth', 'activated', 'mfa'],
+], function () {
     Route::get('/', [BuilderRankApplicationController::class, 'index'])
-        ->name('front.rank-up')
-        ->middleware(['auth']);
+        ->name('front.rank-up');
 
     Route::post('/', [BuilderRankApplicationController::class, 'store'])
-        ->name('front.rank-up.submit')
-        ->middleware(['auth']);
+        ->name('front.rank-up.submit');
 
     Route::get('{id}', [BuilderRankApplicationController::class, 'show'])
-        ->name('front.rank-up.status')
-        ->middleware(['auth']);
+        ->name('front.rank-up.status');
 });
 
 Route::prefix('appeal')->group(function () {
@@ -189,14 +200,6 @@ Route::group([
     Route::get('donations', [AccountDonationController::class, 'index'])
         ->name('front.account.donations');
 
-    Route::prefix('infractions')->group(function () {
-        Route::get('/', [AccountInfractionsController::class, 'index'])
-            ->name('front.account.infractions');
-
-        Route::post('{warningId}/acknowledge', [AccountInfractionsController::class, 'acknowledgeWarning'])
-            ->name('front.account.infractions.acknowledge');
-    });
-
     Route::prefix('games')->group(function () {
         Route::get('/', [AccountGameAccountController::class, 'index'])
             ->name('front.account.games');
@@ -267,9 +270,4 @@ Route::group([
         Route::get('billing', [AccountBillingController::class, 'index'])
             ->name('front.account.settings.billing');
     });
-});
-
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('auth/minecraft/{token}', [MinecraftPlayerLinkController::class, 'index'])
-        ->name('front.auth.minecraft.token');
 });

@@ -20,7 +20,7 @@ class GameBanSeeder extends Seeder
 
         $players = MinecraftPlayer::get();
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             GamePlayerBan::factory()
                 ->bannedPlayer($players->random())
                 ->bannedBy($staffPlayers->random())

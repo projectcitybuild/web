@@ -22,6 +22,7 @@ class MinecraftPlayerFactory extends Factory
     {
         return [
             'uuid' => str_replace('-', '', $this->faker->uuid),
+            'alias' => $this->faker->userName,
             'last_synced_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),
             'last_seen_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),
         ];

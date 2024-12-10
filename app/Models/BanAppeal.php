@@ -77,7 +77,7 @@ class BanAppeal extends Model implements LinkableAuditModel
 
     public function getBannedPlayerName()
     {
-        return $this->gamePlayerBan->bannedPlayer->getBanReadableName() ??
+        return $this->gamePlayerBan->bannedPlayer->alias ??
             $this->gamePlayerBan->banned_alias_at_time;
     }
 
@@ -99,7 +99,7 @@ class BanAppeal extends Model implements LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.ban-appeals.show', $this);
+        return route('manage.ban-appeals.show', $this);
     }
 
     public function getActivitySubjectName(): ?string

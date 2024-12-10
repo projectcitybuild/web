@@ -9,7 +9,6 @@ use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
 use App\Domains\Panel\Data\PanelGroupScope;
-use App\Http\Resources\AccountResource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -51,8 +50,17 @@ final class Account extends Authenticatable implements LinkableAuditModel
     ];
 
     protected $hidden = [
+        'password',
+        'remember_token',
         'totp_secret',
         'totp_backup_code',
+        'totp_last_used',
+        'pm_type',
+        'pm_last_four',
+        'trial_ends_at',
+        'stripe_id',
+        'last_login_ip',
+        'is_totp_enabled',
     ];
 
     protected static $recordEvents = [
@@ -230,9 +238,9 @@ final class Account extends Authenticatable implements LinkableAuditModel
         $this->is_totp_enabled = false;
     }
 
-    public function toResource()
+    public function scopeWhereEmail(Builder $query, string $email)
     {
-        return new AccountResource($this);
+        $query->where('email', $email);
     }
 
     public function auditAttributeConfig(): AuditAttributes
@@ -245,16 +253,11 @@ final class Account extends Authenticatable implements LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.accounts.show', $this);
+        return route('manage.accounts.show', $this);
     }
 
     public function getActivitySubjectName(): ?string
     {
         return $this->username;
-    }
-
-    public function scopeWhereEmail(Builder $query, string $email)
-    {
-        $query->where('email', $email);
     }
 }

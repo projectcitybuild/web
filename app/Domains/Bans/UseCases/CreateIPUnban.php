@@ -2,36 +2,31 @@
 
 namespace App\Domains\Bans\UseCases;
 
-use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
-use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\Bans\Data\UnbanType;
 use App\Domains\Bans\Exceptions\NotIPBannedException;
 use App\Models\GameIPBan;
-use Repositories\GameIPBans\GameIPBanRepository;
+use App\Models\MinecraftPlayer;
 
 class CreateIPUnban
 {
-    public function __construct(
-        private readonly GameIPBanRepository $gameIPBanRepository,
-        private readonly PlayerLookup $playerLookup,
-    ) {
-    }
-
     public function execute(
         string $ip,
-        PlayerIdentifier $unbannerPlayerIdentifier,
+        MinecraftUUID $unbannerPlayerUuid,
         UnbanType $unbanType,
     ): GameIPBan {
-        $existingBan = $this->gameIPBanRepository->firstActive(ip: $ip)
+        $existingBan = GameIPBan::where('ip_address', $ip)
+            ->whereNull('unbanned_at')
+            ->first()
             ?? throw new NotIPBannedException();
 
-        $unbannerPlayer = $this->playerLookup->findOrCreate(identifier: $unbannerPlayerIdentifier);
+        $unbannerPlayer = MinecraftPlayer::firstOrCreate(uuid: $unbannerPlayerUuid);
 
-        $this->gameIPBanRepository->unban(
-            ban: $existingBan,
-            unbannerPlayerId: $unbannerPlayer->getKey(),
-            unbanType: $unbanType,
-        );
+        $existingBan->update([
+            'unbanned_at' => now(),
+            'unbanner_player_id' => $unbannerPlayer->getKey(),
+            'unban_type' => $unbanType->value,
+        ]);
 
         return $existingBan->refresh();
     }

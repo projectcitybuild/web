@@ -2,8 +2,8 @@
 
 namespace App\Domains\EmailChange\UseCases;
 
-use App\Core\Domains\Tokens\TokenGenerator;
 use App\Core\Support\Laravel\SignedURL\SignedURLGenerator;
+use App\Core\Utilities\SecureTokenGenerator;
 use App\Domains\EmailChange\Notifications\VerifyNewEmailAddressNotification;
 use App\Models\EmailChange;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +14,7 @@ final class SendEmailChangeEmail
     private const LINK_EXPIRY_TIME_IN_MINS = 20;
 
     public function __construct(
-        private readonly TokenGenerator $tokenGenerator,
+        private readonly SecureTokenGenerator $tokenGenerator,
         private readonly SignedURLGenerator $signedURLGenerator,
     ) {}
 

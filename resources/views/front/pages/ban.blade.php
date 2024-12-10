@@ -4,7 +4,7 @@
 @section('description', 'Players listed on this page are currently banned on one or more servers on our game network')
 
 @section('body')
-    <x-navbar />
+    <x-front::navbar />
 
     <div class="flex flex-col p-9">
         <a class="flex gap-2 text-sm" href="{{ route('front.banlist') }}">
@@ -76,7 +76,7 @@
                     Banned By
                 </td>
                 <td class="py-4 px-2">
-                    {{ $ban->bannerPlayer?->alias?->first() ?? "No name" }}
+                    {{ $ban->bannerPlayer?->alias ?? "No name" }}
                 </td>
             </tr>
         </table>

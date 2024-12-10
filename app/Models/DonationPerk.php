@@ -29,7 +29,6 @@ final class DonationPerk extends Model implements LinkableAuditModel
         'expires_at',
         'created_at',
         'updated_at',
-        'last_currency_reward_at',
     ];
 
     protected $casts = [
@@ -65,7 +64,7 @@ final class DonationPerk extends Model implements LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.donations.show', $this->donation_id)
+        return route('manage.donations.show', $this->donation_id)
             .'#perk-'.$this->getKey();
     }
 

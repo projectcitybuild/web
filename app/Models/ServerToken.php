@@ -21,8 +21,6 @@ final class ServerToken extends Model implements LinkableAuditModel
 
     protected $table = 'server_tokens';
 
-    protected $primaryKey = 'id';
-
     protected $fillable = [
         'token',
         'server_id',
@@ -33,7 +31,6 @@ final class ServerToken extends Model implements LinkableAuditModel
         'created',
         'updated',
         'deleted',
-        'synced',
     ];
 
     public function server(): HasOne
@@ -45,25 +42,9 @@ final class ServerToken extends Model implements LinkableAuditModel
         );
     }
 
-    public function scopes(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            related: ServerTokenScope::class,
-            table: 'server_token_scopes_pivot',
-            foreignPivotKey: 'token_id',
-            relatedPivotKey: 'scope_id',
-            parentKey: 'id',
-        );
-    }
-
-    public function getScopeNamesAttribute()
-    {
-        return $this->scopes()->pluck('scope');
-    }
-
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.server-tokens.edit', $this);
+        return route('manage.server-tokens.edit', $this);
     }
 
     public function getActivitySubjectName(): ?string
@@ -75,7 +56,6 @@ final class ServerToken extends Model implements LinkableAuditModel
     {
         return AuditAttributes::build()
             ->add('description', 'token')
-            ->addRelationship('server_id', Server::class)
-            ->addArray('scope_names');
+            ->addRelationship('server_id', Server::class);
     }
 }

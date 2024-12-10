@@ -3,33 +3,21 @@
 namespace App\Domains\Donations\UseCases;
 
 use App\Core\Data\Exceptions\BadRequestException;
-use App\Core\Domains\Groups\GroupsManager;
 use App\Domains\Donations\Data\PaidAmount;
 use App\Domains\Donations\Data\PaymentType;
 use App\Domains\Donations\Events\DonationPerkCreated;
 use App\Domains\Donations\Exceptions\StripeProductNotFoundException;
 use App\Domains\Donations\Notifications\DonationPerkStartedNotification;
 use App\Models\Account;
+use App\Models\Donation;
 use App\Models\DonationPerk;
 use App\Models\Group;
+use App\Models\Payment;
+use App\Models\StripeProduct;
 use Illuminate\Support\Carbon;
-use Repositories\DonationPerkRepository;
-use Repositories\DonationRepository;
-use Repositories\PaymentRepository;
-use Repositories\StripeProductRepository;
 
 final class ProcessPayment
 {
-    public function __construct(
-        private readonly GroupsManager $groupsManager,
-        private readonly PaymentRepository $paymentRepository,
-        private readonly DonationPerkRepository $donationPerkRepository,
-        private readonly DonationRepository $donationRepository,
-        private readonly StripeProductRepository $stripeProductRepository,
-        private readonly Group $donorGroup,
-    ) {
-    }
-
     /**
      * @throws StripeProductNotFoundException if productId does not exist in the StripeProducts table
      * @throws BadRequestException if quantity or paidAmount is invalid
@@ -50,43 +38,53 @@ final class ProcessPayment
             throw new BadRequestException(id: 'invalid_quantity', message: 'Quantity purchased was zero');
         }
 
-        $product = $this->stripeProductRepository->first(productId: $productId, priceId: $priceId)
+        $donorGroup = Group::whereDonor()->first();
+        if ($donorGroup === null) {
+            throw new \Exception('Could not find donor group');
+        }
+
+        $product = StripeProduct::where('product_id', $productId)
+            ->where('price_id', $priceId)
+            ->first()
             ?? throw new StripeProductNotFoundException();
 
-        $donation = $this->donationRepository->create(
-            accountId: $account->getKey(),
-            paidAmount: $paidAmount,
-        );
+        $donation = Donation::create([
+            'account_id' => $account->getKey(),
+            'amount' => $paidAmount->toDollars(),
+        ]);
 
-        $this->paymentRepository->create(
-            accountId: $account->getKey(),
-            productId: $productId,
-            priceId: $priceId,
-            paidAmount: $paidAmount,
-            quantity: $quantity,
-            isSubscription: $donationType == PaymentType::SUBSCRIPTION,
-        );
+        Payment::create([
+            'account_id' => $account->getKey(),
+            'stripe_product' => $productId,
+            'stripe_price' => $priceId,
+            'amount_paid_in_cents' => $paidAmount->toCents(),
+            'quantity' => $quantity,
+            'is_subscription_payment' => $donationType == PaymentType::SUBSCRIPTION,
+        ]);
 
         $donationTier = $product->donationTier;
         if ($donationTier !== null) {
-            $existingPerk = $this->donationPerkRepository->lastToExpire(
-                accountId: $account->getKey(),
-                donationTierId: $donationTier->getKey(),
-            );
+            $existingPerk = DonationPerk::where('account_id', $account->getKey())
+                ->where('donation_tier_id', $donationTier->getKey())
+                ->where('is_active', true)
+                ->whereNotNull('expires_at')
+                ->orderBy('expires_at', 'desc')
+                ->first();
 
             $expiryDate = $this->calculateExpiryDate(
                 numberOfMonths: $quantity,
                 existingPerk: $existingPerk,
             );
 
-            $newPerk = $this->donationPerkRepository->create(
-                donationId: $donation->getKey(),
-                donationTierId: $donationTier?->getKey(),
-                accountId: $account->getKey(),
-                expiresAt: $expiryDate,
-            );
+            $newPerk = DonationPerk::create([
+                'donation_id' => $donation->getKey(),
+                'donation_tier_id' => $donationTier?->getKey(),
+                'account_id' => $account->getKey(),
+                'is_active' => true,
+                'expires_at' => $expiryDate,
+            ]);
 
-            $this->groupsManager->addMember(group: $this->donorGroup, account: $account);
+            $account->groups()->attach($donorGroup->getKey());
 
             $notification = new DonationPerkStartedNotification($expiryDate);
             $account->notify($notification);

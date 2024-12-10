@@ -22,13 +22,12 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: [
             __DIR__.'/../routes/web.php',
-            __DIR__.'/../routes/web_panel.php',
+            __DIR__.'/../routes/web_manage.php',
             __DIR__.'/../routes/web_redirects.php',
             __DIR__.'/../routes/web_tests.php',
         ],
         api: [
-            __DIR__.'/../routes/api_v1.php',
-            __DIR__.'/../routes/api_v2.php'
+            __DIR__.'/../routes/api.php',
         ],
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
@@ -41,6 +40,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\VerifyCsrfToken::class,
         ]);
+        $middleware->api(append: [
+           \App\Http\Middleware\LogApiCalls::class,
+        ]);
         $middleware->redirectGuestsTo(
             fn (Request $request) => route('front.login'),
         );
@@ -52,9 +54,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'mfa' => \App\Http\Middleware\MfaAuthenticated::class,
             'not-activated' => \App\Http\Middleware\NotActivated::class,
             'password.confirm' => \App\Http\Middleware\RequirePassword::class,
-            'requires-mfa' => \App\Http\Middleware\RequireMfaEnabled::class,
+            'require-mfa' => \App\Http\Middleware\RequireMfaEnabled::class,
+            'require-server-token' => \App\Http\Middleware\RequireServerToken::class,
             'scope' => \App\Http\Middleware\HasGroupScope::class,
-            'server-token' => \App\Http\Middleware\RequiresServerTokenScope::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

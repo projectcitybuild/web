@@ -2,27 +2,20 @@
 
 namespace App\Domains\Badges\UseCases;
 
-use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
-use App\Core\Domains\PlayerLookup\Service\PlayerLookup;
 use App\Models\Badge;
+use App\Models\MinecraftPlayer;
+use Illuminate\Support\Collection;
 
 final class GetBadges
 {
-    public function __construct(
-        private readonly PlayerLookup $playerLookup,
-    ) {}
-
-    public function execute(PlayerIdentifier $identifier): array
+    public function execute(MinecraftPlayer $player): Collection
     {
-        $account = $this->playerLookup
-            ->find(identifier: $identifier)
-            ?->getLinkedAccount();
-
+        $account = $player->account;
         if ($account === null) {
-            return [];
+            return collect();
         }
 
-        $badges = $account->badges;
+        $badges = $account->badges ?: collect();
         $accountAgeInYears = $account->created_at->diffInYears(now());
         $accountAgeInYears = number_format((float)$accountAgeInYears, decimals: 2);
 
@@ -31,6 +24,6 @@ final class GetBadges
         $badge->unicode_icon = '⌚';
         $badges->add($badge);
 
-        return $badges->toArray();
+        return $badges;
     }
 }

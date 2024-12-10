@@ -24,7 +24,9 @@ class GroupFactory extends Factory
             'is_default' => false,
             'is_staff' => false,
             'is_admin' => false,
-            'discourse_name' => $this->faker->randomLetter(),
+            'discord_name' => $this->faker->name(),
+            'minecraft_display_name' => $this->faker->name(),
+            'minecraft_hover_text' => $this->faker->name(),
         ];
     }
 
@@ -36,7 +38,7 @@ class GroupFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'name' => 'member',
-                'discourse_name' => 'member',
+                'discord_name' => 'member',
                 'is_default' => true,
             ];
         });
@@ -50,7 +52,7 @@ class GroupFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'name' => 'donator',
-                'discourse_name' => 'donator',
+                'discord_name' => 'donator',
             ];
         });
     }
@@ -63,7 +65,7 @@ class GroupFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'name' => 'Administrator',
-                'discourse_name' => 'administrator',
+                'discord_name' => 'administrator',
                 'is_staff' => true,
                 'is_admin' => true,
                 'can_access_panel' => true,

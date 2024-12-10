@@ -14,9 +14,9 @@
                 <td>{{ $ban->isActive() ? 'Active' : 'Removed' }}</td>
                 <td>{{ $ban->reason ?? 'No Reason Given' }}</td>
                 <td>
-                    @if($ban->banner_player_id != null && count($ban->bannerPlayer->aliases) > 0)
+                    @if($ban->banner_player_id != null && !empty($ban->bannerPlayer->alias))
                         <img src="https://minotar.net/avatar/{{ $ban->bannerPlayer->uuid }}/16" class="banlist__head" alt="">
-                        {{ $ban->bannerPlayer->getBanReadableName() }}
+                        {{ $ban->bannerPlayer->alias }}
                     @else
                         -
                     @endif

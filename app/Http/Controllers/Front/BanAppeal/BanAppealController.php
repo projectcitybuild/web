@@ -20,7 +20,7 @@ class BanAppealController extends WebController
     public function index(Request $request)
     {
         $bans = $request->user()?->gamePlayerBans()
-                ->with(['banAppeals', 'bannerPlayer.aliases', 'bannedPlayer.aliases'])
+                ->with(['banAppeals', 'bannerPlayer', 'bannedPlayer'])
                 ->latest()->get() ?? collect();
 
         return view('front.pages.ban-appeal.index')->with([
@@ -46,7 +46,7 @@ class BanAppealController extends WebController
 
         $bannedPlayer = $ban->bannedPlayer;
         $banHistory = $bannedPlayer->gamePlayerBans()
-            ->with(['bannerPlayer.aliases', 'bannedPlayer.aliases'])
+            ->with(['bannerPlayer', 'bannedPlayer'])
             ->latest()->get();
 
         return view('front.pages.ban-appeal.create')->with([

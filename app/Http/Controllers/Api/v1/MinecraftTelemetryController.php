@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
+use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Domains\MinecraftTelemetry\UseCases\UpdateSeenMinecraftPlayer;
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
@@ -12,13 +14,13 @@ final class MinecraftTelemetryController extends ApiController
         Request $request,
         UpdateSeenMinecraftPlayer $updateSeenMinecraftPlayer,
     ) {
-        $this->validateRequest($request->all(), [
-            'uuid' => 'required|string',
-            'alias' => 'required|string',
+        $request->validate([
+            'uuid' => ['required', new MinecraftUUIDRule],
+            'alias' => ['required', 'string'],
         ]);
 
         $updateSeenMinecraftPlayer->execute(
-            uuid: $request->get('uuid'),
+            uuid: new MinecraftUUID($request->get('uuid')),
             alias: $request->get('alias'),
         );
 

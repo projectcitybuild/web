@@ -2,10 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::permanentRedirect('terms', 'https://forums.projectcitybuild.com/t/community-rules/22928')
+Route::permanentRedirect('terms', 'https://portal.projectcitybuild.com/books/legal-and-compliance/page/terms-of-service')
     ->name('terms');
 
-Route::permanentRedirect('privacy', 'https://forums.projectcitybuild.com/privacy')
+Route::permanentRedirect('privacy', 'https://portal.projectcitybuild.com/books/legal-and-compliance/page/privacy-policy')
     ->name('privacy');
 
 Route::permanentRedirect('wiki', 'https://wiki.projectcitybuild.com')
@@ -29,8 +29,8 @@ Route::permanentRedirect('vote', 'https://portal.projectcitybuild.com/books/serv
 Route::permanentRedirect('map-archive', 'https://portal.projectcitybuild.com/books/map-archive/page/map-archive')
     ->name('map-archive');
 
-Route::permanentRedirect('3d-maps', 'https://3d.pcbmc.co')
-    ->name('3d-maps');
+Route::permanentRedirect('monarch/apply', 'https://docs.google.com/forms/d/e/1FAIpQLSdm11-3-V8XgkGLAvXmacGgltc8C3VtQXIKHmHE2ZH5o9Ypmw/viewform?pli=1')
+    ->name('monarch.apply');
 
 Route::permanentRedirect('login', 'https://projectcitybuild.com/auth/login');
 

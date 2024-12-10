@@ -4,8 +4,8 @@ namespace App\Domains\Donations\UseCases;
 
 use App\Domains\Donations\Exceptions\StripeProductNotFoundException;
 use App\Models\Account;
+use App\Models\StripeProduct;
 use Laravel\Cashier\Checkout;
-use Repositories\StripeProductRepository;
 use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
 
@@ -13,9 +13,7 @@ final class BeginCheckout
 {
     public function __construct(
         private readonly StripeClient $stripeClient,
-        private readonly StripeProductRepository $stripeProductRepository,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws ApiErrorException
@@ -33,7 +31,9 @@ final class BeginCheckout
         $productId = $price['product'];
         $priceId = $price['id'];
 
-        $product = $this->stripeProductRepository->first(productId: $productId, priceId: $priceId)
+        $product = StripeProduct::where('product_id', $productId)
+            ->where('price_id', $priceId)
+            ->first()
             ?? throw new StripeProductNotFoundException();
 
         $donationTier = $product->donationTier;

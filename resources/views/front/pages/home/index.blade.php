@@ -10,12 +10,12 @@ One of the world's longest-running Minecraft servers; we're a community of creat
 
     <main>
         <section class="introduction">
-            <div class="container">
+            <div class="max-w-screen-2xl mx-auto px-6 md:px-12">
                 <h1>Minecraft 24/7</h1>
 
                 <div class="introduction__content">
                     <div class="introduction__text">
-                        We're a Minecraft community that has been around since 2010.<p />
+                        We're a Minecraft community that's been around since October 2010.<p />
 
                         With our free-build Creative and Survival multiplayer maps, we offer a fun platform & building experience like no other. You can visit and build in established towns & cities or start your own.
                     </div>
@@ -112,7 +112,7 @@ One of the world's longest-running Minecraft servers; we're a community of creat
             @include('front.components.sitemap', ['animated' => true])
 
             <section class="footer-donations">
-                <div class="container">
+                <div class="max-w-screen-2xl mx-auto px-6 md:px-12 flex">
                     <div class="footer-donations__left">
                         <h1>Help Keep Us Online</h1>
 

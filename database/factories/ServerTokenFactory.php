@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Server;
 use App\Models\ServerToken;
 use Illuminate\Support\Str;
 
@@ -23,6 +24,7 @@ class ServerTokenFactory extends Factory
     {
         return [
             'token' => Str::random(),
+            'server_id' => Server::factory()->create()->getKey(),
         ];
     }
 }

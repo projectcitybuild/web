@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Core\Domains\Tokens\TokenGenerator;
+use App\Core\Utilities\SecureTokenGenerator;
 use App\Models\Account;
 use App\Models\AccountActivation;
 use App\Models\Group;
@@ -16,7 +16,7 @@ class AccountSeeder extends Seeder
 {
     public function __construct(
         private readonly Google2FA $google2FA,
-        private readonly TokenGenerator $tokenGenerator,
+        private readonly SecureTokenGenerator $tokenGenerator,
     ) {}
 
     public function run()
@@ -57,6 +57,9 @@ class AccountSeeder extends Seeder
 
     private function createDummyAccounts()
     {
-        Account::factory()->count(100)->create();
+        Account::factory()
+            ->passwordHashed('password')
+            ->count(50)
+            ->create();
     }
 }

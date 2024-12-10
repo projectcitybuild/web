@@ -5,15 +5,16 @@ namespace App\Models;
 use App\Core\Domains\Auditing\AuditAttributes;
 use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
-use App\Core\Domains\PlayerLookup\Player;
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Utilities\Traits\HasStaticTable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
-final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
+final class MinecraftPlayer extends Model implements LinkableAuditModel
 {
     use HasFactory;
     use HasStaticTable;
@@ -25,6 +26,7 @@ final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
 
     protected $fillable = [
         'uuid',
+        'alias',
         'account_id',
         'last_synced_at',
         'last_seen_at',
@@ -35,36 +37,12 @@ final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
         'last_seen_at' => 'datetime',
     ];
 
-    public function getBanReadableName(): ?string
-    {
-        $aliases = $this->aliases;
-        if ($aliases->count() == 0) {
-            return null;
-        }
-
-        return $this->aliases->last()->alias;
-    }
-
-    public function currentAlias(): ?MinecraftPlayerAlias
-    {
-        return $this->aliases->last();
-    }
-
     public function account(): BelongsTo
     {
         return $this->belongsTo(
             related: Account::class,
             foreignKey: 'account_id',
             ownerKey: 'account_id',
-        );
-    }
-
-    public function aliases(): HasMany
-    {
-        return $this->hasMany(
-            related: MinecraftPlayerAlias::class,
-            foreignKey: 'player_minecraft_id',
-            localKey: 'player_minecraft_id',
         );
     }
 
@@ -108,11 +86,25 @@ final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
         return $this->save();
     }
 
-    public function hasAlias(string $alias): bool
+    public static function firstOrCreate(MinecraftUUID $uuid, ?string $alias = null): self
     {
-        return $this->aliases
-            ->where('alias', $alias)
-            ->isNotEmpty();
+        $existing = self::whereUuid($uuid)->first();
+        if ($existing === null) {
+            return self::create([
+                'uuid' => $uuid->trimmed(),
+                'alias' => $alias,
+            ]);
+        }
+        if ($existing->alias !== $alias) {
+            $existing->alias = $alias;
+            $existing->save();
+        }
+        return $existing;
+    }
+
+    public function scopeWhereUuid(Builder $query, MinecraftUUID $uuid)
+    {
+        $query->where('uuid', $uuid->trimmed());
     }
 
     /** ************************************************
@@ -125,6 +117,7 @@ final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
         return $this;
     }
 
+    /** @deprecated */
     public function getLinkedAccount(): ?Account
     {
         return $this->account;
@@ -138,11 +131,11 @@ final class MinecraftPlayer extends Model implements Player, LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.minecraft-players.show', $this);
+        return route('manage.minecraft-players.show', $this);
     }
 
     public function getActivitySubjectName(): ?string
     {
-        return $this->getBanReadableName() ?? Str::limit($this->uuid, 10);
+        return $this->alias ?? Str::limit($this->uuid, 10);
     }
 }

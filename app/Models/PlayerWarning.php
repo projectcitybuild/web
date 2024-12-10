@@ -55,12 +55,12 @@ final class PlayerWarning extends Model implements LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.warnings.edit', $this);
+        return route('manage.warnings.edit', $this);
     }
 
     public function getActivitySubjectName(): ?string
     {
-        $player = $this->warnedPlayer->currentAlias()?->alias
+        $player = $this->warnedPlayer->alias
             ?? $this->warnedPlayer->getKey().' player id';
 
         return "Warning for $player";

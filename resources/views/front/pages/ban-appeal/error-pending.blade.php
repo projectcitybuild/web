@@ -5,7 +5,7 @@
         <div class="alert alert--error">
             <h2><i class="fas fa-exclamation-circle"></i> Appeal Already Created</h2>
             @if($existingAppeal->is_account_verified)
-                You already have an <a href="{{ route('front.panel.ban-appeals.show', $banAppeal) }}">appeal in progress</a>.
+                You already have an <a href="{{ route('manage.ban-appeals.show', $banAppeal) }}">appeal in progress</a>.
             @else
                 You already have an appeal in progress. Click the link in the appeal confirmation email to check
                 progress.

@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Core\Domains\Tokens\TokenGenerator;
+use App\Core\Utilities\SecureTokenGenerator;
 use App\Models\AccountActivation;
 use Illuminate\Support\Facades\App;
 
@@ -23,7 +23,7 @@ class AccountActivationFactory extends Factory
     public function definition()
     {
         return [
-            'token' => App::make(TokenGenerator::class)->make(),
+            'token' => App::make(SecureTokenGenerator::class)->make(),
             'expires_at' => now()->addDay(),
         ];
     }

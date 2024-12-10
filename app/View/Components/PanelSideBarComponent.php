@@ -17,7 +17,7 @@ class PanelSideBarComponent extends Component
         $outgoingRankApplications = BuilderRankApplication::where('status', ApplicationStatus::IN_PROGRESS->value)->count();
         $outstandingBanAppeals = BanAppeal::pending()->count();
 
-        return view('admin.layouts._sidebar', [
+        return view('manage.layouts._sidebar', [
             'outgoing_rank_apps' => $outgoingRankApplications,
             'outstanding_ban_appeals' => $outstandingBanAppeals,
         ]);
