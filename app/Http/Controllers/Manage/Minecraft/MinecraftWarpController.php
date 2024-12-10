@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Manage;
+namespace App\Http\Controllers\Manage\Minecraft;
 
+use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftWarp;
 use Illuminate\Contracts\Foundation\Application;
@@ -14,6 +15,8 @@ use Illuminate\Validation\Rule;
 
 class MinecraftWarpController extends WebController
 {
+    use ValidatesCoordinates;
+
     public function index(Request $request): MinecraftWarp|Factory|View
     {
         $warps = MinecraftWarp::orderBy('name', 'asc')
@@ -34,12 +37,7 @@ class MinecraftWarpController extends WebController
     {
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'alpha_dash', Rule::unique('minecraft_warps')],
-            'world' => 'required|string',
-            'x' => 'required|numeric',
-            'y' => 'required|numeric',
-            'z' => 'required|numeric',
-            'pitch' => 'required|numeric',
-            'yaw' => 'required|numeric',
+            ...$this->coordinateRules,
         ]);
 
         if ($validator->fails()) {
@@ -66,12 +64,7 @@ class MinecraftWarpController extends WebController
     {
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'alpha_dash', Rule::unique('minecraft_warps')->ignore($warp)],
-            'world' => 'required|string',
-            'x' => 'required|numeric',
-            'y' => 'required|numeric',
-            'z' => 'required|numeric',
-            'pitch' => 'required|numeric',
-            'yaw' => 'required|numeric',
+            ...$this->coordinateRules,
         ]);
 
         if ($validator->fails()) {

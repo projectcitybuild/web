@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Manage;
+namespace App\Http\Controllers\Manage\Minecraft;
 
 use App\Domains\MinecraftEventBus\Events\MinecraftConfigUpdated;
 use App\Http\Controllers\WebController;
