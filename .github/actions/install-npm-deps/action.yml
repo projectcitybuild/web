@@ -1,0 +1,24 @@
+name: Install NPM Dependencies
+description: Downloads NPM dependencies from cache or CDN
+
+runs:
+  using: composite
+  steps:
+    - name: Get npm cache directory
+      id: get-npm-cache
+      shell: bash
+      run: |
+        echo "::set-output name=dir::$(npm config get cache)"
+
+    - name: Restore npm cache
+      id: npm-cache
+      uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
+      with:
+        path: ${{ steps.get-npm-cache.outputs.dir }}
+        key: ${{ runner.os }}-node-v3-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Install npm dependencies
+      shell: bash
+      run: npm ci

@@ -1,0 +1,12 @@
+name: Setup PHP
+description: Installs PHP and Composer
+
+runs:
+  using: composite
+  steps:
+    - name: Setup PHP
+      uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231
+      with:
+        php-version: 8.3
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+        coverage: none
