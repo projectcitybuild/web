@@ -23,6 +23,10 @@ jobs:
 
       - name: Deploy
         uses: deployphp/action@6242095e7207facf115ac4439760356bc52760ac
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         with:
           private-key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
           dep: deploy
