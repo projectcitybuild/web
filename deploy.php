@@ -22,3 +22,14 @@ host(getenv('DEPLOY_HOST'))
 // Hooks
 
 after('deploy:failed', 'deploy:unlock');
+
+// Additional tasks
+
+// The Laravel recipe doesn't build any frontend assets, so we'll
+// need to do it ourselves here
+task('deploy:frontend', function () {
+    run('npm install');
+    run('npm run build');
+})->desc('Build frontend assets');
+
+after('deploy:vendors', 'deploy:frontend');
