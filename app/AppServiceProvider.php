@@ -101,9 +101,7 @@ final class AppServiceProvider extends ServiceProvider
         Blade::component('panel-side-bar', PanelSideBarComponent::class);
 
         Blade::anonymousComponentPath(__DIR__.'/../resources/views/shared/components');
-        Blade::anonymousComponentPath(__DIR__.'/../resources/views/front/components', 'front');
-        Blade::anonymousComponentPath(__DIR__.'/../resources/views/manage/components', 'manage');
-
-        Blade::anonymousComponentNamespace('manage.activity.components', 'activity');
+        Blade::anonymousComponentPath(__DIR__.'/../resources/views/front/components', prefix: 'front');
+        Blade::anonymousComponentPath(__DIR__.'/../resources/views/manage/components', prefix: 'manage');
     }
 }

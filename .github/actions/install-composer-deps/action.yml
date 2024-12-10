@@ -1,0 +1,24 @@
+name: Install Composer Dependencies
+description: Downloads Composer dependencies from cache or CDN
+
+runs:
+  using: composite
+  steps:
+    - name: Get Composer cache directory
+      id: get-composer-cache
+      shell: bash
+      run: |
+        echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+    - name: Restore Composer cache
+      id: composer-cache
+      uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
+      with:
+        path: ${{ steps.get-composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-v3-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+
+    - name: Install Composer dependencies
+      shell: bash
+      run: composer install --prefer-dist --ignore-platform-reqs --no-interaction

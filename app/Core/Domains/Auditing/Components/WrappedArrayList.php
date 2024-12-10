@@ -34,7 +34,7 @@ class WrappedArrayList extends Component
      */
     public function render()
     {
-        return view('library.audit.diffs.wrapped-array-list')->with([
+        return view('manage.components.audit.diffs.wrapped-array-list')->with([
             'entries' => $this->entries,
         ]);
     }

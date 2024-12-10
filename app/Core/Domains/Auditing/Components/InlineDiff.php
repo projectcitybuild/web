@@ -30,7 +30,7 @@ class InlineDiff extends Component
 
     public function render()
     {
-        return view('library.audit.diffs.inline-diff')->with([
+        return view('manage.components.audit.diffs.inline-diff')->with([
             'attribute' => $this->attribute,
             'old' => $this->old,
             'new' => $this->new,
