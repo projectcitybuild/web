@@ -2,8 +2,9 @@ name: Deployment
 
 on:
   push:
-#    branches:
-#      - release
+    branches:
+      - main
+      - release
 
 concurrency: deploy_production
 
@@ -30,3 +31,5 @@ jobs:
         with:
           private-key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
           dep: deploy
+          keep_releases: 5
+
