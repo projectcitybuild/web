@@ -16,7 +16,8 @@ add('writable_dirs', []);
 
 host(getenv('DEPLOY_HOST'))
     ->set('remote_user', getenv('DEPLOY_USER'))
-    ->set('deploy_path', getenv('DEPLOY_PATH'));
+    ->set('deploy_path', getenv('DEPLOY_PATH'))
+    ->set('branch', getenv('DEPLOY_BRANCH'));
 
 // Hooks
 
