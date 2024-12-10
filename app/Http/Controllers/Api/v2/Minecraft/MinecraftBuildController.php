@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v2\Minecraft;
 
+use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Http\Controllers\ApiController;
@@ -14,6 +15,8 @@ use Illuminate\Validation\Rule;
 
 final class MinecraftBuildController extends ApiController
 {
+    use ValidatesCoordinates;
+
     public function index(Request $request)
     {
         $request->validate([
@@ -35,40 +38,30 @@ final class MinecraftBuildController extends ApiController
 
     public function store(Request $request)
     {
-        $input = $request->validate([
+        $validated = $request->validate([
             'player_uuid' => ['required', new MinecraftUUIDRule],
             'name' => ['required', Rule::unique(MinecraftBuild::tableName())],
-            'world' => 'required|string',
-            'x' => 'required|numeric',
-            'y' => 'required|numeric',
-            'z' => 'required|numeric',
-            'pitch' => 'required|numeric',
-            'yaw' => 'required|numeric',
+            ...$this->coordinateRules,
         ]);
 
         $player = MinecraftPlayer::firstOrCreate(
-            uuid: new MinecraftUUID($input['player_uuid']),
+            uuid: new MinecraftUUID($validated['player_uuid']),
             alias: $request->get('alias'),
         );
-        $input['player_id'] = $player->getKey();
+        $validated['player_id'] = $player->getKey();
 
-        return MinecraftBuild::create($input);
+        return MinecraftBuild::create($validated);
     }
 
     public function update(Request $request, MinecraftBuild $build)
     {
-        $input = $request->validate([
+        $validated = $request->validate([
             'player_uuid' => ['required', new MinecraftUUIDRule],
             'name' => ['required', Rule::unique(MinecraftBuild::tableName())->ignore($build)],
-            'world' => 'required|string',
-            'x' => 'required|numeric',
-            'y' => 'required|numeric',
-            'z' => 'required|numeric',
-            'pitch' => 'required|numeric',
-            'yaw' => 'required|numeric',
+            ...$this->coordinateRules,
         ]);
 
-        $this->assertHasWriteAccess(build: $build, uuid: $input['player_uuid']);
+        $this->assertHasWriteAccess(build: $build, uuid: $validated['player_uuid']);
 
         $build->update($request->all());
 
@@ -77,12 +70,12 @@ final class MinecraftBuildController extends ApiController
 
     public function patch(Request $request, MinecraftBuild $build)
     {
-        $input = $request->validate([
+        $validated = $request->validate([
             'player_uuid' => ['required', new MinecraftUUIDRule],
             'name' => [Rule::unique(MinecraftBuild::tableName())->ignore($build)],
         ]);
 
-        $this->assertHasWriteAccess(build: $build, uuid: $input['player_uuid']);
+        $this->assertHasWriteAccess(build: $build, uuid: $validated['player_uuid']);
 
         if ($request->has('name')) {
             $name = $request->get('name');
@@ -103,11 +96,11 @@ final class MinecraftBuildController extends ApiController
 
     public function destroy(Request $request, MinecraftBuild $build)
     {
-        $input = $request->validate([
+        $validated = $request->validate([
             'player_uuid' => ['required', new MinecraftUUIDRule],
         ]);
 
-        $this->assertHasWriteAccess(build: $build, uuid: $input['player_uuid']);
+        $this->assertHasWriteAccess(build: $build, uuid: $validated['player_uuid']);
 
         DB::transaction(function () use ($build) {
             MinecraftBuildVote::where('build_id', $build->getKey())->delete();
@@ -121,6 +114,7 @@ final class MinecraftBuildController extends ApiController
      * Ensures the given player UUID has the ability to modify the given build.
      * Basically checks the UUID is the build owner or a staff member.
      */
+    // TODO: convert this to a Policy
     private function assertHasWriteAccess(MinecraftBuild $build, string $uuid): void
     {
         $uuid = new MinecraftUUID($uuid);

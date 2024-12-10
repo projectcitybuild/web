@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Manage;
+namespace App\Http\Controllers\Manage\Minecraft;
 
 use App\Core\Domains\Mojang\Api\MojangPlayerApi;
 use App\Http\Controllers\WebController;
@@ -17,9 +17,11 @@ class MinecraftPlayerController extends WebController
      */
     public function index()
     {
-        $minecraftPlayers = MinecraftPlayer::with(['account'])->paginate(50);
+        $minecraftPlayers = MinecraftPlayer::with(['account'])
+            ->paginate(50);
 
-        return view('manage.pages.minecraft-player.index')->with(compact('minecraftPlayers'));
+        return view('manage.pages.minecraft-player.index')
+            ->with(compact('minecraftPlayers'));
     }
 
     /**

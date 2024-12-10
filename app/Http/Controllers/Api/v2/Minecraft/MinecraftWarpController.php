@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v2\Minecraft;
 
+use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
 use App\Http\Controllers\ApiController;
 use App\Models\MinecraftWarp;
 use Illuminate\Http\Request;
@@ -9,6 +10,8 @@ use Illuminate\Validation\Rule;
 
 final class MinecraftWarpController extends ApiController
 {
+    use ValidatesCoordinates;
+
     public function index(Request $request)
     {
         return MinecraftWarp::orderBy('name', 'asc')->get();
@@ -18,12 +21,7 @@ final class MinecraftWarpController extends ApiController
     {
         $request->validate([
             'name' => ['required', 'string', 'alpha_dash', Rule::unique(MinecraftWarp::tableName())],
-            'world' => 'required|string',
-            'x' => 'required|numeric',
-            'y' => 'required|numeric',
-            'z' => 'required|numeric',
-            'pitch' => 'required|numeric',
-            'yaw' => 'required|numeric',
+            ...$this->coordinateRules,
         ]);
 
         return MinecraftWarp::create($request->all());
@@ -33,12 +31,7 @@ final class MinecraftWarpController extends ApiController
     {
         $request->validate([
             'name' => ['required', 'string', 'alpha_dash', Rule::unique(MinecraftWarp::tableName())->ignore($warp)],
-            'world' => 'required|string',
-            'x' => 'required|numeric',
-            'y' => 'required|numeric',
-            'z' => 'required|numeric',
-            'pitch' => 'required|numeric',
-            'yaw' => 'required|numeric',
+            ...$this->coordinateRules,
         ]);
 
         $warp->update($request->all());
