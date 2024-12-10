@@ -31,7 +31,5 @@ jobs:
           DEPLOY_BRANCH: main
         with:
           private-key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
-          dep: deploy
-          options:
-            keep_releases: 3
+          dep: deploy -o keep_releases=3
 

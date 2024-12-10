@@ -28,7 +28,5 @@ jobs:
           DEPLOY_BRANCH: release
         with:
           private-key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
-          dep: deploy
-          options:
-            keep_releases: 5
+          dep: deploy -o keep_releases=5
 
