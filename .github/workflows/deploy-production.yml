@@ -1,9 +1,7 @@
 name: Deployment
 
 on:
-  push:
-    branches:
-      - release
+  workflow_dispatch:
 
 concurrency: deploy_production
 
