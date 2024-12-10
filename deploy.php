@@ -6,7 +6,7 @@ require 'recipe/laravel.php';
 
 // Config
 
-set('repository', 'git@github.com:projectcitybuild/web.git');
+set('repository', 'https://github.com/projectcitybuild/web.git');
 
 add('shared_files', []);
 add('shared_dirs', []);
