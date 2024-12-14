@@ -1,0 +1,33 @@
+name: Deploy
+description: Deploys the current branch to the web server
+
+inputs:
+  keep-releases:
+    description: "Max number of releases stored (for rollback purposes)"
+    required: true
+  branch:
+    description: "Name of git branch to deploy"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Install PHP
+      uses: ./.github/actions/tasks/install-php
+
+    - name: Install Composer dependencies
+      shell: bash
+      run: composer install
+
+    - name: Deploy
+      uses: deployphp/action@6242095e7207facf115ac4439760356bc52760ac
+      env:
+        DEPLOY_BRANCH: ${{ inputs.branch }}
+        DEPLOY_HOST: ${{ env.DEPLOY_HOST }}
+        DEPLOY_USER: ${{ env.DEPLOY_USER }}
+        DEPLOY_PATH: ${{ env.DEPLOY_PATH }}
+        DEPLOY_DISCORD_CHANNEL_ID: ${{ env.DEPLOY_DISCORD_CHANNEL_ID }}
+        DEPLOY_DISCORD_CHANNEL_TOKEN: ${{ env.DEPLOY_DISCORD_CHANNEL_TOKEN }}
+      with:
+        private-key: ${{ env.DEPLOY_PRIVATE_KEY }}
+        dep: "deploy -o keep_releases=${{ inputs.keep-releases }}"
