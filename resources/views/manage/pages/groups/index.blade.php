@@ -21,7 +21,6 @@
                 <th>Minecraft Display Name</th>
                 <th>Minecraft Hover Text</th>
                 <th>Display Priority</th>
-                <th>Panel Access?</th>
             </tr>
             </thead>
             <tbody>
@@ -58,7 +57,6 @@
                             {{ $group->display_priority }}
                         @endif
                     </td>
-                    <td><x-manage::bs.fa-boolean :data="$group->can_access_panel" false-class="text-muted" /></td>
                 </tr>
             @endforeach
             </tbody>

@@ -16,7 +16,6 @@ class AccountTest extends TestCase
         $this->adminGroup = Group::factory()->create([
             'name' => 'administrator',
             'alias' => 'Admin',
-            'is_staff' => true,
             'is_admin' => true,
         ]);
 

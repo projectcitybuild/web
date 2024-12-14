@@ -53,7 +53,6 @@ class GroupSeeder extends Seeder
             'minecraft_name' => 'intern',
             'minecraft_display_name' => '<dark_gray>[I]</dark_gray>',
             'minecraft_hover_text' => 'Intern',
-            'is_build' => true,
             'group_type' => 'build',
             'display_priority' => 1,
         ]);
@@ -63,7 +62,6 @@ class GroupSeeder extends Seeder
             'minecraft_name' => 'builder',
             'minecraft_display_name' => '<dark_gray>[B]</dark_gray>',
             'minecraft_hover_text' => 'Builder',
-            'is_build' => true,
             'group_type' => 'build',
             'display_priority' => 2,
         ]);
@@ -73,7 +71,6 @@ class GroupSeeder extends Seeder
             'minecraft_name' => 'planner',
             'minecraft_display_name' => '<dark_gray>[P]</dark_gray>',
             'minecraft_hover_text' => 'Planner',
-            'is_build' => true,
             'group_type' => 'build',
             'display_priority' => 3,
         ]);
@@ -83,7 +80,6 @@ class GroupSeeder extends Seeder
             'minecraft_name' => 'engineer',
             'minecraft_display_name' => '<dark_gray>[E]</dark_gray>',
             'minecraft_hover_text' => 'Engineer',
-            'is_build' => true,
             'group_type' => 'build',
             'display_priority' => 4,
         ]);
@@ -93,7 +89,6 @@ class GroupSeeder extends Seeder
             'minecraft_name' => 'architect',
             'minecraft_display_name' => '<dark_gray>[A]</dark_gray>',
             'minecraft_hover_text' => 'Architect',
-            'is_build' => true,
             'group_type' => 'build',
             'display_priority' => 5,
         ]);
@@ -126,7 +121,6 @@ class GroupSeeder extends Seeder
             'minecraft_display_name' => '<red>[Staff]</red>',
             'minecraft_hover_text' => 'Moderator',
             'alias' => 'Mod',
-            'is_staff' => true,
             'group_type' => 'staff',
             'display_priority' => 1,
         ]);
@@ -142,9 +136,7 @@ class GroupSeeder extends Seeder
             'minecraft_display_name' => '<red>[Staff]</red>',
             'minecraft_hover_text' => 'Developer',
             'alias' => 'Dev',
-            'is_staff' => true,
             'is_admin' => true,
-            'can_access_panel' => true,
             'group_type' => 'staff',
             'display_priority' => 2,
         ]);
