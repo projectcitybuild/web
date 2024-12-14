@@ -9,6 +9,17 @@ use Illuminate\Auth\Access\Response;
 class GroupPolicy
 {
     /**
+     * Perform pre-authorization checks.
+     */
+    public function before(Account $account, string $ability): bool|null
+    {
+        if ($account->isAdmin()) {
+            return true;
+        }
+        return null;
+    }
+
+    /**
      * Determine whether the user can view any models.
      */
     public function viewAny(Account $account): bool

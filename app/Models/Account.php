@@ -197,7 +197,7 @@ final class Account extends Authenticatable implements LinkableAuditModel
 
     public function canAccessPanel(): bool
     {
-        return $this->hasAbility(PanelGroupScope::ACCESS_PANEL->value);
+        return $this->groups()->where('group_type', 'staff')->count() > 0;
     }
 
     public function hasAbility(string $to): bool
