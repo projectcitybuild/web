@@ -12,7 +12,7 @@ class BuilderRankApplicationPolicy
      */
     public function before(Account $account, string $ability): bool|null
     {
-        if ($account->isAdmin() || $account->isStaff()) {
+        if ($account->isAdmin() || $account->isStaff() || $account->isArchitect()) {
             return true;
         }
         return null;

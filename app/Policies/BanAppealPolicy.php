@@ -12,7 +12,7 @@ class BanAppealPolicy
      */
     public function before(Account $account, string $ability): bool|null
     {
-        if ($account->isAdmin() || $account->isStaff()) {
+        if ($account->isAdmin() || $account->isStaff() || $account->isArchitect()) {
             return true;
         }
         return null;
@@ -29,9 +29,11 @@ class BanAppealPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(Account $account, BanAppeal $appeal): bool
+    public function view(Account $account, BanAppeal $banAppeal): bool
     {
-        return false;
+        return $account->is(
+            $banAppeal->gamePlayerBan->bannedPlayer->account
+        );
     }
 
     /**
@@ -45,7 +47,7 @@ class BanAppealPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(Account $account, BanAppeal $appeal): bool
+    public function update(Account $account, BanAppeal $banAppeal): bool
     {
         return false;
     }
@@ -53,7 +55,7 @@ class BanAppealPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(Account $account, BanAppeal $appeal): bool
+    public function delete(Account $account, BanAppeal $banAppeal): bool
     {
         return false;
     }
@@ -61,7 +63,7 @@ class BanAppealPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(Account $account, BanAppeal $appeal): bool
+    public function restore(Account $account, BanAppeal $banAppeal): bool
     {
         return false;
     }
@@ -69,7 +71,7 @@ class BanAppealPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(Account $account, BanAppeal $appeal): bool
+    public function forceDelete(Account $account, BanAppeal $banAppeal): bool
     {
         return false;
     }

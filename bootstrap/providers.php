@@ -12,7 +12,6 @@ return [
     \App\Core\Support\Passport\PassportServiceProvider::class,
 
     \App\Domains\Activation\ActivationServiceProvider::class,
-    \App\Domains\BanAppeals\BanAppealServiceProvider::class,
     \App\Domains\Captcha\CaptchaServiceProvider::class,
     \App\Domains\Donations\DonationServiceProvider::class,
     \App\Domains\Manage\ManageServiceProvider::class,
