@@ -7,35 +7,30 @@ use App\Http\Controllers\WebController;
 use App\Models\MinecraftConfig;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class MinecraftConfigController extends WebController
 {
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
+        Gate::authorize('create', MinecraftConfig::class);
+
         $config = MinecraftConfig::byLatest()->first();
 
         return view('manage.pages.minecraft-config.create', ['config' => $config]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, MinecraftPlayer $minecraftPlayer)
     {
-        $input = $request->validate([
+        Gate::authorize('update', MinecraftConfig::class);
+
+        $validated = $request->validate([
             'config' => 'required|json',
         ]);
 
         $latest = MinecraftConfig::byLatest()->first();
         $config = MinecraftConfig::create([
-            'config' => json_decode($input['config']),
+            'config' => json_decode($validated['config']),
             'version' => $latest->version + 1,
         ]);
 

@@ -97,6 +97,7 @@
             <span>Minecraft</span>
         </h6>
         <ul class="nav flex-column mb-2">
+            @can('viewAny', App\Models\MinecraftWarp::class)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('manage/minecraft/warps*') ? 'active' : '' }} "
                    href="{{ route('manage.minecraft.warps.index') }}">
@@ -104,6 +105,7 @@
                     Warps
                 </a>
             </li>
+            @endcan
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('manage/showcase-warps*') ? 'active' : '' }} "
                    href="{{ route('manage.showcase-warps.index') }}">
@@ -111,6 +113,7 @@
                     Showcase Warps
                 </a>
             </li>
+            @can('viewAny', App\Models\MinecraftConfig::class)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('manage/minecraft/config*') ? 'active' : '' }} "
                    href="{{ route('manage.minecraft.config.create') }}">
@@ -118,6 +121,7 @@
                     Config
                 </a>
             </li>
+            @endcan
         </ul>
         @endscope
 

@@ -114,7 +114,7 @@ final class MinecraftBuildController extends ApiController
      * Ensures the given player UUID has the ability to modify the given build.
      * Basically checks the UUID is the build owner or a staff member.
      */
-    // TODO: convert this to a Policy
+    // TODO: use MinecraftBuildPolicy
     private function assertHasWriteAccess(MinecraftBuild $build, string $uuid): void
     {
         $uuid = new MinecraftUUID($uuid);

@@ -5,28 +5,30 @@ namespace App\Http\Controllers\Manage\Minecraft;
 use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftWarp;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class MinecraftWarpController extends WebController
 {
     use ValidatesCoordinates;
 
-    public function index(Request $request): MinecraftWarp|Factory|View
+    public function index(Request $request)
     {
+        Gate::authorize('viewAny', MinecraftWarp::class);
+
         $warps = MinecraftWarp::orderBy('name', 'asc')
             ->paginate(100);
 
-        return view('manage.pages.minecraft-warps.index')->with(compact('warps'));
+        return view('manage.pages.minecraft-warps.index')
+            ->with(compact('warps'));
     }
 
-    public function create(Request $request): Application|Factory|View
+    public function create(Request $request)
     {
+        Gate::authorize('create', MinecraftWarp::class);
+
         $warp = new MinecraftWarp();
 
         return view('manage.pages.minecraft-warps.create')
@@ -35,51 +37,44 @@ class MinecraftWarpController extends WebController
 
     public function store(Request $request): RedirectResponse
     {
-        $validator = Validator::make($request->all(), [
+        Gate::authorize('create', MinecraftWarp::class);
+
+        $validated = $request->validate([
             'name' => ['required', 'string', 'alpha_dash', Rule::unique('minecraft_warps')],
             ...$this->coordinateRules,
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        MinecraftWarp::create($request->all());
+        MinecraftWarp::create($validated);
 
         return redirect(route('manage.minecraft.warps.index'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(MinecraftWarp $warp): MinecraftWarp|Factory|View
+    public function edit(MinecraftWarp $warp)
     {
+        Gate::authorize('update', $warp);
+
         return view('manage.pages.minecraft-warps.edit')
             ->with(compact('warp'));
     }
 
-    public function update(Request $request, MinecraftWarp $warp): RedirectResponse
+    public function update(Request $request, MinecraftWarp $warp)
     {
-        $validator = Validator::make($request->all(), [
+        Gate::authorize('update', $warp);
+
+        $validated = $request->validate([
             'name' => ['required', 'string', 'alpha_dash', Rule::unique('minecraft_warps')->ignore($warp)],
             ...$this->coordinateRules,
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $warp->update($request->all());
+        $warp->update($validated);
 
         return redirect(route('manage.minecraft.warps.index'));
     }
 
-    public function destroy(Request $request, MinecraftWarp $warp): RedirectResponse
+    public function destroy(Request $request, MinecraftWarp $warp)
     {
+        Gate::authorize('delete', $warp);
+
         $warp->delete();
 
         return redirect(route('manage.minecraft.warps.index'));
