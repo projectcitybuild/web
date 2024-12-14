@@ -3,9 +3,9 @@
 namespace App\Policies;
 
 use App\Models\Account;
-use App\Models\Badge;
+use App\Models\PlayerWarning;
 
-class BadgePolicy
+class PlayerWarningPolicy
 {
     /**
      * Perform pre-authorization checks.
@@ -29,7 +29,7 @@ class BadgePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(Account $account, Badge $badge): bool
+    public function view(Account $account, PlayerWarning $warning): bool
     {
         return false;
     }
@@ -45,7 +45,7 @@ class BadgePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(Account $account, Badge $badge): bool
+    public function update(Account $account, PlayerWarning $warning): bool
     {
         return false;
     }
@@ -53,7 +53,7 @@ class BadgePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(Account $account, Badge $badge): bool
+    public function delete(Account $account, PlayerWarning $warning): bool
     {
         return false;
     }
@@ -61,7 +61,7 @@ class BadgePolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(Account $account, Badge $badge): bool
+    public function restore(Account $account, PlayerWarning $warning): bool
     {
         return false;
     }
@@ -69,7 +69,7 @@ class BadgePolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(Account $account, Badge $badge): bool
+    public function forceDelete(Account $account, PlayerWarning $warning): bool
     {
         return false;
     }

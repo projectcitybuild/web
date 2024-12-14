@@ -11,11 +11,11 @@ use App\Http\Controllers\Manage\AccountUpdateGroups;
 use App\Http\Controllers\Manage\ActivityController;
 use App\Http\Controllers\Manage\Badges\BadgeController;
 use App\Http\Controllers\Manage\BanAppealController;
+use App\Http\Controllers\Manage\Bans\GameIPBanController;
+use App\Http\Controllers\Manage\Bans\GamePlayerBanController;
 use App\Http\Controllers\Manage\BuilderRanksController;
 use App\Http\Controllers\Manage\Donations\DonationController;
 use App\Http\Controllers\Manage\Donations\DonationPerksController;
-use App\Http\Controllers\Manage\GameIPBanController;
-use App\Http\Controllers\Manage\GamePlayerBanController;
 use App\Http\Controllers\Manage\Groups\GroupAccountController;
 use App\Http\Controllers\Manage\Groups\GroupController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftConfigController;
@@ -106,16 +106,13 @@ Route::name('manage.')
         Route::resource('server-tokens', ServerTokenController::class)
             ->except(['show']);
 
-        Route::resource('warnings', PlayerWarningController::class)
-            ->middleware(PanelGroupScope::MANAGE_WARNINGS->toMiddleware());
+        Route::resource('warnings', PlayerWarningController::class);
 
         Route::resource('ip-bans', GameIPBanController::class)
-            ->except(['show'])
-            ->middleware(PanelGroupScope::MANAGE_BANS->toMiddleware());
+            ->except(['show']);
 
         Route::resource('player-bans', GamePlayerBanController::class)
-            ->except(['show'])
-            ->middleware(PanelGroupScope::MANAGE_BANS->toMiddleware());
+            ->except(['show']);
 
         Route::resource('groups', GroupController::class)
             ->except(['show']);

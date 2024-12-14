@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\WebController;
 use App\Models\PlayerWarning;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class PlayerWarningController extends WebController
 {
-    public function index(Request $request): View
+    public function index(Request $request)
     {
+        Gate::authorize('viewAny', PlayerWarning::class);
+
         $warnings = PlayerWarning::with('warnedPlayer', 'warnerPlayer')
             ->orderBy('created_at', 'desc')
             ->paginate(100);
@@ -22,23 +22,34 @@ class PlayerWarningController extends WebController
             ->with(compact('warnings'));
     }
 
-    public function show(PlayerWarning $warning): View
+    public function show(PlayerWarning $warning)
     {
+        Gate::authorize('view', $warning);
+
         return view('manage.pages.warnings.show')
             ->with(compact('warning'));
     }
 
-    public function create(Request $request): View
+    public function create(Request $request)
     {
+        Gate::authorize('create', PlayerWarning::class);
+
         $warning = new PlayerWarning();
 
         return view('manage.pages.warnings.create')
             ->with(compact('warning'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        Gate::authorize('create', PlayerWarning::class);
+
+        $request->merge([
+            'weight' => 1,
+            'is_acknowledged' => $request->has('is_acknowledged'),
+        ]);
+
+        $validated = $request->validate([
             'warned_player_id' => 'required|max:60',
             'warner_player_id' => 'required|max:60',
             'reason' => 'required|string',
@@ -49,41 +60,29 @@ class PlayerWarningController extends WebController
             'acknowledged_at' => ['date', 'nullable', Rule::requiredIf($request->has('is_acknowledged'))],
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        PlayerWarning::create([
-            'warned_player_id' => $request->get('warned_player_id'),
-            'warner_player_id' => $request->get('warner_player_id'),
-            'reason' => $request->get('reason'),
-            'additional_info' => $request->get('additional_info'),
-            'weight' => 1,
-            'is_acknowledged' => $request->get('is_acknowledged', false),
-            'created_at' => $request->get('created_at'),
-            'updated_at' => $request->get('updated_at'),
-            'acknowledged_at' => $request->get('acknowledged_at'),
-        ]);
+        PlayerWarning::create($validated);
 
         return redirect(route('manage.warnings.index'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(int $warningId): View
+    public function edit(PlayerWarning $warning)
     {
-        $warning = PlayerWarning::find($warningId);
+        Gate::authorize('update', $warning);
 
         return view('manage.pages.warnings.edit')
             ->with(compact('warning'));
     }
 
-    public function update(Request $request, int $warningId): RedirectResponse
+    public function update(Request $request, PlayerWarning $warning)
     {
-        $validator = Validator::make($request->all(), [
+        Gate::authorize('update', $warning);
+
+        $request->merge([
+            'weight' => 1,
+            'is_acknowledged' => $request->has('is_acknowledged'),
+        ]);
+
+        $validated = $request->validate([
             'warned_player_id' => 'required|max:60',
             'warner_player_id' => 'required|max:60',
             'reason' => 'required|string',
@@ -94,24 +93,16 @@ class PlayerWarningController extends WebController
             'acknowledged_at' => ['date', 'nullable', Rule::requiredIf($request->has('is_acknowledged'))],
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        PlayerWarning::find($warningId)->update(
-            array_merge($request->all(), [
-                'is_acknowledged' => $request->get('is_acknowledged', false),
-            ]),
-        );
+        $warning->update($validated);
 
         return redirect(route('manage.warnings.index'));
     }
 
-    public function destroy(Request $request, int $warningId): RedirectResponse
+    public function destroy(Request $request, PlayerWarning $warning)
     {
-        PlayerWarning::find($warningId)->delete();
+        Gate::authorize('delete', $warning);
+
+        $warning->delete();
 
         return redirect(route('manage.warnings.index'));
     }

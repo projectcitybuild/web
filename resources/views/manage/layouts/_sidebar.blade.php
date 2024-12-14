@@ -63,7 +63,7 @@
             <span>Infractions</span>
         </h6>
         <ul class="nav flex-column mb-2">
-            @scope(App\Domains\Manage\Data\PanelGroupScope::MANAGE_WARNINGS)
+            @can('viewAny', App\Models\PlayerWarning::class)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('manage/warnings*') ? 'active' : '' }}"
                    href="{{ route('manage.warnings.index') }}">
@@ -71,8 +71,8 @@
                     Warnings
                 </a>
             </li>
-            @endscope
-            @scope(App\Domains\Manage\Data\PanelGroupScope::MANAGE_BANS)
+            @endcan
+            @can('viewAny', App\Models\GamePlayerBan::class)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('manage/player-bans*') ? 'active' : '' }}"
                    href="{{ route('manage.player-bans.index') }}">
@@ -80,6 +80,8 @@
                     Banned Players
                 </a>
             </li>
+            @endcan
+            @can('viewAny', App\Models\GameIPBan::class)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('manage/ip-bans*') ? 'active' : '' }}"
                    href="{{ route('manage.ip-bans.index') }}">
@@ -87,7 +89,7 @@
                     Banned IPs
                 </a>
             </li>
-            @endscope
+            @endcan
         </ul>
 
         @scope(App\Domains\Manage\Data\PanelGroupScope::MANAGE_SHOWCASE_WARPS)
