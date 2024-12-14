@@ -2,6 +2,12 @@
 
 @section('title', 'Rank Application: ' . $application->account->username)
 
+@section('toolbar')
+    <a href="{{ route('front.rank-up.status', $application) }}" class="btn btn-secondary">
+        View as Submitter
+    </a>
+@endsection
+
 @section('body')
     <div class="row">
         <div class="col-md-6">
