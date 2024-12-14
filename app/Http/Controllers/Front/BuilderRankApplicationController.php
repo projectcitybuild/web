@@ -50,6 +50,8 @@ final class BuilderRankApplicationController extends WebController
         BuilderRankApplicationRequest $request,
         CreateBuildRankApplication $createBuildRankApplication,
     ) {
+        Gate::authorize('create', BuilderRankApplication::class);
+
         $input = $request->validated();
         $account = $request->user();
 

@@ -12,7 +12,7 @@ class BanAppealPolicy
      */
     public function before(Account $account, string $ability): bool|null
     {
-        if ($account->isAdmin() || $account->isStaff() || $account->isArchitect()) {
+        if ($account->isAdmin() || $account->isStaff()) {
             return true;
         }
         return null;

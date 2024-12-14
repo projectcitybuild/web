@@ -39,7 +39,7 @@ class BuilderRankApplicationPolicy
      */
     public function create(Account $account): bool
     {
-        return false;
+        return true;
     }
 
     /**

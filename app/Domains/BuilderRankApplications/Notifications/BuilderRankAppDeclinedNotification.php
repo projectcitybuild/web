@@ -52,7 +52,7 @@ class BuilderRankAppDeclinedNotification extends Notification implements ShouldQ
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject('Your Builder rank application was unsuccessful')
+            ->subject('Your builder rank application was unsuccessful')
             ->greeting('Hi '.$this->builderRankApplication->account->username.',')
             ->line('Unfortunately your builder rank application was not successful for the following reason:')
             ->line($this->builderRankApplication->denied_reason)
