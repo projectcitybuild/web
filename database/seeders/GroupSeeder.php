@@ -94,7 +94,6 @@ class GroupSeeder extends Seeder
         ]);
         $architect->groupScopes()->attach([
             $scopes[PanelGroupScope::ACCESS_PANEL->value],
-            $scopes[PanelGroupScope::REVIEW_BUILD_RANK_APPS->value],
         ]);
 
         Group::factory()->create([
@@ -126,8 +125,6 @@ class GroupSeeder extends Seeder
         ]);
         $mod->groupScopes()->attach([
             $scopes[PanelGroupScope::ACCESS_PANEL->value],
-            $scopes[PanelGroupScope::REVIEW_APPEALS->value],
-            $scopes[PanelGroupScope::REVIEW_BUILD_RANK_APPS->value],
         ]);
 
         $dev = Group::factory()->create([

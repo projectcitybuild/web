@@ -92,7 +92,6 @@
             @endcan
         </ul>
 
-        @scope(App\Domains\Manage\Data\PanelGroupScope::MANAGE_SHOWCASE_WARPS)
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Minecraft</span>
         </h6>
@@ -106,6 +105,7 @@
                 </a>
             </li>
             @endcan
+            @can('viewAny', App\Models\MinecraftWarp::class)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('manage/showcase-warps*') ? 'active' : '' }} "
                    href="{{ route('manage.showcase-warps.index') }}">
@@ -113,6 +113,7 @@
                     Showcase Warps
                 </a>
             </li>
+            @endcan
             @can('viewAny', App\Models\MinecraftConfig::class)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('manage/minecraft/config*') ? 'active' : '' }} "
@@ -123,7 +124,6 @@
             </li>
             @endcan
         </ul>
-        @endscope
 
         @can('viewAny', App\Models\Server::class)
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -166,7 +166,7 @@
             <span>Review</span>
         </h6>
         <ul class="nav flex-column mb-2">
-            @scope(App\Domains\Manage\Data\PanelGroupScope::REVIEW_BUILD_RANK_APPS)
+            @can('viewAny', App\Models\BuilderRankApplication::class)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('manage/builder-ranks*') ? 'active' : '' }}"
                    href="{{ route('manage.builder-ranks.index') }}">
@@ -177,8 +177,8 @@
                     @endif
                 </a>
             </li>
-            @endscope
-            @scope(App\Domains\Manage\Data\PanelGroupScope::REVIEW_APPEALS)
+            @endcan
+            @can('viewAny', App\Models\BanAppeal::class)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('manage/ban-appeals*') ? 'active' : '' }}"
                    href="{{ route('manage.ban-appeals.index') }}">
@@ -189,7 +189,7 @@
                     @endif
                 </a>
             </li>
-            @endscope
+            @endcan
         </ul>
     </div>
 </nav>

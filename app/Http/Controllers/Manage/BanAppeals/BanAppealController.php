@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Manage;
+namespace App\Http\Controllers\Manage\BanAppeals;
 
 use App\Core\Data\Exceptions\NotImplementedException;
 use App\Domains\BanAppeals\Entities\BanAppealStatus;
@@ -11,12 +11,15 @@ use App\Domains\Bans\Exceptions\NotBannedException;
 use App\Domains\Manage\Exceptions\NoPlayerForActionException;
 use App\Http\Requests\BanAppealUpdateRequest;
 use App\Models\BanAppeal;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 
 class BanAppealController
 {
     public function index()
     {
+        Gate::authorize('viewAny', BanAppeal::class);
+
         // Get ban appeals paginated in the order:
         // Pending appeal (newest first), then all other appeals (newest first)
         $banAppeals = BanAppeal::orderByRaw('FIELD(status, '.BanAppealStatus::PENDING->value.') DESC')
@@ -30,13 +33,20 @@ class BanAppealController
 
     public function show(BanAppeal $banAppeal)
     {
+        Gate::authorize('view', $banAppeal);
+
         return view('manage.pages.ban-appeal.show')->with([
             'banAppeal' => $banAppeal,
         ]);
     }
 
-    public function update(UpdateBanAppeal $useCase, BanAppealUpdateRequest $request, BanAppeal $banAppeal)
-    {
+    public function update(
+        UpdateBanAppeal $useCase,
+        BanAppealUpdateRequest $request,
+        BanAppeal $banAppeal,
+    ) {
+        Gate::authorize('update', $banAppeal);
+
         try {
             $useCase->execute(
                 banAppeal: $banAppeal,

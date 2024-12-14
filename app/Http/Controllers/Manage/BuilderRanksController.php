@@ -9,14 +9,16 @@ use App\Http\Controllers\WebController;
 use App\Models\BuilderRankApplication;
 use App\Models\Group;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class BuilderRanksController extends WebController
 {
-    public function index(
-        Request $request,
-    ) {
+    public function index(Request $request)
+    {
+        Gate::authorize('viewAny', BuilderRankApplication::class);
+
         $applications = BuilderRankApplication::orderbyRaw('FIELD(status, '.ApplicationStatus::IN_PROGRESS->value.') DESC')
             ->orderBy('created_at', 'desc')
             ->paginate(100);
@@ -25,11 +27,10 @@ class BuilderRanksController extends WebController
             ->with(compact('applications'));
     }
 
-    public function show(
-        Request $request,
-        int $applicationId,
-    ) {
-        $application = BuilderRankApplication::find($applicationId);
+    public function show(Request $request, BuilderRankApplication $application)
+    {
+        Gate::authorize('view', $application);
+
         $buildGroups = Group::whereBuildType()->get();
 
         return view('manage.pages.builder-rank.show')
@@ -38,26 +39,22 @@ class BuilderRanksController extends WebController
 
     public function approve(
         Request $request,
-        int $applicationId,
+        BuilderRankApplication $application,
         ApproveBuildRankApplication $approveBuildRankApplication,
     ) {
+        Gate::authorize('update', $application);
+
         $allowedGroups = Group::whereBuildType()->get()
             ->map(fn ($group) => $group->getKey())
             ->toArray();
 
-        $validator = Validator::make($request->all(), [
+        $validated = $request->validate([
             'promote_group' => ['required', Rule::in($allowedGroups)],
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
         $application = $approveBuildRankApplication->execute(
-            applicationId: $applicationId,
-            promoteGroupId: $request->get('promote_group'),
+            applicationId: $application->getKey(),
+            promoteGroupId: $validated['promote_group'],
         );
 
         return redirect()->action(
@@ -68,22 +65,18 @@ class BuilderRanksController extends WebController
 
     public function deny(
         Request $request,
-        int $applicationId,
+        BuilderRankApplication $application,
         DenyBuildRankApplication $denyBuildRankApplication,
     ) {
-        $validator = Validator::make($request->all(), [
+        Gate::authorize('update', $application);
+
+        $validated = $request->validate([
             'deny_reason' => 'required',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
         $application = $denyBuildRankApplication->execute(
-            applicationId: $applicationId,
-            denyReason: $request->get('deny_reason'),
+            applicationId: $application->getKey(),
+            denyReason: $validated['deny_reason'],
         );
 
         return redirect()->action(

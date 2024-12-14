@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+/** @deprecated Will be removed */
 class ShowcaseWarpsController extends WebController
 {
     public function index(Request $request): ShowcaseWarp|Factory|View

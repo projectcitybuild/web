@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Manage;
+namespace App\Http\Controllers\Manage\Warnings;
 
 use App\Http\Controllers\WebController;
 use App\Models\PlayerWarning;

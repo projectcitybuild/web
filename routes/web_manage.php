@@ -10,7 +10,7 @@ use App\Http\Controllers\Manage\Accounts\AccountUpdateBadges;
 use App\Http\Controllers\Manage\Accounts\AccountUpdateGroups;
 use App\Http\Controllers\Manage\ActivityController;
 use App\Http\Controllers\Manage\Badges\BadgeController;
-use App\Http\Controllers\Manage\BanAppealController;
+use App\Http\Controllers\Manage\BanAppeals\BanAppealController;
 use App\Http\Controllers\Manage\Bans\GameIPBanController;
 use App\Http\Controllers\Manage\Bans\GamePlayerBanController;
 use App\Http\Controllers\Manage\BuilderRanksController;
@@ -22,10 +22,10 @@ use App\Http\Controllers\Manage\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftWarpController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerLookupController;
-use App\Http\Controllers\Manage\PlayerWarningController;
 use App\Http\Controllers\Manage\Servers\ServerController;
 use App\Http\Controllers\Manage\Servers\ServerTokenController;
 use App\Http\Controllers\Manage\ShowcaseWarpsController;
+use App\Http\Controllers\Manage\Warnings\PlayerWarningController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('manage.')
@@ -69,15 +69,12 @@ Route::name('manage.')
 
         Route::prefix('minecraft')->name('minecraft.')->group(function () {
             Route::get('config', [MinecraftConfigController::class, 'create'])
-                ->name('config.create')
-                ->middleware(PanelGroupScope::MANAGE_SHOWCASE_WARPS->toMiddleware());
+                ->name('config.create');
 
             Route::patch('config', [MinecraftConfigController::class, 'update'])
-                ->name('config.update')
-                ->middleware(PanelGroupScope::MANAGE_SHOWCASE_WARPS->toMiddleware());
+                ->name('config.update');
 
-            Route::resource('warps', MinecraftWarpController::class)
-                ->middleware(PanelGroupScope::MANAGE_SHOWCASE_WARPS->toMiddleware());
+            Route::resource('warps', MinecraftWarpController::class);
         });
 
         Route::resource('minecraft-players', MinecraftPlayerController::class)
@@ -86,8 +83,7 @@ Route::name('manage.')
         Route::post('minecraft-players/lookup', MinecraftPlayerLookupController::class)
             ->name('minecraft-players.lookup');
 
-        Route::resource('showcase-warps', ShowcaseWarpsController::class)
-            ->middleware(PanelGroupScope::MANAGE_SHOWCASE_WARPS->toMiddleware());
+        Route::resource('showcase-warps', ShowcaseWarpsController::class);
 
         Route::resource('badges', BadgeController::class);
 
@@ -119,7 +115,6 @@ Route::name('manage.')
         Route::group([
             'prefix' => 'builder-ranks',
             'as' => 'builder-ranks.',
-            'middleware' => PanelGroupScope::REVIEW_BUILD_RANK_APPS->toMiddleware(),
         ], function () {
             Route::get('/', [BuilderRanksController::class, 'index'])
                 ->name('index');
@@ -135,8 +130,7 @@ Route::name('manage.')
         });
 
         Route::resource('ban-appeals', BanAppealController::class)
-            ->only('index', 'show', 'update')
-            ->middleware(PanelGroupScope::REVIEW_APPEALS->toMiddleware());
+            ->only('index', 'show', 'update');
 
         Route::resource('activity', ActivityController::class)
             ->only(['index', 'show'])
