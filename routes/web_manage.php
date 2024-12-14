@@ -9,7 +9,7 @@ use App\Http\Controllers\Manage\AccountResendActivation;
 use App\Http\Controllers\Manage\AccountUpdateBadges;
 use App\Http\Controllers\Manage\AccountUpdateGroups;
 use App\Http\Controllers\Manage\ActivityController;
-use App\Http\Controllers\Manage\BadgeController;
+use App\Http\Controllers\Manage\Badges\BadgeController;
 use App\Http\Controllers\Manage\BanAppealController;
 use App\Http\Controllers\Manage\BuilderRanksController;
 use App\Http\Controllers\Manage\DonationController;
@@ -93,8 +93,7 @@ Route::name('manage.')
         Route::resource('showcase-warps', ShowcaseWarpsController::class)
             ->middleware(PanelGroupScope::MANAGE_SHOWCASE_WARPS->toMiddleware());
 
-        Route::resource('badges', BadgeController::class)
-            ->middleware(PanelGroupScope::MANAGE_BADGES->toMiddleware());
+        Route::resource('badges', BadgeController::class);
 
         Route::resource('donations', DonationController::class)
             ->middleware(PanelGroupScope::MANAGE_DONATIONS->toMiddleware());

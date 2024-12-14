@@ -39,7 +39,7 @@
                 </a>
             </li>
             @endcan
-            @scope(App\Domains\Manage\Data\PanelGroupScope::MANAGE_BADGES)
+            @can('viewAny', App\Models\Badge::class)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('manage/badges*') ? 'active' : '' }}"
                    href="{{ route('manage.badges.index') }}">
@@ -47,7 +47,7 @@
                     Badges
                 </a>
             </li>
-            @endscope
+            @endcan
             @scope(App\Domains\Manage\Data\PanelGroupScope::VIEW_ACTIVITY)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('manage/activity*') ? 'active' : '' }}"

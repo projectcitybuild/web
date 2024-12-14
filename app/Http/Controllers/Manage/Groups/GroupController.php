@@ -51,7 +51,7 @@ class GroupController extends WebController
 
     public function edit(Group $group)
     {
-        Gate::authorize('update', Group::class);
+        Gate::authorize('update', $group);
 
         return view('manage.pages.groups.edit')
             ->with(compact('group'));
@@ -59,7 +59,7 @@ class GroupController extends WebController
 
     public function update(Request $request, Group $group): RedirectResponse
     {
-        Gate::authorize('update', Group::class);
+        Gate::authorize('update', $group);
 
         $request->validate([
             'name' => ['required', 'string', Rule::unique(Group::tableName())->ignore($group)],
@@ -74,7 +74,7 @@ class GroupController extends WebController
 
     public function destroy(Request $request, Group $group): RedirectResponse
     {
-        Gate::authorize('delete', Group::class);
+        Gate::authorize('delete', $group);
 
         $group->delete();
 

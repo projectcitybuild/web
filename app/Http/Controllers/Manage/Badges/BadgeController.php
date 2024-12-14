@@ -1,46 +1,43 @@
 <?php
 
-namespace App\Http\Controllers\Manage;
+namespace App\Http\Controllers\Manage\Badges;
 
 use App\Http\Controllers\WebController;
 use App\Models\Badge;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Gate;
 
 class BadgeController extends WebController
 {
-    public function index(Request $request): Badge|Factory|View
+    public function index(Request $request)
     {
+        Gate::authorize('viewAny', Badge::class);
+
         $badges = Badge::orderBy('display_name', 'desc')->paginate(100);
 
-        return view('manage.pages.badges.index')->with(compact('badges'));
+        return view('manage.pages.badges.index')
+            ->with(compact('badges'));
     }
 
-    public function create(Request $request): Application|Factory|View
+    public function create(Request $request)
     {
+        Gate::authorize('create', Badge::class);
+
         $badge = new Badge();
 
         return view('manage.pages.badges.create')
             ->with(compact('badge'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        Gate::authorize('create', Badge::class);
+
+        $request->validate([
             'display_name' => 'required|string',
             'unicode_icon' => 'required|string',
             'list_hidden' => 'boolean',
         ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
 
         Badge::create([
             'display_name' => $request->get('display_name'),
@@ -54,28 +51,23 @@ class BadgeController extends WebController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(int $badgeId): Badge|Factory|View
+    public function edit(Badge $badge)
     {
-        $badge = Badge::find($badgeId);
+        Gate::authorize('update', $badge);
 
-        return view('manage.pages.badges.edit')->with(compact('badge'));
+        return view('manage.pages.badges.edit')
+            ->with(compact('badge'));
     }
 
-    public function update(Request $request, int $badgeId): RedirectResponse
+    public function update(Request $request, Badge $badge)
     {
-        $badge = Badge::find($badgeId);
+        Gate::authorize('update', $badge);
 
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'display_name' => 'required|string',
             'unicode_icon' => 'required|string',
             'list_hidden' => 'boolean',
         ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
 
         $input = $request->all();
         if (! array_key_exists('list_hidden', $input)) {
@@ -87,9 +79,10 @@ class BadgeController extends WebController
         return redirect(route('manage.badges.index'));
     }
 
-    public function destroy(Request $request, int $badgeId): RedirectResponse
+    public function destroy(Request $request, Badge $badge)
     {
-        $badge = Badge::find($badgeId);
+        Gate::authorize('delete', $badge);
+
         $badge->delete();
 
         return redirect(route('manage.badges.index'));
