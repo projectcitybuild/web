@@ -1,13 +1,13 @@
 <?php
 
-namespace App\View\Components;
+namespace App\Domains\Manage\Components;
 
 use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Models\BanAppeal;
 use App\Models\BuilderRankApplication;
 use Illuminate\View\Component;
 
-class PanelSideBarComponent extends Component
+class ManageSideBarComponent extends Component
 {
     /**
      * Get the view / contents that represent the component.

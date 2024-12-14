@@ -8,7 +8,7 @@ use App\Core\Domains\Auditing\Concerns\CausesActivity;
 use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
-use App\Domains\Panel\Data\PanelGroupScope;
+use App\Domains\Manage\Data\PanelGroupScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

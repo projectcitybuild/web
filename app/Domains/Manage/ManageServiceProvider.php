@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Domains\Panel;
+namespace App\Domains\Manage;
 
-use App\Domains\Panel\Data\PanelGroupScope;
+use App\Domains\Manage\Components\ManageSideBarComponent;
+use App\Domains\Manage\Data\PanelGroupScope;
 use App\Models\Account;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
-final class PanelServiceProvider extends ServiceProvider
+final class ManageServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
@@ -27,5 +28,7 @@ final class PanelServiceProvider extends ServiceProvider
         Blade::if('scope', function (PanelGroupScope $scope) {
             return Gate::check($scope->value);
         });
+
+        Blade::component('panel-side-bar', ManageSideBarComponent::class);
     }
 }

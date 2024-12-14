@@ -8,7 +8,7 @@ use App\Domains\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use App\Domains\BanAppeals\Notifications\BanAppealUpdatedNotification;
 use App\Domains\BanAppeals\UseCases\UpdateBanAppeal;
 use App\Domains\Bans\Exceptions\NotBannedException;
-use App\Domains\Panel\Exceptions\NoPlayerForActionException;
+use App\Domains\Manage\Exceptions\NoPlayerForActionException;
 use App\Http\Requests\BanAppealUpdateRequest;
 use App\Models\BanAppeal;
 use Illuminate\Validation\ValidationException;

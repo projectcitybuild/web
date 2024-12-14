@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\Domains\Donations\Components;
 
 use App\Models\Donation;
 use Illuminate\View\Component;

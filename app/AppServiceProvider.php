@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Domains\Donations\Components\DonationBarComponent;
 use App\Models\Account;
 use App\Models\Badge;
 use App\Models\BanAppeal;
@@ -15,8 +16,6 @@ use App\Models\MinecraftPlayer;
 use App\Models\PlayerWarning;
 use App\Models\Server;
 use App\Models\ServerToken;
-use App\View\Components\DonationBarComponent;
-use App\View\Components\PanelSideBarComponent;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
@@ -97,8 +96,6 @@ final class AppServiceProvider extends ServiceProvider
 
     private function bindBladeComponents(): void
     {
-        Blade::component('donation-bar', DonationBarComponent::class);
-        Blade::component('panel-side-bar', PanelSideBarComponent::class);
 
         Blade::anonymousComponentPath(__DIR__.'/../resources/views/shared/components');
         Blade::anonymousComponentPath(__DIR__.'/../resources/views/front/components', prefix: 'front');

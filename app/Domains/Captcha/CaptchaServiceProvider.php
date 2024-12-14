@@ -7,7 +7,7 @@ use App\Domains\Captcha\Validator\CaptchaValidator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
-class CaptchaProvider extends ServiceProvider
+class CaptchaServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
