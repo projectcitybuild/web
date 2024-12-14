@@ -57,7 +57,7 @@ class BuilderRankAppApprovedNotification extends Notification implements ShouldQ
             ->subject('Your Builder rank application was approved')
             ->greeting('Congratulations!')
             ->line('Your builder rank application has been approved and you\'ve been promoted to '.$this->groupPromotedTo->name)
-            ->line('If you have any questions, please feel free to reach out to staff at any time');
+            ->line('If you have any questions, please feel free to reach out to the staff or architect team');
     }
 
     /**

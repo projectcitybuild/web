@@ -31,7 +31,7 @@ class BuilderRankApplicationPolicy
      */
     public function view(Account $account, BuilderRankApplication $application): bool
     {
-        return false;
+        return $account->getKey() === $application->account_id;
     }
 
     /**

@@ -51,17 +51,17 @@ class GameIPBanController extends WebController
         return redirect(route('manage.ip-bans.index'));
     }
 
-    public function edit(GameIPBan $ban)
+    public function edit(GameIPBan $ipBan)
     {
         Gate::authorize('update', GameIPBan::class);
 
         return view('manage.pages.ip-bans.edit')
-            ->with(compact('ban'));
+            ->with(compact('ipBan'));
     }
 
-    public function update(Request $request, GameIPBan $ban)
+    public function update(Request $request, GameIPBan $ipBan)
     {
-        Gate::authorize('update', $ban);
+        Gate::authorize('update', $ipBan);
 
         $validated = $request->validate([
             'banner_player_id' => 'required|max:60',
@@ -71,16 +71,16 @@ class GameIPBanController extends WebController
             'updated_at' => 'required|date',
         ]);
 
-        $ban->update($validated);
+        $ipBan->update($validated);
 
         return redirect(route('manage.ip-bans.index'));
     }
 
-    public function destroy(Request $request, GameIPBan $ban)
+    public function destroy(Request $request, GameIPBan $ipBan)
     {
-        Gate::authorize('delete', $ban);
+        Gate::authorize('delete', $ipBan);
 
-        $ban->delete();
+        $ipBan->delete();
 
         return redirect(route('manage.ip-bans.index'));
     }

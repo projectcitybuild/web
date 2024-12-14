@@ -118,13 +118,13 @@ Route::name('manage.')
             Route::get('/', [BuilderRanksController::class, 'index'])
                 ->name('index');
 
-            Route::get('{id}', [BuilderRanksController::class, 'show'])
+            Route::get('{application}', [BuilderRanksController::class, 'show'])
                 ->name('show');
 
-            Route::post('{id}/approve', [BuilderRanksController::class, 'approve'])
+            Route::post('{application}/approve', [BuilderRanksController::class, 'approve'])
                 ->name('approve');
 
-            Route::post('{id}/deny', [BuilderRanksController::class, 'deny'])
+            Route::post('{application}/deny', [BuilderRanksController::class, 'deny'])
                 ->name('deny');
         });
 
