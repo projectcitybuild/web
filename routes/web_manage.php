@@ -23,8 +23,8 @@ use App\Http\Controllers\Manage\Minecraft\MinecraftPlayerController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftWarpController;
 use App\Http\Controllers\Manage\MinecraftPlayerLookupController;
 use App\Http\Controllers\Manage\PlayerWarningController;
-use App\Http\Controllers\Manage\ServerController;
-use App\Http\Controllers\Manage\ServerTokenController;
+use App\Http\Controllers\Manage\Servers\ServerController;
+use App\Http\Controllers\Manage\Servers\ServerTokenController;
 use App\Http\Controllers\Manage\ShowcaseWarpsController;
 use Illuminate\Support\Facades\Route;
 
@@ -101,12 +101,10 @@ Route::name('manage.')
             ->except(['index', 'show']);
 
         Route::resource('servers', ServerController::class)
-            ->except(['show'])
-            ->middleware(PanelGroupScope::MANAGE_SERVERS->toMiddleware());
+            ->except(['show']);
 
         Route::resource('server-tokens', ServerTokenController::class)
-            ->except(['show'])
-            ->middleware(PanelGroupScope::MANAGE_SERVERS->toMiddleware());
+            ->except(['show']);
 
         Route::resource('warnings', PlayerWarningController::class)
             ->middleware(PanelGroupScope::MANAGE_WARNINGS->toMiddleware());

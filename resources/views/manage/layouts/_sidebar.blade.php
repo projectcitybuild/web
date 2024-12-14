@@ -119,7 +119,7 @@
         </ul>
         @endscope
 
-        @scope(App\Domains\Manage\Data\PanelGroupScope::MANAGE_SERVERS)
+        @can('viewAny', App\Models\Server::class)
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Servers</span>
         </h6>
@@ -139,7 +139,7 @@
                 </a>
             </li>
         </ul>
-        @endscope
+        @endcan
 
         @can('viewAny', App\Models\Donation::class)
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
