@@ -11,15 +11,6 @@ class GroupSeeder extends Seeder
 {
     public function run()
     {
-        $scopes = collect();
-
-        collect(PanelGroupScope::cases())->each(function ($scope) use (&$scopes) {
-            $model = GroupScope::create([
-                'scope' => $scope->value,
-            ]);
-            $scopes->put(key: $scope->value, value: $model->getKey());
-        });
-
         Group::factory()->create([
             'name' => 'member',
             'minecraft_name' => 'default',
@@ -92,9 +83,6 @@ class GroupSeeder extends Seeder
             'group_type' => 'build',
             'display_priority' => 5,
         ]);
-        $architect->groupScopes()->attach([
-            $scopes[PanelGroupScope::ACCESS_PANEL->value],
-        ]);
 
         Group::factory()->create([
             'name' => 'donator',
@@ -123,9 +111,6 @@ class GroupSeeder extends Seeder
             'group_type' => 'staff',
             'display_priority' => 1,
         ]);
-        $mod->groupScopes()->attach([
-            $scopes[PanelGroupScope::ACCESS_PANEL->value],
-        ]);
 
         $dev = Group::factory()->create([
             'name' => 'developer',
@@ -137,8 +122,5 @@ class GroupSeeder extends Seeder
             'group_type' => 'staff',
             'display_priority' => 2,
         ]);
-        $dev->groupScopes()->attach(
-            collect($scopes)->values()->toArray(),
-        );
     }
 }

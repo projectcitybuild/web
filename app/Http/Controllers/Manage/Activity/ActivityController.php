@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Manage;
+namespace App\Http\Controllers\Manage\Activity;
 
 use App\Core\Utilities\Traits\FiltersWithParameters;
 use App\Http\Controllers\WebController;
 use App\Models\Activity;
+use Illuminate\Support\Facades\Gate;
 
 class ActivityController extends WebController
 {
@@ -14,6 +15,8 @@ class ActivityController extends WebController
 
     public function index()
     {
+        Gate::authorize('viewAny', Activity::class);
+
         $activities = Activity::latest()
             ->with(['subject', 'causer'])
             ->where($this->activeFiltersQuery())
@@ -30,6 +33,8 @@ class ActivityController extends WebController
 
     public function show(Activity $activity)
     {
+        Gate::authorize('view', $activity);
+
         return view('manage.pages.activity.show')->with([
             'activity' => $activity,
         ]);

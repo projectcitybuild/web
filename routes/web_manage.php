@@ -8,7 +8,7 @@ use App\Http\Controllers\Manage\Accounts\AccountGameAccount;
 use App\Http\Controllers\Manage\Accounts\AccountResendActivation;
 use App\Http\Controllers\Manage\Accounts\AccountUpdateBadges;
 use App\Http\Controllers\Manage\Accounts\AccountUpdateGroups;
-use App\Http\Controllers\Manage\ActivityController;
+use App\Http\Controllers\Manage\Activity\ActivityController;
 use App\Http\Controllers\Manage\Badges\BadgeController;
 use App\Http\Controllers\Manage\BanAppeals\BanAppealController;
 use App\Http\Controllers\Manage\Bans\GameIPBanController;
@@ -133,6 +133,5 @@ Route::name('manage.')
             ->only('index', 'show', 'update');
 
         Route::resource('activity', ActivityController::class)
-            ->only(['index', 'show'])
-            ->middleware(PanelGroupScope::VIEW_ACTIVITY->toMiddleware());
+            ->only(['index', 'show']);
     });

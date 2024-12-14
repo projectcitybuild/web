@@ -48,7 +48,7 @@
                 </a>
             </li>
             @endcan
-            @scope(App\Domains\Manage\Data\PanelGroupScope::VIEW_ACTIVITY)
+            @can('viewAny', App\Models\Activity::class)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('manage/activity*') ? 'active' : '' }}"
                    href="{{ route('manage.activity.index') }}">
@@ -56,7 +56,7 @@
                     Activity
                 </a>
             </li>
-            @endscope
+            @endcan
         </ul>
 
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
