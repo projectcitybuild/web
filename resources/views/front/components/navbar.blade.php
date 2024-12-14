@@ -22,7 +22,7 @@
                         <li>
                             <a href="{{ route('front.account.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
                         </li>
-                        @if (Auth::user()->canAccessPanel())
+                        @if (Auth::user()->isStaff())
                             <li>
                                 <a href="{{ route('manage.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staff Panel</a>
                             </li>

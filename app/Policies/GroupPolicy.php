@@ -24,7 +24,7 @@ class GroupPolicy
      */
     public function viewAny(Account $account): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -32,7 +32,7 @@ class GroupPolicy
      */
     public function view(Account $account, Group $group): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -40,7 +40,7 @@ class GroupPolicy
      */
     public function create(Account $account): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -48,7 +48,7 @@ class GroupPolicy
      */
     public function update(Account $account, Group $group): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -56,7 +56,7 @@ class GroupPolicy
      */
     public function delete(Account $account, Group $group): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -64,7 +64,7 @@ class GroupPolicy
      */
     public function restore(Account $account, Group $group): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -72,6 +72,6 @@ class GroupPolicy
      */
     public function forceDelete(Account $account, Group $group): bool
     {
-        //
+        return false;
     }
 }

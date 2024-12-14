@@ -16,8 +16,8 @@ use App\Http\Controllers\Manage\DonationController;
 use App\Http\Controllers\Manage\DonationPerksController;
 use App\Http\Controllers\Manage\GameIPBanController;
 use App\Http\Controllers\Manage\GamePlayerBanController;
-use App\Http\Controllers\Manage\GroupAccountController;
-use App\Http\Controllers\Manage\GroupController;
+use App\Http\Controllers\Manage\Groups\GroupAccountController;
+use App\Http\Controllers\Manage\Groups\GroupController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftPlayerController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftWarpController;
@@ -123,12 +123,10 @@ Route::name('manage.')
             ->middleware(PanelGroupScope::MANAGE_BANS->toMiddleware());
 
         Route::resource('groups', GroupController::class)
-            ->except(['show'])
-            ->middleware(PanelGroupScope::MANAGE_GROUPS->toMiddleware());
+            ->except(['show']);
 
         Route::get('{group}/accounts', [GroupAccountController::class, 'index'])
-            ->name('groups.accounts')
-            ->middleware(PanelGroupScope::MANAGE_GROUPS->toMiddleware());
+            ->name('groups.accounts');
 
         Route::group([
             'prefix' => 'builder-ranks',

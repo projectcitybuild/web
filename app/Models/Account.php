@@ -190,14 +190,18 @@ final class Account extends Authenticatable implements LinkableAuditModel
         return $this->badges->contains($badge);
     }
 
-    public function isAdmin()
+    public function isAdmin(): bool
     {
-        return $this->groups()->where('is_admin', true)->count() > 0;
+        return $this->groups()
+            ->where('is_admin', true)
+            ->count() > 0;
     }
 
-    public function canAccessPanel(): bool
+    public function isStaff(): bool
     {
-        return $this->groups()->where('group_type', 'staff')->count() > 0;
+        return $this->groups()
+            ->where('group_type', 'staff')
+            ->count() > 0 || $this->isAdmin();
     }
 
     public function hasAbility(string $to): bool

@@ -29,7 +29,11 @@
                     <td>
                         <a href="{{ route('manage.groups.edit', $group) }}">{{ $group->name }}</a></td>
                     <td>
-                        <a href="{{ route('manage.groups.accounts', $group) }}">{{ number_format($group->accounts_count) }}</a>
+                        @if ($group->is_default)
+                            -
+                        @else
+                            <a href="{{ route('manage.groups.accounts', $group) }}">{{ number_format($group->accounts_count) }}</a>
+                        @endif
                     </td>
                     <td>{{ $group->alias }}</td>
                     <td>

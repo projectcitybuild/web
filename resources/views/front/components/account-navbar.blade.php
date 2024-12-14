@@ -18,7 +18,7 @@
                     <span class="block text-sm  text-gray-500 truncate">{{ Auth::user()->email }}</span>
                 </div>
                 <ul class="py-2" aria-labelledby="user-menu-button">
-                    @if (Auth::user()->canAccessPanel())
+                    @if (Auth::user()->isStaff())
                         <li>
                             <a href="{{ route('manage.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staff Panel</a>
                         </li>

@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Manage;
+namespace App\Http\Controllers\Manage\Groups;
 
 use App\Http\Controllers\WebController;
 use App\Models\Group;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class GroupController extends WebController
 {
     public function index()
     {
+        Gate::authorize('viewAny', Group::class);
+
         $groups = Group::withCount('accounts')
             ->orderBy('group_type', 'desc')
             ->orderBy('display_priority', 'asc')
@@ -24,6 +26,8 @@ class GroupController extends WebController
 
     public function create(Request $request)
     {
+        Gate::authorize('create', Group::class);
+
         $group = new Group();
 
         return view('manage.pages.groups.create')
@@ -32,19 +36,13 @@ class GroupController extends WebController
 
     public function store(Request $request): RedirectResponse
     {
-        $validator = Validator::make($request->all(), [
+        Gate::authorize('create', Group::class);
+
+        $request->validate([
             'name' => ['required', 'string', Rule::unique(Group::tableName())],
             'minecraft_name' => ['string', Rule::unique(Group::tableName(), 'minecraft_name')],
-            'minecraft_display_name' => ['string'],
-            'minecraft_hover_text' => ['string'],
             'display_priority' => ['int'],
         ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
 
         Group::create($request->all());
 
@@ -53,25 +51,21 @@ class GroupController extends WebController
 
     public function edit(Group $group)
     {
+        Gate::authorize('update', Group::class);
+
         return view('manage.pages.groups.edit')
             ->with(compact('group'));
     }
 
     public function update(Request $request, Group $group): RedirectResponse
     {
-        $validator = Validator::make($request->all(), [
+        Gate::authorize('update', Group::class);
+
+        $request->validate([
             'name' => ['required', 'string', Rule::unique(Group::tableName())->ignore($group)],
             'minecraft_name' => ['string', Rule::unique(Group::tableName(), 'minecraft_name')->ignore($group)],
-            'minecraft_display_name' => ['string'],
-            'minecraft_hover_text' => ['string'],
             'display_priority' => ['nullable', 'int'],
         ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
 
         $group->update($request->all());
 
@@ -80,6 +74,8 @@ class GroupController extends WebController
 
     public function destroy(Request $request, Group $group): RedirectResponse
     {
+        Gate::authorize('delete', Group::class);
+
         $group->delete();
 
         return redirect(route('manage.groups.index'));
