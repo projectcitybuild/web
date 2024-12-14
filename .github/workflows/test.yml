@@ -30,17 +30,17 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - name: Setup PHP
-        uses: ./.github/actions/setup-php
+      - name: Install PHP
+        uses: ./.github/actions/tasks/install-php
 
       - name: Install Composer dependencies
-        uses: ./.github/actions/install-composer-deps
+        uses: ./.github/actions/tasks/install-composer-deps
 
       - name: Prepare .env file
         run: cp .env.ci .env
 
       - name: Install npm dependencies
-        uses: ./.github/actions/install-npm-deps
+        uses: ./.github/actions/tasks/install-npm-deps
 
       - name: Calculate front-end asset hash
         id: get-assets-cache

@@ -1,4 +1,4 @@
-name: Deploy production
+name: Deploy Production
 
 on:
   workflow_dispatch:
@@ -9,24 +9,19 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: production
-
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - name: Setup PHP
-        uses: ./.github/actions/setup-php
-
-      - name: Install dependencies
-        run: composer install
-
-      - name: Deploy
-        uses: deployphp/action@6242095e7207facf115ac4439760356bc52760ac
+      - name: Deploy release branch
+        uses: ./.github/actions/recipes/deploy
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-          DEPLOY_BRANCH: release
+          DEPLOY_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+          DEPLOY_DISCORD_CHANNEL_ID: ${{ secrets.DEPLOY_DISCORD_CHANNEL_ID }}
+          DEPLOY_DISCORD_CHANNEL_TOKEN: ${{ secrets.DEPLOY_DISCORD_CHANNEL_TOKEN }}
         with:
-          private-key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
-          dep: deploy -o keep_releases=5
+          branch: release
+          keep-releases: 5
 

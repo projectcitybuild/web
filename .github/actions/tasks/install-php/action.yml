@@ -1,4 +1,4 @@
-name: Setup PHP
+name: Install PHP
 description: Installs PHP and Composer
 
 runs:
