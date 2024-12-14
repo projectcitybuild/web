@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Panel\Exceptions;
+namespace App\Domains\Manage\Exceptions;
 
 use Exception;
 

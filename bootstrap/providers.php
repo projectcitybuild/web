@@ -13,8 +13,9 @@ return [
 
     \App\Domains\Activation\ActivationServiceProvider::class,
     \App\Domains\BanAppeals\BanAppealServiceProvider::class,
-    \App\Domains\Captcha\CaptchaProvider::class,
+    \App\Domains\Captcha\CaptchaServiceProvider::class,
+    \App\Domains\Donations\DonationServiceProvider::class,
+    \App\Domains\Manage\ManageServiceProvider::class,
     \App\Domains\Mfa\MfaServiceProvider::class,
     \App\Domains\MinecraftEventBus\MinecraftEventBusServiceProvider::class,
-    \App\Domains\Panel\PanelServiceProvider::class,
 ];

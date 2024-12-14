@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Panel\Data;
+namespace App\Domains\Manage\Data;
 
 enum PanelGroupScope: string
 {

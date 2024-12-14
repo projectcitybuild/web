@@ -5,7 +5,7 @@ namespace Panel;
 use App\Domains\BanAppeals\Entities\BanAppealStatus;
 use App\Domains\BanAppeals\Notifications\BanAppealUpdatedNotification;
 use App\Domains\Bans\Data\UnbanType;
-use App\Domains\Panel\Data\PanelGroupScope;
+use App\Domains\Manage\Data\PanelGroupScope;
 use App\Models\Account;
 use App\Models\BanAppeal;
 use App\Models\GamePlayerBan;

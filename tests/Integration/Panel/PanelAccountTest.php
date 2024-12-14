@@ -2,7 +2,7 @@
 
 namespace Panel;
 
-use App\Domains\Panel\Data\PanelGroupScope;
+use App\Domains\Manage\Data\PanelGroupScope;
 use App\Models\Account;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\IntegrationTestCase;

@@ -1,6 +1,6 @@
 <?php
 
-use App\Domains\Panel\Data\PanelGroupScope;
+use App\Domains\Manage\Data\PanelGroupScope;
 use App\Http\Controllers\Manage\AccountActivate;
 use App\Http\Controllers\Manage\AccountApproveEmailChange;
 use App\Http\Controllers\Manage\AccountController;

@@ -10,7 +10,7 @@ use App\Domains\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use App\Domains\Bans\Data\UnbanType;
 use App\Domains\Bans\Exceptions\NotBannedException;
 use App\Domains\Bans\UseCases\CreatePlayerUnban;
-use App\Domains\Panel\Exceptions\NoPlayerForActionException;
+use App\Domains\Manage\Exceptions\NoPlayerForActionException;
 use App\Models\Account;
 use App\Models\BanAppeal;
 use Exception;
