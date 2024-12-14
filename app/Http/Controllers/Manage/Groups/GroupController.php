@@ -38,13 +38,17 @@ class GroupController extends WebController
     {
         Gate::authorize('create', Group::class);
 
-        $request->validate([
+        $validated = $request->validate([
             'name' => ['required', 'string', Rule::unique(Group::tableName())],
-            'minecraft_name' => ['string', Rule::unique(Group::tableName(), 'minecraft_name')],
+            'alias' => [],
+            'minecraft_name' => [Rule::unique(Group::tableName(), 'minecraft_name')],
+            'minecraft_display_name' => [],
+            'minecraft_hover_text' => [],
+            'group_type' => [],
             'display_priority' => ['int'],
         ]);
 
-        Group::create($request->all());
+        Group::create($validated);
 
         return redirect(route('manage.groups.index'));
     }
@@ -61,13 +65,17 @@ class GroupController extends WebController
     {
         Gate::authorize('update', $group);
 
-        $request->validate([
+        $validated = $request->validate([
             'name' => ['required', 'string', Rule::unique(Group::tableName())->ignore($group)],
+            'alias' => [],
             'minecraft_name' => ['string', Rule::unique(Group::tableName(), 'minecraft_name')->ignore($group)],
+            'minecraft_display_name' => [],
+            'minecraft_hover_text' => [],
+            'group_type' => [],
             'display_priority' => ['nullable', 'int'],
         ]);
 
-        $group->update($request->all());
+        $group->update($validated);
 
         return redirect(route('manage.groups.index'));
     }

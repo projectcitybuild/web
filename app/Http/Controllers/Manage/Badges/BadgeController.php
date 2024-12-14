@@ -63,18 +63,15 @@ class BadgeController extends WebController
     {
         Gate::authorize('update', $badge);
 
-        $request->validate([
+        $validated = $request->validate([
             'display_name' => 'required|string',
             'unicode_icon' => 'required|string',
             'list_hidden' => 'boolean',
         ]);
 
-        $input = $request->all();
-        if (! array_key_exists('list_hidden', $input)) {
-            $input['list_hidden'] = 0;
-        }
-        $badge->update($input);
-        $badge->save();
+        $validated['list_hidden'] = $validated['list_hidden'] ?? 0;
+
+        $badge->update($validated);
 
         return redirect(route('manage.badges.index'));
     }

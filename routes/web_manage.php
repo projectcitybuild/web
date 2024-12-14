@@ -12,8 +12,8 @@ use App\Http\Controllers\Manage\ActivityController;
 use App\Http\Controllers\Manage\Badges\BadgeController;
 use App\Http\Controllers\Manage\BanAppealController;
 use App\Http\Controllers\Manage\BuilderRanksController;
-use App\Http\Controllers\Manage\DonationController;
-use App\Http\Controllers\Manage\DonationPerksController;
+use App\Http\Controllers\Manage\Donations\DonationController;
+use App\Http\Controllers\Manage\Donations\DonationPerksController;
 use App\Http\Controllers\Manage\GameIPBanController;
 use App\Http\Controllers\Manage\GamePlayerBanController;
 use App\Http\Controllers\Manage\Groups\GroupAccountController;
@@ -95,12 +95,10 @@ Route::name('manage.')
 
         Route::resource('badges', BadgeController::class);
 
-        Route::resource('donations', DonationController::class)
-            ->middleware(PanelGroupScope::MANAGE_DONATIONS->toMiddleware());
+        Route::resource('donations', DonationController::class);
 
         Route::resource('donation-perks', DonationPerksController::class)
-            ->except(['index', 'show'])
-            ->middleware(PanelGroupScope::MANAGE_DONATIONS->toMiddleware());
+            ->except(['index', 'show']);
 
         Route::resource('servers', ServerController::class)
             ->except(['show'])

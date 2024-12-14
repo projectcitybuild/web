@@ -10,7 +10,7 @@ class GroupAccountController extends WebController
 {
     public function index(Group $group)
     {
-        Gate::authorize('viewAny', Group::class);
+        Gate::authorize('view', $group);
 
         $accounts = $group->accounts()->paginate(50);
 

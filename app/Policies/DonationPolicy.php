@@ -3,9 +3,9 @@
 namespace App\Policies;
 
 use App\Models\Account;
-use App\Models\Group;
+use App\Models\Donation;
 
-class GroupPolicy
+class DonationPolicy
 {
     /**
      * Perform pre-authorization checks.
@@ -29,7 +29,7 @@ class GroupPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(Account $account, Group $group): bool
+    public function view(Account $account, Donation $donation): bool
     {
         return false;
     }
@@ -45,7 +45,7 @@ class GroupPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(Account $account, Group $group): bool
+    public function update(Account $account, Donation $donation): bool
     {
         return false;
     }
@@ -53,7 +53,7 @@ class GroupPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(Account $account, Group $group): bool
+    public function delete(Account $account, Donation $donation): bool
     {
         return false;
     }
@@ -61,7 +61,7 @@ class GroupPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(Account $account, Group $group): bool
+    public function restore(Account $account, Donation $donation): bool
     {
         return false;
     }
@@ -69,7 +69,7 @@ class GroupPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(Account $account, Group $group): bool
+    public function forceDelete(Account $account, Donation $donation): bool
     {
         return false;
     }

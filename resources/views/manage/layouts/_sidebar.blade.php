@@ -141,7 +141,7 @@
         </ul>
         @endscope
 
-        @scope(App\Domains\Manage\Data\PanelGroupScope::MANAGE_DONATIONS)
+        @can('viewAny', App\Models\Donation::class)
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Transactions</span>
         </h6>
@@ -154,7 +154,7 @@
                 </a>
             </li>
         </ul>
-        @endscope
+        @endcan
 
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Review</span>
