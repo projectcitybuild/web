@@ -6,7 +6,6 @@ enum PanelGroupScope: string
 {
     case ACCESS_PANEL = 'access-panel';
 
-    case MANAGE_ACCOUNTS = 'panel-manage-accounts';
     case MANAGE_SHOWCASE_WARPS = 'panel-manage-showcase-warps';
 
     case VIEW_ACTIVITY = 'panel-view-activity';

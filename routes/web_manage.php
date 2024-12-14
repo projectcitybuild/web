@@ -1,13 +1,13 @@
 <?php
 
 use App\Domains\Manage\Data\PanelGroupScope;
-use App\Http\Controllers\Manage\AccountActivate;
-use App\Http\Controllers\Manage\AccountApproveEmailChange;
-use App\Http\Controllers\Manage\AccountController;
-use App\Http\Controllers\Manage\AccountGameAccount;
-use App\Http\Controllers\Manage\AccountResendActivation;
-use App\Http\Controllers\Manage\AccountUpdateBadges;
-use App\Http\Controllers\Manage\AccountUpdateGroups;
+use App\Http\Controllers\Manage\Accounts\AccountActivate;
+use App\Http\Controllers\Manage\Accounts\AccountApproveEmailChange;
+use App\Http\Controllers\Manage\Accounts\AccountController;
+use App\Http\Controllers\Manage\Accounts\AccountGameAccount;
+use App\Http\Controllers\Manage\Accounts\AccountResendActivation;
+use App\Http\Controllers\Manage\Accounts\AccountUpdateBadges;
+use App\Http\Controllers\Manage\Accounts\AccountUpdateGroups;
 use App\Http\Controllers\Manage\ActivityController;
 use App\Http\Controllers\Manage\Badges\BadgeController;
 use App\Http\Controllers\Manage\BanAppealController;
@@ -19,9 +19,9 @@ use App\Http\Controllers\Manage\Donations\DonationPerksController;
 use App\Http\Controllers\Manage\Groups\GroupAccountController;
 use App\Http\Controllers\Manage\Groups\GroupController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftConfigController;
-use App\Http\Controllers\Manage\Minecraft\MinecraftPlayerController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftWarpController;
-use App\Http\Controllers\Manage\MinecraftPlayerLookupController;
+use App\Http\Controllers\Manage\Players\MinecraftPlayerController;
+use App\Http\Controllers\Manage\Players\MinecraftPlayerLookupController;
 use App\Http\Controllers\Manage\PlayerWarningController;
 use App\Http\Controllers\Manage\Servers\ServerController;
 use App\Http\Controllers\Manage\Servers\ServerTokenController;
@@ -42,13 +42,11 @@ Route::name('manage.')
             ->name('index');
 
         Route::resource('accounts', AccountController::class)
-            ->except(['destroy', 'create'])
-            ->middleware(PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware());
+            ->except(['destroy', 'create']);
 
         Route::group([
             'prefix' => 'accounts/{account}',
             'as' => 'accounts.',
-            'middleware' => PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware(),
         ], function () {
             Route::post('activate', AccountActivate::class)
                 ->name('activate');
@@ -83,12 +81,10 @@ Route::name('manage.')
         });
 
         Route::resource('minecraft-players', MinecraftPlayerController::class)
-            ->except(['destroy'])
-            ->middleware(PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware());
+            ->except(['destroy']);
 
         Route::post('minecraft-players/lookup', MinecraftPlayerLookupController::class)
-            ->name('minecraft-players.lookup')
-            ->middleware(PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware());
+            ->name('minecraft-players.lookup');
 
         Route::resource('showcase-warps', ShowcaseWarpsController::class)
             ->middleware(PanelGroupScope::MANAGE_SHOWCASE_WARPS->toMiddleware());

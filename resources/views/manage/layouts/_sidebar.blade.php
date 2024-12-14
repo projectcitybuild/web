@@ -14,7 +14,7 @@
             <span>Users</span>
         </h6>
         <ul class="nav flex-column mb-2">
-            @scope(App\Domains\Manage\Data\PanelGroupScope::MANAGE_ACCOUNTS)
+            @can('viewAny', App\Models\Account::class)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('manage/accounts*') ? 'active' : '' }}"
                    href="{{ route('manage.accounts.index') }}">
@@ -29,7 +29,7 @@
                     Minecraft Players
                 </a>
             </li>
-            @endscope
+            @endcan
             @can('viewAny', App\Models\Group::class)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('manage/groups*') ? 'active' : '' }} "

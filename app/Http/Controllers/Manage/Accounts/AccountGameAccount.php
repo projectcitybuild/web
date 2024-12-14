@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Manage;
+namespace App\Http\Controllers\Manage\Accounts;
 
 use App\Models\Account;
 use App\Models\MinecraftPlayer;

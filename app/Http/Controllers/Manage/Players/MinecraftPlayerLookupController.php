@@ -1,30 +1,44 @@
 <?php
 
-namespace App\Http\Controllers\Manage;
+namespace App\Http\Controllers\Manage\Players;
 
 use App\Core\Data\Exceptions\TooManyRequestsException;
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\Mojang\Api\MojangPlayerApi;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Gate;
 
 class MinecraftPlayerLookupController extends WebController
 {
-    /**
-     * Lookup a minecraft player by their dashed or un-dashed UUID.
-     *
-     * @param $uuid
-     */
-    private function lookupByUUID($uuid): ?MinecraftPlayer
+    public function __invoke(Request $request)
     {
-        if (strlen($uuid) != 32 && strlen($uuid) != 36) {
-            return null;
+        Gate::authorize('viewAny', MinecraftPlayer::class);
+
+        $query = $request->input('query');
+
+        $minecraftPlayer = $this->lookupByUUID($query) ??
+            $this->lookupByStoredAlias($query) ??
+            $this->lookupByLiveAlias($query);
+
+        if ($minecraftPlayer == null) {
+            // TODO add flash error
+            return redirect(route('manage.minecraft-players.index'));
         }
 
-        $uuid = str_replace('-', '', $uuid);
+        return redirect(route('manage.minecraft-players.show', $minecraftPlayer));
+    }
 
-        return MinecraftPlayer::where('uuid', $uuid)->first();
+    private function lookupByUUID($uuid): ?MinecraftPlayer
+    {
+        try {
+            $uuid = MinecraftUUID::tryParse($uuid);
+            return MinecraftPlayer::whereUuid('uuid', $uuid)->first();
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**
@@ -64,26 +78,5 @@ class MinecraftPlayerLookupController extends WebController
         } catch (TooManyRequestsException $e) {
             return null;
         }
-    }
-
-    /**
-     * Handle the incoming request.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function __invoke(Request $request)
-    {
-        $query = $request->input('query');
-
-        $minecraftPlayer = $this->lookupByUUID($query) ??
-            $this->lookupByStoredAlias($query) ??
-            $this->lookupByLiveAlias($query);
-
-        if ($minecraftPlayer == null) {
-            // TODO add flash error
-            return redirect(route('manage.minecraft-players.index'));
-        }
-
-        return redirect(route('manage.minecraft-players.show', $minecraftPlayer));
     }
 }

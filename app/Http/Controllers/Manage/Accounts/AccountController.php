@@ -1,22 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Manage;
+namespace App\Http\Controllers\Manage\Accounts;
 
 use App\Http\Controllers\WebController;
 use App\Models\Account;
 use App\Models\Badge;
 use App\Models\Group;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class AccountController extends WebController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
+        Gate::authorize('viewAny', Account::class);
+
         if ($request->has('query') && $request->input('query') !== '') {
             $query = $request->input('query');
             $accounts = Account::search($query)->paginate(50);
@@ -25,44 +23,37 @@ class AccountController extends WebController
             $accounts = Account::paginate(50);
         }
 
-        return view('manage.pages.account.index')->with(compact('accounts', 'query'));
+        return view('manage.pages.account.index')
+            ->with(compact('accounts', 'query'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function show(Account $account)
     {
+        Gate::authorize('view', $account);
+
         $groups = Group::all();
         $badges = Badge::all();
 
-        return view('manage.pages.account.show')->with(compact('account', 'groups', 'badges'));
+        return view('manage.pages.account.show')
+            ->with(compact('account', 'groups', 'badges'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Account $account)
     {
-        return view('manage.pages.account.edit')->with(compact('account'));
+        Gate::authorize('update', $account);
+
+        return view('manage.pages.account.edit')
+            ->with(compact('account'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function update(
         Request $request,
         Account $account,
     ) {
+        Gate::authorize('update', $account);
+
         // TODO: Validate this
         $account->update($request->all());
-        $account->save();
 
         $account->emailChangeRequests()->delete();
 
