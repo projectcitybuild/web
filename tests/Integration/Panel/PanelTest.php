@@ -2,10 +2,8 @@
 
 namespace Panel;
 
-use App\Domains\Manage\Data\PanelGroupScope;
 use App\Models\Account;
 use App\Models\Group;
-use App\Models\GroupScope;
 use Tests\TestCase;
 
 class PanelTest extends TestCase

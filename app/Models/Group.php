@@ -47,18 +47,6 @@ final class Group extends Model implements LinkableAuditModel
         );
     }
 
-    public function groupScopes(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            related: GroupScope::class,
-            table: 'group_scopes_pivot',
-            foreignPivotKey: 'group_id',
-            relatedPivotKey: 'scope_id',
-            parentKey: 'group_id',
-            relatedKey: 'id',
-        );
-    }
-
     public function scopeWhereDefault(Builder $query)
     {
         $query->where('is_default', true);

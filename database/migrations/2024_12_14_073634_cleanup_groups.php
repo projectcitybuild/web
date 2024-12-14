@@ -17,6 +17,8 @@ return new class extends Migration
             $table->dropColumn('is_staff');
             $table->dropColumn('discord_name');
         });
+
+        Schema::drop('group_scopes');
     }
 
     /**

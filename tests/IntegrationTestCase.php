@@ -2,10 +2,8 @@
 
 namespace Tests;
 
-use App\Domains\Manage\Data\PanelGroupScope;
 use App\Models\Account;
 use App\Models\Group;
-use App\Models\GroupScope;
 use App\Models\ServerToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

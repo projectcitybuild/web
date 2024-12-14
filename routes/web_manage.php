@@ -1,6 +1,5 @@
 <?php
 
-use App\Domains\Manage\Data\PanelGroupScope;
 use App\Http\Controllers\Manage\Accounts\AccountActivate;
 use App\Http\Controllers\Manage\Accounts\AccountApproveEmailChange;
 use App\Http\Controllers\Manage\Accounts\AccountController;
@@ -34,7 +33,7 @@ Route::name('manage.')
         'auth',
         'activated',
         'mfa',
-        PanelGroupScope::ACCESS_PANEL->toMiddleware(),
+        'can:access-manage',
         'require-mfa',
     ])
     ->group(function() {
