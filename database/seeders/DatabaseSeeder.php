@@ -11,7 +11,6 @@ use App\Models\MinecraftPlayer;
 use App\Models\MinecraftWarp;
 use App\Models\Server;
 use App\Models\ServerToken;
-use App\Models\ShowcaseWarp;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -41,10 +40,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         MinecraftConfig::factory()
-            ->create();
-
-        ShowcaseWarp::factory()
-            ->count(50)
             ->create();
 
         MinecraftWarp::factory()

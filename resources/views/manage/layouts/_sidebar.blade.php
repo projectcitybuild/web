@@ -105,15 +105,6 @@
                 </a>
             </li>
             @endcan
-            @can('viewAny', App\Models\MinecraftWarp::class)
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('manage/showcase-warps*') ? 'active' : '' }} "
-                   href="{{ route('manage.showcase-warps.index') }}">
-                    <i class="fas fa-flag fa-fw"></i>
-                    Showcase Warps
-                </a>
-            </li>
-            @endcan
             @can('viewAny', App\Models\MinecraftConfig::class)
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('manage/minecraft/config*') ? 'active' : '' }} "
