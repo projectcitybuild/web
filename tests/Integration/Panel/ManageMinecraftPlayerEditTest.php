@@ -1,31 +1,18 @@
 <?php
 
-namespace Panel;
+namespace Tests\Integration\Panel;
 
-use App\Domains\Manage\Data\PanelGroupScope;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
-use Tests\IntegrationTestCase;
+use Tests\TestCase;
 
-class PanelMinecraftPlayerEditTest extends IntegrationTestCase
+class ManageMinecraftPlayerEditTest extends TestCase
 {
-    private Account $admin;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->admin = $this->adminAccount(scopes: [
-            PanelGroupScope::ACCESS_PANEL,
-            PanelGroupScope::MANAGE_ACCOUNTS,
-        ]);
-    }
-
     public function test_can_view_edit_form()
     {
         $mcPlayer = MinecraftPlayer::factory()->create();
 
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->get(route('manage.minecraft-players.edit', $mcPlayer))
             ->assertOk()
             ->assertSee('Edit');
@@ -37,7 +24,7 @@ class PanelMinecraftPlayerEditTest extends IntegrationTestCase
     public function test_can_view_edit_form_with_active_account()
     {
         $mcPlayer = MinecraftPlayer::factory()->for(Account::factory())->create();
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->get(route('manage.minecraft-players.edit', $mcPlayer))
             ->assertOk();
     }
@@ -47,7 +34,7 @@ class PanelMinecraftPlayerEditTest extends IntegrationTestCase
         $mcPlayer = MinecraftPlayer::factory()->for(Account::factory()->create())->create();
         $anotherAccount = Account::factory()->create();
 
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->put(route('manage.minecraft-players.update', $mcPlayer), ['account_id' => $anotherAccount->account_id])
             ->assertRedirect(route('manage.minecraft-players.show', $mcPlayer));
 
@@ -60,7 +47,7 @@ class PanelMinecraftPlayerEditTest extends IntegrationTestCase
     public function test_can_change_to_no_user()
     {
         $mcPlayer = MinecraftPlayer::factory()->for(Account::factory()->create())->create();
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->put(route('manage.minecraft-players.update', $mcPlayer), ['account_id' => null])
             ->assertRedirect(route('manage.minecraft-players.show', $mcPlayer));
     }
@@ -69,34 +56,25 @@ class PanelMinecraftPlayerEditTest extends IntegrationTestCase
     {
         $mcPlayer = MinecraftPlayer::factory()->for(Account::factory()->create())->create();
 
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->put(route('manage.minecraft-players.update', $mcPlayer), ['account_id' => 12])
             ->assertSessionHasErrors();
     }
 
-    public function test_unauthorised_without_scope()
+    public function test_forbidden_unless_admin()
     {
-        $admin = $this->adminAccount(scopes: [
-            PanelGroupScope::ACCESS_PANEL,
-        ]);
-
         $mcPlayer = MinecraftPlayer::factory()->for(Account::factory()->create())->create();
 
-        $this->actingAs($admin)
+        $this->actingAs($this->adminAccount())
             ->put(route('manage.minecraft-players.update', $mcPlayer))
-            ->assertUnauthorized();
-    }
+            ->assertRedirect();
 
-    public function test_unauthorised_without_panel_access()
-    {
-        $admin = $this->adminAccount(scopes: [
-            PanelGroupScope::MANAGE_ACCOUNTS,
-        ]);
-
-        $mcPlayer = MinecraftPlayer::factory()->for(Account::factory()->create())->create();
-
-        $this->actingAs($admin)
+        $this->actingAs($this->staffAccount())
             ->put(route('manage.minecraft-players.update', $mcPlayer))
-            ->assertUnauthorized();
+            ->assertForbidden();
+
+        $this->actingAs(Account::factory()->create())
+            ->put(route('manage.minecraft-players.update', $mcPlayer))
+            ->assertForbidden();
     }
 }

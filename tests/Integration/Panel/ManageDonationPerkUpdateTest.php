@@ -1,33 +1,21 @@
 <?php
 
-namespace Panel;
+namespace Tests\Integration\Panel;
 
-use App\Domains\Manage\Data\PanelGroupScope;
 use App\Models\Account;
 use App\Models\Donation;
 use App\Models\DonationPerk;
-use Tests\IntegrationTestCase;
+use Tests\TestCase;
 
-class PanelDonationPerkUpdateTest extends IntegrationTestCase
+class ManageDonationPerkUpdateTest extends TestCase
 {
-    private Account $adminAccount;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->adminAccount = $this->adminAccount(scopes: [
-            PanelGroupScope::ACCESS_PANEL,
-            PanelGroupScope::MANAGE_DONATIONS,
-        ]);
-    }
-
     public function test_valid_update()
     {
         $donationPerk = DonationPerk::factory()->for(Donation::factory())->for(Account::factory())->notExpired()->create();
 
         $newExpiry = now()->addMonth();
 
-        $this->actingAs($this->adminAccount)
+        $this->actingAs($this->adminAccount())
             ->put(route('manage.donation-perks.update', $donationPerk), [
                 'donation_id' => $donationPerk->donation->getKey(),
                 'account_id' => $donationPerk->account->getKey(),

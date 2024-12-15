@@ -1,25 +1,13 @@
 <?php
 
-namespace Panel;
+namespace Tests\Integration\Panel;
 
 use App\Models\Account;
 use App\Models\Group;
 use Tests\TestCase;
 
-class PanelTest extends TestCase
+class ManageTest extends TestCase
 {
-    private function createPanelAccessGroup(): Group
-    {
-        $group = Group::factory()->administrator()->create();
-        $group->groupScopes()->attach(
-            collect([PanelGroupScope::ACCESS_PANEL])
-                ->map(fn ($case) => GroupScope::factory()->create(['scope' => $case->value]))
-                ->map(fn ($model) => $model->getKey())
-        );
-
-        return $group;
-    }
-
     public function test_guest_cannot_see_panel()
     {
         $this->get(route('manage.index'))
@@ -29,9 +17,7 @@ class PanelTest extends TestCase
     public function test_non_mfa_user_cannot_see_panel()
     {
         $nonMfaAccount = Account::factory()->create();
-        $nonMfaAccount->groups()->attach(
-            $this->createPanelAccessGroup()
-        );
+        $nonMfaAccount->groups()->attach(Group::factory()->staff()->create());
 
         $this->actingAs($nonMfaAccount)
             ->get(route('manage.index'))
@@ -44,9 +30,7 @@ class PanelTest extends TestCase
         $this->withoutExceptionHandling();
 
         $mfaAccount = Account::factory()->hasFinishedTotp()->create();
-        $mfaAccount->groups()->attach(
-            $this->createPanelAccessGroup()
-        );
+        $mfaAccount->groups()->attach(Group::factory()->staff()->create());
 
         $this->actingAs($mfaAccount)
             ->get(route('manage.index'))

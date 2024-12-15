@@ -1,28 +1,16 @@
 <?php
 
-namespace Panel;
+namespace Tests\Integration\Panel;
 
-use App\Domains\Manage\Data\PanelGroupScope;
 use App\Models\Account;
 use App\Models\Donation;
 use App\Models\DonationPerk;
 use App\Models\DonationTier;
 use App\Models\Group;
-use Tests\IntegrationTestCase;
+use Tests\TestCase;
 
-class PanelDonationPerkDeleteTest extends IntegrationTestCase
+class ManageDonationPerkDeleteTest extends TestCase
 {
-    private Account $adminAccount;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->adminAccount = $this->adminAccount(scopes: [
-            PanelGroupScope::ACCESS_PANEL,
-            PanelGroupScope::MANAGE_DONATIONS,
-        ]);
-    }
-
     public function test_delete_donation_perk()
     {
         $donor = Account::factory()->create();
@@ -39,7 +27,7 @@ class PanelDonationPerkDeleteTest extends IntegrationTestCase
             ->for($donor)
             ->create();
 
-        $this->actingAs($this->adminAccount)
+        $this->actingAs($this->adminAccount())
             ->delete(route('manage.donation-perks.destroy', $donationPerk))
             ->assertRedirect(route('manage.donations.show', $donation));
 

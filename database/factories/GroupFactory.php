@@ -41,27 +41,43 @@ class GroupFactory extends Factory
         });
     }
 
-    /**
-     * Sets the group as the Donor group
-     */
     public function donor(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
                 'name' => 'donator',
+                'group_type' => 'donor',
             ];
         });
     }
 
-    /**
-     * Sets the group as the Admin group
-     */
     public function administrator(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'name' => 'Administrator',
+                'name' => 'administrator',
                 'is_admin' => true,
+                'group_type' => 'staff',
+            ];
+        });
+    }
+
+    public function staff(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'name' => 'staff',
+                'group_type' => 'staff',
+            ];
+        });
+    }
+
+    public function architect(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'name' => 'architect',
+                'group_type' => 'build',
             ];
         });
     }

@@ -1,31 +1,18 @@
 <?php
 
-namespace Panel;
+namespace Tests\Integration\Panel;
 
 use App\Core\Domains\Mojang\Api\MojangPlayerApi;
 use App\Core\Domains\Mojang\Data\MojangPlayerNameHistory;
-use App\Domains\Manage\Data\PanelGroupScope;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
 use Illuminate\Foundation\Testing\WithFaker;
 use Mockery\MockInterface;
-use Tests\IntegrationTestCase;
+use Tests\TestCase;
 
-class PanelMinecraftPlayerCreateTest extends IntegrationTestCase
+class ManageMinecraftPlayerCreateTest extends TestCase
 {
     use WithFaker;
-
-    private Account $admin;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->admin = $this->adminAccount(scopes: [
-            PanelGroupScope::ACCESS_PANEL,
-            PanelGroupScope::MANAGE_ACCOUNTS,
-        ]);
-    }
 
     private function mockSuccessfulUUIDCheck(): void
     {
@@ -39,7 +26,7 @@ class PanelMinecraftPlayerCreateTest extends IntegrationTestCase
 
     public function test_can_view_create_form()
     {
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->get(route('manage.minecraft-players.create'))
             ->assertOk();
     }
@@ -51,7 +38,7 @@ class PanelMinecraftPlayerCreateTest extends IntegrationTestCase
 
         $this->mockSuccessfulUUIDCheck();
 
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->post(route('manage.minecraft-players.store'), [
                 'uuid' => $mcPlayer->uuid,
                 'account_id' => $account->account_id,
@@ -71,7 +58,7 @@ class PanelMinecraftPlayerCreateTest extends IntegrationTestCase
 
         $this->mockSuccessfulUUIDCheck();
 
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->post(route('manage.minecraft-players.store'), [
                 'uuid' => $dashedUUID,
                 'account_id' => $account->account_id,
@@ -91,7 +78,7 @@ class PanelMinecraftPlayerCreateTest extends IntegrationTestCase
 
         $this->mockSuccessfulUUIDCheck();
 
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->post(route('manage.minecraft-players.store'), [
                 'uuid' => $mcPlayer->uuid,
                 'account_id' => $newAccount->account_id,
@@ -115,7 +102,7 @@ class PanelMinecraftPlayerCreateTest extends IntegrationTestCase
             $mock->shouldReceive('getNameHistoryOf')->once()->andReturn(null);
         });
 
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->post(route('manage.minecraft-players.store'), [
                 'uuid' => $mcPlayer->uuid,
                 'account_id' => $account->account_id,
@@ -127,25 +114,28 @@ class PanelMinecraftPlayerCreateTest extends IntegrationTestCase
         ]);
     }
 
-    public function test_unauthorised_without_scope()
+    public function test_forbidden_unless_admin()
     {
-        $admin = $this->adminAccount(scopes: [
-            PanelGroupScope::ACCESS_PANEL,
-        ]);
+        $account = Account::factory()->create();
+        $mcPlayer = MinecraftPlayer::factory()->make();
 
-        $this->actingAs($admin)
-            ->post(route('manage.minecraft-players.store'))
-            ->assertUnauthorized();
-    }
+        $this->mockSuccessfulUUIDCheck();
 
-    public function test_unauthorised_without_panel_access()
-    {
-        $admin = $this->adminAccount(scopes: [
-            PanelGroupScope::MANAGE_ACCOUNTS,
-        ]);
+        $request = [
+            'uuid' => $mcPlayer->uuid,
+            'account_id' => $account->account_id,
+        ];
 
-        $this->actingAs($admin)
-            ->post(route('manage.minecraft-players.store'))
-            ->assertUnauthorized();
+        $this->actingAs($this->adminAccount())
+            ->post(route('manage.minecraft-players.store'), $request)
+            ->assertRedirect();
+
+        $this->actingAs($this->staffAccount())
+            ->post(route('manage.minecraft-players.store'), $request)
+            ->assertForbidden();
+
+        $this->actingAs(Account::factory()->create())
+            ->post(route('manage.minecraft-players.store'), $request)
+            ->assertForbidden();
     }
 }

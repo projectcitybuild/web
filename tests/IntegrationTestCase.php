@@ -2,8 +2,6 @@
 
 namespace Tests;
 
-use App\Models\Account;
-use App\Models\Group;
 use App\Models\ServerToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -26,27 +24,5 @@ abstract class IntegrationTestCase extends TestCase
         $json = file_get_contents($jsonFilePath);
 
         return json_decode($json, associative: true);
-    }
-
-    /**
-     * Get a user in a group with admin rights.
-     *
-     * @param  PanelGroupScope[]  $scopes abilities to give to the user's group
-     */
-    protected function adminAccount(array $scopes = []): Account
-    {
-        $group = Group::factory()->administrator()->create();
-        $group->groupScopes()->attach(
-            collect($scopes)
-                ->map(fn ($case) => GroupScope::factory()->create(['scope' => $case->value]))
-                ->map(fn ($model) => $model->getKey())
-        );
-        $account = Account::factory()
-            ->hasFinishedTotp()
-            ->create();
-
-        $account->groups()->attach($group->getKey());
-
-        return $account;
     }
 }

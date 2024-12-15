@@ -1,19 +1,19 @@
 <?php
 
-namespace Panel;
+namespace Tests\Integration\Panel;
 
 use App\Domains\BanAppeals\Entities\BanAppealStatus;
 use App\Domains\BanAppeals\Notifications\BanAppealUpdatedNotification;
 use App\Domains\Bans\Data\UnbanType;
-use App\Domains\Manage\Data\PanelGroupScope;
 use App\Models\Account;
 use App\Models\BanAppeal;
 use App\Models\GamePlayerBan;
+use App\Models\Group;
 use App\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\Notification;
-use Tests\IntegrationTestCase;
+use Tests\TestCase;
 
-class PanelBanAppealDecisionTest extends IntegrationTestCase
+class ManageBanAppealDecisionTest extends TestCase
 {
     private BanAppeal $appeal;
     private GamePlayerBan $gamePlayerBan;
@@ -26,27 +26,19 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
         $this->gamePlayerBan = GamePlayerBan::factory()->for(MinecraftPlayer::factory(), 'bannedPlayer')->create();
         $this->appeal = BanAppeal::factory()->for($this->gamePlayerBan)->create(['explanation' => 'My Explanation']);
 
-        $this->admin = $this->adminAccount(scopes: [
-            PanelGroupScope::ACCESS_PANEL,
-            PanelGroupScope::REVIEW_APPEALS,
-        ]);
-
+        $this->admin = $this->adminAccount();
         MinecraftPlayer::factory()->for($this->admin, 'account')->create();
     }
 
     public function test_error_if_account_has_no_players()
     {
-        $admin = $this->adminAccount(scopes: [
-            PanelGroupScope::ACCESS_PANEL,
-            PanelGroupScope::REVIEW_APPEALS,
-        ]);
-
-        $this->actingAs($admin)
+        $this->actingAs($this->adminAccount())
             ->put(route('manage.ban-appeals.update', $this->appeal), [
                 'decision_note' => 'Some Note',
                 'status' => BanAppealStatus::ACCEPTED_UNBAN->value,
             ])
             ->assertSessionHasErrors();
+
         Notification::assertNothingSent();
     }
 
@@ -127,25 +119,29 @@ class PanelBanAppealDecisionTest extends IntegrationTestCase
         Notification::assertNothingSent();
     }
 
-    public function test_unauthorised_without_scope()
+    public function test_forbidden()
     {
-        $admin = $this->adminAccount(scopes: [
-            PanelGroupScope::ACCESS_PANEL,
-        ]);
+        $request = [
+            'decision_note' => 'foo bar',
+            'status' => BanAppealStatus::ACCEPTED_UNBAN->value,
+        ];
 
-        $this->actingAs($admin)
-            ->put(route('manage.ban-appeals.update', $this->appeal))
-            ->assertUnauthorized();
-    }
+        $this->actingAs($this->admin)
+            ->put(route('manage.ban-appeals.update', $this->appeal), $request)
+            ->assertRedirect();
 
-    public function test_unauthorised_without_panel_access()
-    {
-        $admin = $this->adminAccount(scopes: [
-            PanelGroupScope::REVIEW_APPEALS,
-        ]);
+        $this->actingAs($this->staffAccount())
+            ->put(route('manage.ban-appeals.update', $this->appeal), $request)
+            ->assertRedirect();
 
-        $this->actingAs($admin)
-            ->put(route('manage.ban-appeals.update', $this->appeal))
-            ->assertUnauthorized();
+        $architect = Account::factory()->create();
+        $architect->groups()->attach(Group::factory()->architect()->create());
+        $this->actingAs($architect)
+            ->put(route('manage.ban-appeals.update', $this->appeal), $request)
+            ->assertRedirect();
+
+        $this->actingAs(Account::factory()->create())
+            ->put(route('manage.ban-appeals.update', $this->appeal), $request)
+            ->assertForbidden();
     }
 }

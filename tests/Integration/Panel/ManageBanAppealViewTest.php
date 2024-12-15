@@ -1,28 +1,15 @@
 <?php
 
-namespace Panel;
+namespace Tests\Integration\Panel;
 
-use App\Domains\Manage\Data\PanelGroupScope;
 use App\Models\Account;
 use App\Models\BanAppeal;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
-use Tests\IntegrationTestCase;
+use Tests\TestCase;
 
-class PanelBanAppealViewTest extends IntegrationTestCase
+class ManageBanAppealViewTest extends TestCase
 {
-    private Account $admin;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->admin = $this->adminAccount(scopes: [
-            PanelGroupScope::ACCESS_PANEL,
-            PanelGroupScope::REVIEW_APPEALS,
-        ]);
-    }
-
     public function test_can_view_pending_appeal()
     {
         $appeal = BanAppeal::factory()
@@ -30,7 +17,7 @@ class PanelBanAppealViewTest extends IntegrationTestCase
                 GamePlayerBan::factory()->for(MinecraftPlayer::factory(), 'bannedPlayer')
             )->create(['explanation' => 'My Explanation']);
 
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->get(route('manage.ban-appeals.show', $appeal))
             ->assertOk()
             ->assertSee('My Explanation')
@@ -45,7 +32,7 @@ class PanelBanAppealViewTest extends IntegrationTestCase
                 GamePlayerBan::factory()->inactive()->for(MinecraftPlayer::factory(), 'bannedPlayer')
             )->create(['decision_note' => 'Some Decision Reason']);
 
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->get(route('manage.ban-appeals.show', $appeal))
             ->assertOk()
             ->assertSee('Some Decision Reason')
@@ -60,7 +47,7 @@ class PanelBanAppealViewTest extends IntegrationTestCase
                 GamePlayerBan::factory()->temporary()->for(MinecraftPlayer::factory(), 'bannedPlayer')
             )->create(['decision_note' => 'Some Decision Reason']);
 
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->get(route('manage.ban-appeals.show', $appeal))
             ->assertOk()
             ->assertSee('Some Decision Reason')
@@ -75,40 +62,29 @@ class PanelBanAppealViewTest extends IntegrationTestCase
                 GamePlayerBan::factory()->temporary()->for(MinecraftPlayer::factory(), 'bannedPlayer')
             )->create(['decision_note' => 'Some Decision Reason']);
 
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->get(route('manage.ban-appeals.show', $appeal))
             ->assertOk()
             ->assertSee('Some Decision Reason')
             ->assertSee('Denied');
     }
 
-    public function test_unauthorised_without_scope()
+    public function test_forbidden()
     {
         $appeal = BanAppeal::factory()
             ->for(GamePlayerBan::factory()->for(MinecraftPlayer::factory(), 'bannedPlayer'))
             ->create(['explanation' => 'My Explanation']);
 
-        $admin = $this->adminAccount(scopes: [
-            PanelGroupScope::ACCESS_PANEL,
-        ]);
-
-        $this->actingAs($admin)
+        $this->actingAs($this->adminAccount())
             ->get(route('manage.ban-appeals.show', $appeal))
-            ->assertUnauthorized();
-    }
+            ->assertSuccessful();
 
-    public function test_unauthorised_without_panel_access()
-    {
-        $appeal = BanAppeal::factory()
-            ->for(GamePlayerBan::factory()->for(MinecraftPlayer::factory(), 'bannedPlayer'))
-            ->create(['explanation' => 'My Explanation']);
-
-        $admin = $this->adminAccount(scopes: [
-            PanelGroupScope::MANAGE_ACCOUNTS,
-        ]);
-
-        $this->actingAs($admin)
+        $this->actingAs($this->staffAccount())
             ->get(route('manage.ban-appeals.show', $appeal))
-            ->assertUnauthorized();
+            ->assertSuccessful();
+
+        $this->actingAs(Account::factory()->create())
+            ->get(route('manage.ban-appeals.show', $appeal))
+            ->assertForbidden();
     }
 }

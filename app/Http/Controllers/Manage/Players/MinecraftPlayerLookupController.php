@@ -19,6 +19,10 @@ class MinecraftPlayerLookupController extends WebController
 
         $query = $request->input('query');
 
+        if (empty($query)) {
+            return redirect(route('manage.minecraft-players.index'));
+        }
+
         $minecraftPlayer = $this->lookupByUUID($query) ??
             $this->lookupByStoredAlias($query) ??
             $this->lookupByLiveAlias($query);
@@ -31,11 +35,11 @@ class MinecraftPlayerLookupController extends WebController
         return redirect(route('manage.minecraft-players.show', $minecraftPlayer));
     }
 
-    private function lookupByUUID($uuid): ?MinecraftPlayer
+    private function lookupByUUID(string $uuid): ?MinecraftPlayer
     {
         try {
-            $uuid = MinecraftUUID::tryParse($uuid);
-            return MinecraftPlayer::whereUuid('uuid', $uuid)->first();
+            $uuid = new MinecraftUUID($uuid);
+            return MinecraftPlayer::whereUuid($uuid)->first();
         } catch (\Exception $e) {
             return null;
         }

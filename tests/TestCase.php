@@ -4,6 +4,8 @@ namespace Tests;
 
 use App\Core\Domains\Mojang\Api\MojangPlayerApi;
 use App\Http\Middleware\MfaAuthenticated;
+use App\Models\Account;
+use App\Models\Group;
 use App\Models\ServerToken;
 use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -60,5 +62,29 @@ abstract class TestCase extends BaseTestCase
     protected function withBearerToken(string $token): TestCase
     {
         return $this->withHeaders(['Authorization' => 'Bearer '.$token]);
+    }
+
+    protected function adminAccount(): Account
+    {
+        $account = Account::factory()
+            ->hasFinishedTotp()
+            ->create();
+
+        $group = Group::factory()->administrator()->create();
+        $account->groups()->attach($group->getKey());
+
+        return $account;
+    }
+
+    protected function staffAccount(): Account
+    {
+        $account = Account::factory()
+            ->hasFinishedTotp()
+            ->create();
+
+        $group = Group::factory()->staff()->create();
+        $account->groups()->attach($group->getKey());
+
+        return $account;
     }
 }

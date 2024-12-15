@@ -1,39 +1,23 @@
 <?php
 
-namespace Panel;
+namespace Tests\Integration\Panel;
 
 use App\Core\Domains\Mojang\Api\MojangPlayerApi;
 use App\Core\Domains\Mojang\Data\MojangPlayer;
-use App\Domains\Manage\Data\PanelGroupScope;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
 use Illuminate\Foundation\Testing\WithFaker;
 use Mockery\MockInterface;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Tests\IntegrationTestCase;
+use Tests\TestCase;
 
-class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
+class ManageMinecraftPlayerLookupTest extends TestCase
 {
     use WithFaker;
-
-    private Account $admin;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->withoutExceptionHandling();
-
-        $this->admin = $this->adminAccount(scopes: [
-            PanelGroupScope::ACCESS_PANEL,
-            PanelGroupScope::MANAGE_ACCOUNTS,
-        ]);
-    }
 
     public function test_lookup_player_by_undashed_uuid()
     {
         $mcPlayer = MinecraftPlayer::factory()->create();
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->post(route('manage.minecraft-players.lookup'), [
                 'query' => $mcPlayer->uuid,
             ])
@@ -47,7 +31,7 @@ class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
             'uuid' => str_replace('-', '', $uuid),
         ]);
 
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->post(route('manage.minecraft-players.lookup'), [
                 'query' => $uuid,
             ])
@@ -58,7 +42,7 @@ class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
     {
         $mcPlayer = MinecraftPlayer::factory()->create();
 
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->post(route('manage.minecraft-players.lookup'), [
                 'query' => $mcPlayer->alias,
             ])
@@ -75,7 +59,7 @@ class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
             );
         });
 
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->post(route('manage.minecraft-players.lookup'), [
                 'query' => 'Herobrine',
             ])
@@ -89,7 +73,7 @@ class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
             $mock->shouldReceive('getUuidOf')->once()->andReturn(null);
         });
 
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->post(route('manage.minecraft-players.lookup'), [
                 'query' => 'Herobrine',
             ])
@@ -104,7 +88,7 @@ class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
             );
         });
 
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->post(route('manage.minecraft-players.lookup'), [
                 'query' => 'Herobrine',
             ])
@@ -113,7 +97,7 @@ class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
 
     public function test_empty_lookup_string_entered()
     {
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->post(route('manage.minecraft-players.lookup'), [
                 'query' => '',
             ])
@@ -122,38 +106,25 @@ class PanelMinecraftPlayerLookupTest extends IntegrationTestCase
 
     public function test_null_lookup_string_entered()
     {
-        $this->actingAs($this->admin)
+        $this->actingAs($this->adminAccount())
             ->post(route('manage.minecraft-players.lookup'), [
                 'query' => null,
             ])
             ->assertRedirect(route('manage.minecraft-players.index'));
     }
 
-    public function test_unauthorised_without_scope()
+    public function test_forbidden_unless_admin()
     {
-        $admin = $this->adminAccount(scopes: [
-            PanelGroupScope::ACCESS_PANEL,
-        ]);
-
-        // No idea why this is needed...
-        $this->expectException(HttpException::class);
-
-        $this->actingAs($admin)
+        $this->actingAs($this->adminAccount())
             ->post(route('manage.minecraft-players.lookup'))
-            ->assertUnauthorized();
-    }
+            ->assertRedirect();
 
-    public function test_unauthorised_without_panel_access()
-    {
-        $admin = $this->adminAccount(scopes: [
-            PanelGroupScope::MANAGE_ACCOUNTS,
-        ]);
-
-        // No idea why this is needed...
-        $this->expectException(HttpException::class);
-
-        $this->actingAs($admin)
+        $this->actingAs($this->staffAccount())
             ->post(route('manage.minecraft-players.lookup'))
-            ->assertUnauthorized();
+            ->assertForbidden();
+
+        $this->actingAs(Account::factory()->create())
+            ->post(route('manage.minecraft-players.lookup'))
+            ->assertForbidden();
     }
 }
