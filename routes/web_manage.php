@@ -23,7 +23,6 @@ use App\Http\Controllers\Manage\Players\MinecraftPlayerController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerLookupController;
 use App\Http\Controllers\Manage\Servers\ServerController;
 use App\Http\Controllers\Manage\Servers\ServerTokenController;
-use App\Http\Controllers\Manage\ShowcaseWarpsController;
 use App\Http\Controllers\Manage\Warnings\PlayerWarningController;
 use Illuminate\Support\Facades\Route;
 
@@ -81,8 +80,6 @@ Route::name('manage.')
 
         Route::post('minecraft-players/lookup', MinecraftPlayerLookupController::class)
             ->name('minecraft-players.lookup');
-
-        Route::resource('showcase-warps', ShowcaseWarpsController::class);
 
         Route::resource('badges', BadgeController::class);
 
