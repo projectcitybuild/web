@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace Tests\Unit\App\Models;
 
+use App\Models\Account;
+use App\Models\Group;
 use Tests\TestCase;
 
 class AccountTest extends TestCase

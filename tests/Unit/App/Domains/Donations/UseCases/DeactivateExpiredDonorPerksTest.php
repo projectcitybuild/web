@@ -1,7 +1,5 @@
 <?php
 
-namespace Tests\Unit\Domain\Donations\UseCases;
-
 use App\Domains\Donations\Notifications\DonationEndedNotification;
 use App\Domains\Donations\UseCases\DeactivateExpiredDonorPerks;
 use App\Models\Account;

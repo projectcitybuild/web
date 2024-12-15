@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Utilities;
+use App\Core\Utilities\SecureTokenGenerator;
 
 it('generates a token', function () {
     $key = 'key';
