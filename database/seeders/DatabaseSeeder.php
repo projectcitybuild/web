@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
+use App\Models\Account;
+use App\Models\BuilderRankApplication;
 use App\Models\MinecraftBuild;
 use App\Models\MinecraftConfig;
 use App\Models\MinecraftPlayer;
@@ -53,5 +56,21 @@ class DatabaseSeeder extends Seeder
             MinecraftBuild::factory()
                 ->create(['player_id' => $players->random()]);
         }
+
+        for ($i = 0; $i < 5; $i++) {
+            BuilderRankApplication::factory()
+                ->for(Account::inRandomOrder()->first())
+                ->create();
+        }
+
+        BuilderRankApplication::factory()
+            ->for(Account::inRandomOrder()->first())
+            ->status(ApplicationStatus::APPROVED)
+            ->create();
+
+        BuilderRankApplication::factory()
+            ->for(Account::inRandomOrder()->first())
+            ->status(ApplicationStatus::DENIED)
+            ->create();
     }
 }

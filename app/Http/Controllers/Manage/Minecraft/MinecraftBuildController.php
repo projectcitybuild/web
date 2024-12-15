@@ -6,6 +6,7 @@ use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftBuild;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -15,6 +16,8 @@ class MinecraftBuildController extends WebController
 
     public function index(Request $request)
     {
+        Gate::authorize('viewAny', MinecraftBuild::class);
+
         $builds = MinecraftBuild::orderBy('name', 'asc')
             ->with('player')
             ->paginate(100);
@@ -25,6 +28,8 @@ class MinecraftBuildController extends WebController
 
     public function create(Request $request)
     {
+        Gate::authorize('create', MinecraftBuild::class);
+
         $build = new MinecraftBuild();
 
         return view('manage.pages.minecraft-builds.create')
@@ -33,48 +38,44 @@ class MinecraftBuildController extends WebController
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        Gate::authorize('create', MinecraftBuild::class);
+
+        $validated = $request->validate([
             'name' => ['required', 'string', 'alpha_dash', Rule::unique(MinecraftBuild::tableName())],
             ...$this->coordinateRules,
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        MinecraftBuild::create($validator->validated());
+        MinecraftBuild::create($validated);
 
         return redirect(route('manage.minecraft.builds.index'));
     }
 
     public function edit(MinecraftBuild $build)
     {
+        Gate::authorize('update', $build);
+
         return view('manage.pages.minecraft-builds.edit')
             ->with(compact('build'));
     }
 
     public function update(Request $request, MinecraftBuild $build)
     {
-        $validator = Validator::make($request->all(), [
+        Gate::authorize('update', $build);
+
+        $validated = $request->validate([
             'name' => ['required', 'string', 'alpha_dash', Rule::unique(MinecraftBuild::tableName())->ignore($build)],
             ...$this->coordinateRules,
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $build->update($validator->validated());
+        $build->update($validated);
 
         return redirect(route('manage.minecraft.builds.index'));
     }
 
     public function destroy(Request $request, MinecraftBuild $build)
     {
+        Gate::authorize('delete', $build);
+
         $build->delete();
 
         return redirect(route('manage.minecraft.builds.index'));

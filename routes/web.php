@@ -69,7 +69,7 @@ Route::group([
     Route::post('/', [BuilderRankApplicationController::class, 'store'])
         ->name('front.rank-up.submit');
 
-    Route::get('{id}', [BuilderRankApplicationController::class, 'show'])
+    Route::get('{application}', [BuilderRankApplicationController::class, 'show'])
         ->name('front.rank-up.status');
 });
 

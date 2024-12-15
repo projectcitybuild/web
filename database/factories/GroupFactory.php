@@ -22,9 +22,7 @@ class GroupFactory extends Factory
             'name' => $this->faker->name(),
             'alias' => $this->faker->name(),
             'is_default' => false,
-            'is_staff' => false,
             'is_admin' => false,
-            'discord_name' => $this->faker->name(),
             'minecraft_display_name' => $this->faker->name(),
             'minecraft_hover_text' => $this->faker->name(),
         ];
@@ -38,37 +36,48 @@ class GroupFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'name' => 'member',
-                'discord_name' => 'member',
                 'is_default' => true,
             ];
         });
     }
 
-    /**
-     * Sets the group as the Donor group
-     */
     public function donor(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
                 'name' => 'donator',
-                'discord_name' => 'donator',
+                'group_type' => 'donor',
             ];
         });
     }
 
-    /**
-     * Sets the group as the Admin group
-     */
     public function administrator(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'name' => 'Administrator',
-                'discord_name' => 'administrator',
-                'is_staff' => true,
+                'name' => 'administrator',
                 'is_admin' => true,
-                'can_access_panel' => true,
+                'group_type' => 'staff',
+            ];
+        });
+    }
+
+    public function staff(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'name' => 'staff',
+                'group_type' => 'staff',
+            ];
+        });
+    }
+
+    public function architect(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'name' => 'architect',
+                'group_type' => 'build',
             ];
         });
     }

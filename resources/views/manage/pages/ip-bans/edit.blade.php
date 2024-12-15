@@ -1,10 +1,10 @@
 @extends('manage.layouts.admin')
 
-@section('title', 'Edit IP Ban #' . $ban->getKey())
+@section('title', 'Edit IP Ban #' . $ipBan->getKey())
 
 @section('toolbar')
     <div class="btn-toolbar">
-        <form method="post" action="{{ route('manage.ip-bans.destroy', $ban) }}">
+        <form method="post" action="{{ route('manage.ip-bans.destroy', $ipBan) }}">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash"></i> Delete</button>
@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-8">
             @include('manage._errors')
-            <form action="{{ route('manage.ip-bans.update', $ban) }}" method="post">
+            <form action="{{ route('manage.ip-bans.update', $ipBan) }}" method="post">
                 @csrf
                 @method('PUT')
 

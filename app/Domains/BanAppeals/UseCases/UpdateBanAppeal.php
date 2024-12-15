@@ -4,7 +4,6 @@ namespace App\Domains\BanAppeals\UseCases;
 
 use App\Core\Data\Exceptions\NotImplementedException;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
-use App\Core\Domains\PlayerLookup\Data\PlayerIdentifier;
 use App\Domains\BanAppeals\Entities\BanAppealStatus;
 use App\Domains\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use App\Domains\Bans\Data\UnbanType;
@@ -20,8 +19,7 @@ class UpdateBanAppeal
 {
     public function __construct(
         private readonly CreatePlayerUnban $unbanUseCase
-    ) {
-    }
+    ) {}
 
     /**
      * @param  BanAppeal  $banAppeal The ban appeal to update

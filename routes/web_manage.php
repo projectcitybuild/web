@@ -1,31 +1,30 @@
 <?php
 
-use App\Domains\Manage\Data\PanelGroupScope;
-use App\Http\Controllers\Manage\AccountActivate;
-use App\Http\Controllers\Manage\AccountApproveEmailChange;
-use App\Http\Controllers\Manage\AccountController;
-use App\Http\Controllers\Manage\AccountGameAccount;
-use App\Http\Controllers\Manage\AccountResendActivation;
-use App\Http\Controllers\Manage\AccountUpdateBadges;
-use App\Http\Controllers\Manage\AccountUpdateGroups;
-use App\Http\Controllers\Manage\ActivityController;
-use App\Http\Controllers\Manage\BadgeController;
-use App\Http\Controllers\Manage\BanAppealController;
+use App\Http\Controllers\Manage\Accounts\AccountActivate;
+use App\Http\Controllers\Manage\Accounts\AccountApproveEmailChange;
+use App\Http\Controllers\Manage\Accounts\AccountController;
+use App\Http\Controllers\Manage\Accounts\AccountGameAccount;
+use App\Http\Controllers\Manage\Accounts\AccountResendActivation;
+use App\Http\Controllers\Manage\Accounts\AccountUpdateBadges;
+use App\Http\Controllers\Manage\Accounts\AccountUpdateGroups;
+use App\Http\Controllers\Manage\Activity\ActivityController;
+use App\Http\Controllers\Manage\Badges\BadgeController;
+use App\Http\Controllers\Manage\BanAppeals\BanAppealController;
+use App\Http\Controllers\Manage\Bans\GameIPBanController;
+use App\Http\Controllers\Manage\Bans\GamePlayerBanController;
 use App\Http\Controllers\Manage\BuilderRanksController;
-use App\Http\Controllers\Manage\DonationController;
-use App\Http\Controllers\Manage\DonationPerksController;
-use App\Http\Controllers\Manage\GameIPBanController;
-use App\Http\Controllers\Manage\GamePlayerBanController;
-use App\Http\Controllers\Manage\GroupAccountController;
-use App\Http\Controllers\Manage\GroupController;
+use App\Http\Controllers\Manage\Donations\DonationController;
+use App\Http\Controllers\Manage\Donations\DonationPerksController;
+use App\Http\Controllers\Manage\Groups\GroupAccountController;
+use App\Http\Controllers\Manage\Groups\GroupController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftConfigController;
-use App\Http\Controllers\Manage\Minecraft\MinecraftPlayerController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftWarpController;
-use App\Http\Controllers\Manage\MinecraftPlayerLookupController;
-use App\Http\Controllers\Manage\PlayerWarningController;
-use App\Http\Controllers\Manage\ServerController;
-use App\Http\Controllers\Manage\ServerTokenController;
+use App\Http\Controllers\Manage\Players\MinecraftPlayerController;
+use App\Http\Controllers\Manage\Players\MinecraftPlayerLookupController;
+use App\Http\Controllers\Manage\Servers\ServerController;
+use App\Http\Controllers\Manage\Servers\ServerTokenController;
 use App\Http\Controllers\Manage\ShowcaseWarpsController;
+use App\Http\Controllers\Manage\Warnings\PlayerWarningController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('manage.')
@@ -34,7 +33,7 @@ Route::name('manage.')
         'auth',
         'activated',
         'mfa',
-        PanelGroupScope::ACCESS_PANEL->toMiddleware(),
+        'can:access-manage',
         'require-mfa',
     ])
     ->group(function() {
@@ -42,13 +41,11 @@ Route::name('manage.')
             ->name('index');
 
         Route::resource('accounts', AccountController::class)
-            ->except(['destroy', 'create'])
-            ->middleware(PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware());
+            ->except(['destroy', 'create']);
 
         Route::group([
             'prefix' => 'accounts/{account}',
             'as' => 'accounts.',
-            'middleware' => PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware(),
         ], function () {
             Route::post('activate', AccountActivate::class)
                 ->name('activate');
@@ -71,88 +68,69 @@ Route::name('manage.')
 
         Route::prefix('minecraft')->name('minecraft.')->group(function () {
             Route::get('config', [MinecraftConfigController::class, 'create'])
-                ->name('config.create')
-                ->middleware(PanelGroupScope::MANAGE_SHOWCASE_WARPS->toMiddleware());
+                ->name('config.create');
 
             Route::patch('config', [MinecraftConfigController::class, 'update'])
-                ->name('config.update')
-                ->middleware(PanelGroupScope::MANAGE_SHOWCASE_WARPS->toMiddleware());
+                ->name('config.update');
 
-            Route::resource('warps', MinecraftWarpController::class)
-                ->middleware(PanelGroupScope::MANAGE_SHOWCASE_WARPS->toMiddleware());
+            Route::resource('warps', MinecraftWarpController::class);
         });
 
         Route::resource('minecraft-players', MinecraftPlayerController::class)
-            ->except(['destroy'])
-            ->middleware(PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware());
+            ->except(['destroy']);
 
         Route::post('minecraft-players/lookup', MinecraftPlayerLookupController::class)
-            ->name('minecraft-players.lookup')
-            ->middleware(PanelGroupScope::MANAGE_ACCOUNTS->toMiddleware());
+            ->name('minecraft-players.lookup');
 
-        Route::resource('showcase-warps', ShowcaseWarpsController::class)
-            ->middleware(PanelGroupScope::MANAGE_SHOWCASE_WARPS->toMiddleware());
+        Route::resource('showcase-warps', ShowcaseWarpsController::class);
 
-        Route::resource('badges', BadgeController::class)
-            ->middleware(PanelGroupScope::MANAGE_BADGES->toMiddleware());
+        Route::resource('badges', BadgeController::class);
 
-        Route::resource('donations', DonationController::class)
-            ->middleware(PanelGroupScope::MANAGE_DONATIONS->toMiddleware());
+        Route::resource('donations', DonationController::class);
 
         Route::resource('donation-perks', DonationPerksController::class)
-            ->except(['index', 'show'])
-            ->middleware(PanelGroupScope::MANAGE_DONATIONS->toMiddleware());
+            ->except(['index', 'show']);
 
         Route::resource('servers', ServerController::class)
-            ->except(['show'])
-            ->middleware(PanelGroupScope::MANAGE_SERVERS->toMiddleware());
+            ->except(['show']);
 
         Route::resource('server-tokens', ServerTokenController::class)
-            ->except(['show'])
-            ->middleware(PanelGroupScope::MANAGE_SERVERS->toMiddleware());
+            ->except(['show']);
 
-        Route::resource('warnings', PlayerWarningController::class)
-            ->middleware(PanelGroupScope::MANAGE_WARNINGS->toMiddleware());
+        Route::resource('warnings', PlayerWarningController::class);
 
         Route::resource('ip-bans', GameIPBanController::class)
-            ->except(['show'])
-            ->middleware(PanelGroupScope::MANAGE_BANS->toMiddleware());
+            ->except(['show']);
 
         Route::resource('player-bans', GamePlayerBanController::class)
-            ->except(['show'])
-            ->middleware(PanelGroupScope::MANAGE_BANS->toMiddleware());
+            ->except(['show']);
 
         Route::resource('groups', GroupController::class)
-            ->except(['show'])
-            ->middleware(PanelGroupScope::MANAGE_GROUPS->toMiddleware());
+            ->except(['show']);
 
         Route::get('{group}/accounts', [GroupAccountController::class, 'index'])
-            ->name('groups.accounts')
-            ->middleware(PanelGroupScope::MANAGE_GROUPS->toMiddleware());
+            ->name('groups.accounts');
 
         Route::group([
             'prefix' => 'builder-ranks',
             'as' => 'builder-ranks.',
-            'middleware' => PanelGroupScope::REVIEW_BUILD_RANK_APPS->toMiddleware(),
         ], function () {
             Route::get('/', [BuilderRanksController::class, 'index'])
                 ->name('index');
 
-            Route::get('{id}', [BuilderRanksController::class, 'show'])
+            Route::get('{application}', [BuilderRanksController::class, 'show'])
                 ->name('show');
 
-            Route::post('{id}/approve', [BuilderRanksController::class, 'approve'])
+            Route::post('{application}/approve', [BuilderRanksController::class, 'approve'])
                 ->name('approve');
 
-            Route::post('{id}/deny', [BuilderRanksController::class, 'deny'])
+            Route::post('{application}/deny', [BuilderRanksController::class, 'deny'])
                 ->name('deny');
         });
 
         Route::resource('ban-appeals', BanAppealController::class)
-            ->only('index', 'show', 'update')
-            ->middleware(PanelGroupScope::REVIEW_APPEALS->toMiddleware());
+            ->only('index', 'show', 'update');
 
         Route::resource('activity', ActivityController::class)
-            ->only(['index', 'show'])
-            ->middleware(PanelGroupScope::VIEW_ACTIVITY->toMiddleware());
+            ->only(['index', 'show']);
     });

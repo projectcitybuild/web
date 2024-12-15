@@ -21,23 +21,17 @@ final class Group extends Model implements LinkableAuditModel
     protected $fillable = [
         'name',
         'alias',
-        'is_build',
         'is_default',
-        'is_staff',
         'is_admin',
         'minecraft_name',
         'minecraft_display_name',
         'minecraft_hover_text',
         'display_priority',
-        'discord_name',
-        'can_access_panel',
         'group_type',
     ];
 
     protected $casts = [
-        'is_build' => 'boolean',
         'is_default' => 'boolean',
-        'is_staff' => 'boolean',
         'is_admin' => 'boolean',
     ];
 
@@ -50,18 +44,6 @@ final class Group extends Model implements LinkableAuditModel
             table: 'groups_accounts',
             foreignPivotKey: 'group_id',
             relatedPivotKey: 'account_id',
-        );
-    }
-
-    public function groupScopes(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            related: GroupScope::class,
-            table: 'group_scopes_pivot',
-            foreignPivotKey: 'group_id',
-            relatedPivotKey: 'scope_id',
-            parentKey: 'group_id',
-            relatedKey: 'id',
         );
     }
 

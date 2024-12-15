@@ -2,7 +2,7 @@
     <div class="position-sticky pt-3">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel') ? 'active' : '' }}" aria-current="page"
+                <a class="nav-link {{ request()->is('manage') ? 'active' : '' }}" aria-current="page"
                    href="{{ route('manage.index') }}">
                     <i class="fas fa-home fa-fw"></i>
                     Home
@@ -14,155 +14,161 @@
             <span>Users</span>
         </h6>
         <ul class="nav flex-column mb-2">
-            @scope(App\Domains\Manage\Data\PanelGroupScope::MANAGE_ACCOUNTS)
+            @can('viewAny', App\Models\Account::class)
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/accounts*') ? 'active' : '' }}"
+                <a class="nav-link {{ request()->is('manage/accounts*') ? 'active' : '' }}"
                    href="{{ route('manage.accounts.index') }}">
                     <i class="fas fa-users fa-fw"></i>
                     Accounts
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/minecraft-players*') ? 'active' : '' }} "
+                <a class="nav-link {{ request()->is('manage/minecraft-players*') ? 'active' : '' }} "
                    href="{{ route('manage.minecraft-players.index') }}">
                     <i class="fas fa-cube fa-fw"></i>
                     Minecraft Players
                 </a>
             </li>
-            @endscope
-            @scope(App\Domains\Manage\Data\PanelGroupScope::MANAGE_GROUPS)
+            @endcan
+            @can('viewAny', App\Models\Group::class)
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/groups*') ? 'active' : '' }} "
+                <a class="nav-link {{ request()->is('manage/groups*') ? 'active' : '' }} "
                    href="{{ route('manage.groups.index') }}">
                     <i class="fas fa-users fa-fw"></i>
                     Groups
                 </a>
             </li>
-            @endscope
-            @scope(App\Domains\Manage\Data\PanelGroupScope::MANAGE_BADGES)
+            @endcan
+            @can('viewAny', App\Models\Badge::class)
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/badges*') ? 'active' : '' }}"
+                <a class="nav-link {{ request()->is('manage/badges*') ? 'active' : '' }}"
                    href="{{ route('manage.badges.index') }}">
                     <i class="fas fa-medal fa-fw"></i>
                     Badges
                 </a>
             </li>
-            @endscope
-            @scope(App\Domains\Manage\Data\PanelGroupScope::VIEW_ACTIVITY)
+            @endcan
+            @can('viewAny', App\Models\Activity::class)
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/activity*') ? 'active' : '' }}"
+                <a class="nav-link {{ request()->is('manage/activity*') ? 'active' : '' }}"
                    href="{{ route('manage.activity.index') }}">
                     <i class="fas fa-binoculars fa-fw"></i>
                     Activity
                 </a>
             </li>
-            @endscope
+            @endcan
         </ul>
 
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Infractions</span>
         </h6>
         <ul class="nav flex-column mb-2">
-            @scope(App\Domains\Manage\Data\PanelGroupScope::MANAGE_WARNINGS)
+            @can('viewAny', App\Models\PlayerWarning::class)
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/warnings*') ? 'active' : '' }}"
+                <a class="nav-link {{ request()->is('manage/warnings*') ? 'active' : '' }}"
                    href="{{ route('manage.warnings.index') }}">
                     <i class="fas fa-exclamation-triangle fa-fw"></i>
                     Warnings
                 </a>
             </li>
-            @endscope
-            @scope(App\Domains\Manage\Data\PanelGroupScope::MANAGE_BANS)
+            @endcan
+            @can('viewAny', App\Models\GamePlayerBan::class)
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/player-bans*') ? 'active' : '' }}"
+                <a class="nav-link {{ request()->is('manage/player-bans*') ? 'active' : '' }}"
                    href="{{ route('manage.player-bans.index') }}">
                     <i class="fas fa-user-slash fa-fw"></i>
                     Banned Players
                 </a>
             </li>
+            @endcan
+            @can('viewAny', App\Models\GameIPBan::class)
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/ip-bans*') ? 'active' : '' }}"
+                <a class="nav-link {{ request()->is('manage/ip-bans*') ? 'active' : '' }}"
                    href="{{ route('manage.ip-bans.index') }}">
                     <i class="fas fa-ban fa-fw"></i>
                     Banned IPs
                 </a>
             </li>
-            @endscope
+            @endcan
         </ul>
 
-        @scope(App\Domains\Manage\Data\PanelGroupScope::MANAGE_SHOWCASE_WARPS)
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Minecraft</span>
         </h6>
         <ul class="nav flex-column mb-2">
+            @can('viewAny', App\Models\MinecraftWarp::class)
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/minecraft/warps*') ? 'active' : '' }} "
+                <a class="nav-link {{ request()->is('manage/minecraft/warps*') ? 'active' : '' }} "
                    href="{{ route('manage.minecraft.warps.index') }}">
                     <i class="fas fa-flag fa-fw"></i>
                     Warps
                 </a>
             </li>
+            @endcan
+            @can('viewAny', App\Models\MinecraftWarp::class)
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/showcase-warps*') ? 'active' : '' }} "
+                <a class="nav-link {{ request()->is('manage/showcase-warps*') ? 'active' : '' }} "
                    href="{{ route('manage.showcase-warps.index') }}">
                     <i class="fas fa-flag fa-fw"></i>
                     Showcase Warps
                 </a>
             </li>
+            @endcan
+            @can('viewAny', App\Models\MinecraftConfig::class)
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/minecraft/config*') ? 'active' : '' }} "
+                <a class="nav-link {{ request()->is('manage/minecraft/config*') ? 'active' : '' }} "
                    href="{{ route('manage.minecraft.config.create') }}">
                     <i class="fas fa-flag fa-fw"></i>
                     Config
                 </a>
             </li>
+            @endcan
         </ul>
-        @endscope
 
-        @scope(App\Domains\Manage\Data\PanelGroupScope::MANAGE_SERVERS)
+        @can('viewAny', App\Models\Server::class)
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Servers</span>
         </h6>
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/servers*') ? 'active' : '' }} "
+                <a class="nav-link {{ request()->is('manage/servers*') ? 'active' : '' }} "
                    href="{{ route('manage.servers.index') }}">
                     <i class="fas fa-server fa-fw"></i>
                     Servers
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/server-tokens*') ? 'active' : '' }} "
+                <a class="nav-link {{ request()->is('manage/server-tokens*') ? 'active' : '' }} "
                    href="{{ route('manage.server-tokens.index') }}">
                     <i class="fas fa-key fa-fw"></i>
                     Server Tokens
                 </a>
             </li>
         </ul>
-        @endscope
+        @endcan
 
-        @scope(App\Domains\Manage\Data\PanelGroupScope::MANAGE_DONATIONS)
+        @can('viewAny', App\Models\Donation::class)
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Transactions</span>
         </h6>
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/donations*') ? 'active' : '' }}"
+                <a class="nav-link {{ request()->is('manage/donations*') ? 'active' : '' }}"
                    href="{{ route('manage.donations.index') }}">
                     <i class="fas fa-credit-card fa-fw"></i>
                     Donations
                 </a>
             </li>
         </ul>
-        @endscope
+        @endcan
 
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Review</span>
         </h6>
         <ul class="nav flex-column mb-2">
-            @scope(App\Domains\Manage\Data\PanelGroupScope::REVIEW_BUILD_RANK_APPS)
+            @can('viewAny', App\Models\BuilderRankApplication::class)
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/builder-ranks*') ? 'active' : '' }}"
+                <a class="nav-link {{ request()->is('manage/builder-ranks*') ? 'active' : '' }}"
                    href="{{ route('manage.builder-ranks.index') }}">
                     <i class="fas fa-hammer fa-fw"></i>
                     Builder Rank Applications
@@ -171,10 +177,10 @@
                     @endif
                 </a>
             </li>
-            @endscope
-            @scope(App\Domains\Manage\Data\PanelGroupScope::REVIEW_APPEALS)
+            @endcan
+            @can('viewAny', App\Models\BanAppeal::class)
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panel/ban-appeals*') ? 'active' : '' }}"
+                <a class="nav-link {{ request()->is('manage/ban-appeals*') ? 'active' : '' }}"
                    href="{{ route('manage.ban-appeals.index') }}">
                     <i class="fas fa-gavel fa-fw"></i>
                     Ban Appeals
@@ -183,7 +189,7 @@
                     @endif
                 </a>
             </li>
-            @endscope
+            @endcan
         </ul>
     </div>
 </nav>

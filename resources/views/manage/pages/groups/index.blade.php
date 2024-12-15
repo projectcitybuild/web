@@ -21,7 +21,6 @@
                 <th>Minecraft Display Name</th>
                 <th>Minecraft Hover Text</th>
                 <th>Display Priority</th>
-                <th>Panel Access?</th>
             </tr>
             </thead>
             <tbody>
@@ -30,7 +29,11 @@
                     <td>
                         <a href="{{ route('manage.groups.edit', $group) }}">{{ $group->name }}</a></td>
                     <td>
-                        <a href="{{ route('manage.groups.accounts', $group) }}">{{ number_format($group->accounts_count) }}</a>
+                        @if ($group->is_default)
+                            -
+                        @else
+                            <a href="{{ route('manage.groups.accounts', $group) }}">{{ number_format($group->accounts_count) }}</a>
+                        @endif
                     </td>
                     <td>{{ $group->alias }}</td>
                     <td>
@@ -58,7 +61,6 @@
                             {{ $group->display_priority }}
                         @endif
                     </td>
-                    <td><x-manage::bs.fa-boolean :data="$group->can_access_panel" false-class="text-muted" /></td>
                 </tr>
             @endforeach
             </tbody>

@@ -8,7 +8,6 @@ use App\Core\Domains\Auditing\Concerns\CausesActivity;
 use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
-use App\Domains\Manage\Data\PanelGroupScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -75,8 +74,6 @@ final class Account extends Authenticatable implements LinkableAuditModel
         'is_totp_enabled' => 'boolean',
         'activated' => 'boolean',
     ];
-
-    private ?Collection $cachedGroupScopes = null;
 
     public function toSearchableArray()
     {
@@ -190,28 +187,25 @@ final class Account extends Authenticatable implements LinkableAuditModel
         return $this->badges->contains($badge);
     }
 
-    public function isAdmin()
+    public function isAdmin(): bool
     {
-        return $this->groups()->where('is_admin', true)->count() > 0;
+        return $this->groups()
+            ->where('is_admin', true)
+            ->count() > 0;
     }
 
-    public function canAccessPanel(): bool
+    public function isStaff(): bool
     {
-        return $this->hasAbility(PanelGroupScope::ACCESS_PANEL->value);
+        return $this->groups()
+            ->where('group_type', 'staff')
+            ->count() > 0;
     }
 
-    public function hasAbility(string $to): bool
+    public function isArchitect(): bool
     {
-        if ($this->cachedGroupScopes === null) {
-            $this->cachedGroupScopes = $this->groups()
-                ->with('groupScopes')
-                ->get()
-                ->flatMap(fn ($group) => $group->groupScopes->pluck('scope'))
-                ->mapWithKeys(fn ($scope) => [$scope => true])  // Map to dictionary for faster lookup
-                ?? collect();
-        }
-
-        return $this->cachedGroupScopes->has(key: $to);
+        return $this->groups()
+            ->where('name', 'architect')
+            ->count() > 0;
     }
 
     public function updatePassword(string $newPassword)

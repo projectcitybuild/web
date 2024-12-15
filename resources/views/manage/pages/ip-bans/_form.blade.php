@@ -7,7 +7,7 @@
             name="ip_address"
             class="form-control"
             placeholder="192.168.0.1"
-            value="{{ old('ip_address', $ban->ip_address) }}"
+            value="{{ old('ip_address', $ipBan->ip_address) }}"
         >
     </div>
 </div>
@@ -16,8 +16,8 @@
     <div class="col-sm-9">
         <x-manage::minecraft-player-alias-picker
             fieldName="banner_player_id"
-            :playerId="$ban?->bannerPlayer?->getKey()"
-            :aliasString="$ban?->bannerPlayer?->alias"
+            :playerId="$ipBan?->bannerPlayer?->getKey()"
+            :aliasString="$ipBan?->bannerPlayer?->alias"
         />
     </div>
 </div>
@@ -30,7 +30,7 @@
             name="reason"
             class="form-control"
             placeholder="Ban evasion. Alternate account of Notch"
-            value="{{ old('reason', $ban->reason) }}"
+            value="{{ old('reason', $ipBan->reason) }}"
         >
     </div>
 </div>
@@ -42,7 +42,7 @@
             id="created_at"
             name="created_at"
             class="form-control"
-            value="{{ old('created_at', $ban->created_at ?? now()) }}"
+            value="{{ old('created_at', $ipBan->created_at ?? now()) }}"
         >
     </div>
 </div>
@@ -54,7 +54,7 @@
             id="updated_at"
             name="updated_at"
             class="form-control"
-            value="{{ old('updated_at', $ban->updated_at ?? now()) }}"
+            value="{{ old('updated_at', $ipBan->updated_at ?? now()) }}"
         >
     </div>
 </div>

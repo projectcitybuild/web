@@ -22,11 +22,11 @@
                         <li>
                             <a href="{{ route('front.account.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
                         </li>
-                        @if (Auth::user()->canAccessPanel())
+                        @can('access-manage')
                             <li>
                                 <a href="{{ route('manage.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staff Panel</a>
                             </li>
-                        @endif
+                        @endcan
                     </ul>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                         <li>

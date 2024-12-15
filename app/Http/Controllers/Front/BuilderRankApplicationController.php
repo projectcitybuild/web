@@ -10,6 +10,7 @@ use App\Http\Controllers\WebController;
 use App\Http\Requests\BuilderRankApplicationRequest;
 use App\Models\BuilderRankApplication;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 final class BuilderRankApplicationController extends WebController
 {
@@ -35,10 +36,22 @@ final class BuilderRankApplicationController extends WebController
             ->with(compact('minecraftUsername'));
     }
 
+    public function show(
+        Request $request,
+        BuilderRankApplication $application,
+    ) {
+        Gate::authorize('view', $application);
+
+        return view('front.pages.builder-rank.builder-rank-status')
+            ->with(compact('application'));
+    }
+
     public function store(
         BuilderRankApplicationRequest $request,
         CreateBuildRankApplication $createBuildRankApplication,
     ) {
+        Gate::authorize('create', BuilderRankApplication::class);
+
         $input = $request->validated();
         $account = $request->user();
 
@@ -59,21 +72,5 @@ final class BuilderRankApplicationController extends WebController
                 ->back()
                 ->with(['error' => 'You cannot submit another application while you have another application under review']);
         }
-    }
-
-    public function show(
-        Request $request,
-        int $applicationId,
-    ) {
-        $application = BuilderRankApplication::find($applicationId);
-        if ($application === null) {
-            abort(404);
-        }
-        if ($request->user()->getKey() !== $application->account_id) {
-            abort(403);
-        }
-
-        return view('front.pages.builder-rank.builder-rank-status')
-            ->with(compact('application'));
     }
 }
