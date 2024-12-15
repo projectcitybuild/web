@@ -1,6 +1,6 @@
 <?php
 
-namespace Front;
+namespace Tests\Integration\Front;
 
 use App\Models\Account;
 use App\Models\MinecraftPlayer;

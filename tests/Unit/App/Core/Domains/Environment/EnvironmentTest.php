@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Core\Domains\Environment;
+namespace Tests\Unit\App\Core\Domains\Environment;
 
+use App\Core\Domains\Environment\Environment;
+use App\Core\Domains\Environment\EnvironmentLevel;
 use Tests\Support\TemporaryConfig;
 use Tests\TestCase;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Front;
+namespace Tests\Integration\Front;
 
 use App\Core\Data\Exceptions\TooManyRequestsException;
 use App\Domains\Bans\UseCases\LookupPlayerBan;
