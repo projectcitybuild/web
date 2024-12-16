@@ -9,6 +9,6 @@ class HomeController extends WebController
 {
     public function __invoke()
     {
-        return Inertia::render('home', []);
+        return Inertia::render('Home', []);
     }
 }

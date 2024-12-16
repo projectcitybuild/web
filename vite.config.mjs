@@ -9,12 +9,30 @@ export default defineConfig({
                 'resources/sass/front/front.scss',
                 'resources/js/front/front.ts',
                 'resources/js/manage/manage.ts',
+                'resources/sass/manage/manage.scss',
             ],
 
             // Refreshes when a change is made to resource/view files or routes
             refresh: true,
         }),
-        vue(),
+        vue({
+            template: {
+                transformAssetUrls: {
+                    // The Vue plugin will re-write asset URLs, when referenced
+                    // in Single File Components, to point to the Laravel web
+                    // server. Setting this to `null` allows the Laravel plugin
+                    // to instead re-write asset URLs to point to the Vite
+                    // server instead.
+                    base: null,
+
+                    // The Vue plugin will parse absolute URLs and treat them
+                    // as absolute paths to files on disk. Setting this to
+                    // `false` will leave absolute URLs un-touched so they can
+                    // reference assets in the public directly as expected.
+                    includeAbsolute: false,
+                },
+            },
+        }),
     ],
     server: {
         // `npm run dev` will not route to the correct IP address without this
