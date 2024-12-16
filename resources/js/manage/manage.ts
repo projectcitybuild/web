@@ -1,10 +1,14 @@
-import { Tooltip } from 'bootstrap';
+import { createApp, h } from 'vue'
+import { createInertiaApp } from '@inertiajs/vue3'
 
-import './user-picker';
-import './navigation-select';
-import './search-select';
-
-const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-tooltipTriggerList.map(function (tooltipTriggerEl: HTMLElement): Tooltip {
-    return new Tooltip(tooltipTriggerEl);
+createInertiaApp({
+    resolve: name => {
+        const pages = import.meta.glob('./pages/**/*.vue', { eager: true })
+        return pages[`./pages/${name}.vue`]
+    },
+    setup({ el, App, props, plugin }) {
+        createApp({ render: () => h(App, props) })
+            .use(plugin)
+            .mount(el)
+    },
 })
