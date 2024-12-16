@@ -9,6 +9,7 @@ use App\Models\GamePlayerBan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
+use Inertia\Inertia;
 
 class GamePlayerBanController extends WebController
 {
@@ -18,10 +19,13 @@ class GamePlayerBanController extends WebController
 
         $bans = GamePlayerBan::with('bannedPlayer', 'bannerPlayer', 'unbannerPlayer')
             ->orderBy('created_at', 'desc')
-            ->paginate(100);
+            ->cursorPaginate(25);
 
-        return view('manage.pages.player-bans.index')
-            ->with(compact('bans'));
+        if (request()->wantsJson()) {
+            return $bans;
+        }
+
+        return Inertia::render('Bans/BanList', compact('bans'));
     }
 
     public function create(Request $request)

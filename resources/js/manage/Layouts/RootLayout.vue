@@ -5,9 +5,8 @@ import { Link } from '@inertiajs/vue3'
 <template>
     <main>
         <header>
-            <Link href="/">Home</Link>
-            <Link href="/about">About</Link>
-            <Link href="/contact">Contact</Link>
+            <Link href="/manage">Home</Link>
+            <Link href="/manage/player-bans">Bans</Link>
         </header>
         <article>
             <slot />

@@ -4,5 +4,5 @@ defineProps({ user: Object })
 
 <template>
     <Head title="Manage" />
-    Test page
+    Home
 </template>
