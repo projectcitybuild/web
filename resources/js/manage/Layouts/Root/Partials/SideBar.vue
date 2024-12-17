@@ -1,5 +1,14 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
+import { ref } from 'vue'
+
+const collapsed = ref({
+    'users': true,
+    'moderation': true,
+    'minecraft': true,
+    'servers': true,
+    'payments': true,
+})
 </script>
 
 <template>
@@ -27,7 +36,7 @@ import { Link } from '@inertiajs/vue3'
                         type="button"
                         class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-accounts"
-                        data-collapse-toggle="dropdown-accounts"
+                        @click="collapsed['users'] = !collapsed['users']"
                     >
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M16 19h4a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-2m-2.236-4a3 3 0 1 0 0-4M3 18v-1a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
@@ -39,7 +48,7 @@ import { Link } from '@inertiajs/vue3'
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"/>
                         </svg>
                     </button>
-                    <ul id="dropdown-accounts" class="hidden py-2 space-y-2">
+                    <ul id="dropdown-accounts" class="py-2 space-y-2" v-show="!collapsed['users']">
                         <li>
                             <Link
                                 href="/manage/player-bans"
@@ -80,7 +89,7 @@ import { Link } from '@inertiajs/vue3'
                         type="button"
                         class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-moderation"
-                        data-collapse-toggle="dropdown-moderation"
+                        @click="collapsed['moderation'] = !collapsed['moderation']"
                     >
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
@@ -93,7 +102,7 @@ import { Link } from '@inertiajs/vue3'
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"/>
                         </svg>
                     </button>
-                    <ul id="dropdown-moderation" class="hidden py-2 space-y-2">
+                    <ul class="py-2 space-y-2" v-show="!collapsed['moderation']">
                         <li>
                             <Link
                                 href="/manage/player-bans"
@@ -126,7 +135,7 @@ import { Link } from '@inertiajs/vue3'
                         type="button"
                         class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-minecraft"
-                        data-collapse-toggle="dropdown-minecraft"
+                        @click="collapsed['minecraft'] = !collapsed['minecraft']"
                     >
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.143 4H4.857A.857.857 0 0 0 4 4.857v4.286c0 .473.384.857.857.857h4.286A.857.857 0 0 0 10 9.143V4.857A.857.857 0 0 0 9.143 4Zm10 0h-4.286a.857.857 0 0 0-.857.857v4.286c0 .473.384.857.857.857h4.286A.857.857 0 0 0 20 9.143V4.857A.857.857 0 0 0 19.143 4Zm-10 10H4.857a.857.857 0 0 0-.857.857v4.286c0 .473.384.857.857.857h4.286a.857.857 0 0 0 .857-.857v-4.286A.857.857 0 0 0 9.143 14Zm10 0h-4.286a.857.857 0 0 0-.857.857v4.286c0 .473.384.857.857.857h4.286a.857.857 0 0 0 .857-.857v-4.286a.857.857 0 0 0-.857-.857Z"/>
@@ -138,7 +147,7 @@ import { Link } from '@inertiajs/vue3'
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"/>
                         </svg>
                     </button>
-                    <ul id="dropdown-minecraft" class="hidden py-2 space-y-2">
+                    <ul class="py-2 space-y-2" v-show="!collapsed['minecraft']">
                         <li>
                             <Link
                                 href="/manage/player-bans"
@@ -171,7 +180,7 @@ import { Link } from '@inertiajs/vue3'
                         type="button"
                         class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-servers"
-                        data-collapse-toggle="dropdown-servers"
+                        @click="collapsed['servers'] = !collapsed['servers']"
                     >
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1M5 12h14M5 12a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1m-2 3h.01M14 15h.01M17 9h.01M14 9h.01"/>
@@ -183,7 +192,7 @@ import { Link } from '@inertiajs/vue3'
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"/>
                         </svg>
                     </button>
-                    <ul id="dropdown-servers" class="hidden py-2 space-y-2">
+                    <ul class="py-2 space-y-2" v-show="!collapsed['servers']">
                         <li>
                             <Link
                                 href="/manage/player-bans"
@@ -208,7 +217,7 @@ import { Link } from '@inertiajs/vue3'
                         type="button"
                         class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-payments"
-                        data-collapse-toggle="dropdown-payments"
+                        @click="collapsed['payments'] = !collapsed['payments']"
                     >
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 18h14M5 18v3h14v-3M5 18l1-9h12l1 9M16 6v3m-4-3v3m-2-6h8v3h-8V3Zm-1 9h.01v.01H9V12Zm3 0h.01v.01H12V12Zm3 0h.01v.01H15V12Zm-6 3h.01v.01H9V15Zm3 0h.01v.01H12V15Zm3 0h.01v.01H15V15Z"/>
@@ -220,7 +229,7 @@ import { Link } from '@inertiajs/vue3'
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"/>
                         </svg>
                     </button>
-                    <ul id="dropdown-payments" class="hidden py-2 space-y-2">
+                    <ul class="py-2 space-y-2" v-show="!collapsed['payments']">
                         <li>
                             <Link
                                 href="/manage/player-bans"

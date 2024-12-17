@@ -9,7 +9,7 @@ import NavBar from "./Partials/NavBar.vue";
 
         <SideBar />
 
-        <main class="p-4 md:ml-64 h-auto pt-20">
+        <main class="p-4 md:ml-64 h-auto pt-16">
             <slot />
         </main>
     </div>
