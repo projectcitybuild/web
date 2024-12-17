@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
+import { Head } from "@inertiajs/vue3";
 import axios from 'axios'
 import BanListTable from "./Partials/BanListTable.vue";
 

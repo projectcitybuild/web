@@ -32,7 +32,7 @@ function formatted(dateString) {
             <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ ban.id }}</th>
             <td class="px-4 py-3">
 <!--                <span v-if="ban.unbanned_at == null" class="py-1 px-2 bg-gray-200 rounded-md text-xs">Expired</span>-->
-                <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Active</span>
+                <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Active (TODO)</span>
             </td>
             <td class="px-4 py-3 font-bold">{{ ban.banned_player.alias ?? ban.banned_alias_at_time }}</td>
             <td class="px-4 py-3">{{ ban.reason }}</td>
