@@ -24,7 +24,6 @@ class GamePlayerBanController extends WebController
         if (request()->wantsJson()) {
             return $bans;
         }
-
         return Inertia::render('Bans/BanList', compact('bans'));
     }
 

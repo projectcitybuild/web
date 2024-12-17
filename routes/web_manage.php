@@ -35,6 +35,7 @@ Route::name('manage.')
         'mfa',
         'can:access-manage',
         'require-mfa',
+        Inertia\EncryptHistoryMiddleware::class,
     ])
     ->group(function() {
         Route::get('/', HomeController::class)

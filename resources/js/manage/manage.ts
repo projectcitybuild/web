@@ -1,6 +1,6 @@
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
-import RootLayout from "./Layouts/RootLayout.vue";
+import RootLayout from "./Layouts/Root/RootLayout.vue";
 
 createInertiaApp({
     resolve: name => {
