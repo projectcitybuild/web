@@ -31,10 +31,12 @@ class GamePlayerBanController extends WebController
     {
         Gate::authorize('create', GamePlayerBan::class);
 
-        $ban = new GamePlayerBan();
+        $account = $request->user();
+        $account->load('minecraftAccount');
 
-        return view('manage.pages.player-bans.create')
-            ->with(compact('ban'));
+        return Inertia::render('Bans/BanCreate', [
+            'account' => $account,
+        ]);
     }
 
     public function store(Request $request)
