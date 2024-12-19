@@ -13,6 +13,9 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const emit = defineEmits<{
+    (e: 'uuidChange', uuid?: string): void,
+}>()
 
 const player = ref(props.initialPlayer)
 const loading = ref(false)
@@ -34,9 +37,11 @@ async function search(): Promise<void> {
                 uuid: data.id,
                 alias: data.username,
             }
+            emit('uuidChange', data.id)
         }
     } catch (error) {
         loadError.value = error.response.data.message ?? error.message
+        emit('uuidChange', null)
     } finally {
         loading.value = false
     }

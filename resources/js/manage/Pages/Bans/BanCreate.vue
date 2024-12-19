@@ -1,12 +1,19 @@
 <script setup>
-import { Head } from '@inertiajs/vue3'
-import { computed } from 'vue'
+import { Head, router } from '@inertiajs/vue3'
+import { computed, reactive } from 'vue'
 import DateTimePicker from '../../Components/DateTimePicker.vue'
 import PlayerPicker from '../../Components/PlayerPicker.vue'
 import Card from '../../Components/Card.vue'
 
 const props = defineProps({
     account: Object,
+})
+
+const form = reactive({
+    banned_uuid: null,
+    banner_uuid: null,
+    created_at: null,
+    reason: null,
 })
 
 const bannedBy = computed(() => {
@@ -18,6 +25,10 @@ const bannedBy = computed(() => {
         alias: player.alias,
     }
 })
+
+function submit() {
+    router.post('/manage/player-bans', form)
+}
 </script>
 
 <template>
@@ -33,11 +44,13 @@ const bannedBy = computed(() => {
             <Card>
                 <div class="p-8 max-w-2xl">
                     <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Create a Ban</h2>
-                    <form action="#">
+                    <form @submit.prevent="submit">
                         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                             <div class="sm:col-span-2">
                                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Player</label>
-                                <PlayerPicker />
+                                <PlayerPicker
+                                    @uuid-change="form.banned_uuid = $event"
+                                />
                             </div>
                             <div class="sm:col-span-2">
                                 <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Ban</label>
@@ -45,11 +58,20 @@ const bannedBy = computed(() => {
                             </div>
                             <div class="sm:col-span-2">
                                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Banned By</label>
-                                <PlayerPicker :initial-player="bannedBy" />
+                                <PlayerPicker
+                                    :initial-player="bannedBy"
+                                    @uuid-change="form.banner_uuid = $event"
+                                />
                             </div>
                             <div class="sm:col-span-2">
                                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reason for Ban</label>
-                                <textarea id="description" rows="3" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="eg. Repeated and intentional griefing of builds"></textarea>
+                                <textarea
+                                    v-model="form.reason"
+                                    id="description"
+                                    rows="3"
+                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    placeholder="eg. Repeated and intentional griefing of builds"
+                                ></textarea>
                                 <span class="block mt-2 text-sm font-medium text-gray-400 dark:text-white">
                                     This is the message shown to the player - keep it short and concise.<br />
                                     <strong>Do not tell them to appeal</strong>, this is already appended to the end automatically.
