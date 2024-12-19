@@ -1,7 +1,6 @@
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
-import vue from '@vitejs/plugin-vue';
-import * as path from "path";
+import { defineConfig } from 'vite'
+import laravel from 'laravel-vite-plugin'
+import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
     plugins: [
@@ -9,8 +8,8 @@ export default defineConfig({
             input: [
                 'resources/sass/front/front.scss',
                 'resources/js/front/front.ts',
-                'resources/sass/manage/manage.scss',
                 'resources/js/manage/manage.ts',
+                'resources/sass/manage/manage.scss',
             ],
 
             // Refreshes when a change is made to resource/view files or routes
@@ -35,13 +34,6 @@ export default defineConfig({
             },
         }),
     ],
-    resolve: {
-        alias: {
-            '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
-            '~normalize-scss': path.resolve(__dirname, 'node_modules/normalize-scss'),
-            '~choices.js': path.resolve(__dirname, 'node_modules/choices.js'),
-        }
-    },
     server: {
         // `npm run dev` will not route to the correct IP address without this
         // https://github.com/laravel/vite-plugin/issues/28#issuecomment-1169592126

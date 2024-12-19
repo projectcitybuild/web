@@ -1,12 +1,5 @@
-@import "~bootstrap/scss/bootstrap";
-@import "~choices.js/src/styles/choices";
+@charset "utf-8";
 
-@media (prefers-color-scheme: dark) {
-    @import "variables-dark";
-    @import "shared";
-}
-
-@media (prefers-color-scheme: light) {
-    @import "variables-light";
-    @import "shared";
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

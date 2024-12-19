@@ -17,6 +17,7 @@ use App\Http\Controllers\Manage\Donations\DonationController;
 use App\Http\Controllers\Manage\Donations\DonationPerksController;
 use App\Http\Controllers\Manage\Groups\GroupAccountController;
 use App\Http\Controllers\Manage\Groups\GroupController;
+use App\Http\Controllers\Manage\HomeController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftWarpController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerController;
@@ -34,9 +35,10 @@ Route::name('manage.')
         'mfa',
         'can:access-manage',
         'require-mfa',
+        Inertia\EncryptHistoryMiddleware::class,
     ])
     ->group(function() {
-        Route::view('/', 'manage.pages.index')
+        Route::get('/', HomeController::class)
             ->name('index');
 
         Route::resource('accounts', AccountController::class)
