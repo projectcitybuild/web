@@ -12,14 +12,11 @@ interface Props {
     initialPlayer?: SelectedPlayer,
 }
 
-type Result<T, E = Error> =
-    | { ok: true; value: T }
-    | { ok: false; error: E };
-
 const props = defineProps<Props>()
 
 const player = ref(props.initialPlayer)
 const loading = ref(false)
+const loadError = ref<string|null>(null)
 const searchText = ref('')
 
 const avatar = computed(() => `https://minotar.net/avatar/${player.value.uuid}/100`)
@@ -27,14 +24,21 @@ const avatar = computed(() => `https://minotar.net/avatar/${player.value.uuid}/1
 async function search(): Promise<void> {
     if (searchText.value == '') return
 
-    const response = await axios.get(`https://playerdb.co/api/player/minecraft/${searchText.value}`)
-
-    const data = response.data.data.player
-    if (data) {
-        player.value = {
-            uuid: data.id,
-            alias: data.username,
+    loading.value = true
+    loadError.value = null
+    try {
+        const response = await axios.get(`https://playerdb.co/api/player/minecraft/${searchText.value}`)
+        const data = response.data.data.player
+        if (data) {
+            player.value = {
+                uuid: data.id,
+                alias: data.username,
+            }
         }
+    } catch (error) {
+        loadError.value = error.response.data.message ?? error.message
+    } finally {
+        loading.value = false
     }
 }
 
@@ -48,8 +52,8 @@ function clear(): void {
         <img :src="avatar" height="64" width="64" />
 
         <div class="grow">
-            <div class="text-lg text-gray-900 dark:text-white">{{ player['alias'] }}</div>
-            <div class="text-sm text-gray-400 dark:text-white">{{ player['uuid'] }}</div>
+            <div class="text-lg text-gray-900 dark:text-white font-bold">{{ player['alias'] }}</div>
+            <div class="text-xs text-gray-400 dark:text-white">{{ player['uuid'] }}</div>
         </div>
 
         <button
@@ -61,25 +65,29 @@ function clear(): void {
         </button>
     </div>
 
-    <div v-else class="flex flex-row gap-2 justify-center items-center">
-        <input
-            type="text"
-            name="name"
-            id="name"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-            placeholder="UUID or name"
-            required=""
-            :disabled="loading"
-            v-model="searchText"
-        >
+    <div v-else>
+        <div v-if="loadError" class="text-red-500 text-sm font-bold mb-2">{{ loadError }}</div>
 
-        <button
-            type="button"
-            class="px-5 py-2.5 text-sm text-center text-white bg-gray-500 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-gray-800"
-            @click="search"
-        >
-            <Spinner v-if="loading" />
-            <span v-else>Search</span>
-        </button>
+        <div class="flex flex-row gap-2 justify-center items-center">
+            <input
+                type="text"
+                name="name"
+                id="name"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="UUID or name"
+                required=""
+                :disabled="loading"
+                v-model="searchText"
+            >
+
+            <button
+                type="button"
+                class="px-5 py-2.5 text-sm text-center text-white bg-gray-500 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-gray-800"
+                @click="search"
+            >
+                <Spinner v-if="loading" />
+                <span v-else>Search</span>
+            </button>
+        </div>
     </div>
 </template>
