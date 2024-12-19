@@ -34,26 +34,34 @@ function submit() {
 <template>
     <Head title="Create a Ban" />
 
-    <h1 class="my-4 mx-8 text-3xl text-gray-600">
-        Manage Bans
-    </h1>
+    <section class="p-3 sm:p-5">
+        <div class="mx-auto max-w-screen-xl pb-8 px-8">
+            <h1 class="text-3xl text-gray-600">
+                Manage Bans
+            </h1>
+        </div>
 
-    <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
         <div class="mx-auto max-w-screen-xl">
-
             <Card>
                 <div class="p-8 max-w-2xl">
-                    <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Create a Ban</h2>
+                    <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Create a Ban</h2>
+                    <div class="text-sm text-gray-500">Prevent a Minecraft UUID from connecting to our server</div>
+                    <hr class="my-6" />
+
                     <form @submit.prevent="submit">
                         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                             <div class="sm:col-span-2">
-                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Player</label>
+                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Player<span class="text-red-500">*</span>
+                                </label>
                                 <PlayerPicker
                                     @uuid-change="form.banned_uuid = $event"
                                 />
                             </div>
                             <div class="sm:col-span-2">
-                                <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Ban</label>
+                                <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Date of Ban<span class="text-red-500">*</span>
+                                </label>
                                 <DateTimePicker />
                             </div>
                             <div class="sm:col-span-2">
@@ -62,9 +70,14 @@ function submit() {
                                     :initial-player="bannedBy"
                                     @uuid-change="form.banner_uuid = $event"
                                 />
+                                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
+                                    Leaving this empty will show it as banned by System
+                                </span>
                             </div>
                             <div class="sm:col-span-2">
-                                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reason for Ban</label>
+                                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Reason for Ban<span class="text-red-500">*</span>
+                                </label>
                                 <textarea
                                     v-model="form.reason"
                                     id="description"
@@ -72,7 +85,7 @@ function submit() {
                                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     placeholder="eg. Repeated and intentional griefing of builds"
                                 ></textarea>
-                                <span class="block mt-2 text-sm font-medium text-gray-400 dark:text-white">
+                                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
                                     This is the message shown to the player - keep it short and concise.<br />
                                     <strong>Do not tell them to appeal</strong>, this is already appended to the end automatically.
                                 </span>
@@ -82,7 +95,7 @@ function submit() {
                             Create
                         </button>
 
-                        <span class="block mt-2 text-sm font-medium text-gray-400 dark:text-white">
+                        <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
                             Note: The player will be kicked and banned if they are currently on the server
                         </span>
                     </form>
