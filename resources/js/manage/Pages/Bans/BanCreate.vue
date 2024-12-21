@@ -1,6 +1,6 @@
 <script setup>
-import { Head, router } from '@inertiajs/vue3'
-import { computed, reactive } from 'vue'
+import { Head, router, useForm } from '@inertiajs/vue3'
+import { computed } from 'vue'
 import DateTimePicker from '../../Components/DateTimePicker.vue'
 import PlayerPicker from '../../Components/PlayerPicker.vue'
 import Card from '../../Components/Card.vue'
@@ -9,7 +9,7 @@ const props = defineProps({
     account: Object,
 })
 
-const form = reactive({
+const form = useForm({
     banned_uuid: null,
     banner_uuid: null,
     created_at: null,
@@ -57,6 +57,7 @@ function submit() {
                                 <PlayerPicker
                                     @uuid-change="form.banned_uuid = $event"
                                 />
+                                <div v-if="form.errors.banned_uuid">{{ form.errors.banned_uuid }}</div>
                             </div>
                             <div class="sm:col-span-2">
                                 <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

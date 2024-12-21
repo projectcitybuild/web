@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import axios from 'axios'
 import Spinner from './Spinner.vue'
+import MinecraftAvatar from "./MinecraftAvatar.vue";
 
 interface SelectedPlayer {
     uuid: string,
@@ -22,8 +23,6 @@ const loading = ref(false)
 const loadError = ref<string|null>(null)
 const searchText = ref('')
 
-const avatar = computed(() => `https://minotar.net/avatar/${player.value.uuid}/100`)
-
 async function search(): Promise<void> {
     if (searchText.value == '') return
 
@@ -40,7 +39,7 @@ async function search(): Promise<void> {
             emit('uuidChange', data.id)
         }
     } catch (error) {
-        loadError.value = error.response.data.message ?? error.message
+        loadError.value = error.response?.data.message ?? error.message
         emit('uuidChange', null)
     } finally {
         loading.value = false
@@ -54,11 +53,11 @@ function clear(): void {
 
 <template>
     <div v-if="player" class="flex flex-row flex-wrap justify-between gap-5 items-center p-4 border border-gray-100 rounded-lg">
-        <img :src="avatar" height="64" width="64" />
+        <MinecraftAvatar :alias="player.alias" :size="64" />
 
         <div class="grow">
-            <div class="text-lg text-gray-900 dark:text-white font-bold">{{ player['alias'] }}</div>
-            <div class="text-xs text-gray-400 dark:text-white">{{ player['uuid'] }}</div>
+            <div class="text-lg text-gray-900 dark:text-white font-bold">{{ player.alias }}</div>
+            <div class="text-xs text-gray-400 dark:text-white">{{ player.uuid }}</div>
         </div>
 
         <button
@@ -80,7 +79,6 @@ function clear(): void {
                 id="name"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="UUID or name"
-                required=""
                 :disabled="loading"
                 v-model="searchText"
             >
