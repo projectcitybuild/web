@@ -10,7 +10,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const loaded = ref<Result<void>|null>(null)
+const loaded = ref<Result<void|null, Error>>(null)
 
 const size = computed(() => props.size ?? 100)
 const url = computed(() => `https://minotar.net/avatar/${props.alias}/${props.size}`)

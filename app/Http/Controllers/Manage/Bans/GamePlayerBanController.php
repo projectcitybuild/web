@@ -62,7 +62,7 @@ class GamePlayerBanController extends WebController
 
         MinecraftUuidBanned::dispatch($ban);
 
-        return redirect(route('manage.player-bans.index'));
+        return to_route('manage.player-bans.index');
     }
 
     public function edit(GamePlayerBan $ban)

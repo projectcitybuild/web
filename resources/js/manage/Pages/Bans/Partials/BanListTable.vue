@@ -7,8 +7,8 @@ const props = defineProps({
 
 function formatted(dateString) {
     if (!dateString) return null
-    const date = new Date(dateString);
-    return format(date, 'MMM do, yyyy, h:ma');
+    const date = new Date(dateString)
+    return format(date, 'MMM do, yyyy, h:ma')
 }
 </script>
 

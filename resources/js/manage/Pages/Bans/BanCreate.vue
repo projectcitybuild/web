@@ -1,5 +1,5 @@
 <script setup>
-import { Head, router, useForm } from '@inertiajs/vue3'
+import { Head, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import DateTimePicker from '../../Components/DateTimePicker.vue'
 import PlayerPicker from '../../Components/PlayerPicker.vue'
@@ -12,7 +12,7 @@ const props = defineProps({
 const form = useForm({
     banned_uuid: null,
     banner_uuid: null,
-    // created_at: null,
+    created_at: new Date(),
     reason: null,
 })
 
@@ -65,7 +65,10 @@ function submit() {
                                 <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Date of Ban<span class="text-red-500">*</span>
                                 </label>
-                                <DateTimePicker />
+                                <DateTimePicker
+                                    v-model="form.created_at"
+                                    @change="form.created_at = $event"
+                                />
                                 <div v-if="form.errors.created_at" class="text-xs text-red-500 font-bold mt-2">
                                     {{ form.errors.created_at }}
                                 </div>
