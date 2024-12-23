@@ -1,6 +1,6 @@
 <script setup>
 import { Head, useForm } from '@inertiajs/vue3'
-import { computed } from 'vue'
+import { ref } from 'vue'
 import DateTimePicker from '../../Components/DateTimePicker.vue'
 import PlayerPicker from '../../Components/PlayerPicker.vue'
 import Card from '../../Components/Card.vue'
@@ -11,23 +11,27 @@ const props = defineProps({
 
 const form = useForm({
     banned_uuid: null,
+    banned_alias_at_time: null,
     banner_uuid: null,
     created_at: new Date(),
     reason: null,
 })
 
-const bannedBy = computed(() => {
-    const player = props.account.minecraft_account[0]
-    if (!player) return null
-
-    return {
-        uuid: player.uuid,
-        alias: player.alias,
-    }
-})
+const bannedUuid = ref(null)
+const bannedAlias = ref(null)
+const bannerUuid = ref(props.account.minecraft_account[0])
 
 function submit() {
-    form.post('/manage/player-bans')
+    form.transform((data) => ({
+            ...data,
+            banned_uuid: bannedUuid.value,
+            banned_alias_at_time: bannedAlias.value,
+            banner_uuid: bannerUuid.value,
+        }))
+        .post('/manage/player-bans', {
+            preserveScroll: true,
+            onSuccess: () => console.log('success')
+        })
 }
 </script>
 
@@ -48,6 +52,8 @@ function submit() {
                     <div class="text-sm text-gray-500">Prevent a Minecraft UUID from connecting to our server</div>
                     <hr class="my-6" />
 
+                    {{ form.errors }}
+
                     <form @submit.prevent="submit">
                         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                             <div class="sm:col-span-2">
@@ -55,7 +61,8 @@ function submit() {
                                     Player<span class="text-red-500">*</span>
                                 </label>
                                 <PlayerPicker
-                                    @uuid-change="form.banned_uuid = $event"
+                                    v-model:uuid="bannedUuid"
+                                    v-model:alias="bannedAlias"
                                 />
                                 <div v-if="form.errors.banned_uuid" class="text-xs text-red-500 font-bold mt-2">
                                     {{ form.errors.banned_uuid }}
@@ -76,8 +83,7 @@ function submit() {
                             <div class="sm:col-span-2">
                                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Banned By</label>
                                 <PlayerPicker
-                                    :initial-player="bannedBy"
-                                    @uuid-change="form.banner_uuid = $event"
+                                    v-model:uuid="bannerUuid"
                                 />
                                 <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
                                     Leaving this empty will show it as banned by System

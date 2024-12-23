@@ -1,24 +1,12 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import axios from 'axios'
 import Spinner from './Spinner.vue'
 import MinecraftAvatar from "./MinecraftAvatar.vue";
 
-interface SelectedPlayer {
-    uuid: string,
-    alias: string,
-}
+const uuid = defineModel<string>('uuid')
+const alias = defineModel<string>('alias')
 
-interface Props {
-    initialPlayer?: SelectedPlayer,
-}
-
-const props = defineProps<Props>()
-const emit = defineEmits<{
-    (e: 'uuidChange', uuid?: string): void,
-}>()
-
-const player = ref(props.initialPlayer)
 const loading = ref(false)
 const loadError = ref<string|null>(null)
 const searchText = ref('')
@@ -32,32 +20,31 @@ async function search(): Promise<void> {
         const response = await axios.get(`https://playerdb.co/api/player/minecraft/${searchText.value}`)
         const data = response.data.data.player
         if (data) {
-            player.value = {
-                uuid: data.id,
-                alias: data.username,
-            }
-            emit('uuidChange', data.id)
+            uuid.value = data.id
+            alias.value = data.username
         }
     } catch (error) {
         loadError.value = error.response?.data.message ?? error.message
-        emit('uuidChange', null)
+        uuid.value = null
+        alias.value = null
     } finally {
         loading.value = false
     }
 }
 
 function clear(): void {
-    player.value = null
+    uuid.value = null
+    alias.value = null
 }
 </script>
 
 <template>
-    <div v-if="player" class="flex flex-row flex-wrap justify-between gap-5 items-center p-4 border border-gray-100 rounded-lg">
-        <MinecraftAvatar :alias="player.alias" :size="64" />
+    <div v-if="uuid" class="flex flex-row flex-wrap justify-between gap-5 items-center p-4 border border-gray-100 rounded-lg">
+        <MinecraftAvatar :alias="alias" :size="64" />
 
         <div class="grow">
-            <div class="text-lg text-gray-900 dark:text-white font-bold">{{ player.alias }}</div>
-            <div class="text-xs text-gray-400 dark:text-white">{{ player.uuid }}</div>
+            <div class="text-lg text-gray-900 dark:text-white font-bold">{{ alias }}</div>
+            <div class="text-xs text-gray-400 dark:text-white">{{ uuid }}</div>
         </div>
 
         <button

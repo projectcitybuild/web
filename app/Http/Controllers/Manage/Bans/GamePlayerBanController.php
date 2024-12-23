@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Manage\Bans;
 
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
+use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Domains\Bans\Data\UnbanType;
 use App\Domains\MinecraftEventBus\Events\MinecraftUuidBanned;
 use App\Http\Controllers\WebController;
 use App\Models\GamePlayerBan;
+use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
@@ -44,19 +47,28 @@ class GamePlayerBanController extends WebController
         Gate::authorize('create', GamePlayerBan::class);
 
         $validated = $request->validate([
-            'banned_player_id' => 'required|max:60',
-            'banned_alias_at_time' => 'required|string',
-            'banner_player_id' => 'required|max:60',
-            'reason' => 'required|string',
-            'expires_at' => 'nullable|date',
-            'created_at' => 'required|date',
-            'updated_at' => 'required|date',
-            'unbanned_at' => 'nullable|date',
-            'unbanner_player_id' => 'nullable|max:60',
+            'banned_uuid' => ['required', new MinecraftUUIDRule],
+            'banned_alias_at_time' => ['required', 'string'],
+            'banner_uuid' => [new MinecraftUUIDRule],
+            'reason' => 'required',
+            'expires_at' => ['nullable', 'date'],
+            'created_at' => ['required', 'date'],
+            'unbanned_at' => ['nullable', 'date'],
+            'unbanner_player_id' => ['nullable', new MinecraftUUIDRule],
             'unban_type' => ['nullable', Rule::in(UnbanType::values())],
         ], [
             'in' => 'Invalid :attribute given. Must be ['.UnbanType::allJoined().']',
         ]);
+
+        $bannedUuid = MinecraftUUID::tryParse($validated['banned_uuid']);
+        $bannedPlayer = MinecraftPlayer::firstOrCreate($bannedUuid, alias: $validated['banned_alias_at_time']);
+        $validated['banned_player_id'] = $bannedPlayer->getKey();
+
+        if ($request->has('banner_uuid')) {
+            $bannerUuid = MinecraftUUID::tryParse($validated['banner_uuid']);
+            $bannerPlayer = MinecraftPlayer::firstOrCreate($bannerUuid);
+            $validated['banner_player_id'] = $bannerPlayer->getKey();
+        }
 
         $ban = GamePlayerBan::create($validated);
 
