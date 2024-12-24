@@ -48,25 +48,25 @@ class GamePlayerBanController extends WebController
 
         $validated = $request->validate([
             'banned_uuid' => ['required', new MinecraftUUIDRule],
-            'banned_alias_at_time' => ['required', 'string'],
+            'banned_alias' => ['required', 'string'],
             'banner_uuid' => ['nullable', new MinecraftUUIDRule],
+            'banner_alias' => ['nullable', 'string'],
             'reason' => 'required',
             'expires_at' => ['nullable', 'date'],
             'created_at' => ['required', 'date'],
-            'unbanned_at' => ['nullable', 'date'],
-            'unbanner_player_id' => ['nullable', new MinecraftUUIDRule],
-            'unban_type' => ['nullable', Rule::in(UnbanType::values())],
-        ], [
-            'in' => 'Invalid :attribute given. Must be ['.UnbanType::allJoined().']',
         ]);
 
         $bannedUuid = MinecraftUUID::tryParse($validated['banned_uuid']);
-        $bannedPlayer = MinecraftPlayer::firstOrCreate($bannedUuid, alias: $validated['banned_alias_at_time']);
+        $bannedPlayer = MinecraftPlayer::firstOrCreate($bannedUuid, alias: $validated['banned_alias']);
         $validated['banned_player_id'] = $bannedPlayer->getKey();
+
+        // For backwards compatibility
+        // TODO: remove this column later
+        $validated['banned_alias_at_time'] = $validated['banned_alias'];
 
         if ($request->get('banner_uuid') !== null) {
             $bannerUuid = MinecraftUUID::tryParse($validated['banner_uuid']);
-            $bannerPlayer = MinecraftPlayer::firstOrCreate($bannerUuid);
+            $bannerPlayer = MinecraftPlayer::firstOrCreate($bannerUuid, alias: $validated['banner_alias']);
             $validated['banner_player_id'] = $bannerPlayer->getKey();
         }
 
@@ -77,40 +77,60 @@ class GamePlayerBanController extends WebController
         return to_route('manage.player-bans.index');
     }
 
-    public function edit(GamePlayerBan $ban)
+    public function edit(GamePlayerBan $playerBan)
     {
-        Gate::authorize('update', $ban);
+        Gate::authorize('update', $playerBan);
 
-        return Inertia::render('Bans/BanEdit', compact('ban'));
+        $playerBan->load('bannedPlayer', 'bannerPlayer', 'unbannerPlayer');
+
+        return Inertia::render('Bans/BanEdit', [
+            'ban' => $playerBan,
+        ]);
     }
 
-    public function update(Request $request, GamePlayerBan $ban)
+    public function update(Request $request, GamePlayerBan $playerBan)
     {
-        Gate::authorize('update', $ban);
+        Gate::authorize('update', $playerBan);
 
         $validated = $request->validate([
-            'banned_player_id' => 'required|max:60',
-            'banned_alias_at_time' => 'required|string',
-            'banner_player_id' => 'required|max:60',
-            'reason' => 'required|string',
-            'expires_at' => 'nullable|date',
-            'created_at' => 'required|date',
-            'updated_at' => 'required|date',
-            'unbanned_at' => 'nullable|date',
-            'unbanner_player_id' => 'nullable|max:60',
+            'banned_uuid' => ['required', new MinecraftUUIDRule],
+            'banned_alias' => ['required', 'string'],
+            'banner_uuid' => ['nullable', new MinecraftUUIDRule],
+            'banner_alias' => ['nullable', 'string'],
+            'reason' => 'required',
+            'expires_at' => ['nullable', 'date'],
+            'created_at' => ['required', 'date'],
+            'unbanned_at' => ['nullable', 'date'],
+            'unbanner_player_id' => ['nullable', new MinecraftUUIDRule],
             'unban_type' => ['nullable', Rule::in(UnbanType::values())],
         ]);
 
-        $ban->update($validated);
+        $bannedUuid = MinecraftUUID::tryParse($validated['banned_uuid']);
+        $bannedPlayer = MinecraftPlayer::firstOrCreate($bannedUuid, alias: $validated['banned_alias']);
+        $validated['banned_player_id'] = $bannedPlayer->getKey();
+
+        // TODO: remove this column
+        $validated['banned_alias_at_time'] = $validated['banned_alias'];
+
+        if ($request->get('banner_uuid') !== null) {
+            $bannerUuid = MinecraftUUID::tryParse($validated['banner_uuid']);
+            $bannerPlayer = MinecraftPlayer::firstOrCreate($bannerUuid, alias: $validated['banner_alias']);
+            $validated['banner_player_id'] = $bannerPlayer->getKey();
+        } else {
+            $validated['banner_player_id'] = null;
+
+        }
+
+        $playerBan->update($validated);
 
         return to_route('manage.player-bans.index');
     }
 
-    public function destroy(Request $request, GamePlayerBan $ban)
+    public function destroy(Request $request, GamePlayerBan $playerBan)
     {
-        Gate::authorize('delete', $ban);
+        Gate::authorize('delete', $playerBan);
 
-        $ban->delete();
+        $playerBan->delete();
 
         return to_route('manage.player-bans.index');
     }

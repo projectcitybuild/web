@@ -1,4 +1,5 @@
 <script setup>
+import { Link } from '@inertiajs/vue3'
 import { format } from 'date-fns'
 
 const props = defineProps({
@@ -39,7 +40,9 @@ function formatted(dateString) {
             <td class="px-4 py-3">{{ formatted(ban.created_at) }}</td>
             <td class="px-4 py-3">{{ formatted(ban.expires_at) ?? 'Never' }}</td>
             <td class="px-4 py-3 text-right">
-                <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <Link :href="'/manage/player-bans/' + ban.id + '/edit'" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                    Edit
+                </Link>
             </td>
         </tr>
         </tbody>

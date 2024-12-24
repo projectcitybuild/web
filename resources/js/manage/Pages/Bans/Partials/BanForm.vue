@@ -1,16 +1,26 @@
 <script setup>
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
-import { reactive } from "vue";
+import { useForm } from '@inertiajs/vue3'
+import { computed } from 'vue'
 
 const props = defineProps({
     ban: Object|null,
-    isEdit: Boolean,
-    errors: Object,
     submit: Function,
 })
 
-const form = reactive({...props.ban})
+const form = useForm({
+    banned_uuid: props.ban?.banned_player.uuid,
+    banned_alias: props.ban?.banned_player.alias,
+    banner_uuid: props.ban?.banner_player?.uuid,
+    banner_alias: props.ban?.banner_player?.alias,
+    created_at: props.ban?.created_at
+        ? new Date(props.ban.created_at)
+        : new Date(),
+    reason: props.ban?.reason,
+})
+
+const isEdit = computed(() => props.ban != null)
 
 function submit() {
     props.submit(form)
@@ -19,6 +29,8 @@ function submit() {
 
 <template>
     <form @submit.prevent="submit">
+        {{ form.errors }}
+
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div class="sm:col-span-2">
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -26,7 +38,7 @@ function submit() {
                 </label>
                 <PlayerPicker
                     v-model:uuid="form.banned_uuid"
-                    v-model:alias="form.banned_alias_at_time"
+                    v-model:alias="form.banned_alias"
                 />
                 <div v-if="form.errors.banned_uuid" class="text-xs text-red-500 font-bold mt-2">
                     {{ form.errors.banned_uuid }}
@@ -48,6 +60,7 @@ function submit() {
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Banned By</label>
                 <PlayerPicker
                     v-model:uuid="form.banner_uuid"
+                    v-model:alias="form.banner_alias"
                 />
                 <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
                     Leaving this empty will show it as banned by System
