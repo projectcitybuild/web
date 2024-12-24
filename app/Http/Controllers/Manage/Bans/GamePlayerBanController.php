@@ -49,7 +49,7 @@ class GamePlayerBanController extends WebController
         $validated = $request->validate([
             'banned_uuid' => ['required', new MinecraftUUIDRule],
             'banned_alias_at_time' => ['required', 'string'],
-            'banner_uuid' => [new MinecraftUUIDRule],
+            'banner_uuid' => ['nullable', new MinecraftUUIDRule],
             'reason' => 'required',
             'expires_at' => ['nullable', 'date'],
             'created_at' => ['required', 'date'],
@@ -64,7 +64,7 @@ class GamePlayerBanController extends WebController
         $bannedPlayer = MinecraftPlayer::firstOrCreate($bannedUuid, alias: $validated['banned_alias_at_time']);
         $validated['banned_player_id'] = $bannedPlayer->getKey();
 
-        if ($request->has('banner_uuid')) {
+        if ($request->get('banner_uuid') !== null) {
             $bannerUuid = MinecraftUUID::tryParse($validated['banner_uuid']);
             $bannerPlayer = MinecraftPlayer::firstOrCreate($bannerUuid);
             $validated['banner_player_id'] = $bannerPlayer->getKey();
@@ -81,8 +81,7 @@ class GamePlayerBanController extends WebController
     {
         Gate::authorize('update', $ban);
 
-        return view('manage.pages.player-bans.edit')
-            ->with(compact('ban'));
+        return Inertia::render('Bans/BanEdit', compact('ban'));
     }
 
     public function update(Request $request, GamePlayerBan $ban)
@@ -104,7 +103,7 @@ class GamePlayerBanController extends WebController
 
         $ban->update($validated);
 
-        return redirect(route('manage.player-bans.index'));
+        return to_route('manage.player-bans.index');
     }
 
     public function destroy(Request $request, GamePlayerBan $ban)
@@ -113,6 +112,6 @@ class GamePlayerBanController extends WebController
 
         $ban->delete();
 
-        return redirect(route('manage.player-bans.index'));
+        return to_route('manage.player-bans.index');
     }
 }
