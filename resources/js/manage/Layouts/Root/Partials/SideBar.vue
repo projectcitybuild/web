@@ -82,8 +82,8 @@ const collapsed = ref({
                 <SideBarMenuItem
                     title="Servers"
                     :children="[
-                        {title: 'Game Servers', route: '/manage/player-bans'},
-                        {title: 'Tokens', route: '/manage/player-bans'},
+                        {title: 'Game Servers', route: '/manage/servers'},
+                        {title: 'Tokens', route: '/manage/server-tokens'},
                     ]"
                 >
                     <template v-slot:icon>

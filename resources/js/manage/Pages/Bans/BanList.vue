@@ -6,7 +6,7 @@ import axios from 'axios'
 import BanListTable from './Partials/BanListTable.vue'
 
 const props = defineProps({
-    bans: Object
+    bans: Object,
 })
 
 const lastElement = ref(null)
