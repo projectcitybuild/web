@@ -1,19 +1,22 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { Head, Link } from '@inertiajs/vue3'
-import axios from 'axios'
+import axios, {AxiosResponse} from 'axios'
 import BanListTable from './Partials/BanListTable.vue'
+import { Paginated } from '../../Data/Paginated'
+import { PlayerBan } from '../../Data/PlayerBan'
 
-const props = defineProps({
-    bans: Object,
-})
+interface Props {
+    bans: Paginated<PlayerBan>,
+}
+const props = defineProps<Props>()
 
 const lastElement = ref(null)
 const reachedEnd = ref(false)
 
 const loadNextPage = () => {
-    axios.get(`${props.bans.path}?cursor=${props.bans.next_cursor}`).then((response) => {
+    axios.get(`${props.bans.path}?cursor=${props.bans.next_cursor}`).then((response: AxiosResponse<Paginated<PlayerBan>>) => {
         props.bans.data = [...props.bans.data, ...response.data.data]
 
         if (!response.next_cursor) {
@@ -79,7 +82,7 @@ const { stop } = useIntersectionObserver(
                 </div>
 
                 <div class="overflow-x-auto">
-                    <BanListTable :bans="props.bans" />
+                    <BanListTable :bans="props.bans.data" />
 
                     <!-- Invisible element to trigger loading next page -->
                     <div ref="lastElement" class="-translate-y-32"></div>

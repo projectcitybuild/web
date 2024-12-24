@@ -1,16 +1,18 @@
-<script setup>
+<script setup lang="ts">
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
-import { useForm, Link } from '@inertiajs/vue3'
+import { useForm } from '@inertiajs/vue3'
 import { computed, onMounted, ref } from 'vue'
 import { Modal } from 'flowbite'
+import {PlayerBan} from "../../../Data/PlayerBan";
 
-const props = defineProps({
-    ban: Object|null,
+interface Props {
+    ban?: PlayerBan,
     submit: Function,
-})
+}
+const props = defineProps<Props>()
 
-const form = useForm({
+const form = useForm<PlayerBan>({
     banned_uuid: props.ban?.banned_player.uuid,
     banned_alias: props.ban?.banned_player.alias,
     banner_uuid: props.ban?.banner_player?.uuid,
@@ -162,13 +164,13 @@ function destroy() {
                         <div class="text-sm mb-8 text-gray-500">
                             This cannot be undone and should only be used for clean-up purposes
                         </div>
-                        <Button
+                        <button
                             type="button"
                             class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
                             @click="destroy"
                         >
                             Yes, Delete It
-                        </Button>
+                        </button>
                         <button
                             type="button"
                             class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"

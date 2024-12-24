@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
 import { compareAsc, format } from 'date-fns'
-import MinecraftAvatar from "../../../Components/MinecraftAvatar.vue";
+import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
+import { PlayerBan } from '../../../Data/PlayerBan'
 
-const props = defineProps({
-    bans: Object
-})
+interface Props {
+    bans: PlayerBan[],
+}
+const props = defineProps<Props>()
 
 function formatted(dateString: string) {
     if (!dateString) return null
@@ -13,7 +15,7 @@ function formatted(dateString: string) {
     return format(date, 'yyyy/MM/dd h:ma')
 }
 
-function isActive(ban: Object) {
+function isActive(ban: PlayerBan) {
     if (ban.unbanned_at) return false
     if (!ban.expires_at) return true
 
@@ -42,7 +44,7 @@ function isActive(ban: Object) {
         </tr>
         </thead>
         <tbody>
-        <tr class="border-b dark:border-gray-700" v-for="(ban, index) in bans.data">
+        <tr class="border-b dark:border-gray-700" v-for="(ban, index) in bans">
             <th scope="row" class="px-4 py-3 text-gray-400 whitespace-nowrap dark:text-white">#{{ index + 1 }}</th>
             <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ ban.id }}</td>
             <td class="px-4 py-3">

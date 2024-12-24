@@ -1,12 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { Head } from '@inertiajs/vue3'
 import Card from '../../Components/Card.vue'
 import BanForm from './Partials/BanForm.vue'
 import BackButton from '../../Components/BackButton.vue'
+import { PlayerBan } from '../../Data/PlayerBan'
 
-const props = defineProps({
-    ban: Object,
-})
+interface Props {
+    ban: PlayerBan,
+}
+const props = defineProps<Props>()
 
 function submit(form) {
     form.put('/manage/player-bans/' + props.ban.id, {

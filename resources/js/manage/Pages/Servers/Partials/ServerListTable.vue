@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
+import type { Server } from '../../../Data/Server'
 
 const props = defineProps({
-    servers: Object
+    servers: {
+        type: Array as PropType<Server[]>,
+        required: true,
+    },
 })
 </script>
 

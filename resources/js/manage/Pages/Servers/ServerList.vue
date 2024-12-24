@@ -1,10 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3'
-import ServerListTable from "./Partials/ServerListTable.vue";
+import ServerListTable from './Partials/ServerListTable.vue'
+import type { Server } from '../../Data/Server'
 
-const props = defineProps({
-    servers: Object,
-})
+interface Props {
+    servers: Server[],
+}
+const props = defineProps<Props>()
 </script>
 
 <template>

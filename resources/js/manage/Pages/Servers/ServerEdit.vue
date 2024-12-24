@@ -1,12 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { Head } from '@inertiajs/vue3'
 import Card from '../../Components/Card.vue'
 import BackButton from '../../Components/BackButton.vue'
 import ServerForm from './Partials/ServerForm.vue'
+import type { Server } from '../../Data/Server'
 
-const props = defineProps({
-    server: Object,
-})
+interface Props {
+    server: Server,
+}
+const props = defineProps<Props>()
 
 function submit(form) {
     form.put('/manage/servers/' + props.server.server_id, {
