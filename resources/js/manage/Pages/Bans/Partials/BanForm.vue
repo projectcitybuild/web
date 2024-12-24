@@ -65,7 +65,7 @@ function destroy() {
                     {{ form.errors.banned_uuid }}
                 </div>
             </div>
-            <div class="sm:col-span-2">
+            <div>
                 <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Date of Ban<span class="text-red-500">*</span>
                 </label>
@@ -77,7 +77,7 @@ function destroy() {
                     {{ form.errors.created_at }}
                 </div>
             </div>
-            <div class="sm:col-span-2">
+            <div>
                 <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Expires At
                 </label>
@@ -88,9 +88,6 @@ function destroy() {
                 <div v-if="form.errors.expires_at" class="text-xs text-red-500 font-bold mt-2">
                     {{ form.errors.expires_at }}
                 </div>
-                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
-                    Leave blank for permanent bans
-                </span>
             </div>
             <div class="sm:col-span-2">
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Banned By</label>
@@ -151,7 +148,7 @@ function destroy() {
         </div>
 
         <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
-            Note: The player will be kicked and banned if they are currently on the server
+            Note: The player will be kicked with a ban message if they are currently on the server
         </span>
 
         <div id="deleteModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
