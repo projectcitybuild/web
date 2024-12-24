@@ -27,27 +27,22 @@ function didFail(error: Error) {
 
 <template>
     <div
-        v-if="loaded == null"
-        class="bg-gray-50 rounded-lg flex justify-center items-center"
+        class="bg-gray-50 flex justify-center items-center"
         :style="{width: props.size + 'px', height: props.size + 'px'}"
     >
-        <Spinner  />
-    </div>
-    <div v-show="loaded?.isOk()">
+        <Spinner v-if="loaded == null" />
+
         <img
+            v-show="loaded?.isOk()"
             :src="url"
             :width="size"
             @load="didLoad"
             @error="didFail"
             :alt="props.alias"
         />
-    </div>
-    <div
-        v-if="loaded?.isError()"
-        class="bg-gray-50 rounded-lg flex justify-center items-center"
-    >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+
+        <svg v-if="loaded?.isError()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
         </svg>
     </div>
 </template>

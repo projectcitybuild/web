@@ -119,7 +119,13 @@ function destroy() {
 
             <button
                 type="button"
-                class="px-5 py-2.5 mt-4 sm:mt-6 text-sm text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200 dark:focus:ring-red-900 hover:bg-red-800"
+                class="
+                    px-5 py-2.5 mt-4 sm:mt-6
+                    text-sm text-center text-red-500 border border-red-500 rounded-lg
+                    focus:ring-4 focus:ring-red-200
+                    hover:bg-red-50
+                    dark:focus:ring-red-900
+                "
                 @click="deleteModal.show"
             >
                 Delete

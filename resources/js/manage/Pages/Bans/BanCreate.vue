@@ -14,12 +14,6 @@ function submit(form) {
     <section class="p-3 sm:p-5">
         <Head title="Create a Ban" />
 
-        <div class="mx-auto max-w-screen-xl pb-8 px-8">
-            <h1 class="text-3xl text-gray-600">
-                Manage Bans
-            </h1>
-        </div>
-
         <div class="mx-auto max-w-screen-xl">
             <Card>
                 <div class="p-8 max-w-2xl">
