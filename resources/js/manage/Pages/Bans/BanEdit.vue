@@ -1,5 +1,5 @@
 <script setup>
-import { Head, useForm } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 import Card from '../../Components/Card.vue'
 import BanForm from "./Partials/BanForm.vue";
 
@@ -34,7 +34,6 @@ function submit(form) {
                     <BanForm :ban="props.ban" :submit="submit" />
                 </div>
             </Card>
-
         </div>
     </section>
 </template>
