@@ -18,6 +18,9 @@ const form = useForm({
     created_at: props.ban?.created_at
         ? new Date(props.ban.created_at)
         : new Date(),
+    expires_at: props.ban?.expires_at
+        ? new Date(props.ban.expires_at)
+        : null,
     reason: props.ban?.reason,
 })
 
@@ -73,6 +76,21 @@ function destroy() {
                 <div v-if="form.errors.created_at" class="text-xs text-red-500 font-bold mt-2">
                     {{ form.errors.created_at }}
                 </div>
+            </div>
+            <div class="sm:col-span-2">
+                <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Expires At
+                </label>
+                <DateTimePicker
+                    v-model="form.expires_at"
+                    @change="form.expires_at = $event"
+                />
+                <div v-if="form.errors.expires_at" class="text-xs text-red-500 font-bold mt-2">
+                    {{ form.errors.expires_at }}
+                </div>
+                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
+                    Leave blank for permanent bans
+                </span>
             </div>
             <div class="sm:col-span-2">
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Banned By</label>

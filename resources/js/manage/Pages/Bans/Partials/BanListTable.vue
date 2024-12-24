@@ -43,7 +43,7 @@ function isActive(ban: Object) {
         </thead>
         <tbody>
         <tr class="border-b dark:border-gray-700" v-for="(ban, index) in bans.data">
-            <th scope="row" class="px-4 py-3 font-medium text-gray-400 whitespace-nowrap dark:text-white">{{ index + 1 }}</th>
+            <th scope="row" class="px-4 py-3 font-medium text-gray-400 whitespace-nowrap dark:text-white">#{{ index + 1 }}</th>
             <td scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ ban.id }}</td>
             <td class="px-4 py-3">
                 <span v-if="isActive(ban)" class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Active</span>
