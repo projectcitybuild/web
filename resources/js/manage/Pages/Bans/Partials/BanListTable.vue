@@ -1,15 +1,26 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import { format } from 'date-fns'
+import { compareAsc, format } from 'date-fns'
 
 const props = defineProps({
     bans: Object
 })
 
-function formatted(dateString) {
+function formatted(dateString: string) {
     if (!dateString) return null
     const date = new Date(dateString)
     return format(date, 'MMM do, yyyy, h:ma')
+}
+
+function isActive(ban: Object) {
+    if (ban.unbanned_at) return false
+    if (!ban.expires_at) return true
+
+    const expiresAt = new Date(ban.expires_at)
+    const now = new Date()
+
+    // 1 = left date is after right date
+    return (compareAsc(expiresAt, now) == 1)
 }
 </script>
 
@@ -32,8 +43,8 @@ function formatted(dateString) {
         <tr class="border-b dark:border-gray-700" v-for="ban in bans.data">
             <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ ban.id }}</th>
             <td class="px-4 py-3">
-<!--                <span v-if="ban.unbanned_at == null" class="py-1 px-2 bg-gray-200 rounded-md text-xs">Expired</span>-->
-                <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Active (TODO)</span>
+                <span v-if="isActive(ban)" class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Active</span>
+                <span v-else class="py-1 px-2 bg-gray-200 rounded-md text-xs">Expired</span>
             </td>
             <td class="px-4 py-3 font-bold">{{ ban.banned_player.alias ?? ban.banned_alias_at_time }}</td>
             <td class="px-4 py-3">{{ ban.reason }}</td>
