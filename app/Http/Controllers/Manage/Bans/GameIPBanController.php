@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Manage\Bans;
 
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
+use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Domains\MinecraftEventBus\Events\IpAddressBanned;
 use App\Http\Controllers\WebController;
 use App\Models\GameIPBan;
+use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
 
 class GameIPBanController extends WebController
 {
@@ -18,18 +22,17 @@ class GameIPBanController extends WebController
             ->orderBy('created_at', 'desc')
             ->paginate(100);
 
-        return view('manage.pages.ip-bans.index')
-            ->with(compact('bans'));
+        if (request()->wantsJson()) {
+            return $bans;
+        }
+        return Inertia::render('IPBans/IPBanList', compact('bans'));
     }
 
     public function create(Request $request)
     {
         Gate::authorize('create', GameIPBan::class);
 
-        $ban = new GameIPBan();
-
-        return view('manage.pages.ip-bans.create')
-            ->with(compact('ban'));
+        return Inertia::render('IPBans/IPBanCreate');
     }
 
     public function store(Request $request)
@@ -37,26 +40,33 @@ class GameIPBanController extends WebController
         Gate::authorize('create', GameIPBan::class);
 
         $validated = $request->validate([
-            'banner_player_id' => 'required|max:60',
-            'ip_address' => 'required|ip',
-            'reason' => 'required|string',
-            'created_at' => 'required|date',
-            'updated_at' => 'required|date',
+            'banner_uuid' => ['required', new MinecraftUUIDRule],
+            'banner_alias' => ['required'],
+            'ip_address' => 'required',
+            'reason' => 'required',
+            'created_at' => ['required', 'date'],
         ]);
+
+        $bannerUuid = MinecraftUUID::tryParse($validated['banner_uuid']);
+        $bannerPlayer = MinecraftPlayer::firstOrCreate($bannerUuid, alias: $validated['banner_alias']);
+        $validated['banner_player_id'] = $bannerPlayer->getKey();
 
         $ban = GameIPBan::create($validated);
 
         IpAddressBanned::dispatch($ban);
 
-        return redirect(route('manage.ip-bans.index'));
+        return to_route('manage.ip-bans.index');
     }
 
     public function edit(GameIPBan $ipBan)
     {
         Gate::authorize('update', GameIPBan::class);
 
-        return view('manage.pages.ip-bans.edit')
-            ->with(compact('ipBan'));
+        $ipBan->load('bannerPlayer');
+
+        return Inertia::render('IPBans/IPBanEdit', [
+            'ban' => $ipBan,
+        ]);
     }
 
     public function update(Request $request, GameIPBan $ipBan)
@@ -64,16 +74,16 @@ class GameIPBanController extends WebController
         Gate::authorize('update', $ipBan);
 
         $validated = $request->validate([
-            'banner_player_id' => 'required|max:60',
-            'ip_address' => 'required|ip',
-            'reason' => 'required|string',
-            'created_at' => 'required|date',
-            'updated_at' => 'required|date',
+            'banner_uuid' => ['required', new MinecraftUUIDRule],
+            'banner_alias' => ['required'],
+            'ip_address' => 'required',
+            'reason' => 'required',
+            'created_at' => ['required', 'date'],
         ]);
 
         $ipBan->update($validated);
 
-        return redirect(route('manage.ip-bans.index'));
+        return to_route('manage.ip-bans.index');
     }
 
     public function destroy(Request $request, GameIPBan $ipBan)
@@ -82,6 +92,6 @@ class GameIPBanController extends WebController
 
         $ipBan->delete();
 
-        return redirect(route('manage.ip-bans.index'));
+        return to_route('manage.ip-bans.index');
     }
 }

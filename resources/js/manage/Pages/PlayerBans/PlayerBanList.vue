@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { Head, Link } from '@inertiajs/vue3'
 import axios, {AxiosResponse} from 'axios'
-import BanListTable from './Partials/BanListTable.vue'
+import BanListTable from './Partials/PlayerBanListTable.vue'
 import { Paginated } from '../../Data/Paginated'
 import { PlayerBan } from '../../Data/PlayerBan'
 

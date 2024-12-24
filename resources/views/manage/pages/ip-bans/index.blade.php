@@ -1,6 +1,6 @@
 @extends('manage.layouts.admin')
 
-@section('title', 'IP Bans')
+@section('title', 'IP PlayerBans')
 
 @section('toolbar')
     <div class="btn-group btn-group-sm" role="group">

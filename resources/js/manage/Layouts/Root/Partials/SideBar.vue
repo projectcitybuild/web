@@ -52,8 +52,8 @@ const collapsed = ref({
                     title="Moderation"
                     :children="[
                         {title: 'Player Bans', route: '/manage/player-bans'},
-                        {title: 'IP Bans', route: '/manage/player-bans'},
-                        {title: 'Warnings', route: '/manage/player-bans'},
+                        {title: 'IP Bans', route: '/manage/ip-bans'},
+                        {title: 'Warnings', route: '/manage/warnings'},
                     ]"
                 >
                     <template v-slot:icon>

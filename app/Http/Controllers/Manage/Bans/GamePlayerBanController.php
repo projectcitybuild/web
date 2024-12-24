@@ -27,7 +27,7 @@ class GamePlayerBanController extends WebController
         if (request()->wantsJson()) {
             return $bans;
         }
-        return Inertia::render('Bans/BanList', compact('bans'));
+        return Inertia::render('PlayerBans/PlayerBanList', compact('bans'));
     }
 
     public function create(Request $request)
@@ -37,7 +37,7 @@ class GamePlayerBanController extends WebController
         $account = $request->user();
         $account->load('minecraftAccount');
 
-        return Inertia::render('Bans/BanCreate', [
+        return Inertia::render('PlayerBans/PlayerBanCreate', [
             'account' => $account,
         ]);
     }
@@ -83,7 +83,7 @@ class GamePlayerBanController extends WebController
 
         $playerBan->load('bannedPlayer', 'bannerPlayer', 'unbannerPlayer');
 
-        return Inertia::render('Bans/BanEdit', [
+        return Inertia::render('PlayerBans/PlayerBanEdit', [
             'ban' => $playerBan,
         ]);
     }

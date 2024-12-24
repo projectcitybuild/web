@@ -69,6 +69,6 @@ class BanAppealListTest extends TestCase
     {
         $this->createPlayerWithAccountAndLogin();
         $this->get(route('front.appeal'))
-            ->assertSee('No Bans Found');
+            ->assertSee('No PlayerBans Found');
     }
 }
