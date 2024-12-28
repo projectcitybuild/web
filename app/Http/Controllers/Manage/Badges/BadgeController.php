@@ -15,7 +15,7 @@ class BadgeController extends WebController
         Gate::authorize('viewAny', Badge::class);
 
         $badges = Badge::orderBy('display_name', 'desc')
-            ->cursorPaginate(100);
+            ->cursorPaginate(50);
 
         return Inertia::render('Badges/BadgeList', compact('badges'));
     }

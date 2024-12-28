@@ -20,7 +20,7 @@ class MinecraftWarpController extends WebController
         Gate::authorize('viewAny', MinecraftWarp::class);
 
         $warps = MinecraftWarp::orderBy('name', 'asc')
-            ->cursorPaginate(100);
+            ->cursorPaginate(50);
 
         if (request()->wantsJson()) {
             return $warps;

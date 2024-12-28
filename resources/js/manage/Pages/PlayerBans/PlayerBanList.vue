@@ -58,7 +58,7 @@ const props = defineProps<Props>()
                 </div>
 
                 <InfinitePagination
-                    :paginated="bans"
+                    :initial="bans"
                     v-slot="source"
                     class="overflow-x-auto"
                 >

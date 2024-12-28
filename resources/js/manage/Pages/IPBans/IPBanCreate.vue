@@ -13,15 +13,15 @@ function submit(form) {
 
 <template>
     <section class="p-3 sm:p-5">
-        <Head title="Create a Ban" />
+        <Head title="Create an IP Ban" />
 
         <div class="mx-auto max-w-screen-xl">
             <Card>
                 <div class="p-8 max-w-2xl">
                     <BackButton href="/manage/player-bans" class="mb-4" />
 
-                    <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Create a Ban</h2>
-                    <div class="text-sm text-gray-500">Prevent an IP address from connecting to our server. This should be a last resort, as IP address bans are extremely unreliable</div>
+                    <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Create an IP Ban</h2>
+                    <div class="text-sm text-gray-500">Prevent an IP address from connecting to our server. This should be a last resort as IP address bans are extremely unreliable</div>
                     <hr class="my-6" />
 
                     <BanForm :submit="submit" />

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage\Groups;
 
 use App\Http\Controllers\WebController;
+use App\Models\Account;
 use App\Models\Group;
 use Illuminate\Support\Facades\Gate;
 
@@ -12,13 +13,12 @@ class GroupAccountController extends WebController
     {
         Gate::authorize('view', $group);
 
-        $accounts = $group->accounts()->paginate(50);
-
-        return view('manage.pages.account.index')->with([
-            'accounts' => $accounts,
-            'query' => '',
-            'title' => 'Accounts in '.$group->name,
-            'showSearch' => false,
-        ]);
+        // Default group doesn't have assigned members
+        if ($group->is_default) {
+            $accounts = Account::doesntHave('groups');
+        } else {
+            $accounts = $group->accounts();
+        }
+        return $accounts->cursorPaginate(50);
     }
 }

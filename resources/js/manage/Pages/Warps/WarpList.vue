@@ -46,7 +46,7 @@ defineProps<Props>()
                 </div>
 
                 <InfinitePagination
-                    :paginated="warps"
+                    :initial="warps"
                     v-slot="source"
                     class="overflow-x-auto"
                 >

@@ -22,7 +22,7 @@ class GamePlayerBanController extends WebController
 
         $bans = GamePlayerBan::with('bannedPlayer', 'bannerPlayer', 'unbannerPlayer')
             ->orderBy('created_at', 'desc')
-            ->cursorPaginate(25);
+            ->cursorPaginate(50);
 
         if (request()->wantsJson()) {
             return $bans;

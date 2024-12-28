@@ -46,9 +46,14 @@ function isActive(ban: PlayerBan) {
                 <span v-if="isActive(ban)" class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Active</span>
                 <span v-else class="py-1 px-2 bg-gray-200 rounded-md text-xs">Expired</span>
             </td>
-            <td class="px-4 py-3 font-bold flex flex-row items-center gap-2">
+            <td class="px-4 py-3 flex flex-row items-center gap-2">
                 <MinecraftAvatar :alias="ban.banned_player.alias" :size="16" />
-                {{ ban.banned_player.alias ?? '-' }}
+                <Link
+                    :href="'/manage/players/' + ban.banned_player.player_minecraft_id"
+                    class="text-blue-500"
+                >
+                    {{ ban.banned_player.alias ?? '-' }}
+                </Link>
             </td>
             <td class="px-4 py-3">{{ ban.reason }}</td>
             <td class="px-4 py-3">{{ format(ban.created_at) }}</td>

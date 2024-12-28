@@ -104,10 +104,9 @@ Route::name('manage.')
         Route::resource('player-bans', GamePlayerBanController::class)
             ->except(['show']);
 
-        Route::resource('groups', GroupController::class)
-            ->except(['show']);
+        Route::resource('groups', GroupController::class);
 
-        Route::get('{group}/accounts', [GroupAccountController::class, 'index'])
+        Route::get('groups/{group}/accounts', [GroupAccountController::class, 'index'])
             ->name('groups.accounts');
 
         Route::group([
