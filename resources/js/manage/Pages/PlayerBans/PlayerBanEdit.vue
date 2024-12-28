@@ -11,9 +11,7 @@ interface Props {
 const props = defineProps<Props>()
 
 function submit(form) {
-    form.put('/manage/player-bans/' + props.ban.id, {
-        preserveScroll: true,
-    })
+    form.put('/manage/player-bans/' + props.ban.id)
 }
 </script>
 

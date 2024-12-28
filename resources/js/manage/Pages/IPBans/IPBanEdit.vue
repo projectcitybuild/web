@@ -12,9 +12,7 @@ interface Props {
 const props = defineProps<Props>()
 
 function submit(form) {
-    form.put('/manage/ip-bans/' + props.ban.id, {
-        preserveScroll: true,
-    })
+    form.put('/manage/ip-bans/' + props.ban.id)
 }
 </script>
 

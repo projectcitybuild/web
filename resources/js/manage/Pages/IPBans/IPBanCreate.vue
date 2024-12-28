@@ -5,9 +5,7 @@ import BanForm from './Partials/IPBanForm.vue'
 import BackButton from '../../Components/BackButton.vue'
 
 function submit(form) {
-    form.post('/manage/ip-bans', {
-        preserveScroll: true,
-    })
+    form.post('/manage/ip-bans')
 }
 </script>
 

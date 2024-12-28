@@ -5,9 +5,7 @@ import BadgeForm from './Partials/BadgeForm.vue'
 import BackButton from '../../Components/BackButton.vue'
 
 function submit(form) {
-    form.post('/manage/badges', {
-        preserveScroll: true,
-    })
+    form.post('/manage/badges')
 }
 </script>
 

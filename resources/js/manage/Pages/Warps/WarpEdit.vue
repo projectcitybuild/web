@@ -11,9 +11,7 @@ interface Props {
 const props = defineProps<Props>()
 
 function submit(form: InertiaForm<Warp>) {
-    form.put('/manage/minecraft/warps/' + props.warp.id, {
-        preserveScroll: true,
-    })
+    form.put('/manage/minecraft/warps/' + props.warp.id)
 }
 </script>
 

@@ -48,9 +48,7 @@ function submit() {
     form.transform((data) => ({
         ...data,
         config: JSON.stringify(JSON.parse(data.config)),
-    })).patch('/manage/minecraft/config', {
-        preserveScroll: true,
-    })
+    })).patch('/manage/minecraft/config')
 }
 </script>
 

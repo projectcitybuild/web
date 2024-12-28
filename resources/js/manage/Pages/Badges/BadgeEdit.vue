@@ -11,9 +11,7 @@ interface Props {
 const props = defineProps<Props>()
 
 function submit(form: InertiaForm<Badge>) {
-    form.put('/manage/badges/' + props.badge.id, {
-        preserveScroll: true,
-    })
+    form.put('/manage/badges/' + props.badge.id)
 }
 </script>
 

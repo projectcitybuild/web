@@ -5,9 +5,7 @@ import ServerForm from './Partials/ServerForm.vue'
 import BackButton from '../../Components/BackButton.vue'
 
 function submit(form) {
-    form.post('/manage/servers', {
-        preserveScroll: true,
-    })
+    form.post('/manage/servers')
 }
 </script>
 

@@ -5,9 +5,7 @@ import ServerTokenForm from './Partials/ServerTokenForm.vue'
 import BackButton from '../../Components/BackButton.vue'
 
 function submit(form) {
-    form.post('/manage/server-tokens', {
-        preserveScroll: true,
-    })
+    form.post('/manage/server-tokens')
 }
 </script>
 

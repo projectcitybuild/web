@@ -5,9 +5,7 @@ import WarpForm from './Partials/WarpForm.vue'
 import BackButton from '../../Components/BackButton.vue'
 
 function submit(form) {
-    form.post('/manage/minecraft/warps', {
-        preserveScroll: true,
-    })
+    form.post('/manage/minecraft/warps')
 }
 </script>
 

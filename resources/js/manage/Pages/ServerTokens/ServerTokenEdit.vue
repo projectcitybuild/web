@@ -11,9 +11,7 @@ interface Props {
 const props = defineProps<Props>()
 
 function submit(form) {
-    form.put('/manage/server-tokens/' + props.token.id, {
-        preserveScroll: true,
-    })
+    form.put('/manage/server-tokens/' + props.token.id)
 }
 </script>
 
