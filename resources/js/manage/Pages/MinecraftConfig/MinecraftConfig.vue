@@ -2,8 +2,7 @@
 import { Head, useForm } from '@inertiajs/vue3'
 import { onMounted, ref, watch } from 'vue'
 import { watchDebounced } from '@vueuse/core'
-import Spinner from '../../Components/Spinner.vue'
-import { format } from 'date-fns'
+import { format } from '../../Utilities/DateFormatter'
 import type { RemoteConfig } from '../../Data/RemoteConfig'
 import ErrorAlert from "../../Components/ErrorAlert.vue";
 import SuccessAlert from "../../Components/SuccessAlert.vue";

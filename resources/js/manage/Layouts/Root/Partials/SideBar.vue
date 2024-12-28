@@ -69,7 +69,6 @@ const collapsed = ref({
                     :children="[
                         {title: 'Remote Config', route: '/manage/minecraft/config'},
                         {title: 'Warps', route: '/manage/minecraft/warps'},
-                        {title: 'Builds', route: '/manage/minecraft/builds'},
                     ]"
                 >
                     <template v-slot:icon>

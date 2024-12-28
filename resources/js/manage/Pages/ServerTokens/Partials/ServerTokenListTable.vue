@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
 import type { ServerToken } from '../../../Data/ServerToken'
+import { format } from '../../../Utilities/DateFormatter'
 
 interface Props {
     tokens: ServerToken[],
@@ -27,8 +28,8 @@ const props = defineProps<Props>()
             <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ token.id }}</td>
             <td class="px-4 py-3 text-black">{{ token.token }}</td>
             <td class="px-4 py-3">{{ token.description }}</td>
-            <td class="px-4 py-3">{{ token.created_at }}</td>
-            <td class="px-4 py-3">{{ token.updated_at }}</td>
+            <td class="px-4 py-3">{{ format(token.created_at) }}</td>
+            <td class="px-4 py-3">{{ format(token.updated_at) }}</td>
             <td class="px-4 py-3 text-right">
                 <Link
                     :href="'/manage/server-tokens/' + token.id + '/edit'"

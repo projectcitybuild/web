@@ -1,19 +1,14 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import { compareAsc, format } from 'date-fns'
+import { compareAsc } from 'date-fns'
 import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
 import { PlayerBan } from '../../../Data/PlayerBan'
+import { format } from '../../../Utilities/DateFormatter'
 
 interface Props {
     bans: PlayerBan[],
 }
 defineProps<Props>()
-
-function formatted(dateString: string) {
-    if (!dateString) return null
-    const date = new Date(dateString)
-    return format(date, 'yyyy/MM/dd h:ma')
-}
 
 function isActive(ban: PlayerBan) {
     if (ban.unbanned_at) return false
@@ -56,8 +51,8 @@ function isActive(ban: PlayerBan) {
                 {{ ban.banned_player.alias ?? '-' }}
             </td>
             <td class="px-4 py-3">{{ ban.reason }}</td>
-            <td class="px-4 py-3">{{ formatted(ban.created_at) }}</td>
-            <td class="px-4 py-3">{{ formatted(ban.expires_at) ?? '-' }}</td>
+            <td class="px-4 py-3">{{ format(ban.created_at) }}</td>
+            <td class="px-4 py-3">{{ format(ban.expires_at) ?? '-' }}</td>
             <td class="px-4 py-3 text-right">
                 <Link
                     :href="'/manage/player-bans/' + ban.id + '/edit'"

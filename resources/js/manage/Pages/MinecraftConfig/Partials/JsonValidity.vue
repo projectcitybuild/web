@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-    <div v-if="isValid" class="mb-2 text-green-500">
+    <div v-if="isValid" class="py-2 mb-2 text-green-500">
         <Spinner v-if="isParsing" />
         <div v-else class="flex flex-row gap-2 items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">

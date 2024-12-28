@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import { compareAsc, format } from 'date-fns'
-import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
 import { IPBan } from '../../../Data/IPBan'
+import { format } from '../../../Utilities/DateFormatter'
 
 interface Props {
     bans: IPBan[],
 }
 const props = defineProps<Props>()
 
-function isActive(ban: PlayerBan) {
+function isActive(ban: IPBan) {
     return ban.unbanned_at == null
 }
 </script>
@@ -41,7 +40,7 @@ function isActive(ban: PlayerBan) {
                 {{ ban.ip_address }}
             </td>
             <td class="px-4 py-3">{{ ban.reason }}</td>
-            <td class="px-4 py-3">{{ ban.created_at }}</td>
+            <td class="px-4 py-3">{{ format(ban.created_at) }}</td>
             <td class="px-4 py-3 text-right">
                 <Link
                     :href="'/manage/ip-bans/' + ban.id + '/edit'"
