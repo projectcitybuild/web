@@ -5,6 +5,9 @@ import { watchDebounced } from '@vueuse/core'
 import Spinner from '../../Components/Spinner.vue'
 import { format } from 'date-fns'
 import type { RemoteConfig } from '../../Data/RemoteConfig'
+import ErrorAlert from "../../Components/ErrorAlert.vue";
+import SuccessAlert from "../../Components/SuccessAlert.vue";
+import JsonValidity from "./Partials/JsonValidity.vue";
 
 interface Props {
     success?: string,
@@ -83,40 +86,14 @@ function submit() {
                     </div>
                 </div>
                 <div class="p-4">
-                    <div v-if="success" class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
-                        {{ success }}
-                    </div>
-                    <div v-if="form.hasErrors" class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-                        <svg class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-                        </svg>
-                        <span class="sr-only">Danger</span>
-                        <div>
-                            <span class="font-medium">Ensure that these requirements are met:</span>
-                            <ul class="mt-1.5 list-disc list-inside">
-                                <li v-for="error in form.errors">{{ error }}</li>
-                            </ul>
-                        </div>
-                    </div>
+                    <SuccessAlert v-if="success" class="mb-4" :message="success" />
+                    <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4" />
 
-                    <div v-if="isValidJson" class="py-2 px-4 mb-2 rounded-lg bg-green-200 text-green-800">
-                        <Spinner v-if="isWaiting" />
-                        <div v-else class="flex flex-row gap-2 items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
-                            </svg>
-                            <span class="text-sm font-bold">Valid JSON</span>
-                        </div>
-                    </div>
-                    <div v-else class="py-2 px-4 mb-2 rounded-lg bg-red-200 text-red-800">
-                        <Spinner v-if="isWaiting" />
-                        <div v-else class="flex flex-row gap-2 items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
-                            </svg>
-                            <span class="text-sm font-bold">Invalid JSON</span>
-                        </div>
-                    </div>
+                    <JsonValidity
+                        v-if="isValidJson != null"
+                        :is-valid="isValidJson"
+                        :is-parsing="isWaiting"
+                    />
 
                     <form @submit.prevent="submit">
                         <textarea
