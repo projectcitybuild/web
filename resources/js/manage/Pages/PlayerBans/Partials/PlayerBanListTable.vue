@@ -7,7 +7,7 @@ import { PlayerBan } from '../../../Data/PlayerBan'
 interface Props {
     bans: PlayerBan[],
 }
-const props = defineProps<Props>()
+defineProps<Props>()
 
 function formatted(dateString: string) {
     if (!dateString) return null

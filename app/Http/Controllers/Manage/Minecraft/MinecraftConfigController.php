@@ -39,6 +39,7 @@ class MinecraftConfigController extends WebController
 
         MinecraftConfigUpdated::dispatch($config);
 
-        return to_route('manage.minecraft.config.create', $config);
+        return to_route('manage.minecraft.config.create', $config)
+            ->with(['success' => 'Config successfully updated']);
     }
 }
