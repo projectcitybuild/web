@@ -67,9 +67,9 @@ const collapsed = ref({
                 <SideBarMenuItem
                     title="Minecraft"
                     :children="[
-                        {title: 'Remote Config', route: '/manage/player-bans'},
-                        {title: 'Warps', route: '/manage/player-bans'},
-                        {title: 'Builds', route: '/manage/player-bans'},
+                        {title: 'Remote Config', route: '/manage/minecraft/config'},
+                        {title: 'Warps', route: '/manage/minecraft/warps'},
+                        {title: 'Builds', route: '/manage/minecraft/builds'},
                     ]"
                 >
                     <template v-slot:icon>
@@ -109,15 +109,15 @@ const collapsed = ref({
             </ul>
             <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
                 <li>
-                    <a
-                        href="#"
+                    <Link
+                        href="/manage/activity"
                         class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
                     >
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.03v13m0-13c-2.819-.831-4.715-1.076-8.029-1.023A.99.99 0 0 0 3 6v11c0 .563.466 1.014 1.03 1.007 3.122-.043 5.018.212 7.97 1.023m0-13c2.819-.831 4.715-1.076 8.029-1.023A.99.99 0 0 1 21 6v11c0 .563-.466 1.014-1.03 1.007-3.122-.043-5.018.212-7.97 1.023"/>
                         </svg>
                         <span class="ml-3">Audit Logs</span>
-                    </a>
+                    </Link>
                 </li>
             </ul>
         </div>

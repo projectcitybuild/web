@@ -19,7 +19,7 @@ function submit(form) {
 
 <template>
     <section class="p-3 sm:p-5">
-        <Head title="Create a Ban" />
+        <Head title="Edit a Server" />
 
         <div class="mx-auto max-w-screen-xl">
             <Card>

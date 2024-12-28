@@ -10,7 +10,7 @@ interface Props {
 const props = defineProps<Props>()
 
 function isActive(ban: PlayerBan) {
-    return ban.unbanned_at != null
+    return ban.unbanned_at == null
 }
 </script>
 

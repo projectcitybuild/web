@@ -10,7 +10,7 @@ const props = defineProps<Props>()
 </script>
 
 <template>
-    <Head title="Manage Servers" />
+    <Head title="Manage Server Tokens" />
 
     <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
         <div class="mx-auto max-w-screen-xl">
