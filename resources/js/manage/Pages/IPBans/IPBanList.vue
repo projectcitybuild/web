@@ -1,38 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useIntersectionObserver } from '@vueuse/core'
 import { Head, Link } from '@inertiajs/vue3'
-import axios, {AxiosResponse} from 'axios'
 import IPBanListTable from './Partials/IPBanListTable.vue'
 import { Paginated } from '../../Data/Paginated'
 import { IPBan } from '../../Data/IPBan'
+import InfinitePagination from '../../Components/InfinitePagination.vue'
 
 interface Props {
     bans: Paginated<IPBan>,
 }
 const props = defineProps<Props>()
-
-const lastElement = ref(null)
-const reachedEnd = ref(false)
-
-const loadNextPage = () => {
-    axios.get(`${props.bans.path}?cursor=${props.bans.next_cursor}`).then((response: AxiosResponse<Paginated<IPBan>>) => {
-        props.bans.data = [...props.bans.data, ...response.data.data]
-
-        if (!response.next_cursor) {
-            reachedEnd.value = true
-            stop()
-        }
-    })
-}
-
-const { stop } = useIntersectionObserver(
-    lastElement,
-    ([{ isIntersecting }]) => {
-        if (isIntersecting) loadNextPage()
-    }
-)
-
 </script>
 
 <template>
@@ -56,7 +32,7 @@ const { stop } = useIntersectionObserver(
                                     id="simple-search"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     placeholder="UUID / Name..."
-                                    required=""
+                                    required
                                 >
                             </div>
                         </form>
@@ -81,16 +57,13 @@ const { stop } = useIntersectionObserver(
                     </div>
                 </div>
 
-                <div class="overflow-x-auto">
-                    <IPBanListTable :bans="props.bans.data" />
-
-                    <!-- Invisible element to trigger loading next page -->
-                    <div ref="lastElement" class="-translate-y-32"></div>
-
-                    <div v-if="reachedEnd">
-                        Reached the End
-                    </div>
-                </div>
+                <InfinitePagination
+                    :paginated="bans"
+                    v-slot="source"
+                    class="overflow-x-auto"
+                >
+                    <IPBanListTable :bans="source.data" />
+                </InfinitePagination>
             </div>
         </div>
     </section>
