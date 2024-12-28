@@ -5,29 +5,30 @@ import { useForm } from '@inertiajs/vue3'
 import { computed, onMounted, ref } from 'vue'
 import { Modal } from 'flowbite'
 import {PlayerBan} from "../../../Data/PlayerBan";
+import {Warp} from "../../../Data/Warp";
+import ErrorAlert from "../../../Components/ErrorAlert.vue";
 
 interface Props {
-    ban?: PlayerBan,
+    warp?: Warp,
     submit: Function,
 }
 const props = defineProps<Props>()
 
-const form = useForm<PlayerBan>({
-    banned_uuid: props.ban?.banned_player.uuid,
-    banned_alias: props.ban?.banned_player.alias,
-    banner_uuid: props.ban?.banner_player?.uuid,
-    banner_alias: props.ban?.banner_player?.alias,
-    created_at: props.ban?.created_at
-        ? new Date(props.ban.created_at)
+const form = useForm<Warp>({
+    name: props.warp?.name,
+    world: props.warp?.world,
+    x: props.warp?.x,
+    y: props.warp?.y,
+    z: props.warp?.z,
+    pitch: props.warp?.pitch,
+    yaw: props.warp?.yaw,
+    created_at: props.warp?.created_at
+        ? new Date(props.warp.created_at)
         : new Date(),
-    expires_at: props.ban?.expires_at
-        ? new Date(props.ban.expires_at)
-        : null,
-    reason: props.ban?.reason,
 })
 
 const deleteModal = ref()
-const isEdit = computed(() => props.ban != null)
+const isEdit = computed(() => props.warp != null)
 
 onMounted(() => {
     const $modalEl = document.getElementById('deleteModal');
@@ -46,81 +47,112 @@ function submit() {
 
 function destroy() {
     deleteModal.value.hide()
-    form.delete('/manage/player-bans/' + props.ban.id)
+    form.delete('/manage/minecraft/warps' + props.warp.id)
 }
 </script>
 
 <template>
     <form @submit.prevent="submit">
-        {{ form.errors }}
+        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4" />
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div class="sm:col-span-2">
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Player<span class="text-red-500">*</span>
+                    Name<span class="text-red-500">*</span>
                 </label>
-                <PlayerPicker
-                    v-model:uuid="form.banned_uuid"
-                    v-model:alias="form.banned_alias"
-                />
-                <div v-if="form.errors.banned_uuid" class="text-xs text-red-500 font-bold mt-2">
-                    {{ form.errors.banned_uuid }}
-                </div>
-            </div>
-            <div>
-                <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Date of Ban<span class="text-red-500">*</span>
-                </label>
-                <DateTimePicker
-                    v-model="form.created_at"
-                    @change="form.created_at = $event"
-                />
-                <div v-if="form.errors.created_at" class="text-xs text-red-500 font-bold mt-2">
-                    {{ form.errors.created_at }}
-                </div>
-            </div>
-            <div>
-                <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Expires At
-                </label>
-                <DateTimePicker
-                    v-model="form.expires_at"
-                    @change="form.expires_at = $event"
-                />
-                <div v-if="form.errors.expires_at" class="text-xs text-red-500 font-bold mt-2">
-                    {{ form.errors.expires_at }}
-                </div>
-            </div>
-            <div class="sm:col-span-2">
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Banned By</label>
-                <PlayerPicker
-                    v-model:uuid="form.banner_uuid"
-                    v-model:alias="form.banner_alias"
-                />
-                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
-                    Leaving this empty will show it as banned by System
-                </span>
-                <div v-if="form.errors.banner_uuid" class="text-xs text-red-500 font-bold mt-2">
-                    {{ form.errors.banner_uuid }}
-                </div>
-            </div>
-            <div class="sm:col-span-2">
-                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Reason for Ban<span class="text-red-500">*</span>
-                </label>
-                <textarea
-                    v-model="form.reason"
-                    id="description"
-                    rows="3"
+                <input
+                    v-model="form.name"
+                    id="ip"
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="eg. Repeated and intentional griefing of builds"
-                ></textarea>
+                >
                 <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
-                    This is the message shown to the player - keep it short and concise.<br />
-                    <strong>Do not tell them to appeal</strong>, this is already appended to the end automatically.
+                    Case-sensitive and cannot contain white
                 </span>
-                <div v-if="form.errors.reason" class="text-xs text-red-500 font-bold mt-2">
-                    {{ form.errors.reason }}
+                <div v-if="form.errors.name" class="text-xs text-red-500 font-bold mt-2">
+                    {{ form.errors.name }}
+                </div>
+            </div>
+            <div class="sm:col-span-2">
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    World Name<span class="text-red-500">*</span>
+                </label>
+                <input
+                    v-model="form.world"
+                    id="world"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                >
+                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
+                    Warning: Case-sensitive
+                </span>
+                <div v-if="form.errors.world" class="text-xs text-red-500 font-bold mt-2">
+                    {{ form.errors.world }}
+                </div>
+            </div>
+            <div class="col-span-2 grid grid-cols-3 gap-4">
+                <div>
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        X<span class="text-red-500">*</span>
+                    </label>
+                    <input
+                        v-model="form.x"
+                        id="x"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    >
+                    <div v-if="form.errors.x" class="text-xs text-red-500 font-bold mt-2">
+                        {{ form.errors.x }}
+                    </div>
+                </div>
+                <div>
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Y<span class="text-red-500">*</span>
+                    </label>
+                    <input
+                        v-model="form.y"
+                        id="y"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    >
+                    <div v-if="form.errors.y" class="text-xs text-red-500 font-bold mt-2">
+                        {{ form.errors.y }}
+                    </div>
+                </div>
+                <div>
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Z<span class="text-red-500">*</span>
+                    </label>
+                    <input
+                        v-model="form.z"
+                        id="z"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    >
+                    <div v-if="form.errors.z" class="text-xs text-red-500 font-bold mt-2">
+                        {{ form.errors.z }}
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Pitch<span class="text-red-500">*</span>
+                </label>
+                <input
+                    v-model="form.pitch"
+                    id="pitch"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                >
+                <div v-if="form.errors.pitch" class="text-xs text-red-500 font-bold mt-2">
+                    {{ form.errors.pitch }}
+                </div>
+            </div>
+            <div>
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Yaw<span class="text-red-500">*</span>
+                </label>
+                <input
+                    v-model="form.yaw"
+                    id="yaw"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                >
+                <div v-if="form.errors.yaw" class="text-xs text-red-500 font-bold mt-2">
+                    {{ form.errors.yaw }}
                 </div>
             </div>
         </div>
@@ -149,10 +181,6 @@ function destroy() {
                 Delete
             </button>
         </div>
-
-        <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
-            Note: The player will be kicked with a ban message if they are currently on the server
-        </span>
 
         <div id="deleteModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-md max-h-full">
