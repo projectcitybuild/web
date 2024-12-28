@@ -47,7 +47,7 @@ function submit() {
 
 function destroy() {
     deleteModal.value.hide()
-    form.delete('/manage/minecraft/warps' + props.warp.id)
+    form.delete('/manage/minecraft/warps/' + props.warp.id)
 }
 </script>
 
@@ -190,7 +190,7 @@ function destroy() {
                             Are you sure?
                         </h3>
                         <div class="text-sm mb-8 text-gray-500">
-                            This cannot be undone and should only be used for clean-up purposes
+                            This cannot be undone
                         </div>
                         <button
                             type="button"

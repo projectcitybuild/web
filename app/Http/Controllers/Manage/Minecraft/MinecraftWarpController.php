@@ -46,7 +46,8 @@ class MinecraftWarpController extends WebController
 
         MinecraftWarp::create($validated);
 
-        return to_route('manage.minecraft.warps.index');
+        return to_route('manage.minecraft.warps.index')
+            ->with(['success' => 'Warp created successfully.']);
     }
 
     public function edit(MinecraftWarp $warp)
@@ -67,7 +68,8 @@ class MinecraftWarpController extends WebController
 
         $warp->update($validated);
 
-        return to_route('manage.minecraft.warps.index');
+        return to_route('manage.minecraft.warps.index')
+            ->with(['success' => 'Warp updated successfully.']);
     }
 
     public function destroy(Request $request, MinecraftWarp $warp)
@@ -76,6 +78,7 @@ class MinecraftWarpController extends WebController
 
         $warp->delete();
 
-        return to_route('manage.minecraft.warps.index');
+        return to_route('manage.minecraft.warps.index')
+            ->with(['success' => 'Warp '.$warp->name.' deleted successfully.']);
     }
 }

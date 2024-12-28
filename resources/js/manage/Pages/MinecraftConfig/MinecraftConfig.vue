@@ -85,7 +85,7 @@ function submit() {
                     </div>
                 </div>
                 <div class="p-4">
-                    <SuccessAlert v-if="success" class="mb-4" :message="success" />
+                    <SuccessAlert v-if="success" :message="success" class="mb-4" />
                     <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4" />
 
                     <JsonValidity

@@ -35,10 +35,10 @@ const collapsed = ref({
                 <SideBarMenuItem
                     title="Users"
                     :children="[
-                        {title: 'Accounts', route: '/manage/player-bans'},
-                        {title: 'Players', route: '/manage/player-bans'},
-                        {title: 'Groups', route: '/manage/player-bans'},
-                        {title: 'Badges', route: '/manage/player-bans'},
+                        {title: 'Accounts', route: '/manage/accounts'},
+                        {title: 'Players', route: '/manage/players'},
+                        {title: 'Groups', route: '/manage/groups'},
+                        {title: 'Badges', route: '/manage/badges'},
                     ]"
                 >
                     <template v-slot:icon>

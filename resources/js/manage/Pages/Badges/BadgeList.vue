@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3'
 import { Paginated } from '../../Data/Paginated'
-import type { Warp } from '../../Data/Warp'
-import WarpListTable from './Partials/WarpListTable.vue'
+import type { Badge } from '../../Data/Badge'
+import BadgeListTable from './Partials/BadgeListTable.vue'
 import InfinitePagination from "../../Components/InfinitePagination.vue";
 import SuccessAlert from "../../Components/SuccessAlert.vue";
 
 interface Props {
     success?: string,
-    warps: Paginated<Warp>,
+    badges: Paginated<Badge>,
 }
 defineProps<Props>()
 </script>
 
 <template>
-    <Head title="Manage Warps" />
+    <Head title="Manage Badges" />
 
     <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
         <SuccessAlert v-if="success" :message="success" class="mb-4" />
@@ -27,7 +27,7 @@ defineProps<Props>()
                     </div>
                     <div>
                         <Link
-                            href="/manage/minecraft/warps/create"
+                            href="/manage/badges/create"
                             as="button"
                             class="
                                 flex flex-row items-center justify-center px-4 py-2 rounded-lg
@@ -40,17 +40,17 @@ defineProps<Props>()
                             <svg class="size-6 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
                             </svg>
-                            Create Warp
+                            Create Badge
                         </Link>
                     </div>
                 </div>
 
                 <InfinitePagination
-                    :paginated="warps"
+                    :paginated="badges"
                     v-slot="source"
                     class="overflow-x-auto"
                 >
-                    <WarpListTable :warps="source.data" />
+                    <BadgeListTable :badges="source.data" />
                 </InfinitePagination>
             </div>
         </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\WebController;
 use App\Models\Badge;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
 
 class BadgeController extends WebController
 {
@@ -13,20 +14,17 @@ class BadgeController extends WebController
     {
         Gate::authorize('viewAny', Badge::class);
 
-        $badges = Badge::orderBy('display_name', 'desc')->paginate(100);
+        $badges = Badge::orderBy('display_name', 'desc')
+            ->cursorPaginate(100);
 
-        return view('manage.pages.badges.index')
-            ->with(compact('badges'));
+        return Inertia::render('Badges/BadgeList', compact('badges'));
     }
 
     public function create(Request $request)
     {
         Gate::authorize('create', Badge::class);
 
-        $badge = new Badge();
-
-        return view('manage.pages.badges.create')
-            ->with(compact('badge'));
+        return Inertia::render('Badges/BadgeCreate');
     }
 
     public function store(Request $request)
@@ -36,27 +34,24 @@ class BadgeController extends WebController
         $request->validate([
             'display_name' => 'required|string',
             'unicode_icon' => 'required|string',
-            'list_hidden' => 'boolean',
+            'list_hidden' => 'nullable|boolean',
         ]);
 
         Badge::create([
             'display_name' => $request->get('display_name'),
             'unicode_icon' => $request->get('unicode_icon'),
-            'list_hidden' => $request->get('list_hidden', 0),
+            'list_hidden' => $request->get('list_hidden', false),
         ]);
 
-        return redirect(route('manage.badges.index'));
+        return to_route('manage.badges.index')
+            ->with(['success' => 'Badge created successfully.']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Badge $badge)
     {
         Gate::authorize('update', $badge);
 
-        return view('manage.pages.badges.edit')
-            ->with(compact('badge'));
+        return Inertia::render('Badges/BadgeEdit', compact('badge'));
     }
 
     public function update(Request $request, Badge $badge)
@@ -66,14 +61,15 @@ class BadgeController extends WebController
         $validated = $request->validate([
             'display_name' => 'required|string',
             'unicode_icon' => 'required|string',
-            'list_hidden' => 'boolean',
+            'list_hidden' => 'nullable|boolean',
         ]);
 
-        $validated['list_hidden'] = $validated['list_hidden'] ?? 0;
+        $validated['list_hidden'] = $validated['list_hidden'] ?? false;
 
         $badge->update($validated);
 
-        return redirect(route('manage.badges.index'));
+        return to_route('manage.badges.index')
+            ->with(['success' => 'Badge updated successfully.']);
     }
 
     public function destroy(Request $request, Badge $badge)
@@ -82,6 +78,7 @@ class BadgeController extends WebController
 
         $badge->delete();
 
-        return redirect(route('manage.badges.index'));
+        return to_route('manage.badges.index')
+            ->with(['success' => 'Badge deleted successfully.']);
     }
 }
