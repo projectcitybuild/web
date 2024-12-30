@@ -4,30 +4,29 @@ import PlayerPicker from '../../../Components/PlayerPicker.vue'
 import { useForm } from '@inertiajs/vue3'
 import { computed, onMounted, ref } from 'vue'
 import { Modal } from 'flowbite'
-import {PlayerBan} from "../../../Data/PlayerBan";
+import { PlayerWarning } from '../../../Data/PlayerWarning'
+import ErrorAlert from '../../../Components/ErrorAlert.vue'
 
 interface Props {
-    ban?: PlayerBan,
+    warning?: PlayerWarning,
     submit: Function,
 }
 const props = defineProps<Props>()
 
-const form = useForm<PlayerBan>({
-    banned_uuid: props.ban?.banned_player.uuid,
-    banned_alias: props.ban?.banned_player.alias,
-    banner_uuid: props.ban?.banner_player?.uuid,
-    banner_alias: props.ban?.banner_player?.alias,
-    created_at: props.ban?.created_at
-        ? new Date(props.ban.created_at)
+const form = useForm<PlayerWarning>({
+    warned_uuid: props.warning?.warned_player.uuid,
+    warned_alias: props.warning?.warned_player.alias,
+    warner_uuid: props.warning?.warner_player.uuid,
+    warner_alias: props.warning?.warner_player.alias,
+    reason: props.warning?.reason,
+    additional_info: props.warning?.additional_info,
+    created_at: props.warning?.created_at
+        ? new Date(props.warning.created_at)
         : new Date(),
-    expires_at: props.ban?.expires_at
-        ? new Date(props.ban.expires_at)
-        : null,
-    reason: props.ban?.reason,
 })
 
 const deleteModal = ref()
-const isEdit = computed(() => props.ban != null)
+const isEdit = computed(() => props.warning != null)
 
 onMounted(() => {
     const $modalEl = document.getElementById('deleteModal');
@@ -46,30 +45,30 @@ function submit() {
 
 function destroy() {
     deleteModal.value.hide()
-    form.delete('/manage/player-bans/' + props.ban.id)
+    form.delete('/manage/warnings/' + props.warning.id)
 }
 </script>
 
 <template>
     <form @submit.prevent="submit">
-        {{ form.errors }}
+        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4" />
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div class="col-span-2">
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label for="warned_uuid" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Player<span class="text-red-500">*</span>
                 </label>
                 <PlayerPicker
-                    v-model:uuid="form.banned_uuid"
-                    v-model:alias="form.banned_alias"
+                    v-model:uuid="form.warned_uuid"
+                    v-model:alias="form.warned_alias"
                 />
-                <div v-if="form.errors.banned_uuid" class="text-xs text-red-500 font-bold mt-2">
-                    {{ form.errors.banned_uuid }}
+                <div v-if="form.errors.warned_uuid" class="text-xs text-red-500 font-bold mt-2">
+                    {{ form.errors.warned_uuid }}
                 </div>
             </div>
-            <div>
-                <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Date of Ban<span class="text-red-500">*</span>
+            <div class="col-span-2">
+                <label for="created_at" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Date of Warning<span class="text-red-500">*</span>
                 </label>
                 <DateTimePicker
                     v-model="form.created_at"
@@ -79,48 +78,42 @@ function destroy() {
                     {{ form.errors.created_at }}
                 </div>
             </div>
-            <div>
-                <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Expires At
-                </label>
-                <DateTimePicker
-                    v-model="form.expires_at"
-                    @change="form.expires_at = $event"
-                />
-                <div v-if="form.errors.expires_at" class="text-xs text-red-500 font-bold mt-2">
-                    {{ form.errors.expires_at }}
-                </div>
-            </div>
             <div class="col-span-2">
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Banned By</label>
+                <label for="warner_uuid" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Banned By</label>
                 <PlayerPicker
-                    v-model:uuid="form.banner_uuid"
-                    v-model:alias="form.banner_alias"
+                    v-model:uuid="form.warner_uuid"
+                    v-model:alias="form.warner_alias"
                 />
-                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
-                    Leaving this empty will show it as banned by System
-                </span>
-                <div v-if="form.errors.banner_uuid" class="text-xs text-red-500 font-bold mt-2">
-                    {{ form.errors.banner_uuid }}
+                <div v-if="form.errors.warner_uuid" class="text-xs text-red-500 font-bold mt-2">
+                    {{ form.errors.warner_uuid }}
                 </div>
             </div>
             <div class="col-span-2">
                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Reason for Ban<span class="text-red-500">*</span>
+                    Reason<span class="text-red-500">*</span>
                 </label>
                 <textarea
                     v-model="form.reason"
-                    id="description"
+                    id="reason"
                     rows="3"
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="eg. Repeated and intentional griefing of builds"
                 ></textarea>
-                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
-                    This is the message shown to the player - keep it short and concise.<br />
-                    <strong>Do not tell them to appeal</strong>, this is already appended to the end automatically.
-                </span>
                 <div v-if="form.errors.reason" class="text-xs text-red-500 font-bold mt-2">
                     {{ form.errors.reason }}
+                </div>
+            </div>
+            <div class="col-span-2">
+                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Additional Information
+                </label>
+                <textarea
+                    v-model="form.additional_info"
+                    id="additional_info"
+                    rows="8"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                ></textarea>
+                <div v-if="form.errors.additional_info" class="text-xs text-red-500 font-bold mt-2">
+                    {{ form.errors.additional_info }}
                 </div>
             </div>
         </div>
@@ -150,10 +143,6 @@ function destroy() {
             </button>
         </div>
 
-        <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
-            Note: The player will be kicked with a ban message if they are currently on the server
-        </span>
-
         <div id="deleteModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-md max-h-full">
                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -162,7 +151,7 @@ function destroy() {
                             Are you sure?
                         </h3>
                         <div class="text-sm mb-8 text-gray-500">
-                            This cannot be undone and should only be used for clean-up purposes
+                            This cannot be undone
                         </div>
                         <button
                             type="button"

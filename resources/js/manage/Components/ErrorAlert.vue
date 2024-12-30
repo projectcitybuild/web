@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface Props {
-    errors: string[],
+    errors: object,
 }
 defineProps<Props>()
 </script>

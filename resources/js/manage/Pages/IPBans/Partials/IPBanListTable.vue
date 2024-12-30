@@ -2,6 +2,7 @@
 import { Link } from '@inertiajs/vue3'
 import { IPBan } from '../../../Data/IPBan'
 import { format } from '../../../Utilities/DateFormatter'
+import Pill from '../../../Components/Pill.vue'
 
 interface Props {
     bans: IPBan[],
@@ -33,8 +34,9 @@ function isActive(ban: IPBan) {
             <th scope="row" class="px-4 py-3 text-gray-400 whitespace-nowrap dark:text-white">#{{ index + 1 }}</th>
             <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ ban.id }}</td>
             <td class="px-4 py-3">
-                <span v-if="isActive(ban)" class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Active</span>
-                <span v-else class="py-1 px-2 bg-gray-200 rounded-md text-xs">Inactive</span>
+                <Pill :variant="isActive(ban) ? 'danger' : null">
+                    {{ isActive(ban) ? 'Active' : 'Expired' }}
+                </Pill>
             </td>
             <td class="px-4 py-3 font-bold flex flex-row items-center gap-2">
                 {{ ban.ip_address }}
