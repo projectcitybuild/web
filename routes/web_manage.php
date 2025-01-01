@@ -68,17 +68,14 @@ Route::name('manage.')
         });
 
         Route::prefix('minecraft')->name('minecraft.')->group(function () {
-            Route::get('config', [MinecraftConfigController::class, 'create'])
-                ->name('config.create');
+            Route::get('config', [MinecraftConfigController::class, 'create']);
 
-            Route::patch('config', [MinecraftConfigController::class, 'update'])
-                ->name('config.update');
+            Route::patch('config', [MinecraftConfigController::class, 'update']);
 
             Route::resource('warps', MinecraftWarpController::class);
         });
 
-        Route::resource('minecraft-players', MinecraftPlayerController::class)
-            ->except(['destroy']);
+        Route::resource('players', MinecraftPlayerController::class);
 
         Route::post('minecraft-players/lookup', MinecraftPlayerLookupController::class)
             ->name('minecraft-players.lookup');

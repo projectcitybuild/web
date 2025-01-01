@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import axios from 'axios'
 import Spinner from './Spinner.vue'
 import MinecraftAvatar from './MinecraftAvatar.vue'
+import { lookupPlayer } from '../Services/PlayerLookupService'
 
 const uuid = defineModel<string>('uuid')
 const alias = defineModel<string>('alias')
@@ -17,14 +17,11 @@ async function search(): Promise<void> {
     loading.value = true
     loadError.value = null
     try {
-        const response = await axios.get(`https://playerdb.co/api/player/minecraft/${searchText.value}`)
-        const data = response.data.data.player
-        if (data) {
-            uuid.value = data.id
-            alias.value = data.username
-        }
+        const data = await lookupPlayer(searchText.value)
+        uuid.value = data?.uuid
+        alias.value = data?.alias
     } catch (error) {
-        loadError.value = error.response?.data.message ?? error.message
+        loadError.value = error.message
         uuid.value = null
         alias.value = null
     } finally {
