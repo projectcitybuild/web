@@ -85,7 +85,7 @@ function destroy() {
                     placeholder="25565"
                 >
                 <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
-                    The Minecraft port
+                    The Minecraft server port
                 </span>
                 <div v-if="form.errors.port" class="text-xs text-red-500 font-bold mt-2">
                     {{ form.errors.port }}
@@ -102,7 +102,7 @@ function destroy() {
                     placeholder="8080"
                 >
                 <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
-                    Web port to send webhook events to
+                    The web port to send webhook events to
                 </span>
                 <div v-if="form.errors.web_port" class="text-xs text-red-500 font-bold mt-2">
                     {{ form.errors.web_port }}

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Manage\Accounts;
 
+use App\Core\Rules\DiscourseUsernameRule;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
-use App\Models\Badge;
-use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
+use Inertia\Inertia;
 
 class AccountController extends WebController
 {
@@ -15,35 +18,28 @@ class AccountController extends WebController
     {
         Gate::authorize('viewAny', Account::class);
 
-        if ($request->has('query') && $request->input('query') !== '') {
-            $query = $request->input('query');
-            $accounts = Account::search($query)->paginate(50);
-        } else {
-            $query = '';
-            $accounts = Account::paginate(50);
-        }
+        $accounts = Account::cursorPaginate(50);
 
-        return view('manage.pages.account.index')
-            ->with(compact('accounts', 'query'));
+        if ($request->wantsJson()) {
+            return $accounts;
+        }
+        return Inertia::render('Accounts/AccountList', compact('accounts'));
     }
 
     public function show(Account $account)
     {
         Gate::authorize('view', $account);
 
-        $groups = Group::all();
-        $badges = Badge::all();
+        $account->load(['groups', 'badges', 'minecraftAccount', 'emailChangeRequests']);
 
-        return view('manage.pages.account.show')
-            ->with(compact('account', 'groups', 'badges'));
+        return Inertia::render('Accounts/AccountShow', compact('account'));
     }
 
     public function edit(Account $account)
     {
         Gate::authorize('update', $account);
 
-        return view('manage.pages.account.edit')
-            ->with(compact('account'));
+        return Inertia::render('Accounts/AccountEdit', compact('account'));
     }
 
     public function update(
@@ -52,11 +48,29 @@ class AccountController extends WebController
     ) {
         Gate::authorize('update', $account);
 
-        // TODO: Validate this
-        $account->update($request->all());
+        $validated = $request->validate([
+            'email' => [
+                'required',
+                'email',
+                Rule::unique(Account::tableName(), 'email')
+                    ->ignore($account),
+            ],
+            'username' => [
+                'required',
+                new DiscourseUsernameRule(),
+                Rule::unique(Account::tableName(), 'username')
+                    ->ignore($account),
+            ],
+            'password' => [Password::defaults()],
+        ]);
 
-        $account->emailChangeRequests()->delete();
+        if ($request->has('password')) {
+            $validated['password'] = Hash::make($validated['password']);
+        }
 
-        return redirect(route('manage.accounts.show', $account));
+        $account->update($validated);
+
+        return to_route('manage.accounts.show', $account)
+            ->with(['success' => 'Account updated successfully.']);
     }
 }

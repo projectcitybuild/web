@@ -168,7 +168,7 @@ Route::prefix('auth')->group(function () {
             ->name('front.register')
             ->middleware(['guest']);
 
-        Route::post('/', [RegisterController::class, 'register'])
+        Route::post('/', [RegisterController::class, 'store'])
             ->name('front.register.submit')
             ->middleware(['guest']);
     });

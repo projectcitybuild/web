@@ -11,12 +11,11 @@ interface Props {
     success?: string,
     players: Paginated<Player>,
 }
-
 defineProps<Props>()
 </script>
 
 <template>
-    <Head title="Manage Players"/>
+    <Head title="Manage Players" />
 
     <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>

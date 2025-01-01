@@ -9,7 +9,7 @@ import PlayerBanListTable from './Partials/PlayerBanListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import PlayerWarningListTable from './Partials/PlayerWarningListTable.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
-import { isRef, ref } from 'vue'
+import { ref } from 'vue'
 import Spinner from '../../Components/Spinner.vue'
 
 interface Props {
@@ -46,7 +46,7 @@ async function refreshAlias() {
                         <button
                             class="
                                 px-4 py-2 rounded-lg
-                                text-sm text-gray-500 border border-gray-500
+                                text-sm text-gray-500 border border-gray-300
                             "
                             @click="refreshAlias"
                         >

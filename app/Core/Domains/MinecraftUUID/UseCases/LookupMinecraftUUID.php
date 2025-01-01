@@ -12,6 +12,8 @@ class LookupMinecraftUUID
 {
     public function fetch(MinecraftUUID $uuid): ?MinecraftUUIDLookup
     {
+        // TODO: throttle
+
         $trimmedUuid = $uuid->trimmed();
         $secondsTtl = 60 * 5;
 

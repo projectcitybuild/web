@@ -24,7 +24,7 @@ final class RegisterController extends WebController
         return $response;
     }
 
-    public function register(
+    public function store(
         RegisterRequest $request,
         CreateUnactivatedAccount $createUnactivatedAccount,
     ): RedirectResponse {
