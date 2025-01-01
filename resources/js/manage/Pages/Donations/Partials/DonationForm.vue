@@ -1,33 +1,27 @@
 <script setup lang="ts">
-import DateTimePicker from '../../../Components/DateTimePicker.vue'
-import PlayerPicker from '../../../Components/PlayerPicker.vue'
 import { useForm } from '@inertiajs/vue3'
 import { computed, onMounted, ref } from 'vue'
 import { Modal } from 'flowbite'
-import { PlayerWarning } from '../../../Data/PlayerWarning'
+import type { Donation } from '../../../Data/Donation'
 import ErrorAlert from '../../../Components/ErrorAlert.vue'
+import DateTimePicker from '../../../Components/DateTimePicker.vue'
 
 interface Props {
-    warning?: PlayerWarning,
+    donation?: Donation,
     submit: Function,
 }
 
 const props = defineProps<Props>()
 
-const form = useForm<PlayerWarning>({
-    warned_uuid: props.warning?.warned_player.uuid,
-    warned_alias: props.warning?.warned_player.alias,
-    warner_uuid: props.warning?.warner_player.uuid,
-    warner_alias: props.warning?.warner_player.alias,
-    reason: props.warning?.reason,
-    additional_info: props.warning?.additional_info,
-    created_at: props.warning?.created_at
-        ? new Date(props.warning.created_at)
+const form = useForm<Donation>({
+    amount: props.donation?.amount ?? 1,
+    created_at: props.donation?.created_at
+        ? new Date(props.donation.created_at)
         : new Date(),
 })
 
 const deleteModal = ref()
-const isEdit = computed(() => props.warning != null)
+const isEdit = computed(() => props.donation != null)
 
 onMounted(() => {
     const $modalEl = document.getElementById('deleteModal')
@@ -46,7 +40,7 @@ function submit() {
 
 function destroy() {
     deleteModal.value.hide()
-    form.delete('/manage/warnings/' + props.warning.id)
+    form.delete('/manage/donations/' + props.donation.donation_id)
 }
 </script>
 
@@ -56,20 +50,22 @@ function destroy() {
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div class="col-span-2">
-                <label for="warned_uuid" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Player<span class="text-red-500">*</span>
+                <label for="amount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Amount in dollars (AUD)<span class="text-red-500">*</span>
                 </label>
-                <PlayerPicker
-                    v-model:uuid="form.warned_uuid"
-                    v-model:alias="form.warned_alias"
-                />
-                <div v-if="form.errors.warned_uuid" class="text-xs text-red-500 font-bold mt-2">
-                    {{ form.errors.warned_uuid }}
+                <input
+                    v-model="form.amount"
+                    type="number"
+                    id="amount"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                >
+                <div v-if="form.errors.amount" class="text-xs text-red-500 font-bold mt-2">
+                    {{ form.errors.amount }}
                 </div>
             </div>
             <div class="col-span-2">
-                <label for="created_at" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Date of Warning<span class="text-red-500">*</span>
+                <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Date<span class="text-red-500">*</span>
                 </label>
                 <DateTimePicker
                     v-model="form.created_at"
@@ -77,45 +73,6 @@ function destroy() {
                 />
                 <div v-if="form.errors.created_at" class="text-xs text-red-500 font-bold mt-2">
                     {{ form.errors.created_at }}
-                </div>
-            </div>
-            <div class="col-span-2">
-                <label for="warner_uuid" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Banned
-                    By</label>
-                <PlayerPicker
-                    v-model:uuid="form.warner_uuid"
-                    v-model:alias="form.warner_alias"
-                />
-                <div v-if="form.errors.warner_uuid" class="text-xs text-red-500 font-bold mt-2">
-                    {{ form.errors.warner_uuid }}
-                </div>
-            </div>
-            <div class="col-span-2">
-                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Reason<span class="text-red-500">*</span>
-                </label>
-                <textarea
-                    v-model="form.reason"
-                    id="reason"
-                    rows="3"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                ></textarea>
-                <div v-if="form.errors.reason" class="text-xs text-red-500 font-bold mt-2">
-                    {{ form.errors.reason }}
-                </div>
-            </div>
-            <div class="col-span-2">
-                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Additional Information
-                </label>
-                <textarea
-                    v-model="form.additional_info"
-                    id="additional_info"
-                    rows="8"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                ></textarea>
-                <div v-if="form.errors.additional_info" class="text-xs text-red-500 font-bold mt-2">
-                    {{ form.errors.additional_info }}
                 </div>
             </div>
         </div>

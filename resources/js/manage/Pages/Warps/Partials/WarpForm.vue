@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import DateTimePicker from '../../../Components/DateTimePicker.vue'
-import PlayerPicker from '../../../Components/PlayerPicker.vue'
 import { useForm } from '@inertiajs/vue3'
 import { computed, onMounted, ref } from 'vue'
 import { Modal } from 'flowbite'
-import {PlayerBan} from "../../../Data/PlayerBan";
-import {Warp} from "../../../Data/Warp";
-import ErrorAlert from "../../../Components/ErrorAlert.vue";
+import { Warp } from '../../../Data/Warp'
+import ErrorAlert from '../../../Components/ErrorAlert.vue'
 
 interface Props {
     warp?: Warp,
     submit: Function,
 }
+
 const props = defineProps<Props>()
 
 const form = useForm<Warp>({
@@ -31,13 +29,13 @@ const deleteModal = ref()
 const isEdit = computed(() => props.warp != null)
 
 onMounted(() => {
-    const $modalEl = document.getElementById('deleteModal');
+    const $modalEl = document.getElementById('deleteModal')
     const options = {
         placement: 'bottom-right',
         backdrop: 'dynamic',
         backdropClasses: 'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
         closable: true,
-    };
+    }
     deleteModal.value = new Modal($modalEl, options)
 })
 
@@ -53,10 +51,10 @@ function destroy() {
 
 <template>
     <form @submit.prevent="submit">
-        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4" />
+        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div class="sm:col-span-2">
+            <div class="col-span-2">
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Name<span class="text-red-500">*</span>
                 </label>
@@ -72,7 +70,7 @@ function destroy() {
                     {{ form.errors.name }}
                 </div>
             </div>
-            <div class="sm:col-span-2">
+            <div class="col-span-2">
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     World Name<span class="text-red-500">*</span>
                 </label>
@@ -182,7 +180,8 @@ function destroy() {
             </button>
         </div>
 
-        <div id="deleteModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div id="deleteModal" tabindex="-1"
+             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-md max-h-full">
                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     <div class="p-4 md:p-8 text-center">

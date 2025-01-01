@@ -9,18 +9,20 @@ interface Props {
     success?: string,
     groups: Paginated<Group>,
 }
+
 defineProps<Props>()
 </script>
 
 <template>
-    <Head title="Manage Groups" />
+    <Head title="Manage Groups"/>
 
     <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-        <SuccessAlert v-if="success" :message="success" class="mb-4" />
+        <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
         <div class="mx-auto max-w-screen-xl">
             <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
-                <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+                <div
+                    class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                     <div class="w-full md:w-1/2">
 
                     </div>
@@ -36,15 +38,17 @@ defineProps<Props>()
                                 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800
                             "
                         >
-                            <svg class="size-6 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+                            <svg class="size-6 mr-2" fill="currentColor" viewbox="0 0 20 20"
+                                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path clip-rule="evenodd" fill-rule="evenodd"
+                                      d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/>
                             </svg>
                             Create Group
                         </Link>
                     </div>
                 </div>
 
-                <GroupListTable :groups="groups" class="overflow-x-auto" />
+                <GroupListTable :groups="groups" class="overflow-x-auto"/>
             </div>
         </div>
     </section>

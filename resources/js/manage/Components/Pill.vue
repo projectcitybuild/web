@@ -6,8 +6,9 @@ type Variant = 'default' | 'danger'
 interface Props {
     variant?: Variant,
 }
+
 const props = withDefaults(defineProps<Props>(), {
-  variant: 'default',
+    variant: 'default',
 })
 
 const style = computed(() => {
@@ -23,6 +24,6 @@ const style = computed(() => {
 
 <template>
     <span :class="'py-1 px-2 text-xs rounded-md ' + style">
-        <slot />
+        <slot/>
     </span>
 </template>

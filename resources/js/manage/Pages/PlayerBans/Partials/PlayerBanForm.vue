@@ -4,12 +4,13 @@ import PlayerPicker from '../../../Components/PlayerPicker.vue'
 import { useForm } from '@inertiajs/vue3'
 import { computed, onMounted, ref } from 'vue'
 import { Modal } from 'flowbite'
-import {PlayerBan} from "../../../Data/PlayerBan";
+import { PlayerBan } from '../../../Data/PlayerBan'
 
 interface Props {
     ban?: PlayerBan,
     submit: Function,
 }
+
 const props = defineProps<Props>()
 
 const form = useForm<PlayerBan>({
@@ -30,13 +31,13 @@ const deleteModal = ref()
 const isEdit = computed(() => props.ban != null)
 
 onMounted(() => {
-    const $modalEl = document.getElementById('deleteModal');
+    const $modalEl = document.getElementById('deleteModal')
     const options = {
         placement: 'bottom-right',
         backdrop: 'dynamic',
         backdropClasses: 'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
         closable: true,
-    };
+    }
     deleteModal.value = new Modal($modalEl, options)
 })
 
@@ -116,7 +117,7 @@ function destroy() {
                     placeholder="eg. Repeated and intentional griefing of builds"
                 ></textarea>
                 <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
-                    This is the message shown to the player - keep it short and concise.<br />
+                    This is the message shown to the player - keep it short and concise.<br/>
                     <strong>Do not tell them to appeal</strong>, this is already appended to the end automatically.
                 </span>
                 <div v-if="form.errors.reason" class="text-xs text-red-500 font-bold mt-2">
@@ -154,7 +155,8 @@ function destroy() {
             Note: The player will be kicked with a ban message if they are currently on the server
         </span>
 
-        <div id="deleteModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div id="deleteModal" tabindex="-1"
+             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-md max-h-full">
                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     <div class="p-4 md:p-8 text-center">

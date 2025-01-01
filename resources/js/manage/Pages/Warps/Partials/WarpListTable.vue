@@ -6,6 +6,7 @@ import { format } from '../../../Utilities/DateFormatter'
 interface Props {
     warps: Warp[],
 }
+
 defineProps<Props>()
 </script>
 

@@ -3,12 +3,13 @@ import { useForm } from '@inertiajs/vue3'
 import { computed, onMounted, ref } from 'vue'
 import { Modal } from 'flowbite'
 import type { Badge } from '../../../Data/Badge'
-import ErrorAlert from "../../../Components/ErrorAlert.vue";
+import ErrorAlert from '../../../Components/ErrorAlert.vue'
 
 interface Props {
     badge?: Badge,
     submit: Function,
 }
+
 const props = defineProps<Props>()
 
 const form = useForm<Badge>({
@@ -24,13 +25,13 @@ const deleteModal = ref()
 const isEdit = computed(() => props.badge != null)
 
 onMounted(() => {
-    const $modalEl = document.getElementById('deleteModal');
+    const $modalEl = document.getElementById('deleteModal')
     const options = {
         placement: 'bottom-right',
         backdrop: 'dynamic',
         backdropClasses: 'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
         closable: true,
-    };
+    }
     deleteModal.value = new Modal($modalEl, options)
 })
 
@@ -46,10 +47,10 @@ function destroy() {
 
 <template>
     <form @submit.prevent="submit">
-        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4" />
+        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div class="sm:col-span-2">
+            <div class="col-span-2">
                 <label for="display_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Name<span class="text-red-500">*</span>
                 </label>
@@ -74,7 +75,9 @@ function destroy() {
                     class="block p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
                 <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
-                    Character/s to use as the badge icon in chat. Supports <a class="text-blue-500" href="https://docs.advntr.dev/minimessage/format.html" target="_blank">MiniMessage</a> format
+                    Character/s to use as the badge icon in chat. Supports <a class="text-blue-500"
+                                                                              href="https://docs.advntr.dev/minimessage/format.html"
+                                                                              target="_blank">MiniMessage</a> format
                 </span>
                 <div v-if="form.errors.unicode_icon" class="text-xs text-red-500 font-bold mt-2">
                     {{ form.errors.unicode_icon }}
@@ -128,7 +131,8 @@ function destroy() {
             </button>
         </div>
 
-        <div id="deleteModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div id="deleteModal" tabindex="-1"
+             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-md max-h-full">
                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     <div class="p-4 md:p-8 text-center">

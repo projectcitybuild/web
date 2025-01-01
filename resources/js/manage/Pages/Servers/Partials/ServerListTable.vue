@@ -5,6 +5,7 @@ import type { Server } from '../../../Data/Server'
 interface Props {
     servers: Server[],
 }
+
 const props = defineProps<Props>()
 </script>
 

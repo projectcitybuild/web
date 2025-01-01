@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T">
 import { Paginated } from '../Data/Paginated'
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref } from 'vue'
 import axios, { AxiosResponse } from 'axios'
 import { useIntersectionObserver } from '@vueuse/core'
 
@@ -10,11 +10,12 @@ interface Props {
     initial?: Paginated<T>,
     path?: string,
 }
+
 const props = defineProps<Props>()
 
 const items = ref<T[]>(props.initial?.data ?? [])
 const nextCursor = ref(props.initial?.next_cursor)
-const reachedEnd = ref(false)
+const reachedEnd = ref(props.initial?.next_cursor == null ?? false)
 const lastElement = ref(null)
 
 const path = props.path ?? props.initial?.path
@@ -38,9 +39,9 @@ const loadNextPage = async () => {
     }
 }
 
-const { stop } = useIntersectionObserver(
+const {stop} = useIntersectionObserver(
     lastElement,
-    ([{ isIntersecting }]) => {
+    ([{isIntersecting}]) => {
         if (isIntersecting) loadNextPage()
     }
 )
@@ -54,7 +55,7 @@ onMounted(() => {
 
 <template>
     <div>
-        <slot :data="items" />
+        <slot :data="items"/>
 
         <!-- Invisible element to trigger loading next page -->
         <div ref="lastElement" class="-translate-y-32"></div>

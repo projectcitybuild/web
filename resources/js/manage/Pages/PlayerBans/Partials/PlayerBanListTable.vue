@@ -9,6 +9,7 @@ import Pill from '../../../Components/Pill.vue'
 interface Props {
     bans: PlayerBan[],
 }
+
 defineProps<Props>()
 
 function isActive(ban: PlayerBan) {
@@ -49,7 +50,7 @@ function isActive(ban: PlayerBan) {
                 </Pill>
             </td>
             <td class="px-4 py-3 flex flex-row items-center gap-2">
-                <MinecraftAvatar :alias="ban.banned_player.alias" :size="16" />
+                <MinecraftAvatar :alias="ban.banned_player.alias" :size="16"/>
                 <Link
                     :href="'/manage/players/' + ban.banned_player.player_minecraft_id"
                     class="text-blue-500"

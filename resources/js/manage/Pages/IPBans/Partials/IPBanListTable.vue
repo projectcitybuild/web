@@ -7,6 +7,7 @@ import Pill from '../../../Components/Pill.vue'
 interface Props {
     bans: IPBan[],
 }
+
 const props = defineProps<Props>()
 
 function isActive(ban: IPBan) {

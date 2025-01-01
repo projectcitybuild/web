@@ -6,11 +6,12 @@ import type { Server } from '../../Data/Server'
 interface Props {
     servers: Server[],
 }
+
 const props = defineProps<Props>()
 </script>
 
 <template>
-    <Head title="Manage Servers" />
+    <Head title="Manage Servers"/>
 
     <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
         <div class="mx-auto max-w-screen-xl">
@@ -27,15 +28,17 @@ const props = defineProps<Props>()
                                 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800
                             "
                     >
-                        <svg class="size-6 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+                        <svg class="size-6 mr-2" fill="currentColor" viewbox="0 0 20 20"
+                             xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path clip-rule="evenodd" fill-rule="evenodd"
+                                  d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/>
                         </svg>
                         Create Server
                     </Link>
                 </div>
 
                 <div class="overflow-x-auto">
-                    <ServerListTable :servers="props.servers" />
+                    <ServerListTable :servers="props.servers"/>
                 </div>
             </div>
         </div>

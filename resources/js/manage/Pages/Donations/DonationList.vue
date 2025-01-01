@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3'
 import { Paginated } from '../../Data/Paginated'
-import type { Badge } from '../../Data/Badge'
-import BadgeListTable from './Partials/BadgeListTable.vue'
+import type { Donation } from '../../Data/Donation'
+import DonationListTable from './Partials/DonationListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
 
 interface Props {
     success?: string,
-    badges: Paginated<Badge>,
+    donations: Paginated<Donation>,
 }
 
 defineProps<Props>()
 </script>
 
 <template>
-    <Head title="Manage Badges"/>
+    <Head title="Manage Donations"/>
 
     <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
@@ -29,7 +29,7 @@ defineProps<Props>()
                     </div>
                     <div>
                         <Link
-                            href="/manage/badges/create"
+                            href="/manage/donations/create"
                             as="button"
                             class="
                                 flex flex-row items-center justify-center px-4 py-2 rounded-lg
@@ -44,17 +44,17 @@ defineProps<Props>()
                                 <path clip-rule="evenodd" fill-rule="evenodd"
                                       d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/>
                             </svg>
-                            Create Badge
+                            Create Donation
                         </Link>
                     </div>
                 </div>
 
                 <InfinitePagination
-                    :initial="badges"
+                    :initial="donations"
                     v-slot="source"
                     class="overflow-x-auto"
                 >
-                    <BadgeListTable :badges="source.data"/>
+                    <DonationListTable :donations="source.data"/>
                 </InfinitePagination>
             </div>
         </div>

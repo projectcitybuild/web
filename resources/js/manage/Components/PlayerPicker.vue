@@ -2,13 +2,13 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import Spinner from './Spinner.vue'
-import MinecraftAvatar from "./MinecraftAvatar.vue";
+import MinecraftAvatar from './MinecraftAvatar.vue'
 
 const uuid = defineModel<string>('uuid')
 const alias = defineModel<string>('alias')
 
 const loading = ref(false)
-const loadError = ref<string|null>(null)
+const loadError = ref<string | null>(null)
 const searchText = ref('')
 
 async function search(): Promise<void> {
@@ -39,8 +39,9 @@ function clear(): void {
 </script>
 
 <template>
-    <div v-if="uuid" class="flex flex-row flex-wrap justify-between gap-5 items-center p-4 border border-gray-100 rounded-lg">
-        <MinecraftAvatar :alias="alias" :size="64" />
+    <div v-if="uuid"
+         class="flex flex-row flex-wrap justify-between gap-5 items-center p-4 border border-gray-100 rounded-lg">
+        <MinecraftAvatar :alias="alias" :size="64"/>
 
         <div class="grow">
             <div class="text-lg text-gray-900 dark:text-white font-bold">{{ alias }}</div>
@@ -75,7 +76,7 @@ function clear(): void {
                 class="px-5 py-2.5 text-sm text-center text-white bg-gray-500 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-gray-800"
                 @click="search"
             >
-                <Spinner v-if="loading" />
+                <Spinner v-if="loading"/>
                 <span v-else>Search</span>
             </button>
         </div>

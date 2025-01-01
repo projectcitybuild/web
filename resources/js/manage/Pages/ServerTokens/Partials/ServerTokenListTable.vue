@@ -6,6 +6,7 @@ import { format } from '../../../Utilities/DateFormatter'
 interface Props {
     tokens: ServerToken[],
 }
+
 const props = defineProps<Props>()
 </script>
 

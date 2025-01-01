@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
 import { Group } from '../../../Data/Group'
-import { format } from '../../../Utilities/DateFormatter'
-import BooleanCheck from "../../../Components/BooleanCheck.vue";
+import BooleanCheck from '../../../Components/BooleanCheck.vue'
 
 interface Props {
     groups: Group[],
 }
+
 defineProps<Props>()
 </script>
 
@@ -42,10 +42,10 @@ defineProps<Props>()
             <td class="px-4 py-3">{{ group.group_type }}</td>
             <td class="px-4 py-3">{{ group.display_priority }}</td>
             <td class="px-4 py-3">
-                <BooleanCheck :value="group.is_default" />
+                <BooleanCheck :value="group.is_default"/>
             </td>
             <td class="px-4 py-3">
-                <BooleanCheck :value="group.is_admin" />
+                <BooleanCheck :value="group.is_admin"/>
             </td>
         </tr>
         </tbody>
