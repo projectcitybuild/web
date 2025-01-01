@@ -10,6 +10,7 @@ use App\Http\Controllers\WebController;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -51,12 +52,19 @@ class MinecraftPlayerController extends WebController
     {
         Gate::authorize('create', MinecraftPlayer::class);
 
-        $request->validate([
+        $validated = $request->validate([
             'uuid' => ['required', new MinecraftUUIDRule],
+            'alias' => ['required', 'string'],
             'account_id' => ['nullable', 'exists:accounts'],
         ]);
 
-        $uuid = MinecraftUUID::tryParse($request->uuid);
+        $uuid = MinecraftUUID::tryParse($validated['uuid']);
+
+        if (MinecraftPlayer::whereUuid($uuid)->exists()) {
+            throw ValidationException::withMessages([
+                'uuid' => 'A player already exists with this UUID',
+            ]);
+        }
 
         $lookup = $lookupMinecraftUUID->fetch($uuid);
         if ($lookup === null) {
@@ -66,8 +74,12 @@ class MinecraftPlayerController extends WebController
         }
 
         $player = MinecraftPlayer::updateOrCreate(
-            ['uuid' => $uuid->trimmed()],
-            ['account_id' => $request->account_id],
+            [
+                'uuid' => $uuid->trimmed(),
+            ], [
+                'alias' => $validated['alias'],
+                'account_id' => $request->get(key: 'account_id'),
+            ],
         );
 
         return to_route('manage.players.show', $player)
@@ -86,8 +98,21 @@ class MinecraftPlayerController extends WebController
         Gate::authorize('update', $player);
 
         $validated = $request->validate([
+            'uuid' => ['required', new MinecraftUUIDRule],
+            'alias' => ['required', 'string'],
             'account_id' => ['nullable', 'exists:accounts'],
         ]);
+
+        $uuid = MinecraftUUID::tryParse($validated['uuid']);
+        $exists = MinecraftPlayer::whereUuid($uuid)
+            ->whereNot(MinecraftPlayer::primaryKey(), $player->getKey())
+            ->exists();
+
+        if ($exists) {
+            throw ValidationException::withMessages([
+                'uuid' => 'A player already exists with this UUID',
+            ]);
+        }
 
         $player->update($validated);
 

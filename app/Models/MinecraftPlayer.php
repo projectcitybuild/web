@@ -112,15 +112,10 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
      * GamePlayable
      *
      ***************************************************/
+    /** @deprecated  */
     public function getRawModel(): static
     {
         return $this;
-    }
-
-    /** @deprecated */
-    public function getLinkedAccount(): ?Account
-    {
-        return $this->account;
     }
 
     public function auditAttributeConfig(): AuditAttributes

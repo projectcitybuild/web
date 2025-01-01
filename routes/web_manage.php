@@ -20,6 +20,7 @@ use App\Http\Controllers\Manage\Groups\GroupController;
 use App\Http\Controllers\Manage\HomeController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftWarpController;
+use App\Http\Controllers\Manage\Players\MinecraftPlayerAliasRefreshController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerBanController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerLookupController;
@@ -80,8 +81,11 @@ Route::name('manage.')
         Route::resource('players', MinecraftPlayerController::class)
             ->except(['destroy']);
 
-        Route::get('players/{player}/bans', [MinecraftPlayerBanController::class, 'index']);
-        Route::get('players/{player}/warnings', [MinecraftPlayerWarningController::class, 'index']);
+        Route::prefix('players/{player}')->group(function () {
+            Route::get('bans', [MinecraftPlayerBanController::class, 'index']);
+            Route::get('warnings', [MinecraftPlayerWarningController::class, 'index']);
+            Route::post('alias/refresh', MinecraftPlayerAliasRefreshController::class);
+        });
 
         Route::resource('badges', BadgeController::class);
 
