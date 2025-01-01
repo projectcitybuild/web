@@ -3,6 +3,7 @@ import { Link } from '@inertiajs/vue3'
 import { format } from '../../../Utilities/DateFormatter'
 import type { Player } from '../../../Data/Player'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
+import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
 
 interface Props {
     players: Player[],
@@ -17,6 +18,7 @@ defineProps<Props>()
         <tr>
             <th scope="col" class="px-4 py-3">#</th>
             <th scope="col" class="px-4 py-3">Id</th>
+            <th scope="col" class="px-4 py-3">Skin</th>
             <th scope="col" class="px-4 py-3">UUID</th>
             <th scope="col" class="px-4 py-3">Alias</th>
             <th scope="col" class="px-4 py-3">Linked Account</th>
@@ -29,11 +31,14 @@ defineProps<Props>()
             <th scope="row" class="px-4 py-3 text-gray-400 whitespace-nowrap dark:text-white">#{{ index + 1 }}</th>
             <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ player.player_minecraft_id }}</td>
             <td class="px-4 py-3">
+                <MinecraftAvatar v-if="player.alias" :alias="player.alias" :size="16"/>
+            </td>
+            <td class="px-4 py-3">
                 <Link
                     :href="'/manage/players/' + player.player_minecraft_id"
                     class="text-blue-500"
                 >
-                    {{ player.uuid }}
+                    {{ player.uuid ?? '-' }}
                 </Link>
             </td>
             <td class="px-4 py-3">{{ player.alias }}</td>

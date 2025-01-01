@@ -2,6 +2,7 @@
 import { Head, Link } from '@inertiajs/vue3'
 import ServerListTable from './Partials/ServerListTable.vue'
 import type { Server } from '../../Data/Server'
+import Card from '../../Components/Card.vue'
 
 interface Props {
     servers: Server[],
@@ -15,7 +16,7 @@ const props = defineProps<Props>()
 
     <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
         <div class="mx-auto max-w-screen-xl">
-            <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+            <Card class="overflow-hidden">
                 <div class="flex justify-end space-y-3 md:space-y-0 md:space-x-4 p-4">
                     <Link
                         href="/manage/servers/create"
@@ -40,7 +41,7 @@ const props = defineProps<Props>()
                 <div class="overflow-x-auto">
                     <ServerListTable :servers="props.servers"/>
                 </div>
-            </div>
+            </Card>
         </div>
     </section>
 </template>

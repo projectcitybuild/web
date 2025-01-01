@@ -5,6 +5,7 @@ import type { Badge } from '../../Data/Badge'
 import BadgeListTable from './Partials/BadgeListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
+import Card from '../../Components/Card.vue'
 
 interface Props {
     success?: string,
@@ -21,7 +22,7 @@ defineProps<Props>()
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
         <div class="mx-auto max-w-screen-xl">
-            <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+            <Card class="overflow-hidden">
                 <div
                     class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                     <div class="w-full md:w-1/2">
@@ -56,7 +57,7 @@ defineProps<Props>()
                 >
                     <BadgeListTable :badges="source.data"/>
                 </InfinitePagination>
-            </div>
+            </Card>
         </div>
     </section>
 </template>

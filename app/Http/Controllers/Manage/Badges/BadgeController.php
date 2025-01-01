@@ -17,6 +17,9 @@ class BadgeController extends WebController
         $badges = Badge::orderBy('display_name', 'desc')
             ->cursorPaginate(50);
 
+        if ($request->wantsJson()) {
+            return $badges;
+        }
         return Inertia::render('Badges/BadgeList', compact('badges'));
     }
 

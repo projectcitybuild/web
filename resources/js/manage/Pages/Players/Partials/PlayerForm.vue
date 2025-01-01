@@ -22,7 +22,6 @@ const form = useForm<Player>({
         : new Date(),
 })
 
-const deleteModal = ref()
 const isEdit = computed(() => props.player != null)
 
 function submit() {

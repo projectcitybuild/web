@@ -55,16 +55,14 @@ defineProps<Props>()
                             <div class="space-y-2">
                                 <dl class="flex items-center justify-between gap-4">
                                     <dt class="text-gray-500 dark:text-gray-400">Alias</dt>
-                                    <dd class="text-base font-medium text-gray-900 dark:text-white">{{
-                                            group.alias
-                                        }}
+                                    <dd class="text-base font-medium text-gray-900 dark:text-white">
+                                        {{ group.alias }}
                                     </dd>
                                 </dl>
                                 <dl class="flex items-center justify-between gap-4">
                                     <dt class="text-gray-500 dark:text-gray-400">Group Type</dt>
-                                    <dd class="text-base font-medium text-gray-900 dark:text-white">{{
-                                            group.group_type
-                                        }}
+                                    <dd class="text-base font-medium text-gray-900 dark:text-white">
+                                        {{ group.group_type }}
                                     </dd>
                                 </dl>
                                 <dl class="flex items-center justify-between gap-4">

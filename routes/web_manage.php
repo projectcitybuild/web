@@ -20,8 +20,10 @@ use App\Http\Controllers\Manage\Groups\GroupController;
 use App\Http\Controllers\Manage\HomeController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftWarpController;
+use App\Http\Controllers\Manage\Players\MinecraftPlayerBanController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerLookupController;
+use App\Http\Controllers\Manage\Players\MinecraftPlayerWarningController;
 use App\Http\Controllers\Manage\Servers\ServerController;
 use App\Http\Controllers\Manage\Servers\ServerTokenController;
 use App\Http\Controllers\Manage\Warnings\PlayerWarningController;
@@ -75,10 +77,11 @@ Route::name('manage.')
             Route::resource('warps', MinecraftWarpController::class);
         });
 
-        Route::resource('players', MinecraftPlayerController::class);
+        Route::resource('players', MinecraftPlayerController::class)
+            ->except(['destroy']);
 
-        Route::post('minecraft-players/lookup', MinecraftPlayerLookupController::class)
-            ->name('minecraft-players.lookup');
+        Route::get('players/{player}/bans', [MinecraftPlayerBanController::class, 'index']);
+        Route::get('players/{player}/warnings', [MinecraftPlayerWarningController::class, 'index']);
 
         Route::resource('badges', BadgeController::class);
 

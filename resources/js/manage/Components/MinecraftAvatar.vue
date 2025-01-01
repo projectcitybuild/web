@@ -12,8 +12,8 @@ const props = defineProps<Props>()
 
 const loaded = ref<Result<void | null, Error>>(null)
 
-const size = computed(() => props.size ?? 100)
-const url = computed(() => `https://minotar.net/avatar/${props.alias}/${props.size}`)
+const size = computed(() => props.size ?? 128)
+const url = computed(() => `https://minotar.net/avatar/${props.alias}/${size.value}`)
 
 function didLoad() {
     loaded.value = Result.ok()
@@ -42,7 +42,7 @@ function didFail(error: Error) {
         />
 
         <svg v-if="loaded?.isError()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-             stroke-width="1.5" stroke="currentColor" class="size-6">
+             stroke-width="1.5" stroke="currentColor" class="size-6 text-gray-400">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
         </svg>
     </div>

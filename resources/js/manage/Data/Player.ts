@@ -8,4 +8,6 @@ export interface Player {
     alias?: string,
     created_at: string,
     updated_at: string,
+    last_synced_at?: string,
+    last_seen_at?: string,
 }

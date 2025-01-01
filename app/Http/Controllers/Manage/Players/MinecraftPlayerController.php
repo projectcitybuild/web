@@ -31,15 +31,13 @@ class MinecraftPlayerController extends WebController
         ]);
     }
 
-    public function show(MinecraftPlayer $minecraftPlayer)
+    public function show(MinecraftPlayer $player)
     {
-        Gate::authorize('view', $minecraftPlayer);
+        Gate::authorize('view', $player);
 
-        $minecraftPlayer->load(['account', 'gamePlayerBans', 'gamePlayerBans.bannedPlayer', 'gamePlayerBans.bannerPlayer']);
+        $player->load(['account']);
 
-        return Inertia::render('Players/PlayerShow', [
-            'player' => $minecraftPlayer,
-        ]);
+        return Inertia::render('Players/PlayerShow', compact('player'));
     }
 
     public function create()
@@ -72,37 +70,28 @@ class MinecraftPlayerController extends WebController
             ['account_id' => $request->account_id],
         );
 
-        return to_route('manage.minecraft-players.show', $player)
+        return to_route('manage.players.show', $player)
             ->with(['success' => 'Player created successfully.']);
     }
 
-    public function edit(MinecraftPlayer $minecraftPlayer)
+    public function edit(MinecraftPlayer $player)
     {
-        Gate::authorize('update', $minecraftPlayer);
+        Gate::authorize('update', $player);
 
-        return Inertia::render('Players/PlayerEdit', [
-            'player' => $minecraftPlayer,
-        ]);
+        return Inertia::render('Players/PlayerEdit', compact('player'));
     }
 
-    public function update(Request $request, MinecraftPlayer $minecraftPlayer)
+    public function update(Request $request, MinecraftPlayer $player)
     {
-        Gate::authorize('update', $minecraftPlayer);
+        Gate::authorize('update', $player);
 
         $validated = $request->validate([
             'account_id' => ['nullable', 'exists:accounts'],
         ]);
 
-        $minecraftPlayer->update($validated);
+        $player->update($validated);
 
-        return to_route('manage.minecraft-players.show', $minecraftPlayer)
+        return to_route('manage.players.show', $player)
             ->with(['success' => 'Player updated successfully.']);
-    }
-
-    public function destroy(MinecraftPlayer $minecraftPlayer)
-    {
-        Gate::authorize('delete', $minecraftPlayer);
-
-        // Not supported yet
     }
 }
