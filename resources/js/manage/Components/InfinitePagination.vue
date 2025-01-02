@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T">
 import { Paginated } from '../Data/Paginated'
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import axios, { AxiosResponse } from 'axios'
 import { useIntersectionObserver, watchDebounced } from '@vueuse/core'
 
@@ -18,11 +18,17 @@ const items = ref<T[]>(props.initial?.data ?? [])
 const nextCursor = ref(props.initial?.next_cursor)
 const reachedEnd = ref(props.initial?.next_cursor == null ?? false)
 const lastElement = ref(null)
+const loading = ref(false)
 
 watchDebounced(
     () => props.query,
     () => loadFirstPage(),
     { debounce: 500 },
+)
+
+watch(
+    () => props.query,
+    () => loading.value = true,
 )
 
 function query() {
@@ -46,16 +52,20 @@ function pagePath() {
 }
 
 const load = async () => {
-    const path = pagePath()
-    const response: PageResponse = await axios.get(path)
-    const cursor = response.data.next_cursor
+    try {
+        const path = pagePath()
+        const response: PageResponse = await axios.get(path)
+        const cursor = response.data.next_cursor
 
-    nextCursor.value = cursor
-    reachedEnd.value = cursor == null
-    if (cursor == null) {
-        stop()
+        nextCursor.value = cursor
+        reachedEnd.value = cursor == null
+        if (cursor == null) {
+            stop()
+        }
+        return response.data.data
+    } finally {
+        loading.value = false
     }
-    return response.data.data
 }
 
 const loadFirstPage = async () => {
@@ -88,7 +98,7 @@ onMounted(() => {
 
 <template>
     <div>
-        <slot :data="items"/>
+        <slot :data="items" :loading="loading" />
 
         <!-- Invisible element to trigger loading next page -->
         <div ref="lastElement" class="-translate-y-32"></div>

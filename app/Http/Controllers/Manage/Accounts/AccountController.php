@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manage\Accounts;
 
 use App\Core\Rules\DiscourseUsernameRule;
 use App\Http\Controllers\WebController;
+use App\Http\Filters\EqualFilter;
 use App\Http\Filters\LikeFilter;
 use App\Models\Account;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ class AccountController extends WebController
         $pipes = [
             new LikeFilter('username', $request->get('username')),
             new LikeFilter('email', $request->get('email')),
+            new EqualFilter('activated', $request->get('activated')),
         ];
         $accounts = Pipeline::send(Account::query())
             ->through($pipes)
