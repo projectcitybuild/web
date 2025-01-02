@@ -32,10 +32,10 @@ defineProps<Props>()
                     :href="'/manage/accounts/' + account.account_id"
                     class="text-blue-500"
                 >
-                    {{ account.email }}
+                    {{ account.username }}
                 </Link>
             </td>
-            <td class="px-4 py-3">{{ account.username }}</td>
+            <td class="px-4 py-3">{{ account.email }}</td>
             <td class="px-4 py-3"><BooleanCheck :value="account.activated" /></td>
             <td class="px-4 py-3">{{ format(account.created_at) }}</td>
             <td class="px-4 py-3">{{ format(account.updated_at) }}</td>

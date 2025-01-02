@@ -1,13 +1,14 @@
 <script setup lang="ts" generic="T">
 import { Paginated } from '../Data/Paginated'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import axios, { AxiosResponse } from 'axios'
-import { useIntersectionObserver } from '@vueuse/core'
+import { useIntersectionObserver, watchDebounced } from '@vueuse/core'
 
 type PageResponse = AxiosResponse<Paginated<T>>
 
 interface Props {
     initial?: Paginated<T>,
+    query?: object,
     path?: string,
 }
 
@@ -18,28 +19,60 @@ const nextCursor = ref(props.initial?.next_cursor)
 const reachedEnd = ref(props.initial?.next_cursor == null ?? false)
 const lastElement = ref(null)
 
-const path = props.path ?? props.initial?.path
+watchDebounced(
+    () => props.query,
+    () => loadFirstPage(),
+    { debounce: 500 },
+)
 
-const loadNextPage = async () => {
-    let url = path
+function query() {
     if (nextCursor.value != null) {
-        url += `?cursor=${nextCursor.value}`
+        return new URLSearchParams({
+            ...props.query,
+            cursor: nextCursor.value,
+        })
     }
-
-    const response: PageResponse = await axios.get(url)
-    items.value = [
-        ...items.value,
-        ...response.data.data
-    ]
-    nextCursor.value = response.data.next_cursor
-
-    if (!response.data.next_cursor) {
-        reachedEnd.value = true
-        stop()
-    }
+    return new URLSearchParams(props.query)
 }
 
-const {stop} = useIntersectionObserver(
+function pagePath() {
+    const base = props.path ?? props.initial?.path
+    const params = query()
+
+    if (params.size == 0) {
+        return base
+    }
+    return base + '?' + params.toString()
+}
+
+const load = async () => {
+    const path = pagePath()
+    const response: PageResponse = await axios.get(path)
+    const cursor = response.data.next_cursor
+
+    nextCursor.value = cursor
+    reachedEnd.value = cursor == null
+    if (cursor == null) {
+        stop()
+    }
+    return response.data.data
+}
+
+const loadFirstPage = async () => {
+    nextCursor.value = null
+    reachedEnd.value = false
+
+    items.value = await load()
+}
+
+const loadNextPage = async () => {
+    items.value = [
+        ...items.value,
+        ...await load(),
+    ]
+}
+
+const { stop } = useIntersectionObserver(
     lastElement,
     ([{isIntersecting}]) => {
         if (isIntersecting) loadNextPage()
@@ -48,7 +81,7 @@ const {stop} = useIntersectionObserver(
 
 onMounted(() => {
     if (props.initial == null) {
-        loadNextPage()
+        loadFirstPage()
     }
 })
 </script>
