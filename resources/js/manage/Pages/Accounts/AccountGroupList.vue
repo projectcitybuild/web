@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link, useForm } from '@inertiajs/vue3'
+import { Head, useForm } from '@inertiajs/vue3'
 import Card from '../../Components/Card.vue'
 import { Group } from '../../Data/Group'
 import BackButton from '../../Components/BackButton.vue'
