@@ -40,7 +40,6 @@ const collapsed = ref({
                     title="Users"
                     :children="[
                         {title: 'Accounts', route: '/manage/accounts'},
-                        {title: 'Players', route: '/manage/players'},
                         {title: 'Groups', route: '/manage/groups'},
                         {title: 'Badges', route: '/manage/badges'},
                     ]"
@@ -75,6 +74,7 @@ const collapsed = ref({
                 <SideBarMenuItem
                     title="Minecraft"
                     :children="[
+                        {title: 'Players', route: '/manage/players'},
                         {title: 'Remote Config', route: '/manage/minecraft/config'},
                         {title: 'Warps', route: '/manage/minecraft/warps'},
                     ]"

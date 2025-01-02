@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Manage\BanAppeals;
+namespace App\Http\Controllers\Review\BanAppeals;
 
 use App\Core\Data\Exceptions\NotImplementedException;
 use App\Domains\BanAppeals\Entities\BanAppealStatus;

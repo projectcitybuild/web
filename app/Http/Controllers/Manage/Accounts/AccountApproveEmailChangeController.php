@@ -8,7 +8,7 @@ use App\Models\Account;
 use App\Models\EmailChange;
 use Illuminate\Support\Facades\Gate;
 
-class AccountApproveEmailChange extends WebController
+class AccountApproveEmailChangeController extends WebController
 {
     public function __invoke(
         Account $account,

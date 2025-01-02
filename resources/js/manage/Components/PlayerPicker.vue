@@ -50,7 +50,7 @@ onMounted(() => {
 <template>
     <div v-if="uuid"
          class="flex flex-row flex-wrap justify-between gap-5 items-center p-4 border border-gray-100 rounded-lg">
-        <MinecraftAvatar :alias="alias" :size="64"/>
+        <MinecraftAvatar :uuid="uuid" :size="64"/>
 
         <div class="grow">
             <div class="text-lg text-gray-900 dark:text-white font-bold">{{ alias }}</div>

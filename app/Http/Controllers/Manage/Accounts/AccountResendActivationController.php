@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers\Manage\Accounts;
 
-use App\Http\Controllers\WebController;
+use App\Domains\Activation\Notifications\AccountNeedsActivationNotification;
 use App\Models\Account;
 use Illuminate\Support\Facades\Gate;
 
-class AccountActivate extends WebController
+class AccountResendActivationController
 {
     public function __invoke(Account $account)
     {
         Gate::authorize('update', $account);
 
-        $account->activated = true;
-        $account->disableLogging()->save();
-
-        activity()->on($account)
-            ->log('manually activated');
+        $account->notify(new AccountNeedsActivationNotification($account));
 
         return redirect()->back();
     }

@@ -1,18 +1,15 @@
 <?php
 
-use App\Http\Controllers\Manage\Accounts\AccountActivate;
-use App\Http\Controllers\Manage\Accounts\AccountApproveEmailChange;
+use App\Http\Controllers\Manage\Accounts\AccountActivateController;
+use App\Http\Controllers\Manage\Accounts\AccountApproveEmailChangeController;
+use App\Http\Controllers\Manage\Accounts\AccountBadgeController;
 use App\Http\Controllers\Manage\Accounts\AccountController;
-use App\Http\Controllers\Manage\Accounts\AccountGameAccount;
-use App\Http\Controllers\Manage\Accounts\AccountResendActivation;
-use App\Http\Controllers\Manage\Accounts\AccountUpdateBadges;
-use App\Http\Controllers\Manage\Accounts\AccountUpdateGroups;
+use App\Http\Controllers\Manage\Accounts\AccountGameAccountController;
+use App\Http\Controllers\Manage\Accounts\AccountResendActivationController;
 use App\Http\Controllers\Manage\Activity\ActivityController;
 use App\Http\Controllers\Manage\Badges\BadgeController;
-use App\Http\Controllers\Manage\BanAppeals\BanAppealController;
 use App\Http\Controllers\Manage\Bans\GameIPBanController;
 use App\Http\Controllers\Manage\Bans\GamePlayerBanController;
-use App\Http\Controllers\Manage\BuilderRanksController;
 use App\Http\Controllers\Manage\Donations\DonationController;
 use App\Http\Controllers\Manage\Donations\DonationPerksController;
 use App\Http\Controllers\Manage\Groups\GroupAccountController;
@@ -23,7 +20,6 @@ use App\Http\Controllers\Manage\Minecraft\MinecraftWarpController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerAliasRefreshController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerBanController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerController;
-use App\Http\Controllers\Manage\Players\MinecraftPlayerLookupController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerWarningController;
 use App\Http\Controllers\Manage\Servers\ServerController;
 use App\Http\Controllers\Manage\Servers\ServerTokenController;
@@ -40,42 +36,19 @@ Route::name('manage.')
         'require-mfa',
         Inertia\EncryptHistoryMiddleware::class,
     ])
-    ->group(function() {
+    ->group(function () {
         Route::get('/', HomeController::class)
             ->name('index');
 
         Route::resource('accounts', AccountController::class)
             ->except(['destroy', 'create']);
 
-        Route::group([
-            'prefix' => 'accounts/{account}',
-            'as' => 'accounts.',
-        ], function () {
-            Route::post('activate', AccountActivate::class)
-                ->name('activate');
-
-            Route::post('resend-activation', AccountResendActivation::class)
-                ->name('resend-activation');
-
-            Route::post('email-change/{accountEmailChange}/approve', AccountApproveEmailChange::class)
-                ->name('email-change.approve');
-
-            Route::delete('game-account/{minecraftPlayer}', [AccountGameAccount::class, 'delete'])
-                ->name('game-account.delete');
-
-            Route::post('update-groups', AccountUpdateGroups::class)
-                ->name('update-groups');
-
-            Route::post('update-badges', AccountUpdateBadges::class)
-                ->name('update-badges');
-        });
-
-        Route::prefix('minecraft')->name('minecraft.')->group(function () {
-            Route::get('config', [MinecraftConfigController::class, 'create']);
-
-            Route::patch('config', [MinecraftConfigController::class, 'update']);
-
-            Route::resource('warps', MinecraftWarpController::class);
+        Route::prefix('accounts/{account}')->group(function () {
+            Route::post('activate', AccountActivateController::class);
+            Route::post('resend-activation', AccountResendActivationController::class);
+            Route::post('email-change/{accountEmailChange}/approve', AccountApproveEmailChangeController::class);
+            Route::delete('player/{minecraftPlayer}', [AccountGameAccountController::class, 'delete']);
+            Route::delete('badges/{badge}', [AccountBadgeController::class, 'destroy']);
         });
 
         Route::resource('players', MinecraftPlayerController::class)
@@ -86,6 +59,17 @@ Route::name('manage.')
             Route::get('warnings', [MinecraftPlayerWarningController::class, 'index']);
             Route::post('alias/refresh', MinecraftPlayerAliasRefreshController::class);
         });
+
+        Route::prefix('minecraft')->name('minecraft.')->group(function () {
+            Route::get('config', [MinecraftConfigController::class, 'create']);
+            Route::patch('config', [MinecraftConfigController::class, 'update']);
+            Route::resource('warps', MinecraftWarpController::class);
+        });
+
+        Route::resource('groups', GroupController::class);
+
+        Route::get('groups/{group}/accounts', [GroupAccountController::class, 'index'])
+            ->name('groups.accounts');
 
         Route::resource('badges', BadgeController::class);
 
@@ -107,31 +91,6 @@ Route::name('manage.')
 
         Route::resource('player-bans', GamePlayerBanController::class)
             ->except(['show']);
-
-        Route::resource('groups', GroupController::class);
-
-        Route::get('groups/{group}/accounts', [GroupAccountController::class, 'index'])
-            ->name('groups.accounts');
-
-        Route::group([
-            'prefix' => 'builder-ranks',
-            'as' => 'builder-ranks.',
-        ], function () {
-            Route::get('/', [BuilderRanksController::class, 'index'])
-                ->name('index');
-
-            Route::get('{application}', [BuilderRanksController::class, 'show'])
-                ->name('show');
-
-            Route::post('{application}/approve', [BuilderRanksController::class, 'approve'])
-                ->name('approve');
-
-            Route::post('{application}/deny', [BuilderRanksController::class, 'deny'])
-                ->name('deny');
-        });
-
-        Route::resource('ban-appeals', BanAppealController::class)
-            ->only('index', 'show', 'update');
 
         Route::resource('activity', ActivityController::class)
             ->only(['index', 'show']);

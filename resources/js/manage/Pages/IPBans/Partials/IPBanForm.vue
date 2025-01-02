@@ -22,7 +22,7 @@ const form = useForm<IPBan>({
     created_at: props.ban?.created_at
         ? new Date(props.ban.created_at)
         : new Date(),
-})
+}, 'IPBanForm')
 
 const deleteModal = ref()
 const isEdit = computed(() => props.ban != null)

@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Manage\Accounts;
 
 use App\Core\Rules\DiscourseUsernameRule;
 use App\Http\Controllers\WebController;
+use App\Http\Filters\LikeFilter;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Pipeline;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
@@ -18,7 +20,14 @@ class AccountController extends WebController
     {
         Gate::authorize('viewAny', Account::class);
 
-        $accounts = Account::orderBy('created_at', 'desc')
+        $pipes = [
+            new LikeFilter('username', $request->get('username')),
+            new LikeFilter('email', $request->get('email')),
+        ];
+        $accounts = Pipeline::send(Account::query())
+            ->through($pipes)
+            ->thenReturn()
+            ->orderBy('created_at', 'desc')
             ->cursorPaginate(50);
 
         if ($request->wantsJson()) {
@@ -43,10 +52,8 @@ class AccountController extends WebController
         return Inertia::render('Accounts/AccountEdit', compact('account'));
     }
 
-    public function update(
-        Request $request,
-        Account $account,
-    ) {
+    public function update(Request $request, Account $account)
+    {
         Gate::authorize('update', $account);
 
         $validated = $request->validate([

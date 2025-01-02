@@ -4,7 +4,9 @@ import { Result } from 'typescript-result'
 import Spinner from './Spinner.vue'
 
 interface Props {
-    alias: string,
+    // Usernames are accepted as well, but are apparently more
+    // susceptible to rate limiting
+    uuid: string,
     size?: number,
 }
 
@@ -13,7 +15,7 @@ const props = defineProps<Props>()
 const loaded = ref<Result<void | null, Error>>(null)
 
 const size = computed(() => props.size ?? 128)
-const url = computed(() => `https://minotar.net/avatar/${props.alias}/${size.value}`)
+const url = computed(() => `https://minotar.net/helm/${props.uuid}/${size.value}.png`)
 
 function didLoad() {
     loaded.value = Result.ok()
@@ -38,7 +40,7 @@ function didFail(error: Error) {
             :width="size"
             @load="didLoad"
             @error="didFail"
-            :alt="props.alias"
+            :alt="props.uuid"
         />
 
         <svg v-if="loaded?.isError()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

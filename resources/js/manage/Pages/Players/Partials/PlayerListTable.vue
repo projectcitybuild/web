@@ -18,7 +18,7 @@ defineProps<Props>()
             <th scope="col" class="px-4 py-3">Id</th>
             <th scope="col" class="px-4 py-3">Skin</th>
             <th scope="col" class="px-4 py-3">UUID</th>
-            <th scope="col" class="px-4 py-3">Alias</th>
+            <th scope="col" class="px-4 py-3">Last Known Alias</th>
             <th scope="col" class="px-4 py-3">Linked Account</th>
             <th scope="col" class="px-4 py-3">Created At</th>
             <th scope="col" class="px-4 py-3">Updated At</th>
@@ -29,7 +29,7 @@ defineProps<Props>()
             <th scope="row" class="px-4 py-3 text-gray-400 whitespace-nowrap dark:text-white">#{{ index + 1 }}</th>
             <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ player.player_minecraft_id }}</td>
             <td class="px-4 py-3">
-                <MinecraftAvatar :alias="player.alias ?? player.uuid" :size="16"/>
+                <MinecraftAvatar :uuid="player.uuid" :size="16"/>
             </td>
             <td class="px-4 py-3">
                 <Link

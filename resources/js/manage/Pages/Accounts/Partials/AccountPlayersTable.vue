@@ -24,7 +24,7 @@ defineProps<Props>()
         <tr class="border-b dark:border-gray-700" v-for="player in players">
             <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ player.player_minecraft_id }}</td>
             <td class="px-4 py-3">
-                <MinecraftAvatar :alias="player.uuid" :size="32" />
+                <MinecraftAvatar :uuid="player.uuid" :size="32" />
             </td>
             <td class="px-4 py-3">
                 <Link

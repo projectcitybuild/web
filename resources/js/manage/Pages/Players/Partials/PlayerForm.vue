@@ -77,7 +77,7 @@ function submit() {
 
             <div class="col-span-2">
                 <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Date<span class="text-red-500">*</span>
+                    First Seen<span class="text-red-500">*</span>
                 </label>
                 <DateTimePicker
                     v-model="form.created_at"

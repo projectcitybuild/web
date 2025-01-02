@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { Head, Link, router } from '@inertiajs/vue3'
+import { Head, Link } from '@inertiajs/vue3'
 import Card from '../../Components/Card.vue'
 import BackButton from '../../Components/BackButton.vue'
 import { format } from '../../Utilities/DateFormatter'
-import InfinitePagination from '../../Components/InfinitePagination.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
 import { Account } from '../../Data/Account'
 import AccountPlayersTable from './Partials/AccountPlayersTable.vue'
 import Pill from '../../Components/Pill.vue'
+import AccountBadgesTable from './Partials/AccountBadgesTable.vue'
 
 interface Props {
     account: Account,
@@ -131,19 +131,16 @@ defineProps<Props>()
                     <div class="p-4 font-bold">
                         Pending Email Changes
                     </div>
-<!--                    <InfinitePagination-->
-<!--                        :path="'/manage/players/' + player.player_minecraft_id + '/warnings'"-->
-<!--                        v-slot="source"-->
-<!--                        class="overflow-x-auto"-->
-<!--                    >-->
-<!--                        <PlayerWarningListTable :warnings="source.data"/>-->
-<!--                    </InfinitePagination>-->
                 </Card>
 
                 <Card class="mt-4">
                     <div class="p-4 font-bold">
                         Badges
                     </div>
+                    <AccountBadgesTable
+                        :badges="account.badges"
+                        :account_id="account.account_id"
+                    />
                 </Card>
 
                 <Card class="mt-4">

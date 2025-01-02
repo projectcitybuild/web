@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Manage\Accounts;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
 
-class AccountGameAccount
+class AccountGameAccountController
 {
     public function delete(Account $account, MinecraftPlayer $minecraftPlayer)
     {

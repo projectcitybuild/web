@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Manage;
+namespace App\Http\Controllers\Review\BuilderRanks;
 
 use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Domains\BuilderRankApplications\UseCases\ApproveBuildRankApplication;
@@ -10,7 +10,6 @@ use App\Models\BuilderRankApplication;
 use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class BuilderRanksController extends WebController

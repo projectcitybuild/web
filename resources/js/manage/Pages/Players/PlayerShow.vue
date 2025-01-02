@@ -89,26 +89,9 @@ async function refreshAlias() {
             <section>
                 <Card class="max-w-2xl">
                     <div class="p-4 flex flex-col items-center">
-                        <MinecraftAvatar :alias="player.alias ?? player.uuid" :size="96" class="shadow-lg" />
+                        <MinecraftAvatar :uuid="player.uuid" :size="96" class="shadow-lg" />
                         <h1 class="mt-4 text-2xl font-bold text-gray-900 dark:text-white">{{ player.alias }}</h1>
                         <span class="mt-2 text-sm text-gray-500">{{ player.uuid }}</span>
-                    </div>
-                    <div class="p-4 border-t border-gray-200">
-                        <div class="space-y-4">
-                            <dl class="flex items-center justify-between gap-2">
-                                <dt class="text-gray-500 dark:text-gray-400">Owner</dt>
-                                <dd class="text-gray-900 dark:text-white">
-                                    <Link
-                                        v-if="player.account_id"
-                                        :href="'/manage/accounts/' + player.account_id"
-                                        class="text-blue-500"
-                                    >
-                                        {{ player.account?.username }}
-                                    </Link>
-                                    <span v-else class="text-gray-400">No Linked Account</span>
-                                </dd>
-                            </dl>
-                        </div>
                     </div>
                     <div class="p-4 border-t border-gray-200">
                         <div class="space-y-4">
@@ -136,6 +119,31 @@ async function refreshAlias() {
                                     {{ player.last_seen_at ? format(player.last_seen_at) : 'Never' }}
                                 </dd>
                             </dl>
+                        </div>
+                    </div>
+                </Card>
+
+                <Card class="max-w-2xl mt-4 p-4">
+                    <h2 class="font-bold">Owner</h2>
+
+                    <div class="mt-4">
+                        <div v-if="player.account_id" class="flex justify-between items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+                            </svg>
+
+                            <Link
+                                :href="'/manage/accounts/' + player.account_id"
+                                class="text-blue-500"
+                            >
+                                {{ player.account?.username }}
+                            </Link>
+                        </div>
+                        <div v-else class="flex items-center gap-2 text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.181 8.68a4.503 4.503 0 0 1 1.903 6.405m-9.768-2.782L3.56 14.06a4.5 4.5 0 0 0 6.364 6.365l3.129-3.129m5.614-5.615 1.757-1.757a4.5 4.5 0 0 0-6.364-6.365l-4.5 4.5c-.258.26-.479.541-.661.84m1.903 6.405a4.495 4.495 0 0 1-1.242-.88 4.483 4.483 0 0 1-1.062-1.683m6.587 2.345 5.907 5.907m-5.907-5.907L8.898 8.898M2.991 2.99 8.898 8.9" />
+                            </svg>
+                            No Linked Account
                         </div>
                     </div>
                 </Card>
