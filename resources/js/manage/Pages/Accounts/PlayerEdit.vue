@@ -2,7 +2,7 @@
 import { Head, InertiaForm } from '@inertiajs/vue3'
 import Card from '../../Components/Card.vue'
 import BackButton from '../../Components/BackButton.vue'
-import PlayerForm from './Partials/PlayerForm.vue'
+import PlayerForm from './Partials/AccountForm.vue'
 import type { Player } from '../../Data/Player'
 
 interface Props {

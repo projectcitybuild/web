@@ -55,7 +55,8 @@ class GameIPBanController extends WebController
 
         IpAddressBanned::dispatch($ban);
 
-        return to_route('manage.ip-bans.index');
+        return to_route('manage.ip-bans.index')
+            ->with(['success' => 'Ban created successfully']);
     }
 
     public function edit(GameIPBan $ipBan)
@@ -83,7 +84,8 @@ class GameIPBanController extends WebController
 
         $ipBan->update($validated);
 
-        return to_route('manage.ip-bans.index');
+        return to_route('manage.ip-bans.index')
+            ->with(['success' => 'Ban updated successfully']);
     }
 
     public function destroy(Request $request, GameIPBan $ipBan)
@@ -92,6 +94,7 @@ class GameIPBanController extends WebController
 
         $ipBan->delete();
 
-        return to_route('manage.ip-bans.index');
+        return to_route('manage.ip-bans.index')
+            ->with(['success' => 'Ban deleted successfully']);
     }
 }

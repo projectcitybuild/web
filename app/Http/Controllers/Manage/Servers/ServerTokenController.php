@@ -42,7 +42,8 @@ class ServerTokenController extends WebController
 
         ServerToken::create($validated);
 
-        return to_route('manage.server-tokens.index');
+        return to_route('manage.server-tokens.index')
+            ->with(['success' => 'Server token created successfully.']);
     }
 
     public function edit(ServerToken $serverToken)
@@ -65,7 +66,8 @@ class ServerTokenController extends WebController
 
         $serverToken->update($validated);
 
-        return to_route('manage.server-tokens.index');
+        return to_route('manage.server-tokens.index')
+            ->with(['success' => 'Server token updated successfully.']);
     }
 
     public function destroy(Request $request, ServerToken $serverToken)
@@ -74,6 +76,7 @@ class ServerTokenController extends WebController
 
         $serverToken->delete();
 
-        return to_route('manage.server-tokens.index');
+        return to_route('manage.server-tokens.index')
+            ->with(['success' => 'Server token deleted successfully.']);
     }
 }

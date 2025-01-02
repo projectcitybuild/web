@@ -3,9 +3,11 @@ import { Head, Link } from '@inertiajs/vue3'
 import ServerListTable from './Partials/ServerListTable.vue'
 import type { Server } from '../../Data/Server'
 import Card from '../../Components/Card.vue'
+import SuccessAlert from '../../Components/SuccessAlert.vue'
 
 interface Props {
     servers: Server[],
+    success?: string,
 }
 
 const props = defineProps<Props>()
@@ -13,6 +15,8 @@ const props = defineProps<Props>()
 
 <template>
     <Head title="Manage Servers"/>
+
+    <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
     <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
         <div class="mx-auto max-w-screen-xl">

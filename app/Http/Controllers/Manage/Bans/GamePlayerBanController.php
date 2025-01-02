@@ -74,7 +74,8 @@ class GamePlayerBanController extends WebController
 
         MinecraftUuidBanned::dispatch($ban);
 
-        return to_route('manage.player-bans.index');
+        return to_route('manage.player-bans.index')
+            ->with(['success' => 'Ban created successfully.']);
     }
 
     public function edit(GamePlayerBan $playerBan)
@@ -123,7 +124,8 @@ class GamePlayerBanController extends WebController
 
         $playerBan->update($validated);
 
-        return to_route('manage.player-bans.index');
+        return to_route('manage.player-bans.index')
+            ->with(['success' => 'Ban updated successfully.']);
     }
 
     public function destroy(Request $request, GamePlayerBan $playerBan)
@@ -132,6 +134,7 @@ class GamePlayerBanController extends WebController
 
         $playerBan->delete();
 
-        return to_route('manage.player-bans.index');
+        return to_route('manage.player-bans.index')
+            ->with(['success' => 'Ban deleted successfully.']);
     }
 }

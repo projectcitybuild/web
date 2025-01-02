@@ -40,7 +40,8 @@ class ServerController extends WebController
 
         Server::create($validated);
 
-        return to_route('manage.servers.index');
+        return to_route('manage.servers.index')
+            ->with(['success' => 'Server created successfully.']);
     }
 
     public function edit(Server $server)
@@ -63,7 +64,8 @@ class ServerController extends WebController
 
         $server->update($validated);
 
-        return to_route('manage.servers.index');
+        return to_route('manage.servers.index')
+            ->with(['success' => 'Server updated successfully.']);
     }
 
     public function destroy(Request $request, Server $server)
@@ -72,6 +74,7 @@ class ServerController extends WebController
 
         $server->delete();
 
-        return to_route('manage.servers.index');
+        return to_route('manage.servers.index')
+            ->with(['success' => 'Server deleted successfully.']);
     }
 }

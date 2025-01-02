@@ -8,6 +8,7 @@ import { Account } from '../../Data/Account'
 import AccountPlayersTable from './Partials/AccountPlayersTable.vue'
 import Pill from '../../Components/Pill.vue'
 import AccountBadgesTable from './Partials/AccountBadgesTable.vue'
+import AccountGroupsTable from './Partials/AccountGroupsTable.vue'
 
 interface Props {
     account: Account,
@@ -38,9 +39,6 @@ defineProps<Props>()
                                 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800
                             "
                     >
-                        <div>
-
-                        </div>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                              stroke="currentColor" class="size-4">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -128,6 +126,19 @@ defineProps<Props>()
                 </Card>
 
                 <Card class="mt-4">
+                    <div class="p-4 flex justify-between items-center">
+                        <h2 class="font-bold">Groups</h2>
+                        <Link
+                            :href="'/manage/accounts/' + account.account_id + '/groups'"
+                            class="rounded-lg px-4 py-1 border border-gray-200 text-sm text-gray-400"
+                        >
+                            Edit
+                        </Link>
+                    </div>
+                    <AccountGroupsTable :groups="account.groups" />
+                </Card>
+
+                <Card class="mt-4">
                     <div class="p-4 font-bold">
                         Pending Email Changes
                     </div>
@@ -141,12 +152,6 @@ defineProps<Props>()
                         :badges="account.badges"
                         :account_id="account.account_id"
                     />
-                </Card>
-
-                <Card class="mt-4">
-                    <div class="p-4 font-bold">
-                        Groups
-                    </div>
                 </Card>
             </section>
         </div>

@@ -38,6 +38,6 @@ defineProps<Props>()
         </tbody>
     </table>
     <div v-else class="flex p-4">
-        <span class="text-sm text-gray-400">No badges awarded</span>
+        <span class="text-sm text-gray-400">No badges</span>
     </div>
 </template>
