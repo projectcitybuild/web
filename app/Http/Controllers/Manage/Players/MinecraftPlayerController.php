@@ -22,6 +22,7 @@ class MinecraftPlayerController extends WebController
         Gate::authorize('viewAny', MinecraftPlayer::class);
 
         $minecraftPlayers = MinecraftPlayer::with(['account'])
+            ->orderBy('created_at', 'desc')
             ->cursorPaginate(50);
 
         if (request()->wantsJson()) {

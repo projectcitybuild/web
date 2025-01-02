@@ -29,7 +29,7 @@ defineProps<Props>()
             <th scope="row" class="px-4 py-3 text-gray-400 whitespace-nowrap dark:text-white">#{{ index + 1 }}</th>
             <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ player.player_minecraft_id }}</td>
             <td class="px-4 py-3">
-                <MinecraftAvatar v-if="player.alias" :alias="player.alias" :size="16"/>
+                <MinecraftAvatar :alias="player.alias ?? player.uuid" :size="16"/>
             </td>
             <td class="px-4 py-3">
                 <Link

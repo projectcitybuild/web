@@ -143,8 +143,14 @@ async function refreshAlias() {
 
             <section class="grow">
                 <Card>
-                    <div class="p-4 font-bold">
-                        Player Bans
+                    <div class="p-4 flex justify-between items-center">
+                        <h2 class="font-bold">Player Bans</h2>
+                        <Link
+                            :href="'/manage/player-bans/create?uuid=' + player.uuid"
+                            class="rounded-lg px-4 py-1 border border-gray-200 text-sm text-gray-400"
+                        >
+                            Create
+                        </Link>
                     </div>
                     <InfinitePagination
                         :path="'/manage/players/' + player.player_minecraft_id + '/bans'"
@@ -156,8 +162,14 @@ async function refreshAlias() {
                 </Card>
 
                 <Card class="mt-4">
-                    <div class="p-4 font-bold">
-                        Player Warnings
+                    <div class="p-4 flex justify-between items-center">
+                        <h2 class="font-bold">Player Warnings</h2>
+                        <Link
+                            :href="'/manage/warnings/create?uuid=' + player.uuid"
+                            class="rounded-lg px-4 py-1 border border-gray-200 text-sm text-gray-400"
+                        >
+                            Create
+                        </Link>
                     </div>
                     <InfinitePagination
                         :path="'/manage/players/' + player.player_minecraft_id + '/warnings'"

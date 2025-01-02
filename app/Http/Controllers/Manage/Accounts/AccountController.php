@@ -18,7 +18,8 @@ class AccountController extends WebController
     {
         Gate::authorize('viewAny', Account::class);
 
-        $accounts = Account::cursorPaginate(50);
+        $accounts = Account::orderBy('created_at', 'desc')
+            ->cursorPaginate(50);
 
         if ($request->wantsJson()) {
             return $accounts;

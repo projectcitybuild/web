@@ -5,13 +5,16 @@ import { useForm } from '@inertiajs/vue3'
 import { computed, onMounted, ref } from 'vue'
 import { Modal } from 'flowbite'
 import { PlayerBan } from '../../../Data/PlayerBan'
+import ErrorAlert from '../../../Components/ErrorAlert.vue'
 
 interface Props {
     ban?: PlayerBan,
     submit: Function,
 }
-
 const props = defineProps<Props>()
+
+const params = new URLSearchParams(window.location.search)
+const uuidParam = params.get('uuid')
 
 const form = useForm<PlayerBan>({
     banned_uuid: props.ban?.banned_player.uuid,
@@ -53,7 +56,7 @@ function destroy() {
 
 <template>
     <form @submit.prevent="submit">
-        {{ form.errors }}
+        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div class="col-span-2">
@@ -63,6 +66,7 @@ function destroy() {
                 <PlayerPicker
                     v-model:uuid="form.banned_uuid"
                     v-model:alias="form.banned_alias"
+                    :initial-search="uuidParam"
                 />
                 <div v-if="form.errors.banned_uuid" class="text-xs text-red-500 font-bold mt-2">
                     {{ form.errors.banned_uuid }}

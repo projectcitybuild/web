@@ -5,9 +5,11 @@ import { Paginated } from '../../Data/Paginated'
 import { IPBan } from '../../Data/IPBan'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import Card from '../../Components/Card.vue'
+import SuccessAlert from '../../Components/SuccessAlert.vue'
 
 interface Props {
     bans: Paginated<IPBan>,
+    success?: string,
 }
 
 const props = defineProps<Props>()
@@ -15,6 +17,8 @@ const props = defineProps<Props>()
 
 <template>
     <Head title="Manage Bans"/>
+
+    <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
     <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
         <div class="mx-auto max-w-screen-xl">

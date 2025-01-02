@@ -5,6 +5,7 @@ import { useForm } from '@inertiajs/vue3'
 import { computed, onMounted, ref } from 'vue'
 import { Modal } from 'flowbite'
 import { IPBan } from '../../../Data/IPBan'
+import ErrorAlert from '../../../Components/ErrorAlert.vue'
 
 interface Props {
     ban?: IPBan,
@@ -49,7 +50,7 @@ function destroy() {
 
 <template>
     <form @submit.prevent="submit">
-        {{ form.errors }}
+        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div class="col-span-2">

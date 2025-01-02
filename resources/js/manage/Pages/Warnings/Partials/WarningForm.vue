@@ -11,8 +11,10 @@ interface Props {
     warning?: PlayerWarning,
     submit: Function,
 }
-
 const props = defineProps<Props>()
+
+const params = new URLSearchParams(window.location.search)
+const uuidParam = params.get('uuid')
 
 const form = useForm<PlayerWarning>({
     warned_uuid: props.warning?.warned_player.uuid,
@@ -62,6 +64,7 @@ function destroy() {
                 <PlayerPicker
                     v-model:uuid="form.warned_uuid"
                     v-model:alias="form.warned_alias"
+                    :initial-search="uuidParam"
                 />
                 <div v-if="form.errors.warned_uuid" class="text-xs text-red-500 font-bold mt-2">
                     {{ form.errors.warned_uuid }}

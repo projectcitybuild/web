@@ -2,6 +2,7 @@
 import { Link } from '@inertiajs/vue3'
 import { Badge } from '../../../Data/Badge'
 import { format } from '../../../Utilities/DateFormatter'
+import BooleanCheck from '../../../Components/BooleanCheck.vue'
 
 interface Props {
     badges: Badge[],
@@ -31,7 +32,9 @@ defineProps<Props>()
             <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ badge.id }}</td>
             <td class="px-4 py-3">{{ badge.display_name }}</td>
             <td class="px-4 py-3">{{ badge.unicode_icon }}</td>
-            <td class="px-4 py-3">{{ badge.list_hidden ? 'Yes' : 'No' }}</td>
+            <td class="px-4 py-3">
+                <BooleanCheck :value="badge.list_hidden" />
+            </td>
             <td class="px-4 py-3">{{ format(badge.created_at) }}</td>
             <td class="px-4 py-3 text-right">
                 <Link

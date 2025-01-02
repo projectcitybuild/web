@@ -14,7 +14,7 @@ class BadgeController extends WebController
     {
         Gate::authorize('viewAny', Badge::class);
 
-        $badges = Badge::orderBy('display_name', 'desc')
+        $badges = Badge::orderBy('created_at', 'desc')
             ->cursorPaginate(50);
 
         if ($request->wantsJson()) {

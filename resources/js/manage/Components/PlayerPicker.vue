@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import Spinner from './Spinner.vue'
 import MinecraftAvatar from './MinecraftAvatar.vue'
 import { lookupPlayer } from '../Services/PlayerLookupService'
+
+interface Props {
+    initialSearch?: string,
+}
+const props = defineProps<Props>()
 
 const uuid = defineModel<string>('uuid')
 const alias = defineModel<string>('alias')
@@ -33,6 +38,13 @@ function clear(): void {
     uuid.value = null
     alias.value = null
 }
+
+onMounted(() => {
+    if (props.initialSearch && props.initialSearch != '') {
+        searchText.value = props.initialSearch
+        search()
+    }
+})
 </script>
 
 <template>
