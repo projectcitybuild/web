@@ -9,6 +9,7 @@ import AccountPlayersTable from './Partials/AccountPlayersTable.vue'
 import Pill from '../../Components/Pill.vue'
 import AccountBadgesTable from './Partials/AccountBadgesTable.vue'
 import AccountGroupsTable from './Partials/AccountGroupsTable.vue'
+import ToolBar from '../../Components/ToolBar.vue'
 
 interface Props {
     account: Account,
@@ -23,34 +24,33 @@ defineProps<Props>()
 
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <section>
-            <Card class="mb-4">
-                <div class="flex flex-row items-center justify-between p-4">
-                    <BackButton href="/manage/accounts"/>
-
-                    <Link
-                        :href="'/manage/accounts/' + account.account_id + '/edit'"
-                        as="button"
-                        class="
+        <ToolBar>
+            <template v-slot:left>
+                <BackButton href="/manage/accounts"/>
+            </template>
+            <template v-slot:right>
+                <Link
+                    :href="'/manage/accounts/' + account.account_id + '/edit'"
+                    as="button"
+                    class="
                                 flex flex-row items-center justify-center gap-2 px-4 py-2 rounded-lg
                                 text-sm text-white bg-blue-700
                                 hover:bg-primary-800
                                 focus:ring-4 focus:ring-blue-300
                                 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800
                             "
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="size-4">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/>
-                        </svg>
-                        Edit Account
-                    </Link>
-                </div>
-            </Card>
-        </section>
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="size-4">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/>
+                    </svg>
+                    Edit Account
+                </Link>
+            </template>
+        </ToolBar>
 
-        <div class="flex flex-col gap-4 md:flex-row">
+        <div class="mt-4 flex flex-col gap-4 md:flex-row">
             <section>
                 <Card class="max-w-2xl">
                     <div class="px-4 py-8">

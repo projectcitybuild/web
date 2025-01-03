@@ -11,6 +11,7 @@ import PlayerWarningListTable from './Partials/PlayerWarningListTable.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
 import { ref } from 'vue'
 import Spinner from '../../Components/Spinner.vue'
+import ToolBar from '../../Components/ToolBar.vue'
 
 interface Props {
     player: Player,
@@ -37,55 +38,47 @@ async function refreshAlias() {
 
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <section>
-            <Card class="mb-4">
-                <div class="flex flex-row items-center justify-between p-4">
-                    <BackButton href="/manage/players"/>
+        <ToolBar>
+            <template v-slot:left>
+                <BackButton href="/manage/players"/>
+            </template>
+            <template v-slot:right>
+                <button
+                    class="
+                        px-4 py-2 rounded-lg
+                        text-sm text-gray-500 border border-gray-300
+                    "
+                    @click="refreshAlias"
+                >
+                    <Spinner v-if="isRefreshingAlias" />
+                    <span v-else class="flex flex-row items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                        </svg>
+                        Fetch Alias
+                    </span>
+                </button>
 
-                    <div class="flex gap-2">
-                        <button
-                            class="
-                                px-4 py-2 rounded-lg
-                                text-sm text-gray-500 border border-gray-300
-                            "
-                            @click="refreshAlias"
-                        >
-                            <Spinner v-if="isRefreshingAlias" />
-                            <span v-else class="flex flex-row items-center justify-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-                                </svg>
-                                Fetch Alias
-                            </span>
-                        </button>
+                <Link
+                    :href="'/manage/players/' + player.player_minecraft_id + '/edit'"
+                    as="button"
+                    class="
+                        flex flex-row items-center justify-center gap-2 px-4 py-2 rounded-lg
+                        text-sm text-white bg-blue-700
+                        hover:bg-primary-800
+                        focus:ring-4 focus:ring-blue-300
+                        dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800
+                    "
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/>
+                    </svg>
+                    Edit Player
+                </Link>
+            </template>
+        </ToolBar>
 
-                        <Link
-                            :href="'/manage/players/' + player.player_minecraft_id + '/edit'"
-                            as="button"
-                            class="
-                                flex flex-row items-center justify-center gap-2 px-4 py-2 rounded-lg
-                                text-sm text-white bg-blue-700
-                                hover:bg-primary-800
-                                focus:ring-4 focus:ring-blue-300
-                                dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800
-                            "
-                        >
-                            <div>
-
-                            </div>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                 stroke="currentColor" class="size-4">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/>
-                            </svg>
-                            Edit Player
-                        </Link>
-                    </div>
-                </div>
-            </Card>
-        </section>
-
-        <div class="flex flex-col gap-4 md:flex-row">
+        <div class="mt-4 flex flex-col gap-4 md:flex-row">
             <section>
                 <Card class="max-w-2xl">
                     <div class="p-4 flex flex-col items-center">
