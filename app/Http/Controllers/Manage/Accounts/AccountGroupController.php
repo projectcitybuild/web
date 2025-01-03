@@ -18,7 +18,7 @@ class AccountGroupController extends WebController
         $groups = Group::where('is_default', false)->get();
         $accountGroupIds = $account->groups->pluck(Group::primaryKey());
 
-        return Inertia::render('Accounts/AccountGroupList', [
+        return Inertia::render('Accounts/AccountGroupSelect', [
             'groups' => $groups,
             'account_group_ids' => $accountGroupIds ?? [],
             'account_id' => $account->getKey(),
@@ -38,6 +38,6 @@ class AccountGroupController extends WebController
         );
 
         return to_route('manage.accounts.show', $account)
-            ->with(['success' => 'Account groups updated successfully.']);
+            ->with(['success' => 'Ggoups updated successfully.']);
     }
 }

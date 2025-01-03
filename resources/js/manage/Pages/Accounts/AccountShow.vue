@@ -145,13 +145,29 @@ defineProps<Props>()
                 </Card>
 
                 <Card class="mt-4">
-                    <div class="p-4 font-bold">
-                        Badges
+                    <div class="p-4 flex justify-between items-center">
+                        <h2 class="font-bold">Badges</h2>
+                        <Link
+                            :href="'/manage/accounts/' + account.account_id + '/badges'"
+                            class="rounded-lg px-4 py-1 border border-gray-200 text-sm text-gray-400"
+                        >
+                            Edit
+                        </Link>
                     </div>
-                    <AccountBadgesTable
-                        :badges="account.badges"
-                        :account_id="account.account_id"
-                    />
+                    <AccountBadgesTable :badges="account.badges" />
+                </Card>
+
+                <Card class="mt-4">
+                    <div class="p-4 flex justify-between items-center">
+                        <h2 class="font-bold">Donations</h2>
+                        <Link
+                            :href="'/manage/accounts/' + account.account_id + '/badges'"
+                            class="rounded-lg px-4 py-1 border border-gray-200 text-sm text-gray-400"
+                        >
+                            Create
+                        </Link>
+                    </div>
+
                 </Card>
             </section>
         </div>

@@ -49,10 +49,12 @@ Route::name('manage.')
             Route::post('resend-activation', AccountResendActivationController::class);
             Route::post('email-change/{accountEmailChange}/approve', AccountApproveEmailChangeController::class);
             Route::delete('player/{minecraftPlayer}', [AccountGameAccountController::class, 'delete']);
-            Route::delete('badges/{badge}', [AccountBadgeController::class, 'destroy']);
 
             Route::get('groups', [AccountGroupController::class, 'index']);
             Route::put('groups', [AccountGroupController::class, 'update']);
+
+            Route::get('badges', [AccountBadgeController::class, 'index']);
+            Route::put('badges', [AccountBadgeController::class, 'update']);
         });
 
         Route::resource('players', MinecraftPlayerController::class)
