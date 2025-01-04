@@ -72,10 +72,10 @@ Route::name('manage.')
             Route::resource('warps', MinecraftWarpController::class);
         });
 
-        Route::resource('groups', GroupController::class);
+        Route::resource('groups', GroupController::class)
+            ->except(['show']);
 
-        Route::get('groups/{group}/accounts', [GroupAccountController::class, 'index'])
-            ->name('groups.accounts');
+        Route::get('groups/{group}/accounts', [GroupAccountController::class, 'index']);
 
         Route::resource('badges', BadgeController::class);
 

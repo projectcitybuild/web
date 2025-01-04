@@ -1,15 +1,6 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
-import { ref } from 'vue'
 import SideBarMenuItem from './SideBarMenuItem.vue'
-
-const collapsed = ref({
-    'users': true,
-    'moderation': true,
-    'minecraft': true,
-    'servers': true,
-    'payments': true,
-})
 </script>
 
 <template>

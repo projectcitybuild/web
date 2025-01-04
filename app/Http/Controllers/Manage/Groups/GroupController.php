@@ -30,13 +30,6 @@ class GroupController extends WebController
         return Inertia::render('Groups/GroupList', compact('groups'));
     }
 
-    public function show(Request $request, Group $group)
-    {
-        Gate::authorize('view', $group);
-
-        return Inertia::render('Groups/GroupShow', compact('group'));
-    }
-
     public function create(Request $request)
     {
         Gate::authorize('create', Group::class);

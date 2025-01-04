@@ -108,7 +108,10 @@ watch(
                     v-slot="source"
                     class="overflow-x-auto"
                 >
-                    <AccountListTable :accounts="source.data" :class="source.loading ? 'opacity-50' : ''" />
+                    <AccountListTable
+                        :accounts="source.data"
+                        :class="source.loading ? 'opacity-50' : ''"
+                    />
                 </InfinitePagination>
             </Card>
         </div>
