@@ -36,8 +36,8 @@ async function refreshAlias() {
 </script>
 
 <template>
-    <div class="p-3 sm:p-5 mx-auto max-w-screen-xl">
-        <Head :title="'Viewing Player: ' + player.alias ?? player.uuid"/>
+    <div class="mx-auto max-w-screen-xl">
+        <Head :title="'Viewing Player: ' + (player.alias ?? player.uuid)"/>
 
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 

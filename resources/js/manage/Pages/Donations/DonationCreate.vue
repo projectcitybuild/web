@@ -11,7 +11,7 @@ function submit(form: InertiaForm<Donation>) {
 </script>
 
 <template>
-    <section class="p-3 sm:p-5">
+    <section>
         <Head title="Create a Donation"/>
 
         <div class="mx-auto max-w-screen-xl">

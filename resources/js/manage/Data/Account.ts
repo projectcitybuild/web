@@ -1,6 +1,7 @@
 import { Player } from './Player'
 import { Badge } from './Badge'
 import { Group } from './Group'
+import { AccountActivation } from './AccountActivation'
 
 export interface Account {
     account_id: number,
@@ -11,6 +12,7 @@ export interface Account {
     minecraft_account?: Player[],
     badges?: Badge[],
     groups?: Group[],
+    activations?: AccountActivation[],
     created_at: string,
     updated_at: string,
 }

@@ -16,6 +16,7 @@ import ConfirmDialog from '../../Components/ConfirmDialog.vue'
 import { ref } from 'vue'
 import axios from 'axios'
 import SvgIcon from '../../Components/SvgIcon.vue'
+import AccountActivationsTable from './Partials/AccountActivationsTable.vue'
 
 interface Props {
     account: Account,
@@ -48,7 +49,7 @@ function disableMfa() {
 </script>
 
 <template>
-    <div class="p-3 sm:p-5 mx-auto max-w-screen-xl">
+    <div class="mx-auto max-w-screen-xl">
         <Head :title="'Viewing Account: ' + account.username" />
 
         <ConfirmDialog
@@ -140,12 +141,12 @@ function disableMfa() {
                                     Send Activation Email
                                 </FilledButton>
 
-                                <OutlinedButton variant="danger" @click="activateModal.open()">
+                                <OutlinedButton variant="danger" @click="activateModal?.open()">
                                     Force Activate
                                 </OutlinedButton>
                             </template>
 
-                            <OutlinedButton v-else variant="danger" @click="deactivateModal.open()">
+                            <OutlinedButton v-else variant="danger" @click="deactivateModal?.open()">
                                 Force Re-Verification
                             </OutlinedButton>
                         </div>
@@ -174,7 +175,7 @@ function disableMfa() {
                             <hr />
 
                             <div class="flex flex-col gap-2">
-                                <OutlinedButton variant="danger" @click="disableMfaModal.open()">
+                                <OutlinedButton variant="danger" @click="disableMfaModal?.open()">
                                     <SvgIcon icon="unlock" />
                                     Disable
                                 </OutlinedButton>
@@ -189,7 +190,7 @@ function disableMfa() {
                     <div class="p-4 font-bold">
                         Linked Players
                     </div>
-                    <AccountPlayersTable :players="account.minecraft_account" />
+                    <AccountPlayersTable :players="account.minecraft_account ?? []" />
                 </Card>
 
                 <Card class="mt-4">
@@ -199,7 +200,7 @@ function disableMfa() {
                             <FilledButton variant="secondary">Edit</FilledButton>
                         </Link>
                     </div>
-                    <AccountGroupsTable :groups="account.groups" />
+                    <AccountGroupsTable :groups="account.groups ?? []" />
                 </Card>
 
                 <Card class="mt-4">
@@ -209,7 +210,7 @@ function disableMfa() {
                             <FilledButton variant="secondary">Edit</FilledButton>
                         </Link>
                     </div>
-                    <AccountBadgesTable :badges="account.badges" />
+                    <AccountBadgesTable :badges="account.badges ?? []" />
                 </Card>
 
                 <Card class="mt-4">
@@ -231,6 +232,7 @@ function disableMfa() {
                     <div class="p-4 font-bold">
                         Pending Activations
                     </div>
+                    <AccountActivationsTable :activations="account.activations ?? []" />
                 </Card>
             </section>
         </div>

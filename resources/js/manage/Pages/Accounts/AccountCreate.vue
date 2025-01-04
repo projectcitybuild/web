@@ -11,7 +11,7 @@ function submit(form: InertiaForm<Account>) {
 </script>
 
 <template>
-    <section class="p-3 sm:p-5">
+    <section>
         <Head title="Create an Account"/>
 
         <div class="mx-auto max-w-screen-xl">

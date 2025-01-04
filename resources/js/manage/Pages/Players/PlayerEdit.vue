@@ -17,7 +17,7 @@ function submit(form: InertiaForm<Player>) {
 </script>
 
 <template>
-    <section class="p-3 sm:p-5">
+    <section>
         <Head title="Edit a Player"/>
 
         <div class="mx-auto max-w-screen-xl">

@@ -22,7 +22,7 @@ defineProps<Props>()
 <template>
     <Head title="Manage Groups"/>
 
-    <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+    <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
         <ToolBar>

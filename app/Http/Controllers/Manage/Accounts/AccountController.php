@@ -44,7 +44,13 @@ class AccountController extends WebController
     {
         Gate::authorize('view', $account);
 
-        $account->load(['groups', 'badges', 'minecraftAccount', 'emailChangeRequests']);
+        $account->load([
+            'groups',
+            'badges',
+            'minecraftAccount',
+            'emailChangeRequests',
+            'activations',
+        ]);
 
         return Inertia::render('Accounts/AccountShow', compact('account'));
     }

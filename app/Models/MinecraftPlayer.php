@@ -64,11 +64,6 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         );
     }
 
-    public function isBanned()
-    {
-        return $this->gamePlayerBans()->active()->exists();
-    }
-
     public function banAppeals()
     {
         // We have to do this because game bans are a polymorphic relationship, but this is just what

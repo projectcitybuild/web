@@ -142,6 +142,14 @@ final class Account extends Authenticatable implements LinkableAuditModel
         );
     }
 
+    public function activations(): HasMany
+    {
+        return $this->hasMany(
+            related: AccountActivation::class,
+            foreignKey: 'account_id',
+        );
+    }
+
     public function gamePlayerBans(): HasManyThrough
     {
         return $this->hasManyThrough(
@@ -166,24 +174,9 @@ final class Account extends Authenticatable implements LinkableAuditModel
         );
     }
 
-    public function isBanned()
-    {
-        return $this->gamePlayerBans()->active()->exists();
-    }
-
     public function banAppeals()
     {
         return BanAppeal::whereIn('game_ban_id', $this->gamePlayerBans()->pluck('id'));
-    }
-
-    public function inGroup(Group $group)
-    {
-        return $this->groups->contains($group);
-    }
-
-    public function hasBadge(Badge $badge)
-    {
-        return $this->badges->contains($badge);
     }
 
     public function isAdmin(): bool

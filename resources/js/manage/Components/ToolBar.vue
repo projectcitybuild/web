@@ -4,7 +4,7 @@ import Card from './Card.vue'
 
 <template>
     <Card>
-        <div class="flex items-center justify-between gap-2 p-4">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 p-4">
             <slot name="left" />
 
             <div class="flex gap-2 items-center">

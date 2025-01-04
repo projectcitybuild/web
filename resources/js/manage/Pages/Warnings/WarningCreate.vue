@@ -11,7 +11,7 @@ function submit(form: InertiaForm<Warning>) {
 </script>
 
 <template>
-    <section class="p-3 sm:p-5">
+    <section>
         <Head title="Create a Player Warning"/>
 
         <div class="mx-auto max-w-screen-xl">
