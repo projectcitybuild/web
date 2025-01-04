@@ -126,7 +126,7 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('manage.minecraft-players.show', $this);
+        return route('manage.players.show', $this);
     }
 
     public function getActivitySubjectName(): ?string

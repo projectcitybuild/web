@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3'
-import { onBeforeMount, ref, useId, watch } from 'vue'
+import { onBeforeMount, ref, useId, watch, computed } from 'vue'
+import SvgIcon from '../../../Components/SvgIcon.vue'
 
 interface MenuItem {
     title: string,
@@ -13,31 +14,37 @@ interface Props {
 }
 
 const id = useId()
-const props = defineProps<Props>()
-const selectedParent = defineModel('selected')
-const selectedRoute = ref<MenuItem>(null)
 const page = usePage()
 
+const props = defineProps<Props>()
+const selectedParent = defineModel('selected')
+const selectedChild = ref<MenuItem|null>(getSelectedChild(page.url))
+
 function select() {
-    if (selectedParent.value == id) {
+    if (expanded.value) {
         selectedParent.value = null
-        checkSelection()
     } else {
         selectedParent.value = id
     }
 }
 
-function checkSelection() {
-    const selectedChild = props.children.find(
-        (it) => page.url.startsWith(it.route)
+const expanded = computed(() => selectedParent == id)
+
+function getSelectedChild(url: string) {
+    return props.children.find(
+        (child) => url.startsWith(child.route)
     )
-    if (selectedChild) {
+}
+
+function checkSelection(url: string) {
+    selectedChild.value = getSelectedChild(url)
+
+    if (selectedChild.value) {
         selectedParent.value = id
-        selectedRoute.value = selectedChild.route
     }
 }
 
-onBeforeMount(checkSelection)
+onBeforeMount(() => checkSelection(page.url))
 
 watch(() => page.url, checkSelection)
 </script>
@@ -46,18 +53,17 @@ watch(() => page.url, checkSelection)
     <li>
         <button
             type="button"
-            class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+            :class="
+                (expanded ? 'font-bold ' : '') +
+                'flex items-center p-2 w-full text-base text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700'
+            "
             @click="select"
         >
             <slot name="icon"></slot>
             <span class="flex-1 ml-3 text-left whitespace-nowrap">{{ props.title }}</span>
 
-            <svg v-if="selectedParent == id" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 15 7-7 7 7"/>
-            </svg>
-            <svg v-else class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"/>
-            </svg>
+            <SvgIcon v-if="selectedParent == id" icon="chevron-up" :thickness="2" class="size-6" />
+            <SvgIcon v-else icon="chevron-down" :thickness="2" class="size-6" />
         </button>
 
         <ul class="py-2 space-y-2" v-if="selectedParent == id">
@@ -65,7 +71,7 @@ watch(() => page.url, checkSelection)
                 <Link
                     :href="item.route"
                     :class="
-                        (selectedRoute == item.route ? 'font-bold ' : '') +
+                        (selectedChild?.route == item.route ? 'font-bold ' : '') +
                         'flex items-center p-2 pl-11 w-full text-sm text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700'
                     "
                 >
