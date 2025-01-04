@@ -26,7 +26,7 @@ class DangerVariant implements Styleable {
     readonly style = [
         'text-white',
         'bg-red-700',
-        'hover:bg-red-300',
+        'hover:bg-red-600',
         'focus:ring-red-200',
     ]
 }
@@ -50,7 +50,7 @@ const aggregateStyle = computed(() => {
         'flex', 'items-center', 'justify-center', 'gap-2',
         'focus:ring-4', 'focus:outline-none',
         'px-4', 'py-2',
-        'text-sm',
+        'text-sm', 'font-medium',
     ]
     const aggregate = [
         ...base,

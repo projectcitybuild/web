@@ -2,12 +2,12 @@
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
 import { useForm } from '@inertiajs/vue3'
-import { computed, onMounted, ref } from 'vue'
-import { Modal } from 'flowbite'
+import { computed, ref } from 'vue'
 import { IPBan } from '../../../Data/IPBan'
 import ErrorAlert from '../../../Components/ErrorAlert.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
 import Spinner from '../../../Components/Spinner.vue'
+import ConfirmDialog from '../../../Components/ConfirmDialog.vue'
 
 interface Props {
     ban?: IPBan,
@@ -26,32 +26,28 @@ const form = useForm<IPBan>({
         : new Date(),
 }, 'IPBanForm')
 
-const deleteModal = ref()
+const deleteModal = ref<InstanceType<typeof ConfirmDialog>>()
 const isEdit = computed(() => props.ban != null)
-
-onMounted(() => {
-    const $modalEl = document.getElementById('deleteModal')
-    const options = {
-        placement: 'bottom-right',
-        backdrop: 'dynamic',
-        backdropClasses: 'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
-        closable: true,
-    }
-    deleteModal.value = new Modal($modalEl, options)
-})
 
 function submit() {
     props.submit(form)
 }
 
 function destroy() {
-    deleteModal.value.hide()
+    deleteModal?.value.close()
     form.delete('/manage/ip-bans/' + props.ban.id)
 }
 </script>
 
 <template>
     <form @submit.prevent="submit">
+        <ConfirmDialog
+            ref="deleteModal"
+            message="This cannot be undone. Deleting should be reserved for cleaning up invalid/inappropriate bans, not for unbanning purposes."
+            confirm-title="Yes, Delete It"
+            :on-confirm="destroy"
+        />
+
         <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -134,7 +130,7 @@ function destroy() {
                     hover:bg-red-50
                     dark:focus:ring-red-900
                 "
-                @click="deleteModal.show"
+                @click="deleteModal.open"
             >
                 Delete
             </button>
@@ -143,35 +139,5 @@ function destroy() {
         <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
             Note: The player will be kicked with a ban message if they are currently on the server
         </span>
-
-        <div id="deleteModal" tabindex="-1"
-             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-            <div class="relative p-4 w-full max-w-md max-h-full">
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <div class="p-4 md:p-8 text-center">
-                        <h3 class="mb-5 text-2xl font-bold">
-                            Are you sure?
-                        </h3>
-                        <div class="text-sm mb-8 text-gray-500">
-                            This cannot be undone and should only be used for clean-up purposes
-                        </div>
-                        <button
-                            type="button"
-                            class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
-                            @click="destroy"
-                        >
-                            Yes, Delete It
-                        </button>
-                        <button
-                            type="button"
-                            class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                            @click="deleteModal.hide"
-                        >
-                            Cancel
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </form>
 </template>

@@ -3,6 +3,7 @@ import { format } from '../../../Utilities/DateFormatter'
 import { Link } from '@inertiajs/vue3'
 import { PlayerBan } from '../../../Data/PlayerBan'
 import PlayerBanStatus from '../../PlayerBans/Partials/PlayerBanStatus.vue'
+import FilledButton from '../../../Components/FilledButton.vue'
 
 interface Props {
     bans: PlayerBan[],
@@ -30,15 +31,10 @@ defineProps<Props>()
             <td class="px-4 py-3">{{ ban.reason }}</td>
             <td class="px-4 py-3">{{ format(ban.created_at) }}</td>
             <td class="px-4 py-3 text-right">
-                <Link
-                    :href="'/manage/player-bans/' + ban.id + '/edit'"
-                    class="
-                        py-2 px-4 rounded-md
-                        bg-gray-500 text-white
-                        hover:bg-gray-600
-                    "
-                >
-                    Edit
+                <Link :href="'/manage/player-bans/' + ban.id + '/edit'">
+                    <FilledButton variant="secondary">
+                        Edit
+                    </FilledButton>
                 </Link>
             </td>
         </tr>

@@ -3,11 +3,11 @@ import DateTimePicker from '../../../Components/DateTimePicker.vue'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
 import { useForm } from '@inertiajs/vue3'
 import { computed, onMounted, ref } from 'vue'
-import { Modal } from 'flowbite'
 import { PlayerWarning } from '../../../Data/PlayerWarning'
 import ErrorAlert from '../../../Components/ErrorAlert.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
 import Spinner from '../../../Components/Spinner.vue'
+import ConfirmDialog from '../../../Components/ConfirmDialog.vue'
 
 interface Props {
     warning?: PlayerWarning,
@@ -30,32 +30,28 @@ const form = useForm<PlayerWarning>({
         : new Date(),
 })
 
-const deleteModal = ref()
+const deleteModal = ref<InstanceType<typeof ConfirmDialog>>()
 const isEdit = computed(() => props.warning != null)
-
-onMounted(() => {
-    const $modalEl = document.getElementById('deleteModal')
-    const options = {
-        placement: 'bottom-right',
-        backdrop: 'dynamic',
-        backdropClasses: 'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
-        closable: true,
-    }
-    deleteModal.value = new Modal($modalEl, options)
-})
 
 function submit() {
     props.submit(form)
 }
 
 function destroy() {
-    deleteModal.value.hide()
+    deleteModal?.value.close()
     form.delete('/manage/warnings/' + props.warning.id)
 }
 </script>
 
 <template>
     <form @submit.prevent="submit">
+        <ConfirmDialog
+            ref="deleteModal"
+            message="This cannot be undone."
+            confirm-title="Yes, Delete It"
+            :on-confirm="destroy"
+        />
+
         <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -144,7 +140,7 @@ function destroy() {
                     hover:bg-red-50
                     dark:focus:ring-red-900
                 "
-                @click="deleteModal.show"
+                @click="deleteModal.open"
             >
                 Delete
             </button>
