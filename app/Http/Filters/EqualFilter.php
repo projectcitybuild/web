@@ -13,7 +13,7 @@ class EqualFilter
 
     public function __invoke(Builder $query, $next)
     {
-        if (! $this->value) {
+        if ($this->value === null) {
             return $next($query);
         }
         $query->where($this->column, $this->value);
