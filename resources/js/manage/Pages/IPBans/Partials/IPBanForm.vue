@@ -115,6 +115,7 @@ function destroy() {
 
         <div class="flex flex-row gap-2 mt-8">
             <FilledButton
+                type="submit"
                 variant="primary"
                 :disabled="form.processing"
             >

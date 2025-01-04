@@ -92,6 +92,7 @@ function submit() {
         </div>
 
         <FilledButton
+            type="submit"
             variant="primary"
             :disabled="form.processing"
             class="mt-8"

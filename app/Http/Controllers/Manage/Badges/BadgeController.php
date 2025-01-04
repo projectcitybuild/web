@@ -34,10 +34,13 @@ class BadgeController extends WebController
     {
         Gate::authorize('create', Badge::class);
 
+        $request->merge([
+            'list_hidden' => $request->has('list_hidden'),
+        ]);
         $request->validate([
-            'display_name' => 'required|string',
-            'unicode_icon' => 'required|string',
-            'list_hidden' => 'nullable|boolean',
+            'display_name' => ['required', 'string'],
+            'unicode_icon' => ['required', 'string'],
+            'list_hidden' => ['boolean'],
         ]);
 
         Badge::create([
@@ -61,10 +64,13 @@ class BadgeController extends WebController
     {
         Gate::authorize('update', $badge);
 
+        $request->merge([
+            'list_hidden' => $request->has('list_hidden'),
+        ]);
         $validated = $request->validate([
-            'display_name' => 'required|string',
-            'unicode_icon' => 'required|string',
-            'list_hidden' => 'nullable|boolean',
+            'display_name' => ['required', 'string'],
+            'unicode_icon' => ['required', 'string'],
+            'list_hidden' => ['boolean'],
         ]);
 
         $validated['list_hidden'] = $validated['list_hidden'] ?? false;

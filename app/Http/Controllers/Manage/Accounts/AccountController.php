@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage\Accounts;
 
 use App\Core\Rules\DiscourseUsernameRule;
+use App\Domains\Registration\Events\AccountCreated;
 use App\Http\Controllers\WebController;
 use App\Http\Filters\EqualFilter;
 use App\Http\Filters\LikeFilter;
@@ -47,6 +48,39 @@ class AccountController extends WebController
         return Inertia::render('Accounts/AccountShow', compact('account'));
     }
 
+    public function create()
+    {
+        Gate::authorize('create', Account::class);
+
+        return Inertia::render('Accounts/AccountCreate');
+    }
+
+    public function store(Request $request)
+    {
+        Gate::authorize('create', Account::class);
+
+        $validated = $request->validate([
+            'email' => [
+                'required',
+                'email',
+                Rule::unique(Account::tableName(), 'email'),
+            ],
+            'username' => [
+                'required',
+                new DiscourseUsernameRule(),
+                Rule::unique(Account::tableName(), 'username'),
+            ],
+            'password' => [Password::defaults()],
+        ]);
+
+        $validated['password'] = Hash::make($validated['password']);
+
+        $account = Account::create($validated);
+
+        return to_route('manage.accounts.show', $account)
+            ->with(['success' => 'Account created successfully.']);
+    }
+
     public function edit(Account $account)
     {
         Gate::authorize('update', $account);
@@ -71,7 +105,7 @@ class AccountController extends WebController
                 Rule::unique(Account::tableName(), 'username')
                     ->ignore($account),
             ],
-            'password' => [Password::defaults()],
+            'password' => ['nullable', Password::defaults()],
         ]);
 
         if ($request->has('password')) {

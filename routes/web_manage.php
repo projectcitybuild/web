@@ -42,11 +42,13 @@ Route::name('manage.')
             ->name('index');
 
         Route::resource('accounts', AccountController::class)
-            ->except(['destroy', 'create']);
+            ->except(['destroy']);
 
         Route::prefix('accounts/{account}')->group(function () {
-            Route::post('activate', AccountActivateController::class);
-            Route::post('resend-activation', AccountResendActivationController::class);
+            Route::post('activate', [AccountActivateController::class, 'update']);
+            Route::delete('activate', [AccountActivateController::class, 'destroy']);
+
+            Route::post('activate/send', AccountResendActivationController::class);
             Route::post('email-change/{accountEmailChange}/approve', AccountApproveEmailChangeController::class);
             Route::delete('player/{minecraftPlayer}', [AccountGameAccountController::class, 'delete']);
 

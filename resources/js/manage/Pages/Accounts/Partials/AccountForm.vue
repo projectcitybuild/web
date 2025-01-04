@@ -1,30 +1,29 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import ErrorAlert from '../../../Components/ErrorAlert.vue'
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
-import type { Player } from '../../../Data/Player'
-import PlayerPicker from '../../../Components/PlayerPicker.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
 import Spinner from '../../../Components/Spinner.vue'
+import type { Account } from '../../../Data/Account'
 
 interface Props {
-    player?: Player,
+    account?: Account,
     submit: Function,
 }
 
 const props = defineProps<Props>()
 
-const form = useForm<Player>({
-    uuid: props.player?.uuid,
-    alias: props.player?.alias,
-    account_id: props.player?.account_id,
-    created_at: props.player?.created_at
-        ? new Date(props.player.created_at)
+const form = useForm<Account>({
+    username: props.account?.username,
+    email: props.account?.email,
+    password: null,
+    created_at: props.account?.created_at
+        ? new Date(props.account.created_at)
         : new Date(),
 })
 
-const isEdit = computed(() => props.player != null)
+const isEdit = computed(() => props.account != null)
 
 function submit() {
     props.submit(form)
@@ -33,53 +32,53 @@ function submit() {
 
 <template>
     <form @submit.prevent="submit">
-        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
+        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4" />
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div v-if="!isEdit" class="col-span-2">
-                <div>
-                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Player<span class="text-red-500">*</span>
-                    </label>
-                    <PlayerPicker
-                        v-model:uuid="form.uuid"
-                        v-model:alias="form.alias"
-                    />
-                </div>
-                <div class="text-gray-500 text-sm mt-4">or</div>
-            </div>
             <div class="col-span-2">
-                <label for="uuid" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    UUID<span class="text-red-500">*</span>
+                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Email Address<span class="text-red-500">*</span>
                 </label>
                 <input
-                    v-model="form.uuid"
-                    id="uuid"
+                    v-model="form.email"
+                    id="email"
+                    type="email"
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
-                <div v-if="form.errors.uuid" class="text-xs text-red-500 font-bold mt-2">
-                    {{ form.errors.uuid }}
+                <div v-if="form.errors.email" class="text-xs text-red-500 font-bold mt-2">
+                    {{ form.errors.email }}
                 </div>
             </div>
             <div class="col-span-2">
-                <label for="alias" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Last Known Alias<span class="text-red-500">*</span>
+                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Username<span class="text-red-500">*</span>
                 </label>
                 <input
-                    v-model="form.alias"
-                    id="alias"
+                    v-model="form.username"
+                    id="username"
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
-                <div v-if="form.errors.alias" class="text-xs text-red-500 font-bold mt-2">
-                    {{ form.errors.alias }}
+                <div v-if="form.errors.username" class="text-xs text-red-500 font-bold mt-2">
+                    {{ form.errors.username }}
                 </div>
             </div>
-
-            <hr class="col-span-2" />
-
+            <div class="col-span-2">
+                <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Password<span v-if="!isEdit" class="text-red-500">*</span>
+                </label>
+                <input
+                    v-model="form.password"
+                    id="password"
+                    type="password"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                >
+                <div v-if="form.errors.password" class="text-xs text-red-500 font-bold mt-2">
+                    {{ form.errors.password }}
+                </div>
+            </div>
             <div class="col-span-2">
                 <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Date<span class="text-red-500">*</span>
+                    Created At<span class="text-red-500">*</span>
                 </label>
                 <DateTimePicker
                     v-model="form.created_at"
@@ -89,11 +88,18 @@ function submit() {
                     {{ form.errors.created_at }}
                 </div>
             </div>
+
+            <span class="text-gray-500 text-sm col-span-2">
+                Note: This will create an <strong>unactivated</strong> account.<br /><br />
+                You will need to either force activate their account or send them their activation email afterwards.
+            </span>
         </div>
 
         <FilledButton
             variant="primary"
             :disabled="form.processing"
+            type="submit"
+            class="mt-8"
         >
             <Spinner v-if="form.processing" />
             <template v-else>{{ isEdit ? 'Update' : 'Create' }}</template>

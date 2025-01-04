@@ -59,7 +59,6 @@ final class Account extends Authenticatable implements LinkableAuditModel
         'trial_ends_at',
         'stripe_id',
         'last_login_ip',
-        'is_totp_enabled',
     ];
 
     protected static $recordEvents = [

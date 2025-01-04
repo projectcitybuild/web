@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3'
+import { Head, Link, router } from '@inertiajs/vue3'
 import Card from '../../Components/Card.vue'
 import BackButton from '../../Components/BackButton.vue'
 import { format } from '../../Utilities/DateFormatter'
@@ -11,17 +11,52 @@ import AccountBadgesTable from './Partials/AccountBadgesTable.vue'
 import AccountGroupsTable from './Partials/AccountGroupsTable.vue'
 import ToolBar from '../../Components/ToolBar.vue'
 import FilledButton from '../../Components/FilledButton.vue'
+import OutlinedButton from '../../Components/OutlinedButton.vue'
+import ConfirmDialog from '../../Components/ConfirmDialog.vue'
+import { ref } from 'vue'
+import axios from 'axios'
+import SvgIcon from '../../Components/SvgIcon.vue'
 
 interface Props {
     account: Account,
     success?: string,
 }
-defineProps<Props>()
+const props = defineProps<Props>()
+
+const activateModal = ref<InstanceType<typeof ConfirmDialog>>()
+const deactivateModal = ref<InstanceType<typeof ConfirmDialog>>()
+
+function forceActivate() {
+    activateModal.value?.close()
+    router.post('/manage/accounts/' + props.account.account_id + '/activate')
+}
+
+function forceDeactivate() {
+    deactivateModal.value?.close()
+    router.delete('/manage/accounts/' + props.account.account_id + '/activate')
+}
+
+function sendVerificationEmail() {
+    router.post('/manage/accounts/' + props.account.account_id + '/activate/send')
+}
 </script>
 
 <template>
     <div class="p-3 sm:p-5 mx-auto max-w-screen-xl">
         <Head :title="'Viewing Account: ' + account.username" />
+
+        <ConfirmDialog
+            ref="activateModal"
+            message="This will allow the user to login without having verified their email address. We won't be able to guarantee it's valid and belongs to them."
+            confirm-title="Yes, Proceed"
+            :on-confirm="forceActivate"
+        />
+        <ConfirmDialog
+            ref="deactivateModal"
+            message="This will prevent the user from logging-in until they reverify their email address. Note: this will NOT send them the verification email."
+            confirm-title="Yes, Proceed"
+            :on-confirm="forceDeactivate"
+        />
 
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
@@ -67,11 +102,11 @@ defineProps<Props>()
                 </Card>
 
                 <Card class="max-w-2xl mt-4 p-4">
-                    <h2 class="mb-4 font-bold">Statuses</h2>
+                    <h2 class="mb-4 font-bold">Email Verification</h2>
 
                     <div class="space-y-4">
                         <dl class="flex items-center justify-between gap-2">
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">Email</dt>
+                            <dt class="text-sm text-gray-500 dark:text-gray-400">Status</dt>
                             <dd class="text-sm text-gray-900 dark:text-white">
                                 <Pill v-if="account.activated" variant="success" class="flex gap-1 items-center font-bold">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="size-4">
@@ -87,8 +122,34 @@ defineProps<Props>()
                                 </Pill>
                             </dd>
                         </dl>
+
+                        <hr />
+
+                        <div class="flex flex-col gap-2">
+                            <template v-if="!account.activated">
+                                <FilledButton variant="primary" @click="sendVerificationEmail">
+                                    <SvgIcon icon="email" />
+                                    Send Activation Email
+                                </FilledButton>
+
+                                <OutlinedButton variant="danger" @click="activateModal.open()">
+                                    Force Activate
+                                </OutlinedButton>
+                            </template>
+
+                            <OutlinedButton v-else variant="danger" @click="deactivateModal.open()">
+                                Force Re-Verification
+                            </OutlinedButton>
+                        </div>
+                    </div>
+                </Card>
+
+                <Card class="max-w-2xl mt-4 p-4">
+                    <h2 class="mb-4 font-bold">2FA</h2>
+
+                    <div class="space-y-4">
                         <dl class="flex items-center justify-between gap-2">
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">2FA</dt>
+                            <dt class="text-sm text-gray-500 dark:text-gray-400">Status</dt>
                             <dd class="text-sm text-gray-900 dark:text-white">
                                 <Pill v-if="account.is_totp_enabled" variant="success" class="flex gap-1 items-center font-bold">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="size-4">
@@ -104,6 +165,16 @@ defineProps<Props>()
                                 </Pill>
                             </dd>
                         </dl>
+
+                        <template v-if="account.is_totp_enabled">
+                            <hr />
+
+                            <div class="flex flex-col gap-2">
+                                <OutlinedButton variant="danger">
+                                    Disable
+                                </OutlinedButton>
+                            </div>
+                        </template>
                     </div>
                 </Card>
             </section>
@@ -127,12 +198,6 @@ defineProps<Props>()
                 </Card>
 
                 <Card class="mt-4">
-                    <div class="p-4 font-bold">
-                        Pending Email Changes
-                    </div>
-                </Card>
-
-                <Card class="mt-4">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Badges</h2>
                         <Link :href="'/manage/accounts/' + account.account_id + '/badges'">
@@ -149,7 +214,18 @@ defineProps<Props>()
                             <FilledButton variant="secondary">Create</FilledButton>
                         </Link>
                     </div>
+                </Card>
 
+                <Card class="mt-4">
+                    <div class="p-4 font-bold">
+                        Pending Email Changes
+                    </div>
+                </Card>
+
+                <Card class="mt-4">
+                    <div class="p-4 font-bold">
+                        Pending Activations
+                    </div>
                 </Card>
             </section>
         </div>
