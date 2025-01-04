@@ -1,6 +1,9 @@
-<script setup>
+<script setup lang="ts">
+import { ref } from 'vue'
 import { Link } from '@inertiajs/vue3'
 import SideBarMenuItem from './SideBarMenuItem.vue'
+
+const selected = ref<string|null>(null)
 </script>
 
 <template>
@@ -29,6 +32,7 @@ import SideBarMenuItem from './SideBarMenuItem.vue'
 
                 <SideBarMenuItem
                     title="Users"
+                    v-model:selected="selected"
                     :children="[
                         {title: 'Accounts', route: '/manage/accounts'},
                         {title: 'Groups', route: '/manage/groups'},
@@ -46,6 +50,7 @@ import SideBarMenuItem from './SideBarMenuItem.vue'
 
                 <SideBarMenuItem
                     title="Moderation"
+                    v-model:selected="selected"
                     :children="[
                         {title: 'Player Bans', route: '/manage/player-bans'},
                         {title: 'IP Bans', route: '/manage/ip-bans'},
@@ -64,6 +69,7 @@ import SideBarMenuItem from './SideBarMenuItem.vue'
 
                 <SideBarMenuItem
                     title="Minecraft"
+                    v-model:selected="selected"
                     :children="[
                         {title: 'Players', route: '/manage/players'},
                         {title: 'Remote Config', route: '/manage/minecraft/config'},
@@ -81,6 +87,7 @@ import SideBarMenuItem from './SideBarMenuItem.vue'
 
                 <SideBarMenuItem
                     title="Servers"
+                    v-model:selected="selected"
                     :children="[
                         {title: 'Game Servers', route: '/manage/servers'},
                         {title: 'Tokens', route: '/manage/server-tokens'},
@@ -97,6 +104,7 @@ import SideBarMenuItem from './SideBarMenuItem.vue'
 
                 <SideBarMenuItem
                     title="Payments"
+                    v-model:selected="selected"
                     :children="[
                         {title: 'Donations', route: '/manage/donations'},
                     ]"
