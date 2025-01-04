@@ -4,6 +4,7 @@ import { Group } from '../../../Data/Group'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
 import DataTable from '../../../Components/DataTable.vue'
+import SvgIcon from '../../../Components/SvgIcon.vue'
 
 interface Props {
     groups: Group[],
@@ -14,7 +15,6 @@ const fields = [
     { key: 'group_id', label: 'ID' },
     { key: 'name', label: 'Name' },
     { key: 'accounts_count', label: 'Accounts' },
-    { key: 'alias', label: 'Alias' },
     { key: 'minecraft_name', label: 'Minecraft Name' },
     { key: 'group_type', label: 'Group Type' },
     { key: 'display_priority', label: 'Display Priority' },

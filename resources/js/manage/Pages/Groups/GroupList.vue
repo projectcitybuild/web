@@ -10,7 +10,7 @@ import SvgIcon from '../../Components/SvgIcon.vue'
 
 interface Props {
     success?: string,
-    groups: Paginated<Group>,
+    groups: Group[],
 }
 
 defineProps<Props>()
@@ -23,7 +23,7 @@ defineProps<Props>()
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
         <div class="mx-auto max-w-screen-xl">
-            <Card class="overflow-hidden">
+            <Card>
                 <div
                     class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                     <div class="w-full md:w-1/2">
@@ -42,7 +42,7 @@ defineProps<Props>()
                     </div>
                 </div>
 
-                <GroupListTable :groups="groups" class="overflow-x-auto"/>
+                <GroupListTable :groups="groups" />
             </Card>
         </div>
     </section>
