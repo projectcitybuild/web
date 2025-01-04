@@ -3,53 +3,43 @@ import { Link } from '@inertiajs/vue3'
 import { Warp } from '../../../Data/Warp'
 import { format } from '../../../Utilities/DateFormatter'
 import FilledButton from '../../../Components/FilledButton.vue'
+import { computed } from 'vue'
+import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
     warps: Warp[],
 }
+const props = defineProps<Props>()
 
-defineProps<Props>()
+const fields = [
+    { key: 'id', label: 'ID' },
+    { key: 'name', label: 'Name' },
+    { key: 'world', label: 'World' },
+    { key: 'x', label: 'x' },
+    { key: 'y', label: 'y' },
+    { key: 'z', label: 'z' },
+    { key: 'pitch', label: 'pitch' },
+    { key: 'yaw', label: 'yaw' },
+    { key: 'created_at', label: 'Created At' },
+    { key: 'updated_at', label: 'Updated At' },
+]
+const rows = computed(
+    () => props.warps.map((warp) => ({
+        ...warp,
+        created_at: format(warp.created_at),
+        updated_at: format(warp.updated_at),
+    }))
+)
 </script>
 
 <template>
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-            <th scope="col" class="px-4 py-3">#</th>
-            <th scope="col" class="px-4 py-3">Id</th>
-            <th scope="col" class="px-4 py-3">Name</th>
-            <th scope="col" class="px-4 py-3">World</th>
-            <th scope="col" class="px-4 py-3">x</th>
-            <th scope="col" class="px-4 py-3">y</th>
-            <th scope="col" class="px-4 py-3">z</th>
-            <th scope="col" class="px-4 py-3">Pitch</th>
-            <th scope="col" class="px-4 py-3">Yaw</th>
-            <th scope="col" class="px-4 py-3">Created At</th>
-            <th scope="col" class="px-4 py-3">
-                <span class="sr-only">Actions</span>
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="border-b dark:border-gray-700" v-for="(warp, index) in warps">
-            <th scope="row" class="px-4 py-3 text-gray-400 whitespace-nowrap dark:text-white">#{{ index + 1 }}</th>
-            <td class="px-4 py-3">{{ warp.id }}</td>
-            <td class="px-4 py-3 whitespace-nowrap text-gray-900 dark:text-white">{{ warp.name }}</td>
-            <td class="px-4 py-3">{{ warp.world }}</td>
-            <td class="px-4 py-3">{{ warp.x }}</td>
-            <td class="px-4 py-3">{{ warp.y }}</td>
-            <td class="px-4 py-3">{{ warp.z }}</td>
-            <td class="px-4 py-3">{{ warp.pitch }}</td>
-            <td class="px-4 py-3">{{ warp.yaw }}</td>
-            <td class="px-4 py-3">{{ format(warp.created_at) }}</td>
-            <td class="px-4 py-1 text-right">
-                <Link :href="'/manage/minecraft/warps/' + warp.id + '/edit'">
-                    <FilledButton variant="secondary">
-                        Edit
-                    </FilledButton>
-                </Link>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-gray-200">
+        <template #actions="{ item }">
+            <Link :href="'/manage/minecraft/warps/' + item.id + '/edit'">
+                <FilledButton variant="secondary">
+                    Edit
+                </FilledButton>
+            </Link>
+        </template>
+    </DataTable>
 </template>

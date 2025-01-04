@@ -4,7 +4,6 @@ import { Group } from '../../../Data/Group'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
 import DataTable from '../../../Components/DataTable.vue'
-import SvgIcon from '../../../Components/SvgIcon.vue'
 
 interface Props {
     groups: Group[],
@@ -33,12 +32,15 @@ const fields = [
                 {{ item.accounts_count }}
             </Link>
         </template>
+
         <template #is_default="{ item }">
             <BooleanCheck :value="item.is_default" />
         </template>
+
         <template #is_admin="{ item }">
             <BooleanCheck :value="item.is_default" />
         </template>
+
         <template #actions="{ item }">
             <Link :href="'/manage/groups/' + item.group_id + '/edit'">
                 <FilledButton variant="secondary">

@@ -33,6 +33,7 @@ const rows = computed(
         <template #activated="{ item }">
             <BooleanCheck :value="item.activated" />
         </template>
+
         <template #username="{ item }">
             <Link
                 :href="'/manage/accounts/' + item.account_id"

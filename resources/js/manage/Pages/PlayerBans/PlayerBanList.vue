@@ -13,8 +13,7 @@ interface Props {
     bans: Paginated<PlayerBan>,
     success?: string,
 }
-
-const props = defineProps<Props>()
+defineProps<Props>()
 </script>
 
 <template>

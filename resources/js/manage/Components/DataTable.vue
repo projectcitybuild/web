@@ -34,14 +34,14 @@ const slots = useSlots()
                         v-for="(field, index) in fields"
                         :key="index"
                         scope="col"
-                        class="px-4 py-3"
+                        class="px-4 py-3 whitespace-nowrap"
                     >
                         {{ field.label }}
                     </th>
                     <th
                         v-if="slots.actions"
                         scope="col"
-                        class="px-4 py-3"
+                        class="px-4 py-3 text-right"
                     >
                         Actions
                     </th>
@@ -55,13 +55,13 @@ const slots = useSlots()
                 >
                     <td
                         v-if="showIndex"
-                        class="px-4 py-3 text-gray-300 whitespace-nowrap"
+                        class="px-4 py-3 text-gray-300"
                     >
                         #{{ index + 1 }}
                     </td>
 
                     <td
-                        class="px-4 py-3 text-gray-500 whitespace-nowrap dark:text-white"
+                        class="px-4 py-3 text-gray-500 dark:text-white"
                         v-for="field in fields"
                     >
                         <template v-if="slots[field.key]">
@@ -74,7 +74,7 @@ const slots = useSlots()
 
                     <td
                         v-if="slots.actions"
-                        class="px-4 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                        class="px-4 py-2 text-gray-900 dark:text-white flex justify-end"
                     >
                         <slot name="actions" :item="row" />
                     </td>

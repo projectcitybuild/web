@@ -13,7 +13,6 @@ interface Props {
     success?: string,
     warnings: Paginated<PlayerWarning>,
 }
-
 defineProps<Props>()
 </script>
 

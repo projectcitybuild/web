@@ -13,12 +13,11 @@ interface Props {
     bans: Paginated<IPBan>,
     success?: string,
 }
-
-const props = defineProps<Props>()
+defineProps<Props>()
 </script>
 
 <template>
-    <Head title="Manage Bans"/>
+    <Head title="Manage IP Bans"/>
 
     <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 

@@ -4,47 +4,43 @@ import { Badge } from '../../../Data/Badge'
 import { format } from '../../../Utilities/DateFormatter'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
+import { computed } from 'vue'
+import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
     badges: Badge[],
 }
+const props = defineProps<Props>()
 
-defineProps<Props>()
+const fields = [
+    { key: 'id', label: 'ID' },
+    { key: 'display_name', label: 'Display Name' },
+    { key: 'unicode_icon', label: 'Unicode Icon' },
+    { key: 'list_hidden', label: 'Hidden in List' },
+    { key: 'created_at', label: 'Created At' },
+    { key: 'updated_at', label: 'Updated At' },
+]
+const rows = computed(
+    () => props.badges.map((badge) => ({
+        ...badge,
+        created_at: format(badge.created_at),
+        updated_at: format(badge.updated_at),
+    }))
+)
 </script>
 
 <template>
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-            <th scope="col" class="px-4 py-3">#</th>
-            <th scope="col" class="px-4 py-3">Id</th>
-            <th scope="col" class="px-4 py-3">Display Name</th>
-            <th scope="col" class="px-4 py-3">Unicode Icon</th>
-            <th scope="col" class="px-4 py-3">Hidden in List</th>
-            <th scope="col" class="px-4 py-3">Created At</th>
-            <th scope="col" class="px-4 py-3">
-                <span class="sr-only">Actions</span>
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="border-b dark:border-gray-700" v-for="(badge, index) in badges">
-            <th scope="row" class="px-4 py-3 text-gray-400 whitespace-nowrap dark:text-white">#{{ index + 1 }}</th>
-            <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ badge.id }}</td>
-            <td class="px-4 py-3">{{ badge.display_name }}</td>
-            <td class="px-4 py-3">{{ badge.unicode_icon }}</td>
-            <td class="px-4 py-3">
-                <BooleanCheck :value="badge.list_hidden" />
-            </td>
-            <td class="px-4 py-3">{{ format(badge.created_at) }}</td>
-            <td class="px-4 py-1 text-right">
-                <Link :href="'/manage/badges/' + badge.id + '/edit'">
-                    <FilledButton variant="secondary">
-                        Edit
-                    </FilledButton>
-                </Link>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-gray-200">
+        <template #list_hidden="{ item }">
+            <BooleanCheck :value="item.list_hidden" />
+        </template>
+
+        <template #actions="{ item }">
+            <Link :href="'/manage/badges/' + item.id + '/edit'">
+                <FilledButton variant="secondary">
+                    Edit
+                </FilledButton>
+            </Link>
+        </template>
+    </DataTable>
 </template>

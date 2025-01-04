@@ -3,43 +3,38 @@ import { Link } from '@inertiajs/vue3'
 import type { ServerToken } from '../../../Data/ServerToken'
 import { format } from '../../../Utilities/DateFormatter'
 import FilledButton from '../../../Components/FilledButton.vue'
+import { computed } from 'vue'
+import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
     tokens: ServerToken[],
 }
-
 const props = defineProps<Props>()
+
+const fields = [
+    { key: 'id', label: 'ID' },
+    { key: 'token', label: 'Token' },
+    { key: 'description', label: 'Description' },
+    { key: 'created_at', label: 'Created At' },
+    { key: 'updated_at', label: 'Updated At' },
+]
+const rows = computed(
+    () => props.tokens.map((token) => ({
+        ...token,
+        created_at: format(token.created_at),
+        updated_at: format(token.updated_at),
+    }))
+)
 </script>
 
 <template>
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-            <th scope="col" class="px-4 py-3">Id</th>
-            <th scope="col" class="px-4 py-3">Token</th>
-            <th scope="col" class="px-4 py-3">Description</th>
-            <th scope="col" class="px-4 py-3">Created At</th>
-            <th scope="col" class="px-4 py-3">Updated At</th>
-            <th scope="col" class="px-4 py-3">
-                <span class="sr-only">Actions</span>
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="border-b dark:border-gray-700 text-sm" v-for="token in tokens">
-            <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ token.id }}</td>
-            <td class="px-4 py-3 text-black">{{ token.token }}</td>
-            <td class="px-4 py-3">{{ token.description }}</td>
-            <td class="px-4 py-3">{{ format(token.created_at) }}</td>
-            <td class="px-4 py-3">{{ format(token.updated_at) }}</td>
-            <td class="px-4 py-1 text-right">
-                <Link :href="'/manage/server-tokens/' + token.id + '/edit'">
-                    <FilledButton variant="secondary">
-                        Edit
-                    </FilledButton>
-                </Link>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <DataTable :fields="fields" :rows="rows" class="border-t border-gray-200">
+        <template #actions="{ item }">
+            <Link :href="'/manage/server-tokens/' + item.id + '/edit'">
+                <FilledButton variant="secondary">
+                    Edit
+                </FilledButton>
+            </Link>
+        </template>
+    </DataTable>
 </template>

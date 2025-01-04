@@ -42,7 +42,7 @@ defineProps<Props>()
                     </div>
                 </div>
 
-                <GroupListTable :groups="groups" />
+                <GroupListTable :groups="groups" class="border-t border-gray-200" />
             </Card>
         </div>
     </section>

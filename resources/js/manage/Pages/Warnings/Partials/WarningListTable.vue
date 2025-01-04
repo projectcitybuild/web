@@ -4,47 +4,49 @@ import { PlayerWarning } from '../../../Data/PlayerWarning'
 import { format } from '../../../Utilities/DateFormatter'
 import Pill from '../../../Components/Pill.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
+import { computed } from 'vue'
+import DataTable from '../../../Components/DataTable.vue'
+import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
 
 interface Props {
     warnings: PlayerWarning[],
 }
+const props = defineProps<Props>()
 
-defineProps<Props>()
+const fields = [
+    { key: 'id', label: 'ID' },
+    { key: 'player', label: 'Player' },
+    { key: 'reason', label: 'Reason' },
+    { key: 'created_at', label: 'Created At' },
+]
+const rows = computed(
+    () => props.warnings.map((warning) => ({
+        ...warning,
+        created_at: format(warning.created_at),
+    }))
+)
 </script>
 
 <template>
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-            <th scope="col" class="px-4 py-3">#</th>
-            <th scope="col" class="px-4 py-3">Id</th>
-            <th scope="col" class="px-4 py-3">Weight</th>
-            <th scope="col" class="px-4 py-3">Player</th>
-            <th scope="col" class="px-4 py-3">Created At</th>
-            <th scope="col" class="px-4 py-3">Reason</th>
-            <th scope="col" class="px-4 py-3">
-                <span class="sr-only">Actions</span>
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="border-b dark:border-gray-700" v-for="(warning, index) in warnings">
-            <th scope="row" class="px-4 py-3 text-gray-400 whitespace-nowrap dark:text-white">#{{ index + 1 }}</th>
-            <td class="px-4 py-3">{{ warning.id }}</td>
-            <td class="px-4 py-3">
-                <Pill>{{ warning.weight }}</Pill>
-            </td>
-            <td class="px-4 py-3 whitespace-nowrap text-gray-900 dark:text-white">{{ warning.warned_player.alias }}</td>
-            <td class="px-4 py-3">{{ format(warning.created_at) }}</td>
-            <td class="px-4 py-3">{{ warning.reason }}</td>
-            <td class="px-4 py-1 text-right">
-                <Link :href="'/manage/warnings/' + warning.id + '/edit'">
-                    <FilledButton variant="secondary">
-                        Edit
-                    </FilledButton>
+    <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-gray-200">
+        <template #player="{ item }">
+            <div class="px-4 py-3 flex flex-row items-center gap-2">
+                <MinecraftAvatar :uuid="item.warned_player.uuid" :size="16"/>
+                <Link
+                    :href="'/manage/players/' + item.warned_player.player_minecraft_id"
+                    class="text-blue-500"
+                >
+                    {{ item.warned_player.alias ?? '-' }}
                 </Link>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+            </div>
+        </template>
+
+        <template #actions="{ item }">
+            <Link :href="'/manage/warnings/' + item.id + '/edit'">
+                <FilledButton variant="secondary">
+                    Edit
+                </FilledButton>
+            </Link>
+        </template>
+    </DataTable>
 </template>
