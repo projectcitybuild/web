@@ -9,6 +9,7 @@ import type { Account } from '../../Data/Account'
 import { watch, ref } from 'vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
+import OutlinedButton from '../../Components/OutlinedButton.vue'
 
 interface Props {
     success?: string,
@@ -47,23 +48,16 @@ watch(
             <Card>
                 <div class="p-4 flex justify-end items-center">
                     <div class="flex gap-2">
-                        <button
+                        <OutlinedButton
+                            variant="secondary"
                             @click="filterExpanded = !filterExpanded"
-                            class="rounded-lg border border-gray-400 px-4 py-2 flex gap-2 items-center text-gray-500"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 9.75V10.5" />
-                            </svg>
+                            <SvgIcon icon="filter" />
 
                             Filter
 
-                            <svg v-if="filterExpanded" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
-                            </svg>
-                            <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                            </svg>
-                        </button>
+                            <SvgIcon :icon="filterExpanded ? 'chevron-up' : 'chevron-down'" />
+                        </OutlinedButton>
 
                         <Link
                             href="/manage/accounts/create"

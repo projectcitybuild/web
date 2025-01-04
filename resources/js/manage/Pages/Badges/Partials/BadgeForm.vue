@@ -6,6 +6,8 @@ import ErrorAlert from '../../../Components/ErrorAlert.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
 import Spinner from '../../../Components/Spinner.vue'
 import ConfirmDialog from '../../../Components/ConfirmDialog.vue'
+import OutlinedButton from '../../../Components/OutlinedButton.vue'
+import SvgIcon from '../../../Components/SvgIcon.vue'
 
 interface Props {
     badge?: Badge,
@@ -104,31 +106,24 @@ function destroy() {
             </div>
         </div>
 
-        <div class="flex flex-row gap-2">
+        <div class="flex flex-row gap-2 mt-8">
             <FilledButton
                 variant="primary"
                 :disabled="form.processing"
                 type="submit"
-                class="mt-8"
             >
                 <Spinner v-if="form.processing" />
                 <template v-else>{{ isEdit ? 'Update' : 'Create' }}</template>
             </FilledButton>
 
-            <button
+            <OutlinedButton
+                variant="danger"
                 v-if="isEdit"
-                type="button"
-                class="
-                    px-5 py-2.5 mt-4 sm:mt-6
-                    text-sm text-center text-red-500 border border-red-500 rounded-lg
-                    focus:ring-4 focus:ring-red-200
-                    hover:bg-red-50
-                    dark:focus:ring-red-900
-                "
-                @click="deleteModal.open"
+                @click="deleteModal.open()"
             >
+                <SvgIcon icon="bin" />
                 Delete
-            </button>
+            </OutlinedButton>
         </div>
     </form>
 </template>

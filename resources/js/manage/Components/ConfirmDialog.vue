@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, useId } from 'vue'
 import FilledButton from './FilledButton.vue'
+import OutlinedButton from './OutlinedButton.vue'
 
 interface Props {
     title?: string,
@@ -52,23 +53,23 @@ onMounted(() => {
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
             </svg>
 
-            <h1 class="mt-4 text-xl font-bold">
+            <h1 class="mt-6 text-xl font-bold">
                 {{ title ?? 'Are You Sure?' }}
             </h1>
 
-            <div class="mt-4 text-md text-gray-500 max-w-96">
+            <div class="mt-4 text-sm text-gray-500 max-w-96">
                 {{ message }}
             </div>
         </div>
 
         <div class="px-8 py-6 flex flex-col md:flex-row justify-stretch md:justify-stretch gap-2 bg-gray-50">
-            <button
-                type="button"
-                class="grow py-2.5 px-5 text-sm text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+            <OutlinedButton
+                variant="secondary"
+                class="grow"
                 @click="close"
             >
                 Cancel
-            </button>
+            </OutlinedButton>
 
             <FilledButton
                 variant="danger"

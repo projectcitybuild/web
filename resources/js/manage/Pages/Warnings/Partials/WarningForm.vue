@@ -8,6 +8,8 @@ import ErrorAlert from '../../../Components/ErrorAlert.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
 import Spinner from '../../../Components/Spinner.vue'
 import ConfirmDialog from '../../../Components/ConfirmDialog.vue'
+import SvgIcon from '../../../Components/SvgIcon.vue'
+import OutlinedButton from '../../../Components/OutlinedButton.vue'
 
 interface Props {
     warning?: PlayerWarning,
@@ -130,50 +132,15 @@ function destroy() {
                 <template v-else>{{ isEdit ? 'Update' : 'Create' }}</template>
             </FilledButton>
 
-            <button
+            <OutlinedButton
+                variant="danger"
                 v-if="isEdit"
                 type="button"
-                class="
-                    px-5 py-2.5 mt-4 sm:mt-6
-                    text-sm text-center text-red-500 border border-red-500 rounded-lg
-                    focus:ring-4 focus:ring-red-200
-                    hover:bg-red-50
-                    dark:focus:ring-red-900
-                "
-                @click="deleteModal.open"
+                @click="deleteModal.open()"
             >
+                <SvgIcon icon="bin" />
                 Delete
-            </button>
-        </div>
-
-        <div id="deleteModal" tabindex="-1"
-             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-            <div class="relative p-4 w-full max-w-md max-h-full">
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <div class="p-4 md:p-8 text-center">
-                        <h3 class="mb-5 text-2xl font-bold">
-                            Are you sure?
-                        </h3>
-                        <div class="text-sm mb-8 text-gray-500">
-                            This cannot be undone
-                        </div>
-                        <button
-                            type="button"
-                            class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
-                            @click="destroy"
-                        >
-                            Yes, Delete It
-                        </button>
-                        <button
-                            type="button"
-                            class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                            @click="deleteModal.hide"
-                        >
-                            Cancel
-                        </button>
-                    </div>
-                </div>
-            </div>
+            </OutlinedButton>
         </div>
     </form>
 </template>

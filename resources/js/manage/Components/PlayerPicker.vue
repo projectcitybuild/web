@@ -4,6 +4,7 @@ import Spinner from './Spinner.vue'
 import MinecraftAvatar from './MinecraftAvatar.vue'
 import { lookupPlayer } from '../Services/PlayerLookupService'
 import FilledButton from './FilledButton.vue'
+import OutlinedButton from './OutlinedButton.vue'
 
 interface Props {
     initialSearch?: string,
@@ -58,13 +59,12 @@ onMounted(() => {
             <div class="text-xs text-gray-400 dark:text-white">{{ uuid }}</div>
         </div>
 
-        <button
-            type="submit"
-            class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center border-2 border-gray-300 text-gray-400 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:border-gray-400 hover:text-gray-600"
+        <OutlinedButton
+            variant="secondary"
             @click="clear"
         >
             Clear
-        </button>
+        </OutlinedButton>
     </div>
 
     <div v-else>
