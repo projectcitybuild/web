@@ -2,6 +2,7 @@
 import { Link } from '@inertiajs/vue3'
 import { Donation } from '../../../Data/Donation'
 import { format } from '../../../Utilities/DateFormatter'
+import FilledButton from '../../../Components/FilledButton.vue'
 
 interface Props {
     donations: Donation[],
@@ -38,16 +39,11 @@ defineProps<Props>()
             </td>
             <td class="px-4 py-3">{{ donation.amount }}</td>
             <td class="px-4 py-3">{{ format(donation.created_at) }}</td>
-            <td class="px-4 py-3 text-right">
-                <Link
-                    :href="'/manage/donations/' + donation.donation_id + '/edit'"
-                    class="
-                        py-2 px-4 rounded-md
-                        bg-gray-500 text-white
-                         hover:bg-gray-600
-                    "
-                >
-                    Edit
+            <td class="px-4 py-1 flex justify-end">
+                <Link :href="'/manage/donations/' + donation.donation_id + '/edit'">
+                    <FilledButton variant="secondary">
+                        Edit
+                    </FilledButton>
                 </Link>
             </td>
         </tr>

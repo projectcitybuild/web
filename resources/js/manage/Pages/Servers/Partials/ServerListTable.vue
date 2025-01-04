@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
 import type { Server } from '../../../Data/Server'
+import FilledButton from '../../../Components/FilledButton.vue'
 
 interface Props {
     servers: Server[],
@@ -30,16 +31,11 @@ const props = defineProps<Props>()
             <td class="px-4 py-3">{{ server.ip }}</td>
             <td class="px-4 py-3">{{ server.port }}</td>
             <td class="px-4 py-3">{{ server.web_port ?? '-' }}</td>
-            <td class="px-4 py-3 text-right">
-                <Link
-                    :href="'/manage/servers/' + server.server_id + '/edit'"
-                    class="
-                        py-2 px-4 rounded-md
-                        bg-gray-500 text-white
-                         hover:bg-gray-600
-                    "
-                >
-                    Edit
+            <td class="px-4 py-1 text-right">
+                <Link :href="'/manage/servers/' + server.server_id + '/edit'">
+                    <FilledButton variant="secondary">
+                        Edit
+                    </FilledButton>
                 </Link>
             </td>
         </tr>

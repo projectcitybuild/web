@@ -5,6 +5,7 @@ import BackButton from '../../Components/BackButton.vue'
 import ErrorAlert from '../../Components/ErrorAlert.vue'
 import type { Badge } from '../../Data/Badge'
 import BooleanCheck from '../../Components/BooleanCheck.vue'
+import FilledButton from '../../Components/FilledButton.vue'
 
 interface Props {
     success?: string,
@@ -30,19 +31,13 @@ function submit() {
         <div class="flex flex-row items-center justify-between p-4">
             <BackButton :href="'/manage/accounts/' + account_id"/>
 
-            <button
-                type="button"
+            <FilledButton
+                variant="primary"
                 @click="submit"
-                class="
-                    flex flex-row items-center justify-center gap-2 px-4 py-2 rounded-lg
-                    text-sm text-white bg-blue-700
-                    hover:bg-primary-800
-                    focus:ring-4 focus:ring-blue-300
-                    dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800
-                "
+                :disabled="!form.isDirty"
             >
                 Update
-            </button>
+            </FilledButton>
         </div>
     </Card>
 

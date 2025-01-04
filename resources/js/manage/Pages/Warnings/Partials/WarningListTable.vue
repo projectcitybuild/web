@@ -3,6 +3,7 @@ import { Link } from '@inertiajs/vue3'
 import { PlayerWarning } from '../../../Data/PlayerWarning'
 import { format } from '../../../Utilities/DateFormatter'
 import Pill from '../../../Components/Pill.vue'
+import FilledButton from '../../../Components/FilledButton.vue'
 
 interface Props {
     warnings: PlayerWarning[],
@@ -36,16 +37,11 @@ defineProps<Props>()
             <td class="px-4 py-3 whitespace-nowrap text-gray-900 dark:text-white">{{ warning.warned_player.alias }}</td>
             <td class="px-4 py-3">{{ format(warning.created_at) }}</td>
             <td class="px-4 py-3">{{ warning.reason }}</td>
-            <td class="px-4 py-3 text-right">
-                <Link
-                    :href="'/manage/warnings/' + warning.id + '/edit'"
-                    class="
-                        py-2 px-4 rounded-md
-                        bg-gray-500 text-white
-                         hover:bg-gray-600
-                    "
-                >
-                    Edit
+            <td class="px-4 py-1 text-right">
+                <Link :href="'/manage/warnings/' + warning.id + '/edit'">
+                    <FilledButton variant="secondary">
+                        Edit
+                    </FilledButton>
                 </Link>
             </td>
         </tr>

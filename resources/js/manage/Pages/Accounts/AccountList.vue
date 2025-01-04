@@ -7,6 +7,8 @@ import SuccessAlert from '../../Components/SuccessAlert.vue'
 import Card from '../../Components/Card.vue'
 import type { Account } from '../../Data/Account'
 import { watch, ref } from 'vue'
+import FilledButton from '../../Components/FilledButton.vue'
+import SvgIcon from '../../Components/SvgIcon.vue'
 
 interface Props {
     success?: string,
@@ -66,15 +68,11 @@ watch(
                         <Link
                             href="/manage/accounts/create"
                             as="button"
-                            class="
-                                flex items-center justify-center gap-2 px-4 py-2 rounded-lg
-                                text-sm text-gray-50 bg-gray-900
-                            "
                         >
-                            <svg class="size-6" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/>
-                            </svg>
-                            Create Account
+                            <FilledButton variant="primary">
+                                <SvgIcon icon="plus" />
+                                Create Account
+                            </FilledButton>
                         </Link>
                     </div>
                 </div>

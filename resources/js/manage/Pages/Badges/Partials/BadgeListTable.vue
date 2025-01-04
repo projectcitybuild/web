@@ -3,6 +3,7 @@ import { Link } from '@inertiajs/vue3'
 import { Badge } from '../../../Data/Badge'
 import { format } from '../../../Utilities/DateFormatter'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
+import FilledButton from '../../../Components/FilledButton.vue'
 
 interface Props {
     badges: Badge[],
@@ -36,16 +37,11 @@ defineProps<Props>()
                 <BooleanCheck :value="badge.list_hidden" />
             </td>
             <td class="px-4 py-3">{{ format(badge.created_at) }}</td>
-            <td class="px-4 py-3 text-right">
-                <Link
-                    :href="'/manage/badges/' + badge.id + '/edit'"
-                    class="
-                        py-2 px-4 rounded-md
-                        bg-gray-500 text-white
-                         hover:bg-gray-600
-                    "
-                >
-                    Edit
+            <td class="px-4 py-1 text-right">
+                <Link :href="'/manage/badges/' + badge.id + '/edit'">
+                    <FilledButton variant="secondary">
+                        Edit
+                    </FilledButton>
                 </Link>
             </td>
         </tr>

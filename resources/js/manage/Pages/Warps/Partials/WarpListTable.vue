@@ -2,6 +2,7 @@
 import { Link } from '@inertiajs/vue3'
 import { Warp } from '../../../Data/Warp'
 import { format } from '../../../Utilities/DateFormatter'
+import FilledButton from '../../../Components/FilledButton.vue'
 
 interface Props {
     warps: Warp[],
@@ -41,16 +42,11 @@ defineProps<Props>()
             <td class="px-4 py-3">{{ warp.pitch }}</td>
             <td class="px-4 py-3">{{ warp.yaw }}</td>
             <td class="px-4 py-3">{{ format(warp.created_at) }}</td>
-            <td class="px-4 py-3 text-right">
-                <Link
-                    :href="'/manage/minecraft/warps/' + warp.id + '/edit'"
-                    class="
-                        py-2 px-4 rounded-md
-                        bg-gray-500 text-white
-                         hover:bg-gray-600
-                    "
-                >
-                    Edit
+            <td class="px-4 py-1 text-right">
+                <Link :href="'/manage/minecraft/warps/' + warp.id + '/edit'">
+                    <FilledButton variant="secondary">
+                        Edit
+                    </FilledButton>
                 </Link>
             </td>
         </tr>

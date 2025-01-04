@@ -10,6 +10,7 @@ import Pill from '../../Components/Pill.vue'
 import AccountBadgesTable from './Partials/AccountBadgesTable.vue'
 import AccountGroupsTable from './Partials/AccountGroupsTable.vue'
 import ToolBar from '../../Components/ToolBar.vue'
+import FilledButton from '../../Components/FilledButton.vue'
 
 interface Props {
     account: Account,
@@ -29,23 +30,13 @@ defineProps<Props>()
                 <BackButton href="/manage/accounts"/>
             </template>
             <template v-slot:right>
-                <Link
-                    :href="'/manage/accounts/' + account.account_id + '/edit'"
-                    as="button"
-                    class="
-                                flex flex-row items-center justify-center gap-2 px-4 py-2 rounded-lg
-                                text-sm text-white bg-blue-700
-                                hover:bg-primary-800
-                                focus:ring-4 focus:ring-blue-300
-                                dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800
-                            "
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                         stroke="currentColor" class="size-4">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/>
-                    </svg>
-                    Edit Account
+                <Link :href="'/manage/accounts/' + account.account_id + '/edit'">
+                    <FilledButton variant="primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/>
+                        </svg>
+                        Edit Account
+                    </FilledButton>
                 </Link>
             </template>
         </ToolBar>
@@ -128,11 +119,8 @@ defineProps<Props>()
                 <Card class="mt-4">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Groups</h2>
-                        <Link
-                            :href="'/manage/accounts/' + account.account_id + '/groups'"
-                            class="rounded-lg px-4 py-1 border border-gray-200 text-sm text-gray-400"
-                        >
-                            Edit
+                        <Link :href="'/manage/accounts/' + account.account_id + '/groups'">
+                            <FilledButton variant="secondary">Edit</FilledButton>
                         </Link>
                     </div>
                     <AccountGroupsTable :groups="account.groups" />
@@ -147,11 +135,8 @@ defineProps<Props>()
                 <Card class="mt-4">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Badges</h2>
-                        <Link
-                            :href="'/manage/accounts/' + account.account_id + '/badges'"
-                            class="rounded-lg px-4 py-1 border border-gray-200 text-sm text-gray-400"
-                        >
-                            Edit
+                        <Link :href="'/manage/accounts/' + account.account_id + '/badges'">
+                            <FilledButton variant="secondary">Edit</FilledButton>
                         </Link>
                     </div>
                     <AccountBadgesTable :badges="account.badges" />
@@ -160,11 +145,8 @@ defineProps<Props>()
                 <Card class="mt-4">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Donations</h2>
-                        <Link
-                            :href="'/manage/accounts/' + account.account_id + '/badges'"
-                            class="rounded-lg px-4 py-1 border border-gray-200 text-sm text-gray-400"
-                        >
-                            Create
+                        <Link :href="'/manage/accounts/' + account.account_id + '/badges'">
+                            <FilledButton variant="secondary">Create</FilledButton>
                         </Link>
                     </div>
 

@@ -2,6 +2,7 @@
 import { Link } from '@inertiajs/vue3'
 import { Group } from '../../../Data/Group'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
+import FilledButton from '../../../Components/FilledButton.vue'
 
 interface Props {
     groups: Group[],
@@ -29,7 +30,7 @@ defineProps<Props>()
         <tbody>
         <tr class="border-b dark:border-gray-700" v-for="group in groups">
             <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ group.group_id }}</td>
-            <td class="px-4 py-3">{{ group.name }}</td>
+            <td class="px-4 py-3 font-bold">{{ group.name }}</td>
             <td class="px-4 py-3">
                 <Link
                     :href="'/manage/groups/' + group.group_id + '/accounts'"
@@ -47,16 +48,11 @@ defineProps<Props>()
             <td class="px-4 py-3">
                 <BooleanCheck :value="group.is_admin"/>
             </td>
-            <td class="px-4 py-3 text-right">
-                <Link
-                    :href="'/manage/groups/' + group.group_id + '/edit'"
-                    class="
-                        py-2 px-4 rounded-md
-                        bg-gray-500 text-white
-                         hover:bg-gray-600
-                    "
-                >
-                    Edit
+            <td class="px-4 py-1 text-right">
+                <Link :href="'/manage/groups/' + group.group_id + '/edit'">
+                    <FilledButton variant="secondary">
+                        Edit
+                    </FilledButton>
                 </Link>
             </td>
         </tr>

@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import Spinner from './Spinner.vue'
 import MinecraftAvatar from './MinecraftAvatar.vue'
 import { lookupPlayer } from '../Services/PlayerLookupService'
+import FilledButton from './FilledButton.vue'
 
 interface Props {
     initialSearch?: string,
@@ -69,7 +70,7 @@ onMounted(() => {
     <div v-else>
         <div v-if="loadError" class="text-red-500 text-sm font-bold mb-2">{{ loadError }}</div>
 
-        <div class="flex flex-row gap-2 justify-center items-center">
+        <div class="flex flex-row gap-2 justify-center items-stretch">
             <input
                 type="text"
                 name="name"
@@ -80,14 +81,10 @@ onMounted(() => {
                 v-model="searchText"
             >
 
-            <button
-                type="button"
-                class="px-5 py-2.5 text-sm text-center text-white bg-gray-500 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-gray-800"
-                @click="search"
-            >
+            <FilledButton variant="secondary" @click="search">
                 <Spinner v-if="loading"/>
                 <span v-else>Search</span>
-            </button>
+            </FilledButton>
         </div>
     </div>
 </template>

@@ -5,6 +5,8 @@ import { Modal } from 'flowbite'
 import type { Donation } from '../../../Data/Donation'
 import ErrorAlert from '../../../Components/ErrorAlert.vue'
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
+import FilledButton from '../../../Components/FilledButton.vue'
+import Spinner from '../../../Components/Spinner.vue'
 
 interface Props {
     donation?: Donation,
@@ -78,13 +80,14 @@ function destroy() {
         </div>
 
         <div class="flex flex-row gap-2">
-            <button
+            <FilledButton
+                variant="primary"
                 :disabled="form.processing"
-                type="submit"
-                class="px-5 py-2.5 mt-4 sm:mt-6 text-sm text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
+                class="mt-8"
             >
-                {{ isEdit ? 'Update' : 'Create' }}
-            </button>
+                <Spinner v-if="form.processing" />
+                <template v-else>{{ isEdit ? 'Update' : 'Create' }}</template>
+            </FilledButton>
 
             <button
                 v-if="isEdit"

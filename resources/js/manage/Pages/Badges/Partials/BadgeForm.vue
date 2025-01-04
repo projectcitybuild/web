@@ -4,6 +4,8 @@ import { computed, onMounted, ref } from 'vue'
 import { Modal } from 'flowbite'
 import type { Badge } from '../../../Data/Badge'
 import ErrorAlert from '../../../Components/ErrorAlert.vue'
+import FilledButton from '../../../Components/FilledButton.vue'
+import Spinner from '../../../Components/Spinner.vue'
 
 interface Props {
     badge?: Badge,
@@ -107,13 +109,15 @@ function destroy() {
         </div>
 
         <div class="flex flex-row gap-2">
-            <button
+            <FilledButton
+                variant="primary"
                 :disabled="form.processing"
                 type="submit"
-                class="px-5 py-2.5 mt-4 sm:mt-6 text-sm text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
+                class="mt-8"
             >
-                {{ isEdit ? 'Update' : 'Create' }}
-            </button>
+                <Spinner v-if="form.processing" />
+                <template v-else>{{ isEdit ? 'Update' : 'Create' }}</template>
+            </FilledButton>
 
             <button
                 v-if="isEdit"
@@ -142,20 +146,22 @@ function destroy() {
                         <div class="text-sm mb-8 text-gray-500">
                             This cannot be undone
                         </div>
-                        <button
-                            type="button"
-                            class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
-                            @click="destroy"
-                        >
-                            Yes, Delete It
-                        </button>
-                        <button
-                            type="button"
-                            class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                            @click="deleteModal.hide"
-                        >
-                            Cancel
-                        </button>
+                        <div class="flex gap-2 justify-center">
+                            <FilledButton
+                                variant="danger"
+                                type="button"
+                                @click="destroy"
+                            >
+                                Yes, Delete It
+                            </FilledButton>
+                            <button
+                                type="button"
+                                class="py-2.5 px-5 text-sm text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                                @click="deleteModal.hide"
+                            >
+                                Cancel
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
