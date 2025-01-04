@@ -6,6 +6,7 @@ use App\Http\Controllers\Manage\Accounts\AccountBadgeController;
 use App\Http\Controllers\Manage\Accounts\AccountController;
 use App\Http\Controllers\Manage\Accounts\AccountGameAccountController;
 use App\Http\Controllers\Manage\Accounts\AccountGroupController;
+use App\Http\Controllers\Manage\Accounts\AccountMfaController;
 use App\Http\Controllers\Manage\Accounts\AccountResendActivationController;
 use App\Http\Controllers\Manage\Activity\ActivityController;
 use App\Http\Controllers\Manage\Badges\BadgeController;
@@ -47,8 +48,10 @@ Route::name('manage.')
         Route::prefix('accounts/{account}')->group(function () {
             Route::post('activate', [AccountActivateController::class, 'update']);
             Route::delete('activate', [AccountActivateController::class, 'destroy']);
-
             Route::post('activate/send', AccountResendActivationController::class);
+
+            Route::delete('mfa', [AccountMfaController::class, 'destroy']);
+
             Route::post('email-change/{accountEmailChange}/approve', AccountApproveEmailChangeController::class);
             Route::delete('player/{minecraftPlayer}', [AccountGameAccountController::class, 'delete']);
 

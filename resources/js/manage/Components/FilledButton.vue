@@ -11,7 +11,7 @@ class PrimaryVariant implements Styleable {
         'bg-gray-900',
         'hover:bg-gray-800',
         'focus:ring-gray-300',
-        'disabled:bg-gray-600', 'disabled:hover:bg-gray-600', 'disabled:text-gray-400',
+        'disabled:bg-gray-100', 'disabled:hover:bg-gray-100', 'disabled:text-gray-300',
     ]
 }
 class SecondaryVariant implements Styleable {

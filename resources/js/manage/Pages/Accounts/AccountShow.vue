@@ -25,6 +25,7 @@ const props = defineProps<Props>()
 
 const activateModal = ref<InstanceType<typeof ConfirmDialog>>()
 const deactivateModal = ref<InstanceType<typeof ConfirmDialog>>()
+const disableMfaModal = ref<InstanceType<typeof ConfirmDialog>>()
 
 function forceActivate() {
     activateModal.value?.close()
@@ -38,6 +39,11 @@ function forceDeactivate() {
 
 function sendVerificationEmail() {
     router.post('/manage/accounts/' + props.account.account_id + '/activate/send')
+}
+
+function disableMfa() {
+    disableMfaModal.value?.close()
+    router.delete('/manage/accounts/' + props.account.account_id + '/mfa')
 }
 </script>
 
@@ -56,6 +62,12 @@ function sendVerificationEmail() {
             message="This will prevent the user from logging-in until they reverify their email address. Note: this will NOT send them the verification email."
             confirm-title="Yes, Proceed"
             :on-confirm="forceDeactivate"
+        />
+        <ConfirmDialog
+            ref="disableMfaModal"
+            message="This will remove Two-Factor Authentication on the account."
+            confirm-title="Yes, Disable It"
+            :on-confirm="disableMfa"
         />
 
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
@@ -109,15 +121,11 @@ function sendVerificationEmail() {
                             <dt class="text-sm text-gray-500 dark:text-gray-400">Status</dt>
                             <dd class="text-sm text-gray-900 dark:text-white">
                                 <Pill v-if="account.activated" variant="success" class="flex gap-1 items-center font-bold">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="size-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                                    </svg>
+                                    <SvgIcon icon="check" :thickness="3" class="size-4" />
                                     Activated
                                 </Pill>
                                 <Pill v-else variant="danger" class="flex gap-1 items-center font-bold">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="size-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                                    </svg>
+                                    <SvgIcon icon="close" :thickness="3" class="size-4" />
                                     Not Activated
                                 </Pill>
                             </dd>
@@ -152,15 +160,11 @@ function sendVerificationEmail() {
                             <dt class="text-sm text-gray-500 dark:text-gray-400">Status</dt>
                             <dd class="text-sm text-gray-900 dark:text-white">
                                 <Pill v-if="account.is_totp_enabled" variant="success" class="flex gap-1 items-center font-bold">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="size-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-                                    </svg>
+                                    <SvgIcon icon="check-shield" :thickness="3" class="size-4" />
                                     Enabled
                                 </Pill>
                                 <Pill v-else variant="danger" class="flex gap-1 items-center font-bold">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="size-3">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
-                                    </svg>
+                                    <SvgIcon icon="unlock" :thickness="3" class="size-4" />
                                     Not Enabled
                                 </Pill>
                             </dd>
@@ -170,7 +174,8 @@ function sendVerificationEmail() {
                             <hr />
 
                             <div class="flex flex-col gap-2">
-                                <OutlinedButton variant="danger">
+                                <OutlinedButton variant="danger" @click="disableMfaModal.open()">
+                                    <SvgIcon icon="unlock" />
                                     Disable
                                 </OutlinedButton>
                             </div>

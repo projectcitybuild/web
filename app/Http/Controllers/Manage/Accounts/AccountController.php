@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manage\Accounts;
 
 use App\Core\Rules\DiscourseUsernameRule;
 use App\Domains\Registration\Events\AccountCreated;
+use App\Domains\Registration\UseCases\CreateUnactivatedAccount;
 use App\Http\Controllers\WebController;
 use App\Http\Filters\EqualFilter;
 use App\Http\Filters\LikeFilter;
@@ -55,7 +56,7 @@ class AccountController extends WebController
         return Inertia::render('Accounts/AccountCreate');
     }
 
-    public function store(Request $request)
+    public function store(Request $request, CreateUnactivatedAccount $createUnactivatedAccount)
     {
         Gate::authorize('create', Account::class);
 
@@ -67,15 +68,18 @@ class AccountController extends WebController
             ],
             'username' => [
                 'required',
-                new DiscourseUsernameRule(),
+                new DiscourseUsernameRule,
                 Rule::unique(Account::tableName(), 'username'),
             ],
             'password' => [Password::defaults()],
         ]);
 
-        $validated['password'] = Hash::make($validated['password']);
-
-        $account = Account::create($validated);
+        $account = $createUnactivatedAccount->execute(
+            email: $validated['email'],
+            username: $validated['username'],
+            password: $validated['password'],
+            sendActivationEmail: false,
+        );
 
         return to_route('manage.accounts.show', $account)
             ->with(['success' => 'Account created successfully.']);
