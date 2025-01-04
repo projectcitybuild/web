@@ -12,7 +12,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const fields = [
-    { key: 'id', label: 'ID' },
+    { key: 'account_id', label: 'ID' },
     { key: 'username', label: 'Username' },
     { key: 'email', label: 'Email' },
     { key: 'activated', label: 'Activated' },
@@ -21,10 +21,7 @@ const fields = [
 ]
 const rows = computed(
     () => props.accounts.map((account) => ({
-        id: account.account_id,
-        username: account.username,
-        email: account.email,
-        activated: account.activated,
+        ...account,
         created_at: format(account.created_at),
         updated_at: format(account.updated_at),
     }))
@@ -38,7 +35,7 @@ const rows = computed(
         </template>
         <template #username="{ item }">
             <Link
-                :href="'/manage/accounts/' + item.id"
+                :href="'/manage/accounts/' + item.account_id"
                 class="text-blue-500"
             >
                 {{ item.username }}

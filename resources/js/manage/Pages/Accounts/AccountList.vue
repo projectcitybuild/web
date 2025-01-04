@@ -98,7 +98,7 @@ watch(
                     :initial="accounts"
                     :query="query"
                     v-slot="source"
-                    class="overflow-x-auto"
+                    class="overflow-x-auto border-t border-gray-200"
                 >
                     <AccountListTable
                         :accounts="source.data"

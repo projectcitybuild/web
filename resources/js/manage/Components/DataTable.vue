@@ -20,40 +20,47 @@ const slots = useSlots()
 
 <template>
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <thead class="text-xs text-gray-500 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th
                     v-if="showIndex"
                     scope="col"
-                    class="px-4 py-3"
+                    class="p-4"
                 >
                     #
                 </th>
                 <th
-                    scope="col"
-                    class="px-4 py-3"
                     v-for="(field, index) in fields"
                     :key="index"
+                    scope="col"
+                    class="p-4"
                 >
                     {{ field.label }}
+                </th>
+                <th
+                    v-if="slots.actions"
+                    scope="col"
+                    class="p-4"
+                >
+                    Actions
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr
-                class="border-b dark:border-gray-700"
+                class="border-b border-gray-50 dark:border-gray-700"
                 v-for="(row, index) in rows"
                 :key="index"
             >
                 <td
                     v-if="showIndex"
-                    class="px-4 py-3 text-gray-400 whitespace-nowrap"
+                    class="p-4 text-gray-300 whitespace-nowrap"
                 >
                     #{{ index + 1 }}
                 </td>
 
                 <td
-                    class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white"
+                    class="p-4 text-gray-500 whitespace-nowrap dark:text-white"
                     v-for="field in fields"
                 >
                     <template v-if="slots[field.key]">
@@ -66,7 +73,7 @@ const slots = useSlots()
 
                 <td
                     v-if="slots.actions"
-                    class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white"
+                    class="p-4 text-gray-900 whitespace-nowrap dark:text-white"
                 >
                     <slot name="actions" :item="row" />
                 </td>

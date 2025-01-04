@@ -3,59 +3,48 @@ import { Link } from '@inertiajs/vue3'
 import { Group } from '../../../Data/Group'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
+import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
     groups: Group[],
 }
-
 defineProps<Props>()
+
+const fields = [
+    { key: 'group_id', label: 'ID' },
+    { key: 'name', label: 'Name' },
+    { key: 'accounts_count', label: 'Accounts' },
+    { key: 'alias', label: 'Alias' },
+    { key: 'minecraft_name', label: 'Minecraft Name' },
+    { key: 'group_type', label: 'Group Type' },
+    { key: 'display_priority', label: 'Display Priority' },
+    { key: 'is_default', label: 'Is Default?' },
+    { key: 'is_admin', label: 'Is Admin?' },
+]
 </script>
 
 <template>
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-            <th scope="col" class="px-4 py-3">Id</th>
-            <th scope="col" class="px-4 py-3">Name</th>
-            <th scope="col" class="px-4 py-3">Members</th>
-            <th scope="col" class="px-4 py-3">Alias</th>
-            <th scope="col" class="px-4 py-3">Minecraft Name</th>
-            <th scope="col" class="px-4 py-3">Group Type</th>
-            <th scope="col" class="px-4 py-3">Display Priority</th>
-            <th scope="col" class="px-4 py-3">Is Default?</th>
-            <th scope="col" class="px-4 py-3">Is Admin?</th>
-            <th scope="col" class="px-4 py-3">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="border-b dark:border-gray-700" v-for="group in groups">
-            <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ group.group_id }}</td>
-            <td class="px-4 py-3 font-bold">{{ group.name }}</td>
-            <td class="px-4 py-3">
-                <Link
-                    :href="'/manage/groups/' + group.group_id + '/accounts'"
-                    class="text-blue-500 font-bold"
-                >
-                    {{ group.accounts_count }}
-                </Link></td>
-            <td class="px-4 py-3">{{ group.alias }}</td>
-            <td class="px-4 py-3">{{ group.minecraft_name }}</td>
-            <td class="px-4 py-3">{{ group.group_type }}</td>
-            <td class="px-4 py-3">{{ group.display_priority }}</td>
-            <td class="px-4 py-3">
-                <BooleanCheck :value="group.is_default"/>
-            </td>
-            <td class="px-4 py-3">
-                <BooleanCheck :value="group.is_admin"/>
-            </td>
-            <td class="px-4 py-1 text-right">
-                <Link :href="'/manage/groups/' + group.group_id + '/edit'">
-                    <FilledButton variant="secondary">
-                        Edit
-                    </FilledButton>
-                </Link>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <DataTable :fields="fields" :rows="groups">
+        <template #accounts_count="{ item }">
+            <Link
+                :href="'/manage/groups/' + item.group_id + '/accounts'"
+                class="text-blue-500 font-bold"
+            >
+                {{ item.accounts_count }}
+            </Link>
+        </template>
+        <template #is_default="{ item }">
+            <BooleanCheck :value="item.is_default" />
+        </template>
+        <template #is_admin="{ item }">
+            <BooleanCheck :value="item.is_default" />
+        </template>
+        <template #actions="{ item }">
+            <Link :href="'/manage/groups/' + item.group_id + '/edit'">
+                <FilledButton variant="secondary">
+                    Edit
+                </FilledButton>
+            </Link>
+        </template>
+    </DataTable>
 </template>
