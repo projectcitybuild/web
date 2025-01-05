@@ -42,7 +42,6 @@ defineProps<Props>()
             <InfinitePagination
                 :initial="badges"
                 v-slot="source"
-                class="overflow-x-auto"
             >
                 <BadgeListTable :badges="source.data"/>
             </InfinitePagination>

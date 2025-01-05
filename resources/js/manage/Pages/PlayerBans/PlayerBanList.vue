@@ -60,7 +60,6 @@ defineProps<Props>()
             <InfinitePagination
                 :initial="bans"
                 v-slot="source"
-                class="overflow-x-auto"
             >
                 <BanListTable :bans="source.data"/>
             </InfinitePagination>

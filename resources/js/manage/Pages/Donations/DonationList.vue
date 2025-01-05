@@ -42,7 +42,6 @@ defineProps<Props>()
             <InfinitePagination
                 :initial="donations"
                 v-slot="source"
-                class="overflow-x-auto"
             >
                 <DonationListTable :donations="source.data"/>
             </InfinitePagination>

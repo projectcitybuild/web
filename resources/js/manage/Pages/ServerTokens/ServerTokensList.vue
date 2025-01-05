@@ -31,9 +31,7 @@ const props = defineProps<Props>()
                 </Link>
             </div>
 
-            <div class="overflow-x-auto">
-                <ServerTokenListTable :tokens="props.tokens"/>
-            </div>
+            <ServerTokenListTable :tokens="props.tokens"/>
         </Card>
     </section>
 </template>

@@ -41,7 +41,6 @@ defineProps<Props>()
             <InfinitePagination
                 :initial="players"
                 v-slot="source"
-                class="overflow-x-auto"
             >
                 <PlayerListTable :players="source.data"/>
             </InfinitePagination>

@@ -35,7 +35,6 @@ defineProps<Props>()
             <InfinitePagination
                 :initial="accounts"
                 v-slot="source"
-                class="overflow-x-auto"
             >
                 <GroupMemberListTable :accounts="source.data"/>
             </InfinitePagination>

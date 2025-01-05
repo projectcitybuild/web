@@ -42,7 +42,6 @@ defineProps<Props>()
             <InfinitePagination
                 :initial="warps"
                 v-slot="source"
-                class="overflow-x-auto"
             >
                 <WarpListTable :warps="source.data"/>
             </InfinitePagination>

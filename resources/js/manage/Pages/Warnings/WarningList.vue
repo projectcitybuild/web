@@ -41,7 +41,6 @@ defineProps<Props>()
             <InfinitePagination
                 :initial="warnings"
                 v-slot="source"
-                class="overflow-x-auto"
             >
                 <WarningListTable :warnings="source.data"/>
             </InfinitePagination>

@@ -46,7 +46,11 @@ watch(
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
         <div class="flex flex-col md:flex-row md:items-start gap-4">
-            <Card v-show="filterExpanded" class="p-4 flex flex-col gap-4">
+            <Card v-show="filterExpanded" class="p-4 flex flex-col gap-4 md:sticky md:top-24">
+                <h2 class="font-bold">Filter</h2>
+
+                <hr />
+
                 <div class="flex flex-col gap-1">
                     <label for="username" class="text-xs text-gray-700 font-bold">Username</label>
                     <input
@@ -81,7 +85,7 @@ watch(
                 </div>
             </Card>
 
-            <Card>
+            <Card class="grow">
                 <div class="p-4 flex justify-end items-center">
                     <div class="flex gap-2">
                         <OutlinedButton
@@ -111,7 +115,7 @@ watch(
                     :initial="accounts"
                     :query="query"
                     v-slot="source"
-                    class="overflow-x-auto border-t border-gray-200"
+                    class="border-t border-gray-200"
                 >
                     <AccountListTable
                         :accounts="source.data"
