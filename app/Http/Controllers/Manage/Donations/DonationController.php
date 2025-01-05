@@ -50,18 +50,13 @@ class DonationController extends WebController
     {
         Gate::authorize('create', Donation::class);
 
-        $request->validate([
-            'amount' => 'required|numeric|gt:0',
-            'account_id' => 'nullable|numeric|exists:accounts,account_id',
-            'created_at' => 'required|date',
+        $validated = $request->validate([
+            'amount' => ['required', 'numeric', 'gt:0'],
+            'account_id' => ['nullable', 'numeric', 'exists:accounts,account_id'],
+            'created_at' => ['required', 'date'],
         ]);
 
-        Donation::create([
-            'amount' => $request->get('amount'),
-            'account_id' => $request->get('account_id'),
-            'created_at' => $request->get('created_at'),
-            'updated_at' => $request->get('created_at'),
-        ]);
+        Donation::create($validated);
 
         return to_route('manage.donations.index')
             ->with(['success' => 'Donation created successfully.']);
@@ -81,13 +76,13 @@ class DonationController extends WebController
     {
         Gate::authorize('update', $donation);
 
-        $request->validate([
-            'amount' => 'required|numeric|gt:0',
-            'account_id' => 'nullable|numeric|exists:accounts,account_id',
-            'created_at' => 'required|date',
+        $validated = $request->validate([
+            'amount' => ['required', 'numeric', 'gt:0'],
+            'account_id' => ['nullable', 'numeric', 'exists:accounts,account_id'],
+            'created_at' => ['required', 'date'],
         ]);
 
-        $donation->update($request->all());
+        $donation->update($validated);
 
         return to_route('manage.donations.show', $donation)
             ->with(['success' => 'Donation updated successfully.']);

@@ -50,6 +50,7 @@ class AccountController extends WebController
             'minecraftAccount',
             'emailChangeRequests',
             'activations',
+            'donations',
         ]);
 
         return Inertia::render('Accounts/AccountShow', compact('account'));

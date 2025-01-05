@@ -91,7 +91,7 @@ function destroy() {
                 variant="danger"
                 v-if="isEdit"
                 type="button"
-                @click="deleteModal.open()"
+                @click="deleteModal?.open()"
             >
                 <SvgIcon icon="bin" />
                 Delete

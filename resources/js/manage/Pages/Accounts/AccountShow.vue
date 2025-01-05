@@ -17,6 +17,7 @@ import { ref } from 'vue'
 import axios from 'axios'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import AccountActivationsTable from './Partials/AccountActivationsTable.vue'
+import AccountDonationsTable from './Partials/AccountDonationsTable.vue'
 
 interface Props {
     account: Account,
@@ -136,7 +137,7 @@ function disableMfa() {
 
                         <div class="flex flex-col gap-2">
                             <template v-if="!account.activated">
-                                <FilledButton variant="primary" @click="sendVerificationEmail">
+                                <FilledButton variant="secondary" @click="sendVerificationEmail">
                                     <SvgIcon icon="email" />
                                     Send Activation Email
                                 </FilledButton>
@@ -220,6 +221,7 @@ function disableMfa() {
                             <FilledButton variant="secondary">Create</FilledButton>
                         </Link>
                     </div>
+                    <AccountDonationsTable :donations="account.donations ?? []" />
                 </Card>
 
                 <Card class="mt-4">

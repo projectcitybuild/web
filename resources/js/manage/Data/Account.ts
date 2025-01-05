@@ -2,6 +2,7 @@ import { Player } from './Player'
 import { Badge } from './Badge'
 import { Group } from './Group'
 import { AccountActivation } from './AccountActivation'
+import { Donation } from './Donation'
 
 export interface Account {
     account_id: number,
@@ -13,6 +14,7 @@ export interface Account {
     badges?: Badge[],
     groups?: Group[],
     activations?: AccountActivation[],
+    donations?: Donation[],
     created_at: string,
     updated_at: string,
 }

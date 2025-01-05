@@ -20,7 +20,7 @@ const slots = useSlots()
 
 <template>
     <div class="overflow-x-auto">
-        <table class="text-sm text-left">
+        <table class="w-full text-sm text-left">
             <thead class="text-xs text-gray-500 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th
