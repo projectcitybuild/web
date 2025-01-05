@@ -72,8 +72,12 @@ Route::name('manage.')
         });
 
         Route::prefix('minecraft')->name('minecraft.')->group(function () {
-            Route::get('config', [MinecraftConfigController::class, 'create']);
-            Route::patch('config', [MinecraftConfigController::class, 'update']);
+            Route::get('config', [MinecraftConfigController::class, 'create'])
+                ->name('config.create');
+
+            Route::post('config', [MinecraftConfigController::class, 'store'])
+                ->name('config.store');
+
             Route::resource('warps', MinecraftWarpController::class);
         });
 

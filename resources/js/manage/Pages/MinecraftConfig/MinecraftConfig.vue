@@ -52,12 +52,14 @@ function submit() {
     form.transform((data) => ({
         ...data,
         config: JSON.stringify(JSON.parse(data.config)),
-    })).patch('/manage/minecraft/config')
+    })).post('/manage/minecraft/config')
 }
 </script>
 
 <template>
     <Head title="Minecraft Config"/>
+
+    <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
     <section>
         <Card>
@@ -80,7 +82,6 @@ function submit() {
                 </div>
             </div>
             <div class="p-4">
-                <SuccessAlert v-if="success" :message="success" class="mb-4"/>
                 <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
                 <JsonValidity

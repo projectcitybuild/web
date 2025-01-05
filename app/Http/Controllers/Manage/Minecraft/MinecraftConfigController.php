@@ -23,7 +23,7 @@ class MinecraftConfigController extends WebController
         ]);
     }
 
-    public function update(Request $request, MinecraftPlayer $minecraftPlayer)
+    public function store(Request $request)
     {
         Gate::authorize('update', MinecraftConfig::class);
 
