@@ -49,7 +49,7 @@ function disableMfa() {
 </script>
 
 <template>
-    <div class="mx-auto max-w-screen-xl">
+    <div>
         <Head :title="'Viewing Account: ' + account.username" />
 
         <ConfirmDialog

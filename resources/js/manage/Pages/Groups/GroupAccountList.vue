@@ -31,16 +31,14 @@ defineProps<Props>()
             </template>
         </ToolBar>
 
-        <div class="mt-4 mx-auto max-w-screen-xl">
-            <Card class="overflow-hidden">
-                <InfinitePagination
-                    :initial="accounts"
-                    v-slot="source"
-                    class="overflow-x-auto"
-                >
-                    <GroupMemberListTable :accounts="source.data"/>
-                </InfinitePagination>
-            </Card>
-        </div>
+        <Card class="mt-4">
+            <InfinitePagination
+                :initial="accounts"
+                v-slot="source"
+                class="overflow-x-auto"
+            >
+                <GroupMemberListTable :accounts="source.data"/>
+            </InfinitePagination>
+        </Card>
     </section>
 </template>

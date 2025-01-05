@@ -20,18 +20,16 @@ function submit(form: InertiaForm<Group>) {
     <section>
         <Head title="Edit a Badge"/>
 
-        <div class="mx-auto max-w-screen-xl">
-            <Card>
-                <div class="p-8 max-w-2xl">
-                    <BackButton href="/manage/badges" class="mb-4"/>
+        <Card>
+            <div class="p-8 max-w-2xl">
+                <BackButton href="/manage/badges" class="mb-4"/>
 
-                    <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Edit a Group</h2>
-                    <div class="text-sm text-gray-500">Groups are a collection of members with granted permissions</div>
-                    <hr class="my-6"/>
+                <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Edit a Group</h2>
+                <div class="text-sm text-gray-500">Groups are a collection of members with granted permissions</div>
+                <hr class="my-6"/>
 
-                    <GroupForm :group="props.group" :submit="submit"/>
-                </div>
-            </Card>
-        </div>
+                <GroupForm :group="props.group" :submit="submit"/>
+            </div>
+        </Card>
     </section>
 </template>

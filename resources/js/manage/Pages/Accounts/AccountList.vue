@@ -45,7 +45,7 @@ watch(
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <div class="mx-auto max-w-screen-xl flex flex-col md:flex-row md:items-start gap-4">
+        <div class="flex flex-col md:flex-row md:items-start gap-4">
             <Card v-show="filterExpanded" class="p-4 flex flex-col gap-4">
                 <div class="flex flex-col gap-1">
                     <label for="username" class="text-xs text-gray-700 font-bold">Username</label>

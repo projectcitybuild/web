@@ -38,7 +38,7 @@ function submit() {
 
     <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
-    <div class="flex flex-col md:flex-row gap-2 mx-auto max-w-screen-xl mt-4">
+    <div class="flex flex-col md:flex-row gap-2 mt-4">
         <section class="md:max-w-80">
             <Card class="p-4">
                 <span class="text-sm text-gray-500">

@@ -14,18 +14,16 @@ function submit(form: InertiaForm<Player>) {
     <section>
         <Head title="Create a Player"/>
 
-        <div class="mx-auto max-w-screen-xl">
-            <Card>
-                <div class="p-8 max-w-2xl">
-                    <BackButton href="/manage/players" class="mb-4"/>
+        <Card>
+            <div class="p-8 max-w-2xl">
+                <BackButton href="/manage/players" class="mb-4"/>
 
-                    <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Create a Player</h2>
-                    <div class="text-sm text-gray-500">A Minecraft UUID that has connected to our server before</div>
-                    <hr class="my-6"/>
+                <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Create a Player</h2>
+                <div class="text-sm text-gray-500">A Minecraft UUID that has connected to our server before</div>
+                <hr class="my-6"/>
 
-                    <PlayerForm :submit="submit"/>
-                </div>
-            </Card>
-        </div>
+                <PlayerForm :submit="submit"/>
+            </div>
+        </Card>
     </section>
 </template>

@@ -23,31 +23,29 @@ defineProps<Props>()
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <div class="mx-auto max-w-screen-xl">
-            <Card class="overflow-hidden">
-                <div
-                    class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
-                    <div class="w-full md:w-1/2">
+        <Card>
+            <div
+                class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+                <div class="w-full md:w-1/2">
 
-                    </div>
-                    <div>
-                        <Link href="/manage/minecraft/warps/create">
-                            <FilledButton variant="primary">
-                                <SvgIcon icon="plus" />
-                                Create Warp
-                            </FilledButton>
-                        </Link>
-                    </div>
                 </div>
+                <div>
+                    <Link href="/manage/minecraft/warps/create">
+                        <FilledButton variant="primary">
+                            <SvgIcon icon="plus" />
+                            Create Warp
+                        </FilledButton>
+                    </Link>
+                </div>
+            </div>
 
-                <InfinitePagination
-                    :initial="warps"
-                    v-slot="source"
-                    class="overflow-x-auto"
-                >
-                    <WarpListTable :warps="source.data"/>
-                </InfinitePagination>
-            </Card>
-        </div>
+            <InfinitePagination
+                :initial="warps"
+                v-slot="source"
+                class="overflow-x-auto"
+            >
+                <WarpListTable :warps="source.data"/>
+            </InfinitePagination>
+        </Card>
     </section>
 </template>

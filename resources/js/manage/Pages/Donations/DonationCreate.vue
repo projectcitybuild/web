@@ -14,18 +14,16 @@ function submit(form: InertiaForm<Donation>) {
     <section>
         <Head title="Create a Donation"/>
 
-        <div class="mx-auto max-w-screen-xl">
-            <Card>
-                <div class="p-8 max-w-2xl">
-                    <BackButton href="/manage/donations" class="mb-4"/>
+        <Card>
+            <div class="p-8 max-w-2xl">
+                <BackButton href="/manage/donations" class="mb-4"/>
 
-                    <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Create a Donation</h2>
-                    <div class="text-sm text-gray-500">For book-keeping, and adds an amount to the "donation bar"</div>
-                    <hr class="my-6"/>
+                <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Create a Donation</h2>
+                <div class="text-sm text-gray-500">For book-keeping, and adds an amount to the "donation bar"</div>
+                <hr class="my-6"/>
 
-                    <DonationForm :submit="submit"/>
-                </div>
-            </Card>
-        </div>
+                <DonationForm :submit="submit"/>
+            </div>
+        </Card>
     </section>
 </template>

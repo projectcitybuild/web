@@ -14,20 +14,18 @@ function submit(form: InertiaForm<Badge>) {
     <section>
         <Head title="Create a Badge"/>
 
-        <div class="mx-auto max-w-screen-xl">
-            <Card>
-                <div class="p-8 max-w-2xl">
-                    <BackButton href="/manage/badges" class="mb-4"/>
+        <Card>
+            <div class="p-8 max-w-2xl">
+                <BackButton href="/manage/badges" class="mb-4"/>
 
-                    <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Create a Badge</h2>
-                    <div class="text-sm text-gray-500">Badges are publicly displayable accolades that can be awarded to
-                        players
-                    </div>
-                    <hr class="my-6"/>
-
-                    <BadgeForm :submit="submit"/>
+                <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Create a Badge</h2>
+                <div class="text-sm text-gray-500">Badges are publicly displayable accolades that can be awarded to
+                    players
                 </div>
-            </Card>
-        </div>
+                <hr class="my-6"/>
+
+                <BadgeForm :submit="submit"/>
+            </div>
+        </Card>
     </section>
 </template>

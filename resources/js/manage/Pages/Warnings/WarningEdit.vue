@@ -20,18 +20,16 @@ function submit(form: InertiaForm<PlayerWarning>) {
     <section>
         <Head title="Edit a Player Warning"/>
 
-        <div class="mx-auto max-w-screen-xl">
-            <Card>
-                <div class="p-8 max-w-2xl">
-                    <BackButton href="/manage/warnings" class="mb-4"/>
+        <Card>
+            <div class="p-8 max-w-2xl">
+                <BackButton href="/manage/warnings" class="mb-4"/>
 
-                    <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Edit a Player Warning</h2>
-                    <div class="text-sm text-gray-500">Record an infraction against a player</div>
-                    <hr class="my-6"/>
+                <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Edit a Player Warning</h2>
+                <div class="text-sm text-gray-500">Record an infraction against a player</div>
+                <hr class="my-6"/>
 
-                    <WarningForm :warning="props.warning" :submit="submit"/>
-                </div>
-            </Card>
-        </div>
+                <WarningForm :warning="props.warning" :submit="submit"/>
+            </div>
+        </Card>
     </section>
 </template>

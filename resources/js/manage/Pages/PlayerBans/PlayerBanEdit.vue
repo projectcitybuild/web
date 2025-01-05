@@ -20,18 +20,16 @@ function submit(form: InertiaForm<PlayerBan>) {
     <section>
         <Head title="Edit a Player Ban"/>
 
-        <div class="mx-auto max-w-screen-xl">
-            <Card>
-                <div class="p-8 max-w-2xl">
-                    <BackButton href="/manage/player-bans" class="mb-4"/>
+        <Card>
+            <div class="p-8 max-w-2xl">
+                <BackButton href="/manage/player-bans" class="mb-4"/>
 
-                    <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Edit a Player Ban</h2>
-                    <div class="text-sm text-gray-500">Prevent a Minecraft UUID from connecting to our server</div>
-                    <hr class="my-6"/>
+                <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Edit a Player Ban</h2>
+                <div class="text-sm text-gray-500">Prevent a Minecraft UUID from connecting to our server</div>
+                <hr class="my-6"/>
 
-                    <BanForm :ban="props.ban" :submit="submit"/>
-                </div>
-            </Card>
-        </div>
+                <BanForm :ban="props.ban" :submit="submit"/>
+            </div>
+        </Card>
     </section>
 </template>

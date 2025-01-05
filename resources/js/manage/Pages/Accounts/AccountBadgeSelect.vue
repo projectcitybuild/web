@@ -41,7 +41,7 @@ function submit() {
         </div>
     </Card>
 
-    <section class="mx-auto max-w-screen-xl mt-4 bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+    <section class="mt-4 bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
         <Card>
             <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 

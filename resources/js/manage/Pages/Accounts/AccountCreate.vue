@@ -14,18 +14,16 @@ function submit(form: InertiaForm<Account>) {
     <section>
         <Head title="Create an Account"/>
 
-        <div class="mx-auto max-w-screen-xl">
-            <Card>
-                <div class="p-8 max-w-2xl">
-                    <BackButton href="/manage/accounts" class="mb-4"/>
+        <Card>
+            <div class="p-8 max-w-2xl">
+                <BackButton href="/manage/accounts" class="mb-4"/>
 
-                    <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Create an Account</h2>
-                    <div class="text-sm text-gray-500">Web account that can login</div>
-                    <hr class="my-6"/>
+                <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Create an Account</h2>
+                <div class="text-sm text-gray-500">Web account that can login</div>
+                <hr class="my-6"/>
 
-                    <AccountForm :submit="submit"/>
-                </div>
-            </Card>
-        </div>
+                <AccountForm :submit="submit"/>
+            </div>
+        </Card>
     </section>
 </template>

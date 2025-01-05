@@ -14,20 +14,18 @@ function submit(form: InertiaForm<ServerToken>) {
     <section>
         <Head title="Create a Server Token"/>
 
-        <div class="mx-auto max-w-screen-xl">
-            <Card>
-                <div class="p-8 max-w-2xl">
-                    <BackButton href="/manage/server-tokens" class="mb-4"/>
+        <Card>
+            <div class="p-8 max-w-2xl">
+                <BackButton href="/manage/server-tokens" class="mb-4"/>
 
-                    <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Create a Server</h2>
-                    <div class="text-sm text-gray-500">Creates an authorization token that grants access to the PCB API.
-                        For use with first-party applications only
-                    </div>
-                    <hr class="my-6"/>
-
-                    <ServerTokenForm :submit="submit"/>
+                <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Create a Server</h2>
+                <div class="text-sm text-gray-500">Creates an authorization token that grants access to the PCB API.
+                    For use with first-party applications only
                 </div>
-            </Card>
-        </div>
+                <hr class="my-6"/>
+
+                <ServerTokenForm :submit="submit"/>
+            </div>
+        </Card>
     </section>
 </template>

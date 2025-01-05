@@ -21,21 +21,19 @@ const props = defineProps<Props>()
     <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
     <section>
-        <div class="mx-auto max-w-screen-xl">
-            <Card class="overflow-hidden">
-                <div class="flex justify-end space-y-3 md:space-y-0 md:space-x-4 p-4">
-                    <Link href="/manage/servers/create">
-                        <FilledButton variant="primary">
-                            <SvgIcon icon="plus" />
-                            Create Server
-                        </FilledButton>
-                    </Link>
-                </div>
+        <Card>
+            <div class="flex justify-end space-y-3 md:space-y-0 md:space-x-4 p-4">
+                <Link href="/manage/servers/create">
+                    <FilledButton variant="primary">
+                        <SvgIcon icon="plus" />
+                        Create Server
+                    </FilledButton>
+                </Link>
+            </div>
 
-                <div class="overflow-x-auto">
-                    <ServerListTable :servers="props.servers"/>
-                </div>
-            </Card>
-        </div>
+            <div class="overflow-x-auto">
+                <ServerListTable :servers="props.servers"/>
+            </div>
+        </Card>
     </section>
 </template>

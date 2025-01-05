@@ -20,18 +20,16 @@ function submit(form: InertiaForm<Warp>) {
     <section>
         <Head title="Edit a Warp"/>
 
-        <div class="mx-auto max-w-screen-xl">
-            <Card>
-                <div class="p-8 max-w-2xl">
-                    <BackButton href="/manage/minecraft/warps" class="mb-4"/>
+        <Card>
+            <div class="p-8 max-w-2xl">
+                <BackButton href="/manage/minecraft/warps" class="mb-4"/>
 
-                    <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Edit a Warp</h2>
-                    <div class="text-sm text-gray-500">Register a location players can freely teleport to</div>
-                    <hr class="my-6"/>
+                <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Edit a Warp</h2>
+                <div class="text-sm text-gray-500">Register a location players can freely teleport to</div>
+                <hr class="my-6"/>
 
-                    <WarpForm :warp="props.warp" :submit="submit"/>
-                </div>
-            </Card>
-        </div>
+                <WarpForm :warp="props.warp" :submit="submit"/>
+            </div>
+        </Card>
     </section>
 </template>
