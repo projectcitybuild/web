@@ -14,7 +14,6 @@ import FilledButton from '../../Components/FilledButton.vue'
 import OutlinedButton from '../../Components/OutlinedButton.vue'
 import ConfirmDialog from '../../Components/ConfirmDialog.vue'
 import { ref } from 'vue'
-import axios from 'axios'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import AccountActivationsTable from './Partials/AccountActivationsTable.vue'
 import AccountDonationsTable from './Partials/AccountDonationsTable.vue'
@@ -28,6 +27,8 @@ const props = defineProps<Props>()
 const activateModal = ref<InstanceType<typeof ConfirmDialog>>()
 const deactivateModal = ref<InstanceType<typeof ConfirmDialog>>()
 const disableMfaModal = ref<InstanceType<typeof ConfirmDialog>>()
+const unlinkPlayerModal = ref<InstanceType<typeof ConfirmDialog>>()
+const unlinkPlayerId = ref<number|null>(null)
 
 function forceActivate() {
     activateModal.value?.close()
@@ -46,6 +47,16 @@ function sendVerificationEmail() {
 function disableMfa() {
     disableMfaModal.value?.close()
     router.delete('/manage/accounts/' + props.account.account_id + '/mfa')
+}
+
+function unlinkPlayer() {
+    unlinkPlayerModal.value?.close()
+    router.delete('/manage/accounts/' + props.account.account_id + '/players/' + unlinkPlayerId.value)
+}
+
+function showUnlinkDialog(playerId: number) {
+    unlinkPlayerId.value = playerId
+    unlinkPlayerModal.value?.open()
 }
 </script>
 
@@ -70,6 +81,12 @@ function disableMfa() {
             message="This will remove Two-Factor Authentication on the account."
             confirm-title="Yes, Disable It"
             :on-confirm="disableMfa"
+        />
+        <ConfirmDialog
+            ref="unlinkPlayerModal"
+            message="This will disassociate the player from this account."
+            confirm-title="Yes, Proceed"
+            :on-confirm="unlinkPlayer"
         />
 
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
@@ -109,6 +126,12 @@ function disableMfa() {
                                 <dt class="text-sm text-gray-500 dark:text-gray-400">Updated At</dt>
                                 <dd class="text-sm text-gray-900 dark:text-white">
                                     {{ format(account.updated_at) }}
+                                </dd>
+                            </dl>
+                            <dl class="flex items-center justify-between gap-2">
+                                <dt class="text-sm text-gray-500 dark:text-gray-400">Last Login At</dt>
+                                <dd class="text-sm text-gray-900 dark:text-white">
+                                    {{ account.last_login_at ? format(account.last_login_at) : 'Never' }}
                                 </dd>
                             </dl>
                         </div>
@@ -188,10 +211,16 @@ function disableMfa() {
 
             <section class="grow">
                 <Card>
-                    <div class="p-4 font-bold">
-                        Linked Players
+                    <div class="p-4 flex justify-between items-center">
+                        <h2 class="font-bold">Linked Players</h2>
+                        <Link :href="'/manage/accounts/' + account.account_id + '/players'">
+                            <FilledButton variant="secondary">Add</FilledButton>
+                        </Link>
                     </div>
-                    <AccountPlayersTable :players="account.minecraft_account ?? []" />
+                    <AccountPlayersTable
+                        :players="account.minecraft_account ?? []"
+                        @unlink-tap="showUnlinkDialog"
+                    />
                 </Card>
 
                 <Card class="mt-4">
@@ -235,6 +264,18 @@ function disableMfa() {
                         Pending Activations
                     </div>
                     <AccountActivationsTable :activations="account.activations ?? []" />
+                </Card>
+
+                <Card class="mt-4">
+                    <div class="p-4 font-bold">
+                        Ban Appeals
+                    </div>
+                </Card>
+
+                <Card class="mt-4">
+                    <div class="p-4 font-bold">
+                        Builder Applications
+                    </div>
                 </Card>
             </section>
         </div>

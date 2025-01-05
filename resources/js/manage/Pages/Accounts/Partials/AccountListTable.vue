@@ -16,6 +16,7 @@ const fields = [
     { key: 'username', label: 'Username' },
     { key: 'email', label: 'Email' },
     { key: 'activated', label: 'Activated' },
+    { key: 'has_player', label: 'Has Player' },
     { key: 'created_at', label: 'Created At' },
     { key: 'updated_at', label: 'Updated At' },
 ]
@@ -32,6 +33,10 @@ const rows = computed(
     <DataTable :fields="fields" :rows="rows" :show-index="true">
         <template #activated="{ item }">
             <BooleanCheck :value="item.activated" />
+        </template>
+
+        <template #has_player="{ item }">
+            <BooleanCheck :value="item.minecraft_account.length > 0" />
         </template>
 
         <template #username="{ item }">

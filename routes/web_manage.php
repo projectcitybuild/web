@@ -7,6 +7,7 @@ use App\Http\Controllers\Manage\Accounts\AccountController;
 use App\Http\Controllers\Manage\Accounts\AccountGameAccountController;
 use App\Http\Controllers\Manage\Accounts\AccountGroupController;
 use App\Http\Controllers\Manage\Accounts\AccountMfaController;
+use App\Http\Controllers\Manage\Accounts\AccountPlayerController;
 use App\Http\Controllers\Manage\Accounts\AccountResendActivationController;
 use App\Http\Controllers\Manage\Activity\ActivityController;
 use App\Http\Controllers\Manage\Badges\BadgeController;
@@ -60,6 +61,10 @@ Route::name('manage.')
 
             Route::get('badges', [AccountBadgeController::class, 'index']);
             Route::put('badges', [AccountBadgeController::class, 'update']);
+
+            Route::get('players', [AccountPlayerController::class, 'create']);
+            Route::post('players', [AccountPlayerController::class, 'store']);
+            Route::delete('players/{player}', [AccountPlayerController::class, 'destroy']);
         });
 
         Route::resource('players', MinecraftPlayerController::class)

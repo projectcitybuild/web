@@ -2,11 +2,14 @@
 import { Link } from '@inertiajs/vue3'
 import type { Player } from '../../../Data/Player'
 import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
+import OutlinedButton from '../../../Components/OutlinedButton.vue'
 
 interface Props {
     players: Player[],
 }
 defineProps<Props>()
+
+defineEmits(['unlinkTap'])
 </script>
 
 <template>
@@ -17,7 +20,7 @@ defineProps<Props>()
             <th scope="col" class="px-4 py-3">Skin</th>
             <th scope="col" class="px-4 py-3">UUID</th>
             <th scope="col" class="px-4 py-3">Alias</th>
-            <th scope="col" class="px-4 py-3">Actions</th>
+            <th scope="col" class="px-4 py-3 text-right">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -35,7 +38,14 @@ defineProps<Props>()
                 </Link>
             </td>
             <td class="px-4 py-3">{{ player.alias }}</td>
-            <td class="px-4 py-3">Unlink</td>
+            <td class="px-4 py-3 flex justify-end">
+                <OutlinedButton
+                    variant="danger"
+                    @click="$emit('unlinkTap', player.player_minecraft_id)"
+                >
+                    Unlink
+                </OutlinedButton>
+            </td>
         </tr>
         </tbody>
     </table>

@@ -13,7 +13,7 @@ const props = defineProps<Props>()
 
 const fields = [
     { key: 'donation_id', label: 'ID' },
-    { key: 'account', label: 'Skin' },
+    { key: 'account', label: 'Account' },
     { key: 'amount', label: 'Amount' },
     { key: 'created_at', label: 'Date' },
 ]

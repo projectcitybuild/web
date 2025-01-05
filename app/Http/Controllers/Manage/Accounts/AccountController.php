@@ -31,6 +31,7 @@ class AccountController extends WebController
         $accounts = Pipeline::send(Account::query())
             ->through($pipes)
             ->thenReturn()
+            ->with('minecraftAccount')
             ->orderBy('created_at', 'desc')
             ->cursorPaginate(50);
 

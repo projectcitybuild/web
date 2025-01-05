@@ -38,6 +38,6 @@ class AccountGroupController extends WebController
         );
 
         return to_route('manage.accounts.show', $account)
-            ->with(['success' => 'Ggoups updated successfully.']);
+            ->with(['success' => 'Groups updated successfully.']);
     }
 }
