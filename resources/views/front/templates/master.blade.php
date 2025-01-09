@@ -35,8 +35,6 @@
         'resources/js/front/front.ts',
     ])
 
-    <script src="https://kit.fontawesome.com/a0425475c4.js" crossorigin="anonymous"></script>
-
     @stack('head')
 </head>
 <body>

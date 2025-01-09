@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers\Manage\Accounts;
 
+use App\Core\Rules\DiscourseUsernameRule;
+use App\Domains\Registration\Events\AccountCreated;
+use App\Domains\Registration\UseCases\CreateUnactivatedAccount;
 use App\Http\Controllers\WebController;
+use App\Http\Filters\EqualFilter;
+use App\Http\Filters\LikeFilter;
 use App\Models\Account;
-use App\Models\Badge;
-use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Pipeline;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
+use Inertia\Inertia;
 
 class AccountController extends WebController
 {
@@ -15,48 +23,110 @@ class AccountController extends WebController
     {
         Gate::authorize('viewAny', Account::class);
 
-        if ($request->has('query') && $request->input('query') !== '') {
-            $query = $request->input('query');
-            $accounts = Account::search($query)->paginate(50);
-        } else {
-            $query = '';
-            $accounts = Account::paginate(50);
-        }
+        $pipes = [
+            new LikeFilter('username', $request->get('username')),
+            new LikeFilter('email', $request->get('email')),
+            new EqualFilter('activated', $request->get('activated')),
+        ];
+        $accounts = Pipeline::send(Account::query())
+            ->through($pipes)
+            ->thenReturn()
+            ->with('minecraftAccount')
+            ->orderBy('created_at', 'desc')
+            ->cursorPaginate(50);
 
-        return view('manage.pages.account.index')
-            ->with(compact('accounts', 'query'));
+        if ($request->wantsJson()) {
+            return $accounts;
+        }
+        return Inertia::render('Accounts/AccountList', compact('accounts'));
     }
 
     public function show(Account $account)
     {
         Gate::authorize('view', $account);
 
-        $groups = Group::all();
-        $badges = Badge::all();
+        $account->load([
+            'groups',
+            'badges',
+            'minecraftAccount',
+            'emailChangeRequests',
+            'activations',
+            'donations',
+        ]);
 
-        return view('manage.pages.account.show')
-            ->with(compact('account', 'groups', 'badges'));
+        return Inertia::render('Accounts/AccountShow', compact('account'));
+    }
+
+    public function create()
+    {
+        Gate::authorize('create', Account::class);
+
+        return Inertia::render('Accounts/AccountCreate');
+    }
+
+    public function store(Request $request, CreateUnactivatedAccount $createUnactivatedAccount)
+    {
+        Gate::authorize('create', Account::class);
+
+        $validated = $request->validate([
+            'email' => [
+                'required',
+                'email',
+                Rule::unique(Account::tableName(), 'email'),
+            ],
+            'username' => [
+                'required',
+                new DiscourseUsernameRule,
+                Rule::unique(Account::tableName(), 'username'),
+            ],
+            'password' => [Password::defaults()],
+        ]);
+
+        $account = $createUnactivatedAccount->execute(
+            email: $validated['email'],
+            username: $validated['username'],
+            password: $validated['password'],
+            sendActivationEmail: false,
+        );
+
+        return to_route('manage.accounts.show', $account)
+            ->with(['success' => 'Account created successfully.']);
     }
 
     public function edit(Account $account)
     {
         Gate::authorize('update', $account);
 
-        return view('manage.pages.account.edit')
-            ->with(compact('account'));
+        return Inertia::render('Accounts/AccountEdit', compact('account'));
     }
 
-    public function update(
-        Request $request,
-        Account $account,
-    ) {
+    public function update(Request $request, Account $account)
+    {
         Gate::authorize('update', $account);
 
-        // TODO: Validate this
-        $account->update($request->all());
+        $validated = $request->validate([
+            'email' => [
+                'required',
+                'email',
+                Rule::unique(Account::tableName(), 'email')
+                    ->ignore($account),
+            ],
+            'username' => [
+                'required',
+                new DiscourseUsernameRule(),
+                Rule::unique(Account::tableName(), 'username')
+                    ->ignore($account),
+            ],
+            'password' => ['nullable', Password::defaults()],
+        ]);
 
-        $account->emailChangeRequests()->delete();
+        if ($request->has('password')) {
+            $validated['password'] = Hash::make($validated['password']);
+        }
 
-        return redirect(route('manage.accounts.show', $account));
+        $account->update($validated);
+
+        return to_route('manage.accounts.show', $account)
+            ->with(['success' => 'Account updated successfully.']);
     }
 }

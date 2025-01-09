@@ -8,6 +8,7 @@ use App\Models\MinecraftConfig;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
 
 class MinecraftConfigController extends WebController
 {
@@ -17,10 +18,12 @@ class MinecraftConfigController extends WebController
 
         $config = MinecraftConfig::byLatest()->first();
 
-        return view('manage.pages.minecraft-config.create', ['config' => $config]);
+        return Inertia::render('MinecraftConfig/MinecraftConfig',[
+            'config' => $config,
+        ]);
     }
 
-    public function update(Request $request, MinecraftPlayer $minecraftPlayer)
+    public function store(Request $request)
     {
         Gate::authorize('update', MinecraftConfig::class);
 
@@ -36,6 +39,7 @@ class MinecraftConfigController extends WebController
 
         MinecraftConfigUpdated::dispatch($config);
 
-        return redirect(route('manage.minecraft.config.create', $config));
+        return to_route('manage.minecraft.config.create', $config)
+            ->with(['success' => 'Config successfully updated']);
     }
 }

@@ -64,11 +64,6 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         );
     }
 
-    public function isBanned()
-    {
-        return $this->gamePlayerBans()->active()->exists();
-    }
-
     public function banAppeals()
     {
         // We have to do this because game bans are a polymorphic relationship, but this is just what
@@ -112,15 +107,10 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
      * GamePlayable
      *
      ***************************************************/
+    /** @deprecated  */
     public function getRawModel(): static
     {
         return $this;
-    }
-
-    /** @deprecated */
-    public function getLinkedAccount(): ?Account
-    {
-        return $this->account;
     }
 
     public function auditAttributeConfig(): AuditAttributes
@@ -131,7 +121,7 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('manage.minecraft-players.show', $this);
+        return route('manage.players.show', $this);
     }
 
     public function getActivitySubjectName(): ?string

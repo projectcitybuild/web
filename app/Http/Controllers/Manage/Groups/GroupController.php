@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Manage\Groups;
 
 use App\Http\Controllers\WebController;
+use App\Models\Account;
 use App\Models\Group;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
+use Inertia\Inertia;
 
 class GroupController extends WebController
 {
@@ -20,18 +22,19 @@ class GroupController extends WebController
             ->orderBy('display_priority', 'asc')
             ->get();
 
-        return view('manage.pages.groups.index')
-            ->with(compact('groups'));
+        // Default group doesn't have assigned members
+        $groups
+            ->where('is_default', true)
+            ->map(fn ($group) => $group->accounts_count = Account::doesntHave('groups')->count());
+
+        return Inertia::render('Groups/GroupList', compact('groups'));
     }
 
     public function create(Request $request)
     {
         Gate::authorize('create', Group::class);
 
-        $group = new Group();
-
-        return view('manage.pages.groups.create')
-            ->with(compact('group'));
+        return Inertia::render('Groups/GroupCreate');
     }
 
     public function store(Request $request): RedirectResponse
@@ -50,15 +53,15 @@ class GroupController extends WebController
 
         Group::create($validated);
 
-        return redirect(route('manage.groups.index'));
+        return to_route('manage.groups.index')
+            ->with(['success' => 'Group created successfully.']);
     }
 
     public function edit(Group $group)
     {
         Gate::authorize('update', $group);
 
-        return view('manage.pages.groups.edit')
-            ->with(compact('group'));
+        return Inertia::render('Groups/GroupEdit', compact('group'));
     }
 
     public function update(Request $request, Group $group): RedirectResponse
@@ -77,7 +80,8 @@ class GroupController extends WebController
 
         $group->update($validated);
 
-        return redirect(route('manage.groups.index'));
+        return to_route('manage.groups.index')
+            ->with(['success' => 'Group updated successfully.']);
     }
 
     public function destroy(Request $request, Group $group): RedirectResponse
@@ -86,6 +90,7 @@ class GroupController extends WebController
 
         $group->delete();
 
-        return redirect(route('manage.groups.index'));
+        return to_route('manage.groups.index')
+            ->with(['success' => 'Group deleted successfully.']);
     }
 }

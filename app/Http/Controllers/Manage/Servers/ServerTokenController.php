@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers\Manage\Servers;
 
-use App\Core\Utilities\SecureTokenGenerator;
 use App\Http\Controllers\WebController;
+use App\Models\Server;
 use App\Models\ServerToken;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 class ServerTokenController extends WebController
 {
@@ -19,22 +15,16 @@ class ServerTokenController extends WebController
     {
         Gate::authorize('viewAny', ServerToken::class);
 
-        $tokens = ServerToken::orderby('created_at', 'desc')
-            ->paginate(100);
+        $tokens = ServerToken::orderBy('created_at', 'desc')->get();
 
-        return view('manage.pages.server-tokens.index')
-            ->with(compact('tokens'));
+        return Inertia::render('ServerTokens/ServerTokensList', compact('tokens'));
     }
 
-    public function create(Request $request, SecureTokenGenerator $tokenGenerator)
+    public function create(Request $request)
     {
         Gate::authorize('create', ServerToken::class);
 
-        $token = new ServerToken();
-        $generatedToken = $tokenGenerator->make();
-
-        return view('manage.pages.server-tokens.create')
-            ->with(compact('token', 'generatedToken'));
+        return Inertia::render('ServerTokens/ServerTokenCreate');
     }
 
     public function store(Request $request)
@@ -43,21 +33,26 @@ class ServerTokenController extends WebController
 
         $validated = $request->validate([
             'token' => ['required', 'string'],
-            'server_id' => ['nullable', 'int', 'exists:servers,server_id'],
             'description' => ['required', 'string'],
         ]);
 
+        // TODO: remove server_id column
+        $server = Server::first();
+        $validated['server_id'] = $server->getKey();
+
         ServerToken::create($validated);
 
-        return redirect(route('manage.server-tokens.index'));
+        return to_route('manage.server-tokens.index')
+            ->with(['success' => 'Server token created successfully.']);
     }
 
     public function edit(ServerToken $serverToken)
     {
         Gate::authorize('update', ServerToken::class);
 
-        return view('manage.pages.server-tokens.edit')
-            ->with(compact('serverToken'));
+        return Inertia::render('ServerTokens/ServerTokenEdit', [
+            'token' => $serverToken,
+        ]);
     }
 
     public function update(Request $request, ServerToken $serverToken)
@@ -66,13 +61,13 @@ class ServerTokenController extends WebController
 
         $validated = $request->validate([
             'token' => ['required', 'string'],
-            'server_id' => ['nullable', 'int', 'exists:servers,server_id'],
             'description' => ['required', 'string'],
         ]);
 
         $serverToken->update($validated);
 
-        return redirect(route('manage.server-tokens.index'));
+        return to_route('manage.server-tokens.index')
+            ->with(['success' => 'Server token updated successfully.']);
     }
 
     public function destroy(Request $request, ServerToken $serverToken)
@@ -81,6 +76,7 @@ class ServerTokenController extends WebController
 
         $serverToken->delete();
 
-        return redirect(route('manage.server-tokens.index'));
+        return to_route('manage.server-tokens.index')
+            ->with(['success' => 'Server token deleted successfully.']);
     }
 }

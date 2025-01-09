@@ -27,6 +27,10 @@ final class Badge extends Model implements LinkableAuditModel
         'updated_at',
     ];
 
+    protected $casts = [
+        'list_hidden' => 'boolean',
+    ];
+
     public function getActivitySubjectLink(): ?string
     {
         return route('manage.badges.edit', $this);

@@ -1,26 +1,29 @@
 <?php
 
-use App\Http\Controllers\Manage\Accounts\AccountActivate;
-use App\Http\Controllers\Manage\Accounts\AccountApproveEmailChange;
+use App\Http\Controllers\Manage\Accounts\AccountActivateController;
+use App\Http\Controllers\Manage\Accounts\AccountApproveEmailChangeController;
+use App\Http\Controllers\Manage\Accounts\AccountBadgeController;
 use App\Http\Controllers\Manage\Accounts\AccountController;
-use App\Http\Controllers\Manage\Accounts\AccountGameAccount;
-use App\Http\Controllers\Manage\Accounts\AccountResendActivation;
-use App\Http\Controllers\Manage\Accounts\AccountUpdateBadges;
-use App\Http\Controllers\Manage\Accounts\AccountUpdateGroups;
+use App\Http\Controllers\Manage\Accounts\AccountGameAccountController;
+use App\Http\Controllers\Manage\Accounts\AccountGroupController;
+use App\Http\Controllers\Manage\Accounts\AccountMfaController;
+use App\Http\Controllers\Manage\Accounts\AccountPlayerController;
+use App\Http\Controllers\Manage\Accounts\AccountResendActivationController;
 use App\Http\Controllers\Manage\Activity\ActivityController;
 use App\Http\Controllers\Manage\Badges\BadgeController;
-use App\Http\Controllers\Manage\BanAppeals\BanAppealController;
 use App\Http\Controllers\Manage\Bans\GameIPBanController;
 use App\Http\Controllers\Manage\Bans\GamePlayerBanController;
-use App\Http\Controllers\Manage\BuilderRanksController;
 use App\Http\Controllers\Manage\Donations\DonationController;
 use App\Http\Controllers\Manage\Donations\DonationPerksController;
 use App\Http\Controllers\Manage\Groups\GroupAccountController;
 use App\Http\Controllers\Manage\Groups\GroupController;
+use App\Http\Controllers\Manage\HomeController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftWarpController;
+use App\Http\Controllers\Manage\Players\MinecraftPlayerAliasRefreshController;
+use App\Http\Controllers\Manage\Players\MinecraftPlayerBanController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerController;
-use App\Http\Controllers\Manage\Players\MinecraftPlayerLookupController;
+use App\Http\Controllers\Manage\Players\MinecraftPlayerWarningController;
 use App\Http\Controllers\Manage\Servers\ServerController;
 use App\Http\Controllers\Manage\Servers\ServerTokenController;
 use App\Http\Controllers\Manage\Warnings\PlayerWarningController;
@@ -34,52 +37,59 @@ Route::name('manage.')
         'mfa',
         'can:access-manage',
         'require-mfa',
+        Inertia\EncryptHistoryMiddleware::class,
     ])
-    ->group(function() {
-        Route::view('/', 'manage.pages.index')
+    ->group(function () {
+        Route::get('/', HomeController::class)
             ->name('index');
 
         Route::resource('accounts', AccountController::class)
-            ->except(['destroy', 'create']);
+            ->except(['destroy']);
 
-        Route::group([
-            'prefix' => 'accounts/{account}',
-            'as' => 'accounts.',
-        ], function () {
-            Route::post('activate', AccountActivate::class)
-                ->name('activate');
+        Route::prefix('accounts/{account}')->group(function () {
+            Route::post('activate', [AccountActivateController::class, 'update']);
+            Route::delete('activate', [AccountActivateController::class, 'destroy']);
+            Route::post('activate/send', AccountResendActivationController::class);
 
-            Route::post('resend-activation', AccountResendActivation::class)
-                ->name('resend-activation');
+            Route::delete('mfa', [AccountMfaController::class, 'destroy']);
 
-            Route::post('email-change/{accountEmailChange}/approve', AccountApproveEmailChange::class)
-                ->name('email-change.approve');
+            Route::post('email-change/{accountEmailChange}/approve', AccountApproveEmailChangeController::class);
+            Route::delete('player/{minecraftPlayer}', [AccountGameAccountController::class, 'delete']);
 
-            Route::delete('game-account/{minecraftPlayer}', [AccountGameAccount::class, 'delete'])
-                ->name('game-account.delete');
+            Route::get('groups', [AccountGroupController::class, 'index']);
+            Route::put('groups', [AccountGroupController::class, 'update']);
 
-            Route::post('update-groups', AccountUpdateGroups::class)
-                ->name('update-groups');
+            Route::get('badges', [AccountBadgeController::class, 'index']);
+            Route::put('badges', [AccountBadgeController::class, 'update']);
 
-            Route::post('update-badges', AccountUpdateBadges::class)
-                ->name('update-badges');
+            Route::get('players', [AccountPlayerController::class, 'create']);
+            Route::post('players', [AccountPlayerController::class, 'store']);
+            Route::delete('players/{player}', [AccountPlayerController::class, 'destroy']);
+        });
+
+        Route::resource('players', MinecraftPlayerController::class)
+            ->except(['destroy']);
+
+        Route::prefix('players/{player}')->group(function () {
+            Route::get('bans', [MinecraftPlayerBanController::class, 'index']);
+            Route::get('warnings', [MinecraftPlayerWarningController::class, 'index']);
+            Route::post('alias/refresh', MinecraftPlayerAliasRefreshController::class);
         });
 
         Route::prefix('minecraft')->name('minecraft.')->group(function () {
             Route::get('config', [MinecraftConfigController::class, 'create'])
                 ->name('config.create');
 
-            Route::patch('config', [MinecraftConfigController::class, 'update'])
-                ->name('config.update');
+            Route::post('config', [MinecraftConfigController::class, 'store'])
+                ->name('config.store');
 
             Route::resource('warps', MinecraftWarpController::class);
         });
 
-        Route::resource('minecraft-players', MinecraftPlayerController::class)
-            ->except(['destroy']);
+        Route::resource('groups', GroupController::class)
+            ->except(['show']);
 
-        Route::post('minecraft-players/lookup', MinecraftPlayerLookupController::class)
-            ->name('minecraft-players.lookup');
+        Route::get('groups/{group}/accounts', [GroupAccountController::class, 'index']);
 
         Route::resource('badges', BadgeController::class);
 
@@ -101,32 +111,6 @@ Route::name('manage.')
 
         Route::resource('player-bans', GamePlayerBanController::class)
             ->except(['show']);
-
-        Route::resource('groups', GroupController::class)
-            ->except(['show']);
-
-        Route::get('{group}/accounts', [GroupAccountController::class, 'index'])
-            ->name('groups.accounts');
-
-        Route::group([
-            'prefix' => 'builder-ranks',
-            'as' => 'builder-ranks.',
-        ], function () {
-            Route::get('/', [BuilderRanksController::class, 'index'])
-                ->name('index');
-
-            Route::get('{application}', [BuilderRanksController::class, 'show'])
-                ->name('show');
-
-            Route::post('{application}/approve', [BuilderRanksController::class, 'approve'])
-                ->name('approve');
-
-            Route::post('{application}/deny', [BuilderRanksController::class, 'deny'])
-                ->name('deny');
-        });
-
-        Route::resource('ban-appeals', BanAppealController::class)
-            ->only('index', 'show', 'update');
 
         Route::resource('activity', ActivityController::class)
             ->only(['index', 'show']);

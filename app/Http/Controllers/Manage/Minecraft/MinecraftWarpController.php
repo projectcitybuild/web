@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
+use Inertia\Inertia;
 
 class MinecraftWarpController extends WebController
 {
@@ -18,21 +19,20 @@ class MinecraftWarpController extends WebController
     {
         Gate::authorize('viewAny', MinecraftWarp::class);
 
-        $warps = MinecraftWarp::orderBy('name', 'asc')
-            ->paginate(100);
+        $warps = MinecraftWarp::orderBy('created_at', 'desc')
+            ->cursorPaginate(50);
 
-        return view('manage.pages.minecraft-warps.index')
-            ->with(compact('warps'));
+        if (request()->wantsJson()) {
+            return $warps;
+        }
+        return Inertia::render('Warps/WarpList', compact('warps'));
     }
 
     public function create(Request $request)
     {
         Gate::authorize('create', MinecraftWarp::class);
 
-        $warp = new MinecraftWarp();
-
-        return view('manage.pages.minecraft-warps.create')
-            ->with(compact('warp'));
+        return Inertia::render('Warps/WarpCreate');
     }
 
     public function store(Request $request): RedirectResponse
@@ -46,15 +46,15 @@ class MinecraftWarpController extends WebController
 
         MinecraftWarp::create($validated);
 
-        return redirect(route('manage.minecraft.warps.index'));
+        return to_route('manage.minecraft.warps.index')
+            ->with(['success' => 'Warp created successfully.']);
     }
 
     public function edit(MinecraftWarp $warp)
     {
         Gate::authorize('update', $warp);
 
-        return view('manage.pages.minecraft-warps.edit')
-            ->with(compact('warp'));
+        return Inertia::render('Warps/WarpEdit', compact('warp'));
     }
 
     public function update(Request $request, MinecraftWarp $warp)
@@ -68,7 +68,8 @@ class MinecraftWarpController extends WebController
 
         $warp->update($validated);
 
-        return redirect(route('manage.minecraft.warps.index'));
+        return to_route('manage.minecraft.warps.index')
+            ->with(['success' => 'Warp updated successfully.']);
     }
 
     public function destroy(Request $request, MinecraftWarp $warp)
@@ -77,6 +78,7 @@ class MinecraftWarpController extends WebController
 
         $warp->delete();
 
-        return redirect(route('manage.minecraft.warps.index'));
+        return to_route('manage.minecraft.warps.index')
+            ->with(['success' => 'Warp '.$warp->name.' deleted successfully.']);
     }
 }

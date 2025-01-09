@@ -1,8 +1,5 @@
 @charset "utf-8";
 
-@import "~normalize-scss/sass/normalize";
-@include normalize();
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

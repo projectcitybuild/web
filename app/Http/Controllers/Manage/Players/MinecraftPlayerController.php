@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Manage\Players;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
+use App\Core\Domains\MinecraftUUID\UseCases\LookupMinecraftUUID;
 use App\Core\Domains\Mojang\Api\MojangPlayerApi;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\In;
 use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
 
 class MinecraftPlayerController extends WebController
 {
@@ -18,78 +22,102 @@ class MinecraftPlayerController extends WebController
         Gate::authorize('viewAny', MinecraftPlayer::class);
 
         $minecraftPlayers = MinecraftPlayer::with(['account'])
-            ->paginate(50);
+            ->orderBy('created_at', 'desc')
+            ->cursorPaginate(50);
 
-        return view('manage.pages.minecraft-player.index')
-            ->with(compact('minecraftPlayers'));
+        if (request()->wantsJson()) {
+            return $minecraftPlayers;
+        }
+        return Inertia::render('Players/PlayerList', [
+            'players' => $minecraftPlayers,
+        ]);
     }
 
-    public function show(MinecraftPlayer $minecraftPlayer)
+    public function show(MinecraftPlayer $player)
     {
-        Gate::authorize('view', $minecraftPlayer);
+        Gate::authorize('view', $player);
 
-        $minecraftPlayer->load(['account', 'gamePlayerBans', 'gamePlayerBans.bannedPlayer', 'gamePlayerBans.bannerPlayer']);
+        $player->load(['account']);
 
-        return view('manage.pages.minecraft-player.show')->with(compact('minecraftPlayer'));
+        return Inertia::render('Players/PlayerShow', compact('player'));
     }
 
     public function create()
     {
         Gate::authorize('create', MinecraftPlayer::class);
 
-        return view('manage.pages.minecraft-player.create');
+        return Inertia::render('Players/PlayerCreate');
     }
 
-    public function store(Request $request, MojangPlayerApi $api)
+    public function store(Request $request, LookupMinecraftUUID $lookupMinecraftUUID)
     {
         Gate::authorize('create', MinecraftPlayer::class);
 
-        $request->validate([
+        $validated = $request->validate([
             'uuid' => ['required', new MinecraftUUIDRule],
+            'alias' => ['required', 'string'],
             'account_id' => ['nullable', 'exists:accounts'],
         ]);
 
-        $uuid = MinecraftUUID::tryParse($request->uuid);
+        $uuid = MinecraftUUID::tryParse($validated['uuid']);
 
-        if ($api->getNameHistoryOf($uuid->trimmed()) == null) {
+        if (MinecraftPlayer::whereUuid($uuid)->exists()) {
             throw ValidationException::withMessages([
-                'uuid' => 'Not an active Minecraft UUID',
+                'uuid' => 'A player already exists with this UUID',
             ]);
         }
 
-        $mcPlayer = MinecraftPlayer::updateOrCreate(
-            ['uuid' => $uuid->trimmed()],
-            ['account_id' => $request->account_id],
+        $lookup = $lookupMinecraftUUID->fetch($uuid);
+        if ($lookup === null) {
+            throw ValidationException::withMessages([
+                'uuid' => 'Could not find Minecraft account matching this UUID',
+            ]);
+        }
+
+        $player = MinecraftPlayer::updateOrCreate(
+            [
+                'uuid' => $uuid->trimmed(),
+            ], [
+                'alias' => $validated['alias'],
+                'account_id' => $request->get(key: 'account_id'),
+            ],
         );
 
-        return redirect(route('manage.minecraft-players.show', $mcPlayer));
+        return to_route('manage.players.show', $player)
+            ->with(['success' => 'Player created successfully.']);
     }
 
-    public function edit(MinecraftPlayer $minecraftPlayer)
+    public function edit(MinecraftPlayer $player)
     {
-        Gate::authorize('update', $minecraftPlayer);
+        Gate::authorize('update', $player);
 
-        return view('manage.pages.minecraft-player.edit')
-            ->with(compact('minecraftPlayer'));
+        return Inertia::render('Players/PlayerEdit', compact('player'));
     }
 
-    public function update(Request $request, MinecraftPlayer $minecraftPlayer)
+    public function update(Request $request, MinecraftPlayer $player)
     {
-        Gate::authorize('update', $minecraftPlayer);
+        Gate::authorize('update', $player);
 
         $validated = $request->validate([
+            'uuid' => ['required', new MinecraftUUIDRule],
+            'alias' => ['required', 'string'],
             'account_id' => ['nullable', 'exists:accounts'],
         ]);
 
-        $minecraftPlayer->update($validated);
+        $uuid = MinecraftUUID::tryParse($validated['uuid']);
+        $exists = MinecraftPlayer::whereUuid($uuid)
+            ->whereNot(MinecraftPlayer::primaryKey(), $player->getKey())
+            ->exists();
 
-        return redirect(route('manage.minecraft-players.show', $minecraftPlayer));
-    }
+        if ($exists) {
+            throw ValidationException::withMessages([
+                'uuid' => 'A player already exists with this UUID',
+            ]);
+        }
 
-    public function destroy(MinecraftPlayer $minecraftPlayer)
-    {
-        Gate::authorize('delete', $minecraftPlayer);
+        $player->update($validated);
 
-        //
+        return to_route('manage.players.show', $player)
+            ->with(['success' => 'Player updated successfully.']);
     }
 }

@@ -1,0 +1,15 @@
+export interface Group {
+    group_id: number,
+    name: string,
+    alias: string,
+    is_default: boolean,
+    is_admin: boolean,
+    accounts_count?: number,
+    minecraft_name: string,
+    minecraft_display_name: string,
+    minecraft_hover_text: string,
+    display_priority: number,
+    group_type: string,
+    created_at: string,
+    updated_at: string,
+}
