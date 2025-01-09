@@ -22,7 +22,7 @@ function submit(form: InertiaForm<Group>) {
 
         <Card>
             <div class="p-8 max-w-2xl">
-                <BackButton href="/manage/badges" class="mb-4"/>
+                <BackButton href="/manage/groups" class="mb-4"/>
 
                 <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Edit a Group</h2>
                 <div class="text-sm text-gray-500">Groups are a collection of members with granted permissions</div>

@@ -72,7 +72,7 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('manage.builder-ranks.show', $this);
+        return route('review.builder-ranks.show', $this);
     }
 
     public function getActivitySubjectName(): ?string

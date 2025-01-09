@@ -83,6 +83,12 @@ watch(
                         <option :value="0">No</option>
                     </select>
                 </div>
+
+                <hr />
+
+                <OutlinedButton variant="secondary" @click="form.reset()">
+                    Clear Filter
+                </OutlinedButton>
             </Card>
 
             <Card class="grow">
