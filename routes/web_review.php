@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Review\BanAppeals\BanAppealController;
 use App\Http\Controllers\Review\BuilderRanks\BuilderRanksController;
+use App\Http\Controllers\Review\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('review.')
@@ -10,11 +11,13 @@ Route::name('review.')
         'auth',
         'activated',
         'mfa',
-        'can:access-manage', // TODO: change to access-review
+        'can:access-review',
         'require-mfa',
         Inertia\EncryptHistoryMiddleware::class,
     ])
     ->group(function() {
+        Route::get('/', HomeController::class);
+
         Route::group([
             'prefix' => 'builder-ranks',
             'as' => 'builder-ranks.',

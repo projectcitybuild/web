@@ -1,6 +1,6 @@
 <script setup>
 import SideBar from './Partials/SideBar.vue'
-import NavBar from './Partials/NavBar.vue'
+import NavBar from '../../../manage/Layouts/Root/Partials/NavBar.vue'
 </script>
 
 <template>

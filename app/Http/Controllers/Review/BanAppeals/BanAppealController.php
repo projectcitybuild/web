@@ -5,14 +5,15 @@ namespace App\Http\Controllers\Review\BanAppeals;
 use App\Core\Data\Exceptions\NotImplementedException;
 use App\Domains\BanAppeals\Entities\BanAppealStatus;
 use App\Domains\BanAppeals\Exceptions\AppealAlreadyDecidedException;
+use App\Domains\BanAppeals\Exceptions\NoPlayerForActionException;
 use App\Domains\BanAppeals\Notifications\BanAppealUpdatedNotification;
 use App\Domains\BanAppeals\UseCases\UpdateBanAppeal;
 use App\Domains\Bans\Exceptions\NotBannedException;
-use App\Domains\Manage\Exceptions\NoPlayerForActionException;
 use App\Http\Requests\BanAppealUpdateRequest;
 use App\Models\BanAppeal;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
 
 class BanAppealController
 {
@@ -24,20 +25,28 @@ class BanAppealController
         // Pending appeal (newest first), then all other appeals (newest first)
         $banAppeals = BanAppeal::orderByRaw('FIELD(status, '.BanAppealStatus::PENDING->value.') DESC')
             ->orderBy('created_at', 'desc')
-            ->paginate(50);
+            ->cursorPaginate(50);
 
-        return view('manage.pages.ban-appeal.index')->with([
-            'banAppeals' => $banAppeals,
-        ]);
+        return Inertia::render(
+            'BanAppeals/BanAppealList',
+            compact('banAppeals'),
+        );
     }
 
     public function show(BanAppeal $banAppeal)
     {
         Gate::authorize('view', $banAppeal);
 
-        return view('manage.pages.ban-appeal.show')->with([
-            'banAppeal' => $banAppeal,
+        $banAppeal->load([
+            'gamePlayerBan.bannerPlayer',
+            'gamePlayerBan.bannedPlayer',
+            'deciderPlayer',
         ]);
+
+        return Inertia::render(
+            'BanAppeals/BanAppealShow',
+            compact('banAppeal'),
+        );
     }
 
     public function update(

@@ -16,6 +16,7 @@ type Icon = 'plus'
     | 'check-shield'
     | 'check'
     | 'arrow-left'
+    | 'alert'
 
 
 interface Props {
@@ -56,6 +57,8 @@ const path = computed(() => {
             return 'm4.5 12.75 6 6 9-13.5'
         case 'arrow-left':
             return 'M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18'
+        case 'alert':
+            return 'M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z'
     }
 })
 </script>

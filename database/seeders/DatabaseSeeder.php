@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Models\Account;
+use App\Models\BanAppeal;
 use App\Models\BuilderRankApplication;
+use App\Models\GamePlayerBan;
 use App\Models\MinecraftBuild;
 use App\Models\MinecraftConfig;
 use App\Models\MinecraftPlayer;
@@ -67,5 +69,11 @@ class DatabaseSeeder extends Seeder
             ->for(Account::inRandomOrder()->first())
             ->status(ApplicationStatus::DENIED)
             ->create();
+
+        for ($i = 0; $i < 50; $i++) {
+            BanAppeal::factory()
+                ->for(GamePlayerBan::inRandomOrder()->first())
+                ->create();
+        }
     }
 }

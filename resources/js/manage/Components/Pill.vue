@@ -25,7 +25,7 @@ const style = computed(() => {
 </script>
 
 <template>
-    <span :class="'py-1 px-2 text-xs rounded-md ' + style">
+    <span :class="'py-1 px-2 text-xs rounded-md whitespace-nowrap ' + style">
         <slot/>
     </span>
 </template>

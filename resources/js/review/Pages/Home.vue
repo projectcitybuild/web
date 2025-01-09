@@ -3,6 +3,6 @@ import { Head } from '@inertiajs/vue3'
 </script>
 
 <template>
-    <Head title="Manage"/>
+    <Head title="Reviews"/>
     Home
 </template>

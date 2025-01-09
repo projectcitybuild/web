@@ -60,11 +60,6 @@ class BanAppeal extends Model implements LinkableAuditModel
         return $query->whereNot('status', BanAppealStatus::PENDING);
     }
 
-    public function isPending()
-    {
-        return $this->status == BanAppealStatus::PENDING;
-    }
-
     public function routeNotificationForMail($notification)
     {
         return $this->gamePlayerBan->bannedPlayer->account?->email ?? $this->email;
@@ -73,12 +68,6 @@ class BanAppeal extends Model implements LinkableAuditModel
     public function routeNotificationForDiscord(): string
     {
         return config('discord.webhook_ban_appeal_channel');
-    }
-
-    public function getBannedPlayerName()
-    {
-        return $this->gamePlayerBan->bannedPlayer->alias ??
-            $this->gamePlayerBan->banned_alias_at_time;
     }
 
     public function showLink(): string
