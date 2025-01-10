@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PlayerWarningSeeder::class);
         $this->call(DonationSeeder::class);
         $this->call(BadgeSeeder::class);
+        $this->call(BanAppealSeeder::class);
 
         ServerToken::create([
             'token' => 'pcbridge_local',
@@ -69,11 +70,5 @@ class DatabaseSeeder extends Seeder
             ->for(Account::inRandomOrder()->first())
             ->status(ApplicationStatus::DENIED)
             ->create();
-
-        for ($i = 0; $i < 50; $i++) {
-            BanAppeal::factory()
-                ->for(GamePlayerBan::inRandomOrder()->first())
-                ->create();
-        }
     }
 }

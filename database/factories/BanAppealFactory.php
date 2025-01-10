@@ -38,7 +38,7 @@ class BanAppealFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'decision_note' => $this->faker->paragraph,
-                'decided_at' => now(),
+                'decided_at' => now()->addDays(rand(0, 30)),
                 'decider_player_minecraft_id' => MinecraftPlayer::factory(),
             ];
         });
