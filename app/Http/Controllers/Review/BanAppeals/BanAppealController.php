@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Review\BanAppeals;
 
 use App\Core\Data\Exceptions\NotImplementedException;
-use App\Domains\BanAppeals\Entities\BanAppealStatus;
+use App\Domains\BanAppeals\Data\BanAppealStatus;
 use App\Domains\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use App\Domains\BanAppeals\Exceptions\NoPlayerForActionException;
 use App\Domains\BanAppeals\Notifications\BanAppealUpdatedNotification;
@@ -24,6 +24,7 @@ class BanAppealController
         // Get ban appeals paginated in the order:
         // Pending appeal (newest first), then all other appeals (newest first)
         $banAppeals = BanAppeal::orderByRaw('FIELD(status, '.BanAppealStatus::PENDING->value.') DESC')
+            ->with('gamePlayerBan.bannedPlayer')
             ->orderBy('created_at', 'desc')
             ->cursorPaginate(50);
 
@@ -56,12 +57,14 @@ class BanAppealController
     ) {
         Gate::authorize('update', $banAppeal);
 
+        $validated = $request->validated();
+
         try {
             $useCase->execute(
                 banAppeal: $banAppeal,
                 decidingAccount: $request->user(),
-                decisionNote: $request->get('decision_note'),
-                status: BanAppealStatus::from($request->get('status'))
+                decisionNote: $validated['decision_note'],
+                status: BanAppealStatus::from($validated['status']),
             );
         } catch (NotImplementedException $e) {
             throw ValidationException::withMessages([
@@ -83,6 +86,7 @@ class BanAppealController
 
         $banAppeal->notify(new BanAppealUpdatedNotification($banAppeal->showLink()));
 
-        return redirect()->route('manage.ban-appeals.show', $banAppeal);
+        return to_route('review.ban-appeals.show', $banAppeal)
+            ->with(['success' => 'Ban appeal updated and closed']);
     }
 }

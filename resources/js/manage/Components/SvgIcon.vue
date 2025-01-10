@@ -17,6 +17,7 @@ type Icon = 'plus'
     | 'check'
     | 'arrow-left'
     | 'alert'
+    | 'clock'
 
 
 interface Props {
@@ -59,6 +60,8 @@ const path = computed(() => {
             return 'M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18'
         case 'alert':
             return 'M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z'
+        case 'clock':
+            return 'M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'
     }
 })
 </script>

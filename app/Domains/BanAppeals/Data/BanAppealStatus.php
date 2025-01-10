@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\BanAppeals\Entities;
+namespace App\Domains\BanAppeals\Data;
 
 use Illuminate\Support\Str;
 

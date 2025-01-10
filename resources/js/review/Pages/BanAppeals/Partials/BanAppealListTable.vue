@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { format } from '../../../../manage/Utilities/DateFormatter'
+import { distance, distanceFromNow, format } from '../../../../manage/Utilities/DateFormatter'
 import { computed } from 'vue'
 import DataTable from '../../../../manage/Components/DataTable.vue'
 import { BanAppeal } from '../../../Data/BanAppeal'
 import FilledButton from '../../../../manage/Components/FilledButton.vue'
-import BooleanCheck from '../../../../manage/Components/BooleanCheck.vue'
 import Pill from '../../../../manage/Components/Pill.vue'
 import { Link } from '@inertiajs/vue3'
+import MinecraftAvatar from '../../../../manage/Components/MinecraftAvatar.vue'
 
 interface Props {
     banAppeals: BanAppeal[],
@@ -16,31 +16,38 @@ const props = defineProps<Props>()
 const fields = [
     { key: 'id', label: 'ID' },
     { key: 'status', label: 'Status' },
-    { key: 'email', label: 'Email' },
-    { key: 'is_account_verified', label: 'Account Verified' },
+    { key: 'waiting_time', label: 'Waiting Time' },
+    { key: 'player', label: 'Player' },
     { key: 'created_at', label: 'Created At' },
-    { key: 'updated_at', label: 'Updated At' },
+    { key: 'decided_at', label: 'Reviewed At' },
 ]
 const rows = computed(
     () => props.banAppeals.map((banAppeal) => ({
         ...banAppeal,
+        waiting_time: banAppeal.decided_at == null
+            ? distanceFromNow(banAppeal.created_at)
+            : distance(banAppeal.created_at, banAppeal.decided_at),
         created_at: format(banAppeal.created_at),
         updated_at: format(banAppeal.updated_at),
+        decided_at: format(banAppeal.decided_at) ?? '-',
     }))
 )
 </script>
 
 <template>
     <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-gray-200">
-        <template #is_account_verified="{ item }">
-            <BooleanCheck :value="!!item.is_account_verified" />
-        </template>
-
         <template #status="{ item }">
             <Pill v-if="item.status === 0" variant="danger">Awaiting Review</Pill>
-            <Pill v-if="item.status === 1" variant="success">Unbanned</Pill>
-            <Pill v-if="item.status === 2" variant="success">Temp Banned</Pill>
-            <Pill v-if="item.status === 3" variant="success">Denied</Pill>
+            <Pill v-if="item.status === 1" variant="secondary">Unbanned</Pill>
+            <Pill v-if="item.status === 2" variant="secondary">Temp Banned</Pill>
+            <Pill v-if="item.status === 3" variant="secondary">Denied</Pill>
+        </template>
+
+        <template #player="{ item }">
+            <div class="flex items-center gap-2">
+                <MinecraftAvatar :uuid="item.game_player_ban.banned_player.uuid" :size="16" />
+                {{ item.game_player_ban.banned_player.alias }}
+            </div>
         </template>
 
         <template #actions="{ item }">

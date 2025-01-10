@@ -102,17 +102,6 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         $query->where('uuid', $uuid->trimmed());
     }
 
-    /** ************************************************
-     *
-     * GamePlayable
-     *
-     ***************************************************/
-    /** @deprecated  */
-    public function getRawModel(): static
-    {
-        return $this;
-    }
-
     public function auditAttributeConfig(): AuditAttributes
     {
         return AuditAttributes::build()

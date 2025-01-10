@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Domains\BanAppeals\Entities\BanAppealStatus;
+use App\Domains\BanAppeals\Data\BanAppealStatus;
 use App\Models\BanAppeal;
 use App\Models\MinecraftPlayer;
 
