@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 import Card from '../../../manage/Components/Card.vue'
 import BackButton from '../../../manage/Components/BackButton.vue'
 import MinecraftAvatar from '../../../manage/Components/MinecraftAvatar.vue'
@@ -16,6 +16,7 @@ import Pill from '../../../manage/Components/Pill.vue'
 import type { Group } from '../../../manage/Data/Group'
 import AwaitingDecisionAlert from './Partials/AwaitingDecisionAlert.vue'
 import BuilderRankDecision from './Partials/BuilderRankDecision.vue'
+import BuilderRankDecisionForm from './Partials/BuilderRankDecisionForm.vue'
 
 interface Props {
     application: BuilderRankApplication,
@@ -23,12 +24,6 @@ interface Props {
     success?: string,
 }
 const props = defineProps<Props>()
-
-const form = useForm({
-    status: null,
-    promote_group: null,
-    decision_note: null,
-})
 
 const hasDecision = computed(() => props.application.status !== BuilderRankApplicationStatus.pending)
 
@@ -41,10 +36,6 @@ const waitingTime = computed(() => {
 
 const player = computed(() => props.application.account?.minecraft_account?.at(0))
 const alts = computed(() => props.application.account?.minecraft_account?.slice(1) ?? [])
-
-function submit() {
-    form.put('/review/ban-appeals/' + props.application.id)
-}
 </script>
 
 <template>
@@ -150,12 +141,7 @@ function submit() {
 
             <section>
                 <AwaitingDecisionAlert
-                    v-if="application.status === BuilderRankApplicationStatus.pending"
-                    class="mb-4"
-                />
-                <BuilderRankDecision
-                    v-else
-                    :application="application"
+                    v-if="!hasDecision"
                     class="mb-4"
                 />
 
@@ -199,61 +185,16 @@ function submit() {
                     </div>
                 </Card>
 
-                <Card v-if="!hasDecision">
-                    <div class="p-4 border-b border-gray-200">
-                        <h2 class="font-bold">Decision</h2>
-                    </div>
-
-                    <form @submit.prevent="submit" class="p-4">
-                        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
-
-                        <div class="space-y-6">
-                            <div>
-                                <div class="mb-4">
-                                    <label for="activated" class="text-xs text-gray-700 font-bold">Promote to...</label>
-                                    <select
-                                        v-model="form.promote_group"
-                                        id="activated"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    >
-                                        <option :value="null">Select a build group...</option>
-                                        <option v-for="group in buildGroups" :value="group.group_id">{{ group.name }}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div>
-                                <label for="decision_note" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Message to Player
-                                </label>
-                                <textarea
-                                    v-model="form.decision_note"
-                                    id="additional_info"
-                                    rows="8"
-                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                ></textarea>
-                                <span class="block mt-2 text-xs text-gray-400">
-                                    This is the message email to the player regarding their application. <br />
-                                    <strong>Please include the reasoning for your decision</strong>
-                                </span>
-                                <div v-if="form.errors.decision_note" class="text-xs text-red-500 font-bold mt-2">
-                                    {{ form.errors.decision_note }}
-                                </div>
-                            </div>
-                        </div>
-
-                        Applications cannot be re-opened after approving or denying.
-                        Please finalise the decision before pressing a button
-
-                        <FilledButton
-                            variant="danger"
-                            :disabled="form.processing"
-                            type="submit"
-                            class="mt-8"
-                        >
-                            Finish and Close
-                        </FilledButton>
-                    </form>
-                </Card>
+                <BuilderRankDecision
+                    v-if="hasDecision"
+                    :application="application"
+                    class="mb-4"
+                />
+                <BuilderRankDecisionForm
+                    v-else
+                    :application="application"
+                    :build-groups="buildGroups"
+                />
             </section>
         </div>
     </div>

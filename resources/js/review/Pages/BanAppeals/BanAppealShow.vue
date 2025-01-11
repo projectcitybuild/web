@@ -241,7 +241,7 @@ function submit() {
                                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 ></textarea>
                                 <span class="block mt-2 text-xs text-gray-400">
-                                    This is the message email to the player regarding their application. <br />
+                                    This is the message emailed to the player regarding their application. <br />
                                     <strong>Please include the reasoning for your decision</strong>
                                 </span>
                                 <div v-if="form.errors.decision_note" class="text-xs text-red-500 font-bold mt-2">

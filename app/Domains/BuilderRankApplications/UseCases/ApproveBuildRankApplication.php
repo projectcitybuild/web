@@ -6,6 +6,7 @@ use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Domains\BuilderRankApplications\Notifications\BuilderRankAppApprovedNotification;
 use App\Models\BuilderRankApplication;
 use App\Models\Group;
+use Illuminate\Support\Facades\DB;
 
 class ApproveBuildRankApplication
 {
@@ -14,15 +15,25 @@ class ApproveBuildRankApplication
         int $promoteGroupId,
     ): BuilderRankApplication {
         $application = BuilderRankApplication::find($applicationId);
+        $promoteGroup = Group::find($promoteGroupId);
 
         abort_if($application->isReviewed(), 409);
 
-        $application->status = ApplicationStatus::APPROVED->value;
-        $application->closed_at = now();
-        $application->save();
+        DB::transaction(function () use ($application, $promoteGroup) {
+            $application->status = ApplicationStatus::APPROVED->value;
+            $application->closed_at = now();
+            $application->save();
 
-        $promoteGroup = Group::find($promoteGroupId);
-        $application->account->groups()->attach($promoteGroup->getKey());
+            $updatedGroupIds = $application
+                ->account
+                ->groups()
+                ->where('group_type', '!=', 'build')
+                ->get()
+                ->map(fn ($it) => $it->getKey())
+                ->push($promoteGroup->getKey());
+
+            $application->account->groups()->sync($updatedGroupIds);
+        });
 
         $application->account->notify(
             new BuilderRankAppApprovedNotification(
