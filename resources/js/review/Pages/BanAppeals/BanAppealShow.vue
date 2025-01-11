@@ -13,6 +13,8 @@ import { computed } from 'vue'
 import { BanAppealStatus } from '../../Data/BanAppealStatus'
 import ErrorAlert from '../../../manage/Components/ErrorAlert.vue'
 import SvgIcon from '../../../manage/Components/SvgIcon.vue'
+import { Link } from '@inertiajs/vue3'
+import OutlinedButton from '../../../manage/Components/OutlinedButton.vue'
 
 interface Props {
     banAppeal: BanAppeal,
@@ -81,7 +83,7 @@ function submit() {
             </template>
         </ToolBar>
 
-        <div class="mt-4 grid grid-cols-2 gap-4 md:flex-row">
+        <div class="mt-4 grid grid-rows-2 lg:grid-cols-2 gap-4">
             <section>
                 <Card>
                     <div class="p-4">
@@ -105,8 +107,12 @@ function submit() {
                 </Card>
 
                 <Card class="mt-4">
-                    <div class="p-4 border-b border-gray-200">
+                    <div class="p-4 border-b border-gray-200 flex justify-between items-center gap-2">
                         <h2 class="font-bold">Player Ban</h2>
+
+                        <a :href="'/manage/player-bans/' + banAppeal.game_player_ban.id + '/edit'">
+                            <OutlinedButton variant="secondary">Edit</OutlinedButton>
+                        </a>
                     </div>
 
                     <div class="p-4 space-y-4">
@@ -141,7 +147,7 @@ function submit() {
                         </dl>
                         <dl>
                             <dt class="text-sm text-gray-500 dark:text-gray-400">Reason</dt>
-                            <dd class="text-sm text-gray-900 dark:text-white">
+                            <dd class="text-sm text-gray-900 dark:text-white italic">
                                 {{ banAppeal.game_player_ban.reason }}
                             </dd>
                         </dl>
@@ -175,7 +181,7 @@ function submit() {
                         <h2 class="font-bold">Ban Appeal</h2>
                     </div>
 
-                    <div class="p-4">
+                    <div class="p-4 italic">
                         {{ banAppeal.explanation }}
                     </div>
 
@@ -259,10 +265,10 @@ function submit() {
 
                 <Card v-else :class="'mt-4 ' + status.border">
                     <div :class="'p-4 rounded-t-md text-white ' + status.background">
-                        <h2 class="font-bold">{{ status.label }}</h2>
+                        <h2 class="font-bold">Decision: {{ status.label }}</h2>
                     </div>
 
-                    <div class="p-4">
+                    <div class="p-4 italic">
                         {{ banAppeal.decision_note }}
                     </div>
 
@@ -278,7 +284,12 @@ function submit() {
                                 <dt class="text-sm text-gray-500 dark:text-gray-400">Decided By</dt>
                                 <dd class="text-sm text-gray-900 dark:text-white flex items-center gap-2">
                                     <MinecraftAvatar :uuid="banAppeal.decider_player.uuid" :size="24" />
-                                    {{ banAppeal.decider_player.alias }}
+                                    <a
+                                        :href="'/manage/players/' + banAppeal.decider_player.player_minecraft_id"
+                                        class="text-blue-500"
+                                    >
+                                        {{ banAppeal.decider_player.alias }}
+                                    </a>
                                 </dd>
                             </dl>
                         </div>
