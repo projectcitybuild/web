@@ -16,15 +16,9 @@ class HandleInertiaRequests extends Middleware
      */
     public function rootView(Request $request)
     {
-        $prefix = $request->route()->getPrefix();
-
-        if ($prefix == '/manage') {
-            return 'manage.app';
-        } else if ($prefix == '/review') {
-            return 'review.app';
-        } else {
-            return parent::rootView($request);
-        }
+        // We define this inside Controllers instead due to supporting
+        // multiple Inertia apps
+        return parent::rootView($request);
     }
 
     /**

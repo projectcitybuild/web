@@ -3,16 +3,17 @@
 namespace App\Http\Controllers\Manage\Minecraft;
 
 use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
+use App\Domains\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftWarp;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
-use Inertia\Inertia;
 
 class MinecraftWarpController extends WebController
 {
+    use RendersManageApp;
     use ValidatesCoordinates;
 
     public function index(Request $request)
@@ -25,14 +26,14 @@ class MinecraftWarpController extends WebController
         if (request()->wantsJson()) {
             return $warps;
         }
-        return Inertia::render('Warps/WarpList', compact('warps'));
+        return $this->inertiaRender('Warps/WarpList', compact('warps'));
     }
 
     public function create(Request $request)
     {
         Gate::authorize('create', MinecraftWarp::class);
 
-        return Inertia::render('Warps/WarpCreate');
+        return $this->inertiaRender('Warps/WarpCreate');
     }
 
     public function store(Request $request): RedirectResponse
@@ -54,7 +55,7 @@ class MinecraftWarpController extends WebController
     {
         Gate::authorize('update', $warp);
 
-        return Inertia::render('Warps/WarpEdit', compact('warp'));
+        return $this->inertiaRender('Warps/WarpEdit', compact('warp'));
     }
 
     public function update(Request $request, MinecraftWarp $warp)

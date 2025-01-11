@@ -1,6 +1,6 @@
-import { PlayerBan } from '../../manage/Data/PlayerBan'
-import { Player } from '../../manage/Data/Player'
 import { BanAppealStatus } from './BanAppealStatus'
+import { Player } from './Player'
+import { PlayerBan } from './PlayerBan'
 
 export interface BanAppeal {
     id: number,

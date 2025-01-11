@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manage\Warnings;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
+use App\Domains\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftPlayer;
 use App\Models\PlayerWarning;
@@ -13,6 +14,8 @@ use Inertia\Inertia;
 
 class PlayerWarningController extends WebController
 {
+    use RendersManageApp;
+
     public function index(Request $request)
     {
         Gate::authorize('viewAny', PlayerWarning::class);
@@ -24,14 +27,14 @@ class PlayerWarningController extends WebController
         if (request()->wantsJson()) {
             return $warnings;
         }
-        return Inertia::render('Warnings/WarningList', compact('warnings'));
+        return $this->inertiaRender('Warnings/WarningList', compact('warnings'));
     }
 
     public function create(Request $request)
     {
         Gate::authorize('create', PlayerWarning::class);
 
-        return Inertia::render('Warnings/WarningCreate');
+        return $this->inertiaRender('Warnings/WarningCreate');
     }
 
     public function store(Request $request)
@@ -74,7 +77,7 @@ class PlayerWarningController extends WebController
 
         $warning->load('warnedPlayer', 'warnerPlayer');
 
-        return INertia::render('Warnings/WarningEdit', compact('warning'));
+        return $this->inertiaRender('Warnings/WarningEdit', compact('warning'));
     }
 
     public function update(Request $request, PlayerWarning $warning)

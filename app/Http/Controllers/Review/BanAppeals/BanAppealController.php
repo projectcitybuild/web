@@ -9,6 +9,7 @@ use App\Domains\BanAppeals\Exceptions\NoPlayerForActionException;
 use App\Domains\BanAppeals\Notifications\BanAppealUpdatedNotification;
 use App\Domains\BanAppeals\UseCases\UpdateBanAppeal;
 use App\Domains\Bans\Exceptions\NotBannedException;
+use App\Domains\Review\RendersReviewApp;
 use App\Http\Requests\BanAppealUpdateRequest;
 use App\Models\BanAppeal;
 use Illuminate\Support\Facades\Gate;
@@ -17,6 +18,8 @@ use Inertia\Inertia;
 
 class BanAppealController
 {
+    use RendersReviewApp;
+
     public function index()
     {
         Gate::authorize('viewAny', BanAppeal::class);
@@ -28,7 +31,7 @@ class BanAppealController
             ->orderBy('created_at', 'desc')
             ->cursorPaginate(50);
 
-        return Inertia::render(
+        return $this->inertiaRender(
             'BanAppeals/BanAppealList',
             compact('banAppeals'),
         );
@@ -44,7 +47,7 @@ class BanAppealController
             'deciderPlayer',
         ]);
 
-        return Inertia::render(
+        return $this->inertiaRender(
             'BanAppeals/BanAppealShow',
             compact('banAppeal'),
         );

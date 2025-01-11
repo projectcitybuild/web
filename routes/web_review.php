@@ -18,21 +18,14 @@ Route::name('review.')
     ->group(function() {
         Route::get('/', HomeController::class);
 
-        Route::group([
-            'prefix' => 'builder-ranks',
-            'as' => 'builder-ranks.',
-        ], function () {
-            Route::get('/', [BuilderRanksController::class, 'index'])
-                ->name('index');
+        Route::prefix('builder-ranks')->group(function () {
+            Route::get('/', [BuilderRanksController::class, 'index']);
 
-            Route::get('{application}', [BuilderRanksController::class, 'show'])
-                ->name('show');
-
-            Route::post('{application}/approve', [BuilderRanksController::class, 'approve'])
-                ->name('approve');
-
-            Route::post('{application}/deny', [BuilderRanksController::class, 'deny'])
-                ->name('deny');
+            Route::prefix('{application}')->group(function () {
+                Route::get('/', [BuilderRanksController::class, 'show']);
+                Route::post('approve', [BuilderRanksController::class, 'approve']);
+                Route::post('deny', [BuilderRanksController::class, 'deny']);
+            });
         });
 
         Route::resource('ban-appeals', BanAppealController::class)

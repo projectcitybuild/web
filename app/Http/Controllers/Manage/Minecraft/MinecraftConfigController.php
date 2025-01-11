@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers\Manage\Minecraft;
 
+use App\Domains\Manage\RendersManageApp;
 use App\Domains\MinecraftEventBus\Events\MinecraftConfigUpdated;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftConfig;
-use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Inertia\Inertia;
 
 class MinecraftConfigController extends WebController
 {
+    use RendersManageApp;
+
     public function create()
     {
         Gate::authorize('create', MinecraftConfig::class);
 
         $config = MinecraftConfig::byLatest()->first();
 
-        return Inertia::render('MinecraftConfig/MinecraftConfig',[
+        return $this->inertiaRender('MinecraftConfig/MinecraftConfig',[
             'config' => $config,
         ]);
     }

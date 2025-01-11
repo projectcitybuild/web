@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Manage\Donations;
 
+use App\Domains\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Donation;
 use Illuminate\Http\Request;
@@ -10,6 +11,8 @@ use Inertia\Inertia;
 
 class DonationController extends WebController
 {
+    use RendersManageApp;
+
     public function index(Request $request)
     {
         Gate::authorize('viewAny', Donation::class);
@@ -21,7 +24,7 @@ class DonationController extends WebController
         if (request()->wantsJson()) {
             return $donations;
         }
-        return Inertia::render(
+        return $this->inertiaRender(
             'Donations/DonationList',
             compact('donations'),
         );
@@ -33,7 +36,7 @@ class DonationController extends WebController
 
         $donation->load('perks', 'perks.account');
 
-        return Inertia::render(
+        return $this->inertiaRender(
             'Donations/DonationShow',
             compact('donation'),
         );
@@ -43,7 +46,7 @@ class DonationController extends WebController
     {
         Gate::authorize('create', Donation::class);
 
-        return Inertia::render('Donations/DonationCreate');
+        return $this->inertiaRender('Donations/DonationCreate');
     }
 
     public function store(Request $request)
@@ -66,7 +69,7 @@ class DonationController extends WebController
     {
         Gate::authorize('update', $donation);
 
-        return Inertia::render(
+        return $this->inertiaRender(
             'Donations/DonationEdit',
             compact('donation'),
         );

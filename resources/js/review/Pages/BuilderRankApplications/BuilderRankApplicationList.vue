@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3'
 import { Paginated } from '../../../manage/Data/Paginated'
-import BanAppealListTable from './Partials/BanAppealListTable.vue'
 import InfinitePagination from '../../../manage/Components/InfinitePagination.vue'
 import SuccessAlert from '../../../manage/Components/SuccessAlert.vue'
 import Card from '../../../manage/Components/Card.vue'
-import { BanAppeal } from '../../../manage/Data/BanAppeal'
+import type { BuilderRankApplication } from '../../../manage/Data/BuilderRankApplication'
+import BuilderRankApplicationListTable from './Partials/BuilderRankApplicationListTable.vue'
 
 interface Props {
     success?: string,
-    banAppeals: Paginated<BanAppeal>,
+    applications: Paginated<BuilderRankApplication>,
 }
 defineProps<Props>()
 </script>
 
 <template>
-    <Head title="Ban Appeals" />
+    <Head title="Builder Rank Applications" />
 
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
@@ -25,10 +25,10 @@ defineProps<Props>()
             </div>
 
             <InfinitePagination
-                :initial="banAppeals"
+                :initial="applications"
                 v-slot="source"
             >
-                <BanAppealListTable :banAppeals="source.data"/>
+                <BuilderRankApplicationListTable :applications="source.data"/>
             </InfinitePagination>
         </Card>
     </section>

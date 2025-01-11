@@ -62,7 +62,7 @@ const load = async () => {
         if (cursor == null) {
             stop()
         }
-        return response.data.data
+        return response.data?.data ?? []
     } finally {
         loading.value = false
     }

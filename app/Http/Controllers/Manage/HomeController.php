@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Manage;
 
+use App\Domains\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class HomeController extends WebController
 {
+    use RendersManageApp;
+
     public function __invoke(Request $request)
     {
-        return Inertia::render('Home');
+        return $this->inertiaRender('Home');
     }
 }

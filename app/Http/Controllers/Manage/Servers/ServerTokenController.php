@@ -2,29 +2,31 @@
 
 namespace App\Http\Controllers\Manage\Servers;
 
+use App\Domains\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Server;
 use App\Models\ServerToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Inertia\Inertia;
 
 class ServerTokenController extends WebController
 {
+    use RendersManageApp;
+
     public function index(Request $request)
     {
         Gate::authorize('viewAny', ServerToken::class);
 
         $tokens = ServerToken::orderBy('created_at', 'desc')->get();
 
-        return Inertia::render('ServerTokens/ServerTokensList', compact('tokens'));
+        return $this->inertiaRender('ServerTokens/ServerTokensList', compact('tokens'));
     }
 
     public function create(Request $request)
     {
         Gate::authorize('create', ServerToken::class);
 
-        return Inertia::render('ServerTokens/ServerTokenCreate');
+        return $this->inertiaRender('ServerTokens/ServerTokenCreate');
     }
 
     public function store(Request $request)
@@ -50,7 +52,7 @@ class ServerTokenController extends WebController
     {
         Gate::authorize('update', ServerToken::class);
 
-        return Inertia::render('ServerTokens/ServerTokenEdit', [
+        return $this->inertiaRender('ServerTokens/ServerTokenEdit', [
             'token' => $serverToken,
         ]);
     }

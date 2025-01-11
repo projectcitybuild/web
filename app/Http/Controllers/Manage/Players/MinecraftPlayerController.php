@@ -6,6 +6,7 @@ use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Core\Domains\MinecraftUUID\UseCases\LookupMinecraftUUID;
 use App\Core\Domains\Mojang\Api\MojangPlayerApi;
+use App\Domains\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
@@ -17,6 +18,8 @@ use Inertia\Inertia;
 
 class MinecraftPlayerController extends WebController
 {
+    use RendersManageApp;
+
     public function index()
     {
         Gate::authorize('viewAny', MinecraftPlayer::class);
@@ -28,7 +31,7 @@ class MinecraftPlayerController extends WebController
         if (request()->wantsJson()) {
             return $minecraftPlayers;
         }
-        return Inertia::render('Players/PlayerList', [
+        return $this->inertiaRender('Players/PlayerList', [
             'players' => $minecraftPlayers,
         ]);
     }
@@ -39,14 +42,14 @@ class MinecraftPlayerController extends WebController
 
         $player->load(['account']);
 
-        return Inertia::render('Players/PlayerShow', compact('player'));
+        return $this->inertiaRender('Players/PlayerShow', compact('player'));
     }
 
     public function create()
     {
         Gate::authorize('create', MinecraftPlayer::class);
 
-        return Inertia::render('Players/PlayerCreate');
+        return $this->inertiaRender('Players/PlayerCreate');
     }
 
     public function store(Request $request, LookupMinecraftUUID $lookupMinecraftUUID)
@@ -91,7 +94,7 @@ class MinecraftPlayerController extends WebController
     {
         Gate::authorize('update', $player);
 
-        return Inertia::render('Players/PlayerEdit', compact('player'));
+        return $this->inertiaRender('Players/PlayerEdit', compact('player'));
     }
 
     public function update(Request $request, MinecraftPlayer $player)
