@@ -1,7 +1,26 @@
 <script setup lang="ts">
 import logo from '../../../../../images/logo-alt.png'
+import { onBeforeMount, ref, watch } from 'vue'
+import { usePage } from '@inertiajs/vue3'
 
 defineEmits(['hamburgerTap'])
+
+const page = usePage()
+
+const selectedTab = ref(checkTab(page.url))
+
+function checkTab(url: string) {
+    if (page.url.startsWith('/manage')) {
+        return 'manage'
+    } else if (page.url.startsWith('/review')) {
+        return 'review'
+    }
+    return null
+}
+
+onBeforeMount(() => checkTab(page.url))
+
+watch(() => page.url, checkTab)
 </script>
 
 <template>
@@ -49,6 +68,11 @@ defineEmits(['hamburgerTap'])
                 </a>
             </div>
             <div class="flex items-center lg:order-2">
+                <div class="p-2">
+                    <a href="/manage" :class="'p-3' + (selectedTab === 'manage' ? ' rounded-lg bg-gray-100 font-bold' : '')">Manage</a>
+                    <a href="/review" :class="'p-3' + (selectedTab === 'review' ? ' rounded-lg bg-gray-100 font-bold' : '')">Review</a>
+                </div>
+
                 <button
                     type="button"
                     class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
