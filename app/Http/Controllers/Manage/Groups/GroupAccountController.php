@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Manage\Groups;
 
+use App\Domains\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
 use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Inertia\Inertia;
 
 class GroupAccountController extends WebController
 {
+    use RendersManageApp;
+
     public function index(Request $request, Group $group)
     {
         Gate::authorize('view', $group);
@@ -26,7 +28,7 @@ class GroupAccountController extends WebController
         if ($request->wantsJson()) {
             return $accounts;
         }
-        return Inertia::render(
+        return $this->inertiaRender(
             'Groups/GroupAccountList',
             compact('accounts', 'group'),
         );

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Manage\Bans;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Domains\Bans\Data\UnbanType;
+use App\Domains\Manage\RendersManageApp;
 use App\Domains\MinecraftEventBus\Events\MinecraftUuidBanned;
 use App\Http\Controllers\WebController;
 use App\Models\GamePlayerBan;
@@ -16,6 +17,8 @@ use Inertia\Inertia;
 
 class GamePlayerBanController extends WebController
 {
+    use RendersManageApp;
+
     public function index(Request $request)
     {
         Gate::authorize('viewAny', GamePlayerBan::class);
@@ -27,7 +30,7 @@ class GamePlayerBanController extends WebController
         if (request()->wantsJson()) {
             return $bans;
         }
-        return Inertia::render('PlayerBans/PlayerBanList', compact('bans'));
+        return $this->inertiaRender('PlayerBans/PlayerBanList', compact('bans'));
     }
 
     public function create(Request $request)
@@ -37,7 +40,7 @@ class GamePlayerBanController extends WebController
         $account = $request->user();
         $account->load('minecraftAccount');
 
-        return Inertia::render('PlayerBans/PlayerBanCreate', [
+        return $this->inertiaRender('PlayerBans/PlayerBanCreate', [
             'account' => $account,
         ]);
     }
@@ -84,7 +87,7 @@ class GamePlayerBanController extends WebController
 
         $playerBan->load('bannedPlayer', 'bannerPlayer', 'unbannerPlayer');
 
-        return Inertia::render('PlayerBans/PlayerBanEdit', [
+        return $this->inertiaRender('PlayerBans/PlayerBanEdit', [
             'ban' => $playerBan,
         ]);
     }

@@ -2,29 +2,31 @@
 
 namespace App\Http\Controllers\Manage\Servers;
 
+use App\Domains\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Server;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Inertia\Inertia;
 
 class ServerController extends WebController
 {
+    use RendersManageApp;
+
     public function index(Request $request)
     {
         Gate::authorize('viewAny', Server::class);
 
         $servers = Server::orderBy('created_at', 'desc')->get();
 
-        return Inertia::render('Servers/ServerList', compact('servers'));
+        return $this->inertiaRender('Servers/ServerList', compact('servers'));
     }
 
     public function create(Request $request)
     {
         Gate::authorize('create', Server::class);
 
-        return Inertia::render('Servers/ServerCreate');
+        return $this->inertiaRender('Servers/ServerCreate');
     }
 
     public function store(Request $request): RedirectResponse
@@ -48,7 +50,7 @@ class ServerController extends WebController
     {
         Gate::authorize('update', $server);
 
-        return Inertia::render('Servers/ServerEdit', compact('server'));
+        return $this->inertiaRender('Servers/ServerEdit', compact('server'));
     }
 
     public function update(Request $request, Server $server)

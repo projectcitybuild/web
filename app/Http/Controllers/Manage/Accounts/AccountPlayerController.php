@@ -4,21 +4,22 @@ namespace App\Http\Controllers\Manage\Accounts;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
+use App\Domains\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
-use App\Models\Group;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Inertia\Inertia;
 
 class AccountPlayerController extends WebController
 {
+    use RendersManageApp;
+
     public function create(Request $request, Account $account)
     {
         Gate::authorize('update', $account);
 
-        return Inertia::render('Accounts/AccountPlayerSelect', [
+        return $this->inertiaRender('Accounts/AccountPlayerSelect', [
             'account_id' => $account->getKey(),
         ]);
     }

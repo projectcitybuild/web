@@ -22,6 +22,7 @@ final class BuilderRankApplicationRequest extends FormRequest
             'current_builder_rank' => ['required', Rule::in($ranks)],
             'build_location' => 'required',
             'build_description' => 'required',
+            'additional_notes' => 'nullable',
         ];
     }
 

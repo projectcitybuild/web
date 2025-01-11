@@ -14,7 +14,12 @@ class HandleInertiaRequests extends Middleware
      *
      * @var string
      */
-    protected $rootView = 'manage.app';
+    public function rootView(Request $request)
+    {
+        // We define this inside Controllers instead due to supporting
+        // multiple Inertia apps
+        return parent::rootView($request);
+    }
 
     /**
      * Determines the current asset version.

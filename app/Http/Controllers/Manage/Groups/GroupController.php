@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Manage\Groups;
 
+use App\Domains\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
 use App\Models\Group;
@@ -13,6 +14,8 @@ use Inertia\Inertia;
 
 class GroupController extends WebController
 {
+    use RendersManageApp;
+
     public function index()
     {
         Gate::authorize('viewAny', Group::class);
@@ -27,14 +30,14 @@ class GroupController extends WebController
             ->where('is_default', true)
             ->map(fn ($group) => $group->accounts_count = Account::doesntHave('groups')->count());
 
-        return Inertia::render('Groups/GroupList', compact('groups'));
+        return $this->inertiaRender('Groups/GroupList', compact('groups'));
     }
 
     public function create(Request $request)
     {
         Gate::authorize('create', Group::class);
 
-        return Inertia::render('Groups/GroupCreate');
+        return $this->inertiaRender('Groups/GroupCreate');
     }
 
     public function store(Request $request): RedirectResponse
@@ -61,7 +64,7 @@ class GroupController extends WebController
     {
         Gate::authorize('update', $group);
 
-        return Inertia::render('Groups/GroupEdit', compact('group'));
+        return $this->inertiaRender('Groups/GroupEdit', compact('group'));
     }
 
     public function update(Request $request, Group $group): RedirectResponse

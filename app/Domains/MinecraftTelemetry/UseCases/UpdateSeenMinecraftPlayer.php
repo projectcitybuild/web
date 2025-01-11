@@ -13,8 +13,7 @@ final class UpdateSeenMinecraftPlayer
             uuid: $uuid,
             alias: $alias,
         );
-        $minecraftPlayer = $player->getRawModel();
-        $minecraftPlayer->last_seen_at = now();
-        $minecraftPlayer->save();
+        $player->last_seen_at = now();
+        $player->save();
     }
 }

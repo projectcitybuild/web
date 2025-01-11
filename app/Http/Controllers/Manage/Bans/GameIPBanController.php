@@ -4,16 +4,18 @@ namespace App\Http\Controllers\Manage\Bans;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
+use App\Domains\Manage\RendersManageApp;
 use App\Domains\MinecraftEventBus\Events\IpAddressBanned;
 use App\Http\Controllers\WebController;
 use App\Models\GameIPBan;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Inertia\Inertia;
 
 class GameIPBanController extends WebController
 {
+    use RendersManageApp;
+
     public function index(Request $request)
     {
         Gate::authorize('viewAny', GameIPBan::class);
@@ -25,14 +27,14 @@ class GameIPBanController extends WebController
         if (request()->wantsJson()) {
             return $bans;
         }
-        return Inertia::render('IPBans/IPBanList', compact('bans'));
+        return $this->inertiaRender('IPBans/IPBanList', compact('bans'));
     }
 
     public function create(Request $request)
     {
         Gate::authorize('create', GameIPBan::class);
 
-        return Inertia::render('IPBans/IPBanCreate');
+        return $this->inertiaRender('IPBans/IPBanCreate');
     }
 
     public function store(Request $request)
@@ -65,7 +67,7 @@ class GameIPBanController extends WebController
 
         $ipBan->load('bannerPlayer');
 
-        return Inertia::render('IPBans/IPBanEdit', [
+        return $this->inertiaRender('IPBans/IPBanEdit', [
             'ban' => $ipBan,
         ]);
     }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Review\BanAppeals\BanAppealController;
 use App\Http\Controllers\Review\BuilderRanks\BuilderRanksController;
+use App\Http\Controllers\Review\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('review.')
@@ -10,26 +11,21 @@ Route::name('review.')
         'auth',
         'activated',
         'mfa',
-        'can:access-manage', // TODO: change to access-review
+        'can:access-review',
         'require-mfa',
         Inertia\EncryptHistoryMiddleware::class,
     ])
     ->group(function() {
-        Route::group([
-            'prefix' => 'builder-ranks',
-            'as' => 'builder-ranks.',
-        ], function () {
-            Route::get('/', [BuilderRanksController::class, 'index'])
-                ->name('index');
+        Route::get('/', HomeController::class);
 
-            Route::get('{application}', [BuilderRanksController::class, 'show'])
-                ->name('show');
+        Route::prefix('builder-ranks')->name('builder-ranks.')->group(function () {
+            Route::get('/', [BuilderRanksController::class, 'index']);
 
-            Route::post('{application}/approve', [BuilderRanksController::class, 'approve'])
-                ->name('approve');
-
-            Route::post('{application}/deny', [BuilderRanksController::class, 'deny'])
-                ->name('deny');
+            Route::prefix('{application}')->group(function () {
+                Route::get('/', [BuilderRanksController::class, 'show'])->name('show');
+                Route::post('approve', [BuilderRanksController::class, 'approve']);
+                Route::post('deny', [BuilderRanksController::class, 'deny']);
+            });
         });
 
         Route::resource('ban-appeals', BanAppealController::class)

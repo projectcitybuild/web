@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Manage\Accounts;
 
+use App\Domains\Manage\RendersManageApp;
 use App\Domains\MinecraftEventBus\Events\MinecraftPlayerUpdated;
 use App\Models\Account;
 use App\Models\Badge;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Inertia\Inertia;
 
 class AccountBadgeController
 {
+    use RendersManageApp;
+
     public function index(Request $request, Account $account)
     {
         Gate::authorize('viewAny', Account::class);
@@ -18,7 +20,7 @@ class AccountBadgeController
         $badges = Badge::get();
         $accountBadgeIds = $account->badges->pluck(Badge::primaryKey());
 
-        return Inertia::render('Accounts/AccountBadgeSelect', [
+        return $this->inertiaRender('Accounts/AccountBadgeSelect', [
             'badges' => $badges,
             'account_badge_ids' => $accountBadgeIds ?? [],
             'account_id' => $account->getKey(),

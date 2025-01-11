@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Manage\Badges;
 
+use App\Domains\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Badge;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Inertia\Inertia;
 
 class BadgeController extends WebController
 {
+    use RendersManageApp;
+
     public function index(Request $request)
     {
         Gate::authorize('viewAny', Badge::class);
@@ -20,14 +22,14 @@ class BadgeController extends WebController
         if ($request->wantsJson()) {
             return $badges;
         }
-        return Inertia::render('Badges/BadgeList', compact('badges'));
+        return $this->inertiaRender('Badges/BadgeList', compact('badges'));
     }
 
     public function create(Request $request)
     {
         Gate::authorize('create', Badge::class);
 
-        return Inertia::render('Badges/BadgeCreate');
+        return $this->inertiaRender('Badges/BadgeCreate');
     }
 
     public function store(Request $request)
@@ -57,7 +59,7 @@ class BadgeController extends WebController
     {
         Gate::authorize('update', $badge);
 
-        return Inertia::render('Badges/BadgeEdit', compact('badge'));
+        return $this->inertiaRender('Badges/BadgeEdit', compact('badge'));
     }
 
     public function update(Request $request, Badge $badge)

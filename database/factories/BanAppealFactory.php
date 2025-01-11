@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Domains\BanAppeals\Entities\BanAppealStatus;
+use App\Domains\BanAppeals\Data\BanAppealStatus;
 use App\Models\BanAppeal;
 use App\Models\MinecraftPlayer;
 
@@ -38,7 +38,7 @@ class BanAppealFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'decision_note' => $this->faker->paragraph,
-                'decided_at' => now(),
+                'decided_at' => now()->addDays(rand(0, 30)),
                 'decider_player_minecraft_id' => MinecraftPlayer::factory(),
             ];
         });

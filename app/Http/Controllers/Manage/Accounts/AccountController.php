@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Manage\Accounts;
 
 use App\Core\Rules\DiscourseUsernameRule;
-use App\Domains\Registration\Events\AccountCreated;
+use App\Domains\Manage\RendersManageApp;
 use App\Domains\Registration\UseCases\CreateUnactivatedAccount;
 use App\Http\Controllers\WebController;
 use App\Http\Filters\EqualFilter;
@@ -15,10 +15,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Pipeline;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
-use Inertia\Inertia;
 
 class AccountController extends WebController
 {
+    use RendersManageApp;
+
     public function index(Request $request)
     {
         Gate::authorize('viewAny', Account::class);
@@ -38,7 +39,7 @@ class AccountController extends WebController
         if ($request->wantsJson()) {
             return $accounts;
         }
-        return Inertia::render('Accounts/AccountList', compact('accounts'));
+        return $this->inertiaRender('Accounts/AccountList', compact('accounts'));
     }
 
     public function show(Account $account)
@@ -54,14 +55,14 @@ class AccountController extends WebController
             'donations',
         ]);
 
-        return Inertia::render('Accounts/AccountShow', compact('account'));
+        return $this->inertiaRender('Accounts/AccountShow', compact('account'));
     }
 
     public function create()
     {
         Gate::authorize('create', Account::class);
 
-        return Inertia::render('Accounts/AccountCreate');
+        return $this->inertiaRender('Accounts/AccountCreate');
     }
 
     public function store(Request $request, CreateUnactivatedAccount $createUnactivatedAccount)
@@ -97,7 +98,7 @@ class AccountController extends WebController
     {
         Gate::authorize('update', $account);
 
-        return Inertia::render('Accounts/AccountEdit', compact('account'));
+        return $this->inertiaRender('Accounts/AccountEdit', compact('account'));
     }
 
     public function update(Request $request, Account $account)

@@ -3,19 +3,23 @@
 namespace App\Http\Controllers\Review\BanAppeals;
 
 use App\Core\Data\Exceptions\NotImplementedException;
-use App\Domains\BanAppeals\Entities\BanAppealStatus;
+use App\Domains\BanAppeals\Data\BanAppealStatus;
 use App\Domains\BanAppeals\Exceptions\AppealAlreadyDecidedException;
+use App\Domains\BanAppeals\Exceptions\NoPlayerForActionException;
 use App\Domains\BanAppeals\Notifications\BanAppealUpdatedNotification;
 use App\Domains\BanAppeals\UseCases\UpdateBanAppeal;
 use App\Domains\Bans\Exceptions\NotBannedException;
-use App\Domains\Manage\Exceptions\NoPlayerForActionException;
+use App\Domains\Review\RendersReviewApp;
 use App\Http\Requests\BanAppealUpdateRequest;
 use App\Models\BanAppeal;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
 
 class BanAppealController
 {
+    use RendersReviewApp;
+
     public function index()
     {
         Gate::authorize('viewAny', BanAppeal::class);
@@ -23,21 +27,30 @@ class BanAppealController
         // Get ban appeals paginated in the order:
         // Pending appeal (newest first), then all other appeals (newest first)
         $banAppeals = BanAppeal::orderByRaw('FIELD(status, '.BanAppealStatus::PENDING->value.') DESC')
+            ->with('gamePlayerBan.bannedPlayer')
             ->orderBy('created_at', 'desc')
-            ->paginate(50);
+            ->cursorPaginate(50);
 
-        return view('manage.pages.ban-appeal.index')->with([
-            'banAppeals' => $banAppeals,
-        ]);
+        return $this->inertiaRender(
+            'BanAppeals/BanAppealList',
+            compact('banAppeals'),
+        );
     }
 
     public function show(BanAppeal $banAppeal)
     {
         Gate::authorize('view', $banAppeal);
 
-        return view('manage.pages.ban-appeal.show')->with([
-            'banAppeal' => $banAppeal,
+        $banAppeal->load([
+            'gamePlayerBan.bannerPlayer',
+            'gamePlayerBan.bannedPlayer',
+            'deciderPlayer',
         ]);
+
+        return $this->inertiaRender(
+            'BanAppeals/BanAppealShow',
+            compact('banAppeal'),
+        );
     }
 
     public function update(
@@ -47,12 +60,14 @@ class BanAppealController
     ) {
         Gate::authorize('update', $banAppeal);
 
+        $validated = $request->validated();
+
         try {
             $useCase->execute(
                 banAppeal: $banAppeal,
                 decidingAccount: $request->user(),
-                decisionNote: $request->get('decision_note'),
-                status: BanAppealStatus::from($request->get('status'))
+                decisionNote: $validated['decision_note'],
+                status: BanAppealStatus::from($validated['status']),
             );
         } catch (NotImplementedException $e) {
             throw ValidationException::withMessages([
@@ -74,6 +89,7 @@ class BanAppealController
 
         $banAppeal->notify(new BanAppealUpdatedNotification($banAppeal->showLink()));
 
-        return redirect()->route('manage.ban-appeals.show', $banAppeal);
+        return to_route('review.ban-appeals.show', $banAppeal)
+            ->with(['success' => 'Ban appeal updated and closed']);
     }
 }

@@ -16,6 +16,9 @@ type Icon = 'plus'
     | 'check-shield'
     | 'check'
     | 'arrow-left'
+    | 'alert'
+    | 'clock'
+    | 'eye'
 
 
 interface Props {
@@ -56,6 +59,12 @@ const path = computed(() => {
             return 'm4.5 12.75 6 6 9-13.5'
         case 'arrow-left':
             return 'M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18'
+        case 'alert':
+            return 'M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z'
+        case 'clock':
+            return 'M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'
+        case 'eye':
+            return 'M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z'
     }
 })
 </script>

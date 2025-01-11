@@ -39,4 +39,25 @@ class BuilderRankApplicationFactory extends Factory
             ];
         });
     }
+
+    public function approved()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => ApplicationStatus::APPROVED,
+                'closed_at' => now()->addDays(rand(0, 30)),
+            ];
+        });
+    }
+
+    public function denied()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => ApplicationStatus::DENIED,
+                'denied_reason' => $this->faker->paragraph,
+                'closed_at' => now()->addDays(rand(0, 30)),
+            ];
+        });
+    }
 }
