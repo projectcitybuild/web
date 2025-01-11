@@ -18,11 +18,11 @@ Route::name('review.')
     ->group(function() {
         Route::get('/', HomeController::class);
 
-        Route::prefix('builder-ranks')->group(function () {
+        Route::prefix('builder-ranks')->name('builder-ranks.')->group(function () {
             Route::get('/', [BuilderRanksController::class, 'index']);
 
             Route::prefix('{application}')->group(function () {
-                Route::get('/', [BuilderRanksController::class, 'show']);
+                Route::get('/', [BuilderRanksController::class, 'show'])->name('show');
                 Route::post('approve', [BuilderRanksController::class, 'approve']);
                 Route::post('deny', [BuilderRanksController::class, 'deny']);
             });

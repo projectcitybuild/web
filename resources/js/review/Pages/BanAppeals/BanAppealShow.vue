@@ -8,7 +8,6 @@ import SuccessAlert from '../../../manage/Components/SuccessAlert.vue'
 import ToolBar from '../../../manage/Components/ToolBar.vue'
 import FilledButton from '../../../manage/Components/FilledButton.vue'
 import type { BanAppeal } from '../../../manage/Data/BanAppeal'
-import BooleanCheck from '../../../manage/Components/BooleanCheck.vue'
 import { computed } from 'vue'
 import { BanAppealStatus } from '../../../manage/Data/BanAppealStatus'
 import ErrorAlert from '../../../manage/Components/ErrorAlert.vue'
@@ -22,7 +21,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const form = useForm({
-    status: BanAppealStatus,
+    status: null,
     decision_note: null,
 })
 

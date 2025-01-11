@@ -2,11 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
-use App\Models\Account;
-use App\Models\BanAppeal;
-use App\Models\BuilderRankApplication;
-use App\Models\GamePlayerBan;
 use App\Models\MinecraftBuild;
 use App\Models\MinecraftConfig;
 use App\Models\MinecraftPlayer;
@@ -27,6 +22,12 @@ class DatabaseSeeder extends Seeder
             'web_port' => '8080',
         ]);
 
+        ServerToken::create([
+            'token' => 'pcbridge_local',
+            'server_id' => Server::first()->getKey(),
+            'description' => 'For test use',
+        ]);
+
         $this->call(GroupSeeder::class);
         $this->call(AccountSeeder::class);
         $this->call(MinecraftPlayerSeeder::class);
@@ -35,12 +36,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DonationSeeder::class);
         $this->call(BadgeSeeder::class);
         $this->call(BanAppealSeeder::class);
-
-        ServerToken::create([
-            'token' => 'pcbridge_local',
-            'server_id' => Server::first()->getKey(),
-            'description' => 'For test use',
-        ]);
+        $this->call(BuilderRankApplicationSeeder::class);
 
         MinecraftConfig::factory()
             ->create();
@@ -54,21 +50,5 @@ class DatabaseSeeder extends Seeder
             MinecraftBuild::factory()
                 ->create(['player_id' => $players->random()]);
         }
-
-        for ($i = 0; $i < 5; $i++) {
-            BuilderRankApplication::factory()
-                ->for(Account::inRandomOrder()->first())
-                ->create();
-        }
-
-        BuilderRankApplication::factory()
-            ->for(Account::inRandomOrder()->first())
-            ->status(ApplicationStatus::APPROVED)
-            ->create();
-
-        BuilderRankApplication::factory()
-            ->for(Account::inRandomOrder()->first())
-            ->status(ApplicationStatus::DENIED)
-            ->create();
     }
 }

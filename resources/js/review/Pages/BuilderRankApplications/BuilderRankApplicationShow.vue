@@ -7,73 +7,55 @@ import { distance, distanceFromNow, format } from '../../../manage/Utilities/Dat
 import SuccessAlert from '../../../manage/Components/SuccessAlert.vue'
 import ToolBar from '../../../manage/Components/ToolBar.vue'
 import FilledButton from '../../../manage/Components/FilledButton.vue'
-import type { BanAppeal } from '../../../manage/Data/BanAppeal'
-import BooleanCheck from '../../../manage/Components/BooleanCheck.vue'
 import { computed } from 'vue'
-import { BanAppealStatus } from '../../../manage/Data/BanAppealStatus'
 import ErrorAlert from '../../../manage/Components/ErrorAlert.vue'
 import SvgIcon from '../../../manage/Components/SvgIcon.vue'
 import OutlinedButton from '../../../manage/Components/OutlinedButton.vue'
+import { BuilderRankApplication, BuilderRankApplicationStatus } from '../../../manage/Data/BuilderRankApplication'
+import Pill from '../../../manage/Components/Pill.vue'
+import type { Group } from '../../../manage/Data/Group'
+import AwaitingDecisionAlert from './Partials/AwaitingDecisionAlert.vue'
+import BuilderRankDecision from './Partials/BuilderRankDecision.vue'
 
 interface Props {
-    banAppeal: BanAppeal,
+    application: BuilderRankApplication,
+    buildGroups: Group[],
     success?: string,
 }
 const props = defineProps<Props>()
 
 const form = useForm({
-    status: BanAppealStatus,
+    status: null,
+    promote_group: null,
     decision_note: null,
 })
 
-const hasDecision = computed(() => props.banAppeal.decided_at != null)
+const hasDecision = computed(() => props.application.status !== BuilderRankApplicationStatus.pending)
 
 const waitingTime = computed(() => {
-    if (props.banAppeal.decided_at) {
-        return distance(props.banAppeal.created_at, props.banAppeal.decided_at)
+    if (props.application.closed_at) {
+        return distance(props.application.created_at, props.application.closed_at)
     }
-    return distanceFromNow(props.banAppeal.created_at)
+    return distanceFromNow(props.application.created_at)
 })
 
-const status = computed(() => {
-    switch (props.banAppeal.status) {
-        case BanAppealStatus.denied:
-            return {
-                border: 'border-red-500',
-                background: 'bg-red-500',
-                label: 'Denied',
-            }
-        case BanAppealStatus.unbanned:
-            return {
-                border: 'border-green-500',
-                background: 'bg-green-500',
-                label: 'Unbanned',
-            }
-        case BanAppealStatus.tempBanned:
-            return {
-                border: 'border-green-500',
-                background: 'bg-green-500',
-                label: 'Downgraded to Temp Ban',
-            }
-        case BanAppealStatus.pending:
-            return {}
-    }
-})
+const player = computed(() => props.application.account?.minecraft_account?.at(0))
+const alts = computed(() => props.application.account?.minecraft_account?.slice(1) ?? [])
 
 function submit() {
-    form.put('/review/ban-appeals/' + props.banAppeal.id)
+    form.put('/review/ban-appeals/' + props.application.id)
 }
 </script>
 
 <template>
     <div>
-        <Head :title="'Reviewing Ban Appeal: ' + banAppeal.id" />
+        <Head :title="'Builder Rank Application: ' + application.id" />
 
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
         <ToolBar>
             <template v-slot:left>
-                <BackButton href="/review/ban-appeals"/>
+                <BackButton href="/review/builder-ranks"/>
             </template>
 
             <template v-slot:right>
@@ -82,121 +64,142 @@ function submit() {
             </template>
         </ToolBar>
 
-        <div class="mt-4 flex flex-col lg:grid lg:grid-cols-2 gap-4">
-            <section>
+        <div class="mt-4 flex flex-col lg:flex-row gap-4">
+            <section class="lg:min-w-[260px]">
                 <Card>
+                    <template v-if="player">
+                        <div class="p-4">
+                            <h2 class="font-bold">Player</h2>
+                        </div>
+
+                        <div class="p-4 flex items-center gap-2">
+                            <MinecraftAvatar :uuid="player.uuid" :size="36" class="shadow-lg" />
+                            <a
+                                :href="'/manage/players/' + player.player_minecraft_id"
+                                class="text-blue-500 text-xl font-bold"
+                            >
+                                <h1>{{ player.alias }}</h1>
+                            </a>
+                        </div>
+                    </template>
+
+                    <template v-else>
+                        <div class="p-4">
+                            <h2 class="font-bold">Account</h2>
+                        </div>
+
+                        <div class="p-4 space-y-4">
+                            <a
+                                :href="'/manage/accounts/' + application.account_id"
+                                class="text-blue-500 font-bold"
+                            >
+                                <h1>{{ application.account.username }}</h1>
+                            </a>
+
+                            <div class="flex items-center gap-2 text-red-500">
+                                <span class="text-sm font-bold">This account has no linked players</span>
+                            </div>
+                        </div>
+                    </template>
+
+                    <div
+                        v-if="alts.length > 0"
+                        class="p-4 border-t border-gray-200"
+                    >
+                        <span class="text-gray-500 text-xs">Also known as...</span>
+                        <ul>
+                            <li
+                                v-for="player in alts"
+                                class="py-2 flex gap-2 items-center"
+                            >
+                                <MinecraftAvatar :uuid="player.uuid" :size="24" />
+                                <a
+                                    :href="'/manage/players/' + player.player_minecraft_id"
+                                    class="text-blue-500"
+                                >
+                                    {{ player.alias }}
+                               </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="p-4 space-y-4 border-t border-gray-200">
+                        <h2 class="font-bold">Current Groups</h2>
+
+                        <div class="flex flex-wrap gap-2">
+                            <Pill
+                                variant="default"
+                                v-for="group in application.account.groups"
+                            >
+                                {{ group.name }}
+                            </Pill>
+                        </div>
+                        <span v-if="application.account.groups.length === 0" class="text-gray-500 text-sm">None</span>
+                    </div>
+
                     <div class="p-4">
-                        <h2 class="font-bold">Appealer</h2>
-                    </div>
-
-                    <div class="space-y-4 border-t border-b border-gray-200 p-4">
-                        <dl class="flex items-center justify-between gap-2">
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">Email</dt>
-                            <dd class="text-sm text-gray-900 dark:text-white">
-                                {{ banAppeal.email }}
-                            </dd>
-                        </dl>
-                        <dl class="flex items-center justify-between gap-2">
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">Submitted by account?</dt>
-                            <dd class="text-sm text-gray-900 dark:text-white">
-                                {{ banAppeal.is_account_verified ? 'Yes' : 'No' }}
-                            </dd>
-                        </dl>
-                    </div>
-                </Card>
-
-                <Card class="mt-4">
-                    <div class="p-4 border-b border-gray-200 flex justify-between items-center gap-2">
-                        <h2 class="font-bold">Player Ban</h2>
-
-                        <a :href="'/manage/player-bans/' + banAppeal.game_player_ban.id + '/edit'">
-                            <OutlinedButton variant="secondary">Edit</OutlinedButton>
+                        <a :href="'/rank-up/' + application.id">
+                            <OutlinedButton variant="secondary" class="w-full">
+                                <SvgIcon icon="eye" />
+                                View Application As Player
+                            </OutlinedButton>
                         </a>
-                    </div>
-
-                    <div class="p-4 space-y-4">
-                        <dl>
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">Player</dt>
-                            <dd class="text-sm text-gray-900 dark:text-white">
-                                <div class="flex gap-2 items-center">
-                                    <MinecraftAvatar :uuid="banAppeal.game_player_ban.banned_player.uuid" :size="24" />
-                                    <a
-                                        :href="'/manage/players/' + banAppeal.game_player_ban.banned_player.player_minecraft_id"
-                                        class="text-blue-500"
-                                    >
-                                        {{ banAppeal.game_player_ban.banned_player.alias }}
-                                    </a>
-                                </div>
-                            </dd>
-                        </dl>
-                        <dl>
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">Banned By</dt>
-                            <dd class="text-sm text-gray-900 dark:text-white">
-                                <div v-if="banAppeal.game_player_ban.banner_player" class="flex gap-2 items-center">
-                                    <MinecraftAvatar :uuid="banAppeal.game_player_ban.banner_player.uuid" :size="24" />
-                                    <a
-                                        :href="'/manage/players/' + banAppeal.game_player_ban.banner_player.player_minecraft_id"
-                                        class="text-blue-500"
-                                    >
-                                        {{ banAppeal.game_player_ban.banner_player.alias }}
-                                    </a>
-                                </div>
-                                <span v-else>System</span>
-                            </dd>
-                        </dl>
-                        <dl>
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">Reason</dt>
-                            <dd class="text-sm text-gray-900 dark:text-white italic">
-                                {{ banAppeal.game_player_ban.reason }}
-                            </dd>
-                        </dl>
-                    </div>
-
-                    <div class="space-y-4 border-t border-gray-200 p-4">
-                        <dl class="flex items-center justify-between gap-2">
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">Created At</dt>
-                            <dd class="text-sm text-gray-900 dark:text-white">
-                                {{ format(banAppeal.game_player_ban.created_at) }}
-                            </dd>
-                        </dl>
-                        <dl class="flex items-center justify-between gap-2">
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">Expires At</dt>
-                            <dd class="text-sm text-gray-900 dark:text-white">
-                                <span v-if="banAppeal.game_player_ban.expires_at">
-                                    {{ format(banAppeal.game_player_ban.expires_at) }}
-                                </span>
-                                <span v-else>
-                                    Never
-                                </span>
-                            </dd>
-                        </dl>
                     </div>
                 </Card>
             </section>
 
             <section>
-                <Card>
+                <AwaitingDecisionAlert
+                    v-if="application.status === BuilderRankApplicationStatus.pending"
+                    class="mb-4"
+                />
+                <BuilderRankDecision
+                    v-else
+                    :application="application"
+                    class="mb-4"
+                />
+
+                <Card class="mb-4">
                     <div class="p-4 border-b border-gray-200">
-                        <h2 class="font-bold">Ban Appeal</h2>
+                        <h2 class="font-bold">Application</h2>
                     </div>
 
-                    <div class="p-4 italic">
-                        {{ banAppeal.explanation }}
-                    </div>
+                    <ul class="p-4 space-y-8">
+                        <li>
+                            <h3 class="font-bold mb-2 text-sm">Minecraft Alias</h3>
+                            {{ application.minecraft_alias }}
+                        </li>
+                        <li>
+                            <h3 class="font-bold mb-2 text-sm">Current Builder Rank</h3>
+                            {{ application.current_builder_rank }}
+                        </li>
+                        <li>
+                            <h3 class="font-bold mb-2 text-sm">Build Location</h3>
+                            {{ application.build_location }}
+                        </li>
+                        <li>
+                            <h3 class="font-bold mb-2 text-sm">Build Description</h3>
+                            {{ application.build_description }}
+                        </li>
+                        <li v-if="application.additional_notes">
+                            <h3 class="font-bold mb-2 text-sm">Additional Notes</h3>
+                            {{ application.additional_notes }}
+                        </li>
+                    </ul>
 
                     <div class="p-4 border-t border-gray-200">
                         <div class="space-y-4">
                             <dl class="flex items-center justify-between gap-2">
-                                <dt class="text-sm text-gray-500 dark:text-gray-400">Created At</dt>
+                                <dt class="text-sm text-gray-500 dark:text-gray-400">Submitted At</dt>
                                 <dd class="text-sm text-gray-900 dark:text-white">
-                                    {{ format(banAppeal.created_at) }}
+                                    {{ format(application.created_at) }}
                                 </dd>
                             </dl>
                         </div>
                     </div>
                 </Card>
 
-                <Card class="mt-4" v-if="!hasDecision">
+                <Card v-if="!hasDecision">
                     <div class="p-4 border-b border-gray-200">
                         <h2 class="font-bold">Decision</h2>
                     </div>
@@ -206,29 +209,16 @@ function submit() {
 
                         <div class="space-y-6">
                             <div>
-                                <div class="flex items-center mb-4">
-                                    <input
-                                        v-model="form.status"
-                                        :value="BanAppealStatus.denied"
-                                        id="decision_denied"
-                                        type="radio"
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                <div class="mb-4">
+                                    <label for="activated" class="text-xs text-gray-700 font-bold">Promote to...</label>
+                                    <select
+                                        v-model="form.promote_group"
+                                        id="activated"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     >
-                                    <label for="decision_denied" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                        Keep banned
-                                    </label>
-                                </div>
-                                <div class="flex items-center mb-4">
-                                    <input
-                                        v-model="form.status"
-                                        :value="BanAppealStatus.unbanned"
-                                        id="decision_unban"
-                                        type="radio"
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    >
-                                    <label for="decision_unban" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                        Unban
-                                    </label>
+                                        <option :value="null">Select a build group...</option>
+                                        <option v-for="group in buildGroups" :value="group.group_id">{{ group.name }}</option>
+                                    </select>
                                 </div>
                             </div>
                             <div>
@@ -251,6 +241,9 @@ function submit() {
                             </div>
                         </div>
 
+                        Applications cannot be re-opened after approving or denying.
+                        Please finalise the decision before pressing a button
+
                         <FilledButton
                             variant="danger"
                             :disabled="form.processing"
@@ -260,39 +253,6 @@ function submit() {
                             Finish and Close
                         </FilledButton>
                     </form>
-                </Card>
-
-                <Card v-else :class="'mt-4 ' + status.border">
-                    <div :class="'p-4 rounded-t-md text-white ' + status.background">
-                        <h2 class="font-bold">Decision: {{ status.label }}</h2>
-                    </div>
-
-                    <div class="p-4 italic">
-                        {{ banAppeal.decision_note }}
-                    </div>
-
-                    <div class="p-4 border-t border-gray-200">
-                        <div class="space-y-4">
-                            <dl class="flex items-center justify-between gap-2">
-                                <dt class="text-sm text-gray-500 dark:text-gray-400">Decided At</dt>
-                                <dd class="text-sm text-gray-900 dark:text-white">
-                                    {{ format(banAppeal.decided_at) }}
-                                </dd>
-                            </dl>
-                            <dl class="flex items-center justify-between gap-2">
-                                <dt class="text-sm text-gray-500 dark:text-gray-400">Decided By</dt>
-                                <dd class="text-sm text-gray-900 dark:text-white flex items-center gap-2">
-                                    <MinecraftAvatar :uuid="banAppeal.decider_player.uuid" :size="24" />
-                                    <a
-                                        :href="'/manage/players/' + banAppeal.decider_player.player_minecraft_id"
-                                        class="text-blue-500"
-                                    >
-                                        {{ banAppeal.decider_player.alias }}
-                                    </a>
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
                 </Card>
             </section>
         </div>

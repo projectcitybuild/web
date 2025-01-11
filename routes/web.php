@@ -63,7 +63,7 @@ Route::group([
     'prefix' => 'rank-up',
     'middleware' => ['auth', 'activated', 'mfa'],
 ], function () {
-    Route::get('/', [BuilderRankApplicationController::class, 'index'])
+    Route::get('/', [BuilderRankApplicationController::class, 'create'])
         ->name('front.rank-up');
 
     Route::post('/', [BuilderRankApplicationController::class, 'store'])

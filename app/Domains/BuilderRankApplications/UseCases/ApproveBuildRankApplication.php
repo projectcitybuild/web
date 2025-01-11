@@ -13,13 +13,15 @@ class ApproveBuildRankApplication
         int $applicationId,
         int $promoteGroupId,
     ): BuilderRankApplication {
-        $promoteGroup = Group::find($promoteGroupId);
-
         $application = BuilderRankApplication::find($applicationId);
+
+        abort_if($application->isReviewed(), 409);
+
         $application->status = ApplicationStatus::APPROVED->value;
         $application->closed_at = now();
         $application->save();
 
+        $promoteGroup = Group::find($promoteGroupId);
         $application->account->groups()->attach($promoteGroup->getKey());
 
         $application->account->notify(
