@@ -7,7 +7,6 @@ use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
 use App\Domains\Bans\Data\UnbanType;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,7 +26,6 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
     protected $table = 'game_player_bans';
 
     protected $fillable = [
-        'server_id',
         'banned_player_id',
         'banned_alias_at_time',
         'banner_player_id',
@@ -115,15 +113,6 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
             related: MinecraftPlayer::class,
             foreignKey: 'unbanner_player_id',
             ownerKey: 'player_minecraft_id',
-        );
-    }
-
-    public function server(): BelongsTo
-    {
-        return $this->belongsTo(
-            related: Server::class,
-            foreignKey: 'server_id',
-            ownerKey: 'server_id',
         );
     }
 

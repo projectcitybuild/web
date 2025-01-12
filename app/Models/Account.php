@@ -45,7 +45,6 @@ final class Account extends Authenticatable implements LinkableAuditModel
         'remember_token',
         'last_login_ip',
         'last_login_at',
-        'balance',
     ];
 
     protected $hidden = [

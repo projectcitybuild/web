@@ -9,7 +9,7 @@ export default defineConfig({
                 'resources/sass/front/front.scss',
                 'resources/js/front/front.ts',
                 'resources/js/manage/manage.ts',
-                'resources/sass/manage/manage.scss',
+                'resources/sass/manage.scss',
             ],
 
             // Refreshes when a change is made to resource/view files or routes

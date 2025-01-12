@@ -35,7 +35,6 @@ final class DonationPerk extends Model implements LinkableAuditModel
         'expires_at' => 'datetime',
         'last_currency_reward_at' => 'datetime',
         'is_active' => 'boolean',
-        'is_lifetime_perks' => 'boolean',
     ];
 
     public function isActive(): bool
@@ -79,7 +78,7 @@ final class DonationPerk extends Model implements LinkableAuditModel
             ->addRelationship('donation_id', Donation::class)
             ->addRelationship('donation_tier_id', DonationTier::class)
             ->addRelationship('account_id', Account::class)
-            ->addBoolean('is_active', 'is_lifetime_perks')
+            ->addBoolean('is_active')
             ->add('expires_at');
     }
 }
