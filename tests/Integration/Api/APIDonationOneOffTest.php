@@ -33,7 +33,6 @@ class APIDonationOneOffTest extends IntegrationTestCase
 
         $this->account = Account::factory()->create([
             'stripe_id' => 'cus_JyjQ8xLdu1UmFs',
-            'balance' => 100,
         ]);
         $group = Group::factory()->create();
         $this->donationTier = DonationTier::factory()->for($group)->create([
