@@ -56,10 +56,9 @@ it('is dispatched on MinecraftPlayerUpdated event', function () {
 });
 
 it('is dispatched on MinecraftUuidBanned event', function () {
-    $server = Server::factory()->create(['web_port' => 8080]);
+    Server::factory()->create(['web_port' => 8080]);
     $player = MinecraftPlayer::factory()->create();
     $ban = GamePlayerBan::factory()
-        ->server($server)
         ->bannedPlayer($player)
         ->create();
 
