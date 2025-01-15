@@ -187,12 +187,6 @@
                         <span class="text-sm text-gray-500">List of players banned from our services</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('monarch.apply') }}" class="block p-3 rounded-lg hover:bg-gray-100">
-                        <div class="font-semibold">Build in Monarch</div>
-                        <span class="text-sm text-gray-500">Apply to build in our premier city project</span>
-                    </a>
-                </li>
             </ul>
             <ul>
                 <li>
