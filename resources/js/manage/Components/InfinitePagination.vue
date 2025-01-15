@@ -3,6 +3,7 @@ import { Paginated } from '../Data/Paginated'
 import { onBeforeMount, onMounted, ref, watch } from 'vue'
 import axios, { AxiosResponse } from 'axios'
 import { useIntersectionObserver, watchDebounced } from '@vueuse/core'
+import SpinnerRow from './SpinnerRow.vue'
 
 type PageResponse = AxiosResponse<Paginated<T>>
 
@@ -114,5 +115,7 @@ onBeforeMount(() => itemCount.value = items.value.length)
             </svg>
             Reached the End
         </div>
+
+        <SpinnerRow v-else />
     </div>
 </template>

@@ -173,6 +173,14 @@ final class Account extends Authenticatable implements LinkableAuditModel
         );
     }
 
+    public function builderRankApplications(): HasMany
+    {
+        return $this->hasMany(
+            related: BuilderRankApplication::class,
+            foreignKey: 'account_id',
+        );
+    }
+
     public function banAppeals()
     {
         return BanAppeal::whereIn('game_ban_id', $this->gamePlayerBans()->pluck('id'));

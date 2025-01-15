@@ -3,6 +3,8 @@
 use App\Http\Controllers\Manage\Accounts\AccountActivateController;
 use App\Http\Controllers\Manage\Accounts\AccountApproveEmailChangeController;
 use App\Http\Controllers\Manage\Accounts\AccountBadgeController;
+use App\Http\Controllers\Manage\Accounts\AccountBanAppealController;
+use App\Http\Controllers\Manage\Accounts\AccountBuilderRankApplicationsController;
 use App\Http\Controllers\Manage\Accounts\AccountController;
 use App\Http\Controllers\Manage\Accounts\AccountGameAccountController;
 use App\Http\Controllers\Manage\Accounts\AccountGroupController;
@@ -65,6 +67,10 @@ Route::name('manage.')
             Route::get('players', [AccountPlayerController::class, 'create']);
             Route::post('players', [AccountPlayerController::class, 'store']);
             Route::delete('players/{player}', [AccountPlayerController::class, 'destroy']);
+
+            Route::get('ban-appeals', [AccountBanAppealController::class, 'index']);
+
+            Route::get('builder-ranks', [AccountBuilderRankApplicationsController::class, 'index']);
         });
 
         Route::resource('players', MinecraftPlayerController::class)

@@ -72,16 +72,6 @@ watch(() => page.url, checkTab)
                     <a href="/manage" :class="'p-3' + (selectedTab === 'manage' ? ' rounded-lg bg-gray-100 font-bold' : '')">Manage</a>
                     <a href="/review" :class="'p-3' + (selectedTab === 'review' ? ' rounded-lg bg-gray-100 font-bold' : '')">Review</a>
                 </div>
-
-                <button
-                    type="button"
-                    class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                    id="user-menu-button"
-                    aria-expanded="false"
-                >
-                    <span class="sr-only">Open user menu</span>
-                    TODO
-                </button>
             </div>
         </div>
     </nav>

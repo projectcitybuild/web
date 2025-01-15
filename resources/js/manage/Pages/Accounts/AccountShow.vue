@@ -17,6 +17,9 @@ import { ref } from 'vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import AccountActivationsTable from './Partials/AccountActivationsTable.vue'
 import AccountDonationsTable from './Partials/AccountDonationsTable.vue'
+import AccountEmailChangeRequestsTable from './Partials/AccountEmailChangeRequestsTable.vue'
+import AccountBanAppealsTable from './Partials/AccountBanAppealsTable.vue'
+import AccountBuilderRankApplicationsTable from './Partials/AccountBuilderRankApplicationsTable.vue'
 
 interface Props {
     account: Account,
@@ -257,6 +260,10 @@ function showUnlinkDialog(playerId: number) {
                     <div class="p-4 font-bold">
                         Pending Email Changes
                     </div>
+                    <AccountEmailChangeRequestsTable
+                        :requests="account.email_change_requests ?? []"
+                        :account_id="account.account_id"
+                    />
                 </Card>
 
                 <Card class="mt-4">
@@ -270,12 +277,14 @@ function showUnlinkDialog(playerId: number) {
                     <div class="p-4 font-bold">
                         Ban Appeals
                     </div>
+                    <AccountBanAppealsTable :account_id="account.account_id" />
                 </Card>
 
                 <Card class="mt-4">
                     <div class="p-4 font-bold">
                         Builder Applications
                     </div>
+                    <AccountBuilderRankApplicationsTable :account_id="account.account_id" />
                 </Card>
             </section>
         </div>
