@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T">
 import { Paginated } from '../Data/Paginated'
-import { onMounted, ref, watch } from 'vue'
+import { onBeforeMount, onMounted, ref, watch } from 'vue'
 import axios, { AxiosResponse } from 'axios'
 import { useIntersectionObserver, watchDebounced } from '@vueuse/core'
 
@@ -11,8 +11,9 @@ interface Props {
     query?: object,
     path?: string,
 }
-
 const props = defineProps<Props>()
+
+const itemCount = defineModel('count')
 
 const items = ref<T[]>(props.initial?.data ?? [])
 const currentPage = ref(props.initial?.current_page ?? 1)
@@ -71,6 +72,7 @@ const loadFirstPage = async () => {
     reachedEnd.value = false
 
     items.value = await load()
+    itemCount.value = items.value.length
 }
 
 const loadNextPage = async () => {
@@ -80,6 +82,7 @@ const loadNextPage = async () => {
         ...items.value,
         ...await load(),
     ]
+    itemCount.value = items.value.length
 }
 
 const { stop } = useIntersectionObserver(
@@ -94,6 +97,8 @@ onMounted(() => {
         loadFirstPage()
     }
 })
+
+onBeforeMount(() => itemCount.value = items.value.length)
 </script>
 
 <template>

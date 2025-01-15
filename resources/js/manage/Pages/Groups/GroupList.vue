@@ -23,10 +23,11 @@ defineProps<Props>()
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
         <Card>
-            <div
-                class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
-                <div class="w-full md:w-1/2">
-
+            <div class="flex flex-row items-center justify-between p-4">
+                <div>
+                    <span v-if="groups" class="text-sm text-gray-500">
+                        Showing <strong>{{ groups.length }}</strong> of <strong>{{ groups?.length ?? 0 }}</strong>
+                    </span>
                 </div>
                 <div>
                     <Link
