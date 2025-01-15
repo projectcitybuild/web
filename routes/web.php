@@ -192,7 +192,8 @@ Route::group([
     'prefix' => 'account',
     'middleware' => ['auth', 'activated', 'mfa'],
 ], function () {
-    Route::redirect(uri: 'settings', destination: 'edit');
+    Route::redirect(uri: 'settings', destination: 'settings/email')
+        ->name('front.account.settings');
 
     Route::get('/', [AccountProfileController::class, 'show'])
         ->name('front.account.profile');
