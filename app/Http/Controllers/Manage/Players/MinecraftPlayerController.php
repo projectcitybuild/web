@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Manage\Players;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Core\Domains\MinecraftUUID\UseCases\LookupMinecraftUUID;
-use App\Core\Domains\Mojang\Api\MojangPlayerApi;
 use App\Domains\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
+use App\Http\Filters\EqualFilter;
+use App\Http\Filters\LikeFilter;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\In;
+use Illuminate\Support\Facades\Pipeline;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
@@ -20,12 +20,19 @@ class MinecraftPlayerController extends WebController
 {
     use RendersManageApp;
 
-    public function index()
+    public function index(Request $request)
     {
         Gate::authorize('viewAny', MinecraftPlayer::class);
 
-        $players = function () {
-            return MinecraftPlayer::with(['account'])
+        $players = function () use ($request) {
+            $pipes = [
+                new LikeFilter('alias', $request->get('alias')),
+                new LikeFilter('uuid', $request->get('uuid')),
+            ];
+            return Pipeline::send(MinecraftPlayer::query())
+                ->through($pipes)
+                ->thenReturn()
+                ->with(['account'])
                 ->orderBy('created_at', 'desc')
                 ->paginate(50);
         };

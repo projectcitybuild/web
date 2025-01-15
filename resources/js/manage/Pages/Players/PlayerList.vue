@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Deferred, Head, Link } from '@inertiajs/vue3'
+import { Deferred, Head, Link, useForm } from '@inertiajs/vue3'
 import { Paginated } from '../../Data/Paginated'
 import PlayerListTable from './Partials/PlayerListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
@@ -7,9 +7,10 @@ import SuccessAlert from '../../Components/SuccessAlert.vue'
 import type { Player } from '../../Data/Player'
 import Card from '../../Components/Card.vue'
 import FilledButton from '../../Components/FilledButton.vue'
+import OutlinedButton from '../../Components/OutlinedButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 interface Props {
     success?: string,
@@ -17,7 +18,25 @@ interface Props {
 }
 defineProps<Props>()
 
+const filterExpanded = ref(false)
+const query = ref({})
 const itemCount = ref(0)
+
+const form = useForm({
+    alias: null,
+    uuid: null,
+})
+
+watch(
+    () => form,
+    (form) => {
+        query.value = {
+            ...(form.alias ? { alias: form.alias } : {}),
+            ...(form.uuid ? { uuid: form.uuid } : {}),
+        }
+    },
+    { deep: true, }
+)
 </script>
 
 <template>
@@ -26,37 +45,88 @@ const itemCount = ref(0)
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <Card>
-            <div class="flex flex-row items-center justify-between p-4">
-                <div>
-                    <span v-if="players" class="text-sm text-gray-500">
-                        Showing <strong>{{ itemCount }}</strong> of <strong>{{ players?.total ?? 0 }}</strong>
-                    </span>
+        <div class="flex flex-col md:flex-row md:items-start gap-4">
+            <Card v-show="filterExpanded" class="p-4 flex flex-col gap-4 md:sticky md:top-24">
+                <h2 class="font-bold">Filter</h2>
+
+                <hr />
+
+                <div class="flex flex-col gap-1">
+                    <label for="alias" class="text-xs text-gray-700 font-bold">Alias</label>
+                    <input
+                        v-model="form.alias"
+                        type="text"
+                        id="alias"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Search..."
+                    >
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label for="uuid" class="text-xs text-gray-700 font-bold">UUID</label>
+                    <input
+                        v-model="form.uuid"
+                        type="text"
+                        id="uuid"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Search..."
+                    >
                 </div>
 
-                <div>
-                    <Link href="/manage/players/create">
-                        <FilledButton variant="primary">
-                            <SvgIcon icon="plus" />
-                            Create Player
-                        </FilledButton>
-                    </Link>
+                <hr />
+
+                <OutlinedButton variant="secondary" @click="form.reset()">
+                    Clear Filter
+                </OutlinedButton>
+            </Card>
+
+            <Card class="grow">
+                <div class="flex flex-row items-center justify-between p-4">
+                    <div>
+                        <span v-if="players" class="text-sm text-gray-500">
+                            Showing <strong>{{ itemCount }}</strong> of <strong>{{ players?.total ?? 0 }}</strong>
+                        </span>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <OutlinedButton
+                            variant="secondary"
+                            @click="filterExpanded = !filterExpanded"
+                        >
+                            <SvgIcon icon="filter" />
+
+                            Filter
+
+                            <SvgIcon :icon="filterExpanded ? 'chevron-up' : 'chevron-down'" />
+                        </OutlinedButton>
+
+                        <Link href="/manage/players/create">
+                            <FilledButton variant="primary">
+                                <SvgIcon icon="plus" />
+                                Create Player
+                            </FilledButton>
+                        </Link>
+                    </div>
                 </div>
-            </div>
 
-            <Deferred data="players">
-                <template #fallback>
-                    <SpinnerRow />
-                </template>
+                <Deferred data="players">
+                    <template #fallback>
+                        <SpinnerRow />
+                    </template>
 
-                <InfinitePagination
-                    :initial="players"
-                    v-model:count="itemCount"
-                    v-slot="source"
-                >
-                    <PlayerListTable :players="source.data"/>
-                </InfinitePagination>
-            </Deferred>
-        </Card>
+                    <InfinitePagination
+                        :initial="players"
+                        :query="query"
+                        v-model:count="itemCount"
+                        v-slot="source"
+                        class="border-t border-gray-200"
+                    >
+                        <PlayerListTable
+                            :players="source.data"
+                            :class="source.loading ? 'opacity-50' : ''"
+                        />
+                    </InfinitePagination>
+                </Deferred>
+            </Card>
+        </div>
     </section>
 </template>
