@@ -2,8 +2,6 @@
 import { ref } from 'vue'
 import { Link } from '@inertiajs/vue3'
 import SideBarMenuItem from './../../../../manage/Layouts/Root/Partials/SideBarMenuItem.vue'
-
-const selected = ref<string|null>(null)
 </script>
 
 <template>

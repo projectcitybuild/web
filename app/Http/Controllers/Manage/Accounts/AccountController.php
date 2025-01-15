@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Pipeline;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use Inertia\Inertia;
 
 class AccountController extends WebController
 {
@@ -24,22 +25,26 @@ class AccountController extends WebController
     {
         Gate::authorize('viewAny', Account::class);
 
-        $pipes = [
-            new LikeFilter('username', $request->get('username')),
-            new LikeFilter('email', $request->get('email')),
-            new EqualFilter('activated', $request->get('activated')),
-        ];
-        $accounts = Pipeline::send(Account::query())
-            ->through($pipes)
-            ->thenReturn()
-            ->with('minecraftAccount')
-            ->orderBy('created_at', 'desc')
-            ->cursorPaginate(50);
+        $accounts = function () use ($request) {
+            $pipes = [
+                new LikeFilter('username', $request->get('username')),
+                new LikeFilter('email', $request->get('email')),
+                new EqualFilter('activated', $request->get('activated')),
+            ];
+            return Pipeline::send(Account::query())
+                ->through($pipes)
+                ->thenReturn()
+                ->with('minecraftAccount')
+                ->orderBy('created_at', 'desc')
+                ->cursorPaginate(50);
+        };
 
         if ($request->wantsJson()) {
-            return $accounts;
+            return $accounts();
         }
-        return $this->inertiaRender('Accounts/AccountList', compact('accounts'));
+        return $this->inertiaRender('Accounts/AccountList', [
+            'accounts' => Inertia::defer($accounts),
+        ]);
     }
 
     public function show(Account $account)
