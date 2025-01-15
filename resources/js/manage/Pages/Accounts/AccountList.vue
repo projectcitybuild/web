@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link, useForm } from '@inertiajs/vue3'
+import { Deferred, Head, Link, useForm } from '@inertiajs/vue3'
 import { Paginated } from '../../Data/Paginated'
 import AccountListTable from './Partials/AccountListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
@@ -10,10 +10,11 @@ import { watch, ref } from 'vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import OutlinedButton from '../../Components/OutlinedButton.vue'
+import SpinnerRow from '../../Components/SpinnerRow.vue'
 
 interface Props {
     success?: string,
-    accounts: Paginated<Account>,
+    accounts?: Paginated<Account>,
 }
 defineProps<Props>()
 
@@ -117,17 +118,23 @@ watch(
                     </div>
                 </div>
 
-                <InfinitePagination
-                    :initial="accounts"
-                    :query="query"
-                    v-slot="source"
-                    class="border-t border-gray-200"
-                >
-                    <AccountListTable
-                        :accounts="source.data"
-                        :class="source.loading ? 'opacity-50' : ''"
-                    />
-                </InfinitePagination>
+                <Deferred data="accounts">
+                    <template #fallback>
+                        <SpinnerRow />
+                    </template>
+
+                    <InfinitePagination
+                        :initial="accounts"
+                        :query="query"
+                        v-slot="source"
+                        class="border-t border-gray-200"
+                    >
+                        <AccountListTable
+                            :accounts="source.data"
+                            :class="source.loading ? 'opacity-50' : ''"
+                        />
+                    </InfinitePagination>
+                </Deferred>
             </Card>
         </div>
     </section>

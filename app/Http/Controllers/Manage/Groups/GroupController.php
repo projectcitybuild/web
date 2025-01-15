@@ -20,17 +20,23 @@ class GroupController extends WebController
     {
         Gate::authorize('viewAny', Group::class);
 
-        $groups = Group::withCount('accounts')
-            ->orderBy('group_type', 'desc')
-            ->orderBy('display_priority', 'asc')
-            ->get();
+        $groups = function () {
+            $groups = Group::withCount('accounts')
+                ->orderBy('group_type', 'desc')
+                ->orderBy('display_priority', 'asc')
+                ->get();
 
-        // Default group doesn't have assigned members
-        $groups
-            ->where('is_default', true)
-            ->map(fn ($group) => $group->accounts_count = Account::doesntHave('groups')->count());
+            // Default group doesn't have assigned members
+            $groups
+                ->where('is_default', true)
+                ->map(fn ($group) => $group->accounts_count = Account::doesntHave('groups')->count());
 
-        return $this->inertiaRender('Groups/GroupList', compact('groups'));
+            return $groups;
+        };
+
+        return $this->inertiaRender('Groups/GroupList', [
+            'groups' => Inertia::defer($groups),
+        ]);
     }
 
     public function create(Request $request)

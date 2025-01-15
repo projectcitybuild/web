@@ -22,14 +22,20 @@ class BuilderRanksController extends WebController
     {
         Gate::authorize('viewAny', BuilderRankApplication::class);
 
-        $applications = BuilderRankApplication::orderbyRaw('FIELD(status, '.ApplicationStatus::PENDING->value.') DESC')
-            ->with('account.minecraftAccount')
-            ->orderBy('created_at', 'desc')
-            ->paginate(100);
+        $applications = function () {
+            return BuilderRankApplication::orderbyRaw('FIELD(status, '.ApplicationStatus::PENDING->value.') DESC')
+                ->with('account.minecraftAccount')
+                ->orderBy('created_at', 'desc')
+                ->cursorPaginate(50);
+        };
 
-        return $this->inertiaRender('BuilderRankApplications/BuilderRankApplicationList',
-            compact('applications'),
-        );
+        if ($request->wantsJson()) {
+            return $applications();
+        }
+
+        return $this->inertiaRender('BuilderRankApplications/BuilderRankApplicationList', [
+            'applications' => Inertia::defer($applications),
+        ]);
     }
 
     public function show(Request $request, BuilderRankApplication $application)

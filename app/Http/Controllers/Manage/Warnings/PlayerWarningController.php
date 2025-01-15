@@ -20,14 +20,18 @@ class PlayerWarningController extends WebController
     {
         Gate::authorize('viewAny', PlayerWarning::class);
 
-        $warnings = PlayerWarning::with('warnedPlayer', 'warnerPlayer')
-            ->orderBy('created_at', 'desc')
-            ->cursorPaginate(50);
+        $warnings = function () {
+            return PlayerWarning::with('warnedPlayer', 'warnerPlayer')
+                ->orderBy('created_at', 'desc')
+                ->cursorPaginate(50);
+        };
 
         if (request()->wantsJson()) {
-            return $warnings;
+            return $warnings();
         }
-        return $this->inertiaRender('Warnings/WarningList', compact('warnings'));
+        return $this->inertiaRender('Warnings/WarningList', [
+            'warnings' => Inertia::defer($warnings),
+        ]);
     }
 
     public function create(Request $request)

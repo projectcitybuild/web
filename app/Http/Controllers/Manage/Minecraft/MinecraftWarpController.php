@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
+use Inertia\Inertia;
 
 class MinecraftWarpController extends WebController
 {
@@ -20,13 +21,17 @@ class MinecraftWarpController extends WebController
     {
         Gate::authorize('viewAny', MinecraftWarp::class);
 
-        $warps = MinecraftWarp::orderBy('created_at', 'desc')
-            ->cursorPaginate(50);
+        $warps = function () {
+            return MinecraftWarp::orderBy('created_at', 'desc')
+                ->cursorPaginate(50);
+        };
 
         if (request()->wantsJson()) {
-            return $warps;
+            return $warps();
         }
-        return $this->inertiaRender('Warps/WarpList', compact('warps'));
+        return $this->inertiaRender('Warps/WarpList', [
+            'warps' => Inertia::defer($warps),
+        ]);
     }
 
     public function create(Request $request)

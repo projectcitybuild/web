@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3'
-import { Paginated } from '../../Data/Paginated'
+import { Deferred, Head, Link } from '@inertiajs/vue3'
 import type { Group } from '../../Data/Group'
 import GroupListTable from './Partials/GroupListTable.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
 import Card from '../../Components/Card.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
+import SpinnerRow from '../../Components/SpinnerRow.vue'
 
 interface Props {
     success?: string,
-    groups: Group[],
+    groups?: Group[],
 }
 
 defineProps<Props>()
@@ -41,7 +41,13 @@ defineProps<Props>()
                 </div>
             </div>
 
-            <GroupListTable :groups="groups" class="border-t border-gray-200" />
+            <Deferred data="groups">
+                <template #fallback>
+                    <SpinnerRow />
+                </template>
+
+                <GroupListTable :groups="groups" class="border-t border-gray-200" />
+            </Deferred>
         </Card>
     </section>
 </template>

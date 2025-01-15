@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3'
+import { Deferred, Head, Link } from '@inertiajs/vue3'
 import { Paginated } from '../../Data/Paginated'
 import type { Donation } from '../../Data/Donation'
 import DonationListTable from './Partials/DonationListTable.vue'
@@ -8,10 +8,11 @@ import SuccessAlert from '../../Components/SuccessAlert.vue'
 import Card from '../../Components/Card.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
+import SpinnerRow from '../../Components/SpinnerRow.vue'
 
 interface Props {
     success?: string,
-    donations: Paginated<Donation>,
+    donations?: Paginated<Donation>,
 }
 
 defineProps<Props>()
@@ -39,12 +40,18 @@ defineProps<Props>()
                 </div>
             </div>
 
-            <InfinitePagination
-                :initial="donations"
-                v-slot="source"
-            >
-                <DonationListTable :donations="source.data"/>
-            </InfinitePagination>
+            <Deferred data="donations">
+                <template #fallback>
+                    <SpinnerRow />
+                </template>
+
+                <InfinitePagination
+                    :initial="donations"
+                    v-slot="source"
+                >
+                    <DonationListTable :donations="source.data"/>
+                </InfinitePagination>
+            </Deferred>
         </Card>
     </section>
 </template>

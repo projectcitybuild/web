@@ -7,6 +7,7 @@ use App\Http\Controllers\WebController;
 use App\Models\Badge;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
 
 class BadgeController extends WebController
 {
@@ -16,13 +17,17 @@ class BadgeController extends WebController
     {
         Gate::authorize('viewAny', Badge::class);
 
-        $badges = Badge::orderBy('created_at', 'desc')
-            ->cursorPaginate(50);
+        $badges = function () {
+            return Badge::orderBy('created_at', 'desc')
+                ->cursorPaginate(50);
+        };
 
         if ($request->wantsJson()) {
-            return $badges;
+            return $badges();
         }
-        return $this->inertiaRender('Badges/BadgeList', compact('badges'));
+        return $this->inertiaRender('Badges/BadgeList', [
+            'badges' => Inertia::defer($badges)
+        ]);
     }
 
     public function create(Request $request)

@@ -2,8 +2,6 @@
 import { ref } from 'vue'
 import { Link } from '@inertiajs/vue3'
 import SideBarMenuItem from './SideBarMenuItem.vue'
-
-const selected = ref<string|null>(null)
 </script>
 
 <template>
@@ -37,7 +35,6 @@ const selected = ref<string|null>(null)
 
                 <SideBarMenuItem
                     title="Users"
-                    v-model:selected="selected"
                     :children="[
                         {title: 'Accounts', route: '/manage/accounts'},
                         {title: 'Groups', route: '/manage/groups'},
@@ -55,7 +52,6 @@ const selected = ref<string|null>(null)
 
                 <SideBarMenuItem
                     title="Moderation"
-                    v-model:selected="selected"
                     :children="[
                         {title: 'Player Bans', route: '/manage/player-bans'},
                         {title: 'IP Bans', route: '/manage/ip-bans'},
@@ -74,7 +70,6 @@ const selected = ref<string|null>(null)
 
                 <SideBarMenuItem
                     title="Minecraft"
-                    v-model:selected="selected"
                     :children="[
                         {title: 'Players', route: '/manage/players'},
                         {title: 'Remote Config', route: '/manage/minecraft/config'},
@@ -92,7 +87,6 @@ const selected = ref<string|null>(null)
 
                 <SideBarMenuItem
                     title="Servers"
-                    v-model:selected="selected"
                     :children="[
                         {title: 'Game Servers', route: '/manage/servers'},
                         {title: 'Tokens', route: '/manage/server-tokens'},
@@ -109,7 +103,6 @@ const selected = ref<string|null>(null)
 
                 <SideBarMenuItem
                     title="Payments"
-                    v-model:selected="selected"
                     :children="[
                         {title: 'Donations', route: '/manage/donations'},
                     ]"

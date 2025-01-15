@@ -11,6 +11,7 @@ use App\Models\GameIPBan;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
 
 class GameIPBanController extends WebController
 {
@@ -20,14 +21,18 @@ class GameIPBanController extends WebController
     {
         Gate::authorize('viewAny', GameIPBan::class);
 
-        $bans = GameIPBan::with('bannerPlayer')
-            ->orderBy('created_at', 'desc')
-            ->paginate(100);
+        $bans = function () {
+            return GameIPBan::with('bannerPlayer')
+                ->orderBy('created_at', 'desc')
+                ->cursorPaginate(50);
+        };
 
         if (request()->wantsJson()) {
-            return $bans;
+            return $bans();
         }
-        return $this->inertiaRender('IPBans/IPBanList', compact('bans'));
+        return $this->inertiaRender('IPBans/IPBanList', [
+            'bans' => Inertia::defer($bans),
+        ]);
     }
 
     public function create(Request $request)

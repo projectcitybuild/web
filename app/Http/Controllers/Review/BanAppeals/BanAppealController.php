@@ -12,6 +12,7 @@ use App\Domains\Bans\Exceptions\NotBannedException;
 use App\Domains\Review\RendersReviewApp;
 use App\Http\Requests\BanAppealUpdateRequest;
 use App\Models\BanAppeal;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -20,21 +21,26 @@ class BanAppealController
 {
     use RendersReviewApp;
 
-    public function index()
+    public function index(Request $request)
     {
         Gate::authorize('viewAny', BanAppeal::class);
 
         // Get ban appeals paginated in the order:
         // Pending appeal (newest first), then all other appeals (newest first)
-        $banAppeals = BanAppeal::orderByRaw('FIELD(status, '.BanAppealStatus::PENDING->value.') DESC')
-            ->with('gamePlayerBan.bannedPlayer')
-            ->orderBy('created_at', 'desc')
-            ->cursorPaginate(50);
+        $banAppeals = function () {
+            return BanAppeal::orderByRaw('FIELD(status, '.BanAppealStatus::PENDING->value.') DESC')
+                ->with('gamePlayerBan.bannedPlayer')
+                ->orderBy('created_at', 'desc')
+                ->cursorPaginate(50);
+        };
 
-        return $this->inertiaRender(
-            'BanAppeals/BanAppealList',
-            compact('banAppeals'),
-        );
+        if ($request->wantsJson()) {
+            return $banAppeals();
+        }
+
+        return $this->inertiaRender('BanAppeals/BanAppealList', [
+            'banAppeals' => Inertia::defer($banAppeals),
+        ]);
     }
 
     public function show(BanAppeal $banAppeal)

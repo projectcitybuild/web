@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3'
+import { Deferred, Head, Link } from '@inertiajs/vue3'
 import IPBanListTable from './Partials/IPBanListTable.vue'
 import { Paginated } from '../../Data/Paginated'
 import { IPBan } from '../../Data/IPBan'
@@ -8,9 +8,10 @@ import Card from '../../Components/Card.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
+import SpinnerRow from '../../Components/SpinnerRow.vue'
 
 interface Props {
-    bans: Paginated<IPBan>,
+    bans?: Paginated<IPBan>,
     success?: string,
 }
 defineProps<Props>()
@@ -57,12 +58,18 @@ defineProps<Props>()
                 </div>
             </div>
 
-            <InfinitePagination
-                :initial="bans"
-                v-slot="source"
-            >
-                <IPBanListTable :bans="source.data"/>
-            </InfinitePagination>
+            <Deferred data="bans">
+                <template #fallback>
+                    <SpinnerRow />
+                </template>
+
+                <InfinitePagination
+                    :initial="bans"
+                    v-slot="source"
+                >
+                    <IPBanListTable :bans="source.data"/>
+                </InfinitePagination>
+            </Deferred>
         </Card>
     </section>
 </template>
