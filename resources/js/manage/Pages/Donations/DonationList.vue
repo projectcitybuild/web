@@ -9,13 +9,15 @@ import Card from '../../Components/Card.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
+import { ref } from 'vue'
 
 interface Props {
     success?: string,
     donations?: Paginated<Donation>,
 }
-
 defineProps<Props>()
+
+const itemCount = ref(0)
 </script>
 
 <template>
@@ -25,11 +27,13 @@ defineProps<Props>()
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
         <Card>
-            <div
-                class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
-                <div class="w-full md:w-1/2">
-
+            <div class="flex flex-row items-center justify-between p-4">
+                <div>
+                    <span v-if="donations" class="text-sm text-gray-500">
+                        Showing <strong>{{ itemCount }}</strong> of <strong>{{ donations?.total ?? 0 }}</strong>
+                    </span>
                 </div>
+
                 <div>
                     <Link href="/manage/donations/create">
                         <FilledButton variant="primary">
@@ -47,6 +51,7 @@ defineProps<Props>()
 
                 <InfinitePagination
                     :initial="donations"
+                    v-model:count="itemCount"
                     v-slot="source"
                 >
                     <DonationListTable :donations="source.data"/>

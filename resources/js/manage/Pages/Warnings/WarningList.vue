@@ -9,12 +9,15 @@ import Card from '../../Components/Card.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
+import { ref } from 'vue'
 
 interface Props {
     success?: string,
     warnings?: Paginated<PlayerWarning>,
 }
 defineProps<Props>()
+
+const itemCount = ref(0)
 </script>
 
 <template>
@@ -24,10 +27,11 @@ defineProps<Props>()
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
         <Card>
-            <div
-                class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
-                <div class="w-full md:w-1/2">
-
+            <div class="flex flex-row items-center justify-between p-4">
+                <div>
+                    <span v-if="warnings" class="text-sm text-gray-500">
+                        Showing <strong>{{ itemCount }}</strong> of <strong>{{ warnings?.total ?? 0 }}</strong>
+                    </span>
                 </div>
                 <div>
                     <Link href="/manage/warnings/create">
@@ -46,6 +50,7 @@ defineProps<Props>()
 
                 <InfinitePagination
                     :initial="warnings"
+                    v-model:count="itemCount"
                     v-slot="source"
                 >
                     <WarningListTable :warnings="source.data"/>

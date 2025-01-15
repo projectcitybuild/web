@@ -36,7 +36,7 @@ class AccountController extends WebController
                 ->thenReturn()
                 ->with('minecraftAccount')
                 ->orderBy('created_at', 'desc')
-                ->cursorPaginate(50);
+                ->paginate(50);
         };
 
         if ($request->wantsJson()) {

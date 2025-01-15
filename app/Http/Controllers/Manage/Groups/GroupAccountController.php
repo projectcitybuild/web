@@ -23,7 +23,7 @@ class GroupAccountController extends WebController
         } else {
             $accounts = $group->accounts();
         }
-        $accounts = $accounts->cursorPaginate(50);
+        $accounts = $accounts->paginate(50);
 
         if ($request->wantsJson()) {
             return $accounts;

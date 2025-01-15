@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T">
 import { Paginated } from '../Data/Paginated'
-import { onMounted, ref, watch } from 'vue'
+import { onBeforeMount, onMounted, ref, watch } from 'vue'
 import axios, { AxiosResponse } from 'axios'
 import { useIntersectionObserver, watchDebounced } from '@vueuse/core'
 
@@ -11,12 +11,13 @@ interface Props {
     query?: object,
     path?: string,
 }
-
 const props = defineProps<Props>()
 
+const itemCount = defineModel('count')
+
 const items = ref<T[]>(props.initial?.data ?? [])
-const nextCursor = ref(props.initial?.next_cursor)
-const reachedEnd = ref(props.initial?.next_cursor == null ?? false)
+const currentPage = ref(props.initial?.current_page ?? 1)
+const reachedEnd = ref(props.initial?.next_page_url == null ?? false)
 const lastElement = ref(null)
 const loading = ref(false)
 
@@ -32,10 +33,10 @@ watch(
 )
 
 function query() {
-    if (nextCursor.value != null) {
+    if (currentPage.value > 1) {
         return new URLSearchParams({
             ...props.query,
-            cursor: nextCursor.value,
+            page: currentPage.value,
         })
     }
     return new URLSearchParams(props.query)
@@ -55,11 +56,9 @@ const load = async () => {
     try {
         const path = pagePath()
         const response: PageResponse = await axios.get(path)
-        const cursor = response.data.next_cursor
 
-        nextCursor.value = cursor
-        reachedEnd.value = cursor == null
-        if (cursor == null) {
+        reachedEnd.value = response.data.next_page_url == null
+        if (reachedEnd.value) {
             stop()
         }
         return response.data?.data ?? []
@@ -69,17 +68,21 @@ const load = async () => {
 }
 
 const loadFirstPage = async () => {
-    nextCursor.value = null
+    currentPage.value = 1
     reachedEnd.value = false
 
     items.value = await load()
+    itemCount.value = items.value.length
 }
 
 const loadNextPage = async () => {
+    currentPage.value += 1
+
     items.value = [
         ...items.value,
         ...await load(),
     ]
+    itemCount.value = items.value.length
 }
 
 const { stop } = useIntersectionObserver(
@@ -94,6 +97,8 @@ onMounted(() => {
         loadFirstPage()
     }
 })
+
+onBeforeMount(() => itemCount.value = items.value.length)
 </script>
 
 <template>

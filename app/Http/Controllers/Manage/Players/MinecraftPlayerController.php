@@ -27,7 +27,7 @@ class MinecraftPlayerController extends WebController
         $players = function () {
             return MinecraftPlayer::with(['account'])
                 ->orderBy('created_at', 'desc')
-                ->cursorPaginate(50);
+                ->paginate(50);
         };
 
         if (request()->wantsJson()) {

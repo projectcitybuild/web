@@ -23,7 +23,7 @@ class MinecraftWarpController extends WebController
 
         $warps = function () {
             return MinecraftWarp::orderBy('created_at', 'desc')
-                ->cursorPaginate(50);
+                ->paginate(50);
         };
 
         if (request()->wantsJson()) {

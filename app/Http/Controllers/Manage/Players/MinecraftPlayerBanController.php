@@ -13,6 +13,6 @@ class MinecraftPlayerBanController extends WebController
     {
         Gate::authorize('viewAny', GamePlayerBan::class);
 
-        return $player->gamePlayerBans()->cursorPaginate(50);
+        return $player->gamePlayerBans()->paginate(50);
     }
 }

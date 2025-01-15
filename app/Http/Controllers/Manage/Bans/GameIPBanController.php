@@ -24,7 +24,7 @@ class GameIPBanController extends WebController
         $bans = function () {
             return GameIPBan::with('bannerPlayer')
                 ->orderBy('created_at', 'desc')
-                ->cursorPaginate(50);
+                ->paginate(50);
         };
 
         if (request()->wantsJson()) {

@@ -20,6 +20,7 @@ defineProps<Props>()
 
 const filterExpanded = ref(false)
 const query = ref({})
+const itemCount = ref(0)
 
 const form = useForm({
     username: null,
@@ -93,7 +94,13 @@ watch(
             </Card>
 
             <Card class="grow">
-                <div class="p-4 flex justify-end items-center">
+                <div class="p-4 flex justify-between items-center">
+                    <div>
+                        <span v-if="accounts" class="text-sm text-gray-500">
+                            Showing <strong>{{ itemCount }}</strong> of <strong>{{ accounts?.total ?? 0 }}</strong>
+                        </span>
+                    </div>
+
                     <div class="flex gap-2">
                         <OutlinedButton
                             variant="secondary"
@@ -126,6 +133,7 @@ watch(
                     <InfinitePagination
                         :initial="accounts"
                         :query="query"
+                        v-model:count="itemCount"
                         v-slot="source"
                         class="border-t border-gray-200"
                     >

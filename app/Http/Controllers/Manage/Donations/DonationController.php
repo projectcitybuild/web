@@ -20,7 +20,7 @@ class DonationController extends WebController
         $donations = function () {
             return Donation::with('account', 'perks')
                 ->orderBy('created_at', 'desc')
-                ->cursorPaginate(50);
+                ->paginate(50);
         };
 
         if (request()->wantsJson()) {
