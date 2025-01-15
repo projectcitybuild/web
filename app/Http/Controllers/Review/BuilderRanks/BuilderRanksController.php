@@ -26,7 +26,7 @@ class BuilderRanksController extends WebController
             return BuilderRankApplication::orderbyRaw('FIELD(status, '.ApplicationStatus::PENDING->value.') DESC')
                 ->with('account.minecraftAccount')
                 ->orderBy('created_at', 'desc')
-                ->cursorPaginate(50);
+                ->paginate(50);
         };
 
         if ($request->wantsJson()) {

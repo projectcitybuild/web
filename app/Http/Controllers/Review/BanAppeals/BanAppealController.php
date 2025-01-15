@@ -31,7 +31,7 @@ class BanAppealController
             return BanAppeal::orderByRaw('FIELD(status, '.BanAppealStatus::PENDING->value.') DESC')
                 ->with('gamePlayerBan.bannedPlayer')
                 ->orderBy('created_at', 'desc')
-                ->cursorPaginate(50);
+                ->paginate(50);
         };
 
         if ($request->wantsJson()) {

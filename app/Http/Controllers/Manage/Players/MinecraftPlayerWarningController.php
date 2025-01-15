@@ -13,6 +13,6 @@ class MinecraftPlayerWarningController extends WebController
     {
         Gate::authorize('viewAny', PlayerWarning::class);
 
-        return $player->warnings()->cursorPaginate(50);
+        return $player->warnings()->paginate(50);
     }
 }

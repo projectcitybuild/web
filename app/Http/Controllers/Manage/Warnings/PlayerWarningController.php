@@ -23,7 +23,7 @@ class PlayerWarningController extends WebController
         $warnings = function () {
             return PlayerWarning::with('warnedPlayer', 'warnerPlayer')
                 ->orderBy('created_at', 'desc')
-                ->cursorPaginate(50);
+                ->paginate(50);
         };
 
         if (request()->wantsJson()) {
