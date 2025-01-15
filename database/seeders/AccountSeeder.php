@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Core\Utilities\SecureTokenGenerator;
 use App\Models\Account;
 use App\Models\AccountActivation;
+use App\Models\EmailChange;
 use App\Models\Group;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Crypt;
@@ -25,6 +26,7 @@ class AccountSeeder extends Seeder
         $this->createModerator();
         $this->createArchitect();
         $this->createUnactivatedAccount();
+        $this->createAccountWithEmailChanges();
         $this->createDummyAccounts();
     }
 
@@ -86,6 +88,20 @@ class AccountSeeder extends Seeder
             'token' => $this->tokenGenerator->make(),
             'expires_at' => now()->addYear(),
         ]);
+    }
+
+    private function createAccountWithEmailChanges()
+    {
+        $account = Account::factory()->make();
+        $account->username = 'Bob';
+        $account->email = 'email_changes@pcbmc.co';
+        $account->password = Hash::make('test');
+        $account->save();
+
+        EmailChange::factory()
+            ->for($account)
+            ->count(10)
+            ->create();
     }
 
     private function createDummyAccounts()

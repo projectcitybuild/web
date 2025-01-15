@@ -27,6 +27,7 @@ class AccountApproveEmailChangeController extends WebController
             oldEmail: $account->email,
         );
 
-        return redirect()->back();
+        return redirect()->back()
+            ->with(['success' => 'Email change force approved']);
     }
 }
