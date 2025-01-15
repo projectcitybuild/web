@@ -24,15 +24,17 @@ class MinecraftPlayerController extends WebController
     {
         Gate::authorize('viewAny', MinecraftPlayer::class);
 
-        $minecraftPlayers = MinecraftPlayer::with(['account'])
-            ->orderBy('created_at', 'desc')
-            ->cursorPaginate(50);
+        $players = function () {
+            return MinecraftPlayer::with(['account'])
+                ->orderBy('created_at', 'desc')
+                ->cursorPaginate(50);
+        };
 
         if (request()->wantsJson()) {
-            return $minecraftPlayers;
+            return $players();
         }
         return $this->inertiaRender('Players/PlayerList', [
-            'players' => $minecraftPlayers,
+            'players' => Inertia::defer($players),
         ]);
     }
 

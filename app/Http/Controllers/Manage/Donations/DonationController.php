@@ -17,17 +17,18 @@ class DonationController extends WebController
     {
         Gate::authorize('viewAny', Donation::class);
 
-        $donations = Donation::with('account', 'perks')
-            ->orderBy('created_at', 'desc')
-            ->paginate(100);
+        $donations = function () {
+            return Donation::with('account', 'perks')
+                ->orderBy('created_at', 'desc')
+                ->cursorPaginate(50);
+        };
 
         if (request()->wantsJson()) {
-            return $donations;
+            return $donations();
         }
-        return $this->inertiaRender(
-            'Donations/DonationList',
-            compact('donations'),
-        );
+        return $this->inertiaRender('Donations/DonationList', [
+            'donations' => Inertia::defer($donations),
+        ]);
     }
 
     public function show(Donation $donation)

@@ -23,14 +23,18 @@ class GamePlayerBanController extends WebController
     {
         Gate::authorize('viewAny', GamePlayerBan::class);
 
-        $bans = GamePlayerBan::with('bannedPlayer', 'bannerPlayer', 'unbannerPlayer')
-            ->orderBy('created_at', 'desc')
-            ->cursorPaginate(50);
+        $bans = function () {
+            return GamePlayerBan::with('bannedPlayer', 'bannerPlayer', 'unbannerPlayer')
+                ->orderBy('created_at', 'desc')
+                ->cursorPaginate(50);
+        };
 
         if (request()->wantsJson()) {
-            return $bans;
+            return $bans();
         }
-        return $this->inertiaRender('PlayerBans/PlayerBanList', compact('bans'));
+        return $this->inertiaRender('PlayerBans/PlayerBanList', [
+            'bans' => Inertia::defer($bans),
+        ]);
     }
 
     public function create(Request $request)

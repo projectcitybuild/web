@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3'
+import { Deferred, Head, Link } from '@inertiajs/vue3'
 import { Paginated } from '../../Data/Paginated'
 import type { Badge } from '../../Data/Badge'
 import BadgeListTable from './Partials/BadgeListTable.vue'
@@ -8,10 +8,11 @@ import SuccessAlert from '../../Components/SuccessAlert.vue'
 import Card from '../../Components/Card.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
+import SpinnerRow from '../../Components/SpinnerRow.vue'
 
 interface Props {
     success?: string,
-    badges: Paginated<Badge>,
+    badges?: Paginated<Badge>,
 }
 
 defineProps<Props>()
@@ -39,12 +40,18 @@ defineProps<Props>()
                 </div>
             </div>
 
-            <InfinitePagination
-                :initial="badges"
-                v-slot="source"
-            >
-                <BadgeListTable :badges="source.data"/>
-            </InfinitePagination>
+            <Deferred data="badges">
+                <template #fallback>
+                    <SpinnerRow />
+                </template>
+
+                <InfinitePagination
+                    :initial="badges"
+                    v-slot="source"
+                >
+                    <BadgeListTable :badges="source.data"/>
+                </InfinitePagination>
+            </Deferred>
         </Card>
     </section>
 </template>

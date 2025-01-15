@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3'
+import { Deferred, Head, Link } from '@inertiajs/vue3'
 import { Paginated } from '../../Data/Paginated'
 import type { PlayerWarning } from '../../Data/PlayerWarning'
 import WarningListTable from './Partials/WarningListTable.vue'
@@ -8,10 +8,11 @@ import SuccessAlert from '../../Components/SuccessAlert.vue'
 import Card from '../../Components/Card.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
+import SpinnerRow from '../../Components/SpinnerRow.vue'
 
 interface Props {
     success?: string,
-    warnings: Paginated<PlayerWarning>,
+    warnings?: Paginated<PlayerWarning>,
 }
 defineProps<Props>()
 </script>
@@ -38,12 +39,18 @@ defineProps<Props>()
                 </div>
             </div>
 
-            <InfinitePagination
-                :initial="warnings"
-                v-slot="source"
-            >
-                <WarningListTable :warnings="source.data"/>
-            </InfinitePagination>
+            <Deferred data="warnings">
+                <template #fallback>
+                    <SpinnerRow />
+                </template>
+
+                <InfinitePagination
+                    :initial="warnings"
+                    v-slot="source"
+                >
+                    <WarningListTable :warnings="source.data"/>
+                </InfinitePagination>
+            </Deferred>
         </Card>
     </section>
 </template>

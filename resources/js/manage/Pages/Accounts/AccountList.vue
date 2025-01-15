@@ -120,9 +120,7 @@ watch(
 
                 <Deferred data="accounts">
                     <template #fallback>
-                        <div class="flex justify-center py-2 px-4">
-                            <SpinnerRow />
-                        </div>
+                        <SpinnerRow />
                     </template>
 
                     <InfinitePagination
