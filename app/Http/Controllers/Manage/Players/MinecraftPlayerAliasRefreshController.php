@@ -7,6 +7,7 @@ use App\Core\Domains\MinecraftUUID\UseCases\LookupMinecraftUUID;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class MinecraftPlayerAliasRefreshController extends WebController
@@ -17,7 +18,7 @@ class MinecraftPlayerAliasRefreshController extends WebController
 
         $lookup = $lookupMinecraftUUID->fetch(MinecraftUUID::tryParse($player->uuid));
         if ($lookup === null) {
-            throw new \Exception('UUID not found');
+            throw ValidationException::withMessages(['UUID not found']);
         }
 
         $updatedAlias = $lookup->username;
@@ -27,11 +28,6 @@ class MinecraftPlayerAliasRefreshController extends WebController
 
         $player->update(['alias' => $updatedAlias]);
 
-        return redirect()
-            ->back()
-            ->with([
-                'player' => $player,
-                'success' => 'Alias successfully updated',
-            ]);
+        return $player;
     }
 }
