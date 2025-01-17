@@ -15,6 +15,8 @@ import ToolBar from '../../Components/ToolBar.vue'
 import OutlinedButton from '../../Components/OutlinedButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import FilledButton from '../../Components/FilledButton.vue'
+import ErrorAlert from '../../Components/ErrorAlert.vue'
+import axios from 'axios'
 
 interface Props {
     player: Player,
@@ -22,16 +24,28 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const error = ref<string|null>(null)
 
 const isRefreshingAlias = ref(false)
 
 async function refreshAlias() {
     isRefreshingAlias.value = true
 
-    router.post('/manage/players/' + props.player.player_minecraft_id + '/alias/refresh', null, {
-        preserveScroll: true,
-        onFinish: () => isRefreshingAlias.value = false,
-    })
+    try {
+        const response = await axios.post('/manage/players/' + props.player.player_minecraft_id + '/alias/refresh')
+        const player = response.data
+        router.replace({
+            props: (currentProps) => ({
+                ...currentProps,
+                player: player,
+                success: 'Alias successfully refreshed',
+            })
+        })
+    } catch (e) {
+        error.value = e.response?.data?.message ?? e.message
+    } finally {
+        isRefreshingAlias.value = false
+    }
 }
 </script>
 
@@ -40,6 +54,7 @@ async function refreshAlias() {
         <Head :title="'Viewing Player: ' + (player.alias ?? player.uuid)"/>
 
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+        <ErrorAlert v-if="error" :errors="[error]" class="mb-4" />
 
         <ToolBar>
             <template v-slot:left>

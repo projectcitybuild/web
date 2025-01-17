@@ -2,8 +2,8 @@
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
 import { useForm } from '@inertiajs/vue3'
-import { computed, onMounted, ref } from 'vue'
-import { PlayerBan } from '../../../Data/PlayerBan'
+import { computed, ref } from 'vue'
+import { PlayerBan, UnbanType } from '../../../Data/PlayerBan'
 import ErrorAlert from '../../../Components/ErrorAlert.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
 import Spinner from '../../../Components/Spinner.vue'
@@ -32,6 +32,12 @@ const form = useForm<PlayerBan>({
         ? new Date(props.ban.expires_at)
         : null,
     reason: props.ban?.reason,
+    unbanned_at: props.ban?.unbanned_at
+        ? new Date(props.ban.unbanned_at)
+        : null,
+    unbanner_uuid: props.ban?.unbanner_player?.uuid,
+    unbanner_alias: props.ban?.unbanner_player?.alias,
+    unban_type: props.ban?.unban_type,
 })
 
 const deleteModal = ref<InstanceType<typeof ConfirmDialog>>()
@@ -128,6 +134,61 @@ function destroy() {
                     {{ form.errors.reason }}
                 </div>
             </div>
+
+            <template v-if="isEdit">
+                <hr class="col-span-2" />
+
+                <span class="col-span-2">Only fill this in to unban:</span>
+
+                <div>
+                    <label for="unbanned_at" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Date of Unban
+                    </label>
+                    <DateTimePicker
+                        v-model="form.unbanned_at"
+                        @change="form.unbanned_at = $event"
+                    />
+                    <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
+                    This is just for book-keeping. If <i>any</i> date is filled here, it will be considered as unbanned
+                </span>
+                    <div v-if="form.errors.unbanned_at" class="text-xs text-red-500 font-bold mt-2">
+                        {{ form.errors.unbanned_at }}
+                    </div>
+                </div>
+                <div>
+                    <label for="unban_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Unban Type
+                    </label>
+                    <select
+                        v-model="form.unban_type"
+                        id="unban_type"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
+                        <option :value="null">Select</option>
+                        <option :value="UnbanType.expired">Expired</option>
+                        <option :value="UnbanType.manual">Manual</option>
+                        <option :value="UnbanType.appealed">Appealed</option>
+                    </select>
+                    <div v-if="form.errors.unban_type" class="text-xs text-red-500 font-bold mt-2">
+                        {{ form.errors.unban_type }}
+                    </div>
+                </div>
+
+                <div class="col-span-2">
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Unbanned By
+                    </label>
+                    <PlayerPicker
+                        v-model:uuid="form.unbanner_uuid"
+                        v-model:alias="form.unbanner_alias"
+                    />
+                    <div v-if="form.errors.unbanner_uuid" class="text-xs text-red-500 font-bold mt-2">
+                        {{ form.errors.unbanner_uuid }}
+                    </div>
+                </div>
+
+                <hr class="col-span-2" />
+            </template>
         </div>
 
         <div class="flex flex-row gap-2 mt-8">

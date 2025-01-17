@@ -109,7 +109,8 @@ class GamePlayerBanController extends WebController
             'expires_at' => ['nullable', 'date'],
             'created_at' => ['required', 'date'],
             'unbanned_at' => ['nullable', 'date'],
-            'unbanner_player_id' => ['nullable', new MinecraftUUIDRule],
+            'unbanner_uuid' => ['nullable', new MinecraftUUIDRule],
+            'unbanner_alias' => ['nullable', 'string'],
             'unban_type' => ['nullable', Rule::in(UnbanType::values())],
         ]);
 
@@ -126,7 +127,14 @@ class GamePlayerBanController extends WebController
             $validated['banner_player_id'] = $bannerPlayer->getKey();
         } else {
             $validated['banner_player_id'] = null;
+        }
 
+        if ($request->get('unbanner_uuid') !== null) {
+            $unbannerUuid = MinecraftUUID::tryParse($validated['unbanner_uuid']);
+            $unbannerPlayer = MinecraftPlayer::firstOrCreate($unbannerUuid, alias: $validated['unbanner_alias']);
+            $validated['unbanner_player_id'] = $unbannerPlayer->getKey();
+        } else {
+            $validated['unbanner_player_id'] = null;
         }
 
         $playerBan->update($validated);
