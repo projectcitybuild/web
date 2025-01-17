@@ -89,7 +89,7 @@ function submit() {
                 </div>
             </div>
 
-            <span class="text-gray-500 text-sm col-span-2">
+            <span v-if="!isEdit" class="text-gray-500 text-sm col-span-2">
                 Note: This will create an <strong>unactivated</strong> account.<br /><br />
                 You will need to either force activate their account or send them their activation email afterwards.
             </span>
