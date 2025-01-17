@@ -220,10 +220,12 @@ function showUnlinkDialog(playerId: number) {
                             <FilledButton variant="secondary">Add</FilledButton>
                         </Link>
                     </div>
-                    <AccountPlayersTable
-                        :players="account.minecraft_account ?? []"
-                        @unlink-tap="showUnlinkDialog"
-                    />
+                    <div class="overflow-x-auto">
+                        <AccountPlayersTable
+                            :players="account.minecraft_account ?? []"
+                            @unlink-tap="showUnlinkDialog"
+                        />
+                    </div>
                 </Card>
 
                 <Card class="mt-4">
@@ -233,7 +235,9 @@ function showUnlinkDialog(playerId: number) {
                             <FilledButton variant="secondary">Edit</FilledButton>
                         </Link>
                     </div>
-                    <AccountGroupsTable :groups="account.groups ?? []" />
+                    <div class="overflow-x-auto">
+                        <AccountGroupsTable :groups="account.groups ?? []" />
+                    </div>
                 </Card>
 
                 <Card class="mt-4">
@@ -243,7 +247,9 @@ function showUnlinkDialog(playerId: number) {
                             <FilledButton variant="secondary">Edit</FilledButton>
                         </Link>
                     </div>
-                    <AccountBadgesTable :badges="account.badges ?? []" />
+                    <div class="overflow-x-auto">
+                        <AccountBadgesTable :badges="account.badges ?? []" />
+                    </div>
                 </Card>
 
                 <Card class="mt-4">
@@ -253,24 +259,30 @@ function showUnlinkDialog(playerId: number) {
                             <FilledButton variant="secondary">Create</FilledButton>
                         </Link>
                     </div>
-                    <AccountDonationsTable :donations="account.donations ?? []" />
+                    <div class="overflow-x-auto">
+                        <AccountDonationsTable :donations="account.donations ?? []" />
+                    </div>
                 </Card>
 
                 <Card class="mt-4">
                     <div class="p-4 font-bold">
                         Pending Email Changes
                     </div>
-                    <AccountEmailChangeRequestsTable
-                        :requests="account.email_change_requests ?? []"
-                        :account_id="account.account_id"
-                    />
+                    <div class="overflow-x-auto">
+                        <AccountEmailChangeRequestsTable
+                            :requests="account.email_change_requests ?? []"
+                            :account_id="account.account_id"
+                        />
+                    </div>
                 </Card>
 
                 <Card class="mt-4">
                     <div class="p-4 font-bold">
                         Pending Activations
                     </div>
-                    <AccountActivationsTable :activations="account.activations ?? []" />
+                    <div class="overflow-x-auto">
+                        <AccountActivationsTable :activations="account.activations ?? []" />
+                    </div>
                 </Card>
 
                 <Card class="mt-4">
