@@ -3,85 +3,88 @@
 namespace App\Http\Controllers\Manage\Minecraft;
 
 use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
+use App\Domains\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftWarp;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
+use Inertia\Inertia;
 
 class MinecraftWarpController extends WebController
 {
+    use RendersManageApp;
     use ValidatesCoordinates;
 
-    public function index(Request $request): MinecraftWarp|Factory|View
+    public function index(Request $request)
     {
-        $warps = MinecraftWarp::orderBy('name', 'asc')
-            ->paginate(100);
+        Gate::authorize('viewAny', MinecraftWarp::class);
 
-        return view('manage.pages.minecraft-warps.index')->with(compact('warps'));
+        $warps = function () {
+            return MinecraftWarp::orderBy('created_at', 'desc')
+                ->paginate(50);
+        };
+
+        if (request()->wantsJson()) {
+            return $warps();
+        }
+        return $this->inertiaRender('Warps/WarpList', [
+            'warps' => Inertia::defer($warps),
+        ]);
     }
 
-    public function create(Request $request): Application|Factory|View
+    public function create(Request $request)
     {
-        $warp = new MinecraftWarp();
+        Gate::authorize('create', MinecraftWarp::class);
 
-        return view('manage.pages.minecraft-warps.create')
-            ->with(compact('warp'));
+        return $this->inertiaRender('Warps/WarpCreate');
     }
 
     public function store(Request $request): RedirectResponse
     {
-        $validator = Validator::make($request->all(), [
+        Gate::authorize('create', MinecraftWarp::class);
+
+        $validated = $request->validate([
             'name' => ['required', 'string', 'alpha_dash', Rule::unique('minecraft_warps')],
             ...$this->coordinateRules,
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        MinecraftWarp::create($validated);
 
-        MinecraftWarp::create($request->all());
-
-        return redirect(route('manage.minecraft.warps.index'));
+        return to_route('manage.minecraft.warps.index')
+            ->with(['success' => 'Warp created successfully.']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(MinecraftWarp $warp): MinecraftWarp|Factory|View
+    public function edit(MinecraftWarp $warp)
     {
-        return view('manage.pages.minecraft-warps.edit')
-            ->with(compact('warp'));
+        Gate::authorize('update', $warp);
+
+        return $this->inertiaRender('Warps/WarpEdit', compact('warp'));
     }
 
-    public function update(Request $request, MinecraftWarp $warp): RedirectResponse
+    public function update(Request $request, MinecraftWarp $warp)
     {
-        $validator = Validator::make($request->all(), [
+        Gate::authorize('update', $warp);
+
+        $validated = $request->validate([
             'name' => ['required', 'string', 'alpha_dash', Rule::unique('minecraft_warps')->ignore($warp)],
             ...$this->coordinateRules,
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        $warp->update($validated);
 
-        $warp->update($request->all());
-
-        return redirect(route('manage.minecraft.warps.index'));
+        return to_route('manage.minecraft.warps.index')
+            ->with(['success' => 'Warp updated successfully.']);
     }
 
-    public function destroy(Request $request, MinecraftWarp $warp): RedirectResponse
+    public function destroy(Request $request, MinecraftWarp $warp)
     {
+        Gate::authorize('delete', $warp);
+
         $warp->delete();
 
-        return redirect(route('manage.minecraft.warps.index'));
+        return to_route('manage.minecraft.warps.index')
+            ->with(['success' => 'Warp '.$warp->name.' deleted successfully.']);
     }
 }

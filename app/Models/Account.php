@@ -8,7 +8,6 @@ use App\Core\Domains\Auditing\Concerns\CausesActivity;
 use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
-use App\Domains\Panel\Data\PanelGroupScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -46,7 +45,6 @@ final class Account extends Authenticatable implements LinkableAuditModel
         'remember_token',
         'last_login_ip',
         'last_login_at',
-        'balance',
     ];
 
     protected $hidden = [
@@ -60,7 +58,6 @@ final class Account extends Authenticatable implements LinkableAuditModel
         'trial_ends_at',
         'stripe_id',
         'last_login_ip',
-        'is_totp_enabled',
     ];
 
     protected static $recordEvents = [
@@ -75,8 +72,6 @@ final class Account extends Authenticatable implements LinkableAuditModel
         'is_totp_enabled' => 'boolean',
         'activated' => 'boolean',
     ];
-
-    private ?Collection $cachedGroupScopes = null;
 
     public function toSearchableArray()
     {
@@ -146,6 +141,14 @@ final class Account extends Authenticatable implements LinkableAuditModel
         );
     }
 
+    public function activations(): HasMany
+    {
+        return $this->hasMany(
+            related: AccountActivation::class,
+            foreignKey: 'account_id',
+        );
+    }
+
     public function gamePlayerBans(): HasManyThrough
     {
         return $this->hasManyThrough(
@@ -170,9 +173,12 @@ final class Account extends Authenticatable implements LinkableAuditModel
         );
     }
 
-    public function isBanned()
+    public function builderRankApplications(): HasMany
     {
-        return $this->gamePlayerBans()->active()->exists();
+        return $this->hasMany(
+            related: BuilderRankApplication::class,
+            foreignKey: 'account_id',
+        );
     }
 
     public function banAppeals()
@@ -180,38 +186,25 @@ final class Account extends Authenticatable implements LinkableAuditModel
         return BanAppeal::whereIn('game_ban_id', $this->gamePlayerBans()->pluck('id'));
     }
 
-    public function inGroup(Group $group)
+    public function isAdmin(): bool
     {
-        return $this->groups->contains($group);
+        return $this->groups()
+            ->where('is_admin', true)
+            ->count() > 0;
     }
 
-    public function hasBadge(Badge $badge)
+    public function isStaff(): bool
     {
-        return $this->badges->contains($badge);
+        return $this->groups()
+            ->where('group_type', 'staff')
+            ->count() > 0;
     }
 
-    public function isAdmin()
+    public function isArchitect(): bool
     {
-        return $this->groups()->where('is_admin', true)->count() > 0;
-    }
-
-    public function canAccessPanel(): bool
-    {
-        return $this->hasAbility(PanelGroupScope::ACCESS_PANEL->value);
-    }
-
-    public function hasAbility(string $to): bool
-    {
-        if ($this->cachedGroupScopes === null) {
-            $this->cachedGroupScopes = $this->groups()
-                ->with('groupScopes')
-                ->get()
-                ->flatMap(fn ($group) => $group->groupScopes->pluck('scope'))
-                ->mapWithKeys(fn ($scope) => [$scope => true])  // Map to dictionary for faster lookup
-                ?? collect();
-        }
-
-        return $this->cachedGroupScopes->has(key: $to);
+        return $this->groups()
+            ->where('name', 'architect')
+            ->count() > 0;
     }
 
     public function updatePassword(string $newPassword)

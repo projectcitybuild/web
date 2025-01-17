@@ -12,6 +12,7 @@
         "bacon/bacon-qr-code": "^2.0",
         "doctrine/dbal": "^3.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "inertiajs/inertia-laravel": "^2.0",
         "jfcherng/php-diff": "^6.11",
         "laravel/cashier": "^15.0",
         "laravel/framework": "^11.0",

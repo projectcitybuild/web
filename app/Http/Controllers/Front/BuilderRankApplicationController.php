@@ -10,25 +10,37 @@ use App\Http\Controllers\WebController;
 use App\Http\Requests\BuilderRankApplicationRequest;
 use App\Models\BuilderRankApplication;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 final class BuilderRankApplicationController extends WebController
 {
-    public function index(
+    public function show(
+        Request $request,
+        BuilderRankApplication $application,
+    ) {
+        Gate::authorize('view', $application);
+
+        return view('front.pages.builder-rank.builder-rank-status')
+            ->with(compact('application'));
+    }
+
+    public function create(
         Request $request,
     ) {
+        Gate::authorize('create', BuilderRankApplication::class);
+
         $minecraftUsername = $request->user()
             ?->minecraftAccount
             ?->first()
             ?->alias;
 
-        $applicationInProgress = BuilderRankApplication::where('status', ApplicationStatus::IN_PROGRESS->value)
+        $applicationInProgress = BuilderRankApplication::where('status', ApplicationStatus::PENDING->value)
             ->where('account_id', $request->user()->getKey())
             ->orderBy('created_at', 'DESC')
             ->first();
 
         if ($applicationInProgress !== null) {
-            return redirect()
-                ->route('front.rank-up.status', $applicationInProgress->getKey());
+            return to_route('front.rank-up.status', $applicationInProgress->getKey());
         }
 
         return view('front.pages.builder-rank.builder-rank-form')
@@ -39,41 +51,26 @@ final class BuilderRankApplicationController extends WebController
         BuilderRankApplicationRequest $request,
         CreateBuildRankApplication $createBuildRankApplication,
     ) {
-        $input = $request->validated();
+        Gate::authorize('create', BuilderRankApplication::class);
+
+        $validated = $request->validated();
         $account = $request->user();
 
         try {
             $application = $createBuildRankApplication->execute(
                 account:  $account,
-                minecraftAlias:  $input['minecraft_username'],
-                currentBuilderRank: BuilderRank::from($input['current_builder_rank']),
-                buildLocation: $input['build_location'],
-                buildDescription: $input['build_description'],
-                additionalNotes: $request->get('additional_notes'),
+                minecraftAlias:  $validated['minecraft_username'],
+                currentBuilderRank: BuilderRank::from($validated['current_builder_rank']),
+                buildLocation: $validated['build_location'],
+                buildDescription: $validated['build_description'],
+                additionalNotes: $validated['additional_notes'],
             );
-            return redirect()
-                ->route('front.rank-up.status', $application->getKey());
+            return to_route('front.rank-up.status', $application->getKey());
 
         } catch (ApplicationAlreadyInProgressException) {
             return redirect()
                 ->back()
                 ->with(['error' => 'You cannot submit another application while you have another application under review']);
         }
-    }
-
-    public function show(
-        Request $request,
-        int $applicationId,
-    ) {
-        $application = BuilderRankApplication::find($applicationId);
-        if ($application === null) {
-            abort(404);
-        }
-        if ($request->user()->getKey() !== $application->account_id) {
-            abort(403);
-        }
-
-        return view('front.pages.builder-rank.builder-rank-status')
-            ->with(compact('application'));
     }
 }

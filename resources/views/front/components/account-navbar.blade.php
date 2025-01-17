@@ -18,11 +18,11 @@
                     <span class="block text-sm  text-gray-500 truncate">{{ Auth::user()->email }}</span>
                 </div>
                 <ul class="py-2" aria-labelledby="user-menu-button">
-                    @if (Auth::user()->canAccessPanel())
+                    @can('access-manage')
                         <li>
                             <a href="{{ route('manage.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staff Panel</a>
                         </li>
-                    @endif
+                    @endcan
                 </ul>
                 <ul class="py-2" aria-labelledby="user-menu-button">
                     <li>
@@ -71,7 +71,7 @@
                 </li>
                 <li>
                     <a
-                        href="{{ route('front.account.settings.email') }}"
+                        href="{{ route('front.account.settings') }}"
                         class="
                             block py-2 px-3 text-gray-900 rounded hover:bg-gray-100
                             md:hover:bg-transparent md:hover:text-blue-700 md:p-0

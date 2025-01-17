@@ -12,6 +12,8 @@ class LookupMinecraftUUID
 {
     public function fetch(MinecraftUUID $uuid): ?MinecraftUUIDLookup
     {
+        // TODO: throttle
+
         $trimmedUuid = $uuid->trimmed();
         $secondsTtl = 60 * 5;
 
@@ -25,8 +27,8 @@ class LookupMinecraftUUID
             $lookup = MinecraftUUIDLookup::fromResponse($response);
 
             Log::debug('Parsed lookup response', [
-                'username' => $lookup->username,
-                'uuid' => $lookup->uuid,
+                'username' => $lookup?->username,
+                'uuid' => $lookup?->uuid,
             ]);
 
             return $lookup;

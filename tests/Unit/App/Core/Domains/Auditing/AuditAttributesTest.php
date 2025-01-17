@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Core\Domains\Auditing;
+namespace Tests\Unit\App\Core\Domains\Auditing;
 
+use App\Core\Domains\Auditing\AuditAttributes;
 use App\Core\Domains\Auditing\Changes\ArrayChange;
 use App\Core\Domains\Auditing\Changes\BooleanChange;
 use App\Core\Domains\Auditing\Changes\Change;
 use App\Core\Domains\Auditing\Changes\MultilineChange;
 use App\Core\Domains\Auditing\Changes\RelationshipChange;
+use App\Core\Domains\Auditing\DummyLinkable;
 use Tests\TestCase;
 
 class AuditAttributesTest extends TestCase

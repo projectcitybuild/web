@@ -13,6 +13,9 @@ class DenyBuildRankApplication
         string $denyReason,
     ): BuilderRankApplication {
         $application = BuilderRankApplication::find($applicationId);
+
+        abort_if($application->isReviewed(), 409);
+
         $application->status = ApplicationStatus::DENIED->value;
         $application->denied_reason = $denyReason;
         $application->closed_at = now();

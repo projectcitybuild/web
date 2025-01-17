@@ -22,11 +22,14 @@
                         <li>
                             <a href="{{ route('front.account.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
                         </li>
-                        @if (Auth::user()->canAccessPanel())
+                        @can('access-manage')
                             <li>
                                 <a href="{{ route('manage.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staff Panel</a>
                             </li>
-                        @endif
+                        @endcan
+                        <li>
+                            <a href="{{ route('front.account.settings') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                        </li>
                     </ul>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                         <li>
@@ -185,12 +188,6 @@
                             Ban List
                         </div>
                         <span class="text-sm text-gray-500">List of players banned from our services</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('monarch.apply') }}" class="block p-3 rounded-lg hover:bg-gray-100">
-                        <div class="font-semibold">Build in Monarch</div>
-                        <span class="text-sm text-gray-500">Apply to build in our premier city project</span>
                     </a>
                 </li>
             </ul>

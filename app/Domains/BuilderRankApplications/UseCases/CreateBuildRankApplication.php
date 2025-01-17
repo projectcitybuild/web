@@ -22,7 +22,7 @@ class CreateBuildRankApplication
         string $buildDescription,
         ?string $additionalNotes,
     ): BuilderRankApplication {
-        $existingApplication = BuilderRankApplication::where('status', ApplicationStatus::IN_PROGRESS->value)
+        $existingApplication = BuilderRankApplication::where('status', ApplicationStatus::PENDING->value)
             ->where('account_id', $account->getKey())
             ->count();
 
@@ -37,7 +37,7 @@ class CreateBuildRankApplication
             'build_location' => $buildLocation,
             'build_description' => $buildDescription,
             'additional_notes' => $additionalNotes,
-            'status' => ApplicationStatus::IN_PROGRESS->value,
+            'status' => ApplicationStatus::PENDING->value,
             'closed_at' => null,
         ]);
 

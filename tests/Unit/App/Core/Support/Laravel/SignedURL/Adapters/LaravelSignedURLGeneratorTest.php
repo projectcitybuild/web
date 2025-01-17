@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Core\Support\Laravel\SignedURL\Adapters;
+namespace Tests\Unit\App\Core\Support\Laravel\SignedURL\Adapters;
 
+use App\Core\Support\Laravel\SignedURL\Adapters\LaravelSignedURLGenerator;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 

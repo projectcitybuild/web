@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Domains\Donations\Components\DonationBarComponent;
 use App\Models\Account;
 use App\Models\Badge;
 use App\Models\BanAppeal;
@@ -15,13 +16,12 @@ use App\Models\MinecraftPlayer;
 use App\Models\PlayerWarning;
 use App\Models\Server;
 use App\Models\ServerToken;
-use App\View\Components\DonationBarComponent;
-use App\View\Components\PanelSideBarComponent;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
@@ -66,6 +66,13 @@ final class AppServiceProvider extends ServiceProvider
                 ? Password::min(12)->letters()->numbers()
                 : Password::min(8);
         });
+
+        Gate::define('access-manage', function (Account $account) {
+            return $account->isAdmin() || $account->isStaff();
+        });
+        Gate::define('access-review', function (Account $account) {
+            return $account->isAdmin() || $account->isStaff() || $account->isArchitect();
+        });
     }
 
     private function enforceMorphMap(): void
@@ -97,8 +104,6 @@ final class AppServiceProvider extends ServiceProvider
 
     private function bindBladeComponents(): void
     {
-        Blade::component('donation-bar', DonationBarComponent::class);
-        Blade::component('panel-side-bar', PanelSideBarComponent::class);
 
         Blade::anonymousComponentPath(__DIR__.'/../resources/views/shared/components');
         Blade::anonymousComponentPath(__DIR__.'/../resources/views/front/components', prefix: 'front');

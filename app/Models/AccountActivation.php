@@ -24,6 +24,10 @@ final class AccountActivation extends Model
         'expires_at',
     ];
 
+    protected $hidden = [
+        'token',
+    ];
+
     protected $casts = [
         'expires_at' => 'datetime',
     ];

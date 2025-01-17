@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Domains\Bans\Data\UnbanType;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
-use App\Models\Server;
 
 class GamePlayerBanFactory extends Factory
 {
@@ -91,10 +90,5 @@ class GamePlayerBanFactory extends Factory
     public function bannedPlayer(MinecraftPlayer|Factory $player): GamePlayerBanFactory
     {
         return $this->for($player, 'bannedPlayer');
-    }
-
-    public function server(Server|Factory $server): GamePlayerBanFactory
-    {
-        return $this->for($server, 'server');
     }
 }

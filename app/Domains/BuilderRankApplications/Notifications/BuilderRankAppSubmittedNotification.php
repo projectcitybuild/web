@@ -57,7 +57,7 @@ class BuilderRankAppSubmittedNotification extends Notification implements Should
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject('Builder rank application submitted')
+            ->subject('Your builder rank application is in review')
             ->greeting('Hi '.$this->builderRankApplication->account->username.',')
             ->line('Your builder rank application has been submitted.')
             ->line('The Architect Council will review your submission as soon as possible.')

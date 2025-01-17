@@ -63,13 +63,13 @@ Route::group([
     'prefix' => 'rank-up',
     'middleware' => ['auth', 'activated', 'mfa'],
 ], function () {
-    Route::get('/', [BuilderRankApplicationController::class, 'index'])
+    Route::get('/', [BuilderRankApplicationController::class, 'create'])
         ->name('front.rank-up');
 
     Route::post('/', [BuilderRankApplicationController::class, 'store'])
         ->name('front.rank-up.submit');
 
-    Route::get('{id}', [BuilderRankApplicationController::class, 'show'])
+    Route::get('{application}', [BuilderRankApplicationController::class, 'show'])
         ->name('front.rank-up.status');
 });
 
@@ -168,7 +168,7 @@ Route::prefix('auth')->group(function () {
             ->name('front.register')
             ->middleware(['guest']);
 
-        Route::post('/', [RegisterController::class, 'register'])
+        Route::post('/', [RegisterController::class, 'store'])
             ->name('front.register.submit')
             ->middleware(['guest']);
     });
@@ -192,7 +192,8 @@ Route::group([
     'prefix' => 'account',
     'middleware' => ['auth', 'activated', 'mfa'],
 ], function () {
-    Route::redirect(uri: 'settings', destination: 'edit');
+    Route::redirect(uri: 'settings', destination: 'settings/email')
+        ->name('front.account.settings');
 
     Route::get('/', [AccountProfileController::class, 'show'])
         ->name('front.account.profile');

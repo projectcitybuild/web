@@ -1,12 +1,11 @@
 @charset "utf-8";
 
-@import "~normalize-scss/sass/normalize";
-@include normalize();
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+
+// --- WARNING: everything below here is deprecated ---
 @import "foundation/colors";
 @import "foundation/dimensions";
 @import "foundation/typography";

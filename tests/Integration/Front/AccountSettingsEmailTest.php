@@ -1,6 +1,6 @@
 <?php
 
-namespace Front;
+namespace Tests\Integration\Front;
 
 use App\Domains\EmailChange\Notifications\VerifyNewEmailAddressNotification;
 use App\Models\Account;

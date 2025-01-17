@@ -23,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         web: [
             __DIR__.'/../routes/web.php',
             __DIR__.'/../routes/web_manage.php',
+            __DIR__.'/../routes/web_review.php',
             __DIR__.'/../routes/web_redirects.php',
             __DIR__.'/../routes/web_tests.php',
         ],
@@ -39,6 +40,7 @@ return Application::configure(basePath: dirname(__DIR__))
         );
         $middleware->web(append: [
             \App\Http\Middleware\VerifyCsrfToken::class,
+            \App\Http\Middleware\HandleInertiaRequests::class,
         ]);
         $middleware->api(append: [
            \App\Http\Middleware\LogApiCalls::class,
@@ -56,7 +58,6 @@ return Application::configure(basePath: dirname(__DIR__))
             'password.confirm' => \App\Http\Middleware\RequirePassword::class,
             'require-mfa' => \App\Http\Middleware\RequireMfaEnabled::class,
             'require-server-token' => \App\Http\Middleware\RequireServerToken::class,
-            'scope' => \App\Http\Middleware\HasGroupScope::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

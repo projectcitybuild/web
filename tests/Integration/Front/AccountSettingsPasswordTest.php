@@ -1,6 +1,6 @@
 <?php
 
-namespace Front;
+namespace Tests\Integration\Front;
 
 use App\Models\Account;
 use Illuminate\Foundation\Testing\WithFaker;

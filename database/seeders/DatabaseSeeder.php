@@ -8,7 +8,6 @@ use App\Models\MinecraftPlayer;
 use App\Models\MinecraftWarp;
 use App\Models\Server;
 use App\Models\ServerToken;
-use App\Models\ShowcaseWarp;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,6 +22,12 @@ class DatabaseSeeder extends Seeder
             'web_port' => '8080',
         ]);
 
+        ServerToken::create([
+            'token' => 'pcbridge_local',
+            'server_id' => Server::first()->getKey(),
+            'description' => 'For test use',
+        ]);
+
         $this->call(GroupSeeder::class);
         $this->call(AccountSeeder::class);
         $this->call(MinecraftPlayerSeeder::class);
@@ -30,18 +35,10 @@ class DatabaseSeeder extends Seeder
         $this->call(PlayerWarningSeeder::class);
         $this->call(DonationSeeder::class);
         $this->call(BadgeSeeder::class);
-
-        ServerToken::create([
-            'token' => 'pcbridge_local',
-            'server_id' => Server::first()->getKey(),
-            'description' => 'For test use',
-        ]);
+        $this->call(BanAppealSeeder::class);
+        $this->call(BuilderRankApplicationSeeder::class);
 
         MinecraftConfig::factory()
-            ->create();
-
-        ShowcaseWarp::factory()
-            ->count(50)
             ->create();
 
         MinecraftWarp::factory()
