@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://github.com/projectcitybuild/web/blob/master/resources/images/logo-2x.png?raw=true" alt="Project City Build"/>
+    <img src="https://raw.githubusercontent.com/projectcitybuild/web/refs/heads/main/resources/images/logo-2x.png" alt="Project City Build"/>
 </p>
 
 <p align="center">
@@ -61,5 +61,6 @@ https://developers.cloudflare.com/turnstile/troubleshooting/testing/
 ### 2FA
 
 No real authenticator is required.
+For accounts that have 2FA enabled, the code is always `000000` (6 zeroes).
 
-For accounts that have 2FA enabled, always use the code `0000`.
+To use a real authenticator, set `TOTP_BYPASS=false` in `.env`
