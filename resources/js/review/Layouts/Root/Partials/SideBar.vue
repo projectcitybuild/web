@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Link } from '@inertiajs/vue3'
-import SideBarMenuItem from './../../../../manage/Layouts/Root/Partials/SideBarMenuItem.vue'
+import { Link, usePage } from '@inertiajs/vue3'
+import { computed } from 'vue'
+import Badge from '../../../../manage/Components/Badge.vue'
+
+const page = usePage()
+
+const pendingAppealCount = computed(() => page.props.pending_appeals ?? 0)
+const pendingBuildRankAppCount = computed(() => page.props.pending_build_rank_apps ?? 0)
 </script>
 
 <template>
@@ -35,7 +40,7 @@ import SideBarMenuItem from './../../../../manage/Layouts/Root/Partials/SideBarM
                 <li>
                     <Link
                         href="/review/ban-appeals"
-                        class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                        class="flex justify-between items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                     >
                         <svg
                             class="w-6 h-6 text-gray-800 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -43,13 +48,21 @@ import SideBarMenuItem from './../../../../manage/Layouts/Root/Partials/SideBarM
                             viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.5 21h13M12 21V7m0 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm2-1.8c3.073.661 2.467 2.8 5 2.8M5 8c3.359 0 2.192-2.115 5.012-2.793M7 9.556V7.75m0 1.806-1.95 4.393a.773.773 0 0 0 .37.962.785.785 0 0 0 .362.089h2.436a.785.785 0 0 0 .643-.335.776.776 0 0 0 .09-.716L7 9.556Zm10 0V7.313m0 2.243-1.95 4.393a.773.773 0 0 0 .37.962.786.786 0 0 0 .362.089h2.436a.785.785 0 0 0 .643-.335.775.775 0 0 0 .09-.716L17 9.556Z"/>
                         </svg>
-                        <span class="ml-3">Ban Appeals</span>
+
+                        <div class="ml-3 grow">
+                            Ban Appeals
+                        </div>
+
+                        <Badge
+                            v-if="pendingAppealCount > 0"
+                            :count="pendingAppealCount"
+                        />
                     </Link>
                 </li>
                 <li>
                     <Link
                         href="/review/builder-ranks"
-                        class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                        class="flex justify-between items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                     >
                         <svg
                             class="w-6 h-6 text-gray-800 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -57,7 +70,15 @@ import SideBarMenuItem from './../../../../manage/Layouts/Root/Partials/SideBarM
                             viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M3 21h18M4 18h16M6 10v8m4-8v8m4-8v8m4-8v8M4 9.5v-.955a1 1 0 0 1 .458-.84l7-4.52a1 1 0 0 1 1.084 0l7 4.52a1 1 0 0 1 .458.84V9.5a.5.5 0 0 1-.5.5h-15a.5.5 0 0 1-.5-.5Z"/>
                         </svg>
-                        <span class="ml-3">Builder Applications</span>
+
+                        <span class="ml-3 grow">
+                            Builder Applications
+                        </span>
+
+                        <Badge
+                            v-if="pendingBuildRankAppCount > 0"
+                            :count="pendingBuildRankAppCount"
+                        />
                     </Link>
                 </li>
             </ul>

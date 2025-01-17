@@ -29,8 +29,7 @@ class ApproveBuildRankApplication
                 ->groups()
                 ->where('group_type', '!=', 'build')
                 ->get()
-                ->map(fn ($it) => $it->getKey())
-                ->push($promoteGroup->getKey());
+                ->push($promoteGroup);
 
             $application->account->groups()->sync($updatedGroupIds);
         });

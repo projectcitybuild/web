@@ -1,13 +1,25 @@
 <script setup lang="ts">
 import logo from '../../../../../images/logo-alt.png'
-import { onBeforeMount, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeMount, onMounted, ref, watch } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import { Drawer } from 'flowbite'
+import Badge from '../../../Components/Badge.vue'
 
 const page = usePage()
 
 const selectedTab = ref(checkTab(page.url))
 const drawer = ref<Drawer|null>(null)
+
+const pendingReviewCount = computed(() => {
+    const pendingAppeals = page.props.pending_appeals ?? 0
+    const pendingBuildRankApps = page.props.pending_build_rank_apps ?? 0
+
+    const total = pendingAppeals + pendingBuildRankApps
+    if (total > 99) {
+        return '99+'
+    }
+    return total
+})
 
 function checkTab(url: string) {
     if (url.startsWith('/manage')) {
@@ -49,8 +61,16 @@ onMounted(() => {
 
             <div class="flex items-center lg:order-2">
                 <div class="p-2 text-xs md:text-sm">
-                    <a href="/manage" :class="'p-3' + (selectedTab === 'manage' ? ' rounded-lg bg-gray-100 font-bold' : '')">Manage</a>
-                    <a href="/review" :class="'p-3' + (selectedTab === 'review' ? ' rounded-lg bg-gray-100 font-bold' : '')">Review</a>
+                    <a href="/manage" :class="'p-3' + (selectedTab === 'manage' ? ' rounded-lg bg-gray-100 font-bold' : '')">
+                        Manage
+                    </a>
+                    <a href="/review" :class="'p-3' + (selectedTab === 'review' ? ' rounded-lg bg-gray-100 font-bold' : '')">
+                        Review
+                        <Badge
+                            v-if="pendingReviewCount > 0"
+                            :count="pendingReviewCount"
+                        />
+                    </a>
                 </div>
             </div>
 

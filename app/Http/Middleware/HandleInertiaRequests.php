@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\BanAppeal;
+use App\Models\BuilderRankApplication;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -40,8 +42,13 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $pendingAppeals = BanAppeal::pending()->count();
+        $pendingBuildRankApps = BuilderRankApplication::pending()->count();
+
         return array_merge(parent::share($request), [
             'success' => fn () => $request->session()->get('success'),
+            'pending_appeals' => $pendingAppeals,
+            'pending_build_rank_apps' => $pendingBuildRankApps,
         ]);
     }
 }
