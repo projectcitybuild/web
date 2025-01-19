@@ -36,74 +36,116 @@ One of the world's longest-running Minecraft servers; we're a community of creat
             </div>
         </section>
 
-        <section class="server-overview">
-            <div class="server-overview__server">
-                <div class="server-image creative"></div>
-                <div class="server-text">
-                    <h1>Creative</h1>
+        <section class="bg-[#F3F3F3]">
+            <div class="flex flex-col md:flex-row">
+                <div
+                    class="
+                        w-full md:w-1/2 h-[350px] md:h-[500px]
+                        bg-gray-100
+                        bg-cover bg-no-repeat bg-center
+                        bg-[url('/resources/images/home_creative.png')]
+                    "
+                ></div>
 
-                    <div class="server-text__desc">
+                <div class="md:w-1/2 px-12 py-24 md:p-20 flex flex-col justify-center">
+                    <h1 class="font-display text-6xl">Creative</h1>
+
+                    <div class="mt-3 text-gray-700 leading-8 text-sm">
                         We don't believe in plots—our Creative map is the definition of freebuild.
                         Here you will find all sorts of interesting projects, from alien landscapes to cruise ships, from castles to entire cities.
                         Let your imagination run wild!
                     </div>
-                    <div class="server-text__links">
-                        <ul>
-                            <li>
-                                <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer">
-                                    <i class="fas fa-chevron-right"></i> Gallery
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('front.maps') }}" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
-                            </li>
-                        </ul>
-                    </div>
+
+                    <ul class="mt-8 flex gap-4 text-sm font-bold">
+                        <li>
+                            <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                    <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                </svg>
+                                Gallery
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('front.maps') }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                    <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                </svg>
+                                Real-Time Map
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
-            <div class="server-overview__server right">
-                <div class="server-text">
-                    <h1>Survival</h1>
+            <div class="flex flex-col-reverse md:flex-row">
+                <div class="md:w-1/2 px-12 py-24 md:p-20 flex flex-col justify-center md:text-right">
+                    <h1 class="font-display text-6xl">Survival</h1>
 
-                    <div class="server-text__desc">
+                    <div class="mt-3 text-gray-700 leading-8 text-sm">
                         We've stripped back our Survival world to be as close to the vanilla experience as possible.
                         There are no warps or teleports, and no dynamic map, so you'll have to figure out your own way.
                         It's Minecraft in its purest form.
                     </div>
-                    <div class="server-text__links">
-                        <ul>
-                            <li>
-                                <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer">
-                                    <i class="fas fa-chevron-right"></i> Gallery
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+
+                    <ul class="mt-8 flex justify-end gap-4 text-sm font-bold">
+                        <li>
+                            <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                    <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                </svg>
+                                Gallery
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="server-image survival"></div>
+
+                <div
+                    class="
+                        w-full md:w-1/2 h-[350px] md:h-[500px]
+                        bg-gray-100
+                        bg-cover bg-no-repeat bg-center
+                        bg-[url('/resources/images/home_survival.png')]
+                    "
+                ></div>
             </div>
 
-            <div class="server-overview__server">
-                <div class="server-image monarch"></div>
-                <div class="server-text">
-                    <h1>Monarch</h1>
+            <div class="flex flex-col md:flex-row">
+                <div
+                    class="
+                        w-full md:w-1/2 h-[350px] md:h-[500px]
+                        bg-gray-100
+                        bg-cover bg-no-repeat bg-center
+                        bg-[url('/resources/images/home_monarch.png')]
+                    "
+                ></div>
 
-                    <div class="server-text__desc">
+                <div class="md:w-1/2 px-12 py-24 md:p-20 flex flex-col justify-center">
+                    <h1 class="font-display text-6xl">Monarch</h1>
+
+                    <div class="mt-3 text-gray-700 leading-8 text-sm">
                         Our premier city project, featuring builds at a realistic scale.
                         Over 5 years in development, Monarch showcases the talents of our most skilled builders.
                         Feel free to take a look around, and if you've got what it takes, you can make your own mark in the city.
                     </div>
-                    <div class="server-text__links">
-                        <ul>
-                            <li>
-                                <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Gallery</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('front.maps') }}" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Real-Time Map</a>
-                            </li>
-                        </ul>
-                    </div>
+
+                    <ul class="mt-8 flex gap-4 text-sm font-bold">
+                        <li>
+                            <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                    <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                </svg>
+                                Gallery
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('front.maps') }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                    <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                </svg>
+                                Real-Time Map
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </section>
