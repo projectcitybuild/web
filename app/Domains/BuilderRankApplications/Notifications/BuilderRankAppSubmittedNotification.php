@@ -73,7 +73,7 @@ class BuilderRankAppSubmittedNotification extends Notification implements Should
         return (new DiscordMessage)
             ->content('<@&839756575153324032> A new builder rank application has arrived.')
             ->embed(function (DiscordEmbed $embed) {
-                $embed->title('Builder Rank Application', route('manage.builder-ranks.show', $this->builderRankApplication))
+                $embed->title('Builder Rank Application', route('review.builder-ranks.show', $this->builderRankApplication))
                     ->field('Current build rank', $this->builderRankApplication->current_builder_rank)
                     ->field('Build location', $this->builderRankApplication->build_location)
                     ->field('Build description', Str::limit($this->builderRankApplication->build_description, 500))
