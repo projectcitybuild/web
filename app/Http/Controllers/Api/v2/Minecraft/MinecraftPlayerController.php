@@ -58,7 +58,7 @@ final class MinecraftPlayerController extends ApiController
                     ->active()
                     ->first();
             }),
-            'badges' => optional($player, fn ($player) => $getBadges->execute($player)),
+            'badges' => optional($player, fn ($player) => $getBadges->execute($player)) ?? [],
             'ip_ban' => $request->has('ip')
                 ? $getActiveIPBan->execute(ip: $request->get('ip'))
                 : null,
