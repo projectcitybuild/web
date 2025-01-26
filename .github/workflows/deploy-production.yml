@@ -43,34 +43,34 @@ jobs:
           branch: release
           keep-releases: 5
 
-    tag:
-      runs-on: ubuntu-latest
-      environment: production
-      needs: [deploy]
-      permissions:
-        contents: write
-      steps:
-        - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+  tag:
+    runs-on: ubuntu-latest
+    environment: production
+    needs: [deploy]
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-        - name: Determine version tag
-          id: git_tag
-          run: |
-            VERSION_TAG="v${{ inputs.major }}.${{ inputs.minor }}.${{ inputs.patch }}"
-            echo "Input version: $VERSION_TAG"
-            echo "VERSION_TAG=$VERSION_TAG" >> $GITHUB_OUTPUT
+      - name: Determine version tag
+        id: git_tag
+        run: |
+          VERSION_TAG="v${{ inputs.major }}.${{ inputs.minor }}.${{ inputs.patch }}"
+          echo "Input version: $VERSION_TAG"
+          echo "VERSION_TAG=$VERSION_TAG" >> $GITHUB_OUTPUT
 
-        - name: Create a new tag
-          run: |
-            git config user.name "github-actions"
-            git config user.email "github-actions@github.com"
-            git tag ${{ steps.git_tag.outputs.VERSION_TAG }}
-            git push origin ${{ steps.git_tag.outputs.VERSION_TAG }}
+      - name: Create a new tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag ${{ steps.git_tag.outputs.VERSION_TAG }}
+          git push origin ${{ steps.git_tag.outputs.VERSION_TAG }}
 
-        - name: Create a GitHub Release
-          uses: softprops/action-gh-release@1fd6f3f2b1b859145679a1892abda586ef982a84
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          with:
-            tag_name: ${{ steps.git_tag.outputs.VERSION_TAG }}
-            release_name: ${{ steps.git_tag.outputs.VERSION_TAG }}
-            generate_release_notes: true
+      - name: Create a GitHub Release
+        uses: softprops/action-gh-release@1fd6f3f2b1b859145679a1892abda586ef982a84
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.git_tag.outputs.VERSION_TAG }}
+          release_name: ${{ steps.git_tag.outputs.VERSION_TAG }}
+          generate_release_notes: true
