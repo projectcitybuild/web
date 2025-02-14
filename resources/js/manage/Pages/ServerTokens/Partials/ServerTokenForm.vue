@@ -19,6 +19,7 @@ const props = defineProps<Props>()
 const form = useForm<ServerToken>({
     description: props.token?.description,
     token: props.token?.token ?? generate(),
+    allowed_ips: props.token?.allowed_ips?.split(',').join('\n'),
 })
 
 const deleteModal = ref<InstanceType<typeof ConfirmDialog>>()
@@ -94,6 +95,24 @@ function destroy() {
                 </div>
                 <div v-if="form.errors.token" class="text-xs text-red-500 font-bold mt-2">
                     {{ form.errors.token }}
+                </div>
+            </div>
+            <div class="col-span-2">
+                <label for="allowed_ips" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Allowed IPs
+                </label>
+                <textarea
+                    v-model="form.allowed_ips"
+                    id="allowed_ips"
+                    rows="4"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                ></textarea>
+                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
+                    IP addresses permitted to use this token to hit the API - <strong>one per line</strong>.<br />
+                    Leave blank if any IP address allowed.
+                </span>
+                <div v-if="form.errors.allowed_ips" class="text-xs text-red-500 font-bold mt-2">
+                    {{ form.errors.allowed_ips }}
                 </div>
             </div>
         </div>
