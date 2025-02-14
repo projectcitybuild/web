@@ -11,7 +11,6 @@ $color-success: hsl(133.4,60.9%,33.1%);
 $color-error: #b10e1e;
 $color-warning: #e6cf01;
 
-// v2
 $color-heading-primary: hsl(0, 0%, 15%);
 $color-heading-contrast: #fff;
 
@@ -22,3 +21,9 @@ $color-text-accent: $color-accent;
 $color-button-accent: $color-accent;
 
 $color-lightest-grey:  hsl(0, 0%, 94%);
+
+
+$alert-color-error: #f84637;
+$alert-color-success: #00aa00;
+$alert-color-warning: #665c00;
+$alert-color-info: #585454;

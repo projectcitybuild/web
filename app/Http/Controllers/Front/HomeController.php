@@ -18,7 +18,7 @@ final class HomeController extends WebController
         $lastDayOfThisYear = new Carbon('last day of december');
 
         $totalDonationsThisYear = Donation::whereYear('created_at', $thisYear)->sum('amount');
-        $remainingDaysThisYear = $lastDayOfThisYear->diff($now)->days;
+        $remainingDaysThisYear = $now->diff($lastDayOfThisYear)->totalDays;
 
         $lastYear = $now->subYear()->year;
         $totalDonationsLastYear = Donation::whereYear('created_at', $lastYear)->sum('amount');
@@ -27,7 +27,7 @@ final class HomeController extends WebController
             'servers' => Server::get(),
             'donations' => [
                 'raised_last_year' => $totalDonationsLastYear ?: 0,
-                'remaining_days' => $remainingDaysThisYear,
+                'remaining_days' => floor($remainingDaysThisYear),
                 'still_required' => $requiredAmount - $totalDonationsThisYear,
             ],
         ]);
