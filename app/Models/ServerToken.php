@@ -25,6 +25,7 @@ final class ServerToken extends Model implements LinkableAuditModel
         'token',
         'server_id',
         'description',
+        'allowed_ips',
     ];
 
     protected static $recordEvents = [
