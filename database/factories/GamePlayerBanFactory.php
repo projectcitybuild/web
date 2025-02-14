@@ -25,7 +25,8 @@ class GamePlayerBanFactory extends Factory
         return [
             'banned_alias_at_time' => $this->faker->name,
             'reason' => $this->faker->sentence,
-            'created_at' => $this->faker->dateTimeBetween('-5 years', 'now'),
+            'additional_info' => rand(0, 1) === 1 ? $this->faker->paragraph : null,
+            'created_at' => $this->faker->dateTimeBetween('-5 years'),
         ];
     }
 
