@@ -15,6 +15,7 @@ const fields = [
     { key: 'id', label: 'ID' },
     { key: 'token', label: 'Token' },
     { key: 'description', label: 'Description' },
+    { key: 'allowed_ips', label: 'Allowed IPs' },
     { key: 'created_at', label: 'Created At' },
     { key: 'updated_at', label: 'Updated At' },
 ]
@@ -29,6 +30,13 @@ const rows = computed(
 
 <template>
     <DataTable :fields="fields" :rows="rows" class="border-t border-gray-200">
+        <template #allowed_ips="{ item }">
+            <span v-if="!item.allowed_ips">*</span>
+            <ul v-else>
+                <li v-for="ip in item.allowed_ips.split(',')">{{ ip }}</li>
+            </ul>
+        </template>
+
         <template #actions="{ item }">
             <Link :href="'/manage/server-tokens/' + item.id + '/edit'">
                 <FilledButton variant="secondary">

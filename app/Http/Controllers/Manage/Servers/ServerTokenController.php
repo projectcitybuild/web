@@ -36,11 +36,19 @@ class ServerTokenController extends WebController
         $validated = $request->validate([
             'token' => ['required', 'string'],
             'description' => ['required', 'string'],
+            'allowed_ips' => 'nullable',
         ]);
 
         // TODO: remove server_id column
         $server = Server::first();
         $validated['server_id'] = $server->getKey();
+
+        $allowedIps = $validated['allowed_ips'];
+        if (! empty($allowedIps)) {
+            $validated['allowed_ips'] = collect(explode(PHP_EOL, $allowedIps))
+                ->filter(fn ($ip) => !empty($ip))
+                ->join(',');
+        }
 
         ServerToken::create($validated);
 
@@ -64,7 +72,15 @@ class ServerTokenController extends WebController
         $validated = $request->validate([
             'token' => ['required', 'string'],
             'description' => ['required', 'string'],
+            'allowed_ips' => 'nullable',
         ]);
+
+        $allowedIps = $validated['allowed_ips'];
+        if (! empty($allowedIps)) {
+            $validated['allowed_ips'] = collect(explode(PHP_EOL, $allowedIps))
+                ->filter(fn ($ip) => !empty($ip))
+                ->join(',');
+        }
 
         $serverToken->update($validated);
 
