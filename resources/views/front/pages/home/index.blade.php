@@ -187,41 +187,56 @@ One of the world's longest-running Minecraft servers; we're a community of creat
         <footer>
             @include('front.components.sitemap', ['animated' => true])
 
-            <section class="footer-donations">
-                <div class="max-w-screen-2xl mx-auto px-6 md:px-12 flex">
-                    <div class="footer-donations__left">
-                        <h1>Help Keep Us Online</h1>
+            <section class="bg-[#3B3B3D] py-16">
+                <div class="max-w-screen-2xl mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-8 lg:gap-16">
+                    <div class="max-w-[400px]">
+                        <h1 class="font-display text-4xl text-white">Help Keep Us Online</h1>
 
-                        <div class="description">
+                        <div class="mt-6 text-white leading-loose text-sm">
                             Donations are the only way to keep our server running.<br />
                             Donors receive perks such as flying, colored names and <a href="{{ route('front.donate') }}">much more</a>
                         </div>
 
-                        <a class="donate-button" href="{{ route('front.donate') }}">
-                            <i class="fas fa-dollar-sign"></i>
+                        <x-front::button
+                            type="submit"
+                            variant="filled"
+                            scheme="primary"
+                            href="{{ route('front.donate') }}"
+                            class="mt-8"
+                        >
                             Donate
-                        </a>
+                        </x-button>
                     </div>
 
-                    <div class="footer-donations__right">
+                    <div class="grow">
                         <x-donation-bar />
 
-                        <div class="spacer"></div>
-
-                        <table class="donation-stats">
-                            <tr>
-                                <th>Days Remaining</th>
-                                <td>{{ $donations['remaining_days'] }}</td>
-                            </tr>
-                            <tr>
-                                <th>Funds Still Needed</th>
-                                <td>${{ number_format($donations['still_required'], 2) }}</td>
-                            </tr>
-                            <tr>
-                                <th>Raised Last Year</th>
-                                <td>${{ number_format($donations['raised_last_year'], 2) }}</td>
-                            </tr>
-                        </table>
+                        <div class="space-y-4 max-w-[326px] mt-8">
+                            <dl class="flex items-center justify-between gap-2 text-sm">
+                                <dt class="text-gray-400">
+                                    Days Remaining
+                                </dt>
+                                <dd class="text-gray-50">
+                                    {{ $donations['remaining_days'] }}
+                                </dd>
+                            </dl>
+                            <dl class="flex items-center justify-between gap-2 text-sm">
+                                <dt class="text-gray-400">
+                                    Funds Required
+                                </dt>
+                                <dd class="text-gray-50">
+                                    ${{ number_format($donations['still_required'], 2) }}
+                                </dd>
+                            </dl>
+                            <dl class="flex items-center justify-between gap-2 text-sm">
+                                <dt class="text-gray-400">
+                                    Raised Last Year
+                                </dt>
+                                <dd class="text-gray-50">
+                                    ${{ number_format($donations['raised_last_year'], 2) }}
+                                </dd>
+                            </dl>
+                        </div>
                     </div>
                 </div>
             </section>
