@@ -30,6 +30,7 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
         'banned_alias_at_time',
         'banner_player_id',
         'reason',
+        'additional_info',
         'expires_at',
         'created_at',
         'updated_at',

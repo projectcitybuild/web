@@ -32,6 +32,7 @@ const form = useForm<PlayerBan>({
         ? new Date(props.ban.expires_at)
         : null,
     reason: props.ban?.reason,
+    additional_info: props.ban?.additional_info,
     unbanned_at: props.ban?.unbanned_at
         ? new Date(props.ban.unbanned_at)
         : null,
@@ -132,6 +133,25 @@ function destroy() {
                 </span>
                 <div v-if="form.errors.reason" class="text-xs text-red-500 font-bold mt-2">
                     {{ form.errors.reason }}
+                </div>
+            </div>
+            <div class="col-span-2">
+                <label for="additional_info" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Additional Information
+                </label>
+                <textarea
+                    v-model="form.additional_info"
+                    id="additional_info"
+                    rows="9"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="eg. Smashed over 500 blocks of Notch's house in creative. Witnessed use of an auto-clicker"
+                ></textarea>
+                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
+                    Optional field to record full or extra details about the offence, notes in case they appeal, etc.
+                    <strong>This will only be visible to staff</strong>
+                </span>
+                <div v-if="form.errors.additional_info" class="text-xs text-red-500 font-bold mt-2">
+                    {{ form.errors.additional_info }}
                 </div>
             </div>
 

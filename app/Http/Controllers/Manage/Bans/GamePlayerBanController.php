@@ -59,6 +59,7 @@ class GamePlayerBanController extends WebController
             'banner_uuid' => ['nullable', new MinecraftUUIDRule],
             'banner_alias' => ['nullable', 'string'],
             'reason' => 'required',
+            'additional_info' => 'nullable',
             'expires_at' => ['nullable', 'date'],
             'created_at' => ['required', 'date'],
         ]);
@@ -106,6 +107,7 @@ class GamePlayerBanController extends WebController
             'banner_uuid' => ['nullable', new MinecraftUUIDRule],
             'banner_alias' => ['nullable', 'string'],
             'reason' => 'required',
+            'additional_info' => 'nullable',
             'expires_at' => ['nullable', 'date'],
             'created_at' => ['required', 'date'],
             'unbanned_at' => ['nullable', 'date'],
