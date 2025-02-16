@@ -19,7 +19,7 @@
         @switch($banAppeal->status)
             @case(\App\Domains\BanAppeals\Data\BanAppealStatus::PENDING)
                 <div class="alert alert--info">
-                    <h2><i class="fas fa-hourglass"></i> Appeal Pending</h2>
+                    <h2>Appeal Pending</h2>
                     Please wait whilst your appeal is reviewed by staff. This usually happens within 48 hours, but may
                     take
                     longer in some cases.
@@ -27,7 +27,7 @@
                 @break
             @case(\App\Domains\BanAppeals\Data\BanAppealStatus::ACCEPTED_UNBAN)
                 <div class="alert alert--success">
-                    <h2><i class="fas fa-check"></i> Appeal Accepted</h2>
+                    <h2>Appeal Accepted</h2>
                     Your ban appeal has been accepted.<br>
                     <strong>You must read the response from staff, as it may contain important information to prevent
                         you being banned in future.</strong>
@@ -35,14 +35,14 @@
                 @break
             @case(\App\Domains\BanAppeals\Data\BanAppealStatus::ACCEPTED_TEMPBAN)
                 <div class="alert alert--warning">
-                    <h2><i class="fas fa-hourglass-half"></i> Ban reduced</h2>
+                    <h2>Ban reduced</h2>
                     <p>Your appeal has been considered, and your ban has been reduced to a temporary ban.</p>
                     <p>You will be unbanned on {{ $banAppeal->gamePlayerBan->expires_at }}.</p>
                 </div>
                 @break
             @case(\App\Domains\BanAppeals\Data\BanAppealStatus::DENIED)
                 <div class="alert alert--error">
-                    <h2><i class="fas fa-times"></i> Appeal Denied</h2>
+                    <h2>Appeal Denied</h2>
                     Sorry, your appeal was denied. The response from staff is shown below.<br>
                     Please read and consider this before making another appeal.
                 </div>

@@ -13,14 +13,6 @@
         "
     >
         <div class="rounded-lg bg-white flex-grow p-6 m-2">
-            @if(Session::get('game_account_added', false))
-                <div class="alert alert--success contents__flash">
-                    <h2><i class="fas fa-check"></i> Account Linked</h2>
-                    Your Minecraft account has been successfully linked to your PCB account. <br/>
-                    Please run the <strong>/sync finish</strong> command in-game to finish the process.
-                </div>
-            @endif
-
             <section class="mb-6">
                 <h1 class="text-2xl font-bold mb-3">Minecraft Account</h1>
                 <p>The Minecraft account linked to this account. By linking, you will automatically receive your rank in-game.</p>
