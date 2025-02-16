@@ -120,6 +120,20 @@ async function refreshAlias() {
                 </Card>
 
                 <Card class="max-w-2xl mt-4 p-4">
+                    <h2 class="font-bold">Meta</h2>
+
+                    <div class="mt-4 space-y-4">
+                        <dl class="flex items-center justify-between gap-2">
+                            <dt class="text-sm text-gray-500 dark:text-gray-400">Nickname</dt>
+                            <dd class="text-sm text-gray-900 dark:text-white">
+                                <span v-if="player.nickname">{{ player.nickname }}</span>
+                                <span v-else class="italic text-gray-500">Not set</span>
+                            </dd>
+                        </dl>
+                    </div>
+                </Card>
+
+                <Card class="max-w-2xl mt-4 p-4">
                     <h2 class="font-bold">Owner</h2>
 
                     <div class="mt-4">

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v2\Minecraft;
+namespace App\Http\Controllers\Api\v2\Minecraft\Build;
 
 use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
