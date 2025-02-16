@@ -34,7 +34,7 @@
             </td>
             <td>
                 <a href="{{ route('manage.activity.show', $activity) }}">
-                    <i class="fas fa-eye me-1"></i>Show
+                    Show
                 </a>
             </td>
         </tr>

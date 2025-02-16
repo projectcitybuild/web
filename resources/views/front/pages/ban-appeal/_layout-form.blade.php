@@ -12,7 +12,7 @@
         Please fill out all fields honestly.
     </p>
     <blockquote>
-        <h3><i class="fas fa-warning"></i> WARNING</h3>
+        <h3>WARNING</h3>
         Abuse of the ban appeal system will result in your access being revoked.
     </blockquote>
 @endsection
