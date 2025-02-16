@@ -44,11 +44,5 @@ class DatabaseSeeder extends Seeder
         MinecraftWarp::factory()
             ->count(50)
             ->create();
-
-        $players = MinecraftPlayer::get();
-        for ($i = 0; $i < 50; $i++) {
-            MinecraftBuild::factory()
-                ->create(['player_id' => $players->random()]);
-        }
     }
 }

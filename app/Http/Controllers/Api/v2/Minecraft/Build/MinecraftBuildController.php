@@ -63,7 +63,7 @@ final class MinecraftBuildController extends ApiController
 
         $this->assertHasWriteAccess(build: $build, uuid: $validated['player_uuid']);
 
-        $build->update($request->all());
+        $build->update($validated);
 
         return $build;
     }
@@ -118,13 +118,11 @@ final class MinecraftBuildController extends ApiController
     private function assertHasWriteAccess(MinecraftBuild $build, string $uuid): void
     {
         $uuid = new MinecraftUUID($uuid);
-        $player = MinecraftPlayer::whereUuid($uuid)->with('account.groups')->first();
-        abort_if($player === null, 403, "Player not found");
+        $player = MinecraftPlayer::whereUuid($uuid)->first();
+        abort_if($player === null, 400, "Player not found");
 
         $isBuildOwner = $build->player_id === $player->getKey();
-
-        $groups = $player->account?->groups ?? collect();
-        $isStaff = $groups->where('group_type', 'staff')->isNotEmpty();
+        $isStaff = $player->account?->isStaff() ?? false;
         abort_if(!$isBuildOwner && !$isStaff, 403, "Only the build owner can edit this build");
     }
 }

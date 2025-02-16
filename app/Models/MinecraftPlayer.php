@@ -52,7 +52,7 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         return $this->hasMany(
             related: GamePlayerBan::class,
             foreignKey: 'banned_player_id',
-            localKey: 'player_minecraft_id',
+            localKey: $this->primaryKey,
         );
     }
 
@@ -61,7 +61,7 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         return $this->hasMany(
             related: PlayerWarning::class,
             foreignKey: 'warned_player_id',
-            localKey: 'player_minecraft_id',
+            localKey: $this->primaryKey,
         );
     }
 
