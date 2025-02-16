@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\Api;
 
 use App\Core\Data\Exceptions\BadRequestException;
 use App\Core\Domains\Auditing\Causers\SystemCauser;

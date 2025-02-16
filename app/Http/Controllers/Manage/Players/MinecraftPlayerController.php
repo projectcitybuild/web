@@ -68,6 +68,7 @@ class MinecraftPlayerController extends WebController
         $validated = $request->validate([
             'uuid' => ['required', new MinecraftUUIDRule],
             'alias' => ['required', 'string'],
+            'nickname' => 'nullable',
             'account_id' => ['nullable', 'exists:accounts'],
         ]);
 
@@ -113,6 +114,7 @@ class MinecraftPlayerController extends WebController
         $validated = $request->validate([
             'uuid' => ['required', new MinecraftUUIDRule],
             'alias' => ['required', 'string'],
+            'nickname' => 'nullable',
             'account_id' => ['nullable', 'exists:accounts'],
         ]);
 

@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api\v2\Minecraft;
+namespace App\Http\Controllers\Api\v2\Minecraft\Build;
 
 use App\Http\Controllers\ApiController;
 use App\Models\MinecraftBuild;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 final class MinecraftBuildNameController extends ApiController
 {

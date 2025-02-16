@@ -27,6 +27,7 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
     protected $fillable = [
         'uuid',
         'alias',
+        'nickname',
         'account_id',
         'last_synced_at',
         'last_seen_at',
