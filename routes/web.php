@@ -36,9 +36,6 @@ Route::get('/', [HomeController::class, 'index'])
 Route::get('maps', fn () => view('front.pages.maps'))
     ->name('front.maps');
 
-Route::get('3d-map', fn () => view('front.pages.3d-map'))
-    ->name('front.3d-map');
-
 Route::prefix('contact')->group(function () {
     Route::get('/', [ContactController::class, 'index'])
         ->name('front.contact');
