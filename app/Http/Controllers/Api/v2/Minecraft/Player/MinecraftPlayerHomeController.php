@@ -32,6 +32,7 @@ final class MinecraftPlayerHomeController extends ApiController
     public function store(Request $request)
     {
         // TODO: don't allow duplicate names for a player
+        // TODO: check number of homes
 
         $validated = $request->validate([
             'player_uuid' => ['required', new MinecraftUUIDRule],
