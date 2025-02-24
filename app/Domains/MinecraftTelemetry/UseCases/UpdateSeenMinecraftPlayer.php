@@ -7,13 +7,17 @@ use App\Models\MinecraftPlayer;
 
 final class UpdateSeenMinecraftPlayer
 {
-    public function execute(MinecraftUUID $uuid, string $alias): void
-    {
+    public function execute(
+        MinecraftUUID $uuid,
+        string $alias,
+    ): MinecraftPlayer {
         $player = MinecraftPlayer::firstOrCreate(
             uuid: $uuid,
             alias: $alias,
         );
         $player->last_seen_at = now();
         $player->save();
+
+        return $player;
     }
 }
