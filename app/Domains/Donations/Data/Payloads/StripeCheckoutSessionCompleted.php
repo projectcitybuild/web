@@ -16,8 +16,7 @@ final class StripeCheckoutSessionCompleted
         public string $productId,
         public string $priceId,
         public PaymentType $paymentType,
-    ) {
-    }
+    ) {}
 
     public static function fromPayload(array $payload, StripeClient $stripeClient): StripeCheckoutSessionCompleted
     {
