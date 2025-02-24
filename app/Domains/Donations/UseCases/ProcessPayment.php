@@ -30,18 +30,11 @@ final class ProcessPayment
         int $quantity,
         PaymentType $donationType,
     ) {
-        // Sanity checks
-        if ($paidAmount->toCents() <= 0) {
-            throw new BadRequestException(id: 'invalid_amount', message: 'Amount paid was zero');
-        }
-        if ($quantity <= 0) {
-            throw new BadRequestException(id: 'invalid_quantity', message: 'Quantity purchased was zero');
-        }
+        abort_if($paidAmount->toCents() <= 0, 400, 'Amount paid was zero');
+        abort_if($quantity <= 0, 400, 'Quantity purchased was zero');
 
         $donorGroup = Group::whereDonor()->first();
-        if ($donorGroup === null) {
-            throw new \Exception('Could not find donor group');
-        }
+        throw_if($donorGroup === null);
 
         $product = StripeProduct::where('product_id', $productId)
             ->where('price_id', $priceId)
@@ -84,7 +77,7 @@ final class ProcessPayment
                 'expires_at' => $expiryDate,
             ]);
 
-            $account->groups()->attach($donorGroup->getKey());
+            $account->groups()->syncWithoutDetaching([$donorGroup->getKey()]);
 
             $notification = new DonationPerkStartedNotification($expiryDate);
             $account->notify($notification);
@@ -105,15 +98,20 @@ final class ProcessPayment
      * @param  DonationPerk|null  $existingPerk The user's latest DonationPerk
      * @return Carbon Expiry date
      */
-    private function calculateExpiryDate(int $numberOfMonths, ?DonationPerk $existingPerk): Carbon
-    {
+    private function calculateExpiryDate(
+        int $numberOfMonths, 
+        ?DonationPerk $existingPerk,
+    ): Carbon {
         $monthsFromNow = now()->addMonths($numberOfMonths);
 
-        if ($existingPerk == null) {
+        if ($existingPerk === null) {
             return $monthsFromNow;
         }
 
-        $monthsFromLastExpiry = $existingPerk->expires_at->copy()->addMonths($numberOfMonths);
+        $monthsFromLastExpiry = $existingPerk
+            ->expires_at
+            ->copy()
+            ->addMonths($numberOfMonths);
 
         return $monthsFromLastExpiry->gt($monthsFromNow)
             ? $monthsFromLastExpiry
