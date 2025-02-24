@@ -27,7 +27,7 @@ final class MinecraftTelemetryController extends ApiController
             alias: $validated['alias'],
         );
 
-        $ip = $validated['ip'];
+        $ip = $validated['ip'] ?? '';
         if (!empty($ip)) {
             $logMinecraftPlayerIp->execute(
                 playerId: $player->getKey(),
