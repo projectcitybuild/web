@@ -16,66 +16,65 @@ final class MinecraftPlayerHomeController extends ApiController
 {
     use ValidatesCoordinates;
 
-    public function index(Request $request)
+    public function index(Request $request, MinecraftUUID $minecraftUUID)
     {
-        $request->validate([
-           'page_size' => ['integer', 'gt:0'],
+        $validated = $request->validate([
+            'page_size' => ['integer', 'gt:0'],
         ]);
 
-        $defaultSize = 25;
-        $pageSize = min($defaultSize, $request->get('page_size', $defaultSize));
+        $player = MinecraftPlayer::whereUuid($minecraftUUID)->first();
+        throw_if($player === null, 404);
 
-        return MinecraftHome::orderBy('votes', 'desc')
+        $defaultSize = 25;
+        $pageSize = min($defaultSize, $validated['page_size'] ?? $defaultSize);
+
+        return MinecraftHome::orderBy('name', 'desc')
+            ->where('player_id', $player->getKey())
             ->paginate($pageSize);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, MinecraftUUID $minecraftUUID)
     {
         // TODO: don't allow duplicate names for a player
         // TODO: check number of homes
 
         $validated = $request->validate([
-            'player_uuid' => ['required', new MinecraftUUIDRule],
             'name' => ['required', 'string'],
             ...$this->coordinateRules,
         ]);
 
-        $player = MinecraftPlayer::firstOrCreate(
-            uuid: new MinecraftUUID($validated['player_uuid']),
-            alias: $request->get('alias'),
-        );
+        $player = MinecraftPlayer::whereUuid($minecraftUUID)->first();
+        throw_if($player === null, 404);
         $validated['player_id'] = $player->getKey();
 
         return MinecraftHome::create($validated);
     }
 
-    public function update(Request $request, MinecraftHome $home)
-    {
-        // TODO: how to determine $home?
+    public function update(
+        Request $request,
+        MinecraftUUID $minecraftUUID,
+        MinecraftHome $home,
+    ) {
         // TODO: don't allow duplicate names for a player
 
         $validated = $request->validate([
-            'player_uuid' => ['required', new MinecraftUUIDRule],
             'name' => ['required', 'string'],
             ...$this->coordinateRules,
         ]);
 
-        $this->assertHasWriteAccess(home: $home, uuid: $validated['player_uuid']);
+        $this->assertHasWriteAccess(home: $home, uuid: $minecraftUUID);
 
         $home->update($validated);
 
         return $home;
     }
 
-    public function destroy(Request $request, MinecraftHome $home)
-    {
-        // TODO: how to determine $home?
-
-        $validated = $request->validate([
-            'player_uuid' => ['required', new MinecraftUUIDRule],
-        ]);
-
-        $this->assertHasWriteAccess(home: $home, uuid: $validated['player_uuid']);
+    public function destroy(
+        Request $request,
+        MinecraftUUID $minecraftUUID,
+        MinecraftHome $home,
+    ) {
+        $this->assertHasWriteAccess(home: $home, uuid: $minecraftUUID);
 
         $home->delete();
 
@@ -83,13 +82,12 @@ final class MinecraftPlayerHomeController extends ApiController
     }
 
     /**
-     * Ensures the given player UUID has the ability to modify the given build.
-     * Basically checks the UUID is the build owner or a staff member.
+     * Ensures the given player UUID has the ability to modify the given home.
+     * Basically checks the UUID is the home owner or a staff member.
      */
     // TODO: use MinecraftHomePolicy
-    private function assertHasWriteAccess(MinecraftHome $home, string $uuid): void
+    private function assertHasWriteAccess(MinecraftHome $home, MinecraftUUID $uuid): void
     {
-        $uuid = new MinecraftUUID($uuid);
         $player = MinecraftPlayer::whereUuid($uuid)->first();
         abort_if($player === null, 400, "Player not found");
 

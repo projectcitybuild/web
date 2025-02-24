@@ -40,13 +40,14 @@ final class MinecraftBuildController extends ApiController
     {
         $validated = $request->validate([
             'player_uuid' => ['required', new MinecraftUUIDRule],
+            'alias' => 'required',
             'name' => ['required', Rule::unique(MinecraftBuild::tableName())],
             ...$this->coordinateRules,
         ]);
 
         $player = MinecraftPlayer::firstOrCreate(
             uuid: new MinecraftUUID($validated['player_uuid']),
-            alias: $request->get('alias'),
+            alias: $validated['alias'],
         );
         $validated['player_id'] = $player->getKey();
 

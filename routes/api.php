@@ -57,8 +57,8 @@ Route::prefix('v2')
                 Route::prefix('home')->group(function () {
                     Route::get('/', [MinecraftPlayerHomeController::class, 'index']);
                     Route::post('/', [MinecraftPlayerHomeController::class, 'store']);
-                    Route::put('/', [MinecraftPlayerHomeController::class, 'update']);
-                    Route::delete('/', [MinecraftPlayerHomeController::class, 'destroy']);
+                    Route::put('{home}', [MinecraftPlayerHomeController::class, 'update']);
+                    Route::delete('{home}', [MinecraftPlayerHomeController::class, 'destroy']);
                 });
             });
         });
