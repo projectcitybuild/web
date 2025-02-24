@@ -164,7 +164,7 @@ async function refreshAlias() {
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Player Bans</h2>
                         <Link :href="'/manage/player-bans/create?uuid=' + player.uuid">
-                            <FilledButton variant="secondary">Create</FilledButton>
+                            <FilledButton variant="danger">Create</FilledButton>
                         </Link>
                     </div>
                     <InfinitePagination
@@ -180,7 +180,7 @@ async function refreshAlias() {
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Player Warnings</h2>
                         <Link :href="'/manage/warnings/create?uuid=' + player.uuid">
-                            <FilledButton variant="secondary">Create</FilledButton>
+                            <FilledButton variant="danger">Create</FilledButton>
                         </Link>
                     </div>
                     <InfinitePagination
