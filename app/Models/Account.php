@@ -19,13 +19,11 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
-use Laravel\Scout\Searchable;
 use function collect;
 
 final class Account extends Authenticatable implements LinkableAuditModel
 {
     use Notifiable;
-    use Searchable;
     use HasApiTokens;
     use HasStaticTable;
     use HasFactory;

@@ -13,11 +13,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Laravel\Scout\Searchable;
 
 final class GamePlayerBan extends Model implements LinkableAuditModel
 {
-    use Searchable;
     use HasFactory;
     use HasStaticTable;
     use LogsActivity;

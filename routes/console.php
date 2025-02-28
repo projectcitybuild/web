@@ -17,9 +17,6 @@ Schedule::command('sitemap:generate')
 Schedule::command('donor-perks:expire')
     ->hourly();
 
-Schedule::command('donor-perks:reward-currency')
-    ->hourly();
-
 Schedule::command('backup:clean')
     ->dailyAt('00:00');
 
