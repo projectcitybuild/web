@@ -16,8 +16,7 @@ final class StripeCheckoutSessionCompleted
         public string $productId,
         public string $priceId,
         public PaymentType $paymentType,
-    ) {
-    }
+    ) {}
 
     public static function fromPayload(array $payload, StripeClient $stripeClient): StripeCheckoutSessionCompleted
     {
@@ -40,9 +39,7 @@ final class StripeCheckoutSessionCompleted
             quantity: $firstLine['quantity'],
             productId: $price['product'],
             priceId: $price['id'],
-            paymentType: $price['type'] == 'recurring'
-                ? PaymentType::SUBSCRIPTION
-                : PaymentType::ONE_OFF,
+            paymentType: PaymentType::fromString($price['type']),
         );
     }
 }
