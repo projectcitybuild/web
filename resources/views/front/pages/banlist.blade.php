@@ -53,7 +53,7 @@
                         <tr>
                             <td class="py-4 px-2 flex gap-2">
                                 <img src="https://minotar.net/avatar//{{ $ban->bannedPlayer->uuid }}/16" class="rounded-md h-6">
-                                <span class="font-bold">{{ $ban->banned_alias_at_time }}</span>
+                                <span class="font-bold">{{ $ban->bannedPlayer?->alias ?? $ban->banned_alias_at_time }}</span>
                             </td>
                             <td class="py-4 px-2">
                                 {{ $ban->reason ?? "-" }}

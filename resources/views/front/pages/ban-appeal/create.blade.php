@@ -53,7 +53,7 @@
                 class="g-recaptcha button button--filled button--block"
                 type="submit"
             >
-                <i class="fas fa-check"></i> Submit
+                Submit
             </x-button>
         </form>
     </div>

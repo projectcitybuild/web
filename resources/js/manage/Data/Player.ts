@@ -6,6 +6,7 @@ export interface Player {
     account_id?: number,
     uuid: string,
     alias?: string,
+    nickname?: string,
     created_at: string,
     updated_at: string,
     last_synced_at?: string,

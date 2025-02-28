@@ -1,28 +1,20 @@
 <?php
 
-use App\Http\Controllers\Api\v1\AccountSearchController;
-use App\Http\Controllers\Api\v1\MinecraftPlayerAliasSearchController;
-use App\Http\Controllers\Api\v1\MinecraftTelemetryController;
-use App\Http\Controllers\Api\v1\StripeWebhookController;
-use App\Http\Controllers\Api\v2\Minecraft\MinecraftBuildController;
-use App\Http\Controllers\Api\v2\Minecraft\MinecraftBuildNameController;
-use App\Http\Controllers\Api\v2\Minecraft\MinecraftBuildVoteController;
+use App\Http\Controllers\Api\StripeWebhookController;
+use App\Http\Controllers\Api\v2\Minecraft\Build\MinecraftBuildController;
+use App\Http\Controllers\Api\v2\Minecraft\Build\MinecraftBuildNameController;
+use App\Http\Controllers\Api\v2\Minecraft\Build\MinecraftBuildVoteController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftConfigController;
-use App\Http\Controllers\Api\v2\Minecraft\MinecraftPlayerController;
-use App\Http\Controllers\Api\v2\Minecraft\MinecraftRegisterController;
+use App\Http\Controllers\Api\v2\Minecraft\MinecraftTelemetryController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftWarpController;
+use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftPlayerController;
+use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftPlayerNicknameController;
+use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftRegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('webhooks')->group(function () {
     Route::post('stripe', [StripeWebhookController::class, 'handleWebhook']);
 });
-
-Route::prefix('v1')
-    ->name('v1.')
-    ->group(function() {
-        Route::get('accounts/search', AccountSearchController::class);
-        Route::get('minecraft/aliases/search', MinecraftPlayerAliasSearchController::class);
-    });
 
 Route::prefix('v2')
     ->name('v2.')
@@ -36,10 +28,12 @@ Route::prefix('v2')
             Route::prefix('build')->group(function () {
                 Route::get('/name', [MinecraftBuildNameController::class, 'index']);
 
-                Route::patch('{build}/set', [MinecraftBuildController::class, 'patch']);
+                Route::prefix('{build}')->group(function () {
+                    Route::patch('set', [MinecraftBuildController::class, 'patch']);
 
-                Route::post('{build}/vote', [MinecraftBuildVoteController::class, 'store']);
-                Route::delete('{build}/vote', [MinecraftBuildVoteController::class, 'destroy']);
+                    Route::post('vote', [MinecraftBuildVoteController::class, 'store']);
+                    Route::delete('vote', [MinecraftBuildVoteController::class, 'destroy']);
+                });
             });
             Route::resource('build', MinecraftBuildController::class);
 
@@ -49,6 +43,7 @@ Route::prefix('v2')
 
             Route::prefix('player/{minecraft_uuid}')->group(function () {
                 Route::get('/', MinecraftPlayerController::class);
+                Route::put('nickname', [MinecraftPlayerNicknameController::class, 'update']);
 
                 Route::prefix('register')->group(function () {
                     Route::post('/', [MinecraftRegisterController::class, 'store'])

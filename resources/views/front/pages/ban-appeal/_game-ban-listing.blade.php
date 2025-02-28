@@ -14,7 +14,7 @@
             </div>
             @if($ban->banAppeals->isEmpty() && !$ban->isActive())
                 <div class="game-ban__status game-ban__status--is-ban">
-                    <i class="fas fa-check is-unbanned"></i> Unbanned
+                    Unbanned
                 </div>
             @endif
         </div>
@@ -28,19 +28,19 @@
                             Appeal #{{ $i+1 }} -
                             @switch($appeal->status)
                                 @case(\App\Domains\BanAppeals\Data\BanAppealStatus::PENDING)
-                                    <i class="fas fa-hourglass-half is-pending"></i> Pending
+                                    Pending
                                     @break
 
                                 @case(\App\Domains\BanAppeals\Data\BanAppealStatus::DENIED)
-                                    <i class="fas fa-times is-denied"></i> Denied
+                                    Denied
                                     @break
 
                                 @case(\App\Domains\BanAppeals\Data\BanAppealStatus::ACCEPTED_UNBAN)
-                                    <i class="fas fa-check is-unbanned"></i> Unbanned
+                                    Unbanned
                                     @break
 
                                 @case(\App\Domains\BanAppeals\Data\BanAppealStatus::ACCEPTED_TEMPBAN)
-                                    <i class="fas fa-clock is-tempbanned"></i> Reduced to tempban
+                                    Reduced to tempban
                                     @break
                             @endswitch
                         </div>

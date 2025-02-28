@@ -17,6 +17,7 @@ import SvgIcon from '../../Components/SvgIcon.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import ErrorAlert from '../../Components/ErrorAlert.vue'
 import axios from 'axios'
+import PlayerIPListTable from './Partials/PlayerIPListTable.vue'
 
 interface Props {
     player: Player,
@@ -120,6 +121,20 @@ async function refreshAlias() {
                 </Card>
 
                 <Card class="max-w-2xl mt-4 p-4">
+                    <h2 class="font-bold">Meta</h2>
+
+                    <div class="mt-4 space-y-4">
+                        <dl class="flex items-center justify-between gap-2">
+                            <dt class="text-sm text-gray-500 dark:text-gray-400">Nickname</dt>
+                            <dd class="text-sm text-gray-900 dark:text-white">
+                                <span v-if="player.nickname">{{ player.nickname }}</span>
+                                <span v-else class="italic text-gray-500">Not set</span>
+                            </dd>
+                        </dl>
+                    </div>
+                </Card>
+
+                <Card class="max-w-2xl mt-4 p-4">
                     <h2 class="font-bold">Owner</h2>
 
                     <div class="mt-4">
@@ -150,7 +165,7 @@ async function refreshAlias() {
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Player Bans</h2>
                         <Link :href="'/manage/player-bans/create?uuid=' + player.uuid">
-                            <FilledButton variant="secondary">Create</FilledButton>
+                            <FilledButton variant="danger">Create</FilledButton>
                         </Link>
                     </div>
                     <InfinitePagination
@@ -166,7 +181,7 @@ async function refreshAlias() {
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Player Warnings</h2>
                         <Link :href="'/manage/warnings/create?uuid=' + player.uuid">
-                            <FilledButton variant="secondary">Create</FilledButton>
+                            <FilledButton variant="danger">Create</FilledButton>
                         </Link>
                     </div>
                     <InfinitePagination
@@ -175,6 +190,19 @@ async function refreshAlias() {
                         class="overflow-x-auto"
                     >
                         <PlayerWarningListTable :warnings="source.data"/>
+                    </InfinitePagination>
+                </Card>
+
+                <Card class="mt-4">
+                    <div class="p-4 flex justify-between items-center">
+                        <h2 class="font-bold">Known IP Addresses</h2>
+                    </div>
+                    <InfinitePagination
+                        :path="'/manage/players/' + player.player_minecraft_id + '/ips'"
+                        v-slot="source"
+                        class="overflow-x-auto"
+                    >
+                        <PlayerIPListTable :ips="source.data"/>
                     </InfinitePagination>
                 </Card>
             </section>

@@ -2,7 +2,7 @@
 
 namespace App\Core\Support\Passport;
 
-use App\Http\Controllers\Api\v1\OAuthController;
+use App\Http\Controllers\Api\OAuthController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 

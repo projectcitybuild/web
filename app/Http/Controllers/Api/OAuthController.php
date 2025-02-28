@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ApiController;
-use App\Models\Account;
 use Illuminate\Http\Request;
 
 final class OAuthController extends ApiController

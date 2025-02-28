@@ -58,6 +58,7 @@ it('contains player data', function () {
                         'player_minecraft_id' => $player->getKey(),
                         'uuid' => $player->uuid,
                         'alias' => $player->alias,
+                        'nickname' => $player->nickname,
                         'last_seen_at' => $player->last_seen_at->toISOString(),
                         'last_synced_at' => $now->toISOString(),
                         'created_at' => $now->toISOString(),
