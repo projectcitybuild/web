@@ -1,32 +1,36 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Domains\Donations\Listeners;
 
 use App\Core\Data\Exceptions\BadRequestException;
-use App\Core\Domains\Auditing\Causers\SystemCauser;
-use App\Core\Domains\Auditing\Causers\SystemCauseResolver;
 use App\Domains\Donations\Data\Payloads\StripeCheckoutLineItem;
 use App\Domains\Donations\Data\Payloads\StripeCheckoutSession;
 use App\Domains\Donations\Data\Payloads\StripeInvoicePaid;
 use App\Domains\Donations\Data\Payloads\StripePaginatedResponse;
 use App\Domains\Donations\Data\PaymentType;
 use App\Domains\Donations\Exceptions\StripeProductNotFoundException;
-use App\Domains\Donations\UseCases\ProcessPayment;
 use App\Models\Account;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
+use Laravel\Cashier\Cashier;
+use Laravel\Cashier\Events\WebhookReceived;
 use Stripe\StripeClient;
-use Symfony\Component\HttpFoundation\Response;
 
-final class StripeWebhookController extends CashierController
+
+class StripeEventListener
 {
     public function __construct(
-        private readonly ProcessPayment $processPaymentUseCase,
         private readonly StripeClient $stripeClient,
-    ) {
-        SystemCauseResolver::setCauser(SystemCauser::STRIPE_WEBHOOK);
-        parent::__construct();
+    ) {}
+
+    public function handle(WebhookReceived $event): void
+    {
+        if ($event->payload['type'] === 'checkout.session.completed') {
+            $this->handleCheckoutSessionCompleted($event->payload);
+        }
+        if ($event->payload['type'] === 'invoice.paid') {
+            $this->handleInvoicePaid($event->payload);
+        }
     }
 
     /**
@@ -35,13 +39,12 @@ final class StripeWebhookController extends CashierController
      * @throws StripeProductNotFoundException if productId does not exist in the StripeProducts table
      * @throws Exception if user cannot be found
      */
-    public function handleCheckoutSessionCompleted(array $payload): Response
+    private function handleCheckoutSessionCompleted(array $payload)
     {
-        Log::info('[webhook] checkout.session_completed', ['payload' => $payload]);
+        Log::info('[webhook] checkout.session.completed', ['payload' => $payload]);
 
-        $session = StripeCheckoutSession::fromJson(
-            StripePaginatedResponse::fromJson($payload)->data,
-        );
+        $session = StripeCheckoutSession::fromJson($payload);
+
         $lineItems = StripeCheckoutLineItem::fromJson(
             StripePaginatedResponse::fromJson(
                 $this->stripeClient->checkout->sessions->allLineItems(
@@ -56,9 +59,9 @@ final class StripeWebhookController extends CashierController
             'line_items' => $lineItems,
         ]);
 
-        /** @var Account $account */
-        $account = $this->getUserByStripeId($session->customerId)
-            ?? throw new Exception('Could not find user matching customer id: '.$session->customerId);
+//        /** @var Account $account */
+        $account = Cashier::findBillable($session->customerId);
+        Log::info($account);
 
         // Subscription payments are handled by `handleInvoicePaid` (`invoice.paid` event)
         // which is also sent at the same time
@@ -74,8 +77,6 @@ final class StripeWebhookController extends CashierController
 //            quantity: $event->quantity,
 //            donationType: PaymentType::ONE_TIME,
 //        );
-
-        return $this->successMethod();
     }
 
     /**
@@ -85,7 +86,7 @@ final class StripeWebhookController extends CashierController
      * @throws BadRequestException if amount or paidQuantity is invalid
      * @throws Exception if user cannot be found
      */
-    public function handleInvoicePaid(array $payload): Response
+    private function handleInvoicePaid(array $payload)
     {
         Log::info('[webhook] invoice.paid', ['payload' => $payload]);
 
@@ -103,7 +104,5 @@ final class StripeWebhookController extends CashierController
             quantity: $event->quantity,
             donationType: PaymentType::SUBSCRIPTION,
         );
-
-        return $this->successMethod();
     }
 }

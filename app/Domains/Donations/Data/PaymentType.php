@@ -4,14 +4,14 @@ namespace App\Domains\Donations\Data;
 
 enum PaymentType
 {
-    case ONE_OFF;
+    case ONE_TIME;
     case SUBSCRIPTION;
     case UNKNOWN;
 
     public static function fromString(string $string): PaymentType
     {
         return match ($string) {
-            'one_time' => PaymentType::ONE_OFF,
+            'one_time' => PaymentType::ONE_TIME,
             'recurring' => PaymentType::SUBSCRIPTION,
             default => PaymentType::UNKNOWN,
         };

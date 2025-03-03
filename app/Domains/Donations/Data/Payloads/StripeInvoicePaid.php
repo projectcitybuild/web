@@ -35,7 +35,7 @@ final class StripeInvoicePaid
             priceId: $price['id'],
             paymentType: $price['type'] == 'recurring'
                 ? PaymentType::SUBSCRIPTION
-                : PaymentType::ONE_OFF,
+                : PaymentType::ONE_TIME,
         );
     }
 }

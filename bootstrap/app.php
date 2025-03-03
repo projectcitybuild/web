@@ -59,6 +59,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'require-mfa' => \App\Http\Middleware\RequireMfaEnabled::class,
             'require-server-token' => \App\Http\Middleware\RequireServerToken::class,
         ]);
+        // Stripe webhooks need to bypass Laravel's CSRF protection
+        // https://laravel.com/docs/12.x/billing#handling-stripe-webhooks
+        $middleware->validateCsrfTokens(except: [
+            'stripe/*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->dontReport([
