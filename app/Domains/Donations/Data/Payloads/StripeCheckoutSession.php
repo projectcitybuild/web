@@ -14,9 +14,9 @@ final class StripeCheckoutSession
         public string $sessionId,
     ) {}
 
-    public static function fromJson(array $payload): StripeCheckoutSession
+    public static function fromJson(array $json): StripeCheckoutSession
     {
-        $object = $payload['data']['object'];
+        $object = $json['data']['object'];
         $sessionId = $object['id'];
 
         return new StripeCheckoutSession(

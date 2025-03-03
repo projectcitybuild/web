@@ -2,13 +2,12 @@
 
 namespace App\Domains\Donations\Listeners;
 
-use App\Core\Data\Exceptions\BadRequestException;
 use App\Domains\Donations\Data\Payloads\StripeCheckoutLineItem;
 use App\Domains\Donations\Data\Payloads\StripeCheckoutSession;
 use App\Domains\Donations\Data\Payloads\StripeInvoicePaid;
-use App\Domains\Donations\Data\Payloads\StripePaginatedResponse;
 use App\Domains\Donations\Data\PaymentType;
-use App\Domains\Donations\Exceptions\StripeProductNotFoundException;
+use App\Domains\Donations\UseCases\ProcessDonation;
+use App\Domains\Donations\UseCases\RecordPayment;
 use App\Models\Account;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -21,72 +20,66 @@ class StripeEventListener
 {
     public function __construct(
         private readonly StripeClient $stripeClient,
+        private readonly RecordPayment $recordPayment,
+        private readonly ProcessDonation $processDonation,
     ) {}
 
     public function handle(WebhookReceived $event): void
     {
-        if ($event->payload['type'] === 'checkout.session.completed') {
+        $type = $event->payload['type'];
+
+        if ($type === 'checkout.session.completed') {
             $this->handleCheckoutSessionCompleted($event->payload);
         }
-        if ($event->payload['type'] === 'invoice.paid') {
+        if ($type === 'invoice.paid') {
             $this->handleInvoicePaid($event->payload);
         }
     }
 
     /**
-     * Handles one-time payments, or the first payment of a subscription.
+     * Handles one-time payments.
      *
-     * @throws StripeProductNotFoundException if productId does not exist in the StripeProducts table
-     * @throws Exception if user cannot be found
+     * Technically this handles all payment types, as we funnel everything
+     * through Checkout. However, we abort early for subscriptions as an
+     * `invoice.paid` event is sent along with it.
      */
-    private function handleCheckoutSessionCompleted(array $payload)
+    private function handleCheckoutSessionCompleted(array $payload): void
     {
         Log::info('[webhook] checkout.session.completed', ['payload' => $payload]);
 
         $session = StripeCheckoutSession::fromJson($payload);
 
-        $lineItems = StripeCheckoutLineItem::fromJson(
-            StripePaginatedResponse::fromJson(
-                $this->stripeClient->checkout->sessions->allLineItems(
-                    id: $session->sessionId,
-                    params: ['limit' => 1],
-                )->toArray(),
-            )->data,
+        $lineItems = $this->stripeClient->checkout->sessions->allLineItems(
+            id: $session->sessionId,
+            params: ['limit' => 1],
+        );
+        $lineItem = StripeCheckoutLineItem::fromJson(
+            $lineItems->toArray()['data'][0], // Only 1 line item for a donation
         );
 
-        Log::debug('Parsed Stripe responses', [
-            'session' => $session,
-            'line_items' => $lineItems,
-        ]);
+        Log::debug(
+            'Parsed Stripe responses',
+            compact('session', 'lineItem'),
+        );
 
-//        /** @var Account $account */
+        /** @var Account $account */
         $account = Cashier::findBillable($session->customerId);
-        Log::info($account);
 
         // Subscription payments are handled by `handleInvoicePaid` (`invoice.paid` event)
         // which is also sent at the same time
-//        if ($event->paymentType->isSubscription()) {
-//            return $this->successMethod();  // Must return success or Stripe will think we failed to receive the payload
-//        }
-//
-//        $this->processPaymentUseCase->execute(
-//            account: $account,
-//            productId: $event->productId,
-//            priceId: $event->priceId,
-//            paidAmount: $event->paidAmount,
-//            quantity: $event->quantity,
-//            donationType: PaymentType::ONE_TIME,
-//        );
+        if ($lineItem->paymentType->isSubscription()) {
+            return;
+        }
+
+        $this->recordPayment->saveLineItem($lineItem, account: $account);
+
+        $this->processDonation->execute();
     }
 
     /**
-     * Handle subsequent subscription payments (after the first).
-     *
-     * @throws StripeProductNotFoundException if productId does not exist in the StripeProducts table
-     * @throws BadRequestException if amount or paidQuantity is invalid
-     * @throws Exception if user cannot be found
+     * Handles subscription payments
      */
-    private function handleInvoicePaid(array $payload)
+    private function handleInvoicePaid(array $payload): void
     {
         Log::info('[webhook] invoice.paid', ['payload' => $payload]);
 

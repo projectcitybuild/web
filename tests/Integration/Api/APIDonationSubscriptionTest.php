@@ -68,7 +68,6 @@ class APIDonationSubscriptionTest extends IntegrationTestCase
             'stripe_product' => self::PRODUCT_ID,
             'amount_paid_in_cents' => self::AMOUNT_PAID,
             'quantity' => self::QUANTITY,
-            'is_subscription_payment' => true,
         ]);
 
         $this->assertDatabaseCount(table: 'donation_perks', count: 0);
@@ -99,7 +98,6 @@ class APIDonationSubscriptionTest extends IntegrationTestCase
                 'stripe_product' => self::PRODUCT_ID,
                 'amount_paid_in_cents' => self::AMOUNT_PAID,
                 'quantity' => self::QUANTITY,
-                'is_subscription_payment' => true,
             ]);
 
             $this->assertDatabaseHas('donation_perks', [

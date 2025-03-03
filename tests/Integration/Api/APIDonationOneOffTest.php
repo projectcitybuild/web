@@ -72,7 +72,6 @@ class APIDonationOneOffTest extends IntegrationTestCase
             'stripe_product' => self::PRODUCT_ID,
             'amount_paid_in_cents' => self::AMOUNT_PAID,
             'quantity' => self::QUANTITY,
-            'is_subscription_payment' => false,
         ]);
 
         $this->assertDatabaseCount(table: 'donation_perks', count: 0);
@@ -103,7 +102,6 @@ class APIDonationOneOffTest extends IntegrationTestCase
                 'stripe_product' => self::PRODUCT_ID,
                 'amount_paid_in_cents' => self::AMOUNT_PAID,
                 'quantity' => self::QUANTITY,
-                'is_subscription_payment' => false,
             ]);
 
             $this->assertDatabaseHas('donation_perks', [
@@ -146,7 +144,6 @@ class APIDonationOneOffTest extends IntegrationTestCase
                 'stripe_product' => self::PRODUCT_ID,
                 'amount_paid_in_cents' => $amountPaid,
                 'quantity' => $quantityPurchased,
-                'is_subscription_payment' => false,
             ]);
 
             $this->assertDatabaseHas('donation_perks', [

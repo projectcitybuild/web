@@ -3,8 +3,7 @@
 namespace App\Domains\Donations\UseCases;
 
 use App\Core\Data\Exceptions\BadRequestException;
-use App\Domains\Donations\Data\PaidAmount;
-use App\Domains\Donations\Data\PaymentType;
+use App\Domains\Donations\Data\Amount;
 use App\Domains\Donations\Events\DonationPerkCreated;
 use App\Domains\Donations\Exceptions\StripeProductNotFoundException;
 use App\Domains\Donations\Notifications\DonationPerkStartedNotification;
@@ -12,11 +11,10 @@ use App\Models\Account;
 use App\Models\Donation;
 use App\Models\DonationPerk;
 use App\Models\Group;
-use App\Models\Payment;
 use App\Models\StripeProduct;
 use Illuminate\Support\Carbon;
 
-final class ProcessPayment
+final class ProcessDonation
 {
     /**
      * @throws StripeProductNotFoundException if productId does not exist in the StripeProducts table
@@ -26,12 +24,20 @@ final class ProcessPayment
         Account $account,
         string $productId,
         string $priceId,
-        PaidAmount $paidAmount,
+        Amount $paidAmount,
+        Amount $originalAmount,
         int $quantity,
-        PaymentType $donationType,
     ) {
-        abort_if($paidAmount->toCents() <= 0, 400, 'Amount paid was zero');
-        abort_if($quantity <= 0, 400, 'Quantity purchased was zero');
+        abort_if(
+            $paidAmount->value <= 0 || $originalAmount->value <= 0,
+            code: 400,
+            message: 'Amount paid was zero',
+        );
+        abort_if(
+            $quantity <= 0,
+            code: 400,
+            message: 'Quantity purchased was zero',
+        );
 
         $donorGroup = Group::whereDonor()->first();
         throw_if($donorGroup === null);
@@ -43,16 +49,7 @@ final class ProcessPayment
 
         $donation = Donation::create([
             'account_id' => $account->getKey(),
-            'amount' => $paidAmount->toDollars(),
-        ]);
-
-        Payment::create([
-            'account_id' => $account->getKey(),
-            'stripe_product' => $productId,
-            'stripe_price' => $priceId,
-            'amount_paid_in_cents' => $paidAmount->toCents(),
-            'quantity' => $quantity,
-            'is_subscription_payment' => $donationType == PaymentType::SUBSCRIPTION,
+            'amount' => $originalAmount->value,
         ]);
 
         $donationTier = $product->donationTier;
@@ -69,6 +66,8 @@ final class ProcessPayment
                 existingPerk: $existingPerk,
             );
 
+            // TODO: update existing instead
+
             $newPerk = DonationPerk::create([
                 'donation_id' => $donation->getKey(),
                 'donation_tier_id' => $donationTier?->getKey(),
@@ -79,6 +78,7 @@ final class ProcessPayment
 
             $account->groups()->syncWithoutDetaching([$donorGroup->getKey()]);
 
+            // TODO: only notify if didn't exist before
             $notification = new DonationPerkStartedNotification($expiryDate);
             $account->notify($notification);
 
@@ -99,7 +99,7 @@ final class ProcessPayment
      * @return Carbon Expiry date
      */
     private function calculateExpiryDate(
-        int $numberOfMonths, 
+        int $numberOfMonths,
         ?DonationPerk $existingPerk,
     ): Carbon {
         $monthsFromNow = now()->addMonths($numberOfMonths);

@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('original_currency', 3)->after('amount_paid_in_cents')->default("aud");
             $table->integer('paid_amount')->after('amount_paid_in_cents')->default(0);
             $table->string('paid_currency', 3)->after('amount_paid_in_cents')->default("aud");
+            $table->dropColumn('is_subscription_payment');
         });
 
         $payments = Payment::get();

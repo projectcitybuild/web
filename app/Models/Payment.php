@@ -22,7 +22,6 @@ final class Payment extends Model
         'original_currency',
         'original_amount',
         'quantity',
-        'is_subscription_payment',
         'created_at',
         'updated_at',
     ];
