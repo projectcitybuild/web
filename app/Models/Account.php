@@ -19,7 +19,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
-use function collect;
 
 final class Account extends Authenticatable implements LinkableAuditModel
 {
@@ -43,6 +42,7 @@ final class Account extends Authenticatable implements LinkableAuditModel
         'remember_token',
         'last_login_ip',
         'last_login_at',
+        'terms_accepted',
     ];
 
     protected $hidden = [
@@ -69,16 +69,8 @@ final class Account extends Authenticatable implements LinkableAuditModel
         'last_login_at' => 'datetime',
         'is_totp_enabled' => 'boolean',
         'activated' => 'boolean',
+        'terms_accepted' => 'boolean',
     ];
-
-    public function toSearchableArray()
-    {
-        return [
-            'account_id' => $this->getKey(),
-            'email' => $this->email,
-            'username' => $this->username,
-        ];
-    }
 
     public function minecraftAccount(): HasMany
     {

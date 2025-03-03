@@ -148,18 +148,6 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
         return $this->banned_alias_at_time !== $this->bannedPlayer->alias;
     }
 
-    /**
-     * Get the indexable data array for the model.
-     */
-    public function toSearchableArray(): array
-    {
-        return [
-            'id' => $this->getKey(),
-            'banned_alias_at_time' => $this->banned_alias_at_time,
-            'reason' => $this->reason,
-        ];
-    }
-
     public function getActivitySubjectLink(): ?string
     {
         return route('manage.player-bans.edit', $this);

@@ -24,6 +24,7 @@ class CreateUnactivatedAccount
             'remember_token' => '',
             'last_login_ip' => $ip,
             'last_login_at' => $lastLoginAt,
+            'terms_accepted' => true,
         ]);
         if ($sendActivationEmail) {
             AccountCreated::dispatch($account);
