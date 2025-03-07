@@ -2,9 +2,7 @@
 
 namespace App\Domains\Donations\UseCases;
 
-use App\Core\Data\Exceptions\BadRequestException;
 use App\Core\Domains\Payment\Data\Amount;
-use App\Domains\Donations\Exceptions\StripeProductNotFoundException;
 use App\Domains\Donations\Notifications\DonationPerkStartedNotification;
 use App\Models\Account;
 use App\Models\Donation;
@@ -47,41 +45,44 @@ final class ProcessDonation
     }
 
     private function fulfillDonation(
-        Account $account,
+        ?Account $account,
         Donation $donation,
         StripeProduct $product,
         int $numberOfMonths,
     ) {
+        $donorGroup = Group::getDonorOrThrow();
+        $account->groups()->syncWithoutDetaching([$donorGroup->getKey()]);
+
         $donationTier = $product->donationTier;
-        if ($donationTier !== null && $account !== null) {
-            $existingPerk = DonationPerk::where('account_id', $account->getKey())
-                ->where('donation_tier_id', $donationTier->getKey())
-                ->where('is_active', true)
-                ->whereNotNull('expires_at')
-                ->orderBy('expires_at', 'desc')
-                ->first();
+        if ($donationTier === null || $account === null) {
+            return;
+        }
+        $existingPerk = DonationPerk::where('account_id', $account->getKey())
+            ->where('donation_tier_id', $donationTier->getKey())
+            ->where('is_active', true)
+            ->whereNotNull('expires_at')
+            ->orderBy('expires_at', 'desc')
+            ->first();
 
-            $expiryDate = $this->calculateExpiryDate(
-                numberOfMonths: $numberOfMonths,
-                existingPerk: $existingPerk,
-            );
+        $expiryDate = $this->calculateExpiryDate(
+            numberOfMonths: $numberOfMonths,
+            existingPerk: $existingPerk,
+        );
 
-            // TODO: update existing instead
-
-            $newPerk = DonationPerk::create([
+        if ($existingPerk !== null) {
+            $existingPerk->expires_at = $expiryDate;
+            $existingPerk->save();
+        } else {
+            DonationPerk::create([
                 'donation_id' => $donation->getKey(),
                 'donation_tier_id' => $donationTier?->getKey(),
                 'account_id' => $account->getKey(),
                 'is_active' => true,
                 'expires_at' => $expiryDate,
             ]);
-
-            $donorGroup = Group::getDonorOrThrow();
-            $account->groups()->syncWithoutDetaching([$donorGroup->getKey()]);
-
-            // TODO: only notify if didn't exist before
-            $notification = new DonationPerkStartedNotification($expiryDate);
-            $account->notify($notification);
+            $account->notify(
+                new DonationPerkStartedNotification($expiryDate),
+            );
         }
     }
 
