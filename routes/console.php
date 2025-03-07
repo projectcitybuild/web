@@ -1,8 +1,11 @@
 <?php
 
 use App\Domains\Bans\Data\UnbanType;
+use App\Domains\HealthCheck\Data\SchedulerHealthCheck;
+use App\Domains\HealthCheck\HealthCheckReporter;
 use App\Models\GamePlayerBan;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schedule;
 
 Schedule::command('model:prune')
@@ -37,3 +40,10 @@ Artisan::command('bans:prune', function () {
             'unban_type' => UnbanType::EXPIRED->value,
         ]);
 })->everyFifteenMinutes();
+
+Artisan::command('healthcheck:scheduler', function () {
+    $reporter = new HealthCheckReporter(
+        healthCheck: new SchedulerHealthCheck(),
+    );
+    $reporter->success();
+})->everyThirtyMinutes();
