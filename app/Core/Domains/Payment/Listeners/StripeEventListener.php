@@ -1,27 +1,23 @@
 <?php
 
-namespace App\Domains\Donations\Listeners;
+namespace App\Core\Domains\Payment\Listeners;
 
-use App\Domains\Donations\Data\Payloads\StripeCheckoutLineItem;
-use App\Domains\Donations\Data\Payloads\StripeCheckoutSession;
-use App\Domains\Donations\Data\Payloads\StripeInvoicePaid;
-use App\Domains\Donations\Data\PaymentType;
-use App\Domains\Donations\UseCases\ProcessDonation;
+use App\Core\Domains\Payment\Data\Stripe\StripeCheckoutLineItem;
+use App\Core\Domains\Payment\Data\Stripe\StripeCheckoutSession;
+use App\Core\Domains\Payment\Data\Stripe\StripeInvoicePaid;
+use App\Core\Domains\Payment\Events\PaymentCreated;
 use App\Domains\Donations\UseCases\RecordPayment;
 use App\Models\Account;
-use Exception;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Cashier;
 use Laravel\Cashier\Events\WebhookReceived;
 use Stripe\StripeClient;
-
 
 class StripeEventListener
 {
     public function __construct(
         private readonly StripeClient $stripeClient,
         private readonly RecordPayment $recordPayment,
-        private readonly ProcessDonation $processDonation,
     ) {}
 
     public function handle(WebhookReceived $event): void
@@ -62,7 +58,7 @@ class StripeEventListener
             compact('session', 'lineItem'),
         );
 
-        /** @var Account $account */
+        /** @var ?Account $account */
         $account = Cashier::findBillable($session->customerId);
 
         // Subscription payments are handled by `handleInvoicePaid` (`invoice.paid` event)
@@ -71,9 +67,9 @@ class StripeEventListener
             return;
         }
 
-        $this->recordPayment->saveLineItem($lineItem, account: $account);
+        $payment = $this->recordPayment->saveLineItem($lineItem, account: $account);
 
-        $this->processDonation->execute();
+        PaymentCreated::dispatch($payment);
     }
 
     /**
@@ -83,19 +79,20 @@ class StripeEventListener
     {
         Log::info('[webhook] invoice.paid', ['payload' => $payload]);
 
-        $event = StripeInvoicePaid::fromPayload($payload);
+        $invoicePaid = StripeInvoicePaid::fromPayload($payload);
 
-        /** @var Account $account */
-        $account = $this->getUserByStripeId($event->customerId)
-            ?? throw new Exception('Could not find user matching customer id: '.$event->customerId);
+        /** @var ?Account $account */
+        $account = Cashier::findBillable($invoicePaid->customerId);
 
-        $this->processPaymentUseCase->execute(
-            account: $account,
-            productId: $event->productId,
-            priceId: $event->priceId,
-            paidAmount: $event->paidAmount,
-            quantity: $event->quantity,
-            donationType: PaymentType::SUBSCRIPTION,
-        );
+        $this->recordPayment->saveLineItem($lineItem, account: $account);
+
+//        $this->processPaymentUseCase->execute(
+//            account: $account,
+//            productId: $event->productId,
+//            priceId: $event->priceId,
+//            paidAmount: $event->paidAmount,
+//            quantity: $event->quantity,
+//            donationType: PaymentType::SUBSCRIPTION,
+//        );
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Donations\Data\Payloads;
+namespace App\Core\Domains\Payment\Data\Stripe;
 
 /**
  * Represents the payload for a Stripe Checkout event

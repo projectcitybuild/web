@@ -3,8 +3,7 @@
 namespace App\Domains\Donations\UseCases;
 
 use App\Core\Data\Exceptions\BadRequestException;
-use App\Domains\Donations\Data\Amount;
-use App\Domains\Donations\Events\DonationPerkCreated;
+use App\Core\Domains\Payment\Data\Amount;
 use App\Domains\Donations\Exceptions\StripeProductNotFoundException;
 use App\Domains\Donations\Notifications\DonationPerkStartedNotification;
 use App\Models\Account;
@@ -81,8 +80,6 @@ final class ProcessDonation
             // TODO: only notify if didn't exist before
             $notification = new DonationPerkStartedNotification($expiryDate);
             $account->notify($notification);
-
-            DonationPerkCreated::dispatch($newPerk);
         }
     }
 

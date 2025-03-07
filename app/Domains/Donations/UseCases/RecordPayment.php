@@ -2,15 +2,17 @@
 
 namespace App\Domains\Donations\UseCases;
 
-use App\Domains\Donations\Data\Amount;
-use App\Domains\Donations\Data\Payloads\StripeCheckoutLineItem;
+use App\Core\Domains\Payment\Data\Amount;
+use App\Core\Domains\Payment\Data\Stripe\StripeCheckoutLineItem;
 use App\Models\Account;
 use App\Models\Payment;
 
 final class RecordPayment
 {
-    public function saveLineItem(StripeCheckoutLineItem $lineItem, Account $account)
-    {
+    public function saveLineItem(
+        StripeCheckoutLineItem $lineItem,
+        ?Account $account,
+    ): Payment {
         $this->save(
             account: $account,
             productId: $lineItem->productId,
@@ -22,13 +24,13 @@ final class RecordPayment
     }
 
     public function save(
-        Account $account,
+        ?Account $account,
         string $productId,
         string $priceId,
         Amount $paidAmount,
         Amount $originalAmount,
         int $quantity,
-    ) {
+    ): Payment {
         abort_if(
             $paidAmount->value <= 0 || $originalAmount->value <= 0,
             code: 400,
@@ -40,8 +42,8 @@ final class RecordPayment
             message: 'Quantity purchased was zero',
         );
 
-        Payment::create([
-            'account_id' => $account->getKey(),
+        return Payment::create([
+            'account_id' => $account?->getKey(),
             'stripe_product' => $productId,
             'stripe_price' => $priceId,
             'paid_currency' => $paidAmount->currency,

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Domains\Donations\Data\Payloads;
+namespace App\Core\Domains\Payment\Data\Stripe;
 
-use App\Domains\Donations\Data\Amount;
-use App\Domains\Donations\Data\PaymentType;
+use App\Core\Domains\Payment\Data\Amount;
+use App\Core\Domains\Payment\Data\PaymentType;
 
 /**
  * Represents the first handful of items for a [StripeCheckoutSession]

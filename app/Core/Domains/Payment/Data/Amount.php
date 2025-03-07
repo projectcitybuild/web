@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Donations\Data;
+namespace App\Core\Domains\Payment\Data;
 
 class Amount
 {
