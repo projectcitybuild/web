@@ -6,14 +6,21 @@ use App\Core\Domains\Payment\Data\Stripe\StripeCheckoutLineItem;
 use App\Core\Domains\Payment\Data\Stripe\StripeCheckoutSession;
 use App\Core\Domains\Payment\Data\Stripe\StripeInvoicePaid;
 use App\Core\Domains\Payment\Events\PaymentCreated;
-use App\Domains\Donations\UseCases\RecordPayment;
+use App\Core\Domains\Payment\UseCases\RecordPayment;
 use App\Models\Account;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Cashier;
 use Laravel\Cashier\Events\WebhookReceived;
 use Stripe\StripeClient;
 
-class StripeEventListener
+/**
+ * Listens to Stripe webhook events and records any payments.
+ *
+ * It then dispatches a PaymentCreated event so that specific
+ * domains can actually fulfill the payments downstream.
+ */
+class StripeEventListener implements ShouldQueue
 {
     public function __construct(
         private readonly StripeClient $stripeClient,
@@ -25,21 +32,22 @@ class StripeEventListener
         $type = $event->payload['type'];
 
         if ($type === 'checkout.session.completed') {
-            $this->handleCheckoutSessionCompleted($event->payload);
+            $this->checkoutSessionCompleted($event->payload);
         }
         if ($type === 'invoice.paid') {
-            $this->handleInvoicePaid($event->payload);
+            $this->invoicePaid($event->payload);
         }
     }
 
     /**
      * Handles one-time payments.
      *
-     * Technically this handles all payment types, as we funnel everything
-     * through Checkout. However, we abort early for subscriptions as an
-     * `invoice.paid` event is sent along with it.
+     * Technically this handles subscriptions as well because we funnel everything
+     * through Checkout initially. However, the `invoice.paid` event is sent for any
+     * subscription payment (including the first), so there's no point handling
+     * subscription logic here.
      */
-    private function handleCheckoutSessionCompleted(array $payload): void
+    private function checkoutSessionCompleted(array $payload): void
     {
         Log::info('[webhook] checkout.session.completed', ['payload' => $payload]);
 
@@ -61,8 +69,8 @@ class StripeEventListener
         /** @var ?Account $account */
         $account = Cashier::findBillable($session->customerId);
 
-        // Subscription payments are handled by `handleInvoicePaid` (`invoice.paid` event)
-        // which is also sent at the same time
+        // Subscription payments will always have an `invoice.paid` event,
+        // so handling it here is redundant
         if ($lineItem->paymentType->isSubscription()) {
             return;
         }
@@ -75,7 +83,7 @@ class StripeEventListener
     /**
      * Handles subscription payments
      */
-    private function handleInvoicePaid(array $payload): void
+    private function invoicePaid(array $payload): void
     {
         Log::info('[webhook] invoice.paid', ['payload' => $payload]);
 

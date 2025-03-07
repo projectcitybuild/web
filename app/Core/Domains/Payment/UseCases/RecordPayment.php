@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Donations\UseCases;
+namespace App\Core\Domains\Payment\UseCases;
 
 use App\Core\Domains\Payment\Data\Amount;
 use App\Core\Domains\Payment\Data\Stripe\StripeCheckoutLineItem;
@@ -13,7 +13,7 @@ final class RecordPayment
         StripeCheckoutLineItem $lineItem,
         ?Account $account,
     ): Payment {
-        $this->save(
+        return $this->save(
             account: $account,
             productId: $lineItem->productId,
             priceId: $lineItem->priceId,

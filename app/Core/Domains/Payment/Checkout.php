@@ -2,14 +2,14 @@
 
 namespace App\Core\Domains\Payment;
 
-use Laravel\Cashier\Billable;
+use App\Models\Account;
 use Laravel\Cashier\Checkout as CashierCheckout;
 
 final class Checkout
 {
     public function subscription(
-        Billable $billable,
-        String $productName,
+        Account $account,
+        string $productName,
         string $priceId,
         string $successRoute,
         string $cancelRoute,
@@ -18,13 +18,13 @@ final class Checkout
             'success_url' => $successRoute,
             'cancel_url' => $cancelRoute,
         ];
-        return $billable
+        return $account
             ->newSubscription($productName, $priceId)
             ->checkout($redirects);
     }
 
     public function oneTime(
-        Billable $billable,
+        Account $account,
         string $priceId,
         string $successRoute,
         string $cancelRoute,
@@ -36,6 +36,6 @@ final class Checkout
         ];
         $item = [$priceId => $quantity];
 
-        return $billable->checkout($item, $redirects);
+        return $account->checkout($item, $redirects);
     }
 }

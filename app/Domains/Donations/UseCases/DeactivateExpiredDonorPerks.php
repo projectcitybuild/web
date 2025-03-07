@@ -20,10 +20,7 @@ final class DeactivateExpiredDonorPerks
             return;
         }
 
-        $donorGroup = Group::whereDonor()->first();
-        if ($donorGroup === null) {
-            throw new \Exception('Could not find donor group');
-        }
+        $donorGroup = Group::getDonorOrThrow();
 
         foreach ($expiredPerks as $expiredPerk) {
             $account = $expiredPerk->account;

@@ -12,47 +12,48 @@ use App\Models\DonationPerk;
 use App\Models\Group;
 use App\Models\StripeProduct;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 final class ProcessDonation
 {
-    /**
-     * @throws StripeProductNotFoundException if productId does not exist in the StripeProducts table
-     * @throws BadRequestException if quantity or paidAmount is invalid
-     */
     public function execute(
-        Account $account,
+        ?Account $account,
         string $productId,
         string $priceId,
-        Amount $paidAmount,
-        Amount $originalAmount,
+        Amount $amountPaid,
         int $quantity,
     ) {
-        abort_if(
-            $paidAmount->value <= 0 || $originalAmount->value <= 0,
-            code: 400,
-            message: 'Amount paid was zero',
-        );
-        abort_if(
-            $quantity <= 0,
-            code: 400,
-            message: 'Quantity purchased was zero',
-        );
+        abort_if($amountPaid->value <= 0, code: 400, message: 'Amount paid was zero');
+        abort_if($quantity <= 0, code: 400, message: 'Quantity purchased was zero');
 
-        $donorGroup = Group::whereDonor()->first();
-        throw_if($donorGroup === null);
+        DB::transaction(function () use ($account, $productId, $priceId, $amountPaid, $quantity) {
+            $donation = Donation::create([
+                'account_id' => $account?->getKey(),
+                'amount' => $amountPaid->value,
+            ]);
 
-        $product = StripeProduct::where('product_id', $productId)
-            ->where('price_id', $priceId)
-            ->first()
-            ?? throw new StripeProductNotFoundException();
+            $product = StripeProduct::where('product_id', $productId)
+                ->where('price_id', $priceId)
+                ->first();
+            throw_if($product === null, 'StripeProduct ['.$productId.'] not found');
 
-        $donation = Donation::create([
-            'account_id' => $account->getKey(),
-            'amount' => $originalAmount->value,
-        ]);
+            $this->fulfillDonation(
+                account: $account,
+                donation: $donation,
+                product: $product,
+                numberOfMonths: $quantity,
+            );
+        });
+    }
 
+    private function fulfillDonation(
+        Account $account,
+        Donation $donation,
+        StripeProduct $product,
+        int $numberOfMonths,
+    ) {
         $donationTier = $product->donationTier;
-        if ($donationTier !== null) {
+        if ($donationTier !== null && $account !== null) {
             $existingPerk = DonationPerk::where('account_id', $account->getKey())
                 ->where('donation_tier_id', $donationTier->getKey())
                 ->where('is_active', true)
@@ -61,7 +62,7 @@ final class ProcessDonation
                 ->first();
 
             $expiryDate = $this->calculateExpiryDate(
-                numberOfMonths: $quantity,
+                numberOfMonths: $numberOfMonths,
                 existingPerk: $existingPerk,
             );
 
@@ -75,6 +76,7 @@ final class ProcessDonation
                 'expires_at' => $expiryDate,
             ]);
 
+            $donorGroup = Group::getDonorOrThrow();
             $account->groups()->syncWithoutDetaching([$donorGroup->getKey()]);
 
             // TODO: only notify if didn't exist before

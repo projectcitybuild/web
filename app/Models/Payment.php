@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class Payment extends Model
 {
@@ -25,4 +26,13 @@ final class Payment extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function account(): BelongsTo
+    {
+        return $this->belongsTo(
+            related: Account::class,
+            foreignKey: 'account_id',
+            ownerKey: 'account_id',
+        );
+    }
 }

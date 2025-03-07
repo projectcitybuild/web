@@ -27,7 +27,7 @@ final class BeginDonationCheckout
         $product = StripeProduct::where('product_id', $price->productId)
             ->where('price_id', $price->id)
             ->first();
-        throw_if($product === null, 'StripeProduct not found');
+        throw_if($product === null, 'StripeProduct ['.$price->productId.'] not found');
 
         $donationTier = $product->donationTier;
         throw_if($donationTier === null, 'Cannot checkout a StripeProduct with an unassigned donation tier');
@@ -37,7 +37,7 @@ final class BeginDonationCheckout
 
         if ($price->paymentType->isSubscription()) {
             return $this->checkout->subscription(
-                billable: $account,
+                account: $account,
                 productName: $donationTier->name,
                 priceId: $price->id,
                 successRoute: $successUrl,
@@ -45,7 +45,7 @@ final class BeginDonationCheckout
             );
         } else {
             return $this->checkout->oneTime(
-                billable: $account,
+                account: $account,
                 priceId: $price->id,
                 successRoute: $successUrl,
                 cancelRoute: $cancelUrl,

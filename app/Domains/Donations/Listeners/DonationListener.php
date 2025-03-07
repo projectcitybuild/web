@@ -4,19 +4,29 @@ namespace App\Domains\Donations\Listeners;
 
 use App\Core\Domains\Payment\Events\PaymentCreated;
 use App\Domains\Donations\UseCases\ProcessDonation;
-use App\Domains\Donations\UseCases\RecordPayment;
-use Stripe\StripeClient;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Log;
 
 
-class DonationListener
+class DonationListener implements ShouldQueue
 {
     public function __construct(
-        private readonly RecordPayment $recordPayment,
         private readonly ProcessDonation $processDonation,
     ) {}
 
     public function handle(PaymentCreated $event): void
     {
-        
+        $payment = $event->payment;
+
+        if ($payment->account === null) {
+            Log::warning('Payment had no account to fulfill a donation', compact('event'));
+        }
+        $this->processDonation->execute(
+            account: $payment->account,
+            productId: $payment->product_id,
+            priceId: $payment->price_id,
+            amountPaid: $payment->original_amount,
+            quantity: $payment->quantity,
+        );
     }
 }
