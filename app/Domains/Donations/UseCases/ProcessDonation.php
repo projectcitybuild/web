@@ -10,6 +10,7 @@ use App\Models\Group;
 use App\Models\StripeProduct;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 final class ProcessDonation
 {
@@ -36,6 +37,10 @@ final class ProcessDonation
                 ->first();
             throw_if($product === null, 'StripeProduct ['.$productId.'] not found');
 
+            if ($account === null) {
+                Log::warning('Donation had no associated account', compact('donation'));
+                return;
+            }
             $this->fulfillDonation(
                 account: $account,
                 donation: $donation,
@@ -46,7 +51,7 @@ final class ProcessDonation
     }
 
     private function fulfillDonation(
-        ?Account $account,
+        Account $account,
         Donation $donation,
         StripeProduct $product,
         int $numberOfMonths,
@@ -55,7 +60,7 @@ final class ProcessDonation
         $account->groups()->syncWithoutDetaching([$donorGroup->getKey()]);
 
         $donationTier = $product->donationTier;
-        if ($donationTier === null || $account === null) {
+        if ($donationTier === null) {
             return;
         }
         $existingPerk = DonationPerk::where('account_id', $account->getKey())
@@ -103,19 +108,11 @@ final class ProcessDonation
         int $numberOfMonths,
         ?DonationPerk $existingPerk,
     ): Carbon {
-        $monthsFromNow = now()->addMonths($numberOfMonths);
+        $now = now();
+        $startDate = $existingPerk === null || $now->gte($existingPerk->expires_at)
+            ? $now
+            : $existingPerk->expires_at->copy();
 
-        if ($existingPerk === null) {
-            return $monthsFromNow;
-        }
-
-        $monthsFromLastExpiry = $existingPerk
-            ->expires_at
-            ->copy()
-            ->addMonths($numberOfMonths);
-
-        return $monthsFromLastExpiry->gt($monthsFromNow)
-            ? $monthsFromLastExpiry
-            : $monthsFromNow;
+        return $startDate->addMonths($numberOfMonths);
     }
 }
