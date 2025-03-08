@@ -21,7 +21,7 @@ class DonationFactory extends Factory
     public function definition()
     {
         return [
-            'amount' => $this->faker->numberBetween(3, 100),
+            'amount' => $this->faker->numberBetween(3, 100) * 100,
             'created_at' => $this->faker->dateTime(),
             'updated_at' => $this->faker->dateTime(),
         ];

@@ -23,10 +23,11 @@ class DonationListener implements ShouldQueue
         }
         $this->processDonation->execute(
             account: $payment->account,
-            productId: $payment->product_id,
-            priceId: $payment->price_id,
-            amountPaid: $payment->original_amount,
-            quantity: $payment->quantity,
+            productId: $payment->stripe_product,
+            priceId: $payment->stripe_price,
+            paymentId: $payment->getKey(),
+            unitAmount: $payment->original_amount,
+            unitQuantity: $payment->quantity,
         );
     }
 }

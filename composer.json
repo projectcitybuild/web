@@ -22,6 +22,7 @@
         "league/commonmark": "^2.3",
         "league/flysystem-aws-s3-v3": "^3.0",
         "logtail/monolog-logtail": "^v3.2.0",
+        "moneyphp/money": "^4.6",
         "pragmarx/google2fa": "^8.0",
         "predis/predis": "^1.1",
         "sentry/sentry-laravel": "^4.7.1",

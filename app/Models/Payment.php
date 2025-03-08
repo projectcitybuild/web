@@ -19,10 +19,10 @@ final class Payment extends Model
         'stripe_price',
         'stripe_product',
         'paid_currency',
-        'paid_amount',
+        'paid_unit_amount',
         'original_currency',
-        'original_amount',
-        'quantity',
+        'original_unit_amount',
+        'unit_quantity',
         'created_at',
         'updated_at',
     ];

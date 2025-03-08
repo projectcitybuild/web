@@ -5,6 +5,7 @@ namespace App\Core\Domains\Payment\Listeners;
 use App\Core\Domains\Payment\Data\Stripe\StripeCheckoutLineItem;
 use App\Core\Domains\Payment\Data\Stripe\StripeCheckoutSession;
 use App\Core\Domains\Payment\Data\Stripe\StripeInvoicePaid;
+use App\Core\Domains\Payment\Data\Stripe\StripePrice;
 use App\Core\Domains\Payment\Events\PaymentCreated;
 use App\Core\Domains\Payment\UseCases\RecordPayment;
 use App\Models\Account;
@@ -53,21 +54,14 @@ class StripeEventListener implements ShouldQueue
 
         $session = StripeCheckoutSession::fromJson($payload);
 
+        // Get the purchased items for the Checkout session
         $lineItems = $this->stripeClient->checkout->sessions->allLineItems(
             id: $session->sessionId,
             params: ['limit' => 1],
         );
-        $lineItem = StripeCheckoutLineItem::fromJson(
-            $lineItems->toArray()['data'][0], // Only 1 line item for a donation
+        $lineItem = StripeCheckoutLineItem::fromLineItem(
+            $lineItems->data[0], // Only 1 line item for a donation
         );
-
-        Log::debug(
-            'Parsed Stripe responses',
-            compact('session', 'lineItem'),
-        );
-
-        /** @var ?Account $account */
-        $account = Cashier::findBillable($session->customerId);
 
         // Subscription payments will always have an `invoice.paid` event,
         // so handling it here is redundant
@@ -75,7 +69,24 @@ class StripeEventListener implements ShouldQueue
             return;
         }
 
-        $payment = $this->recordPayment->saveLineItem($lineItem, account: $account);
+        // Get the price plan we set on Stripe
+        $price = StripePrice::fromPrice(
+            $this->stripeClient->prices->retrieve($lineItem->priceId),
+        );
+
+        Log::debug(
+            'Parsed Stripe responses',
+            compact('session', 'lineItem', 'price'),
+        );
+
+        $payment = $this->recordPayment->save(
+            customerId: $session->customerId,
+            productId: $lineItem->productId,
+            priceId: $lineItem->priceId,
+            paidUnitAmount: $lineItem->unitAmount,
+            originalUnitAmount: $price->unitAmount,
+            unitQuantity: $lineItem->quantity,
+        );
 
         PaymentCreated::dispatch($payment);
     }

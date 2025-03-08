@@ -2,7 +2,6 @@
 
 namespace App\Domains\Donations\UseCases;
 
-use App\Core\Domains\Payment\Data\Amount;
 use App\Domains\Donations\Notifications\DonationPerkStartedNotification;
 use App\Models\Account;
 use App\Models\Donation;
@@ -18,16 +17,18 @@ final class ProcessDonation
         ?Account $account,
         string $productId,
         string $priceId,
-        Amount $amountPaid,
-        int $quantity,
+        int $paymentId,
+        int $unitAmount,
+        int $unitQuantity,
     ) {
-        abort_if($amountPaid->value <= 0, code: 400, message: 'Amount paid was zero');
-        abort_if($quantity <= 0, code: 400, message: 'Quantity purchased was zero');
+        abort_if($unitAmount <= 0, code: 400, message: 'Amount paid was zero');
+        abort_if($unitQuantity <= 0, code: 400, message: 'Quantity purchased was zero');
 
-        DB::transaction(function () use ($account, $productId, $priceId, $amountPaid, $quantity) {
+        DB::transaction(function () use ($account, $productId, $priceId, $paymentId, $unitAmount, $unitQuantity) {
             $donation = Donation::create([
                 'account_id' => $account?->getKey(),
-                'amount' => $amountPaid->value,
+                'amount' => $unitAmount,
+                'payment_id' => $paymentId,
             ]);
 
             $product = StripeProduct::where('product_id', $productId)
@@ -39,7 +40,7 @@ final class ProcessDonation
                 account: $account,
                 donation: $donation,
                 product: $product,
-                numberOfMonths: $quantity,
+                numberOfMonths: $unitQuantity,
             );
         });
     }

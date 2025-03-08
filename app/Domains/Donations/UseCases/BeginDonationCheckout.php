@@ -21,8 +21,8 @@ final class BeginDonationCheckout
         string $priceId,
         ?int $numberOfMonthsToBuy,
     ): CashierCheckout {
-        $price = StripePrice::fromPayload(
-            $this->stripeClient->prices->retrieve($priceId)->toArray(),
+        $price = StripePrice::fromPrice(
+            $this->stripeClient->prices->retrieve($priceId),
         );
         $product = StripeProduct::where('product_id', $price->productId)
             ->where('price_id', $price->id)

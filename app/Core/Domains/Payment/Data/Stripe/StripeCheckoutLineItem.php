@@ -2,8 +2,10 @@
 
 namespace App\Core\Domains\Payment\Data\Stripe;
 
-use App\Core\Domains\Payment\Data\Amount;
 use App\Core\Domains\Payment\Data\PaymentType;
+use Money\Currency;
+use Money\Money;
+use Stripe\LineItem;
 
 /**
  * Represents the first handful of items for a [StripeCheckoutSession]
@@ -15,30 +17,22 @@ final class StripeCheckoutLineItem
 {
     public function __construct(
         public int $quantity,
-        public Amount $paidAmount,          // Amount the user actually paid
-        public Amount $originalAmount,      // Amount the price was set in and expect to receive
+        public Money $unitAmount,           // Amount the user paid (in their currency)
         public string $productId,           // Stripe product id
         public string $priceId,             // Stripe price id
         public PaymentType $paymentType,
     ) {}
 
-    public static function fromJson(array $json): StripeCheckoutLineItem
+    public static function fromLineItem(LineItem $lineItem): StripeCheckoutLineItem
     {
-        $price = $json['price'];
+        $price = $lineItem->price;
 
         return new StripeCheckoutLineItem(
-            quantity: $json['quantity'],
-            paidAmount: new Amount(
-                currency: $json['currency'],
-                value: $json['amount_total'],
-            ),
-            originalAmount: new Amount(
-                currency: $price['currency'],
-                value: $price['unit_amount'],
-            ),
-            productId: $price['product'],
-            priceId: $price['id'],
-            paymentType: PaymentType::fromString($price['type']),
+            quantity: $lineItem->quantity,
+            unitAmount: new Money($price->unit_amount, new Currency($price->currency)),
+            productId: $price->product,
+            priceId: $price->id,
+            paymentType: PaymentType::fromString($price->type),
         );
     }
 }

@@ -3,23 +3,26 @@
 namespace App\Core\Domains\Payment\Data\Stripe;
 
 use App\Core\Domains\Payment\Data\PaymentType;
+use Money\Currency;
+use Money\Money;
+use Stripe\Price;
 
 class StripePrice
 {
     public function __construct(
         public string $id,
         public string $productId,
+        public Money $unitAmount,
         public PaymentType $paymentType,
     ) {}
 
-    public static function fromPayload(array $payload): StripePrice
+    public static function fromPrice(Price $price): StripePrice
     {
         return new StripePrice(
-          id: $payload['id'],
-          productId: $payload['product'],
-          paymentType: $payload['recurring'] !== null
-              ? PaymentType::SUBSCRIPTION
-              : PaymentType::ONE_TIME,
+          id: $price->id,
+          productId: $price->product,
+          unitAmount: new Money($price->unit_amount, new Currency($price->currency)),
+          paymentType: PaymentType::fromString($price->type),
         );
     }
 }

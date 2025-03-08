@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Donation;
 use App\Models\Payment;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -24,10 +25,11 @@ return new class extends Migration
         });
 
         Schema::table('payments', function (Blueprint $table) {
-            $table->integer('original_amount')->after('amount_paid_in_cents')->default(0);
+            $table->integer('original_unit_amount')->after('amount_paid_in_cents')->default(0);
             $table->string('original_currency', 3)->after('amount_paid_in_cents')->default("aud");
-            $table->integer('paid_amount')->after('amount_paid_in_cents')->default(0);
+            $table->integer('paid_unit_amount')->after('amount_paid_in_cents')->default(0);
             $table->string('paid_currency', 3)->after('amount_paid_in_cents')->default("aud");
+            $table->renameColumn('quantity', 'unit_quantity');
             $table->dropColumn('is_subscription_payment');
         });
 
@@ -35,17 +37,34 @@ return new class extends Migration
         foreach ($payments as $payment) {
             $payment->original_amount = $payment->amount_paid_in_cents;
             $payment->original_currency = "aud";
-            $payment->paid_amount = $payment->amount_paid_in_cents;
+            $payment->paid_unit_amount = $payment->amount_paid_in_cents;
             $payment->paid_currency = "aud";
         }
 
         Schema::table('payments', function (Blueprint $table) {
             $table->dropColumn('amount_paid_in_cents');
 
-            $table->integer('original_amount')->default(null)->change();
+            $table->integer('original_unit_amount')->default(null)->change();
             $table->string('original_currency', 3)->default(null)->change();
-            $table->integer('paid_amount')->default(null)->change();
+            $table->integer('paid_unit_amount')->default(null)->change();
             $table->string('paid_currency', 3)->default(null)->change();
+        });
+
+        // Convert all current donations to USD (since that's what we've been tracking up until now)
+        $donations = Donation::get();
+        foreach ($donations as $donation) {
+            // We want to now store them in the smallest base unit (cents)
+            $donation->amount = number_format($donation->amount * 100);
+            $donation->save();
+        }
+
+        Schema::table('donations', function (Blueprint $table) {
+            $table->unsignedBigInteger('payment_id')->nullable()->after('account_id');
+            $table->integer('amount')->change();
+
+            $table->foreign('payment_id')
+                ->references('payment_id')
+                ->on('payments');
         });
     }
 
