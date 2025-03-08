@@ -3,9 +3,6 @@
 namespace App\Core\Domains\Payment\Listeners;
 
 use App\Core\Domains\Payment\Data\PaymentType;
-use App\Core\Domains\Payment\Data\Stripe\StripeCheckoutLineItem;
-use App\Core\Domains\Payment\Data\Stripe\StripeCheckoutSession;
-use App\Core\Domains\Payment\Data\Stripe\StripePrice;
 use App\Core\Domains\Payment\Events\PaymentCreated;
 use App\Core\Domains\Payment\UseCases\RecordPayment;
 use Illuminate\Contracts\Queue\ShouldQueue;
