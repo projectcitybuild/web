@@ -26,8 +26,8 @@ class DonationListener implements ShouldQueue
             productId: $payment->stripe_product,
             priceId: $payment->stripe_price,
             paymentId: $payment->getKey(),
-            unitAmount: $payment->original_amount,
-            unitQuantity: $payment->quantity,
+            unitAmount: $payment->original_unit_amount,
+            unitQuantity: $payment->unit_quantity,
         );
     }
 }
