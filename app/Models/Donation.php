@@ -65,7 +65,7 @@ final class Donation extends Model implements LinkableAuditModel
     {
         $payment = $this->payment;
         if ($payment !== null) {
-            $money = new Money($payment->paid_amount, new Currency($payment->paid_currency));
+            $money = new Money($payment->paid_unit_amount, new Currency($payment->paid_currency));
         } else {
             // Legacy
             $money = Money::USD($this->amount);

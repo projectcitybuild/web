@@ -35,7 +35,7 @@ return new class extends Migration
 
         $payments = Payment::get();
         foreach ($payments as $payment) {
-            $payment->original_amount = $payment->amount_paid_in_cents;
+            $payment->original_unit_amount = $payment->amount_paid_in_cents;
             $payment->original_currency = "aud";
             $payment->paid_unit_amount = $payment->amount_paid_in_cents;
             $payment->paid_currency = "aud";
