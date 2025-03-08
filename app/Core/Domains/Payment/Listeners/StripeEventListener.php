@@ -2,17 +2,19 @@
 
 namespace App\Core\Domains\Payment\Listeners;
 
+use App\Core\Domains\Payment\Data\PaymentType;
 use App\Core\Domains\Payment\Data\Stripe\StripeCheckoutLineItem;
 use App\Core\Domains\Payment\Data\Stripe\StripeCheckoutSession;
-use App\Core\Domains\Payment\Data\Stripe\StripeInvoicePaid;
 use App\Core\Domains\Payment\Data\Stripe\StripePrice;
 use App\Core\Domains\Payment\Events\PaymentCreated;
 use App\Core\Domains\Payment\UseCases\RecordPayment;
-use App\Models\Account;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
-use Laravel\Cashier\Cashier;
 use Laravel\Cashier\Events\WebhookReceived;
+use Money\Currency;
+use Money\Money;
+use Stripe\Checkout\Session;
+use Stripe\Invoice;
 use Stripe\StripeClient;
 
 /**
@@ -50,41 +52,35 @@ class StripeEventListener implements ShouldQueue
      */
     private function checkoutSessionCompleted(array $payload): void
     {
-        Log::info('[webhook] checkout.session.completed', ['payload' => $payload]);
+        Log::info('[webhook] checkout.session.completed', compact('payload'));
 
-        $session = StripeCheckoutSession::fromJson($payload);
+        $session = Session::constructFrom($payload['data']['object']);
 
-        // Get the purchased items for the Checkout session
         $lineItems = $this->stripeClient->checkout->sessions->allLineItems(
-            id: $session->sessionId,
+            id: $session->id,
+            // Only 1 line item for a donation
             params: ['limit' => 1],
         );
-        $lineItem = StripeCheckoutLineItem::fromLineItem(
-            $lineItems->data[0], // Only 1 line item for a donation
-        );
+
+        // Get the purchased items for the Checkout session.
+        $lineItem = $lineItems->first();
 
         // Subscription payments will always have an `invoice.paid` event,
         // so handling it here is redundant
-        if ($lineItem->paymentType->isSubscription()) {
+        $paymentType = PaymentType::fromString($lineItem->price->type);
+        if ($paymentType->isSubscription()) {
             return;
         }
 
-        // Get the price plan we set on Stripe
-        $price = StripePrice::fromPrice(
-            $this->stripeClient->prices->retrieve($lineItem->priceId),
-        );
-
-        Log::debug(
-            'Parsed Stripe responses',
-            compact('session', 'lineItem', 'price'),
-        );
+        // The price plan we created in Stripe for this purchased item
+        $originalPrice = $this->stripeClient->prices->retrieve($lineItem->price->id);
 
         $payment = $this->recordPayment->save(
-            customerId: $session->customerId,
-            productId: $lineItem->productId,
-            priceId: $lineItem->priceId,
-            paidUnitAmount: $lineItem->unitAmount,
-            originalUnitAmount: $price->unitAmount,
+            customerId: $session->customer,
+            productId: $lineItem->price->product,
+            priceId: $lineItem->price->id,
+            paidUnitAmount: new Money($lineItem->price->unit_amount, new Currency($lineItem->price->currency)),
+            originalUnitAmount: new Money($originalPrice->unit_amount, new Currency($originalPrice->currency)),
             unitQuantity: $lineItem->quantity,
         );
 
@@ -96,22 +92,25 @@ class StripeEventListener implements ShouldQueue
      */
     private function invoicePaid(array $payload): void
     {
-        Log::info('[webhook] invoice.paid', ['payload' => $payload]);
+        Log::info('[webhook] invoice.paid', compact('payload'));
 
-        $invoicePaid = StripeInvoicePaid::fromPayload($payload);
+        $invoice = Invoice::constructFrom($payload['data']['object']);
 
-        /** @var ?Account $account */
-        $account = Cashier::findBillable($invoicePaid->customerId);
+        // Only 1 line item for a donation
+        $lineItem = $invoice->lines->first();
 
-        $this->recordPayment->saveLineItem($lineItem, account: $account);
+        // The price plan we created in Stripe for this purchased item
+        $originalPrice = $this->stripeClient->prices->retrieve($lineItem->price->id);
 
-//        $this->processPaymentUseCase->execute(
-//            account: $account,
-//            productId: $event->productId,
-//            priceId: $event->priceId,
-//            paidAmount: $event->paidAmount,
-//            quantity: $event->quantity,
-//            donationType: PaymentType::SUBSCRIPTION,
-//        );
+        $payment = $this->recordPayment->save(
+            customerId: $invoice->customer,
+            productId: $lineItem->price->product,
+            priceId: $lineItem->price->id,
+            paidUnitAmount: new Money($lineItem->price->unit_amount, new Currency($lineItem->price->currency)),
+            originalUnitAmount: new Money($originalPrice->unit_amount, new Currency($originalPrice->currency)),
+            unitQuantity: $lineItem->quantity,
+        );
+
+        PaymentCreated::dispatch($payment);
     }
 }

@@ -37,7 +37,7 @@ final class DonationController extends WebController
         return $beginCheckoutUseCase->execute(
             account: $account,
             priceId: $validated['price_id'],
-            numberOfMonthsToBuy: $validated['quantity'],
+            numberOfMonthsToBuy: $validated['quantity'] ?? 1,
         );
     }
 }

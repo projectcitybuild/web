@@ -2,16 +2,20 @@
 
 namespace App\Domains\Donations\UseCases;
 
+use App\Core\Domains\Auditing\Causers\SystemCauser;
+use App\Core\Domains\Auditing\Causers\SystemCauseResolver;
 use App\Domains\Donations\Notifications\DonationEndedNotification;
 use App\Models\DonationPerk;
 use App\Models\Group;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-final class DeactivateExpiredDonorPerks
+final class ExpireDonorPerks
 {
     public function execute(): void
     {
+        SystemCauseResolver::setCauser(SystemCauser::PERK_EXPIRY);
+
         $now = now();
         $expiredPerks = DonationPerk::where('is_active', true)
             ->whereDate('expires_at', '<=', $now)

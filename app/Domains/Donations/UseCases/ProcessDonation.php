@@ -28,7 +28,7 @@ final class ProcessDonation
         DB::transaction(function () use ($account, $productId, $priceId, $paymentId, $unitAmount, $unitQuantity) {
             $donation = Donation::create([
                 'account_id' => $account?->getKey(),
-                'amount' => $unitAmount,
+                'amount' => $unitAmount * $unitQuantity,
                 'payment_id' => $paymentId,
             ]);
 

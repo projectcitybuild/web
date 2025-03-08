@@ -1,7 +1,7 @@
 <?php
 
 use App\Domains\Donations\Notifications\DonationEndedNotification;
-use App\Domains\Donations\UseCases\DeactivateExpiredDonorPerks;
+use App\Domains\Donations\UseCases\ExpireDonorPerks;
 use App\Models\Account;
 use App\Models\Donation;
 use App\Models\DonationPerk;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Notification;
 beforeEach(function () {
     $this->donorGroup = Group::factory()->donor()->create();
     $this->account = Account::factory()->create();
-    $this->useCase = new DeactivateExpiredDonorPerks();
+    $this->useCase = new ExpireDonorPerks();
 
     Notification::fake();
 });
