@@ -66,6 +66,16 @@ return new class extends Migration
                 ->references('payment_id')
                 ->on('payments');
         });
+
+        // Too many issues dealing with a non-int primary key
+        Schema::table('stripe_products', function (Blueprint $table) {
+            $table->dropPrimary();
+        });
+
+        Schema::table('stripe_products', function (Blueprint $table) {
+            $table->id()->first();
+            $table->timestamps();
+        });
     }
 
     /**

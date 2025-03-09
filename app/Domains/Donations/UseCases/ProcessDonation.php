@@ -35,7 +35,7 @@ final class ProcessDonation
             $product = StripeProduct::where('product_id', $productId)
                 ->where('price_id', $priceId)
                 ->first();
-            throw_if($product === null, 'StripeProduct ['.$productId.'] not found');
+            throw_if($product === null, 'StripeProduct ['.$productId.']['.$priceId.'] not found');
 
             if ($account === null) {
                 Log::warning('Donation had no associated account', compact('donation'));

@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\Donation;
 use App\Models\DonationPerk;
 use App\Models\Group;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 
 beforeEach(function () {
@@ -16,24 +17,43 @@ beforeEach(function () {
     Notification::fake();
 });
 
-it('deactivates expired perk', function () {
-    $perk = DonationPerk::factory()
-        ->for($this->account)
-        ->for(Donation::factory()->for($this->account))
-        ->expired()
-        ->create(['is_active' => true]);
+describe('deactivates expired perk', function () {
+    it('unless grace period', function () {
+        $this->freezeTime(function (Carbon $now) {
+            $perk = DonationPerk::factory()
+                ->for($this->account)
+                ->for(Donation::factory()->for($this->account))
+                ->create(['expires_at' => $now->addMinute()]);
 
-    $this->assertDatabaseHas('donation_perks', [
-        'donation_perks_id' => $perk->getKey(),
-        'is_active' => true,
-    ]);
+            $this->useCase->execute();
 
-    $this->useCase->execute();
+            $this->assertDatabaseHas(DonationPerk::tableName(), [
+                DonationPerk::primaryKey() => $perk->getKey(),
+                'is_active' => true,
+            ]);
+        });
+    });
 
-    $this->assertDatabaseHas('donation_perks', [
-        'donation_perks_id' => $perk->getKey(),
-        'is_active' => false,
-    ]);
+    it('after grace period', function () {
+        $this->freezeTime(function (Carbon $now) {
+            $perk = DonationPerk::factory()
+                ->for($this->account)
+                ->for(Donation::factory()->for($this->account))
+                ->create(['expires_at' => $now->subHours(12)->subMinute()]);
+
+            $this->assertDatabaseHas(DonationPerk::tableName(), [
+                DonationPerk::primaryKey() => $perk->getKey(),
+                'is_active' => true,
+            ]);
+
+            $this->useCase->execute();
+
+            $this->assertDatabaseHas(DonationPerk::tableName(), [
+                DonationPerk::primaryKey() => $perk->getKey(),
+                'is_active' => false,
+            ]);
+        });
+    });
 });
 
 it('does not deactivate unexpired perk', function () {
