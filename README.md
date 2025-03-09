@@ -64,3 +64,23 @@ No real authenticator is required.
 For accounts that have 2FA enabled, the code is always `000000` (6 zeroes).
 
 To use a real authenticator, set `TOTP_BYPASS=false` in `.env`
+
+### Stripe CLI
+
+Using Stripe CLI, you can redirect Stripe webhooks to your local containers. 
+This effectively allows you to complete a Stripe Checkout (eg. to test payments) and receive the 
+payment event and data locally.
+
+Ensure you have set a name for your dev machine in `.env`
+
+```
+STRIPE_CLI_DEVICE_NAME=my-local-pc
+```
+
+Then run `docker-compose exec stripe-cli stripe login` while the containers are running.
+
+Follow the prompts to authenticate.
+
+From now on you can complete a payment normally. For example, go to the donation page and complete
+a purchase with a [mock credit card](https://docs.stripe.com/testing).
+

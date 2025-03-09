@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Domains\Registration\Events;
+namespace App\Core\Domains\Payment\Events;
 
-use App\Models\Account;
+use App\Models\Payment;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class AccountCreated
+class PaymentCreated
 {
     use Dispatchable;
     use SerializesModels;
 
     public function __construct(
-        public Account $account,
+        public Payment $payment,
     ) {}
 }

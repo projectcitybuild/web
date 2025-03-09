@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use App\Core\Utilities\Traits\HasStaticTable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class Payment extends Model
 {
     use HasStaticTable;
+    use HasFactory;
 
     protected $table = 'payments';
 
@@ -17,10 +20,21 @@ final class Payment extends Model
         'account_id',
         'stripe_price',
         'stripe_product',
-        'amount_paid_in_cents',
-        'quantity',
-        'is_subscription_payment',
+        'paid_currency',
+        'paid_unit_amount',
+        'original_currency',
+        'original_unit_amount',
+        'unit_quantity',
         'created_at',
         'updated_at',
     ];
+
+    public function account(): BelongsTo
+    {
+        return $this->belongsTo(
+            related: Account::class,
+            foreignKey: 'account_id',
+            ownerKey: 'account_id',
+        );
+    }
 }

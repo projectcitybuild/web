@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Front;
+namespace App\Domains\Donations\Components;
 
-use App\Http\Controllers\WebController;
 use App\Models\Donation;
-use App\Models\Server;
 use Carbon\Carbon;
+use Illuminate\View\Component;
 use Money\Money;
 
-final class HomeController extends WebController
+class DonationFooterComponent extends Component
 {
-    public function index()
+    public function render()
     {
         $requiredAmount = Money::USD(config('donations.target_funding') * 100);
 
@@ -24,11 +23,11 @@ final class HomeController extends WebController
         $lastYear = $now->subYear()->year;
         $totalDonationsLastYear = Money::USD(Donation::whereYear('created_at', $lastYear)->sum('amount') ?? 0);
 
-        return view('front.pages.home.index', [
+        return view('front.components.donation-footer', [
             'donations' => [
-                'raised_last_year' => $totalDonationsLastYear ?: 0,
+                'raised_last_year' => $totalDonationsLastYear->getAmount() ?: 0,
                 'remaining_days' => floor($remainingDaysThisYear),
-                'still_required' => $requiredAmount->subtract($totalDonationsThisYear)->getAmount(),
+                'still_required' => number_format($requiredAmount->subtract($totalDonationsThisYear)->getAmount() / 100, 2),
             ],
         ]);
     }

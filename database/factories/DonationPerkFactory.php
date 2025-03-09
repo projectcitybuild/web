@@ -51,4 +51,16 @@ class DonationPerkFactory extends Factory
             ];
         });
     }
+
+    /**
+     * Indicate that the donation has already expired.
+     */
+    public function inactive(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'is_active' => false,
+            ];
+        });
+    }
 }

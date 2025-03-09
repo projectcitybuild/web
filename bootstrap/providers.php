@@ -5,6 +5,7 @@ return [
 
     \App\Core\Domains\Auditing\AuditingServiceProvider::class,
     \App\Core\Domains\MinecraftUUID\MinecraftUUIDServiceProvider::class,
+    \App\Core\Domains\Payment\PaymentServiceProvider::class,
 
     \App\Core\Support\Cashier\CashierServiceProvider::class,
     \App\Core\Support\Laravel\LaravelServiceProvider::class,
