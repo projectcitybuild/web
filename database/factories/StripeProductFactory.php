@@ -2,16 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Donation;
+use App\Models\StripeProduct;
+use Illuminate\Support\Str;
 
-class DonationFactory extends Factory
+class StripeProductFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Donation::class;
+    protected $model = StripeProduct::class;
 
     /**
      * Define the model's default state.
@@ -21,9 +22,8 @@ class DonationFactory extends Factory
     public function definition()
     {
         return [
-            'amount' => $this->faker->numberBetween(3, 100) * 100,
-            'created_at' => $this->faker->dateTime(),
-            'updated_at' => $this->faker->dateTime(),
+            'price_id' => Str::random(),
+            'product_id' => Str::random(),
         ];
     }
 }

@@ -1,59 +1,61 @@
 <?php
 
 use App\Domains\Donations\Notifications\DonationEndedNotification;
-use App\Domains\Donations\UseCases\DeactivateExpiredDonorPerks;
+use App\Domains\Donations\UseCases\ExpireDonorPerks;
 use App\Models\Account;
 use App\Models\Donation;
 use App\Models\DonationPerk;
 use App\Models\Group;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 
 beforeEach(function () {
     $this->donorGroup = Group::factory()->donor()->create();
     $this->account = Account::factory()->create();
-    $this->useCase = new DeactivateExpiredDonorPerks();
+    $this->useCase = new ExpireDonorPerks();
 
     Notification::fake();
 });
 
-it('deactivates expired perk', function () {
-    $perk = DonationPerk::factory()
-        ->for($this->account)
-        ->for(Donation::factory()->for($this->account))
-        ->expired()
-        ->create(['is_active' => true]);
-
-    $this->assertDatabaseHas('donation_perks', [
-        'donation_perks_id' => $perk->getKey(),
-        'is_active' => true,
-    ]);
-
-    $this->useCase->execute();
-
-    $this->assertDatabaseHas('donation_perks', [
-        'donation_perks_id' => $perk->getKey(),
-        'is_active' => false,
-    ]);
-});
-
-it('does not deactivate unexpired perk', function () {
+it('does not deactivate perk if not expired', function () {
     $perk = DonationPerk::factory()
         ->for($this->account)
         ->for(Donation::factory()->for($this->account))
         ->notExpired()
-        ->create(['is_active' => true]);
-
-    $this->assertDatabaseHas('donation_perks', [
-        'donation_perks_id' => $perk->getKey(),
-        'is_active' => true,
-    ]);
+        ->create();
 
     $this->useCase->execute();
 
-    $this->assertDatabaseHas('donation_perks', [
-        'donation_perks_id' => $perk->getKey(),
-        'is_active' => true,
-    ]);
+    $perk->refresh();
+    expect($perk->is_active)->toBeTrue();
+});
+
+it('grants grace period of 12 hours', function () {
+    $this->freezeTime(function (Carbon $now) {
+        $perk = DonationPerk::factory()
+            ->for($this->account)
+            ->for(Donation::factory()->for($this->account))
+            ->create(['expires_at' => $now->subMinute()]);
+
+        $this->useCase->execute();
+
+        $perk->refresh();
+        expect($perk->is_active)->toBeTrue();
+    });
+});
+
+it('deactivates after grace period', function () {
+    $this->freezeTime(function (Carbon $now) {
+        $perk = DonationPerk::factory()
+            ->for($this->account)
+            ->for(Donation::factory()->for($this->account))
+            ->create(['expires_at' => $now->subHours(12)->subMinute()]);
+
+        $this->useCase->execute();
+
+        $perk->refresh();
+        expect($perk->is_active)->toBeFalse();
+    });
 });
 
 it('sends email to user when perks expires', function () {

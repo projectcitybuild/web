@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\StripeWebhookController;
 use App\Http\Controllers\Api\v2\Minecraft\Build\MinecraftBuildController;
 use App\Http\Controllers\Api\v2\Minecraft\Build\MinecraftBuildNameController;
 use App\Http\Controllers\Api\v2\Minecraft\Build\MinecraftBuildVoteController;
@@ -11,10 +10,6 @@ use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftPlayerController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftPlayerNicknameController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftRegisterController;
 use Illuminate\Support\Facades\Route;
-
-Route::prefix('webhooks')->group(function () {
-    Route::post('stripe', [StripeWebhookController::class, 'handleWebhook']);
-});
 
 Route::prefix('v2')
     ->name('v2.')
