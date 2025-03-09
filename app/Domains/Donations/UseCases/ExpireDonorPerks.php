@@ -16,47 +16,54 @@ final class ExpireDonorPerks
     {
         SystemCauseResolver::setCauser(SystemCauser::PERK_EXPIRY);
 
-        $now = now();
-        $expiredPerks = DonationPerk::where('is_active', true)
-            ->whereDate('expires_at', '<=', $now)
-            ->get() ?? collect();
+        DB::transaction(function () {
+            $now = now();
+            $expiredPerks = DonationPerk::where('is_active', true)
+                ->whereDate('expires_at', '<=', $now)
+                ->get() ?? collect();
 
-        if ($expiredPerks->count() === 0) {
-            Log::info('No expired DonationPerks found');
-            return;
-        }
-
-        $donorGroup = Group::getDonorOrThrow();
-
-        $expired = 0;
-        foreach ($expiredPerks as $expiredPerk) {
-            // Grant a grace period in case the payment is slightly delayed
-            $bufferedExpiry = $expiredPerk->expires_at->copy()->addHours(12);
-            if ($bufferedExpiry->gt($now)) {
-                continue;
+            if ($expiredPerks->count() === 0) {
+                Log::info('No expired DonationPerks found');
+                return;
             }
-            $account = $expiredPerk->account;
 
-            // Remove from Donor group if account has no other active DonationPerk
-            $hasOtherActivePerk = DonationPerk::where(DonationPerk::primaryKey(), '!=', $expiredPerk->getKey())
-                ->where('account_id', $account->getKey())
-                ->where('is_active', true)
-                ->whereRaw('DATE_ADD(expires_at, INTERVAL 12 HOUR) <= ?', [$now])
-                ->exists();
+            $donorGroup = Group::getDonorOrThrow();
+            $affectedAccounts = [];
 
-            if (! $hasOtherActivePerk) {
-                DB::transaction(function () use (&$account, $donorGroup, &$expiredPerk) {
-                    $account->groups()->detach($donorGroup->getKey());
-                    $expiredPerk->is_active = false;
-                    $expiredPerk->save();
-                });
+            foreach ($expiredPerks as $expiredPerk) {
+                // Grant a grace period in case the payment is slightly delayed
+                $bufferedExpiry = $expiredPerk->expires_at->copy()->addHours(12);
+                if ($bufferedExpiry->gt($now)) {
+                    continue;
+                }
+                $account = $expiredPerk->account;
+                if (! array_key_exists($account->getKey(), $affectedAccounts)) {
+                    $affectedAccounts[$account->getKey()] = $account;
+                }
+                $expiredPerk->is_active = false;
+                $expiredPerk->save();
+
+                Log::info('Expired perk', compact('expiredPerk'));
+            }
+
+            // TODO: this should really be in its own queued job for failure tolerance
+            foreach ($affectedAccounts as $account) {
+                // Only remove accounts from the donor group and notify them if they don't
+                // have any other existing perks
+                $perks = DonationPerk::where('account_id', $account->getKey())
+                    ->where('is_active', true)
+                    ->whereDate('expires_at', '>', $now)
+                    ->get();
+
+                // Also apply grace period here
+                $exists = $perks->first(fn ($perk) => $perk->expires_at->copy()->addHours(12)->gt($now));
+                if ($exists) continue;
+
+                $account->groups()->detach($donorGroup->getKey());
                 $account->notify(new DonationEndedNotification());
 
-                Log::info('Deactivated DonationPerk', compact('expiredPerk'));
-                $expired++;
+                Log::info('Removed '.$account->getKey().' from donators');
             }
-        }
-
-        Log::info($expired.' DonationPerks expired');
+        });
     }
 }
