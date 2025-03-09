@@ -39,6 +39,7 @@ return new class extends Migration
             $payment->original_currency = "aud";
             $payment->paid_unit_amount = $payment->amount_paid_in_cents;
             $payment->paid_currency = "aud";
+            $payment->save();
         }
 
         Schema::table('payments', function (Blueprint $table) {
@@ -54,7 +55,7 @@ return new class extends Migration
         $donations = Donation::get();
         foreach ($donations as $donation) {
             // We want to now store them in the smallest base unit (cents)
-            $donation->amount = number_format($donation->amount * 100);
+            $donation->amount = $donation->amount * 100;
             $donation->save();
         }
 
