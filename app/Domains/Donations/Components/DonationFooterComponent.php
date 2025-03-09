@@ -25,7 +25,7 @@ class DonationFooterComponent extends Component
 
         return view('front.components.donation-footer', [
             'donations' => [
-                'raised_last_year' => $totalDonationsLastYear->getAmount() ?: 0,
+                'raised_last_year' => ($totalDonationsLastYear->getAmount() / 100) ?: 0,
                 'remaining_days' => floor($remainingDaysThisYear),
                 'still_required' => number_format($requiredAmount->subtract($totalDonationsThisYear)->getAmount() / 100, 2),
             ],
