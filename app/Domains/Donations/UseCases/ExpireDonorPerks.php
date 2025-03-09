@@ -46,7 +46,7 @@ final class ExpireDonorPerks
                 Log::info('Expired perk', compact('expiredPerk'));
             }
 
-            // TODO: this should really be in its own queued job for failure tolerance
+            // TODO: this should really be in its own queued job for better failure tolerance
             foreach ($affectedAccounts as $account) {
                 // Only remove accounts from the donor group and notify them if they don't
                 // have any other existing perks

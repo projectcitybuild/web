@@ -12,7 +12,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-final class ProcessDonation
+class ProcessDonation
 {
     public function execute(
         ?Account $account,
