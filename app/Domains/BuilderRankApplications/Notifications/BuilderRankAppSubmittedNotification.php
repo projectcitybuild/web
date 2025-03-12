@@ -2,9 +2,13 @@
 
 namespace App\Domains\BuilderRankApplications\Notifications;
 
+use App\Core\Domains\Discord\Data\DiscordAuthor;
+use App\Core\Domains\Discord\Data\DiscordEmbed;
+use App\Core\Domains\Discord\Data\DiscordEmbedField;
+use App\Core\Domains\Discord\Data\DiscordMessage;
+use App\Core\Domains\Discord\Data\DiscordPoll;
+use App\Core\Domains\Discord\Data\DiscordPollMedia;
 use App\Models\BuilderRankApplication;
-use Awssat\Notifications\Messages\DiscordEmbed;
-use Awssat\Notifications\Messages\DiscordMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -34,7 +38,7 @@ class BuilderRankAppSubmittedNotification extends Notification implements Should
      */
     public function via($notifiable)
     {
-        return ['mail', 'discordHook'];
+        return ['mail', 'discord'];
     }
 
     /**
@@ -44,7 +48,7 @@ class BuilderRankAppSubmittedNotification extends Notification implements Should
     {
         return [
             'mail' => 'mail',
-            'discordHook' => 'discord-message',
+            'discord' => 'discord-message',
         ];
     }
 
@@ -68,16 +72,47 @@ class BuilderRankAppSubmittedNotification extends Notification implements Should
             ->line('If you have any questions, please feel free to reach out to staff at any time.');
     }
 
-    public function toDiscord()
+    public function toDiscord($notifiable)
     {
-        return (new DiscordMessage)
-            ->content('<@&839756575153324032> A new builder rank application has arrived.')
-            ->embed(function (DiscordEmbed $embed) {
-                $embed->title('Builder Rank Application', route('review.builder-ranks.show', $this->builderRankApplication))
-                    ->field('Current build rank', $this->builderRankApplication->current_builder_rank)
-                    ->field('Build location', $this->builderRankApplication->build_location)
-                    ->field('Build description', Str::limit($this->builderRankApplication->build_description, 500))
-                    ->author($this->builderRankApplication->minecraft_alias);
-            });
+        return new DiscordMessage(
+            content: '<@&839756575153324032> A build rank application has arrived. Please vote on the poll below. Once a decision is reached, use the link to approve or deny the application.',
+            threadName: $this->builderRankApplication->minecraft_alias,
+            poll: new DiscordPoll(
+                question: 'Promote?',
+                answers: [
+                    new DiscordPollMedia(
+                        text: 'Yes',
+                        emojiName: '✅',
+                    ),
+                    new DiscordPollMedia(
+                        text: 'No',
+                        emojiName: '❌',
+                    ),
+                ],
+            ),
+            embeds: [
+                new DiscordEmbed(
+                    title: 'Builder Rank Application',
+                    url: route('review.builder-ranks.show', $this->builderRankApplication),
+                    author: new DiscordAuthor(
+                        name: $this->builderRankApplication->minecraft_alias,
+                    ),
+                    fields: [
+                        new DiscordEmbedField(
+                            name: 'Current build rank',
+                            value: $this->builderRankApplication->current_builder_rank,
+                        ),
+                        new DiscordEmbedField(
+                            name: 'Build location',
+                            value: $this->builderRankApplication->build_location,
+                        ),
+                        new DiscordEmbedField(
+                            name: 'Build description',
+                            value: Str::limit($this->builderRankApplication->build_description, 500),
+                        ),
+                    ],
+                ),
+            ],
+        );
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Domains\BanAppeals\Notifications;
 
+use App\Core\Domains\Discord\Data\DiscordAuthor;
+use App\Core\Domains\Discord\Data\DiscordEmbed;
+use App\Core\Domains\Discord\Data\DiscordEmbedField;
+use App\Core\Domains\Discord\Data\DiscordMessage;
 use App\Models\BanAppeal;
-use Awssat\Notifications\Messages\DiscordEmbed;
-use Awssat\Notifications\Messages\DiscordMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -33,7 +35,7 @@ class BanAppealConfirmationNotification extends Notification implements ShouldQu
      */
     public function via($notifiable)
     {
-        return ['mail', 'discordHook'];
+        return ['mail', 'discord'];
     }
 
     /**
@@ -43,7 +45,7 @@ class BanAppealConfirmationNotification extends Notification implements ShouldQu
     {
         return [
             'mail' => 'mail',
-            'discordHook' => 'discord-message',
+            'discord' => 'discord-message',
         ];
     }
 
@@ -63,16 +65,30 @@ class BanAppealConfirmationNotification extends Notification implements ShouldQu
                     ->action('Check Appeal', $this->banAppeal->showLink());
     }
 
-    public function toDiscord()
+    public function toDiscord($notifiable)
     {
-        return (new DiscordMessage)
-            ->content('A new ban appeal has been submitted.')
-            ->embed(function (DiscordEmbed $embed) {
-                $embed->title('Ban Appeal', route('manage.ban-appeals.show', $this->banAppeal))
-                    ->description(Str::limit($this->banAppeal->explanation, 500))
-                    ->field('Banning Staff', $this->banAppeal->gamePlayerBan->bannerPlayer->alias ?? 'No Alias')
-                    ->field('Ban Reason', $this->banAppeal->gamePlayerBan->reason ?? '-')
-                    ->author($this->banAppeal->gamePlayerBan->bannedPlayer->alias);
-            });
+        return new DiscordMessage(
+            content: 'A new ban appeal has been submitted.',
+            embeds: [
+                new DiscordEmbed(
+                    title: 'Ban Appeal',
+                    description: Str::limit($this->banAppeal->explanation, 500),
+                    url: route('manage.ban-appeals.show', $this->banAppeal),
+                    author: new DiscordAuthor(
+                        name: $this->banAppeal->gamePlayerBan->bannedPlayer->alias,
+                    ),
+                    fields: [
+                        new DiscordEmbedField(
+                            name: 'Banning Staff',
+                            value: $this->banAppeal->gamePlayerBan->bannerPlayer->alias ?? 'No Alias',
+                        ),
+                        new DiscordEmbedField(
+                            name: 'Ban Reason',
+                            value: $this->banAppeal->gamePlayerBan->reason ?? '-',
+                        ),
+                    ],
+                ),
+            ],
+        );
     }
 }
