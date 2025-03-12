@@ -10,6 +10,7 @@ class DiscordMessage
      * @param string|null $avatarUrl Override the default avatar of the webhook
      * @param string|null $threadName Name of thread to create (requires the webhook channel to be a forum or media channel)
      * @param int|null $timestamp Timestamp for the message
+     * @param DiscordPoll|null $poll Optional poll to include with the message
      * @param bool $tts True if this is a text-to-speech message
      * @param array<DiscordEmbed> $embeds Embedded rich content
      *
@@ -21,6 +22,7 @@ class DiscordMessage
         public ?string $avatarUrl = null,
         public ?string $threadName = null,
         public ?int $timestamp = null,
+        public ?DiscordPoll $poll = null,
         public bool $tts = false,
         public array $embeds = [],
     ) {}
@@ -35,6 +37,7 @@ class DiscordMessage
             'timestamp' => $this->timestamp,
             'tts' => $this->tts,
             'embeds' => array_map(fn ($embed) => $embed->toJson(), $this->embeds),
+            'poll' => $this->poll?->toJson(),
         ];
     }
 }
