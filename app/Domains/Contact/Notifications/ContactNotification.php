@@ -2,7 +2,9 @@
 
 namespace App\Domains\Contact\Notifications;
 
+use App\Core\Domains\Discord\Data\DiscordAuthor;
 use App\Core\Domains\Discord\Data\DiscordEmbed;
+use App\Core\Domains\Discord\Data\DiscordEmbedField;
 use App\Core\Domains\Discord\Data\DiscordMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -70,15 +72,31 @@ class ContactNotification extends Notification implements ShouldQueue
 
     public function toDiscord($notifiable)
     {
-        return (new DiscordMessage)
-            ->content('A contact form inquiry has been submitted.')
-            ->embed(function (DiscordEmbed $embed) {
-                $embed->title($this->subject)
-                    ->description(Str::limit($this->inquiry, 2000))
-                    ->field('Name', $this->name ?: 'Not provided')
-                    ->field('IP', $this->ip)
-                    ->field('User Agent', $this->userAgent)
-                    ->author($this->email);
-            });
+        return new DiscordMessage(
+            content: 'A contact form inquiry has been submitted.',
+            embeds: [
+                new DiscordEmbed(
+                    title: $this->subject,
+                    description: Str::limit($this->inquiry, 2000),
+                    author: new DiscordAuthor(
+                        name: $this->email,
+                    ),
+                    fields: [
+                        new DiscordEmbedField(
+                            name: 'Name',
+                            value: $this->name ?: 'Not provided',
+                        ),
+                        new DiscordEmbedField(
+                            name: 'IP',
+                            value: $this->ip,
+                        ),
+                        new DiscordEmbedField(
+                            name: 'User Agent',
+                            value: $this->userAgent,
+                        ),
+                    ],
+                ),
+            ],
+        );
     }
 }

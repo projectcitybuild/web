@@ -10,7 +10,7 @@ class DiscordPoll
      * @see https://discord.com/developers/docs/resources/poll#poll-create-request-object
      */
     public function __construct(
-        public DiscordPollMedia $question,
+        public string $question,
         public array $answers,
         public int $durationInHours = 24,
         public bool $allowMultiselect = false,
@@ -19,12 +19,12 @@ class DiscordPoll
     public function toJson(): array
     {
         return [
-            'poll' => [
-                'question'=> $this->question->toJson(),
-                'answers' => array_map(fn ($answer) => $answer->toJson(), $this->answers),
-                'duration' => $this->durationInHours,
-                'allow_multiselect' => $this->allowMultiselect,
+            'question' => [
+                'text' => $this->question,
             ],
+            'answers' => array_map(fn ($answer) => $answer->toJson(), $this->answers),
+            'duration' => $this->durationInHours,
+            'allow_multiselect' => $this->allowMultiselect,
         ];
     }
 }

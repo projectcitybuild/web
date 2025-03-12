@@ -10,6 +10,7 @@ class DiscordEmbed
      * @param string|null $url Url of embed
      * @param int|null $timestamp Timestamp of embed content
      * @param int|null $color Color code of the embed
+     * @param DiscordAuthor|null $author Author information
      * @param array<DiscordEmbedField> $fields Fields information, max of 25
      *
      * @see https://discord.com/developers/docs/resources/message#embed-object
@@ -20,6 +21,7 @@ class DiscordEmbed
         public ?string $url = null,
         public ?int $timestamp = null,
         public ?int $color = null,
+        public ?DiscordAuthor $author = null,
         public array $fields = [],
     ) {}
 
@@ -32,6 +34,7 @@ class DiscordEmbed
             'url' => $this->url,
             'timestamp' => $this->timestamp,
             'color' => $this->color,
+            'author' => $this->author?->toJson(),
             'fields' => array_map(fn ($field) => $field->toJson(), $this->fields),
         ];
     }

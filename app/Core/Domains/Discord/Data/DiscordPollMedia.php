@@ -6,7 +6,7 @@ class DiscordPollMedia
 {
     public function __construct(
         public string $text,
-        public ?string $emojiName,
+        public ?string $emojiName = null,
     ) {}
 
     public function toJson(): array
