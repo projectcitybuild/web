@@ -11,6 +11,7 @@ return [
     \App\Core\Support\Laravel\LaravelServiceProvider::class,
     \App\Core\Support\Laravel\Notifications\DiscordChannelServiceProvider::class,
     \App\Core\Support\Passport\PassportServiceProvider::class,
+    \App\Core\Support\Pulse\PulseServiceProvider::class,
 
     \App\Domains\Activation\ActivationServiceProvider::class,
     \App\Domains\Captcha\CaptchaServiceProvider::class,

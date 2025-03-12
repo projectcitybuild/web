@@ -31,23 +31,32 @@ Absolutely. Feel free to fork and send pull requests any time - we'd be thrilled
 
 Ensure you have [Docker](https://docs.docker.com/get-docker/) installed.
 
-Run `sail up -d` to start the containers.
+If this is your first time building the containers:
 
-If this is your first time building the containers, additionally:
-
-* Run `sail composer install` to install PHP dependencies
-* Run `sail npm install` to install frontend dependencies
+1. Copy the env example file: `cp .env.example .env`
+2. Run `sail up -d` to start the containers
+3. Run `sail composer install` to install PHP dependencies
+4. Run `sail npm install` to install frontend dependencies
+5. Run `sail artisan key:generate` to generate an app key (for encryption, etc)
+6. Run `sail artisan migrate --seed`
 
 From then onwards:
 
-Run `sail npm run dev` to (continuously) build the frontend
+1. Run `sail up -d` if containers aren't already running
+2. Run `sail npm run dev` to continuously build the frontend
 
-### Mail
+Access the site at http://localhost
 
-Laravel Sail uses Mailpit during local development.
+### Accounts
 
-Mail can be viewed at http://localhost:8025
+* Admin account (email: `admin@pcbmc.co`, password: `test`)
+* Regular account (email: `member@pcbmc.co`, password: `test`)
 
+### 2FA
+
+By default, no real authenticator is required. For accounts that have 2FA enabled, the code is always `000000` (6 zeroes).
+
+To use a real authenticator, set `TOTP_BYPASS=false` in `.env`
 
 ### Captcha
 
@@ -58,14 +67,17 @@ to an appropriate value from the below list.
 
 https://developers.cloudflare.com/turnstile/troubleshooting/testing/
 
-### 2FA
+### Mail
 
-No real authenticator is required.
-For accounts that have 2FA enabled, the code is always `000000` (6 zeroes).
+Laravel Sail uses Mailpit during local development to avoid sending real emails.
 
-To use a real authenticator, set `TOTP_BYPASS=false` in `.env`
+Mail can be viewed at http://localhost:8025
 
-### Stripe CLI
+### Performance Monitoring
+
+Laravel Pulse is available at http://localhost/pulse if logged-in as an admin account
+
+### Payments
 
 Using Stripe CLI, you can redirect Stripe webhooks to your local containers. 
 This effectively allows you to complete a Stripe Checkout (eg. to test payments) and receive the 
