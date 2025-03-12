@@ -10,28 +10,19 @@ class DiscordWebhook
     public function send(
         string $url,
         DiscordMessage $message,
+        bool $wait,
     ) {
         throw_if(
             empty($message->content) === null && empty($message->embeds),
             code: 400,
             message: 'At least content or embeds must be specified',
         );
-        Http::asJson()->post($url, $message->toJson());
-    }
-
-    public function sendSync(
-        string $url,
-        DiscordMessage $message,
-    ) {
-        throw_if(
-            empty($message->content) === null && empty($message->embeds),
-            code: 400,
-            message: 'At least content or embeds must be specified',
-        );
-        $response = Http::asJson()->post($url, [
+        Http::asJson()->post($url, [
             ...$message->toJson(),
-            'wait' => true,
-        ]);
-        dd($response->body());
+            // Whether to ask Discord to actually await the send result, rather than returning immediately
+            'wait' => $wait,
+        ])
+            ->throwIfClientError()
+            ->throwIfServerError();
     }
 }
