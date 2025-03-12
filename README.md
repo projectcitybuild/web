@@ -73,17 +73,28 @@ Laravel Sail uses Mailpit during local development to avoid sending real emails.
 
 Mail can be viewed at http://localhost:8025
 
+### Debugging
+
+Laravel Telescope is available at http://localhost/telescope for non-production environments.
+
+If for some reason you don't want this, set `TELESCOPE_ENABLED=false` in `.env`
+
 ### Performance Monitoring
 
-Laravel Pulse is available at http://localhost/pulse if logged-in as an admin account
+Laravel Pulse is available at http://localhost/pulse if logged-in as an admin account.
+
+Data gathering is only enabled if you have `PULSE_ENABLED=true` in `.env`.
+This is `false` by default, as this is not particularly useful in a local environment.
 
 ### Payments
 
-Using Stripe CLI, you can redirect Stripe webhooks to your local containers. 
-This effectively allows you to complete a Stripe Checkout (eg. to test payments) and receive the 
-payment event and data locally.
+Stripe CLI is installed as a container. 
 
-Ensure you have set a name for your dev machine in `.env`
+It redirects Stripe webhook events to your local containers, which normally wouldn't be possible without
+actually hosting the website somewhere public. This effectively allows us to complete a Stripe Checkout 
+(eg. to test payments) and receive the payment data.
+
+Ensure you set a name for your dev machine in `.env`
 
 ```
 STRIPE_CLI_DEVICE_NAME=my-local-pc
@@ -95,4 +106,6 @@ Follow the prompts to authenticate.
 
 From now on you can complete a payment normally. For example, go to the donation page and complete
 a purchase with a [mock credit card](https://docs.stripe.com/testing).
+
+Authentication needs to be done every 90 days due to token expiry.
 
