@@ -2,8 +2,8 @@
 
 namespace App\Domains\Contact\Notifications;
 
-use Awssat\Notifications\Messages\DiscordEmbed;
-use Awssat\Notifications\Messages\DiscordMessage;
+use App\Core\Domains\Discord\Data\DiscordEmbed;
+use App\Core\Domains\Discord\Data\DiscordMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -36,7 +36,7 @@ class ContactNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail', 'discordHook'];
+        return ['mail', 'discord'];
     }
 
     /**
@@ -46,7 +46,7 @@ class ContactNotification extends Notification implements ShouldQueue
     {
         return [
             'mail' => 'mail',
-            'discordHook' => 'discord-message',
+            'discord' => 'discord-message',
         ];
     }
 
@@ -68,7 +68,7 @@ class ContactNotification extends Notification implements ShouldQueue
             ->line($this->inquiry);
     }
 
-    public function toDiscord()
+    public function toDiscord($notifiable)
     {
         return (new DiscordMessage)
             ->content('A contact form inquiry has been submitted.')

@@ -2,9 +2,9 @@
 
 namespace App\Domains\BuilderRankApplications\Notifications;
 
+use App\Core\Domains\Discord\Data\DiscordEmbed;
+use App\Core\Domains\Discord\Data\DiscordMessage;
 use App\Models\BuilderRankApplication;
-use Awssat\Notifications\Messages\DiscordEmbed;
-use Awssat\Notifications\Messages\DiscordMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -34,7 +34,7 @@ class BuilderRankAppSubmittedNotification extends Notification implements Should
      */
     public function via($notifiable)
     {
-        return ['mail', 'discordHook'];
+        return ['mail', 'discord'];
     }
 
     /**
@@ -44,7 +44,7 @@ class BuilderRankAppSubmittedNotification extends Notification implements Should
     {
         return [
             'mail' => 'mail',
-            'discordHook' => 'discord-message',
+            'discord' => 'discord-message',
         ];
     }
 
@@ -68,7 +68,7 @@ class BuilderRankAppSubmittedNotification extends Notification implements Should
             ->line('If you have any questions, please feel free to reach out to staff at any time.');
     }
 
-    public function toDiscord()
+    public function toDiscord($notifiable)
     {
         return (new DiscordMessage)
             ->content('<@&839756575153324032> A new builder rank application has arrived.')
