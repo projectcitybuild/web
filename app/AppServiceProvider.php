@@ -104,7 +104,6 @@ final class AppServiceProvider extends ServiceProvider
 
     private function bindBladeComponents(): void
     {
-
         Blade::anonymousComponentPath(__DIR__.'/../resources/views/shared/components');
         Blade::anonymousComponentPath(__DIR__.'/../resources/views/front/components', prefix: 'front');
         Blade::anonymousComponentPath(__DIR__.'/../resources/views/manage/components', prefix: 'manage');

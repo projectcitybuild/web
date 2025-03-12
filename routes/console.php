@@ -30,6 +30,9 @@ Schedule::command('backup:monitor')
     ->withoutOverlapping()
     ->daily();
 
+Schedule::command('telescope:prune')
+    ->daily();
+
 Artisan::command('sitemap:generate', function () {
     SitemapGenerator::create(config('app.url'))
         ->writeToFile(public_path('sitemap.xml'));
