@@ -25,6 +25,7 @@ class AccountSeeder extends Seeder
         $this->createAdmin();
         $this->createModerator();
         $this->createArchitect();
+        $this->createMember();
         $this->createUnactivatedAccount();
         $this->createAccountWithEmailChanges();
         $this->createDummyAccounts();
@@ -88,6 +89,15 @@ class AccountSeeder extends Seeder
             'token' => $this->tokenGenerator->make(),
             'expires_at' => now()->addYear(),
         ]);
+    }
+
+    private function createMember()
+    {
+        $account = Account::factory()->make();
+        $account->username = 'Member';
+        $account->email = 'member@pcbmc.co';
+        $account->password = Hash::make('test');
+        $account->save();
     }
 
     private function createAccountWithEmailChanges()
