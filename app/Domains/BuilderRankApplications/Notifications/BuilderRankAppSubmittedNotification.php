@@ -89,6 +89,7 @@ class BuilderRankAppSubmittedNotification extends Notification implements Should
                         emojiName: '❌',
                     ),
                 ],
+                durationInHours: 7 * 24,
             ),
             embeds: [
                 new DiscordEmbed(
