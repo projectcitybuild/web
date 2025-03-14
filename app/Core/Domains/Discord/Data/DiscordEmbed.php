@@ -33,7 +33,7 @@ class DiscordEmbed
             'description' => $this->description,
             'url' => $this->url,
             'timestamp' => $this->timestamp,
-            'color' => $this->color,
+            'color' => !empty($this->color) ? hexdec($this->color) : null,
             'author' => $this->author?->toJson(),
             'fields' => array_map(fn ($field) => $field->toJson(), $this->fields),
         ];
