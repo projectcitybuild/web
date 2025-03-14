@@ -15,9 +15,6 @@ use Spatie\Sitemap\SitemapGenerator;
 Schedule::command('model:prune')
     ->everyFifteenMinutes();
 
-Schedule::command('passport:purge')
-    ->hourly();
-
 Schedule::command('backup:clean')
     ->withoutOverlapping()
     ->daily();
@@ -28,9 +25,6 @@ Schedule::command('backup:run')
 
 Schedule::command('backup:monitor')
     ->withoutOverlapping()
-    ->daily();
-
-Schedule::command('telescope:prune')
     ->daily();
 
 Artisan::command('sitemap:generate', function () {
