@@ -43,7 +43,7 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
     public function toDiscord(): DiscordMessage
     {
         $fields = $this->backupDestinationProperties()
-            ->mapWithKeys(fn ($value, $key) => new DiscordEmbedField(name: $key, value: $value));
+            ->map(fn ($value, $key) => new DiscordEmbedField(name: $key, value: $value));
 
         if ($this->failure()->wasUnexpected()) {
             $fields->push(

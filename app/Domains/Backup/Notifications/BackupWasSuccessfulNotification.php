@@ -42,7 +42,7 @@ class BackupWasSuccessfulNotification extends BaseNotification
                         iconUrl: config('backup.notifications.discord.avatar_url'),
                     ),
                     fields: $this->backupDestinationProperties()
-                        ->mapWithkeys(fn ($value, $key) => new DiscordEmbedField(name: $key, value: $value))
+                        ->map(fn ($value, $key) => new DiscordEmbedField(name: $key, value: $value))
                         ->toArray(),
                 ),
             ],
