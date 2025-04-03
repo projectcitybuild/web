@@ -43,6 +43,7 @@ class CleanupWasSuccessfulNotification extends BaseNotification
                     ),
                     fields: $this->backupDestinationProperties()
                         ->map(fn ($value, $key) => new DiscordEmbedField(name: $key, value: $value))
+                        ->values()
                         ->toArray(),
                 ),
             ],
