@@ -32,11 +32,16 @@
 
         @auth
         <section class="max-w-screen-lg mx-auto px-6">
-            <h2 class="text-lg font-bold text-center">Your Active Bans <span class="font-normal text-gray-500 text-sm">(1 record)</span></h2>
+            <h2 class="text-lg font-bold text-center">
+                Your Active Bans
+                <span class="font-normal text-gray-500 text-sm">
+                    ({{ $active_bans->count() == 1 ? $active_bans->count() . ' record' : $active_bans->count() . ' records' }})
+                </span>
+            </h2>
 
             @if ($active_bans->count() > 0)
                 @foreach ($active_bans as $ban)
-                    <div class="rounded-lg border border-gray-200 mt-3 bg-gray-50 py-3 px-4 flex flex-row items-center gap-6">
+                    <div class="rounded-lg border border-gray-200 mt-3 bg-gray-50 py-3 px-4 flex flex-row items-center gap-6 overflow-x-auto">
                         <img src="https://minotar.net/avatar/{{ $ban->bannedPlayer->uuid }}/32" class="rounded-md w-12 h-12">
 
                         <div class="mt-1 flex flex-col gap-1 flex-grow">
@@ -67,40 +72,73 @@
         @endauth
 
         <section class="max-w-screen-lg mx-auto px-6 mt-12">
-            <table class="w-full overflow-x-auto">
-                <thead>
-                <tr class="text-left text-sm text-gray-500 bg-gray-100">
-                    <th class="py-4 px-2">Player Name</th>
-                    <th class="py-4 px-2">Reason</th>
-                    <th class="py-4 px-2">Ban Date</th>
-                    <th class="py-4 px-2">Action</th>
-                </tr>
-                </thead>
-                <tbody>
-{{--                    @foreach($bans as $ban)--}}
-{{--                        <tr>--}}
-{{--                            <td class="py-4 px-2 flex gap-2">--}}
-{{--                                <img src="https://minotar.net/avatar//{{ $ban->bannedPlayer->uuid }}/16" class="rounded-md h-6">--}}
-{{--                                <span class="font-bold">{{ $ban->banned_alias_at_time }}</span>--}}
-{{--                            </td>--}}
-{{--                            <td class="py-4 px-2">--}}
-{{--                                {{ $ban->reason ?? "-" }}--}}
-{{--                            </td>--}}
-{{--                            <td class="py-4 px-2">--}}
-{{--                                {{ $ban->created_at->format('j M Y H:i') }}--}}
-{{--                            </td>--}}
-{{--                            <td class="py-4 px-2">--}}
-{{--                                <x-button href="{{ route('front.bans.details', $ban) }}" size="sm">--}}
-{{--                                    View Details--}}
-{{--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">--}}
-{{--                                        <path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />--}}
-{{--                                    </svg>--}}
-{{--                                </x-button>--}}
-{{--                            </td>--}}
-{{--                        </tr>--}}
-{{--                    @endforeach--}}
-                </tbody>
-            </table>
+            <h2 class="text-lg font-bold text-center">All Bans</h2>
+
+            <div class="p-6 border-b border-gray-200">
+                <form action="{{ route('front.appeal.search') }}" method="get">
+                    <input
+                        type="text"
+                        class="rounded-md bg-gray-100 border-gray-200 text-sm"
+                        name="query"
+                        value="{{ $query }}"
+                        placeholder="Search..."
+                    >
+                </form>
+            </div>
+
+            @if ($bans->count() > 0)
+                <div class="overflow-x-auto">
+                    <table class="w-full overflow-x-auto mt-3">
+                        <thead>
+                        <tr class="text-left text-sm text-gray-500 bg-gray-100">
+                            <th class="py-4 px-2">Player Name</th>
+                            <th class="py-4 px-2">Reason</th>
+                            <th class="py-4 px-2">Ban Date</th>
+                            <th class="py-4 px-2"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($bans as $ban)
+                            <tr>
+                                <td class="py-4 px-2 flex gap-2">
+                                    <img src="https://minotar.net/avatar//{{ $ban->bannedPlayer->uuid }}/16" class="rounded-md h-6">
+                                    <span class="font-bold">{{ $ban->banned_alias_at_time }}</span>
+                                </td>
+                                <td class="py-4 px-2">
+                                    {{ $ban->reason ?? "-" }}
+                                </td>
+                                <td class="py-4 px-2">
+                                    {{ $ban->created_at->format('j M Y H:i') }}
+                                </td>
+                                <td class="py-4 px-2 flex flex-row gap-3 justify-end">
+                                    <x-button size="sm" variant="outlined" href="{{ route('front.bans.details', $ban) }}">
+                                        View Details
+                                    </x-button>
+                                    <x-button size="sm" href="{{ route('front.appeal.form.prefilled', $ban) }}">
+                                        Select
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                            <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                        </svg>
+                                    </x-button>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="p-6 border-t border-gray-200">
+                    {{ $bans->links('vendor.pagination.default') }}
+                </div>
+            @else
+                <div class="px-6 py-6 flex flex-col items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-12">
+                        <path fill-rule="evenodd" d="M12.963 2.286a.75.75 0 0 0-1.071-.136 9.742 9.742 0 0 0-3.539 6.176 7.547 7.547 0 0 1-1.705-1.715.75.75 0 0 0-1.152-.082A9 9 0 1 0 15.68 4.534a7.46 7.46 0 0 1-2.717-2.248ZM15.75 14.25a3.75 3.75 0 1 1-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 0 1 1.925-3.546 3.75 3.75 0 0 1 3.255 3.718Z" clip-rule="evenodd" />
+                    </svg>
+                    <h2 class="text-xl font-bold">No Results</h2>
+                    <span class="text-gray-500">Please try a different search criteria</span>
+                </div>
+            @endif
         </section>
     </main>
 @endsection
