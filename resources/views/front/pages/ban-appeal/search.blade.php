@@ -19,7 +19,14 @@
             <div class="-mx-4 flex flex-wrap">
                 <div class="w-full px-4">
                     <div class="mx-auto mb-[60px] max-w-[650px] text-center">
-                        <h2 class="font-bold text-5xl">
+                        <a href="{{ route('front.appeal') }}" class="flex justify-center items-center gap-2 text-sm text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                            </svg>
+                            Go Back
+                        </a>
+
+                        <h2 class="font-bold text-5xl mt-3">
                             Select the Ban
                         </h2>
                         <p class="text-base text-gray-500 mt-4 leading-relaxed">
