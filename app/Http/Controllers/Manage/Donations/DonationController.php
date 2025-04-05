@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Manage\Donations;
 
-use App\Domains\Manage\RendersManageApp;
+use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Donation;
 use Illuminate\Http\Request;
