@@ -10,7 +10,6 @@ concurrency:
 jobs:
   unit-test:
     runs-on: ubuntu-latest
-
     services:
       mariadb:
         image: mariadb:11.0.5
@@ -26,21 +25,20 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
-
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Install PHP
-        uses: ./.github/actions/tasks/install-php
+        uses: ./.github/actions/install-php
 
       - name: Install Composer dependencies
-        uses: ./.github/actions/tasks/install-composer-deps
+        uses: ./.github/actions/install-composer-deps
 
       - name: Prepare .env file
         run: cp .env.ci .env
 
       - name: Install npm dependencies
-        uses: ./.github/actions/tasks/install-npm-deps
+        uses: ./.github/actions/install-npm-deps
 
       - name: Calculate front-end asset hash
         id: get-assets-cache
