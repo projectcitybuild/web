@@ -21,10 +21,11 @@ final class BanlistController extends WebController
             ->through($pipes)
             ->thenReturn()
             ->with(['bannedPlayer', 'bannerPlayer'])
+            ->active()
             ->latest()
             ->paginate(50);
 
-        return view('front.pages.banlist')
+        return view('front.pages.bans.index')
             ->with([
                 'bans' => $bans,
                 'query' => $query,
@@ -33,7 +34,7 @@ final class BanlistController extends WebController
 
     public function show(Request $request, GamePlayerBan $ban)
     {
-        return view('front.pages.ban')
+        return view('front.pages.bans.show')
             ->with(['ban' => $ban]);
     }
 }
