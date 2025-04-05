@@ -25,16 +25,14 @@ final class BanlistController extends WebController
             ->latest()
             ->paginate(50);
 
-        return view('front.pages.bans.index')
-            ->with([
-                'bans' => $bans,
-                'query' => $query,
-            ]);
+        return view(
+            'front.pages.bans.index',
+            compact('bans', 'query'),
+        );
     }
 
     public function show(Request $request, GamePlayerBan $ban)
     {
-        return view('front.pages.bans.show')
-            ->with(['ban' => $ban]);
+        return view('front.pages.bans.show', compact('ban'));
     }
 }

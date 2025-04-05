@@ -23,62 +23,48 @@
                             Select the Ban
                         </h2>
                         <p class="text-base text-gray-500 mt-4 leading-relaxed">
-                            Please search for the ban you wish to appeal.
+                            Please search for the ban you wish to appeal. If you cannot find your ban you can still <a href="{{ route('front.appeal.form') }}" class="text-blue-500">fill out the form</a> manually.
                         </p>
                     </div>
                 </div>
             </div>
         </header>
 
+        @auth
         <section class="max-w-screen-lg mx-auto px-6">
             <h2 class="text-lg font-bold text-center">Your Active Bans <span class="font-normal text-gray-500 text-sm">(1 record)</span></h2>
 
-{{--            <div class="text-center text-gray-500 text-sm mt-3">--}}
-{{--                None of the Minecraft accounts linked to your account have an active ban.<br />Please search the below list or <a href="{{ route('front.appeal.form') }}" class="text-blue-500">fill out the form</a> manually--}}
-{{--            </div>--}}
+            @if ($active_bans->count() > 0)
+                @foreach ($active_bans as $ban)
+                    <div class="rounded-lg border border-gray-200 mt-3 bg-gray-50 py-3 px-4 flex flex-row items-center gap-6">
+                        <img src="https://minotar.net/avatar/{{ $ban->bannedPlayer->uuid }}/32" class="rounded-md w-12 h-12">
 
-            <div class="rounded-lg border border-gray-200 mt-3 bg-gray-50">
-                <div class="flex flex-row justify-between items-center border-b bg-gray-100 py-3 px-4">
-                    <div class="font-semibold">
-                        21st of January, 2024 <span class="text-gray-500">- 19:38 UTC</span>
-                    </div>
-                </div>
-
-                <div class="py-3 px-4">
-                    <div class="mt-1 flex flex-col gap-1">
-                        <img src="https://minotar.net/avatar/Notch/32" class="rounded-md w-12">
-                        <strong class="text-3xl">Notch</strong>
-                        <span class="text-gray-500 text-xs">(UUID: <strong>069a79f4-44e9-4726-a5be-fca90e38aaf5</strong>)</span>
-                    </div>
-
-                    <hr class="my-6" />
-
-                    <div class="flex flex-row flex-wrap gap-12">
-                        <div>
-                            <div class="text-gray-500 text-sm">Expires</div>
-                            <div class="mt-1">Never</div>
+                        <div class="mt-1 flex flex-col gap-1 flex-grow">
+                            <strong class="text-2xl">{{ $ban->bannedPlayer->alias }}</strong>
+                            <span class="text-gray-500 text-xs">UUID: {{ $ban->bannedPlayer->uuid }}</span>
+                            <span class="text-sm">{{ $ban->created_at->format('jS \of M, Y - h:i A') }}</span>
                         </div>
-                        <div>
-                            <div class="text-gray-500 text-sm">Banned by</div>
-                            <div class="mt-1">Console</div>
-                        </div>
-                        <div>
-                            <div class="text-gray-500 text-sm">Reason for Ban</div>
-                            <div class="mt-1">Some ban reason goes here eventually</div>
+
+                        <div class="px-4 py-3 flex flex-row gap-3">
+                            <x-button size="sm" variant="outlined" href="{{ route('front.bans.details', $ban) }}">
+                                View Details
+                            </x-button>
+                            <x-button size="sm" href="{{ route('front.appeal.form.prefilled', $ban) }}">
+                                Select
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                    <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                </svg>
+                            </x-button>
                         </div>
                     </div>
-                </div>
-
-                <div class="px-4 py-3">
-                    <x-button size="sm">
-                        Select
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                            <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                        </svg>
-                    </x-button>
-                </div>
+                @endforeach
+            @else
+            <div class="text-center text-gray-500 text-sm mt-2">
+                No active bans found for any of your linked Minecraft accounts
             </div>
+            @endif
         </section>
+        @endauth
 
         <section class="max-w-screen-lg mx-auto px-6 mt-12">
             <table class="w-full overflow-x-auto">

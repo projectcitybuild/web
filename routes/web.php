@@ -82,6 +82,9 @@ Route::prefix('appeal')->group(function () {
     Route::get('form', [BanAppealFormController::class, 'index'])
         ->name('front.appeal.form');
 
+    Route::get('form/{ban}', [BanAppealFormController::class, 'show'])
+        ->name('front.appeal.form.prefilled');
+
     Route::redirect('auth', '/appeal')
         ->name('front.appeal.auth')
         ->middleware('auth');
