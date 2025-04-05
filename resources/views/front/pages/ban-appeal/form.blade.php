@@ -35,6 +35,20 @@
                 @csrf
                 @include('front.components.form-error')
 
+                @isset ($ban)
+                    <h2 class="text-xl">Selected Ban</h2>
+
+                    <div class="rounded-lg border border-gray-200 mt-3 bg-gray-50 py-3 px-4 flex flex-row items-center gap-6 overflow-x-auto mb-12">
+                        <img src="https://minotar.net/avatar/{{ $ban->bannedPlayer->uuid }}/32" class="rounded-md w-12 h-12">
+
+                        <div class="mt-1 flex flex-col gap-1 flex-grow">
+                            <strong class="text-2xl">{{ $ban->bannedPlayer->alias }}</strong>
+                            <span class="text-gray-500 text-xs">UUID: {{ $ban->bannedPlayer->uuid }}</span>
+                            <span class="text-sm">{{ $ban->created_at->format('jS \of M, Y - h:i A') }}</span>
+                        </div>
+                    </div>
+                @endisset
+
                 <h2 class="text-xl">Ban Details</h2>
 
                 <div class="flex flex-col md:flex-row gap-3 justify-between">
@@ -45,15 +59,15 @@
                         <input
                             class="
                                 rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
-                                @error('email') border-red-500 @enderror
+                                @error('minecraft_uuid') border-red-500 @enderror
                             "
-                            id="email"
-                            name="email"
-                            type="email"
+                            id="minecraft_uuid"
+                            name="minecraft_uuid"
+                            type="text"
                             placeholder="e.g. 069a79f4-44e9-4726-a5be-fca90e38aaf5"
-                            value="{{ old('email') }}"
+                            value="{{ old('minecraft_uuid', $ban?->bannedPlayer->uuid) }}"
                         />
-                        @error('email')
+                        @error('minecraft_uuid')
                             <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
                         @enderror
                         <p class="text-sm mt-2 text-gray-500">
@@ -68,15 +82,15 @@
                         <input
                             class="
                         rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
-                        @error('email') border-red-500 @enderror
+                        @error('ban_date') border-red-500 @enderror
                     "
-                            id="email"
-                            name="email"
+                            id="ban_date"
+                            name="ban_date"
                             type="email"
                             placeholder="e.g. January 31st, 2016"
-                            value="{{ old('email') }}"
+                            value="{{ old('ban_date', $ban?->created_at->format('Y-m-d H:i:s')) }}"
                         />
-                        @error('email')
+                        @error('ban_date')
                         <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
                         @enderror
                         <p class="text-sm mt-2 text-gray-500">
@@ -97,7 +111,7 @@
                     id="explanation"
                     rows="4"
                     placeholder="e.g. I ignored multiple warnings about using inappropriate language"
-                >{{ old('explanation') }}</textarea>
+                >{{ old('explanation', $ban?->reason) }}</textarea>
 
                 <h2 class="text-xl mt-12">Appeal</h2>
 
@@ -113,7 +127,7 @@
                     name="email"
                     type="email"
                     placeholder="Enter your email address"
-                    value="{{ old('email') }}"
+                    value="{{ old('email', Auth::user()?->email) }}"
                 />
                 @error('email')
                 <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
