@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Manage\Minecraft;
 
 use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
-use App\Domains\Manage\RendersManageApp;
+use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftWarp;
 use Illuminate\Http\RedirectResponse;

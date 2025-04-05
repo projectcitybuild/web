@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Manage;
+namespace App\Http\Controllers\Manage;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Inertia\Inertia;

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Manage\Bans;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
-use App\Domains\Manage\RendersManageApp;
 use App\Domains\MinecraftEventBus\Events\IpAddressBanned;
+use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\GameIPBan;
 use App\Models\MinecraftPlayer;

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Manage;
 
-use App\Domains\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use Illuminate\Http\Request;
 

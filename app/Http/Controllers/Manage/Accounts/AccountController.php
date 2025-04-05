@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Manage\Accounts;
 
 use App\Core\Rules\DiscourseUsernameRule;
-use App\Domains\Manage\RendersManageApp;
 use App\Domains\Registration\UseCases\CreateUnactivatedAccount;
+use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Http\Filters\EqualFilter;
 use App\Http\Filters\LikeFilter;
