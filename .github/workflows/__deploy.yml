@@ -24,7 +24,6 @@ jobs:
         uses: ./.github/actions/install-php
 
       - name: Install Composer dependencies
-        shell: bash
         run: composer install
 
       - name: Deploy ${{ inputs.branch }} branch
