@@ -2,27 +2,24 @@
 
 namespace App\Domains\BuilderRankApplications\UseCases;
 
+use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Domains\BuilderRankApplications\Notifications\BuilderRankAppDeclinedNotification;
 use App\Models\BuilderRankApplication;
-use Repositories\BuilderRankApplicationRepository;
 
 class DenyBuildRankApplication
 {
-    public function __construct(
-        private readonly BuilderRankApplicationRepository $applicationRepository,
-    ) {
-    }
-
     public function execute(
         int $applicationId,
         string $denyReason,
     ): BuilderRankApplication {
-        $application = $this->applicationRepository->first(applicationId: $applicationId);
+        $application = BuilderRankApplication::find($applicationId);
 
-        $this->applicationRepository->deny(
-            application: $application,
-            reason: $denyReason,
-        );
+        abort_if($application->isReviewed(), 409);
+
+        $application->status = ApplicationStatus::DENIED->value;
+        $application->denied_reason = $denyReason;
+        $application->closed_at = now();
+        $application->save();
 
         $application->account->notify(new BuilderRankAppDeclinedNotification($application));
 

@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use App\Models\Account;
 use Illuminate\Foundation\Http\FormRequest;
-use Repositories\AccountRepository;
 
 final class SendPasswordEmailRequest extends FormRequest
 {

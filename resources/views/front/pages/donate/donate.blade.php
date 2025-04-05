@@ -42,7 +42,7 @@
             <div class="max-w-screen-2xl mx-auto px-6">
                 @if($errors->any())
                     <div class="alert alert--error">
-                        <h2><i class="fas fa-exclamation-circle"></i> Error</h2>
+                        <h2>Error</h2>
                         {{ $errors->first() }}
                     </div>
                 @endif
@@ -366,7 +366,7 @@
         <div class="modal__overlay" tabindex="-1" data-micromodal-close>
             <div class="modal__container" role="dialog" aria-modal="true">
                 <header class="modal__header">
-                    <h2><i class="fas fa-lock"></i> Please Log-in</h2>
+                    <h2>Please Log-in</h2>
                     <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
                 </header>
                 <main>

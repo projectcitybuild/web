@@ -6,29 +6,29 @@ use App\Http\Controllers\WebController;
 use App\Models\Donation;
 use App\Models\Server;
 use Carbon\Carbon;
+use Money\Money;
 
 final class HomeController extends WebController
 {
     public function index()
     {
-        $requiredAmount = config('donations.target_funding');
+        $requiredAmount = Money::USD(config('donations.target_funding') * 100);
 
         $now = now();
         $thisYear = $now->year;
         $lastDayOfThisYear = new Carbon('last day of december');
 
-        $totalDonationsThisYear = Donation::whereYear('created_at', $thisYear)->sum('amount');
-        $remainingDaysThisYear = $lastDayOfThisYear->diff($now)->days;
+        $totalDonationsThisYear = Money::USD(Donation::whereYear('created_at', $thisYear)->sum('amount') ?? 0);
+        $remainingDaysThisYear = $now->diff($lastDayOfThisYear)->totalDays;
 
         $lastYear = $now->subYear()->year;
-        $totalDonationsLastYear = Donation::whereYear('created_at', $lastYear)->sum('amount');
+        $totalDonationsLastYear = Money::USD(Donation::whereYear('created_at', $lastYear)->sum('amount') ?? 0);
 
         return view('front.pages.home.index', [
-            'servers' => Server::where('is_visible', true)->get(),
             'donations' => [
                 'raised_last_year' => $totalDonationsLastYear ?: 0,
-                'remaining_days' => $remainingDaysThisYear,
-                'still_required' => $requiredAmount - $totalDonationsThisYear,
+                'remaining_days' => floor($remainingDaysThisYear),
+                'still_required' => $requiredAmount->subtract($totalDonationsThisYear)->getAmount(),
             ],
         ]);
     }

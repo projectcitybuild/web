@@ -8,8 +8,6 @@ use App\Core\Domains\Auditing\Concerns\CausesActivity;
 use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
-use App\Domains\Panel\Data\PanelGroupScope;
-use App\Http\Resources\AccountResource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -21,13 +19,10 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
-use Laravel\Scout\Searchable;
-use function collect;
 
 final class Account extends Authenticatable implements LinkableAuditModel
 {
     use Notifiable;
-    use Searchable;
     use HasApiTokens;
     use HasStaticTable;
     use HasFactory;
@@ -47,12 +42,20 @@ final class Account extends Authenticatable implements LinkableAuditModel
         'remember_token',
         'last_login_ip',
         'last_login_at',
-        'balance',
+        'terms_accepted',
     ];
 
     protected $hidden = [
+        'password',
+        'remember_token',
         'totp_secret',
         'totp_backup_code',
+        'totp_last_used',
+        'pm_type',
+        'pm_last_four',
+        'trial_ends_at',
+        'stripe_id',
+        'last_login_ip',
     ];
 
     protected static $recordEvents = [
@@ -66,18 +69,8 @@ final class Account extends Authenticatable implements LinkableAuditModel
         'last_login_at' => 'datetime',
         'is_totp_enabled' => 'boolean',
         'activated' => 'boolean',
+        'terms_accepted' => 'boolean',
     ];
-
-    private ?Collection $cachedGroupScopes = null;
-
-    public function toSearchableArray()
-    {
-        return [
-            'account_id' => $this->getKey(),
-            'email' => $this->email,
-            'username' => $this->username,
-        ];
-    }
 
     public function minecraftAccount(): HasMany
     {
@@ -138,6 +131,14 @@ final class Account extends Authenticatable implements LinkableAuditModel
         );
     }
 
+    public function activations(): HasMany
+    {
+        return $this->hasMany(
+            related: AccountActivation::class,
+            foreignKey: 'account_id',
+        );
+    }
+
     public function gamePlayerBans(): HasManyThrough
     {
         return $this->hasManyThrough(
@@ -162,9 +163,12 @@ final class Account extends Authenticatable implements LinkableAuditModel
         );
     }
 
-    public function isBanned()
+    public function builderRankApplications(): HasMany
     {
-        return $this->gamePlayerBans()->active()->exists();
+        return $this->hasMany(
+            related: BuilderRankApplication::class,
+            foreignKey: 'account_id',
+        );
     }
 
     public function banAppeals()
@@ -172,38 +176,25 @@ final class Account extends Authenticatable implements LinkableAuditModel
         return BanAppeal::whereIn('game_ban_id', $this->gamePlayerBans()->pluck('id'));
     }
 
-    public function inGroup(Group $group)
+    public function isAdmin(): bool
     {
-        return $this->groups->contains($group);
+        return $this->groups()
+            ->where('is_admin', true)
+            ->count() > 0;
     }
 
-    public function hasBadge(Badge $badge)
+    public function isStaff(): bool
     {
-        return $this->badges->contains($badge);
+        return $this->groups()
+            ->where('group_type', 'staff')
+            ->count() > 0;
     }
 
-    public function isAdmin()
+    public function isArchitect(): bool
     {
-        return $this->groups()->where('is_admin', true)->count() > 0;
-    }
-
-    public function canAccessPanel(): bool
-    {
-        return $this->hasAbility(PanelGroupScope::ACCESS_PANEL->value);
-    }
-
-    public function hasAbility(string $to): bool
-    {
-        if ($this->cachedGroupScopes === null) {
-            $this->cachedGroupScopes = $this->groups()
-                ->with('groupScopes')
-                ->get()
-                ->flatMap(fn ($group) => $group->groupScopes->pluck('scope'))
-                ->mapWithKeys(fn ($scope) => [$scope => true])  // Map to dictionary for faster lookup
-                ?? collect();
-        }
-
-        return $this->cachedGroupScopes->has(key: $to);
+        return $this->groups()
+            ->where('name', 'architect')
+            ->count() > 0;
     }
 
     public function updatePassword(string $newPassword)
@@ -230,9 +221,9 @@ final class Account extends Authenticatable implements LinkableAuditModel
         $this->is_totp_enabled = false;
     }
 
-    public function toResource()
+    public function scopeWhereEmail(Builder $query, string $email)
     {
-        return new AccountResource($this);
+        $query->where('email', $email);
     }
 
     public function auditAttributeConfig(): AuditAttributes
@@ -245,16 +236,11 @@ final class Account extends Authenticatable implements LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.accounts.show', $this);
+        return route('manage.accounts.show', $this);
     }
 
     public function getActivitySubjectName(): ?string
     {
         return $this->username;
-    }
-
-    public function scopeWhereEmail(Builder $query, string $email)
-    {
-        $query->where('email', $email);
     }
 }

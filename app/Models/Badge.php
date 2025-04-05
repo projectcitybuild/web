@@ -19,8 +19,6 @@ final class Badge extends Model implements LinkableAuditModel
 
     protected $table = 'badges';
 
-    protected $primaryKey = 'id';
-
     protected $fillable = [
         'display_name',
         'unicode_icon',
@@ -29,9 +27,13 @@ final class Badge extends Model implements LinkableAuditModel
         'updated_at',
     ];
 
+    protected $casts = [
+        'list_hidden' => 'boolean',
+    ];
+
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.badges.edit', $this);
+        return route('manage.badges.edit', $this);
     }
 
     public function getActivitySubjectName(): ?string

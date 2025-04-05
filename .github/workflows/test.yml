@@ -10,7 +10,6 @@ concurrency:
 jobs:
   unit-test:
     runs-on: ubuntu-latest
-
     services:
       mariadb:
         image: mariadb:11.0.5
@@ -26,53 +25,20 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
-
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.3
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
-          coverage: none
-
-      - name: Get Composer cache directory
-        id: get-composer-cache
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Restore Composer cache
-        id: composer-cache
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.get-composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-v3-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+      - name: Install PHP
+        uses: ./.github/actions/install-php
 
       - name: Install Composer dependencies
-        run: composer install --prefer-dist --ignore-platform-reqs --no-interaction
+        uses: ./.github/actions/install-composer-deps
 
       - name: Prepare .env file
         run: cp .env.ci .env
 
-      - name: Get npm cache directory
-        id: get-npm-cache
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
-
-      - name: Restore npm cache
-        id: npm-cache
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.get-npm-cache.outputs.dir }}
-          key: ${{ runner.os }}-node-v3-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
       - name: Install npm dependencies
-        run: npm ci
+        uses: ./.github/actions/install-npm-deps
 
       - name: Calculate front-end asset hash
         id: get-assets-cache

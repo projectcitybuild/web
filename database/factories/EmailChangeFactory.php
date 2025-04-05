@@ -24,7 +24,7 @@ class EmailChangeFactory extends Factory
         return [
             'token' => Str::random(16),
             'email' => $this->faker->email,
-            'expires_at' => now()->addDay(),
+            'expires_at' => now()->addDays(rand(1, 99)),
         ];
     }
 }

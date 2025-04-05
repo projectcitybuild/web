@@ -22,11 +22,14 @@
                         <li>
                             <a href="{{ route('front.account.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
                         </li>
-                        @if (Auth::user()->canAccessPanel())
+                        @can('access-manage')
                             <li>
-                                <a href="{{ route('front.panel.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staff Panel</a>
+                                <a href="{{ route('manage.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staff Panel</a>
                             </li>
-                        @endif
+                        @endcan
+                        <li>
+                            <a href="{{ route('front.account.settings') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                        </li>
                     </ul>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                         <li>
@@ -142,28 +145,43 @@
                 </li>
                 <li>
                     <a href="{{ route('staff') }}" class="block p-3 rounded-lg hover:bg-gray-100">
-                        <div class="font-semibold flex gap-2 items-center">Staff</div>
+                        <div class="font-semibold">Staff</div>
                         <span class="text-sm text-gray-500">List of all current and past volunteers</span>
                     </a>
                 </li>
             </ul>
             <ul>
                 <li>
-                    <a href="{{ route('front.3d-map') }}" class="block p-3 rounded-lg hover:bg-gray-100">
-                        <div class="font-semibold">3D Map</div>
-                        <span class="text-sm text-gray-500">View the interactive map of Monarch</span>
-                    </a>
-                </li>
-                <li>
                     <a href="{{ route('map-archive') }}" class="block p-3 rounded-lg hover:bg-gray-100">
-                        <div class="font-semibold">Map Archive</div>
+                        <div class="font-semibold flex gap-1 items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                <path fill-rule="evenodd" d="M2 3a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H2Zm0 4.5h16l-.811 7.71a2 2 0 0 1-1.99 1.79H4.802a2 2 0 0 1-1.99-1.79L2 7.5ZM10 9a.75.75 0 0 1 .75.75v2.546l.943-1.048a.75.75 0 1 1 1.114 1.004l-2.25 2.5a.75.75 0 0 1-1.114 0l-2.25-2.5a.75.75 0 1 1 1.114-1.004l.943 1.048V9.75A.75.75 0 0 1 10 9Z" clip-rule="evenodd" />
+                            </svg>
+                            Map Archive
+                        </div>
                         <span class="text-sm text-gray-500">Download server maps no longer available</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('front.banlist') }}" class="block p-3 rounded-lg hover:bg-gray-100">
-                        <div class="font-semibold">Ban List</div>
+                        <div class="font-semibold flex gap-1 items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                <path fill-rule="evenodd" d="m5.965 4.904 9.131 9.131a6.5 6.5 0 0 0-9.131-9.131Zm8.07 10.192L4.904 5.965a6.5 6.5 0 0 0 9.131 9.131ZM4.343 4.343a8 8 0 1 1 11.314 11.314A8 8 0 0 1 4.343 4.343Z" clip-rule="evenodd" />
+                            </svg>
+                            Ban List
+                        </div>
                         <span class="text-sm text-gray-500">List of players banned from our services</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('front.contact') }}" class="block p-3 rounded-lg hover:bg-gray-100">
+                        <div class="font-semibold flex gap-1 items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                            </svg>
+                            Contact Us
+                        </div>
+                        <span class="text-sm text-gray-500">For general inquiries</span>
                     </a>
                 </li>
             </ul>

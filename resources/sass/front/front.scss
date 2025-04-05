@@ -1,38 +1,23 @@
 @charset "utf-8";
 
-@import "~normalize-scss/sass/normalize";
-@include normalize();
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+
+// --- WARNING: everything below here is deprecated ---
 @import "foundation/colors";
 @import "foundation/dimensions";
 @import "foundation/typography";
 
 @import "elements/body";
 @import "elements/button";
-@import "elements/bullet";
 
-@import "molecules/alert";
-@import "molecules/change-status";
 @import "molecules/command";
-@import "molecules/footer-donations";
-@import "molecules/footer-legal";
-@import "molecules/footer-sitemap";
 @import "molecules/form-row";
 @import "molecules/game-account";
 @import "molecules/game-ban";
-@import "molecules/hero-header";
-@import "molecules/image-header";
-@import "molecules/introduction";
 @import "molecules/message";
 @import "molecules/modal";
-@import "molecules/server-feed";
-@import "molecules/server-overview";
-@import "molecules/side-menu";
-@import "molecules/toolbar";
 
 @import "organisms/page.form";
-@import "organisms/page.mfa";

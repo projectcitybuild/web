@@ -22,13 +22,13 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: [
             __DIR__.'/../routes/web.php',
-            __DIR__.'/../routes/web_panel.php',
+            __DIR__.'/../routes/web_manage.php',
+            __DIR__.'/../routes/web_review.php',
             __DIR__.'/../routes/web_redirects.php',
             __DIR__.'/../routes/web_tests.php',
         ],
         api: [
-            __DIR__.'/../routes/api_v1.php',
-            __DIR__.'/../routes/api_v2.php'
+            __DIR__.'/../routes/api.php',
         ],
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
@@ -40,6 +40,7 @@ return Application::configure(basePath: dirname(__DIR__))
         );
         $middleware->web(append: [
             \App\Http\Middleware\VerifyCsrfToken::class,
+            \App\Http\Middleware\HandleInertiaRequests::class,
         ]);
         $middleware->api(append: [
            \App\Http\Middleware\LogApiCalls::class,
@@ -55,9 +56,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'mfa' => \App\Http\Middleware\MfaAuthenticated::class,
             'not-activated' => \App\Http\Middleware\NotActivated::class,
             'password.confirm' => \App\Http\Middleware\RequirePassword::class,
-            'requires-mfa' => \App\Http\Middleware\RequireMfaEnabled::class,
-            'scope' => \App\Http\Middleware\HasGroupScope::class,
-            'server-token' => \App\Http\Middleware\RequiresServerTokenScope::class,
+            'require-mfa' => \App\Http\Middleware\RequireMfaEnabled::class,
+            'require-server-token' => \App\Http\Middleware\RequireServerToken::class,
+        ]);
+        // Stripe webhooks need to bypass Laravel's CSRF protection
+        // https://laravel.com/docs/12.x/billing#handling-stripe-webhooks
+        $middleware->validateCsrfTokens(except: [
+            'stripe/*',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

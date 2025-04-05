@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Core\Domains\Tokens\TokenGenerator;
+use App\Core\Utilities\SecureTokenGenerator;
 use App\Models\Account;
 use App\Models\AccountActivation;
+use App\Models\EmailChange;
 use App\Models\Group;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Crypt;
@@ -16,28 +17,63 @@ class AccountSeeder extends Seeder
 {
     public function __construct(
         private readonly Google2FA $google2FA,
-        private readonly TokenGenerator $tokenGenerator,
+        private readonly SecureTokenGenerator $tokenGenerator,
     ) {}
 
     public function run()
     {
         $this->createAdmin();
+        $this->createModerator();
+        $this->createArchitect();
+        $this->createMember();
         $this->createUnactivatedAccount();
+        $this->createAccountWithEmailChanges();
         $this->createDummyAccounts();
     }
 
     private function createAdmin()
     {
-        $adminGroup = Group::where('name', 'developer')->first();
-        $adminAccount = Account::factory()->make();
-        $adminAccount->username = 'Admin';
-        $adminAccount->email = 'admin@pcbmc.co';
-        $adminAccount->password = Hash::make('test');
-        $adminAccount->totp_secret = Crypt::encryptString($this->google2FA->generateSecretKey());
-        $adminAccount->totp_backup_code = Crypt::encryptString(Str::random(config('auth.totp.backup_code_length')));
-        $adminAccount->is_totp_enabled = true;
-        $adminAccount->save();
-        $adminAccount->groups()->attach($adminGroup->getKey());
+        $group = Group::where('name', 'developer')->first();
+
+        $account = Account::factory()->make();
+        $account->username = 'Admin';
+        $account->email = 'admin@pcbmc.co';
+        $account->password = Hash::make('test');
+        $account->totp_secret = Crypt::encryptString($this->google2FA->generateSecretKey());
+        $account->totp_backup_code = Crypt::encryptString(Str::random(config('auth.totp.backup_code_length')));
+        $account->is_totp_enabled = true;
+        $account->save();
+        $account->groups()->attach($group->getKey());
+    }
+
+    private function createArchitect()
+    {
+        $group = Group::where('name', 'architect')->first();
+
+        $account = Account::factory()->make();
+        $account->username = 'Architect';
+        $account->email = 'architect@pcbmc.co';
+        $account->password = Hash::make('test');
+        $account->totp_secret = Crypt::encryptString($this->google2FA->generateSecretKey());
+        $account->totp_backup_code = Crypt::encryptString(Str::random(config('auth.totp.backup_code_length')));
+        $account->is_totp_enabled = true;
+        $account->save();
+        $account->groups()->attach($group->getKey());
+    }
+
+    private function createModerator()
+    {
+        $group = Group::where('name', 'moderator')->first();
+
+        $account = Account::factory()->make();
+        $account->username = 'Moderator';
+        $account->email = 'moderator@pcbmc.co';
+        $account->password = Hash::make('test');
+        $account->totp_secret = Crypt::encryptString($this->google2FA->generateSecretKey());
+        $account->totp_backup_code = Crypt::encryptString(Str::random(config('auth.totp.backup_code_length')));
+        $account->is_totp_enabled = true;
+        $account->save();
+        $account->groups()->attach($group->getKey());
     }
 
     private function createUnactivatedAccount()
@@ -55,8 +91,34 @@ class AccountSeeder extends Seeder
         ]);
     }
 
+    private function createMember()
+    {
+        $account = Account::factory()->make();
+        $account->username = 'Member';
+        $account->email = 'member@pcbmc.co';
+        $account->password = Hash::make('test');
+        $account->save();
+    }
+
+    private function createAccountWithEmailChanges()
+    {
+        $account = Account::factory()->make();
+        $account->username = 'Bob';
+        $account->email = 'email_changes@pcbmc.co';
+        $account->password = Hash::make('test');
+        $account->save();
+
+        EmailChange::factory()
+            ->for($account)
+            ->count(10)
+            ->create();
+    }
+
     private function createDummyAccounts()
     {
-        Account::factory()->count(100)->create();
+        Account::factory()
+            ->passwordHashed('password')
+            ->count(50)
+            ->create();
     }
 }

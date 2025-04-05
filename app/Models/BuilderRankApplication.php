@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
 use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -70,9 +71,14 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
         return ApplicationStatus::tryFrom($this->status);
     }
 
+    public function scopePending(Builder $query): Builder
+    {
+        return $query->where('status', ApplicationStatus::PENDING);
+    }
+
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.builder-ranks.show', $this);
+        return route('review.builder-ranks.show', $this);
     }
 
     public function getActivitySubjectName(): ?string

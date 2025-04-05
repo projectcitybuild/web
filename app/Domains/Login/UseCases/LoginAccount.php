@@ -2,14 +2,12 @@
 
 namespace App\Domains\Login\UseCases;
 
-use App\Domains\Login\Entities\LoginCredentials;
-use App\Domains\Login\Exceptions\AccountNotActivatedException;
+use App\Domains\Login\Data\LoginCredentials;
 use App\Domains\Login\Exceptions\InvalidLoginCredentialsException;
 use App\Http\Middleware\MfaAuthenticated;
 use App\Models\Account;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Repositories\AccountRepository;
 
 class LoginAccount
 {

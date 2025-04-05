@@ -19,7 +19,7 @@
 
     @if(Session::get('mfa_setup_required', false))
         <div class="alert alert--error">
-            <h2><i class="fas fa-exclamation-circle"></i> 2FA is disabled</h2>
+            <h2>2FA is disabled</h2>
             You need to set up 2FA to use {{ Session::get('mfa_setup_required_feature', 'this feature') }}.
         </div>
     @endif

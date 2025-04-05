@@ -7,18 +7,15 @@ use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
 use App\Domains\Bans\Data\UnbanType;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Laravel\Scout\Searchable;
 
 final class GamePlayerBan extends Model implements LinkableAuditModel
 {
-    use Searchable;
     use HasFactory;
     use HasStaticTable;
     use LogsActivity;
@@ -27,11 +24,11 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
     protected $table = 'game_player_bans';
 
     protected $fillable = [
-        'server_id',
         'banned_player_id',
         'banned_alias_at_time',
         'banner_player_id',
         'reason',
+        'additional_info',
         'expires_at',
         'created_at',
         'updated_at',
@@ -64,7 +61,7 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
         return Attribute::make(
             get: function ($unbannedAt) {
                 if ($unbannedAt !== null) {
-                    return new Carbon($unbannedAt);
+                    return $unbannedAt;
                 }
                 if ($this->expires_at !== null && $this->expires_at->lte(now())) {
                     return $this->expires_at;
@@ -118,15 +115,6 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
         );
     }
 
-    public function server(): BelongsTo
-    {
-        return $this->belongsTo(
-            related: Server::class,
-            foreignKey: 'server_id',
-            ownerKey: 'server_id',
-        );
-    }
-
     public function banAppeals(): HasMany
     {
         return $this->hasMany(
@@ -152,34 +140,22 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
             return 'System';
         }
 
-        return $this->bannerPlayer->getBanReadableName() ?? 'No Alias';
+        return $this->bannerPlayer->alias ?? 'No Alias';
     }
 
     public function hasNameChangedSinceBan(): bool
     {
-        return $this->banned_alias_at_time !== $this->bannedPlayer->getBanReadableName();
-    }
-
-    /**
-     * Get the indexable data array for the model.
-     */
-    public function toSearchableArray(): array
-    {
-        return [
-            'id' => $this->getKey(),
-            'banned_alias_at_time' => $this->banned_alias_at_time,
-            'reason' => $this->reason,
-        ];
+        return $this->banned_alias_at_time !== $this->bannedPlayer->alias;
     }
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.player-bans.edit', $this);
+        return route('manage.player-bans.edit', $this);
     }
 
     public function getActivitySubjectName(): ?string
     {
-        $player = $this->bannedPlayer->currentAlias()?->alias
+        $player = $this->bannedPlayer->alias
             ?? $this->bannedPlayer->getKey().' player id';
 
         return "Ban for $player";

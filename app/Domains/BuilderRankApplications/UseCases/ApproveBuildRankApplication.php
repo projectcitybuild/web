@@ -2,30 +2,37 @@
 
 namespace App\Domains\BuilderRankApplications\UseCases;
 
-use App\Core\Domains\Groups\GroupsManager;
+use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Domains\BuilderRankApplications\Notifications\BuilderRankAppApprovedNotification;
 use App\Models\BuilderRankApplication;
 use App\Models\Group;
-use Repositories\BuilderRankApplicationRepository;
+use Illuminate\Support\Facades\DB;
 
 class ApproveBuildRankApplication
 {
-    public function __construct(
-        private readonly GroupsManager $groupsManager,
-        private readonly BuilderRankApplicationRepository $applicationRepository,
-    ) {
-    }
-
     public function execute(
         int $applicationId,
         int $promoteGroupId,
     ): BuilderRankApplication {
+        $application = BuilderRankApplication::find($applicationId);
         $promoteGroup = Group::find($promoteGroupId);
-        $application = $this->applicationRepository->first(applicationId: $applicationId);
 
-        $this->applicationRepository->approve(application: $application);
+        abort_if($application->isReviewed(), 409);
 
-        $this->groupsManager->addMember(group: $promoteGroup, account: $application->account);
+        DB::transaction(function () use ($application, $promoteGroup) {
+            $application->status = ApplicationStatus::APPROVED->value;
+            $application->closed_at = now();
+            $application->save();
+
+            $updatedGroupIds = $application
+                ->account
+                ->groups()
+                ->where('group_type', '!=', 'build')
+                ->get()
+                ->push($promoteGroup);
+
+            $application->account->groups()->sync($updatedGroupIds);
+        });
 
         $application->account->notify(
             new BuilderRankAppApprovedNotification(

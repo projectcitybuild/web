@@ -2,20 +2,15 @@
 
 namespace App\Domains\BanAppeals\UseCases;
 
+use App\Domains\BanAppeals\Data\BanAppealStatus;
 use App\Domains\BanAppeals\Exceptions\EmailRequiredException;
 use App\Domains\BanAppeals\Notifications\BanAppealConfirmationNotification;
 use App\Models\Account;
 use App\Models\BanAppeal;
 use App\Models\GamePlayerBan;
-use Repositories\BanAppealRepository;
 
 final class CreateBanAppeal
 {
-    public function __construct(
-        private readonly BanAppealRepository $banAppealRepository
-    ) {
-    }
-
     /**
      * Returns whether an account owns the player associated with a ban
      *
@@ -42,12 +37,13 @@ final class CreateBanAppeal
             throw new EmailRequiredException();
         }
 
-        $banAppeal = $this->banAppealRepository->create(
-            gamePlayerBanId: $ban->getKey(),
-            isAccountVerified: $isAccountVerified,
-            explanation: $explanation,
-            email: $email
-        );
+        $banAppeal = BanAppeal::create([
+            'game_ban_id' => $ban->getKey(),
+            'is_account_verified' => $isAccountVerified,
+            'explanation' => $explanation,
+            'email' => $email,
+            'status' => BanAppealStatus::PENDING,
+        ]);
 
         $banAppeal->notify(new BanAppealConfirmationNotification($banAppeal));
 

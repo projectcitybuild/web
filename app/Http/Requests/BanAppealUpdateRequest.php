@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Domains\BanAppeals\Entities\BanAppealStatus;
+use App\Domains\BanAppeals\Data\BanAppealStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
@@ -35,7 +35,7 @@ class BanAppealUpdateRequest extends FormRequest
             if (! $this->user()->minecraftAccount()->exists()) {
                 $validator->errors()->add(
                     'error',
-                    'Can\'t perform ban actions with no minecraft accounts linked.'
+                    'You must have a linked Minecraft account.'
                 );
             }
         });

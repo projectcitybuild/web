@@ -2,8 +2,8 @@
 
 namespace App\Domains\Activation\UseCases;
 
-use App\Core\Domains\Tokens\TokenGenerator;
 use App\Core\Support\Laravel\SignedURL\SignedURLGenerator;
+use App\Core\Utilities\SecureTokenGenerator;
 use App\Domains\Activation\Exceptions\AccountAlreadyActivatedException;
 use App\Domains\Activation\Notifications\AccountNeedsActivationNotification;
 use App\Models\Account;
@@ -13,7 +13,7 @@ class SendActivationEmail
 {
     public function __construct(
         private readonly SignedURLGenerator $signedURLGenerator,
-        private readonly TokenGenerator $tokenGenerator,
+        private readonly SecureTokenGenerator $tokenGenerator,
     ) {}
 
     public function execute(Account $account): void

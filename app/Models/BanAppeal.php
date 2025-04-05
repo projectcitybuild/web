@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
-use App\Domains\BanAppeals\Entities\BanAppealStatus;
+use App\Domains\BanAppeals\Data\BanAppealStatus;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -60,11 +60,6 @@ class BanAppeal extends Model implements LinkableAuditModel
         return $query->whereNot('status', BanAppealStatus::PENDING);
     }
 
-    public function isPending()
-    {
-        return $this->status == BanAppealStatus::PENDING;
-    }
-
     public function routeNotificationForMail($notification)
     {
         return $this->gamePlayerBan->bannedPlayer->account?->email ?? $this->email;
@@ -73,12 +68,6 @@ class BanAppeal extends Model implements LinkableAuditModel
     public function routeNotificationForDiscord(): string
     {
         return config('discord.webhook_ban_appeal_channel');
-    }
-
-    public function getBannedPlayerName()
-    {
-        return $this->gamePlayerBan->bannedPlayer->getBanReadableName() ??
-            $this->gamePlayerBan->banned_alias_at_time;
     }
 
     public function showLink(): string
@@ -99,7 +88,7 @@ class BanAppeal extends Model implements LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('front.panel.ban-appeals.show', $this);
+        return route('manage.ban-appeals.show', $this);
     }
 
     public function getActivitySubjectName(): ?string
