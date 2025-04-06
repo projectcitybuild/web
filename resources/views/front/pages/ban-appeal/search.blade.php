@@ -30,7 +30,7 @@
                             Select the Ban
                         </h2>
                         <p class="text-base text-gray-500 mt-4 leading-relaxed">
-                            Please search for the ban you wish to appeal. If you cannot find your ban you can still <a href="{{ route('front.appeal.form') }}" class="text-blue-500">fill out the form</a> manually.
+                            Find and select the ban you wish to appeal. If you have trouble locating it, you can still <a href="{{ route('front.appeal.form') }}" class="text-blue-500">fill out the form</a> manually.
                         </p>
                     </div>
                 </div>
@@ -38,13 +38,8 @@
         </header>
 
         @auth
-        <section class="max-w-screen-lg mx-auto px-6">
-            <h2 class="text-lg font-bold text-center">
-                Your Active Bans
-                <span class="font-normal text-gray-500 text-sm">
-                    ({{ $active_bans->count() == 1 ? $active_bans->count() . ' record' : $active_bans->count() . ' records' }})
-                </span>
-            </h2>
+        <section class="max-w-screen-lg mx-auto px-6  mb-12">
+            <h2 class="text-lg font-bold text-center">Your Active Bans</h2>
 
             @if ($active_bans->count() > 0)
                 @foreach ($active_bans as $ban)
@@ -78,20 +73,18 @@
         </section>
         @endauth
 
-        <section class="max-w-screen-lg mx-auto px-6 mt-12">
+        <section class="max-w-screen-lg mx-auto px-6">
             <h2 class="text-lg font-bold text-center">All Bans</h2>
 
-            <div class="p-6 border-b border-gray-200">
-                <form action="{{ route('front.appeal.search') }}" method="get">
-                    <input
-                        type="text"
-                        class="rounded-md bg-gray-100 border-gray-200 text-sm"
-                        name="query"
-                        value="{{ $query }}"
-                        placeholder="Search..."
-                    >
-                </form>
-            </div>
+            <form action="{{ route('front.appeal.search') }}" method="get" class="flex justify-center p-3">
+                <input
+                    type="text"
+                    class="rounded-md bg-gray-100 border-gray-200 text-sm"
+                    name="query"
+                    value="{{ $query }}"
+                    placeholder="Search..."
+                >
+            </form>
 
             @if ($bans->count() > 0)
                 <div class="overflow-x-auto">

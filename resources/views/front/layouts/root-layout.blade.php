@@ -31,7 +31,7 @@
     <title>@yield('title', 'Project City Build')</title>
 
     @vite([
-        'resources/sass/front/front.scss',
+        'resources/sass/front.scss',
         'resources/js/front/front.ts',
     ])
 
