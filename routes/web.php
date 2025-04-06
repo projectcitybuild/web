@@ -24,7 +24,6 @@ use App\Http\Controllers\Front\Auth\RegisterController;
 use App\Http\Controllers\Front\BanAppeal\BanAppealController;
 use App\Http\Controllers\Front\BanAppeal\BanAppealFormController;
 use App\Http\Controllers\Front\BanAppeal\BanAppealSearchController;
-use App\Http\Controllers\Front\BanAppeal\BanLookupController;
 use App\Http\Controllers\Front\BanlistController;
 use App\Http\Controllers\Front\BuilderRankApplicationController;
 use App\Http\Controllers\Front\ContactController;
@@ -96,9 +95,6 @@ Route::prefix('appeal')->group(function () {
 Route::prefix('bans')->group(function () {
     Route::get('/', [BanlistController::class, 'index'])
         ->name('front.banlist');
-
-    Route::post('/', BanLookupController::class)
-        ->name('front.bans.lookup');
 
     Route::get('{ban}', [BanlistController::class, 'show'])
         ->name('front.bans.details');

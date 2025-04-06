@@ -17,4 +17,6 @@ class BanAppealFormController extends WebController
     {
         return view('front.pages.ban-appeal.form', compact('ban'));
     }
+
+
 }
