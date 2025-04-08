@@ -1,19 +1,17 @@
-@extends('front.templates.2-col')
+@extends('front.layouts.root-layout')
 
 @section('title', 'Your Ban Appeal')
 @section('heading', 'Ban Appeal')
 @section('description', 'Check the status of your ban appeal')
 
-@section('col-1')
+@section('body')
     <p>
         View the status of your ban appeal. You will be emailed with any updates.
     </p>
     <p>
         Please note that you cannot submit another appeal until this appeal has been resolved.
     </p>
-@endsection
 
-@section('col-2')
     <div class="contents__section">
         @include('front.components.form-error')
         @switch($banAppeal->status)
