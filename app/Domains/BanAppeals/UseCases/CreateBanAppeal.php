@@ -3,7 +3,6 @@
 namespace App\Domains\BanAppeals\UseCases;
 
 use App\Domains\BanAppeals\Data\BanAppealStatus;
-use App\Domains\BanAppeals\Exceptions\EmailRequiredException;
 use App\Domains\BanAppeals\Notifications\BanAppealConfirmationNotification;
 use App\Models\Account;
 use App\Models\BanAppeal;
