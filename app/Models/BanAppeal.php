@@ -26,11 +26,23 @@ class BanAppeal extends Model implements LinkableAuditModel
 
     protected $fillable = [
         'game_ban_id',
-        'is_account_verified',
-        'explanation',
+        'account_id',
         'email',
+        'minecraft_uuid',
+        'date_of_ban',
+        'ban_reason',
+        'unban_reason',
         'status',
     ];
+
+    public function account(): BelongsTo
+    {
+        return $this->belongsTo(
+            related: Account::class,
+            foreignKey: 'account_id',
+            ownerKey: 'account_id',
+        );
+    }
 
     public function gamePlayerBan(): BelongsTo
     {

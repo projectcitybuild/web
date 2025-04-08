@@ -1,11 +1,9 @@
 @charset "utf-8";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+// -- Deprecated --
+@forward "front/command";
+@forward "front/modal";
 
-
-// --- WARNING: everything below here is deprecated ---
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 $font-header: 'Bebas Neue', sans-serif;
@@ -14,6 +12,9 @@ $font-body: 'Inter', sans-serif;
 body {
     font-family: $font-body;
 }
+// ---------------
 
-@import "front/command";
-@import "front/modal";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

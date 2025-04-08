@@ -9,13 +9,6 @@
 
     <main class="bg-white py-20">
         <header class="max-w-screen-2xl mx-auto px-6">
-            @if($errors->any())
-                <div class="alert alert--error">
-                    <h2><i class="fas fa-exclamation-circle"></i> Error</h2>
-                    {{ $errors->first() }}
-                </div>
-            @endif
-
             <div class="-mx-4 flex flex-wrap">
                 <div class="w-full px-4">
                     <div class="mx-auto mb-[60px] max-w-[650px] text-center">
@@ -31,7 +24,7 @@
         </header>
 
         <section class="max-w-screen-lg mx-auto px-6">
-            <form method="post" action="" id="form" class="flex flex-col">
+            <form method="post" action="{{ route('front.appeal.form.submit') }}" id="form" class="flex flex-col">
                 @csrf
                 @include('front.components.form-error')
 
@@ -47,13 +40,15 @@
                             <span class="text-sm">{{ $ban->created_at->format('jS \of M, Y - h:i A') }}</span>
                         </div>
                     </div>
+
+                    <input name="ban_id" type="hidden" value="{{ $ban->getKey() }}" />
                 @endisset
 
                 <h2 class="text-xl">Ban Details</h2>
 
                 <div class="flex flex-col md:flex-row gap-3 justify-between">
                     <div class="flex flex-col flex-grow md:w-0">
-                        <label for="email" class="text-md font-bold mt-6">
+                        <label for="minecraft_uuid" class="text-md font-bold mt-6">
                             Minecraft UUID
                         </label>
                         <input
@@ -76,21 +71,21 @@
                     </div>
 
                     <div class="flex flex-col flex-grow md:w-0">
-                        <label for="email" class="text-md font-bold mt-6">
+                        <label for="date_of_ban" class="text-md font-bold mt-6">
                             Date of Ban
                         </label>
                         <input
                             class="
                         rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
-                        @error('ban_date') border-red-500 @enderror
+                        @error('date_of_ban') border-red-500 @enderror
                     "
-                            id="ban_date"
-                            name="ban_date"
-                            type="email"
+                            id="date_of_ban"
+                            name="date_of_ban"
+                            type="text"
                             placeholder="e.g. January 31st, 2016"
-                            value="{{ old('ban_date', $ban?->created_at->format('Y-m-d H:i:s')) }}"
+                            value="{{ old('date_of_ban', $ban?->created_at->format('Y-m-d H:i:s')) }}"
                         />
-                        @error('ban_date')
+                        @error('date_of_ban')
                         <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
                         @enderror
                         <p class="text-sm mt-2 text-gray-500">
@@ -99,19 +94,23 @@
                     </div>
                 </div>
 
-                <label for="explanation" class="text-md font-bold mt-6">
+                <label for="ban_reason" class="text-md font-bold mt-6">
                     Reason for Ban
                 </label>
                 <textarea
                     class="
                         rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
-                        @error('explanation') border-red-500 @enderror
+                        @error('ban_reason') border-red-500 @enderror
                     "
-                    name="explanation"
-                    id="explanation"
+                    name="ban_reason"
+                    id="ban_reason"
                     rows="4"
-                    placeholder="e.g. I ignored multiple warnings about using inappropriate language"
-                >{{ old('explanation', $ban?->reason) }}</textarea>
+                    placeholder="Enter the ban message, or the reason you were likely banned"
+                >{{ old('ban_reason', $ban?->ban_reason) }}</textarea>
+
+                @error('ban_reason')
+                <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
+                @enderror
 
                 <h2 class="text-xl mt-12">Appeal</h2>
 
@@ -133,22 +132,22 @@
                 <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
                 @enderror
                 <p class="text-sm mt-2 text-gray-500">
-                    Please check this carefully, updates to your appeal will be sent to this email address.
+                    Please check this carefully - updates to your appeal will be sent to this email address.
                 </p>
 
-                <label for="explanation" class="text-md font-bold mt-6">
-                    Reason to be Unbanned
+                <label for="unban_reason" class="text-md font-bold mt-6">
+                    Why should you be unbanned?
                 </label>
                 <textarea
                     class="
                         rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
-                        @error('explanation') border-red-500 @enderror
+                        @error('unban_reason') border-red-500 @enderror
                     "
-                    name="explanation"
-                    id="explanation"
+                    name="unban_reason"
+                    id="unban_reason"
                     rows="10"
                     placeholder="Enter your appeal here"
-                >{{ old('explanation') }}</textarea>
+                >{{ old('unban_reason') }}</textarea>
 
                 <x-captcha class="mt-6"></x-captcha>
 

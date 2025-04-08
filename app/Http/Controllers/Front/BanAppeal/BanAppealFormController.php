@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Front\BanAppeal;
 
-use App\Domains\BanAppeals\Exceptions\EmailRequiredException;
 use App\Domains\BanAppeals\UseCases\CreateBanAppeal;
+use App\Domains\Captcha\Rules\CaptchaRule;
 use App\Http\Controllers\WebController;
-use App\Http\Requests\StoreBanAppealRequest;
 use App\Models\GamePlayerBan;
 use Illuminate\Http\Request;
 
@@ -22,21 +21,28 @@ class BanAppealFormController extends WebController
     }
 
     public function store(
-        GamePlayerBan $ban,
-        StoreBanAppealRequest $request,
+        Request $request,
+        CaptchaRule $captchaRule,
         CreateBanAppeal $useCase,
     ) {
-        try {
-            $banAppeal = $useCase->execute(
-                ban: $ban,
-                explanation: $request->get('explanation'),
-                loggedInAccount: $request->user(),
-                email: $request->get('email'),
-            );
-        } catch (EmailRequiredException $e) {
-            $e->throwAsValidationException();
-        }
-
+        $validated = $request->validate([
+            'captcha-response' => ['required', $captchaRule],
+            'minecraft_uuid' => 'required',
+            'date_of_ban' => 'required',
+            'ban_id' => ['nullable', 'integer'],
+            'email' => ['required', 'email'],
+            'ban_reason' => 'required',
+            'unban_reason' => 'required',
+        ]);
+        $banAppeal = $useCase->execute(
+            banId: $validated['ban_id'],
+            email: $validated['email'],
+            minecraftUuid: $validated['minecraft_uuid'],
+            dateOfBan: $validated['date_of_ban'],
+            banReason: $validated['ban_reason'],
+            unbanReason: $validated['unban_reason'],
+            account: $request->user(),
+        );
         return redirect($banAppeal->showLink());
     }
 }

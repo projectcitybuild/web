@@ -11,24 +11,24 @@ use App\Models\GamePlayerBan;
 
 final class CreateBanAppeal
 {
-    /**
-     * @throws EmailRequiredException
-     */
     public function execute(
-        GamePlayerBan $ban,
-        string $explanation,
-        ?Account $loggedInAccount,
-        ?string $email
+        int $banId,
+        string $email,
+        string $minecraftUuid,
+        string $dateOfBan,
+        ?string $banReason,
+        string $unbanReason,
+        ?Account $account,
     ): BanAppeal {
-        $isAccountVerified = $this->isAccountVerified($ban, $loggedInAccount);
-        if (! $isAccountVerified && $email === null) {
-            throw new EmailRequiredException();
-        }
+        $ban = GamePlayerBan::find($banId);
 
         $banAppeal = BanAppeal::create([
-            'game_ban_id' => $ban->getKey(),
-            'is_account_verified' => $isAccountVerified,
-            'explanation' => $explanation,
+            'game_ban_id' => $ban?->getKey(),
+            'account_id' => $account?->getKey(),
+            'minecraft_uuid' => $minecraftUuid,
+            'date_of_ban' => $dateOfBan,
+            'ban_reason' => $banReason,
+            'unban_reason' => $unbanReason,
             'email' => $email,
             'status' => BanAppealStatus::PENDING,
         ]);
@@ -36,13 +36,5 @@ final class CreateBanAppeal
         $banAppeal->notify(new BanAppealConfirmationNotification($banAppeal));
 
         return $banAppeal;
-    }
-
-    /**
-     * Returns whether an account owns the player associated with a ban
-     */
-    private function isAccountVerified(GamePlayerBan $ban, ?Account $account): bool
-    {
-        return ($account?->is($ban->bannedPlayer->account)) ?? false;
     }
 }

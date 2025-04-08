@@ -21,6 +21,7 @@ use App\Http\Controllers\Front\Auth\Mfa\MfaRecoveryController;
 use App\Http\Controllers\Front\Auth\PasswordResetController;
 use App\Http\Controllers\Front\Auth\ReauthController;
 use App\Http\Controllers\Front\Auth\RegisterController;
+use App\Http\Controllers\Front\BanAppeal\BanAppealController;
 use App\Http\Controllers\Front\BanAppeal\BanAppealFormController;
 use App\Http\Controllers\Front\BanAppeal\BanAppealSearchController;
 use App\Http\Controllers\Front\BanlistController;
@@ -77,17 +78,18 @@ Route::prefix('appeal')->group(function () {
     Route::get('search', [BanAppealSearchController::class, 'index'])
         ->name('front.appeal.search');
 
-    Route::get('form', [BanAppealFormController::class, 'index'])
-        ->name('front.appeal.form');
+    Route::prefix('create')->group(function () {
+        Route::get('/', [BanAppealFormController::class, 'index'])
+            ->name('front.appeal.form');
 
-    Route::get('form/{ban}', [BanAppealFormController::class, 'show'])
-        ->name('front.appeal.form.prefilled');
+        Route::post('/', [BanAppealFormController::class, 'store'])
+            ->name('front.appeal.form.submit');
 
-    Route::redirect('auth', '/appeal')
-        ->name('front.appeal.auth')
-        ->middleware('auth');
+        Route::get('{ban}', [BanAppealFormController::class, 'show'])
+            ->name('front.appeal.form.prefilled');
+    });
 
-    Route::get('{banAppeal}', [BanAppealFormController::class, 'show'])
+    Route::get('{banAppeal}', [BanAppealController::class, 'show'])
         ->name('front.appeal.show');
 });
 
