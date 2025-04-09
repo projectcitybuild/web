@@ -48,6 +48,7 @@ class BanAppealController
         Gate::authorize('view', $banAppeal);
 
         $banAppeal->load([
+            'account',
             'gamePlayerBan.bannerPlayer',
             'gamePlayerBan.bannedPlayer',
             'deciderPlayer',

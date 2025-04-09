@@ -26,9 +26,11 @@ class BanAppealFactory extends Factory
     public function definition(): array
     {
         return [
-            'explanation' => $this->faker->paragraph,
+            'minecraft_uuid' => $this->faker->uuid,
+            'date_of_ban' => $this->faker->dateTime,
+            'ban_reason' => $this->faker->paragraph,
+            'unban_reason' => $this->faker->paragraph,
             'status' => BanAppealStatus::PENDING,
-            'is_account_verified' => false,
             'email' => $this->faker->email,
         ];
     }

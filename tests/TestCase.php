@@ -2,15 +2,12 @@
 
 namespace Tests;
 
-use App\Core\Domains\Mojang\Api\MojangPlayerApi;
 use App\Http\Middleware\MfaAuthenticated;
 use App\Models\Account;
 use App\Models\Group;
 use App\Models\ServerToken;
-use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Tests\Support\TemporaryConfig;
@@ -28,9 +25,6 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->registerTestResponseMacros();
-
-        // Mock this class everywhere to prevent it making real requests
-        $this->mock(MojangPlayerApi::class);
 
         // Throw an exception if a HTTP response hasn't been mocked
         Http::preventStrayRequests();

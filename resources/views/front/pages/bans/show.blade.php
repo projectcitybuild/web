@@ -14,7 +14,19 @@
             Back to Ban List
         </a>
 
-        <h1 class="text-4xl font-bold mt-6">Ban Details</h1>
+        <div class="flex flex-row items-center">
+            <h1 class="text-4xl font-bold mt-6 flex-grow">Ban Details</h1>
+
+            @if ($ban->isActive())
+                <x-button href="{{ route('front.appeal.form.prefilled', $ban) }}" size="sm">
+                    Appeal This Ban
+
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                        <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                    </svg>
+                </x-button>
+            @endif
+        </div>
     </div>
 
     <div class="bg-gray-50 mb-6 mx-2 md:mx-6 rounded-lg p-6">

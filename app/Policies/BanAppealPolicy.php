@@ -31,9 +31,7 @@ class BanAppealPolicy
      */
     public function view(Account $account, BanAppeal $banAppeal): bool
     {
-        return $account->is(
-            $banAppeal->gamePlayerBan->bannedPlayer->account
-        );
+        return $account->is($banAppeal->account);
     }
 
     /**

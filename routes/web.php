@@ -22,7 +22,8 @@ use App\Http\Controllers\Front\Auth\PasswordResetController;
 use App\Http\Controllers\Front\Auth\ReauthController;
 use App\Http\Controllers\Front\Auth\RegisterController;
 use App\Http\Controllers\Front\BanAppeal\BanAppealController;
-use App\Http\Controllers\Front\BanAppeal\BanLookupController;
+use App\Http\Controllers\Front\BanAppeal\BanAppealFormController;
+use App\Http\Controllers\Front\BanAppeal\BanAppealSearchController;
 use App\Http\Controllers\Front\BanlistController;
 use App\Http\Controllers\Front\BuilderRankApplicationController;
 use App\Http\Controllers\Front\ContactController;
@@ -71,12 +72,22 @@ Route::group([
 });
 
 Route::prefix('appeal')->group(function () {
-    Route::get('/', [BanAppealController::class, 'index'])
+    Route::view('/', 'front.pages.ban-appeal.index')
         ->name('front.appeal');
 
-    Route::redirect('auth', '/appeal')
-        ->name('front.appeal.auth')
-        ->middleware('auth');
+    Route::get('search', [BanAppealSearchController::class, 'index'])
+        ->name('front.appeal.search');
+
+    Route::prefix('create')->group(function () {
+        Route::get('/', [BanAppealFormController::class, 'index'])
+            ->name('front.appeal.form');
+
+        Route::post('/', [BanAppealFormController::class, 'store'])
+            ->name('front.appeal.form.submit');
+
+        Route::get('{ban}', [BanAppealFormController::class, 'show'])
+            ->name('front.appeal.form.prefilled');
+    });
 
     Route::get('{banAppeal}', [BanAppealController::class, 'show'])
         ->name('front.appeal.show');
@@ -86,16 +97,13 @@ Route::prefix('bans')->group(function () {
     Route::get('/', [BanlistController::class, 'index'])
         ->name('front.banlist');
 
-    Route::post('/', BanLookupController::class)
-        ->name('front.bans.lookup');
-
     Route::get('{ban}', [BanlistController::class, 'show'])
         ->name('front.bans.details');
 
-    Route::get('{ban}/appeal', [BanAppealController::class, 'create'])
+    Route::get('{ban}/appeal', [BanAppealFormController::class, 'create'])
         ->name('front.appeal.create');
 
-    Route::post('{ban}/appeal', [BanAppealController::class, 'store'])
+    Route::post('{ban}/appeal', [BanAppealFormController::class, 'store'])
         ->name('front.appeal.submit');
 });
 

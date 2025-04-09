@@ -4,9 +4,7 @@ namespace App\Core\Domains\Environment;
 
 final class Environment
 {
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     public static function getLevel(): EnvironmentLevel
     {
