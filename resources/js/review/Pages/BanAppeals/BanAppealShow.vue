@@ -96,9 +96,22 @@ function submit() {
                             </dd>
                         </dl>
                         <dl class="flex items-center justify-between gap-2">
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">Submitted by account?</dt>
+                            <dt class="text-sm text-gray-500 dark:text-gray-400">Minecraft UUID</dt>
                             <dd class="text-sm text-gray-900 dark:text-white">
-                                {{ banAppeal.is_account_verified ? 'Yes' : 'No' }}
+                                {{ banAppeal.minecraft_uuid }}
+                            </dd>
+                        </dl>
+                        <dl class="flex items-center justify-between gap-2">
+                            <dt class="text-sm text-gray-500 dark:text-gray-400">Account</dt>
+                            <dd class="text-sm text-gray-900 dark:text-white">
+                                <a
+                                    v-if="banAppeal.account"
+                                    :href="'/manage/accounts/' + banAppeal.account.account_id"
+                                    class="text-blue-500 font-bold"
+                                >
+                                    <h1>{{ banAppeal.account.username }}</h1>
+                                </a>
+                                <span v-else class="italic">Guest</span>
                             </dd>
                         </dl>
                     </div>
@@ -179,8 +192,21 @@ function submit() {
                         <h2 class="font-bold">Ban Appeal</h2>
                     </div>
 
-                    <div class="p-4 italic">
-                        {{ banAppeal.explanation }}
+                    <div class="p-4">
+                        <div>
+                            <h3 class="text-gray-500 text-sm">Date of Ban</h3>
+                            <span class="italic">{{ banAppeal.date_of_ban }}</span>
+                        </div>
+
+                        <div class="mt-4">
+                            <h3 class="text-gray-500 text-sm">Ban Reason</h3>
+                            <span class="italic">{{ banAppeal.ban_reason }}</span>
+                        </div>
+
+                        <div class="mt-4">
+                            <h3 class="text-gray-500 text-sm">Why should you be unbaned?</h3>
+                            <span class="italic">{{ banAppeal.unban_reason }}</span>
+                        </div>
                     </div>
 
                     <div class="p-4 border-t border-gray-200">

@@ -106,7 +106,7 @@
                     id="ban_reason"
                     rows="4"
                     placeholder="Enter the ban message, or the reason you were likely banned"
-                >{{ old('ban_reason', $ban?->ban_reason) }}</textarea>
+                >{{ old('ban_reason', $ban?->reason) }}</textarea>
 
                 @error('ban_reason')
                 <span class="text-sm text-red-500 mt-2">{{ $message }}</span>

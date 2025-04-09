@@ -1,13 +1,16 @@
 import { BanAppealStatus } from './BanAppealStatus'
 import { Player } from './Player'
 import { PlayerBan } from './PlayerBan'
+import { Account } from './Account'
 
 export interface BanAppeal {
     id: number,
-    explanation: string,
+    minecraft_uuid: string,
+    ban_reason?: string,
+    unban_reason: string,
     email: string,
     status: BanAppealStatus,
-    is_account_verified: boolean,
+    account?: Account,
     game_player_ban: PlayerBan,
     created_at: string,
     updated_at: string,

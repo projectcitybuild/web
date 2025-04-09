@@ -22,10 +22,17 @@ return new class extends Migration
 
         $appeals = BanAppeal::get();
         foreach ($appeals as $appeal) {
-            if (!$appeal->is_account_verified || $appeal->gamePlayerBan === null) continue;
+            $ban = $appeal->gamePlayerBan;
+            $player = $ban->bannedPlayer;
+            $account = $player?->account;
 
-            $account = $appeal->gamePlayerBan->bannedPlayer?->account;
-            $appeal->account_id = $account->getKey();
+            if ($appeal->is_account_verified) {
+                $appeal->account_id = $account->getKey();
+                $appeal->email = $account->email;
+            }
+            $appeal->minecraft_uuid = $player?->uuid;
+            $appeal->ban_reason = $ban->reason;
+            $appeal->date_of_ban = $ban->created_at;
             $appeal->save();
         }
 
