@@ -1,9 +1,12 @@
+@use "sass:color";
+
+// TODO: convert this to a blade component
 span.command {
     $bg: #f8f8f8;
 
     background-color: $bg;
     border-radius: 5px;
-    border: 1px solid darken($bg, 10%);
+    border: 1px solid color.scale($bg, $lightness: -10%, $space: oklch);
     padding: 0.2em 0.4em;
     font-weight: 500;
     font-size: 0.9em;

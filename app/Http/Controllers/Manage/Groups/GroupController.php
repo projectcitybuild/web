@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Manage\Groups;
 
-use App\Domains\Manage\RendersManageApp;
+use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
 use App\Models\Group;

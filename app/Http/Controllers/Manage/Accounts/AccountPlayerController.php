@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Manage\Accounts;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
-use App\Domains\Manage\RendersManageApp;
+use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;

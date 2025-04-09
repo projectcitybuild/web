@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Manage\Accounts;
 
-use App\Domains\Manage\RendersManageApp;
 use App\Domains\MinecraftEventBus\Events\MinecraftPlayerUpdated;
+use App\Http\Controllers\Manage\RendersManageApp;
 use App\Models\Account;
 use App\Models\Badge;
 use Illuminate\Http\Request;

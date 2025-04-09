@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Review\BuilderRanks;
 use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Domains\BuilderRankApplications\UseCases\ApproveBuildRankApplication;
 use App\Domains\BuilderRankApplications\UseCases\DenyBuildRankApplication;
-use App\Domains\Review\RendersReviewApp;
+use App\Http\Controllers\Review\RendersReviewApp;
 use App\Http\Controllers\WebController;
 use App\Models\BuilderRankApplication;
 use App\Models\Group;
