@@ -16,7 +16,8 @@ Route::name('review.')
         Inertia\EncryptHistoryMiddleware::class,
     ])
     ->group(function() {
-        Route::get('/', HomeController::class);
+        Route::get('/', HomeController::class)
+            ->name('index');
 
         Route::prefix('builder-ranks')->name('builder-ranks.')->group(function () {
             Route::get('/', [BuilderRanksController::class, 'index']);

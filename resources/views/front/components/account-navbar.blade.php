@@ -23,6 +23,11 @@
                             <a href="{{ route('manage.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staff Panel</a>
                         </li>
                     @endcan
+                    @can('access-review')
+                        <li>
+                            <a href="{{ route('review.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Review</a>
+                        </li>
+                    @endcan
                 </ul>
                 <ul class="py-2" aria-labelledby="user-menu-button">
                     <li>
