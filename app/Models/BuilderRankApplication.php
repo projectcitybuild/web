@@ -41,6 +41,10 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
         'updated_at',
     ];
 
+    protected $casts = [
+        'status' => ApplicationStatus::class,
+    ];
+
     public function routeNotificationForMail($notification)
     {
         return $this->account->email;
@@ -64,11 +68,6 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
     {
         return $this->status == ApplicationStatus::DENIED->value
             || $this->status == ApplicationStatus::APPROVED->value;
-    }
-
-    public function status(): ApplicationStatus
-    {
-        return ApplicationStatus::tryFrom($this->status);
     }
 
     public function scopePending(Builder $query): Builder

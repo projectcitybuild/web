@@ -94,7 +94,7 @@
                     </table>
                 @endif
 
-                <p class="text-gray-500 text-xs">Note: End date will automatically be extended if part of an active subscriptiong</p>
+                <p class="text-gray-500 text-xs">Note: End date will automatically be extended if part of an active subscription</p>
             </section>
         </div>
     </main>

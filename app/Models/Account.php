@@ -171,9 +171,12 @@ final class Account extends Authenticatable implements LinkableAuditModel
         );
     }
 
-    public function banAppeals()
+    public function banAppeals(): HasMany
     {
-        return BanAppeal::whereIn('game_ban_id', $this->gamePlayerBans()->pluck('id'));
+        return $this->hasMany(
+            related: BanAppeal::class,
+            foreignKey: 'account_id',
+        );
     }
 
     public function isAdmin(): bool
