@@ -74,7 +74,7 @@ class BanAppeal extends Model implements LinkableAuditModel
 
     public function routeNotificationForMail($notification)
     {
-        return $this->gamePlayerBan->bannedPlayer->account?->email ?? $this->email;
+        return $this->email;
     }
 
     public function routeNotificationForDiscord(): string

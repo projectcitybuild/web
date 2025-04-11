@@ -4,6 +4,7 @@ use App\Http\Controllers\Front\Account\AccountBillingController;
 use App\Http\Controllers\Front\Account\AccountDonationController;
 use App\Http\Controllers\Front\Account\AccountGameAccountController;
 use App\Http\Controllers\Front\Account\AccountProfileController;
+use App\Http\Controllers\Front\Account\AccountRecordsController;
 use App\Http\Controllers\Front\Account\Settings\MfaDisableController;
 use App\Http\Controllers\Front\Account\Settings\MfaFinishController;
 use App\Http\Controllers\Front\Account\Settings\MfaStatusController;
@@ -205,6 +206,9 @@ Route::group([
 
     Route::get('donations', [AccountDonationController::class, 'index'])
         ->name('front.account.donations');
+
+    Route::get('records', [AccountRecordsController::class, 'index'])
+        ->name('front.account.records');
 
     Route::prefix('games')->group(function () {
         Route::get('/', [AccountGameAccountController::class, 'index'])
