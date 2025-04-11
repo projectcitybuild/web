@@ -23,6 +23,11 @@
                             <a href="{{ route('manage.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staff Panel</a>
                         </li>
                     @endcan
+                    @can('access-review')
+                        <li>
+                            <a href="{{ route('review.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Review</a>
+                        </li>
+                    @endcan
                 </ul>
                 <ul class="py-2" aria-labelledby="user-menu-button">
                     <li>
@@ -68,6 +73,16 @@
                             {{ request()->is('account/donations') ? 'bg-gray-200 md:bg-transparent md:text-blue-700' : '' }}
                         "
                     >Donations</a>
+                </li>
+                <li>
+                    <a
+                        href="{{ route('front.account.records') }}"
+                        class="
+                            block py-2 px-3 text-gray-900 rounded hover:bg-gray-100
+                            md:hover:bg-transparent md:hover:text-blue-700 md:p-0
+                            {{ request()->is('account/records') ? 'bg-gray-200 md:bg-transparent md:text-blue-700' : '' }}
+                        "
+                    >Records</a>
                 </li>
                 <li>
                     <a
