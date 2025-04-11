@@ -45,7 +45,7 @@ function setupFrontendTasks(): void
 
     task('deploy:frontend', function () {
         run('{{use_nvm}} && cd {{release_path}} && npm ci');
-        run('{{use_nvm}} && cd {{release_path}} && npm run build');
+        run('{{use_nvm}} && cd {{release_path}} && npm run build', timeout: 600);
     })->desc('Build frontend assets');
 }
 
