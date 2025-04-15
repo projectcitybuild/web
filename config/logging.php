@@ -86,7 +86,7 @@ return [
         'sentry' => [
             'driver' => 'custom',
             'via' => SentryLoggerFactory::class,
-            'dsn' => env('SENTRY_LARAVEL_DSN'),
+            'dsn' => env('SENTRY_LARAVEL_DSN', env('SENTRY_DSN')),
         ],
 
         'stderr' => [
