@@ -9,7 +9,7 @@ use App\Domains\BanAppeals\Exceptions\NoPlayerForActionException;
 use App\Domains\BanAppeals\Notifications\BanAppealUpdatedNotification;
 use App\Domains\BanAppeals\UseCases\UpdateBanAppeal;
 use App\Domains\Bans\Exceptions\NotBannedException;
-use App\Domains\Review\RendersReviewApp;
+use App\Http\Controllers\Review\RendersReviewApp;
 use App\Http\Requests\BanAppealUpdateRequest;
 use App\Models\BanAppeal;
 use Illuminate\Http\Request;
@@ -48,6 +48,7 @@ class BanAppealController
         Gate::authorize('view', $banAppeal);
 
         $banAppeal->load([
+            'account',
             'gamePlayerBan.bannerPlayer',
             'gamePlayerBan.bannedPlayer',
             'deciderPlayer',

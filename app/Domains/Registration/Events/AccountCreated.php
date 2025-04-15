@@ -8,7 +8,8 @@ use Illuminate\Queue\SerializesModels;
 
 class AccountCreated
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
     public function __construct(
         public Account $account,

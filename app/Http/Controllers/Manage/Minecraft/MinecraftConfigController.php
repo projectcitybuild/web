@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Manage\Minecraft;
 
-use App\Domains\Manage\RendersManageApp;
 use App\Domains\MinecraftEventBus\Events\MinecraftConfigUpdated;
+use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftConfig;
 use Illuminate\Http\Request;

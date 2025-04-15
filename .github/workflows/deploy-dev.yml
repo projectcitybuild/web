@@ -12,21 +12,10 @@ concurrency:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-    environment: dev
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-
-      - name: Deploy dev branch
-        uses: ./.github/actions/recipes/deploy
-        env:
-          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-          DEPLOY_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
-          DEPLOY_DISCORD_CHANNEL_ID: ${{ secrets.DEPLOY_DISCORD_CHANNEL_ID }}
-          DEPLOY_DISCORD_CHANNEL_TOKEN: ${{ secrets.DEPLOY_DISCORD_CHANNEL_TOKEN }}
-        with:
-          branch: main
-          keep-releases: 3
+    uses: ./.github/workflows/__deploy.yml
+    secrets: inherit
+    with:
+      environment: dev
+      branch: main
+      keep-releases: 3
 

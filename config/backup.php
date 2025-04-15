@@ -1,5 +1,12 @@
 <?php
 
+use App\Domains\Backup\Notifications\BackupHasFailedNotification;
+use App\Domains\Backup\Notifications\BackupWasSuccessfulNotification;
+use App\Domains\Backup\Notifications\CleanupHasFailedNotification;
+use App\Domains\Backup\Notifications\CleanupWasSuccessfulNotification;
+use App\Domains\Backup\Notifications\HealthyBackupWasFoundNotification;
+use App\Domains\Backup\Notifications\UnhealthyBackupWasFoundNotification;
+
 return [
 
     'backup' => [
@@ -141,13 +148,17 @@ return [
      */
     'notifications' => [
 
+        /*
+         * Memo: We override these because we want to use our own Discord webhook client,
+         * rather than the one bundled with the backup package
+         */
         'notifications' => [
-            \Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification::class => ['discord'],
-            \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification::class => ['discord'],
-            \Spatie\Backup\Notifications\Notifications\CleanupHasFailedNotification::class => ['discord'],
-            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessfulNotification::class => ['discord'],
-            \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFoundNotification::class => ['discord'],
-            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessfulNotification::class => ['discord'],
+            BackupHasFailedNotification::class => ['discord'],
+            UnhealthyBackupWasFoundNotification::class => ['discord'],
+            CleanupHasFailedNotification::class => ['discord'],
+            BackupWasSuccessfulNotification::class => ['discord'],
+            HealthyBackupWasFoundNotification::class => ['discord'],
+            CleanupWasSuccessfulNotification::class => ['discord'],
         ],
 
         /*

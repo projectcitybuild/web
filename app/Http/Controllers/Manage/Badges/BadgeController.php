@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Manage\Badges;
 
-use App\Domains\Manage\RendersManageApp;
+use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Badge;
 use Illuminate\Http\Request;

@@ -1,0 +1,129 @@
+.modal {}
+
+.modal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal__container {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow-y: auto;
+    box-shadow: 0 4px 10px hsla(0, 0%, 0%, 15%),
+                inset 0 -4px 0 hsla(0, 0%, 0%, 25%);
+
+    @media screen and (min-width: 768px) {
+        max-width: 50vw;
+        max-height: 90vh;
+    }
+
+    @media screen and (max-width: 768px) {
+        max-width: 90vw;
+        max-height: 80vh;
+    }
+}
+
+.modal__header {
+    display: flex;
+    padding: 2em 1.5em;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #E4E4E4;
+
+    h2 {
+        margin: 0;
+    }
+}
+
+.modal__section {
+    padding: 2em 2em;
+
+    &:not(:last-child) {
+        border-bottom: 1px solid #E4E4E4;
+    }
+
+    .modal__section_description {
+        color: #343434;
+        font-size: 0.9em;
+        line-height: 2em;
+        margin-bottom: 3em;
+    }
+
+    .modal__donate_form {
+        margin-top: 1em;
+        margin-bottom: 3em;
+        color: #888888;
+
+        input {
+            width: 75px;
+            text-align: center;
+            margin-right: 1em;
+        }
+    }
+}
+
+.modal__close {
+    background: transparent;
+    border: 0;
+}
+
+.modal__header .modal__close:before { content: "\2715"; }
+
+/**************************\
+  Demo Animation Style
+\**************************/
+@keyframes mmfadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes mmfadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes mmslideIn {
+    from { transform: translateY(15%); }
+    to { transform: translateY(0); }
+}
+
+@keyframes mmslideOut {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10%); }
+}
+
+.micromodal-slide {
+    display: none;
+}
+
+.micromodal-slide.is-open {
+    display: block;
+}
+
+.micromodal-slide[aria-hidden="false"] .modal__overlay {
+    animation: mmfadeIn .3s cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+
+.micromodal-slide[aria-hidden="false"] .modal__container {
+    animation: mmslideIn .3s cubic-bezier(0, 0, .2, 1);
+}
+
+.micromodal-slide[aria-hidden="true"] .modal__overlay {
+    animation: mmfadeOut .3s cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+
+.micromodal-slide[aria-hidden="true"] .modal__container {
+    animation: mmslideOut .3s cubic-bezier(0, 0, .2, 1);
+}
+
+.micromodal-slide .modal__container,
+.micromodal-slide .modal__overlay {
+    will-change: transform;
+}

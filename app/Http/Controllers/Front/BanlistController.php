@@ -3,36 +3,36 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\WebController;
+use App\Http\Filters\LikeFilter;
 use App\Models\GamePlayerBan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Pipeline;
 
 final class BanlistController extends WebController
 {
     public function index(Request $request)
     {
-        $bans = GamePlayerBan::active()
+        $query = $request->input('query');
+
+        $pipes = [
+            new LikeFilter('alias', $query, relationship: 'bannedPlayer'),
+        ];
+        $bans = Pipeline::send(GamePlayerBan::query())
+            ->through($pipes)
+            ->thenReturn()
             ->with(['bannedPlayer', 'bannerPlayer'])
-            ->latest();
+            ->active()
+            ->latest()
+            ->paginate(50);
 
-        if ($request->has('query') && !empty($request->input('query'))) {
-            $query = $request->input('query');
-            $bans = GamePlayerBan::search($query)->constrain($bans);
-        } else {
-            $query = null;
-        }
-
-        $bans = $bans->paginate(50);
-
-        return view('front.pages.banlist')
-            ->with([
-                'bans' => $bans,
-                'query' => $query,
-            ]);
+        return view(
+            'front.pages.bans.index',
+            compact('bans', 'query'),
+        );
     }
 
     public function show(Request $request, GamePlayerBan $ban)
     {
-        return view('front.pages.ban')
-            ->with(['ban' => $ban]);
+        return view('front.pages.bans.show', compact('ban'));
     }
 }

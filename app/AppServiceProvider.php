@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Domains\Donations\Components\DonationBarComponent;
 use App\Models\Account;
 use App\Models\Badge;
 use App\Models\BanAppeal;
@@ -25,22 +24,9 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
-use Stripe\StripeClient;
 
 final class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        $this->app->bind(StripeClient::class, function ($app) {
-            return new StripeClient(config('services.stripe.secret'));
-        });
-    }
-
     /**
      * Bootstrap any application services.
      *
@@ -104,7 +90,6 @@ final class AppServiceProvider extends ServiceProvider
 
     private function bindBladeComponents(): void
     {
-
         Blade::anonymousComponentPath(__DIR__.'/../resources/views/shared/components');
         Blade::anonymousComponentPath(__DIR__.'/../resources/views/front/components', prefix: 'front');
         Blade::anonymousComponentPath(__DIR__.'/../resources/views/manage/components', prefix: 'manage');

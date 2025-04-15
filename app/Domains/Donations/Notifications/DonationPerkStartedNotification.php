@@ -60,7 +60,7 @@ class DonationPerkStartedNotification extends Notification implements ShouldQueu
             ->line('Your period of donor perks has now begun and will expire on '.$this->expiryDate->toFormattedDateString())
             ->line('(If you paid via a subscription, your perks will be renewed prior to the above expiry date)')
             ->action('View Your Donations', route('front.account.donations'))
-            ->line('If you have any questions, please ask a member of PCB staff on our forums or Discord');
+            ->line('If you have any questions, please reach out to a member of staff');
     }
 
     /**
@@ -71,8 +71,6 @@ class DonationPerkStartedNotification extends Notification implements ShouldQueu
      */
     public function toArray($notifiable)
     {
-        return [
-
-        ];
+        return [];
     }
 }

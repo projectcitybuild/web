@@ -52,11 +52,6 @@ final class Group extends Model implements LinkableAuditModel
         $query->where('is_default', true);
     }
 
-    public function scopeWhereDonor(Builder $query)
-    {
-        $query->where('name', 'donator');
-    }
-
     public function scopeWhereBuildType(Builder $query)
     {
         $query->where('group_type', 'build');
@@ -75,5 +70,12 @@ final class Group extends Model implements LinkableAuditModel
     public function getActivitySubjectName(): ?string
     {
         return "Group {$this->name}";
+    }
+
+    public static function getDonorOrThrow(): Group
+    {
+        $group = Group::where('name', 'donator')->first();
+        throw_if($group === null, 'Could not find donor group');
+        return $group;
     }
 }

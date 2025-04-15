@@ -23,7 +23,6 @@
     <env name="QUEUE_CONNECTION" value="sync"/>
     <env name="RECAPTCHA_ENABLED" value="false"/>
     <env name="SESSION_DRIVER" value="array"/>
-    <env name="SCOUT_DRIVER" value="null" />
     <env name="STRIPE_SECRET" value="sk_test_3dyAn3Pfa23JF6SlJb8qY5VR"/>
     <env name="TOTP_BYPASS" value="false"/>
   </php>

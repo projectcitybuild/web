@@ -36,7 +36,7 @@
                         <tbody>
                         @foreach($donations as $donation)
                             <tr>
-                                <td class="p-2">${{ number_format($donation->amount, 2) }}</td>
+                                <td class="p-2">{{ $donation->formattedPaidAmount() }}</td>
                                 <td class="p-2">{{ $donation->created_at?->utc() ?? "Unknown" }}</td>
                             </tr>
                         @endforeach
@@ -66,7 +66,7 @@
                                 <th class="p-2">Perk</th>
                                 <th class="p-2">Status</th>
                                 <th class="p-2">Start Date</th>
-                                <th class="p-2">Expiry Date</th>
+                                <th class="p-2">End Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -94,7 +94,7 @@
                     </table>
                 @endif
 
-                <p class="text-gray-500 text-xs">Note: Perks will automatically renew if part of a subscription (eg. Copper Tier)</p>
+                <p class="text-gray-500 text-xs">Note: End date will automatically be extended if part of an active subscription</p>
             </section>
         </div>
     </main>

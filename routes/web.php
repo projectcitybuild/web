@@ -4,6 +4,7 @@ use App\Http\Controllers\Front\Account\AccountBillingController;
 use App\Http\Controllers\Front\Account\AccountDonationController;
 use App\Http\Controllers\Front\Account\AccountGameAccountController;
 use App\Http\Controllers\Front\Account\AccountProfileController;
+use App\Http\Controllers\Front\Account\AccountRecordsController;
 use App\Http\Controllers\Front\Account\Settings\MfaDisableController;
 use App\Http\Controllers\Front\Account\Settings\MfaFinishController;
 use App\Http\Controllers\Front\Account\Settings\MfaStatusController;
@@ -22,7 +23,8 @@ use App\Http\Controllers\Front\Auth\PasswordResetController;
 use App\Http\Controllers\Front\Auth\ReauthController;
 use App\Http\Controllers\Front\Auth\RegisterController;
 use App\Http\Controllers\Front\BanAppeal\BanAppealController;
-use App\Http\Controllers\Front\BanAppeal\BanLookupController;
+use App\Http\Controllers\Front\BanAppeal\BanAppealFormController;
+use App\Http\Controllers\Front\BanAppeal\BanAppealSearchController;
 use App\Http\Controllers\Front\BanlistController;
 use App\Http\Controllers\Front\BuilderRankApplicationController;
 use App\Http\Controllers\Front\ContactController;
@@ -35,9 +37,6 @@ Route::get('/', [HomeController::class, 'index'])
 
 Route::get('maps', fn () => view('front.pages.maps'))
     ->name('front.maps');
-
-Route::get('3d-map', fn () => view('front.pages.3d-map'))
-    ->name('front.3d-map');
 
 Route::prefix('contact')->group(function () {
     Route::get('/', [ContactController::class, 'index'])
@@ -74,12 +73,22 @@ Route::group([
 });
 
 Route::prefix('appeal')->group(function () {
-    Route::get('/', [BanAppealController::class, 'index'])
+    Route::view('/', 'front.pages.ban-appeal.index')
         ->name('front.appeal');
 
-    Route::redirect('auth', '/appeal')
-        ->name('front.appeal.auth')
-        ->middleware('auth');
+    Route::get('search', [BanAppealSearchController::class, 'index'])
+        ->name('front.appeal.search');
+
+    Route::prefix('create')->group(function () {
+        Route::get('/', [BanAppealFormController::class, 'index'])
+            ->name('front.appeal.form');
+
+        Route::post('/', [BanAppealFormController::class, 'store'])
+            ->name('front.appeal.form.submit');
+
+        Route::get('{ban}', [BanAppealFormController::class, 'show'])
+            ->name('front.appeal.form.prefilled');
+    });
 
     Route::get('{banAppeal}', [BanAppealController::class, 'show'])
         ->name('front.appeal.show');
@@ -89,16 +98,13 @@ Route::prefix('bans')->group(function () {
     Route::get('/', [BanlistController::class, 'index'])
         ->name('front.banlist');
 
-    Route::post('/', BanLookupController::class)
-        ->name('front.bans.lookup');
-
     Route::get('{ban}', [BanlistController::class, 'show'])
         ->name('front.bans.details');
 
-    Route::get('{ban}/appeal', [BanAppealController::class, 'create'])
+    Route::get('{ban}/appeal', [BanAppealFormController::class, 'create'])
         ->name('front.appeal.create');
 
-    Route::post('{ban}/appeal', [BanAppealController::class, 'store'])
+    Route::post('{ban}/appeal', [BanAppealFormController::class, 'store'])
         ->name('front.appeal.submit');
 });
 
@@ -200,6 +206,9 @@ Route::group([
 
     Route::get('donations', [AccountDonationController::class, 'index'])
         ->name('front.account.donations');
+
+    Route::get('records', [AccountRecordsController::class, 'index'])
+        ->name('front.account.records');
 
     Route::prefix('games')->group(function () {
         Route::get('/', [AccountGameAccountController::class, 'index'])

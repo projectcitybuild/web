@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Review;
 
-use App\Domains\Review\RendersReviewApp;
 use App\Http\Controllers\WebController;
 use Illuminate\Http\Request;
 

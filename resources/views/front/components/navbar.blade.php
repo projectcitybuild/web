@@ -27,6 +27,11 @@
                                 <a href="{{ route('manage.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staff Panel</a>
                             </li>
                         @endcan
+                        @can('access-review')
+                            <li>
+                                <a href="{{ route('review.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Review</a>
+                            </li>
+                        @endcan
                         <li>
                             <a href="{{ route('front.account.settings') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                         </li>
@@ -149,25 +154,8 @@
                         <span class="text-sm text-gray-500">List of all current and past volunteers</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('front.contact') }}" class="block p-3 rounded-lg hover:bg-gray-100">
-                        <div class="font-semibold">Contact Us</div>
-                        <span class="text-sm text-gray-500">For general inquiries</span>
-                    </a>
-                </li>
             </ul>
             <ul>
-                <li>
-                    <a href="{{ route('front.3d-map') }}" class="block p-3 rounded-lg hover:bg-gray-100">
-                        <div class="font-semibold flex gap-1 items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                                <path fill-rule="evenodd" d="m9.69 18.933.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 0 0 .281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 1 0 3 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 0 0 2.273 1.765 11.842 11.842 0 0 0 .976.544l.062.029.018.008.006.003ZM10 11.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z" clip-rule="evenodd" />
-                            </svg>
-                            3D Map
-                        </div>
-                        <span class="text-sm text-gray-500">View the interactive map of Monarch</span>
-                    </a>
-                </li>
                 <li>
                     <a href="{{ route('map-archive') }}" class="block p-3 rounded-lg hover:bg-gray-100">
                         <div class="font-semibold flex gap-1 items-center">
@@ -188,6 +176,17 @@
                             Ban List
                         </div>
                         <span class="text-sm text-gray-500">List of players banned from our services</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('front.contact') }}" class="block p-3 rounded-lg hover:bg-gray-100">
+                        <div class="font-semibold flex gap-1 items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                            </svg>
+                            Contact Us
+                        </div>
+                        <span class="text-sm text-gray-500">For general inquiries</span>
                     </a>
                 </li>
             </ul>

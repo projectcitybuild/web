@@ -1,11 +1,6 @@
 <?php
 
-use App\Core\Data\Exceptions\BadRequestException;
 use App\Core\Data\Exceptions\BaseHttpException;
-use App\Core\Data\Exceptions\ForbiddenException;
-use App\Core\Data\Exceptions\NotFoundException;
-use App\Core\Data\Exceptions\TooManyRequestsException;
-use App\Core\Data\Exceptions\UnauthorisedException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -59,6 +54,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'require-mfa' => \App\Http\Middleware\RequireMfaEnabled::class,
             'require-server-token' => \App\Http\Middleware\RequireServerToken::class,
         ]);
+        // Stripe webhooks need to bypass Laravel's CSRF protection
+        // https://laravel.com/docs/12.x/billing#handling-stripe-webhooks
+        $middleware->validateCsrfTokens(except: [
+            'stripe/*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->dontReport([
@@ -68,11 +68,6 @@ return Application::configure(basePath: dirname(__DIR__))
             ModelNotFoundException::class,
             TokenMismatchException::class,
             ValidationException::class,
-            UnauthorisedException::class,
-            BadRequestException::class,
-            ForbiddenException::class,
-            NotFoundException::class,
-            TooManyRequestsException::class,
         ]);
         $exceptions->render(function (BaseHttpException $e, Request $request) {
             // Convert all exceptions to a consistent JSON format
