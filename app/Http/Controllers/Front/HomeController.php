@@ -4,14 +4,15 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\WebController;
 use App\Models\Donation;
-use App\Models\Server;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Money\Money;
 
 final class HomeController extends WebController
 {
     public function index()
     {
+        Log::info('test');
         $requiredAmount = Money::USD(config('donations.target_funding') * 100);
 
         $now = now();

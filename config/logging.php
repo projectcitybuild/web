@@ -1,6 +1,7 @@
 <?php
 
 use App\Core\Support\Laravel\Logging\LogTailLoggerFactory;
+use App\Core\Support\Laravel\Logging\SentryLoggerFactory;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -38,7 +39,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['daily', 'logtail'],
+            'channels' => ['daily', 'logtail', 'sentry'],
             'ignore_exceptions' => false,
         ],
 
@@ -80,6 +81,12 @@ return [
             'name' => env('LOGTAIL_NAME', 'logtail'),
             'source_token' => env('LOGTAIL_SOURCE_TOKEN'),
             'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'sentry' => [
+            'driver' => 'custom',
+            'via' => SentryLoggerFactory::class,
+            'dsn' => env('SENTRY_LARAVEL_DSN'),
         ],
 
         'stderr' => [

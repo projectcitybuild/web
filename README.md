@@ -107,4 +107,3 @@ From now on you can complete a payment normally. For example, go to the donation
 a purchase with a [mock credit card](https://docs.stripe.com/testing).
 
 Authentication needs to be done every 90 days due to token expiry.
-

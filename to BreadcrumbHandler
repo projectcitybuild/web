@@ -1,0 +1,627 @@
+[1mdiff --git a/.env.example b/.env.example[m
+[1mindex 6eaaaefcf..21fbc3d56 100644[m
+[1m--- a/.env.example[m
+[1m+++ b/.env.example[m
+[36m@@ -6,7 +6,7 @@[m [mAPP_URL=http://localhost[m
+ [m
+ VITE_APP_URL="${APP_URL}"[m
+ [m
+[31m-LOG_CHANNEL=stack[m
+[32m+[m[32mLOG_CHANNEL=single[m
+ [m
+ LOGTAIL_SOURCE_TOKEN=[m
+ [m
+[36m@@ -15,7 +15,8 @@[m [mDISCORD_WEBHOOK_ARCHITECT=[m
+ DISCORD_WEBHOOK_BAN_APPEAL=[m
+ DISCORD_WEBHOOK_BACKUP=[m
+ [m
+[31m-SENTRY_DSN=[m
+[32m+[m[32mSENTRY_LARAVEL_DSN=[m
+[32m+[m[32mSENTRY_TRACES_SAMPLE_RATE=0.0[m
+ [m
+ TOTP_BYPASS=true[m
+ [m
+[1mdiff --git a/README.md b/README.md[m
+[1mindex f0ed8b58d..a94a6f608 100644[m
+[1m--- a/README.md[m
+[1m+++ b/README.md[m
+[36m@@ -107,4 +107,3 @@[m [mFrom now on you can complete a payment normally. For example, go to the donation[m
+ a purchase with a [mock credit card](https://docs.stripe.com/testing).[m
+ [m
+ Authentication needs to be done every 90 days due to token expiry.[m
+[31m-[m
+[1mdiff --git a/app/AppServiceProvider.php b/app/AppServiceProvider.php[m
+[1mindex c0dc58e48..d8ffae709 100644[m
+[1m--- a/app/AppServiceProvider.php[m
+[1m+++ b/app/AppServiceProvider.php[m
+[36m@@ -2,7 +2,6 @@[m
+ [m
+ namespace App;[m
+ [m
+[31m-use App\Domains\Donations\Components\DonationBarComponent;[m
+ use App\Models\Account;[m
+ use App\Models\Badge;[m
+ use App\Models\BanAppeal;[m
+[36m@@ -25,22 +24,9 @@[m [muse Illuminate\Support\Facades\Gate;[m
+ use Illuminate\Support\Facades\RateLimiter;[m
+ use Illuminate\Support\ServiceProvider;[m
+ use Illuminate\Validation\Rules\Password;[m
+[31m-use Stripe\StripeClient;[m
+ [m
+ final class AppServiceProvider extends ServiceProvider[m
+ {[m
+[31m-    /**[m
+[31m-     * Register any application services.[m
+[31m-     *[m
+[31m-     * @return void[m
+[31m-     */[m
+[31m-    public function register()[m
+[31m-    {[m
+[31m-        $this->app->bind(StripeClient::class, function ($app) {[m
+[31m-            return new StripeClient(config('services.stripe.secret'));[m
+[31m-        });[m
+[31m-    }[m
+[31m-[m
+     /**[m
+      * Bootstrap any application services.[m
+      *[m
+[1mdiff --git a/app/Core/Domains/Payment/PaymentServiceProvider.php b/app/Core/Domains/Payment/PaymentServiceProvider.php[m
+[1mindex 434834d9b..58a74fe0e 100644[m
+[1m--- a/app/Core/Domains/Payment/PaymentServiceProvider.php[m
+[1m+++ b/app/Core/Domains/Payment/PaymentServiceProvider.php[m
+[36m@@ -6,9 +6,22 @@[m [muse App\Core\Domains\Payment\Listeners\StripeEventListener;[m
+ use Illuminate\Support\Facades\Event;[m
+ use Illuminate\Support\ServiceProvider;[m
+ use Laravel\Cashier\Events\WebhookReceived;[m
+[32m+[m[32muse Stripe\StripeClient;[m
+ [m
+ final class PaymentServiceProvider extends ServiceProvider[m
+ {[m
+[32m+[m[32m    /**[m
+[32m+[m[32m     * Register any application services.[m
+[32m+[m[32m     *[m
+[32m+[m[32m     * @return void[m
+[32m+[m[32m     */[m
+[32m+[m[32m    public function register()[m
+[32m+[m[32m    {[m
+[32m+[m[32m        $this->app->bind(StripeClient::class, function ($app) {[m
+[32m+[m[32m            return new StripeClient(config('services.stripe.secret'));[m
+[32m+[m[32m        });[m
+[32m+[m[32m    }[m
+[32m+[m
+     /**[m
+      * Bootstrap any application services.[m
+      *[m
+[1mdiff --git a/app/Core/Support/Laravel/Logging/LogTailLoggerFactory.php b/app/Core/Support/Laravel/Logging/LogTailLoggerFactory.php[m
+[1mindex bdb4544db..204583f80 100644[m
+[1m--- a/app/Core/Support/Laravel/Logging/LogTailLoggerFactory.php[m
+[1m+++ b/app/Core/Support/Laravel/Logging/LogTailLoggerFactory.php[m
+[36m@@ -5,6 +5,10 @@[m [mnamespace App\Core\Support\Laravel\Logging;[m
+ use Logtail\Monolog\LogtailHandler;[m
+ use Monolog\Logger;[m
+ [m
+[32m+[m[32m/**[m
+[32m+[m[32m * Creates a Logger that merely forwards logs to LogtailHandler[m
+[32m+[m[32m * for pushing to Logtail[m
+[32m+[m[32m */[m
+ final class LogTailLoggerFactory[m
+ {[m
+     /**[m
+[36m@@ -14,14 +18,14 @@[m [mfinal class LogTailLoggerFactory[m
+      */[m
+     public function __invoke(array $config): Logger[m
+     {[m
+[31m-        $sourceToken = config('logging.channels.logtail.source_token');[m
+[32m+[m[32m        $sourceToken = $config['source_token'];[m
+ [m
+[31m-        $logger = new Logger('logtail');[m
+[32m+[m[32m        $logger = new Logger($config['name']);[m
+         if (! empty($sourceToken)) {[m
+             $logger->pushHandler([m
+                 new LogtailHandler([m
+                     sourceToken: $sourceToken,[m
+[31m-                    level: config('logging.channels.logtail.level'),[m
+[32m+[m[32m                    level: $config['level'],[m
+                 )[m
+             );[m
+         }[m
+[1mdiff --git a/app/Http/Controllers/Front/HomeController.php b/app/Http/Controllers/Front/HomeController.php[m
+[1mindex 1ee9137a1..c057bad32 100644[m
+[1m--- a/app/Http/Controllers/Front/HomeController.php[m
+[1m+++ b/app/Http/Controllers/Front/HomeController.php[m
+[36m@@ -4,14 +4,15 @@[m [mnamespace App\Http\Controllers\Front;[m
+ [m
+ use App\Http\Controllers\WebController;[m
+ use App\Models\Donation;[m
+[31m-use App\Models\Server;[m
+ use Carbon\Carbon;[m
+[32m+[m[32muse Illuminate\Support\Facades\Log;[m
+ use Money\Money;[m
+ [m
+ final class HomeController extends WebController[m
+ {[m
+     public function index()[m
+     {[m
+[32m+[m[32m        Log::info('test');[m
+         $requiredAmount = Money::USD(config('donations.target_funding') * 100);[m
+ [m
+         $now = now();[m
+[1mdiff --git a/composer.json b/composer.json[m
+[1mindex 65098155b..455e2cd4a 100644[m
+[1m--- a/composer.json[m
+[1m+++ b/composer.json[m
+[36m@@ -18,7 +18,6 @@[m
+         "laravel/passport": "^12.0",[m
+         "laravel/pulse": "^1.4",[m
+         "laravel/tinker": "^2.9",[m
+[31m-        "league/commonmark": "^2.3",[m
+         "league/flysystem-aws-s3-v3": "^3.0",[m
+         "logtail/monolog-logtail": "^v3.2.0",[m
+         "moneyphp/money": "^4.6",[m
+[1mdiff --git a/composer.lock b/composer.lock[m
+[1mindex 729358765..da3203c1b 100644[m
+[1m--- a/composer.lock[m
+[1m+++ b/composer.lock[m
+[36m@@ -4,7 +4,7 @@[m
+         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",[m
+         "This file is @generated automatically"[m
+     ],[m
+[31m-    "content-hash": "2e6543acbc02bba7d465df9e3493d148",[m
+[32m+[m[32m    "content-hash": "9d0b1dd6cf6ff2f7a849dc1aed86b4a6",[m
+     "packages": [[m
+         {[m
+             "name": "altek/eventually",[m
+[36m@@ -224,65 +224,6 @@[m
+             },[m
+             "time": "2024-12-13T19:18:29+00:00"[m
+         },[m
+[31m-        {[m
+[31m-            "name": "awssat/discord-notification-channel",[m
+[31m-            "version": "1.4.4",[m
+[31m-            "source": {[m
+[31m-                "type": "git",[m
+[31m-                "url": "https://github.com/awssat/discord-notification-channel.git",[m
+[31m-                "reference": "f9a936f5d25016cf8a367846507b45effd5b5a71"[m
+[31m-            },[m
+[31m-            "dist": {[m
+[31m-                "type": "zip",[m
+[31m-                "url": "https://api.github.com/repos/awssat/discord-notification-channel/zipball/f9a936f5d25016cf8a367846507b45effd5b5a71",[m
+[31m-                "reference": "f9a936f5d25016cf8a367846507b45effd5b5a71",[m
+[31m-                "shasum": ""[m
+[31m-            },[m
+[31m-            "require": {[m
+[31m-                "guzzlehttp/guzzle": "^6.0|^7.0",[m
+[31m-                "illuminate/notifications": "~5.8.0|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0",[m
+[31m-                "laravel/slack-notification-channel": "^2.0|^3.2",[m
+[31m-                "php": "^7.1.3|^8.0"[m
+[31m-            },[m
+[31m-            "require-dev": {[m
+[31m-                "mockery/mockery": "^1.4 || ^1.6",[m
+[31m-                "phpunit/phpunit": "^7.0|^8.0|^9.0|^10.1"[m
+[31m-            },[m
+[31m-            "type": "library",[m
+[31m-            "extra": {[m
+[31m-                "laravel": {[m
+[31m-                    "providers": [[m
+[31m-                        "Awssat\\Notifications\\DiscordChannelServiceProvider"[m
+[31m-                    ][m
+[31m-                }[m
+[31m-            },[m
+[31m-            "autoload": {[m
+[31m-                "psr-4": {[m
+[31m-                    "Awssat\\Notifications\\": "src/"[m
+[31m-                }[m
+[31m-            },[m
+[31m-            "notification-url": "https://packagist.org/downloads/",[m
+[31m-            "license": [[m
+[31m-                "MIT"[m
+[31m-            ],[m
+[31m-            "authors": [[m
+[31m-                {[m
+[31m-                    "name": "Bader Almutairi",[m
+[31m-                    "email": "phpfalcon@gmail.com"[m
+[31m-                }[m
+[31m-            ],[m
+[31m-            "description": "Discord Notification Channel for laravel.",[m
+[31m-            "keywords": [[m
+[31m-                "discord",[m
+[31m-                "laravel",[m
+[31m-                "notifications"[m
+[31m-            ],[m
+[31m-            "support": {[m
+[31m-                "issues": "https://github.com/awssat/discord-notification-channel/issues",[m
+[31m-                "source": "https://github.com/awssat/discord-notification-channel/tree/1.4.4"[m
+[31m-            },[m
+[31m-            "time": "2024-07-06T23:15:22+00:00"[m
+[31m-        },[m
+         {[m
+             "name": "bacon/bacon-qr-code",[m
+             "version": "2.0.8",[m
+[36m@@ -2635,86 +2576,6 @@[m
+             },[m
+             "time": "2025-03-05T15:34:10+00:00"[m
+         },[m
+[31m-        {[m
+[31m-            "name": "laravel/horizon",[m
+[31m-            "version": "v5.30.0",[m
+[31m-            "source": {[m
+[31m-                "type": "git",[m
+[31m-                "url": "https://github.com/laravel/horizon.git",[m
+[31m-                "reference": "37d1f29daa7500fcd170d5c45b98b592fcaab95a"[m
+[31m-            },[m
+[31m-            "dist": {[m
+[31m-                "type": "zip",[m
+[31m-                "url": "https://api.github.com/repos/laravel/horizon/zipball/37d1f29daa7500fcd170d5c45b98b592fcaab95a",[m
+[31m-                "reference": "37d1f29daa7500fcd170d5c45b98b592fcaab95a",[m
+[31m-                "shasum": ""[m
+[31m-            },[m
+[31m-            "require": {[m
+[31m-                "ext-json": "*",[m
+[31m-                "ext-pcntl": "*",[m
+[31m-                "ext-posix": "*",[m
+[31m-                "illuminate/contracts": "^9.21|^10.0|^11.0",[m
+[31m-                "illuminate/queue": "^9.21|^10.0|^11.0",[m
+[31m-                "illuminate/support": "^9.21|^10.0|^11.0",[m
+[31m-                "nesbot/carbon": "^2.17|^3.0",[m
+[31m-                "php": "^8.0",[m
+[31m-                "ramsey/uuid": "^4.0",[m
+[31m-                "symfony/console": "^6.0|^7.0",[m
+[31m-                "symfony/error-handler": "^6.0|^7.0",[m
+[31m-                "symfony/polyfill-php83": "^1.28",[m
+[31m-                "symfony/process": "^6.0|^7.0"[m
+[31m-            },[m
+[31m-            "require-dev": {[m
+[31m-                "mockery/mockery": "^1.0",[m
+[31m-                "orchestra/testbench": "^7.0|^8.0|^9.0",[m
+[31m-                "phpstan/phpstan": "^1.10",[m
+[31m-                "phpunit/phpunit": "^9.0|^10.4",[m
+[31m-                "predis/predis": "^1.1|^2.0"[m
+[31m-            },[m
+[31m-            "suggest": {[m
+[31m-                "ext-redis": "Required to use the Redis PHP driver.",[m
+[31m-                "predis/predis": "Required when not using the Redis PHP driver (^1.1|^2.0)."[m
+[31m-            },[m
+[31m-            "type": "library",[m
+[31m-            "extra": {[m
+[31m-                "laravel": {[m
+[31m-                    "aliases": {[m
+[31m-                        "Horizon": "Laravel\\Horizon\\Horizon"[m
+[31m-                    },[m
+[31m-                    "providers": [[m
+[31m-                        "Laravel\\Horizon\\HorizonServiceProvider"[m
+[31m-                    ][m
+[31m-                },[m
+[31m-                "branch-alias": {[m
+[31m-                    "dev-master": "5.x-dev"[m
+[31m-                }[m
+[31m-            },[m
+[31m-            "autoload": {[m
+[31m-                "psr-4": {[m
+[31m-                    "Laravel\\Horizon\\": "src/"[m
+[31m-                }[m
+[31m-            },[m
+[31m-            "notification-url": "https://packagist.org/downloads/",[m
+[31m-            "license": [[m
+[31m-                "MIT"[m
+[31m-            ],[m
+[31m-            "authors": [[m
+[31m-                {[m
+[31m-                    "name": "Taylor Otwell",[m
+[31m-                    "email": "taylor@laravel.com"[m
+[31m-                }[m
+[31m-            ],[m
+[31m-            "description": "Dashboard and code-driven configuration for Laravel queues.",[m
+[31m-            "keywords": [[m
+[31m-                "laravel",[m
+[31m-                "queue"[m
+[31m-            ],[m
+[31m-            "support": {[m
+[31m-                "issues": "https://github.com/laravel/horizon/issues",[m
+[31m-                "source": "https://github.com/laravel/horizon/tree/v5.30.0"[m
+[31m-            },[m
+[31m-            "time": "2024-12-06T18:58:00+00:00"[m
+[31m-        },[m
+         {[m
+             "name": "laravel/passport",[m
+             "version": "v12.3.1",[m
+[36m@@ -2998,71 +2859,6 @@[m
+             },[m
+             "time": "2025-02-11T15:03:05+00:00"[m
+         },[m
+[31m-        {[m
+[31m-            "name": "laravel/slack-notification-channel",[m
+[31m-            "version": "v3.4.2",[m
+[31m-            "source": {[m
+[31m-                "type": "git",[m
+[31m-                "url": "https://github.com/laravel/slack-notification-channel.git",[m
+[31m-                "reference": "282d52d70195283eb1b92e59d7bdc2d525361f4b"[m
+[31m-            },[m
+[31m-            "dist": {[m
+[31m-                "type": "zip",[m
+[31m-                "url": "https://api.github.com/repos/laravel/slack-notification-channel/zipball/282d52d70195283eb1b92e59d7bdc2d525361f4b",[m
+[31m-                "reference": "282d52d70195283eb1b92e59d7bdc2d525361f4b",[m
+[31m-                "shasum": ""[m
+[31m-            },[m
+[31m-            "require": {[m
+[31m-                "guzzlehttp/guzzle": "^7.0",[m
+[31m-                "illuminate/http": "^9.0|^10.0|^11.0",[m
+[31m-                "illuminate/notifications": "^9.0|^10.0|^11.0",[m
+[31m-                "illuminate/support": "^9.0|^10.0|^11.0",[m
+[31m-                "php": "^8.0"[m
+[31m-            },[m
+[31m-            "require-dev": {[m
+[31m-                "mockery/mockery": "^1.0",[m
+[31m-                "orchestra/testbench": "^7.0|^8.0|^9.0",[m
+[31m-                "phpstan/phpstan": "^1.10",[m
+[31m-                "phpunit/phpunit": "^9.0|^10.4"[m
+[31m-            },[m
+[31m-            "type": "library",[m
+[31m-            "extra": {[m
+[31m-                "laravel": {[m
+[31m-                    "providers": [[m
+[31m-                        "Illuminate\\Notifications\\SlackChannelServiceProvider"[m
+[31m-                    ][m
+[31m-                },[m
+[31m-                "branch-alias": {[m
+[31m-                    "dev-master": "3.x-dev"[m
+[31m-                }[m
+[31m-            },[m
+[31m-            "autoload": {[m
+[31m-                "psr-4": {[m
+[31m-                    "Illuminate\\Notifications\\": "src/"[m
+[31m-                }[m
+[31m-            },[m
+[31m-            "notification-url": "https://packagist.org/downloads/",[m
+[31m-            "license": [[m
+[31m-                "MIT"[m
+[31m-            ],[m
+[31m-            "authors": [[m
+[31m-                {[m
+[31m-                    "name": "Taylor Otwell",[m
+[31m-                    "email": "taylor@laravel.com"[m
+[31m-                }[m
+[31m-            ],[m
+[31m-            "description": "Slack Notification Channel for laravel.",[m
+[31m-            "keywords": [[m
+[31m-                "laravel",[m
+[31m-                "notifications",[m
+[31m-                "slack"[m
+[31m-            ],[m
+[31m-            "support": {[m
+[31m-                "issues": "https://github.com/laravel/slack-notification-channel/issues",[m
+[31m-                "source": "https://github.com/laravel/slack-notification-channel/tree/v3.4.2"[m
+[31m-            },[m
+[31m-            "time": "2024-11-29T14:59:32+00:00"[m
+[31m-        },[m
+         {[m
+             "name": "laravel/tinker",[m
+             "version": "v2.10.0",[m
+[36m@@ -4632,16 +4428,16 @@[m
+         },[m
+         {[m
+             "name": "nette/utils",[m
+[31m-            "version": "v4.0.5",[m
+[32m+[m[32m            "version": "v4.0.6",[m
+             "source": {[m
+                 "type": "git",[m
+                 "url": "https://github.com/nette/utils.git",[m
+[31m-                "reference": "736c567e257dbe0fcf6ce81b4d6dbe05c6899f96"[m
+[32m+[m[32m                "reference": "ce708655043c7050eb050df361c5e313cf708309"[m
+             },[m
+             "dist": {[m
+                 "type": "zip",[m
+[31m-                "url": "https://api.github.com/repos/nette/utils/zipball/736c567e257dbe0fcf6ce81b4d6dbe05c6899f96",[m
+[31m-                "reference": "736c567e257dbe0fcf6ce81b4d6dbe05c6899f96",[m
+[32m+[m[32m                "url": "https://api.github.com/repos/nette/utils/zipball/ce708655043c7050eb050df361c5e313cf708309",[m
+[32m+[m[32m                "reference": "ce708655043c7050eb050df361c5e313cf708309",[m
+                 "shasum": ""[m
+             },[m
+             "require": {[m
+[36m@@ -4712,9 +4508,9 @@[m
+             ],[m
+             "support": {[m
+                 "issues": "https://github.com/nette/utils/issues",[m
+[31m-                "source": "https://github.com/nette/utils/tree/v4.0.5"[m
+[32m+[m[32m                "source": "https://github.com/nette/utils/tree/v4.0.6"[m
+             },[m
+[31m-            "time": "2024-08-07T15:39:19+00:00"[m
+[32m+[m[32m            "time": "2025-03-30T21:06:30+00:00"[m
+         },[m
+         {[m
+             "name": "nicmart/tree",[m
+[1mdiff --git a/config/logging.php b/config/logging.php[m
+[1mindex 5ae5eb14f..e3b825d43 100644[m
+[1m--- a/config/logging.php[m
+[1m+++ b/config/logging.php[m
+[36m@@ -1,6 +1,7 @@[m
+ <?php[m
+ [m
+ use App\Core\Support\Laravel\Logging\LogTailLoggerFactory;[m
+[32m+[m[32muse App\Core\Support\Laravel\Logging\SentryLoggerFactory;[m
+ use Monolog\Handler\NullHandler;[m
+ use Monolog\Handler\StreamHandler;[m
+ use Monolog\Handler\SyslogUdpHandler;[m
+[36m@@ -38,7 +39,7 @@[m [mreturn [[m
+     'channels' => [[m
+         'stack' => [[m
+             'driver' => 'stack',[m
+[31m-            'channels' => ['daily', 'logtail'],[m
+[32m+[m[32m            'channels' => ['daily', 'logtail', 'sentry'],[m
+             'ignore_exceptions' => false,[m
+         ],[m
+ [m
+[36m@@ -82,6 +83,12 @@[m [mreturn [[m
+             'level' => env('LOG_LEVEL', 'debug'),[m
+         ],[m
+ [m
+[32m+[m[32m        'sentry' => [[m
+[32m+[m[32m            'driver' => 'custom',[m
+[32m+[m[32m            'via' => SentryLoggerFactory::class,[m
+[32m+[m[32m            'dsn' => env('SENTRY_LARAVEL_DSN'),[m
+[32m+[m[32m        ],[m
+[32m+[m
+         'stderr' => [[m
+             'driver' => 'monolog',[m
+             'level' => env('LOG_LEVEL', 'debug'),[m
+[1mdiff --git a/config/sentry.php b/config/sentry.php[m
+[1mindex 3061197a4..b159b0aae 100644[m
+[1m--- a/config/sentry.php[m
+[1m+++ b/config/sentry.php[m
+[36m@@ -1,57 +1,129 @@[m
+ <?php[m
+ [m
+[32m+[m[32m/**[m
+[32m+[m[32m * Sentry Laravel SDK configuration file.[m
+[32m+[m[32m *[m
+[32m+[m[32m * @see https://docs.sentry.io/platforms/php/guides/laravel/configuration/options/[m
+[32m+[m[32m */[m
+ return [[m
+ [m
+[32m+[m[32m    // @see https://docs.sentry.io/product/sentry-basics/dsn-explainer/[m
+     'dsn' => env('SENTRY_LARAVEL_DSN', env('SENTRY_DSN')),[m
+ [m
+[31m-    // capture release as git sha[m
+[31m-    'release' => trim(exec('git --git-dir '.base_path('.git').' log --pretty="%h" -n1 HEAD')),[m
+[32m+[m[32m    // @see https://spotlightjs.com/[m
+[32m+[m[32m    // 'spotlight' => env('SENTRY_SPOTLIGHT', false),[m
+ [m
+[31m-    // When left empty or `null` the Laravel environment will be used[m
+[32m+[m[32m    // @see: https://docs.sentry.io/platforms/php/guides/laravel/configuration/options/#logger[m
+[32m+[m[32m    // 'logger' => Sentry\Logger\DebugFileLogger::class, // By default this will log to `storage_path('logs/sentry.log')`[m
+[32m+[m
+[32m+[m[32m    // The release version of your application[m
+[32m+[m[32m    // Example with dynamic git hash: trim(exec('git --git-dir ' . base_path('.git') . ' log --pretty="%h" -n1 HEAD'))[m
+[32m+[m[32m    'release' => env('SENTRY_RELEASE'),[m
+[32m+[m
+[32m+[m[32m    // When left empty or `null` the Laravel environment will be used (usually discovered from `APP_ENV` in your `.env`)[m
+     'environment' => env('SENTRY_ENVIRONMENT'),[m
+ [m
+[32m+[m[32m    // @see: https://docs.sentry.io/platforms/php/guides/laravel/configuration/options/#sample-rate[m
+[32m+[m[32m    'sample_rate' => env('SENTRY_SAMPLE_RATE') === null ? 1.0 : (float) env('SENTRY_SAMPLE_RATE'),[m
+[32m+[m
+[32m+[m[32m    // @see: https://docs.sentry.io/platforms/php/guides/laravel/configuration/options/#traces-sample-rate[m
+[32m+[m[32m    'traces_sample_rate' => env('SENTRY_TRACES_SAMPLE_RATE') === null ? null : (float) env('SENTRY_TRACES_SAMPLE_RATE'),[m
+[32m+[m
+[32m+[m[32m    // @see: https://docs.sentry.io/platforms/php/guides/laravel/configuration/options/#profiles-sample-rate[m
+[32m+[m[32m    'profiles_sample_rate' => env('SENTRY_PROFILES_SAMPLE_RATE') === null ? null : (float) env('SENTRY_PROFILES_SAMPLE_RATE'),[m
+[32m+[m
+[32m+[m[32m    // @see: https://docs.sentry.io/platforms/php/guides/laravel/configuration/options/#send-default-pii[m
+[32m+[m[32m    'send_default_pii' => env('SENTRY_SEND_DEFAULT_PII', false),[m
+[32m+[m
+[32m+[m[32m    // @see: https://docs.sentry.io/platforms/php/guides/laravel/configuration/options/#ignore-exceptions[m
+[32m+[m[32m    // 'ignore_exceptions' => [],[m
+[32m+[m
+[32m+[m[32m    // @see: https://docs.sentry.io/platforms/php/guides/laravel/configuration/options/#ignore-transactions[m
+[32m+[m[32m    'ignore_transactions' => [[m
+[32m+[m[32m        // Ignore Laravel's default health URL[m
+[32m+[m[32m        '/up',[m
+[32m+[m[32m    ],[m
+[32m+[m
+[32m+[m[32m    // Breadcrumb specific configuration[m
+     'breadcrumbs' => [[m
+[31m-        // Capture Laravel logs in breadcrumbs[m
+[31m-        'logs' => true,[m
+[32m+[m[32m        // Capture Laravel logs as breadcrumbs[m
+[32m+[m[32m        'logs' => env('SENTRY_BREADCRUMBS_LOGS_ENABLED', true),[m
+[32m+[m
+[32m+[m[32m        // Capture Laravel cache events (hits, writes etc.) as breadcrumbs[m
+[32m+[m[32m        'cache' => env('SENTRY_BREADCRUMBS_CACHE_ENABLED', true),[m
+[32m+[m
+[32m+[m[32m        // Capture Livewire components like routes as breadcrumbs[m
+[32m+[m[32m        'livewire' => env('SENTRY_BREADCRUMBS_LIVEWIRE_ENABLED', true),[m
+ [m
+[31m-        // Capture SQL queries in breadcrumbs[m
+[31m-        'sql_queries' => true,[m
+[32m+[m[32m        // Capture SQL queries as breadcrumbs[m
+[32m+[m[32m        'sql_queries' => env('SENTRY_BREADCRUMBS_SQL_QUERIES_ENABLED', true),[m
+ [m
+[31m-        // Capture bindings on SQL queries logged in breadcrumbs[m
+[31m-        'sql_bindings' => true,[m
+[32m+[m[32m        // Capture SQL query bindings (parameters) in SQL query breadcrumbs[m
+[32m+[m[32m        'sql_bindings' => env('SENTRY_BREADCRUMBS_SQL_BINDINGS_ENABLED', false),[m
+ [m
+[31m-        // Capture queue job information in breadcrumbs[m
+[31m-        'queue_info' => true,[m
+[32m+[m[32m        // Capture queue job information as breadcrumbs[m
+[32m+[m[32m        'queue_info' => env('SENTRY_BREADCRUMBS_QUEUE_INFO_ENABLED', true),[m
+ [m
+[31m-        // Capture command information in breadcrumbs[m
+[31m-        'command_info' => true,[m
+[32m+[m[32m        // Capture command information as breadcrumbs[m
+[32m+[m[32m        'command_info' => env('SENTRY_BREADCRUMBS_COMMAND_JOBS_ENABLED', true),[m
+[32m+[m
+[32m+[m[32m        // Capture HTTP client request information as breadcrumbs[m
+[32m+[m[32m        'http_client_requests' => env('SENTRY_BREADCRUMBS_HTTP_CLIENT_REQUESTS_ENABLED', true),[m
+[32m+[m
+[32m+[m[32m        // Capture send notifications as breadcrumbs[m
+[32m+[m[32m        'notifications' => env('SENTRY_BREADCRUMBS_NOTIFICATIONS_ENABLED', true),[m
+     ],[m
+ [m
+[32m+[m[32m    // Performance monitoring specific configuration[m
+     'tracing' => [[m
+[31m-        // Trace queue jobs as their own transactions[m
+[31m-        'queue_job_transactions' => env('SENTRY_TRACE_QUEUE_ENABLED', false),[m
+[32m+[m[32m        // Trace queue jobs as their own transactions (this enables tracing for queue jobs)[m
+[32m+[m[32m        'queue_job_transactions' => env('SENTRY_TRACE_QUEUE_ENABLED', true),[m
+ [m
+         // Capture queue jobs as spans when executed on the sync driver[m
+[31m-        'queue_jobs' => true,[m
+[32m+[m[32m        'queue_jobs' => env('SENTRY_TRACE_QUEUE_JOBS_ENABLED', true),[m
+ [m
+         // Capture SQL queries as spans[m
+[31m-        'sql_queries' => true,[m
+[32m+[m[32m        'sql_queries' => env('SENTRY_TRACE_SQL_QUERIES_ENABLED', true),[m
+ [m
+[31m-        // Try to find out where the SQL query originated from and add it to the query spans[m
+[31m-        'sql_origin' => true,[m
+[32m+[m[32m        // Capture SQL query bindings (parameters) in SQL query spans[m
+[32m+[m[32m        'sql_bindings' => env('SENTRY_TRACE_SQL_BINDINGS_ENABLED', false),[m
+ [m
+[31m-        // Capture views as spans[m
+[31m-        'views' => true,[m
+[32m+[m[32m        // Capture where the SQL query originated from on the SQL query spans[m
+[32m+[m[32m        'sql_origin' => env('SENTRY_TRACE_SQL_ORIGIN_ENABLED', true),[m
+ [m
+[31m-        // Indicates if the tracing integrations supplied by Sentry should be loaded[m
+[31m-        'default_integrations' => true,[m
+[31m-    ],[m
+[32m+[m[32m        // Define a threshold in milliseconds for SQL queries to resolve their origin[m
+[32m+[m[32m        'sql_origin_threshold_ms' => env('SENTRY_TRACE_SQL_ORIGIN_THRESHOLD_MS', 100),[m
+ [m
+[31m-    // @see: https://docs.sentry.io/platforms/php/configuration/options/#send-default-pii[m
+[31m-    'send_default_pii' => env('SENTRY_SEND_DEFAULT_PII', false),[m
+[32m+[m[32m        // Capture views rendered as spans[m
+[32m+[m[32m        'views' => env('SENTRY_TRACE_VIEWS_ENABLED', true),[m
+[32m+[m
+[32m+[m[32m        // Capture Livewire components as spans[m
+[32m+[m[32m        'livewire' => env('SENTRY_TRACE_LIVEWIRE_ENABLED', true),[m
+[32m+[m
+[32m+[m[32m        // Capture HTTP client requests as spans[m
+[32m+[m[32m        'http_client_requests' => env('SENTRY_TRACE_HTTP_CLIENT_REQUESTS_ENABLED', true),[m
+ [m
+[31m-    'traces_sample_rate' => (float) (env('SENTRY_TRACES_SAMPLE_RATE', 0.0)),[m
+[32m+[m[32m        // Capture Laravel cache events (hits, writes etc.) as spans[m
+[32m+[m[32m        'cache' => env('SENTRY_TRACE_CACHE_ENABLED', true),[m
+ [m
+[31m-    'controllers_base_namespace' => env('SENTRY_CONTROLLERS_BASE_NAMESPACE', 'App\\Http\\Controllers'),[m
+[32m+[m[32m        // Capture Redis operations as spans (this enables Redis events in Laravel)[m
+[32m+[m[32m        'redis_commands' => env('SENTRY_TRACE_REDIS_COMMANDS', false),[m
+[32m+[m
+[32m+[m[32m        // Capture where the Redis command originated from on the Redis command spans[m
+[32m+[m[32m        'redis_origin' => env('SENTRY_TRACE_REDIS_ORIGIN_ENABLED', true),[m
+[32m+[m
+[32m+[m[32m        // Capture send notifications as spans[m
+[32m+[m[32m        'notifications' => env('SENTRY_TRACE_NOTIFICATIONS_ENABLED', true),[m
+[32m+[m
+[32m+[m[32m        // Enable tracing for requests without a matching route (404's)[m
+[32m+[m[32m        'missing_routes' => env('SENTRY_TRACE_MISSING_ROUTES_ENABLED', false),[m
+[32m+[m
+[32m+[m[32m        // Configures if the performance trace should continue after the response has been sent to the user until the application terminates[m
+[32m+[m[32m        // This is required to capture any spans that are created after the response has been sent like queue jobs dispatched using `dispatch(...)->afterResponse()` for example[m
+[32m+[m[32m        'continue_after_response' => env('SENTRY_TRACE_CONTINUE_AFTER_RESPONSE', true),[m
+[32m+[m
+[32m+[m[32m        // Enable the tracing integrations supplied by Sentry (recommended)[m
+[32m+[m[32m        'default_integrations' => env('SENTRY_TRACE_DEFAULT_INTEGRATIONS_ENABLED', true),[m
+[32m+[m[32m    ],[m
+ [m
+ ];[m

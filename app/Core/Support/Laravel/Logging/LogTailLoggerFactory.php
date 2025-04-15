@@ -5,6 +5,10 @@ namespace App\Core\Support\Laravel\Logging;
 use Logtail\Monolog\LogtailHandler;
 use Monolog\Logger;
 
+/**
+ * Creates a Logger that merely forwards logs to LogtailHandler
+ * for pushing to Logtail
+ */
 final class LogTailLoggerFactory
 {
     /**
@@ -14,14 +18,14 @@ final class LogTailLoggerFactory
      */
     public function __invoke(array $config): Logger
     {
-        $sourceToken = config('logging.channels.logtail.source_token');
+        $sourceToken = $config['source_token'];
 
-        $logger = new Logger('logtail');
+        $logger = new Logger($config['name']);
         if (! empty($sourceToken)) {
             $logger->pushHandler(
                 new LogtailHandler(
                     sourceToken: $sourceToken,
-                    level: config('logging.channels.logtail.level'),
+                    level: $config['level'],
                 )
             );
         }
