@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2e6543acbc02bba7d465df9e3493d148",
+    "content-hash": "9d0b1dd6cf6ff2f7a849dc1aed86b4a6",
     "packages": [
         {
             "name": "altek/eventually",
@@ -223,65 +223,6 @@
                 "source": "https://github.com/aws/aws-sdk-php/tree/3.334.6"
             },
             "time": "2024-12-13T19:18:29+00:00"
-        },
-        {
-            "name": "awssat/discord-notification-channel",
-            "version": "1.4.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/awssat/discord-notification-channel.git",
-                "reference": "f9a936f5d25016cf8a367846507b45effd5b5a71"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/awssat/discord-notification-channel/zipball/f9a936f5d25016cf8a367846507b45effd5b5a71",
-                "reference": "f9a936f5d25016cf8a367846507b45effd5b5a71",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "^6.0|^7.0",
-                "illuminate/notifications": "~5.8.0|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0",
-                "laravel/slack-notification-channel": "^2.0|^3.2",
-                "php": "^7.1.3|^8.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.4 || ^1.6",
-                "phpunit/phpunit": "^7.0|^8.0|^9.0|^10.1"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Awssat\\Notifications\\DiscordChannelServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Awssat\\Notifications\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bader Almutairi",
-                    "email": "phpfalcon@gmail.com"
-                }
-            ],
-            "description": "Discord Notification Channel for laravel.",
-            "keywords": [
-                "discord",
-                "laravel",
-                "notifications"
-            ],
-            "support": {
-                "issues": "https://github.com/awssat/discord-notification-channel/issues",
-                "source": "https://github.com/awssat/discord-notification-channel/tree/1.4.4"
-            },
-            "time": "2024-07-06T23:15:22+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -2636,86 +2577,6 @@
             "time": "2025-03-05T15:34:10+00:00"
         },
         {
-            "name": "laravel/horizon",
-            "version": "v5.30.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/horizon.git",
-                "reference": "37d1f29daa7500fcd170d5c45b98b592fcaab95a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/horizon/zipball/37d1f29daa7500fcd170d5c45b98b592fcaab95a",
-                "reference": "37d1f29daa7500fcd170d5c45b98b592fcaab95a",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "ext-pcntl": "*",
-                "ext-posix": "*",
-                "illuminate/contracts": "^9.21|^10.0|^11.0",
-                "illuminate/queue": "^9.21|^10.0|^11.0",
-                "illuminate/support": "^9.21|^10.0|^11.0",
-                "nesbot/carbon": "^2.17|^3.0",
-                "php": "^8.0",
-                "ramsey/uuid": "^4.0",
-                "symfony/console": "^6.0|^7.0",
-                "symfony/error-handler": "^6.0|^7.0",
-                "symfony/polyfill-php83": "^1.28",
-                "symfony/process": "^6.0|^7.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.0",
-                "orchestra/testbench": "^7.0|^8.0|^9.0",
-                "phpstan/phpstan": "^1.10",
-                "phpunit/phpunit": "^9.0|^10.4",
-                "predis/predis": "^1.1|^2.0"
-            },
-            "suggest": {
-                "ext-redis": "Required to use the Redis PHP driver.",
-                "predis/predis": "Required when not using the Redis PHP driver (^1.1|^2.0)."
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "Horizon": "Laravel\\Horizon\\Horizon"
-                    },
-                    "providers": [
-                        "Laravel\\Horizon\\HorizonServiceProvider"
-                    ]
-                },
-                "branch-alias": {
-                    "dev-master": "5.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Laravel\\Horizon\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Taylor Otwell",
-                    "email": "taylor@laravel.com"
-                }
-            ],
-            "description": "Dashboard and code-driven configuration for Laravel queues.",
-            "keywords": [
-                "laravel",
-                "queue"
-            ],
-            "support": {
-                "issues": "https://github.com/laravel/horizon/issues",
-                "source": "https://github.com/laravel/horizon/tree/v5.30.0"
-            },
-            "time": "2024-12-06T18:58:00+00:00"
-        },
-        {
             "name": "laravel/passport",
             "version": "v12.3.1",
             "source": {
@@ -2997,71 +2858,6 @@
                 "source": "https://github.com/laravel/serializable-closure"
             },
             "time": "2025-02-11T15:03:05+00:00"
-        },
-        {
-            "name": "laravel/slack-notification-channel",
-            "version": "v3.4.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/slack-notification-channel.git",
-                "reference": "282d52d70195283eb1b92e59d7bdc2d525361f4b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/slack-notification-channel/zipball/282d52d70195283eb1b92e59d7bdc2d525361f4b",
-                "reference": "282d52d70195283eb1b92e59d7bdc2d525361f4b",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "^7.0",
-                "illuminate/http": "^9.0|^10.0|^11.0",
-                "illuminate/notifications": "^9.0|^10.0|^11.0",
-                "illuminate/support": "^9.0|^10.0|^11.0",
-                "php": "^8.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.0",
-                "orchestra/testbench": "^7.0|^8.0|^9.0",
-                "phpstan/phpstan": "^1.10",
-                "phpunit/phpunit": "^9.0|^10.4"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Illuminate\\Notifications\\SlackChannelServiceProvider"
-                    ]
-                },
-                "branch-alias": {
-                    "dev-master": "3.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Illuminate\\Notifications\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Taylor Otwell",
-                    "email": "taylor@laravel.com"
-                }
-            ],
-            "description": "Slack Notification Channel for laravel.",
-            "keywords": [
-                "laravel",
-                "notifications",
-                "slack"
-            ],
-            "support": {
-                "issues": "https://github.com/laravel/slack-notification-channel/issues",
-                "source": "https://github.com/laravel/slack-notification-channel/tree/v3.4.2"
-            },
-            "time": "2024-11-29T14:59:32+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -4632,16 +4428,16 @@
         },
         {
             "name": "nette/utils",
-            "version": "v4.0.5",
+            "version": "v4.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "736c567e257dbe0fcf6ce81b4d6dbe05c6899f96"
+                "reference": "ce708655043c7050eb050df361c5e313cf708309"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/736c567e257dbe0fcf6ce81b4d6dbe05c6899f96",
-                "reference": "736c567e257dbe0fcf6ce81b4d6dbe05c6899f96",
+                "url": "https://api.github.com/repos/nette/utils/zipball/ce708655043c7050eb050df361c5e313cf708309",
+                "reference": "ce708655043c7050eb050df361c5e313cf708309",
                 "shasum": ""
             },
             "require": {
@@ -4712,9 +4508,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/utils/issues",
-                "source": "https://github.com/nette/utils/tree/v4.0.5"
+                "source": "https://github.com/nette/utils/tree/v4.0.6"
             },
-            "time": "2024-08-07T15:39:19+00:00"
+            "time": "2025-03-30T21:06:30+00:00"
         },
         {
             "name": "nicmart/tree",

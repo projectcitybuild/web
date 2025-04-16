@@ -100,7 +100,7 @@ class BanAppeal extends Model implements LinkableAuditModel
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('manage.ban-appeals.show', $this);
+        return route('review.ban-appeals.show', $this);
     }
 
     public function getActivitySubjectName(): ?string

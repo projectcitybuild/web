@@ -73,7 +73,7 @@ class BanAppealConfirmationNotification extends Notification implements ShouldQu
                 new DiscordEmbed(
                     title: 'Ban Appeal',
                     description: Str::limit($this->banAppeal->explanation, 500),
-                    url: route('manage.ban-appeals.show', $this->banAppeal),
+                    url: route('review.ban-appeals.show', $this->banAppeal),
                     author: new DiscordAuthor(
                         name: $this->banAppeal->gamePlayerBan->bannedPlayer->alias,
                     ),

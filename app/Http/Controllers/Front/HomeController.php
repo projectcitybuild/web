@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\WebController;
 use App\Models\Donation;
-use App\Models\Server;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Money\Money;
 
 final class HomeController extends WebController
