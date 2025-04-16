@@ -12,7 +12,6 @@ final class HomeController extends WebController
 {
     public function index()
     {
-        Log::info('test');
         $requiredAmount = Money::USD(config('donations.target_funding') * 100);
 
         $now = now();

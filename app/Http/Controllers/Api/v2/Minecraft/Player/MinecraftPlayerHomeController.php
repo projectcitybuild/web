@@ -11,6 +11,7 @@ use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 final class MinecraftPlayerHomeController extends ApiController
 {
@@ -23,7 +24,7 @@ final class MinecraftPlayerHomeController extends ApiController
         ]);
 
         $player = MinecraftPlayer::whereUuid($minecraftUUID)->first();
-        throw_if($player === null, 404);
+        abort_if($player === null, 404);
 
         $defaultSize = 25;
         $pageSize = min($defaultSize, $validated['page_size'] ?? $defaultSize);
@@ -35,7 +36,6 @@ final class MinecraftPlayerHomeController extends ApiController
 
     public function store(Request $request, MinecraftUUID $minecraftUUID)
     {
-        // TODO: don't allow duplicate names for a player
         // TODO: check number of homes
 
         $validated = $request->validate([
@@ -44,7 +44,18 @@ final class MinecraftPlayerHomeController extends ApiController
         ]);
 
         $player = MinecraftPlayer::whereUuid($minecraftUUID)->first();
-        throw_if($player === null, 404);
+        abort_if($player === null, 404, 'Player not found');
+
+        $name = $validated['name'];
+        $exists = MinecraftHome::where('name', $name)
+            ->where('player_id', $player->getKey())
+            ->exists();
+        if ($exists) {
+            throw ValidationException::withMessages([
+                'name' => ['You already have a home with this name'],
+            ]);
+        }
+
         $validated['player_id'] = $player->getKey();
 
         return MinecraftHome::create($validated);
@@ -55,12 +66,24 @@ final class MinecraftPlayerHomeController extends ApiController
         MinecraftUUID $minecraftUUID,
         MinecraftHome $home,
     ) {
-        // TODO: don't allow duplicate names for a player
-
         $validated = $request->validate([
             'name' => ['required', 'string'],
             ...$this->coordinateRules,
         ]);
+
+        $player = MinecraftPlayer::whereUuid($minecraftUUID)->first();
+        abort_if($player === null, 404, 'Player not found');
+
+        $name = $validated['name'];
+        $exists = MinecraftHome::where('name', $name)
+            ->where('player_id', $player->getKey())
+            ->where('id', '!=', $home->getKey())
+            ->exists();
+        if ($exists) {
+            throw ValidationException::withMessages([
+                'name' => ['You already have a home with this name'],
+            ]);
+        }
 
         $this->assertHasWriteAccess(home: $home, uuid: $minecraftUUID);
 
@@ -88,6 +111,7 @@ final class MinecraftPlayerHomeController extends ApiController
     // TODO: use MinecraftHomePolicy
     private function assertHasWriteAccess(MinecraftHome $home, MinecraftUUID $uuid): void
     {
+        // TODO: reuse player instance
         $player = MinecraftPlayer::whereUuid($uuid)->first();
         abort_if($player === null, 400, "Player not found");
 
