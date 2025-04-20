@@ -181,21 +181,30 @@ final class Account extends Authenticatable implements LinkableAuditModel
 
     public function isAdmin(): bool
     {
-        return $this->groups()
+        // Force load to prevent multiple lookups for the same request
+        $groups = $this->groups;
+
+        return $groups
             ->where('is_admin', true)
             ->count() > 0;
     }
 
     public function isStaff(): bool
     {
-        return $this->groups()
+        // Force load to prevent multiple lookups for the same request
+        $groups = $this->groups;
+
+        return $groups
             ->where('group_type', 'staff')
             ->count() > 0;
     }
 
     public function isArchitect(): bool
     {
-        return $this->groups()
+        // Force load to prevent multiple lookups for the same request
+        $groups = $this->groups;
+
+        return $groups
             ->where('name', 'architect')
             ->count() > 0;
     }
