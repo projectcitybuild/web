@@ -9,6 +9,7 @@ use App\Models\DonationPerk;
 use App\Models\Group;
 use App\Models\StripeProduct;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -48,6 +49,8 @@ class ProcessDonation
                 numberOfMonths: $unitQuantity,
             );
         });
+
+        Cache::forget(GetAnnualDonationStats::CACHE_KEY);
     }
 
     private function fulfillDonation(

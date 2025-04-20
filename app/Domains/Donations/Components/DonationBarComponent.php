@@ -2,29 +2,26 @@
 
 namespace App\Domains\Donations\Components;
 
-use App\Models\Donation;
+use App\Domains\Donations\UseCases\GetAnnualDonationStats;
 use Illuminate\View\Component;
-use Money\Money;
 
 class DonationBarComponent extends Component
 {
+    public function __construct(
+        private readonly GetAnnualDonationStats $getAnnualDonationStats,
+    ) {}
+
     public function render()
     {
-        $requiredAmountInDollars = config('donations.target_funding');
-        $requiredAmountInCents = Money::USD($requiredAmountInDollars * 100);
+        $stats = $this->getAnnualDonationStats->get();
 
-        $donationsThisYearInCents = Donation::whereYear('created_at', now()->year)->sum('amount') ?: 0;
-        $donationsThisYearInCents = Money::USD($donationsThisYearInCents);
-
-        $percentage = $donationsThisYearInCents->getAmount() / $requiredAmountInCents->getAmount();
+        $percentage = $stats->raisedThisYear / $stats->amountRequired;
         $percentage = max(0, min(1, $percentage));
 
         return view('front.components.donation-bar', [
-            'current' => $donationsThisYearInCents
-                ->divide(100)
-                ->getAmount(),
+            'current' => $stats->raisedThisYear,
             'percentage' => $percentage * 100,
-            'indicators' => $this->indicators(target: $requiredAmountInDollars),
+            'indicators' => $this->indicators(target: $stats->amountRequired),
         ]);
     }
 
