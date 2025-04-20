@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
 use Sentry\Laravel\Integration;
+use Stripe\Exception\OAuth\UnsupportedGrantTypeException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -68,6 +69,7 @@ return Application::configure(basePath: dirname(__DIR__))
             ModelNotFoundException::class,
             TokenMismatchException::class,
             ValidationException::class,
+            UnsupportedGrantTypeException::class,
         ]);
         $exceptions->render(function (BaseHttpException $e, Request $request) {
             // Convert all exceptions to a consistent JSON format

@@ -32,7 +32,7 @@ use App\Http\Controllers\Front\DonationController;
 use App\Http\Controllers\Front\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index'])
+Route::view('/', 'front.pages.home.index')
     ->name('front.home');
 
 Route::get('maps', fn () => view('front.pages.maps'))
