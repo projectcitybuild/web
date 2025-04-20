@@ -10,7 +10,7 @@ use Money\Money;
 
 class GetAnnualDonationStats
 {
-    private const CACHE_KEY = 'donation_annual_stats';
+    const CACHE_KEY = 'donation_annual_stats';
 
     public function get(): AnnualDonations
     {
