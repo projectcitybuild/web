@@ -28,7 +28,7 @@
                         Days Remaining
                     </dt>
                     <dd class="text-gray-50">
-                        {{ $donations['remaining_days'] }}
+                        {{ $remaining_days }}
                     </dd>
                 </dl>
                 <dl class="flex items-center justify-between gap-2 text-sm">
@@ -36,7 +36,7 @@
                         Funds Still Required
                     </dt>
                     <dd class="text-gray-50">
-                        ${{ $donations['still_required'] }}
+                        ${{ number_format($stats->raisedThisYear, 2) }} USD
                     </dd>
                 </dl>
                 <dl class="flex items-center justify-between gap-2 text-sm">
@@ -44,7 +44,7 @@
                         Raised Last Year
                     </dt>
                     <dd class="text-gray-50">
-                        ${{ $donations['raised_last_year'] }}
+                        ${{ number_format($stats->raisedLastYear, 2) }} USD
                     </dd>
                 </dl>
             </div>
