@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\v2\Minecraft\Player;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\Badges\UseCases\GetBadges;
 use App\Domains\Bans\UseCases\GetActiveIPBan;
-use App\Domains\Donations\UseCases\GetDonationTiers;
 use App\Http\Controllers\ApiController;
 use App\Models\GamePlayerBan;
 use App\Models\Group;
