@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v2\Minecraft\Build;
 use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
+use App\Core\Domains\Pagination\HasPaginatedApi;
 use App\Http\Controllers\ApiController;
 use App\Models\MinecraftBuild;
 use App\Models\MinecraftBuildVote;
@@ -16,15 +17,15 @@ use Illuminate\Validation\Rule;
 final class MinecraftBuildController extends ApiController
 {
     use ValidatesCoordinates;
+    use HasPaginatedApi;
 
     public function index(Request $request)
     {
-        $request->validate([
-           'page_size' => ['integer', 'gt:0'],
+        $validated = $request->validate([
+            ...$this->paginationRules,
         ]);
 
-        $defaultSize = 25;
-        $pageSize = min($defaultSize, $request->get('page_size', $defaultSize));
+        $pageSize = $this->pageSize($validated);
 
         return MinecraftBuild::orderBy('votes', 'desc')
             ->paginate($pageSize);

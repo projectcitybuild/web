@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v2\Minecraft\Player;
 use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
+use App\Core\Domains\Pagination\HasPaginatedApi;
 use App\Http\Controllers\ApiController;
 use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
@@ -16,18 +17,18 @@ use Illuminate\Validation\ValidationException;
 final class MinecraftPlayerHomeController extends ApiController
 {
     use ValidatesCoordinates;
+    use HasPaginatedApi;
 
     public function index(Request $request, MinecraftUUID $minecraftUUID)
     {
         $validated = $request->validate([
-            'page_size' => ['integer', 'gt:0'],
+            ...$this->paginationRules,
         ]);
 
         $player = MinecraftPlayer::whereUuid($minecraftUUID)->first();
         abort_if($player === null, 404);
 
-        $defaultSize = 25;
-        $pageSize = min($defaultSize, $validated['page_size'] ?? $defaultSize);
+        $pageSize = $this->pageSize($validated);
 
         return MinecraftHome::orderBy('name', 'desc')
             ->where('player_id', $player->getKey())
