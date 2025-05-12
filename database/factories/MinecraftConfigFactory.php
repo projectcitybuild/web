@@ -55,7 +55,7 @@ class MinecraftConfigFactory extends Factory
                 'tab' => [
                     'header' => [
                         '<gradient:dark_aqua:green>────────────>>> <bold><white>Project</white> <gold>City</gold> <blue>Build</blue></bold> <<<────────────</gradient>',
-                        '<gray>World:</gray> <aqua><world></world></aqua>',
+                        '<gray>World:</gray> <aqua><world></aqua>',
                         '<gray>Online:</gray> <aqua><player_count>/<max_players></aqua>',
                         '<group_list>',
                         '',

@@ -53,13 +53,14 @@ final class MinecraftPlayerHomeController extends ApiController
         }
 
         $allowedHomes = $player
-            ->groups
-            ->map(fn ($group) => $group->additional_homes ?? 0)
-            ->sum();
+            ->account
+            ?->groups
+            ?->map(fn ($group) => $group->additional_homes ?? 0)
+            ?->sum() ?? 1;
         $homes = MinecraftHome::where('player_id', $player->getKey())->count();
         if ($homes >= $allowedHomes) {
             throw ValidationException::withMessages([
-                'error' => ['You hit your home limit of '.$allowedHomes],
+                'error' => ['You reached your home limit of '.$allowedHomes],
             ]);
         }
 
