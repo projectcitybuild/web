@@ -4,14 +4,11 @@ namespace App\Http\Controllers\Api\v2\Minecraft\Player;
 
 use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
-use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Core\Domains\Pagination\HasPaginatedApi;
 use App\Http\Controllers\ApiController;
 use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 final class MinecraftPlayerHomeController extends ApiController
@@ -37,8 +34,6 @@ final class MinecraftPlayerHomeController extends ApiController
 
     public function store(Request $request, MinecraftUUID $minecraftUUID)
     {
-        // TODO: check number of homes
-
         $validated = $request->validate([
             'name' => ['required', 'string'],
             ...$this->coordinateRules,
@@ -54,6 +49,17 @@ final class MinecraftPlayerHomeController extends ApiController
         if ($exists) {
             throw ValidationException::withMessages([
                 'name' => ['You already have a home with this name'],
+            ]);
+        }
+
+        $allowedHomes = $player
+            ->groups
+            ->map(fn ($group) => $group->additional_homes ?? 0)
+            ->sum();
+        $homes = MinecraftHome::where('player_id', $player->getKey())->count();
+        if ($homes >= $allowedHomes) {
+            throw ValidationException::withMessages([
+                'error' => ['You hit your home limit of '.$allowedHomes],
             ]);
         }
 
