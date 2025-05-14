@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v2\Minecraft\Build;
 use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
+use App\Core\Domains\Pagination\HasPaginatedApi;
 use App\Http\Controllers\ApiController;
 use App\Models\MinecraftBuild;
 use App\Models\MinecraftBuildVote;
@@ -16,15 +17,15 @@ use Illuminate\Validation\Rule;
 final class MinecraftBuildController extends ApiController
 {
     use ValidatesCoordinates;
+    use HasPaginatedApi;
 
     public function index(Request $request)
     {
-        $request->validate([
-           'page_size' => ['integer', 'gt:0'],
+        $validated = $request->validate([
+            ...$this->paginationRules,
         ]);
 
-        $defaultSize = 25;
-        $pageSize = min($defaultSize, $request->get('page_size', $defaultSize));
+        $pageSize = $this->pageSize($validated);
 
         return MinecraftBuild::orderBy('votes', 'desc')
             ->paginate($pageSize);
@@ -40,13 +41,14 @@ final class MinecraftBuildController extends ApiController
     {
         $validated = $request->validate([
             'player_uuid' => ['required', new MinecraftUUIDRule],
+            'alias' => 'required',
             'name' => ['required', Rule::unique(MinecraftBuild::tableName())],
             ...$this->coordinateRules,
         ]);
 
         $player = MinecraftPlayer::firstOrCreate(
             uuid: new MinecraftUUID($validated['player_uuid']),
-            alias: $request->get('alias'),
+            alias: $validated['alias'],
         );
         $validated['player_id'] = $player->getKey();
 
@@ -63,7 +65,7 @@ final class MinecraftBuildController extends ApiController
 
         $this->assertHasWriteAccess(build: $build, uuid: $validated['player_uuid']);
 
-        $build->update($request->all());
+        $build->update($validated);
 
         return $build;
     }
@@ -118,13 +120,11 @@ final class MinecraftBuildController extends ApiController
     private function assertHasWriteAccess(MinecraftBuild $build, string $uuid): void
     {
         $uuid = new MinecraftUUID($uuid);
-        $player = MinecraftPlayer::whereUuid($uuid)->with('account.groups')->first();
-        abort_if($player === null, 403, "Player not found");
+        $player = MinecraftPlayer::whereUuid($uuid)->first();
+        abort_if($player === null, 400, "Player not found");
 
         $isBuildOwner = $build->player_id === $player->getKey();
-
-        $groups = $player->account?->groups ?? collect();
-        $isStaff = $groups->where('group_type', 'staff')->isNotEmpty();
+        $isStaff = $player->account?->isStaff() ?? false;
         abort_if(!$isBuildOwner && !$isStaff, 403, "Only the build owner can edit this build");
     }
 }
