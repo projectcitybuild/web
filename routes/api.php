@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\v2\Minecraft\MinecraftTelemetryController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftWarpController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftPlayerController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftPlayerHomeController;
+use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftPlayerHomeNameController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftPlayerNicknameController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftRegisterController;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +23,7 @@ Route::prefix('v2')
             Route::resource('warp', MinecraftWarpController::class);
 
             Route::prefix('build')->group(function () {
-                Route::get('/name', [MinecraftBuildNameController::class, 'index']);
+                Route::get('name', [MinecraftBuildNameController::class, 'index']);
 
                 Route::prefix('{build}')->group(function () {
                     Route::patch('set', [MinecraftBuildController::class, 'patch']);
@@ -50,11 +51,9 @@ Route::prefix('v2')
                 });
 
                 Route::prefix('home')->group(function () {
-                    Route::get('/', [MinecraftPlayerHomeController::class, 'index']);
-                    Route::post('/', [MinecraftPlayerHomeController::class, 'store']);
-                    Route::put('{home}', [MinecraftPlayerHomeController::class, 'update']);
-                    Route::delete('{home}', [MinecraftPlayerHomeController::class, 'destroy']);
+                    Route::get('name', [MinecraftPlayerHomeNameController::class, 'index']);
                 });
+                Route::resource('home', MinecraftPlayerHomeController::class);
             });
         });
     });

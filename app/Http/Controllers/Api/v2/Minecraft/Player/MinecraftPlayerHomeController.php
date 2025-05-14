@@ -32,6 +32,12 @@ final class MinecraftPlayerHomeController extends ApiController
             ->paginate($pageSize);
     }
 
+    public function show(Request $request, MinecraftUUID $minecraftUUID, MinecraftHome $home)
+    {
+        $this->assertHasWriteAccess(home: $home, uuid: $minecraftUUID);
+        return $home;
+    }
+
     public function store(Request $request, MinecraftUUID $minecraftUUID)
     {
         $validated = $request->validate([
