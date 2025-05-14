@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v2\Minecraft\Player;
+namespace App\Http\Controllers\Api\v2\Minecraft\Player\Homes;
 
 use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
@@ -58,6 +58,7 @@ final class MinecraftPlayerHomeController extends ApiController
             ]);
         }
 
+        // TODO: reuse
         $allowedHomes = $player
             ->account
             ?->groups
