@@ -185,7 +185,7 @@ One of the world's longest-running Minecraft servers; we're a community of creat
         </section>
 
         <footer>
-            @include('front.components.sitemap', ['animated' => true])
+            @include('front.components.sitemap')
 
             <x-donation-footer />
         </footer>

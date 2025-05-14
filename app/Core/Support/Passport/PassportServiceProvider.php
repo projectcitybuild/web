@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\OAuthController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schedule;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 
 final class PassportServiceProvider extends ServiceProvider
 {
@@ -20,5 +21,9 @@ final class PassportServiceProvider extends ServiceProvider
             $schedule::command('passport:purge')
                 ->hourly();
         });
+
+        Passport::tokensExpireIn(now()->addMinutes(30));
+        Passport::refreshTokensExpireIn(now()->addDays(21));
+        Passport::personalAccessTokensExpireIn(now()->addMonth());
     }
 }

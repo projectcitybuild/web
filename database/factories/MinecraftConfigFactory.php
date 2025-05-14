@@ -51,6 +51,30 @@ class MinecraftConfigFactory extends Factory
                     'first_time_join' => '<light_purple>✦ Welcome <white><name></white> <light_purple>to the server!',
                     'welcome' => '<gray>Welcome to </gray><white><bold>PROJECT </bold></white><gold><bold>CITY </bold></gold><blue><bold>BUILD</bold></blue><newline><gray>| </gray><newline><gray>| </gray><white>Type <red><bold>/menu </bold></red><white>to access most server features, including rank<newline><gray>| </gray><white>applications, warps, player reporting, and other information.<newline><gray>| </gray><gray>Hold down the <red><bold>TAB </bold><gray>key to see who else is online.<newline><gray>| </gray><white>Ask our staff if you have any questions.</white>',
                 ],
+                'motd' => '<bold><white>PROJECT </white><gold>CITY </gold><blue>BUILD</blue></bold><newline><gray>14+ years of building! </gray><bold><white>></white><gold>></gold><blue>></blue></bold> <white>Come join us!   </white><dark_gray>[ <gold><bold>1.21.4</bold></gold> <dark_gray>]',
+                'tab' => [
+                    'header' => [
+                        '<gradient:dark_aqua:green>────────────>>> <bold><white>Project</white> <gold>City</gold> <blue>Build</blue></bold> <<<────────────</gradient>',
+                        '<gray>World:</gray> <aqua><world></aqua>',
+                        '<gray>Online:</gray> <aqua><player_count>/<max_players></aqua>',
+                        '<group_list>',
+                        '',
+                    ],
+                    'footer' => [
+                        '',
+                        '<gray>Join us on <bold>/discord</bold></gray>',
+                        '<gray>projectcitybuild.com</gray>',
+                        '<gradient:dark_aqua:green>────────────────────────────────────────</gradient>',
+                    ],
+                    'player' => '<groups><name><afk><spacer><ping>',
+                    'player_column_length' => 32,
+                ],
+                'server_links' => [
+                    'website' => 'https://projectcitybuild.com',
+                    'custom' => [
+                        'discord' => 'https://discord.gg/3NYaUeScDX',
+                    ],
+                ],
             ],
         ];
     }

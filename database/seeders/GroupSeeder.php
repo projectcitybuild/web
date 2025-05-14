@@ -17,6 +17,7 @@ class GroupSeeder extends Seeder
             'is_default' => true,
             'group_type' => 'trust',
             'display_priority' => 1,
+            'additional_homes' => 3,
         ]);
 
         Group::factory()->create([
@@ -44,6 +45,7 @@ class GroupSeeder extends Seeder
             'minecraft_hover_text' => 'Intern',
             'group_type' => 'build',
             'display_priority' => 1,
+            'additional_homes' => 1,
         ]);
 
         Group::factory()->create([
@@ -53,6 +55,7 @@ class GroupSeeder extends Seeder
             'minecraft_hover_text' => 'Builder',
             'group_type' => 'build',
             'display_priority' => 2,
+            'additional_homes' => 3,
         ]);
 
         Group::factory()->create([
@@ -62,6 +65,7 @@ class GroupSeeder extends Seeder
             'minecraft_hover_text' => 'Planner',
             'group_type' => 'build',
             'display_priority' => 3,
+            'additional_homes' => 5,
         ]);
 
         Group::factory()->create([
@@ -71,6 +75,7 @@ class GroupSeeder extends Seeder
             'minecraft_hover_text' => 'Engineer',
             'group_type' => 'build',
             'display_priority' => 4,
+            'additional_homes' => 7,
         ]);
 
         $architect = Group::factory()->create([
@@ -80,6 +85,7 @@ class GroupSeeder extends Seeder
             'minecraft_hover_text' => 'Architect',
             'group_type' => 'build',
             'display_priority' => 5,
+            'additional_homes' => 10,
         ]);
 
         Group::factory()->create([
@@ -108,6 +114,7 @@ class GroupSeeder extends Seeder
             'alias' => 'Mod',
             'group_type' => 'staff',
             'display_priority' => 1,
+            'additional_homes' => 5,
         ]);
 
         $dev = Group::factory()->create([

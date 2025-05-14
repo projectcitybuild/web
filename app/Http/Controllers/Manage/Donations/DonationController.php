@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Manage\Donations;
 
+use App\Domains\Donations\UseCases\GetAnnualDonationStats;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Donation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -62,6 +64,8 @@ class DonationController extends WebController
 
         Donation::create($validated);
 
+        Cache::forget(GetAnnualDonationStats::CACHE_KEY);
+
         return to_route('manage.donations.index')
             ->with(['success' => 'Donation created successfully.']);
     }
@@ -88,6 +92,8 @@ class DonationController extends WebController
 
         $donation->update($validated);
 
+        Cache::forget(GetAnnualDonationStats::CACHE_KEY);
+
         return to_route('manage.donations.show', $donation)
             ->with(['success' => 'Donation updated successfully.']);
     }
@@ -97,6 +103,8 @@ class DonationController extends WebController
         Gate::authorize('delete', $donation);
 
         $donation->delete();
+
+        Cache::forget(GetAnnualDonationStats::CACHE_KEY);
 
         return to_route('manage.donations.index')
             ->with(['success' => 'Donation deleted successfully.']);

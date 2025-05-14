@@ -6,6 +6,9 @@ use App\Http\Controllers\Api\v2\Minecraft\Build\MinecraftBuildVoteController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftTelemetryController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftWarpController;
+use App\Http\Controllers\Api\v2\Minecraft\Player\Homes\MinecraftPlayerHomeController;
+use App\Http\Controllers\Api\v2\Minecraft\Player\Homes\MinecraftPlayerHomeLimitController;
+use App\Http\Controllers\Api\v2\Minecraft\Player\Homes\MinecraftPlayerHomeNameController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftPlayerController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftPlayerNicknameController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftRegisterController;
@@ -21,7 +24,7 @@ Route::prefix('v2')
             Route::resource('warp', MinecraftWarpController::class);
 
             Route::prefix('build')->group(function () {
-                Route::get('/name', [MinecraftBuildNameController::class, 'index']);
+                Route::get('name', [MinecraftBuildNameController::class, 'index']);
 
                 Route::prefix('{build}')->group(function () {
                     Route::patch('set', [MinecraftBuildController::class, 'patch']);
@@ -47,6 +50,12 @@ Route::prefix('v2')
                     Route::put('/', [MinecraftRegisterController::class, 'update'])
                         ->middleware('throttle:12,1');
                 });
+
+                Route::prefix('home')->group(function () {
+                    Route::get('name', [MinecraftPlayerHomeNameController::class, 'index']);
+                    Route::get('limit', MinecraftPlayerHomeLimitController::class);
+                });
+                Route::resource('home', MinecraftPlayerHomeController::class);
             });
         });
     });

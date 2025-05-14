@@ -28,6 +28,7 @@ final class Group extends Model implements LinkableAuditModel
         'minecraft_hover_text',
         'display_priority',
         'group_type',
+        'additional_homes',
     ];
 
     protected $casts = [
