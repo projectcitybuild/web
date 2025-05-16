@@ -26,6 +26,7 @@ const form = useForm<Group>({
     is_default: props.group?.is_default,
     group_type: props.group?.group_type ?? 'build',
     display_priority: props.group?.priority,
+    additional_homes: props.group?.additional_homes ?? 0,
     created_at: props.badge?.created_at
         ? new Date(props.badge.created_at)
         : new Date(),
@@ -152,6 +153,25 @@ function destroy() {
                 </span>
                 <div v-if="form.errors.minecraft_hover_text" class="text-xs text-red-500 font-bold mt-2">
                     {{ form.errors.minecraft_hover_text }}
+                </div>
+            </div>
+            <div class="col-span-2">
+                <label for="minecraft_hover_text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Minecraft Additional Homes
+                </label>
+                <input
+                    v-model="form.additional_homes"
+                    id="additional_homes"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="0"
+                    type="number"
+                >
+                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
+                    The text displayed when the Minecraft Display Name is hovered-over. Supports <a
+                    class="text-blue-500" href="https://docs.advntr.dev/minimessage/format.html" target="_blank">MiniMessage</a> format
+                </span>
+                <div v-if="form.errors.additional_homes" class="text-xs text-red-500 font-bold mt-2">
+                    {{ form.errors.additional_homes }}
                 </div>
             </div>
             <div class="col-span-2">
