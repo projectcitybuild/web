@@ -19,6 +19,7 @@ const fields = [
     { key: 'display_priority', label: 'Display Priority' },
     { key: 'is_default', label: 'Is Default?' },
     { key: 'is_admin', label: 'Is Admin?' },
+    { key: 'additional_homes', label: 'Additional Homes' },
 ]
 </script>
 

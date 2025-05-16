@@ -56,9 +56,14 @@ class GroupController extends WebController
             'minecraft_name' => [Rule::unique(Group::tableName(), 'minecraft_name')],
             'minecraft_display_name' => [],
             'minecraft_hover_text' => [],
+            'additional_homes' => ['required', 'int', 'gte:0'],
             'group_type' => [],
-            'display_priority' => ['int'],
+            'display_priority' => 'int',
         ]);
+
+        if ($validated['additional_homes'] === 0) {
+            $validated['additional_homes'] = null;
+        }
 
         Group::create($validated);
 
@@ -83,9 +88,14 @@ class GroupController extends WebController
             'minecraft_name' => ['string', Rule::unique(Group::tableName(), 'minecraft_name')->ignore($group)],
             'minecraft_display_name' => [],
             'minecraft_hover_text' => [],
+            'additional_homes' => ['required', 'int', 'gte:0'],
             'group_type' => [],
             'display_priority' => ['nullable', 'int'],
         ]);
+
+        if ($validated['additional_homes'] === 0) {
+            $validated['additional_homes'] = null;
+        }
 
         $group->update($validated);
 

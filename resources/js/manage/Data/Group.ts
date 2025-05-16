@@ -10,6 +10,7 @@ export interface Group {
     minecraft_hover_text: string,
     display_priority: number,
     group_type: string,
+    additional_homes?: number,
     created_at: string,
     updated_at: string,
 }
