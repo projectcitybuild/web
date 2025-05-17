@@ -6,6 +6,7 @@ use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\Pagination\HasPaginatedApi;
 use App\Http\Controllers\ApiController;
+use App\Models\Group;
 use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
@@ -59,11 +60,13 @@ final class MinecraftPlayerHomeController extends ApiController
         }
 
         // TODO: reuse
-        $allowedHomes = $player
-            ->account
-            ?->groups
-            ?->map(fn ($group) => $group->additional_homes ?? 0)
-            ?->sum() ?? 1;
+        $account = $player->account;
+        $groups = $account?->groups ?: collect();
+        if ($account !== null && $account->groups->isEmpty()) {
+            $groups->add(Group::whereDefault()->first());
+        }
+        $allowedHomes = max(1, $groups->map(fn ($group) => $group->additional_homes ?? 0)->sum());
+
         $homes = MinecraftHome::where('player_id', $player->getKey())->count();
         if ($homes >= $allowedHomes) {
             throw ValidationException::withMessages([
