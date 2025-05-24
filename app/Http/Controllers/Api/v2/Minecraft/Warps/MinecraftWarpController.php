@@ -26,6 +26,11 @@ final class MinecraftWarpController extends ApiController
             ->paginate($pageSize);
     }
 
+    public function bulk(Request $request)
+    {
+        return MinecraftWarp::orderBy('name', 'desc')->get();
+    }
+
     public function show(Request $request, MinecraftWarp $warp)
     {
         return $warp;

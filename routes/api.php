@@ -23,6 +23,7 @@ Route::prefix('v2')
             Route::get('config', MinecraftConfigController::class);
 
             Route::get('warp/name', [MinecraftWarpNameController::class, 'index']);
+            Route::get('warp/all', [MinecraftWarpController::class, 'bulk']);
             Route::resource('warp', MinecraftWarpController::class);
 
             Route::prefix('build')->group(function () {
