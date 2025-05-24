@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api\v2\Minecraft;
+namespace App\Http\Controllers\Api\v2\Minecraft\Warps;
 
 use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
+use App\Core\Domains\Pagination\HasPaginatedApi;
 use App\Http\Controllers\ApiController;
 use App\Models\MinecraftWarp;
 use Illuminate\Http\Request;
@@ -11,10 +12,23 @@ use Illuminate\Validation\Rule;
 final class MinecraftWarpController extends ApiController
 {
     use ValidatesCoordinates;
+    use HasPaginatedApi;
 
     public function index(Request $request)
     {
-        return MinecraftWarp::orderBy('name', 'asc')->get();
+        $validated = $request->validate([
+            ...$this->paginationRules,
+        ]);
+
+        $pageSize = $this->pageSize($validated);
+
+        return MinecraftWarp::orderBy('name', 'desc')
+            ->paginate($pageSize);
+    }
+
+    public function show(Request $request, MinecraftWarp $warp)
+    {
+        return $warp;
     }
 
     public function store(Request $request)
