@@ -28,7 +28,7 @@ final class MinecraftPlayerHomeController extends ApiController
 
         $pageSize = $this->pageSize($validated);
 
-        return MinecraftHome::orderBy('name', 'desc')
+        return MinecraftHome::orderBy('name', 'asc')
             ->where('player_id', $player->getKey())
             ->paginate($pageSize);
     }
