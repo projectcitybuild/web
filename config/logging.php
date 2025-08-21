@@ -1,6 +1,5 @@
 <?php
 
-use App\Core\Support\Laravel\Logging\LogTailLoggerFactory;
 use App\Core\Support\Laravel\Logging\SentryLoggerFactory;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
@@ -39,7 +38,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['daily', 'logtail', 'sentry'],
+            'channels' => ['daily', 'sentry'],
             'ignore_exceptions' => false,
         ],
 
@@ -73,14 +72,6 @@ return [
                 'port' => env('PAPERTRAIL_PORT'),
                 'connectionString' => 'tls://'.env('PAPERTRAIL_URL').':'.env('PAPERTRAIL_PORT'),
             ],
-        ],
-
-        'logtail' => [
-            'driver' => 'custom',
-            'via' => LogTailLoggerFactory::class,
-            'name' => env('LOGTAIL_NAME', 'logtail'),
-            'source_token' => env('LOGTAIL_SOURCE_TOKEN'),
-            'level' => env('LOG_LEVEL', 'debug'),
         ],
 
         'sentry' => [
