@@ -38,7 +38,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['daily', 'sentry', 'sentry_log'],
+            'channels' => ['daily', 'sentry', 'sentry_logs'],
             'ignore_exceptions' => false,
         ],
 
