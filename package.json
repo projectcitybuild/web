@@ -6,7 +6,7 @@
     },
     "devDependencies": {
         "autoprefixer": "^10.4.20",
-        "axios": "^1.8.2",
+        "axios": "^1.12.2",
         "laravel-vite-plugin": "^1.1.1",
         "postcss": "^8.4.49",
         "sass": "^1.83.0",
