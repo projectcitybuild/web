@@ -10751,7 +10751,6 @@
                 "larastan/larastan": "^2.9.8",
                 "laravel/framework": "^11.28.0",
                 "laravel/pint": "^1.18.1",
-                "laravel/sail": "^1.36.0",
                 "laravel/sanctum": "^4.0.3",
                 "laravel/tinker": "^2.10.0",
                 "orchestra/testbench-core": "^9.5.3",
