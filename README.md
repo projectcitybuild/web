@@ -12,8 +12,8 @@
 The official repository for [Project City Build](https://projectcitybuild.com)'s homepage and related web services.
 
 ### Stack
-* Frameworks: Laravel 11, Vue 3
-* Environment: Laravel Sail (Docker)
+* Backend: Laravel 11
+* Frontend: Laravel Blade, Vue 3
 * CI/CD: GitHub Actions
 
 All branches, commits and pull-requests are continuously tested
@@ -26,23 +26,20 @@ Absolutely. Feel free to fork and send pull requests any time - we'd be thrilled
 
 ## Development
 
+The development environment uses [Dev Containers](https://containers.dev/) in combination with Docker.
+
 ### Dev Environment
 
-Ensure you have [Docker](https://docs.docker.com/get-docker/) installed.
+Ensure you have the following installed:
 
-If this is your first time building the containers:
+* [Docker](https://docs.docker.com/get-docker/) 
+* [VSCode](https://code.visualstudio.com/)
+* The [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension for VSCode
 
-1. Copy the env example file: `cp .env.example .env`
-2. Run `sail up -d` to start the containers
-3. Run `sail composer install` to install PHP dependencies
-4. Run `sail npm install` to install frontend dependencies
-5. Run `sail artisan key:generate` to generate an app key (for encryption, etc)
-6. Run `sail artisan migrate --seed`
+> [!IMPORTANT]
+Before opening this project in VSCode, copy the env example file: `cp .env.example .env`
 
-From then onwards:
-
-1. Run `sail up -d` if containers aren't already running
-2. Run `sail npm run dev` to continuously build the frontend
+Open the project in VSCode. When the corner pop up appears, click the button to re-open the project in a container.
 
 Access the site at http://localhost
 
