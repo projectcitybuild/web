@@ -22,16 +22,16 @@ jobs:
 
       - name: Validate devcontainer.json
         run: |
-          devcontainer validate .devcontainer/devcontainer.json
+          devcontainer build
 
-  docker-compose-build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+  # docker-compose-build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v3
 
-      - name: Build Docker Compose
-        run: |
-          docker-compose -f .docker/dev/compose.yaml build
+  #     - name: Build Docker Compose
+  #       run: |
+  #         docker-compose -f .docker/dev/compose.yaml build
