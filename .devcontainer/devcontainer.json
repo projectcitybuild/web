@@ -1,0 +1,23 @@
+{
+    "name": "pcb-web",
+    "service": "cli",
+    "remoteUser": "user",
+    "shutdownAction": "stopCompose",
+    "workspaceFolder": "/workspaces/laravel",
+    "dockerComposeFile": "../.docker/dev/compose.yaml",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "bmewburn.vscode-intelephense-client",
+                "eamodio.gitlens",
+                "EditorConfig.EditorConfig",
+                "mikestead.dotenv",
+                "onecentlin.laravel-blade"
+            ]
+        }
+    },
+    "mounts": [
+        "source=${localWorkspaceFolder}/.devcontainer/post_create_hook.sh,target=/workspaces/laravel/.devcontainer/post_create_hook.sh,type=bind,consistency=cached"
+    ],
+    "postCreateCommand": "/workspaces/laravel/.devcontainer/post_create_hook.sh"
+}
