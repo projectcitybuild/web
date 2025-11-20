@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\v2\Minecraft\Player;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\Badges\UseCases\GetBadges;
-use App\Domains\Bans\UseCases\GetActiveIPBan;
+use App\Domains\Bans\Services\IPBanService;
 use App\Http\Controllers\ApiController;
 use App\Models\GamePlayerBan;
 use App\Models\Group;
@@ -18,7 +18,7 @@ final class MinecraftPlayerController extends ApiController
         Request $request,
         MinecraftUUID $uuid,
         GetBadges $getBadges,
-        GetActiveIPBan $getActiveIPBan,
+        IPBanService $ipBanService,
     ): JsonResponse {
         $request->validate([
             'ip' => 'ip',
@@ -59,7 +59,7 @@ final class MinecraftPlayerController extends ApiController
             }),
             'badges' => optional($player, fn ($player) => $getBadges->execute($player)) ?? [],
             'ip_ban' => $request->has('ip')
-                ? $getActiveIPBan->execute(ip: $request->get('ip'))
+                ? $ipBanService->find(ip: $request->get('ip'))
                 : null,
         ]);
     }

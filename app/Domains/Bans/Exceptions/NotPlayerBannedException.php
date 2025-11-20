@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class AlreadyIPBannedException extends Exception
+final class NotPlayerBannedException extends Exception
 {
     public function report(): bool
     {
@@ -16,8 +16,8 @@ final class AlreadyIPBannedException extends Exception
     public function render(Request $request): Response
     {
         return response()->json([
-            'id' => 'ip_already_banned',
-            'message' => $this->getMessage() ?: 'IP address is already banned',
+            'id' => 'player_not_banned',
+            'message' => $this->getMessage() ?: 'Player is not currently banned',
         ], Response::HTTP_BAD_REQUEST);
     }
 }

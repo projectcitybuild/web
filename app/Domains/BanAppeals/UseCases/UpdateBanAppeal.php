@@ -8,17 +8,18 @@ use App\Domains\BanAppeals\Data\BanAppealStatus;
 use App\Domains\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use App\Domains\BanAppeals\Exceptions\NoPlayerForActionException;
 use App\Domains\Bans\Data\UnbanType;
-use App\Domains\Bans\Exceptions\NotBannedException;
-use App\Domains\Bans\UseCases\CreatePlayerUnban;
+use App\Domains\Bans\Exceptions\NotPlayerBannedException;
+use App\Domains\Bans\Services\PlayerBanService;
 use App\Models\Account;
 use App\Models\BanAppeal;
+use DeletePlayerBan;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
 class UpdateBanAppeal
 {
     public function __construct(
-        private readonly CreatePlayerUnban $unbanUseCase
+        private readonly PlayerBanService $playerBanService
     ) {}
 
     /**
@@ -31,7 +32,7 @@ class UpdateBanAppeal
      * @throws AppealAlreadyDecidedException if the appeal has already been decided
      * @throws NoPlayerForActionException if the banning account has no minecraft players to perform the action
      * @throws NotImplementedException if an unimplemented ban decision is used
-     * @throws NotBannedException if the player is not currently banned
+     * @throws NotPlayerBannedException if the player is not currently banned
      */
     public function execute(
         BanAppeal $banAppeal,
@@ -71,10 +72,12 @@ class UpdateBanAppeal
                 $bannedPlayerUuid = new MinecraftUUID($banAppeal->gamePlayerBan->bannedPlayer->uuid);
                 $staffPlayerIdentifier = new MinecraftUUID($decidingPlayer->uuid);
 
-                $this->unbanUseCase->execute(
-                    bannedPlayerUuid: $bannedPlayerUuid,
-                    unbannerPlayerUuid: $staffPlayerIdentifier,
-                    unbanType: UnbanType::APPEALED,
+                $this->playerBanService->delete(
+                    new DeletePlayerBan(
+                        bannedUuid: $bannedPlayerUuid,
+                        unbannerUuid: $staffPlayerIdentifier,
+                        unbanType: UnbanType::APPEALED,
+                    ),
                 );
             }
             DB::commit();
