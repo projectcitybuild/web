@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\v2\Minecraft\Build\MinecraftBuildVoteController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftTelemetryController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\Connection\MinecraftConnectionAuthController;
+use App\Http\Controllers\Api\v2\Minecraft\Player\Connection\MinecraftConnectionEndController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\Homes\MinecraftPlayerHomeController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\Homes\MinecraftPlayerHomeLimitController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\Homes\MinecraftPlayerHomeNameController;
@@ -53,9 +54,13 @@ Route::prefix('v2')
 
             Route::prefix('player/{minecraft_uuid}')->group(function () {
                 Route::get('/', MinecraftPlayerController::class);
+
                 Route::get('connection/authorize', MinecraftConnectionAuthController::class);
-                Route::put('nickname', [MinecraftPlayerNicknameController::class, 'update']);
+                Route::get('connection/end', MinecraftConnectionEndController::class);
+
                 Route::get('bans', [MinecraftPlayerBanController::class, 'index']);
+
+                Route::put('nickname', [MinecraftPlayerNicknameController::class, 'update']);
 
                 Route::prefix('register')->group(function () {
                     Route::post('/', [MinecraftRegisterController::class, 'store'])

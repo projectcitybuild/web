@@ -19,7 +19,7 @@ class PlayerBanService
         $bannedPlayer = MinecraftPlayer::firstOrCreate($req->bannedUuid, alias: $req->bannedAlias);
 
         throw_if(
-            GamePlayerBan::where('banned_player_id', $bannedPlayer->getKey())
+            GamePlayerBan::whereBannedPlayer($bannedPlayer)
                 ->active()
                 ->exists(),
             AlreadyPlayerBannedException::class,
@@ -98,7 +98,7 @@ class PlayerBanService
         if ($player === null) {
             return collect();
         }
-        return GamePlayerBan::where('banned_player_id', $player->getKey())->get();
+        return GamePlayerBan::whereBannedPlayer($player)->get();
     }
 
     public function firstActive(MinecraftUUID $playerUuid): ?GamePlayerBan
@@ -107,7 +107,7 @@ class PlayerBanService
         if ($player === null) {
             return null;
         }
-        return GamePlayerBan::where('banned_player_id', $player->getKey())
+        return GamePlayerBan::whereBannedPlayer($player)
             ->active()
             ->first();
     }

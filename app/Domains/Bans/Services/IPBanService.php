@@ -44,6 +44,7 @@ class IPBanService
         return $ban;
     }
 
+    // TODO: generalize into update and delete
     public function delete(DeleteIPBan $req): GameIPBan
     {
         $existingBan = GameIPBan::where('ip_address', $req->ip)

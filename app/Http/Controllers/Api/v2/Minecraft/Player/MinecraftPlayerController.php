@@ -53,7 +53,7 @@ final class MinecraftPlayerController extends ApiController
             'player' => $player?->withoutRelations(),
             'groups' => $groups,
             'ban' => optional($player, function ($player) {
-                return GamePlayerBan::where('banned_player_id', $player->getKey())
+                return GamePlayerBan::whereBannedPlayer($player)
                     ->active()
                     ->first();
             }),

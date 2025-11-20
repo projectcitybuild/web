@@ -51,6 +51,11 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
             });
     }
 
+    public function scopeWhereBannedPlayer(Builder $query, MinecraftPlayer $player)
+    {
+        $query->where('banned_player_id', $player->getKey());
+    }
+
     public function unbannedAt(): Attribute
     {
         // To simplify checking whether a ban is active, we'll always use the `unbanned_at`
