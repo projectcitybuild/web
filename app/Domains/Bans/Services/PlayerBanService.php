@@ -10,7 +10,6 @@ use App\Domains\Bans\Exceptions\AlreadyPlayerBannedException;
 use App\Domains\MinecraftEventBus\Events\MinecraftUuidBanned;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
 
 class PlayerBanService
@@ -100,5 +99,16 @@ class PlayerBanService
             return collect();
         }
         return GamePlayerBan::where('banned_player_id', $player->getKey())->get();
+    }
+
+    public function firstActive(MinecraftUUID $playerUuid): ?GamePlayerBan
+    {
+        $player = MinecraftPlayer::whereUuid($playerUuid)->first();
+        if ($player === null) {
+            return null;
+        }
+        return GamePlayerBan::where('banned_player_id', $player->getKey())
+            ->active()
+            ->first();
     }
 }
