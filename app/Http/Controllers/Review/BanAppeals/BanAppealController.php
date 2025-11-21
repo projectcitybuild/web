@@ -8,7 +8,7 @@ use App\Domains\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use App\Domains\BanAppeals\Exceptions\NoPlayerForActionException;
 use App\Domains\BanAppeals\Notifications\BanAppealUpdatedNotification;
 use App\Domains\BanAppeals\UseCases\UpdateBanAppeal;
-use App\Domains\Bans\Exceptions\NotPlayerBannedException;
+use App\Domains\Bans\Exceptions\BanNotFoundException;
 use App\Http\Controllers\Review\RendersReviewApp;
 use App\Http\Requests\BanAppealUpdateRequest;
 use App\Models\BanAppeal;
@@ -80,7 +80,7 @@ class BanAppealController
             throw ValidationException::withMessages([
                 'error' => ['This unban decision is not supported currently. Please contact an admin.'],
             ]);
-        } catch (NotPlayerBannedException $e) {
+        } catch (BanNotFoundException $e) {
             throw ValidationException::withMessages([
                 'error' => ['Unable to unban player, they are not currently banned.'],
             ]);

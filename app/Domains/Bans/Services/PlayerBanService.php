@@ -4,9 +4,8 @@ namespace App\Domains\Bans\Services;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\Bans\Data\CreatePlayerBan;
-use App\Domains\Bans\Data\UnbanType;
 use App\Domains\Bans\Data\UpdatePlayerBan;
-use App\Domains\Bans\Exceptions\AlreadyPlayerBannedException;
+use App\Domains\Bans\Exceptions\AlreadyBannedException;
 use App\Domains\MinecraftEventBus\Events\MinecraftUuidBanned;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
@@ -22,7 +21,7 @@ class PlayerBanService
             GamePlayerBan::whereBannedPlayer($bannedPlayer)
                 ->active()
                 ->exists(),
-            AlreadyPlayerBannedException::class,
+            new AlreadyBannedException('UUID already banned ('.$req->bannedUuid.')'),
         );
 
         $bannerPlayer = optional(
@@ -77,7 +76,7 @@ class PlayerBanService
             'updated_at' => now(),
             'unbanned_at' => $req->unbannedAt,
             'unbanner_player_id' => $unbannerPlayer?->getKey(),
-            'unban_type' => UnbanType::MANUAL,
+            'unban_type' => $req->unbanType,
         ]);
         $ban = $ban->refresh();
 

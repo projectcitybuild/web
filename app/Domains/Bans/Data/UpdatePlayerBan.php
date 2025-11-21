@@ -20,5 +20,6 @@ class UpdatePlayerBan
         readonly ?Carbon $unbannedAt,
         readonly ?MinecraftUUID $unbannerUuid,
         readonly ?string $unbannerAlias,
+        readonly ?UnbanType $unbanType,
     ) {}
 }

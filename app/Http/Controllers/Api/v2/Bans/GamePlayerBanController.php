@@ -84,6 +84,7 @@ final class GamePlayerBanController extends ApiController
                 unbannedAt: optional($validated->get('unbanned_at'), fn($it) => Carbon::parse($it)),
                 unbannerUuid: optional($validated->get('unbanner_uuid'), fn($it) => new MinecraftUUID($it)),
                 unbannerAlias: $validated->get('unbanner_alias'),
+                unbanType: optional($validated->get('unban_type'), fn($it) => UnbanType::from($it)),
             ),
         );
     }

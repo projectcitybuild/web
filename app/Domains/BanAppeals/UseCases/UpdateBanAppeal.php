@@ -8,20 +8,16 @@ use App\Domains\BanAppeals\Data\BanAppealStatus;
 use App\Domains\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use App\Domains\BanAppeals\Exceptions\NoPlayerForActionException;
 use App\Domains\Bans\Data\UnbanType;
-use App\Domains\Bans\Exceptions\NotPlayerBannedException;
-use App\Domains\Bans\Services\PlayerBanService;
 use App\Models\Account;
 use App\Models\BanAppeal;
+use App\Models\MinecraftPlayer;
 use DeletePlayerBan;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 
 class UpdateBanAppeal
 {
-    public function __construct(
-        private readonly PlayerBanService $playerBanService
-    ) {}
-
     /**
      * @param  BanAppeal  $banAppeal The ban appeal to update
      * @param  Account  $decidingAccount The account of the deciding staff
@@ -69,16 +65,16 @@ class UpdateBanAppeal
                 ->log(strtolower($status->humanReadable()));
 
             if ($status == BanAppealStatus::ACCEPTED_UNBAN) {
-                $bannedPlayerUuid = new MinecraftUUID($banAppeal->gamePlayerBan->bannedPlayer->uuid);
-                $staffPlayerIdentifier = new MinecraftUUID($decidingPlayer->uuid);
+                $unbannerUuid = new MinecraftUUID($decidingPlayer->uuid);
+                $unbannerPlayer = MinecraftPlayer::whereUuid($unbannerUuid)->first()
+                    ?? throw new ModelNotFoundException("Unbanner player not found");
 
-                $this->playerBanService->delete(
-                    new DeletePlayerBan(
-                        bannedUuid: $bannedPlayerUuid,
-                        unbannerUuid: $staffPlayerIdentifier,
-                        unbanType: UnbanType::APPEALED,
-                    ),
-                );
+                $ban = $banAppeal->gamePlayerBan;
+                $ban->update([
+                    'unbanned_at' => now(),
+                    'unbanner_player_id' => $unbannerPlayer->getKey(),
+                    'unban_type' => UnbanType::APPEALED,
+                ]);
             }
             DB::commit();
         } catch (Exception $exception) {

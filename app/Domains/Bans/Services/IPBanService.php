@@ -4,8 +4,8 @@ namespace App\Domains\Bans\Services;
 
 use App\Domains\Bans\Data\CreateIPBan;
 use App\Domains\Bans\Data\DeleteIPBan;
-use App\Domains\Bans\Exceptions\AlreadyIPBannedException;
-use App\Domains\Bans\Exceptions\NotIPBannedException;
+use App\Domains\Bans\Exceptions\AlreadyBannedException;
+use App\Domains\Bans\Exceptions\BanNotFoundException;
 use App\Domains\MinecraftEventBus\Events\IpAddressBanned;
 use App\Models\GameIPBan;
 use App\Models\MinecraftPlayer;
@@ -25,7 +25,7 @@ class IPBanService
             GameIPBan::where('ip_address', $req->ip)
                 ->whereNull('unbanned_at')
                 ->exists(),
-            AlreadyIPBannedException::class,
+            new AlreadyBannedException('IP address already banned ('.$req->ip.')'),
         );
 
         $bannerPlayer = MinecraftPlayer::firstOrCreate(
@@ -50,7 +50,7 @@ class IPBanService
         $existingBan = GameIPBan::where('ip_address', $req->ip)
             ->whereNull('unbanned_at')
             ->first()
-            ?? throw new NotIPBannedException();
+            ?? throw new BanNotFoundException();
 
         $unbannerPlayer = MinecraftPlayer::firstOrCreate(uuid: $req->unbannerUuid);
 
