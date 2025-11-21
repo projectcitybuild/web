@@ -100,7 +100,7 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
                 'alias' => $alias,
             ]);
         }
-        if ($existing->alias !== $alias) {
+        if (! empty($alias) && $existing->alias !== $alias) {
             $existing->alias = $alias;
             $existing->save();
         }

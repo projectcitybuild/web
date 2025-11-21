@@ -9,6 +9,7 @@ use App\Domains\MinecraftTelemetry\UseCases\UpdateSeenMinecraftPlayer;
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 
+/** @deprecated */
 final class MinecraftTelemetryController extends ApiController
 {
     public function playerSeen(

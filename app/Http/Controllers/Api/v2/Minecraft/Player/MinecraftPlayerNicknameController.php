@@ -7,6 +7,10 @@ use App\Http\Controllers\ApiController;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
 
+/**
+ * @deprecated
+ * TODO: Create a player update controller
+ */
 final class MinecraftPlayerNicknameController extends ApiController
 {
     public function update(Request $request, MinecraftUUID $uuid)

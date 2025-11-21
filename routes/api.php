@@ -1,13 +1,17 @@
 <?php
 
+use App\Http\Controllers\Api\v2\Bans\GamePlayerBanController;
 use App\Http\Controllers\Api\v2\Minecraft\Build\MinecraftBuildController;
 use App\Http\Controllers\Api\v2\Minecraft\Build\MinecraftBuildNameController;
 use App\Http\Controllers\Api\v2\Minecraft\Build\MinecraftBuildVoteController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftTelemetryController;
+use App\Http\Controllers\Api\v2\Minecraft\Player\Connection\MinecraftConnectionAuthController;
+use App\Http\Controllers\Api\v2\Minecraft\Player\Connection\MinecraftConnectionEndController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\Homes\MinecraftPlayerHomeController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\Homes\MinecraftPlayerHomeLimitController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\Homes\MinecraftPlayerHomeNameController;
+use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftPlayerBanController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftPlayerController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftPlayerNicknameController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftRegisterController;
@@ -19,6 +23,12 @@ Route::prefix('v2')
     ->name('v2.')
     ->middleware('require-server-token')
     ->group(function() {
+        Route::prefix('bans')->group(function () {
+            Route::post('/', [GamePlayerBanController::class, 'store']);
+            Route::put('{banId}', [GamePlayerBanController::class, 'update']);
+            Route::delete('{banId}', [GamePlayerBanController::class, 'delete']);
+        });
+
         Route::prefix('minecraft')->group(function () {
             Route::get('config', MinecraftConfigController::class);
 
@@ -44,6 +54,12 @@ Route::prefix('v2')
 
             Route::prefix('player/{minecraft_uuid}')->group(function () {
                 Route::get('/', MinecraftPlayerController::class);
+
+                Route::get('connection/authorize', MinecraftConnectionAuthController::class);
+                Route::get('connection/end', MinecraftConnectionEndController::class);
+
+                Route::get('bans', [MinecraftPlayerBanController::class, 'index']);
+
                 Route::put('nickname', [MinecraftPlayerNicknameController::class, 'update']);
 
                 Route::prefix('register')->group(function () {

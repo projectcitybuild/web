@@ -65,7 +65,7 @@ https://developers.cloudflare.com/turnstile/troubleshooting/testing/
 
 ### Mail
 
-Laravel Sail uses Mailpit during local development to avoid sending real emails.
+In local development, emails are forwarded to Mailpit instead of a real mail server.
 
 Mail can be viewed at http://localhost:8025
 

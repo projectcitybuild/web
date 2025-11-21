@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 final class MinecraftConfigController extends ApiController
 {
-    public function __invoke(Request $request,): JsonResponse
+    public function __invoke(Request $request): JsonResponse
     {
         $config = MinecraftConfig::byLatest()->first();
 
