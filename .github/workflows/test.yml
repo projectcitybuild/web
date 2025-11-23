@@ -15,9 +15,9 @@ jobs:
         image: mariadb:11.0.5
         env:
           MARIADB_DATABASE: testing
-          MARIADB_USER: user
-          MARIADB_PASSWORD: password
-          MARIADB_ROOT_PASSWORD: password
+          MARIADB_USER: dbuser
+          MARIADB_PASSWORD: dbpass
+          MARIADB_ROOT_PASSWORD: root
         ports:
           - 3306:3306
         options: >-
