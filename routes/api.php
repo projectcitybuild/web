@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\v2\Bans\GamePlayerBanController;
+use App\Http\Controllers\Api\v2\GamePlayerBanController;
 use App\Http\Controllers\Api\v2\Minecraft\Build\MinecraftBuildController;
 use App\Http\Controllers\Api\v2\Minecraft\Build\MinecraftBuildNameController;
 use App\Http\Controllers\Api\v2\Minecraft\Build\MinecraftBuildVoteController;
@@ -23,10 +23,12 @@ Route::prefix('v2')
     ->name('v2.')
     ->middleware('require-server-token')
     ->group(function() {
-        Route::prefix('ban')->group(function () {
-            Route::post('/', [GamePlayerBanController::class, 'store']);
-            Route::put('{banId}', [GamePlayerBanController::class, 'update']);
-            Route::delete('{banId}', [GamePlayerBanController::class, 'delete']);
+        Route::prefix('bans')->group(function () {
+            Route::prefix('uuid')->group(function () {
+                Route::post('/', [GamePlayerBanController::class, 'store']);
+                Route::put('{banId}', [GamePlayerBanController::class, 'update']);
+                Route::delete('{banId}', [GamePlayerBanController::class, 'delete']);
+            });
         });
 
         Route::prefix('minecraft')->group(function () {

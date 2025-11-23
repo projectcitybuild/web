@@ -10,6 +10,7 @@ use App\Domains\MinecraftEventBus\Events\MinecraftUuidBanned;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class PlayerBanService
 {
@@ -45,6 +46,9 @@ class PlayerBanService
             'unbanner_player_id' => $unbannerPlayer?->getKey(),
             'unban_type' => $req->unbanType,
         ]);
+        $ban->load('bannedPlayer', 'bannerPlayer', 'unbannerPlayer');
+
+        Log::info('Created UUID ban', ['ban' => $ban]);
 
         MinecraftUuidBanned::dispatch($ban);
 
@@ -65,7 +69,9 @@ class PlayerBanService
         );
 
         $ban = GamePlayerBan::findOrFail($req->id);
-        $ban->update([
+        $prevBan = $ban;
+
+        $ban->fill([
             'banned_player_id' => $bannedPlayer->getKey(),
             'banned_alias_at_time' => $req->bannedAlias,
             'banner_player_id' => $bannerPlayer?->getKey(),
@@ -76,9 +82,12 @@ class PlayerBanService
             'updated_at' => now(),
             'unbanned_at' => $req->unbannedAt,
             'unbanner_player_id' => $unbannerPlayer?->getKey(),
-            'unban_type' => $req->unbanType,
+            'unban_type' => $req->unbanType->value,
         ]);
-        $ban = $ban->refresh();
+        $ban->save();
+        $ban->load('bannedPlayer', 'bannerPlayer', 'unbannerPlayer');
+
+        Log::info('Updated UUID ban', ['current_ban' => $prevBan, 'updated_ban' => $ban]);
 
         MinecraftUuidBanned::dispatch($ban);
 
@@ -89,9 +98,11 @@ class PlayerBanService
     {
         $ban = GamePlayerBan::findOrFail($id);
         $ban->delete();
+
+        Log::info('Deleted UUID ban', ['ban' => $ban]);
     }
 
-    public function all(MinecraftUUID $playerUuid): Collection
+    public function allForUuid(MinecraftUUID $playerUuid): Collection
     {
         $player = MinecraftPlayer::whereUuid($playerUuid)->first();
         if ($player === null) {

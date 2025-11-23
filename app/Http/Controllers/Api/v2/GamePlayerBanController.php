@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v2\Bans;
+namespace App\Http\Controllers\Api\v2;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;

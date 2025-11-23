@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Event;
 
 beforeAll(function () {
     $this->putBan = function (array $data) {
-        return test()->withServerToken()->post('api/v2/ban', $data);
+        return test()->withServerToken()->post('api/v2/bans/uuid', $data);
     };
 });
 

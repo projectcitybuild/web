@@ -14,6 +14,6 @@ class MinecraftPlayerBanController
 
     public function index(Request $request, MinecraftUUID $uuid)
     {
-        return $this->playerBanService->all(playerUuid: $uuid);
+        return $this->playerBanService->allForUuid(playerUuid: $uuid);
     }
 }
