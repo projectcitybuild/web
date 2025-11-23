@@ -15,9 +15,9 @@ jobs:
         image: mariadb:11.0.5
         env:
           MARIADB_DATABASE: testing
-          MARIADB_USER: user
-          MARIADB_PASSWORD: password
-          MARIADB_ROOT_PASSWORD: password
+          MARIADB_USER: dbuser
+          MARIADB_PASSWORD: dbpass
+          MARIADB_ROOT_PASSWORD: root
         ports:
           - 3306:3306
         options: >-
@@ -33,9 +33,6 @@ jobs:
 
       - name: Install Composer dependencies
         uses: ./.github/actions/install-composer-deps
-
-      - name: Prepare .env file
-        run: cp .env.ci .env
 
       - name: Install npm dependencies
         uses: ./.github/actions/install-npm-deps
@@ -65,10 +62,8 @@ jobs:
 
       - name: Prepare .env file
         run: |
-          cp .env.example .env
+          cp .env.testing .env
           echo "DB_HOST=127.0.0.1" >> .env
-          echo "DB_USERNAME=root" >> .env
-          echo "DB_PASSWORD=password" >> .env
 
       - name: Prepare Laravel
         run: |

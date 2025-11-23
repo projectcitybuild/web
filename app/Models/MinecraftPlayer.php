@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 final class MinecraftPlayer extends Model implements LinkableAuditModel
@@ -91,16 +92,21 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         return $this->save();
     }
 
+    /**
+     * TODO: move this to a service and add caching
+     */
     public static function firstOrCreate(MinecraftUUID $uuid, ?string $alias = null): self
     {
         $existing = self::whereUuid($uuid)->first();
         if ($existing === null) {
+            Log::info('Player not found. Creating new player', ['uuid' => $uuid->full(), 'alias' => $alias]);
             return self::create([
                 'uuid' => $uuid->trimmed(),
                 'alias' => $alias,
             ]);
         }
-        if ($existing->alias !== $alias) {
+        if (! empty($alias) && $existing->alias !== $alias) {
+            Log::info('Updating playing alias', ['prev_alias' => $existing->alias, 'new_alias' => $alias]);
             $existing->alias = $alias;
             $existing->save();
         }

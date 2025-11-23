@@ -9,10 +9,10 @@
         "vscode": {
             "extensions": [
                 "bmewburn.vscode-intelephense-client",
-                "eamodio.gitlens",
                 "EditorConfig.EditorConfig",
                 "mikestead.dotenv",
-                "onecentlin.laravel-blade"
+                "onecentlin.laravel-blade",
+                "recca0120.vscode-phpunit"
             ]
         }
     },

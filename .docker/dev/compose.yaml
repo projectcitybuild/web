@@ -38,6 +38,7 @@ services:
       MARIADB_ROOT_PASSWORD: "${DB_ROOT_PASS:-root}"
     volumes:
         - mariadb-data:/var/lib/mysql
+        - '../../.docker/dev/mariadb/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
 
   redis:
     image: redis:7.2-alpine

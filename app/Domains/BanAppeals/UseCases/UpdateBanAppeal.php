@@ -8,19 +8,16 @@ use App\Domains\BanAppeals\Data\BanAppealStatus;
 use App\Domains\BanAppeals\Exceptions\AppealAlreadyDecidedException;
 use App\Domains\BanAppeals\Exceptions\NoPlayerForActionException;
 use App\Domains\Bans\Data\UnbanType;
-use App\Domains\Bans\Exceptions\NotBannedException;
-use App\Domains\Bans\UseCases\CreatePlayerUnban;
 use App\Models\Account;
 use App\Models\BanAppeal;
+use App\Models\MinecraftPlayer;
+use DeletePlayerBan;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 
 class UpdateBanAppeal
 {
-    public function __construct(
-        private readonly CreatePlayerUnban $unbanUseCase
-    ) {}
-
     /**
      * @param  BanAppeal  $banAppeal The ban appeal to update
      * @param  Account  $decidingAccount The account of the deciding staff
@@ -31,7 +28,7 @@ class UpdateBanAppeal
      * @throws AppealAlreadyDecidedException if the appeal has already been decided
      * @throws NoPlayerForActionException if the banning account has no minecraft players to perform the action
      * @throws NotImplementedException if an unimplemented ban decision is used
-     * @throws NotBannedException if the player is not currently banned
+     * @throws NotPlayerBannedException if the player is not currently banned
      */
     public function execute(
         BanAppeal $banAppeal,
@@ -68,14 +65,16 @@ class UpdateBanAppeal
                 ->log(strtolower($status->humanReadable()));
 
             if ($status == BanAppealStatus::ACCEPTED_UNBAN) {
-                $bannedPlayerUuid = new MinecraftUUID($banAppeal->gamePlayerBan->bannedPlayer->uuid);
-                $staffPlayerIdentifier = new MinecraftUUID($decidingPlayer->uuid);
+                $unbannerUuid = new MinecraftUUID($decidingPlayer->uuid);
+                $unbannerPlayer = MinecraftPlayer::whereUuid($unbannerUuid)->first()
+                    ?? throw new ModelNotFoundException("Unbanner player not found");
 
-                $this->unbanUseCase->execute(
-                    bannedPlayerUuid: $bannedPlayerUuid,
-                    unbannerPlayerUuid: $staffPlayerIdentifier,
-                    unbanType: UnbanType::APPEALED,
-                );
+                $ban = $banAppeal->gamePlayerBan;
+                $ban->update([
+                    'unbanned_at' => now(),
+                    'unbanner_player_id' => $unbannerPlayer->getKey(),
+                    'unban_type' => UnbanType::APPEALED->value,
+                ]);
             }
             DB::commit();
         } catch (Exception $exception) {
