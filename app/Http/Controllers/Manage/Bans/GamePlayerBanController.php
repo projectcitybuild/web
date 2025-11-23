@@ -134,6 +134,7 @@ class GamePlayerBanController extends WebController
                 unbannedAt: optional($validated['unbanned_at'], fn($it) => Carbon::parse($it)),
                 unbannerUuid: optional($validated['unbanner_uuid'], fn($it) => new MinecraftUUID($it)),
                 unbannerAlias: $validated['unbanner_alias'],
+                unbanType: UnbanType::tryFrom($validated['unban_type']),
             ),
         );
 

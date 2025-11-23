@@ -73,7 +73,7 @@ class UpdateBanAppeal
                 $ban->update([
                     'unbanned_at' => now(),
                     'unbanner_player_id' => $unbannerPlayer->getKey(),
-                    'unban_type' => UnbanType::APPEALED,
+                    'unban_type' => UnbanType::APPEALED->value,
                 ]);
             }
             DB::commit();
