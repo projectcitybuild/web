@@ -4,14 +4,15 @@ use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\Event;
 
+beforeAll(function () {
+    $this->putBan = function (int $id, array $data) {
+        return test()->withServerToken()->put("api/v2/ban/{$id}", $data);
+    };
+});
+
 beforeEach(function () {
     Event::fake();
 });
-
-function putBan(int $id, array $data)
-{
-    return test()->withServerToken()->put("api/v2/ban/{$id}", $data);
-}
 
 it('deletes an existing ban', function () {
     $banned = MinecraftPlayer::factory()->create();
@@ -22,7 +23,7 @@ it('deletes an existing ban', function () {
         ->bannedBy($banner)
         ->create();
 
-    putBan($ban->id, [
+    $this->putBan($ban->id, [
         'banned_uuid'  => $banned->uuid,
         'banned_alias' => $banned->alias,
         'banner_uuid'  => $banner->uuid,
