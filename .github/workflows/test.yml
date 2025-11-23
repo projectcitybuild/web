@@ -62,7 +62,7 @@ jobs:
 
       - name: Prepare .env file
         run: |
-          cp .env.example .env
+          cp .env.testing .env
           echo "DB_HOST=127.0.0.1" >> .env
 
       - name: Prepare Laravel
@@ -71,7 +71,7 @@ jobs:
           chmod -R 755 storage bootstrap/cache
 
       - name: Prepare database
-        run: php artisan migrate --env=testing
+        run: php artisan migrate
 
       - name: Run tests
         env:
