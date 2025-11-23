@@ -82,7 +82,7 @@ class PlayerBanService
             'updated_at' => now(),
             'unbanned_at' => $req->unbannedAt,
             'unbanner_player_id' => $unbannerPlayer?->getKey(),
-            'unban_type' => $req->unbanType->value,
+            'unban_type' => $req->unbanType?->value,
         ]);
         $ban->save();
         $ban->load('bannedPlayer', 'bannerPlayer', 'unbannerPlayer');
