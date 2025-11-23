@@ -10,7 +10,7 @@ beforeEach(function () {
 
 function putBan(int $id, array $data)
 {
-    return test()->withServerToken()->put("api/v2/bans/{$id}", $data);
+    return test()->withServerToken()->put("api/v2/ban/{$id}", $data);
 }
 
 it('deletes an existing ban', function () {

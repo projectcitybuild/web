@@ -23,7 +23,7 @@ Route::prefix('v2')
     ->name('v2.')
     ->middleware('require-server-token')
     ->group(function() {
-        Route::prefix('bans')->group(function () {
+        Route::prefix('ban')->group(function () {
             Route::post('/', [GamePlayerBanController::class, 'store']);
             Route::put('{banId}', [GamePlayerBanController::class, 'update']);
             Route::delete('{banId}', [GamePlayerBanController::class, 'delete']);
@@ -32,21 +32,34 @@ Route::prefix('v2')
         Route::prefix('minecraft')->group(function () {
             Route::get('config', MinecraftConfigController::class);
 
-            Route::get('warp/name', [MinecraftWarpNameController::class, 'index']);
-            Route::get('warp/all', [MinecraftWarpController::class, 'bulk']);
-            Route::resource('warp', MinecraftWarpController::class);
+            Route::prefix('warp')->group(function () {
+                Route::get('/', [MinecraftWarpController::class, 'index']);
+                Route::post('/', [MinecraftWarpController::class, 'store']);
+                Route::get('name', [MinecraftWarpNameController::class, 'index']);
+                Route::get('all', [MinecraftWarpController::class, 'bulk']);
+
+                Route::prefix('{warp}')->group(function () {
+                    Route::get('/', [MinecraftWarpController::class, 'show']);
+                    Route::put('/', [MinecraftWarpController::class, 'update']);
+                    Route::delete('/', [MinecraftWarpController::class, 'destroy']);
+                });
+            });
 
             Route::prefix('build')->group(function () {
+                Route::get('/', [MinecraftBuildController::class, 'index']);
+                Route::post('/', [MinecraftBuildController::class, 'store']);
                 Route::get('name', [MinecraftBuildNameController::class, 'index']);
 
                 Route::prefix('{build}')->group(function () {
+                    Route::get('/', [MinecraftBuildController::class, 'show']);
+                    Route::put('/', [MinecraftBuildController::class, 'update']);
+                    Route::delete('/', [MinecraftBuildController::class, 'destroy']);
                     Route::patch('set', [MinecraftBuildController::class, 'patch']);
 
                     Route::post('vote', [MinecraftBuildVoteController::class, 'store']);
                     Route::delete('vote', [MinecraftBuildVoteController::class, 'destroy']);
                 });
             });
-            Route::resource('build', MinecraftBuildController::class);
 
             Route::prefix('telemetry')->group(function () {
                 Route::post('seen', [MinecraftTelemetryController::class, 'playerSeen']);
@@ -70,9 +83,18 @@ Route::prefix('v2')
                         ->middleware('throttle:12,1');
                 });
 
-                Route::get('home/name', [MinecraftPlayerHomeNameController::class, 'index']);
-                Route::get('home/limit', MinecraftPlayerHomeLimitController::class);
-                Route::resource('home', MinecraftPlayerHomeController::class);
+                Route::prefix('home')->group(function () {
+                    Route::get('/', [MinecraftPlayerHomeController::class, 'index']);
+                    Route::post('/', [MinecraftPlayerHomeController::class, 'store']);
+                    Route::get('name', [MinecraftPlayerHomeNameController::class, 'index']);
+                    Route::get('limit', MinecraftPlayerHomeLimitController::class);
+
+                    Route::prefix('{home}', function () {
+                        Route::get('/', [MinecraftPlayerHomeController::class, 'show']);
+                        Route::put('/', [MinecraftPlayerHomeController::class, 'update']);
+                        Route::delete('/', [MinecraftPlayerHomeController::class, 'destroy']);
+                    });
+                });
             });
         });
     });

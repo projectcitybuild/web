@@ -10,7 +10,7 @@ beforeEach(function () {
 
 function postBan(array $data)
 {
-    return test()->withServerToken()->post('api/v2/bans', $data);
+    return test()->withServerToken()->post('api/v2/ban', $data);
 }
 
 describe('validation', function () {
