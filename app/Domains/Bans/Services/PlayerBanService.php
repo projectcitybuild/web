@@ -102,13 +102,15 @@ class PlayerBanService
         Log::info('Deleted UUID ban', ['ban' => $ban]);
     }
 
-    public function allForUuid(MinecraftUUID $playerUuid): Collection
+    public function allForUuid(MinecraftUUID $playerUuid, bool $onlyActive): Collection
     {
         $player = MinecraftPlayer::whereUuid($playerUuid)->first();
         if ($player === null) {
             return collect();
         }
-        return GamePlayerBan::whereBannedPlayer($player)->get();
+        return GamePlayerBan::whereBannedPlayer($player)
+            ->when($onlyActive, fn ($q) => $q->active())
+            ->get();
     }
 
     public function firstActive(MinecraftUUID $playerUuid): ?GamePlayerBan

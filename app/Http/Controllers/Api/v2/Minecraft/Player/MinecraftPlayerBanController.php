@@ -14,6 +14,13 @@ class MinecraftPlayerBanController
 
     public function index(Request $request, MinecraftUUID $uuid)
     {
-        return $this->playerBanService->allForUuid(playerUuid: $uuid);
+        $validated = collect($request->validate([
+            'only_active' => ['nullable', 'boolean'],
+        ]));
+
+        return $this->playerBanService->allForUuid(
+            playerUuid: $uuid,
+            onlyActive: $validated->get('only_active', false),
+        );
     }
 }
