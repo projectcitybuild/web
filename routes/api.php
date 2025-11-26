@@ -91,7 +91,7 @@ Route::prefix('v2')
                     Route::get('name', [MinecraftPlayerHomeNameController::class, 'index']);
                     Route::get('limit', MinecraftPlayerHomeLimitController::class);
 
-                    Route::prefix('{home}', function () {
+                    Route::prefix('{home}')->group(function () {
                         Route::get('/', [MinecraftPlayerHomeController::class, 'show']);
                         Route::put('/', [MinecraftPlayerHomeController::class, 'update']);
                         Route::delete('/', [MinecraftPlayerHomeController::class, 'destroy']);
