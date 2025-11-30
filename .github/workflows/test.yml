@@ -81,7 +81,7 @@ jobs:
           DB_HOST: 127.0.0.1
           MYSQL_USER: root
           MYSQL_ROOT_PASSWORD: root
-        run: php artisan test --log-junit junit.xml
+        run: php artisan test --log-junit junit.xml -o junit_family=legacy
 
       - name: Upload test results to Sentry Prevent
         if: ${{ !cancelled() }}
@@ -90,4 +90,6 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@96b38e9e60ee60a8c3911f4612407bba2f9195fb
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          use_oidc: true
+          files: junit.xml
+          report-type: test_results
