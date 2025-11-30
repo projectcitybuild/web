@@ -81,7 +81,7 @@ jobs:
           DB_HOST: 127.0.0.1
           MYSQL_USER: root
           MYSQL_ROOT_PASSWORD: root
-        run: php artisan test --log-junit junit.xml -o junit_family=legacy
+        run: php artisan test --log-junit junit.xml
 
       - name: Upload test results to Sentry Prevent
         if: ${{ !cancelled() }}
