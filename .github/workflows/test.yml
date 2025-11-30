@@ -7,6 +7,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+    id-token: write
+
 jobs:
   unit-test:
     runs-on: ubuntu-latest
@@ -78,4 +81,8 @@ jobs:
           DB_HOST: 127.0.0.1
           MYSQL_USER: root
           MYSQL_ROOT_PASSWORD: root
-        run: php artisan test
+        run: php artisan test --log-junit junit.xml
+
+      - name: Upload test results to Sentry Prevent
+        if: ${{ !cancelled() }}
+        uses: getsentry/prevent-action@v0
