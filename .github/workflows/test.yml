@@ -92,5 +92,5 @@ jobs:
         with:
           use_oidc: true
           files: junit.xml
-          report-type: test_results
+          report_type: test_results
           fail_ci_if_error: true
