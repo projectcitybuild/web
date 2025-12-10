@@ -15,9 +15,12 @@ final class AlreadyBannedException extends Exception
 
     public function render(Request $request): Response
     {
-        return response()->json([
-            'id' => 'already_banned',
-            'message' => $this->getMessage() ?: 'Duplicate entry (already banned)',
-        ], Response::HTTP_CONFLICT);
+        return response()->json(
+            [
+                'id' => 'already_banned',
+                'message' => $this->getMessage() ?: 'Duplicate entry (already banned)',
+            ],
+            Response::HTTP_CONFLICT,
+        );
     }
 }

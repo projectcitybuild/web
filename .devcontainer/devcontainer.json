@@ -12,7 +12,8 @@
                 "EditorConfig.EditorConfig",
                 "mikestead.dotenv",
                 "onecentlin.laravel-blade",
-                "recca0120.vscode-phpunit"
+                "recca0120.vscode-phpunit",
+                "vue.volar"
             ]
         }
     },

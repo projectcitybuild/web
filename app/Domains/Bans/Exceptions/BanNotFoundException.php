@@ -15,9 +15,12 @@ final class BanNotFoundException extends Exception
 
     public function render(Request $request): Response
     {
-        return response()->json([
-            'id' => 'ban_not_found',
-            'message' => $this->getMessage() ?: 'Existing ban not found',
-        ], Response::HTTP_BAD_REQUEST);
+        return response()->json(
+            [
+                'id' => 'ban_not_found',
+                'message' => $this->getMessage() ?: 'Existing ban not found',
+            ],
+            Response::HTTP_BAD_REQUEST,
+        );
     }
 }
