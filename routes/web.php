@@ -77,14 +77,16 @@ Route::prefix('appeal')->group(function () {
         ->name('front.appeal');
 
     Route::get('search', [BanAppealSearchController::class, 'index'])
-        ->name('front.appeal.search');
+        ->name('front.appeal.search')
+        ->middleware('throttle:15,1');
 
     Route::prefix('create')->group(function () {
         Route::get('/', [BanAppealFormController::class, 'index'])
             ->name('front.appeal.form');
 
         Route::post('/', [BanAppealFormController::class, 'store'])
-            ->name('front.appeal.form.submit');
+            ->name('front.appeal.form.submit')
+            ->middleware('throttle:8,1');
 
         Route::get('{ban}', [BanAppealFormController::class, 'show'])
             ->name('front.appeal.form.prefilled');
@@ -105,7 +107,8 @@ Route::prefix('bans')->group(function () {
         ->name('front.appeal.create');
 
     Route::post('{ban}/appeal', [BanAppealFormController::class, 'store'])
-        ->name('front.appeal.submit');
+        ->name('front.appeal.submit')
+        ->middleware('throttle:8,1');;
 });
 
 Route::prefix('auth')->group(function () {

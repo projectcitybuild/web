@@ -11,7 +11,7 @@ use App\Models\GamePlayerBan;
 final class CreateBanAppeal
 {
     public function execute(
-        int $banId,
+        ?int $banId,
         string $email,
         string $minecraftUuid,
         string $dateOfBan,
@@ -19,7 +19,7 @@ final class CreateBanAppeal
         string $unbanReason,
         ?Account $account,
     ): BanAppeal {
-        $ban = GamePlayerBan::find($banId);
+        $ban = optional($banId, fn ($it) => GamePlayerBan::find($it));
 
         $banAppeal = BanAppeal::create([
             'game_ban_id' => $ban?->getKey(),

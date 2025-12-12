@@ -28,6 +28,8 @@
                 @csrf
                 @include('front.components.form-error')
 
+                <input type="text" name="details" style="display:none" autocomplete="off" />
+
                 @isset ($ban)
                     <h2 class="text-xl">Selected Ban</h2>
 
