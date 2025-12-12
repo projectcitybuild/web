@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front\BanAppeal;
 
 use App\Domains\BanAppeals\UseCases\CreateBanAppeal;
 use App\Domains\Captcha\Rules\CaptchaRule;
+use App\Domains\HoneyPot\Rules\HoneyPotRule;
 use App\Http\Controllers\WebController;
 use App\Models\GamePlayerBan;
 use Illuminate\Http\Request;
@@ -23,9 +24,10 @@ class BanAppealFormController extends WebController
     public function store(
         Request $request,
         CaptchaRule $captchaRule,
-        CreateBanAppeal $useCase,
+        HoneyPotRule $honeyPotRule,
+        CreateBanAppeal $createBanAppeal,
     ) {
-        $validated = $request->validate([
+        $validated = collect($request->validate([
             'captcha-response' => ['required', $captchaRule],
             'minecraft_uuid' => 'required',
             'date_of_ban' => 'required',
@@ -33,14 +35,15 @@ class BanAppealFormController extends WebController
             'email' => ['required', 'email'],
             'ban_reason' => 'required',
             'unban_reason' => 'required',
-        ]);
-        $banAppeal = $useCase->execute(
-            banId: $validated['ban_id'],
-            email: $validated['email'],
-            minecraftUuid: $validated['minecraft_uuid'],
-            dateOfBan: $validated['date_of_ban'],
-            banReason: $validated['ban_reason'],
-            unbanReason: $validated['unban_reason'],
+            'details' => $honeyPotRule,
+        ]));
+        $banAppeal = $createBanAppeal->execute(
+            banId: $validated->get('ban_id'),
+            email: $validated->get('email'),
+            minecraftUuid: $validated->get('minecraft_uuid'),
+            dateOfBan: $validated->get('date_of_ban'),
+            banReason: $validated->get('ban_reason'),
+            unbanReason: $validated->get('unban_reason'),
             account: $request->user(),
         );
         return redirect($banAppeal->showLink());

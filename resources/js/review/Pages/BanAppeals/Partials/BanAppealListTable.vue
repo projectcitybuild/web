@@ -46,9 +46,12 @@ const rows = computed(
         </template>
 
         <template #player="{ item }">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2" v-if="item.game_player_ban">
                 <MinecraftAvatar :uuid="item.game_player_ban.banned_player.uuid" :size="16" />
                 {{ item.game_player_ban.banned_player.alias }}
+            </div>
+            <div class="flex items-center gap-2" v-else>
+                {{ item.email }}
             </div>
         </template>
 

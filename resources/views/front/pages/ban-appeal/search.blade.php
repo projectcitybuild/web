@@ -84,6 +84,10 @@
                     value="{{ $query }}"
                     placeholder="Search..."
                 >
+                <input type="text" name="name" style="display:none" autocomplete="off" />
+                <x-button size="sm" variant="outlined" type="submit">
+                    Search
+                </x-button>
             </form>
 
             @if ($bans->count() > 0)
