@@ -210,7 +210,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="https://goo.gl/forms/UodUsKQBZJdCzNWk1" class="block p-3 rounded-lg hover:bg-gray-100">
+                    <a href="{{ route('staff-apply') }}" class="block p-3 rounded-lg hover:bg-gray-100">
                         <div class="font-semibold">Apply for Staff</div>
                         <span class="text-sm text-gray-500">Volunteer for the staff team</span>
                     </a>
