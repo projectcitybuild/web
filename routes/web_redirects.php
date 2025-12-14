@@ -11,8 +11,11 @@ Route::permanentRedirect('privacy', 'https://portal.projectcitybuild.com/books/l
 Route::permanentRedirect('wiki', 'https://wiki.projectcitybuild.com')
     ->name('wiki');
 
-Route::permanentRedirect('report', 'https://docs.google.com/forms/d/e/1FAIpQLSerzdjDmc-xM26ZiDqIKN0d1gjjmRomFKg6efdHxXqir6QIMQ/viewform')
+Route::permanentRedirect('report', 'https://tally.so/r/lbbVQV')
     ->name('report');
+
+Route::permanentRedirect('staff-apply', 'https://tally.so/r/yPMkZd')
+    ->name('staff-apply');
 
 Route::permanentRedirect('rules', 'https://portal.projectcitybuild.com/books/rules/page/community-rules')
     ->name('rules');
