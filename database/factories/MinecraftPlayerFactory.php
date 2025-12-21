@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Models\MinecraftPlayer;
 
 class MinecraftPlayerFactory extends Factory
@@ -21,7 +22,7 @@ class MinecraftPlayerFactory extends Factory
     public function definition()
     {
         return [
-            'uuid' => str_replace('-', '', $this->faker->uuid),
+            'uuid' => MinecraftUUID::random()->trimmed(),
             'alias' => $this->faker->userName,
             'nickname' => rand(0, 1) === 1 ? $this->faker->userName : null,
             'last_synced_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),

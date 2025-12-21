@@ -6,7 +6,7 @@ use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\Event;
 
-function putBan (int $id, array $data)
+function putBan(int $id, array $data)
 {
     return test()->withServerToken()->put("api/v2/bans/uuid/{$id}", $data);
 };
