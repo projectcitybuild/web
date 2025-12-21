@@ -42,7 +42,6 @@ final class DonationPerk extends Model implements LinkableAuditModel
         if ($this->expires_at !== null && now()->gte($this->expires_at)) {
             return false;
         }
-
         return $this->is_active;
     }
 

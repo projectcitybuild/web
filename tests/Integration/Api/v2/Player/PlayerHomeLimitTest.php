@@ -87,7 +87,7 @@ it('composes home limit from groups and donor tier groups', function () {
 
     $donorGroup = Group::factory()->create(['name' => 'donor', 'additional_homes' => 6]);
     $donorTier = DonationTier::factory()->create(['group_id' => $donorGroup]);
-    DonationPerk::factory()->create([
+    DonationPerk::factory()->notExpired()->create([
         'donation_id' => Donation::factory()->create()->getKey(),
         'account_id' => $account->getKey(),
         'donation_tier_id' => $donorTier->getKey(),
