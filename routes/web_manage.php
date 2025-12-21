@@ -25,6 +25,7 @@ use App\Http\Controllers\Manage\Minecraft\MinecraftWarpController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerAliasRefreshController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerBanController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerController;
+use App\Http\Controllers\Manage\Players\MinecraftPlayerHomeController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerIpController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerWarningController;
 use App\Http\Controllers\Manage\Servers\ServerController;
@@ -81,6 +82,7 @@ Route::name('manage.')
             Route::get('bans', [MinecraftPlayerBanController::class, 'index']);
             Route::get('warnings', [MinecraftPlayerWarningController::class, 'index']);
             Route::get('ips', [MinecraftPlayerIpController::class, 'index']);
+            Route::get('homes', [MinecraftPlayerHomeController::class, 'index']);
             Route::post('alias/refresh', MinecraftPlayerAliasRefreshController::class);
         });
 

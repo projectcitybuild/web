@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { format } from '../../../Utilities/DateFormatter'
 import { Link } from '@inertiajs/vue3'
-import { Warning } from 'postcss'
 import FilledButton from '../../../Components/FilledButton.vue'
+import { PlayerWarning } from '../../../Data/PlayerWarning';
 
 interface Props {
-    warnings: Warning[],
+    warnings: PlayerWarning[],
 }
 defineProps<Props>()
 </script>

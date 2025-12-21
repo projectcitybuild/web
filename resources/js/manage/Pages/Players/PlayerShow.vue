@@ -18,6 +18,7 @@ import FilledButton from '../../Components/FilledButton.vue'
 import ErrorAlert from '../../Components/ErrorAlert.vue'
 import axios from 'axios'
 import PlayerIPListTable from './Partials/PlayerIPListTable.vue'
+import PlayerHomeListTable from './Partials/PlayerHomeListTable.vue'
 
 interface Props {
     player: Player,
@@ -190,6 +191,19 @@ async function refreshAlias() {
                         class="overflow-x-auto"
                     >
                         <PlayerWarningListTable :warnings="source.data"/>
+                    </InfinitePagination>
+                </Card>
+
+                <Card class="mt-4">
+                    <div class="p-4 flex justify-between items-center">
+                        <h2 class="font-bold">Homes</h2>
+                    </div>
+                    <InfinitePagination
+                        :path="'/manage/players/' + player.player_minecraft_id + '/homes'"
+                        v-slot="source"
+                        class="overflow-x-auto"
+                    >
+                        <PlayerHomeListTable :homes="source.data"/>
                     </InfinitePagination>
                 </Card>
 
