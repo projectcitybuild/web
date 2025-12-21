@@ -5,7 +5,7 @@ namespace App\Core\Domains\MinecraftCoordinate;
 class MinecraftCoordinate
 {
     public function __construct(
-        readonly String $world,
+        readonly string $world,
         readonly int $x,
         readonly int $y,
         readonly int $z,
