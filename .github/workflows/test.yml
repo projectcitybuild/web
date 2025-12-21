@@ -94,7 +94,7 @@ jobs:
         uses: codecov/codecov-action@96b38e9e60ee60a8c3911f4612407bba2f9195fb
         with:
           use_oidc: true
-          files: coverage.xml
+          files: junit.xml
           report_type: test_results
           fail_ci_if_error: true
 
