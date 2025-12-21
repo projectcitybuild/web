@@ -81,7 +81,10 @@ jobs:
           DB_HOST: 127.0.0.1
           MYSQL_USER: root
           MYSQL_ROOT_PASSWORD: root
-        run: php artisan test --log-junit junit.xml
+        run: |
+          php artisan test \
+            --log-junit junit.xml \
+            --coverage-clover=coverage.xml
 
       - name: Upload test results to Sentry Prevent
         if: ${{ !cancelled() }}
@@ -91,6 +94,6 @@ jobs:
         uses: codecov/codecov-action@96b38e9e60ee60a8c3911f4612407bba2f9195fb
         with:
           use_oidc: true
-          files: junit.xml
+          files: junit.xml,coverage.xml
           report_type: test_results
           fail_ci_if_error: true
