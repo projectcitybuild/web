@@ -69,7 +69,7 @@ final class MinecraftPlayerHomeController extends ApiController
             );
         } catch (HomeAlreadyExistsException $e) {
             throw ValidationException::withMessages([
-                'name' => ['You already have a home named '.$name],
+                'name' => ['You already have a home named '.$validated['name']],
             ]);
         } catch (HomeLimitReachedException $e) {
             throw ValidationException::withMessages([
