@@ -90,10 +90,18 @@ jobs:
         if: ${{ !cancelled() }}
         uses: getsentry/prevent-action@c28387e2c2d931e083440db1be8c297d6cf6572f
 
+      - name: Upload test results to Codecov
+        uses: codecov/codecov-action@96b38e9e60ee60a8c3911f4612407bba2f9195fb
+        with:
+          use_oidc: true
+          files: coverage.xml
+          report_type: test_results
+          fail_ci_if_error: true
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@96b38e9e60ee60a8c3911f4612407bba2f9195fb
         with:
           use_oidc: true
-          files: junit.xml,coverage.xml
-          report_type: test_results
+          files: coverage.xml
+          report_type: coverage
           fail_ci_if_error: true
