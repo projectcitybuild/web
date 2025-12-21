@@ -7,9 +7,9 @@ use App\Domains\Groups\Services\PlayerGroupsAggregator;
 use App\Domains\Homes\Data\HomeCount;
 use App\Domains\Homes\Exceptions\HomeAlreadyExistsException;
 use App\Domains\Homes\Exceptions\HomeLimitReachedException;
-use App\Domains\Homes\Exceptions\UnauthorizedHomeEditException;
 use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class HomeService
 {
@@ -107,6 +107,6 @@ class HomeService
         $isOwner = $home->player_id === $player->getKey();
         $isStaff = $player->account?->isStaff() ?? false;
 
-        throw_if(!$isOwner && !$isStaff, UnauthorizedHomeEditException::class);
+        throw_if(!$isOwner && !$isStaff, AuthorizationException::class);
     }
 }
