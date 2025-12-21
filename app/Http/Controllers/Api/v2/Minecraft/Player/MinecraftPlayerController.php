@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v2\Minecraft\Player;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\Badges\UseCases\GetBadges;
 use App\Domains\Bans\Services\IPBanService;
+use App\Domains\Groups\Services\PlayerGroupsAggregator;
 use App\Http\Controllers\ApiController;
 use App\Models\GamePlayerBan;
 use App\Models\Group;
@@ -14,6 +15,10 @@ use Illuminate\Http\Request;
 
 final class MinecraftPlayerController extends ApiController
 {
+    public function __construct(
+        private readonly PlayerGroupsAggregator $playerGroupsAggregator,
+    ) {}
+
     public function __invoke(
         Request $request,
         MinecraftUUID $uuid,
@@ -31,22 +36,8 @@ final class MinecraftPlayerController extends ApiController
         $player?->touchLastSyncedAt();
         $account = $player?->account;
 
-        $donationTiers = optional($account, function ($account) {
-            return $account->donationPerks
-                ->where('is_active', true)
-                ->where('expires_at', '>', now())
-                ->map(fn ($it) => $it->donationTier);
-        }) ?: collect();
-
-        $groups = $account?->groups ?: collect();
-        if ($account !== null && $account->groups->isEmpty()) {
-            $groups->add(Group::whereDefault()->first());
-        }
-
-        $donorGroups = $donationTiers->map(fn ($tier) => $tier->group);
-        if (!$donorGroups->isEmpty()) {
-            $groups = $groups->merge($donorGroups);
-        }
+        $groups = optional($account, fn($it) => $this->playerGroupsAggregator->get($it))
+            ?? collect();
 
         return response()->json([
             'account' => $account?->withoutRelations(),

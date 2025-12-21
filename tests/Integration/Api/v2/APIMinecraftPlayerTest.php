@@ -10,7 +10,6 @@ use App\Models\GameIPBan;
 use App\Models\GamePlayerBan;
 use App\Models\Group;
 use App\Models\MinecraftPlayer;
-use App\Models\Server;
 use Illuminate\Testing\Fluent\AssertableJson;
 
 it('requires server token', function () {
