@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v2\Minecraft\Player\Homes;
 use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\Pagination\HasPaginatedApi;
+use App\Domains\Homes\Services\HomeService;
 use App\Http\Controllers\ApiController;
 use App\Models\Group;
 use App\Models\MinecraftHome;
@@ -16,6 +17,10 @@ final class MinecraftPlayerHomeController extends ApiController
 {
     use ValidatesCoordinates;
     use HasPaginatedApi;
+
+    public function __construct(
+        private readonly HomeService $homeService,
+    ) {}
 
     public function index(Request $request, MinecraftUUID $minecraftUUID)
     {
@@ -59,18 +64,10 @@ final class MinecraftPlayerHomeController extends ApiController
             ]);
         }
 
-        // TODO: reuse
-        $account = $player->account;
-        $groups = $account?->groups ?: collect();
-        if ($account !== null && $account->groups->isEmpty()) {
-            $groups->add(Group::whereDefault()->first());
-        }
-        $allowedHomes = max(1, $groups->map(fn ($group) => $group->additional_homes ?? 0)->sum());
-
-        $homes = MinecraftHome::where('player_id', $player->getKey())->count();
-        if ($homes >= $allowedHomes) {
+        $count = $this->homeService->count($player);
+        if ($count->atLimit()) {
             throw ValidationException::withMessages([
-                'error' => ['You reached your home limit of '.$allowedHomes],
+                'error' => ['You cannot create more than '.$count->allowed.' homes'],
             ]);
         }
 
