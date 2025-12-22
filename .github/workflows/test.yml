@@ -96,7 +96,6 @@ jobs:
           use_oidc: true
           files: junit.xml
           report_type: test_results
-          fail_ci_if_error: true
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@96b38e9e60ee60a8c3911f4612407bba2f9195fb
@@ -104,4 +103,3 @@ jobs:
           use_oidc: true
           files: coverage.xml
           report_type: coverage
-          fail_ci_if_error: true
