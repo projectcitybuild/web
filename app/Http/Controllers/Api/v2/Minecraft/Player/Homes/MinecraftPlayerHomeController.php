@@ -6,7 +6,6 @@ use App\Core\Domains\MinecraftCoordinate\MinecraftCoordinate;
 use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\Pagination\HasPaginatedApi;
-use App\Domains\Homes\Exceptions\HomeAlreadyExistsException;
 use App\Domains\Homes\Exceptions\HomeLimitReachedException;
 use App\Domains\Homes\Services\HomeService;
 use App\Http\Controllers\ApiController;
@@ -67,10 +66,6 @@ final class MinecraftPlayerHomeController extends ApiController
                 coordinate: MinecraftCoordinate::fromValidatedRequest($validated),
                 name: $validated['name'],
             );
-        } catch (HomeAlreadyExistsException $e) {
-            throw ValidationException::withMessages([
-                'name' => ['You already have a home named '.$validated['name']],
-            ]);
         } catch (HomeLimitReachedException $e) {
             throw ValidationException::withMessages([
                 'error' => [$e->getMessage()],
@@ -91,18 +86,12 @@ final class MinecraftPlayerHomeController extends ApiController
         $player = MinecraftPlayer::whereUuid($minecraftUUID)->first();
         abort_if($player === null, 404, 'Player not found');
 
-        try {
-            return $this->homeService->update(
-                home: $home,
-                player: $player,
-                coordinate: MinecraftCoordinate::fromValidatedRequest($validated),
-                name: $validated['name'],
-            );
-        } catch (HomeAlreadyExistsException $e) {
-            throw ValidationException::withMessages([
-                'name' => ['You already have a home named '.$validated['name']],
-            ]);
-        }
+        return $this->homeService->update(
+            home: $home,
+            player: $player,
+            coordinate: MinecraftCoordinate::fromValidatedRequest($validated),
+            name: $validated['name'],
+        );
     }
 
     public function destroy(
