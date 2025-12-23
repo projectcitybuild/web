@@ -33,6 +33,8 @@ jobs:
 
       - name: Install PHP
         uses: ./.github/actions/install-php
+        with:
+          preset: test
 
       - name: Install Composer dependencies
         uses: ./.github/actions/install-composer-deps
@@ -103,3 +105,34 @@ jobs:
           use_oidc: true
           files: coverage.xml
           report_type: coverage
+
+lint:
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:11.0.5
+        env:
+          MARIADB_DATABASE: testing
+          MARIADB_USER: dbuser
+          MARIADB_PASSWORD: dbpass
+          MARIADB_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Install PHP
+        uses: ./.github/actions/install-php
+        with:
+          preset: lint
+
+      - name: Run Pint
+        run: pint
+
+      - name: Commit linted files
+        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9

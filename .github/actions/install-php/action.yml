@@ -1,12 +1,34 @@
 name: Install PHP
 description: Installs PHP and Composer
 
+inputs:
+  preset:
+    description: Preset to use (default, test, lint)
+    required: false
+    default: default
+
 runs:
   using: composite
   steps:
-    - name: Setup PHP
+    - name: Setup PHP (default)
+      if: inputs.preset == 'default'
+      uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231
+      with:
+        php-version: 8.3
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+
+    - name: Setup PHP (test)
+      if: inputs.preset == 'test'
       uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231
       with:
         php-version: 8.3
         extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
         coverage: xdebug
+
+    - name: Setup PHP (lint)
+      if: inputs.preset == 'lint'
+      uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231
+      with:
+        php-version: 8.3
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+        tools: pint
