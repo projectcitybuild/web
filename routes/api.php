@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\v2\Minecraft\Warps\MinecraftWarpController;
 use App\Http\Controllers\Api\v2\Minecraft\Warps\MinecraftWarpNameController;
 use Illuminate\Support\Facades\Route;
 
+/** @deprecated */
 Route::prefix('v2')
     ->name('v2.')
     ->middleware('require-server-token')
@@ -149,7 +150,6 @@ Route::prefix('v3')
         });
 
         Route::prefix('players/{minecraft_uuid}')->group(function () {
-            Route::get('/', MinecraftPlayerController::class);
             Route::get('bans', [MinecraftPlayerBanController::class, 'index']);
 
             Route::prefix('register')->group(function () {

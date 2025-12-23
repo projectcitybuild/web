@@ -32,11 +32,13 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         'account_id',
         'last_synced_at',
         'last_seen_at',
+        'last_connected_at',
     ];
 
     protected $casts = [
         'last_synced_at' => 'datetime',
         'last_seen_at' => 'datetime',
+        'last_connected_at' => 'datetime',
     ];
 
     public function account(): BelongsTo

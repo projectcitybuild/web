@@ -16,13 +16,16 @@ final class MinecraftConnectionEndController extends ApiController
 
     public function __invoke(Request $request)
     {
-        $validated = $request->validate([
+        $validated = collect($request->validate([
             'uuid' => ['required', new MinecraftUUIDRule],
             'alias' => ['required', 'string'],
-        ]);
+        ]));
+
+        $uuid = MinecraftUUID::tryParse($validated->get('uuid'));
+
         $this->updateSeenMinecraftPlayer->execute(
-            uuid: new MinecraftUUID($validated['uuid']),
-            alias: $validated['alias'],
+            uuid: $uuid,
+            alias: $validated->get('alias'),
         );
         return response()->json();
     }
