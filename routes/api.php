@@ -103,7 +103,7 @@ Route::prefix('api/v2')
         });
     });
 
-Route::domain('api.'.config('app.url'))->group(function () {
+Route::domain('api.'.config('app.api_url'))->group(function () {
     Route::prefix('v3')
         ->name('v3.')
         ->middleware('require-server-token')
