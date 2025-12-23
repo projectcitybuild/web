@@ -108,21 +108,6 @@ jobs:
 
 lint:
     runs-on: ubuntu-latest
-    services:
-      mariadb:
-        image: mariadb:11.0.5
-        env:
-          MARIADB_DATABASE: testing
-          MARIADB_USER: dbuser
-          MARIADB_PASSWORD: dbpass
-          MARIADB_ROOT_PASSWORD: root
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="healthcheck.sh --connect --innodb_initialized"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
