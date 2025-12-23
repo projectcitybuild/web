@@ -44,7 +44,7 @@ jobs:
 
       - name: Calculate front-end asset hash
         id: get-assets-cache
-        uses: theowenyoung/folder-hash@vaa67b99197f85ada57370fc803e6a39e5fe529d0
+        uses: theowenyoung/folder-hash@aa67b99197f85ada57370fc803e6a39e5fe529d0
         with:
           path: |
             resources/js
