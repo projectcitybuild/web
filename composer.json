@@ -9,6 +9,7 @@
         "ext-json": "*",
         "altek/eventually": "^3.0",
         "bacon/bacon-qr-code": "^2.0",
+        "dedoc/scramble": "^0.13.8",
         "doctrine/dbal": "^3.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "inertiajs/inertia-laravel": "^2.0",

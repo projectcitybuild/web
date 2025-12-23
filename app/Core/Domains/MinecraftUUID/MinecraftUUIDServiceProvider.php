@@ -11,7 +11,7 @@ final class MinecraftUUIDServiceProvider extends ServiceProvider
     public function register(): void
     {
         // Automatically construct a MinecraftUUID from an url parameter
-        Route::bind('minecraft_uuid', function ($value) {
+        Route::bind('minecraft_uuid', function (string $value): MinecraftUUID {
             return new MinecraftUUID($value);
         });
     }
