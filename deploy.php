@@ -49,6 +49,16 @@ function setupFrontendTasks(): void
     })->desc('Build frontend assets');
 }
 
+function setupApiTasks(): void
+{
+    after('deploy:vendors', 'deploy:openapi');
+
+    task('deploy:openapi', function () {
+        run('php artisan scramble:export --path=public/api.json');
+    })->desc('Generate api.json specification');
+}
+
 configure();
 setupDiscordTasks();
 setupFrontendTasks();
+setupApiTasks();

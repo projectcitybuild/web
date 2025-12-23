@@ -1,0 +1,55 @@
+name: OpenAPI
+
+on:
+  push:
+    paths:
+      - routes/**
+      - app/Http/Controllers/Api/**
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-generate:
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:11.0.5
+        env:
+          MARIADB_DATABASE: testing
+          MARIADB_USER: dbuser
+          MARIADB_PASSWORD: dbpass
+          MARIADB_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Install PHP
+        uses: ./.github/actions/install-php
+
+      - name: Install Composer dependencies
+        uses: ./.github/actions/install-composer-deps
+
+      - name: Prepare .env file
+        run: |
+          cp .env.testing .env
+          echo "DB_HOST=127.0.0.1" >> .env
+
+      - name: Prepare Laravel
+        run: |
+          php artisan key:generate
+          chmod -R 755 storage bootstrap/cache
+
+      - name: Prepare database
+        run: php artisan migrate
+
+      - name: Generate OpenAPI specification
+        run: |
+          php artisan scramble:export --path=public/api.json
