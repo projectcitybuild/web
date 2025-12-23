@@ -61,9 +61,10 @@ final class MinecraftConnectionAuthController extends ApiController
         ]);
     }
 
-    private function getBans(MinecraftPlayer $player, ?string $ip): ?array
+    private function getBans(?MinecraftPlayer $player, ?string $ip): ?array
     {
         $ipBan = optional($ip, fn ($ip) => $this->ipBanService->find(ip: $ip));
+
         $uuidBan = optional($player, function ($player) {
             return GamePlayerBan::whereBannedPlayer($player)
                 ->active()
