@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\v2\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftTelemetryController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\Connection\MinecraftConnectionAuthController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\Connection\MinecraftConnectionEndController;
+use App\Http\Controllers\Api\v2\Minecraft\Player\Connection\MinecraftConnectionStartController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\Homes\MinecraftPlayerHomeController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\Homes\MinecraftPlayerHomeLimitController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\Homes\MinecraftPlayerHomeNameController;
@@ -108,6 +109,7 @@ Route::prefix('v3')
     ->group(function () {
         Route::prefix('server')->group(function () {
             Route::get('connection/authorize', MinecraftConnectionAuthController::class);
+            Route::get('connection/start', MinecraftConnectionStartController::class);
             Route::get('connection/end', MinecraftConnectionEndController::class);
             Route::get('config', MinecraftConfigController::class);
         });
@@ -123,7 +125,7 @@ Route::prefix('v3')
         Route::prefix('builds')->group(function () {
             Route::get('/', [MinecraftBuildController::class, 'index']);
             Route::post('/', [MinecraftBuildController::class, 'store']);
-            Route::get('name', [MinecraftBuildNameController::class, 'index']);
+            Route::get('names', [MinecraftBuildNameController::class, 'index']);
 
             Route::prefix('{build}')->group(function () {
                 Route::get('/', [MinecraftBuildController::class, 'show']);
@@ -139,7 +141,7 @@ Route::prefix('v3')
         Route::prefix('warps')->group(function () {
             Route::get('/', [MinecraftWarpController::class, 'index']);
             Route::post('/', [MinecraftWarpController::class, 'store']);
-            Route::get('name', [MinecraftWarpNameController::class, 'index']);
+            Route::get('names', [MinecraftWarpNameController::class, 'index']);
             Route::get('all', [MinecraftWarpController::class, 'bulk']);
 
             Route::prefix('{warp}')->group(function () {
@@ -163,7 +165,7 @@ Route::prefix('v3')
             Route::prefix('homes')->group(function () {
                 Route::get('/', [MinecraftPlayerHomeController::class, 'index']);
                 Route::post('/', [MinecraftPlayerHomeController::class, 'store']);
-                Route::get('name', [MinecraftPlayerHomeNameController::class, 'index']);
+                Route::get('names', [MinecraftPlayerHomeNameController::class, 'index']);
                 Route::get('limit', MinecraftPlayerHomeLimitController::class);
 
                 Route::prefix('{home}')->group(function () {
