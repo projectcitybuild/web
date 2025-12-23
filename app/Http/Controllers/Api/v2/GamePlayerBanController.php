@@ -23,7 +23,7 @@ final class GamePlayerBanController extends ApiController
     {
         $validated = collect($request->validate([
             'banned_uuid' => ['required', new MinecraftUUIDRule],
-            'banned_alias' => ['required', 'string'],  // TODO: make this optional with schema update
+            'banned_alias' => ['required', 'string'],
             'banner_uuid' => ['nullable', new MinecraftUUIDRule],
             'banner_alias' => ['nullable', 'string'],
             'reason' => 'required',
@@ -57,7 +57,7 @@ final class GamePlayerBanController extends ApiController
     {
         $validated = collect($request->validate([
             'banned_uuid' => ['required', new MinecraftUUIDRule],
-            'banned_alias' => ['required', 'string'],  // TODO: make this optional with schema update
+            'banned_alias' => ['required', 'string'],
             'banner_uuid' => ['nullable', new MinecraftUUIDRule],
             'banner_alias' => ['nullable', 'string'],
             'reason' => 'required',
