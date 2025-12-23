@@ -33,6 +33,8 @@ jobs:
 
       - name: Install PHP
         uses: ./.github/actions/install-php
+        with:
+          preset: test
 
       - name: Install Composer dependencies
         uses: ./.github/actions/install-composer-deps
@@ -42,7 +44,7 @@ jobs:
 
       - name: Calculate front-end asset hash
         id: get-assets-cache
-        uses: theowenyoung/folder-hash@v2.0.1
+        uses: theowenyoung/folder-hash@aa67b99197f85ada57370fc803e6a39e5fe529d0
         with:
           path: |
             resources/js
@@ -51,7 +53,7 @@ jobs:
 
       - name: Restore front-end asset cache
         id: assets-cache
-        uses: actions/cache@v3
+        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb
         with:
           path: |
             resources/js
@@ -103,3 +105,24 @@ jobs:
           use_oidc: true
           files: coverage.xml
           report_type: coverage
+
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install PHP
+        uses: ./.github/actions/install-php
+        with:
+          preset: lint
+
+      - name: Run Pint
+        run: pint
+
+      - name: Commit linted files
+        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9

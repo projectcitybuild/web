@@ -15,7 +15,7 @@ class PostEventToServer
         array $payload,
     ): void {
         $token = $this->getServerToken($server);
-        $url = $this->getServerAddress($server) . '/' . $path;
+        $url = $this->getServerAddress($server).'/'.$path;
 
         Log::info('Sending event to Minecraft server', [
             'server' => $server,

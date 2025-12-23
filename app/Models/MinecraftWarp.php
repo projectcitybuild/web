@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Core\Utilities\Traits\HasStaticTable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class MinecraftWarp extends Model
 {
@@ -12,7 +12,6 @@ class MinecraftWarp extends Model
     use HasStaticTable;
 
     protected $table = 'minecraft_warps';
-
     protected $fillable = [
         'name',
         'world',
@@ -24,7 +23,6 @@ class MinecraftWarp extends Model
         'created_at',
         'updated_at',
     ];
-
     protected $casts = [
         'pitch' => 'decimal:1',
         'yaw' => 'decimal:1',

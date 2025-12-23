@@ -5,9 +5,8 @@ namespace App\Models;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Model;
 
 final class Group extends Model implements LinkableAuditModel
 {
@@ -15,9 +14,7 @@ final class Group extends Model implements LinkableAuditModel
     use HasStaticTable;
 
     protected $table = 'groups';
-
     protected $primaryKey = 'group_id';
-
     protected $fillable = [
         'name',
         'alias',
@@ -30,12 +27,10 @@ final class Group extends Model implements LinkableAuditModel
         'group_type',
         'additional_homes',
     ];
-
     protected $casts = [
         'is_default' => 'boolean',
         'is_admin' => 'boolean',
     ];
-
     public $timestamps = false;
 
     public function accounts()

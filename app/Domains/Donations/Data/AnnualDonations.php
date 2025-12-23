@@ -5,8 +5,8 @@ namespace App\Domains\Donations\Data;
 class AnnualDonations
 {
     public function __construct(
-        readonly int $amountRequired,
-        readonly int $raisedThisYear,
-        readonly int $raisedLastYear,
+        public readonly int $amountRequired,
+        public readonly int $raisedThisYear,
+        public readonly int $raisedLastYear,
     ) {}
 }

@@ -13,8 +13,7 @@ final class AccountPasswordResetNotification extends Notification implements Sho
 
     public function __construct(
         private string $passwordResetURL
-    ) {
-    }
+    ) {}
 
     /**
      * Get the notification's delivery channels.
@@ -39,7 +38,7 @@ final class AccountPasswordResetNotification extends Notification implements Sho
      */
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject('Password Reset Confirmation')
             ->greeting('Password Recovery')
             ->line('You or somebody else has requested for your password to be reset. Use the below link if you wish to proceed.')

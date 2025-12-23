@@ -16,8 +16,8 @@ use Illuminate\Validation\ValidationException;
 
 final class MinecraftPlayerHomeController extends ApiController
 {
-    use ValidatesCoordinates;
     use HasPaginatedApi;
+    use ValidatesCoordinates;
 
     public function __construct(
         private readonly HomeService $homeService,

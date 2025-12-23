@@ -7,10 +7,10 @@ use App\Http\Controllers\Front\Account\AccountProfileController;
 use App\Http\Controllers\Front\Account\AccountRecordsController;
 use App\Http\Controllers\Front\Account\Settings\MfaDisableController;
 use App\Http\Controllers\Front\Account\Settings\MfaFinishController;
-use App\Http\Controllers\Front\Account\Settings\MfaStatusController;
 use App\Http\Controllers\Front\Account\Settings\MfaResetBackupController;
 use App\Http\Controllers\Front\Account\Settings\MfaSetupController;
 use App\Http\Controllers\Front\Account\Settings\MfaStartController;
+use App\Http\Controllers\Front\Account\Settings\MfaStatusController;
 use App\Http\Controllers\Front\Account\Settings\UpdateEmailController;
 use App\Http\Controllers\Front\Account\Settings\UpdatePasswordController;
 use App\Http\Controllers\Front\Account\Settings\UpdateUsernameController;
@@ -29,7 +29,6 @@ use App\Http\Controllers\Front\BanlistController;
 use App\Http\Controllers\Front\BuilderRankApplicationController;
 use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Front\DonationController;
-use App\Http\Controllers\Front\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'front.pages.home.index')
@@ -108,7 +107,7 @@ Route::prefix('bans')->group(function () {
 
     Route::post('{ban}/appeal', [BanAppealFormController::class, 'store'])
         ->name('front.appeal.submit')
-        ->middleware('throttle:8,1');;
+        ->middleware('throttle:8,1');
 });
 
 Route::prefix('auth')->group(function () {

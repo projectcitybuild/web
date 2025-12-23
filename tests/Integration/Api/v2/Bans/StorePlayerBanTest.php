@@ -6,9 +6,10 @@ use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\Event;
 
-function postBan(array $data) {
+function postBan(array $data)
+{
     return test()->withServerToken()->post('api/v2/bans/uuid', $data);
-};
+}
 
 beforeEach(function () {
     Event::fake();
@@ -75,11 +76,11 @@ it('creates ban with existing players', function () {
     $banner = MinecraftPlayer::factory()->create();
 
     postBan([
-        'banned_uuid'  => $banned->uuid,
+        'banned_uuid' => $banned->uuid,
         'banned_alias' => $banned->alias,
-        'banner_uuid'  => $banner->uuid,
+        'banner_uuid' => $banner->uuid,
         'banner_alias' => $banner->alias,
-        'reason'       => 'test',
+        'reason' => 'test',
     ])->assertSuccessful();
 
     $this->assertDatabaseHas(GamePlayerBan::tableName(), [
@@ -108,9 +109,9 @@ it('creates the banned player when they do not exist', function () {
     $banned = MinecraftPlayer::factory()->make();
 
     postBan([
-        'banned_uuid'  => $banned->uuid,
+        'banned_uuid' => $banned->uuid,
         'banned_alias' => $banned->alias,
-        'reason'       => fake()->text(),
+        'reason' => fake()->text(),
     ])->assertSuccessful();
 
     $this->assertDatabaseHas(MinecraftPlayer::tableName(), [
@@ -124,11 +125,11 @@ it('creates the banner player when they do not exist', function () {
     $banner = MinecraftPlayer::factory()->make();
 
     postBan([
-        'banned_uuid'  => $banned->uuid,
+        'banned_uuid' => $banned->uuid,
         'banned_alias' => $banned->alias,
-        'banner_uuid'  => $banner->uuid,
+        'banner_uuid' => $banner->uuid,
         'banner_alias' => $banner->alias,
-        'reason'       => fake()->text(),
+        'reason' => fake()->text(),
     ])->assertSuccessful();
 
     $this->assertDatabaseHas(MinecraftPlayer::tableName(), [

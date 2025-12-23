@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Core\Utilities\Traits\HasStaticTable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class MinecraftBuildVote extends Model
 {
@@ -12,7 +12,6 @@ class MinecraftBuildVote extends Model
     use HasStaticTable;
 
     protected $table = 'minecraft_build_votes';
-
     protected $fillable = [
         'build_id',
         'player_id',

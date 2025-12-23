@@ -46,7 +46,7 @@ class ServerTokenController extends WebController
         $allowedIps = $validated['allowed_ips'];
         if (! empty($allowedIps)) {
             $validated['allowed_ips'] = collect(explode(PHP_EOL, $allowedIps))
-                ->filter(fn ($ip) => !empty($ip))
+                ->filter(fn ($ip) => ! empty($ip))
                 ->join(',');
         }
 
@@ -78,7 +78,7 @@ class ServerTokenController extends WebController
         $allowedIps = $validated['allowed_ips'];
         if (! empty($allowedIps)) {
             $validated['allowed_ips'] = collect(explode(PHP_EOL, $allowedIps))
-                ->filter(fn ($ip) => !empty($ip))
+                ->filter(fn ($ip) => ! empty($ip))
                 ->join(',');
         }
 

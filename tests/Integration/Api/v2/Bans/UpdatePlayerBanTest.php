@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Event;
 function putBan(int $id, array $data)
 {
     return test()->withServerToken()->put("api/v2/bans/uuid/{$id}", $data);
-};
+}
 
 beforeEach(function () {
     Event::fake();
@@ -64,12 +64,12 @@ describe('validation', function () {
 
 it('fails if ban not found', function () {
     putBan(123, [
-        'banned_uuid'  => MinecraftUUID::random(),
+        'banned_uuid' => MinecraftUUID::random(),
         'banned_alias' => fake()->userName(),
-        'banner_uuid'  => MinecraftUUID::random(),
+        'banner_uuid' => MinecraftUUID::random(),
         'banner_alias' => fake()->userName(),
-        'reason'       => 'test',
-        'created_at'   => now(),
+        'reason' => 'test',
+        'created_at' => now(),
     ])->assertNotFound();
 });
 

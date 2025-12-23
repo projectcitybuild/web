@@ -12,7 +12,7 @@ class MultilineChangeTest extends TestCase
 
     public function test_set_values()
     {
-        $change = new MultilineChange();
+        $change = new MultilineChange;
         $oldPara = $this->faker->paragraph;
         $newPara = $this->faker->paragraph;
 
@@ -24,10 +24,10 @@ class MultilineChangeTest extends TestCase
 
     public function test_with_not_in_audit()
     {
-        $change = new MultilineChange();
+        $change = new MultilineChange;
         $newPara = $this->faker->paragraph;
 
-        $change->setValues(new NotInAudit(), $newPara);
+        $change->setValues(new NotInAudit, $newPara);
         $this->assertSame('', $change->getOldValue());
         $this->assertEquals($newPara, $change->getNewValue());
     }

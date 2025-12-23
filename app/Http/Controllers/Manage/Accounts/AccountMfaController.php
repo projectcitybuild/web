@@ -15,7 +15,7 @@ class AccountMfaController extends WebController
 
         $account->resetTotp();
         $account->save();
-        $account->notify(new MfaDisabledNotification());
+        $account->notify(new MfaDisabledNotification);
 
         return to_route('manage.accounts.show', $account)
             ->with(['success' => 'Account 2FA deactivated']);

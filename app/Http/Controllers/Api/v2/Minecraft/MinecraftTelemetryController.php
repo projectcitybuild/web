@@ -29,7 +29,7 @@ final class MinecraftTelemetryController extends ApiController
         );
 
         $ip = $validated['ip'] ?? '';
-        if (!empty($ip)) {
+        if (! empty($ip)) {
             $logMinecraftPlayerIp->execute(
                 playerId: $player->getKey(),
                 ip: $ip,

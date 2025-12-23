@@ -3,8 +3,6 @@
 use App\Http\Middleware\RequireServerToken;
 use App\Models\ServerToken;
 use Illuminate\Support\Facades\Request;
-use Mockery\MockInterface;
-use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 describe('Token parsing', function () {
@@ -12,7 +10,7 @@ describe('Token parsing', function () {
         $request = Request::create(uri: 'foobar');
         expect($request->headers->has('Authorization'))->toBeFalse();
 
-        $middleware = new RequireServerToken();
+        $middleware = new RequireServerToken;
         $middleware->handle(
             request: $request,
             next: function () {},
@@ -26,7 +24,7 @@ describe('Token parsing', function () {
         $request->headers->set(key: 'Authorization', values: $invalidToken);
         expect($request->headers->get('Authorization'))->toEqual($invalidToken);
 
-        $middleware = new RequireServerToken();
+        $middleware = new RequireServerToken;
         $middleware->handle(
             request: $request,
             next: function () {},
@@ -45,7 +43,7 @@ describe('Token parsing', function () {
             'token' => 'foobar',
         ]);
 
-        $middleware = new RequireServerToken();
+        $middleware = new RequireServerToken;
         $middleware->handle(
             request: $request,
             next: function () {},
@@ -62,7 +60,7 @@ describe('IP whitelist', function () {
         $request->headers->set(key: 'Authorization', values: 'Bearer '.$token->token);
         $request->server->add(['REMOTE_ADDR' => '']);
 
-        $middleware = new RequireServerToken();
+        $middleware = new RequireServerToken;
         $middleware->handle(
             request: $request,
             next: function () {},
@@ -80,7 +78,7 @@ describe('IP whitelist', function () {
             $request->headers->set(key: 'Authorization', values: 'Bearer '.$token->token);
             $request->server->add(['REMOTE_ADDR' => '192.168.0.2']);
 
-            $middleware = new RequireServerToken();
+            $middleware = new RequireServerToken;
             $middleware->handle(
                 request: $request,
                 next: function () {},
@@ -95,7 +93,7 @@ describe('IP whitelist', function () {
             $request->headers->set(key: 'Authorization', values: 'Bearer '.$token->token);
             $request->server->add(['REMOTE_ADDR' => '192.168.0.1']);
 
-            $middleware = new RequireServerToken();
+            $middleware = new RequireServerToken;
             $middleware->handle(
                 request: $request,
                 next: function () {},
@@ -112,7 +110,7 @@ describe('IP whitelist', function () {
             $request->headers->set(key: 'Authorization', values: 'Bearer '.$token->token);
             $request->server->add(['REMOTE_ADDR' => '192.168.0.2']);
 
-            $middleware = new RequireServerToken();
+            $middleware = new RequireServerToken;
             $middleware->handle(
                 request: $request,
                 next: function () {},
@@ -127,7 +125,7 @@ describe('IP whitelist', function () {
             $request->headers->set(key: 'Authorization', values: 'Bearer '.$token->token);
             $request->server->add(['REMOTE_ADDR' => '192.168.1.1']);
 
-            $middleware = new RequireServerToken();
+            $middleware = new RequireServerToken;
             $middleware->handle(
                 request: $request,
                 next: function () {},
@@ -144,7 +142,7 @@ it('calls next middleware if matching ServerToken found', function () {
     expect($request->headers->get('Authorization'))->toEqual('Bearer '.$token->token);
 
     $didPass = false;
-    $middleware = new RequireServerToken();
+    $middleware = new RequireServerToken;
     $middleware->handle(
         request: $request,
         next: function () use (&$didPass) {

@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Core\Utilities\Traits\HasStaticTable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MinecraftHome extends Model
@@ -13,7 +13,6 @@ class MinecraftHome extends Model
     use HasStaticTable;
 
     protected $table = 'minecraft_homes';
-
     protected $fillable = [
         'player_id',
         'name',
@@ -26,7 +25,6 @@ class MinecraftHome extends Model
         'created_at',
         'updated_at',
     ];
-
     protected $casts = [
         'pitch' => 'decimal:1',
         'yaw' => 'decimal:1',

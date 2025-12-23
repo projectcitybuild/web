@@ -5,8 +5,8 @@ namespace App\Core\Domains\MinecraftUUID\Data;
 class MinecraftUUIDLookup
 {
     public function __construct(
-        readonly string $username,
-        readonly MinecraftUUID $uuid,
+        public readonly string $username,
+        public readonly MinecraftUUID $uuid,
     ) {}
 
     public static function fromResponse(array $response): ?self

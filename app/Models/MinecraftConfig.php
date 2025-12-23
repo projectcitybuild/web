@@ -4,8 +4,8 @@ namespace App\Models;
 
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 final class MinecraftConfig extends Model
@@ -15,7 +15,6 @@ final class MinecraftConfig extends Model
     use SoftDeletes;
 
     protected $table = 'minecraft_config';
-
     protected $fillable = [
         'config',
         'version',

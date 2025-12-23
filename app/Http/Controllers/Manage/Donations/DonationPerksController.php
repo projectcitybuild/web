@@ -13,7 +13,7 @@ class DonationPerksController extends WebController
     {
         Gate::authorize('viewAny', DonationPerk::class);
 
-        $perk = new DonationPerk();
+        $perk = new DonationPerk;
 
         return view('manage.pages.donation-perk.create')
             ->with(compact('perk'));

@@ -24,8 +24,7 @@ class MultilineDiff extends Component
         private string $old,
         private string $new,
         private string $description = 'Updated'
-    ) {
-    }
+    ) {}
 
     private function getDiffHtml()
     {

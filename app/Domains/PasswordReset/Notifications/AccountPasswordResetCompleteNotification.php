@@ -38,7 +38,7 @@ final class AccountPasswordResetCompleteNotification extends Notification implem
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject('Your Password Has Been Reset')
             ->greeting('Password Changed')
             ->line('Your account password has just been changed.')

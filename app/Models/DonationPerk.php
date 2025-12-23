@@ -6,9 +6,10 @@ use App\Core\Domains\Auditing\AuditAttributes;
 use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 use function now;
 
 final class DonationPerk extends Model implements LinkableAuditModel
@@ -18,9 +19,7 @@ final class DonationPerk extends Model implements LinkableAuditModel
     use LogsActivity;
 
     protected $table = 'donation_perks';
-
     protected $primaryKey = 'donation_perks_id';
-
     protected $fillable = [
         'donation_id',
         'account_id',
@@ -30,7 +29,6 @@ final class DonationPerk extends Model implements LinkableAuditModel
         'created_at',
         'updated_at',
     ];
-
     protected $casts = [
         'expires_at' => 'datetime',
         'last_currency_reward_at' => 'datetime',

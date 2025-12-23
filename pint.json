@@ -1,6 +1,7 @@
 {
     "preset": "laravel",
     "rules": {
+        "blank_line_before_statement": false,
         "class_attributes_separation": {
             "elements": {
                 "const": "none",

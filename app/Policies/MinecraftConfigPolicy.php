@@ -10,7 +10,7 @@ class MinecraftConfigPolicy
     /**
      * Perform pre-authorization checks.
      */
-    public function before(Account $account, string $ability): bool|null
+    public function before(Account $account, string $ability): ?bool
     {
         if ($account->isAdmin()) {
             return true;

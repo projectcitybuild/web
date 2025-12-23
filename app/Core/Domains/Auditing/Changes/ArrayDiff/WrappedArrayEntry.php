@@ -15,7 +15,6 @@ class WrappedArrayEntry
      * Wrap a collection of array entries in a state
      *
      * @param  Collection<T>  $entries
-     * @param  ArrayWrapState  $state
      * @return Collection<int,WrappedArrayEntry<T>>
      */
     public static function wrapAll(Collection $entries, ArrayWrapState $state): Collection
@@ -27,13 +26,11 @@ class WrappedArrayEntry
 
     /**
      * @param  T  $value
-     * @param  ArrayWrapState  $status
      */
     public function __construct(
         private mixed $value,
         private ArrayWrapState $status
-    ) {
-    }
+    ) {}
 
     public function getStatus(): ArrayWrapState
     {

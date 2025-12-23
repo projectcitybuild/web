@@ -19,7 +19,7 @@ class MinecraftConfigController extends WebController
 
         $config = MinecraftConfig::byLatest()->first();
 
-        return $this->inertiaRender('MinecraftConfig/MinecraftConfig',[
+        return $this->inertiaRender('MinecraftConfig/MinecraftConfig', [
             'config' => $config,
         ]);
     }

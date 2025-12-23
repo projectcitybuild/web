@@ -8,13 +8,14 @@ use Illuminate\Support\Facades\Log;
 
 class LogApiCalls
 {
-    public function handle(Request $request, Closure $next){
+    public function handle(Request $request, Closure $next)
+    {
         $response = $next($request);
 
         Log::debug('API call handled', [
             'uri' => $request->getUri(),
             'request' => $request->all(),
-            'response' => $response->getContent()
+            'response' => $response->getContent(),
         ]);
 
         return $response;

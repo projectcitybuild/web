@@ -5,13 +5,13 @@ namespace App\Core\Domains\Discord\Data;
 class DiscordEmbed
 {
     /**
-     * @param string|null $title Title of embed
-     * @param string|null $description Description of embed
-     * @param string|null $url Url of embed
-     * @param int|null $timestamp Timestamp of embed content
-     * @param string|null $color Color code of the embed
-     * @param DiscordAuthor|null $author Author information
-     * @param array<DiscordEmbedField> $fields Fields information, max of 25
+     * @param  string|null  $title  Title of embed
+     * @param  string|null  $description  Description of embed
+     * @param  string|null  $url  Url of embed
+     * @param  int|null  $timestamp  Timestamp of embed content
+     * @param  string|null  $color  Color code of the embed
+     * @param  DiscordAuthor|null  $author  Author information
+     * @param  array<DiscordEmbedField>  $fields  Fields information, max of 25
      *
      * @see https://discord.com/developers/docs/resources/message#embed-object
      */
@@ -33,7 +33,7 @@ class DiscordEmbed
             'description' => $this->description,
             'url' => $this->url,
             'timestamp' => $this->timestamp,
-            'color' => !empty($this->color) ? hexdec($this->color) : null,
+            'color' => ! empty($this->color) ? hexdec($this->color) : null,
             'author' => $this->author?->toJson(),
             'fields' => array_map(fn ($field) => $field->toJson(), $this->fields),
         ];

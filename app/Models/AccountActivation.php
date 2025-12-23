@@ -4,18 +4,17 @@ namespace App\Models;
 
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 
 final class AccountActivation extends Model
 {
-    use HasStaticTable;
     use HasFactory;
+    use HasStaticTable;
     use Prunable;
 
     protected $table = 'account_activations';
-
     protected $fillable = [
         'account_id',
         'token',
@@ -23,11 +22,9 @@ final class AccountActivation extends Model
         'updated_at',
         'expires_at',
     ];
-
     protected $hidden = [
         'token',
     ];
-
     protected $casts = [
         'expires_at' => 'datetime',
     ];
@@ -39,6 +36,6 @@ final class AccountActivation extends Model
 
     public function prunable(): Builder
     {
-        return static::where('expires_at', '<=', now());
+        return self::where('expires_at', '<=', now());
     }
 }

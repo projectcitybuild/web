@@ -58,8 +58,8 @@ final class BuilderRankApplicationController extends WebController
 
         try {
             $application = $createBuildRankApplication->execute(
-                account:  $account,
-                minecraftAlias:  $validated['minecraft_username'],
+                account: $account,
+                minecraftAlias: $validated['minecraft_username'],
                 currentBuilderRank: BuilderRank::from($validated['current_builder_rank']),
                 buildLocation: $validated['build_location'],
                 buildDescription: $validated['build_description'],

@@ -29,7 +29,7 @@ class MfaRecoveryController extends WebController
 
         $request->user()->resetTotp();
         $request->user()->save();
-        $request->user()->notify(new MfaBackupCodeUsedNotification());
+        $request->user()->notify(new MfaBackupCodeUsedNotification);
         $logoutService->execute();
         $request->session()->flush();
         $request->session()->regenerateToken();

@@ -6,8 +6,8 @@ use App\Core\Domains\Payment\Checkout;
 use App\Core\Domains\Payment\Data\Stripe\StripePrice;
 use App\Models\Account;
 use App\Models\StripeProduct;
-use Stripe\StripeClient;
 use Laravel\Cashier\Checkout as CashierCheckout;
+use Stripe\StripeClient;
 
 final class BeginDonationCheckout
 {

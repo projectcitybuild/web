@@ -15,7 +15,7 @@ class GoogleRecaptchaValidatorTest extends TestCase
                 body: '{"success":true,"challenge_ts":"2018-08-01T11:17:32Z","hostname":"projectcitybuild.com"}'
             ),
         ]);
-        $validator = new TurntileCaptchaValidator();
+        $validator = new TurntileCaptchaValidator;
 
         $this->assertTrue($validator->passed('token', 'ip'));
     }
@@ -27,7 +27,7 @@ class GoogleRecaptchaValidatorTest extends TestCase
                 body: '{"success":false}'
             ),
         ]);
-        $validator = new TurntileCaptchaValidator();
+        $validator = new TurntileCaptchaValidator;
 
         $this->assertFalse($validator->passed('token', 'ip'));
     }

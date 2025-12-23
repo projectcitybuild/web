@@ -6,9 +6,9 @@ use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
 use App\Domains\BanAppeals\Data\BanAppealStatus;
 use Carbon\CarbonInterface;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
@@ -23,7 +23,6 @@ class BanAppeal extends Model implements LinkableAuditModel
         'status' => BanAppealStatus::class,
         'decided_at' => 'datetime',
     ];
-
     protected $fillable = [
         'game_ban_id',
         'account_id',

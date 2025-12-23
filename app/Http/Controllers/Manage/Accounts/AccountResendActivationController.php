@@ -15,6 +15,6 @@ class AccountResendActivationController
         $sendActivationEmail->execute($account);
 
         return to_route('manage.accounts.show', $account)
-            ->with(['success' => 'Activation email sent to ' . $account->email]);
+            ->with(['success' => 'Activation email sent to '.$account->email]);
     }
 }

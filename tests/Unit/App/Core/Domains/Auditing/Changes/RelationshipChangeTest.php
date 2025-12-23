@@ -30,7 +30,7 @@ class RelationshipChangeTest extends TestCase
     {
         $change = new RelationshipChange(DummyLinkable::class);
 
-        $change->setValues(new NotInAudit(), null);
+        $change->setValues(new NotInAudit, null);
 
         $this->assertInstanceOf(NotInAudit::class, $change->getOldValue());
         $this->assertNull($change->getNewValue());

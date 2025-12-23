@@ -7,7 +7,6 @@ use App\Domains\Donations\UseCases\ProcessDonation;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 
-
 class DonationListener implements ShouldQueue
 {
     public function __construct(

@@ -35,7 +35,7 @@ class RequireServerToken
             subject: $authHeader,
             matches: $matches,
         );
-        abort_if(!$hasAuthHeader, code: 401, message: 'Invalid authorization header. Must be a bearer token');
+        abort_if(! $hasAuthHeader, code: 401, message: 'Invalid authorization header. Must be a bearer token');
 
         $token = $matches[1];
         return ServerToken::where('token', $token)->first();
@@ -50,6 +50,6 @@ class RequireServerToken
             return;
         }
         $allowedIps = explode(',', $serverToken->allowed_ips);
-        abort_if(!in_array($ip, $allowedIps), code: 403, message: 'IP address is not whitelisted');
+        abort_if(! in_array($ip, $allowedIps), code: 403, message: 'IP address is not whitelisted');
     }
 }

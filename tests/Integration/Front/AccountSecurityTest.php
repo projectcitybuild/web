@@ -18,7 +18,7 @@ class AccountSecurityTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->g2fa = new Google2FA();
+        $this->g2fa = new Google2FA;
     }
 
     public function test_can_view_security_page()

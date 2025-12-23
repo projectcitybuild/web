@@ -22,19 +22,17 @@ use Laravel\Passport\HasApiTokens;
 
 final class Account extends Authenticatable implements LinkableAuditModel
 {
-    use Notifiable;
-    use HasApiTokens;
-    use HasStaticTable;
-    use HasFactory;
     use Billable;
     use CausesActivity;
-    use LogsActivity;
     use Eventually;
+    use HasApiTokens;
+    use HasFactory;
+    use HasStaticTable;
+    use LogsActivity;
+    use Notifiable;
 
     protected $table = 'accounts';
-
     protected $primaryKey = 'account_id';
-
     protected $fillable = [
         'email',
         'username',
@@ -44,7 +42,6 @@ final class Account extends Authenticatable implements LinkableAuditModel
         'last_login_at',
         'terms_accepted',
     ];
-
     protected $hidden = [
         'password',
         'remember_token',
@@ -57,14 +54,12 @@ final class Account extends Authenticatable implements LinkableAuditModel
         'stripe_id',
         'last_login_ip',
     ];
-
     protected static $recordEvents = [
         'created',
         'updated',
         'deleted',
         'synced',
     ];
-
     protected $casts = [
         'last_login_at' => 'datetime',
         'is_totp_enabled' => 'boolean',

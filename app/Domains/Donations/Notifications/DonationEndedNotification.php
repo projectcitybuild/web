@@ -16,9 +16,7 @@ class DonationEndedNotification extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Get the notification's delivery channels.
@@ -49,7 +47,7 @@ class DonationEndedNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject('Your Donation has Ended')
             ->line('Your period of Donator has now ended and you\'ve been reset to your previous rank.')
             ->line('Thank you for helping support PCB - contributions from our members are the only way we can continue running! If you would like to keep supporting us, you can extend your donation here')

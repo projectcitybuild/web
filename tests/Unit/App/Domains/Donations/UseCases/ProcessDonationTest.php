@@ -35,7 +35,7 @@ beforeEach(function () {
 });
 
 it('creates Donation', function () {
-    $processDonation = new ProcessDonation();
+    $processDonation = new ProcessDonation;
     $processDonation->execute(
         account: $this->account,
         productId: $this->payment->stripe_product,
@@ -56,7 +56,7 @@ describe('DonationPerk', function () {
     describe('created', function () {
         it('if absent', function () {
             $this->freezeTime(function (Carbon $now) {
-                $processDonation = new ProcessDonation();
+                $processDonation = new ProcessDonation;
                 $processDonation->execute(
                     account: $this->account,
                     productId: $this->payment->stripe_product,
@@ -77,7 +77,7 @@ describe('DonationPerk', function () {
 
         it('if expired exists', function ($perk) {
             $this->freezeTime(function (Carbon $now) {
-                $processDonation = new ProcessDonation();
+                $processDonation = new ProcessDonation;
                 $processDonation->execute(
                     account: $this->account,
                     productId: $this->payment->stripe_product,
@@ -95,13 +95,13 @@ describe('DonationPerk', function () {
                 ]);
             });
         })->with([
-            fn() => DonationPerk::factory()
+            fn () => DonationPerk::factory()
                 ->for($this->account)
                 ->for($this->donationTier)
                 ->for(Donation::factory()->for($this->account))
                 ->expired()
                 ->create(),
-            fn() => DonationPerk::factory()
+            fn () => DonationPerk::factory()
                 ->for($this->account)
                 ->for($this->donationTier)
                 ->for(Donation::factory()->for($this->account))
@@ -110,7 +110,7 @@ describe('DonationPerk', function () {
         ]);
 
         it('sends "started" notification', function () {
-            $processDonation = new ProcessDonation();
+            $processDonation = new ProcessDonation;
             $processDonation->execute(
                 account: $this->account,
                 productId: $this->payment->stripe_product,
@@ -134,7 +134,7 @@ describe('DonationPerk', function () {
                 ->for(Donation::factory()->for($this->account))
                 ->create();
 
-            $processDonation = new ProcessDonation();
+            $processDonation = new ProcessDonation;
             $processDonation->execute(
                 account: $this->account,
                 productId: $this->payment->stripe_product,
@@ -159,7 +159,7 @@ describe('DonationPerk', function () {
                     ->for($donation)
                     ->create(['expires_at' => $originalExpiry]);
 
-                $processDonation = new ProcessDonation();
+                $processDonation = new ProcessDonation;
                 $processDonation->execute(
                     account: $this->account,
                     productId: $this->payment->stripe_product,
@@ -193,7 +193,7 @@ describe('DonationPerk', function () {
                     ->for($donation)
                     ->create(['expires_at' => $originalExpiry]);
 
-                $processDonation = new ProcessDonation();
+                $processDonation = new ProcessDonation;
                 $processDonation->execute(
                     account: $this->account,
                     productId: $this->payment->stripe_product,

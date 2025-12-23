@@ -11,7 +11,6 @@ use App\Domains\Bans\Data\UnbanType;
 use App\Models\Account;
 use App\Models\BanAppeal;
 use App\Models\MinecraftPlayer;
-use DeletePlayerBan;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
@@ -19,11 +18,10 @@ use Illuminate\Support\Facades\DB;
 class UpdateBanAppeal
 {
     /**
-     * @param  BanAppeal  $banAppeal The ban appeal to update
-     * @param  Account  $decidingAccount The account of the deciding staff
-     * @param  string  $decisionNote The message to be shown to the appealing player
-     * @param  BanAppealStatus  $status The new status of the appeal
-     * @return void
+     * @param  BanAppeal  $banAppeal  The ban appeal to update
+     * @param  Account  $decidingAccount  The account of the deciding staff
+     * @param  string  $decisionNote  The message to be shown to the appealing player
+     * @param  BanAppealStatus  $status  The new status of the appeal
      *
      * @throws AppealAlreadyDecidedException if the appeal has already been decided
      * @throws NoPlayerForActionException if the banning account has no minecraft players to perform the action
@@ -37,16 +35,16 @@ class UpdateBanAppeal
         BanAppealStatus $status
     ): void {
         if ($banAppeal->status != BanAppealStatus::PENDING) {
-            throw new AppealAlreadyDecidedException();
+            throw new AppealAlreadyDecidedException;
         }
 
         if ($status == BanAppealStatus::ACCEPTED_TEMPBAN) {
             // TODO: create unban with tempban implementation when tempbans are sorted
-            throw new NotImplementedException();
+            throw new NotImplementedException;
         }
 
         if ($decidingAccount->minecraftAccount()->doesntExist()) {
-            throw new NoPlayerForActionException();
+            throw new NoPlayerForActionException;
         }
 
         $decidingPlayer = $decidingAccount->minecraftAccount->first();
@@ -67,7 +65,7 @@ class UpdateBanAppeal
             if ($status == BanAppealStatus::ACCEPTED_UNBAN) {
                 $unbannerUuid = new MinecraftUUID($decidingPlayer->uuid);
                 $unbannerPlayer = MinecraftPlayer::whereUuid($unbannerUuid)->first()
-                    ?? throw new ModelNotFoundException("Unbanner player not found");
+                    ?? throw new ModelNotFoundException('Unbanner player not found');
 
                 $ban = $banAppeal->gamePlayerBan;
                 $ban->update([

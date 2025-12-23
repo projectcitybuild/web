@@ -16,8 +16,8 @@ use Illuminate\Validation\Rule;
 
 final class MinecraftBuildController extends ApiController
 {
-    use ValidatesCoordinates;
     use HasPaginatedApi;
+    use ValidatesCoordinates;
 
     public function index(Request $request)
     {
@@ -121,10 +121,10 @@ final class MinecraftBuildController extends ApiController
     {
         $uuid = new MinecraftUUID($uuid);
         $player = MinecraftPlayer::whereUuid($uuid)->first();
-        abort_if($player === null, 400, "Player not found");
+        abort_if($player === null, 400, 'Player not found');
 
         $isBuildOwner = $build->player_id === $player->getKey();
         $isStaff = $player->account?->isStaff() ?? false;
-        abort_if(!$isBuildOwner && !$isStaff, 403, "Only the build owner can edit this build");
+        abort_if(! $isBuildOwner && ! $isStaff, 403, 'Only the build owner can edit this build');
     }
 }

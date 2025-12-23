@@ -43,7 +43,7 @@ class MfaFinishController extends WebController
         $request->user()->totp_last_used = $keyTimestamp;
         $request->user()->save();
 
-        $request->user()->notify(new MfaEnabledNotification());
+        $request->user()->notify(new MfaEnabledNotification);
 
         return redirect()
             ->route('front.account.settings.mfa')

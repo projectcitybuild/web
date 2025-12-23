@@ -16,7 +16,7 @@ final class RegisterRequest extends FormRequest
     {
         return [
             'email' => ['required', 'email', 'unique:accounts,email'],
-            'username' => ['required', 'unique:accounts,username', new DiscourseUsernameRule()],
+            'username' => ['required', 'unique:accounts,username', new DiscourseUsernameRule],
             'password' => ['required', Password::defaults()],
             'captcha-response' => ['required', $captchaRule],
             'terms' => 'accepted',

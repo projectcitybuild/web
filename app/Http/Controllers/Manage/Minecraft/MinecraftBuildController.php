@@ -7,7 +7,6 @@ use App\Http\Controllers\WebController;
 use App\Models\MinecraftBuild;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class MinecraftBuildController extends WebController
@@ -30,7 +29,7 @@ class MinecraftBuildController extends WebController
     {
         Gate::authorize('create', MinecraftBuild::class);
 
-        $build = new MinecraftBuild();
+        $build = new MinecraftBuild;
 
         return view('manage.pages.minecraft-builds.create')
             ->with(compact('build'));

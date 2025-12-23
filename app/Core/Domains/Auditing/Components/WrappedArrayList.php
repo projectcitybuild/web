@@ -17,7 +17,6 @@ class WrappedArrayList extends Component
      * Create a new component instance.
      *
      * @param  array<WrappedArrayEntry>  $entries
-     * @param  string  $excludeType
      */
     public function __construct(array $entries, string $excludeType)
     {

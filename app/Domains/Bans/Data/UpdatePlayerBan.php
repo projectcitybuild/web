@@ -8,18 +8,18 @@ use Carbon\Carbon;
 class UpdatePlayerBan
 {
     public function __construct(
-        readonly int $id,
-        readonly MinecraftUUID $bannedUuid,
-        readonly string $bannedAlias,
-        readonly ?MinecraftUUID $bannerUuid,
-        readonly ?string $bannerAlias,
-        readonly string $reason,
-        readonly ?string $additionalInfo,
-        readonly ?Carbon $expiresAt,
-        readonly ?Carbon $createdAt,
-        readonly ?Carbon $unbannedAt,
-        readonly ?MinecraftUUID $unbannerUuid,
-        readonly ?string $unbannerAlias,
-        readonly ?UnbanType $unbanType,
+        public readonly int $id,
+        public readonly MinecraftUUID $bannedUuid,
+        public readonly string $bannedAlias,
+        public readonly ?MinecraftUUID $bannerUuid,
+        public readonly ?string $bannerAlias,
+        public readonly string $reason,
+        public readonly ?string $additionalInfo,
+        public readonly ?Carbon $expiresAt,
+        public readonly ?Carbon $createdAt,
+        public readonly ?Carbon $unbannedAt,
+        public readonly ?MinecraftUUID $unbannerUuid,
+        public readonly ?string $unbannerAlias,
+        public readonly ?UnbanType $unbanType,
     ) {}
 }

@@ -13,11 +13,8 @@ class MinecraftUUIDCast implements CastsAttributes
     /**
      * Cast the given value.
      *
-     * @param Model $model
-     * @param string $key
-     * @param mixed $value
-     * @param array $attributes
      * @return mixed
+     *
      * @throws Exception if invalid Minecraft UUID
      */
     public function get(Model $model, string $key, mixed $value, array $attributes)
@@ -28,10 +25,6 @@ class MinecraftUUIDCast implements CastsAttributes
     /**
      * Prepare the given value for storage.
      *
-     * @param Model $model
-     * @param  string  $key
-     * @param  mixed  $value
-     * @param  array  $attributes
      * @return mixed
      */
     public function set(Model $model, string $key, mixed $value, array $attributes)

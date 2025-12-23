@@ -27,7 +27,7 @@ final class EmailChangedNotification extends Notification
      */
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject('Your email address was changed')
             ->greeting('Email Address Updated')
             ->line('Your account\'s email address was changed to '.$this->newEmail.'.')

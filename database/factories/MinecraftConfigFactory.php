@@ -79,4 +79,3 @@ class MinecraftConfigFactory extends Factory
         ];
     }
 }
-

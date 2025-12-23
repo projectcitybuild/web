@@ -8,8 +8,7 @@ class DummyLinkable implements LinkableAuditModel
 {
     public function __construct(
         private int $fakeId
-    ) {
-    }
+    ) {}
 
     public function getActivitySubjectLink(): ?string
     {

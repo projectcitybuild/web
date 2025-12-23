@@ -1,14 +1,11 @@
 <?php
 
-use App\Core\Domains\Auditing\Causers\SystemCauser;
-use App\Core\Domains\Auditing\Causers\SystemCauseResolver;
 use App\Domains\Bans\Data\UnbanType;
 use App\Domains\Donations\UseCases\ExpireDonorPerks;
 use App\Domains\HealthCheck\Data\SchedulerHealthCheck;
 use App\Domains\HealthCheck\HealthCheckReporter;
 use App\Models\GamePlayerBan;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schedule;
 use Spatie\Sitemap\SitemapGenerator;
 
@@ -47,9 +44,9 @@ Artisan::command('bans:prune', function () {
 
 Artisan::command('healthcheck:scheduler', function () {
     $reporter = new HealthCheckReporter(
-        healthCheck: new SchedulerHealthCheck(),
+        healthCheck: new SchedulerHealthCheck,
     );
     $reporter->success();
 })->runInBackground()
-  ->evenInMaintenanceMode()
-  ->everyFifteenMinutes();
+    ->evenInMaintenanceMode()
+    ->everyFifteenMinutes();

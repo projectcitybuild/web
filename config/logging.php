@@ -3,7 +3,6 @@
 use App\Core\Support\Laravel\Logging\SentryLoggerFactory;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
-use Monolog\Handler\SyslogUdpHandler;
 
 return [
 

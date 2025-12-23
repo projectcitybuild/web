@@ -12,7 +12,7 @@ class LaravelSignedURLGeneratorTest extends TestCase
 
     public function test_make_generates_valid_url()
     {
-        $generator = new LaravelSignedURLGenerator();
+        $generator = new LaravelSignedURLGenerator;
         $url = $generator->make(
             routeName: self::ROUTE_NAME,
             parameters: ['key' => 'value'],
@@ -25,7 +25,7 @@ class LaravelSignedURLGeneratorTest extends TestCase
     public function test_generates_temporary_valid_url()
     {
         $this->freezeTime(function (Carbon $now) {
-            $generator = new LaravelSignedURLGenerator();
+            $generator = new LaravelSignedURLGenerator;
             $url = $generator->makeTemporary(
                 routeName: self::ROUTE_NAME,
                 expiresAt: $now->addDay(),
@@ -39,7 +39,7 @@ class LaravelSignedURLGeneratorTest extends TestCase
 
     public function test_temporary_url_expires()
     {
-        $generator = new LaravelSignedURLGenerator();
+        $generator = new LaravelSignedURLGenerator;
         $url = $generator->makeTemporary(
             routeName: self::ROUTE_NAME,
             expiresAt: now()->addDays(-1),

@@ -26,9 +26,9 @@ return new class extends Migration
 
         Schema::table('payments', function (Blueprint $table) {
             $table->integer('original_unit_amount')->after('amount_paid_in_cents')->default(0);
-            $table->string('original_currency', 3)->after('amount_paid_in_cents')->default("aud");
+            $table->string('original_currency', 3)->after('amount_paid_in_cents')->default('aud');
             $table->integer('paid_unit_amount')->after('amount_paid_in_cents')->default(0);
-            $table->string('paid_currency', 3)->after('amount_paid_in_cents')->default("aud");
+            $table->string('paid_currency', 3)->after('amount_paid_in_cents')->default('aud');
             $table->renameColumn('quantity', 'unit_quantity');
             $table->dropColumn('is_subscription_payment');
         });
@@ -36,9 +36,9 @@ return new class extends Migration
         $payments = Payment::get();
         foreach ($payments as $payment) {
             $payment->original_unit_amount = $payment->amount_paid_in_cents;
-            $payment->original_currency = "aud";
+            $payment->original_currency = 'aud';
             $payment->paid_unit_amount = $payment->amount_paid_in_cents;
-            $payment->paid_currency = "aud";
+            $payment->paid_currency = 'aud';
             $payment->save();
         }
 

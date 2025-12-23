@@ -9,7 +9,7 @@ class BooleanChangeTest extends TestCase
 {
     public function test_boolean_change()
     {
-        $change = new BooleanChange();
+        $change = new BooleanChange;
         $change->setValues(false, true);
         $this->assertEquals(false, $change->getOldValue());
         $this->assertEquals(true, $change->getNewValue());
@@ -17,8 +17,8 @@ class BooleanChangeTest extends TestCase
 
     public function test_not_in_audit()
     {
-        $change = new BooleanChange();
-        $change->setValues(new NotInAudit(), true);
+        $change = new BooleanChange;
+        $change->setValues(new NotInAudit, true);
         $this->assertInstanceOf(NotInAudit::class, $change->getOldValue());
         $this->assertEquals(true, $change->getNewValue());
     }

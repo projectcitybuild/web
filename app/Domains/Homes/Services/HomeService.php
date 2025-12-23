@@ -38,14 +38,14 @@ class HomeService
     public function create(
         MinecraftPlayer $player,
         MinecraftCoordinate $coordinate,
-        String $name,
+        string $name,
     ): MinecraftHome {
         $exists = MinecraftHome::where('name', $name)
             ->where('player_id', $player->getKey())
             ->exists();
 
         if ($exists) {
-            throw new HomeAlreadyExistsException();
+            throw new HomeAlreadyExistsException;
         }
 
         $count = $this->count($player);
@@ -64,7 +64,7 @@ class HomeService
         MinecraftHome $home,
         MinecraftPlayer $player,
         MinecraftCoordinate $coordinate,
-        String $name,
+        string $name,
     ): MinecraftHome {
         $this->assertCanAccess($home, $player);
 
@@ -74,7 +74,7 @@ class HomeService
             ->exists();
 
         if ($exists) {
-            throw new HomeAlreadyExistsException();
+            throw new HomeAlreadyExistsException;
         }
 
         $home->update([
@@ -107,6 +107,6 @@ class HomeService
         $isOwner = $home->player_id === $player->getKey();
         $isStaff = $player->account?->isStaff() ?? false;
 
-        throw_if(!$isOwner && !$isStaff, AuthorizationException::class);
+        throw_if(! $isOwner && ! $isStaff, AuthorizationException::class);
     }
 }

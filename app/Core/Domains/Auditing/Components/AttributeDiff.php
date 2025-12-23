@@ -11,8 +11,7 @@ class AttributeDiff extends Component
         private string $attribute,
         private Change $change,
         private string $description = 'Updated',
-    ) {
-    }
+    ) {}
 
     public function render()
     {

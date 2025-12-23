@@ -11,7 +11,9 @@ final class TelescopeServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        if (! $this->enabled()) return;
+        if (! $this->enabled()) {
+            return;
+        }
 
         $this->app->register(LaravelTelescopeServiceProvider::class);
         $this->app->register(InternalTelescopeServiceProvider::class);

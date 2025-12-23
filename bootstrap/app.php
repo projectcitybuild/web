@@ -39,7 +39,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\HandleInertiaRequests::class,
         ]);
         $middleware->api(append: [
-           \App\Http\Middleware\LogApiCalls::class,
+            \App\Http\Middleware\LogApiCalls::class,
         ]);
         $middleware->redirectGuestsTo(
             fn (Request $request) => route('front.login'),

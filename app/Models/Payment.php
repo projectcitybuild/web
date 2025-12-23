@@ -9,13 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class Payment extends Model
 {
-    use HasStaticTable;
     use HasFactory;
+    use HasStaticTable;
 
     protected $table = 'payments';
-
     protected $primaryKey = 'payment_id';
-
     protected $fillable = [
         'account_id',
         'stripe_price',

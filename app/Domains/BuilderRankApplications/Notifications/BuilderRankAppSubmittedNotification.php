@@ -14,6 +14,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
+
 use function route;
 
 class BuilderRankAppSubmittedNotification extends Notification implements ShouldQueue
@@ -27,8 +28,7 @@ class BuilderRankAppSubmittedNotification extends Notification implements Should
      */
     public function __construct(
         private BuilderRankApplication $builderRankApplication,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the notification's delivery channels.
@@ -60,7 +60,7 @@ class BuilderRankAppSubmittedNotification extends Notification implements Should
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject('Your builder rank application is in review')
             ->greeting('Hi '.$this->builderRankApplication->account->username.',')
             ->line('Your builder rank application has been submitted.')

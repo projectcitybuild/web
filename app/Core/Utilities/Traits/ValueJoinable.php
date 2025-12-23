@@ -8,7 +8,7 @@ namespace App\Core\Utilities\Traits;
 trait ValueJoinable
 {
     /**
-     * @param  self  ...$cases Enum cases to join
+     * @param  self  ...$cases  Enum cases to join
      * @return string Comma delimited string of values
      */
     public static function joined(self ...$cases): string

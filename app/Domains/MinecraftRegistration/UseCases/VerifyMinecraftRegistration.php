@@ -4,9 +4,9 @@ namespace App\Domains\MinecraftRegistration\UseCases;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Utilities\SecureTokenGenerator;
+use App\Domains\MinecraftEventBus\Events\MinecraftPlayerUpdated;
 use App\Domains\MinecraftRegistration\Data\MinecraftRegistrationExpiredException;
 use App\Domains\MinecraftRegistration\Notifications\MinecraftRegistrationCompleteNotification;
-use App\Domains\MinecraftEventBus\Events\MinecraftPlayerUpdated;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
 use App\Models\MinecraftRegistration;
@@ -84,7 +84,7 @@ class VerifyMinecraftRegistration
         $username = $initial;
         $i = 1;
         while (Account::where('username', $username)->exists()) {
-            $username = $initial . '_' . $i;
+            $username = $initial.'_'.$i;
             $i++;
         }
         return $username;

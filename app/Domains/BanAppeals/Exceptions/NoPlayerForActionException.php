@@ -4,6 +4,4 @@ namespace App\Domains\BanAppeals\Exceptions;
 
 use Exception;
 
-class NoPlayerForActionException extends Exception
-{
-}
+class NoPlayerForActionException extends Exception {}

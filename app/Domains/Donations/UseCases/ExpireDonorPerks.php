@@ -57,10 +57,12 @@ final class ExpireDonorPerks
 
                 // Also apply grace period here
                 $exists = $perks->first(fn ($perk) => $perk->expires_at->copy()->addHours(12)->gt($now));
-                if ($exists) continue;
+                if ($exists) {
+                    continue;
+                }
 
                 $account->groups()->detach($donorGroup->getKey());
-                $account->notify(new DonationEndedNotification());
+                $account->notify(new DonationEndedNotification);
 
                 Log::info('Removed '.$account->getKey().' from donators');
             }

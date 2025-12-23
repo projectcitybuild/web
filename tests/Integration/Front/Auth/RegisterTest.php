@@ -4,7 +4,6 @@ use App\Domains\Activation\Notifications\AccountNeedsActivationNotification;
 use App\Domains\Captcha\Validator\CaptchaValidator;
 use App\Models\Account;
 use App\Models\Group;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Notification;
 use Mockery\MockInterface;
 

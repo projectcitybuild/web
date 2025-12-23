@@ -5,7 +5,6 @@ namespace App\Domains\MinecraftRegistration\UseCases;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\MinecraftRegistration\Notifications\MinecraftRegistrationCodeNotification;
 use App\Models\MinecraftRegistration;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 

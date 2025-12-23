@@ -24,8 +24,7 @@ class BanAppealConfirmationNotification extends Notification implements ShouldQu
      */
     public function __construct(
         private BanAppeal $banAppeal
-    ) {
-    }
+    ) {}
 
     /**
      * Get the notification's delivery channels.
@@ -53,16 +52,15 @@ class BanAppealConfirmationNotification extends Notification implements ShouldQu
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject('Ban Appeal Submitted')
-                    ->greeting('Your ban appeal has been received')
-                    ->line('You will be sent another email when your appeal has been decided on.')
-                    ->line('You can check your appeal at any time:')
-                    ->action('Check Appeal', $this->banAppeal->showLink());
+            ->subject('Ban Appeal Submitted')
+            ->greeting('Your ban appeal has been received')
+            ->line('You will be sent another email when your appeal has been decided on.')
+            ->line('You can check your appeal at any time:')
+            ->action('Check Appeal', $this->banAppeal->showLink());
     }
 
     public function toDiscord($notifiable)
