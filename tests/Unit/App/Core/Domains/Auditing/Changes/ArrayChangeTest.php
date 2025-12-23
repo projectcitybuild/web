@@ -10,7 +10,7 @@ class ArrayChangeTest extends TestCase
 {
     public function test_value_reordering()
     {
-        $change = new ArrayChange();
+        $change = new ArrayChange;
         $change->setValues(['kept1', 'removed', 'kept2'], ['kept1', 'kept2', 'added']);
 
         $this->assertEquals(
@@ -26,7 +26,7 @@ class ArrayChangeTest extends TestCase
 
     public function test_value_tagging()
     {
-        $change = new ArrayChange();
+        $change = new ArrayChange;
         $change->setValues(['kept1', 'removed', 'kept2'], ['kept1', 'kept2', 'added']);
 
         $this->assertEquals(
@@ -42,8 +42,8 @@ class ArrayChangeTest extends TestCase
 
     public function test_not_in_audit()
     {
-        $change = new ArrayChange();
-        $change->setValues(new NotInAudit(), ['added1', 'added2']);
+        $change = new ArrayChange;
+        $change->setValues(new NotInAudit, ['added1', 'added2']);
         $this->assertCount(0, $change->getOldValue());
         $this->assertEquals(
             ['added1', 'added2'],

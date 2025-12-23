@@ -29,12 +29,12 @@ final class ContactController extends WebController
         );
 
         $discordChannel = config('discord.webhook_contact_channel');
-        throw_if (empty($discordChannel), 'No discord channel set for contact form');
+        throw_if(empty($discordChannel), 'No discord channel set for contact form');
         Notification::route('discord', $discordChannel)
             ->notify($notification);
 
         $email = config('mail.admin_email');
-        throw_if (empty($email), 'No admin email set for contact form');
+        throw_if(empty($email), 'No admin email set for contact form');
         Notification::route('mail', $email)
             ->notify($notification);
 

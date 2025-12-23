@@ -13,8 +13,6 @@ class ArrayChange extends Change
 {
     /**
      * @param  mixed|NotInAudit  $oldValue
-     * @param  mixed  $newValue
-     * @return Change
      */
     public function setValues(mixed $oldValue, mixed $newValue): Change
     {

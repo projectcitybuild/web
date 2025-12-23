@@ -50,7 +50,7 @@ class IPBanService
         $existingBan = GameIPBan::where('ip_address', $req->ip)
             ->whereNull('unbanned_at')
             ->first()
-            ?? throw new BanNotFoundException();
+            ?? throw new BanNotFoundException;
 
         $unbannerPlayer = MinecraftPlayer::firstOrCreate(uuid: $req->unbannerUuid);
 

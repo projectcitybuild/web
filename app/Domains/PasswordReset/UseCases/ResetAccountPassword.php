@@ -23,6 +23,6 @@ final class ResetAccountPassword
                 ->update(['expires_at' => now()]);
         });
 
-        $account->notify(new AccountPasswordResetCompleteNotification());
+        $account->notify(new AccountPasswordResetCompleteNotification);
     }
 }

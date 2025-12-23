@@ -9,13 +9,12 @@ trait ValidatesCoordinates
 {
     protected array $coordinateRules = [
         'world' => ['required', 'string'],
-        'x' => ['required' ,'numeric'],
+        'x' => ['required', 'numeric'],
         'y' => ['required', 'numeric'],
         'z' => ['required', 'numeric'],
         'pitch' => ['required', 'numeric'],
         'yaw' => ['required', 'numeric'],
     ];
-
     protected array $optionalCoordinateRules = [
         'world' => ['string'],
         'x' => ['numeric'],

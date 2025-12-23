@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Core\Utilities\Traits\HasStaticTable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MinecraftPlayerIp extends Model
@@ -13,7 +13,6 @@ class MinecraftPlayerIp extends Model
     use HasStaticTable;
 
     protected $table = 'minecraft_player_ips';
-
     protected $fillable = [
         'player_id',
         'ip',

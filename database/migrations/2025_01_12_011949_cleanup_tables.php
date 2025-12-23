@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::drop('account_balance_transactions');
 
         Schema::table('game_player_bans', function (Blueprint $table) {
-           $table->dropColumn('server_id');
+            $table->dropColumn('server_id');
         });
 
         Schema::table('accounts', function (Blueprint $table) {
@@ -23,7 +23,7 @@ return new class extends Migration
         });
 
         Schema::table('donation_perks', function (Blueprint $table) {
-           $table->dropColumn('is_lifetime_perks');
+            $table->dropColumn('is_lifetime_perks');
         });
     }
 

@@ -7,9 +7,9 @@ use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 class CreateIPBan
 {
     public function __construct(
-        readonly string $ip,
-        readonly string $reason,
-        readonly MinecraftUUID $bannerUuid,
-        readonly string $bannerAlias,
+        public readonly string $ip,
+        public readonly string $reason,
+        public readonly MinecraftUUID $bannerUuid,
+        public readonly string $bannerAlias,
     ) {}
 }

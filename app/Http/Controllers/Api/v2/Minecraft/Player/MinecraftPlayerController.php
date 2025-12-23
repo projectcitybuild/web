@@ -8,7 +8,6 @@ use App\Domains\Bans\Services\IPBanService;
 use App\Domains\Groups\Services\PlayerGroupsAggregator;
 use App\Http\Controllers\ApiController;
 use App\Models\GamePlayerBan;
-use App\Models\Group;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -36,7 +35,7 @@ final class MinecraftPlayerController extends ApiController
         $player?->touchLastSyncedAt();
         $account = $player?->account;
 
-        $groups = optional($account, fn($it) => $this->playerGroupsAggregator->get($it))
+        $groups = optional($account, fn ($it) => $this->playerGroupsAggregator->get($it))
             ?? collect();
 
         return response()->json([

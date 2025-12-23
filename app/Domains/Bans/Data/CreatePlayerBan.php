@@ -8,17 +8,17 @@ use Carbon\Carbon;
 class CreatePlayerBan
 {
     public function __construct(
-        readonly MinecraftUUID $bannedUuid,
-        readonly ?string $bannedAlias,
-        readonly ?MinecraftUUID $bannerUuid,
-        readonly ?string $bannerAlias,
-        readonly string $reason,
-        readonly ?string $additionalInfo = null,
-        readonly ?Carbon $expiresAt = null,
-        readonly ?Carbon $createdAt = null,
-        readonly ?Carbon $unbannedAt = null,
-        readonly ?MinecraftUUID $unbannerUuid = null,
-        readonly ?string $unbannerAlias = null,
-        readonly ?UnbanType $unbanType = null,
+        public readonly MinecraftUUID $bannedUuid,
+        public readonly ?string $bannedAlias,
+        public readonly ?MinecraftUUID $bannerUuid,
+        public readonly ?string $bannerAlias,
+        public readonly string $reason,
+        public readonly ?string $additionalInfo = null,
+        public readonly ?Carbon $expiresAt = null,
+        public readonly ?Carbon $createdAt = null,
+        public readonly ?Carbon $unbannedAt = null,
+        public readonly ?MinecraftUUID $unbannerUuid = null,
+        public readonly ?string $unbannerAlias = null,
+        public readonly ?UnbanType $unbanType = null,
     ) {}
 }

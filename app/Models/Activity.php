@@ -15,8 +15,6 @@ class Activity extends \Spatie\Activitylog\Models\Activity
 
     /**
      * Attribute for processed changes of this activity
-     *
-     * @return Collection
      */
     public function getProcessedChangesAttribute(): Collection
     {

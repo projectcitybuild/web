@@ -25,7 +25,7 @@ class AccountChangeUsernameRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => ['required', 'unique:accounts,username', new DiscourseUsernameRule()],
+            'username' => ['required', 'unique:accounts,username', new DiscourseUsernameRule],
         ];
     }
 }

@@ -22,7 +22,7 @@ it('throws if sources is invalid format', function () {
         [1 => 2],
     ];
     foreach ($invalid as $sources) {
-        expect(fn() => new HomeCount(
+        expect(fn () => new HomeCount(
             used: 1,
             allowed: 2,
             sources: $sources,

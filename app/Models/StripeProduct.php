@@ -6,15 +6,13 @@ use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class StripeProduct extends Model
 {
-    use HasStaticTable;
     use HasFactory;
+    use HasStaticTable;
 
     protected $table = 'stripe_products';
-
     protected $fillable = [
         'price_id',
         'product_id',

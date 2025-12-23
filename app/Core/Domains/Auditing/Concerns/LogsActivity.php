@@ -19,15 +19,11 @@ trait LogsActivity
 
     /**
      * Set the attributes to be audited and their types
-     *
-     * @return AuditAttributes
      */
     abstract public function auditAttributeConfig(): AuditAttributes;
 
     /**
      * Default settings for logging
-     *
-     * @return LogOptions
      */
     public function getActivitylogOptions(): LogOptions
     {
@@ -39,8 +35,6 @@ trait LogsActivity
 
     /**
      * Set up custom logging events
-     *
-     * @return void
      */
     protected static function bootLogsActivity(): void
     {
@@ -83,21 +77,15 @@ trait LogsActivity
 
     /**
      * Set old attributes for this event
-     *
-     * @param  Model  $model
-     * @return void
      */
     private static function addOldAttributes(Model $model): void
     {
-        $oldValues = (new static())->setRawAttributes($model->getRawOriginal());
+        $oldValues = (new static)->setRawAttributes($model->getRawOriginal());
         $model->oldAttributes = static::logChanges($oldValues);
     }
 
     /**
      * Remove an event from the to be recorded list
-     *
-     * @param $event
-     * @return void
      */
     private static function forgetRecordEvent($event): void
     {
@@ -107,7 +95,6 @@ trait LogsActivity
     }
 
     /**
-     * @param  string  $anonymousUserDescription
      * @return $this
      */
     public function setAnonymousUserDescription(string $anonymousUserDescription): static

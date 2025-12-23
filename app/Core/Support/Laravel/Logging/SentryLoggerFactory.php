@@ -16,8 +16,6 @@ final class SentryLoggerFactory
 {
     /**
      * Create a custom Monolog instance.
-     *
-     * @param  array  $config
      */
     public function __invoke(array $config): Logger
     {

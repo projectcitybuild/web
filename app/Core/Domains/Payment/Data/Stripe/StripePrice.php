@@ -19,10 +19,10 @@ class StripePrice
     public static function fromPrice(Price $price): StripePrice
     {
         return new StripePrice(
-          id: $price->id,
-          productId: $price->product,
-          unitAmount: new Money($price->unit_amount, new Currency($price->currency)),
-          paymentType: PaymentType::fromString($price->type),
+            id: $price->id,
+            productId: $price->product,
+            unitAmount: new Money($price->unit_amount, new Currency($price->currency)),
+            paymentType: PaymentType::fromString($price->type),
         );
     }
 }

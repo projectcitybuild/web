@@ -14,7 +14,7 @@ class DiscordPollMedia
         return [
             'poll_media' => [
                 'text' => $this->text,
-                'emoji' => !empty($this->emojiName) ? ['name' => $this->emojiName] : null,
+                'emoji' => ! empty($this->emojiName) ? ['name' => $this->emojiName] : null,
             ],
         ];
     }

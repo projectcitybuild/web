@@ -49,54 +49,54 @@ describe('validation errors', function () {
 });
 
 describe('successful login', function () {
-   it('starts session', function () {
-       $this->assertGuest();
-       $this->post($this->submitEndpoint, $this->validCredentials);
-       $this->assertAuthenticatedAs($this->account);
-   });
+    it('starts session', function () {
+        $this->assertGuest();
+        $this->post($this->submitEndpoint, $this->validCredentials);
+        $this->assertAuthenticatedAs($this->account);
+    });
 
-   it('redirects to original destination', function () {
-       $this->get(route('front.account.settings.billing'))
-           ->assertRedirect($this->formEndpoint);
+    it('redirects to original destination', function () {
+        $this->get(route('front.account.settings.billing'))
+            ->assertRedirect($this->formEndpoint);
 
-       $this->post(route('front.login.submit'), $this->validCredentials)
-           ->assertRedirect(route('front.account.settings.billing'));
-   });
+        $this->post(route('front.login.submit'), $this->validCredentials)
+            ->assertRedirect(route('front.account.settings.billing'));
+    });
 
     it('redirects to account profile if no original destination', function () {
         $this->post(route('front.login.submit'), $this->validCredentials)
             ->assertRedirect(route('front.account.profile'));
     });
 
-   it('updates last login timestamp', function () {
-       $oldLoginTime = $this->account->last_login_at;
-       $oldLoginIp = $this->account->last_login_ip;
+    it('updates last login timestamp', function () {
+        $oldLoginTime = $this->account->last_login_at;
+        $oldLoginIp = $this->account->last_login_ip;
 
-       $this->post($this->submitEndpoint, $this->validCredentials)
-           ->assertSessionHasNoErrors();
+        $this->post($this->submitEndpoint, $this->validCredentials)
+            ->assertSessionHasNoErrors();
 
-       $this->account->refresh();
+        $this->account->refresh();
 
-       expect($this->account->last_login_ip)
-           ->not
-           ->toBe($oldLoginIp);
+        expect($this->account->last_login_ip)
+            ->not
+            ->toBe($oldLoginIp);
 
-       expect($this->account->last_login_at)
-           ->not
-           ->toBe($oldLoginTime);
-   });
+        expect($this->account->last_login_at)
+            ->not
+            ->toBe($oldLoginTime);
+    });
 });
 
 describe('mfa', function () {
-   it('sets mfa flag on login', function () {
-       $account = Account::factory()
-           ->passwordHashed('secret')
-           ->hasFinishedTotp()
-           ->create();
+    it('sets mfa flag on login', function () {
+        $account = Account::factory()
+            ->passwordHashed('secret')
+            ->hasFinishedTotp()
+            ->create();
 
-       $this->post($this->submitEndpoint, [
-           'email' => $account->email,
-           'password' => 'secret',
-       ])->assertSessionHas(MfaAuthenticated::NEEDS_MFA_KEY);
-   });
+        $this->post($this->submitEndpoint, [
+            'email' => $account->email,
+            'password' => 'secret',
+        ])->assertSessionHas(MfaAuthenticated::NEEDS_MFA_KEY);
+    });
 });

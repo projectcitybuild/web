@@ -9,8 +9,7 @@ final class StubSignedURLGenerator implements SignedURLGenerator
 {
     public function __construct(
         private string $outputURL,
-    ) {
-    }
+    ) {}
 
     public function make(
         string $routeName,

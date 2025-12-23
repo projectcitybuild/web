@@ -19,8 +19,7 @@ class BuilderRankAppDeclinedNotification extends Notification implements ShouldQ
      */
     public function __construct(
         private BuilderRankApplication $builderRankApplication,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the notification's delivery channels.
@@ -51,7 +50,7 @@ class BuilderRankAppDeclinedNotification extends Notification implements ShouldQ
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject('Your builder rank application was unsuccessful')
             ->greeting('Hi '.$this->builderRankApplication->account->username.',')
             ->line('Unfortunately your builder rank application was not successful for the following reason:')

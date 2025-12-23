@@ -16,7 +16,7 @@ use Ramsey\Uuid\Uuid;
  * - Can be constructed regardless of whether hyphens are present
  * - Can convert between formats on demand
  */
-class MinecraftUUID implements Castable, Arrayable
+class MinecraftUUID implements Arrayable, Castable
 {
     private const PATTERN_FULL = '/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/';
     private const PATTERN_TRIMMED = '/^([0-9a-fA-F]{32})$/';
@@ -30,7 +30,7 @@ class MinecraftUUID implements Castable, Arrayable
     {
         if (preg_match(self::PATTERN_FULL, $uuid, $matches) > 0) {
             $this->trimmed = trim(str_replace(search: '-', replace: '', subject: $uuid));
-        } else if (preg_match(self::PATTERN_TRIMMED, $uuid, $matches) > 0) {
+        } elseif (preg_match(self::PATTERN_TRIMMED, $uuid, $matches) > 0) {
             $this->trimmed = trim($uuid);
         } else {
             Log::warning('Could not parse invalid Minecraft UUID', [
@@ -87,9 +87,6 @@ class MinecraftUUID implements Castable, Arrayable
      * Returns the class responsible for Eloquent casting.
      *
      * By defining this, we can cast a model's column to MinecraftUUID, instead of MinecraftUUIDCast
-     *
-     * @param array $arguments
-     * @return string
      */
     public static function castUsing(array $arguments): string
     {

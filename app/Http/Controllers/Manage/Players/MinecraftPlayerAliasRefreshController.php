@@ -8,7 +8,6 @@ use App\Http\Controllers\WebController;
 use App\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
-use Inertia\Inertia;
 
 class MinecraftPlayerAliasRefreshController extends WebController
 {

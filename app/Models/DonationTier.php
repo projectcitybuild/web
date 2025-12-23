@@ -6,8 +6,8 @@ use App\Core\Domains\Auditing\AuditAttributes;
 use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class DonationTier extends Model implements LinkableAuditModel
@@ -17,14 +17,11 @@ final class DonationTier extends Model implements LinkableAuditModel
     use LogsActivity;
 
     protected $table = 'donation_tiers';
-
     protected $primaryKey = 'donation_tier_id';
-
     protected $fillable = [
         'name',
         'group_id',
     ];
-
     public $timestamps = false;
 
     public function group(): BelongsTo

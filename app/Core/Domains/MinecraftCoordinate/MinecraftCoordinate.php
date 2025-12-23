@@ -5,12 +5,12 @@ namespace App\Core\Domains\MinecraftCoordinate;
 class MinecraftCoordinate
 {
     public function __construct(
-        readonly string $world,
-        readonly int $x,
-        readonly int $y,
-        readonly int $z,
-        readonly float $pitch,
-        readonly float $yaw,
+        public readonly string $world,
+        public readonly int $x,
+        public readonly int $y,
+        public readonly int $z,
+        public readonly float $pitch,
+        public readonly float $yaw,
     ) {}
 
     public static function fromValidatedRequest(array $validated): MinecraftCoordinate

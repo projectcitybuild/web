@@ -6,8 +6,8 @@ use App\Core\Domains\Auditing\AuditAttributes;
 use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Money\Currencies\ISOCurrencies;
@@ -23,9 +23,7 @@ final class Donation extends Model implements LinkableAuditModel
     use LogsActivity;
 
     protected $table = 'donations';
-
     protected $primaryKey = 'donation_id';
-
     protected $fillable = [
         'account_id',
         'amount',
@@ -71,7 +69,7 @@ final class Donation extends Model implements LinkableAuditModel
             $money = Money::USD($this->amount);
         }
         $numberFormatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, new ISOCurrencies());
+        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, new ISOCurrencies);
         return $moneyFormatter->format($money);
     }
 

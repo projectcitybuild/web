@@ -17,7 +17,6 @@ class Change
 
     /**
      * @param  mixed|NotInAudit  $oldValue
-     * @param  mixed  $newValue
      * @return $this
      */
     public function setValues(mixed $oldValue, mixed $newValue): self

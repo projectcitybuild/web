@@ -13,9 +13,7 @@ class RelationshipChange extends Change
     /**
      * @param  class-string<LinkableAuditModel>  $model
      */
-    public function __construct(private string $model)
-    {
-    }
+    public function __construct(private string $model) {}
 
     public function setValues(mixed $oldValue, mixed $newValue): self
     {

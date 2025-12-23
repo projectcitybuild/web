@@ -16,7 +16,6 @@ trait TemporaryConfig
      * Initialise the store of original config values
      * Run automatically by the base test case
      *
-     * @return void
      *
      * @throws RuntimeException if temporary values were not properly restored last time
      */
@@ -32,8 +31,6 @@ trait TemporaryConfig
     /**
      * Reset configuration to default
      * Run automatically by the base test case
-     *
-     * @return void
      */
     public function tearDownTemporaryConfig(): void
     {
@@ -50,9 +47,8 @@ trait TemporaryConfig
     /**
      * Set a temporary configuration value for this test
      *
-     * @param $key string the configuration key
-     * @param $value mixed the configuration value
-     * @return void
+     * @param  $key  string the configuration key
+     * @param  $value  mixed the configuration value
      */
     public function setTemporaryConfig(string $key, mixed $value): void
     {

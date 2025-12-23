@@ -20,7 +20,6 @@ final class MinecraftRegistration extends Model
     use Prunable;
 
     protected $table = 'minecraft_registrations';
-
     protected $fillable = [
         'email',
         'minecraft_uuid',
@@ -28,7 +27,6 @@ final class MinecraftRegistration extends Model
         'code',
         'expires_at',
     ];
-
     protected $casts = [
         'minecraft_uuid' => MinecraftUUID::class,
         'expires_at' => 'datetime',
@@ -41,7 +39,7 @@ final class MinecraftRegistration extends Model
 
     public function prunable(): Builder
     {
-        return static::where('expires_at', '<=', now());
+        return self::where('expires_at', '<=', now());
     }
 
     public function isExpired(): bool

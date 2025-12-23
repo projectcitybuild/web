@@ -2,6 +2,4 @@
 
 namespace App\Domains\EmailChange\Exceptions;
 
-final class TokenNotFoundException extends \Exception
-{
-}
+final class TokenNotFoundException extends \Exception {}

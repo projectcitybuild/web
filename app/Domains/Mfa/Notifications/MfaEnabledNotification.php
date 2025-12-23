@@ -16,9 +16,7 @@ class MfaEnabledNotification extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Get the notification's delivery channels.
@@ -49,7 +47,7 @@ class MfaEnabledNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject('2FA Has Been Enabled on your Account')
             ->greeting('2FA Enabled')
             ->line('2-factor authentication has been enabled on your account.')

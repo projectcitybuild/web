@@ -16,9 +16,7 @@ class MfaBackupCodeUsedNotification extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Get the notification's delivery channels.
@@ -49,7 +47,7 @@ class MfaBackupCodeUsedNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject('Your 2FA Backup Code Was Used')
             ->greeting('2FA Backup Code Used')
             ->line('Your 2FA backup code was used, 2FA has been disabled on your account.')

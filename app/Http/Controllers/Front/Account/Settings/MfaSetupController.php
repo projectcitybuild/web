@@ -49,7 +49,7 @@ class MfaSetupController extends WebController
         return new Writer(
             new ImageRenderer(
                 new RendererStyle(150, 0),
-                new SvgImageBackEnd()
+                new SvgImageBackEnd
             )
         );
     }

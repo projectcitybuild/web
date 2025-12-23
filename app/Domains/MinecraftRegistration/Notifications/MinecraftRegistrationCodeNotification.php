@@ -38,7 +38,7 @@ final class MinecraftRegistrationCodeNotification extends Notification implement
      */
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject('Activate Your PCB Account')
             ->greeting('Just One More Step')
             ->line('Use the below code to activate your account.')

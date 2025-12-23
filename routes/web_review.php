@@ -15,7 +15,7 @@ Route::name('review.')
         'require-mfa',
         Inertia\EncryptHistoryMiddleware::class,
     ])
-    ->group(function() {
+    ->group(function () {
         Route::get('/', HomeController::class)
             ->name('index');
 

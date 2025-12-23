@@ -15,7 +15,7 @@ abstract class IntegrationTestCase extends TestCase
     /**
      * Returns the contents of a JSON file inside the `resources/testing` folder
      *
-     * @param  string  $path Relative path to the file from the storage folder
+     * @param  string  $path  Relative path to the file from the storage folder
      * @return array File contents as an associative array
      */
     protected function loadJsonFromFile(string $path): array

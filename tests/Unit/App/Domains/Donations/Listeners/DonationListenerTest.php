@@ -1,7 +1,6 @@
 <?php
 
 use App\Core\Domains\Payment\Events\PaymentCreated;
-use App\Core\Domains\Payment\Listeners\StripeEventListener;
 use App\Domains\Donations\Listeners\DonationListener;
 use App\Domains\Donations\UseCases\ProcessDonation;
 use App\Models\Account;
@@ -9,14 +8,9 @@ use App\Models\DonationTier;
 use App\Models\Group;
 use App\Models\Payment;
 use App\Models\StripeProduct;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Notification;
-use Laravel\Cashier\Events\WebhookReceived;
 use Mockery\MockInterface;
 
-beforeEach(function () {
-
-});
+beforeEach(function () {});
 
 it('calls ProcessDonation on PaymentCreated event', function () {
     $donationTier = DonationTier::factory()
@@ -32,18 +26,17 @@ it('calls ProcessDonation on PaymentCreated event', function () {
         ->product($product)
         ->create();
 
-    $processDonation = mock(ProcessDonation::class, fn (MockInterface $mock) =>
-        $mock->shouldReceive('execute')
-            ->with(
-                $payment->account,
-                $payment->stripe_product,
-                $payment->stripe_price,
-                $payment->getKey(),
-                $payment->original_unit_amount,
-                $payment->unit_quantity,
-            )
-            ->once()
-            ->andReturnNull(),
+    $processDonation = mock(ProcessDonation::class, fn (MockInterface $mock) => $mock->shouldReceive('execute')
+        ->with(
+            $payment->account,
+            $payment->stripe_product,
+            $payment->stripe_price,
+            $payment->getKey(),
+            $payment->original_unit_amount,
+            $payment->unit_quantity,
+        )
+        ->once()
+        ->andReturnNull(),
     );
     $listener = new DonationListener($processDonation);
     $listener->handle(new PaymentCreated($payment));

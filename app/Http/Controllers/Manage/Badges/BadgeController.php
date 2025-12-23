@@ -26,7 +26,7 @@ class BadgeController extends WebController
             return $badges();
         }
         return $this->inertiaRender('Badges/BadgeList', [
-            'badges' => Inertia::defer($badges)
+            'badges' => Inertia::defer($badges),
         ]);
     }
 

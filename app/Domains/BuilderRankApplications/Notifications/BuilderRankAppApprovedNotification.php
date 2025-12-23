@@ -21,8 +21,7 @@ class BuilderRankAppApprovedNotification extends Notification implements ShouldQ
     public function __construct(
         private BuilderRankApplication $builderRankApplication,
         private Group $groupPromotedTo,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the notification's delivery channels.
@@ -53,7 +52,7 @@ class BuilderRankAppApprovedNotification extends Notification implements ShouldQ
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject('Your builder rank application has been approved')
             ->greeting('Congratulations!')
             ->line('Your builder rank application has been approved and you\'ve been promoted to '.$this->groupPromotedTo->name)

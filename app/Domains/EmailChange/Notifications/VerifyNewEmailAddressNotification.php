@@ -13,8 +13,7 @@ final class VerifyNewEmailAddressNotification extends Notification
     public function __construct(
         private string $confirmLink,
         private int $expiryTimeInMins,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the notification's delivery channels.
@@ -29,7 +28,7 @@ final class VerifyNewEmailAddressNotification extends Notification
      */
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject('Confirm Email Address Change')
             ->greeting('Email Change Request')
             ->line('You or somebody else has requested to use this email address for their account. Use the below link if you wish to proceed.')

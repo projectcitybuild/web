@@ -38,7 +38,7 @@ final class MinecraftRegistrationCompleteNotification extends Notification imple
      */
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject('Your Project City Build account has been created')
             ->greeting('Welcome to Project City Build')
             ->line('__You now have full access to our Minecraft server__')

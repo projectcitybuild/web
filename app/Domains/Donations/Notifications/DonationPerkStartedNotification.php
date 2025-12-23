@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
+
 use function route;
 
 class DonationPerkStartedNotification extends Notification implements ShouldQueue
@@ -54,7 +55,7 @@ class DonationPerkStartedNotification extends Notification implements ShouldQueu
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject('Thank you for donating!')
             ->greeting('Thank you for donating!')
             ->line('Your period of donor perks has now begun and will expire on '.$this->expiryDate->toFormattedDateString())

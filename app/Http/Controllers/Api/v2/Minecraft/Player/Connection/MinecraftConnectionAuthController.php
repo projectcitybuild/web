@@ -47,7 +47,7 @@ final class MinecraftConnectionAuthController extends ApiController
         }
         $account = $player?->account;
 
-        $groups = optional($account, fn($it) => $this->playerGroupsAggregator->get($it))
+        $groups = optional($account, fn ($it) => $this->playerGroupsAggregator->get($it))
             ?? collect();
 
         return response()->json([

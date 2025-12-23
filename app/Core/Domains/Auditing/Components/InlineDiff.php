@@ -8,11 +8,10 @@ use Illuminate\View\Component;
 class InlineDiff extends Component
 {
     /**
-     * @param  string  $attribute the name of the attribute
-     * @param  mixed  $old the old value object
-     * @param  mixed  $new the new value object
-     * @param  bool  $plain should the diff be rendered without coloured sides
-     * @param  string  $description
+     * @param  string  $attribute  the name of the attribute
+     * @param  mixed  $old  the old value object
+     * @param  mixed  $new  the new value object
+     * @param  bool  $plain  should the diff be rendered without coloured sides
      */
     public function __construct(
         private string $attribute,
@@ -20,8 +19,7 @@ class InlineDiff extends Component
         private mixed $new,
         private bool $plain = false,
         private string $description = 'Updated',
-    ) {
-    }
+    ) {}
 
     private function oldIsNotInAudit(): bool
     {

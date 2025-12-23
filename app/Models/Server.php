@@ -9,19 +9,16 @@ use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 
 final class Server extends Model implements LinkableAuditModel
 {
+    use CausesActivity;
     use HasFactory;
     use HasStaticTable;
     use LogsActivity;
-    use CausesActivity;
 
     protected $table = 'servers';
-
     protected $primaryKey = 'server_id';
-
     protected $fillable = [
         'name',
         'ip',

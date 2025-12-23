@@ -119,7 +119,7 @@ class AccountController extends WebController
             ],
             'username' => [
                 'required',
-                new DiscourseUsernameRule(),
+                new DiscourseUsernameRule,
                 Rule::unique(Account::tableName(), 'username')
                     ->ignore($account),
             ],

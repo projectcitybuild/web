@@ -13,8 +13,7 @@ final class AccountNeedsActivationNotification extends Notification implements S
 
     public function __construct(
         private string $activationURL
-    ) {
-    }
+    ) {}
 
     /**
      * Get the notification's delivery channels.
@@ -39,7 +38,7 @@ final class AccountNeedsActivationNotification extends Notification implements S
      */
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject('Activate Your PCB Account')
             ->greeting('Just One More Step')
             ->line('Click the button below to activate your Project City Build account.')

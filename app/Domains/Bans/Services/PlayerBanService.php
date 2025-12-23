@@ -27,11 +27,11 @@ class PlayerBanService
 
         $bannerPlayer = optional(
             $req->bannerUuid,
-            fn($uuid) => MinecraftPlayer::firstOrCreate($uuid, alias: $req->bannerAlias),
+            fn ($uuid) => MinecraftPlayer::firstOrCreate($uuid, alias: $req->bannerAlias),
         );
         $unbannerPlayer = optional(
             $req->unbannerUuid,
-            fn($uuid) => MinecraftPlayer::firstOrCreate($uuid, alias: $req->unbannerAlias),
+            fn ($uuid) => MinecraftPlayer::firstOrCreate($uuid, alias: $req->unbannerAlias),
         );
 
         $ban = GamePlayerBan::create([
@@ -61,11 +61,11 @@ class PlayerBanService
 
         $bannerPlayer = optional(
             $req->bannerUuid,
-            fn($uuid) => MinecraftPlayer::firstOrCreate($uuid, alias: $req->bannerAlias),
+            fn ($uuid) => MinecraftPlayer::firstOrCreate($uuid, alias: $req->bannerAlias),
         );
         $unbannerPlayer = optional(
             $req->unbannerUuid,
-            fn($uuid) => MinecraftPlayer::firstOrCreate($uuid, alias: $req->unbannerAlias),
+            fn ($uuid) => MinecraftPlayer::firstOrCreate($uuid, alias: $req->unbannerAlias),
         );
 
         $ban = GamePlayerBan::findOrFail($req->id);

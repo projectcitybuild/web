@@ -20,7 +20,7 @@ class LoginAccount
         string $ip
     ): Account {
         if (! Auth::validate(credentials: $credentials->toArray())) {
-            throw new InvalidLoginCredentialsException();
+            throw new InvalidLoginCredentialsException;
         }
 
         $account = Account::whereEmail($credentials->email)->first();

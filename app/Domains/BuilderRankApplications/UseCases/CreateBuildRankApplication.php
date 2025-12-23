@@ -27,7 +27,7 @@ class CreateBuildRankApplication
             ->count();
 
         if ($existingApplication > 0) {
-            throw new ApplicationAlreadyInProgressException();
+            throw new ApplicationAlreadyInProgressException;
         }
 
         $application = BuilderRankApplication::create([

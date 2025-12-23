@@ -27,7 +27,7 @@ it('sends post request to given server', function () {
     ]);
     $payload = ['foo' => 'bar'];
 
-    (new PostEventToServer())->send(
+    (new PostEventToServer)->send(
         server: $server,
         path: 'foo/bar',
         payload: $payload,

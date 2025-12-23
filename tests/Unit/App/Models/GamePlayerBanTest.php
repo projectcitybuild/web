@@ -5,7 +5,6 @@ namespace Tests\Unit\App\Models;
 use App\Domains\Bans\Data\UnbanType;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
-use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class GamePlayerBanTest extends TestCase

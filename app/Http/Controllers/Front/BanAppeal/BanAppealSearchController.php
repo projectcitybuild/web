@@ -15,7 +15,7 @@ class BanAppealSearchController extends WebController
     {
         $validated = collect($request->validate([
             'query' => ['nullable', 'string'],
-            'name' => new HoneyPotRule(),
+            'name' => new HoneyPotRule,
         ]));
 
         $user = $request->user();

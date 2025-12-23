@@ -12,14 +12,14 @@ final class ActivateUnverifiedAccount
     public function execute(Account $account, string $token)
     {
         if ($account->activated) {
-            throw new AccountAlreadyActivatedException();
+            throw new AccountAlreadyActivatedException;
         }
 
         $activation = AccountActivation::where('token', $token)
             ->whereNotExpired()
             ->firstOrFail();
 
-        abort_if (
+        abort_if(
             $activation->account_id !== $account->getKey(),
             code: 403,
             message: 'Account mismatch',

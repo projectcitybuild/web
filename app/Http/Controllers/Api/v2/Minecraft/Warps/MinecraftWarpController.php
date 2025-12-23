@@ -11,8 +11,8 @@ use Illuminate\Validation\Rule;
 
 final class MinecraftWarpController extends ApiController
 {
-    use ValidatesCoordinates;
     use HasPaginatedApi;
+    use ValidatesCoordinates;
 
     public function index(Request $request)
     {

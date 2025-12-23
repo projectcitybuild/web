@@ -2,6 +2,4 @@
 
 namespace App\Domains\BanAppeals\Exceptions;
 
-class AppealAlreadyDecidedException extends \Exception
-{
-}
+class AppealAlreadyDecidedException extends \Exception {}

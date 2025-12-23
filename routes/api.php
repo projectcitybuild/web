@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v2')
     ->name('v2.')
     ->middleware('require-server-token')
-    ->group(function() {
+    ->group(function () {
         Route::prefix('bans')->group(function () {
             Route::prefix('uuid')->group(function () {
                 Route::post('/', [GamePlayerBanController::class, 'store']);
@@ -105,7 +105,7 @@ Route::prefix('v2')
 Route::prefix('v3')
     ->name('v3.')
     ->middleware('require-server-token')
-    ->group(function() {
+    ->group(function () {
         Route::prefix('server')->group(function () {
             Route::get('connection/authorize', MinecraftConnectionAuthController::class);
             Route::get('connection/end', MinecraftConnectionEndController::class);

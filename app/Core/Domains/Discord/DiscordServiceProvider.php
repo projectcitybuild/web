@@ -13,7 +13,7 @@ class DiscordServiceProvider extends ServiceProvider
         Notification::resolved(function (ChannelManager $service) {
             $service->extend(
                 'discord',
-                fn ($app) => new DiscordNotificationChannel(new DiscordWebhook()),
+                fn ($app) => new DiscordNotificationChannel(new DiscordWebhook),
             );
         });
     }

@@ -17,9 +17,9 @@ final class GetBadges
 
         $badges = $account->badges ?: collect();
         $accountAgeInYears = $account->created_at->diffInYears(now());
-        $accountAgeInYears = number_format((float)$accountAgeInYears, decimals: 2);
+        $accountAgeInYears = number_format((float) $accountAgeInYears, decimals: 2);
 
-        $badge = new Badge();
+        $badge = new Badge;
         $badge->display_name = $accountAgeInYears.' years on PCB';
         $badge->unicode_icon = '⌚';
         $badges->add($badge);

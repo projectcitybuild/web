@@ -2,6 +2,4 @@
 
 namespace App\Domains\Login\Exceptions;
 
-final class InvalidLoginCredentialsException extends \Exception
-{
-}
+final class InvalidLoginCredentialsException extends \Exception {}

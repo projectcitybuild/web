@@ -5,7 +5,7 @@ namespace App\Core\Domains\Discord\Data;
 class DiscordPoll
 {
     /**
-     * @param array<DiscordPollMedia> $answers
+     * @param  array<DiscordPollMedia>  $answers
      *
      * @see https://discord.com/developers/docs/resources/poll#poll-create-request-object
      */

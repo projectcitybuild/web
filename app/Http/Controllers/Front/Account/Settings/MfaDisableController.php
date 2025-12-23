@@ -22,7 +22,7 @@ class MfaDisableController extends WebController
         $account = $request->user();
         $account->resetTotp();
         $account->save();
-        $account->notify(new MfaDisabledNotification());
+        $account->notify(new MfaDisabledNotification);
 
         return redirect()
             ->route('front.account.settings.mfa')

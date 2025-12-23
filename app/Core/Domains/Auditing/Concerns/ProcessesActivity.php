@@ -19,7 +19,7 @@ trait ProcessesActivity
         $wrappedChanges = collect();
         foreach ($changes['attributes'] as $attribute => $currentValue) {
             // If this is from a create event, there won't be old data
-            $oldValue = $changes->has('old') ? $changes['old'][$attribute] : new NotInAudit();
+            $oldValue = $changes->has('old') ? $changes['old'][$attribute] : new NotInAudit;
 
             $wrappedChanges->put(
                 $attribute,

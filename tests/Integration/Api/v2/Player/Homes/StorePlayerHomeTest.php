@@ -3,7 +3,7 @@
 use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
 
-describe('validation', function() {
+describe('validation', function () {
     it('fails if home name already exists for player', function () {
         $player = MinecraftPlayer::factory()->create();
 

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Notification;
 beforeEach(function () {
     $this->donorGroup = Group::factory()->donor()->create();
     $this->account = Account::factory()->create();
-    $this->useCase = new ExpireDonorPerks();
+    $this->useCase = new ExpireDonorPerks;
 
     Notification::fake();
 });
@@ -98,8 +98,8 @@ it('removes user from donor group on expiry', function () {
         ->create();
 
     $this->assertDatabaseHas('groups_accounts', [
-       'account_id' => $this->account->getKey(),
-       'group_id' => $this->donorGroup->getKey(),
+        'account_id' => $this->account->getKey(),
+        'group_id' => $this->donorGroup->getKey(),
     ]);
 
     $this->useCase->execute();

@@ -25,20 +25,17 @@ class AuditAttributes
 
     /**
      * Construct a new attribute builder
-     *
-     * @return AuditAttributes
      */
     public static function build(): AuditAttributes
     {
-        return new AuditAttributes();
+        return new AuditAttributes;
     }
 
     /**
      * Add multiple attributes
      *
-     * @param  Closure  $typeGenerator a closure which generates new class instances
-     * @param  string  ...$attributes one or more attribute names
-     * @return void
+     * @param  Closure  $typeGenerator  a closure which generates new class instances
+     * @param  string  ...$attributes  one or more attribute names
      */
     private function addAttributes(Closure $typeGenerator, string ...$attributes): void
     {
@@ -50,12 +47,11 @@ class AuditAttributes
     /**
      * Add attributes which will be displayed unprocessed
      *
-     * @param  string  ...$attributes
      * @return $this
      */
     public function add(string ...$attributes): self
     {
-        $this->addAttributes(fn () => new Change(), ...$attributes);
+        $this->addAttributes(fn () => new Change, ...$attributes);
 
         return $this;
     }
@@ -63,7 +59,7 @@ class AuditAttributes
     /**
      * Add a foreign key attribute to the audit
      *
-     * @param  string  $attribute attribute name
+     * @param  string  $attribute  attribute name
      * @param  class-string<LinkableAuditModel>  $model
      * @return $this
      */
@@ -77,12 +73,11 @@ class AuditAttributes
     /**
      * Add array attributes to the audit
      *
-     * @param  string  ...$attributes
      * @return $this
      */
     public function addArray(string ...$attributes): self
     {
-        $this->addAttributes(fn () => new ArrayChange(), ...$attributes);
+        $this->addAttributes(fn () => new ArrayChange, ...$attributes);
 
         return $this;
     }
@@ -90,12 +85,11 @@ class AuditAttributes
     /**
      * Add boolean attributes to the audit
      *
-     * @param  string  ...$attributes
      * @return $this
      */
     public function addBoolean(string ...$attributes): self
     {
-        $this->addAttributes(fn () => new BooleanChange(), ...$attributes);
+        $this->addAttributes(fn () => new BooleanChange, ...$attributes);
 
         return $this;
     }
@@ -103,20 +97,17 @@ class AuditAttributes
     /**
      * Add long text attributes to the audit
      *
-     * @param  string  ...$attributes
      * @return $this
      */
     public function addMultiline(string ...$attributes): self
     {
-        $this->addAttributes(fn () => new MultilineChange(), ...$attributes);
+        $this->addAttributes(fn () => new MultilineChange, ...$attributes);
 
         return $this;
     }
 
     /**
      * Get an array of attribute names
-     *
-     * @return array
      */
     public function getAttributeNames(): array
     {
@@ -126,12 +117,9 @@ class AuditAttributes
     /**
      * Get the Change instance associated with an attribute.
      * If this attribute hasn't been set, returns a basic Change.
-     *
-     * @param  string  $attribute
-     * @return Change
      */
     public function getChangeType(string $attribute): Change
     {
-        return $this->attributes->get($attribute) ?? new Change();
+        return $this->attributes->get($attribute) ?? new Change;
     }
 }

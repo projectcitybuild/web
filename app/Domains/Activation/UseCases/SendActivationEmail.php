@@ -19,7 +19,7 @@ class SendActivationEmail
     public function execute(Account $account): void
     {
         if ($account->activated) {
-            throw new AccountAlreadyActivatedException();
+            throw new AccountAlreadyActivatedException;
         }
 
         $activation = AccountActivation::create([

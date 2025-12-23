@@ -4,7 +4,7 @@ namespace App\Domains\HealthCheck;
 
 interface HealthCheck
 {
-    function enabled(): bool;
+    public function enabled(): bool;
 
-    function url(): string;
+    public function url(): string;
 }

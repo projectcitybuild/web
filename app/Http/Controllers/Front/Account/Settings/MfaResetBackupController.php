@@ -28,7 +28,7 @@ class MfaResetBackupController extends WebController
         $backupCode = Str::random(config('auth.totp.backup_code_length'));
         $request->user()->totp_backup_code = Crypt::encryptString($backupCode);
         $request->user()->save();
-        $request->user()->notify(new MfaBackupCodeRegeneratedNotification());
+        $request->user()->notify(new MfaBackupCodeRegeneratedNotification);
 
         return view('front.pages.account.settings.mfa-backup-refresh-new-code')
             ->with(compact('backupCode'));

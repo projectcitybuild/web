@@ -70,18 +70,18 @@ class GamePlayerBanController extends WebController
             'created_at' => ['required', 'date'],
         ]));
 
-       $this->playerBanService->store(
+        $this->playerBanService->store(
             new CreatePlayerBan(
                 bannedUuid: new MinecraftUUID($validated->get('banned_uuid')),
                 bannedAlias: $validated->get('banned_alias'),
-                bannerUuid: optional($validated->get('banner_uuid'), fn($it) => new MinecraftUUID($it)),
+                bannerUuid: optional($validated->get('banner_uuid'), fn ($it) => new MinecraftUUID($it)),
                 bannerAlias: $validated->get('banner_alias'),
                 reason: $validated->get('reason'),
                 additionalInfo: $validated->get('additional_info'),
-                expiresAt: optional($validated->get('expires_at'), fn($it) => Carbon::parse($it)),
-                createdAt: optional($validated->get('created_at'), fn($it) => Carbon::parse($it), now()),
-                unbannedAt: optional($validated->get('unbanned_at'), fn($it) => Carbon::parse($it)),
-                unbannerUuid: optional($validated->get('unbanner_uuid'), fn($it) => new MinecraftUUID($it)),
+                expiresAt: optional($validated->get('expires_at'), fn ($it) => Carbon::parse($it)),
+                createdAt: optional($validated->get('created_at'), fn ($it) => Carbon::parse($it), now()),
+                unbannedAt: optional($validated->get('unbanned_at'), fn ($it) => Carbon::parse($it)),
+                unbannerUuid: optional($validated->get('unbanner_uuid'), fn ($it) => new MinecraftUUID($it)),
                 unbannerAlias: $validated->get('unbanner_alias'),
             ),
         );
@@ -125,14 +125,14 @@ class GamePlayerBanController extends WebController
                 id: $playerBan->getKey(),
                 bannedUuid: new MinecraftUUID($validated->get('banned_uuid')),
                 bannedAlias: $validated->get('banned_alias'),
-                bannerUuid: optional($validated->get('banner_uuid'), fn($it) => new MinecraftUUID($it)),
+                bannerUuid: optional($validated->get('banner_uuid'), fn ($it) => new MinecraftUUID($it)),
                 bannerAlias: $validated->get('banner_alias'),
                 reason: $validated->get('reason'),
                 additionalInfo: $validated->get('additional_info'),
-                expiresAt: optional($validated->get('expires_at'), fn($it) => Carbon::parse($it)),
+                expiresAt: optional($validated->get('expires_at'), fn ($it) => Carbon::parse($it)),
                 createdAt: Carbon::parse($validated->get('created_at')),
-                unbannedAt: optional($validated->get('unbanned_at'), fn($it) => Carbon::parse($it)),
-                unbannerUuid: optional($validated->get('unbanner_uuid'), fn($it) => new MinecraftUUID($it)),
+                unbannedAt: optional($validated->get('unbanned_at'), fn ($it) => Carbon::parse($it)),
+                unbannerUuid: optional($validated->get('unbanner_uuid'), fn ($it) => new MinecraftUUID($it)),
                 unbannerAlias: $validated->get('unbanner_alias'),
                 unbanType: UnbanType::tryFrom($validated->get('unban_type')),
             ),
