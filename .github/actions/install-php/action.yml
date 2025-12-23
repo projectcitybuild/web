@@ -14,14 +14,14 @@ runs:
       if: inputs.preset == 'default'
       uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231
       with:
-        php-version: 8.3
+        php-version: 8.4
         extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
 
     - name: Setup PHP (test)
       if: inputs.preset == 'test'
       uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231
       with:
-        php-version: 8.3
+        php-version: 8.4
         extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
         coverage: xdebug
 
@@ -29,6 +29,6 @@ runs:
       if: inputs.preset == 'lint'
       uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231
       with:
-        php-version: 8.3
+        php-version: 8.4
         extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
         tools: pint
