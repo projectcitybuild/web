@@ -27,11 +27,7 @@ final class DocsServiceProvider extends ServiceProvider
 
         Scramble::registerApi('v3', ['info' => ['version' => '3.0']])
             ->routes(function (Route $route) {
-                return Str::startsWith($route->uri, 'api/v3');
+                return Str::startsWith($route->uri, 'v3');
             });
-
-        Gate::define('viewApiDocs', function (User $user) {
-            return true;
-        });
     }
 }
