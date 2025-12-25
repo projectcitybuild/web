@@ -29,7 +29,7 @@ it('updates last_seen_at', function () {
     $this->freezeTime(function ($now) {
         $now->setMicroseconds(0);
 
-        $prev = now()->subWeek()->setMicroseconds(0);
+        $prev = $now->copy()->subWeek()->setMicroseconds(0);
         $player = MinecraftPlayer::factory()->create(['last_seen_at' => $prev]);
         expect($player->last_seen_at)->toEqual($prev);
 
