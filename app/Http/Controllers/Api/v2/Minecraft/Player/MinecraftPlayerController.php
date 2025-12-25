@@ -33,7 +33,9 @@ final class MinecraftPlayerController extends ApiController
             ->with(['account.groups', 'account.donationPerks.donationTier.group'])
             ->first();
 
-        $player?->touchLastSyncedAt();
+        if ($player !== null) {
+            $player->last_connected_at = now();
+        }
         $account = $player?->account;
 
         $groups = optional($account, fn ($it) => $this->playerGroupsAggregator->get($it))
