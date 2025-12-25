@@ -23,7 +23,7 @@ final class ExpireDonorPerks
                 ->get() ?? collect();
 
             if ($expiredPerks->count() === 0) {
-                Log::trace('No expired DonationPerks found');
+                Log::debug('No expired DonationPerks found');
                 return;
             }
 
