@@ -18,7 +18,9 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
     use Notifiable;
 
     protected $table = 'builder_rank_applications';
+
     protected $primaryKey = 'id';
+
     protected $fillable = [
         'account_id',
         'minecraft_alias',
@@ -29,14 +31,18 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
         'status',
         'denied_reason',
         'closed_at',
+        'last_notified_at',
         'created_at',
         'updated_at',
     ];
+
     public $timestamps = [
         'closed_at',
+        'last_notified_at',
         'created_at',
         'updated_at',
     ];
+
     protected $casts = [
         'status' => ApplicationStatus::class,
     ];
@@ -62,8 +68,8 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
 
     public function isReviewed(): bool
     {
-        return $this->status == ApplicationStatus::DENIED->value
-            || $this->status == ApplicationStatus::APPROVED->value;
+        return $this->status == ApplicationStatus::DENIED
+            || $this->status == ApplicationStatus::APPROVED;
     }
 
     public function scopePending(Builder $query): Builder
