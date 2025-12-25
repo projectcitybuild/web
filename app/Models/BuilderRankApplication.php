@@ -18,9 +18,7 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
     use Notifiable;
 
     protected $table = 'builder_rank_applications';
-
     protected $primaryKey = 'id';
-
     protected $fillable = [
         'account_id',
         'minecraft_alias',
@@ -35,14 +33,12 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
         'created_at',
         'updated_at',
     ];
-
     public $timestamps = [
         'closed_at',
         'next_reminder_at',
         'created_at',
         'updated_at',
     ];
-
     protected $casts = [
         'status' => ApplicationStatus::class,
     ];

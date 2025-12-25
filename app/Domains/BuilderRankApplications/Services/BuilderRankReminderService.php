@@ -19,7 +19,7 @@ final class BuilderRankReminderService
             ->get();
 
         if ($openApps->isEmpty()) {
-            Log::debug("No open builder rank applications need a reminder");
+            Log::debug('No open builder rank applications need a reminder');
             return;
         }
 
@@ -35,7 +35,7 @@ final class BuilderRankReminderService
                 ->notify(new BuilderRankAppReminderNotification($openApps));
         });
 
-        Log::info("Sent reminder for open builder rank applications", [
+        Log::info('Sent reminder for open builder rank applications', [
             'apps' => $openApps,
         ]);
     }
