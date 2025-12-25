@@ -17,7 +17,7 @@ final class MinecraftConnectionEndController extends ApiController
         ]));
 
         $uuid = MinecraftUUID::tryParse($validated->get('uuid'));
-        $player = MinecraftPlayer::whereUuid($uuid)->first();
+        $player = MinecraftPlayer::whereUuid($uuid)->findOrFail();
         $player->last_seen_at = now();
         $player->save();
 
