@@ -8,7 +8,6 @@ use App\Http\Controllers\Api\v2\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Api\v2\Minecraft\MinecraftTelemetryController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\Connection\MinecraftConnectionAuthController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\Connection\MinecraftConnectionEndController;
-use App\Http\Controllers\Api\v2\Minecraft\Player\Connection\MinecraftConnectionStartController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\Homes\MinecraftPlayerHomeController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\Homes\MinecraftPlayerHomeLimitController;
 use App\Http\Controllers\Api\v2\Minecraft\Player\Homes\MinecraftPlayerHomeNameController;
@@ -109,9 +108,8 @@ Route::domain(config('app.api_url'))->group(function () {
         ->middleware('require-server-token')
         ->group(function () {
             Route::prefix('server')->group(function () {
-                Route::get('connection/authorize', MinecraftConnectionAuthController::class);
-                Route::get('connection/start', MinecraftConnectionStartController::class);
-                Route::get('connection/end', MinecraftConnectionEndController::class);
+                Route::post('connection/authorize', MinecraftConnectionAuthController::class);
+                Route::post('connection/end', MinecraftConnectionEndController::class);
                 Route::get('config', MinecraftConfigController::class);
             });
 

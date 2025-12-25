@@ -5,6 +5,7 @@ namespace App\Domains\MinecraftTelemetry\UseCases;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Models\MinecraftPlayer;
 
+/** @deprecated */
 final class UpdateSeenMinecraftPlayer
 {
     public function execute(MinecraftUUID $uuid, string $alias): MinecraftPlayer
