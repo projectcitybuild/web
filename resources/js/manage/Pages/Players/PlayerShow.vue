@@ -106,9 +106,9 @@ async function refreshAlias() {
                                 </dd>
                             </dl>
                             <dl class="flex items-center justify-between gap-2">
-                                <dt class="text-sm text-gray-500 dark:text-gray-400">Last Synced At</dt>
+                                <dt class="text-sm text-gray-500 dark:text-gray-400">Last Connected At</dt>
                                 <dd class="text-sm text-gray-900 dark:text-white">
-                                    {{ player.last_synced_at ? format(player.last_synced_at) : 'Never' }}
+                                    {{ player.last_connected_at ? format(player.last_connected_at) : 'Never' }}
                                 </dd>
                             </dl>
                             <dl class="flex items-center justify-between gap-2">
