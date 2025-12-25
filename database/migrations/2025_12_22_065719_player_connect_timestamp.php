@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('players_minecraft', function (Blueprint $table) {
             $table->dateTime('last_connected_at')->nullable()->after('last_seen_at');
             $table->dateTime('last_seen_at')->nullable()->change();
+            $table->removeColumn('last_synced_at');
         });
     }
 
@@ -25,6 +26,7 @@ return new class extends Migration
         Schema::table('players_minecraft', function (Blueprint $table) {
             $table->dropColumn('last_connected_at');
             $table->timestamp('last_seen_at')->nullable()->change();
+            $table->dateTime('last_synced_at');
         });
     }
 };

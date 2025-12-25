@@ -28,12 +28,10 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         'alias',
         'nickname',
         'account_id',
-        'last_synced_at',
         'last_seen_at',
         'last_connected_at',
     ];
     protected $casts = [
-        'last_synced_at' => 'datetime',
         'last_seen_at' => 'datetime',
         'last_connected_at' => 'datetime',
     ];
@@ -88,16 +86,6 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         // We have to do this because game bans are a polymorphic relationship, but this is just what
         // HasManyThrough does internally anyway..
         return BanAppeal::whereIn('game_ban_id', $this->gamePlayerBans()->pluck('id'));
-    }
-
-    /**
-     * Update the last seen at time of the player to now.
-     */
-    public function touchLastSyncedAt(): bool
-    {
-        $this->last_synced_at = $this->freshTimestamp();
-
-        return $this->save();
     }
 
     public static function firstOrCreate(MinecraftUUID $uuid, ?string $alias = null): self
