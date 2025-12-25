@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\v3\Server\MinecraftConnectionAuthController;
-use App\Http\Controllers\Api\v3\Server\MinecraftConnectionEndController;
 use App\Http\Controllers\Api\v2\GamePlayerBanController;
 use App\Http\Controllers\Api\v2\Minecraft\Build\MinecraftBuildController;
 use App\Http\Controllers\Api\v2\Minecraft\Build\MinecraftBuildNameController;
@@ -17,6 +15,8 @@ use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftPlayerNicknameControll
 use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftRegisterController;
 use App\Http\Controllers\Api\v2\Minecraft\Warps\MinecraftWarpController;
 use App\Http\Controllers\Api\v2\Minecraft\Warps\MinecraftWarpNameController;
+use App\Http\Controllers\Api\v3\Server\MinecraftConnectionAuthController;
+use App\Http\Controllers\Api\v3\Server\MinecraftConnectionEndController;
 use Illuminate\Support\Facades\Route;
 
 /** @deprecated */
