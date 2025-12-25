@@ -16,6 +16,20 @@ services:
       - minio
       - mailpit
 
+  queue:
+    build: fpm
+    container_name: pcb-web-queue
+    volumes:
+      - ../../:/workspaces/laravel
+    working_dir: /workspaces/laravel
+    user: 1000:1000
+    depends_on:
+      - redis
+      - mariadb
+      - mailpit
+      - minio
+    command: php artisan queue:work redis --sleep=3 --tries=3 --timeout=90 --queue=mail,discord,default
+
   nginx:
     build: nginx
     container_name: pcb-web-nginx
