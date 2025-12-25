@@ -35,6 +35,7 @@ final class MinecraftPlayerController extends ApiController
 
         if ($player !== null) {
             $player->last_connected_at = now();
+            $player->save();
         }
         $account = $player?->account;
 
