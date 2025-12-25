@@ -100,9 +100,6 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         return $this->save();
     }
 
-    /**
-     * TODO: move this to a service and add caching
-     */
     public static function firstOrCreate(MinecraftUUID $uuid, ?string $alias = null): self
     {
         $existing = self::whereUuid($uuid)->first();

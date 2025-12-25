@@ -12,6 +12,7 @@ use App\Models\MinecraftPlayer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+/** @deprecated */
 final class MinecraftPlayerController extends ApiController
 {
     public function __construct(
