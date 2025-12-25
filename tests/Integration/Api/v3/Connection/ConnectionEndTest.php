@@ -2,7 +2,6 @@
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Models\MinecraftPlayer;
-use Illuminate\Testing\Fluent\AssertableJson;
 
 it('requires server token', function () {
     $this->postJson('http://api.localhost/v3/server/connection/end')
