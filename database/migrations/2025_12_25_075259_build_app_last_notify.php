@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('builder_rank_applications', function (Blueprint $table) {
-            $table->dateTime('last_notified_at')->nullable()->after('closed_at');
+            $table->dateTime('next_reminder_at')->nullable()->after('closed_at');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('builder_rank_applications', function (Blueprint $table) {
-            $table->dropColumn('last_notified_at');
+            $table->dropColumn('next_reminder_at');
         });
     }
 };

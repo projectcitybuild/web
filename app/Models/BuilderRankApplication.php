@@ -31,14 +31,14 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
         'status',
         'denied_reason',
         'closed_at',
-        'last_notified_at',
+        'next_reminder_at',
         'created_at',
         'updated_at',
     ];
 
     public $timestamps = [
         'closed_at',
-        'last_notified_at',
+        'next_reminder_at',
         'created_at',
         'updated_at',
     ];
