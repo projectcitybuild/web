@@ -58,7 +58,7 @@ it('contains player data', function () {
                     'alias' => $player->alias,
                     'nickname' => $player->nickname,
                     'last_seen_at' => $player->last_seen_at->toISOString(),
-                    'last_connected_at' => null,
+                    'last_connected_at' => $now->toISOString(),
                     'created_at' => $now->toISOString(),
                     'updated_at' => $now->toISOString(),
                 ])
