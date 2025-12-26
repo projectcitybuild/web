@@ -9,10 +9,10 @@ class SiteMapCrawlProfile extends CrawlProfile
 {
     public function shouldCrawl(UriInterface $url): bool
     {
-        if (str_contains($url->getQuery(), "page=")) {
+        if (str_contains($url->getQuery(), 'page=')) {
             return false;
         }
-        if ($url->getHost() !== "projectcitybuild.com") {
+        if ($url->getHost() !== 'projectcitybuild.com') {
             return false;
         }
         return true;

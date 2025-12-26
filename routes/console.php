@@ -8,7 +8,6 @@ use App\Domains\HealthCheck\HealthCheckReporter;
 use App\Models\GamePlayerBan;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
-use Spatie\Crawler\Crawler;
 use Spatie\Sitemap\SitemapGenerator;
 
 Schedule::command('model:prune')
@@ -28,7 +27,7 @@ Schedule::command('backup:monitor')
 
 Artisan::command('sitemap:generate', function () {
     // SitemapGenerator::create(config('app.url'))
-    SitemapGenerator::create("https://projectcitybuild.com")
+    SitemapGenerator::create('https://projectcitybuild.com')
         ->writeToFile(public_path('sitemap.xml'));
 })->daily();
 
