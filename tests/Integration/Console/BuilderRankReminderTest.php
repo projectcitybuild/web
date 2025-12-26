@@ -7,7 +7,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Notification;
-use Tests\Support\TemporaryConfig;
 
 beforeEach(function () {
     Notification::fake();
