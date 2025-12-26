@@ -4,9 +4,11 @@
 @section('heading', 'Appeal Ban')
 @section('description', 'Use the below form to submit a ban appeal')
 
-@section('head')
-    @noindex
-@endsection
+@push('meta')
+    @isset ($ban)
+        <meta name="robots" content="noindex">
+    @endisset
+@endpush
 
 @section('body')
     <x-front::navbar />
