@@ -41,7 +41,7 @@ Artisan::command('sitemap:generate', function () {
 
         Log::info('Generated sitemap.xml');
     } catch (Exception $e) {
-        Log::error('Failed to generate sitemap.xml', $e);
+        Log::error('Failed to generate sitemap.xml', ['exception' => $e]);
     }
 })->daily();
 
