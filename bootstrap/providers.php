@@ -15,6 +15,7 @@ return [
     App\Core\Support\Telescope\TelescopeServiceProvider::class,
 
     App\Domains\Activation\ActivationServiceProvider::class,
+    App\Domains\BuilderRankApplications\BuilderRankApplicationsServiceProvider::class,
     App\Domains\Captcha\CaptchaServiceProvider::class,
     App\Domains\Docs\DocsServiceProvider::class,
     App\Domains\Donations\DonationServiceProvider::class,

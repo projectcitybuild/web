@@ -45,7 +45,7 @@
                     <time class="mb-1 text-sm font-normal leading-none text-gray-400">Step 3</time>
                     <h3 class="text-lg font-semibold text-gray-900">Receive results</h3>
                     <p class="text-base font-normal text-gray-500 text-sm">
-                        Upon success you will notified and automatically receive a rank up.<br />
+                        Upon success you will be notified and automatically receive a rank up.<br />
                         If unsuccessful, you will receive feedback on the build and you can apply again in a week.
                     </p>
                 </li>

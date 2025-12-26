@@ -69,7 +69,7 @@ class BuilderRankAppSubmittedNotification extends Notification implements Should
                 text: 'Check Application Status',
                 url: route('front.rank-up.status', $this->builderRankApplication->getKey()),
             )
-            ->line('If you have any questions, please feel free to reach out to staff at any time.');
+            ->line('If you have any questions, please feel free to reach out to architects or staff at any time.');
     }
 
     public function toDiscord($notifiable)

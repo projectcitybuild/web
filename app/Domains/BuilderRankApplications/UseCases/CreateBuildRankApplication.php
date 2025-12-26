@@ -38,6 +38,7 @@ class CreateBuildRankApplication
             'build_description' => $buildDescription,
             'additional_notes' => $additionalNotes,
             'status' => ApplicationStatus::PENDING->value,
+            'next_reminder_at' => now()->addWeek(),
             'closed_at' => null,
         ]);
 

@@ -29,11 +29,13 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
         'status',
         'denied_reason',
         'closed_at',
+        'next_reminder_at',
         'created_at',
         'updated_at',
     ];
     public $timestamps = [
         'closed_at',
+        'next_reminder_at',
         'created_at',
         'updated_at',
     ];
@@ -62,8 +64,8 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
 
     public function isReviewed(): bool
     {
-        return $this->status == ApplicationStatus::DENIED->value
-            || $this->status == ApplicationStatus::APPROVED->value;
+        return $this->status == ApplicationStatus::DENIED
+            || $this->status == ApplicationStatus::APPROVED;
     }
 
     public function scopePending(Builder $query): Builder
