@@ -60,7 +60,11 @@ function setupApiTasks(): void
 
 function setupSiteMap(): void
 {
-    run('php artisan sitemap:generate');
+    after('deploy:frontend', 'deploy:sitemap');
+
+    task('deploy:sitemap', function () {
+        run('php artisan sitemap:generate');
+    });
 }
 
 configure();
