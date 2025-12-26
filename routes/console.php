@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schedule;
 use Spatie\Sitemap\SitemapGenerator;
 
-use function Deployer\error;
-
 Schedule::command('model:prune')
     ->everyFifteenMinutes();
 
@@ -33,7 +31,7 @@ Artisan::command('sitemap:generate', function () {
         SitemapGenerator::create(config('app.url'))
             ->setMaximumCrawlCount(50_000)
             ->shouldCrawl(function (UriInterface $uri) {
-                if (str_contains($uri->getQuery(), "page=")) {
+                if (str_contains($uri->getQuery(), 'page=')) {
                     return false;
                 }
                 return true;
