@@ -58,7 +58,13 @@ function setupApiTasks(): void
     })->desc('Generate api.json specification');
 }
 
+function setupSiteMap(): void
+{
+    run('php artisan sitemap:generate');
+}
+
 configure();
 setupDiscordTasks();
 setupFrontendTasks();
 setupApiTasks();
+setupSiteMap();

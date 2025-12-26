@@ -8,6 +8,7 @@ use App\Domains\HealthCheck\HealthCheckReporter;
 use App\Models\GamePlayerBan;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
+use Spatie\Crawler\Crawler;
 use Spatie\Sitemap\SitemapGenerator;
 
 Schedule::command('model:prune')
@@ -26,7 +27,8 @@ Schedule::command('backup:monitor')
     ->daily();
 
 Artisan::command('sitemap:generate', function () {
-    SitemapGenerator::create(config('app.url'))
+    // SitemapGenerator::create(config('app.url'))
+    SitemapGenerator::create("https://projectcitybuild.com")
         ->writeToFile(public_path('sitemap.xml'));
 })->daily();
 
@@ -34,7 +36,7 @@ Artisan::command('donor-perks:expire', function () {
     app()->make(ExpireDonorPerks::class)->execute();
 })->everyFiveMinutes();
 
-Artisan::command('bans:prune', function () {
+Artisan::command('bans:expire', function () {
     GamePlayerBan::whereNull('unbanned_at')
         ->whereDate('expires_at', '<=', now())
         ->update([
