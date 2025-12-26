@@ -9,6 +9,7 @@
     <meta name="description" content="@yield('meta_description')">
     <meta name="theme-color" content="#524641">
     <meta name="apple-mobile-web-app-title" content="PCB">
+    @stack('meta')
 
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('static/favicon/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('static/favicon/android-icon-192x192.png') }}">
