@@ -9,6 +9,7 @@ use App\Models\GamePlayerBan;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schedule;
+use Psr\Http\Message\UriInterface;
 use Spatie\Sitemap\SitemapGenerator;
 
 Schedule::command('model:prune')
