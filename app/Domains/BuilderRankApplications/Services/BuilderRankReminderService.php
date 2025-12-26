@@ -32,7 +32,10 @@ final class BuilderRankReminderService
                 $app->save();
             }
             Notification::route('discord', $channel)
-                ->notify(new BuilderRankAppReminderNotification($openApps));
+                ->notify(
+                    new BuilderRankAppReminderNotification($openApps)
+                        ->afterCommit()
+                );
         });
 
         Log::info('Sent reminder for open builder rank applications', [
