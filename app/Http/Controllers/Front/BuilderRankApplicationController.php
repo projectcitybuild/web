@@ -36,7 +36,7 @@ final class BuilderRankApplicationController extends WebController
 
         $applicationInProgress = BuilderRankApplication::where('status', ApplicationStatus::PENDING->value)
             ->where('account_id', $request->user()->getKey())
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('created_at', 'desc')
             ->first();
 
         if ($applicationInProgress !== null) {

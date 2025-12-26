@@ -23,7 +23,7 @@ class BuilderRankAppReminderNotification extends Notification implements ShouldQ
      * @return void
      */
     public function __construct(
-        private readonly Collection $openApps,
+        public readonly Collection $openApps,
     ) {}
 
     /**
