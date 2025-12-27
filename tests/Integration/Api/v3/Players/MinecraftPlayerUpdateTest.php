@@ -51,7 +51,7 @@ it('updates present fields', function () {
             ->assertJson(fn (AssertableJson $json) => $json
                 ->where('alias', 'new_alias')
                 ->where('nickname', 'new_nickname')
-                ->where('muted', (int)true)
+                ->where('muted', (int) true)
                 ->where('walk_speed', 10.5)
                 ->where('fly_speed', 11.5)
                 ->where('updated_at', $now->toISOString())
@@ -71,7 +71,7 @@ it('does not update missing fields', function () {
         ->assertJson(fn (AssertableJson $json) => $json
             ->where('alias', $player->alias)
             ->where('nickname', $player->nickname)
-            ->where('muted', (int)$player->muted)
+            ->where('muted', (int) $player->muted)
             ->where('walk_speed', $player->walk_speed)
             ->where('fly_speed', $player->fly_speed)
             ->where('updated_at', $player->updated_at->toISOString())
