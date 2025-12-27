@@ -70,7 +70,7 @@ class BanAppealConfirmationNotification extends Notification implements ShouldQu
         return new DiscordMessage(
             content: 'A new ban appeal has been submitted.',
             threadName: $this->banAppeal->gamePlayerBan?->bannedPlayer->alias
-                ?? 'Guest (' . $this->banAppeal->email . ')',
+                ?? 'Guest ('.$this->banAppeal->email.')',
             poll: new DiscordPoll(
                 question: 'Unban?',
                 answers: [
