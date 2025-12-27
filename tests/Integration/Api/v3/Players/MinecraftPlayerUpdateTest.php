@@ -1,16 +1,7 @@
 <?php
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
-use App\Models\Account;
-use App\Models\Badge;
-use App\Models\Donation;
-use App\Models\DonationPerk;
-use App\Models\DonationTier;
-use App\Models\GameIPBan;
-use App\Models\GamePlayerBan;
-use App\Models\Group;
 use App\Models\MinecraftPlayer;
-use Illuminate\Support\Carbon;
 use Illuminate\Testing\Fluent\AssertableJson;
 
 it('requires server token', function () {
@@ -51,7 +42,7 @@ it('updates present fields', function () {
         $this->withServerToken()
             ->patchJson("http://api.localhost/v3/players/$player->uuid", [
                 'alias' => 'new_alias',
-                'nickname' => 'new_nickname'
+                'nickname' => 'new_nickname',
             ])
             ->assertJson(fn (AssertableJson $json) => $json
                 ->where('alias', 'new_alias')
