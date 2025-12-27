@@ -113,12 +113,8 @@ class PlayerBanService
             ->get();
     }
 
-    public function firstActive(MinecraftUUID $playerUuid): ?GamePlayerBan
+    public function firstActive(MinecraftPlayer $player): ?GamePlayerBan
     {
-        $player = MinecraftPlayer::whereUuid($playerUuid)->first();
-        if ($player === null) {
-            return null;
-        }
         return GamePlayerBan::whereBannedPlayer($player)
             ->active()
             ->first();
