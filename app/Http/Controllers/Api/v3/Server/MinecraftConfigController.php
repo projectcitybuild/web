@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v2\Minecraft;
+namespace App\Http\Controllers\Api\v3\Server;
 
 use App\Http\Controllers\ApiController;
 use App\Models\MinecraftConfig;
