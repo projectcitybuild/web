@@ -100,7 +100,7 @@ class BanAppealConfirmationNotification extends Notification implements ShouldQu
                         ),
                         new DiscordEmbedField(
                             name: 'Ban Reason',
-                            value: $this->banAppeal->gamePlayerBan->reason ?? '-',
+                            value: $this->banAppeal->gamePlayerBan?->reason ?? '-',
                         ),
                     ],
                 ),
