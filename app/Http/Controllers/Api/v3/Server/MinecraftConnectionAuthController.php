@@ -6,10 +6,10 @@ use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Domains\Badges\UseCases\GetBadges;
 use App\Domains\Bans\Services\IPBanService;
+use App\Domains\Bans\Services\PlayerBanService;
 use App\Domains\Groups\Services\PlayerGroupsAggregator;
 use App\Domains\MinecraftTelemetry\UseCases\LogMinecraftPlayerIp;
 use App\Http\Controllers\ApiController;
-use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,6 +18,7 @@ final class MinecraftConnectionAuthController extends ApiController
 {
     public function __construct(
         private readonly PlayerGroupsAggregator $playerGroupsAggregator,
+        private readonly PlayerBanService $playerBanService,
         private readonly IPBanService $ipBanService,
         private readonly GetBadges $getBadges,
         private readonly LogMinecraftPlayerIp $logMinecraftPlayerIp,
@@ -62,23 +63,14 @@ final class MinecraftConnectionAuthController extends ApiController
     private function getBans(MinecraftPlayer $player, ?string $ip): ?array
     {
         $ipBan = optional($ip, fn ($ip) => $this->ipBanService->find(ip: $ip));
-
-        $uuidBan = optional($player, function ($player) {
-            return GamePlayerBan::whereBannedPlayer($player)
-                ->active()
-                ->first();
-        });
+        $uuidBan = optional($player, fn ($player) => $this->playerBanService->firstActive($player));
 
         if ($ipBan === null && $uuidBan === null) {
             return null;
         }
         return [
-            'uuid' => optional($player, function ($player) {
-                return GamePlayerBan::whereBannedPlayer($player)
-                    ->active()
-                    ->first();
-            }),
-            'ip' => optional($ip, fn ($ip) => $this->ipBanService->find(ip: $ip)),
+            'uuid' => $uuidBan,
+            'ip' => $ipBan,
         ];
     }
 

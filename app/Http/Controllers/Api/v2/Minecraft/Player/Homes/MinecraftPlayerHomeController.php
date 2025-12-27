@@ -29,9 +29,7 @@ final class MinecraftPlayerHomeController extends ApiController
             ...$this->paginationRules,
         ]);
 
-        $player = MinecraftPlayer::whereUuid($minecraftUUID)->first();
-        abort_if($player === null, 404);
-
+        $player = MinecraftPlayer::whereUuid($minecraftUUID)->firstOrFail();
         $pageSize = $this->pageSize($validated);
 
         return MinecraftHome::orderBy('name', 'asc')
@@ -44,8 +42,7 @@ final class MinecraftPlayerHomeController extends ApiController
         MinecraftUUID $minecraftUUID,
         MinecraftHome $home,
     ) {
-        $player = MinecraftPlayer::whereUuid($minecraftUUID)->first();
-        abort_if($player === null, 404);
+        $player = MinecraftPlayer::whereUuid($minecraftUUID)->firstOrFail();
 
         return $this->homeService->show($home, $player);
     }
@@ -57,8 +54,7 @@ final class MinecraftPlayerHomeController extends ApiController
             ...$this->coordinateRules,
         ]);
 
-        $player = MinecraftPlayer::whereUuid($minecraftUUID)->first();
-        abort_if($player === null, 404, 'Player not found');
+        $player = MinecraftPlayer::whereUuid($minecraftUUID)->firstOrFail();
 
         try {
             return $this->homeService->create(
@@ -83,8 +79,7 @@ final class MinecraftPlayerHomeController extends ApiController
             ...$this->coordinateRules,
         ]);
 
-        $player = MinecraftPlayer::whereUuid($minecraftUUID)->first();
-        abort_if($player === null, 404, 'Player not found');
+        $player = MinecraftPlayer::whereUuid($minecraftUUID)->firstOrFail();
 
         return $this->homeService->update(
             home: $home,
@@ -99,8 +94,7 @@ final class MinecraftPlayerHomeController extends ApiController
         MinecraftUUID $minecraftUUID,
         MinecraftHome $home,
     ) {
-        $player = MinecraftPlayer::whereUuid($minecraftUUID)->first();
-        abort_if($player === null, 404, 'Player not found');
+        $player = MinecraftPlayer::whereUuid($minecraftUUID)->firstOrFail();
 
         $this->homeService->delete($home, $player);
 
