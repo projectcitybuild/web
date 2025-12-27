@@ -6,6 +6,8 @@ use App\Core\Domains\Discord\Data\DiscordAuthor;
 use App\Core\Domains\Discord\Data\DiscordEmbed;
 use App\Core\Domains\Discord\Data\DiscordEmbedField;
 use App\Core\Domains\Discord\Data\DiscordMessage;
+use App\Core\Domains\Discord\Data\DiscordPoll;
+use App\Core\Domains\Discord\Data\DiscordPollMedia;
 use App\Models\BanAppeal;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -67,22 +69,38 @@ class BanAppealConfirmationNotification extends Notification implements ShouldQu
     {
         return new DiscordMessage(
             content: 'A new ban appeal has been submitted.',
+            threadName: $this->banAppeal->gamePlayerBan?->bannedPlayer->alias
+                ?? 'Guest ('.$this->banAppeal->email.')',
+            poll: new DiscordPoll(
+                question: 'Unban?',
+                answers: [
+                    new DiscordPollMedia(
+                        text: 'Yes',
+                        emojiName: '✅',
+                    ),
+                    new DiscordPollMedia(
+                        text: 'No',
+                        emojiName: '❌',
+                    ),
+                ],
+                durationInHours: 7 * 24,
+            ),
             embeds: [
                 new DiscordEmbed(
                     title: 'Ban Appeal',
                     description: Str::limit($this->banAppeal->explanation, 500),
                     url: route('review.ban-appeals.show', $this->banAppeal),
                     author: new DiscordAuthor(
-                        name: $this->banAppeal->gamePlayerBan->bannedPlayer->alias,
+                        name: $this->banAppeal->gamePlayerBan?->bannedPlayer->alias ?? 'No Alias',
                     ),
                     fields: [
                         new DiscordEmbedField(
                             name: 'Banning Staff',
-                            value: $this->banAppeal->gamePlayerBan->bannerPlayer->alias ?? 'No Alias',
+                            value: $this->banAppeal->gamePlayerBan?->bannerPlayer->alias ?? 'No Alias',
                         ),
                         new DiscordEmbedField(
                             name: 'Ban Reason',
-                            value: $this->banAppeal->gamePlayerBan->reason ?? '-',
+                            value: $this->banAppeal->gamePlayerBan?->reason ?? '-',
                         ),
                     ],
                 ),
