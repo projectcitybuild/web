@@ -25,6 +25,9 @@ class MinecraftPlayerFactory extends Factory
             'uuid' => MinecraftUUID::random()->trimmed(),
             'alias' => $this->faker->userName,
             'nickname' => rand(0, 1) === 1 ? $this->faker->userName : null,
+            'muted' => false,
+            'walk_speed' => 1.0,
+            'fly_speed' => 1.0,
             'last_connected_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),
             'last_seen_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),
         ];

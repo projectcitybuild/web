@@ -18,6 +18,9 @@ class MinecraftPlayerController
         $validated = collect($request->validate([
             'alias' => ['nullable'],
             'nickname' => ['sometimes', 'max:100'],
+            'muted' => ['sometimes', 'boolean'],
+            'walk_speed' => ['sometimes', 'numeric'],
+            'fly_speed' => ['sometimes', 'numeric'],
         ]));
 
         $player = MinecraftPlayer::whereUuid($uuid)->firstOrFail();
@@ -28,6 +31,15 @@ class MinecraftPlayerController
         }
         if ($validated->has('nickname')) {
             $updated['nickname'] = $validated->get('nickname');
+        }
+        if ($validated->has('muted')) {
+            $updated['muted'] = $validated->get('muted');
+        }
+        if ($validated->has('walk_speed')) {
+            $updated['walk_speed'] = $validated->get('walk_speed');
+        }
+        if ($validated->has('fly_speed')) {
+            $updated['fly_speed'] = $validated->get('fly_speed');
         }
 
         if (! empty($updated)) {
