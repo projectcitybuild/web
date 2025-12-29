@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\v2\Minecraft\Player\MinecraftRegisterController;
 use App\Http\Controllers\Api\v2\Minecraft\Warps\MinecraftWarpController;
 use App\Http\Controllers\Api\v2\Minecraft\Warps\MinecraftWarpNameController;
 use App\Http\Controllers\Api\v3\Players\MinecraftPlayerController;
+use App\Http\Controllers\Api\v3\Players\MinecraftPlayerStatsController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConfigController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConnectionAuthController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConnectionEndController;
@@ -147,6 +148,8 @@ Route::domain(config('app.api_url'))
         Route::prefix('players/{minecraft_uuid}')->group(function () {
             Route::get('/', [MinecraftPlayerController::class, 'show']);
             Route::patch('/', [MinecraftPlayerController::class, 'update']);
+
+            Route::post('stats', [MinecraftPlayerStatsController::class, 'store']);
 
             Route::get('bans', [MinecraftPlayerBanController::class, 'index']);
 

@@ -51,7 +51,7 @@ it('contains player data', function () {
         $this->withServerToken()
             ->getJson('api/v2/minecraft/player/'.$player->uuid)
             ->assertJson(fn (AssertableJson $json) => $json
-                ->where('player', [
+                ->whereContains('player', [
                     'account_id' => null,
                     'player_minecraft_id' => $player->getKey(),
                     'uuid' => $player->uuid,

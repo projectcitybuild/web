@@ -28,6 +28,12 @@ class MinecraftPlayerFactory extends Factory
             'muted' => false,
             'walk_speed' => 1.0,
             'fly_speed' => 1.0,
+            'sessions' => rand(0, 1000),
+            'play_time' => rand(0, 1_000_000_000),
+            'afk_time' => rand(0, 600_000_000),
+            'blocks_placed' => rand(0, 100_000_000),
+            'blocks_destroyed' => rand(0, 100_000_000),
+            'blocks_travelled' => rand(0, 100_000_000),
             'last_connected_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),
             'last_seen_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),
         ];
