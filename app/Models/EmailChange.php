@@ -16,7 +16,6 @@ final class EmailChange extends Model
     use Prunable;
 
     protected $table = 'account_email_changes';
-
     protected $fillable = [
         'account_id',
         'token',

@@ -59,7 +59,7 @@ it('updates play time', function () {
             ]);
 
         $player->refresh();
-        expect($player->play_time )->toEqual(30);
+        expect($player->play_time)->toEqual(30);
     });
 });
 

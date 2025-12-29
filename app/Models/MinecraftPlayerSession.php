@@ -16,19 +16,16 @@ final class MinecraftPlayerSession extends Model
     use Prunable;
 
     protected $table = 'minecraft_player_sessions';
-
     protected $fillable = [
         'player_id',
         'seconds',
         'starts_at',
         'ends_at',
     ];
-
     protected $casts = [
         'starts_at' => 'datetime',
         'ends_at' => 'datetime',
     ];
-
     public $timestamps = false;
 
     public function prunable(): Builder

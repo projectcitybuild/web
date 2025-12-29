@@ -19,9 +19,7 @@ final class DonationPerk extends Model implements LinkableAuditModel
     use LogsActivity;
 
     protected $table = 'donation_perks';
-
     protected $primaryKey = 'donation_perks_id';
-
     protected $fillable = [
         'donation_id',
         'account_id',
@@ -31,7 +29,6 @@ final class DonationPerk extends Model implements LinkableAuditModel
         'created_at',
         'updated_at',
     ];
-
     protected $casts = [
         'expires_at' => 'datetime',
         'last_currency_reward_at' => 'datetime',
