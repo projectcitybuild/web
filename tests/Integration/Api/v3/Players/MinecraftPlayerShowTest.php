@@ -33,8 +33,10 @@ it('throws 404 if player does not exist', function () {
 });
 
 it('returns existing player', function () {
-    $player = MinecraftPlayer::factory()->create();
-
+    $player = MinecraftPlayer::factory()->create([
+        'fly_speed' => 1.5,
+        'walk_speed' => 2.5,
+    ]);
     $this->withServerToken()
         ->getJson("http://api.localhost/v3/players/$player->uuid")
         ->assertJson(fn (AssertableJson $json) => $json
@@ -42,6 +44,14 @@ it('returns existing player', function () {
             ->where('uuid', $player->uuid)
             ->where('alias', $player->alias)
             ->where('nickname', $player->nickname)
+            ->where('fly_speed', $player->fly_speed)
+            ->where('walk_speed', $player->walk_speed)
+            ->where('sessions', $player->sessions)
+            ->where('play_time', $player->play_time)
+            ->where('afk_time', $player->afk_time)
+            ->where('blocks_placed', $player->blocks_placed)
+            ->where('blocks_destroyed', $player->blocks_destroyed)
+            ->where('blocks_travelled', $player->blocks_travelled)
             ->where('created_at', $player->created_at->toISOString())
             ->where('updated_at', $player->updated_at->toISOString())
             ->etc()
