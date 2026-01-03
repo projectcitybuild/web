@@ -21,7 +21,7 @@ class MinecraftStatsController
             'players.*.blocks_travelled' => ['sometimes', 'integer', 'gt:0'],
         ]));
 
-        // Nested validation is a bit too finicky to insert above
+        // Nested array key validation is too finicky to insert above
         $uuids = $validated->get('players');
         $uuidValidator = Validator::make(array_keys($uuids), ['*' => new MinecraftUUIDRule]);
         $uuidValidator->validate();
