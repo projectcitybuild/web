@@ -6,10 +6,10 @@
             <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
         </ul>
 
-        <div class="text-md text-gray-500 leading-relaxed">
-            <h6 class="font-bold mb-2">Non-affiliation disclaimer</h6>
-            NOT AN OFFICIAL MINECRAFT SERVICE.<br />
-            NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.
+        <div class="text-sm text-gray-500 leading-relaxed">
+            <h6 class="font-bold mb-2">© Project City Build {{ date('Y') }}</h6>
+            Not an official Minecraft service.<br />
+            Not affiliated with Mojang or Microsoft.
         </div>
     </div>
 </section>
