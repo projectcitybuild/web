@@ -36,7 +36,7 @@
                         <tbody>
                         @foreach($donations as $donation)
                             <tr>
-                                <td class="p-2">{{ $donation->formattedPaidAmount() }}</td>
+                                <td class="p-2">{{ $donation->formattedPaidAmount() }} {{ $donation->payment?->paid_currency }}</td>
                                 <td class="p-2">{{ $donation->created_at?->utc() ?? "Unknown" }}</td>
                             </tr>
                         @endforeach

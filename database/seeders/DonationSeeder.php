@@ -7,6 +7,7 @@ use App\Models\Donation;
 use App\Models\DonationPerk;
 use App\Models\DonationTier;
 use App\Models\Group;
+use App\Models\Payment;
 use App\Models\StripeProduct;
 use Illuminate\Database\Seeder;
 
@@ -85,12 +86,23 @@ class DonationSeeder extends Seeder
 
         $account = Account::where('email', 'admin@pcbmc.co')->first();
 
-        Donation::factory()->create(['account_id' => $account->getKey()]);
-        Donation::factory()->create(['account_id' => $account->getKey()]);
-        $donation = Donation::factory()->create(['account_id' => $account->getKey()]);
+        Donation::factory()
+            ->for(Payment::factory()->for($account)->create())
+            ->for($account)
+            ->create();
+
+        Donation::factory()
+            ->for(Payment::factory()->for($account)->create())
+            ->for($account)
+            ->create();
+
+        $donationWithPerk = Donation::factory()
+            ->for(Payment::factory()->for($account)->create())
+            ->for($account)
+            ->create();
 
         DonationPerk::factory()->create([
-            'donation_id' => $donation->getKey(),
+            'donation_id' => $donationWithPerk->getKey(),
             'donation_tier_id' => $copperTier->getKey(),
             'account_id' => $account->getKey(),
             'expires_at' => now()->addDays(14),

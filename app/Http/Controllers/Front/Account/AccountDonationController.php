@@ -10,7 +10,13 @@ final class AccountDonationController extends WebController
     public function index(Request $request)
     {
         $user = $request->user();
-        $user->load(['donations', 'donationPerks', 'donationPerks.donation', 'donationPerks.donationTier']);
+        $user->load([
+            'donations',
+            'donations.payment',
+            'donationPerks',
+            'donationPerks.donation',
+            'donationPerks.donationTier',
+        ]);
 
         $donationPerks = $user->donationPerks;
         $donations = $user->donations->sortBy('created_at');
