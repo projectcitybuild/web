@@ -8,12 +8,16 @@ RUN apk add --no-cache composer
 RUN rm -f /usr/bin/php84
 RUN ln -s /usr/local/bin/php /usr/bin/php84
 
-# Install zip driver
+# Install zip extension
 RUN apk add --no-cache libzip-dev unzip && \
     docker-php-ext-install zip
 
-# Install bcmath driver
+# Install bcmath extension
 RUN docker-php-ext-install bcmath
+
+# Install intl extension
+RUN apk add --no-cache icu-dev && \
+    docker-php-ext-install intl
 
 # Install MariaDB PDO driver
 RUN apk add --no-cache mariadb-connector-c-dev mariadb-client && \

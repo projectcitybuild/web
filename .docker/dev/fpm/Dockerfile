@@ -1,11 +1,15 @@
 FROM php:8.4-fpm-alpine
 
-# Install zip driver
+# Install zip extension
 RUN apk add --no-cache libzip-dev unzip && \
     docker-php-ext-install zip
 
-# Install bcmath driver
+# Install bcmath extension
 RUN docker-php-ext-install bcmath
+
+# Install intl extension
+RUN apk add --no-cache icu-dev && \
+    docker-php-ext-install intl
 
 # Install MariaDB PDO driver
 RUN apk add --no-cache mariadb-dev && \
