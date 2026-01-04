@@ -39,6 +39,8 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         'account_id',
         'last_seen_at',
         'last_connected_at',
+        'created_at',
+        'updated_at',
     ];
     protected $casts = [
         'last_seen_at' => 'datetime',
