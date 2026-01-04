@@ -7,11 +7,13 @@ use App\Core\Domains\MinecraftUUID\UseCases\LookupMinecraftUUID;
 use App\Models\MinecraftPlayer;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
 class FetchPlayerAliasJob implements ShouldQueue
 {
     use Queueable;
+    use SerializesModels;
 
     public function __construct(
         public MinecraftPlayer $player,
