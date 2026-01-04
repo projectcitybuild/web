@@ -23,19 +23,27 @@ class GetAnnualDonationStats
         $thisYear = $now->year;
         $lastYear = $now->subYear()->year;
 
-        $donations = Donation::where(function ($query) use ($thisYear, $lastYear) {
-            $query->whereYear('created_at', $thisYear)
-                ->orWhereYear('created_at', $lastYear);
-        })->get();
+        $donations = Donation::with('payment')
+            ->where(function ($query) use ($thisYear, $lastYear) {
+                $query->whereYear('created_at', $thisYear)
+                    ->orWhereYear('created_at', $lastYear);
+            })
+            ->get();
 
         $amountThisYear = 0;
         $amountLastYear = 0;
 
         foreach ($donations as $donation) {
+            $amount = 0;
+
+            $payment = $donation->payment;
+            if ($payment !== null) {
+                $amount = $payment->original_unit_amount * $payment->unit_quantity;
+            }
             if (Carbon::parse($donation->created_at)->year == $thisYear) {
-                $amountThisYear += $donation->amount;
+                $amountThisYear += $amount;
             } else {
-                $amountLastYear += $donation->amount;
+                $amountLastYear += $amount;
             }
         }
         $amountThisYear = $this->money($amountThisYear);
