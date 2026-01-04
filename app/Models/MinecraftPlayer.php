@@ -7,11 +7,13 @@ use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Utilities\Traits\HasStaticTable;
+use App\Domains\Players\Events\PlayerCreatedEvent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -20,6 +22,7 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
     use HasFactory;
     use HasStaticTable;
     use LogsActivity;
+    use Notifiable;
 
     protected $table = 'players_minecraft';
     protected $primaryKey = 'player_minecraft_id';
@@ -45,6 +48,9 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
     protected $casts = [
         'last_seen_at' => 'datetime',
         'last_connected_at' => 'datetime',
+    ];
+    protected $dispatchesEvents = [
+        'created' => PlayerCreatedEvent::class,
     ];
 
     public function account(): BelongsTo

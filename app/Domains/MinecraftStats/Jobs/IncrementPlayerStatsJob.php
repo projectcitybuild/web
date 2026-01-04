@@ -19,7 +19,6 @@ class IncrementPlayerStatsJob implements ShouldQueue
 
     public function handle()
     {
-        // TODO: schedule another job to fetch alias later
         $player = MinecraftPlayer::firstOrCreate($this->uuid);
 
         // Note: increment() for built-in atomic safety
