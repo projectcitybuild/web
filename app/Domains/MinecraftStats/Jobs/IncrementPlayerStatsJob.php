@@ -13,8 +13,8 @@ class IncrementPlayerStatsJob implements ShouldQueue
     use Queueable;
 
     public function __construct(
-        private MinecraftUUID $uuid,
-        private PlayerStatIncrement $increment,
+        public MinecraftUUID $uuid,
+        public PlayerStatIncrement $increment,
     ) {}
 
     public function handle()

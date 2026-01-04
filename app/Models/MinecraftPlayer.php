@@ -22,7 +22,9 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
     use LogsActivity;
 
     protected $table = 'players_minecraft';
+
     protected $primaryKey = 'player_minecraft_id';
+
     protected $fillable = [
         'uuid',
         'alias',
@@ -39,7 +41,10 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         'account_id',
         'last_seen_at',
         'last_connected_at',
+        'created_at',
+        'updated_at',
     ];
+
     protected $casts = [
         'last_seen_at' => 'datetime',
         'last_connected_at' => 'datetime',

@@ -36,6 +36,8 @@ class MinecraftPlayerFactory extends Factory
             'blocks_travelled' => rand(0, 100_000_000),
             'last_connected_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),
             'last_seen_at' => $this->faker->dateTimeBetween('-120days', '-1hours'),
+            'created_at' => $this->faker->dateTime(),
+            'updated_at' => $this->faker->dateTime(),
         ];
     }
 
