@@ -5,7 +5,6 @@ use App\Domains\MinecraftStats\Data\PlayerStatIncrement;
 use App\Domains\MinecraftStats\Jobs\IncrementPlayerStatsJob;
 use App\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\Queue;
-use Illuminate\Testing\Fluent\AssertableJson;
 
 describe('endpoint', function () {
     beforeEach(function () {
@@ -13,12 +12,12 @@ describe('endpoint', function () {
     });
 
     it('requires server token', function () {
-        $this->postJson("http://api.localhost/v3/server/stats")
+        $this->postJson('http://api.localhost/v3/server/stats')
             ->assertUnauthorized();
 
         $status = $this
             ->withServerToken()
-            ->postJson("http://api.localhost/v3/server/stats")
+            ->postJson('http://api.localhost/v3/server/stats')
             ->status();
 
         expect($status)->not->toEqual(401);
@@ -105,7 +104,7 @@ describe('job', function () {
         $player = MinecraftPlayer::factory()->create();
         $prev = $player->replicate();
 
-        $increment = new PlayerStatIncrement();
+        $increment = new PlayerStatIncrement;
         $job = new IncrementPlayerStatsJob(new MinecraftUUID($player->uuid), $increment);
         $job->handle();
 
