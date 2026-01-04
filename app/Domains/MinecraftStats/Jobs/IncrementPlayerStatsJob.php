@@ -22,10 +22,11 @@ class IncrementPlayerStatsJob implements ShouldQueue
         // TODO: schedule another job to fetch alias later
         $player = MinecraftPlayer::firstOrCreate($this->uuid);
 
-        $player->afk_time += max(0, $this->increment->afkTime);
-        $player->blocks_placed += max(0, $this->increment->blocksPlaced);
-        $player->blocks_destroyed += max(0, $this->increment->blocksDestroyed);
-        $player->blocks_travelled += max(0, $this->increment->blocksTravelled);
+        // Note: increment() for built-in atomic safety
+        $player->increment('afk_time', $this->increment->afkTime);
+        $player->increment('blocks_placed', $this->increment->blocksPlaced);
+        $player->increment('blocks_destroyed', $this->increment->blocksDestroyed);
+        $player->increment('blocks_travelled', $this->increment->blocksTravelled);
         $player->save();
     }
 }
