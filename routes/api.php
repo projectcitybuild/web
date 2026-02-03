@@ -98,7 +98,7 @@ Route::prefix('api/v2')
     });
 
 Route::domain(config('app.api_url'))->group(function () {
-    Route::get('/', fn () => ["status" => "ok"]);
+    Route::get('/', fn () => ['status' => 'ok']);
 
     Route::prefix('v3')
         ->name('v3.')
