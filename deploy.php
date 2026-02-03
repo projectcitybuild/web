@@ -58,17 +58,7 @@ function setupApiTasks(): void
     })->desc('Generate api.json specification');
 }
 
-function setupSiteMap(): void
-{
-    after('deploy:frontend', 'deploy:sitemap');
-
-    task('deploy:sitemap', function () {
-        run('php artisan sitemap:generate');
-    });
-}
-
 configure();
 setupDiscordTasks();
 setupFrontendTasks();
 setupApiTasks();
-setupSiteMap();
