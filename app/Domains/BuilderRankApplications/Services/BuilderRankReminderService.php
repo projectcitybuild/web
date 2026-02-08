@@ -23,7 +23,7 @@ final class BuilderRankReminderService
             return;
         }
 
-        $channel = config('discord.webhook_architect_channel');
+        $channel = config('discord.webhook_architect_chat_channel');
         throw_if(empty($channel), 'No discord channel set for architects');
 
         DB::transaction(function () use ($openApps, $channel) {
