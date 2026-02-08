@@ -5,17 +5,17 @@ on:
     inputs:
       major:
         description: Major version
-        default: 1
+        default: 0
         required: true
         type: number
       minor:
         description: Minor version
-        default: 1
+        default: 0
         required: true
         type: number
       patch:
         description: Patch version
-        default: 1
+        default: 0
         required: true
         type: number
 
