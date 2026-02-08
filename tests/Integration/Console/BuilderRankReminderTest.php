@@ -18,7 +18,7 @@ afterEach(function () {
 });
 
 it('sends reminders for open builder rank applications that are due', function () {
-    Config::set('discord.webhook_architect_channel', 'https://example.com/webhook');
+    Config::set('discord.webhook_architect_chat_channel', 'https://example.com/webhook');
 
     $account = Account::factory()->create();
     $openApps = BuilderRankApplication::factory()
@@ -51,7 +51,7 @@ it('sends reminders for open builder rank applications that are due', function (
 });
 
 it('increments next_reminder_at for open apps', function () {
-    Config::set('discord.webhook_architect_channel', 'https://example.com/webhook');
+    Config::set('discord.webhook_architect_chat_channel', 'https://example.com/webhook');
 
     $account = Account::factory()->create();
     $openApps = BuilderRankApplication::factory()
@@ -81,7 +81,7 @@ it('increments next_reminder_at for open apps', function () {
 });
 
 it('does nothing when no applications are due', function () {
-    Config::set('discord.webhook_architect_channel', 'https://example.com/webhook');
+    Config::set('discord.webhook_architect_chat_channel', 'https://example.com/webhook');
 
     $account = Account::factory()->create();
     BuilderRankApplication::factory()
@@ -98,7 +98,7 @@ it('does nothing when no applications are due', function () {
 });
 
 it('limits reminders to 10 applications', function () {
-    Config::set('discord.webhook_architect_channel', 'https://example.com/webhook');
+    Config::set('discord.webhook_architect_chat_channel', 'https://example.com/webhook');
 
     $account = Account::factory()->create();
     BuilderRankApplication::factory()
@@ -121,7 +121,7 @@ it('limits reminders to 10 applications', function () {
 });
 
 it('throws an exception when the discord channel is not configured', function () {
-    Config::set('discord.webhook_architect_channel', null);
+    Config::set('discord.webhook_architect_chat_channel', null);
 
     $account = Account::factory()->create();
     BuilderRankApplication::factory()

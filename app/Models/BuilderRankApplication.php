@@ -50,7 +50,7 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
 
     public function routeNotificationForDiscord(): string
     {
-        return config('discord.webhook_architect_channel');
+        return config('discord.webhook_architect_forum_channel');
     }
 
     public function account(): BelongsTo
