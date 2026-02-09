@@ -27,9 +27,9 @@ class AccountController extends WebController
 
         $accounts = function () use ($request) {
             $pipes = [
-                new LikeFilter('username', $request->get('username')),
-                new LikeFilter('email', $request->get('email')),
-                new EqualFilter('activated', $request->get('activated')),
+                new LikeFilter('username', $request->query->get('username')),
+                new LikeFilter('email', $request->query->get('email')),
+                new EqualFilter('activated', $request->query->get('activated')),
             ];
             return Pipeline::send(Account::query())
                 ->through($pipes)

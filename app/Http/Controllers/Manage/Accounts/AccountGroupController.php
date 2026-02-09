@@ -36,7 +36,7 @@ class AccountGroupController extends WebController
         ]);
 
         $account->groups()->sync(
-            $request->get('account_group_ids', []),
+            $request->request->get('account_group_ids', []),
         );
 
         return to_route('manage.accounts.show', $account)

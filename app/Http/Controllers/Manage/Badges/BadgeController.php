@@ -51,9 +51,9 @@ class BadgeController extends WebController
         ]);
 
         Badge::create([
-            'display_name' => $request->get('display_name'),
-            'unicode_icon' => $request->get('unicode_icon'),
-            'list_hidden' => $request->get('list_hidden', false),
+            'display_name' => $request->request->get('display_name'),
+            'unicode_icon' => $request->request->get('unicode_icon'),
+            'list_hidden' => $request->request->get('list_hidden', false),
         ]);
 
         return to_route('manage.badges.index')

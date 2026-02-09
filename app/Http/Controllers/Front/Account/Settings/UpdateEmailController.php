@@ -39,7 +39,7 @@ final class UpdateEmailController extends WebController
         Request $request,
         UpdateAccountEmail $updateAccountEmail
     ) {
-        $token = $request->get('token');
+        $token = $request->request->get('token');
         $account = $request->user();
 
         $changeRequest = EmailChange::whereToken($token)
