@@ -10,6 +10,7 @@ use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+/** @deprecated */
 final class MinecraftRegisterController extends ApiController
 {
     public function store(
