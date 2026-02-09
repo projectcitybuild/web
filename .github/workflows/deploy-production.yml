@@ -61,5 +61,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.git_tag.outputs.VERSION_TAG }}
-          release_name: ${{ steps.git_tag.outputs.VERSION_TAG }}
+          name: ${{ steps.git_tag.outputs.VERSION_TAG }}
           generate_release_notes: true
