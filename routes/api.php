@@ -8,14 +8,14 @@ use App\Http\Controllers\Api\v3\Players\Homes\MinecraftPlayerHomeController;
 use App\Http\Controllers\Api\v3\Players\Homes\MinecraftPlayerHomeLimitController;
 use App\Http\Controllers\Api\v3\Players\Homes\MinecraftPlayerHomeNameController;
 use App\Http\Controllers\Api\v3\Players\MinecraftPlayerBanController;
-use App\Http\Controllers\Api\v3\Players\MinecraftRegisterController;
-use App\Http\Controllers\Api\v3\Warps\MinecraftWarpController;
-use App\Http\Controllers\Api\v3\Warps\MinecraftWarpNameController;
 use App\Http\Controllers\Api\v3\Players\MinecraftPlayerController;
+use App\Http\Controllers\Api\v3\Players\MinecraftRegisterController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConfigController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConnectionAuthController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConnectionEndController;
 use App\Http\Controllers\Api\v3\Server\MinecraftStatsController;
+use App\Http\Controllers\Api\v3\Warps\MinecraftWarpController;
+use App\Http\Controllers\Api\v3\Warps\MinecraftWarpNameController;
 use Illuminate\Support\Facades\Route;
 
 Route::domain(config('app.api_url'))->group(function () {
