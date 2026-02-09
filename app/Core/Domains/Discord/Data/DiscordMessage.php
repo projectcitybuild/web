@@ -34,7 +34,12 @@ class DiscordMessage
             'username' => $this->username,
             'avatar_url' => $this->avatarUrl,
             // Thread names cannot exceed 100 chars
-            'thread_name' => mb_substr($this->threadName, 0, 100 - 3, 'UTF-8').'...',
+            'thread_name' => optional($this->threadName, function ($threadName) {
+                if (strlen($threadName) > 100) {
+                    return mb_substr($threadName, 0, 100 - 3, 'UTF-8').'...';
+                }
+                return $threadName;
+            }),
             'timestamp' => $this->timestamp,
             'tts' => $this->tts,
             'embeds' => array_map(fn ($embed) => $embed->toJson(), $this->embeds),
