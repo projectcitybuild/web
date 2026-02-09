@@ -36,7 +36,7 @@ final class PasswordResetController extends WebController
 
     public function edit(Request $request)
     {
-        $token = $request->get('token');
+        $token = $request->query->get('token');
 
         if ($token === null) {
             return redirect()

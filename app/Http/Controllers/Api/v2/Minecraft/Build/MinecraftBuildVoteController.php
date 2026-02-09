@@ -23,7 +23,7 @@ final class MinecraftBuildVoteController extends ApiController
 
         $player = MinecraftPlayer::firstOrCreate(
             uuid: MinecraftUUID::tryParse($input['player_uuid']),
-            alias: $request->get('alias'),
+            alias: $request->request->get('alias'),
         );
 
         if ($build->player_id === $player->getKey()) {

@@ -24,8 +24,8 @@ final class MinecraftRegisterController extends ApiController
 
         $createMinecraftRegistration->execute(
             minecraftUuid: $uuid,
-            minecraftAlias: $request->get('minecraft_alias'),
-            email: $request->get('email'),
+            minecraftAlias: $request->request->get('minecraft_alias'),
+            email: $request->request->get('email'),
         );
 
         return response()->json([]);
@@ -42,7 +42,7 @@ final class MinecraftRegisterController extends ApiController
 
         try {
             $verifyMinecraftRegistration->execute(
-                code: $request->get('code'),
+                code: $request->request->get('code'),
                 minecraftUuid: $uuid,
             );
         } catch (MinecraftRegistrationExpiredException $e) {

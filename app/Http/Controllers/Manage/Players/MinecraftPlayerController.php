@@ -25,8 +25,8 @@ class MinecraftPlayerController extends WebController
 
         $players = function () use ($request) {
             $pipes = [
-                new LikeFilter('alias', $request->get('alias')),
-                new LikeFilter('uuid', $request->get('uuid')),
+                new LikeFilter('alias', $request->query->get('alias')),
+                new LikeFilter('uuid', $request->query->get('uuid')),
             ];
             return Pipeline::send(MinecraftPlayer::query())
                 ->through($pipes)
@@ -91,7 +91,7 @@ class MinecraftPlayerController extends WebController
                 'uuid' => $uuid->trimmed(),
             ], [
                 'alias' => $validated['alias'],
-                'account_id' => $request->get(key: 'account_id'),
+                'account_id' => $request->request->get(key: 'account_id'),
             ],
         );
 

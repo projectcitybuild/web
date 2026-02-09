@@ -79,16 +79,16 @@ final class MinecraftBuildController extends ApiController
 
         $this->assertHasWriteAccess(build: $build, uuid: $validated['player_uuid']);
 
-        if ($request->has('name')) {
-            $name = $request->get('name');
+        if ($request->request->has('name')) {
+            $name = $request->request->get('name');
             $build->name = empty($name) ? null : $name;
         }
-        if ($request->has('description')) {
-            $description = $request->get('description');
+        if ($request->request->has('description')) {
+            $description = $request->request->get('description');
             $build->description = empty($description) ? null : $description;
         }
-        if ($request->has('lore')) {
-            $lore = $request->get('lore');
+        if ($request->request->has('lore')) {
+            $lore = $request->request->get('lore');
             $build->lore = empty($lore) ? null : $lore;
         }
         $build->save();
