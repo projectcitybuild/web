@@ -43,7 +43,7 @@ Route::domain(config('app.api_url'))->group(function () {
             ->group(function () {
                 Route::post('/', [PlayerBanController::class, 'store']);
                 Route::put('{banId}', [PlayerBanController::class, 'update']);
-                Route::delete('{banId}',[PlayerBanController::class, 'delete']);
+                Route::delete('{banId}', [PlayerBanController::class, 'delete']);
             });
 
         Route::prefix('builds')->group(function () {
@@ -58,7 +58,7 @@ Route::domain(config('app.api_url'))->group(function () {
             Route::patch('{build}/set', [MinecraftBuildController::class, 'patch']);
 
             Route::post('{build}/vote', [MinecraftBuildVoteController::class, 'store']);
-            Route::delete('{build}/vote',[MinecraftBuildVoteController::class, 'destroy']);
+            Route::delete('{build}/vote', [MinecraftBuildVoteController::class, 'destroy']);
         });
 
         Route::prefix('warps')->group(function () {
@@ -76,7 +76,7 @@ Route::domain(config('app.api_url'))->group(function () {
 
         Route::prefix('players/{minecraft_uuid}')->group(function () {
             Route::get('/', [MinecraftPlayerController::class, 'show']);
-            Route::patch('/',[MinecraftPlayerController::class, 'update'])
+            Route::patch('/', [MinecraftPlayerController::class, 'update'])
                 ->middleware('require-server-token');
 
             Route::get('bans', [MinecraftPlayerBanController::class, 'index']);
