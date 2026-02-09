@@ -9,10 +9,11 @@ use App\Http\Controllers\Api\v3\Players\Homes\MinecraftPlayerHomeLimitController
 use App\Http\Controllers\Api\v3\Players\Homes\MinecraftPlayerHomeNameController;
 use App\Http\Controllers\Api\v3\Players\MinecraftPlayerBanController;
 use App\Http\Controllers\Api\v3\Players\MinecraftPlayerController;
-use App\Http\Controllers\Api\v3\Players\MinecraftRegisterController;
+use App\Http\Controllers\Api\v3\Players\MinecraftRegisterController as DeprecatedMinecraftRegisterController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConfigController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConnectionAuthController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConnectionEndController;
+use App\Http\Controllers\Api\v3\Server\MinecraftRegisterController;
 use App\Http\Controllers\Api\v3\Server\MinecraftStatsController;
 use App\Http\Controllers\Api\v3\Warps\MinecraftWarpController;
 use App\Http\Controllers\Api\v3\Warps\MinecraftWarpNameController;
@@ -21,80 +22,86 @@ use Illuminate\Support\Facades\Route;
 Route::domain(config('app.api_url'))->group(function () {
     Route::get('/', fn () => ['status' => 'ok']);
 
-    Route::prefix('v3')
-        ->name('v3.')
-        ->middleware('require-server-token')
-        ->group(function () {
-            Route::prefix('server')->group(function () {
+    Route::prefix('v3')->name('v3.')->group(function () {
+        Route::prefix('server')
+            ->middleware('require-server-token')
+            ->group(function () {
                 Route::post('connection/authorize', MinecraftConnectionAuthController::class);
                 Route::post('connection/end', MinecraftConnectionEndController::class);
                 Route::post('stats', [MinecraftStatsController::class, 'store']);
                 Route::get('config', MinecraftConfigController::class);
+
+                Route::post('register', [MinecraftRegisterController::class, 'store'])
+                    ->middleware('throttle:3,1');
+
+                Route::put('register', [MinecraftRegisterController::class, 'update'])
+                    ->middleware('throttle:12,1');
             });
 
-            Route::prefix('bans')->group(function () {
-                Route::prefix('uuid')->group(function () {
-                    Route::post('/', [PlayerBanController::class, 'store']);
-                    Route::put('{banId}', [PlayerBanController::class, 'update']);
-                    Route::delete('{banId}', [PlayerBanController::class, 'delete']);
-                });
+        Route::prefix('bans/uuid')
+            ->middleware('require-server-token')
+            ->group(function () {
+                Route::post('/', [PlayerBanController::class, 'store']);
+                Route::put('{banId}', [PlayerBanController::class, 'update']);
+                Route::delete('{banId}',[PlayerBanController::class, 'delete']);
             });
 
-            Route::prefix('builds')->group(function () {
-                Route::get('/', [MinecraftBuildController::class, 'index']);
-                Route::post('/', [MinecraftBuildController::class, 'store']);
-                Route::get('names', [MinecraftBuildNameController::class, 'index']);
+        Route::prefix('builds')->group(function () {
+            Route::get('/', [MinecraftBuildController::class, 'index']);
+            Route::post('/', [MinecraftBuildController::class, 'store']);
+            Route::get('names', [MinecraftBuildNameController::class, 'index']);
 
-                Route::prefix('{build}')->group(function () {
-                    Route::get('/', [MinecraftBuildController::class, 'show']);
-                    Route::put('/', [MinecraftBuildController::class, 'update']);
-                    Route::delete('/', [MinecraftBuildController::class, 'destroy']);
-                    Route::patch('set', [MinecraftBuildController::class, 'patch']);
+            Route::get('{build}', [MinecraftBuildController::class, 'show']);
+            Route::put('{build}', [MinecraftBuildController::class, 'update'])
+                ->middleware('require-server-token');
+            Route::delete('{build}', [MinecraftBuildController::class, 'destroy']);
+            Route::patch('{build}/set', [MinecraftBuildController::class, 'patch']);
 
-                    Route::post('vote', [MinecraftBuildVoteController::class, 'store']);
-                    Route::delete('vote', [MinecraftBuildVoteController::class, 'destroy']);
-                });
-            });
+            Route::post('{build}/vote', [MinecraftBuildVoteController::class, 'store']);
+            Route::delete('{build}/vote',[MinecraftBuildVoteController::class, 'destroy']);
+        });
 
-            Route::prefix('warps')->group(function () {
-                Route::get('/', [MinecraftWarpController::class, 'index']);
-                Route::post('/', [MinecraftWarpController::class, 'store']);
-                Route::get('names', [MinecraftWarpNameController::class, 'index']);
-                Route::get('all', [MinecraftWarpController::class, 'bulk']);
+        Route::prefix('warps')->group(function () {
+            Route::get('/', [MinecraftWarpController::class, 'index']);
+            Route::post('/', [MinecraftWarpController::class, 'store']);
+            Route::get('names', [MinecraftWarpNameController::class, 'index']);
+            Route::get('all', [MinecraftWarpController::class, 'bulk']);
 
-                Route::prefix('{warp}')->group(function () {
-                    Route::get('/', [MinecraftWarpController::class, 'show']);
-                    Route::put('/', [MinecraftWarpController::class, 'update']);
-                    Route::delete('/', [MinecraftWarpController::class, 'destroy']);
-                });
-            });
+            Route::get('{warp}', [MinecraftWarpController::class, 'show']);
+            Route::put('{warp}', [MinecraftWarpController::class, 'update'])
+                ->middleware('require-server-token');
+            Route::delete('{warp}', [MinecraftWarpController::class, 'destroy'])
+                ->middleware('require-server-token');
+        });
 
-            Route::prefix('players/{minecraft_uuid}')->group(function () {
-                Route::get('/', [MinecraftPlayerController::class, 'show']);
-                Route::patch('/', [MinecraftPlayerController::class, 'update']);
+        Route::prefix('players/{minecraft_uuid}')->group(function () {
+            Route::get('/', [MinecraftPlayerController::class, 'show']);
+            Route::patch('/',[MinecraftPlayerController::class, 'update'])
+                ->middleware('require-server-token');
 
-                Route::get('bans', [MinecraftPlayerBanController::class, 'index']);
+            Route::get('bans', [MinecraftPlayerBanController::class, 'index']);
 
-                Route::prefix('register')->group(function () {
-                    Route::post('/', [MinecraftRegisterController::class, 'store'])
-                        ->middleware('throttle:3,1');
+            /** @deprecated */
+            Route::post('register', [DeprecatedMinecraftRegisterController::class, 'store'])
+                ->middleware('require-server-token', 'throttle:3,1');
 
-                    Route::put('/', [MinecraftRegisterController::class, 'update'])
-                        ->middleware('throttle:12,1');
-                });
+            /** @deprecated */
+            Route::put('register', [DeprecatedMinecraftRegisterController::class, 'update'])
+                ->middleware('require-server-token', 'throttle:12,1');
 
-                Route::prefix('homes')->group(function () {
-                    Route::get('/', [MinecraftPlayerHomeController::class, 'index']);
-                    Route::post('/', [MinecraftPlayerHomeController::class, 'store']);
-                    Route::get('names', [MinecraftPlayerHomeNameController::class, 'index']);
-                    Route::get('limit', MinecraftPlayerHomeLimitController::class);
+            Route::prefix('homes')->group(function () {
+                Route::get('/', [MinecraftPlayerHomeController::class, 'index']);
+                Route::post('/', [MinecraftPlayerHomeController::class, 'store'])
+                    ->middleware('require-server-token');
+                Route::get('names', [MinecraftPlayerHomeNameController::class, 'index']);
+                Route::get('limit', MinecraftPlayerHomeLimitController::class);
 
-                    Route::prefix('{home}')->group(function () {
-                        Route::get('/', [MinecraftPlayerHomeController::class, 'show']);
-                        Route::put('/', [MinecraftPlayerHomeController::class, 'update']);
-                        Route::delete('/', [MinecraftPlayerHomeController::class, 'destroy']);
-                    });
-                });
+                Route::get('{home}', [MinecraftPlayerHomeController::class, 'show']);
+                Route::put('{home}', [MinecraftPlayerHomeController::class, 'update'])
+                    ->middleware('require-server-token');
+                Route::delete('{home}', [MinecraftPlayerHomeController::class, 'destroy'])
+                    ->middleware('require-server-token');
             });
         });
+    });
 });
