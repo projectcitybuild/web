@@ -71,4 +71,4 @@ Artisan::command('build-rank-apps:remind', function () {
     (new BuilderRankReminderService)->remind();
 })->runInBackground()
     ->evenInMaintenanceMode()
-    ->daily();
+    ->hourly();
