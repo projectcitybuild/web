@@ -15,8 +15,8 @@ beforeEach(function () {
 
 it('requires server token', function () {
     $this->post('http://api.localhost/v3/server/register', [
-            'uuid' => '069a79f444e94726a5befca90e38aaf5',
-        ])
+        'uuid' => '069a79f444e94726a5befca90e38aaf5',
+    ])
         ->assertUnauthorized();
 
     $status = $this->withServerToken()
