@@ -9,7 +9,6 @@ use App\Http\Controllers\Api\v3\Players\Homes\MinecraftPlayerHomeLimitController
 use App\Http\Controllers\Api\v3\Players\Homes\MinecraftPlayerHomeNameController;
 use App\Http\Controllers\Api\v3\Players\MinecraftPlayerBanController;
 use App\Http\Controllers\Api\v3\Players\MinecraftPlayerController;
-use App\Http\Controllers\Api\v3\Players\MinecraftRegisterController as DeprecatedMinecraftRegisterController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConfigController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConnectionAuthController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConnectionEndController;
@@ -80,14 +79,6 @@ Route::domain(config('app.api_url'))->group(function () {
                 ->middleware('require-server-token');
 
             Route::get('bans', [MinecraftPlayerBanController::class, 'index']);
-
-            /** @deprecated */
-            Route::post('register', [DeprecatedMinecraftRegisterController::class, 'store'])
-                ->middleware('require-server-token', 'throttle:3,1');
-
-            /** @deprecated */
-            Route::put('register', [DeprecatedMinecraftRegisterController::class, 'update'])
-                ->middleware('require-server-token', 'throttle:12,1');
 
             Route::prefix('homes')->group(function () {
                 Route::get('/', [MinecraftPlayerHomeController::class, 'index']);

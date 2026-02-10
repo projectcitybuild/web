@@ -7,18 +7,22 @@ use Illuminate\Support\Facades\Notification;
 
 beforeEach(function () {
     $this->validBody = [
-        'minecraft_uuid' => '069a79f444e94726a5befca90e38aaf5',
-        'minecraft_alias' => 'alias',
+        'uuid' => '069a79f444e94726a5befca90e38aaf5',
+        'alias' => 'alias',
         'email' => 'foo@bar.baz',
     ];
 });
 
 it('requires server token', function () {
-    $this->post('http://api.localhost/v3/players/069a79f444e94726a5befca90e38aaf5/register')
+    $this->post('http://api.localhost/v3/server/register', [
+            'uuid' => '069a79f444e94726a5befca90e38aaf5',
+        ])
         ->assertUnauthorized();
 
     $status = $this->withServerToken()
-        ->post('http://api.localhost/v3/players/069a79f444e94726a5befca90e38aaf5/register')
+        ->post('http://api.localhost/v3/server/register', [
+            'uuid' => '069a79f444e94726a5befca90e38aaf5',
+        ])
         ->status();
 
     expect($status)->not->toEqual(401);
@@ -27,19 +31,26 @@ it('requires server token', function () {
 describe('validation errors', function () {
     it('throws if fields are missing', function () {
         $this->withServerToken()
-            ->post('http://api.localhost/v3/players/069a79f444e94726a5befca90e38aaf5/register', [])
-            ->assertInvalid(['minecraft_alias', 'email']);
+            ->post('http://api.localhost/v3/server/register', [
+                'uuid' => '069a79f444e94726a5befca90e38aaf5',
+            ])
+            ->assertInvalid(['alias', 'email']);
     });
 
     it('throws if minecraft uuid is invalid', function () {
         $this->withServerToken()
-            ->post('http://api.localhost/v3/players/invalid_uuid/register')
+            ->post('http://api.localhost/v3/server/register', [
+                'uuid' => 'invalid_uuid',
+            ])
             ->assertInvalid(['uuid']);
     });
 
     it('throws if email is invalid', function () {
         $this->withServerToken()
-            ->post('http://api.localhost/v3/players/069a79f444e94726a5befca90e38aaf5/register', ['email' => 'invalid email'])
+            ->post('http://api.localhost/v3/server/register', [
+                'uuid' => '069a79f444e94726a5befca90e38aaf5',
+                'email' => 'invalid email',
+            ])
             ->assertInvalid(['email']);
     });
 });
@@ -47,12 +58,12 @@ describe('validation errors', function () {
 it('creates a MinecraftRegistration', function () {
     $this->freezeTime(function (Carbon $time) {
         $this->withServerToken()
-            ->post('http://api.localhost/v3/players/'.$this->validBody['minecraft_uuid'].'/register', $this->validBody)
+            ->post('http://api.localhost/v3/server/register', $this->validBody)
             ->assertSuccessful();
 
         $this->assertDatabaseHas(MinecraftRegistration::tableName(), [
-            'minecraft_uuid' => $this->validBody['minecraft_uuid'],
-            'minecraft_alias' => $this->validBody['minecraft_alias'],
+            'minecraft_uuid' => $this->validBody['uuid'],
+            'minecraft_alias' => $this->validBody['alias'],
             'email' => $this->validBody['email'],
             'expires_at' => $time->addHour(),
         ]);
@@ -60,10 +71,10 @@ it('creates a MinecraftRegistration', function () {
 });
 
 it('accepts any Minecraft UUID format', function ($uuid) {
-    $this->validBody['minecraft_uuid'] = $uuid;
+    $this->validBody['uuid'] = $uuid;
 
     $this->withServerToken()
-        ->post('http://api.localhost/v3/players/'.$uuid.'/register', $this->validBody)
+        ->post('http://api.localhost/v3/server/register', $this->validBody)
         ->assertSuccessful();
 })->with([
     '069a79f4-44e9-4726-a5be-fca90e38aaf5',
@@ -74,7 +85,7 @@ it('sends an email with a code', function () {
     Notification::fake();
 
     $this->withServerToken()
-        ->post('http://api.localhost/v3/players/'.$this->validBody['minecraft_uuid'].'/register', $this->validBody);
+        ->post('http://api.localhost/v3/server/register', $this->validBody);
 
     Notification::assertSentOnDemand(
         MinecraftRegistrationCodeNotification::class,
