@@ -4,31 +4,15 @@ use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Models\MinecraftPlayer;
 use Illuminate\Testing\Fluent\AssertableJson;
 
-it('requires server token', function () {
-    $uuid = MinecraftUUID::random();
-
-    $this->getJson("http://api.localhost/v3/players/$uuid")
-        ->assertUnauthorized();
-
-    $status = $this
-        ->withServerToken()
-        ->getJson("http://api.localhost/v3/players/$uuid")
-        ->status();
-
-    expect($status)->not->toEqual(401);
-});
-
 it('throws exception for invalid Minecraft UUID', function () {
-    $this->withServerToken()
-        ->getJson('http://api.localhost/v3/players/invalid')
+    $this->getJson('http://api.localhost/v3/players/invalid')
         ->assertInvalid(['uuid']);
 });
 
 it('throws 404 if player does not exist', function () {
     $uuid = MinecraftUUID::random();
 
-    $this->withServerToken()
-        ->getJson("http://api.localhost/v3/players/$uuid")
+    $this->getJson("http://api.localhost/v3/players/$uuid")
         ->assertNotFound();
 });
 
@@ -37,8 +21,7 @@ it('returns existing player', function () {
         'fly_speed' => 1.5,
         'walk_speed' => 2.5,
     ]);
-    $this->withServerToken()
-        ->getJson("http://api.localhost/v3/players/$player->uuid")
+    $this->getJson("http://api.localhost/v3/players/$player->uuid")
         ->assertJson(fn (AssertableJson $json) => $json
             ->where('player_minecraft_id', $player->getKey())
             ->where('uuid', $player->uuid)

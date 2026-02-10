@@ -14,11 +14,15 @@ beforeEach(function () {
 });
 
 it('requires server token', function () {
-    $this->post('http://api.localhost/v3/players/069a79f444e94726a5befca90e38aaf5/register')
+    $this->post('http://api.localhost/v3/server/register', [
+        'uuid' => '069a79f444e94726a5befca90e38aaf5',
+    ])
         ->assertUnauthorized();
 
     $status = $this->withServerToken()
-        ->put('http://api.localhost/v3/players/069a79f444e94726a5befca90e38aaf5/register')
+        ->put('http://api.localhost/v3/server/register', [
+            'uuid' => '069a79f444e94726a5befca90e38aaf5',
+        ])
         ->status();
 
     expect($status)->not->toEqual(401);
@@ -27,13 +31,17 @@ it('requires server token', function () {
 describe('validation errors', function () {
     it('throws if fields are missing', function () {
         $this->withServerToken()
-            ->put('http://api.localhost/v3/players/069a79f444e94726a5befca90e38aaf5/register', [])
+            ->put('http://api.localhost/v3/server/register', [
+                'uuid' => '069a79f444e94726a5befca90e38aaf5',
+            ])
             ->assertInvalid(['code']);
     });
 
     it('throws if minecraft uuid is invalid', function () {
         $this->withServerToken()
-            ->put('http://api.localhost/v3/players/invalid_uuid/register')
+            ->put('http://api.localhost/v3/server/register', [
+                'uuid' => 'invalid_uuid',
+            ])
             ->assertInvalid(['uuid']);
     });
 });
@@ -41,7 +49,8 @@ describe('validation errors', function () {
 describe('validity check', function () {
     it('throws 404 if not found', function () {
         $this->withServerToken()
-            ->put('http://api.localhost/v3/players/069a79f444e94726a5befca90e38aaf5/register', [
+            ->put('http://api.localhost/v3/server/register', [
+                'uuid' => '069a79f444e94726a5befca90e38aaf5',
                 'code' => '123456',
             ])
             ->assertStatus(404);
@@ -53,7 +62,8 @@ describe('validity check', function () {
             ->create();
 
         $this->withServerToken()
-            ->put('http://api.localhost/v3/players/'.$registration->minecraft_uuid.'/register', [
+            ->put('http://api.localhost/v3/server/register', [
+                'uuid' => $registration->minecraft_uuid,
                 'code' => $registration->code,
             ])
             ->assertStatus(410);
@@ -71,7 +81,8 @@ describe('valid request', function () {
         ]);
 
         $this->withServerToken()
-            ->put('http://api.localhost/v3/players/'.$registration->minecraft_uuid.'/register', [
+            ->put('http://api.localhost/v3/server/register', [
+                'uuid' => $registration->minecraft_uuid,
                 'code' => $registration->code,
             ])
             ->assertOk();
@@ -97,7 +108,8 @@ describe('valid request', function () {
         ]);
 
         $this->withServerToken()
-            ->put('http://api.localhost/v3/players/'.$registration->minecraft_uuid.'/register', [
+            ->put('http://api.localhost/v3/server/register', [
+                'uuid' => $registration->minecraft_uuid,
                 'code' => $registration->code,
             ])
             ->assertOk();
@@ -120,7 +132,8 @@ describe('valid request', function () {
         $this->assertDatabaseMissing(Account::tableName(), ['username' => 'foobar_3']);
 
         $this->withServerToken()
-            ->put('http://api.localhost/v3/players/'.$registration->minecraft_uuid.'/register', [
+            ->put('http://api.localhost/v3/server/register', [
+                'uuid' => $registration->minecraft_uuid,
                 'code' => $registration->code,
             ])
             ->assertOk();
@@ -137,7 +150,8 @@ describe('valid request', function () {
         ]);
 
         $this->withServerToken()
-            ->put('http://api.localhost/v3/players/'.$registration->minecraft_uuid.'/register', [
+            ->put('http://api.localhost/v3/server/register', [
+                'uuid' => $registration->minecraft_uuid,
                 'code' => $registration->code,
             ])
             ->assertOk();
@@ -168,7 +182,8 @@ describe('valid request', function () {
         ]);
 
         $this->withServerToken()
-            ->put('http://api.localhost/v3/players/'.$registration->minecraft_uuid.'/register', [
+            ->put('http://api.localhost/v3/server/register', [
+                'uuid' => $registration->minecraft_uuid,
                 'code' => $registration->code,
             ])
             ->assertOk();
@@ -191,7 +206,8 @@ describe('valid request', function () {
         ]);
 
         $this->withServerToken()
-            ->put('http://api.localhost/v3/players/'.$registration->minecraft_uuid.'/register', [
+            ->put('http://api.localhost/v3/server/register', [
+                'uuid' => $registration->minecraft_uuid,
                 'code' => $registration->code,
             ])
             ->assertOk();
@@ -205,7 +221,8 @@ describe('valid request', function () {
         $registration = MinecraftRegistration::factory()->create();
 
         $this->withServerToken()
-            ->put('http://api.localhost/v3/players/'.$registration->minecraft_uuid.'/register', [
+            ->put('http://api.localhost/v3/server/register', [
+                'uuid' => $registration->minecraft_uuid,
                 'code' => $registration->code,
             ]);
 
@@ -218,7 +235,8 @@ describe('valid request', function () {
         $registration = MinecraftRegistration::factory()->create();
 
         $this->withServerToken()
-            ->put('http://api.localhost/v3/players/'.$registration->minecraft_uuid.'/register', [
+            ->put('http://api.localhost/v3/server/register', [
+                'uuid' => $registration->minecraft_uuid,
                 'code' => $registration->code,
             ])
             ->assertOk();

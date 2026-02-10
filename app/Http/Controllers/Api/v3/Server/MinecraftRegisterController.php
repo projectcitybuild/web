@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api\v3\Players;
+namespace App\Http\Controllers\Api\v3\Server;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
+use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Domains\MinecraftRegistration\Data\MinecraftRegistrationExpiredException;
 use App\Domains\MinecraftRegistration\UseCases\SendMinecraftRegisterCodeEmail;
 use App\Domains\MinecraftRegistration\UseCases\VerifyMinecraftRegistration;
@@ -14,17 +15,17 @@ final class MinecraftRegisterController extends ApiController
 {
     public function store(
         Request $request,
-        MinecraftUUID $uuid,
         SendMinecraftRegisterCodeEmail $createMinecraftRegistration,
     ) {
-        $request->validate([
+        $validated = collect($request->validate([
             'email' => ['required', 'email'],
-            'minecraft_alias' => ['required', 'string'],
-        ]);
+            'alias' => ['required', 'string'],
+            'uuid' => ['required', new MinecraftUUIDRule],
+        ]));
 
         $createMinecraftRegistration->execute(
-            minecraftUuid: $uuid,
-            minecraftAlias: $request->request->get('minecraft_alias'),
+            minecraftUuid: new MinecraftUUID($validated->get('uuid')),
+            minecraftAlias: $request->request->get('alias'),
             email: $request->request->get('email'),
         );
 
@@ -33,20 +34,20 @@ final class MinecraftRegisterController extends ApiController
 
     public function update(
         Request $request,
-        MinecraftUUID $uuid,
         VerifyMinecraftRegistration $verifyMinecraftRegistration,
     ) {
-        $request->validate([
+        $validated = collect($request->validate([
+            'uuid' => ['required', new MinecraftUUIDRule],
             'code' => ['required'],
-        ]);
+        ]));
 
         try {
             $verifyMinecraftRegistration->execute(
                 code: $request->request->get('code'),
-                minecraftUuid: $uuid,
+                minecraftUuid: new MinecraftUUID($validated->get('uuid')),
             );
         } catch (MinecraftRegistrationExpiredException $e) {
-            Log::debug('Attempted to complete registration for Minecraft UUID, but registration already expired', [
+            Log::info('Attempted to complete registration for Minecraft UUID, but registration already expired', [
                 'request' => $request->all(),
                 'registration' => $e->registration,
             ]);
