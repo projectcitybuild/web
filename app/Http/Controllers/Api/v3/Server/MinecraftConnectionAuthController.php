@@ -11,6 +11,7 @@ use App\Domains\Groups\Services\PlayerGroupsAggregator;
 use App\Http\Controllers\ApiController;
 use App\Models\MinecraftPlayer;
 use App\Models\MinecraftPlayerIp;
+use App\Models\PlayerOpElevation;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -77,11 +78,16 @@ final class MinecraftConnectionAuthController extends ApiController
     {
         $account = $player->account;
 
+        $elevation = PlayerOpElevation::where('player_id', $player->getKey())
+            ->whereActive()
+            ->first();
+
         return [
             'account' => $account?->withoutRelations(),
             'player' => $player->withoutRelations(),
             'groups' => optional($account, fn ($it) => $this->playerGroupsAggregator->get($it)) ?? collect(),
             'badges' => optional($player, fn ($it) => $this->getBadges->execute($it)) ?? collect(),
+            'elevation' => $elevation,
         ];
     }
 }

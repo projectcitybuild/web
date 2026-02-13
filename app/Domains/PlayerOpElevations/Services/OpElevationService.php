@@ -18,7 +18,7 @@ class OpElevationService
     {
         $player = MinecraftPlayer::whereUuid($playerUuid)->first();
         $existing = PlayerOpElevation::where('player_id', $player->getKey())
-            ->where('ended_at', '>', now())
+            ->whereActive()
             ->first();
 
         if ($existing !== null) {
@@ -50,7 +50,7 @@ class OpElevationService
     {
         $player = MinecraftPlayer::whereUuid($playerUuid)->first();
         $elevation = PlayerOpElevation::where('player_id', $player->getKey())
-            ->where('ended_at', '>', now())
+            ->whereActive()
             ->first();
 
         throw_if($elevation === null, NotElevatedException::class);
