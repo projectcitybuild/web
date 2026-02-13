@@ -13,7 +13,7 @@ class PlayerOpElevationFactory extends Factory
     {
         return [
             'player_id' => MinecraftPlayer::factory()->create()->getKey(),
-            'reason' => $this->faker->text,
+            'reason' => $this->faker->text(32),
             'started_at' => $this->faker->dateTime(),
             'ended_at' => $this->faker->dateTime(),
         ];
