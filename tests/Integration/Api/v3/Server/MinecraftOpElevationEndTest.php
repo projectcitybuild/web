@@ -3,7 +3,6 @@
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\MinecraftStats\Data\PlayerStatIncrement;
 use App\Domains\PlayerOpElevations\Notifications\OpElevationEndNotification;
-use App\Domains\PlayerOpElevations\Notifications\OpElevationStartNotification;
 use App\Models\MinecraftPlayer;
 use App\Models\PlayerOpElevation;
 use Illuminate\Support\Facades\Config;
