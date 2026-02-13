@@ -16,9 +16,9 @@ class MinecraftStatsController
         $validated = collect($request->validate([
             'players' => ['required', 'array'],
             'players.*.afk_time' => ['sometimes', 'integer', 'gt:0'],
-            'players.*.blocks_placed' => ['sometimes', 'integer', 'gt:0'],
-            'players.*.blocks_destroyed' => ['sometimes', 'integer', 'gt:0'],
-            'players.*.blocks_travelled' => ['sometimes', 'integer', 'gt:0'],
+            'players.*.blocks_placed' => ['sometimes', 'integer', 'gte:0'],
+            'players.*.blocks_destroyed' => ['sometimes', 'integer', 'gte:0'],
+            'players.*.blocks_travelled' => ['sometimes', 'integer', 'gte:0'],
         ]));
 
         // Nested array key validation is too finicky to insert above
