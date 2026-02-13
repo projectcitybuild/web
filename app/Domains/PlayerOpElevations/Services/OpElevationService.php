@@ -17,6 +17,8 @@ class OpElevationService
     public function elevate(MinecraftUUID $playerUuid, string $reason): PlayerOpElevation
     {
         $player = MinecraftPlayer::whereUuid($playerUuid)->first();
+        throw_if($player === null, 'Cannot OP elevate null player');
+
         $existing = PlayerOpElevation::where('player_id', $player->getKey())
             ->whereActive()
             ->first();
@@ -49,6 +51,8 @@ class OpElevationService
     public function end(MinecraftUUID $playerUuid): PlayerOpElevation
     {
         $player = MinecraftPlayer::whereUuid($playerUuid)->first();
+        throw_if($player === null, 'Cannot OP elevate null player');
+
         $elevation = PlayerOpElevation::where('player_id', $player->getKey())
             ->whereActive()
             ->first();
