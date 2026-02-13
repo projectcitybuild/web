@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Notification;
 
 class OpElevationService
 {
-    public function elevate(MinecraftUUID $playerUuid, String $reason): PlayerOpElevation
+    public function elevate(MinecraftUUID $playerUuid, string $reason): PlayerOpElevation
     {
         $player = MinecraftPlayer::whereUuid($playerUuid)->first();
         $existing = PlayerOpElevation::where('player_id', $player->getKey())
@@ -24,8 +24,8 @@ class OpElevationService
         if ($existing !== null) {
             $remaining = now()->diffForHumans($existing->ended_at, [
                 'syntax' => CarbonInterface::DIFF_ABSOLUTE,
-                'short'  => true,
-                'parts'  => 3,
+                'short' => true,
+                'parts' => 3,
             ]);
             throw new AlreadyElevatedException('You are already OP elevated ('.$remaining.' remaining)');
         }

@@ -6,8 +6,6 @@ use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Domains\PlayerOpElevations\Services\OpElevationService;
 use App\Http\Controllers\ApiController;
-use App\Models\MinecraftPlayer;
-use App\Models\PlayerOpElevation;
 use Illuminate\Http\Request;
 
 final class MinecraftOpElevationController extends ApiController
