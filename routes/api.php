@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\v3\Players\MinecraftPlayerController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConfigController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConnectionAuthController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConnectionEndController;
+use App\Http\Controllers\Api\v3\Server\MinecraftOpElevationController;
 use App\Http\Controllers\Api\v3\Server\MinecraftRegisterController;
 use App\Http\Controllers\Api\v3\Server\MinecraftStatsController;
 use App\Http\Controllers\Api\v3\Warps\MinecraftWarpController;
@@ -25,10 +26,12 @@ Route::domain(config('app.api_url'))->group(function () {
         Route::prefix('server')
             ->middleware('require-server-token')
             ->group(function () {
+                Route::get('config', MinecraftConfigController::class);
                 Route::post('connection/authorize', MinecraftConnectionAuthController::class);
                 Route::post('connection/end', MinecraftConnectionEndController::class);
                 Route::post('stats', [MinecraftStatsController::class, 'store']);
-                Route::get('config', MinecraftConfigController::class);
+                Route::post('op/start', [MinecraftOpElevationController::class, 'start']);
+                Route::post('op/end', [MinecraftOpElevationController::class, 'end']);
 
                 Route::post('register', [MinecraftRegisterController::class, 'store'])
                     ->middleware('throttle:3,1');

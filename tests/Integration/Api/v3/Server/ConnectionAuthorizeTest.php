@@ -10,6 +10,7 @@ use App\Models\GameIPBan;
 use App\Models\GamePlayerBan;
 use App\Models\Group;
 use App\Models\MinecraftPlayer;
+use App\Models\PlayerOpElevation;
 use Illuminate\Support\Carbon;
 use Illuminate\Testing\Fluent\AssertableJson;
 
@@ -306,6 +307,49 @@ describe('existing player', function () {
                     ->where('display_name', '0.00 years on PCB')
                     ->etc()
                 )
+                ->etc()
+            );
+    });
+
+    it('contains active op elevation', function () {
+        $account = Account::factory()->create();
+        $player = MinecraftPlayer::factory()->create([
+            'account_id' => $account->getKey(),
+        ]);
+        $elevation = PlayerOpElevation::factory()->active()->create([
+            'player_id' => $player->getKey(),
+        ]);
+
+        $this->withServerToken()
+            ->postJson('http://api.localhost/v3/server/connection/authorize', [
+                'uuid' => $player->uuid,
+            ])
+            ->assertJson(fn (AssertableJson $json) => $json
+                ->whereContains('player.elevation', [
+                    'id' => $elevation->getKey(),
+                    'reason' => $elevation->reason,
+                    'started_at' => $elevation->started_at->toISOString(),
+                    'ended_at' => $elevation->ended_at->toISOString(),
+                ])
+                ->etc()
+            );
+    });
+
+    it('does not contain ended op elevation', function () {
+        $account = Account::factory()->create();
+        $player = MinecraftPlayer::factory()->create([
+            'account_id' => $account->getKey(),
+        ]);
+        PlayerOpElevation::factory()->ended()->create([
+            'player_id' => $player->getKey(),
+        ]);
+
+        $this->withServerToken()
+            ->postJson('http://api.localhost/v3/server/connection/authorize', [
+                'uuid' => $player->uuid,
+            ])
+            ->assertJson(fn (AssertableJson $json) => $json
+                ->whereContains('player.elevation', null)
                 ->etc()
             );
     });

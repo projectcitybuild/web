@@ -8,9 +8,10 @@ use App\Domains\Badges\UseCases\GetBadges;
 use App\Domains\Bans\Services\IPBanService;
 use App\Domains\Bans\Services\PlayerBanService;
 use App\Domains\Groups\Services\PlayerGroupsAggregator;
-use App\Domains\MinecraftTelemetry\UseCases\LogMinecraftPlayerIp;
 use App\Http\Controllers\ApiController;
 use App\Models\MinecraftPlayer;
+use App\Models\MinecraftPlayerIp;
+use App\Models\PlayerOpElevation;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,6 @@ final class MinecraftConnectionAuthController extends ApiController
         private readonly PlayerBanService $playerBanService,
         private readonly IPBanService $ipBanService,
         private readonly GetBadges $getBadges,
-        private readonly LogMinecraftPlayerIp $logMinecraftPlayerIp,
     ) {}
 
     public function __invoke(Request $request): JsonResponse
@@ -46,9 +46,9 @@ final class MinecraftConnectionAuthController extends ApiController
         }
         $ip = $validated['ip'] ?? '';
         if (! empty($ip)) {
-            $this->logMinecraftPlayerIp->execute(
-                playerId: $player->getKey(),
-                ip: $ip,
+            MinecraftPlayerIp::updateOrCreate(
+                ['player_id' => $player->getKey(), 'ip' => $ip],
+                ['updated_at' => now()],
             );
         }
 
@@ -78,11 +78,16 @@ final class MinecraftConnectionAuthController extends ApiController
     {
         $account = $player->account;
 
+        $elevation = PlayerOpElevation::where('player_id', $player->getKey())
+            ->whereActive()
+            ->first();
+
         return [
             'account' => $account?->withoutRelations(),
             'player' => $player->withoutRelations(),
             'groups' => optional($account, fn ($it) => $this->playerGroupsAggregator->get($it)) ?? collect(),
             'badges' => optional($player, fn ($it) => $this->getBadges->execute($it)) ?? collect(),
+            'elevation' => $elevation,
         ];
     }
 }
