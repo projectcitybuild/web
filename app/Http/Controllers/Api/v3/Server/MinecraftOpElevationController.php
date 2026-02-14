@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\v3\Server;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
-use App\Domains\PlayerOpElevations\Services\OpElevationService;
+use App\Domains\Pim\Services\OpElevationService;
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 

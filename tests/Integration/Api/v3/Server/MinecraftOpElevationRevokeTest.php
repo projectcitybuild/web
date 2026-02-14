@@ -2,7 +2,7 @@
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\MinecraftStats\Data\PlayerStatIncrement;
-use App\Domains\PlayerOpElevations\Notifications\OpElevationEndNotification;
+use App\Domains\Pim\Notifications\OpRevokedNotification;
 use App\Models\MinecraftPlayer;
 use App\Models\PlayerOpElevation;
 use Illuminate\Support\Facades\Config;
@@ -72,7 +72,7 @@ it('sends discord message', function () {
             'uuid' => $player->uuid,
         ]);
 
-    Notification::assertSentOnDemand(OpElevationEndNotification::class);
+    Notification::assertSentOnDemand(OpRevokedNotification::class);
 });
 
 it('throws if not currently elevated', function () {

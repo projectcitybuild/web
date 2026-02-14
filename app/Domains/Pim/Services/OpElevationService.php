@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Domains\PlayerOpElevations\Services;
+namespace App\Domains\Pim\Services;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
-use App\Domains\PlayerOpElevations\Exceptions\AlreadyElevatedException;
-use App\Domains\PlayerOpElevations\Exceptions\NotElevatedException;
-use App\Domains\PlayerOpElevations\Notifications\OpElevationEndNotification;
-use App\Domains\PlayerOpElevations\Notifications\OpElevationStartNotification;
+use App\Domains\Pim\Exceptions\AlreadyElevatedException;
+use App\Domains\Pim\Exceptions\NotElevatedException;
+use App\Domains\Pim\Notifications\OpGrantedNotification;
+use App\Domains\Pim\Notifications\OpRevokedNotification;
 use App\Models\MinecraftPlayer;
 use App\Models\PlayerOpElevation;
 use Carbon\CarbonInterface;
@@ -42,7 +42,7 @@ class OpElevationService
         $channel = config('discord.webhook_op_elevation_channel', default: '');
         throw_if($channel === '', 'No discord channel set for OP elevation');
         Notification::route('discord', $channel)->notify(
-            new OpElevationStartNotification($elevation),
+            new OpGrantedNotification($elevation),
         );
 
         return $elevation;
@@ -65,7 +65,7 @@ class OpElevationService
         $channel = config('discord.webhook_op_elevation_channel', default: '');
         throw_if($channel === '', 'No discord channel set for OP elevation');
         Notification::route('discord', $channel)->notify(
-            new OpElevationEndNotification($elevation),
+            new OpRevokedNotification($elevation),
         );
 
         return $elevation;

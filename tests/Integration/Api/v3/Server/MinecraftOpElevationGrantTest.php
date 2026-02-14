@@ -2,7 +2,7 @@
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\MinecraftStats\Data\PlayerStatIncrement;
-use App\Domains\PlayerOpElevations\Notifications\OpElevationStartNotification;
+use App\Domains\Pim\Notifications\OpGrantedNotification;
 use App\Models\MinecraftPlayer;
 use App\Models\PlayerOpElevation;
 use Illuminate\Support\Facades\Config;
@@ -85,7 +85,7 @@ it('sends discord message', function () {
             'reason' => $reason,
         ]);
 
-    Notification::assertSentOnDemand(OpElevationStartNotification::class);
+    Notification::assertSentOnDemand(OpGrantedNotification::class);
 });
 
 it('throws if already elevated', function () {
