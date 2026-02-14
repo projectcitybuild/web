@@ -14,12 +14,12 @@ beforeEach(function () {
 });
 
 it('requires server token', function () {
-    $this->postJson('http://api.localhost/v3/server/op/grant')
+    $this->postJson('http://api.localhost/v3/server/pim/op/grant')
         ->assertUnauthorized();
 
     $status = $this
         ->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/grant')
+        ->postJson('http://api.localhost/v3/server/pim/op/grant')
         ->status();
 
     expect($status)->not->toEqual(401);
@@ -29,13 +29,13 @@ it('throws exception for invalid Minecraft UUID', function () {
     $stats = PlayerStatIncrement::random();
 
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/grant', [
+        ->postJson('http://api.localhost/v3/server/pim/op/grant', [
             'uuid' => 'invalid',
         ])
         ->assertInvalid(['uuid']);
 
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/grant', [
+        ->postJson('http://api.localhost/v3/server/pim/op/grant', [
             'uuid' => MinecraftUUID::random()->trimmed(),
         ])
         ->assertValid(['uuid']);
@@ -45,13 +45,13 @@ it('throws exception for missing reason', function () {
     $stats = PlayerStatIncrement::random();
 
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/grant', [
+        ->postJson('http://api.localhost/v3/server/pim/op/grant', [
             'uuid' => MinecraftUUID::random()->trimmed(),
         ])
         ->assertInvalid(['reason']);
 
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/grant', [
+        ->postJson('http://api.localhost/v3/server/pim/op/grant', [
             'uuid' => MinecraftUUID::random()->trimmed(),
             'reason' => 'foo bar',
         ])
@@ -63,7 +63,7 @@ it('creates op elevation record', function () {
     $reason = 'foo bar';
 
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/grant', [
+        ->postJson('http://api.localhost/v3/server/pim/op/grant', [
             'uuid' => $player->uuid,
             'reason' => $reason,
         ])
@@ -80,7 +80,7 @@ it('sends discord message', function () {
     $reason = 'foo bar';
 
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/grant', [
+        ->postJson('http://api.localhost/v3/server/pim/op/grant', [
             'uuid' => $player->uuid,
             'reason' => $reason,
         ]);
@@ -95,7 +95,7 @@ it('throws if already elevated', function () {
     ]);
 
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/grant', [
+        ->postJson('http://api.localhost/v3/server/pim/op/grant', [
             'uuid' => $player->uuid,
             'reason' => 'foo bar',
         ])
@@ -108,7 +108,7 @@ it('checks ended_at to determine active elevation', function () {
         'player_id' => $player->getKey(),
     ]);
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/grant', [
+        ->postJson('http://api.localhost/v3/server/pim/op/grant', [
             'uuid' => $player->uuid,
             'reason' => 'foo bar',
         ])
@@ -119,7 +119,7 @@ it('checks ended_at to determine active elevation', function () {
         'player_id' => $player->getKey(),
     ]);
     $status = $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/grant', [
+        ->postJson('http://api.localhost/v3/server/pim/op/grant', [
             'uuid' => $player->uuid,
             'reason' => 'foo bar',
         ])
