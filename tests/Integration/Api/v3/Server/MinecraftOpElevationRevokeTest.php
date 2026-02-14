@@ -14,12 +14,12 @@ beforeEach(function () {
 });
 
 it('requires server token', function () {
-    $this->postJson('http://api.localhost/v3/server/op/end')
+    $this->postJson('http://api.localhost/v3/server/op/revoke')
         ->assertUnauthorized();
 
     $status = $this
         ->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/end')
+        ->postJson('http://api.localhost/v3/server/op/revoke')
         ->status();
 
     expect($status)->not->toEqual(401);
@@ -29,13 +29,13 @@ it('throws exception for invalid Minecraft UUID', function () {
     $stats = PlayerStatIncrement::random();
 
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/end', [
+        ->postJson('http://api.localhost/v3/server/op/revoke', [
             'uuid' => 'invalid',
         ])
         ->assertInvalid(['uuid']);
 
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/end', [
+        ->postJson('http://api.localhost/v3/server/op/revoke', [
             'uuid' => MinecraftUUID::random()->trimmed(),
         ])
         ->assertValid(['uuid']);
@@ -51,7 +51,7 @@ it('updates op elevation record', function () {
         ]);
 
         $this->withServerToken()
-            ->postJson('http://api.localhost/v3/server/op/end', [
+            ->postJson('http://api.localhost/v3/server/op/revoke', [
                 'uuid' => $player->uuid,
             ])
             ->assertOk();
@@ -68,7 +68,7 @@ it('sends discord message', function () {
     ]);
 
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/end', [
+        ->postJson('http://api.localhost/v3/server/op/revoke', [
             'uuid' => $player->uuid,
         ]);
 
@@ -79,7 +79,7 @@ it('throws if not currently elevated', function () {
     $player = MinecraftPlayer::factory()->create();
 
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/end', [
+        ->postJson('http://api.localhost/v3/server/op/revoke', [
             'uuid' => $player->uuid,
             'reason' => 'foo bar',
         ])
@@ -92,7 +92,7 @@ it('checks ended_at to determine active elevation', function () {
         'player_id' => $player->getKey(),
     ]);
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/end', [
+        ->postJson('http://api.localhost/v3/server/op/revoke', [
             'uuid' => $player->uuid,
         ])
         ->assertOk();
@@ -102,7 +102,7 @@ it('checks ended_at to determine active elevation', function () {
         'player_id' => $player->getKey(),
     ]);
     $status = $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/end', [
+        ->postJson('http://api.localhost/v3/server/op/revoke', [
             'uuid' => $player->uuid,
         ])
         ->status();
