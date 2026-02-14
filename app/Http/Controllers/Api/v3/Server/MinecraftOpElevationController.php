@@ -14,7 +14,7 @@ final class MinecraftOpElevationController extends ApiController
         private readonly OpElevationService $opElevationService,
     ) {}
 
-    public function start(Request $request)
+    public function grant(Request $request)
     {
         $validated = collect($request->validate([
             'uuid' => ['required', new MinecraftUUIDRule],
@@ -29,7 +29,7 @@ final class MinecraftOpElevationController extends ApiController
         );
     }
 
-    public function end(Request $request)
+    public function revoke(Request $request)
     {
         $validated = collect($request->validate([
             'uuid' => ['required', new MinecraftUUIDRule],
