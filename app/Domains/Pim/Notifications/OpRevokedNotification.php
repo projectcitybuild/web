@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\PlayerOpElevations\Notifications;
+namespace App\Domains\Pim\Notifications;
 
 use App\Core\Domains\Discord\Data\DiscordAuthor;
 use App\Core\Domains\Discord\Data\DiscordEmbed;
@@ -11,7 +11,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 
-class OpElevationStartNotification extends Notification implements ShouldQueue
+class OpRevokedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -50,7 +50,7 @@ class OpElevationStartNotification extends Notification implements ShouldQueue
         return new DiscordMessage(
             embeds: [
                 new DiscordEmbed(
-                    title: 'Player elevated to OP',
+                    title: 'Player cancelled OP elevation',
                     description: $this->elevation->reason,
                     author: DiscordAuthor::withMinecraftAvatar(
                         name: $this->elevation->player->alias,
@@ -61,13 +61,8 @@ class OpElevationStartNotification extends Notification implements ShouldQueue
                             name: 'UUID',
                             value: $this->elevation->player->uuid,
                         ),
-
                         new DiscordEmbedField(
                             name: 'At',
-                            value: $this->elevation->started_at,
-                        ),
-                        new DiscordEmbedField(
-                            name: 'Until',
                             value: $this->elevation->ended_at,
                         ),
                     ],

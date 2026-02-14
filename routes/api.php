@@ -30,7 +30,12 @@ Route::domain(config('app.api_url'))->group(function () {
                 Route::post('connection/authorize', MinecraftConnectionAuthController::class);
                 Route::post('connection/end', MinecraftConnectionEndController::class);
                 Route::post('stats', [MinecraftStatsController::class, 'store']);
+                Route::post('pim/op/grant', [MinecraftOpElevationController::class, 'grant']);
+                Route::post('pim/op/revoke', [MinecraftOpElevationController::class, 'revoke']);
+
+                /** @deprecated */
                 Route::post('op/grant', [MinecraftOpElevationController::class, 'grant']);
+                /** @deprecated */
                 Route::post('op/revoke', [MinecraftOpElevationController::class, 'revoke']);
 
                 Route::post('register', [MinecraftRegisterController::class, 'store'])

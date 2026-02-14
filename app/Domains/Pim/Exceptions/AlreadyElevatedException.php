@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Domains\PlayerOpElevations\Exceptions;
+namespace App\Domains\Pim\Exceptions;
 
 use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class NotElevatedException extends Exception
+final class AlreadyElevatedException extends Exception
 {
     public function report(): bool
     {
@@ -17,10 +17,10 @@ final class NotElevatedException extends Exception
     {
         return response()->json(
             [
-                'id' => 'not_elevated',
-                'message' => $this->getMessage() ?: 'You are not currently OP elevated',
+                'id' => 'already_elevated',
+                'message' => $this->getMessage() ?: 'You are already OP elevated',
             ],
-            Response::HTTP_NOT_FOUND,
+            Response::HTTP_CONFLICT,
         );
     }
 }

@@ -2,7 +2,7 @@
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\MinecraftStats\Data\PlayerStatIncrement;
-use App\Domains\PlayerOpElevations\Notifications\OpElevationEndNotification;
+use App\Domains\Pim\Notifications\OpRevokedNotification;
 use App\Models\MinecraftPlayer;
 use App\Models\PlayerOpElevation;
 use Illuminate\Support\Facades\Config;
@@ -14,12 +14,12 @@ beforeEach(function () {
 });
 
 it('requires server token', function () {
-    $this->postJson('http://api.localhost/v3/server/op/revoke')
+    $this->postJson('http://api.localhost/v3/server/pim/op/revoke')
         ->assertUnauthorized();
 
     $status = $this
         ->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/revoke')
+        ->postJson('http://api.localhost/v3/server/pim/op/revoke')
         ->status();
 
     expect($status)->not->toEqual(401);
@@ -29,13 +29,13 @@ it('throws exception for invalid Minecraft UUID', function () {
     $stats = PlayerStatIncrement::random();
 
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/revoke', [
+        ->postJson('http://api.localhost/v3/server/pim/op/revoke', [
             'uuid' => 'invalid',
         ])
         ->assertInvalid(['uuid']);
 
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/revoke', [
+        ->postJson('http://api.localhost/v3/server/pim/op/revoke', [
             'uuid' => MinecraftUUID::random()->trimmed(),
         ])
         ->assertValid(['uuid']);
@@ -51,7 +51,7 @@ it('updates op elevation record', function () {
         ]);
 
         $this->withServerToken()
-            ->postJson('http://api.localhost/v3/server/op/revoke', [
+            ->postJson('http://api.localhost/v3/server/pim/op/revoke', [
                 'uuid' => $player->uuid,
             ])
             ->assertOk();
@@ -68,18 +68,18 @@ it('sends discord message', function () {
     ]);
 
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/revoke', [
+        ->postJson('http://api.localhost/v3/server/pim/op/revoke', [
             'uuid' => $player->uuid,
         ]);
 
-    Notification::assertSentOnDemand(OpElevationEndNotification::class);
+    Notification::assertSentOnDemand(OpRevokedNotification::class);
 });
 
 it('throws if not currently elevated', function () {
     $player = MinecraftPlayer::factory()->create();
 
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/revoke', [
+        ->postJson('http://api.localhost/v3/server/pim/op/revoke', [
             'uuid' => $player->uuid,
             'reason' => 'foo bar',
         ])
@@ -92,7 +92,7 @@ it('checks ended_at to determine active elevation', function () {
         'player_id' => $player->getKey(),
     ]);
     $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/revoke', [
+        ->postJson('http://api.localhost/v3/server/pim/op/revoke', [
             'uuid' => $player->uuid,
         ])
         ->assertOk();
@@ -102,7 +102,7 @@ it('checks ended_at to determine active elevation', function () {
         'player_id' => $player->getKey(),
     ]);
     $status = $this->withServerToken()
-        ->postJson('http://api.localhost/v3/server/op/revoke', [
+        ->postJson('http://api.localhost/v3/server/pim/op/revoke', [
             'uuid' => $player->uuid,
         ])
         ->status();
