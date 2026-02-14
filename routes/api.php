@@ -34,9 +34,9 @@ Route::domain(config('app.api_url'))->group(function () {
                 Route::post('pim/op/revoke', [MinecraftOpElevationController::class, 'revoke']);
 
                 /** @deprecated */
-                Route::post('op/start', [MinecraftOpElevationController::class, 'grant']);
+                Route::post('op/grant', [MinecraftOpElevationController::class, 'grant']);
                 /** @deprecated */
-                Route::post('op/end', [MinecraftOpElevationController::class, 'revoke']);
+                Route::post('op/revoke', [MinecraftOpElevationController::class, 'revoke']);
 
                 Route::post('register', [MinecraftRegisterController::class, 'store'])
                     ->middleware('throttle:3,1');
