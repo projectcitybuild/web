@@ -5,12 +5,12 @@ use App\Domains\Donations\UseCases\ExpireDonorPerks;
 use App\Models\Account;
 use App\Models\Donation;
 use App\Models\DonationPerk;
-use App\Models\Group;
+use App\Models\Role;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 
 beforeEach(function () {
-    $this->donorGroup = Group::factory()->donor()->create();
+    $this->donorRole = Role::factory()->donor()->create();
     $this->account = Account::factory()->create();
     $this->useCase = new ExpireDonorPerks;
 
@@ -88,8 +88,8 @@ it('does not send email if user has another active perk', function () {
     Notification::assertNothingSentTo($this->account);
 });
 
-it('removes user from donor group on expiry', function () {
-    $this->account->groups()->attach($this->donorGroup);
+it('removes user from donor role on expiry', function () {
+    $this->account->roles()->attach($this->donorRole);
 
     DonationPerk::factory()
         ->for($this->account)
@@ -97,20 +97,20 @@ it('removes user from donor group on expiry', function () {
         ->expired()
         ->create();
 
-    $this->assertDatabaseHas('groups_accounts', [
+    $this->assertDatabaseHas('roles_accounts', [
         'account_id' => $this->account->getKey(),
-        'group_id' => $this->donorGroup->getKey(),
+        'role_id' => $this->donorRole->getKey(),
     ]);
 
     $this->useCase->execute();
 
-    $this->assertDatabaseMissing('groups_accounts', [
+    $this->assertDatabaseMissing('roles_accounts', [
         'account_id' => $this->account->getKey(),
-        'group_id' => $this->donorGroup->getKey(),
+        'role_id' => $this->donorRole->getKey(),
     ]);
 });
 
-it('does not remove donor group if user has another active perk', function () {
+it('does not remove donor role if user has another active perk', function () {
     DonationPerk::factory()
         ->for($this->account)
         ->for(Donation::factory()->for($this->account))
@@ -123,17 +123,17 @@ it('does not remove donor group if user has another active perk', function () {
         ->notExpired()
         ->create();
 
-    $this->account->groups()->attach($this->donorGroup);
+    $this->account->roles()->attach($this->donorRole);
 
-    $this->assertDatabaseHas('groups_accounts', [
+    $this->assertDatabaseHas('roles_accounts', [
         'account_id' => $this->account->getKey(),
-        'group_id' => $this->donorGroup->getKey(),
+        'role_id' => $this->donorRole->getKey(),
     ]);
 
     $this->useCase->execute();
 
-    $this->assertDatabaseHas('groups_accounts', [
+    $this->assertDatabaseHas('roles_accounts', [
         'account_id' => $this->account->getKey(),
-        'group_id' => $this->donorGroup->getKey(),
+        'role_id' => $this->donorRole->getKey(),
     ]);
 });

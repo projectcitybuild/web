@@ -6,7 +6,7 @@ use App\Core\Domains\Auditing\Causers\SystemCauser;
 use App\Core\Domains\Auditing\Causers\SystemCauseResolver;
 use App\Domains\Donations\Notifications\DonationEndedNotification;
 use App\Models\DonationPerk;
-use App\Models\Group;
+use App\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -27,7 +27,7 @@ final class ExpireDonorPerks
                 return;
             }
 
-            $donorGroup = Group::getDonorOrThrow();
+            $donorRole = Role::getDonorOrThrow();
             $affectedAccounts = [];
 
             foreach ($expiredPerks as $expiredPerk) {
@@ -48,7 +48,7 @@ final class ExpireDonorPerks
 
             // TODO: this should really be in its own queued job for better failure tolerance
             foreach ($affectedAccounts as $account) {
-                // Only remove accounts from the donor group and notify them if they don't
+                // Only remove accounts from the donor role and notify them if they don't
                 // have any other existing perks
                 $perks = DonationPerk::where('account_id', $account->getKey())
                     ->where('is_active', true)
@@ -61,7 +61,7 @@ final class ExpireDonorPerks
                     continue;
                 }
 
-                $account->groups()->detach($donorGroup->getKey());
+                $account->roles()->detach($donorRole->id);
                 $account->notify(new DonationEndedNotification);
 
                 Log::info('Removed '.$account->getKey().' from donators');

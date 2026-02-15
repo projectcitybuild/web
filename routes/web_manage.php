@@ -7,18 +7,16 @@ use App\Http\Controllers\Manage\Accounts\AccountBanAppealController;
 use App\Http\Controllers\Manage\Accounts\AccountBuilderRankApplicationsController;
 use App\Http\Controllers\Manage\Accounts\AccountController;
 use App\Http\Controllers\Manage\Accounts\AccountGameAccountController;
-use App\Http\Controllers\Manage\Accounts\AccountGroupController;
 use App\Http\Controllers\Manage\Accounts\AccountMfaController;
 use App\Http\Controllers\Manage\Accounts\AccountPlayerController;
 use App\Http\Controllers\Manage\Accounts\AccountResendActivationController;
+use App\Http\Controllers\Manage\Accounts\AccountRoleController;
 use App\Http\Controllers\Manage\Activity\ActivityController;
 use App\Http\Controllers\Manage\Badges\BadgeController;
 use App\Http\Controllers\Manage\Bans\GameIPBanController;
 use App\Http\Controllers\Manage\Bans\GamePlayerBanController;
 use App\Http\Controllers\Manage\Donations\DonationController;
 use App\Http\Controllers\Manage\Donations\DonationPerksController;
-use App\Http\Controllers\Manage\Groups\GroupAccountController;
-use App\Http\Controllers\Manage\Groups\GroupController;
 use App\Http\Controllers\Manage\HomeController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftWarpController;
@@ -28,6 +26,8 @@ use App\Http\Controllers\Manage\Players\MinecraftPlayerController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerHomeController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerIpController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerWarningController;
+use App\Http\Controllers\Manage\Roles\RoleAccountController;
+use App\Http\Controllers\Manage\Roles\RoleController;
 use App\Http\Controllers\Manage\Servers\ServerController;
 use App\Http\Controllers\Manage\Servers\ServerTokenController;
 use App\Http\Controllers\Manage\Warnings\PlayerWarningController;
@@ -60,8 +60,8 @@ Route::name('manage.')
             Route::post('email-change/{accountEmailChange}/approve', AccountApproveEmailChangeController::class);
             Route::delete('player/{minecraftPlayer}', [AccountGameAccountController::class, 'delete']);
 
-            Route::get('groups', [AccountGroupController::class, 'index']);
-            Route::put('groups', [AccountGroupController::class, 'update']);
+            Route::get('roles', [AccountRoleController::class, 'index']);
+            Route::put('roles', [AccountRoleController::class, 'update']);
 
             Route::get('badges', [AccountBadgeController::class, 'index']);
             Route::put('badges', [AccountBadgeController::class, 'update']);
@@ -96,10 +96,10 @@ Route::name('manage.')
             Route::resource('warps', MinecraftWarpController::class);
         });
 
-        Route::resource('groups', GroupController::class)
+        Route::resource('roles', RoleController::class)
             ->except(['show']);
 
-        Route::get('groups/{group}/accounts', [GroupAccountController::class, 'index']);
+        Route::get('roles/{role}/accounts', [RoleAccountController::class, 'index']);
 
         Route::resource('badges', BadgeController::class);
 

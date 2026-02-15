@@ -5,9 +5,9 @@ use App\Models\Account;
 use App\Models\Donation;
 use App\Models\DonationPerk;
 use App\Models\DonationTier;
-use App\Models\Group;
 use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
+use App\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -36,12 +36,12 @@ it('allows 1 home if no account', function () {
         ]);
 });
 
-it('allows 1 home if groups do not grant additional homes', function () {
+it('allows 1 home if roles do not grant additional homes', function () {
     $account = Account::factory()->create();
     $player = MinecraftPlayer::factory()->create(['account_id' => $account->getKey()]);
 
-    $group1 = Group::factory()->create(['name' => 'trusted', 'additional_homes' => 0]);
-    $account->groups()->attach($group1);
+    $role1 = Role::factory()->create(['name' => 'trusted', 'additional_homes' => 0]);
+    $account->roles()->attach($role1);
 
     $this->withServerToken()
         ->getJson('http://api.localhost/v3/players/'.$player->uuid.'/homes/limit')
@@ -53,13 +53,13 @@ it('allows 1 home if groups do not grant additional homes', function () {
         ]);
 });
 
-it('composes home limit from groups', function () {
+it('composes home limit from roles', function () {
     $account = Account::factory()->create();
     $player = MinecraftPlayer::factory()->create(['account_id' => $account->getKey()]);
 
-    $group1 = Group::factory()->create(['name' => 'trusted', 'additional_homes' => 5]);
-    $group2 = Group::factory()->create(['name' => 'donor', 'additional_homes' => 6]);
-    $account->groups()->attach([$group1, $group2]);
+    $role1 = Role::factory()->create(['name' => 'trusted', 'additional_homes' => 5]);
+    $role2 = Role::factory()->create(['name' => 'donor', 'additional_homes' => 6]);
+    $account->roles()->attach([$role1, $role2]);
 
     for ($i = 0; $i < 3; $i++) {
         MinecraftHome::factory()->create(['player_id' => $player->getKey()]);
@@ -78,15 +78,15 @@ it('composes home limit from groups', function () {
         ]);
 });
 
-it('composes home limit from groups and donor tier groups', function () {
+it('composes home limit from roles and donor tier roles', function () {
     $account = Account::factory()->create();
     $player = MinecraftPlayer::factory()->create(['account_id' => $account->getKey()]);
 
-    $normalGroup = Group::factory()->create(['name' => 'trusted', 'additional_homes' => 5]);
-    $account->groups()->attach($normalGroup);
+    $normalRole = Role::factory()->create(['name' => 'trusted', 'additional_homes' => 5]);
+    $account->roles()->attach($normalRole);
 
-    $donorGroup = Group::factory()->create(['name' => 'donor', 'additional_homes' => 6]);
-    $donorTier = DonationTier::factory()->create(['group_id' => $donorGroup]);
+    $donorRole = Role::factory()->create(['name' => 'donor', 'additional_homes' => 6]);
+    $donorTier = DonationTier::factory()->create(['role_id' => $donorRole]);
     DonationPerk::factory()->notExpired()->create([
         'donation_id' => Donation::factory()->create()->getKey(),
         'account_id' => $account->getKey(),

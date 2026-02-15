@@ -83,8 +83,7 @@ function destroy() {
                 </div>
             </div>
             <div class="col-span-2">
-                <label for="warner_uuid" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Banned
-                    By</label>
+                <label for="warner_uuid" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Warned By</label>
                 <PlayerPicker
                     v-model:uuid="form.warner_uuid"
                     v-model:alias="form.warner_alias"

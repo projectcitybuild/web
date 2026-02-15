@@ -1,6 +1,6 @@
 import { Player } from './Player'
 import { Badge } from './Badge'
-import { Group } from './Group'
+import { Role } from './Role'
 import { AccountActivation } from './AccountActivation'
 import { Donation } from './Donation'
 import { EmailChangeRequest } from './EmailChangeRequest'
@@ -13,7 +13,7 @@ export interface Account {
     is_totp_enabled: boolean,
     minecraft_account?: Player[],
     badges?: Badge[],
-    groups?: Group[],
+    roles?: Role[],
     activations?: AccountActivation[],
     donations?: Donation[],
     email_change_requests?: EmailChangeRequest[],

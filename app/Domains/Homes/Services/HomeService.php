@@ -3,10 +3,10 @@
 namespace App\Domains\Homes\Services;
 
 use App\Core\Domains\MinecraftCoordinate\MinecraftCoordinate;
-use App\Domains\Groups\Services\PlayerGroupsAggregator;
 use App\Domains\Homes\Data\HomeCount;
 use App\Domains\Homes\Exceptions\HomeAlreadyExistsException;
 use App\Domains\Homes\Exceptions\HomeLimitReachedException;
+use App\Domains\Roles\Services\PlayerRolesAggregator;
 use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -15,17 +15,17 @@ class HomeService
 {
     public function __construct(
         // TODO: inject with interface to break coupling
-        private readonly PlayerGroupsAggregator $playerGroupsAggregator,
+        private readonly PlayerRolesAggregator $playerRolesAggregator,
     ) {}
 
     public function count(MinecraftPlayer $player): ?HomeCount
     {
         $account = $player->account;
-        $groups = optional($account, fn ($it) => $this->playerGroupsAggregator->get($it))
+        $roles = optional($account, fn ($it) => $this->playerRolesAggregator->get($it))
             ?? collect();
 
-        $sources = $groups
-            ->filter(fn ($group) => ($group->additional_homes ?? 0) > 0)
+        $sources = $roles
+            ->filter(fn ($role) => ($role->additional_homes ?? 0) > 0)
             ->pluck('additional_homes', 'name');
 
         return new HomeCount(

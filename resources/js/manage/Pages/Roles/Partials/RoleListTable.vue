@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import { Group } from '../../../Data/Group'
+import { Role } from '../../../Data/Role'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
 import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
-    groups: Group[],
+    roles: Role[],
 }
 defineProps<Props>()
 
 const fields = [
-    { key: 'group_id', label: 'ID' },
+    { key: 'id', label: 'ID' },
     { key: 'name', label: 'Name' },
     { key: 'accounts_count', label: 'Accounts' },
     { key: 'minecraft_name', label: 'Minecraft Name' },
-    { key: 'group_type', label: 'Group Type' },
+    { key: 'role_type', label: 'Role Type' },
     { key: 'display_priority', label: 'Display Priority' },
     { key: 'is_default', label: 'Is Default?' },
     { key: 'is_admin', label: 'Is Admin?' },
@@ -24,10 +24,10 @@ const fields = [
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="groups">
+    <DataTable :fields="fields" :rows="roles">
         <template #accounts_count="{ item }">
             <Link
-                :href="'/manage/groups/' + item.group_id + '/accounts'"
+                :href="'/manage/roles/' + item.id + '/accounts'"
                 class="text-blue-500 font-bold"
             >
                 {{ item.accounts_count }}
@@ -43,7 +43,7 @@ const fields = [
         </template>
 
         <template #actions="{ item }">
-            <Link :href="'/manage/groups/' + item.group_id + '/edit'">
+            <Link :href="'/manage/roles/' + item.id + '/edit'">
                 <FilledButton variant="secondary">
                     Edit
                 </FilledButton>

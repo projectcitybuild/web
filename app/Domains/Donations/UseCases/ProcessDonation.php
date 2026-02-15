@@ -6,7 +6,7 @@ use App\Domains\Donations\Notifications\DonationPerkStartedNotification;
 use App\Models\Account;
 use App\Models\Donation;
 use App\Models\DonationPerk;
-use App\Models\Group;
+use App\Models\Role;
 use App\Models\StripeProduct;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -59,8 +59,8 @@ class ProcessDonation
         StripeProduct $product,
         int $numberOfMonths,
     ) {
-        $donorGroup = Group::getDonorOrThrow();
-        $account->groups()->syncWithoutDetaching([$donorGroup->getKey()]);
+        $donorRole = Role::getDonorOrThrow();
+        $account->roles()->syncWithoutDetaching([$donorRole->getKey()]);
 
         $donationTier = $product->donationTier;
         if ($donationTier === null) {

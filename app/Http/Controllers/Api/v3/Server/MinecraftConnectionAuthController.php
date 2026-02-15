@@ -7,7 +7,7 @@ use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Domains\Badges\UseCases\GetBadges;
 use App\Domains\Bans\Services\IPBanService;
 use App\Domains\Bans\Services\PlayerBanService;
-use App\Domains\Groups\Services\PlayerGroupsAggregator;
+use App\Domains\Roles\Services\PlayerRolesAggregator;
 use App\Http\Controllers\ApiController;
 use App\Models\MinecraftPlayer;
 use App\Models\MinecraftPlayerIp;
@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 final class MinecraftConnectionAuthController extends ApiController
 {
     public function __construct(
-        private readonly PlayerGroupsAggregator $playerGroupsAggregator,
+        private readonly PlayerRolesAggregator $playerRolesAggregator,
         private readonly PlayerBanService $playerBanService,
         private readonly IPBanService $ipBanService,
         private readonly GetBadges $getBadges,
@@ -35,7 +35,7 @@ final class MinecraftConnectionAuthController extends ApiController
         $now = now();
         $uuid = MinecraftUUID::tryParse($validated->get('uuid'));
         $player = MinecraftPlayer::firstOrCreate($uuid, alias: $validated->get('alias'));
-        $player->load(['account.groups', 'account.donationPerks.donationTier.group']);
+        $player->load(['account.roles', 'account.donationPerks.donationTier.role']);
         $player->last_connected_at = $now;
 
         $playerData = null;
@@ -85,7 +85,7 @@ final class MinecraftConnectionAuthController extends ApiController
         return [
             'account' => $account?->withoutRelations(),
             'player' => $player->withoutRelations(),
-            'groups' => optional($account, fn ($it) => $this->playerGroupsAggregator->get($it)) ?? collect(),
+            'roles' => optional($account, fn ($it) => $this->playerRolesAggregator->get($it)) ?? collect(),
             'badges' => optional($player, fn ($it) => $this->getBadges->execute($it)) ?? collect(),
             'elevation' => $elevation,
         ];

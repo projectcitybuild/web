@@ -5,8 +5,8 @@ use App\Domains\Donations\Listeners\DonationListener;
 use App\Domains\Donations\UseCases\ProcessDonation;
 use App\Models\Account;
 use App\Models\DonationTier;
-use App\Models\Group;
 use App\Models\Payment;
+use App\Models\Role;
 use App\Models\StripeProduct;
 use Mockery\MockInterface;
 
@@ -14,7 +14,7 @@ beforeEach(function () {});
 
 it('calls ProcessDonation on PaymentCreated event', function () {
     $donationTier = DonationTier::factory()
-        ->for(Group::factory())
+        ->for(Role::factory())
         ->create();
 
     $product = StripeProduct::factory()

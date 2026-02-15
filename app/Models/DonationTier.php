@@ -20,16 +20,15 @@ final class DonationTier extends Model implements LinkableAuditModel
     protected $primaryKey = 'donation_tier_id';
     protected $fillable = [
         'name',
-        'group_id',
+        'role_id',
     ];
     public $timestamps = false;
 
-    public function group(): BelongsTo
+    public function role(): BelongsTo
     {
         return $this->belongsTo(
-            related: Group::class,
-            foreignKey: 'group_id',
-            ownerKey: 'group_id',
+            related: Role::class,
+            foreignKey: 'role_id',
         );
     }
 

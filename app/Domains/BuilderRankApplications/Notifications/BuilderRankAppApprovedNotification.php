@@ -3,7 +3,7 @@
 namespace App\Domains\BuilderRankApplications\Notifications;
 
 use App\Models\BuilderRankApplication;
-use App\Models\Group;
+use App\Models\Role;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -20,7 +20,7 @@ class BuilderRankAppApprovedNotification extends Notification implements ShouldQ
      */
     public function __construct(
         private BuilderRankApplication $builderRankApplication,
-        private Group $groupPromotedTo,
+        private Role $rolePromotedTo,
     ) {}
 
     /**
@@ -55,7 +55,7 @@ class BuilderRankAppApprovedNotification extends Notification implements ShouldQ
         return (new MailMessage)
             ->subject('Your builder rank application has been approved')
             ->greeting('Congratulations!')
-            ->line('Your builder rank application has been approved and you\'ve been promoted to '.$this->groupPromotedTo->name)
+            ->line('Your builder rank application has been approved and you\'ve been promoted to '.$this->rolePromotedTo->name)
             ->line('If you have any questions, please feel free to reach out to the staff or architect team');
     }
 

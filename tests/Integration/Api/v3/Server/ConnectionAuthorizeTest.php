@@ -8,9 +8,9 @@ use App\Models\DonationPerk;
 use App\Models\DonationTier;
 use App\Models\GameIPBan;
 use App\Models\GamePlayerBan;
-use App\Models\Group;
 use App\Models\MinecraftPlayer;
 use App\Models\PlayerOpElevation;
+use App\Models\Role;
 use Illuminate\Support\Carbon;
 use Illuminate\Testing\Fluent\AssertableJson;
 
@@ -59,7 +59,7 @@ it('creates new player', function () {
                     'updated_at' => $now->toISOString(),
                 ])
                 ->where('player.account', null)
-                ->where('player.groups', [])
+                ->where('player.roles', [])
                 ->where('player.badges', [])
                 ->etc()
             );
@@ -70,7 +70,7 @@ describe('existing player', function () {
     it('returns data for member', function () {
         $this->freezeTime(function ($now) {
             $now->setMicroseconds(0);
-            $group = Group::factory()->member()->create();
+            $role = Role::factory()->member()->create();
             $account = Account::factory()->create();
             $player = MinecraftPlayer::factory()->for($account)->create();
 
@@ -94,8 +94,8 @@ describe('existing player', function () {
                     ->whereContains('player.account', [
                         'account_id' => $account->getKey(),
                     ])
-                    ->whereContains('player.groups.0', [
-                        'group_id' => $group->getKey(),
+                    ->whereContains('player.roles.0', [
+                        'id' => $role->id,
                     ])
                     ->etc()
                 );
@@ -168,11 +168,11 @@ describe('existing player', function () {
         });
     });
 
-    it('contains non-member groups', function () {
-        $group = Group::factory()->create();
+    it('contains non-member roles', function () {
+        $role = Role::factory()->create();
 
         $account = Account::factory()->create();
-        $account->groups()->sync($group);
+        $account->roles()->sync($role);
 
         $player = MinecraftPlayer::factory()->create([
             'account_id' => $account->getKey(),
@@ -183,27 +183,27 @@ describe('existing player', function () {
                 'uuid' => $player->uuid,
             ])
             ->assertJson(fn (AssertableJson $json) => $json
-                ->count('player.groups', 1)
-                ->has('player.groups', 1, fn (AssertableJson $json) => $json
-                    ->where('group_id', $group->getKey())
-                    ->where('group_type', $group->group_type)
-                    ->where('minecraft_name', $group->minecraft_name)
-                    ->where('minecraft_display_name', $group->minecraft_display_name)
-                    ->where('minecraft_hover_text', $group->minecraft_hover_text)
+                ->count('player.roles', 1)
+                ->has('player.roles', 1, fn (AssertableJson $json) => $json
+                    ->where('id', $role->id)
+                    ->where('role_type', $role->role_type)
+                    ->where('minecraft_name', $role->minecraft_name)
+                    ->where('minecraft_display_name', $role->minecraft_display_name)
+                    ->where('minecraft_hover_text', $role->minecraft_hover_text)
                     ->etc()
                 )
                 ->etc()
             );
     });
 
-    it('contains group + donor tiers', function () {
-        $group = Group::factory()->create();
+    it('contains role + donor tiers', function () {
+        $role = Role::factory()->create();
         $account = Account::factory()->create();
-        $account->groups()->sync($group);
+        $account->roles()->sync($role);
         $player = MinecraftPlayer::factory()->for($account)->create();
 
-        $donorTierGroup = Group::factory()->create();
-        $donorTier = DonationTier::factory()->for($donorTierGroup)->create();
+        $donorTierRole = Role::factory()->create();
+        $donorTier = DonationTier::factory()->for($donorTierRole)->create();
         $donation = Donation::factory()->create();
 
         DonationPerk::factory()
@@ -218,34 +218,34 @@ describe('existing player', function () {
                 'uuid' => $player->uuid,
             ])
             ->assertJson(fn (AssertableJson $json) => $json
-                ->count('player.groups', 2)
-                ->has('player.groups.0', fn (AssertableJson $json) => $json
-                    ->where('group_id', $group->getKey())
-                    ->where('group_type', $group->group_type)
-                    ->where('minecraft_name', $group->minecraft_name)
-                    ->where('minecraft_display_name', $group->minecraft_display_name)
-                    ->where('minecraft_hover_text', $group->minecraft_hover_text)
+                ->count('player.roles', 2)
+                ->has('player.roles.0', fn (AssertableJson $json) => $json
+                    ->where('id', $role->id)
+                    ->where('role_type', $role->role_type)
+                    ->where('minecraft_name', $role->minecraft_name)
+                    ->where('minecraft_display_name', $role->minecraft_display_name)
+                    ->where('minecraft_hover_text', $role->minecraft_hover_text)
                     ->etc()
                 )
-                ->has('player.groups.1', fn (AssertableJson $json) => $json
-                    ->where('group_id', $donorTierGroup->getKey())
-                    ->where('group_type', $donorTierGroup->group_type)
-                    ->where('minecraft_name', $donorTierGroup->minecraft_name)
-                    ->where('minecraft_display_name', $donorTierGroup->minecraft_display_name)
-                    ->where('minecraft_hover_text', $donorTierGroup->minecraft_hover_text)
+                ->has('player.roles.1', fn (AssertableJson $json) => $json
+                    ->where('id', $donorTierRole->id)
+                    ->where('role_type', $donorTierRole->role_type)
+                    ->where('minecraft_name', $donorTierRole->minecraft_name)
+                    ->where('minecraft_display_name', $donorTierRole->minecraft_display_name)
+                    ->where('minecraft_hover_text', $donorTierRole->minecraft_hover_text)
                     ->etc()
                 )
                 ->etc()
             );
     });
 
-    it('contains default group + donor tiers', function () {
-        $group = Group::factory()->member()->create();
+    it('contains default role + donor tiers', function () {
+        $role = Role::factory()->member()->create();
         $account = Account::factory()->create();
         $player = MinecraftPlayer::factory()->for($account)->create();
 
-        $donorTierGroup = Group::factory()->create();
-        $donorTier = DonationTier::factory()->for($donorTierGroup)->create();
+        $donorTierRole = Role::factory()->create();
+        $donorTier = DonationTier::factory()->for($donorTierRole)->create();
         $donation = Donation::factory()->create();
 
         DonationPerk::factory()
@@ -260,21 +260,21 @@ describe('existing player', function () {
                 'uuid' => $player->uuid,
             ])
             ->assertJson(fn (AssertableJson $json) => $json
-                ->count('player.groups', 2)
-                ->has('player.groups.0', fn (AssertableJson $json) => $json
-                    ->where('group_id', $group->getKey())
-                    ->where('group_type', $group->group_type)
-                    ->where('minecraft_name', $group->minecraft_name)
-                    ->where('minecraft_display_name', $group->minecraft_display_name)
-                    ->where('minecraft_hover_text', $group->minecraft_hover_text)
+                ->count('player.roles', 2)
+                ->has('player.roles.0', fn (AssertableJson $json) => $json
+                    ->where('id', $role->id)
+                    ->where('role_type', $role->role_type)
+                    ->where('minecraft_name', $role->minecraft_name)
+                    ->where('minecraft_display_name', $role->minecraft_display_name)
+                    ->where('minecraft_hover_text', $role->minecraft_hover_text)
                     ->etc()
                 )
-                ->has('player.groups.1', fn (AssertableJson $json) => $json
-                    ->where('group_id', $donorTierGroup->getKey())
-                    ->where('group_type', $donorTierGroup->group_type)
-                    ->where('minecraft_name', $donorTierGroup->minecraft_name)
-                    ->where('minecraft_display_name', $donorTierGroup->minecraft_display_name)
-                    ->where('minecraft_hover_text', $donorTierGroup->minecraft_hover_text)
+                ->has('player.roles.1', fn (AssertableJson $json) => $json
+                    ->where('id', $donorTierRole->id)
+                    ->where('role_type', $donorTierRole->role_type)
+                    ->where('minecraft_name', $donorTierRole->minecraft_name)
+                    ->where('minecraft_display_name', $donorTierRole->minecraft_display_name)
+                    ->where('minecraft_hover_text', $donorTierRole->minecraft_hover_text)
                     ->etc()
                 )
                 ->etc()
@@ -326,7 +326,7 @@ describe('existing player', function () {
             ])
             ->assertJson(fn (AssertableJson $json) => $json
                 ->whereContains('player.elevation', [
-                    'id' => $elevation->getKey(),
+                    'id' => $elevation->id,
                     'reason' => $elevation->reason,
                     'started_at' => $elevation->started_at->toISOString(),
                     'ended_at' => $elevation->ended_at->toISOString(),

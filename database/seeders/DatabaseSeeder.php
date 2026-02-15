@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'For test use',
         ]);
 
-        $this->call(GroupSeeder::class);
+        $this->call(RoleSeeder::class);
         $this->call(AccountSeeder::class);
         $this->call(MinecraftPlayerSeeder::class);
         $this->call(GameBanSeeder::class);

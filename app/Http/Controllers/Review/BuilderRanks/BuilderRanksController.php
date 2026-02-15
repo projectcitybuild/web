@@ -8,7 +8,7 @@ use App\Domains\BuilderRankApplications\UseCases\DenyBuildRankApplication;
 use App\Http\Controllers\Review\RendersReviewApp;
 use App\Http\Controllers\WebController;
 use App\Models\BuilderRankApplication;
-use App\Models\Group;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
@@ -44,14 +44,14 @@ class BuilderRanksController extends WebController
 
         $application->load(
             'account.minecraftAccount',
-            'account.groups',
+            'account.roles',
         );
 
-        $buildGroups = Group::whereBuildType()->get();
+        $buildRoles = Role::whereBuildType()->get();
 
         return $this->inertiaRender(
             'BuilderRankApplications/BuilderRankApplicationShow',
-            compact('application', 'buildGroups'),
+            compact('application', 'buildRoles'),
         );
     }
 
@@ -62,17 +62,17 @@ class BuilderRanksController extends WebController
     ) {
         Gate::authorize('update', $application);
 
-        $allowedGroups = Group::whereBuildType()->get()
-            ->map(fn ($group) => $group->getKey())
+        $allowedRoles = Role::whereBuildType()->get()
+            ->map(fn ($role) => $role->getKey())
             ->toArray();
 
         $validated = $request->validate([
-            'promote_group' => ['required', Rule::in($allowedGroups)],
+            'promote_role' => ['required', Rule::in($allowedRoles)],
         ]);
 
         $application = $approveBuildRankApplication->execute(
             applicationId: $application->getKey(),
-            promoteGroupId: $validated['promote_group'],
+            promoteRoleId: $validated['promote_role'],
         );
 
         return to_route('review.builder-ranks.show', $application)

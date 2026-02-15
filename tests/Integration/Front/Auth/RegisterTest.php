@@ -3,7 +3,7 @@
 use App\Domains\Activation\Notifications\AccountNeedsActivationNotification;
 use App\Domains\Captcha\Validator\CaptchaValidator;
 use App\Models\Account;
-use App\Models\Group;
+use App\Models\Role;
 use Illuminate\Support\Facades\Notification;
 use Mockery\MockInterface;
 
@@ -111,7 +111,7 @@ describe('validation errors', function () {
 
 describe('successful submit', function () {
     beforeEach(function () {
-        Group::factory()->create(['is_default' => true]);
+        Role::factory()->create(['is_default' => true]);
 
         $this->unactivatedAccount = unactivatedAccount();
         $this->formData = validFormDataFor($this->unactivatedAccount);

@@ -6,17 +6,17 @@ use App\Models\Account;
 use App\Models\Donation;
 use App\Models\DonationPerk;
 use App\Models\DonationTier;
-use App\Models\Group;
 use App\Models\Payment;
+use App\Models\Role;
 use App\Models\StripeProduct;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 
 beforeEach(function () {
-    Group::factory()->donor()->create();
+    Role::factory()->donor()->create();
 
     $this->donationTier = DonationTier::factory()
-        ->for(Group::factory())
+        ->for(Role::factory())
         ->create();
 
     $this->product = StripeProduct::factory()

@@ -4,7 +4,7 @@ namespace Tests;
 
 use App\Http\Middleware\MfaAuthenticated;
 use App\Models\Account;
-use App\Models\Group;
+use App\Models\Role;
 use App\Models\ServerToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -64,8 +64,8 @@ abstract class TestCase extends BaseTestCase
             ->hasFinishedTotp()
             ->create();
 
-        $group = Group::factory()->administrator()->create();
-        $account->groups()->attach($group->getKey());
+        $role = Role::factory()->administrator()->create();
+        $account->roles()->attach($role->getKey());
 
         return $account;
     }
@@ -76,8 +76,8 @@ abstract class TestCase extends BaseTestCase
             ->hasFinishedTotp()
             ->create();
 
-        $group = Group::factory()->staff()->create();
-        $account->groups()->attach($group->getKey());
+        $role = Role::factory()->staff()->create();
+        $account->roles()->attach($role->getKey());
 
         return $account;
     }

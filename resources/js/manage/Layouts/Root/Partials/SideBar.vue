@@ -37,7 +37,7 @@ import SideBarMenuItem from './SideBarMenuItem.vue'
                     title="Users"
                     :children="[
                         {title: 'Accounts', route: '/manage/accounts'},
-                        {title: 'Groups', route: '/manage/groups'},
+                        {title: 'Roles', route: '/manage/roles'},
                         {title: 'Badges', route: '/manage/badges'},
                     ]"
                 >

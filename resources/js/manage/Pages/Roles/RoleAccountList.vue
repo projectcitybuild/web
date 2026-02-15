@@ -5,14 +5,14 @@ import SuccessAlert from '../../Components/SuccessAlert.vue'
 import Card from '../../Components/Card.vue'
 import type { Account } from '../../Data/Account'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
-import GroupMemberListTable from './Partials/GroupMemberListTable.vue'
-import { Group } from '../../Data/Group'
+import RoleMemberListTable from './Partials/RoleMemberListTable.vue'
+import { Role } from '../../Data/Role'
 import ToolBar from '../../Components/ToolBar.vue'
 import BackButton from '../../Components/BackButton.vue'
 
 interface Props {
     success?: string,
-    group: Group,
+    role: Role,
     accounts: Paginated<Account>,
 }
 
@@ -20,14 +20,14 @@ defineProps<Props>()
 </script>
 
 <template>
-    <Head title="Manage Groups"/>
+    <Head title="Manage Roles"/>
 
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
         <ToolBar>
             <template v-slot:left>
-                <BackButton href="/manage/groups" />
+                <BackButton href="/manage/roles" />
             </template>
         </ToolBar>
 
@@ -36,7 +36,7 @@ defineProps<Props>()
                 :initial="accounts"
                 v-slot="source"
             >
-                <GroupMemberListTable :accounts="source.data"/>
+                <RoleMemberListTable :accounts="source.data"/>
             </InfinitePagination>
         </Card>
     </section>

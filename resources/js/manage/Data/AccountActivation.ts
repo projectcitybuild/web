@@ -1,6 +1,6 @@
 import { Player } from './Player'
 import { Badge } from './Badge'
-import { Group } from './Group'
+import { Role } from './Role'
 
 export interface AccountActivation {
     id: number,

@@ -1,0 +1,115 @@
+<?php
+
+namespace App\Http\Controllers\Manage\Roles;
+
+use App\Http\Controllers\Manage\RendersManageApp;
+use App\Http\Controllers\WebController;
+use App\Models\Account;
+use App\Models\Role;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
+use Inertia\Inertia;
+
+class RoleController extends WebController
+{
+    use RendersManageApp;
+
+    public function index()
+    {
+        Gate::authorize('viewAny', Role::class);
+
+        $roles = function () {
+            $roles = Role::withCount('accounts')
+                ->orderBy('role_type', 'desc')
+                ->orderBy('display_priority', 'asc')
+                ->get();
+
+            // Default role doesn't have assigned members
+            $roles
+                ->where('is_default', true)
+                ->map(fn ($role) => $role->accounts_count = Account::doesntHave('roles')->count());
+
+            return $roles;
+        };
+
+        return $this->inertiaRender('Roles/RoleList', [
+            'roles' => Inertia::defer($roles),
+        ]);
+    }
+
+    public function create(Request $request)
+    {
+        Gate::authorize('create', Role::class);
+
+        return $this->inertiaRender('Roles/RoleCreate');
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        Gate::authorize('create', Role::class);
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', Rule::unique(Role::tableName())],
+            'alias' => [],
+            'minecraft_name' => [Rule::unique(Role::tableName(), 'minecraft_name')],
+            'minecraft_display_name' => [],
+            'minecraft_hover_text' => [],
+            'additional_homes' => ['required', 'int', 'gte:0'],
+            'role_type' => [],
+            'display_priority' => 'int',
+        ]);
+
+        if ($validated['additional_homes'] === 0) {
+            $validated['additional_homes'] = null;
+        }
+
+        Role::create($validated);
+
+        return to_route('manage.roles.index')
+            ->with(['success' => 'Role created successfully.']);
+    }
+
+    public function edit(Role $role)
+    {
+        Gate::authorize('update', $role);
+
+        return $this->inertiaRender('Roles/RoleEdit', compact('role'));
+    }
+
+    public function update(Request $request, Role $role): RedirectResponse
+    {
+        Gate::authorize('update', $role);
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', Rule::unique(Role::tableName())->ignore($role)],
+            'alias' => [],
+            'minecraft_name' => ['string', Rule::unique(Role::tableName(), 'minecraft_name')->ignore($role)],
+            'minecraft_display_name' => [],
+            'minecraft_hover_text' => [],
+            'additional_homes' => ['required', 'int', 'gte:0'],
+            'role_type' => [],
+            'display_priority' => ['nullable', 'int'],
+        ]);
+
+        if ($validated['additional_homes'] === 0) {
+            $validated['additional_homes'] = null;
+        }
+
+        $role->update($validated);
+
+        return to_route('manage.roles.index')
+            ->with(['success' => 'Role updated successfully.']);
+    }
+
+    public function destroy(Request $request, Role $role): RedirectResponse
+    {
+        Gate::authorize('delete', $role);
+
+        $role->delete();
+
+        return to_route('manage.roles.index')
+            ->with(['success' => 'Role deleted successfully.']);
+    }
+}

@@ -1,5 +1,5 @@
-export interface Group {
-    group_id: number,
+export interface Role {
+    id: number,
     name: string,
     alias: string,
     is_default: boolean,
@@ -9,7 +9,7 @@ export interface Group {
     minecraft_display_name: string,
     minecraft_hover_text: string,
     display_priority: number,
-    group_type: string,
+    role_type: string,
     additional_homes?: number,
     created_at: string,
     updated_at: string,
