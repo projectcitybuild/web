@@ -63,7 +63,7 @@ function submit() {
                             <th scope="col" class="px-4 py-3">Select</th>
                             <th scope="col" class="px-4 py-3">Id</th>
                             <th scope="col" class="px-4 py-3">Name</th>
-                            <th scope="col" class="px-4 py-3">Group Type</th>
+                            <th scope="col" class="px-4 py-3">Role Type</th>
                         </tr>
                     </thead>
                     <tbody>
